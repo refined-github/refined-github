@@ -7,6 +7,7 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
 import XIcon from 'octicons-plain-react/X';
+import domLoaded from 'dom-loaded';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
@@ -125,14 +126,13 @@ function createRadios(current: State): JSX.Element[] {
 			aria-checked={state === current ? 'true' : 'false'}
 			data-value={state}
 		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check"/>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
 			{label || 'Show all'}
 		</div>
 	));
 }
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
-	// TODO: use :has instead
 	const position = anchor.closest('div')!;
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -147,9 +147,10 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	const alignment
 		= availableSpaceToTheLeftOfTheDropdown === 0
 		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-			? 'right-0' : 'left-0';
+			? 'right-0'
+			: 'left-0';
 
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper"/>);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
@@ -157,10 +158,10 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary>
-				<EyeIcon className="color-fg-muted"/>
-				<EyeClosedIcon className="color-fg-danger"/>
+				<EyeIcon className="color-fg-muted" />
+				<EyeClosedIcon className="color-fg-danger" />
 				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
-				<div className="dropdown-caret ml-1"/>
+				<div className="dropdown-caret ml-1" />
 			</summary>
 			<details-menu
 				className={`SelectMenu ${alignment}`}
@@ -176,7 +177,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 							type="button"
 							data-toggle-for="rgh-conversation-activity-filter-select-menu"
 						>
-							<XIcon/>
+							<XIcon />
 						</button>
 					</div>
 					<div className="SelectMenu-list">
@@ -227,11 +228,14 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta :is(clipboard-copy, .flex-auto)',
-		'#partial-discussion-header .gh-header-sticky :is(clipboard-copy, relative-time)',
-	], addWidget.bind(null, initialState), {signal});
+		'#partial-discussion-header .gh-header-meta clipboard-copy',
+		'#partial-discussion-header .gh-header-sticky clipboard-copy',
+	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
+		// Wait for the DOM to be ready before applying the initial state
+		// https://github.com/refined-github/refined-github/issues/7086
+		await domLoaded;
 		applyState(initialState);
 	}
 

@@ -5,3 +5,13 @@ li.private .Label--secondary {
 	);
 	color: var(--fgColor-attention, var(--color-attention-emphasis));
 }
+
+/*
+
+Test URLs:
+
+https://github.com/YOUR_USERNAME?tab=repositories&type=private
+
+Note: it doesn't apply to search results https://github.com/refined-github/refined-github/issues/7585
+
+*/

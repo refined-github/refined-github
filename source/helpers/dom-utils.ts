@@ -1,13 +1,13 @@
 import {$} from 'select-dom';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
-import {type Nullable} from 'vitest';
+import type {Nullable} from 'vitest';
 
 // `content.fetch` is Firefox’s way to make fetches from the page instead of from a different context
 // This will set the correct `origin` header without having to use XMLHttpRequest
 // https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-if (window.content?.fetch) {
+if (globalThis.window?.content?.fetch) {
 	setFetch(window.content.fetch);
 }
 
@@ -60,8 +60,8 @@ export const wrapAll = <Wrapper extends Element>(wrapper: Wrapper, ...targets: A
 };
 
 export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAreaElement
-		|| node instanceof HTMLInputElement
-		|| (node instanceof HTMLElement && node.isContentEditable);
+	|| node instanceof HTMLInputElement
+	|| (node instanceof HTMLElement && node.isContentEditable);
 
 export const frame = async (): Promise<number> => new Promise(resolve => {
 	requestAnimationFrame(resolve);

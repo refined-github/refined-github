@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
-/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
-
-// TODO: Drop after https://github.com/sindresorhus/type-fest/issues/270
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
@@ -10,7 +6,8 @@ type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
-	screenshot?: string;
+	screenshot: string | null; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
+	css?: true;
 }
 
 // These types are unnecessarily loose
@@ -30,11 +27,6 @@ interface Window {
 }
 
 declare module 'size-plugin';
-
-declare module '*.md' { // It should be just for readme.md, but 🤷‍♂️
-	export const importedFeatures: FeatureID[];
-	export const featuresMeta: FeatureMeta[];
-}
 
 declare module '*.gql' {
 	export = string;

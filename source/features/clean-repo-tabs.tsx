@@ -9,9 +9,8 @@ import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {unhideOverflowDropdown} from './more-dropdown-links.js';
-import CountWorkflows from './clean-repo-tabs.gql';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -63,15 +62,12 @@ const wikiPageCount = new CachedFunction('wiki-page-count', {
 	cacheKey: cacheByRepo,
 });
 
-const workflowCount = new CachedFunction('workflows-count', {
-	async updater(): Promise<number> {
-		const {repository: {workflowFiles}} = await api.v4(CountWorkflows);
-
-		return workflowFiles?.entries.length ?? 0;
+const hasActionRuns = new CachedFunction('workflows-count', {
+	async updater(repoWithOwner: string): Promise<boolean> {
+		return api.v3hasAnyItems(`/repos/${repoWithOwner}/actions/runs`);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 10},
-	cacheKey: cacheByRepo,
 });
 
 async function updateWikiTab(): Promise<void | false> {
@@ -90,7 +86,7 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await workflowCount.get() > 0) {
+	if (!actionsTab || mustKeepTab(actionsTab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
 		return false;
 	}
 
@@ -159,5 +155,7 @@ Test URLs:
 - Org with 0 projects: https://github.com/babel
 - Repo with 0 projects: https://github.com/babel/flavortown
 - Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
+- Repo with 0 actions: https://github.com/babel/jade-babel
+- Repo with some actions not on main branch: https://github.com/quatquatt/no-actions-menu
 
 */

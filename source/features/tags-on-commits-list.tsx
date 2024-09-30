@@ -52,8 +52,8 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
 	const {repository} = await api.v4(GetTagsOnCommit, {
 		variables: {
-			after: after ?? null,
 			commit: lastCommit,
+			...after && {after},
 		},
 	});
 	const nodes = repository.refs.nodes as TagNode[];
@@ -86,7 +86,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 async function init(): Promise<void | false> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = $$('.list-view-item');
+	const commitsOnPage = $$('[data-testid="commit-row-item"]');
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
@@ -109,7 +109,7 @@ async function init(): Promise<void | false> {
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">
-					<TagIcon className="ml-1"/>
+					<TagIcon className="ml-1" />
 					{...targetTags.map(tag => (
 						<>
 							{' '}

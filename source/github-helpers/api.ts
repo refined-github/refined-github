@@ -23,7 +23,7 @@ it lets you define accept error HTTP codes as a valid response, like:
 }
 
 so the call will not throw an error but it will return as usual.
- */
+*/
 
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
@@ -31,7 +31,7 @@ import {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getRepo} from './index.js';
-import {getToken} from './github-token.js';
+import {getToken} from '../options-storage.js';
 
 type JsonError = {
 	message: string;
@@ -49,7 +49,7 @@ type RestResponse = {
 	ok: boolean;
 } & AnyObject;
 
-export const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
+const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
 export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
@@ -102,13 +102,13 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
-	features.log.http(url);
+	features.log.http(url.href);
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			'Accept': 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
@@ -129,7 +129,7 @@ export const v3 = mem(async (
 	cacheKey: JSON.stringify,
 });
 
-export const v3paginated = async function * (
+const v3paginated = async function * (
 	query: string,
 	options?: GHRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -147,7 +147,20 @@ export const v3paginated = async function * (
 	}
 };
 
-export const v4uncached = async (
+const v3hasAnyItems = async (
+	query: string,
+	options: GHRestApiOptions = {},
+): Promise<boolean> => {
+	const url = new URL(query, api3);
+	url.searchParams.set('per_page', '1'); // Ensure we create pagination after 1 item
+	url.searchParams.set('page', '9999'); // Get an empty response
+	const {headers} = await v3(url.pathname + url.search, options);
+
+	// If there's more than 1 item, we get a `Link` header
+	return headers.has('link');
+};
+
+const v4uncached = async (
 	query: string,
 	options: GHGraphQLApiOptions = v4defaults,
 ): Promise<AnyObject> => {
@@ -174,7 +187,7 @@ export const v4uncached = async (
 
 	Object.assign(variables, options.variables);
 
-	const fullQuery = /^\s*(query|mutation)/.test(query)
+	const fullQuery = /^\s*(?:query|mutation)/.test(query)
 		? query
 		: parameters.length === 0
 			? `query {${query}}`
@@ -186,7 +199,7 @@ export const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			Authorization: `bearer ${personalToken}`,
+			'Authorization': `bearer ${personalToken}`,
 		},
 		method: 'POST',
 		body: JSON.stringify({
@@ -213,7 +226,7 @@ export const v4uncached = async (
 	throw await getError(apiResponse as JsonObject);
 };
 
-export const v4 = mem(v4uncached, {
+const v4 = mem(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
@@ -227,7 +240,7 @@ export const v4 = mem(v4uncached, {
 	},
 });
 
-export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
@@ -250,11 +263,20 @@ export async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAP
 		personalToken
 			? 'Ensure that your token has access to this repo.'
 			: 'Maybe adding a token in the options will fix this issue.',
-		JSON.stringify(apiResponse, null, '\t'), // Beautify
+		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
 	);
 	error.response = apiResponse;
 	return error;
 }
 
-// Export single API object as default
-export * as default from './api.js';
+const api = {
+	v3,
+	v4,
+	v3paginated,
+	v3hasAnyItems,
+	v4uncached,
+	escapeKey,
+	getError,
+};
+
+export default api;

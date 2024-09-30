@@ -10,12 +10,15 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {
-	getConversationNumber, getUsername, scrollIntoViewIfNeeded, triggerConversationUpdate,
+	getConversationNumber,
+	getUsername,
+	scrollIntoViewIfNeeded,
+	triggerConversationUpdate,
 } from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
-import {getToken} from '../github-helpers/github-token.js';
+import {getToken} from '../options-storage.js';
 
-const emojis = [...'🚀✅🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
+const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');

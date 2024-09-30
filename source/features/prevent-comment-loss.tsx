@@ -14,7 +14,7 @@ function init(signal: AbortSignal): void {
 		[
 			'.js-preview-body a', // `hasRichTextEditor`
 			'.html-blob a', // `isEditingFile`
-		].join(', '),
+		],
 		'click',
 		filterAlteredClicks(openInNewTab),
 		{signal},

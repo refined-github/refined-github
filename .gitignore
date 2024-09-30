@@ -6,5 +6,7 @@ test/web-ext-profile
 .cache
 .parcel-cache
 artifacts
+.DS_Store
+desktop.ini
 
 LocalOverrides.xcconfig

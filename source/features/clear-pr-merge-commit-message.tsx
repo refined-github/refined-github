@@ -33,7 +33,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 			<p className="note">
 				The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 			</p>
-			<hr/>
+			<hr />
 		</div>,
 	);
 }

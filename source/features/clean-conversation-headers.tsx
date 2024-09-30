@@ -23,7 +23,11 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation() && $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+	const shouldHideAuthor
+		= pageDetect.isPRConversation()
+		&& !byline.closest('.gh-header-sticky') // #7802
+		&& $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
@@ -32,7 +36,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const baseBranchDropdown = $('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
-	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1"/>;
+	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {
@@ -49,7 +53,10 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	const cleanConversationHeader = pageDetect.isIssue() ? cleanIssueHeader : cleanPrHeader;
-	observe('.gh-header-meta .flex-auto', cleanConversationHeader, {signal});
+	observe([
+		'.gh-header-meta > .flex-auto', // Real
+		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+	], cleanConversationHeader, {signal});
 }
 
 void features.add(import.meta.url, {

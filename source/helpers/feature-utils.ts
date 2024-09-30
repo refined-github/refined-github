@@ -3,7 +3,7 @@ import {Promisable} from 'type-fest';
 import {pEveryFunction, pSomeFunction} from './p-utils.js';
 
 export type BooleanFunction = () => boolean;
-export type PromisableBooleanFunction = () => Promisable<boolean>;
+type PromisableBooleanFunction = () => Promisable<boolean>;
 
 export type RunConditions = {
 	/** Every condition must be true */
@@ -18,7 +18,8 @@ export function isFeaturePrivate(id: string): boolean {
 	return id.startsWith('rgh-');
 }
 
-export const doesBrowserActionOpenOptions = !globalThis.chrome?.contextMenus;
+// Safari iOS 17.6 has the key, but it does nothing
+export const doesBrowserActionOpenOptions = !globalThis.chrome?.contextMenus || navigator.platform === 'iPhone' || navigator.platform === 'iPad';
 
 export async function shouldFeatureRun({
 	/** Every condition must be true */

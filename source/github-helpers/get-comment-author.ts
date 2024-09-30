@@ -14,14 +14,13 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 - https://github.com/webpack/webpack/pulls/app%2Fdependabot
 - https://github.com/apps/dependabot
 
-@returns user-name
-@returns dependabot[bot]
+@returns user-name or dependabot[bot]
 
 */
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
-	const avatar = anyElementInsideComment
-		.closest('.TimelineItem, .review-comment')!
-		.querySelector('.TimelineItem-avatar img, img.avatar')!;
+	const avatar: HTMLImageElement = anyElementInsideComment
+		.closest(['.TimelineItem', '.review-comment'])!
+		.querySelector(['.TimelineItem-avatar img', 'img.avatar'])!;
 
 	const name = avatar
 		.alt // Occasionally ends with `[bot]`

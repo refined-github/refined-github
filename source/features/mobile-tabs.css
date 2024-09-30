@@ -1,4 +1,4 @@
-@media (max-width: 767px) {
+@media (width <= 767px) {
 	[rgh-mobile-tabs]:root .AppHeader-localBar {
 		padding: 0;
 	}

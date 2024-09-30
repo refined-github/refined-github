@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
 import {existsSync, readFileSync, writeFileSync} from 'node:fs';
-import {join} from 'node:path';
+import path from 'node:path';
 
 const [extensionPath, manifestVersion] = process.argv.slice(2);
 
@@ -8,7 +7,7 @@ if (!extensionPath || !manifestVersion) {
 	throw new Error('Please provide a path to the extension and a manifest version, like: npm run manifest distribution 2');
 }
 
-const manifestPath = join(extensionPath, 'manifest.json');
+const manifestPath = path.join(extensionPath, 'manifest.json');
 
 if (!existsSync(manifestPath)) {
 	throw new Error(`No manifest found in: ${extensionPath}`);
@@ -35,4 +34,4 @@ if (manifestVersion === '2') {
 	delete manifest.background.scripts;
 }
 
-writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+writeFileSync(manifestPath, JSON.stringify(manifest, undefined, 2));

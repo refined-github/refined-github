@@ -1,4 +1,9 @@
-/* Reduce excessive width on long branch names, this is also a GitHub bug */
-.rgh-default-branch-button-group [data-component='text'] {
-	max-width: 80px;
+.rgh-highlight-non-default-branch {
+	background-color: var(--bgColor-accent-muted, fuchsia) !important;
+	color: var(--fgColor-accent, fuchsia) !important;
+	border-color: var(--fgColor-accent, fuchsia) !important;
+}
+
+.rgh-highlight-non-default-branch svg {
+	color: var(--fgColor-accent, fuchsia) !important;
 }

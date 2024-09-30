@@ -1,5 +1,5 @@
 import './fit-textareas.css';
-import {isSafari} from 'webext-detect-page';
+import {isSafari} from 'webext-detect';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +20,10 @@ function inputListener({target}: Event): void {
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	// Disable constrained GitHub feature
-	textarea.classList.replace('js-size-to-fit', 'rgh-fit-textareas');
+	textarea.classList.remove('js-size-to-fit');
+	textarea.classList.remove('issue-form-textarea'); // Remove !important height and min-height
+	textarea.classList.add('rgh-fit-textareas');
+
 	if (nativeFit) {
 		return;
 	}
@@ -33,9 +36,15 @@ function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions)
 }
 
 function init(signal: AbortSignal): void {
-	// Exclude PR review box because it's in a `position:fixed` container;
-	// The scroll HAS to appear within the fixed element.
-	observe('textarea:not(#pull_request_review_body)', watchTextarea, {signal});
+	// `anchored-position`: Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
+	// `#pull_request_body_ghost`: Special textarea that GitHub just matches to the visible textarea
+	observe(`
+		textarea:not(
+			anchored-position #pull_request_review_body,
+			#pull_request_body_ghost,
+			#pull_request_body_ghost_ruler
+		)
+	`, watchTextarea, {signal});
 }
 
 void features.add(import.meta.url, {

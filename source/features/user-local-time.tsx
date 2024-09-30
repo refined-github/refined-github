@@ -133,7 +133,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	const placeholder = <span className="ml-1">Guessing local time…</span>;
 	const container = (
 		<section aria-label="user local time" className="mt-1 color-fg-muted text-small d-flex flex-items-center">
-			<ClockIcon/> {placeholder}
+			<ClockIcon /> {placeholder}
 		</section>
 	);
 

@@ -1,11 +1,17 @@
-import {test, describe, assert} from 'vitest';
-import {parse, join} from 'node:path';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
-import regexJoin from 'regex-join';
+import path from 'node:path';
+import {test, describe, assert} from 'vitest';
+import {regexJoinWithSeparator} from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
+
+// Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
+void import.meta.glob([
+	'../source/features/*.*',
+	'../source/refined-github.ts',
+]);
 
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
@@ -15,7 +21,6 @@ const noScreenshotExceptions = new Set([
 	'prevent-pr-merge-panel-opening',
 	'infinite-scroll',
 	'command-palette-navigation-shortcuts',
-	'comment-fields-keyboard-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
 	'pagination-hotkey',
@@ -44,21 +49,23 @@ const imageRegex = /\.(png|gif)$/;
 
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
-const screenshotRegex = regexJoin(imageRegex, /|/, rghUploadsRegex);
+const userAttachmentsRegex = /user-attachments[/]assets[/]/;
+
+const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex, userAttachmentsRegex]);
 
 class FeatureFile {
 	readonly id: FeatureID;
 	readonly path: string;
 	constructor(readonly name: string) {
-		this.id = parse(name).name as FeatureID;
-		this.path = join('source/features', name);
+		this.id = path.parse(name).name as FeatureID;
+		this.path = path.join('source/features', name);
 	}
 
 	exists(): boolean {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-types -- Just passing it
+	// eslint-disable-next-line node/prefer-global/buffer, ts/no-restricted-types -- Just passing it
 	contents(): Buffer {
 		return readFileSync(this.path);
 	}
@@ -86,6 +93,8 @@ function validateCss(file: FeatureFile): void {
 			isImportedByEntrypoint,
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
+
+		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 		return;
 	}
 
@@ -98,6 +107,8 @@ function validateCss(file: FeatureFile): void {
 		!isImportedByEntrypoint,
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
+
+	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {
@@ -136,11 +147,11 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	const fileContents = readFileSync(`source/features/${file.name}`);
+	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (fileContents.includes('.addCssFeature')) {
+	if (file.contents().includes('.addCssFeature')) {
 		assert(
-			!fileContents.includes('.add('),
+			!file.contents().includes('.add('),
 			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
 		);
 
@@ -160,7 +171,7 @@ function validateTsx(file: FeatureFile): void {
 	}
 }
 
-describe('features', async () => {
+describe('features', () => {
 	const featuresDirectoryContents = readdirSync('source/features/');
 	test.each(featuresDirectoryContents)('%s', filename => {
 		if (isGitIgnored(filename)) {

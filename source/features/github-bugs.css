@@ -50,9 +50,17 @@
 
 /* Mute unclickable reaction buttons, disable hover */
 /* Test: https://github.com/refined-github/sandbox/pull/48 */
-.social-reaction-summary-item[disabled] {
-	pointer-events: none;
+:root .social-reaction-summary-item[disabled] {
 	filter: grayscale(0.5);
+	background-color: transparent;
+}
+
+:root .social-reaction-summary-item.user-has-reacted[disabled] {
+	color: var(--reactionButton-selected-fgColor-rest, var(--color-accent-fg));
+	background-color: var(
+		--reactionButton-selected-bgColor-rest,
+		var(--color-accent-subtle)
+	) !important;
 }
 
 /* Hide inactive comment box tabs #7108 */
@@ -65,3 +73,11 @@
 div.markdown-body {
 	min-height: 2em !important;
 }
+
+/*
+
+Test URLs:
+
+MAKE SURE TO ADD A ISSUE REFERENCE + TEST URL FOR EACH NEW RULE
+
+*/

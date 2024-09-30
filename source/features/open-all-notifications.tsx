@@ -79,7 +79,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 				'Hotkey: P',
 			)}
 		>
-			<LinkExternalIcon className="mr-1"/>Open
+			<LinkExternalIcon className="mr-1" />Open
 		</button>
 	);
 	appendBefore(
@@ -101,7 +101,7 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
 			aria-label="Open all unread notifications from this repo"
 		>
-			<LinkExternalIcon width={16}/> Open unread
+			<LinkExternalIcon width={16} /> Open unread
 		</button>,
 	);
 }
@@ -113,7 +113,7 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 
 	notificationHeader.append(
 		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
-			<LinkExternalIcon className="mr-1"/>Open all unread
+			<LinkExternalIcon className="mr-1" />Open all unread
 		</button>,
 	);
 }

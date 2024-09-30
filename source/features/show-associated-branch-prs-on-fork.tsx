@@ -62,7 +62,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const StateIcon = stateIcon[prInfo.state] ?? (() => null);
+	const StateIcon = stateIcon[prInfo.state] ?? (() => {});
 	const stateClassName = prInfo.state.toLowerCase();
 
 	const cell = branch
@@ -81,8 +81,8 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				className="rgh-pr-link"
 				rel="noreferrer"
 			>
-				<StateIcon width={14} height={14} className={stateClassName}/>
-				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`}/>
+				<StateIcon width={14} height={14} className={stateClassName} />
+				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
 				#{prInfo.number}
 			</a>
 		</div>,

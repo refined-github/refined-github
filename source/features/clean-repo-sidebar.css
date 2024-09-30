@@ -3,17 +3,18 @@
 	display: none;
 }
 
+/* Hide "Packages" if empty */
+[rgh-clean-repo-sidebar]
+	.BorderGrid-row:has(a[href*='/packages?repo_name'] .Counter[title='0']) {
+	display: none;
+}
+
 /* Align the top of the repo root sidebar with the main page content */
 [rgh-clean-repo-sidebar] .Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
 	margin-top: 0 !important;
 }
 
-/* Hide "Readme" link made unnecessary by `toggle-files-button` #3580 */
-[rgh-clean-repo-sidebar] .Layout-sidebar [href$='#readme'] {
-	display: none;
-}
-
-@media (min-width: 768px) {
+@media (width >= 768px) {
 	/* Hide "Releases" header */
 	[rgh-clean-repo-sidebar] .Layout-sidebar h2 [href$='/releases'] {
 		display: none;

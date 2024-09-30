@@ -1,8 +1,7 @@
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect-page';
+import {isSafari} from 'webext-detect';
 import {addOptionsContextMenu} from 'webext-tools';
-import {objectKeys} from 'ts-extras';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
 
@@ -11,6 +10,7 @@ import isDevelopmentVersion from './helpers/is-development-version.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
+import {handleMessages} from './helpers/messaging.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -20,7 +20,7 @@ addPermissionToggle();
 // Firefox/Safari polyfill
 addOptionsContextMenu();
 
-const messageHandlers = {
+handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const [index, url] of urls.entries()) {
 			void chrome.tabs.create({
@@ -33,10 +33,6 @@ const messageHandlers = {
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
 		void chrome.tabs.remove(tab!.id!);
 	},
-	async fetch(url: string) {
-		const response = await fetch(url);
-		return response.text();
-	},
 	async fetchJSON(url: string) {
 		const response = await fetch(url);
 		return response.json();
@@ -47,15 +43,6 @@ const messageHandlers = {
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);
 	},
-	// They must return a promise to mark the message as handled
-} satisfies Record<string, (...arguments_: any[]) => Promise<any>>;
-
-chrome.runtime.onMessage.addListener((message: typeof messageHandlers, sender): Promise<unknown> | void => {
-	for (const id of objectKeys(message)) {
-		if (id in messageHandlers) {
-			return messageHandlers[id](message[id], sender);
-		}
-	}
 });
 
 // `browserAction` needed for Firefox MV2 https://github.com/refined-github/refined-github/issues/7477
@@ -130,4 +117,3 @@ chrome.permissions.onAdded.addListener(async permissions => {
 		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 	}
 });
-

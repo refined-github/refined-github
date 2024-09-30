@@ -3,7 +3,7 @@ import {$} from 'select-dom';
 import TrashIcon from 'octicons-plain-react/Trash';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome} from 'webext-detect-page';
+import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -30,7 +30,7 @@ async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise
 function addDeleteButton(cancelButton: Element): void {
 	cancelButton.after(
 		<button className="btn btn-danger float-left rgh-review-comment-delete-button" type="button">
-			<TrashIcon/>
+			<TrashIcon />
 		</button>,
 	);
 }
@@ -51,3 +51,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs
+
+- https://github.com/refined-github/sandbox/pull/31
+- https://github.com/refined-github/sandbox/pull/31/files
+
+*/

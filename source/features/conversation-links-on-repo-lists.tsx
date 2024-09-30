@@ -24,19 +24,26 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 				className="Link--muted mr-3"
 				href={repositoryLink.href + '/issues'}
 			>
-				<IssueOpenedIcon/>
+				<IssueOpenedIcon />
 			</a>
 			<a
 				className="Link--muted mr-3"
 				href={repositoryLink.href + '/pulls'}
 			>
-				<GitPullRequestIcon/>
+				<GitPullRequestIcon />
 			</a>
 		</>,
 	);
 }
 
 function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
+	// Do not move to `includes` until React AJAX issues are resolved:
+	// https://github.com/refined-github/refined-github/pull/7524#issuecomment-2211692096
+	// https://github.com/refined-github/refined-github/issues/6554
+	if (new URLSearchParams(location.search).get('type') !== 'repositories') {
+		return;
+	}
+
 	// Place before the update date ·
 	repositoryLink
 		.closest('[data-testid="results-list"] > div')!
@@ -54,7 +61,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 						className="Link--muted"
 						href={repositoryLink.href + '/issues'}
 					>
-						<IssueOpenedIcon/>
+						<IssueOpenedIcon />
 					</a>
 				</li>
 				<li className="d-flex text-small ml-2">
@@ -62,7 +69,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 						className="Link--muted"
 						href={repositoryLink.href + '/pulls'}
 					>
-						<GitPullRequestIcon/>
+						<GitPullRequestIcon />
 					</a>
 				</li>
 			</>,
@@ -84,7 +91,7 @@ void features.add(import.meta.url, {
 	init,
 }, {
 	include: [
-		() => pageDetect.isGlobalSearchResults() && new URLSearchParams(location.search).get('type') === 'repositories',
+		pageDetect.isGlobalSearchResults,
 	],
 	init: initSearch,
 });

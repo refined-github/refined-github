@@ -5,7 +5,7 @@ import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
 import featureLink from './feature-link.js';
-import {importedFeatures} from '../../readme.md';
+import {importedFeatures} from '../feature-data.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
@@ -35,9 +35,10 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	if (answer === 'yes') {
 		createMessageBox(
 			<>
-				<p>Unable to identify feature. It might be a <a href="https://github.com/refined-github/refined-github/wiki/Undo-unwanted-styles" target="_blank" rel="noreferrer">CSS-only feature</a>, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
+				<p>Unable to identify feature. It might be a CSS-only feature, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
 				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
-			</>);
+			</>,
+		);
 	} else {
 		const feature = (
 			<a href={featureLink(bisectedFeatures[0])}>

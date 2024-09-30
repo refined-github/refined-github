@@ -14,3 +14,11 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml
+
+*/

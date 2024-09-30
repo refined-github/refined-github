@@ -41,7 +41,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 			aria-selected="false"
 			data-tab-item="rgh-gists-item"
 		>
-			<CodeSquareIcon className="UnderlineNav-octicon hide-sm"/>
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm" />
 			{' Gists '}
 		</a>
 	);
@@ -53,9 +53,9 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
 			createDropdownItem({
-				label: 'Gists',
-				href: user.url,
-				icon: CodeSquareIcon,
+				'label': 'Gists',
+				'href': user.url,
+				'icon': CodeSquareIcon,
 				'data-rgh-label': 'Gists',
 			}),
 		);

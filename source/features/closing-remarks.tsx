@@ -3,6 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import {$, $$} from 'select-dom';
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
@@ -21,6 +22,16 @@ const canCreateRelease = canEditEveryComment;
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
+}
+
+function ExplanationLink(): JSX.Element {
+	// If you tweak this the alignment value, verify it against both the tagged and untagged states
+	// See screenshots in https://github.com/refined-github/refined-github/pull/7498
+	return (
+		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
+			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}} />
+		</a>
+	);
 }
 
 const firstTag = new CachedFunction('first-tag', {
@@ -56,7 +67,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		addExistingTagLinkFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(null, tagName, tagUrl), {signal});
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {signal});
 	} else {
 		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
 	}
@@ -65,7 +76,7 @@ async function init(signal: AbortSignal): Promise<void> {
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
 	discussionHeader.parentElement!.append(
 		<span>
-			<TagIcon className="ml-2 mr-1 color-fg-muted"/>
+			<TagIcon className="ml-2 mr-1 color-fg-muted" />
 			<a
 				href={tagUrl}
 				className="commit-ref"
@@ -83,8 +94,8 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					icon: <TagIcon className="m-0"/>,
-					text: <>This pull request first appeared in {linkedTag}</>,
+					icon: <TagIcon className="m-0" />,
+					text: <>This pull request first appeared in {linkedTag} <ExplanationLink /></>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
@@ -100,19 +111,23 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 
 	const url = createReleaseUrl();
 	const bannerContent = {
-		icon: <TagIcon className="m-0"/>,
+		icon: <TagIcon className="m-0" />,
 		classes: ['rgh-bg-none'],
-		text,
+		text: <>{text} <ExplanationLink /></>,
 	};
 
 	attachElement('#issue-comment-box', {
 		before: () => (
 			<TimelineItem>
-				{createBanner(url ? {
-					...bannerContent,
-					action: url,
-					buttonLabel: 'Draft a new release',
-				} : bannerContent)}
+				{createBanner(
+					url
+						? {
+								...bannerContent,
+								action: url,
+								buttonLabel: 'Draft a new release',
+							}
+						: bannerContent,
+				)}
 			</TimelineItem>
 		),
 	});

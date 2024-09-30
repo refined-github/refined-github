@@ -22,15 +22,15 @@ const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed
 const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
 const filters = {
 	'Pull requests': prIcons,
-	Issues: issueIcons,
+	'Issues': issueIcons,
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
-	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
-	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
-	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
-	Draft: '.octicon-git-pull-request-draft',
-	Merged: '.octicon-git-merge',
-	Read: '.notification-read',
-	Unread: '.notification-unread',
+	'Others': `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
+	'Open': ':is(.octicon-issue-opened, .octicon-git-pull-request)',
+	'Closed': ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
+	'Draft': '.octicon-git-pull-request-draft',
+	'Merged': '.octicon-git-merge',
+	'Read': '.notification-read',
+	'Unread': '.notification-unread',
 } as const;
 
 type Filter = keyof typeof filters;
@@ -85,15 +85,15 @@ function handleSelection({target}: Event): void {
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-fg-muted"/>,
-		Issues: <IssueOpenedIcon className="color-fg-muted"/>,
-		Open: <CheckCircleIcon className="color-fg-success"/>,
-		Others: <SquirrelIcon className="color-fg-muted"/>,
-		Closed: <XCircleIcon className="color-fg-danger"/>,
-		Draft: <GitPullRequestDraftIcon className="color-fg-subtle"/>,
-		Merged: <GitMergeIcon className="color-fg-done"/>,
-		Read: <DotIcon className="color-fg-accent"/>,
-		Unread: <DotFillIcon className="color-fg-accent"/>,
+		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
+		'Issues': <IssueOpenedIcon className="color-fg-muted" />,
+		'Open': <CheckCircleIcon className="color-fg-success" />,
+		'Others': <SquirrelIcon className="color-fg-muted" />,
+		'Closed': <XCircleIcon className="color-fg-danger" />,
+		'Draft': <GitPullRequestDraftIcon className="color-fg-subtle" />,
+		'Merged': <GitMergeIcon className="color-fg-done" />,
+		'Read': <DotIcon className="color-fg-accent" />,
+		'Unread': <DotFillIcon className="color-fg-accent" />,
 	};
 
 	return (
@@ -108,7 +108,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true"/>
+					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
 					<div className="SelectMenu-item-text">
 						<input
 							hidden
@@ -131,12 +131,13 @@ const createDropdown = onetime(() => (
 		onToggle={resetFilters}
 	>
 		<summary
-			className="h6" // Match "Select all" style
-			data-hotkey="S"
+			className="h6 tooltipped tooltipped-s" // `h6` matches "Select all" style
+			data-hotkey="Shift+S"
 			aria-haspopup="menu"
+			aria-label="Hotkey: Shift+S"
 			role="button"
 		>
-			Select by <span className="dropdown-caret ml-1"/>
+			Select by <span className="dropdown-caret ml-1" />
 		</summary>
 		<details-menu
 			className="SelectMenu left-0"
@@ -167,12 +168,12 @@ function init(signal: AbortSignal): void {
 	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate('.js-notifications-mark-selected-actions > *, .rgh-open-selected-button', 'click', closeDropdown, {signal});
+	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		S: 'Open the "Select by" dropdown',
+		'shift s': 'Open the "Select by" dropdown',
 	},
 	include: [
 		pageDetect.isNotifications,

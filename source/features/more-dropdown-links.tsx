@@ -38,7 +38,7 @@ async function init(): Promise<void> {
 	// Wait for the nav dropdown to be loaded #5244
 	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
-		<li className="dropdown-divider" role="separator"/>,
+		<li className="dropdown-divider" role="separator" />,
 		createDropdownItem({
 			label: 'Compare',
 			href: compareUrl,

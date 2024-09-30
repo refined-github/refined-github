@@ -24,8 +24,9 @@ import {
 	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import {messageBackground} from './helpers/messaging.js';
 
-export type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
+type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
@@ -36,7 +37,8 @@ type FeatureLoader = {
 	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
 	awaitDomReady?: true;
 
-	/** When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
+	/**
+	When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
 	@deprecated
 	@default false
 	*/
@@ -58,6 +60,9 @@ type InternalRunConfig = RunConditions & {
 };
 
 const {version} = chrome.runtime.getManifest();
+
+const shortcutMap = new Map<string, string>();
+const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
@@ -100,7 +105,7 @@ function logError(url: string, error: unknown): void {
 
 const log = {
 	info: console.log,
-	http: console.log,
+	http: console.log.bind(console, '🌏'),
 	error: logError,
 };
 
@@ -135,7 +140,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	void chrome.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void messageBackground<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -151,18 +156,29 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	}
 
 	// Create logging function
-	log.info = options.logging ? console.log : () => {/* No logging */};
-	log.http = options.logHTTP ? console.log : () => {/* No logging */};
+	if (!options.logging) {
+		log.info = () => {/* No logging */};
+	}
+
+	if (!options.logHTTP) {
+		log.http = () => {/* No logging */};
+	}
 
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		// eslint-disable-next-line ts/no-use-before-define -- TODO: Drop in https://github.com/refined-github/refined-github/issues/7750
 		features.log.error = () => {/* No logging */};
 	}
+
+	// Detect unload via two events to catch both clicks and history navigation
+	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
+	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
+	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
 
 	resolve(options);
 });
 
-export function castArray<Item>(value: Item | Item[]): Item[] {
+function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
@@ -212,10 +228,6 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	}
 }
 
-const shortcutMap = new Map<string, string>();
-
-const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
-
 type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
 	id: string;
@@ -250,7 +262,15 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	for (const loader of loaders) {
 		// Input defaults and validation
 		const {
-			shortcuts = {}, asLongAs, include, exclude, init, awaitDomReady = false, deduplicate = false, onlyAdditionalListeners = false, additionalListeners = [],
+			shortcuts = {},
+			asLongAs,
+			include,
+			exclude,
+			init,
+			awaitDomReady = false,
+			deduplicate = false,
+			onlyAdditionalListeners = false,
+			additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -263,7 +283,13 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		const details = {
-			asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts,
+			asLongAs,
+			include,
+			exclude,
+			init,
+			additionalListeners,
+			onlyAdditionalListeners,
+			shortcuts,
 		};
 		if (awaitDomReady) {
 			(async () => {
@@ -299,7 +325,7 @@ function unload(featureUrl: string): void {
 	}
 }
 
-document.addEventListener('turbo:render', () => {
+function unloadAll(): void {
 	for (const feature of currentFeatureControllers.values()) {
 		for (const controller of feature) {
 			controller.abort();
@@ -307,7 +333,7 @@ document.addEventListener('turbo:render', () => {
 	}
 
 	currentFeatureControllers.clear();
-});
+}
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
@@ -321,8 +347,8 @@ void add('rgh-deduplicator' as FeatureID, {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
 		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh/>);
-		$(_`turbo-frame`)?.append(<has-rgh-inner/>); // #4567
+		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
+		$(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
 	},
 });
 

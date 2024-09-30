@@ -23,7 +23,6 @@ jobs:
       - run: npm ci
       - name: Test and build
         run: npm run build
-        # TODO: Re-enable tests
       - name: Create tag if necessary
         uses: fregante/daily-version-action@v2
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
@@ -42,7 +41,8 @@ jobs:
         run: |
           FILENAME="$PROJECT_NAME-$DAILY_VERSION-for-local-testing-only.zip"
           zip -r "$FILENAME" ./*
-          gh release create "$DAILY_VERSION" --generate-notes "$FILENAME"
+          # Create as draft to curate it before sending it out
+          gh release create "$DAILY_VERSION" "$FILENAME" --draft --generate-notes
   Chrome:
     if: needs.Version.outputs.created
     needs: Version
@@ -50,6 +50,7 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
 
       # Kiwi browser https://github.com/kiwibrowser/src.next/issues/1138
@@ -70,13 +71,15 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
 
       # Firefox https://github.com/refined-github/refined-github/issues/7477
       - run: npm install dot-json@1
       - run: npm run manifest artifact 2
 
-      - run: npx web-ext@8 sign --channel listed
+      - name: Upload build and source code
+        run: npx web-ext@8 sign --channel listed
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}

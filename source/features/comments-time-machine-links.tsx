@@ -53,12 +53,12 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className="rgh-link-date" href={url.href} data-turbo-frame="repo-content-turbo-frame">
+		<a className="rgh-link-date" href={url.href}>
 			view this object as it appeared at the time of the comment
 		</a>
 	);
 	await addNotice(
-		<>You can also {link} (<relative-time datetime={date}/>)</>,
+		<>You can also {link} (<relative-time datetime={date} />)</>,
 	);
 }
 
@@ -86,7 +86,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!)!.append(
-		<div className="dropdown-divider"/>,
+		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={'dropdown-item btn-link ' + linkifiedURLClass}
@@ -106,7 +106,7 @@ function init(signal: AbortSignal): void {
 
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
 		const timestamp = menu
-			.closest('.js-comment:not([id^="pullrequestreview-"]), .js-timeline-item')!
+			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
 			.querySelector('relative-time')!
 			.attributes.datetime.value;
 

@@ -9,7 +9,7 @@ import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
+import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
 import {getForkedRepo, getRepo} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
 import addNotice from '../github-widgets/notice-bar.js';
@@ -17,6 +17,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import parseBackticks from '../github-helpers/parse-backticks.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {messageBackground} from '../helpers/messaging.js';
 
 function handleToggle(event: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const hasContent = elementExists([
@@ -104,7 +105,7 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		buttonContainer.closest('li')!.remove(); // Remove button
 		await addNotice([
 			'Could not delete the repository. ',
-			(error as api.RefinedGitHubAPIError).response?.message ?? error.message,
+			(error as RefinedGitHubAPIError).response?.message ?? error.message,
 		], {
 			type: 'error',
 		});
@@ -118,13 +119,13 @@ async function start(buttonContainer: HTMLDetailsElement): Promise<void> {
 		: '/settings/deleted_repositories';
 	const otherForksURL = `/${owner}?tab=repositories&type=fork`;
 	await addNotice(
-		<><TrashIcon/> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
+		<><TrashIcon /> <span>Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a></span></>,
 		{action: false},
 	);
 	$('.application-main')!.remove();
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
-		void chrome.runtime.sendMessage({closeTab: true});
+		void messageBackground({closeTab: true});
 	}
 }
 

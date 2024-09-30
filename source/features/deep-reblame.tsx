@@ -80,7 +80,7 @@ function addButton(hunk: HTMLElement): void {
 				)}
 				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
 			>
-				<VersionsIcon/>
+				<VersionsIcon />
 			</button>,
 		);
 	}

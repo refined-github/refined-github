@@ -8,90 +8,77 @@ import api from '../github-helpers/api.js';
 import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {usernameLinksSelector} from '../github-helpers/selectors.js';
 
-function dropExtraCopy(elements: HTMLAnchorElement[]): void {
-	for (const element of elements) {
-		// Drop 'commented' label to shorten the copy
-		const commentedNode = element.parentNode!.nextSibling;
-		if (element.closest('.timeline-comment-header') && commentedNode) {
-			// "left a comment" appears in the main comment of reviews
-			removeTextNodeContaining(commentedNode, /commented|left a comment/);
-		}
+async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
+	// Drop 'commented' label to shorten the copy
+	const commentedNode = link.parentNode!.nextSibling;
+	if (link.closest('.timeline-comment-header') && commentedNode) {
+		// "left a comment" appears in the main comment of reviews
+		removeTextNodeContaining(commentedNode, /commented|left a comment/);
 	}
 }
 
-// The selector observer calls this function several times, but we want to batch them into a single GraphQL API call
-async function updateLink(batchedUsernameElements: HTMLAnchorElement[]): Promise<void> {
-	const myUsername = getUsername();
-	batchedUsernameElements = batchedUsernameElements.filter(({textContent: name}) => name !== myUsername && name !== 'ghost');
-	const usernames = new Set(batchedUsernameElements.map(element => element.textContent));
+function appendName(element: HTMLAnchorElement, fullName: string): void {
+	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
+	const {parentElement} = element;
+	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 
-	if (usernames.size === 0) {
+	insertionPoint.after(
+		' ',
+		<span className="color-fg-muted css-truncate d-inline-block">
+			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</bdo>)
+		</span>,
+		' ',
+	);
+}
+
+async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
+	const users = Map.groupBy(found, element => element.textContent.trim());
+	users.delete(getUsername()!);
+	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
+
+	if (users.size === 0) {
 		return;
 	}
 
 	const names = await api.v4(
-		[...usernames].map(user =>
-			api.escapeKey(user) + `: user(login: "${user}") {name}`,
+		[...users.keys()].map(username =>
+			api.escapeKey(username) + `: user(login: "${username}") {name}`,
 		).join(','),
 	);
 
-	for (const usernameElement of batchedUsernameElements) {
-		const username = usernameElement.textContent;
+	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);
-		const {name} = names[userKey];
+		const {name: fullName} = names[userKey];
 
 		// Could be `null` if not set
-		if (!name) {
+		if (!fullName) {
 			continue;
 		}
 
-		if (isUsernameAlreadyFullName(username, name)) {
-			usernameElement.textContent = name;
-			continue;
+		for (const element of elements) {
+			if (isUsernameAlreadyFullName(username, fullName)) {
+				element.textContent = fullName;
+			} else {
+				appendName(element, fullName);
+			}
 		}
-
-		// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-		const {parentElement} = usernameElement;
-		const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : usernameElement;
-		insertionPoint.after(
-			' ',
-			<span className="color-fg-muted css-truncate d-inline-block">
-				(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{name}</bdo>)
-			</span>,
-			' ',
-		);
 	}
-
-	// This change is ideal but should not break the feature if it fails, so leave it for last
-	dropExtraCopy(batchedUsernameElements);
 }
 
-const usernameLinksSelector = [
-	// `a` selector needed to skip commits by non-GitHub users
-	// # targets mannequins #6504
-	`:is(
-		.js-discussion,
-		.inline-comments
-	) a.author:not(
-		[href="#"],
-		[href*="/apps/"],
-		[href*="/marketplace/"],
-		[data-hovercard-type="organization"],
-		[show_full_name="true"]
-	)`,
-	// GHE sometimes shows the full name already:
-	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+const updateLink = batchedFunction(updateLinks, {delay: 100});
 
-	// On dashboard
-	// `.Link--primary` excludes avatars
-	// [aria-label="card content"] excludes links in cards #6530 #6915
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
-] as const;
+function updateDom(link: HTMLAnchorElement): void {
+	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
+	void dropExtraCopy(link);
+
+	updateLink(link);
+}
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-show-names');
-	observe(usernameLinksSelector, batchedFunction(updateLink, {delay: 100}), {signal});
+	observe(usernameLinksSelector, updateDom, {signal});
 }
 
 void features.add(import.meta.url, {

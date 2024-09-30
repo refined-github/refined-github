@@ -127,3 +127,85 @@ export const linksToConversationLists_ = [
 	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
 	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
 ] satisfies UrlMatch[];
+
+export const newCommentField = [
+	'[input="fc-new_comment_field"]',
+	'[input^="fc-new_inline_comment_discussion"]',
+];
+
+export const newCommentField_ = [] satisfies UrlMatch[];
+
+export const commitHashLinkInLists = [
+	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
+	'a[id^="commit-details-"]', // `isPRCommitList`
+	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
+] as unknown as Array<'a'>;
+export const commitHashLinkInLists_ = [
+	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
+	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
+] satisfies UrlMatch[];
+
+export const commitTitleInLists = [
+	'[data-testid="list-view-item-title-container"]', // `isCommitList`
+	'.js-commits-list-item .Details p.mb-1', // `isPRCommitList`,
+];
+export const commitTitleInLists_ = [
+	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
+];
+
+const botNames = [
+	'actions-user',
+	'bors',
+	'ImgBotApp',
+	'renovate-bot',
+	'rust-highfive',
+	'scala-steward',
+	'weblate',
+	'apps', // Matches any `/apps/*` URLs
+] as const;
+
+const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+
+// All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
+// ^= is needed to match /apps/* URLs
+export const botLinksCommitSelectors = [
+	// Co-authored commits are excluded because their avatars are not linked
+	`a[data-testid="avatar-icon-link"]:is(${botAttributes})`,
+
+	// Legacy view, still used by PR commits
+	// :only-child excludes co-authored commits
+	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
+];
+
+export const botLinksPrSelectors = [
+	...botNames.flatMap(bot => [
+		`.opened-by [title$="pull requests created by ${bot}"]`,
+		`.opened-by [title$="pull requests opened by ${bot}"]`,
+	]),
+	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
+	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+];
+
+export const usernameLinksSelector = [
+	// `a` selector needed to skip commits by non-GitHub users
+	// # targets mannequins #6504
+	`:is(
+		.js-discussion,
+		.inline-comments
+	) a.author:not(
+		[href="#"],
+		[href*="/apps/"],
+		[href*="/marketplace/"],
+		[data-hovercard-type="organization"],
+		[show_full_name="true"]
+	)`,
+	// GHE sometimes shows the full name already:
+	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+
+	// On dashboard
+	// `.Link--primary` excludes avatars
+	// [aria-label="card content"] excludes links in cards #6530 #6915
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+] as unknown as Array<'a'>;

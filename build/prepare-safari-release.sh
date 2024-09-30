@@ -26,6 +26,11 @@ trash distribution
 npm run build
 npx dot-json distribution/manifest.json version "$TAG"
 
+# For https://github.com/refined-github/refined-github/issues/7629
+# TODO: Drop after https://bugs.webkit.org/show_bug.cgi?id=277588
+npx dot-json distribution/manifest.json background.service_worker --delete
+npx dot-json distribution/manifest.json background.persistent false --json-value
+
 sed -i '' '/MARKETING_VERSION/d' $CONFIG_FILE
 sed -i '' '/CURRENT_PROJECT_VERSION/d' $CONFIG_FILE
 

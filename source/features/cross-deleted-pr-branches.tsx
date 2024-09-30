@@ -21,7 +21,7 @@ function init(): void | false {
 	const deletedBranchName = lastBranchAction.textContent.trim();
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
 	for (const element of $$('.commit-ref')) {
-		const branchName = element.textContent.trim();
+		const branchName = element.textContent.trim().split(':').pop()!;
 		if (branchName === deletedBranchName) {
 			element.title = 'This branch has been deleted';
 
@@ -32,7 +32,7 @@ function init(): void | false {
 			if (element.classList.contains('head-ref')) {
 				$('a', element)!.href = repoRootUrl!;
 			} else {
-				wrap(element, <a href={repoRootUrl}/>);
+				wrap(element, <a href={repoRootUrl} />);
 			}
 		}
 	}
@@ -46,3 +46,13 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Must wait for the last one
 	init,
 });
+
+/*
+
+Test URLs:
+
+- deleted branch: https://github.com/sindresorhus/refined-github/pull/576
+- deleted branch (from fork): https://github.com/sindresorhus/refined-github/pull/872
+- restored branch (on fork): https://github.com/sindresorhus/refined-github/pull/909
+
+*/

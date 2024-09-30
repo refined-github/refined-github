@@ -37,7 +37,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line ts/no-restricted-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
 	await elementReady('.UnderlineNav-body');

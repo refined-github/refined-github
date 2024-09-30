@@ -11,8 +11,13 @@ import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	// If the branch picker is open, do nothing #7491
-	if (elementExists('#selectPanel')) {
+	if (elementExists([
+		// If the branch picker is open, do nothing #7491
+		'#selectPanel',
+
+		// React view deduplication https://github.com/refined-github/refined-github/issues/7601
+		'.rgh-visit-tag',
+	])) {
 		return;
 	}
 
@@ -23,21 +28,21 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		<div className="d-flex gap-2"/>,
+		<div className="d-flex gap-2" />,
 		branchSelector,
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
 			href={buildRepoURL('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
-			<ArrowUpRightIcon/>
+			<ArrowUpRightIcon />
 		</a>,
 	);
 }
 
 function replaceIcon(tagIcon: SVGElement): void {
 	// https://github.com/refined-github/refined-github/issues/6499#issuecomment-1505256426
-	tagIcon.replaceWith(<CodeIcon/>);
+	tagIcon.replaceWith(<CodeIcon />);
 }
 
 function clarifyIcon(signal: AbortSignal): void {

@@ -31,14 +31,12 @@ function createWhitespaceButton(): HTMLElement {
 			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
-			{isHidingWhitespace() && <CheckIcon/>} No Whitespace
+			{isHidingWhitespace() && <CheckIcon />} No Whitespace
 		</a>
 	);
 }
 
-function attachPRButtons(dropdownIcon: SVGElement): void {
-	// TODO: Replace with :has selector
-	const dropdown = dropdownIcon.closest('details.diffbar-item')!;
+function attachPRButtons(dropdown: HTMLDetailsElement): void {
 	const diffSettingsForm = $('form[action$="/diffview"]', dropdown)!;
 
 	// Preserve data before emption the form
@@ -52,13 +50,13 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 	const Icon = isUnified ? BookIcon : DiffIcon;
 	diffSettingsForm.append(
 		<button
-			className="tooltipped tooltipped-s ml-2 btn-link Link--muted p-2"
+			className="tooltipped tooltipped-s ml-2 btn-link Link--muted px-2"
 			aria-label={`Switch to the ${type} diff view`}
 			name="diff"
 			value={type}
 			type="submit"
 		>
-			<Icon className="v-align-middle"/>
+			<Icon className="v-align-middle" />
 		</button>,
 	);
 
@@ -66,13 +64,13 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 		diffSettingsForm.append(
 			<button
 				data-hotkey="d w"
-				className="tooltipped tooltipped-s btn-link Link--muted p-2"
+				className="tooltipped tooltipped-s btn-link Link--muted px-2"
 				aria-label="Hide whitespace changes"
 				name="w"
 				value="1"
 				type="submit"
 			>
-				<DiffModifiedIcon className="v-align-middle"/>
+				<DiffModifiedIcon className="v-align-middle" />
 			</button>,
 		);
 	}
@@ -98,11 +96,10 @@ function attachPRButtons(dropdownIcon: SVGElement): void {
 
 function initPR(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item svg.octicon-gear', attachPRButtons, {signal});
+	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPRButtons, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
-	// TODO: Replace with :has()
 	const anchor = nativeDiffButtons.parentElement!;
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958

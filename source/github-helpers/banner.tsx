@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {RequireAllOrNone} from 'type-fest';
 
-export type BannerProps = RequireAllOrNone<{
+type BannerProps = RequireAllOrNone<{
 	icon?: JSX.Element;
 	text: Array<string | JSX.Element> | string | JSX.Element;
 	classes?: string[];

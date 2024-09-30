@@ -3,15 +3,25 @@ import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
 
-import getCallerID from './caller-id.js';
+import delay from 'delay';
+import domLoaded from 'dom-loaded';
+import {signalFromPromise} from 'abort-utils';
+
 import isDevelopmentVersion from './is-development-version.js';
+import getCallerID from './caller-id.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
+
+type Options = {
+	stopOnDomReady?: boolean;
+	once?: boolean;
+	signal?: AbortSignal;
+};
 
 const animation = 'rgh-selector-observer';
 const getListener = <
 	Selector extends string,
-	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
 >(
 	seenMark: string,
 	selector: Selector,
@@ -36,14 +46,23 @@ const registerAnimation = onetime((): void => {
 
 export default function observe<
 	Selector extends string,
-	ExpectedElement extends ParseSelector<Selector, HTMLElement>,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
 >(
 	selectors: Selector | readonly Selector[],
 	listener: ObserverListener<ExpectedElement>,
-	{signal}: SignalAsOptions = {},
+	{signal, stopOnDomReady, once}: Options = {},
 ): void {
 	if (signal?.aborted) {
 		return;
+	}
+
+	if (stopOnDomReady) {
+		const delayedDomReady = signalFromPromise((async () => {
+			await domLoaded;
+			await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
+		})());
+
+		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
 	}
 
 	const selector = String(selectors); // Array#toString() creates a comma-separated string
@@ -66,5 +85,28 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {signal});
+	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
+}
+
+// Untested
+export async function waitForElement<
+	Selector extends string,
+	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
+>(
+	selectors: Selector | readonly Selector[],
+	{signal, stopOnDomReady}: Options = {},
+): Promise<ExpectedElement | void> {
+	const local = new AbortController();
+	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
+
+	return new Promise<ExpectedElement | void>(resolve => {
+		observe<Selector, ExpectedElement>(selectors, element => {
+			resolve(element);
+			local.abort();
+		}, {signal, stopOnDomReady, once: true});
+
+		signal.addEventListener('abort', () => {
+			resolve();
+		});
+	});
 }

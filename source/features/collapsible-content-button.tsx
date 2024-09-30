@@ -53,7 +53,7 @@ function append(container: HTMLElement): void {
 			aria-label="Add collapsible content"
 			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
-			<FoldDownIcon/>
+			<FoldDownIcon />
 		</button>,
 	);
 
@@ -62,7 +62,10 @@ function append(container: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		'[data-target="action-bar.itemContainer"]', append, {signal});
+		'[data-target="action-bar.itemContainer"]',
+		append,
+		{signal},
+	);
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 

@@ -13,7 +13,7 @@ import features from '../feature-manager.js';
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip}/>,
+		<div className="tooltipped tooltipped-ne" aria-label={tooltip} />,
 	);
 }
 
@@ -22,7 +22,7 @@ function cleanFilelistActions(searchButton: Element): void {
 	searchButton.setAttribute('aria-label', 'Go to file');
 
 	// Replace "Go to file" with  icon
-	searchButton.firstChild!.replaceWith(<SearchIcon/>);
+	searchButton.firstChild!.replaceWith(<SearchIcon />);
 
 	// This button doesn't appear on `isSingleFile`
 	const addFileDropdown = searchButton.nextElementSibling!.querySelector('.dropdown-caret');
@@ -31,7 +31,7 @@ function cleanFilelistActions(searchButton: Element): void {
 
 		// Replace label with icon
 		assertNodeContent(addFileDropdown.previousSibling, 'Add file')
-			.replaceWith(<PlusIcon/>);
+			.replaceWith(<PlusIcon />);
 
 		addTooltipToSummary(addFileDropdown, 'Add file');
 	}
@@ -46,7 +46,7 @@ function cleanFilelistActions(searchButton: Element): void {
 	const label = $('.Button-label', codeDropdownButton)!;
 	if (!elementExists('.octicon-code', codeDropdownButton)) {
 		// The icon is missing for users without Codespaces https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
-		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon/></span>);
+		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon /></span>);
 	}
 
 	label.remove();

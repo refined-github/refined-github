@@ -1,4 +1,4 @@
-import {$, $$, elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
@@ -18,7 +18,7 @@ type Attachment<NewElement extends Element, Callback = (E: Element) => NewElemen
 }, Position>;
 
 export default function attachElement<NewElement extends Element>(
-	// eslint-disable-next-line @typescript-eslint/ban-types --  Allows dom traversing without requiring `!`
+	// eslint-disable-next-line ts/no-restricted-types --  Allows dom traversing without requiring `!`
 	anchor: Element | string | undefined | null,
 	{
 		className = 'rgh-' + getCallerID(),
@@ -28,7 +28,8 @@ export default function attachElement<NewElement extends Element>(
 		after,
 		forEach,
 		allowMissingAnchor = false,
-	}: Attachment<NewElement>): NewElement[] {
+	}: Attachment<NewElement>,
+): NewElement[] {
 	const anchorElement = typeof anchor === 'string' ? $(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {
@@ -62,12 +63,4 @@ export default function attachElement<NewElement extends Element>(
 		forEach && call('forEach', forEach),
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- It only works this way. TS, AMIRITE?
 	].filter(isDefined);
-}
-
-export function attachElements<NewElement extends Element>(anchors: string | string[], {
-	className = 'rgh-' + getCallerID(),
-	...options
-}: Attachment<NewElement>): NewElement[] {
-	return $$(`:is(${String(anchors)}):not(.${className})`)
-		.flatMap(anchor => attachElement(anchor, {...options, className}));
 }

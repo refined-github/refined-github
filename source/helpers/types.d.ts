@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging necessary */
-/* eslint-disable @typescript-eslint/ban-types -- The API does return `null`, not `undefined` */
+/* eslint-disable ts/no-restricted-types -- The API does return `null`, not `undefined` */
 import type {StrictlyParseSelector} from 'typed-query-selector/parser.js';
+
+// Enables import.meta.glob: https://stackoverflow.com/q/75685623/288906
+import 'vite/client';
 
 declare global {
 	interface ParentNode {

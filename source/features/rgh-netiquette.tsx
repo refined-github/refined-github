@@ -15,8 +15,19 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 			type="button"
 			className="btn-link"
 			onClick={() => {
-				banner.remove();
 				newCommentBox.hidden = false;
+
+				// Unlink this button
+				button.replaceWith(button.firstChild!);
+
+				// Keep the banner, make it visible
+				// eslint-disable-next-line ts/no-use-before-define -- Cyclic
+				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
+
+				window.scrollBy({
+					top: 100,
+					behavior: 'smooth',
+				});
 			}}
 		>comment
 		</button>
@@ -25,7 +36,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1"/>,
+				icon: <InfoIcon className="mr-1" />,
 				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
 		</TimelineItem>

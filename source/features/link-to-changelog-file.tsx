@@ -15,7 +15,7 @@ type FileType = {
 	type: string;
 };
 
-const changelogFiles = /^(changelog|news|changes|history|release|whatsnew)(\.(mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
+const changelogFiles = /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
 }
@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
 			role="button"
 		>
-			<BookIcon className="color-fg-accent mr-2"/>
+			<BookIcon className="color-fg-accent mr-2" />
 			<span>Changelog</span>
 		</a>
 	);
@@ -65,7 +65,7 @@ async function init(): Promise<void | false> {
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
 	navbar.classList.remove('flex-1'); // Remove margin-right
 	navbar.classList.add('d-flex'); // Avoid wrapping
-	wrapAll(<div className="d-flex flex-justify-start flex-1"/>, navbar, changelogButton);
+	wrapAll(<div className="d-flex flex-justify-start flex-1" />, navbar, changelogButton);
 }
 
 void features.add(import.meta.url, {

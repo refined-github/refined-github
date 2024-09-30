@@ -29,8 +29,9 @@ export function pSomeFunction<
 	return pSome(promises);
 }
 
-export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
-	return new Promise(resolve => {
+async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
+	// eslint-disable-next-line no-async-promise-executor -- It's fine, resolve is at the end
+	return new Promise(async resolve => {
 		for (const promise of iterable) {
 			(async () => {
 				if (await promise) {
@@ -39,9 +40,9 @@ export async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<b
 			})();
 		}
 
-		void Promise.allSettled(iterable).then(() => {
-			resolve(false);
-		});
+		await Promise.allSettled(iterable);
+
+		resolve(false);
 	});
 }
 
@@ -74,7 +75,7 @@ export function pEveryFunction<
 	return pEvery(promises);
 }
 
-export async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
+async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
 	const results = await Promise.all(iterable);
 	return results.every(Boolean);
 }

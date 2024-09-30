@@ -13,7 +13,7 @@ function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, valu
 async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent.slice(1);
 
-	const runLink = prLink.closest('.Box-row')!.querySelector('a.Link--primary')!;
+	const runLink = prLink.closest('.Box-row')!.querySelector('a:has(.Link--primary)')!;
 	setSearchParameter(runLink, 'pr', prNumber);
 }
 

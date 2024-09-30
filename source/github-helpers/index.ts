@@ -48,14 +48,15 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		.toLowerCase();
 	realname = realname
 		.normalize('NFD')
-		.replaceAll(/[\u0300-\u036F\W.]/g, '')
+		.replaceAll(/\W/g, '')
 		.toLowerCase();
 
 	return username === realname;
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
-const isPrerelease = /^[vr]?\d+(?:\.\d+)+(-\d)/;
+// eslint-disable-next-line regexp/no-useless-non-capturing-group -- I don't think so?
+const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
@@ -160,7 +161,8 @@ export function triggerConversationUpdate(): void {
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
-	child.closest('.container')!.classList.add('rgh-z-index-1');
+	// In the sidebar the container is not present and this fix is not needed
+	child.closest('.container')?.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
@@ -182,4 +184,18 @@ export function multilineAriaLabel(...lines: string[]): string {
 export function scrollIntoViewIfNeeded(element: Element): void {
 	// @ts-expect-error No Firefox support https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoViewIfNeeded
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
+}
+
+function getConversationAuthor(): string | undefined {
+	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
+}
+
+export function isOwnConversation(): boolean {
+	return getConversationAuthor() === getUsername();
+}
+
+export function assertCommitHash(hash: string): void {
+	if (!/^[0-9a-f]{40}$/.test(hash)) {
+		throw new Error(`Invalid commit hash: ${hash}`);
+	}
 }

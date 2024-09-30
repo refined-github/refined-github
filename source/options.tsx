@@ -8,14 +8,14 @@ import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox} from 'webext-detect-page';
+import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
 import featureLink from './helpers/feature-link.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
-import {createRghIssueLink} from './helpers/rgh-issue-link.js';
-import {importedFeatures, featuresMeta} from '../readme.md';
+import createRghIssueLink from './helpers/rgh-issue-link.js';
+import {importedFeatures, featuresMeta} from './feature-data.js';
 import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -69,7 +69,8 @@ function getApiUrl(): string {
 
 async function getNameFromToken(token: string): Promise<string> {
 	const response = await fetch(
-		getApiUrl() + '/user', {
+		getApiUrl() + '/user',
+		{
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -89,8 +90,8 @@ async function getTokenScopes(personalToken: string): Promise<string[]> {
 		cache: 'no-store',
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
-			Authorization: `token ${personalToken}`,
+			'Accept': 'application/vnd.github.v3+json',
+			'Authorization': `token ${personalToken}`,
 		},
 	});
 
@@ -113,9 +114,9 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	for (const output of $$(`.storage-${area}`)) {
 		output.textContent = available < 1000
 			? 'FULL!'
-			: (available < 100_000
+			: available < 100_000
 				? `Only ${prettyBytes(available)} available`
-				: `${prettyBytes(used)} used`);
+				: `${prettyBytes(used)} used`;
 	}
 }
 
@@ -163,14 +164,14 @@ function moveDisabledFeaturesToTop(): void {
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox"/>
 			<div className="info">
+				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
 				<a href={featureLink(id)} className="feature-link">
 					source
 				</a>
-				<input hidden type="checkbox" className="screenshot-toggle"/>
+				<input hidden type="checkbox" className="screenshot-toggle" />
 				{screenshot && (
 					<a href={screenshot} className="screenshot-link">
 						screenshot
@@ -178,7 +179,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 				)}
 				<p className="description">{domify(description)}</p>
 				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot"/>
+					<img hidden data-src={screenshot} className="screenshot" />
 				)}
 			</div>
 		</div>

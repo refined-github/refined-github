@@ -24,6 +24,7 @@ jobs:
         with:
           node-version-file: package.json
           cache: npm
+      - run: sudo apt-get install ripgrep
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
       - run: npm run vitest -- selectors
@@ -65,18 +66,23 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack -- --json webpack-stats.json
-      - name: Send webpack stats to RelativeCI
+      - run: npm run build:bundle
+        env:
+          RELATIVE_CI_STATS: true
+      - name: Send build stats to RelativeCI
         if: matrix.os == 'ubuntu-latest'
         uses: relative-ci/agent-action@v2
         with:
-          webpackStatsFile: ./webpack-stats.json
+          token: ${{ github.token }}
+          webpackStatsFile: ./distribution/assets/webpack-stats.json
           key: ${{ secrets.RELATIVE_CI_KEY }}
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
-          path: distribution
+          path: |
+            distribution
+            !./distribution/assets/webpack-stats.json
 
   Safari:
     runs-on: macos-13
@@ -87,8 +93,8 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run build:webpack
+      - run: npm run build:bundle
       - uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0.1'
+          xcode-version: 15.0.1
       - run: npm run pack:safari
