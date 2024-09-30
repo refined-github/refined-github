@@ -193,6 +193,7 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/3686',
 	'https://github.com/refined-github/refined-github/issues/6000',
 	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
 ];
 
 function uncollapseTargetedComment(): void {

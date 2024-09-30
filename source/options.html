@@ -18,7 +18,7 @@
 
 	<details id="token">
 		<summary><strong>🔑 Personal token</strong></summary>
-		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,delete_repo,read:project">generate a token</a> to ensure that every feature works correctly.</p>
+		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly.</p>
 		<p><strong>Token-less usage is allowed but not officially supported.</strong></p>
 		<p>You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 		<p>
@@ -31,7 +31,6 @@
 			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
 			<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 			<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
-			<li data-validation data-scope="delete_repo">The <code>delete_repo</code> scope is only used by the <code>quick-repo-deletion</code> feature
 			<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repository or organization uses projects
 		</ul>
 		<ul data-token-type="fine_grained">
@@ -103,7 +102,8 @@
 		</p>
 		<p>
 			Options storage: <output class="storage-sync">unknown</output><br>
-			Cache storage: <output class="storage-local">unknown</output>
+			Cache storage: <output class="storage-local">unknown</output><br>
+			Refined Github version: <output id="version">unknown</output>
 		</p>
 		<p>
 			<button id="clear-cache">Clear cache</button>
