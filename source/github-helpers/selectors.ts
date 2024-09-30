@@ -136,6 +136,7 @@ export const newCommentField = [
 export const newCommentField_ = [] satisfies UrlMatch[];
 
 export const commitHashLinkInLists = [
+	'[data-testid="commit-row-browse-repo"]',
 	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
