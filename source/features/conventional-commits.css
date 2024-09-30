@@ -3,6 +3,16 @@
 	line-height: 1.5;
 }
 
+/* Default color from `wontfix` label. Also applies to `chore`  because it's the most common and meaningless type of commit */
+[rgh-conventional-commits] {
+	--label-r: 255;
+	--label-g: 255;
+	--label-b: 255;
+	--label-h: 0;
+	--label-s: 0;
+	--label-l: 100;
+}
+
 /* Color from `enhancement` label */
 [rgh-conventional-commits='feat'] {
 	--label-r: 162;
@@ -21,16 +31,6 @@
 	--label-h: 353;
 	--label-s: 66;
 	--label-l: 53;
-}
-
-/* Color from `wontfix` label. Just white because it's the most common and meaningless type of commit */
-[rgh-conventional-commits='chore'] {
-	--label-r: 255;
-	--label-g: 255;
-	--label-b: 255;
-	--label-h: 0;
-	--label-s: 0;
-	--label-l: 100;
 }
 
 /* Color from `documentation` label */
