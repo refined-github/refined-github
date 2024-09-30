@@ -24,6 +24,7 @@ const exceptions = [
 	'pre',
 	'prod',
 	'stage',
+	'staging',
 	/production/,
 	/^release\//,
 	/^v\d/,
