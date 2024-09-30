@@ -21,13 +21,17 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 		return 'READ';
 	}
 
-	const {repository} = await api.v4uncached(`
-		repository() {
-			viewerPermission
-		}
-	`);
-
-	return repository.viewerPermission;
+	try {
+		const {repository} = await api.v4uncached(`
+			repository() {
+				viewerPermission
+			}
+		`);
+	
+		return repository.viewerPermission;
+	} catch {
+		return 'READ';
+	}
 }
 
 export async function userIsAdmin(): Promise<boolean> {
