@@ -10,11 +10,15 @@ function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
 	downloadUrl.searchParams.set('url', location.href);
 	link.href = downloadUrl.href;
 	link.textContent = 'Download directory';
+	link.removeAttribute('id')
+	link.removeAttribute('aria-keyshortcuts');
+	link.removeAttribute('aria-labelledby');
 
 	deleteDirectoryItem!.before(item);
 }
 
 function init(signal: AbortSignal): void {
+	// Selector points to "Delete directory" button
 	observe('a[aria-keyshortcuts="d"]', add, {signal});
 }
 
@@ -23,7 +27,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	exclude: [
-		pageDetect.isRepoHome, // Already has an native download ZIP button
+		pageDetect.isRepoRoot, // Already has an native download ZIP button
 		pageDetect.isEnterprise,
 		pageDetect.isRepoFile404,
 	],
