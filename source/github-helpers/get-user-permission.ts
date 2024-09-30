@@ -1,3 +1,4 @@
+import {hasToken} from '../options-storage.js';
 import api from './api.js';
 
 /*
@@ -16,6 +17,10 @@ WRITE: Can read, clone, and push to this repository. Can also manage issues and 
 type RepositoryPermission = 'ADMIN' | 'MAINTAIN' | 'READ' | 'TRIAGE' | 'WRITE';
 
 async function getViewerPermission(): Promise<RepositoryPermission> {
+	if (!hasToken()) {
+		return 'READ';
+	}
+
 	const {repository} = await api.v4uncached(`
 		repository() {
 			viewerPermission
