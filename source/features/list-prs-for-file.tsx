@@ -4,12 +4,11 @@ import {isFirefox} from 'webext-detect';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {buildRepoURL, cacheByRepo, fixFileHeaderOverlap} from '../github-helpers/index.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
@@ -24,40 +23,54 @@ function getHovercardUrl(prNumber: number): string {
 	return buildRepoURL('pull', prNumber, 'hovercard');
 }
 
+const buttonId = 'rgh-list-prs-for-file-button';
+const popoverId = 'rgh-list-prs-for-file-popover';
+
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
 	const icon = isEditing
 		? <AlertIcon className="color-fg-attention" />
 		: <GitPullRequestIcon />;
 
-	// TODO: use Popover API when hovercards become compatible #7496
 	return (
-		<details className="dropdown details-reset">
-			<summary className="Button Button--secondary color-fg-muted">
+		<div>
+			<button
+				type="button"
+				className="Button Button--secondary color-fg-muted"
+				id={buttonId}
+				// @ts-expect-error HTML standard
+				popovertarget={popoverId}
+			>
 				{icon}
-				<span className="color-fg-default mx-1">{prs.length}</span>
+				<span className="color-fg-default"> {prs.length} </span>
 				<div className="dropdown-caret" />
-			</summary>
+			</button>
 
-			<details-menu className="dropdown-menu dropdown-menu-sw" style={{width: '180px'}}>
-				<div className="px-3 pt-2 h6 color-fg-muted">
-					File also being edited in
+			<anchored-position
+				id={popoverId}
+				anchor={buttonId}
+				popover="auto"
+			>
+				<div className="Overlay Overlay--size-auto">
+					<div className="px-3 pt-3 h6 color-fg-muted">
+						File also being edited in
+					</div>
+					<ul className="ActionListWrap ActionListWrap--inset">
+						{prs.map(prNumber => (
+							<li className="ActionListItem">
+								<a
+									className="ActionListContent js-hovercard-left"
+									href={getPRUrl(prNumber)}
+									data-hovercard-url={getHovercardUrl(prNumber)}
+								>
+									#{prNumber}
+								</a>
+							</li>
+						))}
+					</ul>
 				</div>
-				<ul className="ActionListWrap ActionListWrap--inset">
-					{prs.map(prNumber => (
-						<li className="ActionListItem">
-							<a
-								className="ActionListContent"
-								href={getPRUrl(prNumber)}
-								data-hovercard-url={getHovercardUrl(prNumber)}
-							>
-								#{prNumber}
-							</a>
-						</li>
-					))}
-				</ul>
-			</details-menu>
-		</details>
+			</anchored-position>
+		</div>
 	);
 }
 
@@ -102,8 +115,6 @@ async function addToSingleFile(moreFileActionsDropdown: HTMLElement): Promise<vo
 		}
 
 		moreFileActionsDropdown.before(dropdown);
-
-		fixFileHeaderOverlap(moreFileActionsDropdown);
 	}
 }
 
@@ -127,12 +138,7 @@ async function addToEditingFile(saveButton: HTMLElement): Promise<false | void> 
 	const dropdown = getDropdown(prs);
 	dropdown.classList.add('mr-2');
 
-	// Due to https://github.com/refined-github/refined-github/issues/6579
-	$('.dropdown-menu-sw', dropdown).classList.replace('dropdown-menu-sw', 'dropdown-menu-se');
-
 	saveButton.parentElement!.prepend(dropdown);
-
-	fixFileHeaderOverlap(saveButton);
 }
 
 function initSingleFile(signal: AbortSignal): void {
