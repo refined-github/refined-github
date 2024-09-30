@@ -93,8 +93,8 @@ export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectati
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
-	const content = node.textContent.trim();
-	return matchString(expectation, content);
+	// The string/regex may expect spaces, like for `conventional-commits`
+	return matchString(expectation, node.textContent) || matchString(expectation, node.textContent.trim());
 };
 
 export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>, expectation: RegExp | string): N => {
@@ -111,3 +111,8 @@ export const removeTextNodeContaining = (node: Text | ChildNode, expectation: Re
 	assertNodeContent(node, expectation);
 	node.remove();
 };
+
+export function removeTextInTextNode(node: Text | ChildNode, text: RegExp | string): void {
+	assertNodeContent(node, text);
+	node.textContent = node.textContent.replace(text, '');
+}
