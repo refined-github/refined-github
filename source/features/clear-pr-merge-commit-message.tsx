@@ -6,7 +6,7 @@ import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
-import {userCanLikelyMergePR} from '../github-helpers/index.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
@@ -44,10 +44,8 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		userCanLikelyMergePR,
-	],
-	include: [
 		pageDetect.isPRConversation,
+		userHasPushAccess,
 	],
 	exclude: [
 		// Don't clear 1-commit PRs #3140

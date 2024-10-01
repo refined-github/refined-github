@@ -1,13 +1,10 @@
 import {v3} from './api.js';
-import {getToken} from '../options-storage.js';
+import {hasToken} from '../options-storage.js';
 
-export async function expectToken(): Promise<string> {
-	const personalToken = await getToken();
-	if (!personalToken) {
+export async function expectToken(): Promise<void> {
+	if (!hasToken()) {
 		throw new Error('Personal token required for this feature');
 	}
-
-	return personalToken;
 }
 
 export async function parseTokenScopes(headers: Headers): Promise<string[]> {

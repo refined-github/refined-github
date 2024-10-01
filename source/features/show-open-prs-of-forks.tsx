@@ -40,6 +40,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 // eslint-disable-next-line ts/no-restricted-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
+	// Maybe replace with https://github.com/refined-github/github-url-detection/issues/85
 	await elementReady('.UnderlineNav-body');
 	if (!pageDetect.canUserEditRepo()) {
 		return [];

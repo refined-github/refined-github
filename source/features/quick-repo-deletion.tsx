@@ -8,13 +8,9 @@ import TrashIcon from 'octicons-plain-react/Trash';
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
-
-// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-async function canUserDeleteRepository(): Promise<boolean> {
-	return Boolean(await elementReady('nav [data-content="Settings"]'));
-}
 
 // Only if the repository hasn't been starred
 async function isRepoUnpopular(): Promise<boolean> {
@@ -53,7 +49,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepoRoot,
 		pageDetect.isForkedRepo,
-		canUserDeleteRepository,
+		userIsAdmin,
 		isRepoUnpopular,
 	],
 	init,
