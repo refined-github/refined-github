@@ -28,7 +28,7 @@ html::after {
 	input[type='url'],
 	input:not([type]),
 	textarea {
-		background-color: initial;
+		background-color: revert;
 	}
 }
 
