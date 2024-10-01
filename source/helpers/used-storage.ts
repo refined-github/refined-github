@@ -5,7 +5,7 @@ export default async function getStorageBytesInUse(area: 'local' | 'sync'): Prom
 		return await storage.getBytesInUse(); // Exists in Safari iOS, but can't be called...
 	} catch {
 		// Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1385832#c20
-		return new TextEncoder().encode( 
+		return new TextEncoder().encode(
 			Object.entries(await storage.get())
 				.map(([key, value]) => key + JSON.stringify(value))
 				.join(''),
