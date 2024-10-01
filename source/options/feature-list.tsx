@@ -12,7 +12,7 @@ function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
 	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => elementExists(':checked', feature) ? 'enabled' : 'disabled');
-	for (const group of [grouped.disabled, grouped.enabled]) {
+	for (const group of [grouped.disabled, grouped.enabled].filter(Boolean)) {
 		for (const feature of group!) {
 			container.append(feature);
 		}

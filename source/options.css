@@ -19,6 +19,17 @@ html::after {
 	:root {
 		--rgh-red: #f85149;
 	}
+
+	/* TODO: Drop after https://github.com/fregante/webext-base-css/issues/14 */
+	input[type='number'],
+	input[type='password'],
+	input[type='search'],
+	input[type='text'],
+	input[type='url'],
+	input:not([type]),
+	textarea {
+		background-color: revert;
+	}
 }
 
 /* Use sensible font size in Chrome #7483 */

@@ -4,6 +4,7 @@ import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
+import {isWebPage} from 'webext-detect';
 
 import waitFor from './helpers/wait-for.js';
 import onAbort from './helpers/abort-controller.js';
@@ -111,6 +112,11 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
+	// This file may be imported in the options
+	if (!isWebPage()) {
+		return;
+	}
+
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
