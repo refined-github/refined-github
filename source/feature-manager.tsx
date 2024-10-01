@@ -4,6 +4,7 @@ import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
+import {isWebPage} from 'webext-detect';
 
 import waitFor from './helpers/wait-for.js';
 import onAbort from './helpers/abort-controller.js';
@@ -25,7 +26,6 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {messageBackground} from './helpers/messaging.js';
-import { isWebPage } from 'webext-detect';
 
 type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
