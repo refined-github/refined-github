@@ -25,6 +25,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {messageBackground} from './helpers/messaging.js';
+import { isWebPage } from 'webext-detect';
 
 type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
@@ -111,6 +112,11 @@ const log = {
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
+	// This file may be imported in the options
+	if (!isWebPage()) {
+		return;
+	}
+
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),

@@ -131,10 +131,11 @@ const createDropdown = onetime(() => (
 		onToggle={resetFilters}
 	>
 		<summary
-			className="h6 tooltipped tooltipped-s" // `h6` matches "Select all" style
+			className="h6" // `h6` matches "Select all" style
 			data-hotkey="Shift+S"
 			aria-haspopup="menu"
-			aria-label="Hotkey: Shift+S"
+			// Don't use tooltipped, it remains visible when the dropdown is open
+			title="Hotkey: Shift+S"
 			role="button"
 		>
 			Select by <span className="dropdown-caret ml-1" />
