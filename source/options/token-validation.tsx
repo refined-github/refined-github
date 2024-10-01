@@ -1,25 +1,10 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import {expectElement as $, $$} from 'select-dom';
-import fitTextarea from 'fit-textarea';
-import prettyBytes from 'pretty-bytes';
 import {assertError} from 'ts-extras';
-import {enableTabToIndent} from 'indent-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
-import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
-import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {styleHotfixes} from './helpers/hotfix.js';
-import {importedFeatures} from './feature-data.js';
-import getStorageBytesInUse from './helpers/used-storage.js';
-import {perDomainOptions} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
-import {parseTokenScopes} from './github-helpers/github-token.js';
-import initFeatureList, {updateListDom} from './options/feature-list.js';
-
-let syncedForm: SyncedForm | undefined;
+import {parseTokenScopes} from '../github-helpers/github-token.js';
 
 type Status = {
 	tokenType: 'classic' | 'fine_grained';
@@ -27,8 +12,6 @@ type Status = {
 	text?: string;
 	scopes?: string[];
 };
-
-const {version} = chrome.runtime.getManifest();
 
 function reportStatus({tokenType, error, text, scopes}: Status): void {
 	const tokenStatus = $('#validation');
