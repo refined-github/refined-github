@@ -2,6 +2,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
+import {scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 
 function scrollToCurrentFile(): void {
 	const url = new GitHubFileURL(location.href);
@@ -11,7 +12,9 @@ function scrollToCurrentFile(): void {
 	// eslint-disable-next-line unicorn/prefer-query-selector
 	const item = document.getElementById(`${filePath}-item`);
 	const text = item?.querySelector('.PRIVATE_TreeView-item-content-text');
-	text?.scrollIntoView({block: 'center', behavior: 'auto'});
+	if (text) {
+		scrollIntoViewIfNeeded(text);
+	}
 }
 
 function init(signal: AbortSignal): void {
