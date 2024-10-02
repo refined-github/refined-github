@@ -162,6 +162,7 @@ import './features/esc-to-cancel.js';
 import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';
 import './features/clean-repo-sidebar.js';
+import './features/hide-interaction-limits-warning.js';
 import './features/rgh-feature-descriptions.js';
 import './features/archive-forks-link.js';
 import './features/link-to-changelog-file.js';
