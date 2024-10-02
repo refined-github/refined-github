@@ -116,6 +116,9 @@ async function validateToken(): Promise<void> {
 export default async function initTokenValidation(syncedForm: SyncedForm | undefined): Promise<void> {
 	await validateToken();
 
+	// Listen to pastes
+	$('[name="personalToken"]').addEventListener('input', validateToken);
+
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {
 		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;

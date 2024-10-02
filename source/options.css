@@ -48,6 +48,10 @@ output {
 	font-style: italic;
 }
 
+small {
+	opacity: 0.8;
+}
+
 details[open] {
 	--border-left: 4px;
 
@@ -118,6 +122,10 @@ details[open] > :not(summary) {
 
 [name='personalToken']:invalid {
 	border-color: var(--rgh-red) !important;
+}
+
+#filter-features {
+	line-height: 2;
 }
 
 .feature:not([hidden]) {
