@@ -30,6 +30,7 @@ const noScreenshotExceptions = new Set([
 	'selection-in-new-tab',
 	'submission-via-ctrl-enter-everywhere',
 	'click-outside-modal',
+	'scroll-to-current-file',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
