@@ -790,7 +790,7 @@
 	},
 	{
 		"id": "scroll-to-current-file",
-		"description": "Scrolls the file tree to the current file when signed in.",
+		"description": "Scrolls the file tree to the current file.",
 		"screenshot": null
 	},
 	{
