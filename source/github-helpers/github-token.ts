@@ -40,10 +40,6 @@ export const tokenUser = new CachedFunction('token-user', {
 	updater: async (apiBase: string, token: string): Promise<string> => {
 		const response = await baseApiFetch({apiBase, token, path: 'user'});
 		const details = await response.json();
-		if (!response.ok) {
-			throw new Error(details.message);
-		}
-
 		return details.login;
 	},
 	maxAge: {
