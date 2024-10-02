@@ -9,6 +9,12 @@ import {importedFeatures} from '../feature-data.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
+function enableButtons(): void {
+	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
+		button.removeAttribute('aria-disabled');
+	}
+}
+
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2
 // Bisecting 3 features: enable 1
@@ -97,11 +103,11 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	);
 
 	// Enable "Yes"/"No" buttons once the page is done loading
-	window.addEventListener('load', () => {
-		for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
-			button.removeAttribute('aria-disabled');
-		}
-	});
+	if (document.readyState === 'complete') {
+		enableButtons();
+	} else {
+		window.addEventListener('load', enableButtons);
+	}
 
 	// Hide message when the process is done elsewhere
 	window.addEventListener('visibilitychange', hideMessage);
@@ -113,6 +119,6 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
 	}
 
-	console.log(temporaryOptions);
+	console.log({temporaryOptions});
 	return temporaryOptions;
 }

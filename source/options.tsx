@@ -1,6 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {expectElement as $, $$} from 'select-dom';
+import {expectElement as $, $ as select, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {enableTabToIndent} from 'indent-textarea';
@@ -55,7 +55,7 @@ async function findFeatureHandler(event: Event): Promise<void> {
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	scrollIntoViewIfNeeded(section);
 	if (section.open) {
-		const field = $('input, textarea', section);
+		const field = select('input, textarea', section);
 		if (field) {
 			field.focus();
 			if (field instanceof HTMLTextAreaElement) {
