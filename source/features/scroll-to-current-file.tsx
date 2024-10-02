@@ -11,9 +11,8 @@ function scrollToCurrentFile(): void {
 	// we need to escape the filePath if we use querySelector.
 	// eslint-disable-next-line unicorn/prefer-query-selector
 	const item = document.getElementById(`${filePath}-item`);
-	const text = item?.querySelector('.PRIVATE_TreeView-item-content-text');
-	if (text) {
-		scrollIntoViewIfNeeded(text);
+	if (item) {
+		scrollIntoViewIfNeeded(item);
 	}
 }
 
