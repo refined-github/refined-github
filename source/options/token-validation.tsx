@@ -91,9 +91,7 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(async domain => {
-		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
-
+	syncedForm?.onChange(async () => {
 		// Delay to let options load first
 		setTimeout(validateToken, 100);
 	});

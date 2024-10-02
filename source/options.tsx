@@ -147,7 +147,10 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(async () => {
+	syncedForm?.onChange(async domain => {
+		// Point the link to the right domain
+		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+
 		// Delay to let options load first
 		setTimeout(updateListDom, 100);
 	});
