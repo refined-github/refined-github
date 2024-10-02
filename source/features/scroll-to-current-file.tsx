@@ -1,24 +1,23 @@
 import * as pageDetect from 'github-url-detection';
+import delay from 'delay';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 
-function scrollToCurrentFile(): void {
-	const url = new GitHubFileURL(location.href);
-	const filePath = url.filePath;
+async function init(): Promise<void | false> {
+	// The sidebar is loaded a bit later
+	await delay(500);
 
-	// we need to escape the filePath if we use querySelector.
-	// eslint-disable-next-line unicorn/prefer-query-selector
+	const {filePath} = new GitHubFileURL(location.href);
+
+	// eslint-disable-next-line unicorn/prefer-query-selector -- `querySelector` requires escaping
 	const item = document.getElementById(`${filePath}-item`);
 	if (item) {
 		scrollIntoViewIfNeeded(item);
+	} else {
+		return false;
 	}
-}
-
-function init(signal: AbortSignal): void {
-	const timer = setTimeout(scrollToCurrentFile, 500);
-	signal.addEventListener('abort', () => clearTimeout(timer));
 }
 
 void features.add(import.meta.url, {
@@ -37,7 +36,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/tree/main/source/features (on directory)
-https://github.com/refined-github/refined-github/blob/main/source/refined-github.ts (on file)
+- https://github.com/refined-github/refined-github/blob/main/source/features/mark-private-repos.css
+- https://github.com/refined-github/refined-github/tree/main/test/web-ext-profile
 
 */
