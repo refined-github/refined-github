@@ -2,7 +2,7 @@ import {expectElement as $, $$} from 'select-dom';
 import {assertError} from 'ts-extras';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
-import {parseTokenScopes} from '../github-helpers/github-token.js';
+import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
 
 type Status = {
 	tokenType: 'classic' | 'fine_grained';
@@ -37,46 +37,9 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 function getApiUrl(): string {
 	const tokenLink = $('a#personal-token-link');
 	return tokenLink.host === 'github.com'
-		? 'https://api.github.com'
-		: `${tokenLink.origin}/api/v3`;
+		? 'https://api.github.com/'
+		: `${tokenLink.origin}/api/v3/`;
 }
-
-async function getNameFromToken(token: string): Promise<string> {
-	const response = await fetch(
-		getApiUrl() + '/user',
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		},
-	);
-
-	const details = await response.json();
-	if (!response.ok) {
-		throw new Error(details.message);
-	}
-
-	return details.login;
-}
-
-async function getTokenScopes(personalToken: string): Promise<string[]> {
-	const response = await fetch(getApiUrl(), {
-		cache: 'no-store',
-		headers: {
-			'User-Agent': 'Refined GitHub',
-			'Accept': 'application/vnd.github.v3+json',
-			'Authorization': `token ${personalToken}`,
-		},
-	});
-
-	if (!response.ok) {
-		const details = await response.json();
-		throw new Error(details.message);
-	}
-
-	return parseTokenScopes(response.headers);
-}
-
 function expandTokenSection(): void {
 	$('details#token').open = true;
 }
@@ -96,9 +59,10 @@ async function validateToken(): Promise<void> {
 	reportStatus({text: 'Validating…', tokenType});
 
 	try {
+		const base = getApiUrl();
 		const [scopes, user] = await Promise.all([
-			getTokenScopes(tokenField.value),
-			getNameFromToken(tokenField.value),
+			getTokenScopes(base, tokenField.value),
+			tokenUser.get(base, tokenField.value),
 		]);
 		reportStatus({
 			tokenType,
@@ -116,8 +80,15 @@ async function validateToken(): Promise<void> {
 export default async function initTokenValidation(syncedForm: SyncedForm | undefined): Promise<void> {
 	await validateToken();
 
-	// Listen to pastes
-	$('[name="personalToken"]').addEventListener('input', validateToken);
+	// Listen to events
+	const field = $('input[name="personalToken"]');
+	field.addEventListener('input', validateToken);
+	field.addEventListener('focus', () => {
+		field.type = 'text';
+	});
+	field.addEventListener('blur', () => {
+		field.type = 'password';
+	});
 
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {

@@ -18,13 +18,10 @@
 
 	<details id="token">
 		<summary><strong>🔑 Personal token</strong></summary>
-		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly.</p>
-		<p><strong>Token-less usage is allowed but not officially supported.</strong></p>
-		<p>You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+		<p><strong>Token-less usage is not officially supported.</strong></p>
 		<p>
-			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
-			<input type="text" name="personalToken" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off">
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">
