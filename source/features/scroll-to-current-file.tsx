@@ -32,15 +32,15 @@ function unload(): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isLoggedIn,
-	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
-	init,
+	exclude: [
+		pageDetect.isRepoRoot,
+	],
 	awaitDomReady: true,
+	init,
 });
 
 /*
