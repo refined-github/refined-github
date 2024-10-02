@@ -17,18 +17,8 @@ function scrollToCurrentFile(): void {
 }
 
 function init(signal: AbortSignal): void {
-	signal.addEventListener('abort', unload);
-
-	// After the file navigation
-	window.addEventListener('turbo:load', scrollToCurrentFile);
-
-	// After navigating back to a repo tree or a single file page from other tabs (e.g. Issues, Pull requests)
-	scrollToCurrentFile();
-}
-
-function unload(): void {
-	// After the file navigation
-	window.removeEventListener('turbo:load', scrollToCurrentFile);
+	const timer = setTimeout(scrollToCurrentFile, 500);
+	signal.addEventListener('abort', () => clearTimeout(timer));
 }
 
 void features.add(import.meta.url, {
