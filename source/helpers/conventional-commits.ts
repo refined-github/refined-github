@@ -13,6 +13,7 @@ const types = new Map([
 	['test', 'Test'],
 	['ci', 'CI'],
 	['perf', 'Performance'],
+	['meta', 'Meta'],
 ]);
 
 export function parseConventionalCommit(commitTitle: string): {
