@@ -1,3 +1,9 @@
+/*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization#conventional-commits
+
+*/
+
 import './conventional-commits.css';
 import React from 'react';
 import * as pageDetect from 'github-url-detection';
