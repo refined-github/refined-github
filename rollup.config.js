@@ -16,6 +16,7 @@ const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_m
 const rollup = {
 	input: {
 		'options': './source/options.tsx',
+		'welcome': './source/welcome.ts',
 		'background': './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
