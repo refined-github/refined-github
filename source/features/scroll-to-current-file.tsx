@@ -14,8 +14,11 @@ async function init(): Promise<void | false> {
 	// eslint-disable-next-line unicorn/prefer-query-selector -- `querySelector` requires escaping
 	const item = document.getElementById(`${filePath}-item`);
 	if (item) {
+		// This feature is only needed for the very first load of the view.
+		// GitHub does it natively after that.
 		scrollIntoViewIfNeeded(item);
 	} else {
+		// The sidebar might be closed
 		return false;
 	}
 }
