@@ -1,3 +1,9 @@
+/*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization
+
+*/
+
 import './release-download-count.css';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
