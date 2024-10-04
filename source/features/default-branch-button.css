@@ -1,9 +1,9 @@
-.rgh-highlight-non-default-branch {
-	background-color: var(--bgColor-accent-muted, fuchsia) !important;
-	color: var(--fgColor-accent, fuchsia) !important;
-	border-color: var(--fgColor-accent, fuchsia) !important;
+button.rgh-highlight-non-default-branch, details.rgh-highlight-non-default-branch>summary  {
+	background-color: var(--bgColor-accent-muted, var(--color-accent-subtle, fuchsia)) !important ;
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
+	border-color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 }
 
-.rgh-highlight-non-default-branch svg {
-	color: var(--fgColor-accent, fuchsia) !important;
+button.rgh-highlight-non-default-branch svg, details.rgh-highlight-non-default-branch>summary svg {
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 }
