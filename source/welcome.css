@@ -29,12 +29,21 @@ button {
 	cursor: pointer;
 }
 
+.hidden-link {
+	color: inherit;
+}
+
 input {
 	font-size: inherit;
 }
 
 li {
 	margin-block: 1em;
+}
+
+form {
+	transition: opacity 1s;
+	margin-bottom: 2em;
 }
 
 li::before {
@@ -52,17 +61,21 @@ li.valid::before {
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" fill="%2328a745" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>');
 }
 
-.hidden {
+.will-show {
 	animation: fade-in 0.5s;
 	animation-play-state: paused;
 }
 
-.visible {
+.will-show.visible {
 	animation-play-state: running;
 }
 
+.dimmed {
+	opacity: 40%;
+}
+
 .error {
-	color: red;
+	color: #cf222e;
 	font-size: 0.8em;
 }
 

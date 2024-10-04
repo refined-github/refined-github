@@ -11,7 +11,7 @@ type BaseApiFetchOptions = {
 	path: string;
 };
 
-async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
+export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
 	if (!apiBase.endsWith('/')) {
 		throw new TypeError('apiBase must end with a slash');
 	}
