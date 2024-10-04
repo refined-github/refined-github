@@ -4,8 +4,8 @@
 	import './welcome.css';
 	import {onMount} from 'svelte';
 
+	import './helpers/target-blank-polyfill.js';
 	import optionsStorage from './options-storage.js';
-
 	import {baseApiFetch} from './github-helpers/github-token.js';
 
 	let stepVisible = 1;
@@ -92,7 +92,6 @@
 			<a
 				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
 				on:click={markSecondStep}
-				id='personal-token-link'
 			>
 				Generate a token
 			</a>
