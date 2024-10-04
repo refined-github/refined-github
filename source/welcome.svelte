@@ -54,9 +54,14 @@
 	<form bind:this={form}>
 		<ul>
 			<li class:valid={step1Valid}>
-				<button on:click={grantPermissions} disabled={step1Valid}>
-					Grant the extension access to github.com
-				</button>
+				{#if step1Valid}
+					Grant
+				{:else}
+					<button on:click={grantPermissions}>
+						Grant
+					</button>
+				{/if}
+				the extension access to github.com
 			</li>
 
 			{#if step2Visible}
