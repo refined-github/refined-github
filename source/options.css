@@ -127,7 +127,7 @@ details[open] > :not(summary) {
 }
 
 [name='personalToken'] {
-	width: 30em !important;
+	width: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
 	display: inline-block !important;
 }
 
