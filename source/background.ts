@@ -89,7 +89,7 @@ chrome.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (await isFirstInstall(reason)) {
 		await chrome.tabs.create({
-			url: chrome.runtime.getURL('welcome.html'),
+			url: chrome.runtime.getURL('assets/welcome.html'),
 		});
 	}
 

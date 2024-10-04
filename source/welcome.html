@@ -5,19 +5,8 @@
 <base target="_blank">
 <link rel="shortcut icon" href="icon.png">
 <title>Refined GitHub</title>
-<link rel="stylesheet" href="welcome.css">
 <script type="module" src="welcome.js" defer></script>
 
 <body>
-    
-<div id="js-failed">JavaScript failed to load. Your development build failed or your browser has some issue.</div>
-<h1>Welcome to Refined GitHub ✨</h1>
-
-<form id="step-1">
-    <ul>
-        <li data-validation><button id="access">Grant</button> the extension access to github.com
-        <li data-validation><a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">Generate a token</a> to ensure that every feature works correctly. <a href="https://github.com/refined-github/refined-github/wiki/Security">More info</a></p>
-        <li data-validation>Paste token: <input type="text" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off">
-    </ul>
-</form>
+    <rgh-welcome></rgh-welcome>
 </body>

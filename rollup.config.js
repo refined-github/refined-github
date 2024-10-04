@@ -9,6 +9,7 @@ import json from '@rollup/plugin-json';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
+import svelte from 'rollup-plugin-svelte';
 
 const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
 
@@ -16,7 +17,7 @@ const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_m
 const rollup = {
 	input: {
 		'options': './source/options.tsx',
-		'welcome': './source/welcome.ts',
+		'welcome': './source/welcome.svelte',
 		'background': './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
@@ -46,6 +47,12 @@ const rollup = {
 		del({
 			targets: ['distribution/assets'],
 			runOnce: true, // `false` would be nice, but it deletes the files too early, causing two extension reloads
+		}),
+
+		svelte({
+			compilerOptions: {
+				customElement: true,
+			},
 		}),
 		json(),
 		styles({
