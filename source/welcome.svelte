@@ -8,10 +8,10 @@
 
 	import {baseApiFetch} from './github-helpers/github-token.js';
 
-	let stepVisible = 1; // 0 = none, 1 = step 1, 2 = step 2, 3 = step 3
-	let stepValid = 0; // 0 = none, 1 = step 1, 2 = step 2, 3 = step 3
-	let tokenInput: string = '';
-	let tokenError: string = '';
+	let stepVisible = 1;
+	let stepValid = 0;
+	let tokenInput = '';
+	let tokenError = '';
 
 	$: if (stepValid === 1) {
 		setTimeout(showThirdStep, 2000);
