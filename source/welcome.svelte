@@ -53,13 +53,9 @@
 
 	async function verifyToken() {
 		try {
-			const isValid = await baseApiFetch({apiBase: 'https://api.github.com/', token: tokenInput, path: '/'});
-			if (isValid) {
-				stepValid = 3;
-				tokenError = '';
-			} else {
-				tokenError = 'Invalid token';
-			}
+			await baseApiFetch({apiBase: 'https://api.github.com/', token: tokenInput, path: '/'});
+			stepValid = 3;
+			tokenError = '';
 		} catch {
 			tokenError = 'Invalid token';
 		}
@@ -95,8 +91,6 @@
 		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' on:click={showThirdStep}>
 			<a
 				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
-				target='_blank'
-				rel='noopener noreferrer'
 				on:click={markSecondStep}
 				id='personal-token-link'
 			>
@@ -105,8 +99,6 @@
 			to ensure that every feature works correctly.
 			<a
 				href='https://github.com/refined-github/refined-github/wiki/Security'
-				target='_blank'
-				rel='noopener noreferrer'
 			>
 				More info
 			</a>
