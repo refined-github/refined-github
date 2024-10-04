@@ -1,8 +1,9 @@
 <svelte:options customElement='rgh-welcome' />
 
 <script lang='ts'>
+	import './welcome.css';
+
 	import {onMount} from 'svelte';
-	import 'webext-base-css/webext-base.css';
 	import OptionsSync from 'webext-options-sync';
 
 	let step1Valid = false;
@@ -11,6 +12,8 @@
 	let step2Visible = false;
 	let step3Visible = false;
 	let form: HTMLFormElement;
+	let tokenInput: string = '';
+	let tokenError: string = '';
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
@@ -43,18 +46,19 @@
 	});
 </script>
 
+<link rel='stylesheet' href='welcome.css'>
 <main>
-	<h1>Welcome to Refined GitHub ✨</h1>
+	<h1>Welcome to Refined GitHub <img src='icon.png' alt="" height='32' style='vertical-align: baseline;'></h1>
 
 	<form bind:this={form}>
 		<ul>
-			<li class:valid={step1Valid} class:visible={true}>
-				{#if step1Valid}
-					Grant
-				{:else}
+			<li class:valid={currentStep > 1} class:visible={currentStep >= 1} class='hidden'>
+				{#if currentStep === 1}
 					<button on:click={grantPermissions}>
 						Grant
 					</button>
+				{:else}
+					Grant
 				{/if}
 				the extension access to github.com
 			</li>
@@ -83,12 +87,22 @@
 				<label for='token-input'>Paste token:</label>
 				<input
 					id='token-input'
-					type='text'
+					type='password'
 					name='personalToken'
+					bind:value={tokenInput}
+					on:input={verifyToken}
 				/>
+				{#if tokenError}
+					<span class='error'>{tokenError}</span>
+				{/if}
 			</li>
 		</ul>
 	</form>
+
+	<h2 class:visible={currentStep === 4} class='hidden'>
+		Setup complete,
+		<a href='https://github.com/refined-github/refined-github/wiki'>return to GitHub</a> 🎈
+	</h2>
 </main>
 
 <style>
