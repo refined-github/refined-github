@@ -1,93 +1,94 @@
-<svelte:options customElement="rgh-welcome" />
+<svelte:options customElement='rgh-welcome' />
 
-<script lang="ts">
-  import { onMount } from 'svelte';
-  import { perDomainOptions } from './options-storage.js';
+<script lang='ts'>
+	import {onMount} from 'svelte';
 
-  let step1Valid = false;
-  let step2Valid = false;
-  let step3Valid = false;
-  let step2Visible = false;
-  let step3Visible = false;
-  let personalToken = '';
+	import {perDomainOptions} from './options-storage.js';
 
-  const origins = ['https://github.com/*', 'https://gist.github.com/*'];
+	let step1Valid = false;
+	let step2Valid = false;
+	let step3Valid = false;
+	let step2Visible = false;
+	let step3Visible = false;
+	let personalToken = '';
 
-  async function grantPermissions() {
-    const granted = await chrome.permissions.request({ origins });
-    if (granted) {
-      step1Valid = true;
-      step2Visible = true;
-    }
-  }
+	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
-  function markSecondStep() {
-    setTimeout(() => {
-      step2Valid = true;
-    }, 1000);
-  }
+	async function grantPermissions() {
+		const granted = await chrome.permissions.request({origins});
+		if (granted) {
+			step1Valid = true;
+			step2Visible = true;
+		}
+	}
 
-  function showThirdStep() {
-    step3Visible = true;
-  }
+	function markSecondStep() {
+		setTimeout(() => {
+			step2Valid = true;
+		}, 1000);
+	}
 
-  onMount(async () => {
-    if (await chrome.permissions.contains({ origins })) {
-      step1Valid = true;
-      step2Visible = true;
-    }
+	function showThirdStep() {
+		step3Visible = true;
+	}
 
-    await perDomainOptions.syncForm('form');
+	onMount(async () => {
+		if (await chrome.permissions.contains({origins})) {
+			step1Valid = true;
+			step2Visible = true;
+		}
 
-    // Auto-show third step after 4 seconds
-    setTimeout(showThirdStep, 4000);
-  });
+		await perDomainOptions.syncForm('form');
+
+		// Auto-show third step after 4 seconds
+		setTimeout(showThirdStep, 4000);
+	});
 </script>
 
 <main>
-  <h1>Welcome to Refined GitHub ✨</h1>
+	<h1>Welcome to Refined GitHub ✨</h1>
 
-  <ul>
-    <li class:valid={step1Valid}>
-      <button on:click={grantPermissions} disabled={step1Valid}>
-        Grant the extension access to github.com
-      </button>
-    </li>
+	<ul>
+		<li class:valid={step1Valid}>
+			<button on:click={grantPermissions} disabled={step1Valid}>
+				Grant the extension access to github.com
+			</button>
+		</li>
 
-    {#if step2Visible}
-      <li class:valid={step2Valid}>
-        <a
-          href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project"
-          target="_blank"
-          rel="noopener noreferrer"
-          on:click={markSecondStep}
-          id="personal-token-link"
-        >
-          Generate a token
-        </a>
-        to ensure that every feature works correctly.
-        <a
-          href="https://github.com/refined-github/refined-github/wiki/Security"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          More info
-        </a>
-      </li>
-    {/if}
+		{#if step2Visible}
+			<li class:valid={step2Valid}>
+				<a
+					href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
+					target='_blank'
+					rel='noopener noreferrer'
+					on:click={markSecondStep}
+					id='personal-token-link'
+				>
+					Generate a token
+				</a>
+				to ensure that every feature works correctly.
+				<a
+					href='https://github.com/refined-github/refined-github/wiki/Security'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
+					More info
+				</a>
+			</li>
+		{/if}
 
-    {#if step3Visible}
-      <li class:valid={step3Valid}>
-        <label for="token-input">Paste token:</label>
-        <input
-          id="token-input"
-          type="text"
-          bind:value={personalToken}
-          on:input={() => step3Valid = !!personalToken}
-        />
-      </li>
-    {/if}
-  </ul>
+		{#if step3Visible}
+			<li class:valid={step3Valid}>
+				<label for='token-input'>Paste token:</label>
+				<input
+					id='token-input'
+					type='text'
+					bind:value={personalToken}
+					on:input={() => step3Valid = !!personalToken}
+				/>
+			</li>
+		{/if}
+	</ul>
 </main>
 
 <style>
@@ -138,9 +139,6 @@
   @keyframes fade-in {
     from {
       opacity: 0;
-    }
-    to {
-      opacity: 1;
     }
   }
 </style>

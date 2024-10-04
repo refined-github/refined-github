@@ -48,7 +48,6 @@ const rollup = {
 			targets: ['distribution/assets'],
 			runOnce: true, // `false` would be nice, but it deletes the files too early, causing two extension reloads
 		}),
-
 		svelte({
 			compilerOptions: {
 				customElement: true,
