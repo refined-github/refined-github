@@ -10,6 +10,7 @@ import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import svelte from 'rollup-plugin-svelte';
+import {sveltePreprocess} from 'svelte-preprocess';
 
 const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
 
@@ -52,6 +53,7 @@ const rollup = {
 			compilerOptions: {
 				customElement: true,
 			},
+			preprocess: sveltePreprocess(),
 		}),
 		json(),
 		styles({

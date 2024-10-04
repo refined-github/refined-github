@@ -2,8 +2,10 @@
 
 <script lang='ts'>
 	import {onMount} from 'svelte';
+	import 'webext-base-css/webext-base.css';
 
-	import {perDomainOptions} from './options-storage.js';
+	// Don't use multi-domain version from option-storage or else it will show the domain selector
+	import OptionsSync from 'webext-options-sync';
 
 	let step1Valid = false;
 	let step2Valid = false;
@@ -11,6 +13,7 @@
 	let step2Visible = false;
 	let step3Visible = false;
 	let personalToken = '';
+	let form: HTMLFormElement;
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
@@ -38,7 +41,7 @@
 			step2Visible = true;
 		}
 
-		await perDomainOptions.syncForm('form');
+		await new OptionsSync().syncForm(form);
 
 		// Auto-show third step after 4 seconds
 		setTimeout(showThirdStep, 4000);
@@ -48,52 +51,57 @@
 <main>
 	<h1>Welcome to Refined GitHub ✨</h1>
 
-	<ul>
-		<li class:valid={step1Valid}>
-			<button on:click={grantPermissions} disabled={step1Valid}>
-				Grant the extension access to github.com
-			</button>
-		</li>
-
-		{#if step2Visible}
-			<li class:valid={step2Valid}>
-				<a
-					href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
-					target='_blank'
-					rel='noopener noreferrer'
-					on:click={markSecondStep}
-					id='personal-token-link'
-				>
-					Generate a token
-				</a>
-				to ensure that every feature works correctly.
-				<a
-					href='https://github.com/refined-github/refined-github/wiki/Security'
-					target='_blank'
-					rel='noopener noreferrer'
-				>
-					More info
-				</a>
+	<form bind:this={form}>
+		<ul>
+			<li class:valid={step1Valid}>
+				<button on:click={grantPermissions} disabled={step1Valid}>
+					Grant the extension access to github.com
+				</button>
 			</li>
-		{/if}
 
-		{#if step3Visible}
-			<li class:valid={step3Valid}>
-				<label for='token-input'>Paste token:</label>
-				<input
-					id='token-input'
-					type='text'
-					bind:value={personalToken}
-					on:input={() => step3Valid = !!personalToken}
-				/>
-			</li>
-		{/if}
-	</ul>
+			{#if step2Visible}
+				<li class:valid={step2Valid}>
+					<a
+						href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
+						target='_blank'
+						rel='noopener noreferrer'
+						on:click={markSecondStep}
+						id='personal-token-link'
+					>
+						Generate a token
+					</a>
+					to ensure that every feature works correctly.
+					<a
+						href='https://github.com/refined-github/refined-github/wiki/Security'
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						More info
+					</a>
+				</li>
+			{/if}
+
+			{#if step3Visible}
+				<li class:valid={step3Valid}>
+					<label for='token-input'>Paste token:</label>
+					<input
+						id='token-input'
+						type='text'
+						bind:value={personalToken}
+						on:input={() => step3Valid = !!personalToken}
+					/>
+				</li>
+			{/if}
+		</ul>
+	</form>
 </main>
 
 <style>
-  :global(html) {
+  :host {
     font-size: 2em;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
   }
 
   h1 {
@@ -115,10 +123,17 @@
     cursor: pointer;
   }
 
+  input {
+	font-size: inherit
+  }
+
   li {
-    margin-bottom: 0.3em;
-    opacity: 0;
+    margin-block: 1em;
     animation: fade-in forwards 0.5s;
+  }
+
+  li:first-child {
+    animation-play-state: running;
   }
 
   li::before {
