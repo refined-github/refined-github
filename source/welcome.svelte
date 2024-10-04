@@ -3,8 +3,6 @@
 <script lang='ts'>
 	import {onMount} from 'svelte';
 	import 'webext-base-css/webext-base.css';
-
-	// Don't use multi-domain version from option-storage or else it will show the domain selector
 	import OptionsSync from 'webext-options-sync';
 
 	let step1Valid = false;
@@ -12,7 +10,6 @@
 	let step3Valid = false;
 	let step2Visible = false;
 	let step3Visible = false;
-	let personalToken = '';
 	let form: HTMLFormElement;
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
@@ -28,11 +25,8 @@
 	function markSecondStep() {
 		setTimeout(() => {
 			step2Valid = true;
+			step3Visible = true;
 		}, 1000);
-	}
-
-	function showThirdStep() {
-		step3Visible = true;
 	}
 
 	onMount(async () => {
@@ -43,8 +37,9 @@
 
 		await new OptionsSync().syncForm(form);
 
-		// Auto-show third step after 4 seconds
-		setTimeout(showThirdStep, 4000);
+		setTimeout(() => {
+			step3Visible = true;
+		}, 4000);
 	});
 </script>
 
@@ -53,7 +48,7 @@
 
 	<form bind:this={form}>
 		<ul>
-			<li class:valid={step1Valid}>
+			<li class:valid={step1Valid} class:visible={true}>
 				{#if step1Valid}
 					Grant
 				{:else}
@@ -64,39 +59,34 @@
 				the extension access to github.com
 			</li>
 
-			{#if step2Visible}
-				<li class:valid={step2Valid}>
-					<a
-						href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
-						target='_blank'
-						rel='noopener noreferrer'
-						on:click={markSecondStep}
-						id='personal-token-link'
-					>
-						Generate a token
-					</a>
-					to ensure that every feature works correctly.
-					<a
-						href='https://github.com/refined-github/refined-github/wiki/Security'
-						target='_blank'
-						rel='noopener noreferrer'
-					>
-						More info
-					</a>
-				</li>
-			{/if}
+			<li class:valid={step2Valid} class:visible={step2Visible}>
+				<a
+					href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
+					target='_blank'
+					rel='noopener noreferrer'
+					on:click={markSecondStep}
+					id='personal-token-link'
+				>
+					Generate a token
+				</a>
+				to ensure that every feature works correctly.
+				<a
+					href='https://github.com/refined-github/refined-github/wiki/Security'
+					target='_blank'
+					rel='noopener noreferrer'
+				>
+					More info
+				</a>
+			</li>
 
-			{#if step3Visible}
-				<li class:valid={step3Valid}>
-					<label for='token-input'>Paste token:</label>
-					<input
-						id='token-input'
-						type='text'
-						bind:value={personalToken}
-						on:input={() => step3Valid = !!personalToken}
-					/>
-				</li>
-			{/if}
+			<li class:valid={step3Valid} class:visible={step3Visible}>
+				<label for='token-input'>Paste token:</label>
+				<input
+					id='token-input'
+					type='text'
+					name='personalToken'
+				/>
+			</li>
 		</ul>
 	</form>
 </main>
@@ -134,10 +124,11 @@
 
   li {
     margin-block: 1em;
-    animation: fade-in forwards 0.5s;
+    animation: fade-in 0.5s;
+    animation-play-state: paused;
   }
 
-  li:first-child {
+  li.visible {
     animation-play-state: running;
   }
 
