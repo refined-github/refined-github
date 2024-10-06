@@ -19,6 +19,8 @@ import {state as bisectState} from './helpers/bisect.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
 
+const supportsFieldSizing = CSS.supports('field-sizing', 'content');
+
 let syncedForm: SyncedForm | undefined;
 
 const {version} = chrome.runtime.getManifest();
@@ -60,7 +62,7 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 		const field = select('input, textarea', section);
 		if (field) {
 			field.focus({preventScroll: true});
-			if (field instanceof HTMLTextAreaElement) {
+			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
 				// #6404
 				fitTextarea(field);
 			}
@@ -171,8 +173,10 @@ function addEventListeners(): void {
 	});
 
 	// Improve textareas editing
-	fitTextarea.watch('textarea');
 	enableTabToIndent('textarea');
+	if (!supportsFieldSizing) {
+		fitTextarea.watch('textarea');
+	}
 
 	// Automatically focus field when a section is toggled open
 	delegate('details', 'toggle', focusFirstField, {capture: true});
