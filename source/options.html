@@ -23,7 +23,7 @@
 		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 		<p><strong>Token-less usage is not officially supported.</strong></p>
 		<p>
-			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off">
+			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off" size="20"  class="monospace-field">
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">
@@ -74,7 +74,7 @@
 	<details id="css">
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<p>Like a userstyle, useful to undo unwanted style changes</p>
-		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+		<p><textarea name="customCSS" rows="2" spellcheck="false" class="monospace-field"></textarea></p>
 		<p>CSS is limited to 100KB, after which the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>.</p>
 		<p>Options storage: <output class="storage-sync">unknown</output></p>
 	</details>

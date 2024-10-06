@@ -19,23 +19,6 @@ html::after {
 	:root {
 		--rgh-red: #f85149;
 	}
-
-	/* TODO: Drop after https://github.com/fregante/webext-base-css/issues/14 */
-	input[type='number'],
-	input[type='password'],
-	input[type='search'],
-	input[type='text'],
-	input[type='url'],
-	input:not([type]),
-	textarea {
-		background-color: revert;
-	}
-}
-
-/* Use sensible font size in Chrome #7483 */
-body {
-	font-size: 100%;
-	line-height: 1.5;
 }
 
 p {
@@ -117,26 +100,8 @@ details[open] > :not(summary) {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%23cb2431" d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z"></path></svg>');
 }
 
-:root [name='customCSS'],
-:root [name='personalToken'] {
-	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-		'Liberation Mono', monospace !important;
+[name='customCSS'] {
 	font-size: 11px;
-	line-height: 1.5;
-}
-
-[name='personalToken'] {
-	width: 30em !important;
-	display: inline-block !important;
-}
-
-[name='personalToken']:invalid {
-	border-color: var(--rgh-red) !important;
-}
-
-#filter-features {
-	line-height: 2;
 }
 
 .feature:not([hidden]) {

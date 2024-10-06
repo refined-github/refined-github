@@ -16,7 +16,6 @@ import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
-import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
 
@@ -53,11 +52,14 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	scrollIntoViewIfNeeded(section);
+	if (section.getBoundingClientRect().bottom > window.innerHeight) {
+		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+	}
+
 	if (section.open) {
 		const field = select('input, textarea', section);
 		if (field) {
-			field.focus();
+			field.focus({preventScroll: true});
 			if (field instanceof HTMLTextAreaElement) {
 				// #6404
 				fitTextarea(field);
