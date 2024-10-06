@@ -85,7 +85,7 @@ jobs:
             !./distribution/assets/webpack-stats.json
 
   Safari:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -95,6 +95,4 @@ jobs:
       - run: npm ci
       - run: npm run build:bundle
       - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: 15.0.1
       - run: npm run pack:safari
