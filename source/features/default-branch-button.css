@@ -1,5 +1,5 @@
 /* TODO: Revert https://github.com/refined-github/refined-github/pull/7859 in March 2025 */
-/* The `details` version is for GHE. The `button` in the selector avoids a GHE conflict */
+/* The `details` version is for GHE. The `button` in the selector avoids a GHE conflict. `fuchsia` is to higlight broken styles. */
 button.rgh-highlight-non-default-branch,
 details.rgh-highlight-non-default-branch > summary {
 	background-color: var(
