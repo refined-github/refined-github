@@ -46,7 +46,7 @@ typealias WindowIfMacOS = WindowGroup
 #endif
 
 
-extension URL: ExpressibleByStringLiteral {
+extension URL: @retroactive ExpressibleByStringLiteral {
 	/**
 	Example:
 
@@ -101,7 +101,6 @@ extension SetAlgebra {
 
 #if os(macOS)
 private struct WindowAccessor: NSViewRepresentable {
-	@MainActor
 	private final class WindowAccessorView: NSView {
 		@Binding var windowBinding: NSWindow?
 
@@ -160,47 +159,40 @@ extension View {
 	/**
 	Access the native backing-window of a SwiftUI window.
 	*/
-	@MainActor
 	func accessHostingWindow(_ onWindow: @escaping (NSWindow?) -> Void) -> some View {
 		modifier(WindowViewModifier(onWindow: onWindow))
 	}
 
-	@MainActor
 	func windowLevel(_ level: NSWindow.Level) -> some View {
 		accessHostingWindow {
 			$0?.level = level
 		}
 	}
 
-	@MainActor
 	func windowIsMinimizable(_ isMinimizable: Bool = true) -> some View {
 		accessHostingWindow {
 			$0?.styleMask.toggleExistence(.miniaturizable, shouldExist: isMinimizable)
 		}
 	}
 
-	@MainActor
 	func windowIsResizable(_ isResizable: Bool = true) -> some View {
 		accessHostingWindow {
 			$0?.styleMask.toggleExistence(.resizable, shouldExist: isResizable)
 		}
 	}
 
-	@MainActor
 	func windowIsRestorable(_ isRestorable: Bool = true) -> some View {
 		accessHostingWindow {
 			$0?.isRestorable = isRestorable
 		}
 	}
 
-	@MainActor
 	func windowIsMovableByWindowBackground(_ isMovableByWindowBackground: Bool = true) -> some View {
 		accessHostingWindow {
 			$0?.isMovableByWindowBackground = isMovableByWindowBackground
 		}
 	}
 
-	@MainActor
 	func windowIsStandardButtonHidden(
 		isHidden: Bool = true,
 		_ buttonTypes: NSWindow.ButtonType...
