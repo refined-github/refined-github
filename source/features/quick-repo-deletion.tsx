@@ -64,7 +64,7 @@ async function performDeletion(): Promise<void> {
 }
 
 function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): void {
-	if (!event.ctrlKey || !event.altKey) {
+	if (!event.shiftKey || !event.altKey) {
 		return;
 	}
 
