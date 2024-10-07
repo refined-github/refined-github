@@ -15,9 +15,8 @@ import observe from '../helpers/selector-observer.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
-import {messageBackground} from '../helpers/messaging.js';
+import showToast from '../github-helpers/toast.js';
 
-type DeleteButton = HTMLAnchorElement | HTMLButtonElement;
 type RepoRootClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent>;
 type RepoSettingsClickEvent = DelegateEvent<MouseEvent, HTMLButtonElement>;
 
@@ -54,22 +53,6 @@ async function notifyMissingTokenScope(): Promise<void> {
 	});
 }
 
-function setButtonText(button: DeleteButton, text: string): void {
-	if (button instanceof HTMLAnchorElement) {
-		button.textContent = text;
-	} else {
-		const label = $('.Button-label', button)!;
-		label.textContent = text;
-	}
-}
-
-function removeButtonIfAtRepoRoot(button: DeleteButton): void {
-	if (button instanceof HTMLAnchorElement) {
-		const buttonContainer = button.closest('li')!;
-		buttonContainer.remove();
-	}
-}
-
 async function notifyDeletionFailure(error: Error): Promise<void> {
 	await addNotice([
 		'Could not delete the repository. ',
@@ -104,42 +87,40 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 		{action: false},
 	);
 	$('.application-main')!.remove();
-
-	if (document.hidden) {
-		// Try closing the tab if in the background. Could fail, so we still update the UI above
-		void messageBackground({closeTab: true});
-	}
 }
 
-async function performDeletion(button: DeleteButton): Promise<void> {
+async function performDeletion(): Promise<void> {
 	if (!(await tokenHasDeleteRepoScope())) {
 		notifyMissingTokenScope();
 		return;
 	}
 
-	const originalButtonText = button.textContent;
 	const {nameWithOwner} = getRepo()!;
-
-	setButtonText(button, 'Deleting repo…');
 
 	try {
 		deleteRepository(nameWithOwner);
 	} catch (error) {
 		assertError(error);
-		removeButtonIfAtRepoRoot(button);
 		notifyDeletionFailure(error);
 
 		throw error;
 	}
 
-	setButtonText(button, originalButtonText);
 	modifyUIAfterSuccessfulDeletion();
 }
 
 function deleteButtonClicked(event: RepoRootClickEvent | RepoSettingsClickEvent): void {
-	if (event.ctrlKey && event.altKey && confirm('Are you sure you want to delete this fork?')) {
-		event.preventDefault();
-		performDeletion(event.target as HTMLAnchorElement | HTMLButtonElement);
+	if (!event.ctrlKey || !event.altKey) {
+		return;
+	}
+
+	event.preventDefault();
+
+	if (confirm('Are you sure you want to delete this repository?')) {
+		showToast(performDeletion, {
+			message: 'Deleting repo...',
+			doneMessage: 'Repo deleted',
+		});
 	}
 }
 
@@ -148,8 +129,7 @@ function addButton(header: HTMLElement): void {
 		<li>
 			<a
 				href={buildRepoURL('settings', buttonHashSelector)}
-				className="btn btn-sm btn-danger"
-				onClick={deleteButtonClicked}
+				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
 			>
 				<TrashIcon className="mr-2" />
 				Delete fork
@@ -169,6 +149,7 @@ function initSettingsPage(signal: AbortSignal): void {
 
 async function initRepoRoot(signal: AbortSignal): Promise<void | false> {
 	observe('.pagehead-actions', addButton, {signal});
+	delegate('.rgh-quick-repo-deletion', 'click', deleteButtonClicked, {signal});
 }
 
 async function initRepoSettings(signal: AbortSignal): Promise<void | false> {
@@ -184,22 +165,15 @@ void features.add(import.meta.url, {
 	],
 	init: initRepoRoot,
 }, {
+	asLongAs: [pageDetect.isRepoSettings],
+	awaitDomReady: true,
+	init: initRepoSettings,
+}, {
 	include: [
 		() => location.hash === buttonHashSelector,
 	],
 	awaitDomReady: true, // The expected element is towards the bottom of the page
 	init: initSettingsPage,
-});
-
-features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepoSettings,
-		pageDetect.isForkedRepo,
-		canUserDeleteRepository,
-		isRepoUnpopular,
-	],
-	awaitDomReady: true,
-	init: initRepoSettings,
 });
 
 /*
