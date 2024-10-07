@@ -92,36 +92,12 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><img src="https://user-images.githubusercontent.com/83146190/252175851-e0826d3b-1990-4bff-ba09-71892463818e.gif">
 </table>
 
-<!--
-
-############################
-  Descriptions style guide
-############################
-
-- Starts with: "(Refined GitHub) <verb in third person> ..."
-- Ends with period (inside link or parens, if present, like this.)
-- Keyboard shortcuts must follow:
-	- "Adds a keyboard shortcut to ...: <kbd>key1</kbd> <kbd>key2</kbd>"
-	- "Adds keyboard shortcuts to ...: <kbd>a</kbd> and <kbd>alt</kbd> <kbd>a</kbd>"
-- Use smart apostrophes: ’ instead of '
-- Keep it concise.
-
-#####################################
-  Demo screenshots/gifs style guide
-#####################################
-
-- Try cleaning up the page by disabling nearby features or hiding clutter, e.g. everything below this tab bar has been hidden: https://user-images.githubusercontent.com/1402241/55089736-d94f5300-50e8-11e9-9095-329ac74c1e9f.png
-- If possible, zoom at 200% before taking a screenshot (native retina screens are fine at 100%)
-- If changes are subtle, add a before/after comparison using the arrows from https://github.com/refined-github/refined-github/assets/1402241/f49b4cb6-9d39-41ed-9c82-1f6590efd643
-- Include some visual context if the feature targets small UI elements, e.g.: https://user-images.githubusercontent.com/1402241/108955170-52d48080-7633-11eb-8979-67e0d3a53f16.png
-
-For inspiration, you can look at all the screenshots at once in the options: alt-click any "screenshot" link to preview all of them.
-
-Thanks for contributing! 🦋🙌
-
--->
-
 ### Repositories
+
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 - [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png)
 - [](# "more-dropdown-links") [Adds useful links to the repository navigation dropdown](https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png)
@@ -145,7 +121,10 @@ Thanks for contributing! 🦋🙌
 - [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### File management
 
@@ -157,7 +136,10 @@ Thanks for contributing! 🦋🙌
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
 - [](# "previous-version") [Lets you see the previous version of a file in one click.](https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Code
 
@@ -170,7 +152,10 @@ Thanks for contributing! 🦋🙌
 - [](# "vertical-front-matter") [Shows Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 - [](# "list-prs-for-branch") [On branch commit lists, shows the PR that touches the current branch.](https://user-images.githubusercontent.com/16872793/119760295-b8751a80-be77-11eb-87da-91d0c403bb49.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Writing comments
 
@@ -186,7 +171,10 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Reading comments
 
@@ -205,8 +193,10 @@ Thanks for contributing! 🦋🙌
 - [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
 - [](# "comment-excess") [Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.](https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31)
 
-
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Conversations
 
@@ -234,7 +224,10 @@ Thanks for contributing! 🦋🙌
 - [](# "close-as-unplanned") [Lets you "close issue as unplanned" in one click instead of three.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png)
 - [](# "locked-issue") [Show a label on locked issues and PRs.](https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Viewing pull requests
 
@@ -256,7 +249,10 @@ Thanks for contributing! 🦋🙌
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Editing pull requests
 
@@ -270,7 +266,10 @@ Thanks for contributing! 🦋🙌
 - [](# "quick-review") [Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.](https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3)
 - [](# "pr-first-commit-title") [Uses the first commit for a new PR’s title and description.](https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Commits
 
@@ -290,7 +289,10 @@ Thanks for contributing! 🦋🙌
 - [](# "link-to-compare-diff") [Linkifies the "X files changed" text on compare pages to allow jumping to the diff.](https://user-images.githubusercontent.com/46634000/157072587-0335357a-18c7-44c4-ae6e-237080fb36b4.png)
 - [](# "conventional-commits") [Shows conventional commit types as labels before the commit message.](https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Tags and releases
 
@@ -302,7 +304,10 @@ Thanks for contributing! 🦋🙌
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)
 - [](# "link-to-changelog-file") [Adds a button to view the changelog file from the releases page.](https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Profiles
 
@@ -316,14 +321,20 @@ Thanks for contributing! 🦋🙌
 - [](# "user-local-time") [Shows the user local time in their hovercard (based on their last commit).](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257039621-132bd789-e213-4a89-83ff-e1266215c60d.png)
 - [](# "conversation-links-on-repo-lists") [Adds a link to the issues and pulls on the user profile repository tab and global search.](https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Newsfeed
 
 - [](# "hide-newsfeed-noise") Hides other inutile newsfeed events (commits, forks, new followers).
 - [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Notifications
 
@@ -335,7 +346,10 @@ Thanks for contributing! 🦋🙌
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Global
 
@@ -347,7 +361,10 @@ Thanks for contributing! 🦋🙌
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258552390-7d2cd013-c167-4fe5-9731-33622b8607e9.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Netiquette
 
@@ -355,7 +372,10 @@ Thanks for contributing! 🦋🙌
 - [](# "warn-pr-from-master") [Warns you when creating a PR from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Fixes for GitHub shortcomings
 
@@ -380,7 +400,10 @@ Thanks for contributing! 🦋🙌
 - [](# "click-outside-modal") [Closes checks list when clicking outside of modal.](https://github.com/refined-github/refined-github/issues/7157)
 - [](# "linkify-line-numbers") [Linkifies the line numbers where GitHub forgot to add links.](https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3)
 
-<!-- Refer to style guide above. Keep this message between sections. -->
+<!--
+Refer to style guide in the wiki. Keep this message between sections.
+https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
 
 ### Previously part of Refined GitHub
 
