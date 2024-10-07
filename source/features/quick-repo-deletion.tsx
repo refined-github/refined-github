@@ -14,7 +14,7 @@ import {buildRepoURL, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import addNotice from '../github-widgets/notice-bar.js';
-import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
+import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
@@ -47,15 +47,6 @@ async function notifyMissingTokenScope(): Promise<void> {
 				Update token…
 			</a>
 		),
-	});
-}
-
-async function notifyDeletionFailure(error: Error): Promise<void> {
-	await addNotice([
-		'Could not delete the repository. ',
-		(error as RefinedGitHubAPIError).response?.message ?? error.message,
-	], {
-		type: 'error',
 	});
 }
 
@@ -99,7 +90,6 @@ async function performDeletion(): Promise<void> {
 		await deleteRepository(nameWithOwner);
 	} catch (error) {
 		assertError(error);
-		notifyDeletionFailure(error);
 
 		throw new Error('Could not delete the repository', {cause: error});
 	}
