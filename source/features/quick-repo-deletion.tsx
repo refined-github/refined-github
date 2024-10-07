@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {expectElement as $} from 'select-dom';
+import {expectElement as $, $ as select} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
@@ -14,6 +14,7 @@ import addNotice from '../github-widgets/notice-bar.js';
 import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 
+const tooltip = 'Instant deletion: shift-alt-click';
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
@@ -27,7 +28,8 @@ async function isRepoUnpopular(): Promise<boolean> {
 	return counter!.textContent === '0';
 }
 
-async function deleteRepository(nameWithOwner: string): Promise<void> {
+async function deleteRepository(): Promise<void> {
+	const {nameWithOwner} = getRepo()!;
 	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
@@ -55,31 +57,29 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 	$('.application-main').remove();
 }
 
-async function performDeletion(): Promise<void> {
-	const {nameWithOwner} = getRepo()!;
-
-	await deleteRepository(nameWithOwner);
-
-	modifyUIAfterSuccessfulDeletion();
-}
-
-async function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
+async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
 	if (!event.shiftKey || !event.altKey) {
 		return;
 	}
 
 	event.preventDefault();
 
-	// Can't really prevent default, so we must close it
+	// Can't really prevent default, so we must close the dialog if we're on the repo settings page
 	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
-	$<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!).close();
+	select<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	if (confirm('Are you sure you want to delete this repository?')) {
-		await showToast(performDeletion, {
-			message: 'Deleting repo...',
+		await showToast(deleteRepository, {
+			message: 'Deleting repo…',
 			doneMessage: 'Repo deleted',
 		});
+
+		modifyUIAfterSuccessfulDeletion();
 	}
+}
+
+function addShortcutTooltip(button: HTMLElement): void {
+	button.setAttribute('title', tooltip);
 }
 
 function addButton(header: HTMLElement): void {
@@ -88,6 +88,7 @@ function addButton(header: HTMLElement): void {
 			<a
 				href={buildRepoURL('settings', buttonHashSelector)}
 				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
+				title={tooltip}
 			>
 				<TrashIcon className="mr-2" />
 				Delete fork
@@ -100,18 +101,19 @@ function autoFill(field: HTMLInputElement): void {
 	setFieldText(field, getRepo()!.nameWithOwner);
 }
 
-function initSettingsPage(signal: AbortSignal): void {
+function autoOpenModal(signal: AbortSignal): void {
 	$(buttonHashSelector).click();
 	observe('.js-repo-delete-proceed-confirmation', autoFill, {signal});
 }
 
 async function initRepoRoot(signal: AbortSignal): Promise<void | false> {
 	observe('.pagehead-actions', addButton, {signal});
-	delegate('.rgh-quick-repo-deletion', 'click', deleteButtonClicked, {signal});
+	delegate('.rgh-quick-repo-deletion', 'click', handleShiftAltClick, {signal});
 }
 
 async function initRepoSettings(signal: AbortSignal): Promise<void | false> {
-	delegate(buttonHashSelector, 'click', deleteButtonClicked, {signal});
+	delegate(buttonHashSelector, 'click', handleShiftAltClick, {signal});
+	observe(buttonHashSelector, addShortcutTooltip, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -123,14 +125,16 @@ void features.add(import.meta.url, {
 	],
 	init: initRepoRoot,
 }, {
-	asLongAs: [pageDetect.isRepoSettings],
+	include: [
+		pageDetect.isRepoSettings,
+	],
 	init: initRepoSettings,
 }, {
 	include: [
 		() => location.hash === buttonHashSelector,
 	],
 	awaitDomReady: true, // The expected element is towards the bottom of the page
-	init: initSettingsPage,
+	init: autoOpenModal,
 });
 
 /*
