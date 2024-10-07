@@ -70,6 +70,10 @@ async function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>
 
 	event.preventDefault();
 
+	// Can't really prevent default, so we must close it
+	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
+	$<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!).close();
+
 	if (confirm('Are you sure you want to delete this repository?')) {
 		await showToast(performDeletion, {
 			message: 'Deleting repo...',
