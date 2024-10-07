@@ -87,7 +87,7 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 }
 
 async function performDeletion(): Promise<void> {
-	// TODO: Add support for app tokens 
+	// TODO: Add support for app tokens
 	if (!(await tokenHasDeleteRepoScope())) {
 		notifyMissingTokenScope();
 		return;
