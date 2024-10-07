@@ -15,7 +15,7 @@ import observe from '../helpers/selector-observer.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
-import { messageBackground } from '../helpers/messaging.js';
+import {messageBackground} from '../helpers/messaging.js';
 
 type DeleteButton = HTMLAnchorElement | HTMLButtonElement;
 type RepoRootClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent>;
@@ -43,7 +43,7 @@ async function tokenHasDeleteRepoScope(): Promise<boolean> {
 	}
 }
 
-async function notifyMissingTokenScope() {
+async function notifyMissingTokenScope(): Promise<void> {
 	await addNotice(['Token does not have delete_repo scope.'], {
 		type: 'error',
 		action: (
@@ -54,7 +54,7 @@ async function notifyMissingTokenScope() {
 	});
 }
 
-function setButtonText(button: DeleteButton, text: string) {
+function setButtonText(button: DeleteButton, text: string): void {
 	if (button instanceof HTMLAnchorElement) {
 		button.textContent = text;
 	} else {
@@ -63,7 +63,7 @@ function setButtonText(button: DeleteButton, text: string) {
 	}
 }
 
-function removeButtonIfAtRepoRoot(button: DeleteButton) {
+function removeButtonIfAtRepoRoot(button: DeleteButton): void {
 	if (button instanceof HTMLAnchorElement) {
 		const buttonContainer = button.closest('li')!;
 		buttonContainer.remove();
@@ -79,7 +79,7 @@ async function notifyDeletionFailure(error: Error): Promise<void> {
 	});
 }
 
-async function deleteRepository(nameWithOwner: string) {
+async function deleteRepository(nameWithOwner: string): Promise<void> {
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
 		json: false,
@@ -104,14 +104,14 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 		{action: false},
 	);
 	$('.application-main')!.remove();
-	
+
 	if (document.hidden) {
 		// Try closing the tab if in the background. Could fail, so we still update the UI above
 		void messageBackground({closeTab: true});
 	}
 }
 
-async function performDeletion(button: DeleteButton) {
+async function performDeletion(button: DeleteButton): Promise<void> {
 	if (!(await tokenHasDeleteRepoScope())) {
 		notifyMissingTokenScope();
 		return;
