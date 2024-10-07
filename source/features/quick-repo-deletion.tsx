@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {$, expectElement} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
@@ -52,7 +52,7 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 		</>,
 		{action: false},
 	);
-	$('.application-main')!.remove();
+	$('.application-main').remove();
 }
 
 async function performDeletion(): Promise<void> {
@@ -63,7 +63,7 @@ async function performDeletion(): Promise<void> {
 	modifyUIAfterSuccessfulDeletion();
 }
 
-function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+async function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
 	if (!event.shiftKey || !event.altKey) {
 		return;
 	}
@@ -71,7 +71,7 @@ function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): voi
 	event.preventDefault();
 
 	if (confirm('Are you sure you want to delete this repository?')) {
-		showToast(performDeletion, {
+		await showToast(performDeletion, {
 			message: 'Deleting repo...',
 			doneMessage: 'Repo deleted',
 		});
@@ -97,7 +97,7 @@ function autoFill(field: HTMLInputElement): void {
 }
 
 function initSettingsPage(signal: AbortSignal): void {
-	expectElement(buttonHashSelector).click();
+	$(buttonHashSelector).click();
 	observe('.js-repo-delete-proceed-confirmation', autoFill, {signal});
 }
 
