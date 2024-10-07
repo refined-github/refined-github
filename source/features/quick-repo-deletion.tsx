@@ -87,6 +87,7 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 }
 
 async function performDeletion(): Promise<void> {
+	// TODO: Add support for app tokens 
 	if (!(await tokenHasDeleteRepoScope())) {
 		notifyMissingTokenScope();
 		return;
@@ -95,12 +96,12 @@ async function performDeletion(): Promise<void> {
 	const {nameWithOwner} = getRepo()!;
 
 	try {
-		deleteRepository(nameWithOwner);
+		await deleteRepository(nameWithOwner);
 	} catch (error) {
 		assertError(error);
 		notifyDeletionFailure(error);
 
-		throw error;
+		throw new Error('Could not delete the repository', {cause: error});
 	}
 
 	modifyUIAfterSuccessfulDeletion();
@@ -163,7 +164,6 @@ void features.add(import.meta.url, {
 	init: initRepoRoot,
 }, {
 	asLongAs: [pageDetect.isRepoSettings],
-	awaitDomReady: true,
 	init: initRepoSettings,
 }, {
 	include: [
