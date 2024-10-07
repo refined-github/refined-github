@@ -4,9 +4,6 @@ import {$, expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
-
-import {assertError} from 'ts-extras';
-
 import delegate, {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
@@ -30,27 +27,8 @@ async function isRepoUnpopular(): Promise<boolean> {
 	return counter!.textContent === '0';
 }
 
-async function tokenHasDeleteRepoScope(): Promise<boolean> {
-	try {
-		await expectTokenScope('delete_repo');
-		return true;
-	} catch {
-		return false;
-	}
-}
-
-async function notifyMissingTokenScope(): Promise<void> {
-	await addNotice(['Token does not have delete_repo scope.'], {
-		type: 'error',
-		action: (
-			<a className="btn btn-sm primary flash-action" href="https://github.com/settings/tokens">
-				Update token…
-			</a>
-		),
-	});
-}
-
 async function deleteRepository(nameWithOwner: string): Promise<void> {
+	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
 		json: false,
@@ -78,21 +56,9 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 }
 
 async function performDeletion(): Promise<void> {
-	// TODO: Add support for app tokens
-	if (!(await tokenHasDeleteRepoScope())) {
-		notifyMissingTokenScope();
-		return;
-	}
-
 	const {nameWithOwner} = getRepo()!;
 
-	try {
-		await deleteRepository(nameWithOwner);
-	} catch (error) {
-		assertError(error);
-
-		throw new Error('Could not delete the repository', {cause: error});
-	}
+	await deleteRepository(nameWithOwner);
 
 	modifyUIAfterSuccessfulDeletion();
 }
