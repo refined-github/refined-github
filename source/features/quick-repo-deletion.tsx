@@ -17,9 +17,6 @@ import addNotice from '../github-widgets/notice-bar.js';
 import api, {RefinedGitHubAPIError} from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 
-type RepoRootClickEvent = React.MouseEvent<HTMLAnchorElement, MouseEvent>;
-type RepoSettingsClickEvent = DelegateEvent<MouseEvent, HTMLButtonElement>;
-
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
@@ -109,7 +106,7 @@ async function performDeletion(): Promise<void> {
 	modifyUIAfterSuccessfulDeletion();
 }
 
-function deleteButtonClicked(event: RepoRootClickEvent | RepoSettingsClickEvent): void {
+function deleteButtonClicked(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (!event.ctrlKey || !event.altKey) {
 		return;
 	}
