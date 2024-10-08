@@ -789,11 +789,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png"
 	},
 	{
-		"id": "scroll-to-current-file",
-		"description": "Scrolls the file tree to the current file.",
-		"screenshot": "https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194"
-	},
-	{
 		"id": "scrollable-areas",
 		"description": "Limits the height of tall code blocks and quotes.",
 		"css": true,
@@ -845,6 +840,11 @@
 		"id": "show-whitespace",
 		"description": "Makes whitespace characters visible.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png"
+	},
+	{
+		"id": "sidebar-focus-file",
+		"description": "Scrolls the file tree to the current file.",
+		"screenshot": "https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194"
 	},
 	{
 		"id": "small-user-avatars",

@@ -6,9 +6,6 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 
 async function init(): Promise<void | false> {
-	// The sidebar is loaded a bit later
-	await delay(500);
-
 	const {filePath} = new GitHubFileURL(location.href);
 
 	// eslint-disable-next-line unicorn/prefer-query-selector -- `querySelector` requires escaping
@@ -16,6 +13,11 @@ async function init(): Promise<void | false> {
 	if (item) {
 		// This feature is only needed for the very first load of the view.
 		// GitHub does it natively after that.
+		scrollIntoViewIfNeeded(item);
+
+		// Try again after a delay because GitHub might have reset the scroll
+		// https://github.com/refined-github/refined-github/pull/7848#discussion_r1784041198
+		await delay(500);
 		scrollIntoViewIfNeeded(item);
 	} else {
 		// The sidebar might be closed
