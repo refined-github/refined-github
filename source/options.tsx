@@ -16,9 +16,10 @@ import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
-import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
+
+const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
 let syncedForm: SyncedForm | undefined;
 
@@ -53,12 +54,15 @@ async function findFeatureHandler(event: Event): Promise<void> {
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	scrollIntoViewIfNeeded(section);
+	if (section.getBoundingClientRect().bottom > window.innerHeight) {
+		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+	}
+
 	if (section.open) {
 		const field = select('input, textarea', section);
 		if (field) {
-			field.focus();
-			if (field instanceof HTMLTextAreaElement) {
+			field.focus({preventScroll: true});
+			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
 				// #6404
 				fitTextarea(field);
 			}
@@ -169,8 +173,10 @@ function addEventListeners(): void {
 	});
 
 	// Improve textareas editing
-	fitTextarea.watch('textarea');
 	enableTabToIndent('textarea');
+	if (!supportsFieldSizing) {
+		fitTextarea.watch('textarea');
+	}
 
 	// Automatically focus field when a section is toggled open
 	delegate('details', 'toggle', focusFirstField, {capture: true});
