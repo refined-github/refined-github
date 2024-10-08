@@ -1,11 +1,29 @@
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
+function add(container: HTMLElement): void {
+	let deleteDirectoryItem;
+	const deleteButton = $('a[aria-keyshortcuts="d"]', container);
+
+	if (deleteButton) {
+		// Selector points to "Delete directory" button
+		deleteDirectoryItem = deleteButton.parentElement;
+	} else {
+		deleteDirectoryItem = $('[aria-keyshortcuts="c"]:first-child', container);
+	}
+
+	if (!deleteDirectoryItem)
+		return;
+
 	const item = deleteDirectoryItem!.cloneNode(true);
-	const link = item.firstElementChild as HTMLAnchorElement;
+	let link = item.firstElementChild as HTMLAnchorElement;
+	if (link.tagName !== 'A') {
+		item.replaceChildren(document.createElement('a'));
+		link = item.firstElementChild as HTMLAnchorElement;
+	}
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
 	link.href = downloadUrl.href;
@@ -14,12 +32,11 @@ function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
 	link.removeAttribute('aria-keyshortcuts');
 	link.removeAttribute('aria-labelledby');
 
-	deleteDirectoryItem!.before(item);
+	deleteDirectoryItem?.before(item);
 }
 
 function init(signal: AbortSignal): void {
-	// Selector points to "Delete directory" button
-	observe('a[aria-keyshortcuts="d"]', add, {signal});
+	observe('ul[role="menu"]', add, {signal});
 }
 
 void features.add(import.meta.url, {
