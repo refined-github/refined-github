@@ -165,6 +165,7 @@
 	"show-open-prs-of-forks",
 	"show-user-top-repositories",
 	"show-whitespace",
+	"sidebar-focus-file",
 	"small-user-avatars",
 	"sort-conversations-by-update-time",
 	"status-subscription",
