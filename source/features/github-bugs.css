@@ -74,6 +74,13 @@ div.markdown-body {
 	min-height: 2em !important;
 }
 
+/* Sponsor button in mobile view #7853 */
+#dialog-show-responsive-sponsor-modal {
+	width: var(--base-size-32);
+	height: var(--base-size-32);
+	padding: 0;
+}
+
 /*
 
 Test URLs:
