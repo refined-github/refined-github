@@ -96,7 +96,7 @@
 		"twas": "^2.1.3",
 		"uint8array-extras": "^1.4.0",
 		"webext-alert": "^1.0.2",
-		"webext-base-css": "^2.0.0",
+		"webext-base-css": "^2.0.1",
 		"webext-detect": "^5.1.0",
 		"webext-dynamic-content-scripts": "^10.0.4",
 		"webext-options-sync": "^4.2.4",
