@@ -22,7 +22,7 @@ function add(dropdownItem: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('ul[role="menu"] [aria-keyshortcuts="c"]:first-child', add, {signal});
+	observe('ul[role="menu"] > li[aria-keyshortcuts="c"]:first-child', add, {signal});
 }
 
 void features.add(import.meta.url, {
