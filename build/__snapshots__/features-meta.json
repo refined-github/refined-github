@@ -209,6 +209,7 @@
 	{
 		"id": "download-folder-button",
 		"description": "Adds a button to download entire folders, via https://download-directory.github.io.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png"
 	},
 	{
