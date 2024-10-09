@@ -6,12 +6,12 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function add(container: HTMLElement): void {
-	const deleteDirectoryItem = $('[aria-keyshortcuts="c"]:first-child', container);
+	const dropdownItem = $('[aria-keyshortcuts="c"]:first-child', container);
 
-	if (!deleteDirectoryItem)
+	if (!dropdownItem)
 		return;
 
-	const item = deleteDirectoryItem!.cloneNode(true);
+	const item = dropdownItem!.cloneNode(true);
 	item.replaceChildren(document.createElement('a'));
 
 	const link = item.firstElementChild as HTMLAnchorElement;
@@ -24,7 +24,7 @@ function add(container: HTMLElement): void {
 	link.removeAttribute('aria-keyshortcuts');
 	link.removeAttribute('aria-labelledby');
 
-	deleteDirectoryItem?.before(item);
+	dropdownItem?.before(item);
 }
 
 function init(signal: AbortSignal): void {
