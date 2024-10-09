@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,6 +8,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 import api from '../github-helpers/api.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
@@ -42,44 +43,33 @@ function getCount(element: HTMLElement): number {
 	return Number(element.textContent.trim());
 }
 
-async function hideMilestones(): Promise<void> {
-	const milestones = await elementReady('[data-selected-links^="repo_milestones"] .Counter');
-	if (getCount(milestones!) === 0) {
-		(await elementReady('[data-hotkey="m"]'))!.parentElement!.remove();
+const MILESTONE_SELECTORS = ['#milestones-select-menu', '[data-testid="action-bar-item-milestones"]'];
+const PROJECT_SELECTORS = ['#project-select-menu', '[data-testid="action-bar-item-projects"]'];
+
+async function hide(container: HTMLElement): Promise<void> {
+	const milestones = $('[data-selected-links^="repo_milestones"] .Counter');
+	if (milestones && getCount(milestones) === 0) {
+		$(MILESTONE_SELECTORS, container)?.remove();
 	}
+
+	if (await hasAnyProjects.get()) {
+		return;
+	}
+
+	const projectsDropdown = $(PROJECT_SELECTORS, container);
+	projectsDropdown?.remove();
 }
 
-async function hideProjects(): Promise<void> {
-	const projectsDropdown = await elementReady('[data-hotkey="p"]');
-	projectsDropdown?.parentElement!.remove();
-}
-
-// Toolbar is shown only if the repo has ever had an issue/PR
-async function hasConversations(): Promise<boolean> {
-	return Boolean(elementReady('#js-issues-toolbar', {waitForChildren: false}));
+function init(signal: AbortSignal): void {
+	observe(['#js-issues-toolbar', '[data-testid="list-view-metadata"]'], hide, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		hasConversations,
-	],
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
 	deduplicate: 'has-rgh-inner',
-	init: hideMilestones,
-}, {
-	asLongAs: [
-		hasConversations,
-	],
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	exclude: [
-		async () => hasAnyProjects.get(),
-	],
-	deduplicate: 'has-rgh-inner',
-	init: hideProjects,
+	init,
 });
 
 /*
