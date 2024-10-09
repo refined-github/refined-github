@@ -1,6 +1,7 @@
 import {$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
+import elementReady from 'element-ready';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -32,7 +33,16 @@ function init(): void {
 	commentsLink.after(subscriptionsLink);
 }
 
+// The page below doesn't have the filters menu
+// https://github.com/tc39/proposal-await.ops/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen
+async function hasFilters(): Promise<boolean> {
+	return Boolean(await elementReady('#filters-select-menu', {waitForChildren: false}));
+}
+
 void features.add(import.meta.url, {
+	asLongAs: [
+		hasFilters,
+	],
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
