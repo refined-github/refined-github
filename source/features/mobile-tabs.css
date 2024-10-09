@@ -12,17 +12,16 @@
 		align-items: stretch; /* Ensure they have the same height */
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-body > li {
-		flex-shrink: 0;
-		flex-basis: 0;
-	}
-
 	[rgh-mobile-tabs] .UnderlineNav-item {
-		display: flex;
-		justify-content: center;
-		flex-flow: row wrap;
+		display: grid;
+		min-width: 50px;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto auto;
+		grid-template-areas:
+			'icon counter'
+			'title title';
+		gap: 0 5px;
 		padding: 5px;
-		flex-basis: 0;
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-hover-bg)
@@ -42,13 +41,11 @@
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item [data-content] {
-		order: 2;
-		flex-basis: 100%;
+		grid-area: title;
+
+		/* justify-self: end; */
 		line-height: 1;
 		margin-top: 5px;
-
-		/* Ensure that there's at least 10px padding, which is usually granted by the empty grid columns */
-		padding-inline: 10px;
 
 		/* font-size: 0; */
 		/* Safari 16.4 color bug #6473 */
@@ -71,15 +68,21 @@
 	[rgh-mobile-tabs] .UnderlineNav-item svg {
 		margin-right: 0 !important;
 		grid-area: icon;
-		justify-self: center; /* Improve centering if there's no counter */
+		justify-self: center;
 	}
 
 	[rgh-mobile-tabs] .UnderlineNav-item .Counter {
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
-		min-width: 0; /* Pills have a min-width we don't need */
 		padding: 0; /* Pills have padding */
-		text-align: left; /* Pills have centered text */
-		margin-left: 5px;
+		margin-left: 0;
+	}
+
+	/* When counter is missing */
+	[rgh-mobile-tabs] .UnderlineNav-item:not(:has(.Counter)),
+	[rgh-mobile-tabs] .UnderlineNav-item:has(.Counter:empty) {
+		grid-template-areas:
+			'icon icon'
+			'title title';
 	}
 }
