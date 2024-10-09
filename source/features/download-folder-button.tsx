@@ -1,16 +1,10 @@
 import './download-folder-button.css';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(container: HTMLElement): void {
-	const dropdownItem = $('[aria-keyshortcuts="c"]:first-child', container);
-
-	if (!dropdownItem)
-		return;
-
+function add(dropdownItem: HTMLElement): void {
 	const item = dropdownItem!.cloneNode(true);
 	item.replaceChildren(document.createElement('a'));
 
@@ -28,7 +22,7 @@ function add(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('ul[role="menu"]', add, {signal});
+	observe('ul[role="menu"] [aria-keyshortcuts="c"]:first-child', add, {signal});
 }
 
 void features.add(import.meta.url, {
