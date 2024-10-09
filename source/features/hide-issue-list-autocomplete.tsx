@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): void {
+	// TODO: Drop feature in January 2025
 	$('.subnav-search')?.setAttribute('autocomplete', 'off');
 }
 
