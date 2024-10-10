@@ -19,7 +19,7 @@
 			'icon counter'
 			'title title';
 		gap: 0 5px;
-		padding: 6px 13px;
+		padding: 6px 10px;
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-hover-bg)
