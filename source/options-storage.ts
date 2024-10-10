@@ -40,3 +40,7 @@ export async function getToken(): Promise<string | undefined> {
 	const {personalToken} = await cachedSettings;
 	return personalToken;
 }
+
+export async function hasToken(): Promise<boolean> {
+	return Boolean(getToken());
+}
