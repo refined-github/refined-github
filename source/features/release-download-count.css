@@ -1,10 +1,15 @@
 /* Simulates fixed columns */
-.rgh-release-download-count > span {
+.rgh-release-download-count > span:not(:last-child) {
 	flex-basis: 0 !important;
-	min-width: 6em;
+	min-width: 5em;
 }
 
-/* Makes space for right aligning download count */
+/* Date */
+.rgh-release-download-count > span:last-child {
+	min-width: 7em;
+}
+
+/* Right-align on mobile */
 .rgh-release-download-count [data-rgh-heat] {
 	min-width: 5em;
 }
