@@ -1,49 +1,45 @@
 @media (width <= 767px) {
-	[rgh-mobile-tabs]:root .AppHeader-localBar {
+	:root:root .AppHeader-localBar {
 		padding: 0;
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav {
+	:root .UnderlineNav {
 		padding-inline: var(--base-size-16, 16px);
 		padding-block: 5px var(--control-medium-gap, 8px);
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-body {
+	:root .UnderlineNav-body {
 		align-items: stretch; /* Ensure they have the same height */
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item {
+	:root .UnderlineNav-item {
 		display: grid;
 		min-width: 50px;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: auto auto;
-		grid-template-areas:
+		grid:
 			'icon counter'
 			'title title';
 		gap: 0 5px;
-		padding: 5px;
+		padding: 6px 13px;
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-hover-bg)
 		);
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item:hover {
+	:root .UnderlineNav-item:hover {
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-active-bg)
 		); /* From: Counter background color */
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item.selected::after {
+	:root .UnderlineNav-item.selected::after {
 		/* Reposition the orange line */
 		bottom: -9px !important;
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item [data-content] {
+	:root .UnderlineNav-item [data-content] {
 		grid-area: title;
-
-		/* justify-self: end; */
 		line-height: 1;
 		margin-top: 5px;
 
@@ -53,7 +49,7 @@
 		color: transparent !important;
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item [data-content]::before {
+	:root .UnderlineNav-item [data-content]::before {
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
@@ -61,28 +57,43 @@
 		font-weight: inherit;
 	}
 
-	[rgh-mobile-tabs] [data-content='Pull requests']::before {
+	:root [data-content='Pull requests']::before {
 		content: 'Pulls' !important;
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item svg {
-		margin-right: 0 !important;
+	:root .UnderlineNav-item svg {
+		margin: 0 !important;
 		grid-area: icon;
-		justify-self: center;
+		justify-self: end;
 	}
 
-	[rgh-mobile-tabs] .UnderlineNav-item .Counter {
+	:root .UnderlineNav-item .Counter {
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
-		padding: 0; /* Pills have padding */
-		margin-left: 0;
+		padding: 0;
+		margin: 0;
+		border: none;
+		min-width: 0;
+		justify-self: start;
 	}
 
 	/* When counter is missing */
-	[rgh-mobile-tabs] .UnderlineNav-item:not(:has(.Counter)),
-	[rgh-mobile-tabs] .UnderlineNav-item:has(.Counter:empty) {
+	:root .UnderlineNav-item:not(:has(.Counter)),
+	:root .UnderlineNav-item:has(.Counter:empty) {
 		grid-template-areas:
 			'icon icon'
 			'title title';
+
+		svg {
+			justify-self: center;
+		}
 	}
 }
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github
+
+*/
