@@ -17,7 +17,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// `RadioNodeList` is dynamic, so we need to make a copy
 	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
 	if (radios.length === 0) {
-		features.log.error(import.meta.url, 'Could not find radio buttons');
+		throw new Error('Could not find radio buttons');
 		return;
 	}
 

@@ -9,8 +9,7 @@ import observe from '../helpers/selector-observer.js';
 
 function linkify(label: Element): void {
 	if (label.closest('a')) {
-		features.log.error(import.meta.url, 'Already linkified, feature needs to be updated');
-		return;
+		throw new Error('Already linkified, feature needs to be updated');
 	}
 
 	const url = new URL(buildRepoURL('commits'));

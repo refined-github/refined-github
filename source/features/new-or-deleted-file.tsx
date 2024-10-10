@@ -14,9 +14,8 @@ function add(filename: HTMLAnchorElement): void {
 
 	const fileInList = $(`[href="${filename.hash}"]`, list);
 	if (!fileInList) {
-		features.log.error(import.meta.url, 'Could not find file in sidebar, is the sidebar loaded?');
 		features.unload(import.meta.url);
-		return;
+		throw new Error('Could not find file in sidebar, is the sidebar loaded?');
 	}
 
 	const icon = $(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)

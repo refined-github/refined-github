@@ -10,6 +10,7 @@ import {
 	linkifyURLs,
 	linkifyIssues,
 } from '../github-helpers/dom-formatters.js';
+import {logError} from '../helpers/errors.js';
 
 function initTitle(signal: AbortSignal): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
@@ -30,8 +31,8 @@ function linkifyContent(wrapper: Element): void {
 
 	const errors = linkifyURLs(wrapper);
 	if (errors) {
-		features.log.error(import.meta.url, 'Links already exist');
-		console.log(errors);
+		logError('Links already exist');
+		console.error(errors);
 	}
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
