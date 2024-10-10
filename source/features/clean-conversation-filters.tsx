@@ -87,7 +87,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- Has conversations: https://github.com/refined-github/refined-github/pulls
-- No conversations: https://github.com/fregante/empty/pulls
+- No projects: https://github.com/left-pad/left-pad/issues
+- Projects and milestones (no-op): https://github.com/tc39/ecma402/issues
 
 */
