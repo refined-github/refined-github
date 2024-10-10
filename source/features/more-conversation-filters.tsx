@@ -7,9 +7,9 @@ import SearchQuery from '../github-helpers/search-query.js';
 
 function init(): void {
 	const sourceItem = $('#filters-select-menu a:nth-last-child(2)');
-
-	if (!sourceItem)
+	if (!sourceItem) {
 		return;
+	}
 
 	// "Involved" filter
 	const commentsLink = sourceItem.cloneNode(true);
