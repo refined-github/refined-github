@@ -53,6 +53,8 @@ const projectSelectors = [
 ];
 
 async function hide(container: HTMLElement): Promise<void> {
+	// TODO: Drop in March 2025
+	// The new beta view doesn't have the count selector, maybe we should do it like the projects
 	const milestones = $('[data-selected-links^="repo_milestones"] .Counter');
 	if (milestones && getCount(milestones) === 0) {
 		$(milestonesSelectors, container)?.remove();
