@@ -43,25 +43,32 @@ function getCount(element: HTMLElement): number {
 	return Number(element.textContent.trim());
 }
 
-const MILESTONE_SELECTORS = ['#milestones-select-menu', '[data-testid="action-bar-item-milestones"]'];
-const PROJECT_SELECTORS = ['#project-select-menu', '[data-testid="action-bar-item-projects"]'];
+const milestonesSelectors = [
+	'#milestones-select-menu', // TODO: Drop in March 2025
+	'[data-testid="action-bar-item-milestones"]',
+];
+const projectSelectors = [
+	'#project-select-menu', // TODO: Drop in March 2025
+	'[data-testid="action-bar-item-projects"]',
+];
 
 async function hide(container: HTMLElement): Promise<void> {
 	const milestones = $('[data-selected-links^="repo_milestones"] .Counter');
 	if (milestones && getCount(milestones) === 0) {
-		$(MILESTONE_SELECTORS, container)?.remove();
+		$(milestonesSelectors, container)?.remove();
 	}
 
-	if (await hasAnyProjects.get()) {
-		return;
+	if (!await hasAnyProjects.get()) {
+		const projectsDropdown = $(projectSelectors, container);
+		projectsDropdown!.remove();
 	}
-
-	const projectsDropdown = $(PROJECT_SELECTORS, container);
-	projectsDropdown?.remove();
 }
 
 function init(signal: AbortSignal): void {
-	observe(['#js-issues-toolbar', '[data-testid="list-view-metadata"]'], hide, {signal});
+	observe([
+		'#js-issues-toolbar', // TODO: Remove after March 2025
+		'[data-testid="list-view-metadata"]',
+	], hide, {signal});
 }
 
 void features.add(import.meta.url, {
