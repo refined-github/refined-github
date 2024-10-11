@@ -126,7 +126,7 @@
 	<footer>
 		<h1 class:visible={stepValid === 3} class='will-show'>
 			Setup complete, redirecting to
-			<a class='hidden-link' href='https://github.com/refined-github/refined-github/issues/3543' target='_self'>GitHub</a>…
+			<a class='hidden-link' href='https://github.com/refined-github/refined-github/wiki' target='_self'>GitHub</a>…
 		</h1>
 	</footer>
 </main>
