@@ -76,8 +76,8 @@
 		"github-url-detection": "^9.0.1",
 		"indent-textarea": "^4.0.0",
 		"js-abbreviation-number": "^1.4.0",
-		"linkify-issues": "^3.0.1",
-		"linkify-urls": "^4.1.0",
+		"linkify-issues": "^4.1.0",
+		"linkify-urls": "^5.0.0",
 		"memoize": "^10.0.0",
 		"octicons-plain-react": "^19.11.0",
 		"one-event": "^4.3.0",
@@ -157,7 +157,6 @@
 		"schema": "https://docs.github.com/public/schema.docs.graphql"
 	},
 	"overrides": {
-		"issue-regex": "4.0.0",
 		"array-includes": "npm:@nolyfill/array-includes@^1",
 		"array.prototype.find": "npm:@nolyfill/array.prototype.find@^1",
 		"array.prototype.findlast": "npm:@nolyfill/array.prototype.findlast@^1",
