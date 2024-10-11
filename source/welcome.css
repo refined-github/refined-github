@@ -26,10 +26,8 @@ footer {
 }
 
 h1 {
-	display: flex;
 	font-size: clamp(1.3em, 5vw, 2em);
 	padding-inline: var(--viewport-margin);
-	gap: 0.4em;
 	max-width: var(--content-width);
 	font-weight: 200;
 	margin: auto;
@@ -37,6 +35,11 @@ h1 {
 	img {
 		height: 1.3em;
 		width: 1.3em;
+	}
+
+	header & {
+		display: flex;
+		gap: 0.4em;
 	}
 }
 
