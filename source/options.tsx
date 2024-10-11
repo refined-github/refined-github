@@ -38,16 +38,15 @@ async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
 	}
 }
 
-async function findFeatureHandler(event: Event): Promise<void> {
+async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
 	const options = await perDomainOptions.getOptionsForOrigin().getAll();
 	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
 	await bisectState.set(enabledFeatures);
 
-	const button = event.target as HTMLButtonElement;
-	button.disabled = true;
+	this.disabled = true;
 	setTimeout(() => {
-		button.disabled = false;
+		this.disabled = false;
 	}, 10_000);
 
 	$('#find-feature-message').hidden = false;
@@ -92,8 +91,8 @@ async function showStoredCssHotfixes(): Promise<void> {
 				: cachedCSS ?? 'No CSS found in cache.';
 }
 
-function enableToggleAll({currentTarget: button}: Event): void {
-	(button as HTMLButtonElement).parentElement!.remove();
+function enableToggleAll(this: HTMLButtonElement): void {
+	this.parentElement!.remove();
 	for (const ui of $$('.toggle-all-features')) {
 		ui.hidden = false;
 	}

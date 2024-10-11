@@ -78,8 +78,8 @@ function toggleScreenshot(feature: Element): void {
 	toggle.checked = !toggle.checked;
 }
 
-function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement)
+function featuresFilterHandler(this: HTMLInputElement): void {
+	const keywords = this
 		.value
 		.toLowerCase()
 		.replaceAll(/\W/g, ' ')
@@ -104,7 +104,7 @@ export default async function initFeatureList(): Promise<void> {
 	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Filter feature list
-	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
+	$('input#filter-features')!.addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(` (${featuresMeta.length + 25})`);
