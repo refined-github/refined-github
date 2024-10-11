@@ -39,11 +39,17 @@ input {
 
 li {
 	margin-block: 1em;
+	padding-left: 1.8em;
 }
 
 main {
 	transition: opacity 1s;
 	margin-bottom: 2em;
+	background: #0d1116;
+	border-radius: 6px;
+	width: 400px;
+	padding: 0 30px;
+	border: solid 1px #3d444d;
 }
 
 li::before {
@@ -52,7 +58,8 @@ li::before {
 	width: 1em;
 	height: 1em;
 	vertical-align: -0.2em;
-	margin-right: 0.3em;
+	margin-right: 0.8em;
+	margin-left: -1.8em; /* Pull out */
 	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 	background-size: contain;
 }
@@ -83,4 +90,20 @@ li.valid::before {
 	from {
 		opacity: 0%;
 	}
+}
+
+input {
+	background: #151b23;
+	border: solid 1px #3d444d;
+	border-radius: 6px;
+	padding: 5px 12px;
+	font-size: 14px;
+	line-height: 20px;
+	margin-left: 0.5em;
+}
+
+input:focus {
+	background: #0d1117;
+	border-color: #1f6feb;
+	outline: none;
 }
