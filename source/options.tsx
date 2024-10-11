@@ -8,6 +8,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
 import {SyncedForm} from 'webext-options-sync-per-domain';
 
+import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';

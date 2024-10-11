@@ -1,0 +1,126 @@
+:host {
+	font-size: 2em;
+	display: grid;
+
+	--content-width: 60rem;
+	--viewport-margin: 30px;
+}
+
+:host * {
+	box-sizing: border-box;
+}
+
+main {
+	transition: opacity 1s;
+	margin-bottom: 2em;
+}
+
+header {
+	background-color: light-dark(#f6f8fa, #02040a);
+	border-bottom: solid 1px light-dark(#d2d9e0, #3d444d);
+	padding-block: 30px;
+}
+
+footer {
+	margin-top: 50px;
+}
+
+h1 {
+	font-size: clamp(1.3em, 5vw, 2em);
+	padding-inline: var(--viewport-margin);
+	max-width: var(--content-width);
+	font-weight: 200;
+	margin: auto;
+
+	img {
+		height: 1.3em;
+		width: 1.3em;
+	}
+
+	header & {
+		display: flex;
+		gap: 0.4em;
+	}
+}
+
+ul {
+	list-style: none;
+	margin: 30px auto;
+	max-width: var(--content-width);
+	padding: var(--viewport-margin);
+}
+
+a,
+button {
+	all: initial;
+	font: inherit;
+	text-decoration: underline;
+	color: cornflowerblue;
+	cursor: pointer;
+}
+
+.hidden-link {
+	color: inherit;
+}
+
+li {
+	margin-block: 1em;
+	padding-left: 1.8em;
+}
+
+input {
+	background: light-dark(#f6f8fa, #151b23);
+	border: solid 1px light-dark(#d0d9e0, #3d444d);
+	border-radius: 6px;
+	padding: 5px 12px;
+	font-size: inherit;
+	line-height: 20px;
+	margin-left: 0.5em;
+}
+
+input:focus {
+	background: light-dark(#fff, #0d1117);
+	border-color: #1f6feb;
+	box-shadow: inset 0 0 0 1px #1f6feb;
+	outline: none;
+}
+
+li::before {
+	content: '';
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.2em;
+	margin-right: 0.8em;
+	margin-left: -1.8em; /* Pull out */
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
+	background-size: contain;
+}
+
+li.valid::before {
+	background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" fill="%2328a745" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>');
+}
+
+.will-show {
+	animation: fade-in 0.5s;
+	animation-play-state: paused;
+}
+
+.will-show.visible {
+	animation-play-state: running;
+}
+
+.dimmed {
+	opacity: 40%;
+}
+
+.error {
+	color: #cf222e;
+	font-size: 0.8em;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0%;
+	}
+}
