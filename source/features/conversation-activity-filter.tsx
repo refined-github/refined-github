@@ -51,7 +51,8 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)!
 			.closest('.js-timeline-item')!
-			.classList.add(collapsedClassName);
+			.classList
+			.add(collapsedClassName);
 	}
 }
 

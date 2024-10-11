@@ -26,7 +26,8 @@ async function cleanReleases(): Promise<void> {
 	sidebarReleases.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
-		.classList.add('border-0', 'pb-0');
+		.classList
+		.add('border-0', 'pb-0');
 }
 
 async function hideLanguageHeader(): Promise<void> {
