@@ -73,7 +73,7 @@
 		padding: 0;
 		margin: 0;
 		border: none;
-		min-width: 0;
+		min-width: min-content;
 		justify-self: start;
 	}
 
