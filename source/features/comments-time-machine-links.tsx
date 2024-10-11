@@ -108,7 +108,9 @@ function init(signal: AbortSignal): void {
 		const timestamp = menu
 			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
 			.querySelector('relative-time')!
-			.attributes.datetime.value;
+			.attributes
+			.datetime
+			.value;
 
 		addInlineLinks(menu, timestamp);
 		addDropdownLink(menu, timestamp);

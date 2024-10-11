@@ -109,7 +109,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "sticky-sidebar") [Makes sidebars sticky in repositories, issues, and PRs, if they fit the viewport.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252179311-ea6d42dc-1525-401a-bc4d-404cf8fa1785.gif)
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/34235681/152473104-c4723999-9239-48fd-baee-273b01c4eb87.png)
 - [](# "github-actions-indicators") [In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png)
-- [](# "quick-repo-deletion") [Simplifies the deletion of your temporary 0-star forks.](https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5)
+- [](# "quick-repo-deletion") [Simplifies the deletion of repositories. Adds "Delete fork" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.](https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5)
 - [](# "archive-forks-link") [Helps you find forks on archived repos.](https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png)
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
@@ -399,6 +399,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "clean-readme-url") [Drops redundant "readme-ov-file" parameter from repo URLs.](https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47)
 - [](# "click-outside-modal") [Closes checks list when clicking outside of modal.](https://github.com/refined-github/refined-github/issues/7157)
 - [](# "linkify-line-numbers") [Linkifies the line numbers where GitHub forgot to add links.](https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3)
+- [](# "sidebar-focus-file") [Scrolls the file tree to the current file.](https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

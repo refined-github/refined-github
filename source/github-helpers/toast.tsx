@@ -41,6 +41,7 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
+	let finalToastMessage = 'Unknown error';
 	try {
 		if (task instanceof Error) {
 			throw task;
@@ -53,21 +54,23 @@ export default async function showToast(
 		}
 
 		toast.classList.replace('Toast--loading', 'Toast--success');
-		updateToast(doneMessage);
+		finalToastMessage = doneMessage;
 		iconWrapper.firstChild!.replaceWith(<CheckIcon />);
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		updateToast(error.message);
+		finalToastMessage = error.message;
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
 	} finally {
+		updateToast(finalToastMessage);
+
 		// Without rAF the toast might be removed before the first page paint
 		// rAF also allows showToast to resolve as soon as task is done
 		requestAnimationFrame(() => {
 			setTimeout(() => {
 				toast.remove();
-			}, 3000);
+			}, finalToastMessage.split(' ').length * 300 + 2000);
 		});
 	}
 }
