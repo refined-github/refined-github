@@ -161,15 +161,17 @@ function closeDropdown(): void {
 	$('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function addDropdown(markAllPrompt: Element): void {
-	markAllPrompt.closest('label')!.after(
-		<span className="mx-2">·</span>,
+function addDropdown(selectAllCheckbox: HTMLInputElement): void {
+	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
+	selectAllCheckbox.closest('label')!.after(
+		// `h6` matches "Select all" style
+		<span className="mx-2 h6">·</span>,
 		createDropdown(),
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
+	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
 	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
