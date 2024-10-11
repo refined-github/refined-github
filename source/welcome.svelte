@@ -73,7 +73,12 @@
 
 <link rel='stylesheet' href='welcome.css'>
 <main class:dimmed={stepValid === 3}>
-	<h1>Welcome to Refined GitHub <img src='icon.png' alt="" height='32' style='vertical-align: baseline;'></h1>
+	<header>
+		<h1>
+			<img src='icon.png' alt="" height='32'>
+			Welcome to Refined GitHub
+		</h1>
+	</header>
 	<ul>
 		<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
 			{#if stepValid === 0}
@@ -108,6 +113,7 @@
 			<input
 				id='token-input'
 				type='password'
+				size='10'
 				name='personalToken'
 				bind:value={tokenInput}
 			/>
@@ -117,9 +123,10 @@
 		</li>
 	</ul>
 
+	<footer>
+		<h1 class:visible={stepValid === 3} class='will-show'>
+			Setup complete, redirecting to
+			<a class='hidden-link' href='https://github.com/refined-github/refined-github/issues/3543' target='_self'>GitHub</a>…
+		</h1>
+	</footer>
 </main>
-
-<h1 class:visible={stepValid === 3} class='will-show'>
-	Setup complete, redirecting to
-	<a class='hidden-link' href='https://github.com/refined-github/refined-github/issues/3543' target='_self'>GitHub</a>…
-</h1>
