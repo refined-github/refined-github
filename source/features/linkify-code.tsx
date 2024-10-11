@@ -78,9 +78,9 @@ void features.add(import.meta.url, {
 
 Live tests field:
 
-```
-issues: #12 GH-34 fregante#1 facebook/react#5678
-url: https://github.com/?q=refined-github
+```js
+issues: // #12 GH-34 fregante#1 facebook/react#5678
+url: // https://github.com/?q=refined-github
 ```
 
 */
