@@ -157,7 +157,6 @@
 		"schema": "https://docs.github.com/public/schema.docs.graphql"
 	},
 	"overrides": {
-		"issue-regex": "4.0.0",
 		"array-includes": "npm:@nolyfill/array-includes@^1",
 		"array.prototype.find": "npm:@nolyfill/array.prototype.find@^1",
 		"array.prototype.findlast": "npm:@nolyfill/array.prototype.findlast@^1",
