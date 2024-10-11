@@ -127,7 +127,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mx-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
 		onToggle={resetFilters}
 	>
 		<summary
@@ -162,7 +162,10 @@ function closeDropdown(): void {
 }
 
 function addDropdown(markAllPrompt: Element): void {
-	markAllPrompt.closest('label')!.after(createDropdown());
+	markAllPrompt.closest('label')!.after(
+		<span className="mx-2">·</span>,
+		createDropdown(),
+	);
 }
 
 function init(signal: AbortSignal): void {
