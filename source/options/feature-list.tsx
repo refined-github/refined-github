@@ -79,7 +79,9 @@ function toggleScreenshot(feature: Element): void {
 }
 
 function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
+	const keywords = (event.currentTarget as HTMLInputElement)
+		.value
+		.toLowerCase()
 		.replaceAll(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
