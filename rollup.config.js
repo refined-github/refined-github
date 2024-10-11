@@ -61,6 +61,12 @@ const rollup = {
 		}),
 		sucrase({
 			transforms: ['typescript', 'jsx'],
+
+			// Output modern JS
+			disableESTransforms: true,
+
+			// Drop `__self` in JSX https://github.com/alangpierce/sucrase/issues/232#issuecomment-468898878
+			production: true,
 		}),
 		resolve({browser: true}),
 		commonjs(),
