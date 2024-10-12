@@ -7,8 +7,13 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 	delegate(selector as 'textarea', 'keydown', event => {
 		const field = event.delegateTarget;
 
-		// The suggester is GitHub’s autocomplete dropdown
-		if (elementExists('.suggester', field.form!) || event.isComposing) {
+		if (
+			event.isComposing
+			// New autocomplete dropdown
+			|| field.hasAttribute('aria-autocomplete')
+			// Classic autocomplete dropdown
+			|| elementExists('.suggester', field.form!)
+		) {
 			return;
 		}
 
@@ -21,7 +26,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 }
 
 export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
-	onFieldKeydown('.js-comment-field, #commit-description-textarea, #merge_message_field', callback, signal);
+	onFieldKeydown('textarea', callback, signal);
 }
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
