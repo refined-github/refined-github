@@ -9,13 +9,12 @@
 			[data-md-button='header-3'],
 			[data-md-button='bold'],
 			[data-md-button='italic'],
-
 			/* React fields */
-			[data-component="IconButton"][aria-label="Add header text"],
-			[data-component="IconButton"][aria-label="Bold (Cmd + B)"],
-			[data-component="IconButton"][aria-label="Italic (Cmd + I)"],
-			[data-component="IconButton"][aria-label="Reference an issue, pull request, or discussion (#)"],
-			[data-component="IconButton"][aria-label="Mention a user or team (@)"]
+			[data-component='IconButton'][aria-label='Add header text'],
+			[data-component='IconButton'][aria-label='Bold (Cmd + B)'],
+			[data-component='IconButton'][aria-label='Italic (Cmd + I)'],
+			[data-component='IconButton'][aria-label='Reference an issue, pull request, or discussion (#)'],
+			[data-component='IconButton'][aria-label='Mention a user or team (@)']
 		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
 		position: absolute;
