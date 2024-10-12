@@ -1,8 +1,11 @@
+import './quick-comment-edit.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
+import delegate, {DelegateEvent} from 'delegate-it';
+import delay from 'delay';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
@@ -17,6 +20,16 @@ const isIssueIneditable = memoize(
 		cache: new WeakMap(),
 	},
 );
+
+async function editReactComment({delegateTarget: editButton}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	(editButton.nextElementSibling as HTMLButtonElement).click();
+	await delay(1); // Allow the dropdown to open
+	document
+		.activeElement! // The focus is now on the first item in the dropdown
+		.parentElement! // Select the list element
+		.querySelector('[aria-keyshortcuts="e"]')! // Find the edit item
+		.click();
+}
 
 function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): void {
 	if (isIssueIneditable(signal)) {
@@ -41,7 +54,7 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: Signa
 	const classes = [
 		'btn-link',
 		'rgh-quick-comment-edit-button',
-		... commentDropdown.closest('.timeline-comment-header')
+		...commentDropdown.closest('.timeline-comment-header')
 			? ['js-comment-edit-button', 'timeline-comment-action']
 			: ['mr-2'],
 	];
@@ -52,9 +65,6 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: Signa
 			role="menuitem"
 			className={classes.join(' ')}
 			aria-label="Edit comment"
-			onClick={(): void => {
-				commentDropdown.querySelector<HTMLButtonElement>('[aria-keyshortcuts="e"]')!.click();
-			}}
 		>
 			<PencilIcon />
 		</button>,
@@ -87,6 +97,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		'button[aria-label="Issue body actions"]',
 		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', // TODO: Drop in March 2024
 	], addQuickEditButton, {signal});
+	delegate('.react-issue-body .rgh-quick-comment-edit-button', 'click', editReactComment, {signal});
 }
 
 void features.add(import.meta.url, {
