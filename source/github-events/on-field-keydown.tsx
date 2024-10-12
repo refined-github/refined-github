@@ -25,7 +25,7 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: Abor
 }
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
-	onFieldKeydown('#issue_title, #pull_request_title', callback, signal);
+	onFieldKeydown('input[placeholder="Title"], #issue_title, #pull_request_title', callback, signal);
 }
 
 export function onCommitTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
