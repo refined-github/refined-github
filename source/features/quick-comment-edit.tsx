@@ -1,8 +1,11 @@
+import './quick-comment-edit.css';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
+import delegate, {DelegateEvent} from 'delegate-it';
+import delay from 'delay';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
@@ -18,17 +21,28 @@ const isIssueIneditable = memoize(
 	},
 );
 
+async function editReactComment({delegateTarget: editButton}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	(editButton.nextElementSibling as HTMLButtonElement).click();
+	await delay(1); // Allow the dropdown to open
+	document
+		.activeElement! // The focus is now on the first item in the dropdown
+		.parentElement! // Select the list element
+		.querySelector('[aria-keyshortcuts="e"]')! // Find the edit item
+		.click();
+}
+
 function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): void {
 	if (isIssueIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
 	}
 
-	const commentBody = commentDropdown.closest('.js-comment')!;
+	const commentBody = commentDropdown.closest([
+		'.js-comment:has(.js-comment-update)',
+		'.react-issue-body',
+	])!;
 
-	// TODO: Potentially move to :has selector
-	// The comment is definitely not editable
-	if (!elementExists('.js-comment-update', commentBody)) {
+	if (!commentBody) {
 		return;
 	}
 
@@ -37,11 +51,19 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: Signa
 		return;
 	}
 
+	const classes = [
+		'btn-link',
+		'rgh-quick-comment-edit-button',
+		...commentDropdown.closest('.timeline-comment-header')
+			? ['js-comment-edit-button', 'timeline-comment-action']
+			: ['mr-2'],
+	];
+
 	commentDropdown.before(
 		<button
 			type="button"
 			role="menuitem"
-			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			className={classes.join(' ')}
 			aria-label="Edit comment"
 		>
 			<PencilIcon />
@@ -71,7 +93,11 @@ async function init(signal: AbortSignal): Promise<void> {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = canEditEveryComment() ? '' : '.current-user';
 
-	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
+	observe([
+		'button[aria-label="Issue body actions"]',
+		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', // TODO: Drop in March 2024
+	], addQuickEditButton, {signal});
+	delegate('.react-issue-body .rgh-quick-comment-edit-button', 'click', editReactComment, {signal});
 }
 
 void features.add(import.meta.url, {
