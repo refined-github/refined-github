@@ -14,6 +14,7 @@ import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
+import XIcon from 'octicons-plain-react/X';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -31,6 +32,7 @@ const filters = {
 	'Merged': '.octicon-git-merge',
 	'Read': '.notification-read',
 	'Unread': '.notification-unread',
+	'Workflow Failure': '.octicon-x',
 } as const;
 
 type Filter = keyof typeof filters;
@@ -94,6 +96,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		'Merged': <GitMergeIcon className="color-fg-done" />,
 		'Read': <DotIcon className="color-fg-accent" />,
 		'Unread': <DotFillIcon className="color-fg-accent" />,
+		'Workflow Failure': <XIcon className="color-fg-danger" />,
 	};
 
 	return (
@@ -149,7 +152,7 @@ const createDropdown = onetime(() => (
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form">
 					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others'])}
-					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
+					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft', 'Workflow Failure'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
 			</div>
