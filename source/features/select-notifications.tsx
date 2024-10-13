@@ -32,7 +32,7 @@ const filters = {
 	'Merged': '.octicon-git-merge',
 	'Read': '.notification-read',
 	'Unread': '.notification-unread',
-	'Workflow Failure': '.octicon-x',
+	'Workflow Failures': '.octicon-x',
 } as const;
 
 type Filter = keyof typeof filters;
@@ -96,7 +96,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		'Merged': <GitMergeIcon className="color-fg-done" />,
 		'Read': <DotIcon className="color-fg-accent" />,
 		'Unread': <DotFillIcon className="color-fg-accent" />,
-		'Workflow Failure': <XIcon className="color-fg-danger" />,
+		'Workflow Failures': <XIcon className="color-fg-danger" />,
 	};
 
 	return (
@@ -152,7 +152,7 @@ const createDropdown = onetime(() => (
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form">
 					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others'])}
-					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft', 'Workflow Failure'])}
+					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft', 'Workflow Failures'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
 			</div>
