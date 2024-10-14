@@ -7,12 +7,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import featureLink from '../helpers/feature-link.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
-
-// TODO: Not an exact match; Moderators can edit comments but not create releases
-const canCreateRelease = canEditEveryComment;
 
 const exceptions = [
 	'dev',
@@ -58,12 +54,10 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
-		canCreateRelease,
 	],
 	additionalListeners: [
 		onPrMerge,
 	],
-	awaitDomReady: true, // TODO: Remove after https://github.com/refined-github/refined-github/issues/6566
 	onlyAdditionalListeners: true,
 	init,
 });

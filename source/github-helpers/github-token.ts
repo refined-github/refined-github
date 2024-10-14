@@ -50,12 +50,12 @@ export const tokenUser = new CachedFunction('token-user', {
 });
 
 export async function expectToken(): Promise<string> {
-	const personalToken = await getToken();
-	if (!personalToken) {
+	const token = await getToken();
+	if (!token) {
 		throw new Error('Personal token required for this feature');
 	}
 
-	return personalToken;
+	return token;
 }
 
 function parseTokenScopes(headers: Headers): string[] {

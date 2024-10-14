@@ -12,12 +12,9 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
 
 import {newCommentField} from '../github-helpers/selectors.js';
-
-// TODO: Not exact, replace with API
-const isCollaborator = canEditEveryComment;
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
 const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
@@ -92,11 +89,11 @@ function initDraft(signal: AbortSignal): void {
 	observe(newCommentField, addDraftBanner, {signal});
 }
 
-function initBanner(signal: AbortSignal): void | false {
+async function initBanner(signal: AbortSignal): Promise<void | false> {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
 		observe(newCommentField, addConversationBanner, {signal});
-	} else if (isPopular() && !isCollaborator()) {
+	} else if (isPopular() && !await userIsModerator()) {
 		observe(newCommentField, addPopularBanner, {signal});
 	} else {
 		return false;
