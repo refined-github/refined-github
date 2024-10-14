@@ -110,7 +110,7 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 		// https://github.com/refined-github/refined-github/pull/6991/files
 		field.textContent = 'Leave a comment, be kind';
 	} else {
-		features.log.error(import.meta.url, `Unexpected placeholder text: ${field.textContent}`);
+		throw new Error(`Unexpected placeholder text: ${field.textContent}`);
 	}
 }
 

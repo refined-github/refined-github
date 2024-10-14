@@ -28,11 +28,7 @@ function linkifyContent(wrapper: Element): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
 	wrapper.classList.add(linkifiedURLClass);
 
-	const errors = linkifyURLs(wrapper);
-	if (errors) {
-		features.log.error(import.meta.url, 'Links already exist');
-		console.log(errors);
-	}
+	linkifyURLs(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number
