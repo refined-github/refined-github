@@ -10,7 +10,6 @@ import {
 	linkifyURLs,
 	linkifyIssues,
 } from '../github-helpers/dom-formatters.js';
-import {logError} from '../helpers/errors.js';
 
 function initTitle(signal: AbortSignal): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
@@ -29,11 +28,7 @@ function linkifyContent(wrapper: Element): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
 	wrapper.classList.add(linkifiedURLClass);
 
-	const errors = linkifyURLs(wrapper);
-	if (errors) {
-		logError('Links already exist');
-		console.error(errors);
-	}
+	linkifyURLs(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number

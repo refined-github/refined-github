@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
@@ -62,13 +62,14 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
-export function linkifyURLs(element: Element): Element[] | void {
+export function linkifyURLs(element: Element): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
 	if (elementExists(linkifiedURLSelector, element)) {
-		return $$(linkifiedURLSelector, element);
+		console.warn('Links already exist', element);
+		throw new Error('Links already exist');
 	}
 
 	const linkified = linkifyUrlsToDom(element.textContent, {
