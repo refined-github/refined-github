@@ -1,13 +1,12 @@
 import {globalCache} from 'webext-storage-cache';
 
-export default async function clearCacheHandler(event: MouseEvent): Promise<void> {
+export default async function clearCacheHandler(this: HTMLButtonElement): Promise<void> {
 	await globalCache.clear();
-	const button = event.target as HTMLButtonElement;
-	const initialText = button.textContent;
-	button.textContent = 'Cache cleared!';
-	button.disabled = true;
+	const initialText = this.textContent;
+	this.textContent = 'Cache cleared!';
+	this.disabled = true;
 	setTimeout(() => {
-		button.textContent = initialText;
-		button.disabled = false;
+		this.textContent = initialText;
+		this.disabled = false;
 	}, 2000);
 }
