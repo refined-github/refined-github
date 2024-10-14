@@ -1,5 +1,4 @@
 import {serializeError, deserializeError} from 'serialize-error';
-import chromeP from 'webext-polyfill-kinda'; // Sigh Firefox…
 
 /** They must return a promise to mark the message as handled */
 export type MessageHandlers = Record<string, (...arguments_: any[]) => Promise<any>>;
@@ -21,7 +20,7 @@ export function handleMessages(handlers: MessageHandlers): void {
 }
 
 export async function messageBackground<Return>(message: Record<string, unknown>): Promise<Return> {
-	const response = await chromeP.runtime.sendMessage(message);
+	const response = await chrome.runtime.sendMessage(message);
 	if (response?.$$error) {
 		throw new Error(response.$$error.message, {
 			cause: deserializeError(response.$$error),

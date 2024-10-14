@@ -3,7 +3,6 @@
 <script lang='ts'>
 	import './welcome.css';
 	import {onMount} from 'svelte';
-	import chromeP from 'webext-polyfill-kinda'; // Sigh Firefox…
 
 	import './helpers/target-blank-polyfill.js';
 	import optionsStorage from './options-storage.js';
@@ -34,7 +33,7 @@
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
 	async function grantPermissions() {
-		const granted = await chromeP.permissions.request({origins});
+		const granted = await chrome.permissions.request({origins});
 		if (granted) {
 			stepVisible = 2;
 			stepValid = 1;
@@ -63,7 +62,7 @@
 	}
 
 	onMount(async () => {
-		if (await chromeP.permissions.contains({origins})) {
+		if (await chrome.permissions.contains({origins})) {
 			stepValid = 1;
 			setTimeout(() => {
 				stepVisible = 2;
