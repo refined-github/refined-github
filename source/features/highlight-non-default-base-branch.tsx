@@ -8,6 +8,7 @@ import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type BranchInfo = {
 	baseRef: string;
@@ -70,6 +71,7 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
+	await expectToken();
 	observe('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(add, {delay: 100}), {signal});
 }
 

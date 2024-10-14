@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type IssueInfo = {
 	updatedAt: string;
@@ -54,6 +55,7 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {signal});
 }
 

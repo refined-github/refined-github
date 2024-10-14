@@ -127,14 +127,15 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mx-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
 		onToggle={resetFilters}
 	>
 		<summary
-			className="h6 tooltipped tooltipped-s" // `h6` matches "Select all" style
+			className="h6" // `h6` matches "Select all" style
 			data-hotkey="Shift+S"
 			aria-haspopup="menu"
-			aria-label="Hotkey: Shift+S"
+			// Don't use tooltipped, it remains visible when the dropdown is open
+			title="Hotkey: Shift+S"
 			role="button"
 		>
 			Select by <span className="dropdown-caret ml-1" />
@@ -160,12 +161,17 @@ function closeDropdown(): void {
 	$('.rgh-select-notifications')?.removeAttribute('open');
 }
 
-function addDropdown(markAllPrompt: Element): void {
-	markAllPrompt.closest('label')!.after(createDropdown());
+function addDropdown(selectAllCheckbox: HTMLInputElement): void {
+	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
+	selectAllCheckbox.closest('label')!.after(
+		// `h6` matches "Select all" style
+		<span className="mx-2 h6">·</span>,
+		createDropdown(),
+	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-notifications-mark-all-prompt', addDropdown, {signal});
+	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
 	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});

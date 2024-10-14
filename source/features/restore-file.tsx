@@ -9,6 +9,7 @@ import showToast from '../github-helpers/toast.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -112,7 +113,9 @@ function add(editFile: HTMLAnchorElement): void {
 	);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
 
 	// `capture: true` required to be fired before GitHub's handlers

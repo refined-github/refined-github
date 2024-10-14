@@ -1,12 +1,14 @@
-import {assertNodeContent} from './dom-utils.js';
-
 // Using https://www.conventionalcommits.org/ as a reference.
-const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+)\))?(?<major>!)?: /;
+export const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+)\))?(?<major>!)?: /;
 
+// Do not send PRs for types not listed here: https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional#rules
+// No more types will be added nor do we accept options.
 const types = new Map([
 	['feat', 'Feature'],
 	['fix', 'Fix'],
 	['chore', 'Chore'],
+	['revert', 'Revert'],
+	['style', 'Style'],
 	['docs', 'Docs'],
 	['build', 'Build'],
 	['refactor', 'Refactor'],
@@ -38,13 +40,4 @@ export function parseConventionalCommit(commitTitle: string): {
 		scope: scope ? `${scope}: ` : undefined,
 		raw: match[0],
 	};
-}
-
-/**
-Remove the raw commit prefix from the single text node.
-Note: It does not support pre-formatted titles like: fix(#1 `x`)
-*/
-export function removeCommitAndScope(textNode: Text | ChildNode): void {
-	assertNodeContent(textNode, conventionalCommitRegex);
-	textNode.textContent = textNode.textContent.replace(conventionalCommitRegex, '');
 }

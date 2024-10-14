@@ -1,21 +1,44 @@
+import React from 'dom-chef';
+import {$, expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import DownloadIcon from 'octicons-plain-react/Download';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 
-function add({parentElement: deleteDirectoryItem}: HTMLAnchorElement): void {
-	const item = deleteDirectoryItem!.cloneNode(true);
-	const link = item.firstElementChild as HTMLAnchorElement;
+function add(menu: HTMLUListElement): void {
 	const downloadUrl = new URL('https://download-directory.github.io/');
 	downloadUrl.searchParams.set('url', location.href);
-	link.href = downloadUrl.href;
-	link.textContent = 'Download directory';
 
-	deleteDirectoryItem!.before(item);
+	const item = menu.firstElementChild!.cloneNode(true);
+	item.role = 'none';
+	item.removeAttribute('tabindex');
+	item.removeAttribute('id');
+	item.removeAttribute('aria-keyshortcuts');
+	item.removeAttribute('aria-labelledby');
+
+	const link = item.firstElementChild instanceof HTMLAnchorElement
+		? item.firstElementChild
+		// Not a link on permalinks and archived repos
+		: replaceElementTypeInPlace(item.firstElementChild!, 'a');
+	link.href = downloadUrl.href;
+	link.classList.add('no-underline', 'fgColor-inherit');
+	link.setAttribute('aria-keyshortcuts', 'c');
+
+	// Missing on permalinks and archived repos
+	$('svg', link)?.replaceWith(<DownloadIcon />);
+
+	// Only on permalinks and archived repos
+	$('[id$="--trailing-visual"]', link)?.remove();
+
+	expectElement('[id$="--label"]', link).textContent = 'Download directory';
+
+	menu!.prepend(item);
 }
 
 function init(signal: AbortSignal): void {
-	observe('a[aria-keyshortcuts="d"]', add, {signal});
+	observe('ul[role="menu"]:has([aria-keyshortcuts="c"])', add, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -23,9 +46,8 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	exclude: [
-		pageDetect.isRepoHome, // Already has an native download ZIP button
+		pageDetect.isRepoRoot, // Already has an native download ZIP button
 		pageDetect.isEnterprise,
-		pageDetect.isRepoFile404,
 	],
 	init,
 });

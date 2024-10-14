@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import {replaceFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
+import {linkifyUrlsToDom} from 'linkify-urls';
+import shortenRepoUrl from 'shorten-repo-url';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
@@ -10,7 +12,7 @@ function extract(textarea: HTMLTextAreaElement): void {
 	replaceFieldText(textarea, /<!--(.+)-->\n/s, (_, match) => {
 		textarea.closest('tab-container')!.before(
 			<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 p-3">
-				{match.trim()}
+				{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
 			</div>,
 		);
 

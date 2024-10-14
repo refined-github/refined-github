@@ -51,7 +51,8 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)!
 			.closest('.js-timeline-item')!
-			.classList.add(collapsedClassName);
+			.classList
+			.add(collapsedClassName);
 	}
 }
 
@@ -193,6 +194,7 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/3686',
 	'https://github.com/refined-github/refined-github/issues/6000',
 	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
 ];
 
 function uncollapseTargetedComment(): void {

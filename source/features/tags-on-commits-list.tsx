@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type CommitTags = Record<string, string[]>;
 
@@ -84,6 +85,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
+	await expectToken();
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	const commitsOnPage = $$('[data-testid="commit-row-item"]');

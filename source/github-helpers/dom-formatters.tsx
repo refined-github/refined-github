@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
-import linkifyURLsCore from 'linkify-urls';
-import linkifyIssuesCore, {type TypeDomOptions} from 'linkify-issues';
+import {linkifyUrlsToDom} from 'linkify-urls';
+import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';
@@ -31,12 +31,11 @@ export function shortenLink(link: HTMLAnchorElement): void {
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
 	element: Element,
-	options: Partial<TypeDomOptions> = {},
+	options: Partial<LinkifyIssuesOptions> = {},
 ): void {
-	const linkified = linkifyIssuesCore(element.textContent, {
+	const linkified = linkifyIssuesToDom(element.textContent, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',
-		type: 'dom',
 		baseUrl: '',
 		...options,
 		attributes: {
@@ -72,8 +71,7 @@ export function linkifyURLs(element: Element): Element[] | void {
 		return $$(linkifiedURLSelector, element);
 	}
 
-	const linkified = linkifyURLsCore(element.textContent, {
-		type: 'dom' as const,
+	const linkified = linkifyUrlsToDom(element.textContent, {
 		attributes: {
 			rel: 'noreferrer noopener',
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links

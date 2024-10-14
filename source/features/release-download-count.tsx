@@ -1,3 +1,9 @@
+/*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization
+
+*/
+
 import './release-download-count.css';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
@@ -10,6 +16,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Asset = {
 	name: string;
@@ -45,11 +52,10 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > :first-child')!;
 
+		assetSize.classList.replace('text-sm-left', 'text-md-right');
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		const classes = new Set(assetSize.classList);
-		classes.delete('text-sm-left');
-
 		if (downloadCount === 0) {
 			classes.add('v-hidden');
 		}
@@ -68,7 +74,9 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	}
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 

@@ -1,6 +1,5 @@
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect';
 import {addOptionsContextMenu} from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
@@ -81,7 +80,7 @@ async function isFirstInstall(suggestedReason: string): Promise<boolean> {
 		&& suggestedReason === 'install'
 
 		// Safari reports "install" even on updates #5412
-		&& !(isSafari() && await hasUsedStorage())
+		&& !(await hasUsedStorage())
 	);
 }
 
@@ -89,7 +88,7 @@ chrome.runtime.onInstalled.addListener(async ({reason}) => {
 	// Only notify on install
 	if (await isFirstInstall(reason)) {
 		await chrome.tabs.create({
-			url: 'https://github.com/refined-github/refined-github/issues/3543',
+			url: chrome.runtime.getURL('assets/welcome.html'),
 		});
 	}
 
