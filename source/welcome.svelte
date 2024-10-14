@@ -115,9 +115,9 @@
 				id='token-input'
 				type='text'
 				size='10'
-				spellcheck="false"
-				autocomplete="off"
-				autocapitalize="off"
+				spellcheck='false'
+				autocomplete='off'
+				autocapitalize='off'
 				name='personalToken'
 				bind:value={tokenInput}
 			/>
