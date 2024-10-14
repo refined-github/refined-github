@@ -4,6 +4,7 @@ import {addOptionsContextMenu} from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
 import {StorageItem} from 'webext-storage';
+import chromeP from 'webext-polyfill-kinda'; // Sigh Firefox…
 
 import optionsStorage, {hasToken} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -39,7 +40,7 @@ handleMessages({
 		return response.json();
 	},
 	async openOptionsPage() {
-		return chrome.runtime.openOptionsPage();
+		return chromeP.runtime.openOptionsPage();
 	},
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);
@@ -60,7 +61,7 @@ handleMessages({
 		return;
 	}
 
-	await chrome.tabs.create({
+	await chromeP.tabs.create({
 		openerTabId: tab.id,
 		url: actionUrl,
 	});
@@ -73,7 +74,7 @@ async function showWelcomePage(): Promise<void> {
 
 	const [token, permissions] = await Promise.all([
 		hasToken(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
-		chrome.permissions.contains({origins: ['https://github.com/*']}),
+		chromeP.permissions.contains({origins: ['https://github.com/*']}),
 	]);
 
 	try {
@@ -83,7 +84,7 @@ async function showWelcomePage(): Promise<void> {
 		}
 
 		const url = chrome.runtime.getURL('assets/welcome.html');
-		await chrome.tabs.create({url});
+		await chromeP.tabs.create({url});
 	} finally {
 		// Make sure it's always set to true even in case of errors
 		await welcomeShown.set(true);
@@ -95,9 +96,9 @@ chrome.runtime.onInstalled.addListener(async () => {
 		await globalCache.clear();
 	}
 
-	if (await chrome.permissions.contains({origins: ['*://*/*']})) {
+	if (await chromeP.permissions.contains({origins: ['*://*/*']})) {
 		console.warn('Refined GitHub was granted access to all websites by the user and it’s now been removed. https://github.com/refined-github/refined-github/pull/7407');
-		await chrome.permissions.remove({
+		await chromeP.permissions.remove({
 			origins: [
 				'*://*/*',
 			],
@@ -110,7 +111,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 
 chrome.permissions.onAdded.addListener(async permissions => {
 	if (permissions.origins?.includes('*://*/*')) {
-		await chrome.permissions.remove({
+		await chromeP.permissions.remove({
 			origins: [
 				'*://*/*',
 			],

@@ -102,6 +102,7 @@
 		"webext-options-sync": "^4.2.4",
 		"webext-options-sync-per-domain": "^4.2.3",
 		"webext-permission-toggle": "^5.1.0",
+		"webext-polyfill-kinda": "^1.0.2",
 		"webext-storage": "^1.2.2",
 		"webext-storage-cache": "^6.0.3",
 		"webext-tools": "^2.0.1",

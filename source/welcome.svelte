@@ -3,6 +3,7 @@
 <script lang='ts'>
 	import './welcome.css';
 	import {onMount} from 'svelte';
+	import chromeP from 'webext-polyfill-kinda'; // Sigh Firefox…
 
 	import './helpers/target-blank-polyfill.js';
 	import optionsStorage from './options-storage.js';
@@ -19,7 +20,7 @@
 
 	$: if (stepValid === 3) {
 		setTimeout(() => {
-			location.href = 'https://github.com/refined-github/refined-github/wiki';
+			location.replace('https://github.com/refined-github/refined-github/wiki');
 		}, 2000);
 	}
 
@@ -33,7 +34,7 @@
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
 	async function grantPermissions() {
-		const granted = await chrome.permissions.request({origins});
+		const granted = await chromeP.permissions.request({origins});
 		if (granted) {
 			stepVisible = 2;
 			stepValid = 1;
@@ -62,7 +63,7 @@
 	}
 
 	onMount(async () => {
-		if (await chrome.permissions.contains({origins})) {
+		if (await chromeP.permissions.contains({origins})) {
 			stepValid = 1;
 			setTimeout(() => {
 				stepVisible = 2;
@@ -114,7 +115,9 @@
 				id='token-input'
 				type='text'
 				size='10'
-				autocomplete='current-password'
+				spellcheck="false"
+				autocomplete="off"
+				autocapitalize="off"
 				name='personalToken'
 				bind:value={tokenInput}
 			/>
