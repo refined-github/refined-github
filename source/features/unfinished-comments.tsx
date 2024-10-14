@@ -28,7 +28,7 @@ function updateDocumentTitle(): void {
 	}
 
 	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		document.title = '✏️ Comment - ' + document.title;
+		document.title = prefix + document.title;
 	} else if (document.title.startsWith(prefix)) {
 		document.title = document.title.replace(prefix, '');
 	}
