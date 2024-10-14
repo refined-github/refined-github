@@ -11,4 +11,3 @@ changelog:
         labels: [meta] # Only needed because Meta must be last
     - title: Meta
       labels: [meta]
-
