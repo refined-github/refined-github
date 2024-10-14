@@ -64,11 +64,11 @@ export function logError(error: unknown, id?: FeatureID): void {
 	}
 
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
+	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id ?? message}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
+	newIssueUrl.searchParams.set('title', id ? `\`${id}\`: ${message}` : message);
 	newIssueUrl.searchParams.set('repro', location.href);
 	newIssueUrl.searchParams.set('description', [
 		'```',
@@ -77,7 +77,7 @@ export function logError(error: unknown, id?: FeatureID): void {
 	].join('\n'));
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ ${id}`); // Safari supports only one parameter
+	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
 	console.log(`📕 ${version} ${isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
 	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);
