@@ -7,7 +7,6 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import featureLink from '../helpers/feature-link.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 
@@ -55,9 +54,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
-		// Note: This only applies to same-repo PRs, but is a false signal for cross-repo PRs
-		// https://github.com/refined-github/refined-github/pull/7798/files#r1774844041
-		userHasPushAccess,
 	],
 	additionalListeners: [
 		onPrMerge,
