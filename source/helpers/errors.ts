@@ -28,8 +28,8 @@ function parseFeatureNameFromStack(stack: string): FeatureID | undefined {
 /* Lock errors only once */
 const loggedStacks = new Set<string>();
 
-export function logError(error: unknown, id?: FeatureID): void {
-	if (!(error instanceof Error)) {
+export function logError(error: Error): void {
+	if (!loggingEnabled) {
 		return;
 	}
 
@@ -40,11 +40,7 @@ export function logError(error: unknown, id?: FeatureID): void {
 		return;
 	}
 
-	id ??= parseFeatureNameFromStack(stack!);
-
-	if (id && !loggingEnabled) {
-		return;
-	}
+	const id = parseFeatureNameFromStack(stack!);
 
 	// Avoid duplicate errors
 	if (loggedStacks.has(stack!)) {
@@ -86,11 +82,20 @@ export function logError(error: unknown, id?: FeatureID): void {
 
 export function catchErrors(): void {
 	window.addEventListener('error', event => {
-		logError(event.error);
-		event.preventDefault();
+		const {error} = event; // Access only once
+		// Don't use `assertError` or it'll loop
+		if (error) {
+			logError(error);
+			event.preventDefault();
+		}
 	});
+
 	addEventListener('unhandledrejection', event => {
-		logError(event.reason);
-		event.preventDefault();
+		const error = event.reason; // Access only once
+		// Don't use `assertError` or it'll loop
+		if (error) {
+			logError(error);
+			event.preventDefault();
+		}
 	});
 }
