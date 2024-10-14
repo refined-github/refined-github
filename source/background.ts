@@ -81,7 +81,7 @@ async function showWelcomePage(): Promise<void> {
 			return;
 		}
 
-		const url = chrome.runtime.getURL('welcome/index.html');
+		const url = chrome.runtime.getURL('assets/welcome.html');
 		await chrome.tabs.create({url});
 	} finally {
 		// Make sure it's always set to true even in case of errors
