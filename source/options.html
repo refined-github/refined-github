@@ -23,7 +23,15 @@
 		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 		<p><strong>Token-less usage is not officially supported.</strong></p>
 		<p>
-			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off" size="20"  class="monospace-field">
+			<input
+				type="text"
+				name="personalToken"
+				spellcheck="false"
+				autocomplete="password"
+				autocapitalize="off"
+				size="20"
+				class="monospace-field"
+			>
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">

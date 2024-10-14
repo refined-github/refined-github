@@ -104,51 +104,39 @@ details[open] > :not(summary) {
 	font-size: 11px;
 }
 
-.feature:not([hidden]) {
-	display: flex;
+[name='personalToken']:not(:focus) {
+	-webkit-text-security: circle;
 }
 
-.js-features input[type='checkbox'] {
+.feature:not([hidden]) {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 0 0.4em;
+}
+
+.feature input[type='checkbox'] {
 	flex-shrink: 0;
 }
 
-.js-features input[type='checkbox']:not(*:root) {
-	/* Selector for Chrome only http://browserhacks.com/#ch */
-	margin-inline-end: 0.6em;
-	margin-top: 2px;
-}
-
-.js-features .feature-checkbox:not(:checked) + .feature-name {
+.feature-checkbox:not(:checked) + .info .feature-name {
 	text-decoration: line-through;
 }
 
-.js-features .description {
+.feature:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
+	opacity: 50%;
+}
+
+.feature .info {
+	flex: 1;
+}
+
+.feature .description {
 	opacity: 80%;
 }
 
 .feature-link {
 	margin: 0 0.6em;
-}
-
-.js-features .info {
-	flex-grow: 1;
-}
-
-.js-features kbd {
-	display: inline-block;
-	padding: 3px 5px;
-	font-size: 0.8em;
-	line-height: 10px;
-	color: #444d56;
-	vertical-align: middle;
-	background-color: #fafbfc;
-	border: 1px solid #d1d5da;
-	border-radius: 6px;
-	box-shadow: inset 0 -1px 0 #d1d5da;
-}
-
-.info:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
-	opacity: 50%;
 }
 
 .screenshot {
