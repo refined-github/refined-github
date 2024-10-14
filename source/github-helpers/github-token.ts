@@ -58,7 +58,7 @@ export async function expectToken(): Promise<string> {
 	return token;
 }
 
-export async function hasValidToken(token?: string): Promise<boolean> {
+export async function hasValidGitHubComToken(token?: string): Promise<boolean> {
 	token ??= await getToken();
 	if (!token) {
 		return false;
