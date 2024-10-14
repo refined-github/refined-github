@@ -14,6 +14,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
 import {multilineAriaLabel} from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(GetPullRequestBlameCommit, {
@@ -86,7 +87,9 @@ function addButton(hunk: HTMLElement): void {
 	}
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
 }

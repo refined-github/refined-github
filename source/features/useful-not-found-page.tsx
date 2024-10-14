@@ -11,6 +11,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetLatestCommitToFile from './useful-not-found-page.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type File = {
 	previous_filename?: string;
@@ -184,7 +185,9 @@ async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<
 	}
 }
 
-function init(): void {
+async function init(): Promise<void> {
+	await expectToken();
+
 	void showDefaultBranchLink();
 	void showGitObjectHistory();
 }
@@ -201,7 +204,8 @@ async function initPRCommit(): Promise<void | false> {
 	);
 }
 
-function initRepoFile(signal: AbortSignal): void {
+async function initRepoFile(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
 	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
 }
