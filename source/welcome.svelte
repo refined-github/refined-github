@@ -19,7 +19,7 @@
 
 	$: if (stepValid === 3) {
 		setTimeout(() => {
-			location.href = 'https://github.com/refined-github/refined-github/wiki';
+			location.replace('https://github.com/refined-github/refined-github/wiki');
 		}, 2000);
 	}
 
@@ -52,11 +52,10 @@
 	}
 
 	async function verifyToken() {
-		try {
-			await hasValidGitHubComToken(tokenInput);
+		if (await hasValidGitHubComToken(tokenInput)) {
 			stepValid = 3;
 			tokenError = '';
-		} catch {
+		} else {
 			tokenError = 'Invalid token';
 		}
 	}
