@@ -1,4 +1,6 @@
+import {CachedFunction} from 'webext-storage-cache';
 import {hasToken} from '../options-storage.js';
+import {getRepo} from './index.js';
 import api from './api.js';
 
 /*
@@ -22,7 +24,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 	}
 
 	try {
-		const {repository} = await api.v4uncached(`
+		const {repository} = await api.v4(`
 			repository() {
 				viewerPermission
 			}
@@ -34,19 +36,24 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 	}
 }
 
+const viewerPermission = new CachedFunction('viewer-permission', {
+	updater: getViewerPermission,
+	cacheKey: () => getRepo()?.nameWithOwner ?? '',
+});
+
 export async function userIsAdmin(): Promise<boolean> {
-	const repoAccess = await getViewerPermission();
+	const repoAccess = await viewerPermission.get();
 	return repoAccess === 'ADMIN';
 }
 
 /** Check if the user has complete write access to the repo (but no access to the repo Settings) */
 export async function userHasPushAccess(): Promise<boolean> {
-	const repoAccess = await getViewerPermission();
+	const repoAccess = await viewerPermission.get();
 	return repoAccess !== 'READ' && repoAccess !== 'TRIAGE';
 }
 
 /** Check if the user can edit all comments and comment on locked issues on the current repo */
 export async function userIsModerator(): Promise<boolean> {
-	const repoAccess = await getViewerPermission();
+	const repoAccess = await viewerPermission.get();
 	return repoAccess !== 'READ';
 }
