@@ -112,9 +112,8 @@
 			<label for='token-input'>Paste token:</label>
 			<input
 				id='token-input'
-				type='text'
+				type='password'
 				size='10'
-				autocomplete='current-password'
 				name='personalToken'
 				bind:value={tokenInput}
 			/>

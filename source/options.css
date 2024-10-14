@@ -104,10 +104,6 @@ details[open] > :not(summary) {
 	font-size: 11px;
 }
 
-[name='personalToken']:not(:focus) {
-	-webkit-text-security: circle;
-}
-
 .feature:not([hidden]) {
 	display: flex;
 }
