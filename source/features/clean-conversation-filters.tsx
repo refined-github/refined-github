@@ -53,15 +53,14 @@ async function hideMilestones(container: HTMLElement): Promise<void> {
 }
 
 async function hideProjects(container: HTMLElement): Promise<void> {
-	const filter = $([
+	if (await hasAnyProjects.get()) {
+		return;
+	}
+
+	expectElement([
 		'#project-select-menu', // TODO: Drop in March 2025
 		'[data-testid="action-bar-item-projects"]',
-	], container);
-
-	// If the filter is missing, then it has been disabled organization-wide already
-	if (filter && !await hasAnyProjects.get()) {
-		filter.remove();
-	}
+	], container).remove();
 }
 
 async function hide(container: HTMLElement): Promise<void> {
