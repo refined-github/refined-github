@@ -25,6 +25,7 @@ function parseFeatureNameFromStack(stack: string): FeatureID | undefined {
 	return match?.[1] as FeatureID | undefined;
 }
 
+/* Lock errors only once */
 const loggedStacks = new Set<string>();
 
 export function logError(error: unknown, id?: FeatureID): void {
@@ -84,9 +85,9 @@ export function logError(error: unknown, id?: FeatureID): void {
 }
 
 export function catchErrors(): void {
-	window.addEventListener('error', error => {
-		logError(error);
-		error.preventDefault();
+	window.addEventListener('error', event => {
+		logError(event.error);
+		event.preventDefault();
 	});
 	addEventListener('unhandledrejection', event => {
 		logError(event.reason);
