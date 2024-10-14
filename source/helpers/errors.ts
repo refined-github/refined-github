@@ -50,7 +50,7 @@ export function logError(error: unknown, id?: FeatureID): void {
 	}
 
 	if (message.includes('token')) {
-		console.log('ℹ️', id, '→', message);
+		console.log('ℹ️ Refined GitHub →', message, '→', id);
 		return;
 	}
 
