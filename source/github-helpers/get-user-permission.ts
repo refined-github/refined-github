@@ -32,7 +32,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 		return 'ADMIN';
 	}
 
-	if (!hasToken()) {
+	if (!await hasToken()) {
 		return 'READ';
 	}
 

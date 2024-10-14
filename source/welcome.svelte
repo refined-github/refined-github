@@ -6,7 +6,7 @@
 
 	import './helpers/target-blank-polyfill.js';
 	import optionsStorage from './options-storage.js';
-	import {baseApiFetch} from './github-helpers/github-token.js';
+	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 
 	let stepVisible = 1;
 	let stepValid = 0;
@@ -53,7 +53,7 @@
 
 	async function verifyToken() {
 		try {
-			await baseApiFetch({apiBase: 'https://api.github.com/', token: tokenInput, path: '/'});
+			await hasValidGitHubComToken(tokenInput);
 			stepValid = 3;
 			tokenError = '';
 		} catch {
