@@ -1,4 +1,7 @@
 import {isEnterprise} from 'github-url-detection';
+import memoize from 'memoize';
+
+const warnOnce = memoize(console.warn, {cacheKey: JSON.stringify});
 
 let loggingEnabled = true;
 
@@ -30,6 +33,11 @@ export function logError(error: unknown, id?: FeatureID): void {
 	}
 
 	const {message, stack} = error;
+
+	if (message === 'Extension context invalidated.') {
+		warnOnce('ℹ️ Refined GitHub has been disabled or updated. Reload the page');
+		return;
+	}
 
 	id ??= parseFeatureNameFromStack(stack!);
 
