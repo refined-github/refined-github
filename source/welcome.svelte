@@ -52,11 +52,10 @@
 	}
 
 	async function verifyToken() {
-		try {
-			await hasValidGitHubComToken(tokenInput);
+		if (await hasValidGitHubComToken(tokenInput)) {
 			stepValid = 3;
 			tokenError = '';
-		} catch {
+		} else {
 			tokenError = 'Invalid token';
 		}
 	}
@@ -114,9 +113,7 @@
 				id='token-input'
 				type='text'
 				size='10'
-				spellcheck='false'
-				autocomplete='off'
-				autocapitalize='off'
+				autocomplete='current-password'
 				name='personalToken'
 				bind:value={tokenInput}
 			/>
