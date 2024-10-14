@@ -85,6 +85,8 @@ jobs:
             !./distribution/assets/webpack-stats.json
 
   Safari:
+    # Disabled because it's a waste of time
+    if: false
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
