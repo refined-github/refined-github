@@ -78,6 +78,7 @@ async function showWelcomePage(): Promise<void> {
 
 	try {
 		if (token && permissions) {
+			// Mark as welcomed
 			return;
 		}
 
