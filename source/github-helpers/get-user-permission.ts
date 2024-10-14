@@ -1,4 +1,7 @@
 import {CachedFunction} from 'webext-storage-cache';
+import {canUserEditRepo} from 'github-url-detection';
+import {elementExists} from 'select-dom';
+
 import {hasToken} from '../options-storage.js';
 import {getRepo} from './index.js';
 import api from './api.js';
@@ -19,6 +22,16 @@ WRITE: Can read, clone, and push to this repository. Can also manage issues and 
 type RepositoryPermission = 'ADMIN' | 'MAINTAIN' | 'READ' | 'TRIAGE' | 'WRITE';
 
 async function getViewerPermission(): Promise<RepositoryPermission> {
+	if (getRepo() === null) {
+		throw new Error('This can only be called on a repository page');
+	}
+
+	// Faster DOM-based check, if the DOM is available.
+	// This can be cached because it's the highest level of access
+	if (canUserEditRepo()) {
+		return 'ADMIN';
+	}
+
 	if (!hasToken()) {
 		return 'READ';
 	}
@@ -54,6 +67,22 @@ export async function userHasPushAccess(): Promise<boolean> {
 
 /** Check if the user can edit all comments and comment on locked issues on the current repo */
 export async function userIsModerator(): Promise<boolean> {
+	// Faster DOM-based check, if the DOM is available.
+	// This cannot be cached in `viewerPermission` because it guarantees you have *at least* moderation access, but can't tell if you have *more* capabilities
+	const domCheck = elementExists([
+		'.lock-toggle-link > .octicon-lock',
+		'[aria-label^="You have been invited to collaborate"]',
+		'[title^="You are a member"]',
+		'[title^="You are a maintainer"]',
+		'[title^="You are a collaborator"]',
+
+		// Don't check for admin access here. If the user has admin access, the DOM check in `viewerPermission` will use the DOM and be cached anyway
+	]);
+
+	if (domCheck) {
+		return true;
+	}
+
 	const repoAccess = await viewerPermission.get();
 	return repoAccess !== 'READ';
 }
