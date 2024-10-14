@@ -114,8 +114,13 @@ function makeFieldKinder(field: HTMLParagraphElement): void {
 	}
 }
 
+function makeReactFieldKinder(field: HTMLTextAreaElement): void {
+	field.placeholder = 'Add your comment here, be kind';
+}
+
 function initKindness(signal: AbortSignal): void {
 	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
+	observe('textarea[placeholder="Use Markdown to format your comment"]', makeReactFieldKinder, {signal});
 }
 
 void features.add(import.meta.url, {
