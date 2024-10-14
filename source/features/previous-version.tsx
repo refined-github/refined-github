@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
@@ -89,6 +90,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
 }
 

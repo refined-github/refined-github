@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 import api from '../github-helpers/api.js';
-import {expectTokenScope} from '../github-helpers/github-token.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import observe from '../helpers/selector-observer.js';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
@@ -69,7 +69,8 @@ async function hide(container: HTMLElement): Promise<void> {
 	void hideProjects(container);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe([
 		'#js-issues-toolbar', // TODO: Remove after March 2025
 		'[data-testid="list-view-metadata"]',

@@ -7,6 +7,7 @@ import api from '../github-helpers/api.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function getCommitWithChecks(): Promise<string | undefined> {
 	const {repository} = await api.v4(getChecks);
@@ -44,16 +45,14 @@ async function add(anchor: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe([
 		// Desktop
 		'.AppHeader-context-item:not([data-hovercard-type])',
 
 		// Mobile. `> *:first-child` avoids finding our own element
 		'.AppHeader-context-compact-mainItem > span:first-child',
-
-		// Old selector: `.avatar` excludes "Global navigation update"
-		// Repo title (aware of forks and private repos)
-		'[itemprop="name"]:not(.avatar ~ [itemprop])',
 	], add, {signal});
 }
 

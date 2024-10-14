@@ -10,6 +10,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Workflow = {
 	name: string;
@@ -133,6 +134,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
+	await expectToken();
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 

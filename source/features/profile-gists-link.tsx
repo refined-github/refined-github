@@ -11,6 +11,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
 import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
@@ -70,6 +71,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('nav[aria-label="User"] > ul', appendTab, {signal});
 }
 

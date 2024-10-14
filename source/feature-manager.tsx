@@ -79,7 +79,7 @@ function logError(url: string, error: unknown): void {
 	}
 
 	if (message.includes('token')) {
-		console.log('ℹ️', id, '→', message);
+		console.log('ℹ️', message, '→', id);
 		return;
 	}
 

@@ -9,6 +9,7 @@ import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
@@ -67,7 +68,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	}
 }
 
-const updateLink = batchedFunction(updateLinks, {delay: 100});
+const updateLink = batchedFunction(updateLinks, {delay: 200});
 
 function updateDom(link: HTMLAnchorElement): void {
 	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
@@ -76,7 +77,8 @@ function updateDom(link: HTMLAnchorElement): void {
 	updateLink(link);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	document.body.classList.add('rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
 }

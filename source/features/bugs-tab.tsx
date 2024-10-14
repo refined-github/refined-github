@@ -13,6 +13,7 @@ import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Bugs = {
 	label: string;
@@ -156,6 +157,8 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
+	await expectToken();
+
 	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}
