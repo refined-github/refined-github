@@ -11,7 +11,7 @@ type BaseApiFetchOptions = {
 	path: string;
 };
 
-async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
+export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
 	if (!apiBase.endsWith('/')) {
 		throw new TypeError('apiBase must end with a slash');
 	}
@@ -50,12 +50,12 @@ export const tokenUser = new CachedFunction('token-user', {
 });
 
 export async function expectToken(): Promise<string> {
-	const personalToken = await getToken();
-	if (!personalToken) {
+	const token = await getToken();
+	if (!token) {
 		throw new Error('Personal token required for this feature');
 	}
 
-	return personalToken;
+	return token;
 }
 
 function parseTokenScopes(headers: Headers): string[] {

@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasChecks from './pr-filters.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -86,6 +87,7 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
 	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
 }

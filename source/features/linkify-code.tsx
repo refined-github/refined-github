@@ -28,11 +28,7 @@ function linkifyContent(wrapper: Element): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
 	wrapper.classList.add(linkifiedURLClass);
 
-	const errors = linkifyURLs(wrapper);
-	if (errors) {
-		features.log.error(import.meta.url, 'Links already exist');
-		console.log(errors);
-	}
+	linkifyURLs(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number
@@ -75,5 +71,12 @@ void features.add(import.meta.url, {
 - Code Search: https://github.com/search?q=repo%3AKatsuteDev%2FBackground+marketplace&type=code
 - Code Search: https://github.com/search?q=%2F%23%5Cd%7B4%2C%7D%2F+language%3Atypescript&type=code
 - Comment: https://github.com/sindresorhus/linkify-urls/pull/40#pullrequestreview-1593302757
+
+Live tests field:
+
+```js
+issues: // #12, GH-34, fregante#1 and facebook/react#5678
+url: // https://github.com/?q=refined-github
+```
 
 */

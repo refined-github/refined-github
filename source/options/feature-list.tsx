@@ -35,8 +35,8 @@ async function markLocalHotfixes(): Promise<void> {
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
 				<a href={featureLink(id)} className="feature-link">
@@ -64,18 +64,16 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 
 	event.preventDefault();
 	if (event.altKey) {
-		for (const screenshotLink of $$('.screenshot-link')) {
-			toggleScreenshot(screenshotLink.parentElement!);
+		for (const toggle of $$('input.screenshot-toggle')) {
+			toggle.checked = !toggle.checked;
 		}
 	} else {
-		const feature = event.delegateTarget.parentElement!;
-		toggleScreenshot(feature);
+		const toggle = event
+			.delegateTarget
+			.closest('.feature')!
+			.querySelector('input.screenshot-toggle')!;
+		toggle.checked = !toggle.checked;
 	}
-}
-
-function toggleScreenshot(feature: Element): void {
-	const toggle = feature.querySelector('input.screenshot-toggle')!;
-	toggle.checked = !toggle.checked;
 }
 
 function featuresFilterHandler(this: HTMLInputElement): void {

@@ -12,6 +12,7 @@ import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 function getPRUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
@@ -132,7 +133,9 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 	}
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe([
 		'[aria-label="More file actions"]', // `isSingleFile`
 		'[data-hotkey="Mod+s"]', // `isEditingFile`

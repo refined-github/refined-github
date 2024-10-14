@@ -156,10 +156,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	void display({datePromise, placeholder, container});
 }
 
-const selector = [
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex',
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3', // GHE 2022/06/24
-];
+const selector = '.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex';
 
 function init(signal: AbortSignal): void {
 	observe(selector, insertUserLocalTime, {signal});

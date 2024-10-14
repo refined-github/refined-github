@@ -16,6 +16,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Asset = {
 	name: string;
@@ -73,7 +74,9 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	}
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 

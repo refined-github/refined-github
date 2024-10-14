@@ -12,7 +12,7 @@
 	<details id="info" open>
 		<summary><img src="icon.png" alt="" width="24" height="24"> Refined GitHub</summary>
 		<p>
-			Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
+			Visit the <a href="https://github.com/refined-github/refined-github/wiki">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
 			You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
 			Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
 		</p>
@@ -23,7 +23,15 @@
 		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 		<p><strong>Token-less usage is not officially supported.</strong></p>
 		<p>
-			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off" size="20"  class="monospace-field">
+			<input
+				type="text"
+				name="personalToken"
+				spellcheck="false"
+				autocomplete="password"
+				autocapitalize="off"
+				size="20"
+				class="monospace-field"
+			>
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">
