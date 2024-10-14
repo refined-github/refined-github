@@ -58,6 +58,20 @@ export async function expectToken(): Promise<string> {
 	return token;
 }
 
+export async function hasValidGitHubComToken(token?: string): Promise<boolean> {
+	token ??= await getToken();
+	if (!token) {
+		return false;
+	}
+
+	try {
+		await baseApiFetch({apiBase: 'https://api.github.com/', path: '', token});
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 function parseTokenScopes(headers: Headers): string[] {
 	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
 	const scopesHeader = headers.get('X-OAuth-Scopes');
@@ -79,7 +93,7 @@ function parseTokenScopes(headers: Headers): string[] {
 }
 
 export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
-	const response = await baseApiFetch({apiBase, token: personalToken, path: '/'});
+	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
 	return parseTokenScopes(response.headers);
 }
 

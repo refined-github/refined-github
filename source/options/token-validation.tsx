@@ -1,6 +1,6 @@
 import {expectElement as $, $$} from 'select-dom';
 import {assertError} from 'ts-extras';
-import {SyncedForm} from 'webext-options-sync-per-domain';
+import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
 

@@ -42,5 +42,5 @@ export async function getToken(): Promise<string | undefined> {
 }
 
 export async function hasToken(): Promise<boolean> {
-	return Boolean(getToken());
+	return Boolean(await getToken());
 }
