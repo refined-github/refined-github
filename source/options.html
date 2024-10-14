@@ -1,16 +1,18 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="color-scheme" content="light dark">
 <base target="_blank">
 <link rel="shortcut icon" href="icon.png">
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
+<script type="module"src="options.js" defer></script>
 <div id="js-failed">JavaScript failed to load. Your development build failed or your browser has some issue.</div>
 <form id="options-form" class="detail-view-container">
 	<details id="info" open>
 		<summary><img src="icon.png" alt="" width="24" height="24"> Refined GitHub</summary>
 		<p>
-			Visit the <a href="https://github.com/refined-github/refined-github/issues/3543">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
+			Visit the <a href="https://github.com/refined-github/refined-github/wiki">welcome page</a> to learn about updates, debugging, and GitHub Enterprise.
 			You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
 			Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
 		</p>
@@ -18,20 +20,17 @@
 
 	<details id="token">
 		<summary><strong>🔑 Personal token</strong></summary>
-		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly.</p>
-		<p><strong>Token-less usage is allowed but not officially supported.</strong></p>
-		<p>You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+		<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+		<p><strong>Token-less usage is not officially supported.</strong></p>
 		<p>
-			<!-- placeholder is set to enable use of :placeholder-shown CSS selector -->
-			<!-- https://gist.github.com/magnetikonline/073afe7909ffdd6f10ef06a00bc3bc88 -->
-			<input type="text" name="personalToken" placeholder=" " spellcheck="false" autocomplete="off" autocapitalize="off">
+			<input type="password" name="personalToken" spellcheck="false" autocomplete="off" autocapitalize="off" size="20"  class="monospace-field">
 			<span id="validation"></span>
 		</p>
 		<ul data-token-type="classic">
 			<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
 			<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 			<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
-			<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repository or organization uses projects
+			<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repo/org uses projects
 		</ul>
 		<ul data-token-type="fine_grained">
 			<li data-validation data-scope="valid_token">Fine-grained token validated, but some features and organizations might not support them <a href="https://github.com/refined-github/refined-github/issues/6092#issuecomment-1732286938">More info</a></li>
@@ -42,6 +41,7 @@
 		<summary><strong class="features-header">🔋 Features</strong></summary>
 		<p>
 				<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
+				<small>Use the "Identify feature" section below if you can't find what you're looking for.</small>
 		</p>
 		<div class="js-features"></div>
 	</details>
@@ -74,7 +74,7 @@
 	<details id="css">
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<p>Like a userstyle, useful to undo unwanted style changes</p>
-		<p><textarea name="customCSS" rows="2" spellcheck="false"></textarea></p>
+		<p><textarea name="customCSS" rows="2" spellcheck="false" class="monospace-field"></textarea></p>
 		<p>CSS is limited to 100KB, after which the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>.</p>
 		<p>Options storage: <output class="storage-sync">unknown</output></p>
 	</details>
@@ -132,4 +132,3 @@
 	</details>
 
 </form>
-<script type="module"src="options.js"></script>

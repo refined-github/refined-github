@@ -1,13 +1,64 @@
-import {v3} from './api.js';
-import {hasToken} from '../options-storage.js';
+import {CachedFunction} from 'webext-storage-cache';
+import * as pageDetect from 'github-url-detection';
 
-export async function expectToken(): Promise<void> {
-	if (!hasToken()) {
-		throw new Error('Personal token required for this feature');
+// Avoid importing api.js here, there's too much logic/caching we don't need
+import {getToken} from '../options-storage.js';
+import hashString from '../helpers/hash-string.js';
+
+type BaseApiFetchOptions = {
+	apiBase: string;
+	token: string;
+	path: string;
+};
+
+export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
+	if (!apiBase.endsWith('/')) {
+		throw new TypeError('apiBase must end with a slash');
 	}
+
+	const response = await fetch(
+		new URL(path, apiBase),
+		{
+			cache: 'no-store',
+			headers: {
+				'User-Agent': 'Refined GitHub',
+				'Accept': 'application/vnd.github.v3+json',
+				'Authorization': `token ${token}`,
+			},
+		},
+	);
+
+	if (!response.ok) {
+		const details = await response.json();
+		throw new Error(details.message);
+	}
+
+	return response;
 }
 
-export async function parseTokenScopes(headers: Headers): Promise<string[]> {
+export const tokenUser = new CachedFunction('token-user', {
+	updater: async (apiBase: string, token: string): Promise<string> => {
+		const response = await baseApiFetch({apiBase, token, path: 'user'});
+		const details = await response.json();
+		return details.login;
+	},
+	maxAge: {
+		// The exact token is forever associated to the user
+		days: 365,
+	},
+	cacheKey: ([apiBase, token]) => hashString(`${apiBase}-${token}`),
+});
+
+export async function expectToken(): Promise<string> {
+	const token = await getToken();
+	if (!token) {
+		throw new Error('Personal token required for this feature');
+	}
+
+	return token;
+}
+
+function parseTokenScopes(headers: Headers): string[] {
 	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
 	const scopesHeader = headers.get('X-OAuth-Scopes');
 	if (!scopesHeader) {
@@ -27,9 +78,18 @@ export async function parseTokenScopes(headers: Headers): Promise<string[]> {
 	return scopes;
 }
 
+export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
+	const response = await baseApiFetch({apiBase, token: personalToken, path: '/'});
+	return parseTokenScopes(response.headers);
+}
+
 export async function expectTokenScope(scope: string): Promise<void> {
-	const {headers} = await v3('/');
-	const tokenScopes = await parseTokenScopes(headers);
+	const token = await expectToken();
+	const api = pageDetect.isEnterprise()
+		? `${location.origin}/api/v3/`
+		: 'https://api.github.com/';
+
+	const tokenScopes = await getTokenScopes(api, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
 	}

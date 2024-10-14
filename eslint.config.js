@@ -3,6 +3,7 @@ import antfu from '@antfu/eslint-config';
 export default antfu(
 	{
 		react: true,
+		svelte: true,
 		stylistic: {
 			indent: 'tab',
 		},
@@ -77,6 +78,8 @@ export default antfu(
 
 			'test/consistent-test-it': 'off',
 			'sort-imports': 'off',
+			'perfectionist/sort-imports': 'off',
+			'perfectionist/sort-named-imports': 'off',
 			'antfu/top-level-function': 'off', // Maybe later
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',

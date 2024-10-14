@@ -27,7 +27,8 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 	const titleParts = expectElement('.js-commits-list-item:first-child p').childNodes;
 
 	const body = $('.js-commits-list-item:first-child .Details-content--hidden pre')
-		?.textContent.trim() ?? undefined;
+		?.textContent
+		.trim() ?? undefined;
 
 	const title = [...titleParts]
 		.map(node => interpretNode(node))

@@ -1,3 +1,9 @@
+/*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization
+
+*/
+
 import './release-download-count.css';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
@@ -45,11 +51,10 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > :first-child')!;
 
+		assetSize.classList.replace('text-sm-left', 'text-md-right');
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		const classes = new Set(assetSize.classList);
-		classes.delete('text-sm-left');
-
 		if (downloadCount === 0) {
 			classes.add('v-hidden');
 		}

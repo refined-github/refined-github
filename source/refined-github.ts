@@ -18,6 +18,7 @@ import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
 import './features/mark-private-repos.css';
+import './features/mobile-tabs.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -176,7 +177,7 @@ import './features/no-unnecessary-split-diff-view.js';
 import './features/list-prs-for-branch.js';
 import './features/select-notifications.js';
 import './features/clean-repo-tabs.js';
-import './features/rgh-welcome-issue.js';
+import './features/rgh-options-link.js';
 import './features/same-branch-author-commits.js';
 import './features/prevent-pr-merge-panel-opening.js';
 import './features/rgh-improve-new-issue-form.js';
@@ -204,7 +205,6 @@ import './features/previous-version.js';
 import './features/status-subscription.js';
 import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
-import './features/mobile-tabs.js';
 import './features/repo-header-info.js';
 import './features/rgh-pr-template.js';
 import './features/close-as-unplanned.js';
@@ -217,3 +217,4 @@ import './features/pr-notification-link.js';
 import './features/click-outside-modal.js';
 import './features/comment-excess.js';
 import './features/linkify-line-numbers.js';
+import './features/sidebar-focus-file.js';
