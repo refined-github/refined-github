@@ -25,7 +25,7 @@ import {
 	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
-import {catchErrors, disableErrorLogging, logError} from './helpers/errors.js';
+import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {messageBackground} from './helpers/messaging.js';
 
 type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
@@ -162,28 +162,20 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 
 	const runFeature = async (): Promise<void> => {
 		await asyncForEach(castArray(init), async init => {
-			let result: FeatureInitResult | undefined;
-			try {
-				result = await init(featureController.signal);
-				// Features can return `false` when they decide not to run on the current page
-				if (result !== false && !isFeaturePrivate(id)) {
-					log.info('✅', id);
-					// Register feature shortcuts
-					for (const [hotkey, description] of Object.entries(shortcuts)) {
-						shortcutMap.set(hotkey, description);
-					}
+			const result = await init(featureController.signal);
+			// Features can return `false` when they decide not to run on the current page
+			if (result !== false && !isFeaturePrivate(id)) {
+				log.info('✅', id);
+				// Register feature shortcuts
+				for (const [hotkey, description] of Object.entries(shortcuts)) {
+					shortcutMap.set(hotkey, description);
 				}
-			} catch (error) {
-				logError(error, id);
-			}
-
-			if (result) {
-				onAbort(featureController, result);
 			}
 		});
 	};
 
 	if (!onlyAdditionalListeners) {
+		// If the first run fails, `additionalListeners` won't be added
 		await runFeature();
 	}
 
