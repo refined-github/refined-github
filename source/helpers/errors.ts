@@ -25,7 +25,7 @@ function parseFeatureNameFromStack(stack: string): FeatureID | undefined {
 	return match?.[1] as FeatureID | undefined;
 }
 
-/* Lock errors only once */
+/* Log errors only once */
 const loggedStacks = new Set<string>();
 
 export function logError(error: Error): void {
