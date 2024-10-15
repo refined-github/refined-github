@@ -25,8 +25,8 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta', // It works in PR commit, but not in regular commit
-		'pre:has([data-hovercard-url])', // beta regular commit view
+		'.commit-meta', // TODO remove in March 2025
+		'pre:has([data-hovercard-url])',
 	], addPatchDiffLinks, {signal});
 }
 
@@ -37,7 +37,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRCommit404,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
