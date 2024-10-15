@@ -9,7 +9,8 @@ Have the calculations available even when the sidebar isn't sticky so that `--rg
 
 Exclusively use simple sums and use `0px` instead of `0`
 */
-#partial-discussion-sidebar {
+#partial-discussion-sidebar,
+div[data-testid='issue-viewer-metadata-pane'] {
 	--rgh-sticky-header-height: 60px;
 	--rgh-sticky-sidebar-offset: calc(
 		var(--rgh-sticky-header-height, 0px) +
@@ -19,6 +20,11 @@ Exclusively use simple sums and use `0px` instead of `0`
 
 .notification-shelf ~ .application-main #partial-discussion-sidebar {
 	--rgh-sticky-notifitication-header-height: 69px;
+}
+
+/* required to make `sticky` work for the issue Sidebar */
+div:has(> div[data-testid='issue-viewer-metadata-pane']) {
+	display: unset;
 }
 
 .rgh-sticky-sidebar {
