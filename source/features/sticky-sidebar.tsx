@@ -37,6 +37,8 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
+	sidebar.parentElement?.classList.add('rgh-sticky-sidebar-container');
+
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
 }

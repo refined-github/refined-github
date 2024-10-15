@@ -23,8 +23,8 @@ div[data-testid='issue-viewer-metadata-pane'] {
 }
 
 /* required to make `sticky` work for the issue Sidebar */
-div:has(> div[data-testid='issue-viewer-metadata-pane']) {
-	display: unset;
+.rgh-sticky-sidebar-container {
+	display: unset !important;
 }
 
 .rgh-sticky-sidebar {
