@@ -21,6 +21,8 @@ function init(signal: AbortSignal): void {
 	observe([
 		'.tooltipped[aria-label*="a member of the"]',
 		'.tooltipped[aria-label^="This user has previously committed"]',
+		'span[data-testid=comment-author-association][aria-label*="a member of the"]',
+		'span[data-testid=comment-author-association][aria-label^="This user has previously committed"]',
 	], linkify, {signal});
 }
 
