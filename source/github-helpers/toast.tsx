@@ -24,13 +24,23 @@ export default async function showToast(
 ): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
+	const rghBlock = (
+		<div className="d-flex flex-items-center pl-3">
+			<img
+				style={{width: '32px', height: '32px'}}
+				src="https://avatars.githubusercontent.com/refined-github?size=128"
+				alt="Refined GitHub"
+			/>
+		</div>
+	);
 	const toast = (
 		<div
 			role="log"
 			style={{zIndex: 101}}
-			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 anim-fade-in fast Toast Toast--loading"
+			className="rgh-toast position-fixed bottom-0 right-0 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
+			{rghBlock}
 			{messageWrapper}
 		</div>
 	);
@@ -69,7 +79,12 @@ export default async function showToast(
 		// rAF also allows showToast to resolve as soon as task is done
 		requestAnimationFrame(() => {
 			setTimeout(() => {
-				toast.remove();
+				// https://primer.style/css/storybook/?path=/docs/deprecated-toast--docs#toast-animation-in
+				toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
+				// Removed after the animation ends
+				setTimeout(() => {
+					toast.remove();
+				}, 1000);
 			}, finalToastMessage.split(' ').length * 300 + 2000);
 		});
 	}
