@@ -37,7 +37,7 @@ export default async function showToast(
 		<div
 			role="log"
 			style={{zIndex: 101}}
-			className="rgh-toast position-fixed bottom-0 right-0 Toast Toast--loading Toast--animateIn"
+			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
 			{rghBlock}
