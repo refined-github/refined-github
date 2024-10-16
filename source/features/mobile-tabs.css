@@ -67,8 +67,12 @@
 		justify-self: end;
 	}
 
-	:root .UnderlineNav-item span {
+	/* Tab label on on profiles */
+	:root .UnderlineNav-item span:not([class])[data-view-component] {
 		grid-area: title;
+		line-height: 1;
+		margin-top: 5px;
+		font-size: 10px;
 	}
 
 	:root .UnderlineNav-item span.Counter {
