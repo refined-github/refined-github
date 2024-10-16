@@ -67,7 +67,11 @@
 		justify-self: end;
 	}
 
-	:root .UnderlineNav-item .Counter {
+	:root .UnderlineNav-item span {
+		grid-area: title;
+	}
+
+	:root .UnderlineNav-item span.Counter {
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
 		padding: 0;
