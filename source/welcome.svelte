@@ -94,7 +94,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' on:click={showThirdStep}>
 			<a
-				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
+				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none'
 				on:click={markSecondStep}
 			>
 				Generate a token
