@@ -45,6 +45,7 @@ function init(): void {
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]',
 		'.notification-thread-subscription [data-hovercard-type="user"]',
+		'div[data-testid="created-at"] a[data-hovercard-url*="/users"]',
 	], addAvatar);
 	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
