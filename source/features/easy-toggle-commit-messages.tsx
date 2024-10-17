@@ -14,7 +14,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	// There is text selection
-	if (window.getSelection()?.toString().length !== 0) {
+	if (globalThis.getSelection()?.toString().length !== 0) {
 		return;
 	}
 

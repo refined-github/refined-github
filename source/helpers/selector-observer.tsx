@@ -85,7 +85,7 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
+	globalThis.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
 }
 
 // Untested
