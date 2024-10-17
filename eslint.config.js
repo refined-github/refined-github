@@ -187,6 +187,14 @@ export default antfu(
 			'unicorn/filename-case': 'off',
 		},
 	},
+	{
+		files: [
+			'**/*.svelte',
+		],
+		rules: {
+			'import/prefer-default-export': 'off',
+		},
+	},
 	// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files
 	{
 		ignores: ['safari'],
