@@ -1,0 +1,3 @@
+{
+	"reject": ["@types/react", "fit-textarea"]
+}

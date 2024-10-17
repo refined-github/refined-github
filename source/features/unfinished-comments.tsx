@@ -21,7 +21,7 @@ function hasDraftComments(): boolean {
 
 function disableOnSubmit(): void {
 	clearTimeout(submitting);
-	submitting = window.setTimeout(() => {
+	submitting = globalThis.setTimeout(() => {
 		submitting = undefined;
 	}, 2000);
 }

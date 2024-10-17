@@ -12,7 +12,7 @@ function maybeCleanUrl(event?: NavigateEvent): void {
 
 function init(signal: AbortSignal): void {
 	maybeCleanUrl();
-	window.navigation?.addEventListener('navigate', maybeCleanUrl, {signal});
+	globalThis.navigation?.addEventListener('navigate', maybeCleanUrl, {signal});
 }
 
 void features.add(import.meta.url, {

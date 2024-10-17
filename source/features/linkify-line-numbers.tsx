@@ -16,7 +16,7 @@ function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>):
 	if (isAlteredClick(event)) {
 		window.open(url);
 	} else {
-		window.location.href = url;
+		globalThis.location.href = url;
 	}
 }
 

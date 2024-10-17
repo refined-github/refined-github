@@ -56,7 +56,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	}
 
 	await state.delete();
-	window.removeEventListener('visibilitychange', hideMessage);
+	globalThis.removeEventListener('visibilitychange', hideMessage);
 }
 
 async function onEndButtonClick(): Promise<void> {
@@ -110,13 +110,13 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	}
 
 	// Hide message when the process is done elsewhere
-	window.addEventListener('visibilitychange', hideMessage);
+	globalThis.addEventListener('visibilitychange', hideMessage);
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};
 	for (const feature of importedFeatures) {
 		const index = bisectedFeatures.indexOf(feature);
-		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
+		temporaryOptions[`feature:${feature}`] = index !== -1 && index < half;
 	}
 
 	console.log({temporaryOptions});

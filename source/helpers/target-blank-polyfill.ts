@@ -9,7 +9,7 @@ function isLinkExternal(link: HTMLAnchorElement): boolean {
 }
 
 // WTF Safari. It opens target="_blank" links in the same tab on extension pages
-if ('window' in globalThis && 'open' in window && isSafari()) {
+if ('window' in globalThis && 'open' in globalThis && isSafari()) {
 	document.addEventListener('click', event => {
 		const clicked = event.target;
 		if (clicked instanceof HTMLAnchorElement && isLinkExternal(clicked)) {

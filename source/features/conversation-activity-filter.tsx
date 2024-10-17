@@ -241,7 +241,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		applyState(initialState);
 	}
 
-	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 
 	observe('.js-timeline-item', processItem, {signal});
 

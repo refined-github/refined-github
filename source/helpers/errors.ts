@@ -81,7 +81,7 @@ export function logError(error: Error): void {
 }
 
 export function catchErrors(): void {
-	window.addEventListener('error', event => {
+	globalThis.addEventListener('error', event => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
 		if (error) {
