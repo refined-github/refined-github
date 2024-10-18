@@ -179,7 +179,7 @@ function validateTsx(file: FeatureFile): void {
 
 describe('features', () => {
 	const featuresDirectoryContents = readdirSync('source/features/');
-	test.each(featuresDirectoryContents)('%s', filename => {
+	test.each(featuresDirectoryContents)('%s', (filename: string) => {
 		if (isGitIgnored(filename)) {
 			return;
 		}
