@@ -3,6 +3,9 @@ import React from 'dom-chef';
 import {assertError} from 'ts-extras';
 import CheckIcon from 'octicons-plain-react/Check';
 import StopIcon from 'octicons-plain-react/Stop';
+import oneEvent from 'one-event';
+
+import {frame} from '../helpers/dom-utils.js';
 
 function ToastSpinner(): JSX.Element {
 	return (
@@ -24,15 +27,6 @@ export default async function showToast(
 ): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
 	const messageWrapper = <span className="Toast-content">{message}</span>;
-	const rghBlock = (
-		<div className="d-flex flex-items-center pl-3">
-			<img
-				style={{width: '32px', height: '32px'}}
-				src="https://avatars.githubusercontent.com/refined-github?size=128"
-				alt="Refined GitHub"
-			/>
-		</div>
-	);
 	const toast = (
 		<div
 			role="log"
@@ -40,7 +34,14 @@ export default async function showToast(
 			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
-			{rghBlock}
+			<div className="d-flex flex-items-center pl-3">
+				<img
+					height={32}
+					width={32}
+					src={chrome.runtime.getURL('assets/icon.png')}
+					alt="Refined GitHub"
+				/>
+			</div>
 			{messageWrapper}
 		</div>
 	);
@@ -75,17 +76,15 @@ export default async function showToast(
 	} finally {
 		updateToast(finalToastMessage);
 
+		const displayTime = finalToastMessage.split(' ').length * 300 + 2000;
 		// Without rAF the toast might be removed before the first page paint
 		// rAF also allows showToast to resolve as soon as task is done
-		requestAnimationFrame(() => {
-			setTimeout(() => {
-				// https://primer.style/css/storybook/?path=/docs/deprecated-toast--docs#toast-animation-in
-				toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
-				// Removed after the animation ends
-				setTimeout(() => {
-					toast.remove();
-				}, 1000);
-			}, finalToastMessage.split(' ').length * 300 + 2000);
-		});
+		await frame();
+		await delay(displayTime);
+
+		// Display time is over, animate out
+		toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
+		await oneEvent(toast, 'animationend');
+		toast.remove();
 	}
 }
