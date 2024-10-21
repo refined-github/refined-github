@@ -43,8 +43,8 @@ function resetFilters({target}: React.SyntheticEvent): void {
 	}
 }
 
-function getFiltersSelector(formData: FormData, category: Category): string {
-	return formData.getAll(category).map(value => filters[value as Filter]).join(',');
+function getFiltersSelector(formData: FormData, category: Category): string[] {
+	return formData.getAll(category).map(value => filters[value as Filter]);
 }
 
 function handleSelection({target}: Event): void {
