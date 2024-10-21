@@ -15,7 +15,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 	commitMeta!.classList.remove('no-wrap'); // #5987
 	commitMeta!.prepend(
-		<span className="sha-block ml-2" data-turbo="false">
+		<span className="sha-block" data-turbo="false">
 			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
 			{' '}
 			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
@@ -26,7 +26,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta > span:last-child', // TODO remove in March 2025
+		'.commit-meta > span:last-child', // `isPRCommit` + old `isSingleCommit`
 		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
 }
