@@ -3,7 +3,6 @@ import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -12,12 +11,13 @@ import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = delegateTarget.form
+	const container
+		= delegateTarget.form // TODO: remove after March 2024
 		?? delegateTarget.closest('[data-testid="comment-composer"]')!;
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
-		'textarea.js-comment-field',
+		'textarea.js-comment-field', // TODO: remove after March 2024
 		'[aria-labelledby="comment-composer-heading"]',
 	], container)! as HTMLTextAreaElement;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
@@ -69,6 +69,7 @@ function append(container: HTMLElement): void {
 		return;
 
 	// Beta view does't need this
+	// TODO: remove after March 2024
 	triggerActionBarOverflow(container);
 }
 
