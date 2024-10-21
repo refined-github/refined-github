@@ -14,19 +14,20 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	}
 
 	commitMeta!.classList.remove('no-wrap'); // #5987
-	commitMeta!.append(
+	commitMeta!.prepend(
 		<span className="sha-block ml-2" data-turbo="false">
 			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
 			{' '}
 			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
 		</span>,
+		<span className="px-2">·</span>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta', // TODO remove in March 2025
-		'pre:has([data-hovercard-url])',
+		'.commit-meta > span:last-child', // TODO remove in March 2025
+		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
 }
 
