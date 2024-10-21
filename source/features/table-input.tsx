@@ -4,6 +4,7 @@ import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
+import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -11,8 +12,12 @@ import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	const container = square.closest(['form', '[data-testid="comment-composer"]'])!;
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = square.form!.querySelector('textarea.js-comment-field')!;
+	const field = $([
+		'textarea.js-comment-field', // TODO: remove after March 2024
+		'textarea[aria-labelledby="comment-composer-heading"]',
+	], container)!;
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
@@ -36,7 +41,6 @@ function append(container: HTMLElement): void {
 	const wrapperClasses = [
 		'details-reset',
 		'details-overlay',
-		'flex-auto',
 		'select-menu',
 		'select-menu-modal-right',
 		'hx_rsm',
@@ -87,11 +91,19 @@ function append(container: HTMLElement): void {
 		</details>,
 	);
 
+	if (container.getAttribute('aria-label') === 'Formatting tools')
+		return;
+
+	// Only needed on the old version
+	// TODO: remove after March 2024
 	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-target="action-bar.itemContainer"]', append, {signal});
+	observe([
+		'[data-target="action-bar.itemContainer"]',
+		'[aria-label="Formatting tools"]',
+	], append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 
