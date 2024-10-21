@@ -9,16 +9,14 @@ import {expectElement as $} from 'select-dom';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	// TODO: remove after March 2024
-	const container = square.closest(['form', '[data-testid="comment-composer"]'])!;
+	const container = square.closest('[data-testid="comment-composer"]')!;
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = $([
-		'textarea.js-comment-field', // TODO: remove after March 2024
+	const field = $(
 		'textarea[aria-labelledby="comment-composer-heading"]',
-	], container)!;
+		container,
+	)!;
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
@@ -91,20 +89,10 @@ function append(container: HTMLElement): void {
 			</details-menu>
 		</details>,
 	);
-
-	if (container.getAttribute('aria-label') === 'Formatting tools')
-		return;
-
-	// Only needed on the old version
-	// TODO: remove after March 2024
-	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2024
-		'[aria-label="Formatting tools"]',
-	], append, {signal});
+	observe('[aria-label="Formatting tools"]', append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 
