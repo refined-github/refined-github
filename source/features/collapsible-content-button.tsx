@@ -4,14 +4,22 @@ import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import {$} from 'select-dom';
+
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	const container = delegateTarget.form
+		?? delegateTarget.closest('[data-testid="comment-composer"]')!;
+
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = delegateTarget.form!.querySelector('textarea.js-comment-field')!;
+	const field = $([
+		'textarea.js-comment-field',
+		'[aria-labelledby="comment-composer-heading"]',
+	], container)! as HTMLTextAreaElement;
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -57,12 +65,19 @@ function append(container: HTMLElement): void {
 		</button>,
 	);
 
+	if (container.getAttribute('aria-label') === 'Formatting tools')
+		return;
+
+	// Beta view does't need this
 	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
 	observe(
-		'[data-target="action-bar.itemContainer"]',
+		[
+			'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2024
+			'[aria-label="Formatting tools"]',
+		],
 		append,
 		{signal},
 	);
