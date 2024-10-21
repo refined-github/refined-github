@@ -77,15 +77,15 @@ const viewportObserver = new IntersectionObserver(changes => {
 
 function showAvatarsOn(commentReactions: Element): void {
 	const reactionTypes = $$([
-		'.social-reaction-summary-item',
+		'.social-reaction-summary-item', // TODO: Remove after March 2024
 		'[class^="Tooltip__TooltipBase"]',
 	], commentReactions).length;
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction
 		= $$([
+			':scope > button.social-reaction-summary-item', // TODO: Remove after March 2024
 			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
-			':scope > button.social-reaction-summary-item',
 		], commentReactions)
 			.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
@@ -105,7 +105,7 @@ function observeCommentReactions(commentReactions: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.has-reactions .js-comment-reactions-options',
+		'.has-reactions .js-comment-reactions-options', // TODO: Remove after March 2024
 		'[aria-label="Reactions"]',
 	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
