@@ -54,7 +54,13 @@ function append(container: HTMLElement): void {
 		'rgh-collapsible-content-btn',
 	];
 
+	const divider = $([
+		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2024
+		'[class^="Toolbar-module__divider"]',
+	], container)!.cloneNode(true) as HTMLElement;
+
 	container.append(
+		divider,
 		<button
 			type="button"
 			className={classes.join(' ')}
