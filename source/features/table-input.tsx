@@ -12,6 +12,7 @@ import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	// TODO: remove after March 2024
 	const container = square.closest(['form', '[data-testid="comment-composer"]'])!;
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
@@ -101,7 +102,7 @@ function append(container: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'[data-target="action-bar.itemContainer"]',
+		'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2024
 		'[aria-label="Formatting tools"]',
 	], append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
