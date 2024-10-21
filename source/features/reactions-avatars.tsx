@@ -21,13 +21,31 @@ type Participant = {
 };
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-	const users = button.nextElementSibling!
-		.textContent
-		.replace(/ reacted with.*/, '')
-		.replace(/,? and /, ', ')
-		.replace(/, \d+ more/, '')
-		.split(', ');
+	let users;
+
+	if (button.hasAttribute('aria-label')) {
+		users = button.getAttribute('aria-label')!
+			.replace(/.*including /, '')
+			.replace(/\)/, '')
+			.replace(/,? and /, ', ')
+			.replace(/, \d+ more/, '')
+			.split(', ');
+	}
+
+	// TODO: Remove after March 2024
+	if (button.nextElementSibling) {
+		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
+		users = button.nextElementSibling
+			.textContent
+			.replace(/ reacted with.*/, '')
+			.replace(/,? and /, ', ')
+			.replace(/, \d+ more/, '')
+			.split(', ');
+	}
+
+	if (!users) {
+		return [];
+	}
 
 	const currentUser = getUsername();
 	const participants = [];
@@ -58,11 +76,17 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
+	const reactionTypes = $$([
+		'.social-reaction-summary-item',
+		'[class^="Tooltip__TooltipBase"]',
+	], commentReactions).length;
 	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
 
 	const participantByReaction
-		= $$(':scope > button.social-reaction-summary-item', commentReactions)
+		= $$([
+			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
+			':scope > button.social-reaction-summary-item',
+		], commentReactions)
 			.map(button => getParticipants(button));
 	const flatParticipants = flatZip(participantByReaction, avatarLimit);
 
@@ -80,7 +104,10 @@ function observeCommentReactions(commentReactions: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.has-reactions .js-comment-reactions-options', observeCommentReactions, {signal});
+	observe([
+		'.has-reactions .js-comment-reactions-options',
+		'[aria-label="Reactions"]',
+	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
 }
 
