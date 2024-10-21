@@ -68,7 +68,7 @@ function append(container: HTMLElement): void {
 	if (container.getAttribute('aria-label') === 'Formatting tools')
 		return;
 
-	// Beta view does't need this
+	// Only needed on the old version
 	// TODO: remove after March 2024
 	triggerActionBarOverflow(container);
 }
