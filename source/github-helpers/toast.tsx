@@ -49,6 +49,22 @@ export default async function showToast(
 		messageWrapper.textContent = message;
 	};
 
+	const finalUpdateToast = async (message: string): Promise<void> => {
+		updateToast(message);
+
+		// Without rAF the toast might be removed before the first page paint
+		// rAF also allows showToast to resolve as soon as task is done
+		await frame();
+
+		const displayTime = message.split(' ').length * 300 + 2000;
+		await delay(displayTime);
+
+		// Display time is over, animate out
+		toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
+		await oneEvent(toast, 'animationend');
+		toast.remove();
+	};
+
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
@@ -75,16 +91,6 @@ export default async function showToast(
 		throw error;
 	} finally {
 		updateToast(finalToastMessage);
-
-		const displayTime = finalToastMessage.split(' ').length * 300 + 2000;
-		// Without rAF the toast might be removed before the first page paint
-		// rAF also allows showToast to resolve as soon as task is done
-		await frame();
-		await delay(displayTime);
-
-		// Display time is over, animate out
-		toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
-		await oneEvent(toast, 'animationend');
-		toast.remove();
+		void finalUpdateToast(finalToastMessage);
 	}
 }
