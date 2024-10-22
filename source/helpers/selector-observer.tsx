@@ -71,10 +71,11 @@ export default function observe<
 	registerAnimation();
 
 	const rule = document.createElement('style');
-	if (isDevelopmentVersion()) {
-		// For debuggability
-		rule.setAttribute('s', selector);
-	}
+	// Enable when/if needed
+	// if (isDevelopmentVersion()) {
+	// 	// For debuggability
+	// 	rule.setAttribute('s', selector);
+	// }
 
 	rule.textContent = css`
 		:where(${String(selector)}):not(.${seenMark}) {
