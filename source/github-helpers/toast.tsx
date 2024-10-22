@@ -34,14 +34,6 @@ export default async function showToast(
 			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
-			<div className="d-flex flex-items-center pl-3">
-				<img
-					height={32}
-					width={32}
-					src={chrome.runtime.getURL('assets/icon.png')}
-					alt="Refined GitHub"
-				/>
-			</div>
 			{messageWrapper}
 		</div>
 	);
