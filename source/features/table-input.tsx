@@ -12,7 +12,6 @@ import observe from '../helpers/selector-observer.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('[data-testid="comment-composer"]')!;
-	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $(
 		'textarea[aria-labelledby="comment-composer-heading"]',
 		container,
@@ -43,7 +42,6 @@ function append(container: HTMLElement): void {
 		'select-menu',
 		'select-menu-modal-right',
 		'hx_rsm',
-		'ActionBar-item',
 	];
 
 	const buttonClasses = [
@@ -56,7 +54,6 @@ function append(container: HTMLElement): void {
 	container.append(
 		<details
 			className={wrapperClasses.join(' ')}
-			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
 			<summary
 				className={buttonClasses.join(' ')}
