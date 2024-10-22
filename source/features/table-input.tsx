@@ -36,27 +36,10 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 }
 
 function append(container: HTMLElement): void {
-	const wrapperClasses = [
-		'details-reset',
-		'details-overlay',
-		'select-menu',
-		'select-menu-modal-right',
-		'hx_rsm',
-	];
-
-	const buttonClasses = [
-		'Button',
-		'Button--iconOnly',
-		'Button--invisible',
-		'Button--medium',
-	];
-
 	container.append(
-		<details
-			className={wrapperClasses.join(' ')}
-		>
+		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
 			<summary
-				className={buttonClasses.join(' ')}
+				className="Button Button--iconOnly Button--invisible Button--medium"
 				role="button"
 				aria-label="Add a table"
 				aria-haspopup="menu"
