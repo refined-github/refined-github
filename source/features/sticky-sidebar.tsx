@@ -10,8 +10,9 @@ import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	'.Layout-sidebar :is(.BorderGrid, #partial-discussion-sidebar)', // The first selector in the parentheses is for the repo root, the second one for conversation pages
-	'div[data-testid="issue-viewer-metadata-pane"]', // Issue Sidebar
+	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
+	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
+	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 ];
 
 let sidebar: HTMLElement | undefined;
