@@ -72,12 +72,7 @@
 
 <link rel='stylesheet' href='welcome.css'>
 <main class:dimmed={stepValid === 3}>
-	<header>
-		<h1>
-			<img src='icon.png' alt="" height='32'>
-			Welcome to Refined GitHub
-		</h1>
-	</header>
+	<rgh-header title='Welcome to Refined GitHub'></rgh-header>
 	<ul>
 		<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
 			{#if stepValid === 0}
@@ -94,7 +89,7 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' on:click={showThirdStep}>
 			<a
-				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project'
+				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none'
 				on:click={markSecondStep}
 			>
 				Generate a token
@@ -124,9 +119,9 @@
 	</ul>
 
 	<footer>
-		<h1 class:visible={stepValid === 3} class='will-show'>
+		<h2 class:visible={stepValid === 3} class='will-show'>
 			Setup complete, redirecting to
 			<a class='hidden-link' href='https://github.com/refined-github/refined-github/wiki' target='_self'>GitHub</a>…
-		</h1>
+		</h2>
 	</footer>
 </main>

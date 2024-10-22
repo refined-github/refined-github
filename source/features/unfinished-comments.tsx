@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-let submitting: number | undefined;
+let submitting: ReturnType<typeof setTimeout> | undefined;
 
 const prefix = '✏️ Comment - ';
 
@@ -21,7 +21,7 @@ function hasDraftComments(): boolean {
 
 function disableOnSubmit(): void {
 	clearTimeout(submitting);
-	submitting = window.setTimeout(() => {
+	submitting = setTimeout(() => {
 		submitting = undefined;
 	}, 2000);
 }
