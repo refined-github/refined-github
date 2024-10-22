@@ -4,6 +4,20 @@
 
 :root {
 	--rgh-red: #cf222e;
+	--content-width: 750px;
+	--viewport-margin: 30px;
+
+	max-width: none;
+}
+
+body {
+	margin: 0;
+}
+
+form {
+	max-width: var(--content-width);
+	margin: auto;
+	padding-block: 1em;
 }
 
 html::after {
@@ -23,6 +37,10 @@ html::after {
 
 p {
 	margin-top: 0;
+}
+
+p:last-child {
+	margin-bottom: 0;
 }
 
 ul {
@@ -56,10 +74,12 @@ details[open] {
 summary {
 	--summary-padding: 10px;
 
-	background: #aaa1;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: light-dark(#f9f9f9, #272727);
 	list-style: none;
 	padding: var(--summary-padding);
-	cursor: pointer;
 }
 
 summary::-webkit-details-marker {
@@ -67,7 +87,7 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: #aaa4;
+	background: light-dark(#e9e9e9, #353535);
 }
 
 details[open] summary {
@@ -77,10 +97,6 @@ details[open] summary {
 
 details[open] > :not(summary) {
 	margin-left: 10px;
-}
-
-#info summary {
-	font-size: 2em;
 }
 
 [data-validation]::before {

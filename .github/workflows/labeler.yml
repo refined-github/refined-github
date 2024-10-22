@@ -17,9 +17,9 @@ jobs:
         with:
           token: ${{ github.token }}
       - uses: actions/checkout@v4
-      - uses: fregante/title-replacer-action@v1
+      - uses: fregante/title-replacer-action@v2
         with:
           token: ${{ github.token }}
           pattern-path: source/features
           replacement: '`$0`'
-          trim-punctuation: true
+          trim-wrappers: true

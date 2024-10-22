@@ -19,6 +19,7 @@ const rollup = {
 	input: {
 		'options': './source/options.tsx',
 		'welcome': './source/welcome.svelte',
+		'header': './source/options/header.svelte',
 		'background': './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
