@@ -7,8 +7,8 @@ import type {Nullable} from 'vitest';
 // This will set the correct `origin` header without having to use XMLHttpRequest
 // https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-if (globalThis.window?.content?.fetch) {
-	setFetch(window.content.fetch);
+if (globalThis.content?.fetch) {
+	setFetch(globalThis.content.fetch);
 }
 
 /**
