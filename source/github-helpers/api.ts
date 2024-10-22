@@ -166,6 +166,10 @@ const v4uncached = async (
 ): Promise<AnyObject> => {
 	const personalToken = await getToken();
 
+	if (!personalToken) {
+		throw new RefinedGitHubAPIError('Personal token required for this feature');
+	}
+
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
 	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos

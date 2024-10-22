@@ -35,8 +35,8 @@ async function markLocalHotfixes(): Promise<void> {
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
+			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 				<label className="feature-name" htmlFor={id}>{id}</label>
 				{' '}
 				<a href={featureLink(id)} className="feature-link">
@@ -64,22 +64,20 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 
 	event.preventDefault();
 	if (event.altKey) {
-		for (const screenshotLink of $$('.screenshot-link')) {
-			toggleScreenshot(screenshotLink.parentElement!);
+		for (const toggle of $$('input.screenshot-toggle')) {
+			toggle.checked = !toggle.checked;
 		}
 	} else {
-		const feature = event.delegateTarget.parentElement!;
-		toggleScreenshot(feature);
+		const toggle = event
+			.delegateTarget
+			.closest('.feature')!
+			.querySelector('input.screenshot-toggle')!;
+		toggle.checked = !toggle.checked;
 	}
 }
 
-function toggleScreenshot(feature: Element): void {
-	const toggle = feature.querySelector('input.screenshot-toggle')!;
-	toggle.checked = !toggle.checked;
-}
-
-function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement)
+function featuresFilterHandler(this: HTMLInputElement): void {
+	const keywords = this
 		.value
 		.toLowerCase()
 		.replaceAll(/\W/g, ' ')
@@ -104,7 +102,7 @@ export default async function initFeatureList(): Promise<void> {
 	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Filter feature list
-	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
+	$('input#filter-features')!.addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(` (${featuresMeta.length + 25})`);

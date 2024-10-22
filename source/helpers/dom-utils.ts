@@ -89,7 +89,7 @@ const isTextNode = (node: Text | ChildNode): boolean =>
 export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectation: RegExp | string): boolean => {
 	// Make sure only text is being considered, not links, icons, etc
 	if (!node || !isTextNode(node)) {
-		console.warn('TypeError', node);
+		console.warn('Expected Text node', node);
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
@@ -102,7 +102,7 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 		return node!;
 	}
 
-	console.warn('Error', node!.parentElement);
+	console.warn('Expected node:', node!.parentElement);
 	const content = node!.textContent.trim();
 	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };

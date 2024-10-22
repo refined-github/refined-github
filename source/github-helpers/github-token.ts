@@ -50,12 +50,26 @@ export const tokenUser = new CachedFunction('token-user', {
 });
 
 export async function expectToken(): Promise<string> {
-	const personalToken = await getToken();
-	if (!personalToken) {
+	const token = await getToken();
+	if (!token) {
 		throw new Error('Personal token required for this feature');
 	}
 
-	return personalToken;
+	return token;
+}
+
+export async function hasValidGitHubComToken(token?: string): Promise<boolean> {
+	token ??= await getToken();
+	if (!token) {
+		return false;
+	}
+
+	try {
+		await baseApiFetch({apiBase: 'https://api.github.com/', path: '', token});
+		return true;
+	} catch {
+		return false;
+	}
 }
 
 function parseTokenScopes(headers: Headers): string[] {
@@ -79,7 +93,7 @@ function parseTokenScopes(headers: Headers): string[] {
 }
 
 export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
-	const response = await baseApiFetch({apiBase, token: personalToken, path: '/'});
+	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
 	return parseTokenScopes(response.headers);
 }
 

@@ -6,7 +6,6 @@
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
-		"manifest": "node build/manifest.js",
 		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" fix:prettier \"vitest -- --update\" --continue-on-error",
 		"fix:prettier": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
@@ -102,6 +101,7 @@
 		"webext-options-sync": "^4.2.4",
 		"webext-options-sync-per-domain": "^4.2.3",
 		"webext-permission-toggle": "^5.1.0",
+		"webext-storage": "^1.2.2",
 		"webext-storage-cache": "^6.0.3",
 		"webext-tools": "^2.0.1",
 		"zip-text-nodes": "^1.0.0"

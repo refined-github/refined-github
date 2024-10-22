@@ -9,6 +9,7 @@ import delegate, {DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import {buildRepoURL, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import api from '../github-helpers/api.js';
@@ -16,11 +17,6 @@ import showToast from '../github-helpers/toast.js';
 
 const tooltip = 'Instant deletion: shift-alt-click';
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
-
-// TODO: Replace with https://github.com/refined-github/github-url-detection/issues/85
-async function canUserDeleteRepository(): Promise<boolean> {
-	return Boolean(await elementReady('nav [data-content="Settings"]'));
-}
 
 // Only if the repository hasn't been starred
 async function isRepoUnpopular(): Promise<boolean> {
@@ -120,7 +116,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepoRoot,
 		pageDetect.isForkedRepo,
-		canUserDeleteRepository,
+		userIsAdmin,
 		isRepoUnpopular,
 	],
 	init: initRepoRoot,

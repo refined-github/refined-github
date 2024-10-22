@@ -23,8 +23,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 
 	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
 	if (!tag) {
-		features.log.error(import.meta.url, 'Tag not found in DOM. The feature needs to be updated');
-		return;
+		throw new Error('Tag not found in DOM. The feature needs to be updated');
 	}
 
 	wrapAll(

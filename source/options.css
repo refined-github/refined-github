@@ -4,6 +4,20 @@
 
 :root {
 	--rgh-red: #cf222e;
+	--content-width: 750px;
+	--viewport-margin: 30px;
+
+	max-width: none;
+}
+
+body {
+	margin: 0;
+}
+
+form {
+	max-width: var(--content-width);
+	margin: auto;
+	padding-block: 1em;
 }
 
 html::after {
@@ -23,6 +37,10 @@ html::after {
 
 p {
 	margin-top: 0;
+}
+
+p:last-child {
+	margin-bottom: 0;
 }
 
 ul {
@@ -56,10 +74,12 @@ details[open] {
 summary {
 	--summary-padding: 10px;
 
-	background: #aaa1;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: light-dark(#f9f9f9, #272727);
 	list-style: none;
 	padding: var(--summary-padding);
-	cursor: pointer;
 }
 
 summary::-webkit-details-marker {
@@ -67,7 +87,7 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: #aaa4;
+	background: light-dark(#e9e9e9, #353535);
 }
 
 details[open] summary {
@@ -77,10 +97,6 @@ details[open] summary {
 
 details[open] > :not(summary) {
 	margin-left: 10px;
-}
-
-#info summary {
-	font-size: 2em;
 }
 
 [data-validation]::before {
@@ -104,51 +120,39 @@ details[open] > :not(summary) {
 	font-size: 11px;
 }
 
-.feature:not([hidden]) {
-	display: flex;
+[name='personalToken']:not(:focus) {
+	-webkit-text-security: circle;
 }
 
-.js-features input[type='checkbox'] {
+.feature:not([hidden]) {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 0 0.4em;
+}
+
+.feature input[type='checkbox'] {
 	flex-shrink: 0;
 }
 
-.js-features input[type='checkbox']:not(*:root) {
-	/* Selector for Chrome only http://browserhacks.com/#ch */
-	margin-inline-end: 0.6em;
-	margin-top: 2px;
-}
-
-.js-features .feature-checkbox:not(:checked) + .feature-name {
+.feature-checkbox:not(:checked) + .info .feature-name {
 	text-decoration: line-through;
 }
 
-.js-features .description {
+.feature:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
+	opacity: 50%;
+}
+
+.feature .info {
+	flex: 1;
+}
+
+.feature .description {
 	opacity: 80%;
 }
 
 .feature-link {
 	margin: 0 0.6em;
-}
-
-.js-features .info {
-	flex-grow: 1;
-}
-
-.js-features kbd {
-	display: inline-block;
-	padding: 3px 5px;
-	font-size: 0.8em;
-	line-height: 10px;
-	color: #444d56;
-	vertical-align: middle;
-	background-color: #fafbfc;
-	border: 1px solid #d1d5da;
-	border-radius: 6px;
-	box-shadow: inset 0 -1px 0 #d1d5da;
-}
-
-.info:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
-	opacity: 50%;
 }
 
 .screenshot {

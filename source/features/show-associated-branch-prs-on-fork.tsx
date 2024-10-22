@@ -14,6 +14,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type PullRequest = {
 	timelineItems: {
@@ -89,7 +90,8 @@ async function addLink(branch: HTMLElement): Promise<void> {
 	);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	// Memoize because it's being called twice for each. Ideally this should be part of the selector observer
 	// https://github.com/refined-github/refined-github/pull/7194#issuecomment-1894972091
 	observe('react-app[app-name=repos-branches] a[class^=BranchName-] div[title]', memoize(addLink), {signal});

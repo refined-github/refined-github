@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleases from './releases-dropdown.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
@@ -46,6 +47,7 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 
 const searchFieldSelector = 'input#release-filter';
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(searchFieldSelector, addList, {signal});
 	delegate(searchFieldSelector, 'input', selectionHandler, {signal});
 }
