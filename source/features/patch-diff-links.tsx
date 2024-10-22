@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
-async function init(): Promise<void> {
+async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	let commitUrl = '/' + getCleanPathname();
 
 	// Avoids a redirection
@@ -13,15 +13,22 @@ async function init(): Promise<void> {
 		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
 	}
 
-	const commitMeta = await elementReady('.commit-meta');
 	commitMeta!.classList.remove('no-wrap'); // #5987
-	commitMeta!.lastElementChild!.append(
+	commitMeta!.prepend(
 		<span className="sha-block" data-turbo="false">
-			<a href={`${commitUrl}.patch`} className="sha">patch</a>
+			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
 			{' '}
-			<a href={`${commitUrl}.diff`} className="sha">diff</a>
+			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
 		</span>,
+		<span className="px-2">·</span>,
 	);
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe([
+		'.commit-meta > span:last-child', // `isPRCommit` + old `isSingleCommit`
+		'[class*="commit-header-actions"] + div pre',
+	], addPatchDiffLinks, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -31,7 +38,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isPRCommit404,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
