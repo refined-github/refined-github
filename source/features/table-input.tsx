@@ -15,7 +15,7 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const field = $(
 		'textarea[aria-labelledby="comment-composer-heading"]',
 		container,
-	)!;
+	);
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
