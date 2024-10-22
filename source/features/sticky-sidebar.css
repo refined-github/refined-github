@@ -17,6 +17,11 @@ Exclusively use simple sums and use `0px` instead of `0`
 	);
 }
 
+/* `isRepoRoot` */
+.Layout-sidebar .BorderGrid {
+	--rgh-sticky-sidebar-offset: 0;
+}
+
 .notification-shelf ~ .application-main {
 	/* It needs to be on the same element as above for calc() to work */
 	--rgh-sticky-notification-header-height: 69px;
@@ -48,6 +53,11 @@ Exclusively use simple sums and use `0px` instead of `0`
 /* Avoid z-index issue with Stars dropdown in repo header #5214 */
 [rgh-sticky-sidebar-enabled] .pagehead-actions .js-user-list-menu {
 	z-index: unset;
+}
+
+/* z-index fights - header on issue side */
+div[data-testid='issue-metadata-sticky'] {
+	z-index: 92; /* Native: 14 */
 }
 
 /* z-index fights 🥲 This is the search dropdown on the repo root #6151 */
