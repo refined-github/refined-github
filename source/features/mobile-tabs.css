@@ -61,21 +61,21 @@
 		content: 'Pulls' !important;
 	}
 
-	:root .UnderlineNav-item svg {
-		margin: 0 !important;
-		grid-area: icon;
-		justify-self: end;
-	}
-
 	/* Tab label on on profiles */
-	:root .UnderlineNav-item span:not([class])[data-view-component] {
+	:root .UnderlineNav-item span[data-view-component]:not([class]) {
 		grid-area: title;
 		line-height: 1;
 		margin-top: 5px;
 		font-size: 10px;
 	}
 
-	:root .UnderlineNav-item span.Counter {
+	:root .UnderlineNav-item svg {
+		margin: 0 !important;
+		grid-area: icon;
+		justify-self: end;
+	}
+
+	:root .UnderlineNav-item .Counter {
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
 		padding: 0;
@@ -102,6 +102,8 @@
 
 Test URLs:
 
-https://github.com/refined-github/refined-github
+- Repo: https://github.com/refined-github/refined-github
+- Org: https://github.com/refined-github
+- User: https://github.com/fregante
 
 */
