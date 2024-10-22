@@ -2,12 +2,10 @@ import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
-
 import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
 
-import isDevelopmentVersion from './is-development-version.js';
 import getCallerID from './caller-id.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
