@@ -9,7 +9,3 @@
 :root .rgh-reactions-avatar:last-of-type {
 	margin-right: -0.15em !important;
 }
-
-[aria-label="Reactions"] .rgh-reactions-avatar:not(:first-of-type){
-	margin-left: 0;
-}
