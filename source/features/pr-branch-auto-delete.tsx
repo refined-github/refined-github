@@ -22,7 +22,7 @@ const exceptions = [
 	'stage',
 	'staging',
 	/production/,
-	/^release\//,
+	/^release\/?/,
 	/^v\d/,
 ];
 
