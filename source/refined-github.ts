@@ -44,7 +44,6 @@ import './features/copy-on-y.js';
 import './features/profile-hotkey.js';
 import './features/close-out-of-view-modals.js';
 import './features/improve-shortcut-help.js';
-import './features/infinite-scroll.js';
 import './features/shorten-links.js';
 import './features/linkify-code.js';
 import './features/download-folder-button.js';
