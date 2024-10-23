@@ -2,12 +2,10 @@ import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
-
 import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
 
-import isDevelopmentVersion from './is-development-version.js';
 import getCallerID from './caller-id.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
@@ -71,10 +69,11 @@ export default function observe<
 	registerAnimation();
 
 	const rule = document.createElement('style');
-	if (isDevelopmentVersion()) {
-		// For debuggability
-		rule.setAttribute('s', selector);
-	}
+	// Enable when/if needed
+	// if (isDevelopmentVersion()) {
+	// 	// For debuggability
+	// 	rule.setAttribute('s', selector);
+	// }
 
 	rule.textContent = css`
 		:where(${String(selector)}):not(.${seenMark}) {
@@ -85,7 +84,7 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
+	globalThis.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
 }
 
 // Untested

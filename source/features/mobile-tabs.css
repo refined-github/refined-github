@@ -61,6 +61,14 @@
 		content: 'Pulls' !important;
 	}
 
+	/* Tab label on on profiles */
+	:root .UnderlineNav-item span[data-view-component]:not([class]) {
+		grid-area: title;
+		line-height: 1;
+		margin-top: 5px;
+		font-size: 10px;
+	}
+
 	:root .UnderlineNav-item svg {
 		margin: 0 !important;
 		grid-area: icon;
@@ -79,7 +87,8 @@
 
 	/* When counter is missing */
 	:root .UnderlineNav-item:not(:has(.Counter)),
-	:root .UnderlineNav-item:has(.Counter:empty) {
+	:root .UnderlineNav-item:has(.Counter:empty),
+	:root .UnderlineNav-item:has([hidden]) {
 		grid-template-areas:
 			'icon icon'
 			'title title';
@@ -94,6 +103,8 @@
 
 Test URLs:
 
-https://github.com/refined-github/refined-github
+- Repo: https://github.com/refined-github/refined-github
+- Org: https://github.com/refined-github
+- User: https://github.com/fregante
 
 */

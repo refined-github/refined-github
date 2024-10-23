@@ -11,7 +11,7 @@ async function handler({key, target}: KeyboardEvent): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	window.addEventListener('keyup', handler, {signal});
+	globalThis.addEventListener('keyup', handler, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,3 +1,15 @@
+/* eslint-disable no-var -- TypeScript weirdness */
+
+/// <reference types="@types/dom-navigation" />
+
+declare var content: {
+	fetch: GlobalFetch;
+} | undefined;
+
+// eslint-disable-next-line unicorn/prefer-global-this -- Types not available there
+declare var navigation: typeof window.navigation;
+
+type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
@@ -20,10 +32,6 @@ interface Text {
 }
 interface Element {
 	textContent: string;
-}
-
-interface Window {
-	content: GlobalFetch;
 }
 
 declare module 'size-plugin';

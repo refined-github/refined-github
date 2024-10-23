@@ -98,7 +98,7 @@ async function createLink(
 
 async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
-	if (!userHasPushAccess()) {
+	if (!(await userHasPushAccess())) {
 		return link;
 	}
 
