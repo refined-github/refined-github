@@ -13,3 +13,7 @@
 [aria-label='Reactions'] .rgh-reactions-avatar:not(:first-of-type) {
 	margin-left: 0;
 }
+
+[aria-label='Reactions'] .rgh-reactions-avatar:last-of-type {
+	margin-right: -0.45em !important;
+}
