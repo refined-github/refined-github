@@ -23,7 +23,7 @@ type Participant = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
-	if (button.hasAttribute('aria-label')) {
+	if (button.getAttribute('role') === 'switch') {
 		users = button.getAttribute('aria-label')!
 			.replace(/.*including /, '')
 			.replace(/\)/, '')
