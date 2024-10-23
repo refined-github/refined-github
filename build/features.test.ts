@@ -34,7 +34,6 @@ const noScreenshotExceptions = new Set([
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay
-	'hide-newsfeed-noise', // TODO: Add side-by-side png
 	'scrollable-areas', // TODO: Add side-by-side png
 ]);
 
