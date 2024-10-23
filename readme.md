@@ -328,7 +328,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Newsfeed
 
-- [](# "hide-newsfeed-noise") Hides other inutile newsfeed events (commits, forks, new followers).
 - [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.
 
 <!--
