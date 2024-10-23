@@ -30,12 +30,9 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
-	} else if (button.nextElementSibling) {
 		// TODO: Remove after March 2024
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-		const tagName = button.nextElementSibling.tagName;
-		if (tagName !== 'TOOL-TIP')
-			return [];
+	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 
 		users = button.nextElementSibling
 			.textContent
