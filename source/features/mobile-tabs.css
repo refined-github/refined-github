@@ -87,7 +87,8 @@
 
 	/* When counter is missing */
 	:root .UnderlineNav-item:not(:has(.Counter)),
-	:root .UnderlineNav-item:has(.Counter:empty) {
+	:root .UnderlineNav-item:has(.Counter:empty),
+	:root .UnderlineNav-item:has([hidden="hidden"]) {
 		grid-template-areas:
 			'icon icon'
 			'title title';
