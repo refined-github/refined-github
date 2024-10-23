@@ -33,7 +33,6 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		// TODO: Remove after March 2024
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
-
 		users = button.nextElementSibling
 			.textContent
 			.replace(/ reacted with.*/, '')
