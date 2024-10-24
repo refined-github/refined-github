@@ -14,8 +14,8 @@ const {version} = chrome.runtime.getManifest();
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
 const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
-// reads from path like assets/features/NAME.js
-function parseFeatureNameFromStack(stack: string): FeatureID | undefined {
+// Reads from path like assets/features/NAME.js
+export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureID | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
 	const match = stack
 		.split('\n')
@@ -72,15 +72,11 @@ export function logError(error: Error): void {
 		'```',
 	].join('\n'));
 
-	const isObserver = message.startsWith('Selector observer was never');
-
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`${isObserver ? '💡' : '❌'} Refined GitHub: ${id ?? ''}`); // Safari supports only one parameter
+	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
 	console.log(`📕 ${version} ${isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
-	if (!isObserver) {
-		console.log('🔍 Search issue', searchIssueUrl.href);
-		console.log('🚨 Report issue', newIssueUrl.href);
-	}
+	console.log('🔍 Search issue', searchIssueUrl.href);
+	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
 }
 

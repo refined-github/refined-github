@@ -5,9 +5,10 @@ import {ParseSelector} from 'typed-query-selector/parser.js';
 import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
-import optionsStorage from '../options-storage.js';
 
+import optionsStorage from '../options-storage.js';
 import getCallerID from './caller-id.js';
+import {parseFeatureNameFromStack} from './errors.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
@@ -68,7 +69,7 @@ export default function observe<
 
 	let called = false;
 	// Capture stack outside
-	const error = new Error('Selector observer was never found:' + selector);
+	const currentFeature = parseFeatureNameFromStack();
 	(async () => {
 		const {logging} = await optionsStorage.getAll();
 		if (!logging) {
@@ -78,7 +79,7 @@ export default function observe<
 		await domLoaded;
 		await delay(1000);
 		if (!called && !signal?.aborted) {
-			throw error;
+			console.warn(currentFeature, '→ Selector not found on page:', selector);
 		}
 	})();
 	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
