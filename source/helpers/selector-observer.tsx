@@ -7,7 +7,6 @@ import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
 
 import getCallerID from './caller-id.js';
-import createEventIterator from './event-listener-loop.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
@@ -66,34 +65,30 @@ export default function observe<
 		rule.remove();
 	});
 
-	const {stack} = new Error('capturestack');
+	let called = false;
+	// Capture stack outside
+	const error = new Error('Selector observer was never found:' + selector);
 	(async () => {
-		let called = false;
-		(async () => {
-			await domLoaded;
-			await delay(1000);
-			if (!called && !signal?.aborted) {
-				const error = new Error('Selector observer was never found:' + selector);
-				error.stack = stack;
-				throw error;
-			}
-		})();
-
-		for await (const event of createEventIterator(globalThis, 'animationstart', {signal, once})) {
-			const target = event.target as ExpectedElement;
-			// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
-			if (target.classList.contains(seenMark) || !target.matches(selector)) {
-				return;
-			}
-
-			called = true;
-
-			// Removes this specific selector’s animation once it was seen
-			target.classList.add(seenMark);
-
-			listener(target, {signal});
+		await domLoaded;
+		await delay(1000);
+		if (!called && !signal?.aborted) {
+			throw error;
 		}
 	})();
+	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
+		const target = event.target as ExpectedElement;
+		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
+		if (target.classList.contains(seenMark) || !target.matches(selector)) {
+			return;
+		}
+
+		called = true;
+
+		// Removes this specific selector’s animation once it was seen
+		target.classList.add(seenMark);
+
+		listener(target, {signal});
+	}, {once, signal});
 }
 
 // Untested
