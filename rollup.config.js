@@ -42,6 +42,10 @@ const rollup = {
 			return chunkInfo.name.replace('build/__snapshots__/', '') + '.js';
 		},
 	},
+	watch: {
+		clearScreen: false,
+	},
+
 	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
 	context: 'globalThis',
 
