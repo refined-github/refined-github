@@ -30,7 +30,6 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
-		// TODO: Remove after March 2024
 	} else {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling!
@@ -99,7 +98,7 @@ function observeCommentReactions(commentReactions: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.has-reactions .js-comment-reactions-options', // TODO: Remove after March 2024
+		'.has-reactions .js-comment-reactions-options',
 		'[aria-label="Reactions"]',
 	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
