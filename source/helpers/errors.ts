@@ -14,8 +14,8 @@ const {version} = chrome.runtime.getManifest();
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
 const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
-// reads from path like assets/features/NAME.js
-function parseFeatureNameFromStack(stack: string): FeatureID | undefined {
+// Reads from path like assets/features/NAME.js
+export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureID | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
 	const match = stack
 		.split('\n')
