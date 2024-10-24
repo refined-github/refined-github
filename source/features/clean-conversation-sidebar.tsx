@@ -1,9 +1,9 @@
 import './clean-conversation-sidebar.css';
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-import onetime from 'onetime';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';

@@ -1,11 +1,11 @@
 import {$, elementExists, expectElement} from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 
+import onetime from '../helpers/onetime.js';
 import {branchSelector} from './selectors.js';
 
 // This never changes, so it can be cached here

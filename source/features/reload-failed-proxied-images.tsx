@@ -1,7 +1,7 @@
 import delay from 'delay';
-import onetime from 'onetime';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {

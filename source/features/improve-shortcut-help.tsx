@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-import onetime from 'onetime';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 

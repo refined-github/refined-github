@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
