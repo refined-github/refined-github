@@ -19,7 +19,6 @@ const noScreenshotExceptions = new Set([
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
 	'sort-conversations-by-update-time',
 	'prevent-pr-merge-panel-opening',
-	'infinite-scroll',
 	'command-palette-navigation-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',

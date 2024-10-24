@@ -326,15 +326,6 @@ Refer to style guide in the wiki. Keep this message between sections.
 https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
 -->
 
-### Newsfeed
-
-- [](# "infinite-scroll") Automagically expands the newsfeed when you scroll down.
-
-<!--
-Refer to style guide in the wiki. Keep this message between sections.
-https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
--->
-
 ### Notifications
 
 - [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png)
