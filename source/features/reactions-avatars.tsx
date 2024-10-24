@@ -31,18 +31,14 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/, \d+ more/, '')
 			.split(', ');
 		// TODO: Remove after March 2024
+	} else {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-	} else if (button.nextElementSibling) {
-		users = button.nextElementSibling
+		users = button.nextElementSibling!
 			.textContent
 			.replace(/ reacted with.*/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
-	}
-
-	if (!users) {
-		return [];
 	}
 
 	const currentUser = getUsername();
