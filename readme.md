@@ -313,7 +313,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "user-profile-follower-badge") [On profiles, it shows whether the user follows you.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png)
 - [](# "profile-gists-link") [Adds a link to the user’s public gists on their profile.](https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png)
-- [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png)
+- [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
 - [](# "hide-user-forks") [Filters out forks and archived repos from profiles by default, leaving only the sources.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png) [(but they can still be shown.)](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262547829-2da96718-fb18-4f2e-b637-8157f552e278.png)
