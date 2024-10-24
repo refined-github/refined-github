@@ -12,7 +12,6 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
-
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 

@@ -5,6 +5,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 */
 
 import './release-download-count.css';
+
 import React from 'dom-chef';
 import {$$} from 'select-dom';
 import DownloadIcon from 'octicons-plain-react/Download';

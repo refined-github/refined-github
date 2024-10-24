@@ -1,12 +1,13 @@
 /* eslint-disable no-await-in-loop */
 
 import './user-local-time.css';
+
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import delay from 'delay';
 import {$, elementExists} from 'select-dom';
 import ClockIcon from 'octicons-plain-react/Clock';
 
+import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';

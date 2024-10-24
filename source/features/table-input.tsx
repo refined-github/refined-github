@@ -1,4 +1,5 @@
 import './table-input.css';
+
 import React from 'dom-chef';
 import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';

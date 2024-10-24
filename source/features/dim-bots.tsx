@@ -1,4 +1,5 @@
 import './dim-bots.css';
+
 import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';

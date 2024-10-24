@@ -1,4 +1,5 @@
 import './resolve-conflicts.css';
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

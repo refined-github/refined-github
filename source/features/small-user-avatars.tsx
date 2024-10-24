@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 
-import onetime from 'onetime';
-
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';

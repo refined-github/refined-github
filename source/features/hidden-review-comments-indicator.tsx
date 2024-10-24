@@ -1,4 +1,5 @@
 import './hidden-review-comments-indicator.css';
+
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$$} from 'select-dom';

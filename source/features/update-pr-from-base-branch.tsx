@@ -1,9 +1,7 @@
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
-
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
-
 import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';

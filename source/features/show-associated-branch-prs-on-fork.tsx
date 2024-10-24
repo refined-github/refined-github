@@ -1,4 +1,5 @@
 import './show-associated-branch-prs-on-fork.css';
+
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';

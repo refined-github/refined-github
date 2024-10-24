@@ -5,6 +5,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 */
 
 import './conventional-commits.css';
+
 import React from 'react';
 import * as pageDetect from 'github-url-detection';
 

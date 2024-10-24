@@ -1,4 +1,5 @@
 import './rgh-feature-descriptions.css';
+
 import React from 'dom-chef';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';

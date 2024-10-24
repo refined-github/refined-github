@@ -1,4 +1,5 @@
 import './ci-link.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 

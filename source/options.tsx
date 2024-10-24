@@ -1,5 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
+
 import {expectElement as $, $ as select, $$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';

@@ -1,4 +1,5 @@
 import './sticky-sidebar.css';
+
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 

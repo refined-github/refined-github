@@ -1,4 +1,5 @@
 import './mark-private-orgs.css';
+
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';

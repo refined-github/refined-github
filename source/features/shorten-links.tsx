@@ -1,5 +1,4 @@
-import onetime from 'onetime';
-
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters.js';
 import observe from '../helpers/selector-observer.js';

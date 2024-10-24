@@ -1,4 +1,5 @@
 import './highlight-collaborators-and-own-conversations.css';
+
 import {CachedFunction} from 'webext-storage-cache';
 import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

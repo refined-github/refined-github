@@ -1,4 +1,5 @@
 import './conflict-marker.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
