@@ -1,10 +1,10 @@
 import './hide-low-quality-comments.css';
-import delay from 'delay';
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 

@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import {css} from 'code-tag';
 import {ParseSelector} from 'typed-query-selector/parser.js';
-import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
 
+import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import optionsStorage from '../options-storage.js';
 import getCallerID from './caller-id.js';

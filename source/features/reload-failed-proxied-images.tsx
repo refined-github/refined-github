@@ -1,6 +1,6 @@
-import delay from 'delay';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 

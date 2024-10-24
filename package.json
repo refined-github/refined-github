@@ -63,7 +63,6 @@
 		"batched-function": "^2.0.1",
 		"code-tag": "^1.2.0",
 		"debounce-fn": "^6.0.0",
-		"delay": "^6.0.0",
 		"delegate-it": "^6.2.0",
 		"dom-chef": "^5.1.1",
 		"dom-loaded": "^3.1.0",
