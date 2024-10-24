@@ -26,7 +26,6 @@ import './features/mobile-tabs.css';
 // CSS-only disableable features
 import './features/align-issue-labels.js';
 import './features/clean-pinned-issues.js';
-import './features/hide-newsfeed-noise.js';
 import './features/hide-diff-signs.js';
 import './features/clean-rich-text-editor.js';
 
