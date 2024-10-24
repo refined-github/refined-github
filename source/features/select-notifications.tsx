@@ -1,4 +1,5 @@
 import './select-notifications.css';
+
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';

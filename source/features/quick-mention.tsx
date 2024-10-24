@@ -1,4 +1,5 @@
 import './quick-mention.css';
+
 import React from 'dom-chef';
 import {$, elementExists} from 'select-dom';
 import ReplyIcon from 'octicons-plain-react/Reply';

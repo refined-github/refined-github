@@ -1,4 +1,5 @@
 import './clean-repo-sidebar.css';
+
 import {$, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';

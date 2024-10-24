@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 
 import './user-local-time.css';
+
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$, elementExists} from 'select-dom';

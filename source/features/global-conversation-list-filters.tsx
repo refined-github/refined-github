@@ -1,4 +1,5 @@
 import './global-conversation-list-filters.css';
+
 import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

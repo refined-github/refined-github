@@ -1,4 +1,5 @@
 import './quick-label-removal.css';
+
 import React from 'dom-chef';
 import {elementExists, expectElement} from 'select-dom';
 import XIcon from 'octicons-plain-react/X';

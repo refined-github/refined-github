@@ -1,4 +1,5 @@
 import './highest-rated-comment.css';
+
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
