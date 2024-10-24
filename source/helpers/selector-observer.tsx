@@ -5,6 +5,7 @@ import {ParseSelector} from 'typed-query-selector/parser.js';
 import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
+import optionsStorage from '../options-storage.js';
 
 import getCallerID from './caller-id.js';
 
@@ -69,6 +70,11 @@ export default function observe<
 	// Capture stack outside
 	const error = new Error('Selector observer was never found:' + selector);
 	(async () => {
+		const {logging} = await optionsStorage.getAll();
+		if (!logging) {
+			return;
+		}
+
 		await domLoaded;
 		await delay(1000);
 		if (!called && !signal?.aborted) {

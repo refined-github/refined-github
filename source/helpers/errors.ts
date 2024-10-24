@@ -72,11 +72,15 @@ export function logError(error: Error): void {
 		'```',
 	].join('\n'));
 
+	const isObserver = message.startsWith('Selector observer was never');
+
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
+	console.group(`${isObserver ? '💡' : '❌'} Refined GitHub: ${id ?? ''}`); // Safari supports only one parameter
 	console.log(`📕 ${version} ${isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
-	console.log('🔍 Search issue', searchIssueUrl.href);
-	console.log('🚨 Report issue', newIssueUrl.href);
+	if (!isObserver) {
+		console.log('🔍 Search issue', searchIssueUrl.href);
+		console.log('🚨 Report issue', newIssueUrl.href);
+	}
 	console.groupEnd();
 }
 
