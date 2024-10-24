@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 export default function getUserAvatar(username: string, size: number): string | void {
 	const cleanName = username.replace('[bot]', '');
 
-	if (!/[^\w-]/.test(cleanName)) {
+	if (/[^\w-]/.test(cleanName)) {
 		// TODO: December 2024: Turn into TypeError once we're sure it's not breaking anything
 		console.error(`Expected a username, got ${cleanName}`);
 	}

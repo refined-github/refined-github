@@ -32,7 +32,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.split(', ');
 		// TODO: Remove after March 2024
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
+	} else if (button.nextElementSibling) {
 		users = button.nextElementSibling
 			.textContent
 			.replace(/ reacted with.*/, '')
@@ -82,7 +82,7 @@ function showAvatarsOn(commentReactions: Element): void {
 
 	const participantByReaction
 		= $$([
-			':scope > button.social-reaction-summary-item', // TODO: Remove after March 2024
+			':scope > button.social-reaction-summary-item:not([disabled])', // TODO: Remove after March 2024
 			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
 		], commentReactions)
 			.map(button => getParticipants(button));
