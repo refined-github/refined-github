@@ -82,7 +82,7 @@ function showAvatarsOn(commentReactions: Element): void {
 
 	const participantByReaction
 		= $$([
-			':scope > button.social-reaction-summary-item:not([disabled])', // TODO: Remove after March 2024
+			':scope > button.social-reaction-summary-item:enabled',
 			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
 		], commentReactions)
 			.map(button => getParticipants(button));
