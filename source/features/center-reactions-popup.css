@@ -3,19 +3,19 @@
 	display: grid !important;
 	grid-template-rows: 1fr 1fr; /* Keep two lines whether there are 6 or 8 reactions */
 	grid-auto-flow: column;
-}
 
-/* Move the popups */
-/* Align the popups to the border + add 10px to make them overflow a bit */
-/* Button on the top right of comments */
-.dropdown-menu-reactions.dropdown-menu-w {
-	/* Depends on the presence of `quick-comment-edit` */
-	translate: 107px -22px;
-}
+	/* Move the popups */
+	/* Align the popups to the border + add 10px to make them overflow a bit */
+	/* Button on the top right of comments */
+	&.dropdown-menu-w {
+		/* Depends on the presence of `quick-comment-edit` */
+		translate: 107px -22px;
+	}
 
-/* Button on the bottom left of comments */
-.dropdown-menu-reactions.dropdown-menu-ne {
-	translate: -27px 61px;
+	/* Button on the bottom left of comments */
+	&.dropdown-menu-ne {
+		translate: -27px 61px;
+	}
 }
 
 /*
