@@ -7,10 +7,14 @@
 	height: var(--size);
 }
 
+:root .rgh-reactions-avatar:last-of-type {
+	margin-right: 0 !important;
+}
+
 :root [role='switch'] .rgh-reactions-avatar {
 	--inherited-gap: 4px;
 }
 
-:root .rgh-reactions-avatar:last-of-type {
-	margin-right: -0.16em !important;
+:root [role='switch'] .rgh-reactions-avatar:last-of-type {
+	margin-right: -3px !important;
 }
