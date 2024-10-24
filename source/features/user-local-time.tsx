@@ -3,7 +3,6 @@
 import './user-local-time.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-
 import {$, elementExists} from 'select-dom';
 import ClockIcon from 'octicons-plain-react/Clock';
 
