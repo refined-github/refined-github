@@ -61,7 +61,7 @@ function init(signal: AbortSignal): void {
 			attributeOldValue: true,
 			attributeFilter: ['class'],
 		});
-	});
+	}, {signal});
 
 	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
