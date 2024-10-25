@@ -49,7 +49,7 @@ function getUI(field: HTMLElement): HTMLElement {
 				{' by GitHub.'}
 			</>
 		),
-		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', 'mx-2'],
+		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', field.tagName === 'FORM' ? 'mx-2' : ''],
 		action: handleButtonClick,
 		buttonLabel: 'Fix link',
 	}));
