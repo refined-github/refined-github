@@ -26,7 +26,9 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 		/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
 		field = fixButton.form!.querySelector('textarea.js-comment-field')!;
 	} else {
-		field = fixButton.closest('[data-testid="markdown-editor-comment-composer"]')!.querySelector('textarea[aria-labelledby="comment-composer-heading"]')!;
+		// New commit input field
+		field = fixButton.closest('[data-testid="markdown-editor-comment-composer"]')!
+			.querySelector('textarea[aria-labelledby="comment-composer-heading"]')!;
 	}
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -65,6 +67,7 @@ function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 		if (field.form) {
 			$('file-attachment .js-write-bucket', field.form)!.append(getUI(field.form));
 		} else {
+			// New commit input field
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
 			container.append(getUI(container));
 		}
@@ -80,11 +83,11 @@ const updateUIDebounced = debounceFn(updateUI, {
 function init(signal: AbortSignal): void {
 	delegate([
 		'textarea.js-comment-field',
-		'textarea[aria-labelledby="comment-composer-heading"]',
+		'textarea[aria-labelledby="comment-composer-heading"]', // New commit input field
 	], 'input', updateUIDebounced, {signal});
 	delegate([
 		'textarea.js-comment-field',
-		'textarea[aria-labelledby="comment-composer-heading"]',
+		'textarea[aria-labelledby="comment-composer-heading"]', // New commit input field
 	], 'focusin', updateUI, {signal});
 }
 
