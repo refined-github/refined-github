@@ -20,16 +20,23 @@ import createBanner from '../github-helpers/banner.js';
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
-	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
-	const field = fixButton.form!.querySelector('textarea.js-comment-field')!;
+	let field;
+
+	if (fixButton.form) {
+		/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
+		field = fixButton.form!.querySelector('textarea.js-comment-field')!;
+	} else {
+		field = fixButton.closest('[data-testid="markdown-editor-comment-composer"]')!.querySelector('textarea[aria-labelledby="comment-composer-heading"]')!;
+	}
+
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
 	fixButton.closest('.flash')!.remove();
 }
 
-function getUI(field: HTMLTextAreaElement): HTMLElement {
-	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
+function getUI(field: HTMLElement): HTMLElement {
+	return $('.rgh-prevent-link-loss-container', field) ?? (createBanner({
 		icon: <AlertIcon className="m-0" />,
 		text: (
 			<>
@@ -55,7 +62,12 @@ function isVulnerableToLinkLoss(value: string): boolean {
 
 function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
-		$('file-attachment .js-write-bucket', field.form!)!.append(getUI(field));
+		if (field.form) {
+			$('file-attachment .js-write-bucket', field.form)!.append(getUI(field.form));
+		} else {
+			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
+			container.append(getUI(container));
+		}
 	} else {
 		getUI(field).remove();
 	}
@@ -66,8 +78,14 @@ const updateUIDebounced = debounceFn(updateUI, {
 });
 
 function init(signal: AbortSignal): void {
-	delegate('textarea.js-comment-field', 'input', updateUIDebounced, {signal});
-	delegate('textarea.js-comment-field', 'focusin', updateUI, {signal});
+	delegate([
+		'textarea.js-comment-field',
+		'textarea[aria-labelledby="comment-composer-heading"]',
+	], 'input', updateUIDebounced, {signal});
+	delegate([
+		'textarea.js-comment-field',
+		'textarea[aria-labelledby="comment-composer-heading"]',
+	], 'focusin', updateUI, {signal});
 }
 
 void features.add(import.meta.url, {
