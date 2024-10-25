@@ -9,12 +9,20 @@ export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const standaloneGistLinkInMarkdown = css`
-	.js-comment-body p a:only-child:is(
-		[href^="https://gist.github.com/"],
-		[href^="${location.origin}/gist/"]
-	)
-` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+export const standaloneGistLinkInMarkdown = [
+	css`
+		.js-comment-body p a:only-child:is(
+			[href^="https://gist.github.com/"],
+			[href^="${location.origin}/gist/"]
+		)
+	` as 'a',
+	css`
+		.react-issue-comment p a:only-child:is(
+			[href^="https://gist.github.com/"],
+			[href^="${location.origin}/gist/"]
+		)
+	` as 'a',
+]; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
 ] satisfies UrlMatch[];
