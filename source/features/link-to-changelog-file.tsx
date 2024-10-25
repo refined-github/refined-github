@@ -1,12 +1,10 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import BookIcon from 'octicons-plain-react/Book';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
@@ -46,13 +44,10 @@ async function init(): Promise<void | false> {
 
 	const changelogButton = (
 		<a
-			className={'tooltipped tooltipped-n btn mx-3' + (pageDetect.isEnterprise() ? '' : ' flex-self-start')}
+			className="subnav-item tooltipped tooltipped-n"
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
-			style={pageDetect.isEnterprise() ? {padding: '6px 16px'} : {}}
-			role="button"
 		>
-			<BookIcon className="color-fg-accent mr-2" />
 			<span>Changelog</span>
 		</a>
 	);
@@ -63,9 +58,7 @@ async function init(): Promise<void | false> {
 	].join(',');
 
 	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-	navbar.classList.remove('flex-1'); // Remove margin-right
-	navbar.classList.add('d-flex'); // Avoid wrapping
-	wrapAll(<div className="d-flex flex-justify-start flex-1" />, navbar, changelogButton);
+	navbar.append(changelogButton);
 }
 
 void features.add(import.meta.url, {
