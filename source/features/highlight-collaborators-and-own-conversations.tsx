@@ -19,21 +19,21 @@ const collaborators = new CachedFunction('repo-collaborators', {
 	cacheKey: cacheByRepo,
 });
 
-async function highlightCollaborators(): Promise<void> {
+async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
 	observe('.js-issue-row [data-hovercard-type="user"]', author => {
 		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
-	});
+	}, {signal});
 }
 
-function highlightSelf(): void {
+function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	observe(`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`, author => {
 		author.classList.add('rgh-collaborator');
 		author.style.fontStyle = 'italic';
-	});
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
