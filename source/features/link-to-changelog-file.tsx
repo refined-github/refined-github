@@ -57,8 +57,8 @@ async function init(): Promise<void | false> {
 		'.subnav-links', // Tag list
 	].join(',');
 
-	const navbar = (await elementReady(releasesOrTagsNavbarSelector, {waitForChildren: false}))!;
-	navbar.append(changelogButton);
+	const navbar = (await elementReady(releasesOrTagsNavbarSelector));
+	navbar!.append(changelogButton);
 }
 
 void features.add(import.meta.url, {
