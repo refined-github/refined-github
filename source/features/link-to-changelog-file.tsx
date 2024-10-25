@@ -42,23 +42,21 @@ async function init(): Promise<void | false> {
 		return false;
 	}
 
-	const changelogButton = (
+	const releasesOrTagsNavbarSelector = [
+		'nav[aria-label^="Releases and Tags"]', // Release list
+		'.subnav-links', // Tag list
+	].join(',');
+
+	const navbar = await elementReady(releasesOrTagsNavbarSelector);
+	navbar!.append(
 		<a
 			className="subnav-item tooltipped tooltipped-n"
 			aria-label={`View the ${changelog} file`}
 			href={buildRepoURL('blob', 'HEAD', changelog)}
 		>
 			<span>Changelog</span>
-		</a>
+		</a>,
 	);
-
-	const releasesOrTagsNavbarSelector = [
-		'nav[aria-label^="Releases and Tags"]', // Release list
-		'.subnav-links', // Tag list
-	].join(',');
-
-	const navbar = (await elementReady(releasesOrTagsNavbarSelector));
-	navbar!.append(changelogButton);
 }
 
 void features.add(import.meta.url, {
