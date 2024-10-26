@@ -87,7 +87,6 @@ function handleSelection({target}: Event): void {
 		// Make all notifications selectable again
 		toggleSelectability(excluded, true);
 	}
-
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
@@ -165,7 +164,7 @@ const createDropdown = onetime(() => (
 ));
 
 function closeDropdown(): void {
-	$('.rgh-select-notifications')?.removeAttribute('open');
+	$('.rgh-select-notifications').removeAttribute('open');
 }
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
