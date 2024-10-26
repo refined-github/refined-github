@@ -33,7 +33,7 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
