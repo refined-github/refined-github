@@ -72,9 +72,16 @@ void features.add(import.meta.url, {
 - Code Search: https://github.com/search?q=%2F%23%5Cd%7B4%2C%7D%2F+language%3Atypescript&type=code
 - Comment: https://github.com/sindresorhus/linkify-urls/pull/40#pullrequestreview-1593302757
 
-Live tests field:
+Live tests fields:
 
 ```js
+JS:
+issues: // #12, GH-34, fregante#1 and facebook/react#5678
+url: // https://github.com/?q=refined-github
+```
+
+```
+No syntax:
 issues: // #12, GH-34, fregante#1 and facebook/react#5678
 url: // https://github.com/?q=refined-github
 ```
