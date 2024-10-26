@@ -62,9 +62,9 @@ function handleSelection({target}: Event): void {
 
 		for (const notification of $$('.notifications-list-item')) {
 			if (
-				(types && !elementExists(types, notification))
-				|| (statuses && !elementExists(statuses, notification))
-				|| (readStatus && !notification.matches(readStatus))
+				(types.length > 0 && !elementExists(types, notification))
+				|| (statuses.length > 0 && !elementExists(statuses, notification))
+				|| (readStatus.length > 0 && !notification.matches(readStatus))
 			) {
 				// Make excluded notifications unselectable
 				$('.js-notification-bulk-action-check-item', notification)!.removeAttribute('data-check-all-item');
