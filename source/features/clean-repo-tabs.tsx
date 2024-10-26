@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement as $$$, $ as $optional} from 'select-dom';
+import {expectElement as $, $ as $optional} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -26,7 +26,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = $$$('.Counter', tab);
+	const tabCounter = $('.Counter', tab);
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
@@ -39,11 +39,11 @@ function onlyShowInDropdown(id: string): void {
 
 	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
 
-	const menuItem = $$$(`[data-menu-item$="${id}"]`);
+	const menuItem = $(`[data-menu-item$="${id}"]`);
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	$$$('.UnderlineNav-actions ul').append(menuItem);
+	$('.UnderlineNav-actions ul').append(menuItem);
 }
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {

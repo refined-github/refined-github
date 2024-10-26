@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement as $$$, $ as $optional, elementExists} from 'select-dom';
+import {expectElement as $, $ as $optional, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -48,7 +48,7 @@ function getCount(element: HTMLElement): number {
 async function hideMilestones(container: HTMLElement): Promise<void> {
 	const milestones = $optional('[data-selected-links^="repo_milestones"] .Counter');
 	if (milestones && getCount(milestones) === 0) {
-		$$$('#milestones-select-menu', container).remove();
+		$('#milestones-select-menu', container).remove();
 	}
 }
 

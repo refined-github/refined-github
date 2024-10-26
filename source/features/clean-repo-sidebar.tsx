@@ -1,5 +1,5 @@
 import './clean-repo-sidebar.css';
-import {elementExists, expectElement as $$$, $ as $optional} from 'select-dom';
+import {elementExists, expectElement as $, $ as $optional} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -54,7 +54,7 @@ async function moveReportLink(): Promise<void> {
 	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		$$$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
+		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
 	}
 }
 

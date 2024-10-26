@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {expectElement as $$$, $ as $optional} from 'select-dom';
+import {expectElement as $, $ as $optional} from 'select-dom';
 import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@fregante/mi-cron';
 import * as pageDetect from 'github-url-detection';
@@ -121,7 +121,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)} />;
-	$$$('.ActionListItem-label', workflowListItem).append(
+	$('.ActionListItem-label', workflowListItem).append(
 		<em>
 			({relativeTime})
 		</em>,

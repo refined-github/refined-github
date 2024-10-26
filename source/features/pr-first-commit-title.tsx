@@ -1,4 +1,4 @@
-import {$ as $optional, expectElement as $$$, elementExists} from 'select-dom';
+import {$ as $optional, expectElement as $, elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
@@ -24,7 +24,7 @@ function interpretNode(node: ChildNode): string | void {
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
-	const titleParts = $$$('.js-commits-list-item:first-child p').childNodes;
+	const titleParts = $('.js-commits-list-item:first-child p').childNodes;
 
 	const body = $optional('.js-commits-list-item:first-child .Details-content--hidden pre')
 		?.textContent
@@ -57,14 +57,14 @@ async function init(): Promise<void | false> {
 	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			$$$('#pull_request_title'),
+			$('#pull_request_title'),
 			firstCommit.title,
 		);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		insertTextIntoField(
-			$$$('#pull_request_body'),
+			$('#pull_request_body'),
 			firstCommit.body,
 		);
 	}

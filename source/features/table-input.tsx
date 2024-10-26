@@ -4,7 +4,7 @@ import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $$$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -12,7 +12,7 @@ import observe from '../helpers/selector-observer.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('[data-testid="comment-composer"]')!;
-	const field = $$$(
+	const field = $(
 		'textarea[aria-labelledby="comment-composer-heading"]',
 		container,
 	);

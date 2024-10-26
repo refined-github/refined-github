@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import {
 	$$,
 	$ as $optional,
-	expectElement as $$$,
+	expectElement as $,
 	elementExists,
 } from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -21,9 +21,9 @@ function init(): void | false {
 	const parent = initialGroupedButtons.parentElement!;
 
 	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
-		let title = $$$('.select-menu-item-heading', dropdownItem).textContent.trim();
-		const description = $$$('.description', dropdownItem).textContent.trim();
-		const radioButton = $$$('input[type=radio]', dropdownItem);
+		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
+		const description = $('.description', dropdownItem).textContent.trim();
+		const radioButton = $('input[type=radio]', dropdownItem);
 		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {

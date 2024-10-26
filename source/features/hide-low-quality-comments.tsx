@@ -1,7 +1,7 @@
 import './hide-low-quality-comments.css';
 import delay from 'delay';
 import React from 'dom-chef';
-import {expectElement as $$$, $$, elementExists} from 'select-dom';
+import {expectElement as $, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -22,7 +22,7 @@ async function unhide(event: DelegateEvent): Promise<void> {
 		similarCommentsExpandButton.click();
 	}
 
-	$$$('.rgh-hidden-comment').scrollIntoView();
+	$('.rgh-hidden-comment').scrollIntoView();
 	event.delegateTarget.parentElement!.remove();
 }
 
@@ -37,7 +37,7 @@ function init(): void {
 	}
 
 	const linkedComment = location.hash.startsWith('#issuecomment-')
-		? $$$(`${location.hash} ${singleParagraphCommentSelector}`)
+		? $(`${location.hash} ${singleParagraphCommentSelector}`)
 		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
@@ -63,10 +63,10 @@ function init(): void {
 		}
 
 		// If the person is having a conversation, then don't hide it
-		const author = $$$('.author', comment).getAttribute('href')!;
+		const author = $('.author', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
-		const previousComment = $$$(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
+		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
 		if (previousComment?.closest('.js-timeline-item') !== comment) {
 			continue;
 		}
@@ -76,7 +76,7 @@ function init(): void {
 
 	const lowQualityCount = $$('.rgh-hidden-comment').length;
 	if (lowQualityCount > 0) {
-		$$$('.discussion-timeline-actions').prepend(
+		$('.discussion-timeline-actions').prepend(
 			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>

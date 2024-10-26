@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $$$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -14,7 +14,7 @@ const isSetTheTokenSelector = 'input[name^="issue_form[token]"]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(adjective: JSX.Element | string): void {
-	$$$('#issue_body_template_name').before(
+	$('#issue_body_template_name').before(
 		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
@@ -44,13 +44,13 @@ async function checkToken(): Promise<void> {
 	}
 
 	// Thank you for following the instructions. I'll save you a click.
-	$$$(isSetTheTokenSelector).checked = true;
+	$(isSetTheTokenSelector).checked = true;
 }
 
 async function setVersion(): Promise<void> {
 	const {version} = chrome.runtime.getManifest();
 	// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
-	const field = $$$('input#issue_form_version');
+	const field = $('input#issue_form_version');
 	field.value = version;
 	if (!await getToken()) {
 		field.value = '(' + version + ')';
@@ -59,7 +59,7 @@ async function setVersion(): Promise<void> {
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	$$$('[href="#clear-cache"]').replaceWith(
+	$('[href="#clear-cache"]').replaceWith(
 		<button
 			className="btn"
 			type="button"

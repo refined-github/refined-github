@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $$$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -115,7 +115,7 @@ async function showMissingPart(): Promise<void> {
 		.reverse() // Restore order
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
-	$$$(['main > :first-child', '#parallax_illustration']).after(
+	$(['main > :first-child', '#parallax_illustration']).after(
 		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
 	);
 }
@@ -126,7 +126,7 @@ async function showDefaultBranchLink(): Promise<void> {
 		return;
 	}
 
-	$$$('main > .container-lg').before(
+	$('main > .container-lg').before(
 		<p className="container mt-4 text-center">
 			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 		</p>,
@@ -173,7 +173,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 async function showGitObjectHistory(): Promise<void> {
 	const link = await getGitObjectHistoryLink();
 	if (link) {
-		$$$('main > .container-lg').before(link);
+		$('main > .container-lg').before(link);
 	}
 }
 

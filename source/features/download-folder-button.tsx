@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $$$, $ as $optional} from 'select-dom';
+import {expectElement as $, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import DownloadIcon from 'octicons-plain-react/Download';
 
@@ -32,7 +32,7 @@ function add(menu: HTMLUListElement): void {
 	// Only on permalinks and archived repos
 	$optional('[id$="--trailing-visual"]', link)?.remove();
 
-	$$$('[id$="--label"]', link).textContent = 'Download directory';
+	$('[id$="--label"]', link).textContent = 'Download directory';
 
 	menu!.prepend(item);
 }

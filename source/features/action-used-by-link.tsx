@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $$$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import SearchIcon from 'octicons-plain-react/Search';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function getActionURL(): URL {
-	const actionRepo = $$$('aside a:has(.octicon-repo)')
+	const actionRepo = $('aside a:has(.octicon-repo)')
 		.pathname
 		.slice(1);
 

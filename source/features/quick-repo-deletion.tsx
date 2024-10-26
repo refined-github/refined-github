@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {expectElement as $$$, $ as $optional} from 'select-dom';
+import {expectElement as $, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
@@ -50,7 +50,7 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 		</>,
 		{action: false},
 	);
-	$$$('.application-main').remove();
+	$('.application-main').remove();
 }
 
 async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
@@ -98,7 +98,7 @@ function autoFill(field: HTMLInputElement): void {
 }
 
 function autoOpenModal(signal: AbortSignal): void {
-	$$$(buttonHashSelector).click();
+	$(buttonHashSelector).click();
 	observe('.js-repo-delete-proceed-confirmation', autoFill, {signal});
 }
 

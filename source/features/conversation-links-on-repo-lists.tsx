@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$ as $optional, expectElement as $$$} from 'select-dom';
+import {$ as $optional, expectElement as $} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
@@ -16,7 +16,7 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 
 	// Place before the update date
 	assertNodeContent(
-		$$$('relative-time', repository).previousSibling,
+		$('relative-time', repository).previousSibling,
 		'Updated',
 	).before(
 		<>

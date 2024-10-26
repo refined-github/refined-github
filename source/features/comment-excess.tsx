@@ -1,7 +1,7 @@
 import React from 'react';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {expectElement as $$$, $ as $optional} from 'select-dom';
+import {expectElement as $, $ as $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -27,7 +27,7 @@ function scrollOnSearch(event: KeyboardEvent): void {
 }
 
 function addIndicator(headerCommentCount: HTMLSpanElement): void {
-	const loadMoreButton = $$$(paginationButtonSelector);
+	const loadMoreButton = $(paginationButtonSelector);
 	assertNodeContent(headerCommentCount, /^\d+ comment(s)?$/);
 	assertNodeContent(loadMoreButton, /^\d+ hidden items$/);
 	const spacer = new Text(' · ');

@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$ as $optional, expectElement as $$$} from 'select-dom';
+import {$ as $optional, expectElement as $} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
@@ -30,7 +30,7 @@ async function disableWikiAndProjects(): Promise<void> {
 }
 
 function setStorage(): void {
-	if ($$$('input#rgh-disable-project').checked) {
+	if ($('input#rgh-disable-project').checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }

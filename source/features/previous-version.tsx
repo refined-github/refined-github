@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {expectElement as $$$, elementExists} from 'select-dom';
+import {expectElement as $, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -38,7 +38,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 function addMobileDom(wrappedHistoryButton: HTMLElement): HTMLAnchorElement {
 	const wrappedPreviousButton = wrappedHistoryButton.cloneNode(true);
 	wrappedPreviousButton.setAttribute('aria-label', 'Previous version');
-	const previousButton = $$$('a', wrappedPreviousButton);
+	const previousButton = $('a', wrappedPreviousButton);
 	previousButton.classList.add('rgh-previous-version-mobile');
 	wrappedHistoryButton.before(wrappedPreviousButton);
 	return previousButton;
@@ -47,7 +47,7 @@ function addMobileDom(wrappedHistoryButton: HTMLElement): HTMLAnchorElement {
 function addDesktopDom(historyButton: HTMLAnchorElement): HTMLAnchorElement {
 	const previousButton = historyButton.cloneNode(true);
 	previousButton.classList.add('mr-n2', 'rgh-previous-version-desktop');
-	$$$('span[data-component="text"]', previousButton).textContent = 'Previous';
+	$('span[data-component="text"]', previousButton).textContent = 'Previous';
 	historyButton.before(previousButton);
 	return previousButton;
 }
@@ -71,7 +71,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 		: addDesktopDom(historyButton);
 
 	previousButton.href = url;
-	$$$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
 		<VersionsIcon />,
 	);
 

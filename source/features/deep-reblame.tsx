@@ -1,7 +1,7 @@
 import './deep-reblame.css';
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$$, expectElement as $$$, $ as $optional} from 'select-dom';
+import {$$, expectElement as $, $ as $optional} from 'select-dom';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -52,13 +52,13 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	const blameHunk = blameElement.closest('.react-blame-segment-wrapper')!;
 	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
-	const commitInfo = $$$('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
+	const commitInfo = $('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
 	const prCommit = extractCommitFromHoverCardUrl(commitInfo);
 	const blameUrl = new GitHubFileURL(location.href);
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + $$$('.react-line-number', blameHunk).textContent;
+		blameUrl.hash = 'L' + $('.react-line-number', blameHunk).textContent;
 		location.href = blameUrl.href;
 	}, {
 		message: 'Fetching pull request',
@@ -72,7 +72,7 @@ function addButton(hunk: HTMLElement): void {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$$$('.timestamp-wrapper-mobile', hunk).after(
+		$('.timestamp-wrapper-mobile', hunk).after(
 			<button
 				type="button"
 				aria-label={multilineAriaLabel(

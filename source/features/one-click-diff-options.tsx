@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$ as $optional, expectElement as $$$, elementExists} from 'select-dom';
+import {$ as $optional, expectElement as $, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import BookIcon from 'octicons-plain-react/Book';
 import CheckIcon from 'octicons-plain-react/Check';
@@ -37,11 +37,11 @@ function createWhitespaceButton(): HTMLElement {
 }
 
 function attachPRButtons(dropdown: HTMLDetailsElement): void {
-	const diffSettingsForm = $$$('form[action$="/diffview"]', dropdown);
+	const diffSettingsForm = $('form[action$="/diffview"]', dropdown);
 
 	// Preserve data before emption the form
 	const isUnified = new FormData(diffSettingsForm).get('diff') === 'unified';
-	const token = $$$('[name="authenticity_token"]', diffSettingsForm);
+	const token = $('[name="authenticity_token"]', diffSettingsForm);
 
 	// Empty form except the token field
 	diffSettingsForm.replaceChildren(token);
@@ -86,7 +86,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 
 	// Make space for the new button #655
 	removeTextNodeContaining(
-		$$$('[data-hotkey="c"] strong').previousSibling!,
+		$('[data-hotkey="c"] strong').previousSibling!,
 		'Changes from',
 	);
 

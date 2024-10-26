@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $$$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
@@ -29,7 +29,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 }
 
 function getUI(field: HTMLTextAreaElement): HTMLElement {
-	return $$$('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
+	return $('.rgh-prevent-link-loss-container', field.form!) ?? (createBanner({
 		icon: <AlertIcon className="m-0" />,
 		text: (
 			<>
@@ -55,7 +55,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 
 function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
-		$$$('file-attachment .js-write-bucket', field.form!).append(getUI(field));
+		$('file-attachment .js-write-bucket', field.form!).append(getUI(field));
 	} else {
 		getUI(field).remove();
 	}

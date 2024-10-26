@@ -1,6 +1,6 @@
 import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
-import {$$, expectElement as $$$, lastElement, $ as $optional} from 'select-dom';
+import {$$, expectElement as $, lastElement, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -30,7 +30,7 @@ function init(): void | false {
 			}
 
 			if (element.classList.contains('head-ref')) {
-				$$$('a', element).href = repoRootUrl!;
+				$('a', element).href = repoRootUrl!;
 			} else {
 				wrap(element, <a href={repoRootUrl} />);
 			}
