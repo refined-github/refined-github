@@ -82,6 +82,13 @@ div.markdown-body {
 	padding: 0;
 }
 
+/* Notifications "Unread" dropdown  overlap (Safari, Mobile) */
+/* Info: https://github.com/refined-github/refined-github/issues/7959 */
+/* Test: https://github.com/notifications */
+#dialog-show-notifications-tabs-nav ~ action-menu {
+	flex-shrink: 0;
+}
+
 /*
 
 Test URLs:
