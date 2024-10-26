@@ -3,7 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$, elementExists} from 'select-dom';
+import {elementExists, $ as $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -151,7 +151,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const widget = await createLink(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
-	const newReleaseButton = $('nav + div a[href$="/releases/new"]');
+	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
 		groupButtons([

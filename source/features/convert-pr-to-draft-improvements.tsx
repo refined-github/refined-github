@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, elementExists, expectElement} from 'select-dom';
+import {elementExists, expectElement as $$$, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -13,14 +13,14 @@ function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButt
 }
 
 function addConvertToDraftButton(alternativeActions: Element): void {
-	const existingButton = $('[data-url$="/convert_to_draft"]');
+	const existingButton = $optional('[data-url$="/convert_to_draft"]');
 	// Needs to check the existence of both to guarantee the non-draft state
 	if (!existingButton || elementExists('[action$="/ready_for_review"]')) {
 		return;
 	}
 
 	const convertToDraft = existingButton.closest('details')!.cloneNode(true);
-	expectElement('.Link--muted', convertToDraft).classList.remove('Link--muted');
+	$$$('.Link--muted', convertToDraft).classList.remove('Link--muted');
 	alternativeActions.prepend(convertToDraft);
 }
 

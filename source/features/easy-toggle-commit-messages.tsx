@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -18,7 +18,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	$([
+	$optional([
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 	], event.delegateTarget)?.dispatchEvent(

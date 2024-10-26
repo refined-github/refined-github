@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
+import {expectElement as $$$, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import DownloadIcon from 'octicons-plain-react/Download';
 
@@ -27,12 +27,12 @@ function add(menu: HTMLUListElement): void {
 	link.setAttribute('aria-keyshortcuts', 'c');
 
 	// Missing on permalinks and archived repos
-	$('svg', link)?.replaceWith(<DownloadIcon />);
+	$optional('svg', link)?.replaceWith(<DownloadIcon />);
 
 	// Only on permalinks and archived repos
-	$('[id$="--trailing-visual"]', link)?.remove();
+	$optional('[id$="--trailing-visual"]', link)?.remove();
 
-	expectElement('[id$="--label"]', link).textContent = 'Download directory';
+	$$$('[id$="--label"]', link).textContent = 'Download directory';
 
 	menu!.prepend(item);
 }

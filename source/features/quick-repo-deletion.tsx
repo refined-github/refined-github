@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {expectElement as $, $ as select} from 'select-dom';
+import {expectElement as $$$, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
@@ -50,7 +50,7 @@ async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
 		</>,
 		{action: false},
 	);
-	$('.application-main').remove();
+	$$$('.application-main').remove();
 }
 
 async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
@@ -62,7 +62,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 
 	// Can't really prevent default, so we must close the dialog if we're on the repo settings page
 	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
-	select<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
+	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	if (confirm('Are you sure you want to delete this repository?')) {
 		await showToast(deleteRepository, {
@@ -98,7 +98,7 @@ function autoFill(field: HTMLInputElement): void {
 }
 
 function autoOpenModal(signal: AbortSignal): void {
-	$(buttonHashSelector).click();
+	$$$(buttonHashSelector).click();
 	observe('.js-repo-delete-proceed-confirmation', autoFill, {signal});
 }
 

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $, $$, elementExists} from 'select-dom';
+import {expectElement as $$$, $$, elementExists} from 'select-dom';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import createRghIssueLink from '../helpers/rgh-issue-link.js';
@@ -9,7 +9,7 @@ import featureLink from '../helpers/feature-link.js';
 import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
-	const container = $('.js-features');
+	const container = $$$('.js-features');
 	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => elementExists(':checked', feature) ? 'enabled' : 'disabled');
 	for (const group of [grouped.disabled, grouped.enabled].filter(Boolean)) {
@@ -22,10 +22,10 @@ function moveDisabledFeaturesToTop(): void {
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
-			const input = $<HTMLInputElement>('#' + feature);
+			const input = $$$<HTMLInputElement>('#' + feature);
 			input.disabled = true;
 			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`).after(
+			$$$(`.feature-name[for="${feature}"]`).after(
 				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
@@ -90,7 +90,7 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 
 export default async function initFeatureList(): Promise<void> {
 	// Generate list
-	$('.js-features').append(...featuresMeta
+	$$$('.js-features').append(...featuresMeta
 		.filter(feature => importedFeatures.includes(feature.id))
 		.map(feature => buildFeatureCheckbox(feature)),
 	);
@@ -102,10 +102,10 @@ export default async function initFeatureList(): Promise<void> {
 	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Filter feature list
-	$('input#filter-features').addEventListener('input', featuresFilterHandler);
+	$$$('input#filter-features').addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
-	$('.features-header').append(` (${featuresMeta.length + 25})`);
+	$$$('.features-header').append(` (${featuresMeta.length + 25})`);
 }
 
 export function updateListDom(): void {

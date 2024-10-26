@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $, elementExists} from 'select-dom';
+import {expectElement as $$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -22,7 +22,7 @@ async function convertToDraft(): Promise<void> {
 		},
 	});
 
-	$(getReleaseEditLinkSelector()).click(); // Visit "Edit release" page
+	$$$(getReleaseEditLinkSelector()).click(); // Visit "Edit release" page
 }
 
 const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';

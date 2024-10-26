@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement as $} from 'select-dom';
+import {expectElement as $$$} from 'select-dom';
 import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
 
@@ -34,7 +34,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt($('.opened-by', pinnedIssue).firstChild!);
+	return looseParseInt($$$('.opened-by', pinnedIssue).firstChild!);
 }
 
 async function update(pinnedIssues: HTMLElement[]): Promise<void> {
@@ -42,7 +42,7 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		const originalLine = $('.opened-by', pinnedIssue);
+		const originalLine = $$$('.opened-by', pinnedIssue);
 		originalLine.after(
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">

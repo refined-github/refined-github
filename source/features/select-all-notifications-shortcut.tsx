@@ -1,11 +1,11 @@
-import {expectElement as $} from 'select-dom';
+import {expectElement as $$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function selectAllNotifications(): void {
-	$('.js-notifications-mark-all-prompt').click();
+	$$$('.js-notifications-mark-all-prompt').click();
 }
 
 function init(signal: AbortSignal): void {

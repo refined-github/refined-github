@@ -1,6 +1,6 @@
 import './mark-merge-commits-in-list.css';
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {expectElement as $$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
@@ -39,7 +39,7 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 };
 
 export function getCommitHash(commit: HTMLElement): string {
-	const hash = $(commitHashLinkInLists, commit).pathname.split('/').pop()!;
+	const hash = $$$(commitHashLinkInLists, commit).pathname.split('/').pop()!;
 	assertCommitHash(hash);
 	return hash;
 }
@@ -47,9 +47,9 @@ export function getCommitHash(commit: HTMLElement): string {
 function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 	if (replace) {
 		// Align icon to the line; rem used to match the native units
-		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
+		$$$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
 	} else {
-		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1" />);
+		$$$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1" />);
 	}
 }
 

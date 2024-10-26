@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$ as $optional} from 'select-dom';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -27,7 +27,7 @@ const exceptions = [
 ];
 
 async function init(): Promise<void> {
-	const deleteButton = $('[action$="/cleanup"] [type="submit"]');
+	const deleteButton = $optional('[action$="/cleanup"] [type="submit"]');
 	if (!deleteButton) {
 		return;
 	}

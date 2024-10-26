@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $, $$} from 'select-dom';
+import {expectElement as $$$, $$} from 'select-dom';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -20,7 +20,7 @@ function generateSubmenu(hideButton: Element): void {
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
-	const hideCommentForm = $(formSelector, comment);
+	const hideCommentForm = $$$(formSelector, comment);
 
 	// Generate dropdown
 	const newForm = hideCommentForm.cloneNode();
@@ -60,10 +60,10 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	const dropdown = hideButton.closest('details')!;
 
 	// Native dropdown
-	$('details-menu', dropdown).classList.toggle('v-hidden', show);
+	$$$('details-menu', dropdown).classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	$(formSelector, dropdown).classList.toggle('v-hidden', !show);
+	$$$(formSelector, dropdown).classList.toggle('v-hidden', !show);
 }
 
 function resetDropdowns(event: DelegateEvent): void {

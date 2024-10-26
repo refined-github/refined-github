@@ -3,7 +3,7 @@ import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $} from 'select-dom';
+import {expectElement as $$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -14,7 +14,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	const container = delegateTarget.closest(['form', '[data-testid="comment-composer"]'])!;
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = $([
+	const field = $$$([
 		'textarea.js-comment-field', // TODO: remove after March 2024
 		'textarea[aria-labelledby="comment-composer-heading"]',
 	], container);
@@ -52,7 +52,7 @@ function append(container: HTMLElement): void {
 		'rgh-collapsible-content-btn',
 	];
 
-	const divider = $([
+	const divider = $$$([
 		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2024
 		'[class^="Toolbar-module__divider"]',
 	], container).cloneNode(true) as HTMLElement;

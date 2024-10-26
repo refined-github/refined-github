@@ -1,4 +1,4 @@
-import {$, elementExists, expectElement} from 'select-dom';
+import {$ as $optional, elementExists, expectElement as $$$} from 'select-dom';
 import onetime from 'onetime';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
@@ -33,7 +33,7 @@ export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<A
 }
 
 export function getForkedRepo(): string | undefined {
-	return $('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
@@ -152,7 +152,7 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 /** Trigger a conversation update if the view is out of date */
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
-	const marker = expectElement('.js-timeline-marker');
+	const marker = $$$('.js-timeline-marker');
 	marker.dispatchEvent(new CustomEvent('socket:message', {
 		bubbles: true,
 		detail: {data: {gid: marker.dataset.gid}},
@@ -187,7 +187,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 }
 
 function getConversationAuthor(): string | undefined {
-	return $('#partial-discussion-header .gh-header-meta .author')?.textContent;
+	return $optional('#partial-discussion-header .gh-header-meta .author')?.textContent;
 }
 
 export function isOwnConversation(): boolean {

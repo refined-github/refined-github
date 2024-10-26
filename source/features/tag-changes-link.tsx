@@ -1,10 +1,10 @@
 import './tag-changes-link.css';
 import React from 'dom-chef';
 import {
-	$,
 	$$,
+	$ as $optional,
+	expectElement as $$$,
 	elementExists,
-	expectElement,
 } from 'select-dom';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
@@ -24,7 +24,7 @@ type TagDetails = {
 };
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = $('.pagination a:last-child');
+	const nextPageLink = $optional('.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}
@@ -40,13 +40,13 @@ async function getNextPage(): Promise<DocumentFragment> {
 function parseTags(element: HTMLElement): TagDetails {
 	// DO NOT change this to `pathname` because it's empty when element is from `getNextPage` function
 	// https://github.com/refined-github/refined-github/pull/7726#discussion_r1727135015
-	const tagUrl = expectElement(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
+	const tagUrl = $$$(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
 	const tag = /\/(?:releases\/tag|tree)\/(.*)/.exec(tagUrl)![1];
 
 	return {
 		element,
 		tag,
-		commit: expectElement('[href*="/commit/"]', element).textContent.trim(),
+		commit: $$$('[href*="/commit/"]', element).textContent.trim(),
 		...parseTag(decodeURIComponent(tag)), // `version`, `namespace`
 	};
 }

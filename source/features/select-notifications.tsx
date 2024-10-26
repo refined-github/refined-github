@@ -1,6 +1,6 @@
 import './select-notifications.css';
 import React from 'dom-chef';
-import {expectElement as $, $$, elementExists} from 'select-dom';
+import {expectElement as $$$, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -37,7 +37,7 @@ type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
 function resetFilters({target}: React.SyntheticEvent): void {
-	$('form#rgh-select-notifications-form').reset();
+	$$$('form#rgh-select-notifications-form').reset();
 	for (const label of $$('label', target as Element)) {
 		label.setAttribute('aria-checked', 'false');
 	}
@@ -48,7 +48,7 @@ function getFiltersSelector(formData: FormData, category: Category): string[] {
 }
 
 function handleSelection({target}: Event): void {
-	const selectAllCheckbox = $('input[type="checkbox"].js-notifications-mark-all-prompt');
+	const selectAllCheckbox = $$$('input[type="checkbox"].js-notifications-mark-all-prompt');
 	// Reset the "Select all" checkbox
 	if (selectAllCheckbox.checked) {
 		selectAllCheckbox.click();
@@ -63,7 +63,7 @@ function handleSelection({target}: Event): void {
 
 	if (elementExists(':checked', target as Element)) {
 		// @ts-expect-error TS bug
-		const formData = new FormData($('form#rgh-select-notifications-form'));
+		const formData = new FormData($$$('form#rgh-select-notifications-form'));
 		const types = getFiltersSelector(formData, 'Type');
 		const statuses = getFiltersSelector(formData, 'Status');
 		const readStatus = getFiltersSelector(formData, 'Read');
@@ -74,7 +74,7 @@ function handleSelection({target}: Event): void {
 				|| (statuses.length > 0 && !elementExists(statuses, notification))
 				|| (readStatus.length > 0 && !notification.matches(readStatus)),
 			)
-			.map(notification => $('.js-notification-bulk-action-check-item', notification));
+			.map(notification => $$$('.js-notification-bulk-action-check-item', notification));
 
 		// Make excluded notifications unselectable
 		toggleSelectability(excluded, false);
@@ -164,7 +164,7 @@ const createDropdown = onetime(() => (
 ));
 
 function closeDropdown(): void {
-	$('.rgh-select-notifications').removeAttribute('open');
+	$$$('.rgh-select-notifications').removeAttribute('open');
 }
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {

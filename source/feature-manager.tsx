@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {$ as $optional, elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
@@ -306,9 +306,9 @@ void add('rgh-deduplicator' as FeatureID, {
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
-		$(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
+		$optional('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
+		$optional(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
+		$optional(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
 	},
 });
 

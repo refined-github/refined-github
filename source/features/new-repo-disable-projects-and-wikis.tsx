@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
+import {$ as $optional, expectElement as $$$} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
@@ -23,14 +23,14 @@ async function disableWikiAndProjects(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	$('[data-menu-item$="wiki-tab"]')?.remove();
-	$('[data-menu-item$="projects-tab"]')?.remove();
-	$('li:has([data-content="Wiki"]')?.remove();
-	$('li:has([data-content="Projects"])')?.remove();
+	$optional('[data-menu-item$="wiki-tab"]')?.remove();
+	$optional('[data-menu-item$="projects-tab"]')?.remove();
+	$optional('li:has([data-content="Wiki"]')?.remove();
+	$optional('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {
-	if (expectElement('input#rgh-disable-project').checked) {
+	if ($$$('input#rgh-disable-project').checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }

@@ -1,4 +1,4 @@
-import {expectElement as $} from 'select-dom';
+import {expectElement as $$$} from 'select-dom';
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -59,10 +59,10 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
-			return parseReference($('.base-ref'));
+			return parseReference($$$('.base-ref'));
 		},
 		get head() {
-			return parseReference($('.head-ref'));
+			return parseReference($$$('.head-ref'));
 		},
 	};
 }

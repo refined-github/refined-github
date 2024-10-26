@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$ as $optional} from 'select-dom';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';
@@ -6,7 +6,7 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 import {messageBackground} from '../helpers/messaging.js';
 
 function openInNewTab(): void {
-	const selected = $('.navigation-focus a.js-navigation-open[href]');
+	const selected = $optional('.navigation-focus a.js-navigation-open[href]');
 	if (!selected) {
 		return;
 	}

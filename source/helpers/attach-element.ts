@@ -1,4 +1,4 @@
-import {$, elementExists} from 'select-dom';
+import {elementExists, $ as $optional} from 'select-dom';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 
@@ -30,7 +30,7 @@ export default function attachElement<NewElement extends Element>(
 		allowMissingAnchor = false,
 	}: Attachment<NewElement>,
 ): NewElement[] {
-	const anchorElement = typeof anchor === 'string' ? $(anchor) : anchor;
+	const anchorElement = typeof anchor === 'string' ? $optional(anchor) : anchor;
 	if (!anchorElement) {
 		if (allowMissingAnchor) {
 			return [];

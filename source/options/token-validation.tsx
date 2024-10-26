@@ -1,4 +1,4 @@
-import {expectElement as $, $$} from 'select-dom';
+import {expectElement as $$$, $$} from 'select-dom';
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 
@@ -12,7 +12,7 @@ type Status = {
 };
 
 function reportStatus({tokenType, error, text, scopes}: Status): void {
-	const tokenStatus = $('#validation');
+	const tokenStatus = $$$('#validation');
 	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
@@ -35,17 +35,17 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 }
 
 function getApiUrl(): string {
-	const tokenLink = $('a#personal-token-link');
+	const tokenLink = $$$('a#personal-token-link');
 	return tokenLink.host === 'github.com'
 		? 'https://api.github.com/'
 		: `${tokenLink.origin}/api/v3/`;
 }
 function expandTokenSection(): void {
-	$('details#token').open = true;
+	$$$('details#token').open = true;
 }
 
 async function validateToken(): Promise<void> {
-	const tokenField = $('input[name="personalToken"]');
+	const tokenField = $$$('input[name="personalToken"]');
 	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
 	reportStatus({tokenType});
 
@@ -81,7 +81,7 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	await validateToken();
 
 	// Listen to events
-	const field = $('input[name="personalToken"]');
+	const field = $$$('input[name="personalToken"]');
 	field.addEventListener('input', validateToken);
 	field.addEventListener('focus', () => {
 		field.type = 'text';

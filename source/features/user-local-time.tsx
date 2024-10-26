@@ -4,7 +4,7 @@ import './user-local-time.css';
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import delay from 'delay';
-import {$, elementExists} from 'select-dom';
+import {elementExists, $ as $optional} from 'select-dom';
 import ClockIcon from 'octicons-plain-react/Clock';
 
 import features from '../feature-manager.js';
@@ -118,7 +118,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const login = $('a.Link--primary', hovercard)?.pathname.slice(1);
+	const login = $optional('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
 	}
