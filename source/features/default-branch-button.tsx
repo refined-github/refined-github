@@ -33,7 +33,7 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
@@ -59,7 +59,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
