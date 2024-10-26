@@ -1,6 +1,6 @@
 import './select-notifications.css';
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {expectElement as $, $$, elementExists} from 'select-dom';
 import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -48,7 +48,7 @@ function getFiltersSelector(formData: FormData, category: Category): string[] {
 }
 
 function handleSelection({target}: Event): void {
-	const selectAllCheckbox = $('input[type="checkbox"].js-notifications-mark-all-prompt')!;
+	const selectAllCheckbox = $('input[type="checkbox"].js-notifications-mark-all-prompt');
 	// Reset the "Select all" checkbox
 	if (selectAllCheckbox.checked) {
 		selectAllCheckbox.click();
@@ -62,6 +62,7 @@ function handleSelection({target}: Event): void {
 	};
 
 	if (elementExists(':checked', target as Element)) {
+		// @ts-expect-error TS bug
 		const formData = new FormData($('form#rgh-select-notifications-form'));
 		const types = getFiltersSelector(formData, 'Type');
 		const statuses = getFiltersSelector(formData, 'Status');
