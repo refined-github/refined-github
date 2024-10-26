@@ -59,7 +59,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
