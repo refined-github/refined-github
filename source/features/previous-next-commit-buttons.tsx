@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -11,7 +11,7 @@ function init(): false | void {
 	}
 
 	// Wrap the button in a <div> to avoid #4503
-	$('#files')!.after(
+	expectElement('#files').after(
 		<div className="d-flex flex-justify-end mb-3">
 			{originalPreviousNext.cloneNode(true)}
 		</div>,

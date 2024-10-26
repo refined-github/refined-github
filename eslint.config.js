@@ -123,6 +123,10 @@ export default antfu(
 						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > :matches([name=$], [name=expectElement])',
+					message: 'Use `expectElement()` instead of non-null `$()`. Prefer using `import {expectElement as $}`',
+				},
 			],
 			'no-alert': 'off',
 			'ts/no-unsafe-assignment': 'off',

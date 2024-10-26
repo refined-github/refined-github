@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
@@ -20,7 +20,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 	}
 
 	const convertToDraft = existingButton.closest('details')!.cloneNode(true);
-	$('.Link--muted', convertToDraft)!.classList.remove('Link--muted');
+	expectElement('.Link--muted', convertToDraft).classList.remove('Link--muted');
 	alternativeActions.prepend(convertToDraft);
 }
 

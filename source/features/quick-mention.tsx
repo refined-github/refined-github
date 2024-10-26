@@ -1,6 +1,6 @@
 import './quick-mention.css';
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {expectElement as $, elementExists} from 'select-dom';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
@@ -20,7 +20,7 @@ function prefixUserMention(userMention: string): string {
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = $(fieldSelector)!;
+	const newComment = $(fieldSelector);
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -70,7 +70,7 @@ function add(avatar: HTMLElement): void {
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
-	const userMention = $('img', avatar)!.alt;
+	const userMention = $('img', avatar).alt;
 	avatar.after(
 		<button
 			type="button"

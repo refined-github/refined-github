@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, expectElement} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -26,7 +26,7 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 }
 
 function createCommitTitle(): string {
-	const prTitle = $(prTitleFieldSelector)!.value.trim();
+	const prTitle = expectElement(prTitleFieldSelector).value.trim();
 	return formatPrCommitTitle(prTitle);
 }
 

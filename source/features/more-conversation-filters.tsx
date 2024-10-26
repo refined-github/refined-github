@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$, expectElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
 
@@ -21,14 +21,14 @@ function init(): void {
 	sourceItem.after(commentsLink);
 
 	// "Subscribed" external link
-	const searchSyntaxLink = $('#filters-select-menu a:last-child')!;
+	const searchSyntaxLink = expectElement('#filters-select-menu a:last-child');
 	const subscriptionsLink = searchSyntaxLink.cloneNode(true);
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId
 		= $('meta[name="octolytics-dimension-repository_id"]')?.content
-		?? $('input[name="repository_id"]')!.value;
+		?? expectElement('input[name="repository_id"]').value;
 	subscriptionsUrl.searchParams.set('repository', stringToBase64(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 

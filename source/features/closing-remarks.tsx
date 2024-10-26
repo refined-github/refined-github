@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
+import {expectElement as $, $$} from 'select-dom';
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
@@ -50,7 +50,7 @@ function createReleaseUrl(): string | undefined {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent;
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {

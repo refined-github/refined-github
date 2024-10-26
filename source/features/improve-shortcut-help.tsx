@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {$, elementExists, expectElement} from 'select-dom';
 import onetime from 'onetime';
 
 import features from '../feature-manager.js';
@@ -10,7 +10,7 @@ function splitKeys(keys: string): DocumentFragment[] {
 }
 
 function improveShortcutHelp(dialog: Element): void {
-	$('.Box-body .col-5 .Box:first-child', dialog)!.after(
+	expectElement('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
 				<h2 className="Box-title">Refined GitHub</h2>

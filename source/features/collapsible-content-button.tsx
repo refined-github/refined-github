@@ -17,7 +17,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	const field = $([
 		'textarea.js-comment-field', // TODO: remove after March 2024
 		'textarea[aria-labelledby="comment-composer-heading"]',
-	], container)!;
+	], container);
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -55,7 +55,7 @@ function append(container: HTMLElement): void {
 	const divider = $([
 		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2024
 		'[class^="Toolbar-module__divider"]',
-	], container)!.cloneNode(true) as HTMLElement;
+	], container).cloneNode(true) as HTMLElement;
 
 	container.append(
 		divider,

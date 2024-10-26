@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {expectElement as $} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -24,14 +24,14 @@ function init(): void {
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {
-		references.unshift($('.branch span')!.textContent);
+		references.unshift($('.branch span').textContent);
 	}
 
 	if (references[0] === references[1]) {
 		return;
 	}
 
-	const referencePicker = $('.range-editor .d-inline-block + .range-cross-repo-pair')!;
+	const referencePicker = $('.range-editor .d-inline-block + .range-cross-repo-pair');
 	referencePicker.after(
 		<a className="btn btn-sm mx-2" href={buildRepoURL('compare/' + references.join('...'))}>
 			Swap

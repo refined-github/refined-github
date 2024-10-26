@@ -22,10 +22,10 @@ function moveDisabledFeaturesToTop(): void {
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (importedFeatures.includes(feature)) {
-			const input = $<HTMLInputElement>('#' + feature)!;
+			const input = $<HTMLInputElement>('#' + feature);
 			input.disabled = true;
 			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`)!.after(
+			$(`.feature-name[for="${feature}"]`).after(
 				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
@@ -102,7 +102,7 @@ export default async function initFeatureList(): Promise<void> {
 	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Filter feature list
-	$('input#filter-features')!.addEventListener('input', featuresFilterHandler);
+	$('input#filter-features').addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(` (${featuresMeta.length + 25})`);

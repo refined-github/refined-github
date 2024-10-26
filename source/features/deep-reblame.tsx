@@ -58,7 +58,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
-		blameUrl.hash = 'L' + $('.react-line-number', blameHunk)!.textContent;
+		blameUrl.hash = 'L' + expectElement('.react-line-number', blameHunk).textContent;
 		location.href = blameUrl.href;
 	}, {
 		message: 'Fetching pull request',
@@ -72,7 +72,7 @@ function addButton(hunk: HTMLElement): void {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$('.timestamp-wrapper-mobile', hunk)!.after(
+		expectElement('.timestamp-wrapper-mobile', hunk).after(
 			<button
 				type="button"
 				aria-label={multilineAriaLabel(

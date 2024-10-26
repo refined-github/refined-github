@@ -46,7 +46,7 @@ function parseTags(element: HTMLElement): TagDetails {
 	return {
 		element,
 		tag,
-		commit: $('[href*="/commit/"]', element)!.textContent.trim(),
+		commit: expectElement('[href*="/commit/"]', element).textContent.trim(),
 		...parseTag(decodeURIComponent(tag)), // `version`, `namespace`
 	};
 }

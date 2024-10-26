@@ -37,7 +37,7 @@ type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
 function resetFilters({target}: React.SyntheticEvent): void {
-	$('form#rgh-select-notifications-form')!.reset();
+	$('form#rgh-select-notifications-form').reset();
 	for (const label of $$('label', target as Element)) {
 		label.setAttribute('aria-checked', 'false');
 	}

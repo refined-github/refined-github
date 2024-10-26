@@ -1,6 +1,6 @@
 import './clean-conversation-headers.css';
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {expectElement as $, $ as select} from 'select-dom';
 import elementReady from 'element-ready';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';
@@ -15,7 +15,7 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
-	const commentCount = $('relative-time', byline)!.nextSibling!;
+	const commentCount = $('relative-time', byline).nextSibling!;
 	commentCount.replaceWith(<span>{commentCount.textContent.replace('·', '')}</span>);
 }
 
@@ -27,14 +27,14 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
 		&& !byline.closest('.gh-header-sticky') // #7802
-		&& $('.author', byline)!.textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+		&& $('.author', byline).textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
 
-	const base = $('.commit-ref', byline)!;
-	const baseBranchDropdown = $('.commit-ref-dropdown', byline);
+	const base = $('.commit-ref', byline);
+	const baseBranchDropdown = select('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
 	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
