@@ -1,6 +1,6 @@
 import './extend-diff-expander.css';
 
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,7 +9,7 @@ import features from '../feature-manager.js';
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
 	if (!(event.target as Element).closest('.js-expand')) {
-		$('.js-expand', event.delegateTarget)!.click();
+		$('.js-expand', event.delegateTarget).click();
 	}
 }
 

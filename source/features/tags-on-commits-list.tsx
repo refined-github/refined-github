@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 
@@ -107,7 +109,7 @@ async function init(): Promise<void | false> {
 			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = $('div[data-testid="list-view-item-description"]', commit)!;
+			const commitMeta = $('div[data-testid="list-view-item-description"]', commit);
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">

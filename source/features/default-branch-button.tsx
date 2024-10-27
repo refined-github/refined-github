@@ -3,7 +3,7 @@ import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
@@ -44,7 +44,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		: branchSelector;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
-	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098

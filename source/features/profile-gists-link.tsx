@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
@@ -50,7 +51,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	navigationBar.append(link);
 
 	// There are two UnderlineNav items (responsive…) that point to the same dropdown
-	const overflowNav = expectElement(repoUnderlineNavDropdownUl);
+	const overflowNav = $(repoUnderlineNavDropdownUl);
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
 			createDropdownItem({

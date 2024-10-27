@@ -1,7 +1,7 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-
-import {expectElement as $, $ as select, $$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {enableTabToIndent} from 'indent-textarea';
@@ -60,7 +60,7 @@ function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDet
 	}
 
 	if (section.open) {
-		const field = select('input, textarea', section);
+		const field = $optional('input, textarea', section);
 		if (field) {
 			field.focus({preventScroll: true});
 			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
@@ -147,7 +147,7 @@ async function generateDom(): Promise<void> {
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();
 
-	$('#version')!.textContent = version;
+	$('#version').textContent = version;
 }
 
 function addEventListeners(): void {

@@ -84,7 +84,6 @@ export default antfu(
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',
 			'jsonc/sort-keys': 'off',
-
 			'ts/no-restricted-types': [
 				'error',
 				{
@@ -105,23 +104,45 @@ export default antfu(
 						},
 						'[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
 						'[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
-						'[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
-						'[[[[]]]]': 'ur drunk 🤡',
-						'[[[[[]]]]]': '🦄💥',
 					},
 				},
+			],
+			'no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: 'select-dom',
+							importNames: ['$', 'expectElement'],
+							message: 'Import $ or $optional from `select-dom/strict.js` instead',
+						},
+					],
+				},
+
 			],
 			'no-restricted-syntax': [
 				'error',
 				{
 					selector:
-						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest], [callee.property.name=$optional])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 				},
 				{
 					selector:
-						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest], [callee.property.name=$optional])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
+					message: 'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$]',
+					message: 'Unused null expression: !',
+				},
+				{
+					selector: 'MemberExpression[optional=true][object.callee.name=$]',
+					message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
 				},
 			],
 			'no-alert': 'off',

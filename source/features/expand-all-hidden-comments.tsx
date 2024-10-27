@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import oneEvent from 'one-event';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -20,7 +20,7 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 			wrapper = wrapper.lastElementChild!;
 		}
 
-		paginationButton = $(`:scope > ${paginationButtonSelector}`, wrapper);
+		paginationButton = $optional(`:scope > ${paginationButtonSelector}`, wrapper);
 		paginationButton?.click();
 	}
 }

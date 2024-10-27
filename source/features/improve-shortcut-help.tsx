@@ -1,5 +1,6 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
@@ -10,7 +11,7 @@ function splitKeys(keys: string): DocumentFragment[] {
 }
 
 function improveShortcutHelp(dialog: Element): void {
-	$('.Box-body .col-5 .Box:first-child', dialog)!.after(
+	$('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
 				<h2 className="Box-title">Refined GitHub</h2>
@@ -44,7 +45,7 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	const modal = $('body > details:not(.js-command-palette-dialog) > details-dialog');
+	const modal = $optional('body > details:not(.js-command-palette-dialog) > details-dialog');
 	if (modal) {
 		observer.observe(modal, {childList: true});
 	}

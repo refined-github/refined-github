@@ -2,7 +2,8 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -52,8 +53,8 @@ function getBestComment(): HTMLElement | undefined {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	$('.unminimized-comment', bestComment)!.classList.add('rgh-highest-rated-comment');
-	$('.unminimized-comment .timeline-comment-header > h3', bestComment)!.before(
+	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
+	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
 		<span
 			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -72,9 +73,9 @@ function linkBestComment(bestComment: HTMLElement): void {
 		return;
 	}
 
-	const text = $('.comment-body', bestComment)!.textContent.slice(0, 100);
-	const {hash} = $('a.js-timestamp', bestComment)!;
-	const avatar = $('img.avatar', bestComment)!.cloneNode();
+	const text = $('.comment-body', bestComment).textContent.slice(0, 100);
+	const {hash} = $('a.js-timestamp', bestComment);
+	const avatar = $('img.avatar', bestComment).cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
 		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center">
@@ -101,7 +102,7 @@ function init(): false | void {
 		return false;
 	}
 
-	const commentText = $(singleParagraphCommentSelector, bestComment)?.textContent;
+	const commentText = $optional(singleParagraphCommentSelector, bestComment)?.textContent;
 	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;
 	}

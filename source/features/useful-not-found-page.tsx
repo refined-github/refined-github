@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -194,7 +194,7 @@ async function init(): Promise<void> {
 
 async function initPRCommit(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
-	if (!await isUrlReachable(commitUrl)) {
+	if (!(await isUrlReachable(commitUrl))) {
 		return false;
 	}
 

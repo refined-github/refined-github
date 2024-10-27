@@ -1,7 +1,8 @@
 import './conversation-activity-filter.css';
 
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
@@ -50,7 +51,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$(staleReviewId)!
+		$(staleReviewId)
 			.closest('.js-timeline-item')!
 			.classList
 			.add(collapsedClassName);
@@ -98,12 +99,12 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	const state = $('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	const state = $('[aria-checked="true"]', target as Element).dataset.value as State;
 	applyState(state);
 }
 
 function applyState(state: State): void {
-	const container = $('.js-issues-results')!;
+	const container = $('.js-issues-results');
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -200,12 +201,12 @@ const minorFixesIssuePages = [
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+		$optional(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
 	}
 }
 
 function switchToNextFilter(): void {
-	const state = $(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
+	const state = $(`.${dropdownClass} [aria-checked="true"]`).dataset.value as State;
 
 	switch (state) {
 		case 'default': {

@@ -1,7 +1,8 @@
 import './select-notifications.css';
 
 import React from 'dom-chef';
-import {expectElement as $, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
@@ -38,7 +39,7 @@ type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
 function resetFilters({target}: React.SyntheticEvent): void {
-	$('form#rgh-select-notifications-form')!.reset();
+	$('form#rgh-select-notifications-form').reset();
 	for (const label of $$('label', target as Element)) {
 		label.setAttribute('aria-checked', 'false');
 	}

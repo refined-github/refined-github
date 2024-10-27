@@ -1,5 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {$, expectElement, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -46,20 +47,20 @@ function getCount(element: HTMLElement): number {
 // TODO: Drop in March 2025
 // The new beta view doesn't have .Counter and using the API isn't worth it
 async function hideMilestones(container: HTMLElement): Promise<void> {
-	const milestones = $('[data-selected-links^="repo_milestones"] .Counter');
+	const milestones = $optional('[data-selected-links^="repo_milestones"] .Counter');
 	if (milestones && getCount(milestones) === 0) {
-		expectElement('#milestones-select-menu', container).remove();
+		$('#milestones-select-menu', container).remove();
 	}
 }
 
 async function hideProjects(container: HTMLElement): Promise<void> {
-	const filter = $([
+	const filter = $optional([
 		'#project-select-menu', // TODO: Drop in March 2025
 		'[data-testid="action-bar-item-projects"]',
 	], container);
 
 	// If the filter is missing, then it has been disabled organization-wide already
-	if (filter && !await hasAnyProjects.get()) {
+	if (filter && !(await hasAnyProjects.get())) {
 		filter.remove();
 	}
 }
