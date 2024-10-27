@@ -1,6 +1,5 @@
 import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
-
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

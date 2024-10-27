@@ -5,15 +5,6 @@ import {stringToBase64} from 'uint8array-extras';
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
-/*
-
-Test URLs:
-
-https://github.com/refined-github/refined-github/issues
-https://github.com/refined-github/refined-github/pulls
-
-*/
-
 function init(): void {
 	const sourceItem = $optional('#filters-select-menu a:nth-last-child(2)');
 	if (!sourceItem) {
@@ -52,3 +43,12 @@ void features.add(import.meta.url, {
 	deduplicate: 'has-rgh-inner',
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/refined-github/refined-github/issues
+https://github.com/refined-github/refined-github/pulls
+
+*/
