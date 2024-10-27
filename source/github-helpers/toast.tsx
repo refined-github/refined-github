@@ -3,6 +3,9 @@ import React from 'dom-chef';
 import {assertError} from 'ts-extras';
 import CheckIcon from 'octicons-plain-react/Check';
 import StopIcon from 'octicons-plain-react/Stop';
+import oneEvent from 'one-event';
+
+import {frame} from '../helpers/dom-utils.js';
 
 function ToastSpinner(): JSX.Element {
 	return (
@@ -28,7 +31,7 @@ export default async function showToast(
 		<div
 			role="log"
 			style={{zIndex: 101}}
-			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 anim-fade-in fast Toast Toast--loading"
+			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
 			{messageWrapper}
@@ -36,6 +39,22 @@ export default async function showToast(
 	);
 	const updateToast = (message: string): void => {
 		messageWrapper.textContent = message;
+	};
+
+	const finalUpdateToast = async (message: string): Promise<void> => {
+		updateToast(message);
+
+		// Without rAF the toast might be removed before the first page paint
+		// rAF also allows showToast to resolve as soon as task is done
+		await frame();
+
+		const displayTime = message.split(' ').length * 300 + 2000;
+		await delay(displayTime);
+
+		// Display time is over, animate out
+		toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
+		await oneEvent(toast, 'animationend');
+		toast.remove();
 	};
 
 	document.body.append(toast);
@@ -64,13 +83,6 @@ export default async function showToast(
 		throw error;
 	} finally {
 		updateToast(finalToastMessage);
-
-		// Without rAF the toast might be removed before the first page paint
-		// rAF also allows showToast to resolve as soon as task is done
-		requestAnimationFrame(() => {
-			setTimeout(() => {
-				toast.remove();
-			}, finalToastMessage.split(' ').length * 300 + 2000);
-		});
+		void finalUpdateToast(finalToastMessage);
 	}
 }

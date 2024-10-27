@@ -10,12 +10,13 @@ import delay from 'delay';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
 	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
 	// However, if you can edit every comment, you can still edit the comment
-	(_signal: AbortSignal | undefined): boolean => elementExists('.js-pick-reaction:first-child') && !canEditEveryComment(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
@@ -32,7 +33,7 @@ async function editReactComment({delegateTarget: editButton}: DelegateEvent<Mous
 }
 
 function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): void {
-	if (isIssueIneditable(signal)) {
+	if (await isIssueIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
 	}
@@ -71,27 +72,13 @@ function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: Signa
 	);
 }
 
-export function canEditEveryComment(): boolean {
-	return elementExists([
-		// If you can lock conversations, you have write access
-		'.lock-toggle-link > .octicon-lock',
-
-		// Some pages like `isPRFiles` does not have a lock button
-		// These elements only exist if you commented on the page
-		'[aria-label^="You have been invited to collaborate"]',
-		'[aria-label^="You are the owner"]',
-		'[title^="You are a maintainer"]',
-		'[title^="You are a collaborator"]',
-	]) || pageDetect.canUserEditRepo();
-}
-
 async function init(signal: AbortSignal): Promise<void> {
 	if (await isArchivedRepoAsync()) {
 		return;
 	}
 
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
-	const preSelector = canEditEveryComment() ? '' : '.current-user';
+	const preSelector = await userIsModerator() ? '' : '.current-user';
 
 	observe([
 		'button[aria-label="Issue body actions"]',

@@ -12,3 +12,10 @@ export default async function getStorageBytesInUse(area: 'local' | 'sync'): Prom
 		).length;
 	}
 }
+
+export async function hasUsedStorage(): Promise<boolean> {
+	return (
+		await getStorageBytesInUse('sync') > 0
+		|| Number(await getStorageBytesInUse('local')) > 0
+	);
+}

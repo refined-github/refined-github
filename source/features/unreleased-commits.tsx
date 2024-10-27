@@ -23,6 +23,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -38,11 +39,6 @@ type Tags = {
 		};
 	};
 };
-
-// TODO: This detects admins, but could detect more
-function canUserCreateReleases(): boolean {
-	return elementExists('nav [data-content="Settings"]');
-}
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
@@ -102,7 +98,7 @@ async function createLink(
 
 async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
-	if (!canUserCreateReleases()) {
+	if (!(await userHasPushAccess())) {
 		return link;
 	}
 

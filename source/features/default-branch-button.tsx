@@ -13,6 +13,7 @@ import observe from '../helpers/selector-observer.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileURL(currentUrl);
@@ -32,7 +33,7 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
@@ -58,7 +59,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
@@ -77,7 +78,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	wrapButtons([defaultLink, selectorWrapper]);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(branchSelector, add, {signal});
 }
 

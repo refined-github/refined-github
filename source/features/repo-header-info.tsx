@@ -13,6 +13,7 @@ import api from '../github-helpers/api.js';
 import GetRepositoryInfo from './repo-header-info.gql';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type RepositoryInfo = {
 	isFork: boolean;
@@ -72,7 +73,8 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('.AppHeader-context-full li:last-child a.AppHeader-context-item', add, {signal});
 }
 

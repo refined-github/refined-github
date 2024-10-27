@@ -51,7 +51,7 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		.replaceAll(/\W/g, '')
 		.toLowerCase();
 
-	return username === realname;
+	return username === realname || username.startsWith(realname);
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
@@ -167,7 +167,7 @@ export function fixFileHeaderOverlap(child: Element): void {
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
-	window.dispatchEvent(new Event('resize'));
+	globalThis.dispatchEvent(new Event('resize'));
 }
 
 export function triggerActionBarOverflow(child: Element): void {

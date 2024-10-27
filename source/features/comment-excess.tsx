@@ -52,7 +52,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	if (await elementReady(`${hiddenCommentsForm} ${paginationButtonSelector}`)) {
 		observe('.gh-header-meta relative-time + span', addIndicator, {signal});
-		window.addEventListener('keydown', scrollOnSearch, {signal});
+		globalThis.addEventListener('keydown', scrollOnSearch, {signal});
 	}
 }
 

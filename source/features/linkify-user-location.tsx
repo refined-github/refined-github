@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import onetime from 'onetime';
 
 import features from '../feature-manager.js';
 import {wrap} from '../helpers/dom-utils.js';
@@ -33,7 +34,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init,
+	init: onetime(init),
 });
 
 /*

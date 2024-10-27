@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 import api from '../github-helpers/api.js';
-import {expectTokenScope} from '../github-helpers/github-token.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import observe from '../helpers/selector-observer.js';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
@@ -53,14 +53,15 @@ async function hideMilestones(container: HTMLElement): Promise<void> {
 }
 
 async function hideProjects(container: HTMLElement): Promise<void> {
-	if (await hasAnyProjects.get()) {
-		return;
-	}
-
-	expectElement([
+	const filter = $([
 		'#project-select-menu', // TODO: Drop in March 2025
 		'[data-testid="action-bar-item-projects"]',
-	], container).remove();
+	], container);
+
+	// If the filter is missing, then it has been disabled organization-wide already
+	if (filter && !await hasAnyProjects.get()) {
+		filter.remove();
+	}
 }
 
 async function hide(container: HTMLElement): Promise<void> {
@@ -69,7 +70,8 @@ async function hide(container: HTMLElement): Promise<void> {
 	void hideProjects(container);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe([
 		'#js-issues-toolbar', // TODO: Remove after March 2025
 		'[data-testid="list-view-metadata"]',

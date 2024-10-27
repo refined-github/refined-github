@@ -2,13 +2,13 @@ import React from 'dom-chef';
 import {css} from 'code-tag';
 import onetime from 'onetime';
 import {ParseSelector} from 'typed-query-selector/parser.js';
-
 import delay from 'delay';
 import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
 
-import isDevelopmentVersion from './is-development-version.js';
+import optionsStorage from '../options-storage.js';
 import getCallerID from './caller-id.js';
+import {parseFeatureNameFromStack} from './errors.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
@@ -19,26 +19,6 @@ type Options = {
 };
 
 const animation = 'rgh-selector-observer';
-const getListener = <
-	Selector extends string,
-	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
->(
-	seenMark: string,
-	selector: Selector,
-	callback: ObserverListener<ExpectedElement>,
-	signal?: AbortSignal,
-) => (event: AnimationEvent) => {
-	const target = event.target as ExpectedElement;
-	// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
-	if (target.classList.contains(seenMark) || !target.matches(selector)) {
-		return;
-	}
-
-	// Removes this specific selector’s animation once it was seen
-	target.classList.add(seenMark);
-
-	callback(target, {signal});
-};
 
 const registerAnimation = onetime((): void => {
 	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
@@ -65,16 +45,17 @@ export default function observe<
 		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
 	}
 
-	const selector = String(selectors); // Array#toString() creates a comma-separated string
+	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
 	const seenMark = 'rgh-seen-' + getCallerID();
 
 	registerAnimation();
 
 	const rule = document.createElement('style');
-	if (isDevelopmentVersion()) {
-		// For debuggability
-		rule.setAttribute('s', selector);
-	}
+	// Enable when/if needed
+	// if (isDevelopmentVersion()) {
+	// 	// For debuggability
+	// 	rule.setAttribute('s', selector);
+	// }
 
 	rule.textContent = css`
 		:where(${String(selector)}):not(.${seenMark}) {
@@ -85,7 +66,36 @@ export default function observe<
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
-	window.addEventListener('animationstart', getListener(seenMark, selector, listener, signal), {once, signal});
+
+	let called = false;
+	// Capture stack outside
+	const currentFeature = parseFeatureNameFromStack();
+	(async () => {
+		const {logging} = await optionsStorage.getAll();
+		if (!logging) {
+			return;
+		}
+
+		await domLoaded;
+		await delay(1000);
+		if (!called && !signal?.aborted) {
+			console.warn(currentFeature, '→ Selector not found on page:', selector);
+		}
+	})();
+	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
+		const target = event.target as ExpectedElement;
+		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
+		if (target.classList.contains(seenMark) || !target.matches(selector)) {
+			return;
+		}
+
+		called = true;
+
+		// Removes this specific selector’s animation once it was seen
+		target.classList.add(seenMark);
+
+		listener(target, {signal});
+	}, {once, signal});
 }
 
 // Untested

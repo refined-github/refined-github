@@ -325,12 +325,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "hide-newsfeed-noise",
-		"description": "Hides other inutile newsfeed events (commits, forks, new followers).",
-		"css": true,
-		"screenshot": null
-	},
-	{
 		"id": "hide-user-forks",
 		"description": "Filters out forks and archived repos from profiles by default, leaving only the sources. (but they can still be shown.)",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png"
@@ -361,11 +355,6 @@
 		"id": "improve-shortcut-help",
 		"description": "Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).",
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
-	},
-	{
-		"id": "infinite-scroll",
-		"description": "Automagically expands the newsfeed when you scroll down.",
-		"screenshot": null
 	},
 	{
 		"id": "jump-to-change-requested-comment",
@@ -473,7 +462,7 @@
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png"
+		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
 		"id": "mobile-tabs",
