@@ -11,6 +11,8 @@ import del from 'rollup-plugin-delete';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import svelte from 'rollup-plugin-svelte';
 import {sveltePreprocess} from 'svelte-preprocess';
+import lightning from 'unplugin-lightningcss/rollup';
+import {Features} from 'lightningcss';
 
 const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
 
@@ -53,6 +55,11 @@ const rollup = {
 		del({
 			targets: ['distribution/assets'],
 			runOnce: true, // `false` would be nice, but it deletes the files too early, causing two extension reloads
+		}),
+		lightning({
+			options: {
+				include: Features.Nesting,
+			},
 		}),
 		svelte({
 			compilerOptions: {
