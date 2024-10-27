@@ -84,7 +84,6 @@ export default antfu(
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',
 			'jsonc/sort-keys': 'off',
-
 			'ts/no-restricted-types': [
 				'error',
 				{
@@ -105,9 +104,6 @@ export default antfu(
 						},
 						'[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
 						'[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
-						'[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
-						'[[[[]]]]': 'ur drunk 🤡',
-						'[[[[[]]]]]': '🦄💥',
 					},
 				},
 			],
@@ -124,8 +120,24 @@ export default antfu(
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 				},
 				{
-					selector: 'TSNonNullExpression > CallExpression > :matches([name=$], [name=expectElement])',
-					message: 'Use `expectElement()` instead of non-null `$()`. Prefer using `import {expectElement as $}`',
+					selector: 'ImportSpecifier[imported.name=expectElement][local.name=expectElement]',
+					message: 'Import {expectElement as $}',
+				},
+				{
+					selector: 'ImportSpecifier[imported.name=$][local.name=$]',
+					message: 'Import {$ as $optional}',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
+					message: 'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$]',
+					message: 'Unused null expression: !',
+				},
+				{
+					selector: 'MemberExpression[optional=true][object.callee.name=$]',
+					message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
 				},
 			],
 			'no-alert': 'off',
