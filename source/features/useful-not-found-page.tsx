@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import {expectElement as $} from 'select-dom';
-import onetime from 'onetime';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';

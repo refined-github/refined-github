@@ -1,4 +1,5 @@
 import './link-to-compare-diff.css';
+
 import React from 'dom-chef';
 import {expectElement as $, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

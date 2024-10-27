@@ -1,6 +1,6 @@
 import {$ as $optional} from 'select-dom';
-import onetime from 'onetime';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {messageBackground} from '../helpers/messaging.js';

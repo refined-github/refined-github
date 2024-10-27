@@ -1,12 +1,13 @@
 import './quick-label-removal.css';
+
 import React from 'dom-chef';
 import {elementExists, expectElement as $} from 'select-dom';
-import onetime from 'onetime';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';

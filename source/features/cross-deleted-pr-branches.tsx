@@ -1,4 +1,5 @@
 import './cross-deleted-pr-branches.css';
+
 import React from 'dom-chef';
 import {$$, expectElement as $, lastElement, $ as $optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

@@ -1,4 +1,5 @@
 import './clean-conversation-headers.css';
+
 import React from 'dom-chef';
 import {expectElement as $, $ as $optional} from 'select-dom';
 import elementReady from 'element-ready';

@@ -1,4 +1,5 @@
 import './mark-merge-commits-in-list.css';
+
 import React from 'dom-chef';
 import {expectElement as $} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
