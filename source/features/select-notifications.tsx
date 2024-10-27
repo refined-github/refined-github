@@ -1,7 +1,7 @@
 import './select-notifications.css';
+
 import React from 'dom-chef';
 import {expectElement as $, $$, elementExists} from 'select-dom';
-import onetime from 'onetime';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
@@ -15,6 +15,7 @@ import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 

@@ -1,4 +1,5 @@
 import './fit-textareas.css';
+
 import {isSafari} from 'webext-detect';
 import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';

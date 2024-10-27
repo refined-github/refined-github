@@ -1,4 +1,5 @@
 import './deep-reblame.css';
+
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $$, expectElement} from 'select-dom';

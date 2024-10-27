@@ -1,5 +1,5 @@
 import './conversation-activity-filter.css';
-import delay from 'delay';
+
 import React from 'dom-chef';
 import {$, $$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -9,6 +9,7 @@ import EyeIcon from 'octicons-plain-react/Eye';
 import XIcon from 'octicons-plain-react/X';
 import domLoaded from 'dom-loaded';
 
+import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';

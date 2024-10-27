@@ -1,6 +1,6 @@
-import onetime from 'onetime';
 import {isEnterprise} from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {getUsername} from '../github-helpers/index.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';

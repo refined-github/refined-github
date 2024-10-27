@@ -1,4 +1,5 @@
 import './suggest-commit-title-limit.css';
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
