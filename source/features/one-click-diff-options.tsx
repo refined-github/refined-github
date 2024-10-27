@@ -1,5 +1,6 @@
 import React from 'dom-chef';
-import {$ as $optional, expectElement as $, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import BookIcon from 'octicons-plain-react/Book';
 import CheckIcon from 'octicons-plain-react/Check';

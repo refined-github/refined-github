@@ -3,7 +3,7 @@ import './default-branch-button.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';

@@ -1,7 +1,8 @@
 import './quick-label-removal.css';
 
 import React from 'dom-chef';
-import {elementExists, expectElement as $} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';

@@ -1,7 +1,8 @@
 import './conversation-activity-filter.css';
 
 import React from 'dom-chef';
-import {expectElement as $, $ as $optional, $$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';

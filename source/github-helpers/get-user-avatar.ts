@@ -1,4 +1,4 @@
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 export default function getUserAvatar(username: string, size: number): string | void {

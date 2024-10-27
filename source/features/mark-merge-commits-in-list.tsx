@@ -1,7 +1,7 @@
 import './mark-merge-commits-in-list.css';
 
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';

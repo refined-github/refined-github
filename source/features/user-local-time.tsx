@@ -4,7 +4,8 @@ import './user-local-time.css';
 
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {elementExists, $ as $optional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import ClockIcon from 'octicons-plain-react/Clock';
 
 import delay from '../helpers/delay.js';

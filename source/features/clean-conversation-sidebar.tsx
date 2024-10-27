@@ -1,7 +1,8 @@
 import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
-import {elementExists, expectElement as $, $ as $optional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import onetime from '../helpers/onetime.js';

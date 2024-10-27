@@ -1,5 +1,6 @@
 import React from 'dom-chef';
-import {$ as $optional, elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';

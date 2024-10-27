@@ -1,4 +1,4 @@
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 type PrReference = {
 	/** @example fregante/mem:main */

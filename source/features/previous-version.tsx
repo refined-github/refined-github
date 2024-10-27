@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {expectElement as $, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

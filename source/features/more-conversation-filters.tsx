@@ -1,4 +1,4 @@
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
 

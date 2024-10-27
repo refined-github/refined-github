@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

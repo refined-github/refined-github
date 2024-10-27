@@ -1,4 +1,4 @@
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import type {Nullable} from 'vitest';

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

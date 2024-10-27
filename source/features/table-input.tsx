@@ -5,7 +5,7 @@ import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';

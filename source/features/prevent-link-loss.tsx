@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';

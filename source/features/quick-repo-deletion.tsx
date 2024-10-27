@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';

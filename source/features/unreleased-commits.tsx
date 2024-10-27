@@ -3,7 +3,8 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists, $ as $optional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

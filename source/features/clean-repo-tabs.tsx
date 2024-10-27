@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

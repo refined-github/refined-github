@@ -1,7 +1,7 @@
 import './clean-conversation-headers.css';
 
 import React from 'dom-chef';
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';

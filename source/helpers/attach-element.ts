@@ -1,4 +1,5 @@
-import {elementExists, $ as $optional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {RequireAtLeastOne} from 'type-fest';
 import {isDefined} from 'ts-extras';
 

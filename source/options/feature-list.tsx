@@ -1,7 +1,8 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import createRghIssueLink from '../helpers/rgh-issue-link.js';

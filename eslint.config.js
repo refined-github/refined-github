@@ -107,6 +107,19 @@ export default antfu(
 					},
 				},
 			],
+			'no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: 'select-dom',
+							importNames: ['$', 'expectElement'],
+							message: 'Import $ or $optional from `select-dom/strict.js` instead',
+						},
+					],
+				},
+
+			],
 			'no-restricted-syntax': [
 				'error',
 				{
@@ -118,14 +131,6 @@ export default antfu(
 					selector:
 						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
-				},
-				{
-					selector: 'ImportSpecifier[imported.name=expectElement][local.name=expectElement]',
-					message: 'Import {expectElement as $}',
-				},
-				{
-					selector: 'ImportSpecifier[imported.name=$][local.name=$]',
-					message: 'Import {$ as $optional}',
 				},
 				{
 					selector: 'TSNonNullExpression > CallExpression > [name=$optional]',

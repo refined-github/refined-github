@@ -1,5 +1,6 @@
 import './clean-repo-sidebar.css';
-import {elementExists, expectElement as $, $ as $optional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

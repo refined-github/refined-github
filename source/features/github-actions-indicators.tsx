@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {expectElement as $, $ as $optional} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@fregante/mi-cron';
 import * as pageDetect from 'github-url-detection';

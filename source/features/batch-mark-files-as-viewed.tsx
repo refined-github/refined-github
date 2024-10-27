@@ -1,4 +1,6 @@
-import {expectElement as $, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';

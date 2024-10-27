@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$ as $optional, expectElement as $} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';

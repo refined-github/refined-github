@@ -2,7 +2,8 @@ import './deep-reblame.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$$, expectElement as $, $ as $optional} from 'select-dom';
+import {$$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';

@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import {expectElement as $, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 

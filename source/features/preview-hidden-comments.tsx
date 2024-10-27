@@ -1,7 +1,7 @@
 import './preview-hidden-comments.css';
 
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

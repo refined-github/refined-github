@@ -1,7 +1,8 @@
 import './link-to-compare-diff.css';
 
 import React from 'dom-chef';
-import {expectElement as $, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

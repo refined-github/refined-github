@@ -1,4 +1,4 @@
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
 import oneEvent from 'one-event';

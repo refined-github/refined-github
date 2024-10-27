@@ -3,7 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import TagIcon from 'octicons-plain-react/Tag';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';

@@ -1,5 +1,5 @@
 import {isRepoCommitList} from 'github-url-detection';
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import {extractCurrentBranchFromBranchPicker} from './index.js';
 import {branchSelector} from './selectors.js';

@@ -1,12 +1,8 @@
 import './tag-changes-link.css';
 
 import React from 'dom-chef';
-import {
-	$$,
-	$ as $optional,
-	expectElement as $,
-	elementExists,
-} from 'select-dom';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';

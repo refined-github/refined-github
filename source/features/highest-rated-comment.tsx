@@ -2,7 +2,8 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {expectElement as $, $ as $optional, $$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';

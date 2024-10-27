@@ -1,7 +1,8 @@
 import './quick-mention.css';
 
 import React from 'dom-chef';
-import {expectElement as $, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';

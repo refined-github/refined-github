@@ -1,4 +1,4 @@
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';

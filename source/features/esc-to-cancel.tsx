@@ -1,4 +1,4 @@
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

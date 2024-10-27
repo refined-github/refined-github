@@ -1,4 +1,4 @@
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import oneMutation from 'one-mutation';
 
 export default async function getTabCount(tab: Element): Promise<number> {

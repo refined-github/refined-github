@@ -1,5 +1,5 @@
 import './extend-diff-expander.css';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

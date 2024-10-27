@@ -1,7 +1,8 @@
 import './select-notifications.css';
 
 import React from 'dom-chef';
-import {expectElement as $, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckCircleIcon from 'octicons-plain-react/CheckCircle';

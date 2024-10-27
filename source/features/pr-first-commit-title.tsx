@@ -1,4 +1,5 @@
-import {$ as $optional, expectElement as $, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';

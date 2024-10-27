@@ -1,5 +1,6 @@
 import React from 'dom-chef';
-import {expectElement as $, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeIcon from 'octicons-plain-react/Code';
 import PlusIcon from 'octicons-plain-react/Plus';

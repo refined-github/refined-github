@@ -1,7 +1,7 @@
 import './warning-for-disallow-edits.css';
 
 import React from 'dom-chef';
-import {$ as $optional} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
