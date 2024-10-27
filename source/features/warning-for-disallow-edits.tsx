@@ -20,7 +20,7 @@ function init(): void | false {
 	}
 
 	attachElement(
-		checkbox.closest('.discussion-sidebar-item'),
+		checkbox.closest('.discussion-sidebar-item')!,
 		{after: getWarning},
 	);
 }

@@ -2,7 +2,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"vitest": "vitest --run",
+		"vitest": "NODE_NO_WARNINGS=1 vitest --run",
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",

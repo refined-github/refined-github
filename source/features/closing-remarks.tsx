@@ -85,7 +85,7 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-	attachElement('#issue-comment-box', {
+	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -111,7 +111,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		text: <>{text} <ExplanationLink /></>,
 	};
 
-	attachElement('#issue-comment-box', {
+	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner(
