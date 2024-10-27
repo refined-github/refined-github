@@ -95,7 +95,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'button[aria-label="Issue body actions"]',
-		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', // TODO: Drop in March 2024
+		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', // TODO: Drop in March 2025
 	], addQuickEditButton, {signal});
 	delegate('.react-issue-body .rgh-quick-comment-edit-button', 'click', editReactComment, {signal});
 }
