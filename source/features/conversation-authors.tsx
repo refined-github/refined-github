@@ -1,4 +1,4 @@
-import './highlight-collaborators-and-own-conversations.css';
+import './conversation-authors.css';
 
 import {CachedFunction} from 'webext-storage-cache';
 import {$$} from 'select-dom';
