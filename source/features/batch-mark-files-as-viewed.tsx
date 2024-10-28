@@ -1,4 +1,6 @@
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
 import delegate, {DelegateEvent} from 'delegate-it';
@@ -39,7 +41,7 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
 		if (file !== thisFile && isChecked(file) !== isThisBeingFileChecked) {
-			$('.js-reviewed-checkbox', file)!.click();
+			$('.js-reviewed-checkbox', file).click();
 		}
 	}
 

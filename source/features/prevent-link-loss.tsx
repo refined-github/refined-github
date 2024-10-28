@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
@@ -65,7 +65,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form)!.append(getUI(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(getUI(field.form));
 		} else {
 			// New commit input field
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;

@@ -1,6 +1,8 @@
 import './cross-deleted-pr-branches.css';
+
 import React from 'dom-chef';
-import {$, $$, lastElement} from 'select-dom';
+import {$$, lastElement} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -9,7 +11,7 @@ import features from '../feature-manager.js';
 function init(): void | false {
 	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');
 
-	const headReferenceLink = $('.head-ref a');
+	const headReferenceLink = $optional('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
@@ -30,7 +32,7 @@ function init(): void | false {
 			}
 
 			if (element.classList.contains('head-ref')) {
-				$('a', element)!.href = repoRootUrl!;
+				$('a', element).href = repoRootUrl!;
 			} else {
 				wrap(element, <a href={repoRootUrl} />);
 			}

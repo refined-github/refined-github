@@ -1,9 +1,11 @@
 import './clean-conversation-sidebar.css';
+
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-import onetime from 'onetime';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
@@ -19,12 +21,12 @@ function getNodesAfter(node: Node): Range {
 }
 
 async function cleanReviewers(): Promise<void> {
-	const possibleReviewers = $('[src$="/suggested-reviewers"]');
+	const possibleReviewers = $optional('[src$="/suggested-reviewers"]');
 	if (possibleReviewers) {
 		await onElementRemoval(possibleReviewers);
 	}
 
-	const content = $('[aria-label="Select reviewers"] > .css-truncate')!;
+	const content = $('[aria-label="Select reviewers"] > .css-truncate');
 	if (!content.firstElementChild) {
 		removeTextNodeContaining(content, 'No reviews');
 	}
@@ -46,7 +48,7 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = $(`:is(form, .discussion-sidebar-item):has(${selector})`);
+	const container = $optional(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
@@ -62,7 +64,7 @@ function cleanSection(selector: string): boolean {
 	const heading = $([
 		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
 		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
-	], container)!;
+	], container);
 	if (heading.closest(['form', '.discussion-sidebar-item'])!.querySelector(identifiers)) {
 		return false;
 	}
@@ -79,17 +81,17 @@ function cleanSection(selector: string): boolean {
 }
 
 async function cleanSidebar(): Promise<void> {
-	$('#partial-discussion-sidebar')!.classList.add('rgh-clean-sidebar');
+	$('#partial-discussion-sidebar').classList.add('rgh-clean-sidebar');
 
 	// Assignees
-	const assignees = $('.js-issue-assignees')!;
+	const assignees = $('.js-issue-assignees');
 	if (assignees.children.length === 0) {
 		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
-		const assignYourself = $('.js-issue-assign-self');
+		const assignYourself = $optional('.js-issue-assign-self');
 		if (assignYourself) {
 			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
-			$('[aria-label="Select assignees"] summary')!.append(
+			$('[aria-label="Select assignees"] summary').append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
@@ -104,21 +106,21 @@ async function cleanSidebar(): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')!
+		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')
 			.remove();
 	}
 
 	// Development (linked issues/PRs)
-	const developmentHint = $('[aria-label="Link issues"] p');
+	const developmentHint = $optional('[aria-label="Link issues"] p');
 	if (developmentHint) { // This may not exist if issues are disabled
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
-	const createBranchLink = $('button[data-action="click:create-branch#openDialog"]');
-	const openWorkspaceButton = $('a[href^="https://copilot-workspace.githubnext.com"]');
+	const createBranchLink = $optional('button[data-action="click:create-branch#openDialog"]');
+	const openWorkspaceButton = $optional('a[href^="https://copilot-workspace.githubnext.com"]');
 	if (createBranchLink && !openWorkspaceButton) {
 		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
-		$('[aria-label="Link issues"] summary')!.append(
+		$('[aria-label="Link issues"] summary').append(
 			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
 		);
 	}

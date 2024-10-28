@@ -1,15 +1,17 @@
 /* Simulates fixed columns */
-.rgh-release-download-count > span:not(:last-child) {
-	flex-basis: 0 !important;
-	min-width: 5em;
-}
+.rgh-release-download-count {
+	& > span:not(:last-child) {
+		flex-basis: 0 !important;
+		min-width: 5em;
+	}
 
-/* Date */
-.rgh-release-download-count > span:last-child {
-	min-width: 7em;
-}
+	/* Date */
+	& > span:last-child {
+		min-width: 7em;
+	}
 
-/* Right-align on mobile */
-.rgh-release-download-count [data-rgh-heat] {
-	min-width: 5em;
+	/* Right-align on mobile */
+	[data-rgh-heat] {
+		min-width: 5em;
+	}
 }

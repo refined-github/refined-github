@@ -1,5 +1,7 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import delegate, {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,7 +10,7 @@ import features from '../feature-manager.js';
 const formSelector = [
 	'form[action$="/minimize-comment"]',
 	'form[action$="/minimize"]', // Review thread comments
-];
+] as const;
 
 function generateSubmenu(hideButton: Element): void {
 	if (hideButton.closest('.rgh-quick-comment-hiding-details')) {
@@ -20,7 +22,7 @@ function generateSubmenu(hideButton: Element): void {
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
 	const comment = hideButton.closest('.unminimized-comment')!;
-	const hideCommentForm: HTMLFormElement = $(formSelector, comment)!;
+	const hideCommentForm = $(formSelector, comment);
 
 	// Generate dropdown
 	const newForm = hideCommentForm.cloneNode();
@@ -60,10 +62,10 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 	const dropdown = hideButton.closest('details')!;
 
 	// Native dropdown
-	$('details-menu', dropdown)!.classList.toggle('v-hidden', show);
+	$('details-menu', dropdown).classList.toggle('v-hidden', show);
 
 	// "Hide comment" dropdown
-	$(formSelector, dropdown)!.classList.toggle('v-hidden', !show);
+	$(formSelector, dropdown).classList.toggle('v-hidden', !show);
 }
 
 function resetDropdowns(event: DelegateEvent): void {

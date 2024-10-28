@@ -1,8 +1,9 @@
 import './default-branch-button.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
@@ -33,7 +34,7 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
@@ -43,7 +44,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		: branchSelector;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
-	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
@@ -59,7 +60,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh

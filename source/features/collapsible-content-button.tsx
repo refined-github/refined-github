@@ -3,7 +3,7 @@ import FoldDownIcon from 'octicons-plain-react/FoldDown';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {DelegateEvent} from 'delegate-it';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -15,9 +15,9 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
-		'textarea.js-comment-field', // TODO: remove after March 2024
+		'textarea.js-comment-field', // TODO: remove after March 2025
 		'textarea[aria-labelledby="comment-composer-heading"]',
-	], container)!;
+	], container);
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -53,9 +53,9 @@ function append(container: HTMLElement): void {
 	];
 
 	const divider = $([
-		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2024
+		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
 		'[class^="Toolbar-module__divider"]',
-	], container)!.cloneNode(true) as HTMLElement;
+	], container).cloneNode(true) as HTMLElement;
 
 	container.append(
 		divider,
@@ -73,14 +73,14 @@ function append(container: HTMLElement): void {
 		return;
 
 	// Only needed on the old version
-	// TODO: remove after March 2024
+	// TODO: remove after March 2025
 	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2024
+			'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
 			'[aria-label="Formatting tools"]',
 		],
 		append,

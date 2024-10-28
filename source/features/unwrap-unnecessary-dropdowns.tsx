@@ -1,4 +1,5 @@
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -23,14 +24,14 @@ async function unwrapNotifications(): Promise<void | false> {
 	}
 
 	const dropdown = forms[0].closest('action-menu')!;
-	const currentView = $('.Button-label span:last-child', dropdown)!.textContent.trim();
+	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown
 	replaceDropdownInPlace(dropdown, desiredForm);
 
 	// Fix button’s style
-	const button = $('[type="submit"]', desiredForm)!;
+	const button = $('[type="submit"]', desiredForm);
 	button.className = 'btn';
 	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }

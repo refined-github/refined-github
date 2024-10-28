@@ -1,4 +1,5 @@
-import {$, expectElement, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
@@ -24,9 +25,9 @@ function interpretNode(node: ChildNode): string | void {
 }
 
 function getFirstCommit(): {title: string; body: string | undefined} {
-	const titleParts = expectElement('.js-commits-list-item:first-child p').childNodes;
+	const titleParts = $('.js-commits-list-item:first-child p').childNodes;
 
-	const body = $('.js-commits-list-item:first-child .Details-content--hidden pre')
+	const body = $optional('.js-commits-list-item:first-child .Details-content--hidden pre')
 		?.textContent
 		.trim() ?? undefined;
 
@@ -39,7 +40,7 @@ function getFirstCommit(): {title: string; body: string | undefined} {
 }
 
 async function init(): Promise<void | false> {
-	const sessionResumeId = $('meta[name="session-resume-id"]')?.content;
+	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	const previousTitle = sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`);
 	if (previousTitle) {
 		// The user already altered the PR title/body in a previous load, don't overwrite it
@@ -57,14 +58,14 @@ async function init(): Promise<void | false> {
 	const firstCommit = getFirstCommit();
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			expectElement('#pull_request_title'),
+			$('#pull_request_title'),
 			firstCommit.title,
 		);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		insertTextIntoField(
-			expectElement('#pull_request_body'),
+			$('#pull_request_body'),
 			firstCommit.body,
 		);
 	}

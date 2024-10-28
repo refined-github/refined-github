@@ -1,9 +1,8 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
-
 import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
@@ -64,7 +63,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = $('.branch-action-item:has(.merging-body)')!;
+	const mergeabilityRow = $optional('.branch-action-item:has(.merging-body)');
 	if (mergeabilityRow) {
 		// The PR is not a draft
 		mergeabilityRow.prepend(
@@ -102,7 +101,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedPR,
-		() => $('.head-ref')!.title === 'This repository has been deleted',
+		() => $('.head-ref').title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

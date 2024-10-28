@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import type {Nullable} from 'vitest';
@@ -35,11 +35,11 @@ if (globalThis.content?.fetch) {
  */
 export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
-		parent = $(parent)!;
+		parent = $(parent);
 	}
 
 	// Select direct children only
-	const beforeElement = $(`:scope > :is(${before})`, parent);
+	const beforeElement = $optional(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {

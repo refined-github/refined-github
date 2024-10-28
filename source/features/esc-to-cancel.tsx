@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,7 +7,7 @@ import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		$('.js-cancel-issue-edit')!.click();
+		$('.js-cancel-issue-edit').click();
 
 		event.stopImmediatePropagation();
 		event.preventDefault();
@@ -18,7 +18,7 @@ function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
 }
 
-// TODO: Drop in March 2024, implemented by GitHub
+// TODO: Drop in March 2025, implemented by GitHub
 // https://github.com/refined-github/refined-github/pull/7892
 void features.add(import.meta.url, {
 	shortcuts: {

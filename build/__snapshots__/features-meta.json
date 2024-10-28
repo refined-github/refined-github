@@ -159,6 +159,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"
 	},
 	{
+		"id": "conversation-authors",
+		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
+	},
+	{
 		"id": "conversation-links-on-repo-lists",
 		"description": "Adds a link to the issues and pulls on the user profile repository tab and global search.",
 		"screenshot": "https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png"
@@ -334,12 +340,6 @@
 		"description": "Highlights the most useful comment in issues.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
-	},
-	{
-		"id": "highlight-collaborators-and-own-conversations",
-		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
 	},
 	{
 		"id": "highlight-non-default-base-branch",
