@@ -38,8 +38,6 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	console.log('linkifyFeatures');
-
 	observe([
 		'.js-issue-title code', // `isPR`, Old view `isIssue`
 		'[data-testid="issue-title"] code', // `isIssue`
