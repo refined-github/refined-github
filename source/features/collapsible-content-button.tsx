@@ -15,7 +15,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
-		'textarea.js-comment-field', // TODO: remove after March 2024
+		'textarea.js-comment-field', // TODO: remove after March 2025
 		'textarea[aria-labelledby="comment-composer-heading"]',
 	], container);
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
@@ -53,7 +53,7 @@ function append(container: HTMLElement): void {
 	];
 
 	const divider = $([
-		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2024
+		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
 		'[class^="Toolbar-module__divider"]',
 	], container).cloneNode(true) as HTMLElement;
 
@@ -73,14 +73,14 @@ function append(container: HTMLElement): void {
 		return;
 
 	// Only needed on the old version
-	// TODO: remove after March 2024
+	// TODO: remove after March 2025
 	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2024
+			'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
 			'[aria-label="Formatting tools"]',
 		],
 		append,
