@@ -19,7 +19,7 @@ import createBanner from '../github-helpers/banner.js';
 
 const fieldSelector = [
 	'textarea.js-comment-field',
-	'textarea[aria-labelledby="comment-composer-heading"]', // Commit input field
+	'textarea[aria-labelledby="comment-composer-heading"]', // React view
 ];
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
@@ -71,7 +71,7 @@ function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 		if (field.form) {
 			$('file-attachment .js-write-bucket', field.form).append(getUI(field.form));
 		} else {
-			// Commit input field
+			// React view
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
 			container.append(getUI(container));
 		}
