@@ -11,7 +11,7 @@
 		svg,
 	[class^='PullRequestRow-module']
 		[aria-label*='Status: Draft (not ready)']
-		[data-testid="list-row-state-icon"]
+		[data-testid='list-row-state-icon']
 		svg {
 		stroke: var(--fgColor-muted, var(--color-fg-muted));
 		stroke-width: 1.2px;
