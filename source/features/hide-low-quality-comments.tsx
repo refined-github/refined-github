@@ -1,10 +1,12 @@
 import './hide-low-quality-comments.css';
-import delay from 'delay';
+
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
+import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
@@ -22,7 +24,7 @@ async function unhide(event: DelegateEvent): Promise<void> {
 		similarCommentsExpandButton.click();
 	}
 
-	$('.rgh-hidden-comment')!.scrollIntoView();
+	$('.rgh-hidden-comment').scrollIntoView();
 	event.delegateTarget.parentElement!.remove();
 }
 
@@ -63,7 +65,7 @@ function init(): void {
 		}
 
 		// If the person is having a conversation, then don't hide it
-		const author = $('.author', comment)!.getAttribute('href')!;
+		const author = $('.author', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
@@ -76,7 +78,7 @@ function init(): void {
 
 	const lowQualityCount = $$('.rgh-hidden-comment').length;
 	if (lowQualityCount > 0) {
-		$('.discussion-timeline-actions')!.prepend(
+		$('.discussion-timeline-actions').prepend(
 			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>

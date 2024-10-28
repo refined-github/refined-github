@@ -1,4 +1,5 @@
 import './hidden-review-comments-indicator.css';
+
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
@@ -61,7 +62,7 @@ function init(signal: AbortSignal): void {
 			attributeOldValue: true,
 			attributeFilter: ['class'],
 		});
-	});
+	}, {signal});
 
 	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 

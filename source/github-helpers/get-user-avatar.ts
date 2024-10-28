@@ -1,11 +1,16 @@
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 export default function getUserAvatar(username: string, size: number): string | void {
 	const cleanName = username.replace('[bot]', '');
 
+	if (/[^\w-]/.test(cleanName)) {
+		// TODO: December 2024: Turn into TypeError once we're sure it's not breaking anything
+		console.error(`Expected a username, got ${cleanName}`);
+	}
+
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = $(`[href="/${cleanName}" i] img`);
+	const existingAvatar = $optional(`[href="/${cleanName}" i] img`);
 
 	if (existingAvatar) {
 		return existingAvatar.src;

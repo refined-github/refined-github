@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
@@ -12,11 +12,11 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;
 
 	// Remove the "X issues need help" link
-	$('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
+	$optional('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 	// Place before the update date
 	assertNodeContent(
-		$('relative-time', repository)!.previousSibling,
+		$('relative-time', repository).previousSibling,
 		'Updated',
 	).before(
 		<>

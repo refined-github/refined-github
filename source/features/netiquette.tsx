@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
@@ -12,7 +13,6 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
-
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
@@ -24,7 +24,7 @@ function timeAgo(date: Date): number {
 }
 
 function getCloseDate(): Date {
-	const datetime = $('relative-time', getLastCloseEvent())!.getAttribute('datetime')!;
+	const datetime = $('relative-time', getLastCloseEvent()).getAttribute('datetime')!;
 	console.assert(datetime, 'Datetime attribute missing from relative-time');
 	return new Date(datetime);
 }
@@ -93,7 +93,7 @@ async function initBanner(signal: AbortSignal): Promise<void | false> {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
 		observe(newCommentField, addConversationBanner, {signal});
-	} else if (isPopular() && !await userIsModerator()) {
+	} else if (isPopular() && !(await userIsModerator())) {
 		observe(newCommentField, addPopularBanner, {signal});
 	} else {
 		return false;

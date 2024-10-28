@@ -1,5 +1,6 @@
 import './clean-repo-sidebar.css';
-import {$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -33,7 +34,7 @@ async function cleanReleases(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = $optional('.Layout-sidebar .BorderGrid-row:last-of-type h2');
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -44,17 +45,17 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserEditRepo()) {
-		$('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
+		$optional('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
 
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = $('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell')!.append(reportLink);
+		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
 	}
 }
 

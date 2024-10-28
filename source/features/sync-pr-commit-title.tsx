@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -14,7 +14,7 @@ const prTitleFieldSelector = 'input#issue_title';
 const commitTitleFieldSelector = '.is-squashing form:not([hidden]) input#merge_title_field';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
-	return $(commitTitleFieldSelector);
+	return $optional(commitTitleFieldSelector);
 }
 
 function getCurrentCommitTitle(): string | undefined {
@@ -26,7 +26,7 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 }
 
 function createCommitTitle(): string {
-	const prTitle = $(prTitleFieldSelector)!.value.trim();
+	const prTitle = $(prTitleFieldSelector).value.trim();
 	return formatPrCommitTitle(prTitle);
 }
 
@@ -37,7 +37,7 @@ function needsSubmission(): boolean {
 
 function getUI(): HTMLElement {
 	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
-	return $('.rgh-sync-pr-commit-title-note') ?? (
+	return $optional('.rgh-sync-pr-commit-title-note') ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. {cancelButton}
 		</p>

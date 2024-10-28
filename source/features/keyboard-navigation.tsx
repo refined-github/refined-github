@@ -1,4 +1,5 @@
-import {$, $$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -18,7 +19,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	event.preventDefault();
 
-	const focusedComment = $(':target')!;
+	const focusedComment = $(':target');
 	const items
 		= $$([
 			'.js-targetable-element[id^="diff-"]', // Files in diffs

@@ -1,4 +1,5 @@
 import './ci-link.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
@@ -29,7 +30,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
-		<span className="rgh-ci-link ml-1">
+		<span className="rgh-ci-link ml-1" title="CI status of latest commit">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"

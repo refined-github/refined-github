@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
@@ -65,7 +66,7 @@ async function onEndButtonClick(): Promise<void> {
 }
 
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
-	$('#rgh-bisect-dialog')?.remove();
+	$optional('#rgh-bisect-dialog')?.remove();
 	document.body.append(
 		<div id="rgh-bisect-dialog" className="Box p-3">
 			<p>{message}</p>
@@ -78,7 +79,7 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 }
 
 async function hideMessage(): Promise<void> {
-	if (!await state.get()) {
+	if (!(await state.get())) {
 		createMessageBox('Process completed in another tab');
 	}
 }

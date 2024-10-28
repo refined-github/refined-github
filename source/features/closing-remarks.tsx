@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
@@ -50,7 +52,7 @@ function createReleaseUrl(): string | undefined {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`)!.textContent;
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
@@ -83,7 +85,7 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-	attachElement('#issue-comment-box', {
+	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -109,7 +111,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		text: <>{text} <ExplanationLink /></>,
 	};
 
-	attachElement('#issue-comment-box', {
+	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner(

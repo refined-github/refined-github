@@ -159,6 +159,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"
 	},
 	{
+		"id": "conversation-authors",
+		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
+	},
+	{
 		"id": "conversation-links-on-repo-lists",
 		"description": "Adds a link to the issues and pulls on the user profile repository tab and global search.",
 		"screenshot": "https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png"
@@ -336,12 +342,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
 	},
 	{
-		"id": "highlight-collaborators-and-own-conversations",
-		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
-	},
-	{
 		"id": "highlight-non-default-base-branch",
 		"description": "Shows the base branch in PR lists if it’s not the default branch.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png"
@@ -355,11 +355,6 @@
 		"id": "improve-shortcut-help",
 		"description": "Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).",
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
-	},
-	{
-		"id": "infinite-scroll",
-		"description": "Automagically expands the newsfeed when you scroll down.",
-		"screenshot": null
 	},
 	{
 		"id": "jump-to-change-requested-comment",
@@ -467,7 +462,7 @@
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png"
+		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
 		"id": "mobile-tabs",

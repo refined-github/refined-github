@@ -1,5 +1,7 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,7 +20,7 @@ async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<vo
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
-	$('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
+	$('a.rgh-link-date').pathname = url.assign({branch: oid}).pathname;
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
@@ -86,7 +88,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
-	$('.show-more-popover', menu.parentElement!)!.append(
+	$('.show-more-popover', menu.parentElement!).append(
 		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
