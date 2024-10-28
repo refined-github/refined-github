@@ -18,7 +18,7 @@ function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
 }
 
-// TODO: Drop in March 2024, implemented by GitHub
+// TODO: Drop in March 2025, implemented by GitHub
 // https://github.com/refined-github/refined-github/pull/7892
 void features.add(import.meta.url, {
 	shortcuts: {
