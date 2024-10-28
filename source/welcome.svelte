@@ -8,27 +8,29 @@
 	import optionsStorage from './options-storage.js';
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 
-	let stepVisible = 1;
-	let stepValid = 0;
-	let tokenInput = '';
-	let tokenError = '';
+	let stepVisible = $state(1);
+	let stepValid = $state(0);
+	let tokenInput = $state('');
+	let tokenError = $state('');
 
-	$: if (stepValid === 1) {
-		setTimeout(showThirdStep, 2000);
-	}
+	$effect(() => {
+		if (stepValid === 1) {
+			setTimeout(showThirdStep, 2000);
+		} else if (stepValid === 3) {
+			setTimeout(() => {
+				location.replace('https://github.com/refined-github/refined-github/wiki');
+			}, 2000);
+		}
+	});
 
-	$: if (stepValid === 3) {
-		setTimeout(() => {
-			location.replace('https://github.com/refined-github/refined-github/wiki');
-		}, 2000);
-	}
+	$effect(() => {
+		if (tokenInput) {
+			verifyToken();
 
-	$: if (tokenInput) {
-		verifyToken();
-
-		// @ts-expect-error TS and its index signatures...
-		optionsStorage.set({personalToken: tokenInput});
-	}
+			// @ts-expect-error TS and its index signatures...
+			optionsStorage.set({personalToken: tokenInput});
+		}
+	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
@@ -76,7 +78,7 @@
 	<ul>
 		<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
 			{#if stepValid === 0}
-				<button on:click={grantPermissions}>
+				<button onclick={grantPermissions}>
 					Grant
 				</button>
 			{:else}
@@ -85,12 +87,12 @@
 			the extension access to github.com
 		</li>
 
-		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' on:click={showThirdStep}>
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' onclick={showThirdStep}>
 			<a
 				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none'
-				on:click={markSecondStep}
+				onclick={markSecondStep}
 			>
 				Generate a token
 			</a>
