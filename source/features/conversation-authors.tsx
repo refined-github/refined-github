@@ -24,7 +24,7 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]',
-		'[data-testid="list-row-repo-name-and-number"] a[class^="issue-item-module__authorCreatedLink"]',
+		'a[class^="issue-item-module__authorCreatedLink"]',
 	], author => {
 		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
