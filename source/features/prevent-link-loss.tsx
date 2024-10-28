@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$optional, $} from 'select-dom/strict.js';
 import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
@@ -17,19 +17,18 @@ import {
 } from '../github-helpers/prevent-link-loss.js';
 import createBanner from '../github-helpers/banner.js';
 
+const fieldSelector = [
+	'textarea.js-comment-field',
+	'textarea[aria-labelledby="comment-composer-heading"]', // Commit input field
+];
+
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
-	let field;
-
-	if (fixButton.form) {
-		/* There's only one rich-text editor even when multiple fields are visible; the class targets it #4678 */
-		field = fixButton.form!.querySelector('textarea.js-comment-field')!;
-	} else {
-		// New commit input field
-		field = fixButton.closest('[data-testid="markdown-editor-comment-composer"]')!
-			.querySelector('textarea[aria-labelledby="comment-composer-heading"]')!;
-	}
+	const field = $(
+		fieldSelector,
+		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
+	) as HTMLTextAreaElement;
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
@@ -37,8 +36,8 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	fixButton.closest('.flash')!.remove();
 }
 
-function getUI(field: HTMLElement): HTMLElement {
-	return $('.rgh-prevent-link-loss-container', field) ?? (createBanner({
+function getUI(container: HTMLElement): HTMLElement {
+	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
 		icon: <AlertIcon className="m-0" />,
 		text: (
 			<>
@@ -49,7 +48,12 @@ function getUI(field: HTMLElement): HTMLElement {
 				{' by GitHub.'}
 			</>
 		),
-		classes: ['rgh-prevent-link-loss-container', 'flash-warn', 'my-2', field.tagName === 'FORM' ? 'mx-2' : ''],
+		classes: [
+			'rgh-prevent-link-loss-container',
+			'flash-warn',
+			'my-2',
+			container.tagName === 'FORM' ? 'mx-2' : '',
+		],
 		action: handleButtonClick,
 		buttonLabel: 'Fix link',
 	}));
@@ -67,7 +71,7 @@ function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 		if (field.form) {
 			$('file-attachment .js-write-bucket', field.form).append(getUI(field.form));
 		} else {
-			// New commit input field
+			// Commit input field
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
 			container.append(getUI(container));
 		}
@@ -81,14 +85,8 @@ const updateUIDebounced = debounceFn(updateUI, {
 });
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'textarea.js-comment-field',
-		'textarea[aria-labelledby="comment-composer-heading"]', // New commit input field
-	], 'input', updateUIDebounced, {signal});
-	delegate([
-		'textarea.js-comment-field',
-		'textarea[aria-labelledby="comment-composer-heading"]', // New commit input field
-	], 'focusin', updateUI, {signal});
+	delegate(fieldSelector, 'input', updateUIDebounced, {signal});
+	delegate(fieldSelector, 'focusin', updateUI, {signal});
 }
 
 void features.add(import.meta.url, {
