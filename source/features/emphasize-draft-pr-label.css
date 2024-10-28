@@ -9,7 +9,7 @@
 			[aria-label='Draft Pull Request']
 		)
 		svg,
-	[class^='PullRequestRow-module']
+	[class^='PullRequestRow-module'] /* React view in issues */
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
 		svg {
