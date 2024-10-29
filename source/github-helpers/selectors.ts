@@ -205,6 +205,16 @@ export const usernameLinksSelector = [
 	// GHE sometimes shows the full name already:
 	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 
+	// On new issue view
+	`.react-issue-comment
+	a[data-testid='avatar-link']:not(
+		[href='#'],
+		[href*='/apps/'],
+		[href*='/marketplace/'],
+		[data-hovercard-type='organization'],
+		[show_full_name='true']
+	)`,
+
 	// On dashboard
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
