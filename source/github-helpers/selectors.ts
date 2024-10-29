@@ -196,7 +196,7 @@ export const usernameLinksSelector = [
 	`:is(
 		.js-discussion a.author,
 		.inline-comments a.author,
-  		.react-issue-comment a[data-testid='avatar-link']
+		.react-issue-comment a[data-testid='avatar-link']
 	):not(
 		[href="#"],
 		[href*="/apps/"],
