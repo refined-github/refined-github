@@ -192,27 +192,17 @@ export const botLinksPrSelectors = [
 export const usernameLinksSelector = [
 	// `a` selector needed to skip commits by non-GitHub users
 	// # targets mannequins #6504
+	// `show_full_name` is for GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 	`:is(
-		.js-discussion,
-		.inline-comments
-	) a.author:not(
+		.js-discussion a.author,
+		.inline-comments a.author,
+  		.react-issue-comment a[data-testid='avatar-link']
+	):not(
 		[href="#"],
 		[href*="/apps/"],
 		[href*="/marketplace/"],
 		[data-hovercard-type="organization"],
 		[show_full_name="true"]
-	)`,
-	// GHE sometimes shows the full name already:
-	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
-
-	// On new issue view
-	`.react-issue-comment
-	a[data-testid='avatar-link']:not(
-		[href='#'],
-		[href*='/apps/'],
-		[href*='/marketplace/'],
-		[data-hovercard-type='organization'],
-		[show_full_name='true']
 	)`,
 
 	// On dashboard
