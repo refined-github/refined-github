@@ -68,11 +68,10 @@ void features.add(import.meta.url, {
 ## Test URLs
 
 - URLs/issues in comments: https://github.com/refined-github/sandbox/pull/98
-- URLs in diffs: https://github.com/Homebrew/homebrew-core/pull/18015/files
-- URLs in regular files: https://github.com/sindresorhus/refined-github/blob/3f5fc489e417d4f4a14da5ea423775e9ca9246fd/source/features/copy-markdown.js#L45
-- URLs in PR files: https://github.com/sindresorhus/refined-github/pull/546/files#diff-36280fbf56b6409696e3d46d6b30118fR51
-- Issue reference in file: https://github.com/sindresorhus/refined-github/blob/2ade9a84b1894c7879fab9d3e2d045e876f941a6/source/features/sort-issues-by-update-time.tsx#L18)
-- Discussions: https://github.com/File-New-Project/EarTrumpet/discussions/877
+- URLs in PR files: https://github.com/refined-github/refined-github/pull/546/files#diff-7296d5f600098588b0af5ec9c84486593be79164f97406a0fc3c4ef5211ab2f9
+- URLs in regular files: https://github.com/refined-github/refined-github/blob/3f5fc489e417d4f4a14da5ea423775e9ca9246fd/source/features/copy-markdown.js#L45 (broken: #6336)
+- Issue reference in file: https://github.com/refined-github/refined-github/blob/2ade9a84b1894c7879fab9d3e2d045e876f941a6/source/features/sort-issues-by-update-time.tsx#L18 (broken: #6336)
+- Discussions (title): https://github.com/File-New-Project/EarTrumpet/discussions/877
 - Code Search: https://github.com/search?q=repo%3AKatsuteDev%2FBackground+marketplace&type=code
 - Code Search: https://github.com/search?q=%2F%23%5Cd%7B4%2C%7D%2F+language%3Atypescript&type=code
 - Code Search that might break: https://github.com/search?q=path%3A.npmrc&type=code
