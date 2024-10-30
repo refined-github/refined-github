@@ -111,7 +111,7 @@ import './features/show-whitespace.js';
 import './features/restore-file.js';
 import './features/hidden-review-comments-indicator.js';
 import './features/reload-failed-proxied-images.js';
-import './features/highlight-collaborators-and-own-conversations.js';
+import './features/conversation-authors.js';
 import './features/embed-gist-via-iframe.js';
 import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
