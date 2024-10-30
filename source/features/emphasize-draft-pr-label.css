@@ -2,7 +2,7 @@
 
 /* stylelint-disable-next-line media-feature-name-no-vendor-prefix -- It's the only cross-browser media query */
 @media (-webkit-min-device-pixel-ratio: 2) {
-	[rgh-emphasize-draft-pr-label]
+	[rgh-emphasize-draft-pr-label] {
 		.js-issue-row
 		:is(
 			/* Repo PR lists */
@@ -15,10 +15,11 @@
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
 		svg {
-		stroke: var(--fgColor-muted, var(--color-fg-muted));
-		stroke-width: 1.2px;
-		color: var(--rgh-background) !important;
-		paint-order: stroke;
-		overflow: visible !important;
+			stroke: var(--fgColor-muted, var(--color-fg-muted));
+			stroke-width: 1.2px;
+			color: var(--rgh-background) !important;
+			paint-order: stroke;
+			overflow: visible !important;
+		}
 	}
 }
