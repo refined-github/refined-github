@@ -11,7 +11,7 @@
 			[aria-label='Draft Pull Request']
 		)
 		svg,
-	[class^='PullRequestRow-module'] /* React view in issues */
+		/* React issue list */
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
 		svg {
