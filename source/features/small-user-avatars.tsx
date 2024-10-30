@@ -42,8 +42,8 @@ function addMentionAvatar(link: HTMLElement): void {
 function init(): void {
 	// Excludes bots
 	observe([
-		'.js-issue-row [data-hovercard-type="user"]',
-		'.notification-thread-subscription [data-hovercard-type="user"]',
+		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
+		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
 	], addAvatar);
 	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
