@@ -22,7 +22,10 @@ const collaborators = new CachedFunction('repo-collaborators', {
 
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
-	observe('.js-issue-row [data-hovercard-type="user"]', author => {
+	observe([
+		'.js-issue-row [data-hovercard-type="user"]',
+		'a[class^="issue-item-module__authorCreatedLink"]',
+	], author => {
 		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
