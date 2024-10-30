@@ -5,7 +5,9 @@
 	[rgh-emphasize-draft-pr-label]
 		.js-issue-row
 		:is(
+			/* Repo PR lists */
 			[aria-label='Open draft pull request'],
+			/* Global PR lists */
 			[aria-label='Draft Pull Request']
 		)
 		svg,
