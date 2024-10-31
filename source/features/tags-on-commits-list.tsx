@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -12,6 +12,7 @@ import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
 
 type CommitTags = Record<string, string[]>;
 
@@ -86,11 +87,8 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	return tags;
 }
 
-async function init(): Promise<void | false> {
-	await expectToken();
+async function addTag(commitsOnPage: HTMLElement[]): Promise<void> {
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
-
-	const commitsOnPage = $$('[data-testid="commit-row-item"]');
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
@@ -141,12 +139,15 @@ async function init(): Promise<void | false> {
 	await cache.set(cacheKey, cached, {days: 1});
 }
 
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+	observe('[data-testid="commit-row-item"]', batchedFunction(addTag, {delay: 100}), {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoCommitList,
 	],
-	awaitDomReady: true,
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
