@@ -29,8 +29,11 @@ bug-report
 bug-hunt
 bugzilla
 debug
+debugger
 bugatti
+bugia
 ladybug
+not-a-bug
 `;
 
 test('isBugLabel', () => {
