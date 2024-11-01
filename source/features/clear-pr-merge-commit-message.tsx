@@ -13,9 +13,6 @@ import {expectToken} from '../github-helpers/github-token.js';
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
-	// Only run once so that it doesn't clear the field every time it's opened
-	features.unload(import.meta.url);
-
 	const originalMessage = messageField.value;
 	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
