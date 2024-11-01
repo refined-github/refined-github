@@ -9,10 +9,13 @@ bugfix
 confirmed-bug
 type/bug
 type:bug
+type-bug
 kind/bug
 kind:bug
+kind-bug
 triage/bug
 triage:bug
+Issue-Bug
 :bug:bug
 :bug: bug
 🐛bug
