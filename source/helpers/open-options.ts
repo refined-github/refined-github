@@ -1,6 +1,6 @@
-import {messageBackground} from './messaging.js';
+import {messageRuntime} from 'webext-msg';
 
 export default function openOptions(event: Event): void {
 	event.preventDefault();
-	void messageBackground({openOptionsPage: true});
+	void messageRuntime({openOptionsPage: true});
 }

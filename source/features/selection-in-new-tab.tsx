@@ -1,9 +1,9 @@
 import {$optional} from 'select-dom/strict.js';
+import {messageRuntime} from 'webext-msg';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {messageBackground} from '../helpers/messaging.js';
 
 function openInNewTab(): void {
 	const selected = $optional('.navigation-focus a.js-navigation-open[href]');
@@ -11,7 +11,7 @@ function openInNewTab(): void {
 		return;
 	}
 
-	void messageBackground({
+	void messageRuntime({
 		openUrls: [selected.href],
 	});
 
