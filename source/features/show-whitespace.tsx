@@ -1,11 +1,11 @@
 import './show-whitespace.css';
 
 import * as pageDetect from 'github-url-detection';
+import {onAbort} from 'abort-utils';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
 import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
-import onAbort from '../helpers/abort-controller.js';
 import observe from '../helpers/selector-observer.js';
 
 const viewportObserver = new IntersectionObserver(changes => {

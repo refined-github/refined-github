@@ -6,9 +6,9 @@ import stripIndent from 'strip-indent';
 import {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
+import {messageRuntime} from 'webext-msg';
 
 import waitFor from './helpers/wait-for.js';
-import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
@@ -27,9 +27,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {messageBackground} from './helpers/messaging.js';
 
-type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
@@ -47,18 +45,11 @@ type FeatureLoader = {
 	*/
 	deduplicate?: string;
 
-	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
-	onlyAdditionalListeners?: true;
-
 	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
 } & Partial<InternalRunConfig>;
 
 type InternalRunConfig = RunConditions & {
 	init: Arrayable<FeatureInit>;
-	additionalListeners: CallerFunction[];
-
-	onlyAdditionalListeners: boolean;
-
 	shortcuts: Record<string, string>;
 };
 
@@ -108,7 +99,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	void messageBackground<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -152,7 +143,7 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 }
 
 async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
-	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
+	const {asLongAs, include, exclude, init, shortcuts} = config;
 
 	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
@@ -161,32 +152,17 @@ async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<
 	const featureController = new AbortController();
 	currentFeatureControllers.append(id, featureController);
 
-	const runFeature = async (): Promise<void> => {
-		await asyncForEach(castArray(init), async init => {
-			const result = await init(featureController.signal);
-			// Features can return `false` when they decide not to run on the current page
-			if (result !== false && !isFeaturePrivate(id)) {
-				log.info('✅', id);
-				// Register feature shortcuts
-				for (const [hotkey, description] of Object.entries(shortcuts)) {
-					shortcutMap.set(hotkey, description);
-				}
+	await asyncForEach(castArray(init), async init => {
+		const result = await init(featureController.signal);
+		// Features can return `false` when they decide not to run on the current page
+		if (result !== false && !isFeaturePrivate(id)) {
+			log.info('✅', id);
+			// Register feature shortcuts
+			for (const [hotkey, description] of Object.entries(shortcuts)) {
+				shortcutMap.set(hotkey, description);
 			}
-		});
-	};
-
-	if (!onlyAdditionalListeners) {
-		// If the first run fails, `additionalListeners` won't be added
-		await runFeature();
-	}
-
-	await domLoaded; // Listeners likely need to work on the whole page
-	for (const listener of additionalListeners) {
-		const deinit = listener(runFeature, featureController.signal);
-		if (deinit && !(deinit instanceof Promise)) {
-			onAbort(featureController, deinit);
 		}
-	}
+	});
 }
 
 type FeatureHelper = {
@@ -230,8 +206,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			init,
 			awaitDomReady = false,
 			deduplicate = false,
-			onlyAdditionalListeners = false,
-			additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -248,8 +222,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			include,
 			exclude,
 			init,
-			additionalListeners,
-			onlyAdditionalListeners,
 			shortcuts,
 		};
 		if (awaitDomReady) {

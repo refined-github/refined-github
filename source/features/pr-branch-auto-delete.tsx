@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import featureLink from '../helpers/feature-link.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 
@@ -44,7 +44,7 @@ async function init(): Promise<void> {
 		timeout: 2000,
 	});
 
-	const url = featureLink(features.getFeatureID(import.meta.url));
+	const url = getFeatureUrl(features.getFeatureID(import.meta.url));
 	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
 	);
@@ -55,11 +55,10 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	onlyAdditionalListeners: true,
-	init,
+	awaitDomReady: true, // Post-load user event, no need to listen earlier
+	init(signal: AbortSignal): void {
+		onPrMerge(init, signal);
+	},
 });
 
 /*
