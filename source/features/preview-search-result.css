@@ -1,0 +1,21 @@
+.PreviewResults--Dialog {
+	position: relative;
+	width: 66.666667%;
+	max-width: 768px;
+	border-width: 2px;
+	border-radius: 0.375rem;
+
+	.PreviewResults--Dialog__CloseBtn {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+
+#refined-preview-search-result-pre-content {
+	padding: 0.5rem;
+}

@@ -1,19 +1,19 @@
 import 'webext-dynamic-content-scripts';
-import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {addOptionsContextMenu} from 'webext-tools';
+import { globalCache } from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import { addOptionsContextMenu } from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
-import {StorageItem} from 'webext-storage';
+import { StorageItem } from 'webext-storage';
 
-import optionsStorage, {hasToken} from './options-storage.js';
+import optionsStorage, { hasToken } from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
-import {styleHotfixes} from './helpers/hotfix.js';
-import {handleMessages} from './helpers/messaging.js';
+import { doesBrowserActionOpenOptions } from './helpers/feature-utils.js';
+import { styleHotfixes } from './helpers/hotfix.js';
+import { handleMessages } from './helpers/messaging.js';
 
-const {version} = chrome.runtime.getManifest();
+const { version } = chrome.runtime.getManifest();
 
-const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
+const welcomeShown = new StorageItem('welcomed', { defaultValue: false });
 
 // GHE support
 addPermissionToggle();
@@ -22,7 +22,7 @@ addPermissionToggle();
 addOptionsContextMenu();
 
 handleMessages({
-	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
+	async openUrls(urls: string[], { tab }: chrome.runtime.MessageSender) {
 		for (const [index, url] of urls.entries()) {
 			void chrome.tabs.create({
 				url,
@@ -31,12 +31,16 @@ handleMessages({
 			});
 		}
 	},
-	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
+	async closeTab(_: any, { tab }: chrome.runtime.MessageSender) {
 		void chrome.tabs.remove(tab!.id!);
 	},
 	async fetchJSON(url: string) {
 		const response = await fetch(url);
 		return response.json();
+	},
+	async fetchText(url: string) {
+		const response = await fetch(url);
+		return response.text();
 	},
 	async openOptionsPage() {
 		return chrome.runtime.openOptionsPage();
@@ -52,7 +56,7 @@ chrome.action.onClicked.addListener(async tab => {
 		return;
 	}
 
-	const {actionUrl} = await optionsStorage.getAll();
+	const { actionUrl } = await optionsStorage.getAll();
 	if (!actionUrl) {
 		// Default to options page if unset
 		void chrome.runtime.openOptionsPage();
@@ -72,7 +76,7 @@ async function showWelcomePage(): Promise<void> {
 
 	const [token, permissions] = await Promise.all([
 		hasToken(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
-		chrome.permissions.contains({origins: ['https://github.com/*']}),
+		chrome.permissions.contains({ origins: ['https://github.com/*'] }),
 	]);
 
 	try {
@@ -82,7 +86,7 @@ async function showWelcomePage(): Promise<void> {
 		}
 
 		const url = chrome.runtime.getURL('assets/welcome.html');
-		await chrome.tabs.create({url});
+		await chrome.tabs.create({ url });
 	} finally {
 		// Make sure it's always set to true even in case of errors
 		await welcomeShown.set(true);
@@ -94,7 +98,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 		await globalCache.clear();
 	}
 
-	if (await chrome.permissions.contains({origins: ['*://*/*']})) {
+	if (await chrome.permissions.contains({ origins: ['*://*/*'] })) {
 		console.warn('Refined GitHub was granted access to all websites by the user and it’s now been removed. https://github.com/refined-github/refined-github/pull/7407');
 		await chrome.permissions.remove({
 			origins: [
