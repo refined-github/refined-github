@@ -28,13 +28,19 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
 		&& !byline.closest('.gh-header-sticky') // #7802
-		&& $('.author', byline).textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+		&& $([
+			'.author',
+			'a[data-hovercard-url]',
+		], byline).textContent === (await elementReady('.TimelineItem .author'))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
 
-	const base = $('.commit-ref', byline);
+	const base = $([
+		'.commit-ref',
+		'[class^="BranchName"]',
+	], byline);
 	const baseBranchDropdown = $optional('.commit-ref-dropdown', byline);
 
 	// Shows on PRs: main [←] feature
@@ -42,10 +48,10 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {
-		base.nextElementSibling!.replaceChildren(arrowIcon);
+		base.after(<span>{arrowIcon}</span>);
 	}
 
-	const baseBranch = base.title.split(':')[1];
+	const baseBranch = base.textContent.split(':')[1];
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
@@ -60,6 +66,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'.gh-header-meta > .flex-auto', // Real
 		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+		'[class^="StateLabel"] + div > span',
 	], cleanConversationHeader, {signal});
 }
 
