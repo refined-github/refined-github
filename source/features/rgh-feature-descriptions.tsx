@@ -10,7 +10,7 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';
 import observe from '../helpers/selector-observer.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
-import createRghIssueLink from '../helpers/rgh-issue-link.js';
+import {createRghIssueLink} from '../helpers/rgh-links.js';
 import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';

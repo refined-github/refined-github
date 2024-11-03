@@ -5,7 +5,7 @@ import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
-import featureLink from './feature-link.js';
+import {getFeatureUrl} from './rgh-links.js';
 import {importedFeatures} from '../feature-data.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
@@ -48,7 +48,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 		);
 	} else {
 		const feature = (
-			<a href={featureLink(bisectedFeatures[0])}>
+			<a href={getFeatureUrl(bisectedFeatures[0])}>
 				<code>{bisectedFeatures[0]}</code>
 			</a>
 		);
