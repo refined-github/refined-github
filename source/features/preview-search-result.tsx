@@ -5,22 +5,22 @@ import Close from 'octicons-plain-react/XCircle';
 import NewTab from 'octicons-plain-react/LinkExternal';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {searchResultFileName} from '../github-helpers/selectors.js';
-import {messageBackground} from '../helpers/messaging.js';
 
 import './preview-search-result.css';
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchFile = mem(
 	async (url: string): Promise<string> =>
-		messageBackground({fetchText: url}),
+		messageRuntime({fetchText: url}),
 );
 
 function openInBackground(url: string): void {
-	messageBackground({
+	messageRuntime({
 		openUrls: [url],
 	});
 }
