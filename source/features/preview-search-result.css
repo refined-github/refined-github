@@ -1,21 +1,75 @@
 .PreviewResults--Dialog {
-	position: relative;
 	width: 66.666667%;
 	max-width: 768px;
+	height: auto;
 	border-width: 2px;
+	border-color: var(--borderColor-muted, #d8dee4);
 	border-radius: 0.375rem;
+	overflow: hidden;
+	padding: 0;
+	overscroll-behavior: contain;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	background-color: var(--bgColor-muted);
+	outline: none;
 
+
+	&[open] {
+		animation: open 200ms forwards;
+	}
+}
+
+@keyframes open {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.PreviewResults--Dialog__Header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-height: 48px;
+	padding: 0 1rem;
+	outline: none;
+	background-color: var(--bgColor-default);
+	border-bottom: 2px solid var(--borderColor-muted, #d8dee4);
+
+	.PreviewResults--Dialog__HeaderActions {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.PreviewResults--Dialog__Filename {
+		justify-self: flex-start;
+	}
+
+	.PreviewResults--Dialog__NewTabBtn,
+	.PreviewResults--Dialog__CopyBtn,
 	.PreviewResults--Dialog__CloseBtn {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
+		color: var(--fgColor-muted, var(--color-fg-muted, #848d97));
 
 		&:hover {
 			cursor: pointer;
 		}
 	}
+
+	.PreviewResults--Dialog__CopyBtn {
+		width: 14px;
+	}
 }
 
 #refined-preview-search-result-pre-content {
-	padding: 0.5rem;
+	padding: 1rem;
+	overflow: scroll;
+	height: calc(100% - 48px);
+	width: 100%;
+	outline: none;
 }
