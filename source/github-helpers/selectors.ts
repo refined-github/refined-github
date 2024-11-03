@@ -1,4 +1,4 @@
-import {css} from 'code-tag';
+import { css } from 'code-tag';
 
 export type UrlMatch = [expectations: number, url: string];
 
@@ -210,3 +210,7 @@ export const usernameLinksSelector = [
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as unknown as Array<'a'>;
+
+export const searchResultFileName = [
+	'[data-testid="link-to-search-result"]',
+];

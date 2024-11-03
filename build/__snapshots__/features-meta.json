@@ -983,5 +983,11 @@
 		"description": "Warns you when unchecking <code>Allow edits from maintainers</code>, as it’s maintainer-hostile.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif"
+	},
+	{
+		"id": "preview-search-result",
+		"description": "Opens the file from search results in a dialog.",
+		"css": true,
+		"screenshot": "https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif"
 	}
 ]
