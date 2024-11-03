@@ -638,6 +638,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262556553-ca04b870-9adb-4a8c-a6d0-6238863948be.png"
 	},
 	{
+		"id": "preview-search-result",
+		"description": "In the global code search results, allows opening a full file preview in a modal.",
+		"css": true,
+		"screenshot": "https://gist.github.com/user-attachments/assets/b8e7643c-8155-4f91-8952-545c33b4b17f.png"
+	},
+	{
 		"id": "previous-next-commit-buttons",
 		"description": "Adds duplicate commit navigation buttons at the bottom of the <code>Commits</code> tab page.",
 		"screenshot": "https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png"
@@ -983,11 +989,5 @@
 		"description": "Warns you when unchecking <code>Allow edits from maintainers</code>, as it’s maintainer-hostile.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif"
-	},
-	{
-		"id": "preview-search-result",
-		"description": "In the global code search results, allows opening a full file preview in a modal.",
-		"css": true,
-		"screenshot": "https://gist.github.com/user-attachments/assets/b8e7643c-8155-4f91-8952-545c33b4b17f.png"
 	}
 ]
