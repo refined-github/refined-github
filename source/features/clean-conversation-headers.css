@@ -42,12 +42,12 @@ a.rgh-clean-conversation-headers-non-default-branch {
 /* Removes on PRs: [octocat] merged 1 commit into master from feature */
 .rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author + .Label, /* #5832 */
 .rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author,
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author a[data-hovercard-url]{
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author a[data-hovercard-url] {
 	display: none;
 }
 
 .rgh-clean-conversation-headers .commit-ref,
-.rgh-clean-conversation-headers [class^="BranchName"] {
+.rgh-clean-conversation-headers [class^='BranchName'] {
 	font-size: 12px;
 }
 
