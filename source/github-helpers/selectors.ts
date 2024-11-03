@@ -1,4 +1,4 @@
-import { css } from 'code-tag';
+import {css} from 'code-tag';
 
 export type UrlMatch = [expectations: number, url: string];
 
