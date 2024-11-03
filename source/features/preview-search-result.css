@@ -13,7 +13,6 @@
 	background-color: var(--bgColor-muted);
 	outline: none;
 
-
 	&[open] {
 		animation: open 200ms forwards;
 	}
