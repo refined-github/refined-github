@@ -882,7 +882,7 @@
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif"
+		"screenshot": "https://github.com/user-attachments/assets/e0392989-9c60-4f5c-9052-27a3bb51d4e4"
 	},
 	{
 		"id": "swap-branches-on-compare",

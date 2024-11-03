@@ -2,12 +2,12 @@ import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {standaloneGistLinkInMarkdown} from '../github-helpers/selectors.js';
-import {messageBackground} from '../helpers/messaging.js';
 
 type GistData = {
 	div: string;
@@ -18,7 +18,7 @@ type GistData = {
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
-		messageBackground({fetchJSON: `${url}.json`}),
+		messageRuntime({fetchJSON: `${url}.json`}),
 );
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {

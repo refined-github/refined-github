@@ -58,7 +58,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api3 = pageDetect.isEnterprise()
+export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
 	: 'https://api.github.com/';
 

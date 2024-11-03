@@ -3,13 +3,13 @@ import { globalCache } from 'webext-storage-cache'; // Also needed to regularly 
 import { addOptionsContextMenu } from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
-import { StorageItem } from 'webext-storage';
+import {StorageItem} from 'webext-storage';
+import {handleMessages} from 'webext-msg';
 
 import optionsStorage, { hasToken } from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import { doesBrowserActionOpenOptions } from './helpers/feature-utils.js';
-import { styleHotfixes } from './helpers/hotfix.js';
-import { handleMessages } from './helpers/messaging.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {styleHotfixes} from './helpers/hotfix.js';
 
 const { version } = chrome.runtime.getManifest();
 
