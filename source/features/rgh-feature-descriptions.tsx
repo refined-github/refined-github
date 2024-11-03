@@ -111,9 +111,11 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 
 	if (isFeatureDisabled(await optionsStorage.getAll(), id)) {
 		return createBanner({
-			text: <>This feature is disabled on GitHub.com <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in your options</button>.</>,
+			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
 			icon: <AlertIcon className="mr-0" />,
+			action: openOptions,
+			buttonLabel: 'Refined GitHub Options',
 		});
 	}
 
