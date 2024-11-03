@@ -93,7 +93,19 @@ const offCount = new Text();
 
 function updateOffCount(): void {
 	const count = $$('.feature-checkbox:not(:checked)').length;
-	offCount.nodeValue = count ? `(${count} off)` : '';
+	switch (count) {
+		case 0: {
+			offCount.nodeValue = '';
+			break;
+		}
+		case $$('.feature-checkbox').length: {
+			offCount.nodeValue = '(JS off… are you breaking up with me?)';
+			break;
+		}
+		default: {
+			offCount.nodeValue = `(${count} off)`;
+		}
+	}
 }
 
 export default async function initFeatureList(): Promise<void> {
