@@ -151,6 +151,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/refined-github/refined-github/issues/1590)
 - [](# "vertical-front-matter") [Shows Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 - [](# "list-prs-for-branch") [On branch commit lists, shows the PR that touches the current branch.](https://user-images.githubusercontent.com/16872793/119760295-b8751a80-be77-11eb-87da-91d0c403bb49.png)
+- [](# "preview-search-result") [In the global code search results, allows opening a full file preview in a modal.](https://gist.github.com/user-attachments/assets/b8e7643c-8155-4f91-8952-545c33b4b17f.png)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
