@@ -9,6 +9,7 @@ import {tokenUser} from '../github-helpers/github-token.js';
 import {api3} from '../github-helpers/api.js';
 import createBanner from '../github-helpers/banner.js';
 import onetime from '../helpers/onetime.js';
+import {OptionsLink} from '../helpers/open-options.js';
 
 async function verify(header: HTMLButtonElement): Promise<void> {
 	const token = await getToken();
@@ -23,8 +24,7 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 			icon: <AlertIcon />,
 			classes: ['mx-3', 'mt-3', 'mb-0', 'py-2'],
 			text: [
-				'Your Refined GitHub token is for a different user, the extension will act on behalf of ',
-				<code>{currentTokenUser}</code>,
+				<>Your <OptionsLink className="Link--muted">Refined GitHub token</OptionsLink> is for a different user, the extension will act on behalf of <code>{currentTokenUser}</code></>,
 			],
 		},
 		));
@@ -38,3 +38,9 @@ function init(): void {
 void features.add(import.meta.url, {
 	init: onetime(init),
 });
+
+/*
+
+Test URL: anywhere
+
+*/
