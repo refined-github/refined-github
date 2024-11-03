@@ -143,13 +143,9 @@ void features.add(import.meta.url, {
 		pageDetect.isOpenPR,
 		userHasPushAccess,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	onlyAdditionalListeners: true,
-	awaitDomReady: true, // DOM-based filters
-	init() {
-		void addReleaseBanner();
+	awaitDomReady: true, // Post-load user event, no need to do listen earlier
+	init(signal: AbortSignal): void {
+		onPrMerge(addReleaseBanner, signal);
 	},
 });
 

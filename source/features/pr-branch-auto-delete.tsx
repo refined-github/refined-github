@@ -55,11 +55,10 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isOpenPR,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	onlyAdditionalListeners: true,
-	init,
+	awaitDomReady: true, // Post-load user event, no need to do listen earlier
+	init(signal: AbortSignal): void {
+		onPrMerge(init, signal);
+	},
 });
 
 /*

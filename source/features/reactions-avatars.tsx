@@ -5,11 +5,12 @@ import {$$} from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
+import {onAbort} from 'abort-utils';
+
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {getUsername} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import onAbort from '../helpers/abort-controller.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
