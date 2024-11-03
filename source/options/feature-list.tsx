@@ -89,6 +89,25 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 	}
 }
 
+const offCount = new Text();
+
+function updateOffCount(): void {
+	const count = $$('.feature-checkbox:not(:checked)').length;
+	switch (count) {
+		case 0: {
+			offCount.nodeValue = '';
+			break;
+		}
+		case $$('.feature-checkbox').length: {
+			offCount.nodeValue = '(JS off… are you breaking up with me?)';
+			break;
+		}
+		default: {
+			offCount.nodeValue = `(${count} off)`;
+		}
+	}
+}
+
 export default async function initFeatureList(): Promise<void> {
 	// Generate list
 	$('.js-features').append(...featuresMeta
@@ -106,9 +125,12 @@ export default async function initFeatureList(): Promise<void> {
 	$('input#filter-features').addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
-	$('.features-header').append(` (${featuresMeta.length + 25})`);
+	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);
+
+	delegate('.feature-checkbox', 'change', updateOffCount);
 }
 
 export function updateListDom(): void {
 	moveDisabledFeaturesToTop();
+	updateOffCount();
 }
