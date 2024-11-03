@@ -8,15 +8,15 @@ import mem from 'memoize';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import { searchResultFileName } from '../github-helpers/selectors.js';
-import { messageBackground } from '../helpers/messaging.js';
+import {searchResultFileName} from '../github-helpers/selectors.js';
+import {messageBackground} from '../helpers/messaging.js';
 
 import './preview-search-result.css';
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchFile = mem(
 	async (url: string): Promise<string> =>
-		messageBackground({ fetchText: url }),
+		messageBackground({fetchText: url}),
 );
 
 function openInBackground(url: string): void {
@@ -108,7 +108,7 @@ function init(signal: AbortSignal): void {
 				<CodeSquare />
 			</a>,
 		);
-	}, { signal });
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -122,6 +122,6 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/refined-github/sandbox/issues/77
+https://github.com/search?q=tauri&type=code
 
 */
