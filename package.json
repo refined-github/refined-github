@@ -83,7 +83,7 @@
 		"pretty-bytes": "^6.1.1",
 		"push-form": "^1.0.1",
 		"regex-join": "^2.1.0",
-		"select-dom": "^9.1.1",
+		"select-dom": "^9.2.0",
 		"shorten-repo-url": "^5.2.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^4.1.1",
