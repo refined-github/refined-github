@@ -31,7 +31,7 @@ const fresh = [
 	'Smells fresh',
 	'Just a baby',
 	'It’s my birthday',
-	'Brand spanking new',
+	'Brand sparkling new',
 	'It’s a new world ✨',
 	'Certified Fresh Repo™',
 	'So it begins, the great battle of our time',
