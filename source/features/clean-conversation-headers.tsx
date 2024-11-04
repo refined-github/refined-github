@@ -23,6 +23,11 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
 
+	const authorSelector = [
+		'.TimelineItem .author',
+		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
+	].join(',');
+
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
@@ -31,7 +36,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		&& $([
 			'.author',
 			'a[data-hovercard-url]',
-		], byline).textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+		], byline).textContent === (await elementReady(authorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
@@ -51,7 +56,8 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		base.after(<span>{arrowIcon}</span>);
 	}
 
-	const baseBranch = base.textContent.split(':')[1];
+	const baseBranchContent = base.textContent.split(':');
+	const baseBranch = baseBranchContent[1] ?? baseBranchContent[0];
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {

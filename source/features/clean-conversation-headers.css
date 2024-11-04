@@ -64,3 +64,7 @@ a.rgh-clean-conversation-headers-non-default-branch {
 .rgh-clean-conversation-headers .commit-ref-dropdown {
 	margin-top: -2px !important;
 }
+
+.d-flex:has(.rgh-clean-conversation-headers) {
+	align-items: center !important;
+}
