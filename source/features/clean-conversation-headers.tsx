@@ -22,8 +22,9 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
+	byline.parentElement!.closest('.d-flex')!.classList.add('flex-items-center');
 
-	const authorSelector = [
+	const prCreatorSelector = [
 		'.TimelineItem .author',
 		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
 	].join(',');
@@ -36,7 +37,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		&& $([
 			'.author',
 			'a[data-hovercard-url]',
-		], byline).textContent === (await elementReady(authorSelector))!.textContent;
+		], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
@@ -72,7 +73,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'.gh-header-meta > .flex-auto', // Real
 		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
-		'[class^="StateLabel"] + div > span',
+		'[class^="StateLabel"] + div > span:first-child',
 	], cleanConversationHeader, {signal});
 }
 

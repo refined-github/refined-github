@@ -15,7 +15,7 @@ a.rgh-clean-conversation-headers-non-default-branch {
 
 /* Removes: every text (but not icons) */
 .rgh-clean-conversation-headers {
-	font-size: 0;
+	font-size: 0 !important;
 }
 
 /* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
@@ -63,8 +63,4 @@ a.rgh-clean-conversation-headers-non-default-branch {
 /* Fixes vertical alignment of base branch dropdown #5598 */
 .rgh-clean-conversation-headers .commit-ref-dropdown {
 	margin-top: -2px !important;
-}
-
-.d-flex:has(.rgh-clean-conversation-headers) {
-	align-items: center !important;
 }
