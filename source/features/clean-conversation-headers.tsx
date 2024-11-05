@@ -10,6 +10,7 @@ import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 
 async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
@@ -47,22 +48,27 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		'.commit-ref',
 		'[class^="BranchName"]',
 	], byline);
-	const baseBranchDropdown = $optional('.commit-ref-dropdown', byline);
 
+	let baseBranch;
+	if (base.title) {
+		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
+	} else {
+		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
+	}
+
+	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
+	const isDefaultBranch = baseBranch === await getDefaultBranch();
+	if (!isDefaultBranch && !wasDefaultBranch) {
+		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
+	}
+
+	const baseBranchDropdown = $optional('.commit-ref-dropdown', byline);
 	// Shows on PRs: main [←] feature
 	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
 	if (baseBranchDropdown) {
 		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
 	} else {
 		base.after(<span>{arrowIcon}</span>);
-	}
-
-	const baseBranchContent = base.textContent.split(':');
-	const baseBranch = baseBranchContent[1] ?? baseBranchContent[0];
-	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
-	const isDefaultBranch = baseBranch === await getDefaultBranch();
-	if (!isDefaultBranch && !wasDefaultBranch) {
-		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 	}
 }
 
