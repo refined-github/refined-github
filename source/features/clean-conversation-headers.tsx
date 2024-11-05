@@ -10,6 +10,8 @@ import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
@@ -22,35 +24,51 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
+	byline.parentElement!.closest('.d-flex')!.classList.add('flex-items-center');
+
+	const prCreatorSelector = [
+		'.TimelineItem .author',
+		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
+	].join(',');
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
 		&& !byline.closest('.gh-header-sticky') // #7802
-		&& $('.author', byline).textContent === (await elementReady('.TimelineItem .author'))!.textContent;
+		&& $([
+			'.author',
+			'a[data-hovercard-url]',
+		], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-clean-conversation-headers-hide-author');
 	}
 
-	const base = $('.commit-ref', byline);
-	const baseBranchDropdown = $optional('.commit-ref-dropdown', byline);
+	const base = $([
+		'.commit-ref',
+		'[class^="BranchName"]',
+	], byline);
 
-	// Shows on PRs: main [←] feature
-	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
-	if (baseBranchDropdown) {
-		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
+	let baseBranch;
+	if (base.title) {
+		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
 	} else {
-		base.nextElementSibling!.replaceChildren(arrowIcon);
+		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
 	}
 
-	const baseBranch = base.title.split(':')[1];
 	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 	}
+
+	// Shows on PRs: main [←] feature
+	const anchor
+		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
+		?? base.nextSibling?.nextSibling;
+	assertNodeContent(anchor, 'from');
+	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -60,6 +78,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'.gh-header-meta > .flex-auto', // Real
 		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+		'[class^="StateLabel"] + div > span:first-child',
 	], cleanConversationHeader, {signal});
 }
 
