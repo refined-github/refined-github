@@ -125,7 +125,7 @@ export const v3uncached = async (
 	}
 
 	throw await getError(apiResponse);
-}
+};
 
 export const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,

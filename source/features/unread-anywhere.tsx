@@ -1,5 +1,4 @@
-import {$$} from 'select-dom';
-
+import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
@@ -7,16 +6,16 @@ import features from '../feature-manager.js';
 import {modKey, registerHotkey} from '../github-helpers/hotkey.js';
 import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
-import fetchDom from '../helpers/fetch-dom.js';
+import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
 
 const limit = 10;
 
 async function openUnreadNotifications(): Promise<void> {
 	await showToast(async updateToast => {
-		const page = await fetchDom('https://github.com/notifications?query=is%3Aunread');
+		const page = await fetchDomUncached('https://github.com/notifications?query=is%3Aunread');
 
-		const notifications = $$('a.js-navigation-open', page);
+		const notifications = $$optional('a.js-navigation-open', page);
 		if (notifications.length === 0) {
 			updateToast('No unread notifications');
 			return;
@@ -28,11 +27,13 @@ async function openUnreadNotifications(): Promise<void> {
 			openUrls: urls,
 		});
 
-		updateToast(
-			notifications.length > limit
-				? `Opened the last ${limit} unread notifications`
-				: pluralize(urls.length, '$$ notification') + ' opened',
-		);
+		if (notifications.length > limit) {
+			updateToast(`Opened the last ${limit} unread notifications`);
+		} else {
+			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
+			// Update the UI too
+			$('.AppHeader-button--hasIndicator').classList.remove('AppHeader-button--hasIndicator');
+		}
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
