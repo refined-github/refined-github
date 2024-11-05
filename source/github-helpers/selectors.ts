@@ -131,6 +131,7 @@ export const linksToConversationLists_ = [
 export const newCommentField = [
 	'[input="fc-new_comment_field"]',
 	'[input^="fc-new_inline_comment_discussion"]',
+	'[aria-labelledby="comment-composer-heading"]',
 ];
 
 export const newCommentField_ = [] satisfies UrlMatch[];

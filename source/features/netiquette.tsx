@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
@@ -15,6 +15,7 @@ import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github
 import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 
 const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
 
@@ -30,7 +31,14 @@ function getCloseDate(): Date {
 }
 
 function isPopular(): boolean {
-	return $$('.timeline-comment').length > 30 || $$('.participant-avatar').length > 10;
+	return (
+		$$('[data-testid="comment-header"]').length > 30
+		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
+		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
+		// TODO: Drop in April 2025; old conversation style
+		|| $$('.timeline-comment').length > 30
+		|| $$('.participant-avatar').length > 10
+	);
 }
 
 const threeMonths = toMilliseconds({days: 90});
@@ -44,7 +52,7 @@ export function wasClosedLongAgo(): boolean {
 	return timeAgo(closingDate) > threeMonths;
 }
 
-export function getNoticeText(): JSX.Element {
+export function getResolvedText(): JSX.Element {
 	const closingDate = getCloseDate();
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
@@ -55,24 +63,36 @@ export function getNoticeText(): JSX.Element {
 	);
 }
 
-function addConversationBanner(newCommentField: HTMLElement): void {
-	newCommentField.prepend(
-		createBanner({
-			icon: <InfoIcon className="m-0" />,
-			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
-			text: getNoticeText(),
-		}),
-	);
+function addResolvedBanner(newCommentField: HTMLElement): void {
+	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
+	const banner = createBanner({
+		icon: <InfoIcon className="m-0" />,
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0'.split(' '),
+		text: getResolvedText(),
+	});
+
+	if (reactWrapper) {
+		reactWrapper.before(banner);
+	} else {
+		banner.classList.replace('rounded-0', 'm-2');
+		newCommentField.prepend(banner);
+	}
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	newCommentField.prepend(
-		createBanner({
-			icon: <FlameIcon className="m-0" />,
-			classes: 'p-2 m-2 text-small color-fg-muted border-0'.split(' '),
-			text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
-		}),
-	);
+	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
+	const banner = createBanner({
+		icon: <FlameIcon className="m-0" />,
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0'.split(' '),
+		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
+	});
+
+	if (reactWrapper) {
+		reactWrapper.before(banner);
+	} else {
+		banner.classList.replace('rounded-0', 'm-2');
+		newCommentField.prepend(banner);
+	}
 }
 
 function addDraftBanner(newCommentField: HTMLElement): void {
@@ -92,7 +112,7 @@ function initDraft(signal: AbortSignal): void {
 async function initBanner(signal: AbortSignal): Promise<void | false> {
 	// Do not move to `asLongAs` because those conditions are run before `isConversation`
 	if (wasClosedLongAgo()) {
-		observe(newCommentField, addConversationBanner, {signal});
+		observe(newCommentField, addResolvedBanner, {signal});
 	} else if (isPopular() && !(await userIsModerator())) {
 		observe(newCommentField, addPopularBanner, {signal});
 	} else {
