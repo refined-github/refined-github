@@ -11,6 +11,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
@@ -62,14 +63,12 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
 	}
 
-	const baseBranchDropdown = $optional('.commit-ref-dropdown', byline);
 	// Shows on PRs: main [←] feature
-	const arrowIcon = <ArrowLeftIcon className="v-align-middle mx-1" />;
-	if (baseBranchDropdown) {
-		baseBranchDropdown.after(<span>{arrowIcon}</span>); // #5598
-	} else {
-		base.after(<span>{arrowIcon}</span>);
-	}
+	const anchor
+		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
+		?? base.nextSibling?.nextSibling;
+	assertNodeContent(anchor, 'from');
+	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
