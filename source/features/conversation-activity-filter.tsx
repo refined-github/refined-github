@@ -232,8 +232,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta clipboard-copy',
-		'#partial-discussion-header .gh-header-sticky clipboard-copy',
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .gh-header-sticky .sticky-content .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
