@@ -8,7 +8,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-export const closedOrMergedMarkerSelector = css`
+export const statusBadge = css`
 	#partial-discussion-header :is(
 		[title^="Status: Closed"],
 		[title^="Status: Merged"]
@@ -16,8 +16,8 @@ export const closedOrMergedMarkerSelector = css`
 	[data-testid="issue-viewer-container"] [data-testid="header-state"]
 `;
 
-export function isClosedOrMerged(discussionHeader = $(closedOrMergedMarkerSelector)): boolean {
-	return /^Closed|^Merged/.test(discussionHeader.textContent);
+export function isClosedOrMerged(discussionHeader = $(statusBadge)): boolean {
+	return /^Closed|^Merged/.test(discussionHeader.textContent.trim());
 }
 
 export function getLastCloseEvent(): HTMLElement | undefined {
@@ -35,7 +35,7 @@ export function getLastCloseEvent(): HTMLElement | undefined {
 			[href*="reason%3Anot-planned"]
 		)`,
 	])?.closest([
-		'.TimelineItem', // Old version
+		'.TimelineItem', // Old view
 		'.Timeline-Item',
 	])?.querySelector('relative-time') ?? undefined;
 }
@@ -60,7 +60,7 @@ function addToConversation(discussionHeader: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		closedOrMergedMarkerSelector,
+		statusBadge,
 		addToConversation,
 		{signal},
 	);

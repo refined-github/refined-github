@@ -12,11 +12,11 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
-import {closedOrMergedMarkerSelector, getLastCloseEvent} from './jump-to-conversation-close-event.js';
+import {statusBadge, getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 
-const isClosedOrMerged = (): boolean => elementExists(closedOrMergedMarkerSelector);
+const isClosedOrMerged = (): boolean => elementExists(statusBadge);
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
