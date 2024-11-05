@@ -927,6 +927,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif"
 	},
 	{
+		"id": "unread-notifications",
+		"description": "Add a global shortcut to open all your unread notifications at once: <kbd>cmd</kbd> <kbd>u</kbd> or <kbd>ctrl</kbd> <kbd>u</kbd>",
+		"screenshot": "https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141"
+	},
+	{
 		"id": "unreleased-commits",
 		"description": "Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png"

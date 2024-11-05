@@ -46,7 +46,13 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		[`${modKey} u`]: 'Open unread notifications',
+		[`${modKey} u`]: 'Open all unread notifications from anywhere',
 	},
 	init: onetime(init),
 });
+
+/*
+
+Test URLs: anywhere :)
+
+*/
