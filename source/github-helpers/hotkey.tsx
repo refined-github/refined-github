@@ -1,5 +1,7 @@
 import React from 'dom-chef';
 
+import {isMac} from './index.js';
+
 export function registerHotkey(hotkey: string, action: VoidFunction | string, {signal}: SignalAsOptions): void {
 	const element = typeof action === 'string'
 		? <a hidden href={action} data-hotkey={hotkey} />
@@ -20,3 +22,6 @@ export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefi
 		button.dataset.hotkey = [...hotkeys].join(',');
 	}
 }
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const modKey = isMac ? 'cmd' : 'ctrl';

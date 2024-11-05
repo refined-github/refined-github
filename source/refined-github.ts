@@ -217,3 +217,4 @@ import './features/comment-excess.js';
 import './features/linkify-line-numbers.js';
 import './features/sidebar-focus-file.js';
 import './features/rgh-token-user.js';
+import './features/unread-anywhere.js';

@@ -18,4 +18,6 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 	return dom;
 }
 
+export {fetchDom as fetchDomUncached};
+
 export default mem(fetchDom);
