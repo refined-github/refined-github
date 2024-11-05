@@ -3,8 +3,8 @@ import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {DelegateEvent} from 'delegate-it';
 
-import {isMac} from '../github-helpers/index.js';
 import features from '../feature-manager.js';
+import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
@@ -30,7 +30,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{isMac ? 'cmd' : 'ctrl'}</kbd><kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd><kbd>enter</kbd>.
 		</p>
 	);
 	if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPRConversation()) {
