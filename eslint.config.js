@@ -17,6 +17,13 @@ export default antfu(
 			overrides: {
 				'ts/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'ts/consistent-type-definitions': 'off', // Review later
+				'ts/consistent-type-imports': [
+					'error',
+					{
+						// Preferred style
+						fixStyle: 'inline-type-imports',
+					},
+				],
 				'ts/explicit-function-return-type': [
 					'error',
 					{
@@ -151,7 +158,6 @@ export default antfu(
 			'ts/no-unsafe-member-access': 'off',
 			'ts/no-unsafe-return': 'off',
 			'ts/no-unsafe-call': 'off',
-			'ts/consistent-type-imports': 'off',
 			'n/prefer-global/process': 'off',
 			'import/prefer-default-export': 'error',
 			'import/order': [

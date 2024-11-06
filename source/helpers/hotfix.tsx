@@ -5,7 +5,7 @@ import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import {base64ToString} from 'uint8array-extras';
 
-import {RGHOptions} from '../options-storage.js';
+import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();

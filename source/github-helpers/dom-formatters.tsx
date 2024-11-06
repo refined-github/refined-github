@@ -16,14 +16,14 @@ const linkifiedURLSelector = '.rgh-linkified-code';
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
 	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
-	':is(.snippet-clipboard-content, .highlight):not(.notranslate) > pre.notranslate', // Code blocks in comments. May be wrapped twice
+	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
-	// Exclude the link if the closest element found is not `.comment-body`
+	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.comment-body']))?.classList.contains('comment-body')) {
+	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 	}
 }

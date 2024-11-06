@@ -141,12 +141,13 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
+	// TODO: Use `<anchored-position>` instead
 	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
+	await delay(100); // Let `clean-conversation-headers` run first
 	const availableSpaceToTheLeftOfTheDropdown
 		= position.lastElementChild!.getBoundingClientRect().right
 		- position.parentElement!.getBoundingClientRect().left;
 
-	// It may be zero on the sticky header, but `clean-conversation-headers` doesn't apply there
 	const alignment
 		= availableSpaceToTheLeftOfTheDropdown === 0
 		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
@@ -232,8 +233,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta clipboard-copy',
-		'#partial-discussion-header .gh-header-sticky clipboard-copy',
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .gh-header-sticky .sticky-content .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {

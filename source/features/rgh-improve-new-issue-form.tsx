@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import openOptions from '../helpers/open-options.js';
+import {OptionsLink} from '../helpers/open-options.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
 import {getToken} from '../options-storage.js';
@@ -18,7 +18,7 @@ function addNotice(adjective: JSX.Element | string): void {
 		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in the options</button>.
+				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</div>,
@@ -63,7 +63,7 @@ async function linkifyCacheRefresh(): Promise<void> {
 		<button
 			className="btn"
 			type="button"
-			onClick={clearCacheHandler as unknown as React.MouseEventHandler}
+			onClick={clearCacheHandler}
 		>
 			Clear cache
 		</button>,

@@ -5,7 +5,8 @@
 	);
 }
 
-.rgh-clean-conversation-headers-non-default-branch a {
+.rgh-clean-conversation-headers-non-default-branch a,
+a.rgh-clean-conversation-headers-non-default-branch {
 	color: var(
 		--control-checked-fgColor-rest,
 		var(--color-state-hover-primary-text, #fff)
@@ -14,7 +15,7 @@
 
 /* Removes: every text (but not icons) */
 .rgh-clean-conversation-headers {
-	font-size: 0;
+	font-size: 0 !important;
 }
 
 /* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
@@ -40,11 +41,13 @@
 /* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
 /* Removes on PRs: [octocat] merged 1 commit into master from feature */
 .rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author + .Label, /* #5832 */
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author {
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author,
+.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author a[data-hovercard-url] {
 	display: none;
 }
 
-.rgh-clean-conversation-headers .commit-ref {
+.rgh-clean-conversation-headers .commit-ref,
+.rgh-clean-conversation-headers [class^='BranchName'] {
 	font-size: 12px;
 }
 

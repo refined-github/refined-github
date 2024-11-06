@@ -17,12 +17,15 @@ function ToastSpinner(): JSX.Element {
 }
 
 type ProgressCallback = (message: string) => void;
-type Task = Promise<unknown> | ((progress?: ProgressCallback) => Promise<unknown>);
+type Task = Promise<unknown> | ((progress: ProgressCallback) => Promise<unknown>);
 export default async function showToast(
 	task: Task | Error,
 	{
 		message = 'Bulk actions currently being processed.',
 		doneMessage = 'Bulk action processing complete.',
+	}: {
+		message?: string;
+		doneMessage?: string | false;
 	} = {},
 ): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
@@ -60,7 +63,7 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
-	let finalToastMessage = 'Unknown error';
+	let finalToastMessage: string | false = 'Unknown error';
 	try {
 		if (task instanceof Error) {
 			throw task;
@@ -82,7 +85,7 @@ export default async function showToast(
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
 	} finally {
-		updateToast(finalToastMessage);
-		void finalUpdateToast(finalToastMessage);
+		// Use the last message if `false` was passed
+		void finalUpdateToast(finalToastMessage || messageWrapper.textContent);
 	}
 }

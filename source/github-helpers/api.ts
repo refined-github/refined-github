@@ -27,7 +27,7 @@ so the call will not throw an error but it will return as usual.
 
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
-import {JsonObject, AsyncReturnType} from 'type-fest';
+import type {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getRepo} from './index.js';
@@ -58,7 +58,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api3 = pageDetect.isEnterprise()
+export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
 	: 'https://api.github.com/';
 
@@ -90,7 +90,7 @@ const v4defaults: GHGraphQLApiOptions = {
 	allowErrors: false,
 };
 
-export const v3 = mem(async (
+export const v3uncached = async (
 	query: string,
 	options: GHRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
@@ -125,7 +125,9 @@ export const v3 = mem(async (
 	}
 
 	throw await getError(apiResponse);
-}, {
+};
+
+export const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
@@ -278,6 +280,7 @@ const api = {
 	v4,
 	v3paginated,
 	v3hasAnyItems,
+	v3uncached,
 	v4uncached,
 	escapeKey,
 	getError,

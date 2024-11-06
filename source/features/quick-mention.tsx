@@ -6,7 +6,7 @@ import {elementExists} from 'select-dom';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';

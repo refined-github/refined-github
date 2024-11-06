@@ -10,7 +10,7 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';
 import observe from '../helpers/selector-observer.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
-import createRghIssueLink from '../helpers/rgh-issue-link.js';
+import {createRghIssueLink} from '../helpers/rgh-links.js';
 import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
@@ -111,9 +111,11 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 
 	if (isFeatureDisabled(await optionsStorage.getAll(), id)) {
 		return createBanner({
-			text: <>This feature is disabled on GitHub.com <button className="btn-link" type="button" onClick={openOptions as unknown as React.MouseEventHandler}>in your options</button>.</>,
+			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
 			icon: <AlertIcon className="mr-0" />,
+			action: openOptions,
+			buttonLabel: 'Refined GitHub Options',
 		});
 	}
 

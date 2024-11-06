@@ -1,15 +1,14 @@
 import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
-
+import {onAbort} from 'abort-utils';
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';
 import showToast from '../github-helpers/toast.js';
 import getItemsBetween from '../helpers/get-items-between.js';
-import onAbort from '../helpers/abort-controller.js';
 
 let previousFile: HTMLElement | undefined;
 let runningBatch = false;

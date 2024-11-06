@@ -1,6 +1,6 @@
 import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 

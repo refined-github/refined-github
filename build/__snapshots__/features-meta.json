@@ -489,7 +489,7 @@
 	{
 		"id": "netiquette",
 		"description": "Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png"
+		"screenshot": "https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda"
 	},
 	{
 		"id": "new-or-deleted-file",
@@ -882,7 +882,7 @@
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif"
+		"screenshot": "https://github.com/user-attachments/assets/e0392989-9c60-4f5c-9052-27a3bb51d4e4"
 	},
 	{
 		"id": "swap-branches-on-compare",
@@ -925,6 +925,11 @@
 		"id": "unfinished-comments",
 		"description": "Notifies the user of unfinished comments in hidden tabs.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif"
+	},
+	{
+		"id": "unread-anywhere",
+		"description": "Adds a global shortcut to open all your unread notifications at once: <kbd>cmd</kbd> <kbd>u</kbd> or <kbd>ctrl</kbd> <kbd>u</kbd>",
+		"screenshot": "https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141"
 	},
 	{
 		"id": "unreleased-commits",

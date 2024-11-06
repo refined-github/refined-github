@@ -5,9 +5,9 @@ import {$$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import prettyBytes from 'pretty-bytes';
 import {enableTabToIndent} from 'indent-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
-import {SyncedForm} from 'webext-options-sync-per-domain';
+import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';

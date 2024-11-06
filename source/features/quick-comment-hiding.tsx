@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -86,6 +86,8 @@ function init(signal: AbortSignal): void {
 	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
+// TODO: Drop feature in April 2025
+// https://github.com/refined-github/refined-github/issues/7856#issuecomment-2411492400
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasComments,
