@@ -7,8 +7,6 @@ import observe from '../helpers/selector-observer.js';
 const isSingleHTMLFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function add(rawButton: HTMLAnchorElement): void {
-	console.log('rawButton', rawButton);
-
 	if (!pageDetect.isPublicRepo()) {
 		return;
 	}
