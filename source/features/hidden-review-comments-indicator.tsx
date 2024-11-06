@@ -5,7 +5,7 @@ import React from 'dom-chef';
 import {$$} from 'select-dom';
 import CommentIcon from 'octicons-plain-react/Comment';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {onAbort} from 'abort-utils';
 
 import features from '../feature-manager.js';

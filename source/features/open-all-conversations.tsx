@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$$} from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 

@@ -1,4 +1,4 @@
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import {isMac} from '../github-helpers/index.js';
 import features from '../feature-manager.js';

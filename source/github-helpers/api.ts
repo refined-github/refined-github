@@ -27,7 +27,7 @@ so the call will not throw an error but it will return as usual.
 
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
-import {JsonObject, AsyncReturnType} from 'type-fest';
+import type {JsonObject, AsyncReturnType} from 'type-fest';
 
 import features from '../feature-manager.js';
 import {getRepo} from './index.js';
