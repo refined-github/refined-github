@@ -14,6 +14,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	}
 
 	commitMeta!.classList.remove('no-wrap'); // #5987
+	// TODO: Improve after April 2025
 	const node = (
 		<>
 			<span className="sha-block" data-turbo="false">
