@@ -1,5 +1,5 @@
 import {elementExists} from 'select-dom';
-import {RequireAtLeastOne} from 'type-fest';
+import type {RequireAtLeastOne} from 'type-fest';
 
 import getCallerID from './caller-id.js';
 

@@ -3,7 +3,7 @@ import {$optional} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
-import {Promisable} from 'type-fest';
+import type {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
@@ -12,12 +12,12 @@ import waitFor from './helpers/wait-for.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
-	BooleanFunction,
+	type BooleanFunction,
 	shouldFeatureRun,
 	isFeaturePrivate,
-	RunConditions,
+	type RunConditions,
 } from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
+import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,

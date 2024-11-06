@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import domify from 'doma';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {$} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 

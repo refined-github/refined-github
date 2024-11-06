@@ -2,7 +2,7 @@ import {$optional, $} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
-import {RequireAtLeastOne} from 'type-fest';
+import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 

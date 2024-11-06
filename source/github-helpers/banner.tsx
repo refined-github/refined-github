@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {RequireAllOrNone} from 'type-fest';
+import type {RequireAllOrNone} from 'type-fest';
 
 type BannerProps = RequireAllOrNone<{
 	icon?: JSX.Element;

@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
