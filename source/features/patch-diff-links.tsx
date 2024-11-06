@@ -26,7 +26,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta > span:last-child', // `isPRCommit` + old `isSingleCommit`
+		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
 		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
 }
