@@ -6,10 +6,10 @@
 }} />
 
 <link rel='stylesheet' href='header.css'>
-<script>
+<script lang='ts'>
 	import './header.css';
 
-	export let title;
+	const {title}: {title: string} = $props();
 </script>
 <header>
 	<h1>
