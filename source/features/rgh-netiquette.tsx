@@ -6,7 +6,7 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getNoticeText, wasClosedLongAgo} from './netiquette.js';
+import {getResolvedText, wasClosedLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
@@ -37,7 +37,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1" />,
-				text: <>{getNoticeText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				text: <>{getResolvedText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
 		</TimelineItem>
 	);
