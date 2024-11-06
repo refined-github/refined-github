@@ -14,14 +14,17 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	}
 
 	commitMeta!.classList.remove('no-wrap'); // #5987
-	commitMeta!.prepend(
-		<span className="sha-block" data-turbo="false">
-			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
-			{' '}
-			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
-		</span>,
-		<span className="px-2">·</span>,
+	const node = (
+		<>
+			<span className="sha-block" data-turbo="false">
+				<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
+				{' '}
+				<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
+			</span>
+			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
+		</>
 	);
+	commitMeta!.prepend(node);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
