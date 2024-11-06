@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
