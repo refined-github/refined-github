@@ -107,15 +107,15 @@ function initDraft(signal: AbortSignal): void {
 	observe(newCommentField, addDraftBanner, {signal});
 }
 
-async function initBanner(signal: AbortSignal): Promise<void | false> {
-	// Do not move to `asLongAs` because those conditions are run before `isConversation`
-	if (wasClosedLongAgo()) {
-		observe(newCommentField, addResolvedBanner, {signal});
-	} else if (isPopular() && !(await userIsModerator())) {
-		observe(newCommentField, addPopularBanner, {signal});
-	} else {
-		return false;
-	}
+function initBanner(signal: AbortSignal): void {
+	observe(newCommentField, async (field: HTMLElement) => {
+		// Check inside the observer because React views load after dom-ready
+		if (wasClosedLongAgo()) {
+			addResolvedBanner(field);
+		} else if (isPopular() && !(await userIsModerator())) {
+			addPopularBanner(field);
+		}
+	}, {signal});
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {

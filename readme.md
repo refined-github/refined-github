@@ -359,7 +359,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Netiquette
 
-- [](# "netiquette") [Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).](https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png)
+- [](# "netiquette") [Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).](https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda)
 - [](# "warn-pr-from-master") [Warns you when creating a PR from the default branch, as it’s an anti-pattern.](https://user-images.githubusercontent.com/1402241/52543516-3ca94e00-2de5-11e9-9f80-ff8f9fe8bdc4.png)
 - [](# "warning-for-disallow-edits") [Warns you when unchecking `Allow edits from maintainers`, as it’s maintainer-hostile.](https://user-images.githubusercontent.com/1402241/53151888-24101380-35ef-11e9-8d30-d6315ad97325.gif)
 
