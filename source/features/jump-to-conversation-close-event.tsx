@@ -22,6 +22,7 @@ export function isClosedOrMerged(discussionHeader = $(statusBadge)): boolean {
 
 export function getLastCloseEvent(): HTMLElement | undefined {
 	return lastElement([
+		// TODO: Move to selectors.ts
 		// Old view: Drop in April 2025
 		`.TimelineItem-badge :is(
 			.octicon-issue-closed,
