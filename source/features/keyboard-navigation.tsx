@@ -33,6 +33,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	// `j` goes to the next comment, `k` goes back a comment
 	const direction = event.key === 'j' ? 1 : -1;
+	// Without `focusedElement`, it will start from -1
 	const currentIndex = items.indexOf(focusedComment!);
 
 	// Start at 0 if nothing is; clamp index
