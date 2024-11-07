@@ -190,22 +190,21 @@ export const botLinksPrSelectors = [
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
 
-// `issue-body-header-author` targets the first issue comment
 const authorLinks = [
 	'.js-discussion a.author',
 	'.inline-comments a.author',
-	'h3 a[data-testid="issue-body-header-author"]',
+	'h3 a[data-testid="issue-body-header-author"]', // The first issue comment
 	'.react-issue-comment a[data-testid="avatar-link"]',
 ];
 
-// `a` selector needed to skip commits by non-GitHub users
-// # targets mannequins #6504
-// `show_full_name` is for GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 const authorLinksException = [
+	// # targets mannequins #6504
 	'[href="#"]',
+	// `a` selector needed to skip commits by non-GitHub users
 	'[href*="/apps/"]',
 	'[href*="/marketplace/"]',
 	'[data-hovercard-type="organization"]',
+	// For GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 	'[show_full_name="true"]',
 ];
 
