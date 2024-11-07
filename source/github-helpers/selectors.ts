@@ -190,6 +190,7 @@ export const botLinksPrSelectors = [
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
 
+// `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
 	'.js-discussion a.author',
 	'.inline-comments a.author',
@@ -200,7 +201,6 @@ const authorLinks = [
 const authorLinksException = [
 	// # targets mannequins #6504
 	'[href="#"]',
-	// `a` selector needed to skip commits by non-GitHub users
 	'[href*="/apps/"]',
 	'[href*="/marketplace/"]',
 	'[data-hovercard-type="organization"]',
@@ -209,7 +209,7 @@ const authorLinksException = [
 ];
 
 export const usernameLinksSelector = [
-	`:is(${authorLinks.join(',')}):not(${authorLinksException.join(',')})`,
+	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
