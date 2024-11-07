@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import {css} from 'code-tag';
 import {lastElement} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
@@ -8,13 +7,10 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-export const statusBadge = css`
-	#partial-discussion-header :is(
-		[title^="Status: Closed"],
-		[title^="Status: Merged"]
-	),
-	[data-testid="issue-viewer-container"] [data-testid="header-state"]
-`;
+export const statusBadge = [
+	'#partial-discussion-header .State',
+	'[data-testid="issue-viewer-container"] [data-testid="header-state"]',
+];
 
 export function isClosedOrMerged(discussionHeader = $(statusBadge)): boolean {
 	return /^Closed|^Merged/.test(discussionHeader.textContent.trim());
