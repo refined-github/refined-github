@@ -1,4 +1,4 @@
-import {$} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -19,7 +19,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	event.preventDefault();
 
-	const focusedComment = $(':target');
+	const focusedComment = $optional(':target');
 	const items
 		= $$([
 			'.js-targetable-element[id^="diff-"]', // Files in diffs
@@ -33,7 +33,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	// `j` goes to the next comment, `k` goes back a comment
 	const direction = event.key === 'j' ? 1 : -1;
-	const currentIndex = items.indexOf(focusedComment);
+	const currentIndex = items.indexOf(focusedComment!);
 
 	// Start at 0 if nothing is; clamp index
 	const chosenCommentIndex = Math.min(
