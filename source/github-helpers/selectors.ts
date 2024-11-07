@@ -190,21 +190,26 @@ export const botLinksPrSelectors = [
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
 
-export const usernameLinksSelector = [
-	// `a` selector needed to skip commits by non-GitHub users
+// `a` selector needed to skip commits by non-GitHub users
+const authorLinks = [
+	'.js-discussion a.author',
+	'.inline-comments a.author',
+	'h3 a[data-testid="issue-body-header-author"]', // The first issue comment
+	'.react-issue-comment a[data-testid="avatar-link"]',
+];
+
+const authorLinksException = [
 	// # targets mannequins #6504
-	// `show_full_name` is for GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
-	`:is(
-		.js-discussion a.author,
-		.inline-comments a.author,
-		.react-issue-comment a[data-testid='avatar-link']
-	):not(
-		[href="#"],
-		[href*="/apps/"],
-		[href*="/marketplace/"],
-		[data-hovercard-type="organization"],
-		[show_full_name="true"]
-	)`,
+	'[href="#"]',
+	'[href*="/apps/"]',
+	'[href*="/marketplace/"]',
+	'[data-hovercard-type="organization"]',
+	// For GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+	'[show_full_name="true"]',
+];
+
+export const usernameLinksSelector = [
+	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
