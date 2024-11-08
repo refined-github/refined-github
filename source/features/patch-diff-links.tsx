@@ -19,14 +19,14 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
 			{' '}
 			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
+			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
 		</span>,
-		<span className="px-2">·</span>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta > span:last-child', // `isPRCommit` + old `isSingleCommit`
+		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
 		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
 }
