@@ -8,3 +8,7 @@
 		margin-right: 2px !important;
 	}
 }
+
+[data-testid="list-view-item-description"] {
+	margin-top: 1px;
+}
