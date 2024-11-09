@@ -12,11 +12,13 @@
 	const {title}: {title: string} = $props();
 </script>
 <header>
-	<h1>
-		<img src='icon.png' alt="" height='32'>
-		{title}
-	</h1>
-	<div>
-		<slot />
+	<div class='content'>
+		<h1>
+			<img src='icon.png' alt='' height='32'>
+			{title}
+		</h1>
+		<div>
+			<slot />
+		</div>
 	</div>
 </header>

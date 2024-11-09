@@ -27,11 +27,15 @@ h2 {
 	margin: auto;
 }
 
+.content {
+	padding-inline: var(--viewport-margin);
+}
+
 ul {
 	list-style: none;
 	margin: 30px auto;
 	max-width: var(--content-width);
-	padding: var(--viewport-margin);
+	padding: var(--viewport-margin) 0;
 }
 
 a,

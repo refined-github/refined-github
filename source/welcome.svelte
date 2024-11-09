@@ -75,50 +75,53 @@
 <link rel='stylesheet' href='welcome.css'>
 <main class:dimmed={stepValid === 3}>
 	<rgh-header title='Welcome to Refined GitHub'></rgh-header>
-	<ul>
-		<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
-			{#if stepValid === 0}
-				<button onclick={grantPermissions}>
+
+	<div class="content">
+		<ul>
+			<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
+				{#if stepValid === 0}
+					<button onclick={grantPermissions}>
+						Grant
+					</button>
+				{:else}
 					Grant
-				</button>
-			{:else}
-				Grant
-			{/if}
-			the extension access to github.com
-		</li>
+				{/if}
+				the extension access to github.com
+			</li>
 
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' onclick={showThirdStep}>
-			<a
-				href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none'
-				onclick={markSecondStep}
-			>
-				Generate a token
-			</a>
-			to ensure that every feature works correctly.
-			<a
-				href='https://github.com/refined-github/refined-github/wiki/Security'
-			>
-				More info
-			</a>
-		</li>
+			<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<li class:valid={stepValid >= 2} class:visible={stepVisible >= 2} class='will-show' onclick={showThirdStep}>
+				<a
+					href='https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none'
+					onclick={markSecondStep}
+				>
+					Generate a token
+				</a>
+				to ensure that every feature works correctly.
+				<a
+					href='https://github.com/refined-github/refined-github/wiki/Security'
+				>
+					More info
+				</a>
+			</li>
 
-		<li class:valid={stepValid >= 3} class:visible={stepVisible >= 3} class='will-show'>
-			<label for='token-input'>Paste token:</label>
-			<input
-				id='token-input'
-				type='text'
-				size='10'
-				autocomplete='current-password'
-				name='personalToken'
-				bind:value={tokenInput}
-			/>
-			{#if tokenError}
-				<span class='error'>{tokenError}</span>
-			{/if}
-		</li>
-	</ul>
+			<li class:valid={stepValid >= 3} class:visible={stepVisible >= 3} class='will-show'>
+				<label for='token-input'>Paste token:</label>
+				<input
+					id='token-input'
+					type='text'
+					size='10'
+					autocomplete='current-password'
+					name='personalToken'
+					bind:value={tokenInput}
+				/>
+				{#if tokenError}
+					<span class='error'>{tokenError}</span>
+				{/if}
+			</li>
+		</ul>
+	</div>
 
 	<footer>
 		<h2 class:visible={stepValid === 3} class='will-show'>
