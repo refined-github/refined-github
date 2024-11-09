@@ -65,20 +65,20 @@ small {
 details {
 	margin-bottom: 1em;
 
-	--border-width: 2px;
-
-	@media (width <= 750px) {
-		/* Sync with --content-width */
-		--border-width: 0px; /* Keep unit or calc() breaks */
-	}
+	--border-radius: 6px;
 }
 
 details > div {
 	padding: 10px;
-	border: solid var(--border-width) light-dark(#f9f9f9, #272727);
+	border-bottom-left-radius: var(--border-radius);
+	border-bottom-right-radius: var(--border-radius);
+	border: solid 2px light-dark(#f9f9f9, #272727);
 	border-top: 0;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+
+	/* Sync with --content-width */
+	@media (width <= 750px) {
+		border-width: 0;
+	}
 }
 
 summary {
@@ -90,6 +90,11 @@ summary {
 	background: light-dark(#f9f9f9, #272727);
 	list-style: none;
 	padding: var(--summary-padding);
+
+	[open] & {
+		border-top-left-radius: var(--border-radius);
+		border-top-right-radius: var(--border-radius);
+	}
 }
 
 summary::-webkit-details-marker {
@@ -98,10 +103,6 @@ summary::-webkit-details-marker {
 
 summary:hover {
 	background: light-dark(#e9e9e9, #353535);
-}
-
-details[open] summary {
-	padding-left: calc(var(--summary-padding) - var(--border-width));
 }
 
 [data-validation] {
