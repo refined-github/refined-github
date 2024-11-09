@@ -100,8 +100,7 @@
 
 	/* PR tab navigation */
 	/* https://github.com/refined-github/refined-github/issues/7725 */
-
-	:root .tabnav-tab {
+	#partial-discussion-header + .tabnav .tabnav-tab {
 		display: inline-flex;
 		flex-wrap: wrap;
 		width: min-content;
@@ -133,7 +132,7 @@
 	}
 
 	@media (width <= 500px) {
-		:root .tabnav {
+		#partial-discussion-header + .tabnav {
 			font-size: 10px;
 
 			/* Avoid awkward clipped overflow */
