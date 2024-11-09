@@ -39,7 +39,13 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 	runningBatch = true;
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
-		if (file !== thisFile && isChecked(file) !== isThisBeingFileChecked) {
+		if (
+			file !== thisFile
+			// `checkVisibility` excludes filtered-out files
+			// https://github.com/refined-github/refined-github/issues/7819
+			&& file.checkVisibility()
+			&& isChecked(file) !== isThisBeingFileChecked
+		) {
 			$('.js-reviewed-checkbox', file).click();
 		}
 	}
@@ -52,7 +58,9 @@ const batchToggle = debounceFn((event: DelegateEvent<MouseEvent, HTMLFormElement
 
 function markAsViewedSelector(target: HTMLElement): string {
 	const checked = isChecked(target) ? ':not([checked])' : '[checked]';
-	return '.js-reviewed-checkbox' + checked;
+	// The `hidden` attribute excludes filtered-out files
+	// https://github.com/refined-github/refined-github/issues/7819
+	return '.file:not([hidden]) .js-reviewed-checkbox' + checked;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);
