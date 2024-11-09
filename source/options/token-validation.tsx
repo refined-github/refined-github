@@ -24,7 +24,7 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 
 	// Toggle the ulists by token type (default to classic)
 	for (const ulist of $$('[data-token-type]')) {
-		ulist.style.display = ulist.dataset.tokenType === tokenType ? '' : 'none';
+		ulist.hidden = ulist.dataset.tokenType !== tokenType;
 	}
 
 	for (const scope of $$('[data-scope]')) {
