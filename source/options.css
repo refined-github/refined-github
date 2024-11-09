@@ -4,7 +4,7 @@
 
 :root {
 	--rgh-red: #cf222e;
-	--content-width: 750px; /* Sync with media query below */
+	--content-width: 750px;
 	--viewport-margin: 30px;
 
 	max-width: none;
@@ -35,13 +35,11 @@ html::after {
 	}
 }
 
-p,
-ul {
+p {
 	margin-top: 0;
 }
 
-p:last-child,
-ul:last-child {
+p:last-child {
 	margin-bottom: 0;
 }
 
@@ -54,6 +52,10 @@ li[data-validation] {
 	margin-bottom: 0.3em;
 }
 
+details {
+	margin-bottom: 1em;
+}
+
 output {
 	font-style: italic;
 }
@@ -62,23 +64,11 @@ small {
 	opacity: 80%;
 }
 
-details {
-	margin-bottom: 1em;
+details[open] {
+	--border-left: 4px;
 
-	--border-width: 2px;
-
-	@media (width <= 750px) {
-		/* Sync with --content-width */
-		--border-width: 0px; /* Keep unit or calc() breaks */
-	}
-}
-
-details > div {
-	padding: 10px;
-	border: solid var(--border-width) light-dark(#f9f9f9, #272727);
-	border-top: 0;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-left: solid var(--border-left) #aaa4;
+	padding-bottom: 1px;
 }
 
 summary {
@@ -101,11 +91,12 @@ summary:hover {
 }
 
 details[open] summary {
-	padding-left: calc(var(--summary-padding) - var(--border-width));
+	margin-bottom: 10px;
+	padding-left: calc(var(--summary-padding) - var(--border-left));
 }
 
-[data-validation] {
-	padding-left: 1.8em;
+details[open] > :not(summary) {
+	margin-left: 10px;
 }
 
 [data-validation]::before {
@@ -113,8 +104,7 @@ details[open] summary {
 	width: 16px;
 	height: 16px;
 	vertical-align: -4px;
-	margin-right: 0.8em;
-	margin-left: -1.8em; /* Pull out */
+	margin-right: 0.3em;
 	display: inline-block;
 }
 
