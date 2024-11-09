@@ -97,6 +97,55 @@
 			justify-self: center;
 		}
 	}
+
+	/* PR tab navigation */
+	/* https://github.com/refined-github/refined-github/issues/7725 */
+
+	:root .tabnav-tab {
+		display: inline-flex;
+		flex-wrap: wrap;
+		width: min-content;
+		white-space: nowrap;
+		place-content: center center;
+		align-items: center;
+		min-width: 7em;
+		padding: 0.7em;
+		font-size: 13px;
+
+		.octicon {
+			order: -2;
+			display: block !important;
+		}
+
+		.Counter {
+			order: -1;
+		}
+
+		@media (width <= 500px) {
+			font-size: 10px;
+
+			.Counter {
+				background: none;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
+
+	@media (width <= 500px) {
+		:root .tabnav {
+			font-size: 10px;
+
+			/* Avoid awkward clipped overflow */
+			padding-right: 0 !important;
+
+			.Counter {
+				background: none;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
 }
 
 /*
