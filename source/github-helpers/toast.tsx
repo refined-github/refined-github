@@ -29,7 +29,7 @@ export default async function showToast(
 	} = {},
 ): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
-	const messageWrapper = <span className="Toast-content">{message}</span>;
+	const messageWrapper = <span>{message}</span>;
 	const toast = (
 		<div
 			role="log"
@@ -37,7 +37,10 @@ export default async function showToast(
 			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
-			{messageWrapper}
+			<span className="Toast-content py-2">
+				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Refined GitHub</div>
+				{messageWrapper}
+			</span>
 		</div>
 	);
 	const updateToast = (message: string): void => {
