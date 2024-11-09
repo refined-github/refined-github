@@ -35,6 +35,10 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 
 function wrapButtons(buttons: HTMLElement[]): void {
 	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
+
+	// `rounded-left-0` is for Firefox
+	// https://github.com/refined-github/refined-github/pull/8030
+	buttons.at(-1)!.classList.add('rounded-left-0');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
