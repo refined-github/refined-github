@@ -76,7 +76,7 @@
 <main class:dimmed={stepValid === 3}>
 	<rgh-header title='Welcome to Refined GitHub'></rgh-header>
 
-	<div class="content">
+	<div class='content'>
 		<ul>
 			<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class='will-show'>
 				{#if stepValid === 0}
