@@ -14,7 +14,7 @@ import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 
 async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
-	byline.classList.add('rgh-clean-conversation-headers', 'rgh-clean-conversation-headers-hide-author');
+	byline.classList.add('rgh-clean-conversation-headers', 'rgh-hide-author');
 
 	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
 	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
@@ -42,7 +42,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
-		byline.classList.add('rgh-clean-conversation-headers-hide-author');
+		byline.classList.add('rgh-hide-author');
 	}
 
 	const base = $([
@@ -60,7 +60,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
-		base.classList.add('rgh-clean-conversation-headers-non-default-branch');
+		base.classList.add('rgh-non-default-branch');
 	}
 
 	// Shows on PRs: main [←] feature
