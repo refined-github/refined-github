@@ -1,15 +1,20 @@
 import React from 'dom-chef';
 import {lastElement} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const statusBadge = [
+export const statusBadge = [
 	'#partial-discussion-header .State',
-	'[class^="StateLabel"]',
+	'[data-testid="issue-viewer-container"] [data-testid="header-state"]',
 ];
+
+export function isClosedOrMerged(discussionHeader = $(statusBadge)): boolean {
+	return /^Closed|^Merged/.test(discussionHeader.textContent.trim());
+}
 
 export function getLastCloseEvent(): HTMLElement | undefined {
 	return lastElement([
@@ -33,6 +38,10 @@ export function getLastCloseEvent(): HTMLElement | undefined {
 }
 
 function addToConversation(discussionHeader: HTMLElement): void {
+	if (!isClosedOrMerged(discussionHeader)) {
+		return;
+	}
+
 	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 	discussionHeader.style.pointerEvents = 'none';
 
@@ -57,7 +66,10 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isConversation,
-		pageDetect.isClosedConversation,
+	],
+	include: [
+		pageDetect.isClosedIssue,
+		pageDetect.isClosedPR,
 	],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,

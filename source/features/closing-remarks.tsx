@@ -140,7 +140,7 @@ void features.add(import.meta.url, {
 	// This catches a PR while it's being merged
 	asLongAs: [
 		pageDetect.isPRConversation,
-		pageDetect.isOpenConversation,
+		pageDetect.isOpenPR,
 		userHasPushAccess,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier

@@ -53,7 +53,7 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
-		pageDetect.isOpenConversation,
+		pageDetect.isOpenPR,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init(signal: AbortSignal): void {

@@ -58,11 +58,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
-	if (
-		getUsername() === $('.author').textContent
-		|| pageDetect.isClosedConversation()
-		|| !(await getToken())
-	) {
+	if (getUsername() === $('.author').textContent || pageDetect.isClosedPR() || !(await getToken())) {
 		return;
 	}
 
