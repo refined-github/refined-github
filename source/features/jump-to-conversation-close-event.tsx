@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 
 export const statusBadge = [
 	'#partial-discussion-header .State',
-	'[data-testid="issue-viewer-container"] [data-testid="header-state"]',
+	'[class^="StateLabel"]',
 ];
 
 export function isClosedOrMerged(discussionHeader = $(statusBadge)): boolean {

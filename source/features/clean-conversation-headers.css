@@ -1,66 +1,65 @@
-:root .rgh-clean-conversation-headers-non-default-branch {
+:root .rgh-non-default-branch {
 	background-color: var(
 		--control-checked-bgColor-hover,
 		var(--color-state-hover-primary-bg, #0366d6)
 	);
+
+	&,
+	a {
+		color: var(
+			--control-checked-fgColor-rest,
+			var(--color-state-hover-primary-text, #fff)
+		);
+	}
 }
 
-.rgh-clean-conversation-headers-non-default-branch a,
-a.rgh-clean-conversation-headers-non-default-branch {
-	color: var(
-		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, #fff)
-	);
-}
-
-/* Removes: every text (but not icons) */
 .rgh-clean-conversation-headers {
+	/* Removes: every text (but not icons) */
 	font-size: 0 !important;
-}
 
-/* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
-/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
-/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
-.rgh-clean-conversation-headers
-	> :not(.js-updating-pull-request-commits-count) {
-	font-size: 14px;
-}
+	/* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
+	/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
+	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
+	& > :not(.js-updating-pull-request-commits-count) {
+		font-size: 14px;
+	}
 
-/* Shows on PRs: [by ]octocat main ← feature */
-.rgh-clean-conversation-headers:not(
-		.rgh-clean-conversation-headers-hide-author
-	)::before {
-	content: 'by ';
-	font-size: 14px;
-}
+	/* Shows on PRs: [by ]octocat main ← feature */
+	&:not(.rgh-hide-author)::before {
+		content: 'by ';
+		font-size: 14px;
+	}
 
-.rgh-clean-conversation-headers .author {
-	margin-right: 4px;
-}
+	.author {
+		margin-right: 4px;
+	}
 
-/* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
-/* Removes on PRs: [octocat] merged 1 commit into master from feature */
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author + .Label, /* #5832 */
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author .author,
-.rgh-clean-conversation-headers.rgh-clean-conversation-headers-hide-author a[data-hovercard-url] {
-	display: none;
-}
+	/* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
+	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
+	&.rgh-hide-author {
+		.author + .Label, /* #5832 */
+		.author,
+		a[data-hovercard-url] {
+			display: none;
+		}
+	}
 
-.rgh-clean-conversation-headers .commit-ref,
-.rgh-clean-conversation-headers [class^='BranchName'] {
-	font-size: 12px;
-}
+	.commit-ref,
+	[class^='BranchName'] {
+		font-size: 12px;
+	}
 
-.rgh-clean-conversation-headers relative-time {
-	margin-left: 4px;
-}
+	relative-time {
+		margin-left: 4px;
+	}
 
-/* Removes on issues: octocat opened this issue on [1 Jan] · 1 comments */
-.gh-header.issue .rgh-clean-conversation-headers relative-time {
-	display: none;
-}
+	/* Removes on issues: octocat opened this issue on [1 Jan] · 1 comments */
+	.gh-header.issue & relative-time {
+		display: none;
+	}
 
-/* Fixes vertical alignment of base branch dropdown #5598 */
-.rgh-clean-conversation-headers .commit-ref-dropdown {
-	margin-top: -2px !important;
+	/* Fixes vertical alignment of base branch dropdown #5598 */
+	.commit-ref-dropdown {
+		margin-top: -2px !important;
+	}
 }
