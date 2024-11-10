@@ -57,7 +57,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
 	}
 
-	const wasDefaultBranch = pageDetect.isClosedPR() && baseBranch === 'master';
+	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-non-default-branch');

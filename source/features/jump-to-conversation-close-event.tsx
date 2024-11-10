@@ -67,10 +67,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isConversation,
 	],
-	include: [
-		pageDetect.isClosedIssue,
-		pageDetect.isClosedPR,
-	],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });
