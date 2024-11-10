@@ -53,7 +53,7 @@ function append(container: HTMLElement): void {
 				</div>
 			</summary>
 			<details-menu
-				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
 			>
 				{Array.from({length: 25}).map((_, index) => (
