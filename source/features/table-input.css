@@ -35,31 +35,27 @@
 }
 
 .rgh-tic:hover div,
-.rgh-tic:is(:nth-of-type(5n + 1)):has(~ :hover:nth-of-type(5n + 1)) div,
+/* Hovering the 1st column */
+.rgh-tic:is(:nth-of-type(5n + 1)):has(~ .rgh-tic:hover:nth-of-type(5n + 1)) div,
+/* Hovering the 2nd column */
 .rgh-tic:is(:nth-of-type(5n + 1), :nth-of-type(5n + 2)):has(
-		~ :hover:nth-of-type(5n + 2)
+		~ .rgh-tic:hover:nth-of-type(5n + 2)
 	)
 	div,
+/* Hovering the 3rd column */
 .rgh-tic:is(
 		:nth-of-type(5n + 1),
 		:nth-of-type(5n + 2),
 		:nth-of-type(5n + 3)
-	):has(~ :hover:nth-of-type(5n + 3))
+	):has(~ .rgh-tic:hover:nth-of-type(5n + 3))
 	div,
-.rgh-tic:is(
-		:nth-of-type(5n + 1),
-		:nth-of-type(5n + 2),
-		:nth-of-type(5n + 3),
-		:nth-of-type(5n + 4)
-	):has(~ :hover:nth-of-type(5n + 4))
-	div,
-.rgh-tic:is(
-		:nth-of-type(5n + 1),
-		:nth-of-type(5n + 2),
-		:nth-of-type(5n + 3),
-		:nth-of-type(5n + 4),
+/* Hovering the 4th column */
+.rgh-tic:not(
 		:nth-of-type(5n + 5)
-	):has(~ :hover:nth-of-type(5n + 5))
+	):has(~ .rgh-tic:hover:nth-of-type(5n + 4))
+	div,
+/* Hovering the 5th column */
+.rgh-tic:has(~ .rgh-tic:hover:nth-of-type(5n + 5))
 	div {
 	border-color: #79b8ff;
 	background-color: var(
