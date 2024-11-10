@@ -11,12 +11,9 @@ import XIcon from 'octicons-plain-react/X';
 import domLoaded from 'dom-loaded';
 
 import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';
-
-const expectedDropdownWidth = 270;
 
 const states = {
 	default: '',
@@ -141,34 +138,19 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
-	// TODO: Use `<anchored-position>` instead
-	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
-	await delay(100); // Let `clean-conversation-headers` run first
-	const availableSpaceToTheLeftOfTheDropdown
-		= position.lastElementChild!.getBoundingClientRect().right
-		- position.parentElement!.getBoundingClientRect().left;
-
-	const alignment
-		= availableSpaceToTheLeftOfTheDropdown === 0
-		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-			? 'right-0'
-			: 'left-0';
-
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
-	position.classList.add('rgh-conversation-activity-filter');
-	position.after(
+	const dropdown = (
 		<details
-			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
+			className={`details-reset details-overlay d-inline-block position-relative ${dropdownClass}`}
 			id="rgh-conversation-activity-filter-select-menu"
 		>
-			<summary>
+			<summary className="btn btn-sm">
 				<EyeIcon className="color-fg-muted" />
 				<EyeClosedIcon className="color-fg-danger" />
-				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
+				<span className="text-small color-fg-danger rgh-conversation-events-label"> events</span>
 				<div className="dropdown-caret ml-1" />
 			</summary>
 			<details-menu
-				className={`SelectMenu ${alignment}`}
+				className="SelectMenu right-0"
 				on-details-menu-select={handleSelection}
 			>
 				<div className="SelectMenu-modal">
@@ -189,8 +171,17 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 					</div>
 				</div>
 			</details-menu>
-		</details>,
+		</details>
 	);
+
+	position.classList.add('rgh-conversation-activity-filter');
+	if (position.closest('.gh-header-actions')) {
+		position.prepend(dropdown);
+	} else {
+		dropdown.classList.add('ml-auto');
+		dropdown.firstElementChild!.classList.remove('btn-sm');
+		position.append(dropdown);
+	}
 }
 
 const minorFixesIssuePages = [
@@ -233,8 +224,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .gh-header-sticky .sticky-content .meta:last-child',
+		'.gh-header-actions',
+		'.gh-header-sticky > .sticky-content > .d-flex',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
