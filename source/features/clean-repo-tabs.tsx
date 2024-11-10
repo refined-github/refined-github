@@ -32,12 +32,13 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 }
 
 function onlyShowInDropdown(id: string): void {
-	const tabItem = $optional(`[data-tab-item$="${id}"]`);
-	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
+	// TODO: Use selector observer
+	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
+	if (!tabItem) { // #3962 #7140
 		return;
 	}
 
-	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
+	tabItem.closest('li')!.hidden = true;
 
 	const menuItem = $(`[data-menu-item$="${id}"]`);
 	menuItem.removeAttribute('data-menu-item');
@@ -138,7 +139,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	deduplicate: 'has-rgh',
 	init: moveRareTabs,
 }, {
 	include: [
