@@ -12,7 +12,7 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
-import {getLastCloseEvent, isClosedOrMerged} from './jump-to-conversation-close-event.js';
+import {getLastCloseEvent} from './jump-to-conversation-close-event.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -42,7 +42,7 @@ function isPopular(): boolean {
 const threeMonths = toMilliseconds({days: 90});
 
 export function wasClosedLongAgo(): boolean {
-	if (!isClosedOrMerged()) {
+	if (!pageDetect.isClosedConversation()) {
 		return false;
 	}
 
