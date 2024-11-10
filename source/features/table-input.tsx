@@ -63,9 +63,7 @@ function append(container: HTMLElement): void {
 						className="rgh-tic btn-link"
 						data-x={(index % 5) + 1}
 						data-y={Math.floor(index / 5) + 1}
-					>
-						<div />
-					</button>
+					/>
 				))}
 			</details-menu>
 		</details>,
