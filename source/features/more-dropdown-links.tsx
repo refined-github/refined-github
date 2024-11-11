@@ -14,6 +14,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
+import observe from '../helpers/selector-observer.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
@@ -28,7 +29,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 	return true;
 }
 
-async function init(): Promise<void> {
+async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<void> {
 	const reference = getCurrentGitRef() ?? await getDefaultBranch();
 	const compareUrl = buildRepoURL('compare', reference);
 	const commitsUrl = buildRepoURL('commits', reference);
@@ -36,8 +37,6 @@ async function init(): Promise<void> {
 	const dependenciesUrl = buildRepoURL('network/dependencies');
 	await unhideOverflowDropdown();
 
-	// Wait for the nav dropdown to be loaded #5244
-	const repoNavigationDropdown = await elementReady('.UnderlineNav-actions ul');
 	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator" />,
 		createDropdownItem({
@@ -65,6 +64,10 @@ async function init(): Promise<void> {
 	);
 }
 
+async function init(signal: AbortSignal): Promise<void> {
+	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
@@ -75,8 +78,6 @@ void features.add(import.meta.url, {
 		// No dropdown on mobile #5781
 		() => !elementExists('.js-responsive-underlinenav'),
 	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // DOM-based filter
 	init,
 });
 
