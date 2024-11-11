@@ -75,12 +75,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	exclude: [
-		pageDetect.isEmptyRepo,
-
-		// No dropdown on mobile #5781
-		() => !elementExists('.js-responsive-underlinenav'),
-	],
 	init,
 });
 
