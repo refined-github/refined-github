@@ -15,6 +15,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
@@ -65,6 +66,8 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
 }
 
