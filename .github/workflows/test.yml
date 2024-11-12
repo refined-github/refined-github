@@ -33,6 +33,23 @@ jobs:
         if: false
         continue-on-error: true
 
+  Verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run vitest -- build/features
+      - name: Leave comment
+        uses: peter-evans/create-or-update-comment@v4
+        if: failure() && github.event_name == 'pull_request'  && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Don't worry about fixing this yet, you can wait for the feature to be finalized before documenting it.
+
   Lint:
     runs-on: ubuntu-latest
     steps:
