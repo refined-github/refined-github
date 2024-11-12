@@ -3,6 +3,7 @@
 
 	&.selected {
 		color: var(--fgColor-default, var(--color-fg-default));
+		border-color: var(--control-borderColor-emphasis);
 
 		.octicon {
 			color: var(--fgColor-default, var(--color-fg-default));
