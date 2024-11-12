@@ -183,7 +183,6 @@ import './features/easy-toggle-commit-messages.js';
 import './features/command-palette-navigation-shortcuts.js';
 import './features/link-to-compare-diff.js';
 import './features/hide-low-quality-comments.js';
-import './features/submission-via-ctrl-enter-everywhere.js';
 import './features/linkify-user-labels.js';
 import './features/repo-avatars.js';
 import './features/jump-to-conversation-close-event.js';

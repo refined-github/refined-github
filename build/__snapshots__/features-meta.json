@@ -874,11 +874,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png"
 	},
 	{
-		"id": "submission-via-ctrl-enter-everywhere",
-		"description": "Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.",
-		"screenshot": null
-	},
-	{
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,
