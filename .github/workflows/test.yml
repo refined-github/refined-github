@@ -28,6 +28,9 @@ jobs:
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
       - run: npm run vitest -- selectors
+        # For some reason it fails on CI, but not locally
+        # Mentioned in https://github.com/refined-github/refined-github/issues/7747
+        if: false
         continue-on-error: true
 
   Lint:
