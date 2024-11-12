@@ -36,7 +36,6 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 	const commitsUrl = buildRepoURL('commits', reference);
 	const branchesUrl = buildRepoURL('branches');
 	const dependenciesUrl = buildRepoURL('network/dependencies');
-	await unhideOverflowDropdown();
 
 	repoNavigationDropdown!.append(
 		<li className="dropdown-divider" role="separator" />,
@@ -67,6 +66,7 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
+	await unhideOverflowDropdown();
 
 	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
 }
