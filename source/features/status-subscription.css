@@ -1,0 +1,11 @@
+.thread-subscribe-form .btn {
+	color: var(--fgColor-muted, var(--color-fg-muted));
+
+	&.selected {
+		color: var(--fgColor-default, var(--color-fg-default));
+
+		.octicon {
+			color: var(--fgColor-default, var(--color-fg-default));
+		}
+	}
+}
