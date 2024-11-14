@@ -11,5 +11,5 @@
 
 /* Fix border partially visible in new view #8025 */
 [data-testid='list-view-item-description'] {
-	margin-top: 1px;
+	margin-top: 1.5px;
 }
