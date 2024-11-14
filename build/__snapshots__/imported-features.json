@@ -77,7 +77,6 @@
 	"linkify-code",
 	"linkify-commit-sha",
 	"linkify-line-numbers",
-	"linkify-notification-repository-header",
 	"linkify-symbolic-links",
 	"linkify-user-edit-history-popup",
 	"linkify-user-labels",
