@@ -23,6 +23,7 @@ const rollup = {
 		'options': './source/options.tsx',
 		'welcome': './source/welcome.svelte',
 		'header': './source/options/header.svelte',
+		'storage-usage': './source/options/storage-usage.svelte',
 		'background': './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
