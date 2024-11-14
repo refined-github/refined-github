@@ -24,7 +24,7 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 			icon: <AlertIcon />,
 			classes: ['mx-3', 'mt-3', 'mb-0', 'py-2'],
 			text: [
-				<>Your <OptionsLink className="Link--muted">Refined GitHub token</OptionsLink> is for a different user, the extension will act on behalf of <code>{currentTokenUser}</code></>,
+				<>Your <OptionsLink className="btn-link">Refined GitHub token</OptionsLink> is for a different user, the extension will act on behalf of <code>{currentTokenUser}</code></>,
 			],
 		},
 		));
