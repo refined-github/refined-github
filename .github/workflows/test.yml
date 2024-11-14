@@ -48,7 +48,10 @@ jobs:
         if: failure() && github.event_name == 'pull_request'  && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          body: Don't worry about fixing this yet, you can wait for the feature to be finalized before documenting it.
+          body: |
+            Don't worry about fixing this yet, you can wait for the feature to be finalized before documenting it.
+
+            FYI: you can run `npm run fix` to automatically fix a lot of issues and update snapshots. Similar tips can be found in the [contributing wiki](https://github.com/refined-github/refined-github/wiki/Contributing).
 
   Lint:
     runs-on: ubuntu-latest
