@@ -5,13 +5,12 @@ import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
-const canEditSidebar = onetime((): boolean => elementExists('.discussion-sidebar-item [data-hotkey="l"]'));
+const canEditSidebar = (): boolean => elementExists('.discussion-sidebar-item [data-hotkey="l"]');
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();
