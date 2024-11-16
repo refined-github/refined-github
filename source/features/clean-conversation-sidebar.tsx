@@ -103,10 +103,13 @@ async function cleanSidebar(): Promise<void> {
 	}
 
 	// Labels
-	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
-		// Hide heading in any case except `canEditSidebar`
-		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')
-			.remove();
+	if (!cleanSection('.js-issue-labels')) {
+		const heading = $('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading');
+		// If it's a <summary> element, we keep the header because it opens the picker
+		// https://github.com/refined-github/refined-github/issues/7283
+		if (heading.tagName !== 'SUMMARY') {
+			heading.remove();
+		}
 	}
 
 	// Development (linked issues/PRs)
