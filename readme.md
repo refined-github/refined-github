@@ -329,7 +329,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Notifications
 
 - [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png)
-- [](# "unread-anywhere") 🔥 [Adds a global shortcut to open all your unread notifications at once: <kbd>cmd</kbd> <kbd>u</kbd> or <kbd>ctrl</kbd> <kbd>u</kbd>](https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141)
+- [](# "unread-anywhere") 🔥 [Adds a global shortcut to open all your unread notifications at once: <kbd>g</kbd> <kbd>u</kbd>](https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
