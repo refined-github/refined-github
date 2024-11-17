@@ -169,7 +169,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		return;
 	}
 
-	for (const loader of loaders) {
+	void asyncForEach(loaders, async loader => {
 		// Input defaults and validation
 		const {
 			shortcuts = {},
@@ -187,44 +187,42 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
-			continue;
+			return;
 		}
 
-		(async () => {
-			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
-			let firstLoop = true;
-			do {
-				if (awaitDomReady) {
-					await domLoaded;
-				}
-				if (firstLoop) {
-					firstLoop = false;
-				} else if (deduplicate && elementExists(deduplicate)) {
-					continue;
-				}
+		/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
+		let firstLoop = true;
+		do {
+			if (awaitDomReady) {
+				await domLoaded;
+			}
+			if (firstLoop) {
+				firstLoop = false;
+			} else if (deduplicate && elementExists(deduplicate)) {
+				continue;
+			}
 
-				if (!await shouldFeatureRun({asLongAs, include, exclude})) {
-					continue;
-				}
+			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+				continue;
+			}
 
-				const featureController = new AbortController();
-				currentFeatureControllers.append(id, featureController);
+			const featureController = new AbortController();
+			currentFeatureControllers.append(id, featureController);
 
-				// Do not await, or else an error on a page will break the feature completely until a reload
-				void asyncForEach(castArray(init), async init => {
-					const result = await init(featureController.signal);
-					// Features can return `false` when they decide not to run on the current page
-					if (result !== false && !isFeaturePrivate(id)) {
-						log.info('✅', id);
-						// Register feature shortcuts
-						for (const [hotkey, description] of Object.entries(shortcuts)) {
-							shortcutMap.set(hotkey, description);
-						}
+			// Do not await, or else an error on a page will break the feature completely until a reload
+			void asyncForEach(castArray(init), async init => {
+				const result = await init(featureController.signal);
+				// Features can return `false` when they decide not to run on the current page
+				if (result !== false && !isFeaturePrivate(id)) {
+					log.info('✅', id);
+					// Register feature shortcuts
+					for (const [hotkey, description] of Object.entries(shortcuts)) {
+						shortcutMap.set(hotkey, description);
 					}
-				});
-			} while (await oneEvent(document, 'turbo:render'));
-		})();
-	}
+				}
+			});
+		} while (await oneEvent(document, 'turbo:render'));
+	});
 }
 
 async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<void> {
