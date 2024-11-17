@@ -12,7 +12,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
-async function disableWikiAndProjects(): Promise<void> {
+async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
 
 	await api.v3('', {
@@ -70,7 +70,7 @@ void features.add(import.meta.url, {
 	include: [
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
-	init: onetime(disableWikiAndProjects),
+	init: onetime(disableWikiAndProjectsOnce),
 });
 
 /*

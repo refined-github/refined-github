@@ -17,7 +17,7 @@ function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {
 	delegateTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: targetKey, code: targetKey}));
 }
 
-function init(): void {
+function initOnce(): void {
 	delegate('command-palette', 'keydown', commandPaletteKeydown);
 }
 
@@ -29,7 +29,7 @@ void features.add(import.meta.url, {
 		'ctrl n': 'Select next item in command palette',
 		'ctrl p': 'Select previous item in command palette',
 	},
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

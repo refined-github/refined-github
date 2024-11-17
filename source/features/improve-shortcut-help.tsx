@@ -51,12 +51,12 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(): void {
+function initOnce(): void {
 	document.body.addEventListener('keypress', observeShortcutModal);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

@@ -17,12 +17,12 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 	} catch {}
 }
 
-function init(): void {
+function initOnce(): void {
 	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, {capture: true});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*
