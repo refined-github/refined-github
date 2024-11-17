@@ -45,6 +45,9 @@ type FeatureLoader = {
 	*/
 	deduplicate?: string;
 
+	/** Whether to only init once, and not on future AJAX loads (the signal will never abort) */
+	once?: false;
+
 	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
 } & Partial<InternalRunConfig>;
 
@@ -142,6 +145,8 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
+const persistentSignal = new AbortController().signal;
+
 async function maybeRun(id: FeatureID, {asLongAs, include, exclude, init, shortcuts}: InternalRunConfig): Promise<void> {
 	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
@@ -204,6 +209,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			init,
 			awaitDomReady = false,
 			deduplicate = false,
+			once = false,
 		} = loader;
 
 		if (include?.length === 0) {
@@ -215,11 +221,18 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			continue;
 		}
 
+		const onceController = new AbortController();
 		const details = {
 			asLongAs,
 			include,
 			exclude,
-			init,
+			init: once
+				// Call `init` once and then make sure it doesn't get called again
+				? castArray(init).map(init => () => {
+					onceController.abort();
+					return init(persistentSignal);
+				})
+				: init,
 			shortcuts,
 		};
 		if (awaitDomReady) {
@@ -235,7 +248,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			if (!deduplicate || !elementExists(deduplicate)) {
 				void maybeRun(id, details);
 			}
-		});
+		}, {signal: onceController.signal});
 	}
 }
 
