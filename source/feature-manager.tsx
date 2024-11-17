@@ -27,6 +27,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
+import oneEvent from 'one-event';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -222,20 +223,23 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			init,
 			shortcuts,
 		};
-		if (awaitDomReady) {
-			(async () => {
-				await domLoaded;
-				await maybeRun(id, details);
-			})();
-		} else {
-			void maybeRun(id, details);
-		}
+		(async () => {
+			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
+			let firstLoop = true;
+			do {
+				if (awaitDomReady) {
+					await domLoaded;
+				}
+				if (firstLoop) {
+					firstLoop = false;
+				} else if (deduplicate && elementExists(deduplicate)) {
+					continue;
+				}
 
-		document.addEventListener('turbo:render', () => {
-			if (!deduplicate || !elementExists(deduplicate)) {
+				// Do not await, or else an error on a page will break the feature completely until a reload
 				void maybeRun(id, details);
-			}
-		});
+			} while (await oneEvent(document, 'turbo:render'));
+		})();
 	}
 }
 
