@@ -39,8 +39,8 @@ async function openUnreadNotifications(): Promise<void> {
 	});
 }
 
-function init(): void {
-	registerHotkey('g u', openUnreadNotifications);
+function init(signal: AbortSignal): void {
+	registerHotkey('g u', openUnreadNotifications, {signal});
 }
 
 void features.add(import.meta.url, {
