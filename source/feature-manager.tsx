@@ -7,6 +7,7 @@ import type {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
+import oneEvent from 'one-event';
 
 import waitFor from './helpers/wait-for.js';
 import ArrayMap from './helpers/map-of-arrays.js';
@@ -27,12 +28,11 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import oneEvent from 'one-event';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
-type FeatureLoader = {
+type FeatureLoader = RunConditions & {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
@@ -46,12 +46,7 @@ type FeatureLoader = {
 	*/
 	deduplicate?: string;
 
-	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
-} & Partial<InternalRunConfig>;
-
-type InternalRunConfig = RunConditions & {
 	init: Arrayable<FeatureInit>;
-	shortcuts: Record<string, string>;
 };
 
 const shortcutMap = new Map<string, string>();
@@ -143,27 +138,6 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-async function maybeRun(id: FeatureID, {asLongAs, include, exclude, init, shortcuts}: InternalRunConfig): Promise<void> {
-	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
-		return;
-	}
-
-	const featureController = new AbortController();
-	currentFeatureControllers.append(id, featureController);
-
-	await asyncForEach(castArray(init), async init => {
-		const result = await init(featureController.signal);
-		// Features can return `false` when they decide not to run on the current page
-		if (result !== false && !isFeaturePrivate(id)) {
-			log.info('✅', id);
-			// Register feature shortcuts
-			for (const [hotkey, description] of Object.entries(shortcuts)) {
-				shortcutMap.set(hotkey, description);
-			}
-		}
-	});
-}
-
 type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
 	id: string;
@@ -216,13 +190,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			continue;
 		}
 
-		const details = {
-			asLongAs,
-			include,
-			exclude,
-			init,
-			shortcuts,
-		};
 		(async () => {
 			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
 			let firstLoop = true;
@@ -236,8 +203,25 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 					continue;
 				}
 
+				if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+					continue;
+				}
+
+				const featureController = new AbortController();
+				currentFeatureControllers.append(id, featureController);
+
 				// Do not await, or else an error on a page will break the feature completely until a reload
-				void maybeRun(id, details);
+				void asyncForEach(castArray(init), async init => {
+					const result = await init(featureController.signal);
+					// Features can return `false` when they decide not to run on the current page
+					if (result !== false && !isFeaturePrivate(id)) {
+						log.info('✅', id);
+						// Register feature shortcuts
+						for (const [hotkey, description] of Object.entries(shortcuts)) {
+							shortcutMap.set(hotkey, description);
+						}
+					}
+				});
 			} while (await oneEvent(document, 'turbo:render'));
 		})();
 	}
