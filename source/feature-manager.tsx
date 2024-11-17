@@ -142,9 +142,7 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
-	const {asLongAs, include, exclude, init, shortcuts} = config;
-
+async function maybeRun(id: FeatureID, {asLongAs, include, exclude, init, shortcuts}: InternalRunConfig): Promise<void> {
 	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 		return;
 	}
@@ -227,15 +225,15 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		if (awaitDomReady) {
 			(async () => {
 				await domLoaded;
-				await setupPageLoad(id, details);
+				await maybeRun(id, details);
 			})();
 		} else {
-			void setupPageLoad(id, details);
+			void maybeRun(id, details);
 		}
 
 		document.addEventListener('turbo:render', () => {
 			if (!deduplicate || !elementExists(deduplicate)) {
-				void setupPageLoad(id, details);
+				void maybeRun(id, details);
 			}
 		});
 	}
