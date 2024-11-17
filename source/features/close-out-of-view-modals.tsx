@@ -50,12 +50,12 @@ function menuActivatedHandler(event: DelegateEvent): void {
 	}
 }
 
-function init(): void {
+function initOnce(): void {
 	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

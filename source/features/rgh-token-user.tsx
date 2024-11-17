@@ -31,12 +31,12 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 	}
 }
 
-function init(): void {
+function initOnce(): void {
 	observe('[aria-label="User navigation"][role="heading"]', verify);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

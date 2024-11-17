@@ -39,15 +39,15 @@ async function openUnreadNotifications(): Promise<void> {
 	});
 }
 
-function init(signal: AbortSignal): void {
-	registerHotkey('g u', openUnreadNotifications, {signal});
+function initOnce(): void {
+	registerHotkey('g u', openUnreadNotifications);
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
 		'g u': 'Open all unread notifications from anywhere',
 	},
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

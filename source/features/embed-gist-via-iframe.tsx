@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
-async function init(): Promise<void> {
+async function initOnce(): Promise<void> {
 	const embedViaScript = await elementReady('.file-navigation-option button[value^="<script"]');
 	const embedViaIframe = embedViaScript!.cloneNode(true);
 
@@ -30,7 +30,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*
