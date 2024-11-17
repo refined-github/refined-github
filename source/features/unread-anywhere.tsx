@@ -2,8 +2,7 @@ import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-// eslint-disable-next-line unicorn/prevent-abbreviations
-import {modKey, registerHotkey} from '../github-helpers/hotkey.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
 import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
