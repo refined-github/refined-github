@@ -1,3 +1,6 @@
+// Core feature that needs to run first; it serves the `deduplicate` key.
+import './features/rgh-deduplicator.js';
+
 import './refined-github.css';
 import './github-helpers/heat-map.css';
 
