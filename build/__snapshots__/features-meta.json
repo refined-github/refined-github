@@ -413,11 +413,6 @@
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
-		"id": "linkify-notification-repository-header",
-		"description": "Linkifies the header of each notification group (when grouped by repository).",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png"
-	},
-	{
 		"id": "linkify-symbolic-links",
 		"description": "Linkifies symbolic links files.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
@@ -874,11 +869,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png"
 	},
 	{
-		"id": "submission-via-ctrl-enter-everywhere",
-		"description": "Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.",
-		"screenshot": null
-	},
-	{
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,
@@ -928,7 +918,7 @@
 	},
 	{
 		"id": "unread-anywhere",
-		"description": "Adds a global shortcut to open all your unread notifications at once: <kbd>cmd</kbd> <kbd>u</kbd> or <kbd>ctrl</kbd> <kbd>u</kbd>",
+		"description": "Adds a global shortcut to open all your unread notifications at once: <kbd>g</kbd> <kbd>u</kbd>",
 		"screenshot": "https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141"
 	},
 	{

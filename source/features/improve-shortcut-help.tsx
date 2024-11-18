@@ -5,6 +5,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
+import {shortcutMap} from '../helpers/feature-helpers.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
@@ -18,7 +19,7 @@ function improveShortcutHelp(dialog: Element): void {
 			</div>
 
 			<ul>
-				{[...features.shortcutMap]
+				{[...shortcutMap]
 					.sort(([, a], [, b]) => a.localeCompare(b))
 					.map(([hotkey, description]) => (
 						<li className="Box-row d-flex flex-row">
@@ -51,12 +52,12 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 	}
 }
 
-function init(): void {
+function initOnce(): void {
 	document.body.addEventListener('keypress', observeShortcutModal);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

@@ -3,7 +3,6 @@ import './options.css';
 import {$, $optional} from 'select-dom/strict.js';
 import {$$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
-import prettyBytes from 'pretty-bytes';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
@@ -13,7 +12,6 @@ import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
-import getStorageBytesInUse from './helpers/used-storage.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
@@ -26,19 +24,6 @@ const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 let syncedForm: SyncedForm | undefined;
 
 const {version} = chrome.runtime.getManifest();
-
-async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
-	const storage = chrome.storage[area];
-	const used = await getStorageBytesInUse(area);
-	const available = storage.QUOTA_BYTES - used;
-	for (const output of $$(`.storage-${area}`)) {
-		output.textContent = available < 1000
-			? 'FULL!'
-			: available < 100_000
-				? `Only ${prettyBytes(available)} available`
-				: `${prettyBytes(used)} used`;
-	}
-}
 
 async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
@@ -135,10 +120,6 @@ async function generateDom(): Promise<void> {
 	// Update rate link if necessary
 	updateRateLink();
 
-	// Update storage usage info
-	void updateStorageUsage('local');
-	void updateStorageUsage('sync');
-
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
 		$('#action').hidden = true;
@@ -156,6 +137,10 @@ function addEventListeners(): void {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
 
+		for (const element of $$('storage-usage[item]')) {
+			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
+		}
+
 		// Delay to let options load first
 		setTimeout(updateListDom, 100);
 	});
@@ -166,11 +151,6 @@ function addEventListeners(): void {
 	});
 	chrome.permissions.onAdded.addListener(() => {
 		location.reload();
-	});
-
-	// Update storage usage info
-	chrome.storage.onChanged.addListener((_, areaName) => {
-		void updateStorageUsage(areaName as 'sync' | 'local');
 	});
 
 	// Improve textareas editing

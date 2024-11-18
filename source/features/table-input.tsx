@@ -53,7 +53,7 @@ function append(container: HTMLElement): void {
 				</div>
 			</summary>
 			<details-menu
-				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
 			>
 				{Array.from({length: 25}).map((_, index) => (
@@ -63,9 +63,7 @@ function append(container: HTMLElement): void {
 						className="rgh-tic btn-link"
 						data-x={(index % 5) + 1}
 						data-y={Math.floor(index / 5) + 1}
-					>
-						<div />
-					</button>
+					/>
 				))}
 			</details-menu>
 		</details>,

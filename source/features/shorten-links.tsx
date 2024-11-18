@@ -4,7 +4,7 @@ import {linkifiedURLClass, shortenLink} from '../github-helpers/dom-formatters.j
 import observe from '../helpers/selector-observer.js';
 
 /* This feature is currently so broad that it's not de-inited via signal, it's just run once for all pageloads #5889 */
-function init(): void {
+function initOnce(): void {
 	observe([
 		`.comment-body a[href]:not(.${linkifiedURLClass})`,
 		`.react-issue-comment .markdown-body a[href]:not(.${linkifiedURLClass})`,
@@ -12,7 +12,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

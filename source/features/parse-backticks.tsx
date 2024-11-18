@@ -54,13 +54,13 @@ const selectors = [
 	'.notification-thread-subscription [id^="subscription_link_"]',
 ] as const;
 
-// No `include`, no `signal` necessary
-function init(): void {
+function initOnce(): void {
 	observe(selectors, parseBackticks);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	// No `include` necessary
+	init: onetime(initOnce),
 });
 
 /*

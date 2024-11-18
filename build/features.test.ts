@@ -27,7 +27,6 @@ const noScreenshotExceptions = new Set([
 	'repo-wide-file-finder',
 	'select-all-notifications-shortcut',
 	'selection-in-new-tab',
-	'submission-via-ctrl-enter-everywhere',
 	'click-outside-modal',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif

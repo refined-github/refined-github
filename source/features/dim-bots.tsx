@@ -8,8 +8,9 @@ import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
 import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 
-const dimBots = features.getIdentifiers(import.meta.url);
+const dimBots = getIdentifiers(import.meta.url);
 
 const interactiveElementsSelector = 'a, button, input, [tabindex]';
 

@@ -329,9 +329,8 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Notifications
 
 - [](# "open-all-notifications") [Adds a button to open all your unread notifications at once.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png)
-- [](# "unread-anywhere") 🔥 [Adds a global shortcut to open all your unread notifications at once: <kbd>cmd</kbd> <kbd>u</kbd> or <kbd>ctrl</kbd> <kbd>u</kbd>](https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141)
+- [](# "unread-anywhere") 🔥 [Adds a global shortcut to open all your unread notifications at once: <kbd>g</kbd> <kbd>u</kbd>](https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
-- [](# "linkify-notification-repository-header") [Linkifies the header of each notification group (when grouped by repository).](https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png)
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
@@ -384,7 +383,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "convert-pr-to-draft-improvements") [Moves the "Convert PR to Draft" button to the mergeability box and adds visual feedback to its confirm button.](https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif)
 - [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
-- [](# "submission-via-ctrl-enter-everywhere") Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.
 - [](# "prevent-comment-loss") [While writing/editing comments, open the preview links in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
 - [](# "fix-no-pr-search") [Redirect to repo issue list when the search doesn‘t include `is:pr`.](https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif)
 - [](# "clean-readme-url") [Drops redundant "readme-ov-file" parameter from repo URLs.](https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47)
