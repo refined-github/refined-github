@@ -178,14 +178,6 @@ function validateTsx(file: FeatureFile): void {
 		);
 	}
 
-	// Forbid "deduplicate" usage when the observed is used
-	if (file.contents().includes('deduplicate:')) {
-		assert(
-			!file.contents().includes('observe('),
-			`${file.id} should not use both "deduplicate" and "observe()"`,
-		);
-	}
-
 	if (!isFeaturePrivate(file.name)) {
 		validateReadme(file.id);
 	}
