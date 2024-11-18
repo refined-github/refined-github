@@ -106,6 +106,15 @@ function validateCss(file: FeatureFile): void {
 	);
 
 	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
+
+	// if css file uses var(--*color*), it should always use fuchsia as a fallback
+	// tests that the variable name includes "color"
+	if (/(--\w*color\w*)/.test(file.contents().toString())) {
+		assert(
+			file.contents().includes('fuchsia'),
+			'CSS files that use a color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
+		);
+	}
 }
 
 function validateGql(file: FeatureFile): void {
@@ -166,6 +175,14 @@ function validateTsx(file: FeatureFile): void {
 		assert(
 			file.css.contents().includes(`[rgh-${file.id}]`),
 			`${file.css.name} should contain a \`[rgh-${file.id}]\` selector`,
+		);
+	}
+
+	// Forbid "deduplicate" usage when the observed is used
+	if (file.contents().includes('deduplicate:')) {
+		assert(
+			!file.contents().includes('observe('),
+			`${file.id} should not use both "deduplicate" and "observe()"`,
 		);
 	}
 
