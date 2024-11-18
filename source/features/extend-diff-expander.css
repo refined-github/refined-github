@@ -7,15 +7,15 @@
 	) {
 	color: var(
 		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, #fff)
+		var(--color-state-hover-primary-text, fuchsia)
 	);
 	background: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, #0366d6)
+		var(--color-state-hover-primary-bg, fuchsia)
 	);
 	border-color: var(
 		--control-checked-borderColor-hover,
-		var(--color-state-hover-primary-border, #0366d6)
+		var(--color-state-hover-primary-border, fuchsia)
 	);
 	cursor: pointer;
 }

@@ -25,7 +25,7 @@
 .rgh-tic::before {
 	content: '';
 	align-self: stretch;
-	border: 2px solid var(--rgh-border-color);
+	border: 2px solid var(--rgh-border-color, fuchsia);
 	border-radius: 2px;
 }
 
@@ -55,7 +55,7 @@
 	border-color: #79b8ff;
 	background-color: var(
 		--diffBlob-hunk-bgColor-num,
-		var(--color-diff-blob-hunk-num-bg, #dbedff)
+		var(--color-diff-blob-hunk-num-bg, fuchsia)
 	);
 }
 

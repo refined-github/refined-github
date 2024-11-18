@@ -1,5 +1,5 @@
 .rgh-collaborator {
-	border: 1px solid var(--borderColor-default, var(--color-border-default));
+	border: 1px solid var(--borderColor-default, var(--color-border-default, fuchsia));
 	border-radius: 2em;
 	padding: 2px 5px;
 

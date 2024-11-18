@@ -1,13 +1,13 @@
 .thread-subscribe-form .btn {
 	&:not(.selected) {
-		color: var(--fgColor-muted, var(--color-fg-muted));
+		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 	}
 
 	&.selected {
-		border-color: var(--control-borderColor-emphasis);
+		border-color: var(--control-borderColor-emphasis, fuchsia);
 
 		.octicon {
-			color: var(--fgColor-default, var(--color-fg-default));
+			color: var(--fgColor-default, var(--color-fg-default, fuchsia));
 		}
 	}
 }
