@@ -107,9 +107,7 @@ function validateCss(file: FeatureFile): void {
 
 	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
 
-	// if css file uses var(--*color*), it should always use fuchsia as a fallback
-	// tests that the variable name includes "color"
-	if (/\(--\w*color\w*/.test(file.contents().toString())) {
+	if (/\(--\w*color\w*/i.test(file.contents().toString())) {
 		assert(
 			file.contents().includes('fuchsia'),
 			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
