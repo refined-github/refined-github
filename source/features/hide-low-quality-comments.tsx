@@ -1,7 +1,7 @@
 import './hide-low-quality-comments.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -39,7 +39,7 @@ function init(): void {
 	}
 
 	const linkedComment = location.hash.startsWith('#issuecomment-')
-		? $(`${location.hash} ${singleParagraphCommentSelector}`)
+		? $optional(`${location.hash} ${singleParagraphCommentSelector}`)
 		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
