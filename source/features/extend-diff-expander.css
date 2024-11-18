@@ -20,7 +20,7 @@
 	cursor: pointer;
 }
 
-/* Support new Commit view */
+/* Support react commit view */
 .rgh-extend-diff-expander .diff-line-row:has(button[data-direction]):hover {
 	color: var(
 		--diffBlob-hunkNum-fgColor-hover,
