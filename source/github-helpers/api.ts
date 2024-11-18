@@ -29,9 +29,9 @@ import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
 
-import features from '../feature-manager.js';
 import {getRepo} from './index.js';
 import {getToken} from '../options-storage.js';
+import {log} from '../helpers/feature-helpers.js';
 
 type JsonError = {
 	message: string;
@@ -102,7 +102,7 @@ export const v3uncached = async (
 	}
 
 	const url = new URL(query, api3);
-	features.log.http(url.href);
+	log.http(url.href);
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
@@ -199,7 +199,7 @@ const v4uncached = async (
 			? `query {${query}}`
 			: `query (${parameters.join(',')}) {${query}}`;
 
-	features.log.http(fullQuery);
+	log.http(fullQuery);
 
 	const response = await fetch(api4, {
 		headers: {

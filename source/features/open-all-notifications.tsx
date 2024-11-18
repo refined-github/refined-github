@@ -11,6 +11,7 @@ import openTabs from '../helpers/open-tabs.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -18,8 +19,8 @@ import {multilineAriaLabel} from '../github-helpers/index.js';
 // https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
 const notificationHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
 
-const openUnread = features.getIdentifiers('open-notifications-button');
-const openSelected = features.getIdentifiers('open-selected-button');
+const openUnread = getIdentifiers('open-notifications-button');
+const openSelected = getIdentifiers('open-selected-button');
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
 	return $$('.notification-unread', container);

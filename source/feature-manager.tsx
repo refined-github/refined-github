@@ -28,6 +28,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
+import {getFeatureID, log, shortcutMap} from './helpers/feature-helpers.js';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -49,21 +50,12 @@ type FeatureLoader = RunConditions & {
 	init: Arrayable<FeatureInit>;
 };
 
-const shortcutMap = new Map<string, string>();
-const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
-
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
-
-const log = {
-	info: console.log,
-	http: console.log.bind(console, '🌏'),
-};
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
-	// This file may be imported in the options
 	if (!isWebPage()) {
-		return;
+		throw new Error('This script should only be run on web pages');
 	}
 
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
@@ -72,6 +64,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		bisectFeatures(),
 		preloadSyncLocalStrings(),
 	]);
+
+	log.setup(options);
 
 	await waitFor(() => document.body);
 
@@ -110,15 +104,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		Object.assign(options, localHotfixes);
 	}
 
-	// Create logging function
-	if (!options.logging) {
-		log.info = () => {/* No logging */};
-	}
-
-	if (!options.logHTTP) {
-		log.http = () => {/* No logging */};
-	}
-
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		disableErrorLogging();
@@ -138,27 +123,6 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-type FeatureHelper = {
-	/** If `import.meta.url` is passed as URL, this will be the feature ID */
-	id: string;
-
-	/** A class name that can be added as attribute */
-	class: string;
-
-	/** A class selector that can be used with querySelector */
-	selector: string;
-};
-
-function getIdentifiers(url: string): FeatureHelper {
-	const id = getFeatureID(url);
-	return {
-		id,
-		class: 'rgh-' + id,
-		selector: '.rgh-' + id,
-	};
-}
-
-/** Register a new feature */
 async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	const id = getFeatureID(url);
 	/* Feature filtering and running */
@@ -273,10 +237,6 @@ const features = {
 	add,
 	unload,
 	addCssFeature,
-	log,
-	shortcutMap,
-	getFeatureID,
-	getIdentifiers,
 };
 
 export default features;
