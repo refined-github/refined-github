@@ -19,7 +19,8 @@
 .rgh-pr-link {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 	align-items: center;
-	border: solid 1px var(--borderColor-default, var(--color-border-default, fuchsia));
+	border: solid 1px
+		var(--borderColor-default, var(--color-border-default, fuchsia));
 	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
