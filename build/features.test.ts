@@ -85,6 +85,14 @@ class FeatureFile {
 
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
+
+	if (/--[\w-]*color[\w-]*/i.test(file.contents().toString())) {
+		assert(
+			file.contents().includes('fuchsia'),
+			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
+		);
+	}
+
 	if (!file.tsx.exists()) {
 		assert(
 			isImportedByEntrypoint,
@@ -106,13 +114,6 @@ function validateCss(file: FeatureFile): void {
 	);
 
 	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
-
-	if (/\(--\w*color\w*/i.test(file.contents().toString())) {
-		assert(
-			file.contents().includes('fuchsia'),
-			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
-		);
-	}
 }
 
 function validateGql(file: FeatureFile): void {
