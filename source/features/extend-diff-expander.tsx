@@ -6,26 +6,26 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-const diffSelectors = [
-	'.diff-view .js-expandable-line',
-	'.diff-line-row:has(button[data-direction])',
+const lineSelectors = [
+	'.diff-view .js-expandable-line', // Expandable lines in old view
+	'.diff-line-row:has(button[data-direction])', // React view
 ];
 
-const diffExpandSelector = [
-	'.js-expand',
-	'button[data-direction]',
+const nativeButtonSelector = [
+	'.js-expand', // Expand button in old view
+	'button[data-direction]', // React view
 ];
 
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
-	if (!(event.target as Element).closest(diffExpandSelector)) {
-		$(diffExpandSelector, event.delegateTarget).click();
+	if (!(event.target as Element).closest(nativeButtonSelector)) {
+		$(nativeButtonSelector, event.delegateTarget).click();
 	}
 }
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-extend-diff-expander');
-	delegate(diffSelectors, 'click', expandDiff, {signal});
+	delegate(lineSelectors, 'click', expandDiff, {signal});
 }
 
 void features.add(import.meta.url, {
