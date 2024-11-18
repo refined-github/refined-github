@@ -22,7 +22,10 @@
 
 /* Support new Commit view */
 .rgh-extend-diff-expander .diff-line-row:has(button[data-direction]):hover {
-	color: var(--diffBlob-hunkNum-fgColor-hover, var(--fgColor-onEmphasis, fuchsia));
+	color: var(
+		--diffBlob-hunkNum-fgColor-hover,
+		var(--fgColor-onEmphasis, fuchsia)
+	);
 	background: var(
 		--diffBlob-hunkNum-bgColor-hover,
 		var(--bgColor-accent-emphasis, fuchsia)
