@@ -21,9 +21,17 @@
 }
 
 /* Support new Commit view */
-.rgh-extend-diff-expander
-	.diff-line-row:has(button[data-direction]):hover
-	{
+.rgh-extend-diff-expander .diff-line-row:has(button[data-direction]):hover {
+	color: var(--diffBlob-hunkNum-fgColor-hover, var(--fgColor-onEmphasis, #fff));
+	background: var(
+		--diffBlob-hunkNum-bgColor-hover,
+		var(--bgColor-accent-emphasis, #0366d6)
+	);
+	cursor: pointer;
+	transition: var(--duration-fast) var(--easing-easeInOut);
+	transition-property: color, fill, background-color, border-color;
+
+	& button[data-direction] {
 		color: var(
 			--diffBlob-hunkNum-fgColor-hover,
 			var(--fgColor-onEmphasis, #fff)
@@ -32,18 +40,5 @@
 			--diffBlob-hunkNum-bgColor-hover,
 			var(--bgColor-accent-emphasis, #0366d6)
 		);
-		cursor: pointer;
-		transition: var(--duration-fast) var(--easing-easeInOut);
-    transition-property: color, fill, background-color, border-color;
-
-		& button[data-direction] {
-			color: var(
-				--diffBlob-hunkNum-fgColor-hover,
-				var(--fgColor-onEmphasis, #fff)
-			);
-			background: var(
-				--diffBlob-hunkNum-bgColor-hover,
-				var(--bgColor-accent-emphasis, #0366d6)
-			);
-		}
+	}
 }
