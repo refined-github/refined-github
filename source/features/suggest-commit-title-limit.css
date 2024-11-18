@@ -21,16 +21,11 @@
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
-		background-color: color-mix(
-			in srgb,
-			var(--rgh-limit-color) 3%,
-			transparent
-		);
+		background-color: color-mix(in srgb, var(--rgh-limit-color) 3%, transparent);
 
 		&:focus {
-			box-shadow:
-				inset 0 1px 2px rgb(35 27 27 / 7.5%),
-				0 0 0 0.2em color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
+			box-shadow: inset 0 1px 2px rgb(35 27 27 / 7.5%), 0 0 0 0.2em
+				color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
 		}
 	}
 }

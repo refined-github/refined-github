@@ -1,6 +1,7 @@
 [rgh-sticky-sidebar-enabled] #js-repo-pjax-container ul.pagehead-actions,
 /* https://github.com/refined-github/refined-github/issues/6761 */
-[rgh-sticky-sidebar-enabled] [id^='my-forks-menu'] {
+	[rgh-sticky-sidebar-enabled]
+	[id^='my-forks-menu'] {
 	z-index: initial !important; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
 }
 
@@ -13,7 +14,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 	--rgh-sticky-header-height: 70px; /* 60px plus some padding */
 	--rgh-sticky-sidebar-offset: calc(
 		var(--rgh-sticky-header-height, 0px) +
-			var(--rgh-sticky-notification-header-height, 0px)
+		var(--rgh-sticky-notification-header-height, 0px)
 	);
 }
 

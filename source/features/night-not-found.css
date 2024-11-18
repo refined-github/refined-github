@@ -1,8 +1,6 @@
 /* Brighten Octocat on hover 1/2 */
 .font-mktg > .position-relative [height='230'] {
-	transition:
-		transform 0.1s,
-		filter 1s;
+	transition: transform 0.1s, filter 1s;
 }
 
 /* These are 2 exact copies: one for always-dark mode and the other one for auto mode */

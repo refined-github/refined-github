@@ -38,20 +38,23 @@
 
 .rgh-tic:hover::before,
 /* Hovering the 1st column */
-.rgh-tic:is(:nth-of-type(5n + 1)):has(~ .rgh-tic:hover:nth-of-type(5n + 1))::before,
+	.rgh-tic:is(:nth-of-type(5n + 1)):has(
+		~ .rgh-tic:hover:nth-of-type(5n + 1)
+	)::before,
 /* Hovering the 2nd column */
-.rgh-tic:is(:nth-of-type(5n + 1), :nth-of-type(5n + 2)):has(
+	.rgh-tic:is(:nth-of-type(5n + 1), :nth-of-type(5n + 2)):has(
 		~ .rgh-tic:hover:nth-of-type(5n + 2)
 	)::before,
 /* Hovering the 3rd column */
-.rgh-tic:not(
-		:nth-of-type(5n + 4),
-		:nth-of-type(5n + 5)
-	):has(~ .rgh-tic:hover:nth-of-type(5n + 3))::before,
+	.rgh-tic:not(:nth-of-type(5n + 4), :nth-of-type(5n + 5)):has(
+		~ .rgh-tic:hover:nth-of-type(5n + 3)
+	)::before,
 /* Hovering the 4th column */
-.rgh-tic:not(:nth-of-type(5n + 5)):has(~ .rgh-tic:hover:nth-of-type(5n + 4))::before,
+	.rgh-tic:not(:nth-of-type(5n + 5)):has(
+		~ .rgh-tic:hover:nth-of-type(5n + 4)
+	)::before,
 /* Hovering the 5th column */
-.rgh-tic:has(~ .rgh-tic:hover:nth-of-type(5n + 5))::before {
+	.rgh-tic:has(~ .rgh-tic:hover:nth-of-type(5n + 5))::before {
 	border-color: #79b8ff;
 	background-color: var(
 		--diffBlob-hunk-bgColor-num,
