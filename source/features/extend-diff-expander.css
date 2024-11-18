@@ -22,10 +22,10 @@
 
 /* Support new Commit view */
 .rgh-extend-diff-expander .diff-line-row:has(button[data-direction]):hover {
-	color: var(--diffBlob-hunkNum-fgColor-hover, var(--fgColor-onEmphasis, #fff));
+	color: var(--diffBlob-hunkNum-fgColor-hover, var(--fgColor-onEmphasis, fuchsia));
 	background: var(
 		--diffBlob-hunkNum-bgColor-hover,
-		var(--bgColor-accent-emphasis, #0366d6)
+		var(--bgColor-accent-emphasis, fuchsia)
 	);
 	cursor: pointer;
 	transition: var(--duration-fast) var(--easing-easeInOut);
@@ -34,11 +34,11 @@
 	& button[data-direction] {
 		color: var(
 			--diffBlob-hunkNum-fgColor-hover,
-			var(--fgColor-onEmphasis, #fff)
+			var(--fgColor-onEmphasis, fuchsia)
 		);
 		background: var(
 			--diffBlob-hunkNum-bgColor-hover,
-			var(--bgColor-accent-emphasis, #0366d6)
+			var(--bgColor-accent-emphasis, fuchsia)
 		);
 	}
 }
