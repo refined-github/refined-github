@@ -101,6 +101,10 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 ## Test URLs
-https://github.com/facebook/jest/issues/5311
+
+- 26 hidden comments: https://togithub.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issue-849740710
+- Linked comment should not be collapsed: https://togithub.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-821212185
+
 */
