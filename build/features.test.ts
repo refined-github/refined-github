@@ -109,10 +109,10 @@ function validateCss(file: FeatureFile): void {
 
 	// if css file uses var(--*color*), it should always use fuchsia as a fallback
 	// tests that the variable name includes "color"
-	if (/(--\w*color\w*)/.test(file.contents().toString())) {
+	if (/\(--\w*color\w*/.test(file.contents().toString())) {
 		assert(
 			file.contents().includes('fuchsia'),
-			'CSS files that use a color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
+			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
 		);
 	}
 }
