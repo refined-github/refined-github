@@ -138,10 +138,10 @@ function makeReactFieldKinder(field: HTMLTextAreaElement): void {
 
 function initKindness(signal: AbortSignal): void {
 	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
-	observe(`textarea:is(
-		[placeholder="Use Markdown to format your comment"],
-		[placeholder="Leave a comment"]
-	)`, makeReactFieldKinder, {signal});
+	observe([
+		'textarea[placeholder="Use Markdown to format your comment"]', // On issues
+		'textarea[placeholder="Leave a comment"]', // On single commits
+	], makeReactFieldKinder, {signal});
 }
 
 void features.add(import.meta.url, {
