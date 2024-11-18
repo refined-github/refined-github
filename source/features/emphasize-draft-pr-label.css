@@ -1,6 +1,6 @@
 /* Explanation for the feature in https://github.com/refined-github/refined-github/pull/4728#issuecomment-910630727 */
 
-/* stylelint-disable-next-line media-feature-name-no-vendor-prefix -- It's the only cross-browser media query */
+/* biome-ignore lint/correctness/noUnknownMediaFeatureName: It's the only cross-browser media query */ /* stylelint-disable-next-line media-feature-name-no-vendor-prefix */
 @media (-webkit-min-device-pixel-ratio: 2) {
 	[rgh-emphasize-draft-pr-label] {
 		.js-issue-row

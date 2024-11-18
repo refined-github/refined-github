@@ -13,6 +13,9 @@
 	"javascript": {
 		"formatter": {
 			"enabled": false
+		},
+		"linter": {
+			"enabled": false
 		}
 	},
 	"json": {
