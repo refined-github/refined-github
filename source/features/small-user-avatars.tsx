@@ -39,7 +39,7 @@ function addMentionAvatar(link: HTMLElement): void {
 	);
 }
 
-function init(): void {
+function initOnce(): void {
 	// Excludes bots
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
@@ -50,7 +50,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

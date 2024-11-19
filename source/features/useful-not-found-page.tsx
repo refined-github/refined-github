@@ -93,7 +93,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 	}
 }
 
-async function showMissingPart(): Promise<void> {
+async function showMissingPartOnce(): Promise<void> {
 	const pathParts = parseCurrentURL();
 	const breadcrumbs = [...pathParts.entries()]
 		.reverse() // Checks the anchors right to left
@@ -185,14 +185,14 @@ async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<
 	}
 }
 
-async function init(): Promise<void> {
+async function initOnce(): Promise<void> {
 	await expectToken();
 
 	void showDefaultBranchLink();
 	void showGitObjectHistory();
 }
 
-async function initPRCommit(): Promise<void | false> {
+async function initPRCommitOnce(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
 	if (!(await isUrlReachable(commitUrl))) {
 		return false;
@@ -216,7 +216,7 @@ void features.add(import.meta.url, {
 		() => parseCurrentURL().length > 1,
 	],
 	awaitDomReady: true, // Small page
-	init: onetime(showMissingPart),
+	init: onetime(showMissingPartOnce),
 }, {
 	asLongAs: [
 		pageDetect.is404,
@@ -227,12 +227,12 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 	],
 	awaitDomReady: true, // Small page
-	init: onetime(init),
+	init: onetime(initOnce),
 }, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
-	init: onetime(initPRCommit),
+	init: onetime(initPRCommitOnce),
 }, {
 	include: [
 		pageDetect.isRepoFile404,

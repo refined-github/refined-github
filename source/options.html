@@ -7,6 +7,7 @@
 <title>Refined GitHub options</title>
 <link rel="stylesheet" href="options.css">
 <script type="module" src="header.js"></script>
+<script type="module" src="storage-usage.js"></script>
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub">
 	<p>
@@ -80,8 +81,8 @@
 		<div>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
 			<p><textarea name="customCSS" rows="2" spellcheck="false" class="monospace-field"></textarea></p>
-			<p>CSS is limited to 100KB, after which the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>.</p>
-			<p>Options storage: <output class="storage-sync">unknown</output></p>
+			<p>Options storage: <storage-usage area="sync" item="options">unknown</storage-usage></p>
+			<p>When the storage is full, the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>. If you need to use a lot of CSS, use a dedicated userstyle extension.</p>
 		</div>
 	</details>
 
@@ -110,8 +111,8 @@
 				</label>
 			</p>
 			<p>
-				Options storage: <output class="storage-sync">unknown</output><br>
-				Cache storage: <output class="storage-local">unknown</output><br>
+				Options storage: <storage-usage area="sync" item="options">unknown</storage-usage><br>
+				Cache storage: <storage-usage area="local">unknown</storage-usage><br>
 				Refined Github version: <output id="version">unknown</output>
 			</p>
 			<p>
