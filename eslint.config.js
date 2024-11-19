@@ -228,6 +228,8 @@ export default antfu(
 		],
 		rules: {
 			'import/prefer-default-export': 'off',
+			// Until: https://github.com/sveltejs/prettier-plugin-svelte/issues/253
+			'svelte/html-quotes': 'off',
 		},
 	},
 	// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files
