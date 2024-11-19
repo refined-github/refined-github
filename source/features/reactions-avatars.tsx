@@ -25,7 +25,7 @@ type Participant = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
-	if (button.getAttribute('role') === 'switch') {
+	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
 		users = button.getAttribute('aria-label')!
 			.replace(/.*including /, '')
 			.replace(/\)/, '')
@@ -41,7 +41,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/, \d+ more/, '')
 			.split(', ');
 	} else {
-		return [];
+		throw new Error('Unknown reaction button layout');
 	}
 
 	const currentUser = getUsername();
@@ -93,7 +93,8 @@ function observeCommentReactions(commentReactions: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.has-reactions .js-comment-reactions-options',
+		// `batch-deferred-content` means the participant list hasn't loaded yet
+		'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
 		'[aria-label="Reactions"]',
 	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
@@ -112,9 +113,10 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-https://github.com/refined-github/refined-github/pull/4119
-https://github.com/parcel-bundler/parcel/discussions/6490
-https://github.com/orgs/community/discussions/11202
-https://github.com/orgs/community/discussions/28776 #8083
+- PR: https://github.com/refined-github/refined-github/pull/4119
+- Locked PR: https://github.com/refined-github/refined-github/pull/975
+- Discussion: https://github.com/parcel-bundler/parcel/discussions/6490
+- Locked discussion: https://github.com/orgs/community/discussions/28776
+- Deferred participants loading: https://github.com/orgs/community/discussions/30093
 
 */
