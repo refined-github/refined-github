@@ -79,7 +79,7 @@ function showAvatarsOn(commentReactions: Element): void {
 
 	const participantByReaction
 		= $$([
-			':scope > button.social-reaction-summary-item:enabled',
+			':scope > button.social-reaction-summary-item',
 			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
 		], commentReactions)
 			.map(button => getParticipants(button));
