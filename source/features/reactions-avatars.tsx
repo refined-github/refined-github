@@ -73,7 +73,10 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactions = $$('button', commentReactions)
+	const reactions = $$([
+		'button[aria-pressed]', // Discussions, releases, PRs, old issues
+		'button[aria-checked]', // React issues
+	], commentReactions)
 		.map(button => getParticipants(button)); // Get all participants for each reaction
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
@@ -118,5 +121,6 @@ Test URLs
 - Discussion: https://github.com/parcel-bundler/parcel/discussions/6490
 - Locked discussion: https://github.com/orgs/community/discussions/28776
 - Deferred participants loading: https://github.com/orgs/community/discussions/30093
+- Releases: https://github.com/refined-github/refined-github/releases
 
 */
