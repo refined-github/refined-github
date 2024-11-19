@@ -73,19 +73,10 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = $$([
-		'.social-reaction-summary-item',
-		'[class^="Tooltip__TooltipBase"]',	// React views, isIssue
-	], commentReactions).length;
-	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
-
-	const participantByReaction
-		= $$([
-			':scope > button.social-reaction-summary-item',
-			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
-		], commentReactions)
-			.map(button => getParticipants(button));
-	const flatParticipants = flatZip(participantByReaction, avatarLimit);
+	const reactions = $$('button', commentReactions)
+		.map(button => getParticipants(button)); // Get all participants for each reaction
+	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
+	const flatParticipants = flatZip(reactions, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
