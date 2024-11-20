@@ -23,11 +23,13 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 			'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
 			'.review-comment', // PR review comments
 			'.react-issue-comment', // Issue comments
+			'[data-testid="comment-header"]', // Commit comments
 		])!
 		.querySelector([
 			'.TimelineItem-avatar img', // PR comments (and pre-issue redesign issue comments)
 			'img.avatar', // PR review comments
 			'img[data-testid="github-avatar"]', // Issue comments
+			'img[data-component="Avatar"]', // Commit comments
 		])!;
 
 	const name = avatar
