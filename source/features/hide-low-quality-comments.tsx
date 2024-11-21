@@ -1,7 +1,7 @@
 import './hide-low-quality-comments.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -39,7 +39,7 @@ function init(): void {
 	}
 
 	const linkedComment = location.hash.startsWith('#issuecomment-')
-		? $(`${location.hash} ${singleParagraphCommentSelector}`)
+		? $optional(`${location.hash} ${singleParagraphCommentSelector}`)
 		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
@@ -101,6 +101,10 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 ## Test URLs
-https://github.com/facebook/jest/issues/5311
+
+- 26 hidden comments: https://togithub.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issue-849740710
+- Linked comment should not be collapsed: https://togithub.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-821212185
+
 */
