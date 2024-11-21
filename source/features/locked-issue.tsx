@@ -1,4 +1,5 @@
 import React from 'react';
+import elementReady from 'element-ready';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
 
@@ -8,7 +9,7 @@ import {hasToken} from '../options-storage.js';
 import api from '../github-helpers/api.js';
 import GetIssueLockStatus from './locked-issue.gql';
 import {getConversationNumber} from '../github-helpers/index.js';
-import elementReady from 'element-ready';
+import {isInitialLoad} from '../helpers/feature-helpers.js';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 	if (!hasToken()) {
@@ -27,27 +28,32 @@ async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 async function isConversationLockedViaDom(): Promise<boolean | undefined> {
 	// Only use signals that clearly indicate the lock state
 	// The form only appears to moderators
-	const lockForm = await elementReady('[aria-labelledby="lock-dialog-title"] form[action$="lock"]', {
-		waitForChildren: false,
-		// TODO: After https://github.com/sindresorhus/element-ready/issues/45
-		// signal,
-	});
-	return lockForm ? lockForm.action.endsWith('/unlock') : undefined;
+	const lockToggle = await elementReady('.discussion-sidebar-item svg.octicon-key + strong');
+	return lockToggle ? lockToggle.textContent === 'Unlock conversation' : undefined;
+}
+
+async function isConversationLockedViaReactData(): Promise<boolean | undefined> {
+	if (!isInitialLoad()) {
+		return;
+	}
+
+	const data = await elementReady('[data-target="react-app.embeddedData"]');
+	return data ? JSON.parse(data.textContent).payload?.preloadedQueries[0].result.data.repository?.issue?.locked : undefined;
 }
 
 async function isConversationLocked(): Promise<boolean | undefined> {
 	// Like Promise.race, but it only resolves if the result is not undefined
 	return new Promise(resolve => {
-		isConversationLockedViaDom().then(domResult => {
-			if (domResult !== undefined) {
-				resolve(domResult);
+		// TODO: Add AbortSignal after https://github.com/sindresorhus/element-ready/issues/45
+		const resolveIfDefined = async (check: () => Promise<boolean | undefined>): Promise<void> => {
+			const result = await check();
+			if (result !== undefined) {
+				resolve(result);
 			}
-		});
-		isConversationLockedViaApi().then(apiResult => {
-			if (apiResult !== undefined) {
-				resolve(apiResult);
-			}
-		});
+		};
+		resolveIfDefined(isConversationLockedViaReactData);
+		resolveIfDefined(isConversationLockedViaDom);
+		resolveIfDefined(isConversationLockedViaApi);
 	});
 }
 
@@ -82,7 +88,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isConversation,
-		async () => Boolean(await isConversationLocked()),
+		async () => await isConversationLocked() ?? false,
 	],
 	init,
 });
