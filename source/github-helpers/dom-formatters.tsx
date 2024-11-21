@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
-import linkifyURLsCore from 'linkify-urls';
-import linkifyIssuesCore, {type TypeDomOptions} from 'linkify-issues';
+import {linkifyUrlsToDom} from 'linkify-urls';
+import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';
@@ -16,14 +16,14 @@ const linkifiedURLSelector = '.rgh-linkified-code';
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
 	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
-	':not(.notranslate) > .notranslate', // Code blocks in comments. May be wrapped twice
+	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
-	// Exclude the link if the closest element found is not `.comment-body`
+	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.comment-body']))?.classList.contains('comment-body')) {
+	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 	}
 }
@@ -31,12 +31,11 @@ export function shortenLink(link: HTMLAnchorElement): void {
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
 	element: Element,
-	options: Partial<TypeDomOptions> = {},
+	options: Partial<LinkifyIssuesOptions> = {},
 ): void {
-	const linkified = linkifyIssuesCore(element.textContent, {
+	const linkified = linkifyIssuesToDom(element.textContent, {
 		user: currentRepo.owner ?? '/',
 		repository: currentRepo.name ?? '/',
-		type: 'dom',
 		baseUrl: '',
 		...options,
 		attributes: {
@@ -63,17 +62,17 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
-export function linkifyURLs(element: Element): Element[] | void {
+export function linkifyURLs(element: Element): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
 	if (elementExists(linkifiedURLSelector, element)) {
-		return $$(linkifiedURLSelector, element);
+		console.warn('Links already exist', element);
+		throw new Error('Links already exist');
 	}
 
-	const linkified = linkifyURLsCore(element.textContent, {
-		type: 'dom' as const,
+	const linkified = linkifyUrlsToDom(element.textContent, {
 		attributes: {
 			rel: 'noreferrer noopener',
 			class: linkifiedURLClass, // Necessary to avoid also shortening the links

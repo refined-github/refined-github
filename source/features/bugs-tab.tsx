@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -13,6 +14,7 @@ import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Bugs = {
 	label: string;
@@ -63,7 +65,7 @@ async function addBugsTab(): Promise<void | false> {
 	// - update the count later
 	// On other pages:
 	// - only show the tab if needed
-	if (!await isBugsListing()) {
+	if (!(await isBugsListing())) {
 		const {count} = await bugsPromise;
 		if (count === 0) {
 			return false;
@@ -87,13 +89,13 @@ async function addBugsTab(): Promise<void | false> {
 	bugsTab.removeAttribute('id');
 
 	// Update its appearance
-	const bugsTabTitle = $('[data-content]', bugsTab)!;
+	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab)!.replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
+	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
 	// Set temporary counter
-	const bugsCounter = $('.Counter', bugsTab)!;
+	const bugsCounter = $('.Counter', bugsTab);
 	bugsCounter.textContent = '0';
 	bugsCounter.title = '';
 
@@ -123,8 +125,8 @@ async function addBugsTab(): Promise<void | false> {
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
-	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]')!);
-	highlightTab($('.rgh-bugs-tab')!);
+	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
+	highlightTab($('.rgh-bugs-tab'));
 }
 
 async function removePinnedIssues(): Promise<void> {
@@ -140,14 +142,14 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 
 	if (
 		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
-		|| (pageDetect.isRepoIssueList() && await isBugsListing())
+		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
 		void removePinnedIssues();
 		highlightBugsTab();
 		return;
 	}
 
-	if (pageDetect.isIssue() && await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`)) {
+	if (pageDetect.isIssue() && (await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`))) {
 		highlightBugsTab();
 		return;
 	}
@@ -156,6 +158,8 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
+	await expectToken();
+
 	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}

@@ -1,11 +1,12 @@
 import './quick-label-removal.css';
+
 import React from 'dom-chef';
-import {elementExists, expectElement} from 'select-dom';
-import onetime from 'onetime';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -14,10 +15,13 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const canNotEditLabels = onetime((): boolean => !elementExists('.label-select-menu .octicon-gear'));
+// Don't cache: https://github.com/refined-github/refined-github/issues/7283
+function canEditLabels(): boolean {
+	return elementExists('.label-select-menu .octicon-gear');
+}
 
 function getLabelList(): HTMLElement {
-	return expectElement('.label-select-menu [src] .hx_rsm-content');
+	return $('.label-select-menu [src] .hx_rsm-content');
 }
 
 function removeLabelList(): void {
@@ -75,16 +79,16 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-quick-label-removal:not([disabled])', 'click', removeLabelButtonClickHandler, {signal});
+	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
+	asLongAs: [
 		pageDetect.isConversation,
+		canEditLabels,
 	],
 	exclude: [
-		canNotEditLabels,
 		pageDetect.isArchivedRepo,
 	],
 	awaitDomReady: true, // The sidebar is near the end of the page

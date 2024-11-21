@@ -19,8 +19,18 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 */
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
 	const avatar: HTMLImageElement = anyElementInsideComment
-		.closest(['.TimelineItem', '.review-comment'])!
-		.querySelector(['.TimelineItem-avatar img', 'img.avatar'])!;
+		.closest([
+			'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
+			'.review-comment', // PR review comments
+			'.react-issue-comment', // Issue comments
+			'[data-testid="comment-header"]', // Commit comments
+		])!
+		.querySelector([
+			'.TimelineItem-avatar img', // PR comments (and pre-issue redesign issue comments)
+			'img.avatar', // PR review comments
+			'img[data-testid="github-avatar"]', // Issue comments
+			'img[data-component="Avatar"]', // Commit comments
+		])!;
 
 	const name = avatar
 		.alt // Occasionally ends with `[bot]`

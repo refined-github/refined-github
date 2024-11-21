@@ -9,17 +9,18 @@
 .rgh-pr-cell {
 	flex-wrap: wrap;
 	gap: 4px;
-}
 
-.rgh-pr-cell > [class*='Box'] {
-	/* Drop forced height on pre-existing cell */
-	height: auto;
+	& > [class*='Box'] {
+		/* Drop forced height on pre-existing cell */
+		height: auto;
+	}
 }
 
 .rgh-pr-link {
-	color: var(--fgColor-muted, var(--color-fg-muted));
+	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 	align-items: center;
-	border: solid 1px var(--borderColor-default, var(--color-border-default));
+	border: solid 1px
+		var(--borderColor-default, var(--color-border-default, fuchsia));
 	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
@@ -31,5 +32,5 @@
 }
 
 .rgh-pr-link:hover {
-	background-color: var(--bgColor-muted, var(--color-canvas-subtle));
+	background-color: var(--bgColor-muted, var(--color-canvas-subtle, fuchsia));
 }

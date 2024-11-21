@@ -1,4 +1,10 @@
 /*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization#tab-size
+
+*/
+
+/*
 GitHub doesn’t apply the user’s "tab size" setting in a few places, leaving the 8-character default.
 This feature reduces it to 4 characters, while allowing GitHub’s own tab size setting to override it in its children.
 

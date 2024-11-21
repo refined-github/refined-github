@@ -1,7 +1,7 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
@@ -9,7 +9,7 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
-	const viewFile = $('a[data-ga-click^="View file"]', dropdown)!;
+	const viewFile = $('a[data-ga-click^="View file"]', dropdown);
 	const getDropdownLink = (name: string, route: string): JSX.Element => {
 		const {href} = new GitHubFileURL(viewFile.href).assign({route});
 		return (

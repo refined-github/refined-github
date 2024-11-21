@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import featureLink from '../helpers/feature-link.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getNewFeatureName} from '../feature-data.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
@@ -14,7 +14,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		return;
 	}
 
-	const href = featureLink(id);
+	const href = getFeatureUrl(id);
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -39,9 +39,10 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.js-issue-title code', // `isPR`, `isIssue`
-		'.js-comment-body code', // `hasComments`
-		'.markdown-body code', // `isReleasesOrTags`
+		'.js-issue-title code', // `isPR`, Old view `isIssue`
+		'[data-testid="issue-title"] code', // `isIssue`
+		'.js-comment-body code', // Old view `hasComments`
+		'.markdown-body code', // `hasComments`, `isReleasesOrTags`
 		'.markdown-title:not(li) code', // `isSingleCommit`, `isRepoTree`, not on the issue autocomplete
 		'code .markdown-title', // `isCommitList`, `isRepoTree`
 	], linkifyFeature, {signal});

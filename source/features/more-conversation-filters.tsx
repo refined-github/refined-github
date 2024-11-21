@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
 
@@ -6,7 +6,10 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 
 function init(): void {
-	const sourceItem = $('#filters-select-menu a:nth-last-child(2)')!;
+	const sourceItem = $optional('#filters-select-menu a:nth-last-child(2)');
+	if (!sourceItem) {
+		return;
+	}
 
 	// "Involved" filter
 	const commentsLink = sourceItem.cloneNode(true);
@@ -18,14 +21,14 @@ function init(): void {
 	sourceItem.after(commentsLink);
 
 	// "Subscribed" external link
-	const searchSyntaxLink = $('#filters-select-menu a:last-child')!;
+	const searchSyntaxLink = $('#filters-select-menu a:last-child');
 	const subscriptionsLink = searchSyntaxLink.cloneNode(true);
 	subscriptionsLink.lastElementChild!.textContent = 'Everything you subscribed to';
 
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId
-		= $('meta[name="octolytics-dimension-repository_id"]')?.content
-		?? $('input[name="repository_id"]')!.value;
+		= $optional('meta[name="octolytics-dimension-repository_id"]')?.content
+		?? $('input[name="repository_id"]').value;
 	subscriptionsUrl.searchParams.set('repository', stringToBase64(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 

@@ -1,4 +1,5 @@
 import './quick-file-edit.css';
+
 import React from 'dom-chef';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';

@@ -1,11 +1,11 @@
-import {$} from 'select-dom';
-import onetime from 'onetime';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
-async function init(): Promise<void> {
+async function initOnce(): Promise<void> {
 	const embedViaScript = await elementReady('.file-navigation-option button[value^="<script"]');
 	const embedViaIframe = embedViaScript!.cloneNode(true);
 
@@ -16,12 +16,12 @@ async function init(): Promise<void> {
 	// Set required content
 	embedViaIframe.setAttribute('aria-checked', 'false');
 	embedViaIframe.value = `<iframe src="${location.origin}${location.pathname}.pibb"></iframe>`;
-	$('.select-menu-item-heading', embedViaIframe)!.textContent = 'Embed via <iframe>';
-	$('.description', embedViaIframe)!.textContent = 'Embed this gist in your website via <iframe>.';
+	$('.select-menu-item-heading', embedViaIframe).textContent = 'Embed via <iframe>';
+	$('.description', embedViaIframe).textContent = 'Embed this gist in your website via <iframe>.';
 
 	// Modify description of the original embed type to distinguish the two items
-	$('.select-menu-item-heading', embedViaScript)!.textContent = 'Embed via <script>';
-	$('.description', embedViaScript)!.textContent = 'Embed this gist in your website via <script>.';
+	$('.select-menu-item-heading', embedViaScript).textContent = 'Embed via <script>';
+	$('.description', embedViaScript).textContent = 'Embed this gist in your website via <script>.';
 
 	embedViaScript!.after(embedViaIframe);
 }
@@ -30,7 +30,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleGist,
 	],
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

@@ -1,18 +1,19 @@
 import 'webext-dynamic-content-scripts';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {isSafari} from 'webext-detect';
 import {addOptionsContextMenu} from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
+import {StorageItem} from 'webext-storage';
+import {handleMessages} from 'webext-msg';
 
-import optionsStorage from './options-storage.js';
+import optionsStorage, {hasToken} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import getStorageBytesInUse from './helpers/used-storage.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
-import {handleMessages} from './helpers/messaging.js';
 
 const {version} = chrome.runtime.getManifest();
+
+const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
 // GHE support
 addPermissionToggle();
@@ -45,8 +46,7 @@ handleMessages({
 	},
 });
 
-// `browserAction` needed for Firefox MV2 https://github.com/refined-github/refined-github/issues/7477
-(chrome.action ?? chrome.browserAction).onClicked.addListener(async tab => {
+chrome.action.onClicked.addListener(async tab => {
 	if (doesBrowserActionOpenOptions) {
 		void chrome.runtime.openOptionsPage();
 		return;
@@ -65,34 +65,31 @@ handleMessages({
 	});
 });
 
-async function hasUsedStorage(): Promise<boolean> {
-	return (
-		await getStorageBytesInUse('sync') > 0
-		|| Number(await getStorageBytesInUse('local')) > 0
-	);
-}
-
-async function isFirstInstall(suggestedReason: string): Promise<boolean> {
-	return (
-		// Always exclude local installs from the welcome screen
-		!isDevelopmentVersion()
-
-		// Only if the reason is explicitly "install"
-		&& suggestedReason === 'install'
-
-		// Safari reports "install" even on updates #5412
-		&& !(isSafari() && await hasUsedStorage())
-	);
-}
-
-chrome.runtime.onInstalled.addListener(async ({reason}) => {
-	// Only notify on install
-	if (await isFirstInstall(reason)) {
-		await chrome.tabs.create({
-			url: 'https://github.com/refined-github/refined-github/issues/3543',
-		});
+async function showWelcomePage(): Promise<void> {
+	if (await welcomeShown.get()) {
+		return;
 	}
 
+	const [token, permissions] = await Promise.all([
+		hasToken(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
+		chrome.permissions.contains({origins: ['https://github.com/*']}),
+	]);
+
+	try {
+		if (token && permissions) {
+			// Mark as welcomed
+			return;
+		}
+
+		const url = chrome.runtime.getURL('assets/welcome.html');
+		await chrome.tabs.create({url});
+	} finally {
+		// Make sure it's always set to true even in case of errors
+		await welcomeShown.set(true);
+	}
+}
+
+chrome.runtime.onInstalled.addListener(async () => {
 	if (isDevelopmentVersion()) {
 		await globalCache.clear();
 	}
@@ -105,6 +102,9 @@ chrome.runtime.onInstalled.addListener(async ({reason}) => {
 			],
 		});
 	}
+
+	// Call after the reset above just in case we nuked Safari's base permissions
+	await showWelcomePage();
 });
 
 chrome.permissions.onAdded.addListener(async permissions => {

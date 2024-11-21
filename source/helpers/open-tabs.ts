@@ -1,13 +1,14 @@
+import {messageRuntime} from 'webext-msg';
+
 import showToast from '../github-helpers/toast.js';
 import pluralize from '../helpers/pluralize.js';
-import {messageBackground} from './messaging.js';
 
 export default async function openTabs(urls: string[]): Promise<boolean> {
 	if (urls.length >= 10 && !confirm(`This will open ${urls.length} new tabs. Continue?`)) {
 		return false;
 	}
 
-	const response = messageBackground({
+	const response = messageRuntime({
 		openUrls: urls,
 	});
 

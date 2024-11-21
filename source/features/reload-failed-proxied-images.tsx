@@ -1,7 +1,7 @@
-import delay from 'delay';
-import onetime from 'onetime';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
+import delay from '../helpers/delay.js';
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
@@ -17,12 +17,12 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 	} catch {}
 }
 
-function init(signal: AbortSignal): void {
-	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, {capture: true, signal});
+function initOnce(): void {
+	delegate('img[src^="https://camo.githubusercontent.com/"]', 'error', handleErroredImage, {capture: true});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

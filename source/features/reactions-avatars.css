@@ -1,11 +1,20 @@
 :root .rgh-reactions-avatar {
 	--size: 16px;
+	--inherited-gap: 0px; /* Some buttons are flex+gap, others are not */
 
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
-	margin-right: calc(var(--size) * -0.5);
+	margin-right: calc(var(--size) * -0.5 - var(--inherited-gap));
 	height: var(--size);
-}
 
-:root .rgh-reactions-avatar:last-of-type {
-	margin-right: -0.15em !important;
+	&:last-of-type {
+		margin-right: 0 !important;
+	}
+
+	[role='switch'] & {
+		--inherited-gap: 4px;
+
+		&:last-of-type {
+			margin-right: -3px !important;
+		}
+	}
 }

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasChecks from './pr-filters.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -72,10 +73,10 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 	const checksFilter = reviewsFilter.cloneNode(true);
 	checksFilter.id = '';
 
-	$('summary', checksFilter)!.firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
-	$('.SelectMenu-title', checksFilter)!.textContent = 'Filter by checks status';
+	$('summary', checksFilter).firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	$('.SelectMenu-title', checksFilter).textContent = 'Filter by checks status';
 
-	const dropdown = $('.SelectMenu-list', checksFilter)!;
+	const dropdown = $('.SelectMenu-list', checksFilter);
 	dropdown.textContent = ''; // Drop previous filters
 
 	for (const status of ['Success', 'Failure', 'Pending']) {
@@ -86,6 +87,7 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
 	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
 }

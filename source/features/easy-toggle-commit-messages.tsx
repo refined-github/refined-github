@@ -1,6 +1,6 @@
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
@@ -14,11 +14,11 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	// There is text selection
-	if (window.getSelection()?.toString().length !== 0) {
+	if (globalThis.getSelection()?.toString().length !== 0) {
 		return;
 	}
 
-	$([
+	$optional([
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 	], event.delegateTarget)?.dispatchEvent(

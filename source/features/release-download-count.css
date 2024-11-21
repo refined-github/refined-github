@@ -1,10 +1,17 @@
 /* Simulates fixed columns */
-.rgh-release-download-count > span {
-	flex-basis: 0 !important;
-	min-width: 6em;
-}
+.rgh-release-download-count {
+	& > span:not(:last-child) {
+		flex-basis: 0 !important;
+		min-width: 5em;
+	}
 
-/* Makes space for right aligning download count */
-.rgh-release-download-count [data-rgh-heat] {
-	min-width: 5em;
+	/* Date */
+	& > span:last-child {
+		min-width: 7em;
+	}
+
+	/* Right-align on mobile */
+	[data-rgh-heat] {
+		min-width: 5em;
+	}
 }

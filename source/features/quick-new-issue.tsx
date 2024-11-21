@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';

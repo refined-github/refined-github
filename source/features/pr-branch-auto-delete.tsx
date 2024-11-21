@@ -1,18 +1,15 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import featureLink from '../helpers/feature-link.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
-
-// TODO: Not an exact match; Moderators can edit comments but not create releases
-const canCreateRelease = canEditEveryComment;
+import {getFeatureID} from '../helpers/feature-helpers.js';
 
 const exceptions = [
 	'dev',
@@ -26,12 +23,12 @@ const exceptions = [
 	'stage',
 	'staging',
 	/production/,
-	/^release\//,
+	/^release/,
 	/^v\d/,
 ];
 
 async function init(): Promise<void> {
-	const deleteButton = $('[action$="/cleanup"] [type="submit"]');
+	const deleteButton = $optional('[action$="/cleanup"] [type="submit"]');
 	if (!deleteButton) {
 		return;
 	}
@@ -48,7 +45,7 @@ async function init(): Promise<void> {
 		timeout: 2000,
 	});
 
-	const url = featureLink(features.getFeatureID(import.meta.url));
+	const url = getFeatureUrl(getFeatureID(import.meta.url));
 	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
 	);
@@ -57,15 +54,12 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
-		pageDetect.isOpenPR,
-		canCreateRelease,
+		pageDetect.isOpenConversation,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	awaitDomReady: true, // TODO: Remove after https://github.com/refined-github/refined-github/issues/6566
-	onlyAdditionalListeners: true,
-	init,
+	awaitDomReady: true, // Post-load user event, no need to listen earlier
+	init(signal: AbortSignal): void {
+		onPrMerge(init, signal);
+	},
 });
 
 /*

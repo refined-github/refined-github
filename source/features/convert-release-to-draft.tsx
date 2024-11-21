@@ -1,5 +1,6 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -22,7 +23,7 @@ async function convertToDraft(): Promise<void> {
 		},
 	});
 
-	$(getReleaseEditLinkSelector())!.click(); // Visit "Edit release" page
+	$(getReleaseEditLinkSelector()).click(); // Visit "Edit release" page
 }
 
 const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
@@ -37,11 +38,10 @@ async function onConvertClick(): Promise<void> {
 		return;
 	}
 
-	try {
-		await showToast(convertToDraft(), {message: 'Converting…', doneMessage: 'Redirecting…'});
-	} catch (error) {
-		features.log.error(import.meta.url, error);
-	}
+	await showToast(convertToDraft(), {
+		message: 'Converting…',
+		doneMessage: 'Redirecting…',
+	});
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {

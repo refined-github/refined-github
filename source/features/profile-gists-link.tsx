@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {expectElement, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
@@ -11,6 +12,7 @@ import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
 import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
@@ -49,7 +51,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	navigationBar.append(link);
 
 	// There are two UnderlineNav items (responsive…) that point to the same dropdown
-	const overflowNav = expectElement(repoUnderlineNavDropdownUl);
+	const overflowNav = $(repoUnderlineNavDropdownUl);
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
 			createDropdownItem({
@@ -70,6 +72,7 @@ async function appendTab(navigationBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('nav[aria-label="User"] > ul', appendTab, {signal});
 }
 

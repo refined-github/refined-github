@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -40,6 +40,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 // eslint-disable-next-line ts/no-restricted-types
 async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
+	// Maybe replace with https://github.com/refined-github/github-url-detection/issues/85
 	await elementReady('.UnderlineNav-body');
 	if (!pageDetect.canUserEditRepo()) {
 		return [];
@@ -62,7 +63,7 @@ async function initHeadHint(): Promise<void | false> {
 		return false;
 	}
 
-	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`)!.after(
+	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		// The class is used by `quick-fork-deletion`
 		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
 	);
@@ -74,7 +75,7 @@ async function initDeleteHint(): Promise<void | false> {
 		return false;
 	}
 
-	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child')!.after(
+	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
 		<p className="flash flash-warn">
 			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
 		</p>,

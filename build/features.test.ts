@@ -19,7 +19,6 @@ const noScreenshotExceptions = new Set([
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
 	'sort-conversations-by-update-time',
 	'prevent-pr-merge-panel-opening',
-	'infinite-scroll',
 	'command-palette-navigation-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
@@ -28,13 +27,11 @@ const noScreenshotExceptions = new Set([
 	'repo-wide-file-finder',
 	'select-all-notifications-shortcut',
 	'selection-in-new-tab',
-	'submission-via-ctrl-enter-everywhere',
 	'click-outside-modal',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay
-	'hide-newsfeed-noise', // TODO: Add side-by-side png
 	'scrollable-areas', // TODO: Add side-by-side png
 ]);
 
@@ -88,6 +85,14 @@ class FeatureFile {
 
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
+
+	if (/--[\w-]*color[\w-]*/i.test(file.contents().toString())) {
+		assert(
+			file.contents().includes('fuchsia'),
+			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
+		);
+	}
+
 	if (!file.tsx.exists()) {
 		assert(
 			isImportedByEntrypoint,
@@ -149,6 +154,12 @@ function validateTsx(file: FeatureFile): void {
 
 	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
+	if (/api\.v4|getDefaultBranch/.test(String(file.contents())) && /observe\(|delegate\(/.test(String(file.contents()))) {
+		assert(
+			file.contents().includes('await expectToken()'),
+			`${file.id} uses the v4 API, so it should include await expectToken() in its init function`,
+		);
+	}
 	if (file.contents().includes('.addCssFeature')) {
 		assert(
 			!file.contents().includes('.add('),
@@ -166,6 +177,20 @@ function validateTsx(file: FeatureFile): void {
 		);
 	}
 
+	if (file.contents().includes('deduplicate:')) {
+		assert(
+			!file.contents().includes('observe('),
+			`${file.id} should not use both "deduplicate" and "observe()", the observer already takes care of deduplication`,
+		);
+
+		if (file.contents().includes('delegate(')) {
+			assert(
+				!file.contents().includes('(signal: AbortSignal)'),
+				`${file.id} should not use "deduplicate" and "delegate()" together with an abort signal, or else the event listener might be removed and not restored due to the deduplicator https://github.com/refined-github/refined-github/issues/5871`,
+			);
+		}
+	}
+
 	if (!isFeaturePrivate(file.name)) {
 		validateReadme(file.id);
 	}
@@ -173,7 +198,7 @@ function validateTsx(file: FeatureFile): void {
 
 describe('features', () => {
 	const featuresDirectoryContents = readdirSync('source/features/');
-	test.each(featuresDirectoryContents)('%s', filename => {
+	test.each(featuresDirectoryContents)('%s', (filename: string) => {
 		if (isGitIgnored(filename)) {
 			return;
 		}

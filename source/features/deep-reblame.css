@@ -1,9 +1,10 @@
+/* Uses cyan instead of fuchsia because the link is natively purple */
 button.rgh-deep-reblame .octicon-versions {
-	color: var(--color-prettylights-syntax-entity);
+	color: var(--color-prettylights-syntax-entity, cyan);
 	opacity: 70%;
 }
 
 .rgh-deep-reblame:hover .octicon-versions {
-	color: var(--color-scale-pink-7, #800080);
+	color: var(--color-scale-pink-7, cyan);
 	opacity: 70%;
 }

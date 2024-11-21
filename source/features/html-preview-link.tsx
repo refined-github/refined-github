@@ -25,7 +25,7 @@ function add(rawButton: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(['a#raw-url', 'a[data-testid="raw-button"])'], add, {signal});
+	observe(['a#raw-url', 'a[data-testid="raw-button"]'], add, {signal});
 }
 
 void features.add(import.meta.url, {

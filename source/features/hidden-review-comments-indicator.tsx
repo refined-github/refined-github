@@ -1,14 +1,15 @@
 import './hidden-review-comments-indicator.css';
+
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$$} from 'select-dom';
 import CommentIcon from 'octicons-plain-react/Comment';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import {onAbort} from 'abort-utils';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
-import onAbort from '../helpers/abort-controller.js';
 import observe from '../helpers/selector-observer.js';
 
 // When an indicator is clicked, this will show comments on the current file
@@ -61,7 +62,7 @@ function init(signal: AbortSignal): void {
 			attributeOldValue: true,
 			attributeFilter: ['class'],
 		});
-	});
+	}, {signal});
 
 	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 

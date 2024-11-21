@@ -27,11 +27,11 @@ so the call will not throw an error but it will return as usual.
 
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
-import {JsonObject, AsyncReturnType} from 'type-fest';
+import type {JsonObject, AsyncReturnType} from 'type-fest';
 
-import features from '../feature-manager.js';
 import {getRepo} from './index.js';
 import {getToken} from '../options-storage.js';
+import {log} from '../helpers/feature-helpers.js';
 
 type JsonError = {
 	message: string;
@@ -58,7 +58,7 @@ export class RefinedGitHubAPIError extends Error {
 	}
 }
 
-const api3 = pageDetect.isEnterprise()
+export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
 	: 'https://api.github.com/';
 
@@ -90,7 +90,7 @@ const v4defaults: GHGraphQLApiOptions = {
 	allowErrors: false,
 };
 
-export const v3 = mem(async (
+export const v3uncached = async (
 	query: string,
 	options: GHRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
@@ -102,7 +102,7 @@ export const v3 = mem(async (
 	}
 
 	const url = new URL(query, api3);
-	features.log.http(url.href);
+	log.http(url.href);
 	const response = await fetch(url.href, {
 		method,
 		body: body && JSON.stringify(body),
@@ -125,7 +125,9 @@ export const v3 = mem(async (
 	}
 
 	throw await getError(apiResponse);
-}, {
+};
+
+export const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
@@ -166,6 +168,10 @@ const v4uncached = async (
 ): Promise<AnyObject> => {
 	const personalToken = await getToken();
 
+	if (!personalToken) {
+		throw new RefinedGitHubAPIError('Personal token required for this feature');
+	}
+
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
 	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
@@ -193,7 +199,7 @@ const v4uncached = async (
 			? `query {${query}}`
 			: `query (${parameters.join(',')}) {${query}}`;
 
-	features.log.http(fullQuery);
+	log.http(fullQuery);
 
 	const response = await fetch(api4, {
 		headers: {
@@ -274,6 +280,7 @@ const api = {
 	v4,
 	v3paginated,
 	v3hasAnyItems,
+	v3uncached,
 	v4uncached,
 	escapeKey,
 	getError,

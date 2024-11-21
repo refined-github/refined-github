@@ -1,0 +1,16 @@
+.rgh-collaborator {
+	border: 1px solid
+		var(--borderColor-default, var(--color-border-default, fuchsia));
+	border-radius: 2em;
+	padding: 2px 5px;
+
+	.rgh-small-user-avatars {
+		margin-left: -3px;
+		margin-right: 2px !important;
+	}
+}
+
+/* Fix border partially visible in new view #8025 */
+[data-testid='list-view-item-description'] {
+	margin-top: 1.5px;
+}

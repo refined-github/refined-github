@@ -1,18 +1,11 @@
 # https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuration-options
 changelog:
-  exclude:
-    labels:
-      - meta
   categories:
-    - title: New
-      labels:
-        - enhancement
     - title: Bugfixes
-      labels:
-        - bug
-    - title: Changes
-      labels:
-        - '*'
+      labels: [bug]
+    - title: Improvements
+      labels: ['*']
       exclude:
-        labels:
-          - bug
+        labels: [meta] # Only needed because Meta must be last
+    - title: Meta
+      labels: [meta]

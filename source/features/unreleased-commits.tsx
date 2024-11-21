@@ -3,7 +3,8 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -23,6 +24,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -38,11 +40,6 @@ type Tags = {
 		};
 	};
 };
-
-// TODO: This detects admins, but could detect more
-function canUserCreateReleases(): boolean {
-	return elementExists('nav [data-content="Settings"]');
-}
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
@@ -102,7 +99,7 @@ async function createLink(
 
 async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
-	if (!canUserCreateReleases()) {
+	if (!(await userHasPushAccess())) {
 		return link;
 	}
 
@@ -155,7 +152,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const widget = await createLink(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
-	const newReleaseButton = $('nav + div a[href$="/releases/new"]');
+	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
 		groupButtons([

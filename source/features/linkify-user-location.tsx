@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -24,8 +25,7 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	return link;
 }
 
-// No `include`, no `signal` necessary
-function init(): void {
+function initOnce(): void {
 	observe([
 		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
 		'[aria-label="User location"] svg.octicon-location', // Hover cards
@@ -33,7 +33,8 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	init,
+	// No `include` necessary
+	init: onetime(initOnce),
 });
 
 /*

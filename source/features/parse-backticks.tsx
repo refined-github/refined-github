@@ -1,6 +1,6 @@
 import './parse-backticks.css';
-import onetime from 'onetime';
 
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {parseBackticks} from '../github-helpers/dom-formatters.js';
@@ -54,13 +54,13 @@ const selectors = [
 	'.notification-thread-subscription [id^="subscription_link_"]',
 ] as const;
 
-// No `include`, no `signal` necessary
-function init(): void {
+function initOnce(): void {
 	observe(selectors, parseBackticks);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	// No `include` necessary
+	init: onetime(initOnce),
 });
 
 /*

@@ -9,6 +9,7 @@
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"resolveJsonModule": true,
+		"verbatimModuleSyntax": true,
 		"lib": [
 			"DOM",
 			"DOM.Iterable",

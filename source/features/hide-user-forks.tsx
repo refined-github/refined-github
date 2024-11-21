@@ -1,4 +1,5 @@
 import features from '../feature-manager.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
@@ -17,13 +18,13 @@ const selectors = [
 	`a[href*="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])${skipUrlsWithType}`,
 ] as const;
 
-// No `include`, no `signal` necessary
-function init(): void {
+function initOnce(): void {
 	observe(selectors, addSourceTypeToLink);
 }
 
 void features.add(import.meta.url, {
-	init,
+	// No `include` necessary
+	init: onetime(initOnce),
 });
 
 /*

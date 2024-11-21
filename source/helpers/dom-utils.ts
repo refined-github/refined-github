@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import type {Nullable} from 'vitest';
@@ -7,8 +7,8 @@ import type {Nullable} from 'vitest';
 // This will set the correct `origin` header without having to use XMLHttpRequest
 // https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
 // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-if (globalThis.window?.content?.fetch) {
-	setFetch(window.content.fetch);
+if (globalThis.content?.fetch) {
+	setFetch(globalThis.content.fetch);
 }
 
 /**
@@ -35,11 +35,11 @@ if (globalThis.window?.content?.fetch) {
  */
 export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
 	if (typeof parent === 'string') {
-		parent = $(parent)!;
+		parent = $(parent);
 	}
 
 	// Select direct children only
-	const beforeElement = $(`:scope > :is(${before})`, parent);
+	const beforeElement = $optional(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {
@@ -89,7 +89,7 @@ const isTextNode = (node: Text | ChildNode): boolean =>
 export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectation: RegExp | string): boolean => {
 	// Make sure only text is being considered, not links, icons, etc
 	if (!node || !isTextNode(node)) {
-		console.warn('TypeError', node);
+		console.warn('Expected Text node', node);
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
@@ -102,7 +102,7 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 		return node!;
 	}
 
-	console.warn('Error', node!.parentElement);
+	console.warn('Expected node:', node!.parentElement);
 	const content = node!.textContent.trim();
 	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };
