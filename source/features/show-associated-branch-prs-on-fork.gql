@@ -5,7 +5,7 @@ query AssociatedPullRequests($owner: String!, $name: String!) {
 				name
 				associatedPullRequests(
 					last: 1
-					orderBy: { field: CREATED_AT, direction: DESC }
+					orderBy: {field: CREATED_AT, direction: DESC}
 				) {
 					nodes {
 						number

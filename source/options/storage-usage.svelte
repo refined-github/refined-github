@@ -1,12 +1,15 @@
-<svelte:options customElement={{
-	tag: 'storage-usage',
-	props: {
-		area: {type: 'String', attribute: 'area'},
-		item: {type: 'String', attribute: 'item'},
-	},
-}} />
+<svelte:options
+	customElement={{
+		tag: 'storage-usage',
+		props: {
+			area: {type: 'String', attribute: 'area'},
+			item: {type: 'String', attribute: 'item'},
+		},
+	}}
+/>
 
-<script lang='ts'>
+<!-- prettier-ignore -->
+<script lang="ts">
 	import prettyBytes from 'pretty-bytes';
 
 	import {onMount} from 'svelte';
