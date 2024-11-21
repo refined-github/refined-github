@@ -1,5 +1,6 @@
 [rgh-scrollable-areas] {
 	.comment-body,
+	.markdown-body,
 	[data-testid='markdown-body'] {
 		:is(blockquote, pre) {
 			position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
