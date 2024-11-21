@@ -177,6 +177,20 @@ function validateTsx(file: FeatureFile): void {
 		);
 	}
 
+	if (file.contents().includes('deduplicate:')) {
+		assert(
+			!file.contents().includes('observe('),
+			`${file.id} should not use both "deduplicate" and "observe()", the observer already takes care of deduplication`,
+		);
+
+		if (file.contents().includes('delegate(')) {
+			assert(
+				!file.contents().includes('(signal: AbortSignal)'),
+				`${file.id} should not use "deduplicate" and "delegate()" together with an abort signal, or else the event listener might be removed and not restored due to the deduplicator https://github.com/refined-github/refined-github/issues/5871`,
+			);
+		}
+	}
+
 	if (!isFeaturePrivate(file.name)) {
 		validateReadme(file.id);
 	}

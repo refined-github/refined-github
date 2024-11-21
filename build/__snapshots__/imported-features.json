@@ -142,6 +142,7 @@
 	"repo-wide-file-finder",
 	"resolve-conflicts",
 	"restore-file",
+	"rgh-deduplicator",
 	"rgh-dim-commits",
 	"rgh-feature-descriptions",
 	"rgh-improve-new-issue-form",
