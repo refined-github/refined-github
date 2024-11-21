@@ -8,8 +8,9 @@ import {hasToken} from '../options-storage.js';
 import api from '../github-helpers/api.js';
 import GetIssueLockStatus from './locked-issue.gql';
 import {getConversationNumber} from '../github-helpers/index.js';
+import elementReady from 'element-ready';
 
-async function isConversationLocked(): Promise<boolean | undefined> {
+async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 	if (!hasToken()) {
 		return undefined;
 	}
@@ -21,6 +22,33 @@ async function isConversationLocked(): Promise<boolean | undefined> {
 	});
 
 	return repository.issueOrPullRequest.locked;
+}
+
+async function isConversationLockedViaDom(): Promise<boolean | undefined> {
+	// Only use signals that clearly indicate the lock state
+	// The form only appears to moderators
+	const lockForm = await elementReady('[aria-labelledby="lock-dialog-title"] form[action$="lock"]', {
+		waitForChildren: false,
+		// TODO: After https://github.com/sindresorhus/element-ready/issues/45
+		// signal,
+	});
+	return lockForm ? lockForm.action.endsWith('/unlock') : undefined;
+}
+
+async function isConversationLocked(): Promise<boolean | undefined> {
+	// Like Promise.race, but it only resolves if the result is not undefined
+	return new Promise(resolve => {
+		isConversationLockedViaDom().then(domResult => {
+			if (domResult !== undefined) {
+				resolve(domResult);
+			}
+		});
+		isConversationLockedViaApi().then(apiResult => {
+			if (apiResult !== undefined) {
+				resolve(apiResult);
+			}
+		});
+	});
 }
 
 function LockedIndicator(): JSX.Element {
