@@ -3,7 +3,7 @@ import elementReady from 'element-ready';
 import {isInitialLoad} from '../helpers/feature-helpers.js';
 import {hasToken} from '../options-storage.js';
 import api from '../github-helpers/api.js';
-import GetIssueLockStatus from './locked-issue.gql';
+import GetIssueLockStatus from './is-conversation-locked.gql';
 import {getConversationNumber} from '../github-helpers/index.js';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
@@ -21,9 +21,11 @@ async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 }
 
 async function isConversationLockedViaDom(): Promise<boolean | undefined> {
-	// Only use signals that clearly indicate the lock state
 	// The form only appears to moderators
-	const lockToggle = await elementReady('.discussion-sidebar-item svg.octicon-key + strong');
+	const lockToggle = await elementReady([
+		'.discussion-sidebar-item svg.octicon-key + strong', // PRs, old issues
+		'[class^="Item__LiBox"]:has(svg.octicon-lock) [data-component="ActionList.Item--DividerContainer"] span', // Issues
+	].join(', '));
 	return lockToggle ? lockToggle.textContent === 'Unlock conversation' : undefined;
 }
 
