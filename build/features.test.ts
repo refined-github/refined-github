@@ -156,8 +156,8 @@ function validateTsx(file: FeatureFile): void {
 
 	if (/api\.v4|getDefaultBranch/.test(String(file.contents())) && /observe\(|delegate\(/.test(String(file.contents()))) {
 		assert(
-			/await expectToken|hasToken/.test(String(file.contents())),
-			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
+			file.contents().includes('await expectToken()'),
+			`${file.id} uses the v4 API, so it should include await expectToken() in its init function`,
 		);
 	}
 	if (file.contents().includes('.addCssFeature')) {
