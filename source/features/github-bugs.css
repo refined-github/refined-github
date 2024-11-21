@@ -2,7 +2,10 @@
 .js-commits-list-item code, /* `isCommitList` commit message */
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
-	background-color: var(--bgColor-neutral-muted, var(--color-neutral-muted));
+	background-color: var(
+		--bgColor-neutral-muted,
+		var(--color-neutral-muted, fuchsia)
+	);
 	font-size: 0.9em;
 	line-height: 1;
 	border-radius: 6px;
@@ -56,10 +59,13 @@
 }
 
 :root .social-reaction-summary-item.user-has-reacted:disabled {
-	color: var(--reactionButton-selected-fgColor-rest, var(--color-accent-fg));
+	color: var(
+		--reactionButton-selected-fgColor-rest,
+		var(--color-accent-fg, fuchsia)
+	);
 	background-color: var(
 		--reactionButton-selected-bgColor-rest,
-		var(--color-accent-subtle)
+		var(--color-accent-subtle, fuchsia)
 	) !important;
 }
 

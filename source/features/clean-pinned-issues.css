@@ -21,7 +21,7 @@
 		margin-bottom: 20px;
 
 		/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-		box-shadow: 0 0 0 2px var(--rgh-border-color);
+		box-shadow: 0 0 0 2px var(--rgh-border-color, fuchsia);
 		border-collapse: collapse;
 		border-radius: 6px;
 		border-style: hidden;
@@ -29,7 +29,7 @@
 
 	[rgh-clean-pinned-issues] .pinned-issue-item {
 		display: table-row !important;
-		border-color: var(--rgh-border-color) !important;
+		border-color: var(--rgh-border-color, fuchsia) !important;
 	}
 
 	[rgh-clean-pinned-issues] .pinned-issue-item > * {

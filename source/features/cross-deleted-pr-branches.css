@@ -1,5 +1,5 @@
 .commit-ref[title$='has been deleted'],
 .commit-ref[title$='has been deleted'] * {
 	text-decoration: line-through !important;
-	color: var(--fgColor-muted, var(--color-fg-muted));
+	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }

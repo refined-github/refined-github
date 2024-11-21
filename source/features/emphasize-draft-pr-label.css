@@ -15,9 +15,9 @@
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
 		svg {
-			stroke: var(--fgColor-muted, var(--color-fg-muted));
+			stroke: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 			stroke-width: 1.2px;
-			color: var(--rgh-background) !important;
+			color: var(--rgh-background, fuchsia) !important;
 			paint-order: stroke;
 			overflow: visible !important;
 		}
