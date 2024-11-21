@@ -25,14 +25,14 @@ type Participant = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
-	if (button.getAttribute('role') === 'switch') {
+	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
 		users = button.getAttribute('aria-label')!
 			.replace(/.*including /, '')
 			.replace(/\)/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
-	} else {
+	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling!
 			.textContent
@@ -40,6 +40,8 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
+	} else {
+		throw new Error('Unknown reaction button layout');
 	}
 
 	const currentUser = getUsername();
@@ -71,19 +73,13 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = $$([
-		'.social-reaction-summary-item',
-		'[class^="Tooltip__TooltipBase"]',	// React views, isIssue
-	], commentReactions).length;
-	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
-
-	const participantByReaction
-		= $$([
-			':scope > button.social-reaction-summary-item:enabled',
-			':scope > span[class^="Tooltip__TooltipBase"] button[role="switch"]',
-		], commentReactions)
-			.map(button => getParticipants(button));
-	const flatParticipants = flatZip(participantByReaction, avatarLimit);
+	const reactions = $$([
+		'button[aria-pressed]', // Discussions, releases, PRs, old issues
+		'button[aria-checked]', // React issues
+	], commentReactions)
+		.map(button => getParticipants(button)); // Get all participants for each reaction
+	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
+	const flatParticipants = flatZip(reactions, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
@@ -100,7 +96,8 @@ function observeCommentReactions(commentReactions: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.has-reactions .js-comment-reactions-options',
+		// `batch-deferred-content` means the participant list hasn't loaded yet
+		'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
 		'[aria-label="Reactions"]',
 	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
@@ -119,8 +116,11 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-https://github.com/refined-github/refined-github/pull/4119
-https://github.com/parcel-bundler/parcel/discussions/6490
-https://github.com/orgs/community/discussions/11202
+- PR: https://github.com/refined-github/refined-github/pull/4119
+- Locked PR: https://github.com/refined-github/refined-github/pull/975
+- Discussion: https://github.com/parcel-bundler/parcel/discussions/6490
+- Locked discussion: https://github.com/orgs/community/discussions/28776
+- Deferred participants loading: https://github.com/orgs/community/discussions/30093
+- Releases: https://github.com/refined-github/refined-github/releases
 
 */
