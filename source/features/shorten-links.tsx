@@ -7,7 +7,8 @@ import observe from '../helpers/selector-observer.js';
 function initOnce(): void {
 	observe([
 		`.comment-body a[href]:not(.${linkifiedURLClass})`,
-		`.react-issue-comment .markdown-body a[href]:not(.${linkifiedURLClass})`,
+		`.react-issue-comment .markdown-body a[href]:not(.${linkifiedURLClass})`, // Issue comments
+		`[data-testid="review-thread"] .markdown-body a[href]:not(.${linkifiedURLClass})`, // React commit view
 	], shortenLink);
 }
 
