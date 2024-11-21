@@ -93,7 +93,7 @@ export function catchErrors(): void {
 	addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
-		if (error) {
+		if (error?.stack.includes('-extension://')) {
 			logError(error);
 			event.preventDefault();
 		}
