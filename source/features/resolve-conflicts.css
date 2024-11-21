@@ -2,6 +2,6 @@
 .rgh-resolve-conflicts .CodeMirror-linenumber {
 	background-color: var(
 		--color-scale-yellow-1,
-		var(--color-auto-yellow-1, #fffbdd)
+		var(--color-auto-yellow-1, fuchsia)
 	);
 }

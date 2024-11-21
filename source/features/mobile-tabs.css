@@ -22,14 +22,14 @@
 		padding: 6px 10px;
 		background: var(
 			--control-transparent-bgColor-hover,
-			var(--color-action-list-item-default-hover-bg)
+			var(--color-action-list-item-default-hover-bg, fuchsia)
 		);
 	}
 
 	:root .UnderlineNav-item:hover {
 		background: var(
 			--control-transparent-bgColor-hover,
-			var(--color-action-list-item-default-active-bg)
+			var(--color-action-list-item-default-active-bg, fuchsia)
 		); /* From: Counter background color */
 	}
 
@@ -53,7 +53,7 @@
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
-		color: var(--fgColor-default, var(--color-fg-default));
+		color: var(--fgColor-default, var(--color-fg-default, fuchsia));
 		font-weight: inherit;
 	}
 

@@ -1,5 +1,5 @@
 :root {
-	--rgh-limit-color: var(--rgh-red);
+	--rgh-limit-color: var(--rgh-red, fuchsia);
 }
 
 /* Limit width of commit title to 72 characters */
