@@ -34,3 +34,18 @@ export const log = {
 		log.http = logHTTP ? httpLog : noop;
 	},
 };
+
+let _isInitialLoad = true;
+
+export function isInitialLoad(): boolean {
+	return _isInitialLoad;
+}
+
+export function markAjaxedLoad(): void {
+	_isInitialLoad = false;
+}
+
+export function listenToAjaxedLoad(): void {
+	document.addEventListener('soft-nav:start', markAjaxedLoad, {once: true});
+	document.addEventListener('pjax:start', markAjaxedLoad, {once: true});
+}

@@ -26,7 +26,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {getFeatureID, log, shortcutMap} from './helpers/feature-helpers.js';
+import {getFeatureID, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -55,6 +55,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	if (!isWebPage()) {
 		throw new Error('This script should only be run on web pages');
 	}
+
+	listenToAjaxedLoad();
 
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
