@@ -7,5 +7,5 @@
 	)::before,
 	/* React commit page */
 	.diff-text-marker {
-		visibility: hidden;
+	visibility: hidden;
 }
