@@ -2,7 +2,8 @@
 	.comment-body,
 	.markdown-body,
 	[data-testid='markdown-body'] {
-		:is(blockquote, pre) {
+		blockquote,
+		pre {
 			position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 			max-height: 30.5em;
 			overflow-y: auto;
