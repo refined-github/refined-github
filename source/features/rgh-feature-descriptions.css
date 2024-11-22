@@ -2,7 +2,8 @@
 	flex-basis: 300px !important;
 	flex-grow: 1;
 
-	:is(code, kbd) {
+	code,
+	kbd {
 		font-size: 0.8em;
 		line-height: 0.8;
 	}
