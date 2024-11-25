@@ -44,6 +44,11 @@
 		}
 	}
 
+	/* Fixed link #8101 */
+	[data-issue-and-pr-hovercards-enabled] a[data-hovercard-url] {
+		display: inline;
+	}
+
 	.commit-ref,
 	[class^='BranchName'] {
 		font-size: 12px;
