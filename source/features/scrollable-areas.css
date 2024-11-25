@@ -1,6 +1,6 @@
+/* Don't support in React commit view #8100 */
 [rgh-scrollable-areas] {
 	.comment-body,
-	[data-testid='review-thread'] .markdown-body,
 	[data-testid='markdown-body'] {
 		:is(blockquote, pre) {
 			position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
