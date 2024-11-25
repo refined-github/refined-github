@@ -1,6 +1,6 @@
+/* Don't support in React commit view #8100 */
 [rgh-scrollable-areas] {
 	.comment-body,
-	.markdown-body,
 	[data-testid='markdown-body'] {
 		blockquote,
 		pre {
