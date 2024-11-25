@@ -39,14 +39,9 @@
 	&.rgh-hide-author {
 		.author + .Label, /* #5832 */
 		.author,
-		a[data-hovercard-url] {
+		a[data-hovercard-url][data-hovercard-type="user"] {
 			display: none;
 		}
-	}
-
-	/* Fixed link #8101 */
-	[data-issue-and-pr-hovercards-enabled] a[data-hovercard-url] {
-		display: inline;
 	}
 
 	.commit-ref,
