@@ -39,7 +39,7 @@
 	&.rgh-hide-author {
 		.author + .Label, /* #5832 */
 		.author,
-		a[data-hovercard-url] {
+		a[data-hovercard-type='user'] {
 			display: none;
 		}
 	}
