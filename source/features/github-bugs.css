@@ -95,6 +95,13 @@ div.markdown-body {
 	flex-shrink: 0;
 }
 
+/* Long release asset download links break the layout */
+/* Info: https://github.com/refined-github/refined-github/issues/8065 */
+/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
+svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
+	white-space: wrap;
+}
+
 /*
 
 Test URLs:
