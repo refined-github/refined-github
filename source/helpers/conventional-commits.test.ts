@@ -59,8 +59,15 @@ test('parseConventionalCommit', () => {
 		  "type": "Feature",
 		}
 	`);
+	expect(parseConventionalCommit('fix:')).toMatchInlineSnapshot(`
+		{
+		  "raw": "fix:",
+		  "rawType": "fix",
+		  "scope": undefined,
+		  "type": "Fix",
+		}
+	`);
 
-	expect(parseConventionalCommit('feat:')).toBeUndefined();
 	expect(parseConventionalCommit('idk(label): not recognized')).toBeUndefined();
 	expect(parseConventionalCommit('Commit message')).toBeUndefined();
 	expect(parseConventionalCommit('feat(): Commit message')).toBeUndefined();
