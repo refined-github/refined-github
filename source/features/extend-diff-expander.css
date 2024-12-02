@@ -7,15 +7,18 @@
 	) {
 	color: var(
 		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, fuchsia)
+		var(--color-state-hover-primary-text, var(--color-fg-on-emphasis, fuchsia))
 	);
 	background: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, fuchsia)
+		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
 	);
 	border-color: var(
 		--control-checked-borderColor-hover,
-		var(--color-state-hover-primary-border, fuchsia)
+		var(
+			--color-state-hover-primary-border,
+			var(--color-accent-emphasis, fuchsia)
+		)
 	);
 	cursor: pointer;
 }

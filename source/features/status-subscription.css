@@ -4,7 +4,10 @@
 	}
 
 	&.selected {
-		border-color: var(--control-borderColor-emphasis, fuchsia);
+		border-color: var(
+			--control-borderColor-emphasis,
+			var(--color-accent-emphasis, fuchsia)
+		);
 
 		.octicon {
 			color: var(--fgColor-default, var(--color-fg-default, fuchsia));
