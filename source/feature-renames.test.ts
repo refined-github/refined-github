@@ -1,5 +1,5 @@
 import {execSync} from 'node:child_process';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import path from 'node:path';
 import {test, expect} from 'vitest';
 
@@ -22,9 +22,7 @@ test('old feature names cannot appear anywhere in the repo', () => {
 	}
 });
 
-test('new feature names must exist in source/features/{name}.tsx', () => {
-	for (const newName of newNames) {
-		const filePath = path.join('source', 'features', `${newName}.tsx`);
-		expect(fs.existsSync(filePath), `New feature name "${newName}" not found in source/features`).toBe(true);
-	}
+test.concurrent.each(newNames)('new feature must exist: source/features/%s.tsx', async newName => {
+	const filePath = path.join('source', 'features', `${newName}.tsx`);
+	expect(fs.stat(filePath)).resolves.toBeDefined();
 });
