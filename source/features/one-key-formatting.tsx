@@ -43,6 +43,7 @@ function init(signal: AbortSignal): void {
 		'input[name="commit_title"]',
 		'input[name="gist[description]"]',
 		'#saved-reply-title-field',
+		'#commit-message-input',
 	], 'keydown', eventHandler, {signal});
 }
 
