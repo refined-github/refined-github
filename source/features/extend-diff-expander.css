@@ -1,3 +1,4 @@
+/* TODO: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
 .rgh-extend-diff-expander
 	.js-expandable-line:hover

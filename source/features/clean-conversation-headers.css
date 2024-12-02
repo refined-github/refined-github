@@ -1,3 +1,4 @@
+/* TODO: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
 :root .rgh-non-default-branch {
 	background-color: var(
 		--control-checked-bgColor-hover,

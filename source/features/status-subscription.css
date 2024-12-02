@@ -1,3 +1,4 @@
+/* TODO: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
 .thread-subscribe-form .btn {
 	&:not(.selected) {
 		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
