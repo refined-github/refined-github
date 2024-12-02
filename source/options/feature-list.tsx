@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {$} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import {$$} from 'select-dom';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
