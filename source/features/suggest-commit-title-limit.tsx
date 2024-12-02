@@ -39,7 +39,7 @@ function init(signal: AbortSignal): void {
 		return;
 	}
 
-	abortableClassName(document.body, ['rgh-suggest-commit-title-limit'], signal);
+	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
 		'#issue_title',
