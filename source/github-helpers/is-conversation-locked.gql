@@ -1,0 +1,9 @@
+query GetIssueLockStatus($owner: String!, $name: String!, $number: Int!) {
+	repository(owner: $owner, name: $name) {
+		issueOrPullRequest(number: $number) {
+			... on Lockable {
+				locked
+			}
+		}
+	}
+}

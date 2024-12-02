@@ -40,7 +40,8 @@ ul {
 	margin-top: 0;
 }
 
-p:last-child,
+/* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
+p:last-child:not(.info p),
 ul:last-child {
 	margin-bottom: 0;
 }

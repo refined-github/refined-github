@@ -4,14 +4,18 @@
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
 
-.rgh-hidden-comment .timeline-comment {
-	border-color: var(--rgh-red, fuchsia);
-}
+.rgh-hidden-comment {
+	.timeline-comment {
+		border-color: var(--rgh-red, fuchsia);
+	}
 
-.rgh-hidden-comment .timeline-comment--caret::before {
-	background-color: var(--rgh-red, fuchsia);
-}
+	.timeline-comment--caret {
+		&::before {
+			background-color: var(--rgh-red, fuchsia);
+		}
 
-.rgh-hidden-comment .timeline-comment--caret::after {
-	left: -7px; /* make caret border 1px */
+		&::after {
+			left: -7px; /* make caret border 1px */
+		}
+	}
 }
