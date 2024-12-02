@@ -1,12 +1,14 @@
 /* eslint-disable no-await-in-loop */
 
 import './user-local-time.css';
+
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import delay from 'delay';
-import {$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import ClockIcon from 'octicons-plain-react/Clock';
 
+import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
@@ -118,7 +120,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 		return;
 	}
 
-	const login = $('a.Link--primary', hovercard)?.pathname.slice(1);
+	const login = $optional('a.Link--primary', hovercard)?.pathname.slice(1);
 	if (!login || login === getUsername()) {
 		return;
 	}
@@ -156,10 +158,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	void display({datePromise, placeholder, container});
 }
 
-const selector = [
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex',
-	'.js-hovercard-content .Popover-message div.d-flex.mt-3 > div.overflow-hidden.ml-3', // GHE 2022/06/24
-];
+const selector = '.js-hovercard-content .Popover-message div.d-flex.mt-3.overflow-hidden > div.d-flex';
 
 function init(signal: AbortSignal): void {
 	observe(selector, insertUserLocalTime, {signal});

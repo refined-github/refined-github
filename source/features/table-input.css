@@ -19,11 +19,13 @@
 
 :root .rgh-tic {
 	padding: 1px;
+	display: grid;
 }
 
-.rgh-tic div {
-	height: 100%;
-	border: 2px solid var(--rgh-border-color);
+.rgh-tic::before {
+	content: '';
+	align-self: stretch;
+	border: 2px solid var(--rgh-border-color, fuchsia);
 	border-radius: 2px;
 }
 
@@ -34,37 +36,26 @@
 	}
 }
 
-.rgh-tic:hover div,
-.rgh-tic:is(:nth-of-type(5n + 1)):has(~ :hover:nth-of-type(5n + 1)) div,
+.rgh-tic:hover::before,
+/* Hovering the 1st column */
+.rgh-tic:is(:nth-of-type(5n + 1)):has(~ .rgh-tic:hover:nth-of-type(5n + 1))::before,
+/* Hovering the 2nd column */
 .rgh-tic:is(:nth-of-type(5n + 1), :nth-of-type(5n + 2)):has(
-		~ :hover:nth-of-type(5n + 2)
-	)
-	div,
-.rgh-tic:is(
-		:nth-of-type(5n + 1),
-		:nth-of-type(5n + 2),
-		:nth-of-type(5n + 3)
-	):has(~ :hover:nth-of-type(5n + 3))
-	div,
-.rgh-tic:is(
-		:nth-of-type(5n + 1),
-		:nth-of-type(5n + 2),
-		:nth-of-type(5n + 3),
-		:nth-of-type(5n + 4)
-	):has(~ :hover:nth-of-type(5n + 4))
-	div,
-.rgh-tic:is(
-		:nth-of-type(5n + 1),
-		:nth-of-type(5n + 2),
-		:nth-of-type(5n + 3),
+		~ .rgh-tic:hover:nth-of-type(5n + 2)
+	)::before,
+/* Hovering the 3rd column */
+.rgh-tic:not(
 		:nth-of-type(5n + 4),
 		:nth-of-type(5n + 5)
-	):has(~ :hover:nth-of-type(5n + 5))
-	div {
+	):has(~ .rgh-tic:hover:nth-of-type(5n + 3))::before,
+/* Hovering the 4th column */
+.rgh-tic:not(:nth-of-type(5n + 5)):has(~ .rgh-tic:hover:nth-of-type(5n + 4))::before,
+/* Hovering the 5th column */
+.rgh-tic:has(~ .rgh-tic:hover:nth-of-type(5n + 5))::before {
 	border-color: #79b8ff;
 	background-color: var(
 		--diffBlob-hunk-bgColor-num,
-		var(--color-diff-blob-hunk-num-bg, #dbedff)
+		var(--color-diff-blob-hunk-num-bg, fuchsia)
 	);
 }
 

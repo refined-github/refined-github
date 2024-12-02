@@ -1,14 +1,16 @@
-/* Make first column sticky */
-.markdown-body .csv-data :is(td, th):first-child {
-	position: sticky;
-	left: 0;
-	z-index: 1;
-	background-clip: padding-box;
-}
+.markdown-body .csv-data :is(td, th) {
+	/* Make first column sticky */
+	&:first-child {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+		background-clip: padding-box;
+	}
 
-/* Prevent double borders */
-.markdown-body .csv-data :is(td, th):last-child {
-	border-right: none;
+	/* Prevent double borders */
+	&:last-child {
+		border-right: none;
+	}
 }
 
 .blob-wrapper.type-csv,
@@ -20,7 +22,7 @@
 
 .markdown-body .csv-data tbody tr:last-child td:first-child {
 	border-bottom: 1px solid
-		var(--borderColor-default, var(--color-border-default));
+		var(--borderColor-default, var(--color-border-default, fuchsia));
 }
 
 /*

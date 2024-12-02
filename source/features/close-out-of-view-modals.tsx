@@ -1,8 +1,9 @@
 import {$$} from 'select-dom';
-import onetime from 'onetime';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
+import {getFeatureID} from '../helpers/feature-helpers.js';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {
@@ -32,7 +33,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 	// Safety check #3742
 	if (!details.open && lastOpen > Date.now() - 500) {
 		safetySwitch.abort();
-		console.warn(`The modal was closed too quickly. Disabling ${features.getFeatureID(import.meta.url)} for this session.`);
+		console.warn(`The modal was closed too quickly. Disabling ${getFeatureID(import.meta.url)} for this session.`);
 		return;
 	}
 
@@ -50,12 +51,12 @@ function menuActivatedHandler(event: DelegateEvent): void {
 	}
 }
 
-function init(): void {
+function initOnce(): void {
 	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

@@ -1,5 +1,7 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -12,12 +14,13 @@ import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
 import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
-	$('a.rgh-link-date')!.pathname = url.assign({branch: oid}).pathname;
+	$('a.rgh-link-date').pathname = url.assign({branch: oid}).pathname;
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
@@ -85,7 +88,7 @@ function addInlineLinks(menu: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
-	$('.show-more-popover', menu.parentElement!)!.append(
+	$('.show-more-popover', menu.parentElement!).append(
 		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
@@ -98,7 +101,9 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
+
 	observe('.timeline-comment-actions > details:last-child', menu => {
 		if (menu.closest('.js-pending-review-comment')) {
 			return;
@@ -108,7 +113,9 @@ function init(signal: AbortSignal): void {
 		const timestamp = menu
 			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
 			.querySelector('relative-time')!
-			.attributes.datetime.value;
+			.attributes
+			.datetime
+			.value;
 
 		addInlineLinks(menu, timestamp);
 		addDropdownLink(menu, timestamp);

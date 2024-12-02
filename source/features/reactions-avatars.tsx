@@ -1,14 +1,16 @@
 import './reactions-avatars.css';
+
 import React from 'dom-chef';
 import {$$} from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
+import {onAbort} from 'abort-utils';
+
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {getUsername} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import onAbort from '../helpers/abort-controller.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -21,13 +23,26 @@ type Participant = {
 };
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
-	// The list of people who commented is in an adjacent `<tool-tip>` element #5698
-	const users = button.nextElementSibling!
-		.textContent
-		.replace(/ reacted with.*/, '')
-		.replace(/,? and /, ', ')
-		.replace(/, \d+ more/, '')
-		.split(', ');
+	let users;
+
+	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
+		users = button.getAttribute('aria-label')!
+			.replace(/.*including /, '')
+			.replace(/\)/, '')
+			.replace(/,? and /, ', ')
+			.replace(/, \d+ more/, '')
+			.split(', ');
+	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
+		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
+		users = button.nextElementSibling!
+			.textContent
+			.replace(/ reacted with.*/, '')
+			.replace(/,? and /, ', ')
+			.replace(/, \d+ more/, '')
+			.split(', ');
+	} else {
+		throw new Error('Unknown reaction button layout');
+	}
 
 	const currentUser = getUsername();
 	const participants = [];
@@ -58,18 +73,18 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactionTypes = $$('.social-reaction-summary-item', commentReactions).length;
-	const avatarLimit = arbitraryAvatarLimit - (reactionTypes * approximateHeaderLength);
-
-	const participantByReaction
-		= $$(':scope > button.social-reaction-summary-item', commentReactions)
-			.map(button => getParticipants(button));
-	const flatParticipants = flatZip(participantByReaction, avatarLimit);
+	const reactions = $$([
+		'button[aria-pressed]', // Discussions, releases, PRs, old issues
+		'button[aria-checked]', // React issues
+	], commentReactions)
+		.map(button => getParticipants(button)); // Get all participants for each reaction
+	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
+	const flatParticipants = flatZip(reactions, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} />
+				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} loading="lazy" />
 			</span>,
 		);
 	}
@@ -80,7 +95,11 @@ function observeCommentReactions(commentReactions: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.has-reactions .js-comment-reactions-options', observeCommentReactions, {signal});
+	observe([
+		// `batch-deferred-content` means the participant list hasn't loaded yet
+		'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
+		'[aria-label="Reactions"]',
+	], observeCommentReactions, {signal});
 	onAbort(signal, viewportObserver);
 }
 
@@ -97,8 +116,11 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-https://github.com/refined-github/refined-github/pull/4119
-https://github.com/parcel-bundler/parcel/discussions/6490
-https://github.com/orgs/community/discussions/11202
+- PR: https://github.com/refined-github/refined-github/pull/4119
+- Locked PR: https://github.com/refined-github/refined-github/pull/975
+- Discussion: https://github.com/parcel-bundler/parcel/discussions/6490
+- Locked discussion: https://github.com/orgs/community/discussions/28776
+- Deferred participants loading: https://github.com/orgs/community/discussions/30093
+- Releases: https://github.com/refined-github/refined-github/releases
 
 */

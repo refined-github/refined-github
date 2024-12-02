@@ -1,12 +1,11 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
-
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import getPrInfo, {PullRequestInfo} from '../github-helpers/get-pr-info.js';
+import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import pluralize from '../helpers/pluralize.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
@@ -59,8 +58,8 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedPR,
-		() => $('.head-ref')!.title === 'This repository has been deleted',
+		pageDetect.isClosedConversation,
+		() => $('.head-ref').title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

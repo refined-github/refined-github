@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import cache from 'webext-storage-cache/legacy.js';
-import {$, $$} from 'select-dom';
+import {$, $$, $$optional} from 'select-dom/strict.js';
+
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,6 +10,8 @@ import api from '../github-helpers/api.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import {buildRepoURL, getRepo} from '../github-helpers/index.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
+import {expectToken} from '../github-helpers/github-token.js';
+import delay from '../helpers/delay.js';
 
 type CommitTags = Record<string, string[]>;
 
@@ -84,9 +87,16 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
+	await expectToken();
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
-	const commitsOnPage = $$('[data-testid="commit-row-item"]');
+	let commitsOnPage = $$optional('[data-testid="commit-row-item"]');
+	if (commitsOnPage.length === 0) {
+		// Try waiting a bit longer
+		// https://github.com/refined-github/refined-github/issues/7954
+		await delay(1000);
+		commitsOnPage = $$('[data-testid="commit-row-item"]');
+	}
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
 	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
@@ -105,7 +115,7 @@ async function init(): Promise<void | false> {
 			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = $('div[data-testid="list-view-item-description"]', commit)!;
+			const commitMeta = $('div[data-testid="list-view-item-description"]', commit);
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">

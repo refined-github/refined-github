@@ -1,3 +1,4 @@
+/* TODO: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
 .rgh-extend-diff-expander
 	.js-expandable-line:hover
@@ -7,15 +8,45 @@
 	) {
 	color: var(
 		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, #fff)
+		var(--color-state-hover-primary-text, var(--color-fg-on-emphasis, fuchsia))
 	);
 	background: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, #0366d6)
+		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
 	);
 	border-color: var(
 		--control-checked-borderColor-hover,
-		var(--color-state-hover-primary-border, #0366d6)
+		var(
+			--color-state-hover-primary-border,
+			var(--color-accent-emphasis, fuchsia)
+		)
 	);
 	cursor: pointer;
+}
+
+/* Support react commit view */
+.rgh-extend-diff-expander .diff-line-row:has(button[data-direction]):hover {
+	/* Color variables and fallbacks are copy-pasted from GitHub */
+	color: var(
+		--diffBlob-hunkNum-fgColor-hover,
+		var(--fgColor-onEmphasis, fuchsia)
+	);
+	background: var(
+		--diffBlob-hunkNum-bgColor-hover,
+		var(--bgColor-accent-emphasis, fuchsia)
+	);
+	cursor: pointer;
+	transition: var(--duration-fast) var(--easing-easeInOut);
+	transition-property: color, fill, background-color, border-color;
+
+	& button[data-direction] {
+		color: var(
+			--diffBlob-hunkNum-fgColor-hover,
+			var(--fgColor-onEmphasis, fuchsia)
+		);
+		background: var(
+			--diffBlob-hunkNum-bgColor-hover,
+			var(--bgColor-accent-emphasis, fuchsia)
+		);
+	}
 }

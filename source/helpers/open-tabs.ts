@@ -1,3 +1,5 @@
+import {messageRuntime} from 'webext-msg';
+
 import showToast from '../github-helpers/toast.js';
 import pluralize from '../helpers/pluralize.js';
 
@@ -6,7 +8,7 @@ export default async function openTabs(urls: string[]): Promise<boolean> {
 		return false;
 	}
 
-	const response = chrome.runtime.sendMessage({
+	const response = messageRuntime({
 		openUrls: urls,
 	});
 

@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {$, expectElement} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@fregante/mi-cron';
 import * as pageDetect from 'github-url-detection';
@@ -10,6 +10,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type Workflow = {
 	name: string;
@@ -97,7 +98,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const svgTrailer = $('.ActionListItem-visual--trailing', workflowListItem)
+	const svgTrailer = $optional('.ActionListItem-visual--trailing', workflowListItem)
 		?? <div className="ActionListItem-visual--trailing" />;
 	if (!svgTrailer.isConnected) {
 		workflowListItem.append(svgTrailer);
@@ -120,7 +121,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)} />;
-	expectElement('.ActionListItem-label', workflowListItem).append(
+	$('.ActionListItem-label', workflowListItem).append(
 		<em>
 			({relativeTime})
 		</em>,
@@ -133,6 +134,7 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
+	await expectToken();
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 

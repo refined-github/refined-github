@@ -1,3 +1,9 @@
+/*
+
+This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization
+
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';

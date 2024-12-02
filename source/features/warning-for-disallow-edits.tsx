@@ -1,6 +1,7 @@
 import './warning-for-disallow-edits.css';
+
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -13,13 +14,13 @@ const getWarning = (): React.JSX.Element => (
 );
 
 function init(): void | false {
-	const checkbox = $('input[name="collab_privs"]');
+	const checkbox = $optional('input[name="collab_privs"]');
 	if (!checkbox) {
 		return false;
 	}
 
 	attachElement(
-		checkbox.closest('.discussion-sidebar-item'),
+		checkbox.closest('.discussion-sidebar-item')!,
 		{after: getWarning},
 	);
 }

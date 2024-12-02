@@ -1,5 +1,5 @@
-import {$} from 'select-dom';
-import delegate, {DelegateEvent} from 'delegate-it';
+import {$} from 'select-dom/strict.js';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import {codeSearchHeader} from '../github-helpers/selectors.js';
@@ -11,7 +11,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 
 	// The clicked element is either the bar itself or one of its 2 children
 	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		$('[aria-label="Toggle diff contents"]', headerBar)!
+		$('[aria-label="Toggle diff contents"]', headerBar)
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
@@ -19,7 +19,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
-	const toggle = $(':scope > button', headerBar)!;
+	const toggle = $(':scope > button', headerBar);
 
 	// The clicked element is either the bar itself or one of its children excluding the button
 	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {

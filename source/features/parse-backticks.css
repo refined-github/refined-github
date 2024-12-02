@@ -2,7 +2,7 @@
 .rgh-parse-backticks {
 	background-color: var(
 		--bgColor-neutral-muted,
-		var(--color-neutral-muted, rgb(27 31 35 / 5%))
+		var(--color-neutral-muted, fuchsia)
 	);
 	border-radius: 6px;
 	font-size: 85%;

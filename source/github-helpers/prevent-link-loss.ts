@@ -1,4 +1,4 @@
-import {RepositoryInfo} from 'github-url-detection';
+import type {RepositoryInfo} from 'github-url-detection';
 
 import {getRepo} from './index.js';
 

@@ -1,3 +1,6 @@
+// Core feature that needs to run first; it serves the `deduplicate` key.
+import './features/rgh-deduplicator.js';
+
 import './refined-github.css';
 import './github-helpers/heat-map.css';
 
@@ -18,6 +21,7 @@ import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
 import './features/mark-private-repos.css';
+import './features/mobile-tabs.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -25,7 +29,6 @@ import './features/mark-private-repos.css';
 // CSS-only disableable features
 import './features/align-issue-labels.js';
 import './features/clean-pinned-issues.js';
-import './features/hide-newsfeed-noise.js';
 import './features/hide-diff-signs.js';
 import './features/clean-rich-text-editor.js';
 
@@ -44,7 +47,6 @@ import './features/copy-on-y.js';
 import './features/profile-hotkey.js';
 import './features/close-out-of-view-modals.js';
 import './features/improve-shortcut-help.js';
-import './features/infinite-scroll.js';
 import './features/shorten-links.js';
 import './features/linkify-code.js';
 import './features/download-folder-button.js';
@@ -104,6 +106,7 @@ import './features/suggest-commit-title-limit.js';
 import './features/highest-rated-comment.js';
 import './features/clean-conversation-filters.js';
 import './features/tags-on-commits-list.js';
+import './features/conventional-commits.js';
 import './features/list-prs-for-file.js';
 import './features/pr-branch-auto-delete.js';
 import './features/linkify-symbolic-links.js'; // Must be before show-whitespace
@@ -111,7 +114,7 @@ import './features/show-whitespace.js';
 import './features/restore-file.js';
 import './features/hidden-review-comments-indicator.js';
 import './features/reload-failed-proxied-images.js';
-import './features/highlight-collaborators-and-own-conversations.js';
+import './features/conversation-authors.js';
 import './features/embed-gist-via-iframe.js';
 import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
@@ -133,7 +136,6 @@ import './features/clear-pr-merge-commit-message.js';
 import './features/action-used-by-link.js';
 import './features/batch-mark-files-as-viewed.js';
 import './features/unwrap-unnecessary-dropdowns.js';
-import './features/linkify-notification-repository-header.js';
 import './features/stop-redirecting-in-notification-bar.js';
 import './features/prevent-link-loss.js';
 import './features/closing-remarks.js';
@@ -175,7 +177,7 @@ import './features/no-unnecessary-split-diff-view.js';
 import './features/list-prs-for-branch.js';
 import './features/select-notifications.js';
 import './features/clean-repo-tabs.js';
-import './features/rgh-welcome-issue.js';
+import './features/rgh-options-link.js';
 import './features/same-branch-author-commits.js';
 import './features/prevent-pr-merge-panel-opening.js';
 import './features/rgh-improve-new-issue-form.js';
@@ -183,12 +185,11 @@ import './features/easy-toggle-commit-messages.js';
 import './features/command-palette-navigation-shortcuts.js';
 import './features/link-to-compare-diff.js';
 import './features/hide-low-quality-comments.js';
-import './features/submission-via-ctrl-enter-everywhere.js';
 import './features/linkify-user-labels.js';
 import './features/repo-avatars.js';
 import './features/jump-to-conversation-close-event.js';
 import './features/last-notification-page-button.js';
-import './features/rgh-linkify-yolo-issues.js';
+import './features/rgh-linkify-yolo.js';
 import './features/quick-new-issue.js';
 import './features/scrollable-areas.js';
 import './features/emphasize-draft-pr-label.js';
@@ -203,7 +204,6 @@ import './features/previous-version.js';
 import './features/status-subscription.js';
 import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
-import './features/mobile-tabs.js';
 import './features/repo-header-info.js';
 import './features/rgh-pr-template.js';
 import './features/close-as-unplanned.js';
@@ -216,3 +216,6 @@ import './features/pr-notification-link.js';
 import './features/click-outside-modal.js';
 import './features/comment-excess.js';
 import './features/linkify-line-numbers.js';
+import './features/sidebar-focus-file.js';
+import './features/rgh-token-user.js';
+import './features/unread-anywhere.js';

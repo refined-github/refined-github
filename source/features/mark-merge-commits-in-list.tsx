@@ -1,6 +1,7 @@
 import './mark-merge-commits-in-list.css';
+
 import React from 'dom-chef';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {objectEntries} from 'ts-extras';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
@@ -11,6 +12,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
 import {assertCommitHash} from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
@@ -64,6 +66,7 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe([
 		'[data-testid="commit-row-item"]',
 

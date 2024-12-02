@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -7,13 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import {canEditEveryComment} from './quick-comment-edit.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranch from './pr-branch-auto-delete.gql';
-
-// TODO: Not an exact match; Moderators can edit comments but not create releases
-const canCreateRelease = canEditEveryComment;
 
 const exceptions = [
 	'dev',
@@ -25,13 +21,14 @@ const exceptions = [
 	'pre',
 	'prod',
 	'stage',
+	'staging',
 	/production/,
-	/^release\//,
+	/^release/,
 	/^v\d/,
 ];
 
 async function init(): Promise<void> {
-	const deleteButton = $('[action$="/cleanup"] [type="submit"]');
+	const deleteButton = $optional('[action$="/cleanup"] [type="submit"]');
 	if (!deleteButton) {
 		return;
 	}
@@ -56,12 +53,13 @@ async function init(): Promise<void> {
 	deleteButton.dataset.disableWith = 'Auto-deleting…';
 	deleteButton.click();
 
-	const deletionEvent = await elementReady('[data-test-selector="head-ref-deleted-event-ref-name"]', {
+	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
 		stopOnDomReady: false,
+		timeout: 2000,
 	});
 
 	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
-	deletionEvent!.closest('.TimelineItem-body')!.append(
+	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
 	);
 }
@@ -69,15 +67,12 @@ async function init(): Promise<void> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
-		pageDetect.isOpenPR,
-		canCreateRelease,
+		pageDetect.isOpenConversation,
 	],
-	additionalListeners: [
-		onPrMerge,
-	],
-	awaitDomReady: true, // TODO: Remove after https://github.com/refined-github/refined-github/issues/6566
-	onlyAdditionalListeners: true,
-	init,
+	awaitDomReady: true, // Post-load user event, no need to listen earlier
+	init(signal: AbortSignal): void {
+		onPrMerge(init, signal);
+	},
 });
 
 /*

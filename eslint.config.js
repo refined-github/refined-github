@@ -3,6 +3,7 @@ import antfu from '@antfu/eslint-config';
 export default antfu(
 	{
 		react: true,
+		svelte: true,
 		stylistic: {
 			indent: 'tab',
 		},
@@ -16,6 +17,13 @@ export default antfu(
 			overrides: {
 				'ts/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'ts/consistent-type-definitions': 'off', // Review later
+				'ts/consistent-type-imports': [
+					'error',
+					{
+						// Preferred style
+						fixStyle: 'inline-type-imports',
+					},
+				],
 				'ts/explicit-function-return-type': [
 					'error',
 					{
@@ -77,11 +85,12 @@ export default antfu(
 
 			'test/consistent-test-it': 'off',
 			'sort-imports': 'off',
+			'perfectionist/sort-imports': 'off',
+			'perfectionist/sort-named-imports': 'off',
 			'antfu/top-level-function': 'off', // Maybe later
 			'unused-imports/no-unused-vars': 'off', // Buggy
 			'no-console': 'off',
 			'jsonc/sort-keys': 'off',
-
 			'ts/no-restricted-types': [
 				'error',
 				{
@@ -102,23 +111,53 @@ export default antfu(
 						},
 						'[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
 						'[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
-						'[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
-						'[[[[]]]]': 'ur drunk 🤡',
-						'[[[[[]]]]]': '🦄💥',
 					},
 				},
+			],
+			'no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: 'select-dom',
+							importNames: ['$', 'expectElement'],
+							message: 'Import $ or $optional from `select-dom/strict.js` instead',
+						},
+					],
+				},
+
 			],
 			'no-restricted-syntax': [
 				'error',
 				{
 					selector:
-						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest], [callee.property.name=$optional])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 				},
 				{
 					selector:
-						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest], [callee.property.name=$optional])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
+					message: 'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
+				},
+				{
+					selector: 'TSNonNullExpression > CallExpression > [name=$]',
+					message: 'Unused null expression: !',
+				},
+				{
+					selector: 'MemberExpression[optional=true][object.callee.name=$]',
+					message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
+				},
+				{
+					message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
+					selector: 'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
+				},
+				{
+					message: 'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
+					selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
 				},
 			],
 			'no-alert': 'off',
@@ -127,7 +166,6 @@ export default antfu(
 			'ts/no-unsafe-member-access': 'off',
 			'ts/no-unsafe-return': 'off',
 			'ts/no-unsafe-call': 'off',
-			'ts/consistent-type-imports': 'off',
 			'n/prefer-global/process': 'off',
 			'import/prefer-default-export': 'error',
 			'import/order': [
@@ -182,6 +220,16 @@ export default antfu(
 		],
 		rules: {
 			'unicorn/filename-case': 'off',
+		},
+	},
+	{
+		files: [
+			'**/*.svelte',
+		],
+		rules: {
+			'import/prefer-default-export': 'off',
+			// Until: https://github.com/sveltejs/prettier-plugin-svelte/issues/253
+			'svelte/html-quotes': 'off',
 		},
 	},
 	// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files

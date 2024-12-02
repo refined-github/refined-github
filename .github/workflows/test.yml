@@ -24,10 +24,34 @@ jobs:
         with:
           node-version-file: package.json
           cache: npm
+      - run: sudo apt-get install ripgrep
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
       - run: npm run vitest -- selectors
+        # For some reason it fails on CI, but not locally
+        # Mentioned in https://github.com/refined-github/refined-github/issues/7747
+        if: false
         continue-on-error: true
+
+  Verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run vitest -- build/features
+      - name: Leave comment
+        uses: peter-evans/create-or-update-comment@v4
+        if: failure() && github.event_name == 'pull_request'  && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Don't worry about fixing this yet, you can wait for the feature to be finalized before documenting it.
+
+            FYI: you can run `npm run fix` to automatically fix a lot of issues and update snapshots. Similar tips can be found in the [contributing wiki](https://github.com/refined-github/refined-github/wiki/Contributing).
 
   Lint:
     runs-on: ubuntu-latest
@@ -84,7 +108,9 @@ jobs:
             !./distribution/assets/webpack-stats.json
 
   Safari:
-    runs-on: macos-13
+    # Disabled because it's a waste of time
+    if: false
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -94,6 +120,4 @@ jobs:
       - run: npm ci
       - run: npm run build:bundle
       - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: 15.0.1
       - run: npm run pack:safari

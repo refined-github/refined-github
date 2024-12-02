@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
@@ -16,7 +16,7 @@ function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>):
 	if (isAlteredClick(event)) {
 		window.open(url);
 	} else {
-		window.location.href = url;
+		location.href = url;
 	}
 }
 

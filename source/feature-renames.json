@@ -14,8 +14,6 @@
 	"faster-reviews": "quick-review",
 	"faster-pr-diff-options": "one-click-diff-options",
 	"hide-useless-comments": "hide-low-quality-comments",
-	"hide-useless-newsfeed-events": "hide-newsfeed-noise",
-	"hide-noisy-newsfeed-events": "hide-newsfeed-noise",
 	"no-useless-split-diff-view": "no-unnecessary-split-diff-view",
 	"unwrap-useless-dropdowns": "unwrap-unnecessary-dropdowns",
 	"tag-changelog-link": "tag-changes-link",
@@ -36,5 +34,6 @@
 	"enable-file-links-in-compare-view": "actionable-pr-view-file",
 	"use-first-commit-message-for-new-prs": "pr-first-commit-title",
 	"comment-on-draft-pr-indicator": "netiquette",
-	"draft-pr-notice": "netiquette"
+	"draft-pr-notice": "netiquette",
+	"highlight-collaborators-and-own-conversations": "conversation-authors"
 }

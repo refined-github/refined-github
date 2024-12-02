@@ -1,34 +1,36 @@
-/* Move labels in the Issue/PR list below the title */
-[rgh-align-issue-labels] .js-issue-row .min-width-0 {
-	display: flex;
-	flex-wrap: wrap;
-}
+[rgh-align-issue-labels] .js-issue-row {
+	/* Move labels in the Issue/PR list below the title */
+	.min-width-0 {
+		display: flex;
+		flex-wrap: wrap;
+	}
 
-/* Labels */
-[rgh-align-issue-labels] .js-issue-row .min-width-0 > .lh-default {
-	order: 1;
-}
+	/* Labels */
+	.min-width-0 > .lh-default {
+		order: 1;
+	}
 
-[rgh-align-issue-labels] .js-issue-row .min-width-0 .text-small {
-	flex-basis: 100%; /* #4949 */
-}
+	.min-width-0 .text-small {
+		flex-basis: 100%; /* #4949 */
+	}
 
-/* Build status */
-[rgh-align-issue-labels] .js-issue-row .commit-build-statuses {
-	margin-left: 4px;
-}
+	/* Build status */
+	.commit-build-statuses {
+		margin-left: 4px;
+	}
 
-/* Issue details line */
-[rgh-align-issue-labels] .js-issue-row .mt-1.text-small.color-fg-muted {
-	flex-basis: 100%;
-}
+	/* Issue details line */
+	.mt-1.text-small.color-fg-muted {
+		flex-basis: 100%;
+	}
 
-/* Title */
-[rgh-align-issue-labels] .js-issue-row .h4 {
-	max-width: 100%; /* #1518 */
-}
+	/* Title */
+	.h4 {
+		max-width: 100%; /* #1518 */
+	}
 
-[rgh-align-issue-labels] .js-issue-row .IssueLabel {
-	margin-top: 4px;
-	font-size: 11px !important;
+	.IssueLabel {
+		margin-top: 4px;
+		font-size: 11px !important;
+	}
 }

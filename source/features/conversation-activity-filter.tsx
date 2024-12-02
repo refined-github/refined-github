@@ -1,7 +1,8 @@
 import './conversation-activity-filter.css';
-import delay from 'delay';
+
 import React from 'dom-chef';
-import {$, $$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
@@ -9,6 +10,7 @@ import EyeIcon from 'octicons-plain-react/Eye';
 import XIcon from 'octicons-plain-react/X';
 import domLoaded from 'dom-loaded';
 
+import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -49,9 +51,10 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$(staleReviewId)!
+		$(staleReviewId)
 			.closest('.js-timeline-item')!
-			.classList.add(collapsedClassName);
+			.classList
+			.add(collapsedClassName);
 	}
 }
 
@@ -96,12 +99,12 @@ async function handleSelection({target}: Event): Promise<void> {
 	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	await delay(1);
 
-	const state = $('[aria-checked="true"]', target as Element)!.dataset.value as State;
+	const state = $('[aria-checked="true"]', target as Element).dataset.value as State;
 	applyState(state);
 }
 
 function applyState(state: State): void {
-	const container = $('.js-issues-results')!;
+	const container = $('.js-issues-results');
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -138,12 +141,13 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
+	// TODO: Use `<anchored-position>` instead
 	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
+	await delay(100); // Let `clean-conversation-headers` run first
 	const availableSpaceToTheLeftOfTheDropdown
 		= position.lastElementChild!.getBoundingClientRect().right
 		- position.parentElement!.getBoundingClientRect().left;
 
-	// It may be zero on the sticky header, but `clean-conversation-headers` doesn't apply there
 	const alignment
 		= availableSpaceToTheLeftOfTheDropdown === 0
 		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
@@ -193,16 +197,17 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/3686',
 	'https://github.com/refined-github/refined-github/issues/6000',
 	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
 ];
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+		$optional(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
 	}
 }
 
 function switchToNextFilter(): void {
-	const state = $(`.${dropdownClass} [aria-checked="true"]`)!.dataset.value as State;
+	const state = $(`.${dropdownClass} [aria-checked="true"]`).dataset.value as State;
 
 	switch (state) {
 		case 'default': {
@@ -228,8 +233,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		: 'default';
 
 	observe([
-		'#partial-discussion-header .gh-header-meta clipboard-copy',
-		'#partial-discussion-header .gh-header-sticky clipboard-copy',
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .gh-header-sticky .sticky-content .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
@@ -239,7 +244,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		applyState(initialState);
 	}
 
-	window.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 
 	observe('.js-timeline-item', processItem, {signal});
 

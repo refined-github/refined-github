@@ -10,7 +10,7 @@ export const repoUnderlineNavUl_ = [
 ] satisfies UrlMatch[];
 
 export const standaloneGistLinkInMarkdown = css`
-	.js-comment-body p a:only-child:is(
+	:is(.js-comment-body, .react-issue-comment) p a:only-child:is(
 		[href^="https://gist.github.com/"],
 		[href^="${location.origin}/gist/"]
 	)
@@ -131,12 +131,14 @@ export const linksToConversationLists_ = [
 export const newCommentField = [
 	'[input="fc-new_comment_field"]',
 	'[input^="fc-new_inline_comment_discussion"]',
+	'[aria-labelledby="comment-composer-heading"]',
 ];
 
 export const newCommentField_ = [] satisfies UrlMatch[];
 
 export const commitHashLinkInLists = [
-	'[aria-label="View commit details"] a.text-mono', // `isCommitList`
+	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
+	'[aria-label="View commit details"] a.text-mono', // `isCommitList` TODO: remove in May 2025
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
 ] as unknown as Array<'a'>;
@@ -188,21 +190,27 @@ export const botLinksPrSelectors = [
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
 
-export const usernameLinksSelector = [
-	// `a` selector needed to skip commits by non-GitHub users
+// `a` selector needed to skip commits by non-GitHub users
+const authorLinks = [
+	'.js-discussion a.author',
+	'.inline-comments a.author',
+	'h3 a[data-testid="issue-body-header-author"]', // The first issue comment
+	'.react-issue-comment a[data-testid="avatar-link"]',
+	'[data-testid="comment-header"] a[data-testid="avatar-link"]', // React commit view
+];
+
+const authorLinksException = [
 	// # targets mannequins #6504
-	`:is(
-		.js-discussion,
-		.inline-comments
-	) a.author:not(
-		[href="#"],
-		[href*="/apps/"],
-		[href*="/marketplace/"],
-		[data-hovercard-type="organization"],
-		[show_full_name="true"]
-	)`,
-	// GHE sometimes shows the full name already:
-	// https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+	'[href="#"]',
+	'[href*="/apps/"]',
+	'[href*="/marketplace/"]',
+	'[data-hovercard-type="organization"]',
+	// For GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
+	'[show_full_name="true"]',
+];
+
+export const usernameLinksSelector = [
+	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
 
 	// On dashboard
 	// `.Link--primary` excludes avatars

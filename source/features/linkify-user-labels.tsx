@@ -9,8 +9,7 @@ import observe from '../helpers/selector-observer.js';
 
 function linkify(label: Element): void {
 	if (label.closest('a')) {
-		features.log.error(import.meta.url, 'Already linkified, feature needs to be updated');
-		return;
+		throw new Error('Already linkified, feature needs to be updated');
 	}
 
 	const url = new URL(buildRepoURL('commits'));
@@ -20,6 +19,9 @@ function linkify(label: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
+		'span[data-testid="comment-author-association"][aria-label*="a member of the"]',
+		'span[data-testid="comment-author-association"][aria-label^="This user has previously committed"]',
+		// PRs and pre-issue redesign 2024
 		'.tooltipped[aria-label*="a member of the"]',
 		'.tooltipped[aria-label^="This user has previously committed"]',
 	], linkify, {signal});

@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import {css} from 'code-tag';
 import {lastElement} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -7,22 +6,30 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-export const closedOrMergedMarkerSelector = css`
-	#partial-discussion-header :is(
-		[title^="Status: Closed"],
-		[title^="Status: Merged"]
-	)
-`;
+const statusBadge = [
+	'#partial-discussion-header .State',
+	'[class^="StateLabel"]',
+];
 
 export function getLastCloseEvent(): HTMLElement | undefined {
-	return lastElement(`
-		.TimelineItem-badge :is(
+	return lastElement([
+		// TODO: Move to selectors.ts
+		// Old view: Drop in April 2025
+		`.TimelineItem-badge :is(
 			.octicon-issue-closed,
 			.octicon-git-merge,
 			.octicon-git-pull-request-closed,
 			.octicon-skip
-		)
-	`)!.closest('.TimelineItem') ?? undefined;
+		)`,
+		// React view (values for PR states not yet known)
+		`[data-testid="state-reason-link"]:is(
+			[href*="reason%3Acompleted"],
+			[href*="reason%3Anot-planned"]
+		)`,
+	])?.closest([
+		'.TimelineItem', // Old view
+		'.Timeline-Item',
+	])?.querySelector('relative-time') ?? undefined;
 }
 
 function addToConversation(discussionHeader: HTMLElement): void {
@@ -33,15 +40,15 @@ function addToConversation(discussionHeader: HTMLElement): void {
 		discussionHeader,
 		<a
 			aria-label="Scroll to most recent close event"
-			className="tooltipped tooltipped-s"
-			href={'#' + getLastCloseEvent()!.id}
+			className="tooltipped tooltipped-e"
+			href={getLastCloseEvent()!.closest('a')!.href}
 		/>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	observe(
-		closedOrMergedMarkerSelector,
+		statusBadge,
 		addToConversation,
 		{signal},
 	);
@@ -50,10 +57,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isConversation,
-	],
-	include: [
-		pageDetect.isClosedIssue,
-		pageDetect.isClosedPR,
+		pageDetect.isClosedConversation,
 	],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,

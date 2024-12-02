@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 type IssueInfo = {
 	updatedAt: string;
@@ -33,7 +34,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt($('.opened-by', pinnedIssue)!.firstChild!);
+	return looseParseInt($('.opened-by', pinnedIssue).firstChild!);
 }
 
 async function update(pinnedIssues: HTMLElement[]): Promise<void> {
@@ -41,7 +42,7 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 	for (const pinnedIssue of pinnedIssues) {
 		const issueNumber = getPinnedIssueNumber(pinnedIssue);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		const originalLine = $('.opened-by', pinnedIssue)!;
+		const originalLine = $('.opened-by', pinnedIssue);
 		originalLine.after(
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
@@ -54,6 +55,7 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {signal});
 }
 

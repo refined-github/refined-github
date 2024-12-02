@@ -1,6 +1,6 @@
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
@@ -14,18 +14,21 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	// There is text selection
-	if (window.getSelection()?.toString().length !== 0) {
+	if (globalThis.getSelection()?.toString().length !== 0) {
 		return;
 	}
 
-	$('.ellipsis-expander', event.delegateTarget)?.dispatchEvent(
+	$optional([
+		'[data-testid="commit-row-show-description-button"]', // Commit list
+		'[data-testid="latest-commit-details-toggle"]', // File/folder
+	], event.delegateTarget)?.dispatchEvent(
 		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
 	);
 }
 
 const commitMessagesSelector = [
-	'.js-commits-list-item',
-	':is(.file-navigation, .js-permalink-shortcut) ~ .Box .Box-header', // Commit message in file tree header
+	'[data-testid="commit-row-item"]',
+	'[data-testid="latest-commit"]', // Commit message in file tree header
 ];
 
 function init(signal: AbortSignal): void {
@@ -49,7 +52,9 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/tree/254a81ef488dcb3866cf8a4cacde501d9faaa588
+- Repo root: https://github.com/refined-github/sandbox/tree/254a81ef488dcb3866cf8a4cacde501d9faaa588
+- Commit list: https://github.com/refined-github/refined-github/commits/main/?after=384131b0be3d4097f7cc633f76aecd43f1292471+69
+- File/folder: https://github.com/refined-github/sandbox/tree/254a81ef488dcb3866cf8a4cacde501d9faaa588/.github/workflows
 
 How to test:
 

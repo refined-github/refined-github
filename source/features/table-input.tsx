@@ -1,18 +1,22 @@
 import './table-input.css';
+
 import React from 'dom-chef';
 import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {triggerActionBarOverflow} from '../github-helpers/index.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = square.form!.querySelector('textarea.js-comment-field')!;
+	const container = square.closest('[data-testid="comment-composer"]')!;
+	const field = $(
+		'textarea[aria-labelledby="comment-composer-heading"]',
+		container,
+	);
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
@@ -33,30 +37,10 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 }
 
 function append(container: HTMLElement): void {
-	const wrapperClasses = [
-		'details-reset',
-		'details-overlay',
-		'flex-auto',
-		'select-menu',
-		'select-menu-modal-right',
-		'hx_rsm',
-		'ActionBar-item',
-	];
-
-	const buttonClasses = [
-		'Button',
-		'Button--iconOnly',
-		'Button--invisible',
-		'Button--medium',
-	];
-
 	container.append(
-		<details
-			className={wrapperClasses.join(' ')}
-			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
-		>
+		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
 			<summary
-				className={buttonClasses.join(' ')}
+				className="Button Button--iconOnly Button--invisible Button--medium"
 				role="button"
 				aria-label="Add a table"
 				aria-haspopup="menu"
@@ -69,7 +53,7 @@ function append(container: HTMLElement): void {
 				</div>
 			</summary>
 			<details-menu
-				className="select-menu-modal position-absolute left-0 hx_rsm-modal rgh-table-input"
+				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
 			>
 				{Array.from({length: 25}).map((_, index) => (
@@ -79,19 +63,15 @@ function append(container: HTMLElement): void {
 						className="rgh-tic btn-link"
 						data-x={(index % 5) + 1}
 						data-y={Math.floor(index / 5) + 1}
-					>
-						<div />
-					</button>
+					/>
 				))}
 			</details-menu>
 		</details>,
 	);
-
-	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-target="action-bar.itemContainer"]', append, {signal});
+	observe('[aria-label="Formatting tools"]', append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 

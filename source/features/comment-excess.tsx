@@ -1,7 +1,7 @@
 import React from 'react';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {$, expectElement} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -19,7 +19,7 @@ function scrollOnSearch(event: KeyboardEvent): void {
 		&& !event.altKey
 		&& event.key === 'f'
 	) {
-		const collapsedEvents = $(paginationButtonSelector);
+		const collapsedEvents = $optional(paginationButtonSelector);
 		if (collapsedEvents) {
 			scrollIntoViewIfNeeded(collapsedEvents);
 		}
@@ -27,7 +27,7 @@ function scrollOnSearch(event: KeyboardEvent): void {
 }
 
 function addIndicator(headerCommentCount: HTMLSpanElement): void {
-	const loadMoreButton = expectElement(paginationButtonSelector);
+	const loadMoreButton = $(paginationButtonSelector);
 	assertNodeContent(headerCommentCount, /^\d+ comment(s)?$/);
 	assertNodeContent(loadMoreButton, /^\d+ hidden items$/);
 	const spacer = new Text(' · ');
@@ -52,7 +52,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	if (await elementReady(`${hiddenCommentsForm} ${paginationButtonSelector}`)) {
 		observe('.gh-header-meta relative-time + span', addIndicator, {signal});
-		window.addEventListener('keydown', scrollOnSearch, {signal});
+		globalThis.addEventListener('keydown', scrollOnSearch, {signal});
 	}
 }
 

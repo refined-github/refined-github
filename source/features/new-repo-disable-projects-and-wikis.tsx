@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
-import onetime from 'onetime';
+import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
@@ -12,7 +12,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
-async function disableWikiAndProjects(): Promise<void> {
+async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
 
 	await api.v3('', {
@@ -23,14 +23,14 @@ async function disableWikiAndProjects(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	$('[data-menu-item$="wiki-tab"]')?.remove();
-	$('[data-menu-item$="projects-tab"]')?.remove();
-	$('li:has([data-content="Wiki"]')?.remove();
-	$('li:has([data-content="Projects"])')?.remove();
+	$optional('[data-menu-item$="wiki-tab"]')?.remove();
+	$optional('[data-menu-item$="projects-tab"]')?.remove();
+	$optional('li:has([data-content="Wiki"]')?.remove();
+	$optional('li:has([data-content="Projects"])')?.remove();
 }
 
 function setStorage(): void {
-	if ($('input#rgh-disable-project')!.checked) {
+	if ($('input#rgh-disable-project').checked) {
 		sessionStorage.rghNewRepo = true;
 	}
 }
@@ -70,7 +70,7 @@ void features.add(import.meta.url, {
 	include: [
 		() => Boolean(sessionStorage.rghNewRepo),
 	],
-	init: onetime(disableWikiAndProjects),
+	init: onetime(disableWikiAndProjectsOnce),
 });
 
 /*

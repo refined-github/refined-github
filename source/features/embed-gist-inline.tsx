@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
@@ -17,7 +18,7 @@ type GistData = {
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
-		chrome.runtime.sendMessage({fetchJSON: `${url}.json`}),
+		messageRuntime({fetchJSON: `${url}.json`}),
 );
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
@@ -69,8 +70,9 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 			link.parentElement!.after(container);
 			info.remove();
 		}
-	} catch {
+	} catch (error) {
 		info.remove();
+		throw error;
 	}
 }
 

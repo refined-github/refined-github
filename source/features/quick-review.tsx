@@ -1,10 +1,10 @@
 import React from 'dom-chef';
-import delay from 'delay';
-import {expectElement as $} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
+import delay from '../helpers/delay.js';
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -58,7 +58,11 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
-	if (getUsername() === $('.author').textContent || pageDetect.isClosedPR() || !(await getToken())) {
+	if (
+		getUsername() === $('.author').textContent
+		|| pageDetect.isClosedConversation()
+		|| !(await getToken())
+	) {
 		return;
 	}
 

@@ -9,10 +9,12 @@
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"resolveJsonModule": true,
+		"verbatimModuleSyntax": true,
 		"lib": [
 			"DOM",
 			"DOM.Iterable",
 			"ESNext.Collection",
+			"ESNext.Object",
 			"ES2023"
 		]
 	},

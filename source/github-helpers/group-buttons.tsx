@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import {wrapAll} from '../helpers/dom-utils.js';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
-export function groupButtons(buttons: Element[]): HTMLElement {
+export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElement {
 	// Ensure every button has this class
 	for (let button of buttons) {
 		if (!button.matches('button, .btn')) {
@@ -22,6 +22,8 @@ export function groupButtons(buttons: Element[]): HTMLElement {
 		group = <div className="BtnGroup" />;
 		wrapAll(group, ...buttons);
 	}
+
+	group.classList.add(...classes);
 
 	return group;
 }

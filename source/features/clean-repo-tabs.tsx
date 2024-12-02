@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -26,24 +26,25 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = $('.Counter', tab)!;
+	const tabCounter = $('.Counter', tab);
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
 
 function onlyShowInDropdown(id: string): void {
-	const tabItem = $(`[data-tab-item$="${id}"]`);
-	if (!tabItem && pageDetect.isEnterprise()) { // GHE #3962
+	// TODO: Use selector observer
+	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
+	if (!tabItem) { // #3962 #7140
 		return;
 	}
 
-	(tabItem!.closest('li') ?? tabItem!.closest('.UnderlineNav-item'))!.classList.add('d-none');
+	tabItem.closest('li')!.hidden = true;
 
-	const menuItem = $(`[data-menu-item$="${id}"]`)!;
+	const menuItem = $(`[data-menu-item$="${id}"]`);
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	$('.UnderlineNav-actions ul')!.append(menuItem);
+	$('.UnderlineNav-actions ul').append(menuItem);
 }
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
@@ -138,7 +139,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	deduplicate: 'has-rgh',
 	init: moveRareTabs,
 }, {
 	include: [

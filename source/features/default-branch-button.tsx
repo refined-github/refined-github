@@ -1,7 +1,9 @@
+import './default-branch-button.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
@@ -12,6 +14,7 @@ import observe from '../helpers/selector-observer.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileURL(currentUrl);
@@ -31,7 +34,11 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons).classList.add('d-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
+
+	// `rounded-left-0` is for Firefox
+	// https://github.com/refined-github/refined-github/pull/8030
+	buttons.at(-1)!.classList.add('rounded-left-0');
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
@@ -39,8 +46,9 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
 		: branchSelector;
+	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
-	const existingLink = $('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
@@ -56,7 +64,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button"
+			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
@@ -75,7 +83,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	wrapButtons([defaultLink, selectorWrapper]);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe(branchSelector, add, {signal});
 }
 

@@ -1,13 +1,20 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import {$, $$} from 'select-dom';
+import {$$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
-import featureLink from './feature-link.js';
+import {getFeatureUrl} from './rgh-links.js';
 import {importedFeatures} from '../feature-data.js';
 
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
+
+function enableButtons(): void {
+	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
+		button.removeAttribute('aria-disabled');
+	}
+}
 
 // Split current list of features in half and create an options-like object to be applied on load
 // Bisecting 4 features: enable 2
@@ -35,13 +42,13 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	if (answer === 'yes') {
 		createMessageBox(
 			<>
-				<p>Unable to identify feature. It might be a <a href="https://github.com/refined-github/refined-github/wiki/Undo-unwanted-styles" target="_blank" rel="noreferrer">CSS-only feature</a>, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
+				<p>Unable to identify feature. It might be a CSS-only feature, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
 				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
 			</>,
 		);
 	} else {
 		const feature = (
-			<a href={featureLink(bisectedFeatures[0])}>
+			<a href={getFeatureUrl(bisectedFeatures[0])}>
 				<code>{bisectedFeatures[0]}</code>
 			</a>
 		);
@@ -50,7 +57,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	}
 
 	await state.delete();
-	window.removeEventListener('visibilitychange', hideMessage);
+	globalThis.removeEventListener('visibilitychange', hideMessage);
 }
 
 async function onEndButtonClick(): Promise<void> {
@@ -59,7 +66,7 @@ async function onEndButtonClick(): Promise<void> {
 }
 
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
-	$('#rgh-bisect-dialog')?.remove();
+	$optional('#rgh-bisect-dialog')?.remove();
 	document.body.append(
 		<div id="rgh-bisect-dialog" className="Box p-3">
 			<p>{message}</p>
@@ -72,7 +79,7 @@ function createMessageBox(message: Element | string, extraButtons?: Element): vo
 }
 
 async function hideMessage(): Promise<void> {
-	if (!await state.get()) {
+	if (!(await state.get())) {
 		createMessageBox('Process completed in another tab');
 	}
 }
@@ -97,22 +104,22 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	);
 
 	// Enable "Yes"/"No" buttons once the page is done loading
-	window.addEventListener('load', () => {
-		for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
-			button.removeAttribute('aria-disabled');
-		}
-	});
+	if (document.readyState === 'complete') {
+		enableButtons();
+	} else {
+		window.addEventListener('load', enableButtons);
+	}
 
 	// Hide message when the process is done elsewhere
-	window.addEventListener('visibilitychange', hideMessage);
+	globalThis.addEventListener('visibilitychange', hideMessage);
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};
 	for (const feature of importedFeatures) {
 		const index = bisectedFeatures.indexOf(feature);
-		temporaryOptions[`feature:${feature}`] = index > -1 && index < half;
+		temporaryOptions[`feature:${feature}`] = index !== -1 && index < half;
 	}
 
-	console.log(temporaryOptions);
+	console.log({temporaryOptions});
 	return temporaryOptions;
 }

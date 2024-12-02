@@ -48,7 +48,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 
 /* Lighten deletions in Markdown */
 .markdown-body del {
-	color: var(--fgColor-muted, var(--color-fg-muted));
+	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
 
 /* Make <details> visibly clickable */
@@ -80,7 +80,7 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 /* Improve spacing in conversation lists meta, made feel crowded by:
-highlight-collaborators-and-own-conversations
+conversation-authors
 parse-backticks
 pr-branches
 */
@@ -149,6 +149,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Hide label on Milestones link if there are zero milestones #5120 */
+/* TODO: Drop in March 2025 if they don't add it to https://github.com/tc39/ecma402/issues */
 [data-selected-links^='repo_milestones ']:has([title='0']) {
 	width: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
@@ -157,12 +158,6 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
-}
-
-/* Add override for CSS-in-JS components that don't use regular .btn styles */
-.BtnGroup-item:last-child:not(:first-child) {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
 }
 
 .rgh-bg-none {

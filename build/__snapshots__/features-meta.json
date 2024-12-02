@@ -148,9 +148,21 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png"
 	},
 	{
+		"id": "conventional-commits",
+		"description": "Shows conventional commit types as labels before the commit message.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000"
+	},
+	{
 		"id": "conversation-activity-filter",
 		"description": "Lets you hide every event except comments or unresolved comments in issues and PRs.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"
+	},
+	{
+		"id": "conversation-authors",
+		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
 	},
 	{
 		"id": "conversation-links-on-repo-lists",
@@ -319,14 +331,8 @@
 		"screenshot": null
 	},
 	{
-		"id": "hide-newsfeed-noise",
-		"description": "Hides other inutile newsfeed events (commits, forks, new followers).",
-		"css": true,
-		"screenshot": null
-	},
-	{
 		"id": "hide-user-forks",
-		"description": "Hides forks and archived repos from profiles (but they can still be shown.)",
+		"description": "Filters out forks and archived repos from profiles by default, leaving only the sources. (but they can still be shown.)",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png"
 	},
 	{
@@ -334,12 +340,6 @@
 		"description": "Highlights the most useful comment in issues.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
-	},
-	{
-		"id": "highlight-collaborators-and-own-conversations",
-		"description": "Highlights issues/PRs opened by you or the current repo’s collaborators.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png"
 	},
 	{
 		"id": "highlight-non-default-base-branch",
@@ -355,11 +355,6 @@
 		"id": "improve-shortcut-help",
 		"description": "Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).",
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
-	},
-	{
-		"id": "infinite-scroll",
-		"description": "Automagically expands the newsfeed when you scroll down.",
-		"screenshot": null
 	},
 	{
 		"id": "jump-to-change-requested-comment",
@@ -418,11 +413,6 @@
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
-		"id": "linkify-notification-repository-header",
-		"description": "Linkifies the header of each notification group (when grouped by repository).",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/80849887-81531c00-8c19-11ea-8777-7294ce318630.png"
-	},
-	{
 		"id": "linkify-symbolic-links",
 		"description": "Linkifies symbolic links files.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
@@ -467,7 +457,7 @@
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/6775216/44633467-d5dcc900-a959-11e8-9116-e6b0ffef66af.png"
+		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
 		"id": "mobile-tabs",
@@ -494,7 +484,7 @@
 	{
 		"id": "netiquette",
 		"description": "Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/226551766-0e1b6b15-65a3-427e-8bb5-9ea7873993be.png"
+		"screenshot": "https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda"
 	},
 	{
 		"id": "new-or-deleted-file",
@@ -588,7 +578,7 @@
 	},
 	{
 		"id": "pr-branch-auto-delete",
-		"description": "Automatically deletes the branch right after merging a PR, if possible.",
+		"description": "Automatically deletes the branch right after merging a PR, if possible. Common branch names known to be long-lived are excluded (<code>develop</code>, <code>release/*</code>, etc)",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png"
 	},
 	{
@@ -702,9 +692,8 @@
 	},
 	{
 		"id": "quick-repo-deletion",
-		"description": "Lets you delete your repos in a click, if they have no stars, issues, or PRs.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/1402241/99716945-54a80a00-2a6e-11eb-9107-f3517a6ab1bc.gif"
+		"description": "Simplifies the deletion of repositories. Adds \"Delete fork\" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.",
+		"screenshot": "https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5"
 	},
 	{
 		"id": "quick-review",
@@ -837,6 +826,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png"
 	},
 	{
+		"id": "sidebar-focus-file",
+		"description": "Scrolls the file tree to the current file.",
+		"screenshot": "https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194"
+	},
+	{
 		"id": "small-user-avatars",
 		"description": "Shows a small avatar next to the username in issue/PR lists and mentions.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png"
@@ -875,15 +869,10 @@
 		"screenshot": "https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png"
 	},
 	{
-		"id": "submission-via-ctrl-enter-everywhere",
-		"description": "Enables submission via <kbd>ctrl</kbd> <kbd>enter</kbd> on every page possible.",
-		"screenshot": null
-	},
-	{
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/37769974/60379478-106b3280-9a51-11e9-88b9-0e3607f214cd.gif"
+		"screenshot": "https://github.com/user-attachments/assets/e0392989-9c60-4f5c-9052-27a3bb51d4e4"
 	},
 	{
 		"id": "swap-branches-on-compare",
@@ -926,6 +915,11 @@
 		"id": "unfinished-comments",
 		"description": "Notifies the user of unfinished comments in hidden tabs.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif"
+	},
+	{
+		"id": "unread-anywhere",
+		"description": "Adds a global shortcut to open all your unread notifications at once: <kbd>g</kbd> <kbd>u</kbd>",
+		"screenshot": "https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141"
 	},
 	{
 		"id": "unreleased-commits",

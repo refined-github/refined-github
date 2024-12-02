@@ -1,9 +1,8 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
-
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import delegate, {DelegateEvent} from 'delegate-it';
-
+import delegate, {type DelegateEvent} from 'delegate-it';
 import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
@@ -28,11 +27,10 @@ async function mergeBranches(): Promise<AnyObject> {
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
 	await showToast(async () => {
+		// Reads Error#message or GitHub’s "message" response
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
-			features.log.error(import.meta.url, response);
-			// Reads Error#message or GitHub’s "message" response
-			throw new Error(`Error updating the branch: ${response.message as string}`);
+			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
 		}
 	}, {
 		message: 'Updating branch…',
@@ -65,7 +63,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = $('.branch-action-item:has(.merging-body)')!;
+	const mergeabilityRow = $optional('.branch-action-item:has(.merging-body)');
 	if (mergeabilityRow) {
 		// The PR is not a draft
 		mergeabilityRow.prepend(
@@ -102,8 +100,8 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedPR,
-		() => $('.head-ref')!.title === 'This repository has been deleted',
+		pageDetect.isClosedConversation,
+		() => $('.head-ref').title === 'This repository has been deleted',
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

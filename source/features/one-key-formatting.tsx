@@ -1,6 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';
@@ -43,6 +43,7 @@ function init(signal: AbortSignal): void {
 		'input[name="commit_title"]',
 		'input[name="gist[description]"]',
 		'#saved-reply-title-field',
+		'#commit-message-input',
 	], 'keydown', eventHandler, {signal});
 }
 

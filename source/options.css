@@ -4,6 +4,20 @@
 
 :root {
 	--rgh-red: #cf222e;
+	--content-width: 750px; /* Sync with media query below */
+	--viewport-margin: 30px;
+
+	max-width: none;
+}
+
+body {
+	margin: 0;
+}
+
+form {
+	max-width: var(--content-width);
+	margin: auto;
+	padding-block: 1em;
 }
 
 html::after {
@@ -21,14 +35,15 @@ html::after {
 	}
 }
 
-/* Use sensible font size in Chrome #7483 */
-body {
-	font-size: 100%;
-	line-height: 1.5;
+p,
+ul {
+	margin-top: 0;
 }
 
-p {
-	margin-top: 0;
+/* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
+p:last-child:not(.info p),
+ul:last-child {
+	margin-bottom: 0;
 }
 
 ul {
@@ -40,28 +55,47 @@ li[data-validation] {
 	margin-bottom: 0.3em;
 }
 
-details {
-	margin-bottom: 1em;
-}
-
-output {
+storage-usage {
 	font-style: italic;
 }
 
-details[open] {
-	--border-left: 4px;
+small {
+	opacity: 80%;
+}
 
-	border-left: solid var(--border-left) #aaa4;
-	padding-bottom: 1px;
+details {
+	margin-bottom: 1em;
+
+	--border-radius: 6px;
+}
+
+details > div {
+	padding: 10px;
+	border-bottom-left-radius: var(--border-radius);
+	border-bottom-right-radius: var(--border-radius);
+	border: solid 2px light-dark(#f9f9f9, #272727);
+	border-top: 0;
+
+	/* Sync with --content-width */
+	@media (width <= 750px) {
+		border-width: 0;
+	}
 }
 
 summary {
 	--summary-padding: 10px;
 
-	background: #aaa1;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: light-dark(#f9f9f9, #272727);
 	list-style: none;
 	padding: var(--summary-padding);
-	cursor: pointer;
+
+	[open] & {
+		border-top-left-radius: var(--border-radius);
+		border-top-right-radius: var(--border-radius);
+	}
 }
 
 summary::-webkit-details-marker {
@@ -69,20 +103,11 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: #aaa4;
+	background: light-dark(#e9e9e9, #353535);
 }
 
-details[open] summary {
-	margin-bottom: 10px;
-	padding-left: calc(var(--summary-padding) - var(--border-left));
-}
-
-details[open] > :not(summary) {
-	margin-left: 10px;
-}
-
-#info summary {
-	font-size: 2em;
+[data-validation] {
+	padding-left: 1.8em;
 }
 
 [data-validation]::before {
@@ -90,7 +115,8 @@ details[open] > :not(summary) {
 	width: 16px;
 	height: 16px;
 	vertical-align: -4px;
-	margin-right: 0.3em;
+	margin-right: 0.8em;
+	margin-left: -1.8em; /* Pull out */
 	display: inline-block;
 }
 
@@ -102,69 +128,43 @@ details[open] > :not(summary) {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%23cb2431" d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z"></path></svg>');
 }
 
-:root [name='customCSS'],
-:root [name='personalToken'] {
-	/* Same as GitHub style for `code` */
-	font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-		'Liberation Mono', monospace !important;
+[name='customCSS'] {
 	font-size: 11px;
-	line-height: 1.5;
 }
 
-[name='personalToken'] {
-	width: 20em !important; /* https://github.com/refined-github/refined-github/issues/1374#issuecomment-397906701 */
-	display: inline-block !important;
-}
-
-[name='personalToken']:invalid {
-	border-color: var(--rgh-red) !important;
+[name='personalToken']:not(:focus) {
+	-webkit-text-security: circle;
 }
 
 .feature:not([hidden]) {
 	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 0 0.4em;
 }
 
-.js-features input[type='checkbox'] {
+.feature input[type='checkbox'] {
 	flex-shrink: 0;
 }
 
-.js-features input[type='checkbox']:not(*:root) {
-	/* Selector for Chrome only http://browserhacks.com/#ch */
-	margin-inline-end: 0.6em;
-	margin-top: 2px;
-}
-
-.js-features .feature-checkbox:not(:checked) + .feature-name {
+.feature-checkbox:not(:checked) + .info .feature-name {
 	text-decoration: line-through;
 }
 
-.js-features .description {
+.feature:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
+	opacity: 50%;
+}
+
+.feature .info {
+	flex: 1;
+}
+
+.feature .description {
 	opacity: 80%;
 }
 
 .feature-link {
 	margin: 0 0.6em;
-}
-
-.js-features .info {
-	flex-grow: 1;
-}
-
-.js-features kbd {
-	display: inline-block;
-	padding: 3px 5px;
-	font-size: 0.8em;
-	line-height: 10px;
-	color: #444d56;
-	vertical-align: middle;
-	background-color: #fafbfc;
-	border: 1px solid #d1d5da;
-	border-radius: 6px;
-	box-shadow: inset 0 -1px 0 #d1d5da;
-}
-
-.info:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
-	opacity: 50%;
 }
 
 .screenshot {

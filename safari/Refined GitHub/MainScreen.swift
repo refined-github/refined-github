@@ -8,15 +8,15 @@ struct MainScreen: View {
 	@State private var isEnabled = false
 
 	var body: some View {
-		VStack(spacing: 32) {
+		VStack(spacing: 40) {
 			VStack {
 				Image(.largeIcon)
 					.resizable()
 					.scaledToFit()
-					.frame(height: 100)
+					.frame(height: 120)
 					.accessibilityHidden(true)
 				Text("Refined GitHub")
-					.font(.title)
+					.font(.largeTitle.bold())
 			}
 			#if os(macOS)
 			VStack(spacing: 8) {
@@ -31,45 +31,45 @@ struct MainScreen: View {
 						await openSafariSetting()
 					}
 				}
-					.buttonStyle(.borderedProminent)
-					.controlSize(.large)
+				.buttonStyle(.borderedProminent)
+				.controlSize(.large)
 				Link("Does the extension not show up?", destination: "https://github.com/refined-github/refined-github/issues/4216#issuecomment-817097886")
 					.controlSize(.small)
 			}
 			#else
-			Text("Turn on the Safari extension in “Settings › Safari”. Then, open Safari, go to github.com, and try it out.")
-				.multilineTextAlignment(.center)
-				.padding(.horizontal)
-				.padding(.horizontal)
+			Link("Get Started", destination: URL(string: "x-safari-https://refined-github.github.io/ios/enable.html")!)
+				.buttonStyle(.borderedProminent)
+				.controlSize(.large)
+				.font(.title3.weight(.medium))
 			#endif
 		}
-			.frame(maxWidth: .infinity, maxHeight: .infinity)
-			.padding()
-			.offset(y: -12) // Looks better than fully center.
-			.task {
-				requestReviewIfNeeded()
-			}
-			.safeAreaInset(edge: .bottom) {
-				Text("The app is just a container for the Safari extension and does not do anything.")
-					.font(.subheadline)
-					.foregroundStyle(.secondary)
-					.multilineTextAlignment(.center)
-					.padding()
-					.padding(.horizontal)
-			}
-			#if os(macOS)
-			.padding()
-			.padding()
-			.fixedSize()
-			.task {
-				await setExtensionStatus()
-			}
-			.windowLevel(.floating)
-			.windowIsRestorable(false)
-			.windowIsMinimizable(false)
-			.windowIsStandardButtonHidden(.miniaturizeButton, .zoomButton)
-			.windowIsMovableByWindowBackground()
-			#endif
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.padding()
+		.offset(y: -20) // Looks better than fully center.
+		.task {
+			requestReviewIfNeeded()
+		}
+		.safeAreaInset(edge: .bottom) {
+			Text("The app is just a container for the Safari extension and does not do anything.")
+				.font(.subheadline)
+				.foregroundStyle(.secondary)
+				.multilineTextAlignment(.center)
+				.padding()
+				.padding(.horizontal)
+		}
+		#if os(macOS)
+		.padding()
+		.padding()
+		.fixedSize()
+		.task {
+			await setExtensionStatus()
+		}
+		.windowLevel(.floating)
+		.windowIsRestorable(false)
+		.windowIsMinimizable(false)
+		.windowIsStandardButtonHidden(.miniaturizeButton, .zoomButton)
+		.windowIsMovableByWindowBackground()
+		#endif
 	}
 
 	private var statusView: some View {
@@ -97,21 +97,20 @@ struct MainScreen: View {
 		do {
 			isEnabled = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: Constants.extensionBundleIdentifier).isEnabled
 		} catch {
-			await error.present()
+			error.present()
 		}
 	}
 
 	private func openSafariSetting() async {
 		do {
 			try await SFSafariApplication.showPreferencesForExtension(withIdentifier: Constants.extensionBundleIdentifier)
-			await NSApplication.shared.terminate(nil)
+			NSApplication.shared.terminate(nil)
 		} catch {
-			await error.present()
+			error.present()
 		}
 	}
 	#endif
 
-	@MainActor
 	private func requestReviewIfNeeded() {
 		guard
 			!SSApp.isFirstLaunch,

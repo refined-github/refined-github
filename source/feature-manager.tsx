@@ -1,35 +1,37 @@
 import React from 'dom-chef';
-import {$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
-import {Promisable} from 'type-fest';
+import type {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
+import {isWebPage} from 'webext-detect';
+import {messageRuntime} from 'webext-msg';
+import oneEvent from 'one-event';
 
 import waitFor from './helpers/wait-for.js';
-import onAbort from './helpers/abort-controller.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
-	BooleanFunction,
+	type BooleanFunction,
 	shouldFeatureRun,
 	isFeaturePrivate,
-	RunConditions,
+	type RunConditions,
 } from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, RGHOptions} from './options-storage.js';
+import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
-	_,
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import {catchErrors, disableErrorLogging} from './helpers/errors.js';
+import {getFeatureID, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 
-type CallerFunction = (callback: VoidFunction, signal: AbortSignal) => void | Promise<void> | Deinit;
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
-type FeatureLoader = {
+type FeatureLoader = RunConditions & {
 	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
 	shortcuts?: Record<string, string>;
 
@@ -37,85 +39,33 @@ type FeatureLoader = {
 	awaitDomReady?: true;
 
 	/**
-	When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871 #
+	When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871
 	@deprecated
 	@default false
 	*/
 	deduplicate?: string;
 
-	/** When true, don’t run the `init` on page load but only add the `additionalListeners`. @default false */
-	onlyAdditionalListeners?: true;
-
-	init: Arrayable<FeatureInit>; // Repeated here because this interface is Partial<>
-} & Partial<InternalRunConfig>;
-
-type InternalRunConfig = RunConditions & {
 	init: Arrayable<FeatureInit>;
-	additionalListeners: CallerFunction[];
-
-	onlyAdditionalListeners: boolean;
-
-	shortcuts: Record<string, string>;
 };
-
-const {version} = chrome.runtime.getManifest();
-
-const shortcutMap = new Map<string, string>();
-const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
 
 const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
-const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
-
-function logError(url: string, error: unknown): void {
-	const id = getFeatureID(url);
-	const message = error instanceof Error ? error.message : String(error);
-
-	if (message.endsWith(fineGrainedTokenSuggestion)) {
-		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
-		return;
-	}
-
-	if (message.includes('token')) {
-		console.log('ℹ️', id, '→', message);
-		return;
-	}
-
-	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id}`);
-
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`: ${message}`);
-	newIssueUrl.searchParams.set('repro', location.href);
-	newIssueUrl.searchParams.set('description', [
-		'```',
-		String(error instanceof Error ? error.stack! : error).trim(),
-		'```',
-	].join('\n'));
-
-	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ ${id}`); // Safari supports only one parameter
-	console.log(`📕 ${version} ${pageDetect.isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
-	console.log('🔍 Search issue', searchIssueUrl.href);
-	console.log('🚨 Report issue', newIssueUrl.href);
-	console.groupEnd();
-}
-
-const log = {
-	info: console.log,
-	http: console.log.bind(console, '🌏'),
-	error: logError,
-};
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RGHOptions>(async resolve => {
+	if (!isWebPage()) {
+		throw new Error('This script should only be run on web pages');
+	}
+
+	listenToAjaxedLoad();
+
 	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		getLocalHotfixesAsOptions(),
 		bisectFeatures(),
 		preloadSyncLocalStrings(),
 	]);
+
+	log.setup(options);
 
 	await waitFor(() => document.body);
 
@@ -139,7 +89,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	void chrome.runtime.sendMessage({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -154,19 +104,11 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		Object.assign(options, localHotfixes);
 	}
 
-	// Create logging function
-	if (!options.logging) {
-		log.info = () => {/* No logging */};
-	}
-
-	if (!options.logHTTP) {
-		log.http = () => {/* No logging */};
-	}
-
 	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
-		// eslint-disable-next-line ts/no-use-before-define -- TODO: Drop in https://github.com/refined-github/refined-github/issues/7750
-		features.log.error = () => {/* No logging */};
+		disableErrorLogging();
+	} else {
+		catchErrors();
 	}
 
 	// Detect unload via two events to catch both clicks and history navigation
@@ -181,73 +123,6 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 	return Array.isArray(value) ? value : [value];
 }
 
-async function setupPageLoad(id: FeatureID, config: InternalRunConfig): Promise<void> {
-	const {asLongAs, include, exclude, init, additionalListeners, onlyAdditionalListeners, shortcuts} = config;
-
-	if (!await shouldFeatureRun({asLongAs, include, exclude})) {
-		return;
-	}
-
-	const featureController = new AbortController();
-	currentFeatureControllers.append(id, featureController);
-
-	const runFeature = async (): Promise<void> => {
-		await asyncForEach(castArray(init), async init => {
-			let result: FeatureInitResult | undefined;
-			try {
-				result = await init(featureController.signal);
-				// Features can return `false` when they decide not to run on the current page
-				if (result !== false && !isFeaturePrivate(id)) {
-					log.info('✅', id);
-					// Register feature shortcuts
-					for (const [hotkey, description] of Object.entries(shortcuts)) {
-						shortcutMap.set(hotkey, description);
-					}
-				}
-			} catch (error) {
-				log.error(id, error);
-			}
-
-			if (result) {
-				onAbort(featureController, result);
-			}
-		});
-	};
-
-	if (!onlyAdditionalListeners) {
-		await runFeature();
-	}
-
-	await domLoaded; // Listeners likely need to work on the whole page
-	for (const listener of additionalListeners) {
-		const deinit = listener(runFeature, featureController.signal);
-		if (deinit && !(deinit instanceof Promise)) {
-			onAbort(featureController, deinit);
-		}
-	}
-}
-
-type FeatureHelper = {
-	/** If `import.meta.url` is passed as URL, this will be the feature ID */
-	id: string;
-
-	/** A class name that can be added as attribute */
-	class: string;
-
-	/** A class selector that can be used with querySelector */
-	selector: string;
-};
-
-function getIdentifiers(url: string): FeatureHelper {
-	const id = getFeatureID(url);
-	return {
-		id,
-		class: 'rgh-' + id,
-		selector: '.rgh-' + id,
-	};
-}
-
-/** Register a new feature */
 async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	const id = getFeatureID(url);
 	/* Feature filtering and running */
@@ -258,7 +133,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		return;
 	}
 
-	for (const loader of loaders) {
+	void asyncForEach(loaders, async loader => {
 		// Input defaults and validation
 		const {
 			shortcuts = {},
@@ -268,8 +143,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			init,
 			awaitDomReady = false,
 			deduplicate = false,
-			onlyAdditionalListeners = false,
-			additionalListeners = [],
 		} = loader;
 
 		if (include?.length === 0) {
@@ -278,33 +151,42 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 		// 404 pages should only run 404-only features
 		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
-			continue;
+			return;
 		}
 
-		const details = {
-			asLongAs,
-			include,
-			exclude,
-			init,
-			additionalListeners,
-			onlyAdditionalListeners,
-			shortcuts,
-		};
-		if (awaitDomReady) {
-			(async () => {
+		/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
+		let firstLoop = true;
+		do {
+			if (awaitDomReady) {
 				await domLoaded;
-				await setupPageLoad(id, details);
-			})();
-		} else {
-			void setupPageLoad(id, details);
-		}
-
-		document.addEventListener('turbo:render', () => {
-			if (!deduplicate || !elementExists(deduplicate)) {
-				void setupPageLoad(id, details);
 			}
-		});
-	}
+			if (firstLoop) {
+				firstLoop = false;
+			} else if (deduplicate && elementExists(deduplicate)) {
+				continue;
+			}
+
+			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+				continue;
+			}
+
+			const featureController = new AbortController();
+			currentFeatureControllers.append(id, featureController);
+
+			// Do not await, or else an error on a page will break the feature completely until a reload
+			void asyncForEach(castArray(init), async init => {
+				const result = await init(featureController.signal);
+				// Features can return `false` when they decide not to run on the current page
+				if (result !== false && !isFeaturePrivate(id)) {
+					log.info('✅', id);
+					// Register feature shortcuts
+					for (const [hotkey, description] of Object.entries(shortcuts)) {
+						shortcutMap.set(hotkey, description);
+					}
+				}
+			});
+		} while (await oneEvent(document, 'turbo:render'));
+	});
 }
 
 async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<void> {
@@ -334,31 +216,10 @@ function unloadAll(): void {
 	currentFeatureControllers.clear();
 }
 
-/*
-When navigating back and forth in history, GitHub will preserve the DOM changes;
-This means that the old features will still be on the page and don't need to re-run.
-
-This marks each as "processed"
-*/
-void add('rgh-deduplicator' as FeatureID, {
-	awaitDomReady: true,
-	async init() {
-		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
-		await Promise.resolve();
-		$('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		$(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
-		$(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
-	},
-});
-
 const features = {
 	add,
 	unload,
 	addCssFeature,
-	log,
-	shortcutMap,
-	getFeatureID,
-	getIdentifiers,
 };
 
 export default features;

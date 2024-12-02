@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 
-import onetime from 'onetime';
-
+import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -40,17 +39,18 @@ function addMentionAvatar(link: HTMLElement): void {
 	);
 }
 
-function init(): void {
+function initOnce(): void {
 	// Excludes bots
 	observe([
-		'.js-issue-row [data-hovercard-type="user"]',
-		'.notification-thread-subscription [data-hovercard-type="user"]',
+		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
+		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+		'[data-testid="created-at"] a[data-hovercard-url*="/users"]:first-child', // `isIssueList`. `:first-child` skips links that already include the avatar #7975
 	], addAvatar);
 	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {
-	init: onetime(init),
+	init: onetime(initOnce),
 });
 
 /*

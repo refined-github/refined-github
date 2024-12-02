@@ -1,264 +1,57 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import React from 'dom-chef';
-import domify from 'doma';
-import {$, $$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
-import prettyBytes from 'pretty-bytes';
-import {assertError} from 'ts-extras';
 import {enableTabToIndent} from 'indent-textarea';
-import delegate, {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
-import {SyncedForm} from 'webext-options-sync-per-domain';
+import type {SyncedForm} from 'webext-options-sync-per-domain';
 
-import featureLink from './helpers/feature-link.js';
+import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {getLocalHotfixes, styleHotfixes} from './helpers/hotfix.js';
-import createRghIssueLink from './helpers/rgh-issue-link.js';
-import {importedFeatures, featuresMeta} from './feature-data.js';
-import getStorageBytesInUse from './helpers/used-storage.js';
+import {styleHotfixes} from './helpers/hotfix.js';
+import {importedFeatures} from './feature-data.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
-import {parseTokenScopes} from './github-helpers/github-token.js';
-import {scrollIntoViewIfNeeded} from './github-helpers/index.js';
+import initFeatureList, {updateListDom} from './options/feature-list.js';
+import initTokenValidation from './options/token-validation.js';
 
-type TokenType = 'classic' | 'fine_grained';
+const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
 let syncedForm: SyncedForm | undefined;
 
-type Status = {
-	tokenType: TokenType;
-	error?: true;
-	text?: string;
-	scopes?: string[];
-};
-
 const {version} = chrome.runtime.getManifest();
 
-function reportStatus({tokenType, error, text, scopes}: Status): void {
-	const tokenStatus = $('#validation')!;
-	tokenStatus.textContent = text ?? '';
-	if (error) {
-		tokenStatus.dataset.validation = 'invalid';
-	} else {
-		delete tokenStatus.dataset.validation;
-	}
-
-	// Toggle the ulists by token type (default to classic)
-	for (const ulist of $$('[data-token-type]')) {
-		ulist.style.display = ulist.dataset.tokenType === tokenType ? '' : 'none';
-	}
-
-	for (const scope of $$('[data-scope]')) {
-		if (scopes) {
-			scope.dataset.validation = scopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
-		} else {
-			scope.dataset.validation = '';
-		}
-	}
-}
-
-function getApiUrl(): string {
-	const tokenLink = $('a#personal-token-link')!;
-	return tokenLink.host === 'github.com'
-		? 'https://api.github.com'
-		: `${tokenLink.origin}/api/v3`;
-}
-
-async function getNameFromToken(token: string): Promise<string> {
-	const response = await fetch(
-		getApiUrl() + '/user',
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		},
-	);
-
-	const details = await response.json();
-	if (!response.ok) {
-		throw new Error(details.message);
-	}
-
-	return details.login;
-}
-
-async function getTokenScopes(personalToken: string): Promise<string[]> {
-	const response = await fetch(getApiUrl(), {
-		cache: 'no-store',
-		headers: {
-			'User-Agent': 'Refined GitHub',
-			'Accept': 'application/vnd.github.v3+json',
-			'Authorization': `token ${personalToken}`,
-		},
-	});
-
-	if (!response.ok) {
-		const details = await response.json();
-		throw new Error(details.message);
-	}
-
-	return parseTokenScopes(response.headers);
-}
-
-function expandTokenSection(): void {
-	$('details#token')!.open = true;
-}
-
-async function updateStorageUsage(area: 'sync' | 'local'): Promise<void> {
-	const storage = chrome.storage[area];
-	const used = await getStorageBytesInUse(area);
-	const available = storage.QUOTA_BYTES - used;
-	for (const output of $$(`.storage-${area}`)) {
-		output.textContent = available < 1000
-			? 'FULL!'
-			: available < 100_000
-				? `Only ${prettyBytes(available)} available`
-				: `${prettyBytes(used)} used`;
-	}
-}
-
-async function validateToken(): Promise<void> {
-	const tokenField = $('input[name="personalToken"]')!;
-	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
-	reportStatus({tokenType});
-
-	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-	// https://github.com/refined-github/refined-github/issues/6807
-		setTimeout(expandTokenSection, 100);
-		return;
-	}
-
-	reportStatus({text: 'Validating…', tokenType});
-
-	try {
-		const [scopes, user] = await Promise.all([
-			getTokenScopes(tokenField.value),
-			getNameFromToken(tokenField.value),
-		]);
-		reportStatus({
-			tokenType,
-			text: `👤 @${user}`,
-			scopes,
-		});
-	} catch (error) {
-		assertError(error);
-		reportStatus({tokenType, error: true, text: error.message});
-		expandTokenSection();
-		throw error;
-	}
-}
-
-function moveDisabledFeaturesToTop(): void {
-	const container = $('.js-features')!;
-
-	for (const unchecked of $$('.feature-checkbox:not(:checked)', container).reverse()) {
-		// .reverse() needed to preserve alphabetical order while prepending
-		container.prepend(unchecked.closest('.feature')!);
-	}
-}
-
-function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	return (
-		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<div className="info">
-				<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
-				<label className="feature-name" htmlFor={id}>{id}</label>
-				{' '}
-				<a href={featureLink(id)} className="feature-link">
-					source
-				</a>
-				<input hidden type="checkbox" className="screenshot-toggle" />
-				{screenshot && (
-					<a href={screenshot} className="screenshot-link">
-						screenshot
-					</a>
-				)}
-				<p className="description">{domify(description)}</p>
-				{screenshot && (
-					<img hidden data-src={screenshot} className="screenshot" />
-				)}
-			</div>
-		</div>
-	);
-}
-
-async function findFeatureHandler(event: Event): Promise<void> {
+async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
 	const options = await perDomainOptions.getOptionsForOrigin().getAll();
 	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
 	await bisectState.set(enabledFeatures);
 
-	const button = event.target as HTMLButtonElement;
-	button.disabled = true;
+	this.disabled = true;
 	setTimeout(() => {
-		button.disabled = false;
+		this.disabled = false;
 	}, 10_000);
 
-	$('#find-feature-message')!.hidden = false;
-}
-
-function summaryHandler(event: DelegateEvent<MouseEvent>): void {
-	if (event.ctrlKey || event.metaKey || event.shiftKey) {
-		return;
-	}
-
-	event.preventDefault();
-	if (event.altKey) {
-		for (const screenshotLink of $$('.screenshot-link')) {
-			toggleScreenshot(screenshotLink.parentElement!);
-		}
-	} else {
-		const feature = event.delegateTarget.parentElement!;
-		toggleScreenshot(feature);
-	}
-}
-
-function toggleScreenshot(feature: Element): void {
-	const toggle = feature.querySelector('input.screenshot-toggle')!;
-	toggle.checked = !toggle.checked;
-
-	// Lazy-load image
-	const screenshot = feature.querySelector('img.screenshot')!;
-	screenshot.src = screenshot.dataset.src!;
-}
-
-function featuresFilterHandler(event: Event): void {
-	const keywords = (event.currentTarget as HTMLInputElement).value.toLowerCase()
-		.replaceAll(/\W/g, ' ')
-		.split(/\s+/)
-		.filter(Boolean); // Ignore empty strings
-	for (const feature of $$('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
-	}
+	$('#find-feature-message').hidden = false;
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	scrollIntoViewIfNeeded(section);
+	if (section.getBoundingClientRect().bottom > window.innerHeight) {
+		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+	}
+
 	if (section.open) {
-		const field = $('input, textarea', section);
+		const field = $optional('input, textarea', section);
 		if (field) {
-			field.focus();
-			if (field instanceof HTMLTextAreaElement) {
+			field.focus({preventScroll: true});
+			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
 				// #6404
 				fitTextarea(field);
 			}
-		}
-	}
-}
-
-async function markLocalHotfixes(): Promise<void> {
-	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
-		if (importedFeatures.includes(feature)) {
-			const input = $<HTMLInputElement>('#' + feature)!;
-			input.disabled = true;
-			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`)!.after(
-				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
-			);
 		}
 	}
 }
@@ -268,7 +61,7 @@ function updateRateLink(): void {
 		return;
 	}
 
-	$('a#rate-link')!.href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -277,7 +70,7 @@ function isEnterprise(): boolean {
 
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
-	$('#hotfixes-field')!.textContent
+	$('#hotfixes-field').textContent
 		= isDevelopmentVersion()
 			? 'Hotfixes are not applied in the development version.'
 			: isEnterprise()
@@ -285,8 +78,8 @@ async function showStoredCssHotfixes(): Promise<void> {
 				: cachedCSS ?? 'No CSS found in cache.';
 }
 
-function enableToggleAll({currentTarget: button}: Event): void {
-	(button as HTMLButtonElement).parentElement!.remove();
+function enableToggleAll(this: HTMLButtonElement): void {
+	this.parentElement!.remove();
 	for (const ui of $$('.toggle-all-features')) {
 		ui.hidden = false;
 	}
@@ -297,7 +90,7 @@ function disableAllFeatures(): void {
 		enabledFeature.click();
 	}
 
-	$('details#features')!.open = true;
+	$('details#features').open = true;
 }
 
 function enableAllFeatures(): void {
@@ -305,56 +98,51 @@ function enableAllFeatures(): void {
 		disabledFeature.click();
 	}
 
-	$('details#features')!.open = true;
+	$('details#features').open = true;
 }
 
 async function generateDom(): Promise<void> {
 	// Generate list
-	$('.js-features')!.append(...featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => buildFeatureCheckbox(feature)),
-	);
-
-	// Add notice for features disabled via hotfix
-	await markLocalHotfixes();
+	await initFeatureList();
 
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
 
-	// Only now the form is ready, we can show it
-	$('#js-failed')!.remove();
-
 	// Decorate list
-	moveDisabledFeaturesToTop();
+	updateListDom();
+
+	// Only now the form is ready, we can show it
+	$('#js-failed').remove();
 
 	// Enable token validation
-	void validateToken();
-
-	// Add feature count. CSS-only features are added approximately
-	$('.features-header')!.append(` (${featuresMeta.length + 25})`);
+	void initTokenValidation(syncedForm);
 
 	// Update rate link if necessary
 	updateRateLink();
 
-	// Update storage usage info
-	void updateStorageUsage('local');
-	void updateStorageUsage('sync');
-
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
-		$('#action')!.hidden = true;
+		$('#action').hidden = true;
 	}
 
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();
+
+	$('#version').textContent = version;
 }
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {
-		$('a#personal-token-link')!.host = domain === 'default' ? 'github.com' : domain;
-		// Delay validating to let options load first
-		setTimeout(validateToken, 100);
+		// Point the link to the right domain
+		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+
+		for (const element of $$('storage-usage[item]')) {
+			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
+		}
+
+		// Delay to let options load first
+		setTimeout(updateListDom, 100);
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
@@ -365,37 +153,25 @@ function addEventListeners(): void {
 		location.reload();
 	});
 
-	// Update storage usage info
-	chrome.storage.onChanged.addListener((_, areaName) => {
-		void updateStorageUsage(areaName as 'sync' | 'local');
-	});
-
 	// Improve textareas editing
-	fitTextarea.watch('textarea');
 	enableTabToIndent('textarea');
-
-	// Load screenshots
-	delegate('.screenshot-link', 'click', summaryHandler);
+	if (!supportsFieldSizing) {
+		fitTextarea.watch('textarea');
+	}
 
 	// Automatically focus field when a section is toggled open
 	delegate('details', 'toggle', focusFirstField, {capture: true});
 
-	// Filter feature list
-	$('#filter-features')!.addEventListener('input', featuresFilterHandler);
-
 	// Add cache clearer
-	$('#clear-cache')!.addEventListener('click', clearCacheHandler);
+	$('#clear-cache').addEventListener('click', clearCacheHandler);
 
 	// Add bisect tool
-	$('#find-feature')!.addEventListener('click', findFeatureHandler);
+	$('#find-feature').addEventListener('click', findFeatureHandler);
 
 	// Handle "Toggle all" buttons
-	$('#toggle-all-features')!.addEventListener('click', enableToggleAll);
-	$('#disable-all-features')!.addEventListener('click', disableAllFeatures);
-	$('#enable-all-features')!.addEventListener('click', enableAllFeatures);
-
-	// Add token validation
-	$('[name="personalToken"]')!.addEventListener('input', validateToken);
+	$('#toggle-all-features').addEventListener('click', enableToggleAll);
+	$('#disable-all-features').addEventListener('click', disableAllFeatures);
+	$('#enable-all-features').addEventListener('click', enableAllFeatures);
 }
 
 async function init(): Promise<void> {

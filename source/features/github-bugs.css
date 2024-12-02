@@ -2,7 +2,10 @@
 .js-commits-list-item code, /* `isCommitList` commit message */
 .Box-header .commit-author + span code /* `isRepoTree` commit message */ {
 	padding: 2px 4px;
-	background-color: var(--bgColor-neutral-muted, var(--color-neutral-muted));
+	background-color: var(
+		--bgColor-neutral-muted,
+		var(--color-neutral-muted, fuchsia)
+	);
 	font-size: 0.9em;
 	line-height: 1;
 	border-radius: 6px;
@@ -50,16 +53,19 @@
 
 /* Mute unclickable reaction buttons, disable hover */
 /* Test: https://github.com/refined-github/sandbox/pull/48 */
-:root .social-reaction-summary-item[disabled] {
+:root .social-reaction-summary-item:disabled {
 	filter: grayscale(0.5);
 	background-color: transparent;
 }
 
-:root .social-reaction-summary-item.user-has-reacted[disabled] {
-	color: var(--reactionButton-selected-fgColor-rest, var(--color-accent-fg));
+:root .social-reaction-summary-item.user-has-reacted:disabled {
+	color: var(
+		--reactionButton-selected-fgColor-rest,
+		var(--color-accent-fg, fuchsia)
+	);
 	background-color: var(
 		--reactionButton-selected-bgColor-rest,
-		var(--color-accent-subtle)
+		var(--color-accent-subtle, fuchsia)
 	) !important;
 }
 
@@ -72,6 +78,21 @@
 /* Fit rendered markdown div to its content #7187 */
 div.markdown-body {
 	min-height: 2em !important;
+}
+
+/* Sponsor button in mobile view #7853 */
+/* Test: https://github.com/refined-github/refined-github */
+#dialog-show-responsive-sponsor-modal {
+	width: var(--base-size-32);
+	height: var(--base-size-32);
+	padding: 0;
+}
+
+/* Notifications "Unread" dropdown  overlap (Safari, Mobile) */
+/* Info: https://github.com/refined-github/refined-github/issues/7959 */
+/* Test: https://github.com/notifications */
+#dialog-show-notifications-tabs-nav ~ action-menu {
+	flex-shrink: 0;
 }
 
 /*

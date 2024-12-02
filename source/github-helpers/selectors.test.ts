@@ -59,7 +59,7 @@ describe.concurrent('selectors', () => {
 		}
 	}
 
-	test.each(selectors)('%s', async (name, selector) => {
+	test.each(selectors)('%s', {timeout: 9999}, async (name, selector: string) => {
 		// @ts-expect-error Index signature bs
 		const urls = exports[name + '_'] as exports.UrlMatch[];
 
@@ -71,5 +71,5 @@ describe.concurrent('selectors', () => {
 			const matches = document.querySelectorAll(selector);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));
-	}, {timeout: 9999});
+	});
 });
