@@ -23,6 +23,11 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		return;
 	}
 
+	// Skip commits that are _only_ "ci:" without anything else. Rare but would be confusing to show just the label
+	if (commit.raw === textNode.textContent && !commitTitleElement.nextElementSibling) {
+		return;
+	}
+
 	commitTitleElement.prepend(
 		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
 			{commit.type}
