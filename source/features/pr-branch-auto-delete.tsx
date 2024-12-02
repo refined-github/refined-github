@@ -6,10 +6,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
-import {getFeatureID} from '../helpers/feature-helpers.js';
 
 const exceptions = [
 	'dev',
@@ -45,7 +43,7 @@ async function init(): Promise<void> {
 		timeout: 2000,
 	});
 
-	const url = getFeatureUrl(getFeatureID(import.meta.url));
+	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
 	);
