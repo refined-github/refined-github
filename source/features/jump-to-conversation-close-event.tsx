@@ -6,10 +6,10 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const statusBadge = [
+export const statusBadge = [
 	'#partial-discussion-header .State',
 	'[class^="StateLabel"]',
-];
+] as const;
 
 export function getLastCloseEvent(): HTMLElement | undefined {
 	return lastElement([
