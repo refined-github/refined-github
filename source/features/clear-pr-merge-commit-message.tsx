@@ -1,22 +1,30 @@
 import React from 'dom-chef';
 import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import attachElement from '../helpers/attach-element.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
-async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
-	// Only run once so that it doesn't clear the field every time it's opened
-	features.unload(import.meta.url);
+async function clear(event: DelegateEvent<CustomEvent, HTMLTextAreaElement>): Promise<void | false> {
+	if (event.detail?.open !== true) {
+		return;
+	}
 
+	const messageField = $('textarea#merge_message_field', event.delegateTarget);
 	const originalMessage = messageField.value;
+	if (!originalMessage.trim()) {
+		return;
+	}
+
 	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
 	if (cleanedMessage === originalMessage.trim()) {
@@ -29,19 +37,21 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void | false> {
 	// Trigger `fit-textareas` if enabled
 	messageField.dispatchEvent(new Event('input', {bubbles: true}));
 
-	messageField.after(
-		<div>
-			<p className="note">
-				The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
-			</p>
-			<hr />
-		</div>,
-	);
+	attachElement(messageField, {
+		after: () => (
+			<div>
+				<p className="note">
+					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
+				</p>
+				<hr />
+			</div>
+		),
+	});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('textarea#merge_message_field', clear, {signal});
+	delegate('.js-merge-pr', 'details:toggled', clear, {signal});
 }
 
 void features.add(import.meta.url, {
