@@ -65,8 +65,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function addInlineLinks(menu: HTMLElement, timestamp: string): void {
-	const comment = menu.closest('.js-comment')!;
+function addInlineLinks(comment: HTMLElement, timestamp: string): void {
 	const links = $$(`
 		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
 		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
@@ -117,8 +116,16 @@ async function init(signal: AbortSignal): Promise<void> {
 			.datetime
 			.value;
 
-		addInlineLinks(menu, timestamp);
+		addInlineLinks(menu.closest('.js-comment')!, timestamp);
 		addDropdownLink(menu, timestamp);
+	}, {signal});
+
+	observe([
+		'div.react-issue-comment',
+		'[data-testid="review-thread"] > div',
+	], comment => {
+		const timestamp = comment.querySelector('relative-time')!.attributes.datetime.value;
+		addInlineLinks(comment, timestamp);
 	}, {signal});
 }
 
