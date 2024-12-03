@@ -124,7 +124,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		'div.react-issue-comment',
 		'[data-testid="review-thread"] > div',
 	], comment => {
-		const timestamp = comment.querySelector('relative-time')!.attributes.datetime.value;
+		const timestamp = $('relative-time', comment).attributes.datetime.value;
 		addInlineLinks(comment, timestamp);
 	}, {signal});
 }
