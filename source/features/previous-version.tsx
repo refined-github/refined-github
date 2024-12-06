@@ -99,6 +99,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
+		pageDetect.isBlame,
 	],
 	exclude: [
 		pageDetect.isRepoHome,
