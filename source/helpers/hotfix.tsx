@@ -27,12 +27,9 @@ async function fetchHotfix(path: string): Promise<string> {
 	const request = await fetch(`https://refined-github.github.io/yolo/${path}`, {
 		cache: 'no-store', // Disable caching altogether
 	});
-	const response = await request.json();
-	if (!response.content) {
-		throw new Error(`Failed to fetch hotfix: ${JSON.stringify(response, undefined, 2)}`);
-	}
 
-	return base64ToString(response.content).trim();
+	const contents = await request.text();
+	return contents.trim();
 }
 
 type HotfixStorage = Array<[FeatureID, string, string]>;
