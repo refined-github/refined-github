@@ -68,13 +68,30 @@ function isEnterprise(): boolean {
 	return syncedForm!.getSelectedDomain() !== 'default';
 }
 
+function getExclusions(): string | void {
+	if (isEnterprise())
+		return 'Hotfixes are not applied on GitHub Enterprise.';
+
+	if (isDevelopmentVersion()) {
+		return 'Hotfixes are not applied in the development version';
+	}
+}
+
 async function showStoredCssHotfixes(): Promise<void> {
-	const cachedCSS = await styleHotfixes.getCached(version);
 	$('#hotfixes-field').textContent
-		= (isDevelopmentVersion() ? 'Hotfixes are not applied in the development version:\n\n' : '')
-		+ isEnterprise()
-			? 'Hotfixes are not applied on GitHub Enterprise.'
-			: cachedCSS ?? 'No CSS found in cache.';
+	= getExclusions()
+	?? await styleHotfixes.getCached(version)
+	?? 'No CSS found in cache.';
+}
+
+async function updateStoredCssHotfixes(event: MouseEvent): Promise<void> {
+	const button = event.currentTarget as HTMLButtonElement;
+	button.disabled = true;
+	$('#hotfixes-field').textContent
+	= getExclusions()
+	?? await styleHotfixes.getFresh(version)
+	?? 'No hotfixes needed for this version! 🎉';
+	button.disabled = false;
 }
 
 function enableToggleAll(this: HTMLButtonElement): void {
@@ -171,6 +188,9 @@ function addEventListeners(): void {
 	$('#toggle-all-features').addEventListener('click', enableToggleAll);
 	$('#disable-all-features').addEventListener('click', disableAllFeatures);
 	$('#enable-all-features').addEventListener('click', enableAllFeatures);
+
+	// Enable style hotfixes fetch button
+	$('#update-style-hotfixes').addEventListener('click', updateStoredCssHotfixes);
 }
 
 async function init(): Promise<void> {
