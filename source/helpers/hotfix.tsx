@@ -3,7 +3,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
-import {base64ToString} from 'uint8array-extras';
 
 import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
@@ -23,20 +22,13 @@ function parseCsv(content: string): string[][] {
 }
 
 async function fetchHotfix(path: string): Promise<string> {
-	// The explicit endpoint is necessary because it shouldn't change on GHE
-	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
-	const request = await fetch(`https://api.github.com/repos/refined-github/yolo/contents/${path}`, {
+	// Use GitHub Pages host because the API is rate-limited
+	const request = await fetch(`https://refined-github.github.io/yolo/${path}`, {
 		cache: 'no-store', // Disable caching altogether
 	});
-	const {content} = await request.json();
 
-	// Rate-limit check
-	if (content) {
-		console.log('Probably hit rate-limit');
-		return base64ToString(content).trim();
-	}
-
-	return '';
+	const contents = await request.text();
+	return contents.trim();
 }
 
 type HotfixStorage = Array<[FeatureID, string, string]>;
