@@ -85,7 +85,6 @@ async function showStoredCssHotfixes(): Promise<void> {
 }
 
 
-
 async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	const button = event.currentTarget as HTMLButtonElement;
 	button.disabled = true;
