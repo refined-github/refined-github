@@ -70,14 +70,15 @@ export const styleHotfixes = new CachedFunction('style-hotfixes', {
 
 async function registerStyleHotfixes(css: string): Promise<void> {
 	if (isDevelopmentVersion()) {
+	const id = 'style-hotfixes';
+	await chrome.scripting.unregisterContentScripts({ids: [id]}).catch(() => {});
+	if (!css ) {
 		return;
 	}
 
-	const id = 'style-hotfixes';
-	await chrome.scripting.unregisterContentScripts({ids: [id]});
 	await chrome.scripting.registerContentScripts([{
 		id,
-		matches: ['https://github.com'],
+		matches: ['https://github.com/*'],
 		css: [css],
 	}]);
 }
