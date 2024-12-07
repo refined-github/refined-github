@@ -10,7 +10,7 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {styleHotfixes} from './helpers/hotfix.js';
+import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -84,14 +84,26 @@ async function showStoredCssHotfixes(): Promise<void> {
 	?? 'No CSS found in cache.';
 }
 
-async function updateStoredCssHotfixes(event: MouseEvent): Promise<void> {
+
+
+async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	const button = event.currentTarget as HTMLButtonElement;
 	button.disabled = true;
-	$('#hotfixes-field').textContent
-	= getExclusions()
-	?? await styleHotfixes.getFresh(version)
-	?? 'No hotfixes needed for this version! 🎉';
-	button.disabled = false;
+	try {
+		// Style
+		$('#hotfixes-field').textContent
+		= getExclusions()
+		?? await styleHotfixes.getFresh(version)
+		?? 'No hotfixes needed for this version! 🎉';
+
+		// Broken features
+		const storage = await brokenFeatures.getFresh();
+		const field = $('#broken-features-field');
+		field.hidden = false;
+		field.textContent = JSON.stringify(storage, undefined, 2);
+	} finally {
+		button.disabled = false;
+	}
 }
 
 function enableToggleAll(this: HTMLButtonElement): void {
@@ -189,8 +201,8 @@ function addEventListeners(): void {
 	$('#disable-all-features').addEventListener('click', disableAllFeatures);
 	$('#enable-all-features').addEventListener('click', enableAllFeatures);
 
-	// Enable style hotfixes fetch button
-	$('#update-style-hotfixes').addEventListener('click', updateStoredCssHotfixes);
+	// Handle "Fetch hotfixes" button
+	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
 async function init(): Promise<void> {

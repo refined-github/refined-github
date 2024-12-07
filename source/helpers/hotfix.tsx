@@ -25,11 +25,14 @@ function parseCsv(content: string): string[][] {
 async function fetchHotfix(path: string): Promise<string> {
 	// The explicit endpoint is necessary because it shouldn't change on GHE
 	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
-	const request = await fetch(`https://api.github.com/repos/refined-github/yolo/contents/${path}`);
+	const request = await fetch(`https://api.github.com/repos/refined-github/yolo/contents/${path}`, {
+		cache: 'no-store', // Disable caching altogether
+	});
 	const {content} = await request.json();
 
 	// Rate-limit check
 	if (content) {
+		console.log('Probably hit rate-limit');
 		return base64ToString(content).trim();
 	}
 
