@@ -23,20 +23,14 @@ function parseCsv(content: string): string[][] {
 }
 
 async function fetchHotfix(path: string): Promise<string> {
-	// The explicit endpoint is necessary because it shouldn't change on GHE
-	// We can't use `https://raw.githubusercontent.com` because of permission issues https://github.com/refined-github/refined-github/pull/3530#issuecomment-691595925
-	const request = await fetch(`https://api.github.com/repos/refined-github/yolo/contents/${path}`, {
-		cache: 'no-store', // Disable caching altogether
-	});
-	const {content} = await request.json();
-
-	// Rate-limit check
-	if (content) {
-		console.log('Probably hit rate-limit');
-		return base64ToString(content).trim();
+	// Use GitHub Pages host because the API is rate-limited
+	const request = await fetch(`https://refined-github.github.io/yolo/${path}`);
+	const response = await request.json();
+	if (!response.content) {
+		throw new Error(`Failed to fetch hotfix: ${JSON.stringify(response, undefined, 2)}`);
 	}
 
-	return '';
+	return base64ToString(response.content).trim();
 }
 
 type HotfixStorage = Array<[FeatureID, string, string]>;
