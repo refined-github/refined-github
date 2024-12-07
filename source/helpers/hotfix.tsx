@@ -3,7 +3,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
-import {base64ToString} from 'uint8array-extras';
 
 import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
