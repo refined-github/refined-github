@@ -24,7 +24,9 @@ function parseCsv(content: string): string[][] {
 
 async function fetchHotfix(path: string): Promise<string> {
 	// Use GitHub Pages host because the API is rate-limited
-	const request = await fetch(`https://refined-github.github.io/yolo/${path}`);
+	const request = await fetch(`https://refined-github.github.io/yolo/${path}`, {
+		cache: 'no-store', // Disable caching altogether
+	});
 	const response = await request.json();
 	if (!response.content) {
 		throw new Error(`Failed to fetch hotfix: ${JSON.stringify(response, undefined, 2)}`);
