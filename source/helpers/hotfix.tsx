@@ -1,9 +1,9 @@
-import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import {base64ToString} from 'uint8array-extras';
+import {queryAdditionalPermissions} from 'webext-permissions';
 
 import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
@@ -59,12 +59,31 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 });
 
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
-	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
-
+	updater: async (version: string): Promise<string> => {
+		const css = await fetchHotfix(`style/${version}.css`);
+		void registerStyleHotfixes(css); // Asynchronously register it on every fetch/update
+		return css;
+	},
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},
 	cacheKey: () => '',
 });
+
+async function registerStyleHotfixes(css: string): Promise<void> {
+	if (isDevelopmentVersion()) {
+		return;
+	}
+
+	const id = 'style-hotfixes';
+	// TODO: Replace with https://github.com/fregante/webext-options-sync-per-domain/issues/11
+	const {origins} = await queryAdditionalPermissions({strictOrigins: false});
+	await chrome.scripting.unregisterContentScripts({ids: [id]});
+	await chrome.scripting.registerContentScripts([{
+		id,
+		matches: ['https://github.com', ...origins],
+		css: [css],
+	}]);
+}
 
 export async function getLocalHotfixes(): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
@@ -83,15 +102,6 @@ export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> 
 	}
 
 	return options;
-}
-
-export async function applyStyleHotfixes(style: string): Promise<void> {
-	if (isDevelopmentVersion() || isEnterprise() || !style) {
-		return;
-	}
-
-	// Prepend to body because that's the only way to guarantee they come after the static file
-	document.body.prepend(<style>{style}</style>);
 }
 
 let localStrings: Record<string, string> = {};

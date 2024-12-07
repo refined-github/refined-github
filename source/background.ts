@@ -21,6 +21,10 @@ addPermissionToggle();
 // Firefox/Safari polyfill
 addOptionsContextMenu();
 
+// The background page is restarted regularly, so we rely on that to update it and re-register it.
+// The getter has a side-effect: it automatically registers the value after it fetches it.
+void styleHotfixes.get(version);
+
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const [index, url] of urls.entries()) {
@@ -40,9 +44,6 @@ handleMessages({
 	},
 	async openOptionsPage() {
 		return chrome.runtime.openOptionsPage();
-	},
-	async getStyleHotfixes() {
-		return styleHotfixes.get(version);
 	},
 });
 

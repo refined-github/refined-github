@@ -5,7 +5,6 @@ import stripIndent from 'strip-indent';
 import type {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
-import {messageRuntime} from 'webext-msg';
 import oneEvent from 'one-event';
 
 import waitFor from './helpers/wait-for.js';
@@ -19,7 +18,6 @@ import {
 } from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
 import {
-	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
@@ -86,10 +84,6 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	}
 
 	document.documentElement.setAttribute('refined-github', '');
-
-	// Request in the background page to avoid showing a 404 request in the console
-	// https://github.com/refined-github/refined-github/issues/6433
-	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
