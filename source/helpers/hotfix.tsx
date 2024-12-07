@@ -3,7 +3,6 @@ import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import {base64ToString} from 'uint8array-extras';
-import {queryAdditionalPermissions} from 'webext-permissions';
 
 import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
@@ -75,12 +74,10 @@ async function registerStyleHotfixes(css: string): Promise<void> {
 	}
 
 	const id = 'style-hotfixes';
-	// TODO: Replace with https://github.com/fregante/webext-options-sync-per-domain/issues/11
-	const {origins} = await queryAdditionalPermissions({strictOrigins: false});
 	await chrome.scripting.unregisterContentScripts({ids: [id]});
 	await chrome.scripting.registerContentScripts([{
 		id,
-		matches: ['https://github.com', ...origins],
+		matches: ['https://github.com'],
 		css: [css],
 	}]);
 }

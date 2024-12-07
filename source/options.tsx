@@ -71,11 +71,10 @@ function isEnterprise(): boolean {
 async function showStoredCssHotfixes(): Promise<void> {
 	const cachedCSS = await styleHotfixes.getCached(version);
 	$('#hotfixes-field').textContent
-		= isDevelopmentVersion()
-			? 'Hotfixes are not applied in the development version.'
-			: isEnterprise()
-				? 'Hotfixes are not applied on GitHub Enterprise.'
-				: cachedCSS ?? 'No CSS found in cache.';
+		= (isDevelopmentVersion() ? 'Hotfixes are not applied in the development version:\n\n' : '')
+		+ isEnterprise()
+			? 'Hotfixes are not applied on GitHub Enterprise.'
+			: cachedCSS ?? 'No CSS found in cache.';
 }
 
 function enableToggleAll(this: HTMLButtonElement): void {
