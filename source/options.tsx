@@ -10,7 +10,7 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {styleHotfixes} from './helpers/hotfix.js';
+import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -68,14 +68,40 @@ function isEnterprise(): boolean {
 	return syncedForm!.getSelectedDomain() !== 'default';
 }
 
+function getExclusions(): string | void {
+	if (isEnterprise())
+		return 'Hotfixes are not applied on GitHub Enterprise.';
+
+	if (isDevelopmentVersion()) {
+		return 'Hotfixes are not applied in the development version';
+	}
+}
+
 async function showStoredCssHotfixes(): Promise<void> {
-	const cachedCSS = await styleHotfixes.getCached(version);
 	$('#hotfixes-field').textContent
-		= isDevelopmentVersion()
-			? 'Hotfixes are not applied in the development version.'
-			: isEnterprise()
-				? 'Hotfixes are not applied on GitHub Enterprise.'
-				: cachedCSS ?? 'No CSS found in cache.';
+	= getExclusions()
+	?? await styleHotfixes.getCached(version)
+	?? 'No CSS found in cache.';
+}
+
+async function fetchHotfixes(event: MouseEvent): Promise<void> {
+	const button = event.currentTarget as HTMLButtonElement;
+	button.disabled = true;
+	try {
+		// Style
+		$('#hotfixes-field').textContent
+		= getExclusions()
+		?? await styleHotfixes.getFresh(version)
+		?? 'No hotfixes needed for this version! 🎉';
+
+		// Broken features
+		const storage = await brokenFeatures.getFresh();
+		const field = $('#broken-features-field');
+		field.hidden = false;
+		field.textContent = JSON.stringify(storage, undefined, 2);
+	} finally {
+		button.disabled = false;
+	}
 }
 
 function enableToggleAll(this: HTMLButtonElement): void {
@@ -172,6 +198,9 @@ function addEventListeners(): void {
 	$('#toggle-all-features').addEventListener('click', enableToggleAll);
 	$('#disable-all-features').addEventListener('click', disableAllFeatures);
 	$('#enable-all-features').addEventListener('click', enableAllFeatures);
+
+	// Handle "Fetch hotfixes" button
+	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
 async function init(): Promise<void> {
