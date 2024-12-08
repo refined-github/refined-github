@@ -67,15 +67,17 @@ details {
 	margin-bottom: 1em;
 
 	--border-radius: 6px;
+
 	border: solid 1px transparent;
 	border-radius: var(--border-radius);
+
 	/* Sync with --content-width */
 	@media (width <= 750px) {
 		border-width: 0;
 	}
 
 	&[open] {
-		border-color: light-dark(#d2d9e0, #3d444d)
+		border-color: light-dark(#d2d9e0, #3d444d);
 	}
 }
 
