@@ -14,7 +14,6 @@ import lightning from 'unplugin-lightningcss/rollup';
 import {Features, browserslistToTargets} from 'lightningcss';
 import browserslist from 'browserslist';
 
-console.log(browserslistToTargets(browserslist('chrome 126, firefox 126, ios_saf 17')))
 import svelteConfig from './svelte.config.js';
 
 const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
