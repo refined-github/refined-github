@@ -7,6 +7,7 @@ import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
+import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 
 const limit = 10;
 
@@ -21,7 +22,11 @@ async function openUnreadNotifications(): Promise<void> {
 		}
 
 		updateToast('Opening…');
-		const urls = notifications.slice(0, limit).map(notification => notification.href);
+		const urls = notifications.slice(0, limit).map(notification => {
+			removeLinkToPRFilesTab(notification); // Internally limited to PR Files links
+			return notification.href;
+		});
+
 		await messageRuntime({
 			openUrls: urls,
 		});
