@@ -40,7 +40,8 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 }
 
 function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (section.getBoundingClientRect().bottom > window.innerHeight) {
+	const rect = section.getBoundingClientRect();
+	if (rect.bottom > window.innerHeight || rect.top < 0) {
 		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 	}
 
@@ -105,10 +106,9 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 }
 
 function enableToggleAll(this: HTMLButtonElement): void {
-	this.parentElement!.remove();
-	for (const ui of $$('.toggle-all-features')) {
-		ui.hidden = false;
-	}
+	const section = $('details#toggle-all');
+	section.hidden = false;
+	section.open = true;
 }
 
 function disableAllFeatures(): void {
@@ -136,6 +136,11 @@ async function generateDom(): Promise<void> {
 
 	// Decorate list
 	updateListDom();
+
+	// Show "Toggle All" section if the user already disabled a lot of features
+	if ($$('.feature-checkbox:not(:checked)').length > 50) {
+		$('details#toggle-all').hidden = false;
+	}
 
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
