@@ -11,7 +11,8 @@ import del from 'rollup-plugin-delete';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import svelte from 'rollup-plugin-svelte';
 import lightning from 'unplugin-lightningcss/rollup';
-import {Features} from 'lightningcss';
+import {Features, browserslistToTargets} from 'lightningcss';
+import browserslist from 'browserslist';
 
 import svelteConfig from './svelte.config.js';
 
@@ -62,11 +63,7 @@ const rollup = {
 			options: {
 				include: Features.Nesting,
 				// Lighting issue: https://github.com/parcel-bundler/lightningcss/issues/826#issuecomment-2453982986
-				targets: {
-					ios_saf: 17,
-					chrome: 116,
-					firefox: 126,
-				},
+				targets: browserslistToTargets(browserslist('chrome 123, firefox 126, iOS 17.5')),
 			},
 		}),
 		svelte(svelteConfig),
