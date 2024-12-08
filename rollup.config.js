@@ -61,6 +61,11 @@ const rollup = {
 		lightning({
 			options: {
 				include: Features.Nesting,
+				targets: {
+					ios_saf: 17,
+					chrome: 116,
+					firefox: 126,
+				},
 			},
 		}),
 		svelte(svelteConfig),
