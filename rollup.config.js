@@ -61,6 +61,12 @@ const rollup = {
 		lightning({
 			options: {
 				include: Features.Nesting,
+				// Lighting issue: https://github.com/parcel-bundler/lightningcss/issues/826#issuecomment-2453982986
+				targets: {
+					ios_saf: 17,
+					chrome: 116,
+					firefox: 126,
+				},
 			},
 		}),
 		svelte(svelteConfig),

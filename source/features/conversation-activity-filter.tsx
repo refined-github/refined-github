@@ -202,7 +202,10 @@ const minorFixesIssuePages = [
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$optional(`.${collapsedClassName} ${location.hash}`)?.closest('.js-timeline-item')?.classList.remove(collapsedClassName);
+		$optional(`.${collapsedClassName} ${location.hash}`)
+			?.closest('.js-timeline-item')
+			?.classList
+			.remove(collapsedClassName);
 	}
 }
 

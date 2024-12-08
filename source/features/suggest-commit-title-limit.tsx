@@ -8,6 +8,8 @@ import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import {formatPrCommitTitle} from './sync-pr-commit-title.js';
+import onPrMerge from '../github-events/on-pr-merge.js';
+import abortableClassName from '../helpers/abortable-classname.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
 const limit = 72;
@@ -25,13 +27,18 @@ async function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTM
 	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
+function unload(): void {
+	features.unload(import.meta.url);
+}
+
 function init(signal: AbortSignal): void {
-	document.body.classList.add('rgh-suggest-commit-title-limit');
+	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
 		'#issue_title',
 		'#pull_request_title',
 	], 'input', validatePrTitle, {signal, passive: true});
+	onPrMerge(unload, signal);
 }
 
 void features.add(import.meta.url, {
@@ -40,6 +47,12 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isPR,
 	],
+	exclude: [
+		// No need here https://github.com/refined-github/refined-github/issues/7922
+		pageDetect.isMergedPR,
+	],
+	// DOM-based checks; event-based feature
+	awaitDomReady: true,
 	init,
 });
 

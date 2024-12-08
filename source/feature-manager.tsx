@@ -125,8 +125,10 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 
 async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	const id = getFeatureID(url);
+
 	/* Feature filtering and running */
 	const options = await globalReady;
+
 	// Skip disabled features, unless the feature is private
 	if (isFeatureDisabled(options, id) && !isFeaturePrivate(id)) {
 		log.info('↩️', 'Skipping', id);
