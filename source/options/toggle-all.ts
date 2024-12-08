@@ -1,4 +1,5 @@
-import {$, $$} from 'select-dom/strict.js';
+import {$$, countElements} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 function enableToggleAll(this: HTMLButtonElement): void {
 	const section = $('details#toggle-all');
@@ -26,7 +27,7 @@ function enableAllFeatures(): void {
 export default function initToggleAllButtons(): void {
 	const initialButton = $('#toggle-all-features');
 	// Show "Toggle All" section if the user already disabled a lot of features
-	if ($$('.feature-checkbox:not(:checked)').length > 50) {
+	if (countElements('.feature-checkbox:not(:checked)') > 50) {
 		$('details#toggle-all').hidden = false;
 		initialButton.hidden = true; // Hide button in "Debugging" section
 	} else {
