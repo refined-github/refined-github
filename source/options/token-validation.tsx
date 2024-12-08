@@ -7,13 +7,12 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
 
 type Status = {
-	tokenType: 'classic' | 'fine_grained';
 	error?: true;
 	text?: string;
 	scopes?: string[];
 };
 
-function reportStatus({tokenType, error, text, scopes}: Status): void {
+function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 	const tokenStatus = $('#validation');
 	tokenStatus.textContent = text ?? '';
 	if (error) {
@@ -22,17 +21,12 @@ function reportStatus({tokenType, error, text, scopes}: Status): void {
 		delete tokenStatus.dataset.validation;
 	}
 
-	// Toggle the ulists by token type (default to classic)
-	for (const ulist of $$('[data-token-type]')) {
-		ulist.hidden = ulist.dataset.tokenType !== tokenType;
-	}
-
 	for (const scope of $$('[data-scope]')) {
-		if (scopes) {
-			scope.dataset.validation = scopes.includes(scope.dataset.scope!) ? 'valid' : 'invalid';
-		} else {
-			scope.dataset.validation = '';
-		}
+		scope.dataset.validation = scopes.includes(scope.dataset.scope!)
+			? 'valid'
+			: scopes.includes('unknown')
+				? ''
+				: 'invalid';
 	}
 }
 
@@ -48,8 +42,7 @@ function expandTokenSection(): void {
 
 async function validateToken(): Promise<void> {
 	const tokenField = $('input[name="personalToken"]');
-	const tokenType = tokenField.value.startsWith('github_pat_') ? 'fine_grained' : 'classic';
-	reportStatus({tokenType});
+	reportStatus();
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
 	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
@@ -58,7 +51,7 @@ async function validateToken(): Promise<void> {
 		return;
 	}
 
-	reportStatus({text: 'Validating…', tokenType});
+	reportStatus({text: 'Validating…'});
 
 	try {
 		const base = getApiUrl();
@@ -67,13 +60,12 @@ async function validateToken(): Promise<void> {
 			tokenUser.get(base, tokenField.value),
 		]);
 		reportStatus({
-			tokenType,
 			text: `👤 @${user}`,
 			scopes,
 		});
 	} catch (error) {
 		assertError(error);
-		reportStatus({tokenType, error: true, text: error.message});
+		reportStatus({error: true, text: error.message});
 		expandTokenSection();
 		throw error;
 	}
