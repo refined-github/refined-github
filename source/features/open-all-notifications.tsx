@@ -5,7 +5,6 @@ import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import delegate, {type DelegateEvent} from 'delegate-it';
-
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
