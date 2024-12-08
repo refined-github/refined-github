@@ -13,6 +13,7 @@ function isLinkExternal(link: HTMLAnchorElement): boolean {
 if ('window' in globalThis && 'open' in globalThis && isSafari()) {
 	document.addEventListener('click', filterAlteredClicks(event => {
 		const clicked = event.target as HTMLAnchorElement;
+		// Don't use `instaceof` #8135
 		if (clicked.tagName === 'A' && isLinkExternal(clicked)) {
 			event.preventDefault();
 			window.open(clicked.href);
