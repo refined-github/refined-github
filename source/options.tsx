@@ -18,6 +18,7 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
+import initToggleAllButtons from './options/toggle-all.js';
 
 const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
@@ -39,7 +40,7 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	$('#find-feature-message').hidden = false;
 }
 
-function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	const rect = section.getBoundingClientRect();
 	if (rect.bottom > window.innerHeight || rect.top < 0) {
 		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
@@ -105,28 +106,6 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	}
 }
 
-function enableToggleAll(this: HTMLButtonElement): void {
-	const section = $('details#toggle-all');
-	section.hidden = false;
-	section.open = true;
-}
-
-function disableAllFeatures(): void {
-	for (const enabledFeature of $$('.feature-checkbox:checked')) {
-		enabledFeature.click();
-	}
-
-	$('details#features').open = true;
-}
-
-function enableAllFeatures(): void {
-	for (const disabledFeature of $$('.feature-checkbox:not(:checked)')) {
-		disabledFeature.click();
-	}
-
-	$('details#features').open = true;
-}
-
 async function generateDom(): Promise<void> {
 	// Generate list
 	await initFeatureList();
@@ -136,11 +115,7 @@ async function generateDom(): Promise<void> {
 
 	// Decorate list
 	updateListDom();
-
-	// Show "Toggle All" section if the user already disabled a lot of features
-	if ($$('.feature-checkbox:not(:checked)').length > 50) {
-		$('details#toggle-all').hidden = false;
-	}
+	initToggleAllButtons();
 
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
@@ -190,19 +165,14 @@ function addEventListeners(): void {
 		fitTextarea.watch('textarea');
 	}
 
-	// Automatically focus field when a section is toggled open
-	delegate('details', 'toggle', focusFirstField, {capture: true});
+	// Bring section into view when opened
+	delegate('details', 'toggle', focusSection, {capture: true});
 
 	// Add cache clearer
 	$('#clear-cache').addEventListener('click', clearCacheHandler);
 
 	// Add bisect tool
 	$('#find-feature').addEventListener('click', findFeatureHandler);
-
-	// Handle "Toggle all" buttons
-	$('#toggle-all-features').addEventListener('click', enableToggleAll);
-	$('#disable-all-features').addEventListener('click', disableAllFeatures);
-	$('#enable-all-features').addEventListener('click', enableAllFeatures);
 
 	// Handle "Fetch hotfixes" button
 	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
