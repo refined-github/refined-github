@@ -2,7 +2,7 @@ import './hide-low-quality-comments.css';
 
 import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import {$$, countElements, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
@@ -76,7 +76,7 @@ function init(): void {
 		hideComment(comment);
 	}
 
-	const lowQualityCount = $$('.rgh-hidden-comment').length;
+	const lowQualityCount = countElements('.rgh-hidden-comment');
 	if (lowQualityCount > 0) {
 		$('.discussion-timeline-actions').prepend(
 			<p className="rgh-low-quality-comments-note">
