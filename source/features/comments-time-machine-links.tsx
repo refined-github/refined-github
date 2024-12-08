@@ -66,13 +66,13 @@ async function showTimeMachineBar(): Promise<void | false> {
 }
 
 function addInlineLinks(comment: HTMLElement, timestamp: string): void {
-	const links = $$(`
-		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
-		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
-	`, comment);
-
-	for (const link of links) {
+	for (const link of $$(`a[href^="${location.origin}"]:not(.${linkifiedURLClass})`, comment)) {
 		const linkParts = link.pathname.split('/');
+		// Skip non-git-object links. `undefined` covers links to the repo home #4979
+		if ([undefined, 'blob', 'tree', 'blame'].includes(linkParts[3])) {
+			continue;
+		}
+
 		// Skip permalinks
 		if (/^[\da-f]{40}$/.test(linkParts[4])) {
 			continue;
