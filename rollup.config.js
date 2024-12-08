@@ -64,7 +64,6 @@ const rollup = {
 			options: {
 				include: Features.Nesting,
 				// Lighting issue: https://github.com/parcel-bundler/lightningcss/issues/826#issuecomment-2453982986
-				// Values 126, 17.5 Chosen to support light-dark() in the options
 				targets: browserslistToTargets(browserslist('chrome 123, firefox 126, iOS 17.5')),
 			},
 		}),
