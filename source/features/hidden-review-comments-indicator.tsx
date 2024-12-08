@@ -2,7 +2,7 @@ import './hidden-review-comments-indicator.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$, countElements} from 'select-dom';
 import CommentIcon from 'octicons-plain-react/Comment';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -26,7 +26,7 @@ function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
-	const commentCount = commentThread.querySelectorAll('.review-comment.js-comment').length;
+	const commentCount = countElements('.review-comment.js-comment', commentThread);
 	commentThread.before(
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>

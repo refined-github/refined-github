@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
 
 import {wrapAll} from '../helpers/dom-utils.js';
 
@@ -8,7 +9,7 @@ export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElem
 	for (let button of buttons) {
 		if (!button.matches('button, .btn')) {
 			button.classList.add('BtnGroup-parent');
-			button = button.querySelector('.btn')!;
+			button = $('.btn', button);
 		}
 
 		button.classList.add('BtnGroup-item');
