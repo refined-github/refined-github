@@ -2,6 +2,7 @@ import './fit-textareas.css';
 
 import {isSafari} from 'webext-detect';
 import fitTextarea from 'fit-textarea';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -10,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 const nativeFit = CSS.supports('field-sizing', 'content');
 
 function resetListener({target}: Event): void {
-	const field = (target as HTMLFormElement).querySelector('textarea')!;
+	const field = $('textarea', target as HTMLFormElement);
 	// Delay because the field is still filled while the `reset` event is firing
 	setTimeout(fitTextarea, 0, field);
 }

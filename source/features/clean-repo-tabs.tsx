@@ -1,4 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
+import {countElements} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -56,7 +57,7 @@ const wikiPageCount = new CachedFunction('wiki-page-count', {
 			return looseParseInt(counter);
 		}
 
-		return dom.querySelectorAll('#wiki-content > .Box .Box-row').length;
+		return countElements('#wiki-content > .Box .Box-row', dom);
 	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 5},

@@ -35,9 +35,8 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const container = assetsList.closest('section') // Single-release page
 		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
-	const releaseName = container
-		// .octicon-code required by visit-tag feature
-		.querySelector(['.octicon-tag ~ span', '.octicon-code ~ span'])!
+	// .octicon-code required by visit-tag feature
+	const releaseName = $(['.octicon-tag ~ span', '.octicon-code ~ span'], container)
 		.textContent
 		.trim();
 

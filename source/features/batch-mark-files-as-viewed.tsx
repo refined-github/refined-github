@@ -21,7 +21,7 @@ function remember(event: DelegateEvent): void {
 }
 
 function isChecked(file: HTMLElement): boolean {
-	return file.querySelector('input.js-reviewed-checkbox')!.checked;
+	return $('input.js-reviewed-checkbox', file).checked;
 }
 
 // A single click is somehow causing two separate trusted `click` events, so it needs to be debounced

@@ -6,6 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
+import {$} from 'select-dom/strict.js';
+
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
 import {appendBefore} from '../helpers/dom-utils.js';
@@ -29,7 +31,7 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls = notifications
 		.reverse() // Open oldest first #6755
-		.map(notification => notification.querySelector('a')!.href);
+		.map(notification => $('a', notification).href);
 
 	const openingTabs = openTabs(urls);
 	if (!await openingTabs) {
@@ -38,7 +40,7 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 
 	for (const notification of notifications) {
 		if (markAsDone) {
-			notification.querySelector('[title="Done"]')!.click();
+			$('[title="Done"]', notification).click();
 		} else {
 			// Mark all as read instead
 			notification.classList.replace('notification-unread', 'notification-read');

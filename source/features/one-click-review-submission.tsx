@@ -4,6 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
 
+import {$} from 'select-dom/strict.js';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -44,10 +46,10 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			parent.querySelector('label')
 			?? radio.nextSibling! // TODO: Remove after April 2025
 		);
-		const tooltip = parent.querySelector([
+		const tooltip = $([
 			'p', // TODO: Remove after April 2025
 			'.FormControl-caption',
-		])!.textContent.trim().replace(/\.$/, '');
+		], parent).textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];

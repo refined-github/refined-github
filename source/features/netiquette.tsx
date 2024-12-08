@@ -3,7 +3,7 @@ import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import {$optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import {countElements, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
@@ -30,12 +30,12 @@ function getCloseDate(): Date {
 
 function isPopular(): boolean {
 	return (
-		$$('[data-testid="comment-header"]').length > 30
+		countElements('[data-testid="comment-header"]') > 30
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 		// TODO: Drop in April 2025; old conversation style
-		|| $$('.timeline-comment').length > 30
-		|| $$('.participant-avatar').length > 10
+		|| countElements('.timeline-comment') > 30
+		|| countElements('.participant-avatar') > 10
 	);
 }
 
