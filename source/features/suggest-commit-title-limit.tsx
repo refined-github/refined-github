@@ -51,6 +51,8 @@ void features.add(import.meta.url, {
 		// No need here https://github.com/refined-github/refined-github/issues/7922
 		pageDetect.isMergedPR,
 	],
+	// DOM-based checks; event-based feature
+	awaitDomReady: true,
 	init,
 });
 
