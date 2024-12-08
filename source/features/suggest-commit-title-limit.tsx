@@ -1,6 +1,5 @@
 import './suggest-commit-title-limit.css';
 
-import {$optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -9,7 +8,6 @@ import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import {formatPrCommitTitle} from './sync-pr-commit-title.js';
-import {statusBadge} from './jump-to-conversation-close-event.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import abortableClassName from '../helpers/abortable-classname.js';
 
@@ -34,11 +32,6 @@ function unload(): void {
 }
 
 function init(signal: AbortSignal): void {
-	// https://github.com/refined-github/refined-github/issues/7922
-	if ($optional(statusBadge)?.textContent === 'Merged') {
-		return;
-	}
-
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
@@ -53,6 +46,10 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 		pageDetect.isCompare,
 		pageDetect.isPR,
+	],
+	exclude: [
+		// No need here https://github.com/refined-github/refined-github/issues/7922
+		pageDetect.isMergedPR,
 	],
 	init,
 });
