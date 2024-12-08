@@ -96,7 +96,6 @@ function parseTokenScopes(headers: Headers): string[] {
 
 export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
 	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
-	console.log(...response.headers)
 	return parseTokenScopes(response.headers);
 }
 
