@@ -5,11 +5,13 @@ import observe from '../helpers/selector-observer.js';
 
 const regex = /\/files\/[\da-f]{40}..[\da-f]{40}$/;
 
-function trimLink(link: HTMLAnchorElement): void {
+export function trimLink(link: HTMLAnchorElement): HTMLAnchorElement {
 	if (regex.test(link.pathname)) {
 		link.pathname = link.pathname.replace(regex, '');
 		link.hash = '#issue-comment-box';
 	}
+
+	return link;
 }
 
 function init(signal: AbortSignal): void {

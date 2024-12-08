@@ -8,6 +8,8 @@ import showToast from '../github-helpers/toast.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
 
+import {trimLink} from './pr-notification-link.js';
+
 const limit = 10;
 
 async function openUnreadNotifications(): Promise<void> {
@@ -21,7 +23,10 @@ async function openUnreadNotifications(): Promise<void> {
 		}
 
 		updateToast('Opening…');
-		const urls = notifications.slice(0, limit).map(notification => notification.href);
+		const urls = notifications.slice(0, limit)
+			.map(element => trimLink(element))
+			.map(notification => notification.href);
+
 		await messageRuntime({
 			openUrls: urls,
 		});
