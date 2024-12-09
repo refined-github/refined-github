@@ -1,28 +1,40 @@
-import {test, assert} from 'vitest';
+import {describe, test, assert} from 'vitest';
 
 import isLowQualityComment from './is-low-quality-comment.js';
 
-test('isLowQualityComment', () => {
-	assert.isTrue(isLowQualityComment('+1'));
-	assert.isTrue(isLowQualityComment('+1!'));
-	assert.isTrue(isLowQualityComment('+10'));
-	assert.isTrue(isLowQualityComment('+9000'));
-	assert.isTrue(isLowQualityComment('-1'));
-	assert.isTrue(isLowQualityComment('👍'));
-	assert.isTrue(isLowQualityComment('👍🏾'));
-	assert.isTrue(isLowQualityComment('me too'));
-	assert.isTrue(isLowQualityComment('ditto'));
-	assert.isTrue(isLowQualityComment('Dito'));
-	assert.isTrue(isLowQualityComment('following'));
-	assert.isTrue(isLowQualityComment('please update!'));
-	assert.isTrue(isLowQualityComment('please update 🙏🏻'));
-	assert.isTrue(isLowQualityComment('same issue'));
-	assert.isTrue(isLowQualityComment('this same issues'));
-	assert.isTrue(isLowQualityComment('same question'));
-	assert.isTrue(isLowQualityComment('any updates there?'));
+describe('isLowQualityComment', () => {
+	describe('returns true', () => {
+		test.each([
+			'+1',
+			'+1!',
+			'+10',
+			'+9000',
+			'-1',
+			'👍',
+			'👍🏾',
+			'me too',
+			'ditto',
+			'Dito',
+			'following',
+			'please update!',
+			'please update 🙏🏻',
+			'same issue',
+			'this same issues',
+			'same question',
+			'any updates there?',
+		])('%s', comment => {
+			assert.isTrue(isLowQualityComment(comment));
+		});
+	});
 
-	assert.isFalse(isLowQualityComment('+1\n<some useful information>'));
-	assert.isFalse(isLowQualityComment('Same here. <some useful information>'));
-	assert.isFalse(isLowQualityComment('Same here, please update, thanks'));
-	assert.isFalse(isLowQualityComment('Same here! Please update, thank you.'));
+	describe('returns false', () => {
+		test.each([
+			'+1\n<some useful information>',
+			'Same here. <some useful information>',
+			'Same here, please update, thanks',
+			'Same here! Please update, thank you.',
+		])('%s', comment => {
+			assert.isFalse(isLowQualityComment(comment));
+		});
+	});
 });
