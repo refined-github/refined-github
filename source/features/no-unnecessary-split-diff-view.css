@@ -1,4 +1,4 @@
-[rgh-no-unnecessary-split-diff-view] {
+html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	/* The selector looks for diff tables WITHOUT changes on the left XOR on the right */
 	/* Instead of duplicating this selector for each rule, we set a variable and pick it up where needed */
 

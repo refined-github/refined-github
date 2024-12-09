@@ -1,5 +1,5 @@
-/* Don't support in React commit view #8100 */
-[rgh-scrollable-areas] {
+html:not([rgh-OFF-scrollable-areas]) {
+	/* Note: Don't add support for commit view dropdown comments #8100 */
 	.comment-body,
 	[data-testid='markdown-body'] {
 		blockquote,

@@ -131,7 +131,16 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 	// Skip disabled features, unless the feature is private
 	if (isFeatureDisabled(options, id) && !isFeaturePrivate(id)) {
+		if (loaders.length === 0) {
+			// CSS-only https://github.com/refined-github/refined-github/issues/7944
+			document.documentElement.setAttribute('rgh-OFF-' + id, '');
+		}
 		log.info('↩️', 'Skipping', id);
+		return;
+	}
+
+	if (loaders.length === 0) {
+		// CSS-only
 		return;
 	}
 
@@ -191,14 +200,8 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	});
 }
 
-async function addCssFeature(url: string, include?: BooleanFunction[]): Promise<void> {
-	const id = getFeatureID(url);
-	void add(id, {
-		include,
-		init() {
-			document.documentElement.setAttribute('rgh-' + id, '');
-		},
-	});
+async function addCssFeature(url: string): Promise<void> {
+	void add(url);
 }
 
 function unload(featureUrl: string): void {

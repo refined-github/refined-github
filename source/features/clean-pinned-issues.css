@@ -1,4 +1,4 @@
-[rgh-clean-pinned-issues] {
+html:not([rgh-OFF-clean-pinned-issues]) {
 	/* Changes the layout of pinned issues from side-by-side to a standard list. */
 	.js-pinned-issues-reorder-container .f4 {
 		display: none !important; /* Hide title */
