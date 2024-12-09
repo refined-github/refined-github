@@ -27,6 +27,11 @@ async function fetchHotfix(path: string): Promise<string> {
 		cache: 'no-store', // Disable caching altogether
 	});
 
+	if (!request.ok) {
+		// Likely a 404. Either way the response isn't the CSS we expect #8142
+		return '';
+	}
+
 	const contents = await request.text();
 	return contents.trim();
 }
