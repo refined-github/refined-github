@@ -51,7 +51,10 @@ function init(signal: AbortSignal): void | false {
 		return false;
 	}
 
-	observe('#issuecomment-new:has(file-attachment)', addConversationBanner, {signal});
+	observe([
+		'#issuecomment-new:has(file-attachment)',
+		'[data-testid="comment-composer"]',
+	], addConversationBanner, {signal});
 }
 
 void features.add(import.meta.url, {
