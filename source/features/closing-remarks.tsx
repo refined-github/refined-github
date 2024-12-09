@@ -87,7 +87,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement($('#issue-comment-box'), {
 		before: () => (
-			<TimelineItem className="ml-md-6">
+			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
 					text: <>This pull request first appeared in {linkedTag} <ExplanationLink /></>,
@@ -113,7 +113,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 
 	attachElement($('#issue-comment-box'), {
 		before: () => (
-			<TimelineItem className="ml-md-6">
+			<TimelineItem>
 				{createBanner(
 					url
 						? {
