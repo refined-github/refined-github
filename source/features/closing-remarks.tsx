@@ -11,7 +11,7 @@ import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
 import createBanner from '../github-helpers/banner.js';
-import TimelineItem from '../github-helpers/timeline-item.js';
+import {TimelineItemOld as TimelineItem} from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getReleases} from './releases-tab.js';
@@ -87,7 +87,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement($('#issue-comment-box'), {
 		before: () => (
-			<TimelineItem>
+			<TimelineItem className="ml-md-6">
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
 					text: <>This pull request first appeared in {linkedTag} <ExplanationLink /></>,
@@ -113,7 +113,7 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 
 	attachElement($('#issue-comment-box'), {
 		before: () => (
-			<TimelineItem>
+			<TimelineItem className="ml-md-6">
 				{createBanner(
 					url
 						? {

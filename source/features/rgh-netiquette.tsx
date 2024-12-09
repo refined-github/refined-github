@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getResolvedText, wasClosedLongAgo} from './netiquette.js';
-import TimelineItem from '../github-helpers/timeline-item.js';
+import {TimelineItem, TimelineItemOld} from '../github-helpers/timeline-item.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
 	const button = (
@@ -32,14 +32,17 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 		>comment
 		</button>
 	);
+
+	const isReactView = newCommentBox.matches('[data-testid="comment-composer"]');
+	const Wrapper = isReactView ? TimelineItem : TimelineItemOld;
 	const banner = (
-		<TimelineItem>
+		<Wrapper>
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1" />,
 				text: <>{getResolvedText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
-		</TimelineItem>
+		</Wrapper>
 	);
 	newCommentBox.before(banner);
 	newCommentBox.hidden = true;
