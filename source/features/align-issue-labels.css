@@ -1,4 +1,4 @@
-[rgh-align-issue-labels] .js-issue-row {
+html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	/* Move labels in the Issue/PR list below the title */
 	.min-width-0 {
 		display: flex;

@@ -1,4 +1,4 @@
-[rgh-hide-diff-signs]
+html:not([rgh-OFF-hide-diff-signs])
 	:is(
 		.diff-text-cell
 		.diff-text, /* Edit page, probably upcoming DOM everywhere */
