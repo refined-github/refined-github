@@ -172,8 +172,8 @@ function validateTsx(file: FeatureFile): void {
 		);
 
 		assert(
-			file.css.contents().includes(`[rgh-${file.id}]`),
-			`${file.css.name} should contain a \`[rgh-${file.id}]\` selector`,
+			file.css.contents().includes(`html:not([rgh-OFF-${file.id}])`),
+			`${file.css.name} should contain a \`html:not([rgh-OFF-${file.id}])\` selector`,
 		);
 	}
 

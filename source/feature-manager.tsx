@@ -12,7 +12,6 @@ import waitFor from './helpers/wait-for.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import bisectFeatures from './helpers/bisect.js';
 import {
-	type BooleanFunction,
 	shouldFeatureRun,
 	isFeaturePrivate,
 	type RunConditions,
