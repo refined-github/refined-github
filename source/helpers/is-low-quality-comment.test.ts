@@ -22,6 +22,10 @@ describe('isLowQualityComment', () => {
 			'this same issues',
 			'same question',
 			'any updates there?',
+			'This is still an issue for me',
+			'Still an issue',
+			'Issue for me too.',
+			'and for me',
 		])('%s', comment => {
 			assert.isTrue(isLowQualityComment(comment));
 		});
