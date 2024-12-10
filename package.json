@@ -155,7 +155,7 @@
 		"rollup-plugin-svelte": "^7.2.2",
 		"rollup-plugin-webpack-stats": "^1.1.0",
 		"snarkdown": "^2.0.0",
-		"stylelint": "^16.10.0",
+		"stylelint": "^16.11.0",
 		"stylelint-config-standard": "^36.0.1",
 		"svelte": "^5.10.0",
 		"type-fest": "^4.30.0",
