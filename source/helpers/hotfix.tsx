@@ -6,6 +6,7 @@ import {any as concatenateTemplateLiteralTag} from 'code-tag';
 
 import type {RGHOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
+import {isomorphicFetchText} from './isomorphic-fetch.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
 
@@ -23,12 +24,9 @@ function parseCsv(content: string): string[][] {
 
 async function fetchHotfix(path: string): Promise<string> {
 	// Use GitHub Pages host because the API is rate-limited
-	const request = await fetch(`https://refined-github.github.io/yolo/${path}`, {
+	return isomorphicFetchText(`https://refined-github.github.io/yolo/${path}`, {
 		cache: 'no-store', // Disable caching altogether
 	});
-
-	const contents = await request.text();
-	return contents.trim();
 }
 
 type HotfixStorage = Array<[FeatureID, string, string]>;

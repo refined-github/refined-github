@@ -10,6 +10,7 @@ import optionsStorage, {hasToken} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
+import {fetchText} from './helpers/isomorphic-fetch.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -34,6 +35,7 @@ handleMessages({
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
 		void chrome.tabs.remove(tab!.id!);
 	},
+	fetchText,
 	async fetchJSON(url: string) {
 		const response = await fetch(url);
 		return response.json();
