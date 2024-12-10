@@ -5,11 +5,8 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	.js-diff-table:has([data-split-side]) {
 		&:not(
 				:has(
-						[data-split-side='left']:is(
-								.blob-code-addition,
-								.blob-code-deletion
-							)
-					)
+					[data-split-side='left']:is(.blob-code-addition, .blob-code-deletion)
+				)
 			) {
 			--rgh-only-additions: none;
 
@@ -18,11 +15,8 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 		&:not(
 				:has(
-						[data-split-side='right']:is(
-								.blob-code-addition,
-								.blob-code-deletion
-							)
-					)
+					[data-split-side='right']:is(.blob-code-addition, .blob-code-deletion)
+				)
 			) {
 			--rgh-only-deletions: none;
 

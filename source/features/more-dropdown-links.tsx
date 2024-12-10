@@ -47,10 +47,10 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 		pageDetect.isEnterprise()
 			? ''
 			: createDropdownItem({
-				label: 'Dependencies',
-				href: dependenciesUrl,
-				icon: PackageDependenciesIcon,
-			}),
+					label: 'Dependencies',
+					href: dependenciesUrl,
+					icon: PackageDependenciesIcon,
+				}),
 		createDropdownItem({
 			label: 'Commits',
 			href: commitsUrl,

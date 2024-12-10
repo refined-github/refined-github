@@ -3,9 +3,9 @@
 	"compilerOptions": {
 		"outDir": "./distribution/assets",
 		"rootDir": "./",
-		"module": "node16",
+		"module": "preserve",
+		"moduleResolution": "bundler",
 		"declaration": false,
-		"moduleResolution": "node16",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"resolveJsonModule": true,
