@@ -10,6 +10,7 @@ export async function fetchText(url: string, options: RequestInit): Promise<stri
 
 export async function isomorphicFetchText(url: string, options: RequestInit): Promise<string> {
 	return isWebPage()
+		// Firefox CSP issue: https://github.com/refined-github/refined-github/issues/8144
 		? messageRuntime({fetchString: {url, options}})
 		: fetchText(url, options);
 }
