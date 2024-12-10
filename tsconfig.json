@@ -3,6 +3,8 @@
 	"compilerOptions": {
 		"outDir": "./distribution/assets",
 		"rootDir": "./",
+		"module": "preserve",
+		"moduleResolution": "bundler",
 		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
