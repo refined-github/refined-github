@@ -22,6 +22,7 @@ describe('isLowQualityComment', () => {
 			'this same issues',
 			'same question',
 			'any updates there?',
+			'any updates on this?',
 			'This is still an issue for me',
 			'Still an issue',
 			'Issue for me too.',
