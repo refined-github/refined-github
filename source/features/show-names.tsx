@@ -24,14 +24,19 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 function appendName(element: HTMLAnchorElement, fullName: string): void {
 	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 	const {parentElement} = element;
-	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+	const isStrong = parentElement?.tagName === 'STRONG';
 
+	if (isStrong) {
+		parentElement?.classList.add('inline');
+	}
+
+	const insertionPoint = isStrong ? parentElement! : element;
 	insertionPoint.after(
-		' ',
+		<>&nbsp;</>,
 		<span className="color-fg-muted css-truncate d-inline-block">
 			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</bdo>)
 		</span>,
-		' ',
+		<>&nbsp;</>,
 	);
 }
 

@@ -197,6 +197,7 @@ const authorLinks = [
 	'h3 a[data-testid="issue-body-header-author"]', // The first issue comment
 	'.react-issue-comment a[data-testid="avatar-link"]',
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]', // React commit view
+	'.react-issue-body a[data-testid="issue-body-header-author"]', // React issue view first comment
 ];
 
 const authorLinksException = [
