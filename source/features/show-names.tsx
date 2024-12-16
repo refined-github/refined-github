@@ -36,7 +36,7 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 		<span className="color-fg-muted css-truncate d-inline-block">
 			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</bdo>)
 		</span>,
-		<>&nbsp;</>,
+		' ',
 	);
 }
 
