@@ -27,7 +27,10 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 
 async function initForPRPage(signal: AbortSignal): Promise<void> {
 	// Exclude rgh-link, include isPRCommits
-	observe('main [href="/apps/github-actions"] ~ div a.status-actions', addForPR, {signal});
+	observe([
+		'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
+		'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
+	], addForPR, {signal});
 }
 
 void features.add(import.meta.url, {
