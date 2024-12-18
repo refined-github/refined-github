@@ -76,7 +76,9 @@ function parseTokenScopes(headers: Headers): string[] {
 	// If `X-OAuth-Scopes` is not present, the token may be not a classic token.
 	const scopesHeader = headers.get('X-OAuth-Scopes');
 	if (!scopesHeader) {
-		return [];
+		// If the request succeeded but lacked this header, it's likely a fine-grained token
+		// https://github.com/orgs/community/discussions/25259#discussioncomment-3247158
+		return ['valid_token', 'unknown'];
 	}
 
 	const scopes = scopesHeader.split(', ');

@@ -92,6 +92,8 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		.querySelector('.Link--primary')!
 		.textContent
 		.split(' → ');
+	if (!confirm(`Are you sure you want to discard changes to ${newFileName}?`))
+		return;
 	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',

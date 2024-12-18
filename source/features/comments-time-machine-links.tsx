@@ -1,7 +1,5 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
-
+import {$, $$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -15,6 +13,7 @@ import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
@@ -48,10 +47,18 @@ async function showTimeMachineBar(): Promise<void | false> {
 		}
 
 		const parsedUrl = new GitHubFileURL(location.href);
+
+		// Handle `isRepoHome` #4979
+		parsedUrl.branch ||= await getDefaultBranch();
+		parsedUrl.route ||= 'tree';
+
 		// Due to GitHub’s bug of supporting branches with slashes: #2901
 		void updateURLtoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
 
+		// Set temporary URL AFTER calling `updateURLtoDatedSha`
 		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
+
+		// Use new path in link
 		url.pathname = parsedUrl.pathname;
 	}
 
@@ -65,15 +72,14 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function addInlineLinks(menu: HTMLElement, timestamp: string): void {
-	const comment = menu.closest('.js-comment')!;
-	const links = $$(`
-		a[href^="${location.origin}"][href*="/blob/"]:not(.${linkifiedURLClass}),
-		a[href^="${location.origin}"][href*="/tree/"]:not(.${linkifiedURLClass})
-	`, comment);
-
-	for (const link of links) {
+function addInlineLinks(comment: HTMLElement, timestamp: string): void {
+	for (const link of $$optional(`a[href^="${location.origin}"]:not(.${linkifiedURLClass})`, comment)) {
 		const linkParts = link.pathname.split('/');
+		// Skip non-git-object links. `undefined` covers links to the repo home #4979
+		if (![undefined, 'blob', 'tree', 'blame'].includes(linkParts[3])) {
+			continue;
+		}
+
 		// Skip permalinks
 		if (/^[\da-f]{40}$/.test(linkParts[4])) {
 			continue;
@@ -117,8 +123,16 @@ async function init(signal: AbortSignal): Promise<void> {
 			.datetime
 			.value;
 
-		addInlineLinks(menu, timestamp);
+		addInlineLinks(menu.closest('.js-comment')!, timestamp);
 		addDropdownLink(menu, timestamp);
+	}, {signal});
+
+	observe([
+		'div.react-issue-comment',
+		'[data-testid="review-thread"] > div',
+	], comment => {
+		const timestamp = $('relative-time', comment).attributes.datetime.value;
+		addInlineLinks(comment, timestamp);
 	}, {signal});
 }
 

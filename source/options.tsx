@@ -10,7 +10,7 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {styleHotfixes} from './helpers/hotfix.js';
+import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -18,6 +18,7 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
+import initToggleAllButtons from './options/toggle-all.js';
 
 const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
@@ -39,8 +40,9 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	$('#find-feature-message').hidden = false;
 }
 
-function focusFirstField({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (section.getBoundingClientRect().bottom > window.innerHeight) {
+function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+	const rect = section.getBoundingClientRect();
+	if (rect.bottom > window.innerHeight || rect.top < 0) {
 		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 	}
 
@@ -68,37 +70,40 @@ function isEnterprise(): boolean {
 	return syncedForm!.getSelectedDomain() !== 'default';
 }
 
+function getExclusions(): string | void {
+	if (isEnterprise())
+		return 'Hotfixes are not applied on GitHub Enterprise.';
+
+	if (isDevelopmentVersion()) {
+		return 'Hotfixes are not applied in the development version';
+	}
+}
+
 async function showStoredCssHotfixes(): Promise<void> {
-	const cachedCSS = await styleHotfixes.getCached(version);
 	$('#hotfixes-field').textContent
-		= isDevelopmentVersion()
-			? 'Hotfixes are not applied in the development version.'
-			: isEnterprise()
-				? 'Hotfixes are not applied on GitHub Enterprise.'
-				: cachedCSS ?? 'No CSS found in cache.';
+	= getExclusions()
+	?? await styleHotfixes.getCached(version)
+	?? 'No CSS found in cache.';
 }
 
-function enableToggleAll(this: HTMLButtonElement): void {
-	this.parentElement!.remove();
-	for (const ui of $$('.toggle-all-features')) {
-		ui.hidden = false;
+async function fetchHotfixes(event: MouseEvent): Promise<void> {
+	const button = event.currentTarget as HTMLButtonElement;
+	button.disabled = true;
+	try {
+		// Style
+		$('#hotfixes-field').textContent
+		= getExclusions()
+		?? await styleHotfixes.getFresh(version)
+		?? 'No hotfixes needed for this version! 🎉';
+
+		// Broken features
+		const storage = await brokenFeatures.getFresh();
+		const field = $('#broken-features-field');
+		field.hidden = false;
+		field.textContent = JSON.stringify(storage, undefined, 2);
+	} finally {
+		button.disabled = false;
 	}
-}
-
-function disableAllFeatures(): void {
-	for (const enabledFeature of $$('.feature-checkbox:checked')) {
-		enabledFeature.click();
-	}
-
-	$('details#features').open = true;
-}
-
-function enableAllFeatures(): void {
-	for (const disabledFeature of $$('.feature-checkbox:not(:checked)')) {
-		disabledFeature.click();
-	}
-
-	$('details#features').open = true;
 }
 
 async function generateDom(): Promise<void> {
@@ -110,6 +115,7 @@ async function generateDom(): Promise<void> {
 
 	// Decorate list
 	updateListDom();
+	initToggleAllButtons();
 
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
@@ -159,8 +165,8 @@ function addEventListeners(): void {
 		fitTextarea.watch('textarea');
 	}
 
-	// Automatically focus field when a section is toggled open
-	delegate('details', 'toggle', focusFirstField, {capture: true});
+	// Bring section into view when opened
+	delegate('details', 'toggle', focusSection, {capture: true});
 
 	// Add cache clearer
 	$('#clear-cache').addEventListener('click', clearCacheHandler);
@@ -168,10 +174,8 @@ function addEventListeners(): void {
 	// Add bisect tool
 	$('#find-feature').addEventListener('click', findFeatureHandler);
 
-	// Handle "Toggle all" buttons
-	$('#toggle-all-features').addEventListener('click', enableToggleAll);
-	$('#disable-all-features').addEventListener('click', disableAllFeatures);
-	$('#enable-all-features').addEventListener('click', enableAllFeatures);
+	// Handle "Fetch hotfixes" button
+	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
 async function init(): Promise<void> {

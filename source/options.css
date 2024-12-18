@@ -67,19 +67,22 @@ details {
 	margin-bottom: 1em;
 
 	--border-radius: 6px;
-}
 
-details > div {
-	padding: 10px;
-	border-bottom-left-radius: var(--border-radius);
-	border-bottom-right-radius: var(--border-radius);
-	border: solid 2px light-dark(#f9f9f9, #272727);
-	border-top: 0;
+	border: solid 1px transparent;
+	border-radius: var(--border-radius);
 
 	/* Sync with --content-width */
 	@media (width <= 750px) {
 		border-width: 0;
 	}
+
+	&[open] {
+		border-color: light-dark(#d2d9e0, #3d444d);
+	}
+}
+
+details > div {
+	padding: 10px;
 }
 
 summary {
@@ -88,7 +91,7 @@ summary {
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	background: light-dark(#f9f9f9, #272727);
+	background: light-dark(#f6f8fa, #141415);
 	list-style: none;
 	padding: var(--summary-padding);
 
@@ -103,7 +106,7 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: light-dark(#e9e9e9, #353535);
+	background: light-dark(#e3e9ef, #0e1012);
 }
 
 [data-validation] {

@@ -52,7 +52,7 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		.replaceAll(/\W/g, '')
 		.toLowerCase();
 
-	return username === realname || username.startsWith(realname);
+	return username === realname;
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;

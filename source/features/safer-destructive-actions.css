@@ -1,27 +1,18 @@
 /* Move "close issue" and "cancel" buttons on authoring comments to the left */
 
 /* ...in issue comment form */
-#issuecomment-new #partial-new-comment-form-actions > .d-flex {
-	justify-content: space-between !important;
-}
-
+#issuecomment-new #partial-new-comment-form-actions > .d-flex,
 /* ...in comment edit form */
-div.previewable-edit .previewable-comment-form .form-actions {
-	margin-left: 10px;
+div.previewable-edit .d-flex:has(>.js-comment-cancel-button) {
+	justify-content: space-between !important;
+	width: 100%; /* https://github.com/refined-github/refined-github/issues/7711 */
+}
+
+/* ...in PR review form */
+button.js-hide-inline-comment-form,
+/* ... in PR review add comment form */
+.float-right:has(>button.js-hide-inline-comment-form) {
 	float: none !important;
-}
-
-.previewable-edit
-	.previewable-comment-form
-	.form-actions
-	.btn.js-comment-cancel-button {
-	float: left !important;
-}
-
-/* ...in inline comment form */
-div.inline-comment-form .form-actions,
-.inline-comment-form .form-actions .js-hide-inline-comment-form {
-	float: none;
 }
 
 /* ...in the merge confirmation form */

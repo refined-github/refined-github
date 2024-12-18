@@ -1,4 +1,5 @@
 /* You can have invisible/inactive links to the options page on the wiki. This feature enables them. */
+/* Use this HTML in a markdown document: <a name="options-page-link">options page</a> */
 import delegate from 'delegate-it';
 
 import features from '../feature-manager.js';

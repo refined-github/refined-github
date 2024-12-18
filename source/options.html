@@ -38,15 +38,28 @@
 				>
 				<span id="validation"></span>
 			</p>
-			<ul data-token-type="classic">
+			<ul>
 				<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
 				<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 				<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
 				<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repo/org uses projects
 			</ul>
-			<ul data-token-type="fine_grained">
-				<li data-validation data-scope="valid_token">Fine-grained token validated, but some features and organizations might not support them <a href="https://github.com/refined-github/refined-github/issues/6092#issuecomment-1732286938">More info</a></li>
-			</ul>
+		</div>
+	</details>
+
+	<details id="toggle-all" hidden>
+		<summary><strong>🏳️ Toggle all features</strong></summary>
+		<div>
+			<p>
+				If you're trying to identify a feature, please use "Identify feature" instead. Refined GitHub only implements lightweight features that are helpful to most people, even if they're tiny improvements. They're meant to "blend in" and fill in the gaps of GitHub's interface.
+			</p>
+			<p>
+				If you want to go through and only select a few improvements, you'll miss out on the best parts of Refined GitHub. Also note that new features will still be enabled by default and that some CSS-only refinements cannot be disabled.
+			</p>
+			<p>
+				<button id="disable-all-features">Disable all features</button>
+				<button id="enable-all-features">Enable all features</button>
+			</p>
 		</div>
 	</details>
 
@@ -118,16 +131,12 @@
 			<p>
 				<button id="clear-cache">Clear cache</button>
 			</p>
-			<p>Related debugging tools:</p>
+			<p>
+				<!-- Native link that looks like a button (to blend in better). Don't @ me -->
+				<button type="submit" form="welcome-page-link">Open welcome page</button>
+			</p>
 			<p>
 				<button id="toggle-all-features">Toggle all features…</button>
-			</p>
-			<p class="toggle-all-features" hidden>
-				If you're trying to identify a feature, please use "Identify feature" instead. Refined GitHub only implements lightweight features that are helpful to most people, even if they're tiny improvements. They're meant to "blend in" and fill in the gaps of GitHub's interface. If you want to go through and only select a few improvements, you'll miss out on the best parts of Refined GitHub. Also note that new features will still be enabled by default and that some CSS-only refinements cannot be disabled.
-			</p>
-			<p class="toggle-all-features" hidden>
-				<button id="disable-all-features">Disable all features</button>
-				<button id="enable-all-features">Enable all features</button>
 			</p>
 		</div>
 	</details>
@@ -138,6 +147,8 @@
 			<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo">More info.</a></p>
 			<p>This is the latest CSS fetched from the server (if any):</p>
 			<p><textarea id="hotfixes-field" rows="2" disabled></textarea></p>
+			<p><textarea id="broken-features-field" rows="2" disabled hidden></textarea></p>
+			<button type="button" id="fetch-hotfixes">Fetch hotfixes</button>
 		</div>
 	</details>
 
@@ -158,3 +169,6 @@
 	</details>
 
 </form>
+
+<!-- Native link that looks like a button (to blend in better). Don't @ me -->
+<form action="./welcome.html" method="get" target="_blank" id="welcome-page-link"></form>

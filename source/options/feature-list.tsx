@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {$} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import {$$, countElements} from 'select-dom';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
@@ -11,8 +11,11 @@ import {importedFeatures, featuresMeta} from '../feature-data.js';
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
 	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
-	const grouped = Object.groupBy(features, feature => elementExists(':checked', feature) ? 'enabled' : 'disabled');
-	for (const group of [grouped.disabled, grouped.enabled].filter(Boolean)) {
+	const grouped = Object.groupBy(features, feature => {
+		const checkbox = $('input.feature-checkbox', feature);
+		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
+	});
+	for (const group of [grouped.off, grouped.broken, grouped.on].filter(Boolean)) {
 		for (const feature of group!) {
 			container.append(feature);
 		}
@@ -91,13 +94,13 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 const offCount = new Text();
 
 function updateOffCount(): void {
-	const count = $$('.feature-checkbox:not(:checked)').length;
+	const count = countElements('.feature-checkbox:not(:checked)');
 	switch (count) {
 		case 0: {
 			offCount.nodeValue = '';
 			break;
 		}
-		case $$('.feature-checkbox').length: {
+		case countElements('.feature-checkbox'): {
 			offCount.nodeValue = '(JS off… are you breaking up with me?)';
 			break;
 		}
