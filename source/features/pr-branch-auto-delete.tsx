@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {$$optional} from 'select-dom/strict.js';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -30,7 +30,10 @@ const exceptions = [
 ];
 
 async function init(): Promise<void> {
-	const deleteButton = $optional('[action$="/cleanup"] [type="submit"]');
+	const deleteButton = $$optional([
+		'[action$="/cleanup"] [type="submit"]', // TODO: Drop in May 2025
+		'[class^="MergeBoxSectionHeader"] button',
+	]).find(button => button.textContent === 'Delete branch');
 	if (!deleteButton) {
 		return;
 	}
@@ -52,6 +55,7 @@ async function init(): Promise<void> {
 		return;
 	}
 
+	// TODO: Drop label in May 2025
 	deleteButton.dataset.disableWith = 'Auto-deleting…';
 	deleteButton.click();
 
