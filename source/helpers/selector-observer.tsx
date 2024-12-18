@@ -16,6 +16,8 @@ type Options = {
 	stopOnDomReady?: boolean;
 	once?: boolean;
 	signal?: AbortSignal;
+	/** Refer to getCallerID's documentation */
+	ancestor?: number;
 };
 
 const animation = 'rgh-selector-observer';
@@ -30,7 +32,7 @@ export default function observe<
 >(
 	selectors: Selector | readonly Selector[],
 	listener: ObserverListener<ExpectedElement>,
-	{signal, stopOnDomReady, once}: Options = {},
+	{signal, stopOnDomReady, once, ancestor}: Options = {},
 ): void {
 	if (signal?.aborted) {
 		return;
@@ -46,7 +48,7 @@ export default function observe<
 	}
 
 	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
-	const seenMark = 'rgh-seen-' + getCallerID();
+	const seenMark = 'rgh-seen-' + getCallerID(ancestor);
 
 	registerAnimation();
 
@@ -98,7 +100,7 @@ export default function observe<
 	}, {once, signal});
 }
 
-// Untested
+// Untested, likely breaks due to wrong `ancestor` level
 export async function waitForElement<
 	Selector extends string,
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
