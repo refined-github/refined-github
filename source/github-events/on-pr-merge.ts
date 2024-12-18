@@ -1,4 +1,4 @@
-import oneEvent from 'one-event';
+import {oneEvent} from 'delegate-it';
 
 import observe from '../helpers/selector-observer.js';
 
@@ -7,17 +7,18 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 	// It must start listening early or else the animation ID will be generated incorrectly (ancestor)
 	// WARNING: Be very careful about the value of ancestor if you refactor this code
 	const mergeEvent = new Promise(resolve => {
-		observe('.TimelineItem-badge .octicon-git-merge', resolve, {ancestor: 4});
+		// `emphasis` excludes merge commit icons added by `mark-merge-commits-in-list`
+		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', resolve, {ancestor: 4});
 	});
 
-	// TODO: Restore delegate-it after https://github.com/fregante/delegate-it/issues/55
-	// Possible selector + textContent filter: '[aria-label="Checks"] ~ div:has(textarea) button[data-size="medium"][data-variant="primary"]'
-	await oneEvent(document.body, 'click', {signal, filter: ({target}: Event) => {
-		const clicked = target as HTMLElement;
-		// TODO: Drop `js-merge-commit-button` in May 2025
-		return Boolean(clicked.closest('.js-merge-commit-button'))
-			|| /^Confirm .+ merge$/i.test(clicked.textContent ?? '');
-	}});
+	await oneEvent([
+		// TODO: Drop in May 2025
+		'.js-merge-commit-button',
+
+		// `:has(textarea)` excludes the first "Merge pull request" button that only opens the box
+		// TODO: Add a textContent check after https://github.com/fregante/delegate-it/issues/55
+		'[aria-label="Checks"] ~ div:has(textarea) button[data-size="medium"][data-variant="primary"]',
+	], 'click', {signal});
 
 	// It won't resolve once the signal is aborted
 	await mergeEvent;
