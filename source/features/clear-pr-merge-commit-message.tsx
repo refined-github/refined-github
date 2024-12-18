@@ -11,24 +11,34 @@ import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';
+import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
-async function clear(event: DelegateEvent<CustomEvent, HTMLTextAreaElement>): Promise<void | false> {
+// TODO: Drop in May 2025
+function handleLegacyToggle(event: DelegateEvent<CustomEvent, HTMLTextAreaElement>): void {
 	if (event.detail?.open !== true) {
 		return;
 	}
 
 	const messageField = $('textarea#merge_message_field', event.delegateTarget);
-	const originalMessage = messageField.value;
-	if (!originalMessage.trim()) {
-		return;
+	if (messageField.value.trim()) {
+		clear(messageField);
 	}
+}
 
+function clearReactTextarea(textarea: HTMLTextAreaElement): void {
+	if (textarea.labels[0]?.textContent === 'Commit message') {
+		clear(textarea);
+	}
+}
+
+async function clear(messageField: HTMLTextAreaElement): Promise<void> {
+	const originalMessage = messageField.value;
 	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
 	if (cleanedMessage === originalMessage.trim()) {
-		return false;
+		return;
 	}
 
 	// Do not use `text-field-edit` #6348
@@ -37,13 +47,17 @@ async function clear(event: DelegateEvent<CustomEvent, HTMLTextAreaElement>): Pr
 	// Trigger `fit-textareas` if enabled
 	messageField.dispatchEvent(new Event('input', {bubbles: true}));
 
-	attachElement(messageField, {
+	// TODO: Drop `?? messageField` in May 2025
+	const anchor = messageField.closest('span[class^="TextInputWrapper"]') ?? messageField;
+
+	// TODO: Drop `<hr>` in May 2025
+	attachElement(anchor ?? messageField, {
 		after: () => (
-			<div>
+			<div className="flex-self-stretch">
 				<p className="note">
 					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 				</p>
-				<hr />
+				{anchor.nodeName === 'TEXTAREA' && <hr />}
 			</div>
 		),
 	});
@@ -51,7 +65,8 @@ async function clear(event: DelegateEvent<CustomEvent, HTMLTextAreaElement>): Pr
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	delegate('.js-merge-pr', 'details:toggled', clear, {signal});
+	delegate('.js-merge-pr', 'details:toggled', handleLegacyToggle, {signal});
+	observe('[aria-label="Checks"] ~ div textarea[id]', clearReactTextarea, {signal});
 }
 
 void features.add(import.meta.url, {
