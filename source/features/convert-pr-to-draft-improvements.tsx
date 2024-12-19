@@ -14,6 +14,7 @@ function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButt
 }
 
 function addConvertToDraftButton(alternativeActions: Element): void {
+	alternativeActions.classList.add('d-inline-flex', 'gap-1');
 	const existingButton = $optional('[data-url$="/convert_to_draft"]');
 	// Needs to check the existence of both to guarantee the non-draft state
 	if (!existingButton || elementExists('[action$="/ready_for_review"]')) {
