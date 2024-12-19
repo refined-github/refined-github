@@ -85,8 +85,5 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(async () => {
-		// Delay to let options load first
-		setTimeout(validateToken, 100);
-	});
+	syncedForm?.onChange(validateToken);
 }
