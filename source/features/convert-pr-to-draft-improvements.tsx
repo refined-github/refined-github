@@ -21,6 +21,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 	}
 
 	const convertToDraft = existingButton.closest('details')!.cloneNode(true);
+	convertToDraft.classList.replace('d-inline', 'd-inline-block');
 	$('.Link--muted', convertToDraft).classList.remove('Link--muted');
 	alternativeActions.prepend(convertToDraft);
 }
