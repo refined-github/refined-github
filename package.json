@@ -109,7 +109,7 @@
 		"webext-dynamic-content-scripts": "^10.0.4",
 		"webext-msg": "^1.0.0",
 		"webext-options-sync": "^4.3.0",
-		"webext-options-sync-per-domain": "^4.2.3",
+		"webext-options-sync-per-domain": "^4.3.0",
 		"webext-permission-toggle": "^5.1.0",
 		"webext-storage": "^1.2.2",
 		"webext-storage-cache": "^6.0.3",
