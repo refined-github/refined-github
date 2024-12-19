@@ -14,7 +14,6 @@ function closeModal({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButt
 }
 
 function addConvertToDraftButton(alternativeActions: Element): void {
-	alternativeActions.classList.add('d-inline-flex', 'gap-1');
 	const existingButton = $optional('[data-url$="/convert_to_draft"]');
 	// Needs to check the existence of both to guarantee the non-draft state
 	if (!existingButton || elementExists('[action$="/ready_for_review"]')) {
@@ -22,6 +21,7 @@ function addConvertToDraftButton(alternativeActions: Element): void {
 	}
 
 	const convertToDraft = existingButton.closest('details')!.cloneNode(true);
+	convertToDraft.classList.replace('d-inline', 'd-inline-block');
 	$('.Link--muted', convertToDraft).classList.remove('Link--muted');
 	alternativeActions.prepend(convertToDraft);
 }
