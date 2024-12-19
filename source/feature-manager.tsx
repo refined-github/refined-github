@@ -26,6 +26,7 @@ import {
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {getFeatureID, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
+import {contentScriptToggle} from './options/reload-without.js';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -57,12 +58,21 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	listenToAjaxedLoad();
 
-	const [options, localHotfixes, bisectedFeatures] = await Promise.all([
+	const [options, contentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
+		contentScriptToggle.get(),
 		getLocalHotfixesAsOptions(),
 		bisectFeatures(),
 		preloadSyncLocalStrings(),
 	]);
+
+	if (!contentScripts) {
+		await contentScriptToggle.remove();
+		const message = 'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
+		console.warn(message);
+		alert(message);
+		return;
+	}
 
 	log.setup(options);
 
