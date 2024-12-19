@@ -11,6 +11,7 @@ import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
+import addReloadWithoutContentScripts from './options/reload-without.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -21,6 +22,9 @@ addPermissionToggle();
 
 // Firefox/Safari polyfill
 addOptionsContextMenu();
+
+// Add "Reload without content scripts" functionality
+addReloadWithoutContentScripts();
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
