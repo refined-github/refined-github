@@ -7,7 +7,7 @@ import {isFirefox} from 'webext-detect';
 // Always Firefox… https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 const area = isFirefox() ? 'local' : 'session';
 
-export const contentScript = new StorageItem('contentScript', {
+export const contentScriptToggle = new StorageItem('contentScript', {
 	area,
 	defaultValue: true,
 });
@@ -37,7 +37,7 @@ export default function addReloadWithoutContentScripts(): void {
 		if (tab.url && isScriptableUrl(tab.url) && await chromeP.permissions.contains({
 			origins: [tab.url],
 		})) {
-			await contentScript.set(false);
+			await contentScriptToggle.set(false);
 			chrome.tabs.reload(tab.id);
 		} else {
 			// TODO: Use https://github.com/fregante/webext-tools/issues/11 to disable the item instead
