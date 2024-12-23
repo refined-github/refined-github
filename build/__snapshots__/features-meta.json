@@ -303,6 +303,10 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128043-a10eaf9e-ff81-48db-b67c-ee823804c859.gif"
 	},
 	{
+		"id": "hide-copilot",
+		"description": "Hides Copilot from the header and search modal"
+	},
+	{
 		"id": "hide-diff-signs",
 		"description": "Hides diff signs since diffs are color coded already.",
 		"css": true,

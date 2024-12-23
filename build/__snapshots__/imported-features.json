@@ -56,6 +56,7 @@
 	"github-actions-indicators",
 	"global-conversation-list-filters",
 	"hidden-review-comments-indicator",
+	"hide-copilot",
 	"hide-diff-signs",
 	"hide-inactive-deployments",
 	"hide-issue-list-autocomplete",
