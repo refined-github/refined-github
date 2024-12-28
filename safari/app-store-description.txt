@@ -18,7 +18,7 @@ Refined GitHub is a Safari extension that simplifies the GitHub.com interface an
 - Adds possible related pages and alternatives on 404 pages.
 - Displays the age of the repository in the sidebar.
 
-And so much more! 200+ features. See the website for a full list of features.
+And so much more! 200+ features. See the Developer Website for a full list of features.
 
 
 The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.
