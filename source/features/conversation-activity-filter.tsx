@@ -161,11 +161,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
 			id="rgh-conversation-activity-filter-select-menu"
 		>
-			<summary className="height-full">
-				<EyeIcon className="color-fg-muted" />
+			<summary className="height-full color-fg-muted">
+				<EyeIcon />
 				<EyeClosedIcon className="color-fg-danger" />
 				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
-				<div className="dropdown-caret color-fg-muted ml-1" />
+				<div className="dropdown-caret ml-1" />
 			</summary>
 			<details-menu
 				className={`SelectMenu ${alignment}`}
