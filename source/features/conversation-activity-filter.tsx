@@ -164,7 +164,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			<summary className="height-full color-fg-muted">
 				<EyeIcon />
 				<EyeClosedIcon className="color-fg-danger" />
-				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label"> events</span>
+				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1">events</span>
 				<div className="dropdown-caret ml-1" />
 			</summary>
 			<details-menu
