@@ -73,7 +73,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	if (mergeabilityRow) {
 		if (isNewView) {
 			const conflictContent = mergeabilityRow.querySelector('h3')!;
-			if (!conflictContent.textContent.startsWith('No conflicts ')) {
+			if (!conflictContent.textContent.startsWith('No conflicts')) {
 				// The PR has conflicts
 				return;
 			}
