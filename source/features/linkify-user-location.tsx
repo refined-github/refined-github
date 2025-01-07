@@ -28,7 +28,8 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 function initOnce(): void {
 	observe([
 		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
-		'[aria-label="User location"] svg.octicon-location', // Hover cards
+		'.pagehead .has-location svg.octicon-location', // `isOrganizationProfile`
+		':is([aria-label="User location"], [aria-label="Organization Hovercard"]) svg.octicon-location', // Hover cards
 	], addLocation);
 }
 
