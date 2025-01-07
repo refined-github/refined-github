@@ -9,9 +9,22 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
-	// The clicked element is either the bar itself or one of its 2 children
-	if (elementClicked === headerBar || elementClicked.parentElement === headerBar) {
-		$('[aria-label="Toggle diff contents"]', headerBar)
+	if (
+		// The clicked element is either the bar itself or one of its 2 children
+		elementClicked === headerBar
+		|| elementClicked.parentElement === headerBar
+		// New Commit Details Page
+		|| elementClicked.matches([
+			'[class^="DiffFileHeader-module__diff-file-header"] > div',
+			'[class^="DiffFileHeader-module__diff-file-header"] > div > div',
+		])
+	) {
+		$([
+			'[aria-label="Toggle diff contents"]',
+			// New Commit Details Page
+			'[aria-label^="collapse file"]',
+			'[aria-label^="expand file"]',
+		], headerBar)
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
@@ -28,7 +41,11 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('.file-header', 'click', toggleFile, {signal});
+	delegate([
+		'.file-header',
+		// New Commit Details Page
+		'[class^="Diff-module__diffHeaderWrapper"]',
+	], 'click', toggleFile, {signal});
 }
 
 function initSearchPage(signal: AbortSignal): void {
