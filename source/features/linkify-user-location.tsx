@@ -42,7 +42,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/docubot
-https://github.com/
+- isUserProfile: https://github.com/docubot
+- isOrganizationProfile: https://github.com/github
+- Hover cards: https://github.com/
 
 */
