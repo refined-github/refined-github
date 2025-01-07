@@ -68,10 +68,10 @@ async function addButton(mergeBar: Element): Promise<void> {
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
 
-	const isNewView = mergeBar.className.startsWith('MergeBox-module');
+	const isOldView = mergeBar.classList.contains('merge-message');
 
 	if (mergeabilityRow) {
-		if (isNewView) {
+		if (!isOldView) {
 			const conflictContent = mergeabilityRow.querySelector('h3')!;
 			if (!conflictContent.textContent.startsWith('No conflicts')) {
 				// The PR has conflicts
@@ -79,9 +79,9 @@ async function addButton(mergeBar: Element): Promise<void> {
 			}
 		}
 
-		const positionClass = isNewView
-			? 'flex-order-2 flex-self-center'
-			: 'float-right';
+		const positionClass = isOldView
+			? 'float-right'
+			: 'flex-order-2 flex-self-center';
 
 		// The PR is not a draft
 		mergeabilityRow.prepend(
@@ -94,7 +94,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	if (isNewView) {
+	if (!isOldView) {
 		return;
 	}
 
@@ -115,6 +115,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe([
 		'.mergeability-details > *:last-child',
+		// TODO: Drop after June 2025
 		'[class^="MergeBox-module__mergePartialContainer"]',
 	], addButton, {signal});
 }
