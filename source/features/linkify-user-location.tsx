@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- isUserProfile: https://github.com/docubot
+- isUserProfile: https://github.com/mysticatea
 - isOrganizationProfile: https://github.com/github
 - Hover cards: https://github.com/
 
