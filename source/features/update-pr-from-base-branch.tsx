@@ -44,7 +44,7 @@ function createButton(): JSX.Element {
 	return (
 		<button
 			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw z-10"
+			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w"
 			aria-label="Use Refined GitHub to update the PR from the base branch"
 		>
 			Update branch
