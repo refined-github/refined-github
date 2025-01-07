@@ -13,7 +13,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 		// The clicked element is either the bar itself or one of its 2 children
 		elementClicked === headerBar
 		|| elementClicked.parentElement === headerBar
-		// New Commit Details Page
+		// React
 		|| elementClicked.matches([
 			'[class^="DiffFileHeader-module__diff-file-header"] > div',
 			'[class^="DiffFileHeader-module__diff-file-header"] > div > div',
@@ -21,7 +21,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	) {
 		$([
 			'[aria-label="Toggle diff contents"]',
-			// New Commit Details Page
+			// React
 			'[aria-label^="collapse file"]',
 			'[aria-label^="expand file"]',
 		], headerBar)
@@ -43,7 +43,7 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 function init(signal: AbortSignal): void {
 	delegate([
 		'.file-header',
-		// New Commit Details Page
+		// React
 		'[class^="Diff-module__diffHeaderWrapper"]',
 	], 'click', toggleFile, {signal});
 }
