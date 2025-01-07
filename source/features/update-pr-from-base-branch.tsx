@@ -44,7 +44,7 @@ function createButton(): JSX.Element {
 	return (
 		<button
 			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw"
+			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw z-10"
 			aria-label="Use Refined GitHub to update the PR from the base branch"
 		>
 			Update branch
@@ -63,17 +63,38 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = $optional('.branch-action-item:has(.merging-body)');
+	const mergeabilityRow = $optional([
+		'.branch-action-item:has(.merging-body)',
+		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
+	]);
+
+	const isNewView = mergeBar.className.startsWith('MergeBox-module');
+
 	if (mergeabilityRow) {
+		if (isNewView) {
+			const conflictContent = mergeabilityRow.querySelector('h3')!;
+			if (!conflictContent.textContent.startsWith('No conflicts ')) {
+				// The PR has conflicts
+				return;
+			}
+		}
+
+		const positionClass = isNewView
+			? 'flex-order-2 flex-self-center'
+			: 'float-right';
+
 		// The PR is not a draft
 		mergeabilityRow.prepend(
-
 			<div
-				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
+				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
 			>
 				{createButton()}
 			</div>,
 		);
+		return;
+	}
+
+	if (isNewView) {
 		return;
 	}
 
@@ -92,7 +113,10 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe('.mergeability-details > *:last-child', addButton, {signal});
+	observe([
+		'.mergeability-details > *:last-child',
+		'[class^="MergeBox-module__mergePartialContainer"]',
+	], addButton, {signal});
 }
 
 void features.add(import.meta.url, {
