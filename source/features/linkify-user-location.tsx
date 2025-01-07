@@ -29,7 +29,8 @@ function initOnce(): void {
 	observe([
 		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
 		'.pagehead .has-location svg.octicon-location', // `isOrganizationProfile`
-		':is([aria-label="User location"], [aria-label="Organization Hovercard"]) svg.octicon-location', // Hover cards
+		'[aria-label="User location"] svg.octicon-location', // User hover cards
+		'[aria-label="Organization Hovercard"] svg.octicon-location', // Organization hover cards
 	], addLocation);
 }
 
