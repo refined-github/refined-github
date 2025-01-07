@@ -107,4 +107,10 @@ Test URLs:
 - mannequins: https://togithub.com/python/cpython/issues/67591
 - newsfeed: https://github.com
 
+Special cases:
+
+- RTL: https://github.com/refined-github/refined-github/issues/8191
+- Bidi override case 1: https://togithub.com/FortAwesome/Font-Awesome/issues/2465
+- Bidi override case 2: https://togithub.com/w3c/webdriver/issues/385#issuecomment-598407238
+
 */
