@@ -25,7 +25,7 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 	const nameElement = (
 		<span className="color-fg-muted css-truncate d-inline-block ml-1">
-			{/* .css-truncate-target sets display: inline-block and can confine bidi overrides */}
+			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
 			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
 	);
