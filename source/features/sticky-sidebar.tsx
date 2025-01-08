@@ -14,7 +14,7 @@ const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
-	'#discussion_bucket #partial-discussion-sidebar',
+	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
 ];
 
 let sidebar: HTMLElement | undefined;
