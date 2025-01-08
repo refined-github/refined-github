@@ -147,8 +147,7 @@ function addEventListeners(): void {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
 		}
 
-		// Delay to let options load first
-		setTimeout(updateListDom, 100);
+		updateListDom();
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
