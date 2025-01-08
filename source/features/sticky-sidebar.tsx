@@ -14,6 +14,7 @@ const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
+	'#discussion_bucket #partial-discussion-sidebar',
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -39,7 +40,11 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
-	sidebar.parentElement?.classList.add('rgh-sticky-sidebar-container');
+	if (sidebar.parentElement?.id === 'discussion_bucket') {
+		sidebar.classList.add('rgh-sticky-sidebar-container');
+	} else {
+		sidebar.parentElement?.classList.add('rgh-sticky-sidebar-container');
+	}
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
@@ -73,6 +78,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation,
+		pageDetect.isDiscussion,
 	],
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
