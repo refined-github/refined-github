@@ -102,6 +102,33 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	white-space: wrap;
 }
 
+/* Fix notification layout */
+/* Info: https://github.com/refined-github/refined-github/pull/8208 */
+/* Test: https://github.com/notifications */
+body.notifications-v2
+	.js-check-all-container
+	.gap-3:has(.gap-4.pl-3 > div > .js-socket-channel.js-updatable-content) {
+	gap: 0 !important; /* Turns .gap-3 off */
+}
+
+body.notifications-v2
+	.js-check-all-container
+	.gap-4.pl-3:has(div > .js-socket-channel.js-updatable-content) {
+	padding-left: 0 !important; /* Moves .pl-3 to child element that toggles visibility */
+}
+
+body.notifications-v2
+	.js-check-all-container
+	.gap-4.pl-3
+	> div
+	> .js-socket-channel.js-updatable-content
+	> a.h6 {
+	padding-left: var(
+		--base-size-24,
+		24px
+	) !important; /* Turns .pl-3 into .pl-4 */
+}
+
 /*
 
 Test URLs:
