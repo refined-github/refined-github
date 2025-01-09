@@ -45,7 +45,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 	z-index: 1;
 }
 
-#discussion_bucket #partial-discussion-sidebar {
+#discussion_bucket #partial-discussion-sidebar.rgh-sticky-sidebar-container {
 	height: min-content;
 }
 

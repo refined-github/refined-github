@@ -40,11 +40,8 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
-	if (sidebar.parentElement?.id === 'discussion_bucket') {
-		sidebar.classList.add('rgh-sticky-sidebar-container');
-	} else {
-		sidebar.parentElement?.classList.add('rgh-sticky-sidebar-container');
-	}
+	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
+	container.classList.add('rgh-sticky-sidebar-container');
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
