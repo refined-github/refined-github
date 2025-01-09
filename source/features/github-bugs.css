@@ -105,16 +105,16 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 /* Fix notification layout */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
-.gap-3:has([action="/notifications/beta/update_view_preference"]) {
+.gap-3:has([action='/notifications/beta/update_view_preference']) {
 	gap: 0 !important; /* Turns .gap-3 off */
 }
 
-:has([action="/notifications/beta/update_view_preference"])
+:has([action='/notifications/beta/update_view_preference'])
 	.gap-4.pl-3:has(div > .js-socket-channel.js-updatable-content) {
 	padding-left: 0 !important; /* Moves .pl-3 to child element that toggles visibility */
 }
 
-:has([action="/notifications/beta/update_view_preference"])
+:has([action='/notifications/beta/update_view_preference'])
 	.gap-4.pl-3
 	> div
 	> .js-socket-channel.js-updatable-content
