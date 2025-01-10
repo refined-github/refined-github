@@ -106,8 +106,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe([
-		'.mergeability-details > *:last-child',
-		// TODO: Drop after June 2025
+		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
 		'[class^="MergeBox-module__mergePartialContainer"]',
 	], addButton, {signal});
 }
