@@ -28,7 +28,9 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 function initOnce(): void {
 	observe([
 		'[itemprop="homeLocation"] svg.octicon-location', // `isUserProfile`
-		'[aria-label="User location"] svg.octicon-location', // Hover cards
+		'.pagehead .has-location svg.octicon-location', // `isOrganizationProfile`
+		'[aria-label="User location"] svg.octicon-location', // User hover cards
+		'[aria-label="Organization Hovercard"] svg.octicon-location', // Organization hover cards
 	], addLocation);
 }
 
@@ -41,7 +43,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/docubot
-https://github.com/
+- isUserProfile: https://github.com/mysticatea
+- isOrganizationProfile: https://github.com/github
+- Hover cards: https://github.com/
 
 */
