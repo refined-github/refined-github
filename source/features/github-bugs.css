@@ -102,7 +102,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	white-space: wrap;
 }
 
-/* Fix notification layout */
+/* Notifications "Group by" button unnecessary space */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
 /* Matches .d-md-block */
@@ -110,9 +110,9 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	/* Pulls the alert container to the right when empty */
 	.gap-4.pl-3:not(:has(a.h6)):has(
 			> .d-md-block
-				> [data-url^='/notifications/beta/recent_notifications_alert']
+				> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
 		) {
-		/* Use size from both .gap-3 and .ml-3 */
+		/* Substract 16px spacing from both .gap-3 and .ml-3 */
 		margin-right: -32px;
 	}
 }
