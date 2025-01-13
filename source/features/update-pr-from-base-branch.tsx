@@ -44,7 +44,7 @@ function createButton(): JSX.Element {
 	return (
 		<button
 			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-sw"
+			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w"
 			aria-label="Use Refined GitHub to update the PR from the base branch"
 		>
 			Update branch
@@ -63,13 +63,22 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = $optional('.branch-action-item:has(.merging-body)');
+	const mergeabilityRow = $optional([
+		'.branch-action-item:has(.merging-body)',
+		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
+	]);
+
+	const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
+
 	if (mergeabilityRow) {
+		const positionClass = isOldView
+			? 'float-right'
+			: 'flex-order-2 flex-self-center';
+
 		// The PR is not a draft
 		mergeabilityRow.prepend(
-
 			<div
-				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
+				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
 			>
 				{createButton()}
 			</div>,
@@ -77,22 +86,29 @@ async function addButton(mergeBar: Element): Promise<void> {
 		return;
 	}
 
-	// The PR is still a draft
-	mergeBar.before(createMergeabilityRow({
-		className: 'rgh-update-pr-from-base-branch-row',
-		action: createButton(),
-		icon: <CheckIcon />,
-		iconClass: 'completeness-indicator-success',
-		heading: 'This branch has no conflicts with the base branch',
-		meta: 'Merging can be performed automatically.',
-	}));
+	// Old view need add a row to display the button
+	// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
+	if (isOldView) {
+		// The PR is still a draft
+		mergeBar.before(createMergeabilityRow({
+			className: 'rgh-update-pr-from-base-branch-row',
+			action: createButton(),
+			icon: <CheckIcon />,
+			iconClass: 'completeness-indicator-success',
+			heading: 'This branch has no conflicts with the base branch',
+			meta: 'Merging can be performed automatically.',
+		}));
+	}
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe('.mergeability-details > *:last-child', addButton, {signal});
+	observe([
+		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
+		'[class^="MergeBox-module__mergePartialContainer"]',
+	], addButton, {signal});
 }
 
 void features.add(import.meta.url, {
