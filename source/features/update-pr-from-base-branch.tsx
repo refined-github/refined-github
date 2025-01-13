@@ -68,7 +68,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
 
-	const isOldView = mergeBar.classList.contains('merge-message');
+	const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
 
 	if (mergeabilityRow) {
 		const positionClass = isOldView
