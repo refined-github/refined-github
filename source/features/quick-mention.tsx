@@ -22,7 +22,7 @@ function prefixUserMention(userMention: string): string {
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = $(fieldSelector);
+	const newComment = $(['textarea#new_comment_field', '[data-testid="markdown-editor-comment-composer"] textarea']);
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -43,41 +43,54 @@ function add(avatar: HTMLElement): void {
 		avatar.style.border = 'solid 5px black';
 	}
 
-	const timelineItem = avatar.closest([
+	let timelineItem = avatar.closest([
 		// Regular comments
 		'.js-comment-container',
 
 		// Reviews
 		'.js-comment',
 	])!;
-	if (debug) {
-		timelineItem.style.border = 'solid 5px red';
-	}
 
-	if (
-		// TODO: Rewrite with :has()
-		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-	) {
-		return;
+	if (timelineItem) {
+		// Old view
+		if (debug) {
+			timelineItem.style.border = 'solid 5px red';
+		}
+
+		if (
+			// TODO: Rewrite with :has()
+			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+		)
+			return;
+	} else {
+		timelineItem = avatar.parentElement!.querySelector('[data-testid="comment-header"] + div')!;
+
+		if (!timelineItem) {
+			return;
+		}
 	}
 
 	if (debug) {
 		timelineItem.style.border = 'solid 5px green';
 	}
 
-	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-	if (avatar.classList.contains('TimelineItem-avatar')) {
+	const isOldView = !avatar.hasAttribute('data-testid');
+
+	if (isOldView) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
-	const userMention = $('img', avatar).alt;
+	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
+	wrap(avatar, <div className={['avatar-parent-child d-none d-md-block', isOldView ? 'TimelineItem-avatar' : ''].join(' ')} />);
+
+	const userMention = isOldView ? $('img', avatar).alt : avatar.getAttribute('alt');
+
 	avatar.after(
 		<button
 			type="button"
-			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
+			aria-label={`Mention ${prefixUserMention(userMention!)} in a new comment`}
 		>
 			<ReplyIcon />
 		</button>,
@@ -96,13 +109,13 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
-	observe(`
+	observe([`
 		.js-quote-selection-container:has(${fieldSelector})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`, add, {signal});
+	`,	`[class^="LayoutHelpers-module__timelineElement"] > img[data-component="Avatar"]:not([alt="${getUsername()!}"])`], add, {signal});
 }
 
 void features.add(import.meta.url, {
