@@ -92,7 +92,8 @@ test('isUsernameAlreadyFullName', () => {
 	assert.isTrue(isUsernameAlreadyFullName('john-doe-jr', 'John Doe Jr.'));
 	assert.isTrue(isUsernameAlreadyFullName('nicolo', 'Nicolò'));
 	assert.isFalse(isUsernameAlreadyFullName('dotconnor', 'Connor Love'));
-	assert.isFalse(isUsernameAlreadyFullName('fregante ', 'Federico Brigante'));
+	assert.isFalse(isUsernameAlreadyFullName('fregante', 'Federico Brigante'));
+	assert.isFalse(isUsernameAlreadyFullName('chipwolf', 'Chip Wolf ‮ '));
 });
 
 test('getLatestVersionTag', () => {
