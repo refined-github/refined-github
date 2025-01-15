@@ -1,5 +1,3 @@
-import './show-names.css';
-
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
@@ -27,7 +25,8 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 	const nameElement = (
 		<span className="color-fg-muted css-truncate d-inline-block ml-1">
-			(<bdo className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</bdo>)
+			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
+			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
 	);
 
@@ -105,5 +104,11 @@ Test URLs:
 - PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
 - newsfeed: https://github.com
+
+Special cases:
+
+- RTL: https://github.com/refined-github/refined-github/issues/8191
+- Bidi override case 1: https://togithub.com/FortAwesome/Font-Awesome/issues/2465
+- Bidi override case 2: https://togithub.com/w3c/webdriver/issues/385#issuecomment-598407238
 
 */

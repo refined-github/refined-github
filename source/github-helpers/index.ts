@@ -49,7 +49,10 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		.toLowerCase();
 	realname = realname
 		.normalize('NFD')
-		.replaceAll(/\W/g, '')
+		// Remove diacritics, punctuation and spaces
+		// https://stackoverflow.com/a/37511463/288906
+		// https://www.freecodecamp.org/news/what-is-punct-in-regex-how-to-match-all-punctuation-marks-in-regular-expressions/
+		.replaceAll(/[\p{Diacritic}\p{P}\s]/gu, '')
 		.toLowerCase();
 
 	return username === realname;
