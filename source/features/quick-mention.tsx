@@ -16,7 +16,7 @@ import observe from '../helpers/selector-observer.js';
 const fieldSelector = [
 	'textarea#new_comment_field',
 	'#react-issue-comment-composer textarea',
-];
+] as const;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -25,7 +25,7 @@ function prefixUserMention(userMention: string): string {
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
-	const newComment = $(fieldSelector) as HTMLTextAreaElement;
+	const newComment = $(fieldSelector);
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
