@@ -65,8 +65,6 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 
 		for (const element of elements) {
 			if (isUsernameAlreadyFullName(username, fullName)) {
-				// Confine bidi overrides #8191
-				element.classList.add('d-inline-block');
 				element.textContent = fullName;
 			} else {
 				appendName(element, fullName);
