@@ -98,6 +98,7 @@
 				class="will-show"
 				onclick={showThirdStep}
 			>
+				<!-- Keep this URL in sync with options.html -->
 				<a
 					href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none"
 					onclick={markSecondStep}
