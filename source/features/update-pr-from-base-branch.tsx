@@ -64,7 +64,7 @@ async function addButton(mergeBar: Element): Promise<void> {
 	}
 
 	const mergeabilityRow = $optional([
-		'.branch-action-item:has(.merging-body)',
+		'.branch-action-item:has(.merging-body)', // Old view - TODO: Drop after June 2025
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
 
