@@ -54,14 +54,14 @@ function add(avatar: HTMLElement): void {
 		'.js-comment',
 	])!;
 
-	if (timelineItem) {
-		// Old view
+	const isOldView = Boolean(timelineItem);
+
+	if (isOldView) {
 		if (debug) {
 			timelineItem.style.border = 'solid 5px red';
 		}
 
 		if (
-			// TODO: Rewrite with :has()
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
 			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
 		)
@@ -78,8 +78,6 @@ function add(avatar: HTMLElement): void {
 	if (debug) {
 		timelineItem.style.border = 'solid 5px green';
 	}
-
-	const isOldView = !avatar.hasAttribute('data-testid');
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
