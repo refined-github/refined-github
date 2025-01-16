@@ -59,23 +59,28 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
-	if (!prInfo.needsUpdate || !(prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles) || prInfo.mergeable === 'CONFLICTING') {
+	if (
+		!prInfo.needsUpdate
+		|| prInfo.mergeable === 'CONFLICTING'
+		|| !(
+			prInfo.viewerCanUpdate
+			|| prInfo.viewerCanEditFiles
+		)
+	) {
 		return;
 	}
 
 	const mergeabilityRow = $optional([
-		'.branch-action-item:has(.merging-body)', // Old view - TODO: Drop after June 2025
+		'.branch-action-item:has(.merging-body)', // TODO: Drop after June 2025
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
 
-	const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
-
 	if (mergeabilityRow) {
+		const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
 		const positionClass = isOldView
 			? 'float-right'
 			: 'flex-order-2 flex-self-center';
 
-		// The PR is not a draft
 		mergeabilityRow.prepend(
 			<div
 				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
@@ -83,13 +88,9 @@ async function addButton(mergeBar: Element): Promise<void> {
 				{createButton()}
 			</div>,
 		);
-		return;
-	}
-
-	// Old view need add a row to display the button
-	// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
-	if (isOldView) {
-		// The PR is still a draft
+	} else {
+		// Old view draft PRs require a new row to display the button
+		// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
 		mergeBar.before(createMergeabilityRow({
 			className: 'rgh-update-pr-from-base-branch-row',
 			action: createButton(),
