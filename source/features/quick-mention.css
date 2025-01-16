@@ -1,6 +1,6 @@
 /* Show button when the avatar or the button itself are hovered/focused */
 :not(:hover, :focus) + .rgh-quick-mention:not(:hover, :focus) {
-	opacity: 10%;
+	opacity: 20%;
 }
 
 .rgh-quick-mention {
@@ -15,7 +15,8 @@
 }
 
 .rgh-quick-mention.react-view {
-	top: 58px;
+	position: static !important;
+	translate: none;
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
