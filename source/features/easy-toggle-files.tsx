@@ -14,6 +14,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 		elementClicked === headerBar
 		|| elementClicked.parentElement === headerBar
 		// React
+		// TODO: Replace with `|| !elementClicked.closest('a, button')` if it works
 		|| elementClicked.matches([
 			'[class^="DiffFileHeader-module__diff-file-header"] > div',
 			'[class^="DiffFileHeader-module__diff-file-header"] > div > div',
