@@ -13,7 +13,10 @@ import features from '../feature-manager.js';
 import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-const fieldSelector = 'textarea#new_comment_field';
+const fieldSelector = [
+	'textarea#new_comment_field',
+	'#react-issue-comment-composer textarea',
+] as const;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -50,16 +53,26 @@ function add(avatar: HTMLElement): void {
 		// Reviews
 		'.js-comment',
 	])!;
-	if (debug) {
-		timelineItem.style.border = 'solid 5px red';
-	}
 
-	if (
-		// TODO: Rewrite with :has()
-		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-	) {
-		return;
+	const isOldView = Boolean(timelineItem);
+
+	if (isOldView) {
+		if (debug) {
+			timelineItem.style.border = 'solid 5px red';
+		}
+
+		if (
+			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+		)
+			return;
+	} else {
+		// Make sure the comment isn't hidden
+		const contentItem = avatar.parentElement!.querySelector('[data-testid="comment-header"] + div')!;
+
+		if (!contentItem) {
+			return;
+		}
 	}
 
 	if (debug) {
@@ -72,12 +85,17 @@ function add(avatar: HTMLElement): void {
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
-	const userMention = $('img', avatar).alt;
+	if (!isOldView) {
+		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
+	}
+
+	const userMention = isOldView ? $('img', avatar).alt : avatar.getAttribute('alt');
+
 	avatar.after(
 		<button
 			type="button"
-			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
+			aria-label={`Mention ${prefixUserMention(userMention!)} in a new comment`}
 		>
 			<ReplyIcon />
 		</button>,
@@ -96,13 +114,17 @@ async function init(signal: AbortSignal): Promise<void> {
 	// Avatars next to review events aren't wrapped in a <div> #4844
 	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
 	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
-	observe(`
-		.js-quote-selection-container:has(${fieldSelector})
+	observe([
+		// TODO: Drop after June 2025
+		`
+		.js-quote-selection-container:has(${fieldSelector[0]})
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`, add, {signal});
+	`,
+		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] > img[data-component="Avatar"]:not([alt="${getUsername()!}"])`,
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
