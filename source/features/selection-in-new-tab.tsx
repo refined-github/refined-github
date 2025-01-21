@@ -6,7 +6,11 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function openInNewTab(): void {
-	const selected = $optional('.navigation-focus a.js-navigation-open[href]');
+	const selected = $optional([
+		'.navigation-focus a.js-navigation-open[href]', // Old view - TODO: Drop after June 2025
+		'[data-focus-visible-added] .markdown-title a',
+	]);
+
 	if (!selected) {
 		return;
 	}
