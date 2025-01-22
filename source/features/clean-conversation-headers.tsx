@@ -35,11 +35,11 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
-		&& !byline.closest('.gh-header-sticky') // #7802
-		&& $([
-			'.author',
-			'a[data-hovercard-url]',
-		], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
+			&& !byline.closest('.gh-header-sticky') // #7802
+			&& $([
+				'.author',
+				'a[data-hovercard-url]',
+			], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-hide-author');
@@ -66,7 +66,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	// Shows on PRs: main [←] feature
 	const anchor
 		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
-		?? base.nextSibling?.nextSibling;
+			?? base.nextSibling?.nextSibling;
 	assertNodeContent(anchor, 'from');
 	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
 }

@@ -146,11 +146,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	await delay(100); // Let `clean-conversation-headers` run first
 	const availableSpaceToTheLeftOfTheDropdown
 		= position.lastElementChild!.getBoundingClientRect().right
-		- position.parentElement!.getBoundingClientRect().left;
+			- position.parentElement!.getBoundingClientRect().left;
 
 	const alignment
 		= availableSpaceToTheLeftOfTheDropdown === 0
-		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
+			|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
 			? 'right-0'
 			: 'left-0';
 

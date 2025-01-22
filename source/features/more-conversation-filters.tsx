@@ -28,7 +28,7 @@ function init(): void {
 	const subscriptionsUrl = new URL('https://github.com/notifications/subscriptions');
 	const repositoryId
 		= $optional('meta[name="octolytics-dimension-repository_id"]')?.content
-		?? $('input[name="repository_id"]').value;
+			?? $('input[name="repository_id"]').value;
 	subscriptionsUrl.searchParams.set('repository', stringToBase64(`010:Repository${repositoryId}`));
 	subscriptionsLink.href = subscriptionsUrl.href;
 
