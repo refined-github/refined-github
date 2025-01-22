@@ -3,8 +3,8 @@
 <!-- prettier-ignore -->
 <script lang="ts">
 	import {onMount} from 'svelte';
+	import 'webext-bugs/target-blank';
 
-	import './helpers/target-blank-polyfill.js';
 	import optionsStorage from './options-storage.js';
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 

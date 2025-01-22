@@ -1,6 +1,6 @@
 import 'webext-dynamic-content-scripts';
+import 'webext-bugs/options-menu-item';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
-import {addOptionsContextMenu} from 'webext-tools';
 import addPermissionToggle from 'webext-permission-toggle';
 import webextAlert from 'webext-alert';
 import {StorageItem} from 'webext-storage';
@@ -19,9 +19,6 @@ const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
 // GHE support
 addPermissionToggle();
-
-// Firefox/Safari polyfill
-addOptionsContextMenu();
 
 // Add "Reload without content scripts" functionality
 addReloadWithoutContentScripts();
