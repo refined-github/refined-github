@@ -23,6 +23,7 @@ const collaborators = new CachedFunction('repo-collaborators', {
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
 	observe([
+		// Old issue lists - TODO: Drop after June 2025
 		'.js-issue-row [data-hovercard-type="user"]',
 		'a[class^="issue-item-module__authorCreatedLink"]',
 	], author => {

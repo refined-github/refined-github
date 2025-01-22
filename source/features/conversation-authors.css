@@ -11,6 +11,6 @@
 }
 
 /* Fix border partially visible in new view #8025 */
-[data-testid='list-view-item-description'] {
+[data-testid="list-row-repo-name-and-number"] {
 	margin-top: 1.5px;
 }
