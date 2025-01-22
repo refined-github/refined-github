@@ -9,6 +9,9 @@
 .TimelineItem-body :is(del, ins).markdown-title {
 	flex-basis: 100%;
 	order: 99;
+
+	/* TODO: Drop when adding support for the new issue view */
+	/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
 	word-break: break-word !important;
 }
 
