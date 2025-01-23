@@ -104,7 +104,7 @@
 		"uint8array-extras": "^1.4.0",
 		"webext-alert": "^1.0.3",
 		"webext-base-css": "^2.1.0",
-		"webext-bugs": "^1.0.1",
+		"webext-bugs": "^1.1.1",
 		"webext-detect": "^5.3.1",
 		"webext-dynamic-content-scripts": "^10.0.4",
 		"webext-msg": "^1.0.0",

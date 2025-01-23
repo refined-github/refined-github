@@ -1,8 +1,8 @@
 import 'webext-dynamic-content-scripts';
 import 'webext-bugs/options-menu-item';
+import {customizeNoAllUrlsErrorMessage} from 'webext-bugs/no-all-urls';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 import addPermissionToggle from 'webext-permission-toggle';
-import webextAlert from 'webext-alert';
 import {StorageItem} from 'webext-storage';
 import {handleMessages} from 'webext-msg';
 
@@ -22,6 +22,9 @@ addPermissionToggle();
 
 // Add "Reload without content scripts" functionality
 addReloadWithoutContentScripts();
+
+// Extend the error message for the "No All URLs" bugfix
+customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
@@ -97,26 +100,6 @@ chrome.runtime.onInstalled.addListener(async () => {
 		await globalCache.clear();
 	}
 
-	if (await chrome.permissions.contains({origins: ['*://*/*']})) {
-		console.warn('Refined GitHub was granted access to all websites by the user and it’s now been removed. https://github.com/refined-github/refined-github/pull/7407');
-		await chrome.permissions.remove({
-			origins: [
-				'*://*/*',
-			],
-		});
-	}
-
 	// Call after the reset above just in case we nuked Safari's base permissions
 	await showWelcomePage();
-});
-
-chrome.permissions.onAdded.addListener(async permissions => {
-	if (permissions.origins?.includes('*://*/*')) {
-		await chrome.permissions.remove({
-			origins: [
-				'*://*/*',
-			],
-		});
-		await webextAlert('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
-	}
 });
