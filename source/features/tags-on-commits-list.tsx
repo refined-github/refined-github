@@ -115,7 +115,10 @@ async function init(): Promise<void | false> {
 			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = $('div[data-testid="list-view-item-description"]', commit);
+			const commitMeta = $([
+				'div[data-testid="list-view-item-description"]',
+				'[class^="Description-module__container"] > [class^="Box-sc"]',
+			], commit);
 
 			commitMeta.append(
 				<span className="d-flex flex-items-center gap-1">
