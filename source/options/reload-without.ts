@@ -31,7 +31,7 @@ export default function addReloadWithoutContentScripts(): void {
 	void createContextMenu({
 		id: 'reload-without-content-scripts',
 		title: 'Reload without Refined GitHub',
-		contexts: 'action',
+		contexts: ['action'],
 		onclick: reload,
 	});
 }
