@@ -7,8 +7,8 @@ import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
+import 'webext-bugs/target-blank';
 
-import './helpers/target-blank-polyfill.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';

@@ -1,15 +1,6 @@
 import {$, $optional} from 'select-dom/strict.js';
-import {setFetch} from 'push-form';
 // Nodes may be exactly `null`
 import type {Nullable} from 'vitest';
-
-// `content.fetch` is Firefox’s way to make fetches from the page instead of from a different context
-// This will set the correct `origin` header without having to use XMLHttpRequest
-// https://stackoverflow.com/questions/47356375/firefox-fetch-api-how-to-omit-the-origin-header-in-the-request
-// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#XHR_and_Fetch
-if (globalThis.content?.fetch) {
-	setFetch(globalThis.content.fetch);
-}
 
 /**
  * Append to an element, but before a element that might not exist.
