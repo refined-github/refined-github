@@ -149,8 +149,8 @@ export const commitHashLinkInLists_ = [
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = [
-	'[data-testid="list-view-item-title-container"]', // `isCommitList`
-	'.js-commits-list-item .Details p.mb-1', // `isPRCommitList`,
+	'[data-testid="commit-row-item"] [class^="Title-module"]', // `isCommitList`
+	'.js-commits-list-item .Details p.mb-1', // TODO: Remove in May 2025, pre-React
 ];
 export const commitTitleInLists_ = [
 	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
