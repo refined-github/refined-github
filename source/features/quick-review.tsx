@@ -71,7 +71,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 		<button
 			type="button"
 			className="btn-link Link--muted Link--inTextBlock rgh-quick-approve tooltipped tooltipped-nw"
-			aria-label="Hold alt to approve without confirmation"
+			aria-label="Hold alt/option to approve without confirmation"
 		>
 			approve now
 		</button>,
