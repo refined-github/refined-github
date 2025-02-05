@@ -22,6 +22,12 @@
 	color: var(--rgh-red) !important;
 }
 
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='required'] {
+	color: var(--rgh-yellow) !important;
+}
+
 /* Disable now-duplicate tooltip */
 .js-issue-row
 	.color-fg-muted
