@@ -1,6 +1,7 @@
 :root {
 	--rgh-green: var(--fgColor-success, var(--color-success-fg, #1a7f37));
 	--rgh-red: var(--fgColor-danger, var(--color-danger-fg, #cf222e));
+	--rgh-yellow: var(--fgColor-attention, #c69026);
 	--rgh-border-color: var(
 		--borderColor-muted,
 		var(--color-border-muted, #d8dee4)
