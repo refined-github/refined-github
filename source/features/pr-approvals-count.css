@@ -1,3 +1,5 @@
+/* TODO: Drop coloring in July 2025. New PR view renders this defunct and redundant. */
+
 /* Show approvals count in PR list */
 .js-issue-row
 	.color-fg-muted
