@@ -22,6 +22,7 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.closest([
 			'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
 			'.review-comment', // PR review comments
+			'.react-issue-body', // First issue comment
 			'.react-issue-comment', // Issue comments
 			'[data-testid="comment-header"]', // Commit comments
 		])!

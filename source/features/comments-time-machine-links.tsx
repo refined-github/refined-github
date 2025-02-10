@@ -129,6 +129,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'div.react-issue-comment',
+		'div.react-issue-body',
 		'[data-testid="review-thread"] > div',
 	], comment => {
 		const timestamp = $('relative-time', comment).attributes.datetime.value;
