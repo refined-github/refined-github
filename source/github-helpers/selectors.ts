@@ -10,7 +10,7 @@ export const repoUnderlineNavUl_ = [
 ] satisfies UrlMatch[];
 
 export const standaloneGistLinkInMarkdown = css`
-	:is(.js-comment-body, .react-issue-comment) p a:only-child:is(
+	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],
 		[href^="${location.origin}/gist/"]
 	)
