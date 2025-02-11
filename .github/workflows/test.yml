@@ -57,16 +57,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: codespell-project/actions-codespell@v2
-        with:
-          ignore_words_list: eror,usera
-          skip: '*.json'
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - uses: codespell-project/actions-codespell@v2
+        with:
+          ignore_words_list: eror,usera
+          skip: '*.json'
 
   Types:
     runs-on: ubuntu-latest
