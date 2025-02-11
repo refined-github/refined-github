@@ -112,7 +112,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 			> .d-md-block
 				> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
 		) {
-		/* Substract 16px spacing from both .gap-3 and .ml-3 */
+		/* Subtract 16px spacing from both .gap-3 and .ml-3 */
 		margin-right: -32px;
 	}
 }
