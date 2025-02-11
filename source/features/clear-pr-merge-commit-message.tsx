@@ -28,7 +28,9 @@ function handleLegacyToggle(event: DelegateEvent<CustomEvent, HTMLTextAreaElemen
 }
 
 function clearReactTextarea(textarea: HTMLTextAreaElement): void {
-	if (textarea.labels[0]?.textContent === 'Commit message') {
+	console.log(textarea.labels[0]?.textContent);
+
+	if (textarea.labels[0]?.textContent === 'Extended description') {
 		clear(textarea);
 	}
 }
