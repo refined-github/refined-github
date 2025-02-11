@@ -8,7 +8,7 @@ import batchedFunction from 'batched-function';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
-import {openPrsListLink} from '../github-helpers/selectors.js';
+import {openPrsListLink, openPrsListInIssuesLink} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
@@ -53,6 +53,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe(openPrsListLink, batchedFunction(addIcon, {delay: 100}), {signal});
+	observe(openPrsListInIssuesLink, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {

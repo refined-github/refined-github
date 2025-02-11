@@ -77,6 +77,14 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
+// `cRyBKI` represents an open PR and `.knLhXt` a Draft PR
+export const openPrsListInIssuesLink = css`
+.PullRequestRow-module__row--ogYMh:has(
+	.cRyBKI,
+	.knLhXt, 
+) a.Title-module__anchor--SyQM6
+`;
+
 export const openIssueToLastComment = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
 	.Link--muted:is(
