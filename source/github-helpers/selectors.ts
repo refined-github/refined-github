@@ -78,7 +78,10 @@ export const openPrsListLink_ = [
 ] satisfies UrlMatch[];
 
 export const PrsListInOpenIssuesLink = css`
-	div[class^="PullRequestRow-module__row"]
+	div[class^="PullRequestRow-module__row"]:has(
+		li[aria-label*="Status: Open (in progress)."],
+		li[aria-label*="Status: Draft (not ready)."]
+	)
 	a[class^="TitleHeader-module__inline"]
  `;
 
