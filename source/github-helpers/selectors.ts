@@ -81,7 +81,7 @@ export const openPrsListLink_ = [
 export const openPrsListInIssuesLink = css`
 .PullRequestRow-module__row--ogYMh:has(
 	.cRyBKI,
-	.knLhXt, 
+	.knLhXt
 ) a.Title-module__anchor--SyQM6
 `;
 
