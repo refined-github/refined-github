@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function getActionURL(): URL {
-	const actionRepo = $('[data-testid="resources"] > ul a:has(.octicon-repo)')
+function getActionURL(side: HTMLElement): URL {
+	const actionRepo = $('a:has(.octicon-repo)', side)
 		.pathname
 		.slice(1);
 
@@ -23,7 +23,7 @@ function getActionURL(): URL {
 }
 
 function addUsageLink(side: HTMLElement): void {
-	const actionURL = getActionURL();
+	const actionURL = getActionURL(side);
 
 	side.after(
 		<a href={actionURL.href} className="d-block mb-2">
