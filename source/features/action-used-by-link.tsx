@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function getActionURL(): URL {
-	const actionRepo = $('[data-testid="resources"] a:has(.octicon-repo)')
+	const actionRepo = $('[data-testid="resources"] > ul a:has(.octicon-repo)')
 		.pathname
 		.slice(1);
 
