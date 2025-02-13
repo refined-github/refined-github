@@ -38,8 +38,8 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const data = await api.v4(batchQuery);
 
 	for (const pr of prConfigs) {
-		const { mergeable, state, isDraft } = data[pr.key].pullRequest;
-        if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
+		const {mergeable, state, isDraft} = data[pr.key].pullRequest;
+		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
 			pr.link.after(
 				<a
 					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
