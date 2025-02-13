@@ -78,12 +78,7 @@ export const openPrsListLink_ = [
 ] satisfies UrlMatch[];
 
 export const PrsListInOpenIssuesLink = css`
-	div[class^="PullRequestRow-module__row"]:has(
-		li[aria-label*="Status: Open (in progress)."],
-		li[aria-label*="Status: Draft (not ready)."]
-	)
-	a[class^="TitleHeader-module__inline"]
- `;
+	li[role="listitem"] a[data-hovercard-url*="/pull"] `;
 
 export const openIssueToLastComment = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
