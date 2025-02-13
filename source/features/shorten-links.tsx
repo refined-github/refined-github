@@ -8,6 +8,7 @@ function initOnce(): void {
 	observe([
 		`.comment-body a[href]:not(.${linkifiedURLClass})`,
 		`.react-issue-comment .markdown-body a[href]:not(.${linkifiedURLClass})`, // Issue comments
+		`.react-issue-body .markdown-body a[href]:not(.${linkifiedURLClass})`, // First issue comment
 		`[data-testid="review-thread"] .markdown-body a[href]:not(.${linkifiedURLClass})`, // React commit view
 	], shortenLink);
 }
