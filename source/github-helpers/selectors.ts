@@ -84,9 +84,6 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
-export const PrsListInOpenIssuesLink = css`
-	li[role="listitem"] a[data-hovercard-url*="/pull"] `;
-
 export const openIssueToLastComment = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
 	.Link--muted:is(
