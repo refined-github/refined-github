@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 function addLinks(container: HTMLElement): void {
 	const defaultQuery = 'is:open archived:false';
 
-	// Without this, the Issues page also displays PRs, and viceversa
+	// Without this, the Issues page also displays PRs, and vice-versa
 	const isIssues = location.pathname.startsWith('/issues');
 	const typeQuery = isIssues ? 'is:issue' : 'is:pr';
 	const typeName = isIssues ? 'Issues' : 'Pull Requests';
