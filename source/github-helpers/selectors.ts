@@ -66,7 +66,6 @@ export const prCommitStatusIcon_ = [
 	[0, 'https://github.com/refined-github/sandbox/pull/10'],
 ] satisfies UrlMatch[];
 
-// `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
 export const openPrsListLink = [
 	// `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
 	css`
