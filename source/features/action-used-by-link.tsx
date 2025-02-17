@@ -25,6 +25,7 @@ function getActionURL(side: HTMLElement): URL {
 function addUsageLink(side: HTMLElement): void {
 	const actionURL = getActionURL(side);
 
+	// TODO: Integrate style better https://github.com/refined-github/refined-github/pull/8285/files#r1951911960
 	side.after(
 		<a href={actionURL.href} className="d-block mb-2">
 			<SearchIcon width={14} className="color-fg-default mr-2" />Usage examples
