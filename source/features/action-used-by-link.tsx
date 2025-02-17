@@ -6,8 +6,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function getActionURL(): URL {
-	const actionRepo = $('aside a:has(.octicon-repo)')
+function getActionURL(side: HTMLElement): URL {
+	const actionRepo = $('a:has(.octicon-repo)', side)
 		.pathname
 		.slice(1);
 
@@ -23,8 +23,9 @@ function getActionURL(): URL {
 }
 
 function addUsageLink(side: HTMLElement): void {
-	const actionURL = getActionURL();
+	const actionURL = getActionURL(side);
 
+	// TODO: Integrate style better https://github.com/refined-github/refined-github/pull/8285/files#r1951911960
 	side.after(
 		<a href={actionURL.href} className="d-block mb-2">
 			<SearchIcon width={14} className="color-fg-default mr-2" />Usage examples
@@ -33,7 +34,7 @@ function addUsageLink(side: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.d-block.mb-2[href^="/contact"]', addUsageLink, {signal});
+	observe('[data-testid="resources"] > ul', addUsageLink, {signal});
 }
 
 void features.add(import.meta.url, {
