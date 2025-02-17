@@ -67,12 +67,20 @@ export const prCommitStatusIcon_ = [
 ] satisfies UrlMatch[];
 
 // `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
-export const openPrsListLink = css`
-	.js-issue-row:has(
-		.octicon-git-pull-request.color-fg-open,
-		.octicon-git-pull-request-draft
-	) a.js-navigation-open
-`;
+export const openPrsListLink = [
+	// `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
+	css`
+		.js-issue-row:has(
+			.octicon-git-pull-request.color-fg-open,
+			.octicon-git-pull-request-draft
+		) a.js-navigation-open
+	`,
+	// React view
+	css`
+		li[role="listitem"] a[data-hovercard-url*="/pull"]
+	`,
+];
+
 export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
