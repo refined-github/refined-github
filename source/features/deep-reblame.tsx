@@ -71,7 +71,8 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 function addButton(hunk: HTMLElement): void {
 	const reblameLink = $optional('a[aria-labelledby^="reblame-"]', hunk);
 	if (reblameLink) {
-		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
+		// Update tooltip
+		reblameLink.nextElementSibling?.append(<br />, 'Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
 		$('.timestamp-wrapper-mobile', hunk).after(
