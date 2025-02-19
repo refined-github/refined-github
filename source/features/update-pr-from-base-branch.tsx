@@ -53,6 +53,7 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
+	// TODO: Drop after July 2025
 	if (elementExists(canNativelyUpdate)) {
 		return;
 	}
@@ -74,6 +75,12 @@ async function addButton(mergeBar: Element): Promise<void> {
 		'.branch-action-item:has(.merging-body)', // TODO: Drop after June 2025
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
+
+	// `canNativelyUpdate` is only working for Old View
+	const nativeButton = $optional('button', mergeabilityRow);
+	if (nativeButton && nativeButton.textContent === 'Update branch') {
+		return;
+	}
 
 	if (mergeabilityRow) {
 		const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
