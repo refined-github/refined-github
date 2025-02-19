@@ -15,7 +15,10 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const canNativelyUpdate = '.js-update-branch-form';
+const canNativelyUpdate = [
+	'.js-update-branch-form',
+	'[aria-label="Update branch options"]',
+];
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -53,7 +56,6 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	// TODO: Drop after July 2025
 	if (elementExists(canNativelyUpdate)) {
 		return;
 	}
@@ -75,12 +77,6 @@ async function addButton(mergeBar: Element): Promise<void> {
 		'.branch-action-item:has(.merging-body)', // TODO: Drop after June 2025
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	]);
-
-	// `canNativelyUpdate` is only working for Old View
-	const nativeButton = $optional('button', mergeabilityRow);
-	if (nativeButton && nativeButton.textContent === 'Update branch') {
-		return;
-	}
 
 	if (mergeabilityRow) {
 		const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
