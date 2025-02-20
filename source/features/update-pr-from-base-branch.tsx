@@ -15,7 +15,10 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const canNativelyUpdate = '.js-update-branch-form';
+const canNativelyUpdate = [
+	'.js-update-branch-form', // Old view - TODO: Remove in July 2025
+	'[aria-label="Update branch options"]',
+];
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
