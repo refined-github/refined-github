@@ -1,5 +1,5 @@
 // Using https://www.conventionalcommits.org/ as a reference.
-export const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+)\))?(?<major>!)?: */;
+export const conventionalCommitRegex = /^(?<type>\w+)(?:\((?<scope>.+?)\))?(?<major>!)?: */;
 
 // Do not send PRs for types not listed here: https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional#rules
 // No more types will be added nor do we accept options.
