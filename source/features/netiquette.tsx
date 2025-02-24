@@ -62,10 +62,13 @@ export function getResolvedText(): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement): void {
+	if (elementExists('.rgh-resolved-banner'))
+		return;
+
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
 		icon: <InfoIcon className="m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0'.split(' '),
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
 		text: getResolvedText(),
 	});
 
