@@ -5,6 +5,7 @@ import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import './small-user-avatars.css';
 
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
@@ -25,18 +26,10 @@ function addAvatar(link: HTMLElement): void {
 function addMentionAvatar(link: HTMLElement): void {
 	assertNodeContent(link.firstChild, /^@/);
 	const username = link.textContent.slice(1);
-	const size = 16;
+	const avatarUrl = getUserAvatarURL(username, 16);
 
-	link.prepend(
-		<img
-			className="avatar avatar-user mb-1 mr-1 rgh-small-user-avatars"
-			style={{marginLeft: 1}}
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>,
-	);
+	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
+	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
 }
 
 function initOnce(): void {
