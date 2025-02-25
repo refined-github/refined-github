@@ -43,6 +43,14 @@ test('parseConventionalCommit', () => {
 		  "type": "Feature!",
 		}
 	`);
+	expect(parseConventionalCommit('revert(scope): Revert "feat(scope): Commit message"')).toMatchInlineSnapshot(`
+		{
+		  "raw": "revert(scope): ",
+		  "rawType": "revert",
+		  "scope": "scope: ",
+		  "type": "Revert",
+		}
+	`);
 	expect(parseConventionalCommit('feat(sco pe): Commit message')).toMatchInlineSnapshot(`
 		{
 		  "raw": "feat(sco pe): ",
