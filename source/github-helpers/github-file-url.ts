@@ -1,4 +1,4 @@
-import {isRepoRoot} from 'github-url-detection';
+import {isRepoRoot, isSingleFile} from 'github-url-detection';
 
 import getCurrentGitRef from './get-current-git-ref.js';
 
@@ -73,14 +73,14 @@ export default class GitHubFileURL {
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname.replaceAll(/^\/|\/$/g, '').split('/');
 		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
-		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
+		if (!isSingleFile() && (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F')))) {
 			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
 			this.assign({
 				user,
 				repository,
 				route,
 				branch,
-				filePath: isRepoRoot() ? '' : ambiguousReference[1].replaceAll('%2F', '/'),
+				filePath: '',
 			});
 			return;
 		}
