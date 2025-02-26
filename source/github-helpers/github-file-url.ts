@@ -80,7 +80,7 @@ export default class GitHubFileURL {
 				repository,
 				route,
 				branch,
-				filePath: '',
+				filePath: isRepoRoot() ? '' : ambiguousReference[1].replaceAll('%2F', '/'),
 			});
 			return;
 		}
