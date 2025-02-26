@@ -233,11 +233,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152117903-80d784d5-4f43-4786-bc4c-d4993aec5c79.png"
 	},
 	{
-		"id": "embed-gist-via-iframe",
-		"description": "Adds a menu item to embed a gist via <code>&lt;iframe&gt;</code>.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258553891-a55a3bc0-f244-421b-a24c-6f1d4a92552e.png"
-	},
-	{
 		"id": "emphasize-draft-pr-label",
 		"description": "Makes it easier to distinguish draft PR in lists.",
 		"css": true,
