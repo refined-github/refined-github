@@ -1,7 +1,7 @@
 .rgh-mention-avatar::before {
 	content: '';
 	display: inline-block;
-	width: 16px;
+	width: 16px !important;
 	height: 16px;
 	margin-right: 0.2em;
 	border-radius: 50%;
