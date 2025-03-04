@@ -115,7 +115,6 @@ import './features/restore-file.js';
 import './features/hidden-review-comments-indicator.js';
 import './features/reload-failed-proxied-images.js';
 import './features/conversation-authors.js';
-import './features/embed-gist-via-iframe.js';
 import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
 import './features/conflict-marker.js';
