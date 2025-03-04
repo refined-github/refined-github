@@ -1,7 +1,7 @@
 .rgh-mention-avatar::before {
 	content: '';
 	display: inline-block;
-	width: 16px;
+	width: 16px !important;
 	height: 16px;
 	margin-right: 0.2em;
 	border-radius: 50%;
@@ -9,4 +9,9 @@
 	background-size: cover;
 	background-position: center;
 	vertical-align: middle;
+}
+
+.user-mention {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
