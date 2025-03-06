@@ -81,10 +81,13 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
+	if (elementExists('.rgh-popular-banner'))
+		return;
+
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
 		icon: <FlameIcon className="m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0'.split(' '),
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
 		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
 
