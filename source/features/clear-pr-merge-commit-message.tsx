@@ -66,7 +66,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	delegate('.js-merge-pr', 'details:toggled', handleLegacyToggle, {signal});
-	observe('[aria-label="Checks"] ~ div textarea[id]', clearReactTextarea, {signal});
+	observe('label[class^="InputLabel__StyledLabel"] ~ span textarea[id]', clearReactTextarea, {signal});
 }
 
 void features.add(import.meta.url, {
