@@ -4,6 +4,8 @@
 	display: inline-block !important;
 }
 
-.js-notifications-mark-selected-actions :not(.mr-2) + .rgh-open-selected-button {
+.js-notifications-mark-selected-actions
+	:not(.mr-2)
+	+ .rgh-open-selected-button {
 	margin-left: var(--base-size-8, 8px) !important;
 }
