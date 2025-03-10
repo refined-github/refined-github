@@ -72,14 +72,10 @@ function removeOpenUnreadButtons(container: ParentNode = document): void {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	const url = new URL(location.href);
-	const isDone = url.searchParams.get('query') === 'is:done';
-	const className = `btn btn-sm mr-2 tooltipped tooltipped-s ${isDone ? 'ml-2 ' : ''}`;
-
 	const button = (
 		<button
 			type="button"
-			className={className + openSelected.class}
+			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
 			data-hotkey="p"
 			aria-label={multilineAriaLabel(
 				'Open selected notifications',
@@ -119,7 +115,7 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 	}
 
 	notificationHeader.append(
-		<button className={'btn btn-sm ml-auto d-none' + openUnread.class} type="button">
+		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
 			<LinkExternalIcon className="mr-1" />Open all unread
 		</button>,
 	);

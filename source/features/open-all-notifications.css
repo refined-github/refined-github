@@ -3,3 +3,7 @@
 	~ .rgh-open-notifications-button {
 	display: inline-block !important;
 }
+
+.js-notifications-mark-selected-actions :not(.mr-2) + .rgh-open-selected-button {
+	margin-left: var(--base-size-8, 8px) !important;
+}
