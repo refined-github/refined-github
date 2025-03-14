@@ -2,11 +2,7 @@
 	/* Override the value that GitHub sets */
 	min-width: unset !important;
 
-	input {
+	input:not(:focus) {
 		width: 0;
-
-		&:focus {
-			width: 100%;
-		}
 	}
 }
