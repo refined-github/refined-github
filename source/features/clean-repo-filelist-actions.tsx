@@ -13,12 +13,12 @@ import features from '../feature-manager.js';
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
-		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip} />,
+		childElement,
+		<div className="tooltipped tooltipped-n" aria-label={tooltip} />,
 	);
 }
 
-function cleanFilelistActions(searchButton: Element): void {
+function oldCleanFilelistActions(searchButton: Element): void {
 	searchButton.classList.add('tooltipped', 'tooltipped-ne');
 	searchButton.setAttribute('aria-label', 'Go to file');
 
@@ -34,7 +34,7 @@ function cleanFilelistActions(searchButton: Element): void {
 		assertNodeContent(addFileDropdown.previousSibling, 'Add file')
 			.replaceWith(<PlusIcon />);
 
-		addTooltipToSummary(addFileDropdown, 'Add file');
+		addTooltipToSummary(addFileDropdown.closest('details')!, 'Add file');
 	}
 
 	if (!pageDetect.isRepoRoot()) {
@@ -42,7 +42,7 @@ function cleanFilelistActions(searchButton: Element): void {
 	}
 
 	const codeDropdownButton = $('get-repo summary');
-	addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
+	addTooltipToSummary(codeDropdownButton.closest('details')!, 'Clone, open or download');
 
 	const label = $('.Button-label', codeDropdownButton);
 	if (!elementExists('.octicon-code', codeDropdownButton)) {
@@ -53,9 +53,27 @@ function cleanFilelistActions(searchButton: Element): void {
 	label.remove();
 }
 
+function cleanFilelistActions(addFileButton: Element): void {
+	const codeButton = $('& > button', addFileButton.parentElement!.parentElement!);
+	const fileButtonContent = $('[data-component="buttonContent"] > span', addFileButton);
+
+	assertNodeContent(fileButtonContent, 'Add file')
+		.replaceWith(<PlusIcon />);
+	addTooltipToSummary(addFileButton, 'Add file');
+
+	if (!pageDetect.isRepoRoot() || !codeButton) {
+		return;
+	}
+
+	const codeButtonContent = $('[data-component="text"]', codeButton);
+	codeButtonContent.remove();
+	addTooltipToSummary(codeButton, 'Clone, open or download');
+}
+
 function init(signal: AbortSignal): void {
 	// `.btn` selects the desktop version
-	observe('.btn[data-hotkey="t"]', cleanFilelistActions, {signal});
+	observe('.btn[data-hotkey="t"]', oldCleanFilelistActions, {signal}); // TODO: Drop after August 2025
+	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
 }
 
 void features.add(import.meta.url, {
