@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CodeIcon from 'octicons-plain-react/Code';
@@ -9,6 +9,7 @@ import SearchIcon from 'octicons-plain-react/Search';
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import './clean-repo-filelist-actions.css';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
@@ -54,17 +55,30 @@ function oldCleanFilelistActions(searchButton: Element): void {
 }
 
 function cleanFilelistActions(addFileButton: Element): void {
-	const codeButton = $('& > button', addFileButton.parentElement!.parentElement!);
-	const fileButtonContent = $('[data-component="buttonContent"] > span', addFileButton);
+	const container = addFileButton.parentElement!.parentElement!;
+	const codeButton = $optional('& > button', container);
 
-	assertNodeContent(fileButtonContent, 'Add file')
-		.replaceWith(<PlusIcon />);
-	addTooltipToSummary(addFileButton, 'Add file');
+	const searchInput = $('.TextInput-wrapper', addFileButton.parentElement!);
+	searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
+
+	cleanAddFileButton(addFileButton);
 
 	if (!pageDetect.isRepoRoot() || !codeButton) {
 		return;
 	}
 
+	cleanCodeButton(codeButton);
+}
+
+function cleanAddFileButton(addFileButton: Element): void {
+	const fileButtonContent = $('[data-component="buttonContent"] > span', addFileButton);
+
+	assertNodeContent(fileButtonContent, 'Add file')
+		.replaceWith(<PlusIcon />);
+	addTooltipToSummary(addFileButton, 'Add file');
+}
+
+function cleanCodeButton(codeButton: Element): void {
 	const codeButtonContent = $('[data-component="text"]', codeButton);
 	codeButtonContent.remove();
 	addTooltipToSummary(codeButton, 'Clone, open or download');

@@ -1,0 +1,12 @@
+.rgh-clean-repo-filelist-actions-search {
+	/* Override the value that GitHub sets */
+	min-width: unset !important;
+
+	input {
+		width: 0;
+
+		&:focus {
+			width: 100%;
+		}
+	}
+}
