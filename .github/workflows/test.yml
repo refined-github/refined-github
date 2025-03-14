@@ -96,13 +96,11 @@ jobs:
       - run: npm run build:bundle
         env:
           RELATIVE_CI_STATS: true
-      - name: Send build stats to RelativeCI
+      - name: Upload bundle stats artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-action@v2
+        uses: relative-ci/agent-upload-artifact-action@v2
         with:
-          token: ${{ github.token }}
           webpackStatsFile: ./distribution/assets/webpack-stats.json
-          key: ${{ secrets.RELATIVE_CI_KEY }}
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
