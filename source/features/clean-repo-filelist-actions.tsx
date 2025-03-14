@@ -1,61 +1,53 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import CodeIcon from 'octicons-plain-react/Code';
 import PlusIcon from 'octicons-plain-react/Plus';
-import SearchIcon from 'octicons-plain-react/Search';
 
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import './clean-repo-filelist-actions.css';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
-		childElement.closest('details')!,
-		<div className="tooltipped tooltipped-ne" aria-label={tooltip} />,
+		childElement,
+		<div className="tooltipped tooltipped-n" aria-label={tooltip} />,
 	);
 }
 
-function cleanFilelistActions(searchButton: Element): void {
-	searchButton.classList.add('tooltipped', 'tooltipped-ne');
-	searchButton.setAttribute('aria-label', 'Go to file');
+function cleanFilelistActions(addFileButton: Element): void {
+	const container = addFileButton.parentElement!.parentElement!;
+	const codeButton = $optional('& > button', container);
 
-	// Replace "Go to file" with  icon
-	searchButton.firstChild!.replaceWith(<SearchIcon />);
+	const searchInput = $('.TextInput-wrapper', addFileButton.parentElement!);
+	searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
 
-	// This button doesn't appear on `isSingleFile`
-	const addFileDropdown = searchButton.nextElementSibling!.querySelector('.dropdown-caret');
-	if (addFileDropdown) {
-		addFileDropdown.parentElement!.classList.replace('d-md-flex', 'd-md-block');
+	cleanAddFileButton(addFileButton);
 
-		// Replace label with icon
-		assertNodeContent(addFileDropdown.previousSibling, 'Add file')
-			.replaceWith(<PlusIcon />);
-
-		addTooltipToSummary(addFileDropdown, 'Add file');
-	}
-
-	if (!pageDetect.isRepoRoot()) {
+	if (!pageDetect.isRepoRoot() || !codeButton) {
 		return;
 	}
 
-	const codeDropdownButton = $('get-repo summary');
-	addTooltipToSummary(codeDropdownButton, 'Clone, open or download');
+	cleanCodeButton(codeButton);
+}
 
-	const label = $('.Button-label', codeDropdownButton);
-	if (!elementExists('.octicon-code', codeDropdownButton)) {
-		// The icon is missing for users without Codespaces https://github.com/refined-github/refined-github/pull/5074#issuecomment-983251719
-		label.before(<span className="Button-visual Button-leadingVisual"><CodeIcon /></span>);
-	}
+function cleanAddFileButton(addFileButton: Element): void {
+	const fileButtonContent = $('[data-component="buttonContent"] > span', addFileButton);
 
-	label.remove();
+	assertNodeContent(fileButtonContent, 'Add file')
+		.replaceWith(<PlusIcon />);
+	addTooltipToSummary(addFileButton, 'Add file');
+}
+
+function cleanCodeButton(codeButton: Element): void {
+	const codeButtonContent = $('[data-component="text"]', codeButton);
+	codeButtonContent.remove();
+	addTooltipToSummary(codeButton, 'Clone, open or download');
 }
 
 function init(signal: AbortSignal): void {
-	// `.btn` selects the desktop version
-	observe('.btn[data-hotkey="t"]', cleanFilelistActions, {signal});
+	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
 }
 
 void features.add(import.meta.url, {
