@@ -1,0 +1,17 @@
+name: RelativeCI
+
+on:
+  workflow_run:
+    workflows: [Test]
+    types:
+      - completed
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send bundle stats and build information to RelativeCI
+        uses: relative-ci/agent-action@v2.2.0
+        with:
+          key: ${{ secrets.RELATIVE_CI_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
