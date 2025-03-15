@@ -142,9 +142,16 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 	if (isFeatureDisabled(options, id) && !isFeaturePrivate(id)) {
 		if (loaders.length === 0) {
 			// CSS-only https://github.com/refined-github/refined-github/issues/7944
-			document.documentElement.setAttribute('rgh-OFF-' + id, '');
+			// GitHub cleans up the CSS disabling attributes after navigation.
+			// https://github.com/refined-github/refined-github/issues/8172
+			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
+			do {
+				document.documentElement.setAttribute('rgh-OFF-' + id, '');
+				log.info('↩️', 'Skipping', id);
+			} while (await oneEvent(document, 'turbo:render'));
+		} else {
+			log.info('↩️', 'Skipping', id);
 		}
-		log.info('↩️', 'Skipping', id);
 		return;
 	}
 
@@ -174,7 +181,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			return;
 		}
 
-		/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
 		let firstLoop = true;
 		do {
 			if (awaitDomReady) {
