@@ -13,7 +13,11 @@
 		/* React issue list */
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
-		svg {
+		svg,
+		/* Notification select by */
+		.rgh-select-notifications .octicon-git-pull-request-draft,
+		/* Notification list */
+		.notification-list-item-link .octicon-git-pull-request-draft {
 			stroke: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 			stroke-width: 1.2px;
 			color: var(--rgh-background, fuchsia) !important;
