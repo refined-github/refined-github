@@ -13,7 +13,9 @@
 		/* React issue list */
 		[aria-label*='Status: Draft (not ready)']
 		[data-testid='list-row-state-icon']
-		svg {
+		svg,
+		/* Notification select by */
+		#rgh-select-notifications-form .color-fg-subtle {
 			stroke: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 			stroke-width: 1.2px;
 			color: var(--rgh-background, fuchsia) !important;
