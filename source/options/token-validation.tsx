@@ -77,12 +77,6 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	// Listen to events
 	const field = $('input[name="personalToken"]');
 	field.addEventListener('input', validateToken);
-	field.addEventListener('focus', () => {
-		field.type = 'text';
-	});
-	field.addEventListener('blur', () => {
-		field.type = 'password';
-	});
 
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(validateToken);
