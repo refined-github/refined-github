@@ -48,10 +48,10 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	messageField.dispatchEvent(new Event('input', {bubbles: true}));
 
 	// TODO: Drop `?? messageField` in May 2025
-	const anchor = messageField.closest('span[class^="TextInputWrapper"]') ?? messageField;
+	const anchor = messageField.closest('div[data-has-label]') ?? messageField;
 
 	// TODO: Drop `<hr>` in May 2025
-	attachElement(anchor ?? messageField, {
+	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">
 				<p className="note">
@@ -66,7 +66,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	delegate('.js-merge-pr', 'details:toggled', handleLegacyToggle, {signal}); // TODO: Drop in August 2025
-	observe('label[class^="InputLabel__StyledLabel"] ~ span textarea[id]', clearReactTextarea, {signal});
+	observe('[data-testid="mergebox-partial"] div[data-has-label] textarea', clearReactTextarea, {signal});
 }
 
 void features.add(import.meta.url, {
