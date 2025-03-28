@@ -8,8 +8,6 @@ import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
 
 function addAvatar(link: HTMLElement): void {
-	console.log('addAvatar', link);
-
 	const username = link.textContent;
 	const size = 14;
 
