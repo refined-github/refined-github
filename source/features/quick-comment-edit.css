@@ -1,0 +1,4 @@
+/* Hide edit button when it's in edit mode (the dropdown disappears too) */
+.rgh-quick-comment-edit-button:not(:has(+ button)) {
+	display: none;
+}
