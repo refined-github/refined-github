@@ -28,7 +28,7 @@ export function getLastCloseEvent(): HTMLElement | undefined {
 		)`,
 	])?.closest([
 		'.TimelineItem', // Old view
-		'.Timeline-Item',
+		'[data-timeline-event-id]',
 	])?.querySelector('relative-time') ?? undefined;
 }
 
