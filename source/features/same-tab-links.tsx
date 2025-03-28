@@ -13,3 +13,12 @@ function initOnce(): void {
 void features.add(import.meta.url, {
 	init: initOnce,
 });
+
+/*
+
+Test URLs:
+
+images: https://github.com/refined-github/refined-github
+new issue button: https://github.com/refined-github/refined-github/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen
+
+*/
