@@ -92,6 +92,7 @@
 	"new-or-deleted-file",
 	"new-repo-disable-projects-and-wikis",
 	"no-duplicate-list-update-time",
+	"no-modals",
 	"no-unnecessary-split-diff-view",
 	"one-click-diff-options",
 	"one-click-pr-or-gist",

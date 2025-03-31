@@ -388,6 +388,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "click-outside-modal") [Closes checks list when clicking outside of modal.](https://github.com/refined-github/refined-github/issues/7157)
 - [](# "linkify-line-numbers") [Linkifies the line numbers where GitHub forgot to add links.](https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3)
 - [](# "sidebar-focus-file") [Scrolls the file tree to the current file.](https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194)
+- [](# "no-modals") Disable modals that reduce user-experience instead of enhancing it.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

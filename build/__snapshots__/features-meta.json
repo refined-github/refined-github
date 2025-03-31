@@ -498,6 +498,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png"
 	},
 	{
+		"id": "no-modals",
+		"description": "Disable modals that reduce user-experience instead of enhancing it.",
+		"screenshot": null
+	},
+	{
 		"id": "no-unnecessary-split-diff-view",
 		"description": "Always uses unified diffs on files where split diffs aren’t useful.",
 		"css": true,
