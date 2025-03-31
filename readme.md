@@ -389,6 +389,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "linkify-line-numbers") [Linkifies the line numbers where GitHub forgot to add links.](https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3)
 - [](# "sidebar-focus-file") [Scrolls the file tree to the current file.](https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194)
 - [](# "no-modals") [Disable modals that reduce user-experience instead of enhancing it.](https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e)
+- [](# "no-target-blank") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
