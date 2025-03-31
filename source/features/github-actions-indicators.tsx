@@ -11,6 +11,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {removeHashFromUrlBar} from '../helpers/history.js';
 
 type Workflow = {
 	name: string;
@@ -107,7 +108,13 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
-		svgTrailer.append(<PlayIcon className="m-auto" />);
+		const url = new URL(workflowListItem.href);
+		url.hash = 'rgh-run-workflow';
+		svgTrailer.append(
+			<a href={url.href} data-turbo-frame={workflowListItem.dataset.turboFrame}>
+				<PlayIcon className="m-auto" />
+			</a>,
+		);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
 	}
 
@@ -138,12 +145,23 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 
+function openRunWorkflow(): void {
+	removeHashFromUrlBar();
+	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
+	dropdown.open = true;
+}
+
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepositoryActions,
 		async () => Boolean(await workflowDetails.get()),
 	],
 	init,
+}, {
+	include: [
+		() => location.hash === '#rgh-run-workflow',
+	],
+	init: openRunWorkflow,
 });
 
 /*
