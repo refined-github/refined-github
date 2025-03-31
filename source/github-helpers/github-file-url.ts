@@ -71,15 +71,18 @@ export default class GitHubFileURL {
 	}
 
 	set pathname(pathname: string) {
-		const [user, repository, route, ...ambiguousReference] = pathname.replaceAll(/^\/|\/$/g, '').split('/');
-		// TODO: `isRepoRoot` uses global state https://github.com/refined-github/refined-github/issues/6637
-		if (isRepoRoot() || (ambiguousReference.length === 2 && ambiguousReference[1].includes('%2F'))) {
-			const branch = ambiguousReference.join('/').replaceAll('%2F', '/');
+		const [user, repository, route, ...ambiguousReference] = pathname
+			.replaceAll(/^\/|\/$/g, '')
+			.replaceAll('%2F', '/') // Escaped in some cases
+			.split('/');
+
+		// If GitHubFileURL is being used on the current URL, then allow its "same page" optimizations to work (i.e. parse document.title)
+		if (pathname === location.pathname ? isRepoRoot() : isRepoRoot(new URL(pathname, this.internalUrl))) {
 			this.assign({
 				user,
 				repository,
 				route,
-				branch,
+				branch: ambiguousReference.join('/'),
 				filePath: '',
 			});
 			return;
