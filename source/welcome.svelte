@@ -123,7 +123,7 @@
 					id="token-input"
 					type="text"
 					size="10"
-					autocomplete="current-password"
+					autocomplete="off"
 					name="personalToken"
 					bind:value={tokenInput}
 				/>
