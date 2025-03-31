@@ -37,7 +37,10 @@ function initOnce(): void {
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		'[data-testid="created-at"] a[data-hovercard-url*="/users"]:first-child', // `isIssueList`. `:first-child` skips links that already include the avatar #7975
+		`:is(
+			[data-testid="created-at"],
+			[data-testid="closed-at"]
+		) a[data-hovercard-url*="/users"]`, // `isIssueList`
 	], addAvatar);
 	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
 }
