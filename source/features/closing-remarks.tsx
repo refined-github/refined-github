@@ -85,7 +85,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
-					text: <>This pull request first appeared in {linkedTag} (<ExplanationLink>more info</ExplanationLink>)</>,
+					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
