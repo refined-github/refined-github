@@ -1,4 +1,5 @@
-import {$, $optional} from 'select-dom/strict.js';
+import {ElementNotFoundError} from 'select-dom';
+import {$, $$, $optional} from 'select-dom/strict.js';
 // Nodes may be exactly `null`
 import type {Nullable} from 'vitest';
 
@@ -106,4 +107,18 @@ export const removeTextNodeContaining = (node: Text | ChildNode, expectation: Re
 export function removeTextInTextNode(node: Text | ChildNode, text: RegExp | string): void {
 	assertNodeContent(node, text);
 	node.textContent = node.textContent.replace(text, '');
+}
+
+export function getElementByAriaLabelledBy<T extends HTMLElement>(baseSelector: string, label: string): T {
+	for (const element of $$(baseSelector + '[aria-labelledby]')) {
+		const labelElement = $optional(
+			`[id="${element.getAttribute('aria-labelledby')!}"]`,
+		);
+
+		if (labelElement?.textContent?.trim() === label) {
+			return element as T;
+		}
+	}
+
+	throw new ElementNotFoundError(`Expected element labelled "${label}" not found in: ${baseSelector}`);
 }
