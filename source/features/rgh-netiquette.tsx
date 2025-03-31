@@ -10,6 +10,12 @@ import {getResolvedText, wasClosedLongAgo} from './netiquette.js';
 import {TimelineItem, TimelineItemOld} from '../github-helpers/timeline-item.js';
 
 function addConversationBanner(newCommentBox: HTMLElement): void {
+	// Check inside the observer because React views load after dom-ready
+	if (!wasClosedLongAgo()) {
+		features.unload(import.meta.url);
+		return;
+	}
+
 	const button = (
 		<button
 			type="button"
@@ -49,11 +55,6 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void | false {
-	// Do not move to `asLongAs` because those conditions are run before `isConversation`
-	if (!wasClosedLongAgo()) {
-		return false;
-	}
-
 	observe([
 		'#issuecomment-new:has(file-attachment)',
 		'[data-testid="comment-composer"]',
