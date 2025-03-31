@@ -137,7 +137,7 @@ export default antfu(
 				{
 					selector:
 						':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest], [callee.property.name=$optional])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
-					message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
+					message: 'If it’s a single selector, use a single string instead of an array',
 				},
 				{
 					selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
