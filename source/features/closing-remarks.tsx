@@ -10,7 +10,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import onPrMerge from '../github-events/on-pr-merge.js';
-import createBanner from '../github-helpers/banner.js';
+import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import {TimelineItemOld as TimelineItem} from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
@@ -43,7 +43,7 @@ const firstTag = new CachedFunction('first-tag', {
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
-function createReleaseUrl(): string | undefined {
+function createReleaseUrl(): string {
 	if (isRefinedGitHubRepo()) {
 		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
 	}
@@ -109,20 +109,19 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 		icon: <TagIcon className="m-0" />,
 		classes: ['rgh-bg-none'],
 		text: <>{text} <ExplanationLink /></>,
-	};
+	} satisfies BannerProps;
+
+	if (await userHasPushAccess()) {
+		Object.assign(bannerContent, {
+			action: url,
+			buttonLabel: 'Draft a new release',
+		});
+	}
 
 	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
-				{createBanner(
-					url
-						? {
-								...bannerContent,
-								action: url,
-								buttonLabel: 'Draft a new release',
-							}
-						: bannerContent,
-				)}
+				{createBanner(bannerContent)}
 			</TimelineItem>
 		),
 	});
