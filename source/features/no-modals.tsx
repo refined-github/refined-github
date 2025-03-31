@@ -3,13 +3,16 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
-function fixNewIssueButton(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
+function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	event.stopImmediatePropagation();
 	event.delegateTarget.removeAttribute('target');
 }
 
 function init(signal: AbortSignal): void {
-	delegate('a[href^="/issues/new/choose"]', 'click', fixNewIssueButton, {signal});
+	delegate([
+		'a[href$="/issues/new/choose"]', // New issue button
+		'a[class*="SubIssueTitle"]', // Sub-issue links
+	], 'click', fix, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
@@ -24,7 +27,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/issues
-https://github.com/refined-github/refined-github/issues/8342
+https://github.com/refined-github/sandbox/issues
+https://github.com/refined-github/sandbox/issues/110
 
 */
