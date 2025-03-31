@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
-import {removeHashFromUrlBar} from '../helpers/history.js';
+import removeHashFromUrlBar from '../helpers/history.js';
 
 function isLineSelected(): boolean {
 	// Example hashes:

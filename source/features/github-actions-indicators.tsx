@@ -11,7 +11,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
 import {expectToken} from '../github-helpers/github-token.js';
-import {removeHashFromUrlBar} from '../helpers/history.js';
+import removeHashFromUrlBar from '../helpers/history.js';
 
 type Workflow = {
 	name: string;
@@ -108,14 +108,20 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
-		const url = new URL(workflowListItem.href);
-		url.hash = 'rgh-run-workflow';
-		svgTrailer.append(
-			<a href={url.href} data-turbo-frame={workflowListItem.dataset.turboFrame}>
-				<PlayIcon className="m-auto" />
-			</a>,
-		);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
+
+		const icon = <PlayIcon className="m-auto" />;
+		if (workflowListItem.pathname === location.pathname) {
+			svgTrailer.append(icon);
+		} else {
+			const url = new URL(workflowListItem.href);
+			url.hash = 'rgh-run-workflow';
+			svgTrailer.append(
+				<a href={url.href} data-turbo-frame={workflowListItem.dataset.turboFrame}>
+					{icon}
+				</a>,
+			);
+		}
 	}
 
 	if (!workflow.schedule) {
@@ -161,6 +167,7 @@ void features.add(import.meta.url, {
 	include: [
 		() => location.hash === '#rgh-run-workflow',
 	],
+	awaitDomReady: true,
 	init: openRunWorkflow,
 });
 
