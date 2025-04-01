@@ -68,7 +68,10 @@ function add(avatar: HTMLElement): void {
 			return;
 	} else {
 		// Make sure the comment isn't hidden
-		const contentItem = avatar.parentElement!.querySelector('[data-testid="comment-header"] + div')!;
+		const contentItem = avatar.parentElement!.querySelector([
+			'[data-testid="comment-header"] + div',
+			'.react-issue-body', // First comment in React issues view
+		])!;
 
 		if (!contentItem) {
 			return;
@@ -108,23 +111,25 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
+	const isExist = elementExists(fieldSelector);
+	if (!isExist) {
+		return;
+	}
 
-	// `:first-child` avoids app badges #2630
-	// The hovercard attribute avoids `highest-rated-comment`
-	// Avatars next to review events aren't wrapped in a <div> #4844
-	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
-	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
+	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 	observe([
-		// TODO: Drop after June 2025
+		// Old Issue View and PR View
 		`
-		.js-quote-selection-container:has(${fieldSelector[0]})
+		.js-quote-selection-container
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
-	`,
-		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
+		`,
+		// React Issue View
+		`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
+		// React Issue View (first comment)
+		`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getUsername()!}"])`,
 	], add, {signal});
 }
 
