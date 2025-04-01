@@ -75,9 +75,9 @@ function add(avatar: HTMLElement): void {
 		}
 	}
 
-	if (debug) {
-		timelineItem.style.border = 'solid 5px green';
-	}
+	// if (debug) {
+	// 	timelineItem.style.border = 'solid 5px green';
+	// }
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
@@ -86,10 +86,11 @@ function add(avatar: HTMLElement): void {
 	}
 
 	if (!isOldView) {
+		avatar.style.height = 'auto';
 		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
 	}
 
-	const userMention = isOldView ? $('img', avatar).alt : avatar.getAttribute('alt');
+	const userMention = $('img', avatar).alt;
 
 	avatar.after(
 		<button
@@ -123,7 +124,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			a.TimelineItem-avatar
 		):not([href="/${getUsername()!}"])
 	`,
-		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] > img[data-component="Avatar"]:not([alt="${getUsername()!}"])`,
+		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
 	], add, {signal});
 }
 
