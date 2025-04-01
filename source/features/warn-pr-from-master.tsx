@@ -1,15 +1,19 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import parseCompareUrl from '../github-helpers/parse-compare-url.js';
 import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 
 async function init(): Promise<void> {
+	if (elementExists('.rgh-warn-pr-from-master')) {
+		return;
+	}
 	const anchor = await elementReady('.js-compare-pr');
 	anchor?.before(
-		<div className="flash flash-error my-3">
+		<div className="rgh-warn-pr-from-master flash flash-error my-3">
 			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
 		</div>,
 	);
