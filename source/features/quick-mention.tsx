@@ -75,7 +75,7 @@ function add(avatar: HTMLElement): void {
 		}
 	}
 
-	if (debug && isOldView) {
+	if (debug) {
 		timelineItem.style.border = 'solid 5px green';
 	}
 
