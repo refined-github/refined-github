@@ -75,9 +75,9 @@ function add(avatar: HTMLElement): void {
 		}
 	}
 
-	// if (debug) {
-	// 	timelineItem.style.border = 'solid 5px green';
-	// }
+	if (debug && isOldView) {
+		timelineItem.style.border = 'solid 5px green';
+	}
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
