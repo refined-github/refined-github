@@ -119,6 +119,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 	observe([
 		// Old Issue View and PR View
+		// `:first-child` avoids app badges #2630
+		// Avatars next to review events aren't wrapped in a <div> #4844
 		`
 		.js-quote-selection-container
 		:is(
