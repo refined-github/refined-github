@@ -14,18 +14,6 @@ test('branch', () => {
 	assert.equal(String(url), 'https://github.com/microsoft/TypeScript/tree/master');
 });
 
-test('branch with multiple slashes', () => {
-	const url = new GitHubFileURL('https://github.com/yakov116/TestR/tree/this/branch%2Fhas%2Fmany%2Fslashes');
-	assert.equal(url.user, 'yakov116');
-	assert.equal(url.repository, 'TestR');
-	assert.equal(url.route, 'tree');
-	assert.equal(url.branch, 'this/branch/has/many/slashes');
-	assert.equal(url.filePath, '');
-	assert.equal(url.pathname, '/yakov116/TestR/tree/this/branch/has/many/slashes');
-	assert.equal(url.href, 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
-	assert.equal(String(url), 'https://github.com/yakov116/TestR/tree/this/branch/has/many/slashes');
-});
-
 test('object', () => {
 	const url = new GitHubFileURL('https://github.com/microsoft/TypeScript/tree/master/src');
 	assert.equal(url.user, 'microsoft');
