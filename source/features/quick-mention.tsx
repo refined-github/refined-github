@@ -131,19 +131,24 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	const filedSignal = new AbortController();
-	observe(fieldSelector, field => {
-		const {id} = field;
-		const isPROrOldView = id === 'new_comment_field';
+	const controller = new AbortController();
+	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
+		observe(fieldSelector, field => {
+			resolve(field);
+			controller.abort();
+		}, {signal: AbortSignal.any([signal, controller.signal])});
+	});
 
-		if (isPROrOldView) {
-			observe(prCommentSelector, add, {signal});
-		} else {
-			observe(issueCommentSelector, add, {signal});
-		}
+	if (!field) {
+		return;
+	}
 
-		filedSignal.abort();
-	}, {signal: filedSignal.signal});
+	const isPROrOldView = field.id === 'new_comment_field';
+	if (isPROrOldView) {
+		observe(prCommentSelector, add, {signal});
+	} else {
+		observe(issueCommentSelector, add, {signal});
+	}
 }
 
 void features.add(import.meta.url, {
