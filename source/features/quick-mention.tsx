@@ -18,6 +18,24 @@ const fieldSelector = [
 	'#react-issue-comment-composer textarea',
 ] as const;
 
+// Old Issue View and PR View
+// `:first-child` avoids app badges #2630
+// Avatars next to review events aren't wrapped in a <div> #4844
+const prCommentSelector = `
+	.js-quote-selection-container
+	:is(
+		div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
+		a.TimelineItem-avatar
+	):not([href="/${getUsername()!}"])
+`;
+
+const issueCommentSelector = [
+	// React Issue View
+	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
+	// React Issue View (first comment)
+	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getUsername()!}"])`,
+];
+
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
@@ -111,28 +129,21 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	const isExist = elementExists(fieldSelector);
-	if (!isExist) {
-		return;
-	}
-
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
-	observe([
-		// Old Issue View and PR View
-		// `:first-child` avoids app badges #2630
-		// Avatars next to review events aren't wrapped in a <div> #4844
-		`
-		.js-quote-selection-container
-		:is(
-			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
-			a.TimelineItem-avatar
-		):not([href="/${getUsername()!}"])
-		`,
-		// React Issue View
-		`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
-		// React Issue View (first comment)
-		`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getUsername()!}"])`,
-	], add, {signal});
+
+	const filedSignal = new AbortController();
+	observe(fieldSelector, field => {
+		const {id} = field;
+		const isPROrOldView = id === 'new_comment_field';
+
+		if (isPROrOldView) {
+			observe(prCommentSelector, add, {signal});
+		} else {
+			observe(issueCommentSelector, add, {signal});
+		}
+
+		filedSignal.abort();
+	}, {signal: filedSignal.signal});
 }
 
 void features.add(import.meta.url, {
