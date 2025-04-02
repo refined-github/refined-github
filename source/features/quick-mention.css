@@ -17,6 +17,11 @@
 .rgh-quick-mention.react-view {
 	position: static !important;
 	translate: none;
+
+	&::after {
+		bottom: unset;
+		transform: none;
+	}
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */

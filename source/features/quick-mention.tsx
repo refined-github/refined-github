@@ -18,6 +18,24 @@ const fieldSelector = [
 	'#react-issue-comment-composer textarea',
 ] as const;
 
+// Old Issue View and PR View
+// `:first-child` avoids app badges #2630
+// Avatars next to review events aren't wrapped in a <div> #4844
+const prCommentSelector = `
+	.js-quote-selection-container
+	:is(
+		div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
+		a.TimelineItem-avatar
+	):not([href="/${getUsername()!}"])
+`;
+
+const issueCommentSelector = [
+	// React Issue View
+	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
+	// React Issue View (first comment)
+	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getUsername()!}"])`,
+];
+
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
@@ -68,7 +86,10 @@ function add(avatar: HTMLElement): void {
 			return;
 	} else {
 		// Make sure the comment isn't hidden
-		const contentItem = avatar.parentElement!.querySelector('[data-testid="comment-header"] + div')!;
+		const contentItem = avatar.parentElement!.querySelector([
+			'[data-testid="comment-header"] + div',
+			'.react-issue-body', // First comment in React issues view
+		])!;
 
 		if (!contentItem) {
 			return;
@@ -110,22 +131,24 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	// `:first-child` avoids app badges #2630
-	// The hovercard attribute avoids `highest-rated-comment`
-	// Avatars next to review events aren't wrapped in a <div> #4844
-	// :has(fieldSelector) enables the feature only when/after the "mention" button can actually work
-	// .js-quote-selection-container selects the closest parent that contains both the new comment field and the avatar #7378
-	observe([
-		// TODO: Drop after June 2025
-		`
-		.js-quote-selection-container:has(${fieldSelector[0]})
-		:is(
-			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
-			a.TimelineItem-avatar
-		):not([href="/${getUsername()!}"])
-	`,
-		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
-	], add, {signal});
+	const controller = new AbortController();
+	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
+		observe(fieldSelector, field => {
+			resolve(field);
+			controller.abort();
+		}, {signal: AbortSignal.any([signal, controller.signal])});
+	});
+
+	if (!field) {
+		return;
+	}
+
+	const isPROrOldView = field.id === 'new_comment_field';
+	if (isPROrOldView) {
+		observe(prCommentSelector, add, {signal});
+	} else {
+		observe(issueCommentSelector, add, {signal});
+	}
 }
 
 void features.add(import.meta.url, {
