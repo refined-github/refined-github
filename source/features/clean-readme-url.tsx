@@ -12,7 +12,17 @@ function maybeCleanUrl(event?: NavigateEvent): void {
 
 function init(signal: AbortSignal): void {
 	maybeCleanUrl();
-	globalThis.navigation?.addEventListener('navigate', maybeCleanUrl, {signal});
+	let interval: NodeJS.Timeout;
+	if (globalThis.navigation) {
+		navigation.addEventListener('navigate', maybeCleanUrl, {signal});
+	} else {
+		interval = setInterval(() => {
+			maybeCleanUrl();
+		}, 1000);
+		signal.addEventListener('abort', () => {
+			clearInterval(interval);
+		});
+	}
 }
 
 void features.add(import.meta.url, {
