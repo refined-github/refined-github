@@ -218,4 +218,5 @@ import './features/linkify-line-numbers.js';
 import './features/sidebar-focus-file.js';
 import './features/rgh-token-user.js';
 import './features/unread-anywhere.js';
-import './features/no-target-blank.js';
+import './features/no-modals.js';
+import './features/same-page-links.js';

@@ -498,9 +498,9 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png"
 	},
 	{
-		"id": "no-target-blank",
-		"description": "Keeps links from opening in new tabs when they shouldn't. \"Open in new tab\" must be the user's choice, not the default behavior.",
-		"screenshot": null
+		"id": "no-modals",
+		"description": "Disable modals that reduce user-experience instead of enhancing it.",
+		"screenshot": "https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e"
 	},
 	{
 		"id": "no-unnecessary-split-diff-view",
@@ -772,6 +772,11 @@
 		"id": "same-branch-author-commits",
 		"description": "Preserves current branch and path when viewing all commits by an author.",
 		"screenshot": "https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png"
+	},
+	{
+		"id": "same-page-links",
+		"description": "Keeps links from opening in new tabs when they shouldn't. \"Open in new tab\" must be the user's choice, not the default behavior.",
+		"screenshot": null
 	},
 	{
 		"id": "scrollable-areas",
