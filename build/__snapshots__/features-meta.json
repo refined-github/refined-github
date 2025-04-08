@@ -503,11 +503,6 @@
 		"screenshot": "https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e"
 	},
 	{
-		"id": "same-page-links",
-		"description": "Keeps links from opening in new tabs when they shouldn't. \"Open in new tab\" must be the user's choice, not the default behavior.",
-		"screenshot": null
-	},
-	{
 		"id": "no-unnecessary-split-diff-view",
 		"description": "Always uses unified diffs on files where split diffs aren’t useful.",
 		"css": true,
@@ -777,6 +772,11 @@
 		"id": "same-branch-author-commits",
 		"description": "Preserves current branch and path when viewing all commits by an author.",
 		"screenshot": "https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png"
+	},
+	{
+		"id": "same-page-links",
+		"description": "Keeps links from opening in new tabs when they shouldn't. \"Open in new tab\" must be the user's choice, not the default behavior.",
+		"screenshot": null
 	},
 	{
 		"id": "scrollable-areas",
