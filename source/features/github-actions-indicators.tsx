@@ -153,6 +153,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 function openRunWorkflow(): void {
 	removeHashFromUrlBar();
+	// Note that the attribute is removed after the first opening, so the selector only matches it once
 	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
 	dropdown.open = true;
 }
