@@ -7,6 +7,14 @@ import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
 
+function getAvatarUrlSafely(username: string, size: number): string {
+	try {
+		return getUserAvatarURL(username, size) || '';
+	} catch {
+		return '';
+	}
+}
+
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
@@ -23,10 +31,21 @@ function addAvatar(link: HTMLElement): void {
 	);
 }
 
-function addMentionAvatar(link: HTMLLinkElement): void {
+function addMentionAvatar(link: HTMLAnchorElement): void {
 	assertNodeContent(link.firstChild, /^@/);
 	const username = link.textContent.slice(1);
-	const avatarUrl = getUserAvatarURL(username, 16, link.href);
+
+	// First use link content, then href
+	let avatarUrl = getAvatarUrlSafely(username, 16);
+
+	if (!avatarUrl) {
+		const username = link.href.split('/').pop()!;
+		avatarUrl = getAvatarUrlSafely(username, 20);
+	}
+
+	if (!avatarUrl) {
+		return;
+	}
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
 	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
