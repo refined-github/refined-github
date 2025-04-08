@@ -503,7 +503,7 @@
 		"screenshot": "https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e"
 	},
 	{
-		"id": "no-target-blank",
+		"id": "same-page-links",
 		"description": "Keeps links from opening in new tabs when they shouldn't. \"Open in new tab\" must be the user's choice, not the default behavior.",
 		"screenshot": null
 	},
