@@ -37,8 +37,7 @@ const canNativelyUpdate = [
 
 async function disableFeatureOnRepo(): Promise<void> {
 	const repo = getRepo()!.nameWithOwner;
-	log.info('Disabling the feature on', repo);
-	console.trace('Disabling the feature on', repo);
+	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
 	features.unload(import.meta.url);
 	await nativeRepos.applyOverride([repo], true);
 }
