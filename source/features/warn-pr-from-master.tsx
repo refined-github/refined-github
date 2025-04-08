@@ -1,18 +1,21 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import elementReady from 'element-ready';
 
+import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import parseCompareUrl from '../github-helpers/parse-compare-url.js';
 import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 
-async function init(): Promise<void> {
-	const anchor = await elementReady('.js-compare-pr');
-	anchor?.before(
+async function addWarning(anchor: HTMLElement): Promise<void> {
+	anchor.before(
 		<div className="flash flash-error my-3">
 			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
 		</div>,
 	);
+}
+
+function init(signal: AbortSignal): void {
+	observe('.js-compare-pr', addWarning, {signal});
 }
 
 async function isCrossRepoCompareFromMaster(): Promise<boolean> {

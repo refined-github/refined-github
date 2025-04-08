@@ -23,8 +23,11 @@ function timeAgo(date: Date): number {
 }
 
 function getCloseDate(): Date {
-	const datetime = getLastCloseEvent()!.getAttribute('datetime')!;
-	console.assert(datetime, 'Datetime attribute missing from relative-time');
+	const datetime = getLastCloseEvent()?.getAttribute('datetime');
+	if (!datetime) {
+		throw new TypeError('Datetime attribute missing from close event');
+	}
+
 	return new Date(datetime);
 }
 
