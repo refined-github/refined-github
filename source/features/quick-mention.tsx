@@ -122,7 +122,10 @@ async function init(signal: AbortSignal): Promise<void> {
 		:is(
 			div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 			a.TimelineItem-avatar
-		):not([href="/${getUsername()!}"])
+		):not(
+			[href="/${getUsername()!}"],
+			[href^="/apps/"]
+		)
 	`,
 		`[data-testid="issue-viewer-container"]:has(${fieldSelector[1]}) [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
 	], add, {signal});
