@@ -1,12 +1,18 @@
 import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
-export default function getUserAvatar(username: string, size: number): string | void {
-	const cleanName = username.replace('[bot]', '');
+export default function getUserAvatar(username: string, size: number, href?: string): string | void {
+	let cleanName = username.replace('[bot]', '');
 
 	if (/[^\w-]/.test(cleanName)) {
+		// In hovercard, the username maybe truncated, it will be ellipses
+		// We can get the full username from the href
+		if (href) {
+			cleanName = href.split('/').pop()!;
+		} else {
 		// TODO: December 2024: Turn into TypeError once we're sure it's not breaking anything
-		console.error(`Expected a username, got ${cleanName}`);
+			console.error(`Expected a username, got ${cleanName}`);
+		}
 	}
 
 	// Find image on page. Saves a request and a redirect + add support for bots
