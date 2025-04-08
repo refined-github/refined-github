@@ -5,7 +5,6 @@ import {$} from 'select-dom/strict.js';
 
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
-import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
@@ -24,12 +23,8 @@ function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 }
 
 function ExplanationLink(): JSX.Element {
-	// If you tweak this the alignment value, verify it against both the tagged and untagged states
-	// See screenshots in https://github.com/refined-github/refined-github/pull/7498
 	return (
-		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks">
-			<InfoIcon width={12} height={12} style={{verticalAlign: '-2px'}} />
-		</a>
+		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks" />
 	);
 }
 
@@ -64,7 +59,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		// PRs have a regular and a sticky header
 		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {signal});
 	} else {
-		void addReleaseBanner('This PR’s merge commit doesn’t appear in any tags');
+		void addReleaseBanner(<>This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.</>);
 	}
 }
 
@@ -90,7 +85,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
-					text: <>This pull request first appeared in {linkedTag} <ExplanationLink /></>,
+					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
@@ -98,7 +93,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	});
 }
 
-async function addReleaseBanner(text = 'Now you can release this change'): Promise<void> {
+async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 	const [releases] = await getReleases();
 	if (releases === 0) {
 		return;
@@ -106,9 +101,9 @@ async function addReleaseBanner(text = 'Now you can release this change'): Promi
 
 	const url = createReleaseUrl();
 	const bannerContent = {
+		text,
 		icon: <TagIcon className="m-0" />,
 		classes: ['rgh-bg-none'],
-		text: <>{text} <ExplanationLink /></>,
 	};
 
 	attachElement($('#issue-comment-box'), {
@@ -145,7 +140,7 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init(signal: AbortSignal): void {
-		onPrMerge(addReleaseBanner, signal);
+		onPrMerge(() => addReleaseBanner('Now you can release this change'), signal);
 	},
 });
 

@@ -11,6 +11,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import removeHashFromUrlBar from '../helpers/history.js';
 
 type Workflow = {
 	name: string;
@@ -107,8 +108,20 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
 
 	if (workflow.manuallyDispatchable) {
-		svgTrailer.append(<PlayIcon className="m-auto" />);
 		addTooltip(workflowListItem, 'This workflow can be triggered manually');
+
+		const icon = <PlayIcon className="m-auto" />;
+		if (workflowListItem.pathname === location.pathname) {
+			svgTrailer.append(icon);
+		} else {
+			const url = new URL(workflowListItem.href);
+			url.hash = 'rgh-run-workflow';
+			svgTrailer.append(
+				<a href={url.href} data-turbo-frame={workflowListItem.dataset.turboFrame}>
+					{icon}
+				</a>,
+			);
+		}
 	}
 
 	if (!workflow.schedule) {
@@ -138,12 +151,25 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 
+function openRunWorkflow(): void {
+	removeHashFromUrlBar();
+	// Note that the attribute is removed after the first opening, so the selector only matches it once
+	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
+	dropdown.open = true;
+}
+
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isRepositoryActions,
 		async () => Boolean(await workflowDetails.get()),
 	],
 	init,
+}, {
+	include: [
+		() => location.hash === '#rgh-run-workflow',
+	],
+	awaitDomReady: true,
+	init: openRunWorkflow,
 });
 
 /*
