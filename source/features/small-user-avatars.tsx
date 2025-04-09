@@ -2,18 +2,9 @@ import React from 'dom-chef';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
-
-function getAvatarUrlSafely(username: string, size: number): string {
-	try {
-		return getUserAvatarURL(username, size) || '';
-	} catch {
-		return '';
-	}
-}
 
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
@@ -32,20 +23,8 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
-	assertNodeContent(link.firstChild, /^@/);
-	const username = link.textContent.slice(1);
-
-	// First use link content, then href
-	let avatarUrl = getAvatarUrlSafely(username, 16);
-
-	if (!avatarUrl) {
-		const username = link.href.split('/').pop()!;
-		avatarUrl = getAvatarUrlSafely(username, 20);
-	}
-
-	if (!avatarUrl) {
-		return;
-	}
+	const username = link.href.split('/').pop()!;
+	const avatarUrl = getUserAvatarURL(username, 16);
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
 	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
