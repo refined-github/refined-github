@@ -28,7 +28,7 @@ const noScreenshotExceptions = new Set([
 	'select-all-notifications-shortcut',
 	'selection-in-new-tab',
 	'click-outside-modal',
-	'no-target-blank',
+	'same-page-links',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png

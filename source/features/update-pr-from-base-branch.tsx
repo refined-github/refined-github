@@ -4,6 +4,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import CheckIcon from 'octicons-plain-react/Check';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -11,14 +12,34 @@ import api from '../github-helpers/api.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
+import {getConversationNumber, getRepo} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
+
+// TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
+const nativeRepos = new CachedFunction('native-update-button', {
+	maxAge: {
+		days: 10,
+	},
+	staleWhileRevalidate: {
+		days: 1,
+	},
+	updater: async (_nameWithOwner: string): Promise<boolean> => {
+		throw new TypeError('bad usage');
+	},
+});
 
 const canNativelyUpdate = [
 	'.js-update-branch-form', // Old view - TODO: Remove in July 2025
 	'[aria-label="Update branch options"]',
-];
+] as const;
+
+async function disableFeatureOnRepo(): Promise<void> {
+	const repo = getRepo()!.nameWithOwner;
+	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
+	features.unload(import.meta.url);
+	await nativeRepos.applyOverride([repo], true);
+}
 
 async function mergeBranches(): Promise<AnyObject> {
 	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
@@ -57,6 +78,8 @@ function createButton(): JSX.Element {
 
 async function addButton(mergeBar: Element): Promise<void> {
 	if (elementExists(canNativelyUpdate)) {
+		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
+		disableFeatureOnRepo();
 		return;
 	}
 
@@ -107,12 +130,16 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
+	if (await nativeRepos.getCached(getRepo()!.nameWithOwner)) {
+		return false;
+	}
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe([
 		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
 		'[class^="MergeBox-module__mergePartialContainer"]',
 	], addButton, {signal});
+	observe(canNativelyUpdate, disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {
