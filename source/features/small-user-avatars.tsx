@@ -2,7 +2,6 @@ import React from 'dom-chef';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
@@ -23,9 +22,8 @@ function addAvatar(link: HTMLElement): void {
 	);
 }
 
-function addMentionAvatar(link: HTMLElement): void {
-	assertNodeContent(link.firstChild, /^@/);
-	const username = link.textContent.slice(1);
+function addMentionAvatar(link: HTMLAnchorElement): void {
+	const username = link.href.split('/').pop()!;
 	const avatarUrl = getUserAvatarURL(username, 16);
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');

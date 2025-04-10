@@ -5,8 +5,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 	const cleanName = username.replace('[bot]', '');
 
 	if (/[^\w-]/.test(cleanName)) {
-		// TODO: December 2024: Turn into TypeError once we're sure it's not breaking anything
-		console.error(`Expected a username, got ${cleanName}`);
+		throw new TypeError (`Expected a username, got ${cleanName}`);
 	}
 
 	// Find image on page. Saves a request and a redirect + add support for bots
