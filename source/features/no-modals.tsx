@@ -4,7 +4,6 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 
 function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
-	console.log('No modals');
 	event.stopImmediatePropagation();
 	event.delegateTarget.removeAttribute('target');
 }
