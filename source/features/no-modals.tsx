@@ -12,6 +12,7 @@ function init(signal: AbortSignal): void {
 	delegate([
 		'a[href$="/issues/new/choose"]', // New issue button
 		'a[class*="SubIssueTitle"]', // Sub-issue links
+		'a[class^="TitleHeader-module__inline"]', // Global Issue title
 	], 'click', fix, {signal, capture: true});
 }
 
@@ -19,6 +20,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
 });
