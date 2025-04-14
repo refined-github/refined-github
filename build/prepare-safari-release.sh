@@ -31,7 +31,6 @@ npx dot-json distribution/manifest.json version "$TAG"
 # For https://github.com/refined-github/refined-github/issues/7629
 # TODO: Drop after https://bugs.webkit.org/show_bug.cgi?id=277588
 npx dot-json distribution/manifest.json background.service_worker --delete
-npx dot-json distribution/manifest.json optional_permissions --delete
 npx dot-json distribution/manifest.json optional_host_permissions --delete
 npx dot-json distribution/manifest.json background.persistent false --json-value
 

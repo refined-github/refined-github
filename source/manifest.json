@@ -9,11 +9,11 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "126.0"
+			"strict_min_version": "128.0"
 		},
 		"gecko_android": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "126.0"
+			"strict_min_version": "128.0"
 		}
 	},
 	"permissions": [
@@ -30,9 +30,6 @@
 	"action": {
 		"default_icon": "assets/icon.png"
 	},
-	"optional_permissions": [
-		"*://*/*"
-	],
 	"optional_host_permissions": [
 		"*://*/*"
 	],
