@@ -180,11 +180,3 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 .octicon-star-fill {
 	color: var(--button-star-iconColor);
 }
-
-[data-testid="commit-row-item"] code  {
-	padding: 2px var(--base-size-4);
-	font-size: .9em;
-	line-height: 1;
-	background-color: var(--bgColor-neutral-muted);
-	border-radius: var(--borderRadius-medium);
-}
