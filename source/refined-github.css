@@ -176,3 +176,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	width: 72px;
 	height: 72px;
 }
+
+.octicon-star-fill {
+	color: var(--button-star-iconColor);
+}
