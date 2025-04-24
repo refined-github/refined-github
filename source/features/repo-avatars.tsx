@@ -30,7 +30,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.AppHeader-context-full li:first-child .AppHeader-context-item-label', add, {signal});
+	observe('.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', add, {signal});
 }
 
 void features.add(import.meta.url, {
