@@ -75,7 +75,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('.AppHeader-context-full li:last-child a.AppHeader-context-item', add, {signal});
+	observe('.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', add, {signal});
 }
 
 void features.add(import.meta.url, {
