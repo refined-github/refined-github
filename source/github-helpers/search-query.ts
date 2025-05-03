@@ -1,4 +1,4 @@
-const queryPartsRegExp = /\([^()]*(?:\([^()]*\)[^()]*)*\)|"[^"]*"|[^\s"()]+/g;
+const queryPartsRegExp = /(?:[^\s"]|"[^"]*")+/g;
 const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
 
 function splitQueryString(query: string): string[] {
