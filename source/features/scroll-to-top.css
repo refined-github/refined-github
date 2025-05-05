@@ -1,0 +1,23 @@
+/* Show button above all content */
+.rgh-scroll-to-top {
+	display: inline-block;
+	padding: 5px;
+	line-height: 1;
+	color: var(--fgColor-muted, var(--color-fg-muted), fuchsia);
+	position: fixed;
+	right: 96px;
+	bottom: 16px;
+
+	/* Keep it above GitHub's sticky header but below modals */
+	z-index: 35;
+	background-color: var(--rgh-background);
+	border: 1px solid var(--rgh-border-color);
+	border-radius: 6px;
+	box-shadow: var(--rgh-background);
+	opacity: 60%;
+	transition: opacity 0.2s;
+}
+
+.rgh-scroll-to-top:hover {
+	opacity: 100%;
+}

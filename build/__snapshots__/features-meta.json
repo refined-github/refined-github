@@ -779,6 +779,12 @@
 		"screenshot": null
 	},
 	{
+		"id": "scroll-to-top",
+		"description": "Adds a button to scroll to the top of the page.",
+		"css": true,
+		"screenshot": null
+	},
+	{
 		"id": "scrollable-areas",
 		"description": "Limits the height of tall code blocks and quotes.",
 		"css": true,
