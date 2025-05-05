@@ -782,7 +782,7 @@
 		"id": "scroll-to-top",
 		"description": "Adds a button to scroll to the top of the page.",
 		"css": true,
-		"screenshot": null
+		"screenshot": "https://raw.githubusercontent.com/mikr13/refined-github/refs/heads/main/media/scroll-to-top.png"
 	},
 	{
 		"id": "scrollable-areas",

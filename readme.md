@@ -231,7 +231,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Viewing pull requests
 
-- [](# "scroll-to-top") [Adds a button to scroll to the top of the page.](./media/scroll-to-top.png)
+- [](# "scroll-to-top") [Adds a button to scroll to the top of the page.](https://raw.githubusercontent.com/mikr13/refined-github/refs/heads/main/media/scroll-to-top.png)
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png)
