@@ -3,18 +3,19 @@
 @media (hover: hover) and (pointer: fine) {
 	html:not([rgh-OFF-clean-rich-text-editor])
 		:is(
+			/* Classic fields */
 			[data-md-button='mention'],
 			[data-md-button='ref'],
 			[data-md-button='header-3'],
 			[data-md-button='bold'],
 			[data-md-button='italic'],
+			/* React fields */
 			[data-component='IconButton']:has(.octicon-heading),
 			[data-component='IconButton']:has(.octicon-bold),
 			[data-component='IconButton']:has(.octicon-italic),
 			[data-component='IconButton']:has(.octicon-cross-reference),
-			[data-component='IconButton']:has(.octicon-mention),)
-		
-		:not(:focus) {
+			[data-component='IconButton']:has(.octicon-mention),
+		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
 		position: absolute;
 		width: 1px;
