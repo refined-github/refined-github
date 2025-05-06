@@ -173,6 +173,7 @@ const botNames = [
 	'scala-steward',
 	'weblate',
 	'apps', // Matches any `/apps/*` URLs
+	'github-apps', // GHE apps
 ] as const;
 
 const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
