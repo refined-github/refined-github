@@ -1,4 +1,4 @@
-.rgh-clean-repo-filelist-actions-search {
+.rgh-clean-repo-filelist-actions .TextInput-wrapper {
 	/* Override the value that GitHub sets */
 	min-width: unset !important;
 

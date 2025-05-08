@@ -47,12 +47,6 @@ function cleanCodeButton(codeButton: Element): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
-
-	const controller = new AbortController();
-	observe('.rgh-clean-repo-filelist-actions .TextInput-wrapper', searchInput => {
-		searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
-		controller.abort();
-	}, {signal: AbortSignal.any([signal, controller.signal])});
 }
 
 void features.add(import.meta.url, {
