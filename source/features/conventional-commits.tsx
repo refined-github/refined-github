@@ -23,9 +23,14 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 		return;
 	}
 
-	// Skip commits that are _only_ "ci:" without anything else. Rare but would be confusing to show just the label
-	// The childElementCount is checked to ensure that the element contains only plain text, not stuff like <code>
-	if (commit.raw === textNode.textContent && !commitTitleElement.nextElementSibling && commitTitleElement.childElementCount < 1) {
+	if (
+		// Skip commits that are _only_ "ci:" without anything else. Rare but it would be confusing to show just the label
+		commit.raw === textNode.textContent
+		&& !commitTitleElement.nextElementSibling
+		
+		// Ensure that the element contains only plain text, not stuff like <code>
+		&& commitTitleElement.childElementCount < 1
+	) {
 		return;
 	}
 
