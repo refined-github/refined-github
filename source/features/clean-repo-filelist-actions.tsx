@@ -6,6 +6,7 @@ import PlusIcon from 'octicons-plain-react/Plus';
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+
 import './clean-repo-filelist-actions.css';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
@@ -19,9 +20,7 @@ function addTooltipToSummary(childElement: Element, tooltip: string): void {
 function cleanFilelistActions(addFileButton: Element): void {
 	const container = addFileButton.parentElement!.parentElement!;
 	const codeButton = $optional('& > button', container);
-
-	const searchInput = $('.TextInput-wrapper', addFileButton.parentElement!);
-	searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
+	container.classList.add('rgh-clean-repo-filelist-actions');
 
 	cleanAddFileButton(addFileButton);
 
@@ -46,8 +45,14 @@ function cleanCodeButton(codeButton: Element): void {
 	addTooltipToSummary(codeButton, 'Clone, open or download');
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
 	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
+
+	const controller = new AbortController();
+	observe('.rgh-clean-repo-filelist-actions .TextInput-wrapper', searchInput => {
+		searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
+		controller.abort();
+	}, {signal: AbortSignal.any([signal, controller.signal])});
 }
 
 void features.add(import.meta.url, {
