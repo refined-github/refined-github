@@ -45,7 +45,7 @@ function cleanCodeButton(codeButton: Element): void {
 	addTooltipToSummary(codeButton, 'Clone, open or download');
 }
 
-async function init(signal: AbortSignal): Promise<void> {
+function init(signal: AbortSignal): void {
 	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
 }
 
