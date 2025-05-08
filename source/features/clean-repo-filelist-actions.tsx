@@ -6,7 +6,6 @@ import PlusIcon from 'octicons-plain-react/Plus';
 import observe from '../helpers/selector-observer.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-
 import './clean-repo-filelist-actions.css';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
