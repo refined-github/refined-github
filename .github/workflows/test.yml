@@ -66,6 +66,7 @@ jobs:
       - uses: codespell-project/actions-codespell@v2
         with:
           ignore_words_list: eror,usera
+          exclude_file: ${{ github.workspace }}/package-lock.json
           skip: '*.json'
 
   Types:
