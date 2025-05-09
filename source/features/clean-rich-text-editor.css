@@ -14,7 +14,7 @@
 			[data-component='IconButton']:has(.octicon-bold),
 			[data-component='IconButton']:has(.octicon-italic),
 			[data-component='IconButton']:has(.octicon-cross-reference),
-			[data-component='IconButton']:has(.octicon-mention),
+			[data-component='IconButton']:has(.octicon-mention)
 		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
 		position: absolute;
