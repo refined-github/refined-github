@@ -8,8 +8,10 @@ function fix(button: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// "Closing issue" link
-	observe('[data-testid="state-reason-link"] + [target="_blank"]', fix, {signal});
+	observe([
+		'[data-testid="state-reason-link"] + [target="_blank"]', // "Closing issue" link
+		'[data-testid="issue-metadata-fixed"] [target="_blank"]', // Reference PR link in issue header
+	], fix, {signal});
 }
 
 void features.add(import.meta.url, {
