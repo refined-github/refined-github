@@ -24,20 +24,22 @@ type Bugs = {
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs);
 
+	const issuesBugCount = repository.issues.totalCount ?? 0;
+
 	// Prefer native "bug" label
 	for (const label of repository.labels.nodes) {
 		if (label.name === 'bug') {
-			return {label: 'bug', count: label.issues.totalCount ?? 0};
+			return {label: 'bug', count: (label.issues.totalCount ?? 0) + issuesBugCount};
 		}
 	}
 
 	for (const label of repository.labels.nodes) {
 		if (isBugLabel(label.name)) {
-			return {label: label.name, count: label.issues.totalCount ?? 0};
+			return {label: label.name, count: (label.issues.totalCount ?? 0) + issuesBugCount};
 		}
 	}
 
-	return {label: '', count: 0};
+	return {label: '', count: issuesBugCount};
 }
 
 const bugs = new CachedFunction('bugs', {
@@ -49,7 +51,7 @@ const bugs = new CachedFunction('bugs', {
 
 async function getSearchQueryBugLabel(): Promise<string> {
 	const {label} = await bugs.getCached() ?? {};
-	return 'label:' + SearchQuery.escapeValue(label ?? 'bug');
+	return `(label:${label ?? 'bug'} OR type:Bug)`;
 }
 
 async function isBugsListing(): Promise<boolean> {

@@ -17,6 +17,11 @@ test('getQueryParts with spaces support', () => {
 	assert.deepEqual(query.getQueryParts(), ['please', 'label:"under discussion"']);
 });
 
+test('getQueryParts with parentheses support', () => {
+	const query = SearchQuery.from({q: 'please (label:"bug" or type:bug)'});
+	assert.deepEqual(query.getQueryParts(), ['please', '(label:"bug" or type:bug)']);
+});
+
 test('.set', () => {
 	const query = SearchQuery.from({q: 'wow'});
 	query.set('lol');
