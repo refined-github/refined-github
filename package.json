@@ -6,10 +6,10 @@
 		"build": "run-p build:* --continue-on-error",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
-		"fix": "run-p \"lint:css -- --fix\" \"lint:js -- --fix\" format \"vitest -- --update\" --continue-on-error",
+		"fix": "run-p \"lint:css --write\" \"lint:js -- --fix\" format \"vitest -- --update\" --continue-on-error",
 		"format": "prettier . --write",
 		"lint": "run-p lint:* --continue-on-error",
-		"lint:css": "stylelint \"source/**/*.css\"",
+		"lint:css": "biome lint ./source/**/*.css",
 		"lint:js": "eslint .",
 		"lint:prettier": "prettier . --check",
 		"new": "bash build/new-feature.sh",
@@ -35,38 +35,6 @@
 				}
 			}
 		]
-	},
-	"stylelint": {
-		"extends": [
-			"stylelint-config-standard",
-			"@stylistic/stylelint-config"
-		],
-		"rules": {
-			"alpha-value-notation": "percentage",
-			"@stylistic/string-quotes": "single",
-			"comment-empty-line-before": [
-				"always",
-				{
-					"except": [
-						"first-nested"
-					],
-					"ignore": [
-						"after-comment",
-						"stylelint-commands"
-					]
-				}
-			],
-			"@stylistic/indentation": null,
-			"@stylistic/declaration-colon-newline-after": null,
-			"@stylistic/selector-combinator-space-before": null,
-			"@stylistic/selector-descendant-combinator-no-non-space": null,
-			"@stylistic/value-list-comma-newline-after": null,
-			"@stylistic/max-line-length": null,
-			"custom-property-pattern": null,
-			"selector-class-pattern": null,
-			"selector-id-pattern": null,
-			"no-descending-specificity": null
-		}
 	},
 	"dependencies": {
 		"@fregante/mi-cron": "^2.0.0",
@@ -118,6 +86,7 @@
 	},
 	"devDependencies": {
 		"@antfu/eslint-config": "^3.16.0",
+		"@biomejs/biome": "1.9.4",
 		"@eslint-react/eslint-plugin": "^1.24.1",
 		"@rollup/plugin-alias": "^5.1.1",
 		"@rollup/plugin-commonjs": "^28.0.2",
@@ -125,7 +94,6 @@
 		"@rollup/plugin-node-resolve": "^16.0.0",
 		"@rollup/plugin-sucrase": "^5.0.2",
 		"@sindresorhus/tsconfig": "^7.0.0",
-		"@stylistic/stylelint-config": "^2.0.0",
 		"@types/chrome": "^0.0.299",
 		"@types/codemirror": "^5.60.15",
 		"@types/dom-navigation": "^1.0.4",
@@ -155,8 +123,6 @@
 		"rollup-plugin-svelte": "^7.2.2",
 		"rollup-plugin-webpack-stats": "^2.0.0",
 		"snarkdown": "^2.0.0",
-		"stylelint": "^16.13.2",
-		"stylelint-config-standard": "^37.0.0",
 		"svelte": "^5.19.2",
 		"type-fest": "^4.33.0",
 		"typed-query-selector": "^2.12.0",

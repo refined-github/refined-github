@@ -1,6 +1,6 @@
 /* Explanation for the feature in https://github.com/refined-github/refined-github/pull/4728#issuecomment-910630727 */
 
-@media (resolution >= 2x) {
+@media (resolution: 2x) {
 	html:not([rgh-OFF-emphasize-draft-pr-label]) {
 		.js-issue-row
 		:is(
