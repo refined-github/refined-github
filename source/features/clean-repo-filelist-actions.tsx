@@ -19,9 +19,7 @@ function addTooltipToSummary(childElement: Element, tooltip: string): void {
 function cleanFilelistActions(addFileButton: Element): void {
 	const container = addFileButton.parentElement!.parentElement!;
 	const codeButton = $optional('& > button', container);
-
-	const searchInput = $('.TextInput-wrapper', addFileButton.parentElement!);
-	searchInput.classList.add('rgh-clean-repo-filelist-actions-search');
+	container.classList.add('rgh-clean-repo-filelist-actions');
 
 	cleanAddFileButton(addFileButton);
 
