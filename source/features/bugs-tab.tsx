@@ -16,6 +16,20 @@ import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 
+type ApiResponse = {
+	issues?: {
+		totalCount?: number;
+	};
+	labels?: {
+		nodes?: Array<{
+			name: string;
+			issues: {
+				totalCount?: number;
+			};
+		}>;
+	};
+};
+
 type Bugs = {
 	label: string;
 	count: number;
