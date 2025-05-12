@@ -29,9 +29,19 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 <table><tr><td width="550"><div align="center">
 	<p><sup><a href="https://github.com/sponsors/fregante">@fregante</a>’s open source work is supported by the community.<br>Special thanks to:</sup></p>
-	<p><a href="http://prisma.io/">
-		<img src="https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg" width="250" alt="Prisma.io">
+	<p><a href="https://www.prisma.io/">
+		<picture>
+			<source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f781e9a3-2c03-4334-b234-8f20600ca45f">
+			<img width="250" alt="Prisma.io" src=https://user-images.githubusercontent.com/1402241/205429539-4549ea71-f26c-432a-aaef-db430c435718.svg">
+		</picture>
 		<br><sup>Next-generation Node.js and TypeScript ORM with an intuitive data model, automated migrations, type-safety & auto-completion.</sup>
+	</a></p>
+	<p><a href="https://frappe.io/">
+		<picture>
+			<source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/534638ee-7849-4e42-a847-b50be5d1e2f0">
+			<img width="190" alt="Frappe" src="https://github.com/user-attachments/assets/1f853047-b30c-41de-acf9-4daefb6a6fc3">
+		</picture>
+		<br><sup>Fully-featured low-code web framework and more world-class free and open-source software.</sup>
 	</a></p>
 </table>
 
