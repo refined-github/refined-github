@@ -26,5 +26,6 @@ void features.add(import.meta.url, {
 Test URLs
 
 - "Closing issue" link https://github.com/refined-github/refined-github/issues/8346#event-16947543136
+- "Reference PR link" https://github.com/refined-github/refined-github/pull/8367
 
 */
