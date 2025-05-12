@@ -8,8 +8,10 @@ function fix(button: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// "Closing issue" link
-	observe('[data-testid="state-reason-link"] + [target="_blank"]', fix, {signal});
+	observe([
+		'[data-testid="state-reason-link"] + [target="_blank"]', // "Closing issue" link
+		'[data-testid="issue-metadata-fixed"] [target="_blank"]', // Reference PR link in issue header
+	], fix, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -24,5 +26,6 @@ void features.add(import.meta.url, {
 Test URLs
 
 - "Closing issue" link https://github.com/refined-github/refined-github/issues/8346#event-16947543136
+- "Reference PR link" https://github.com/refined-github/refined-github/pull/8367
 
 */
