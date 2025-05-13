@@ -16,28 +16,36 @@ import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 
+type ApiResponse = {
+	issues?: {
+		totalCount?: number;
+	};
+	labels?: {
+		nodes?: Array<{
+			name: string;
+			issues: {
+				totalCount?: number;
+			};
+		}>;
+	};
+};
+
 type Bugs = {
 	label: string;
 	count: number;
 };
 
 async function countBugs(): Promise<Bugs> {
-	const {repository} = await api.v4(CountBugs);
+	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
+	const bugTypeCount = repository?.issues?.totalCount ?? 0;
 
-	// Prefer native "bug" label
-	for (const label of repository.labels.nodes) {
-		if (label.name === 'bug') {
-			return {label: 'bug', count: label.issues.totalCount ?? 0};
-		}
+	let label = repository?.labels?.nodes?.find(label => label.name === 'bug');
+	if (!label) {
+		label = repository?.labels?.nodes?.find(label => isBugLabel(label.name));
 	}
 
-	for (const label of repository.labels.nodes) {
-		if (isBugLabel(label.name)) {
-			return {label: label.name, count: label.issues.totalCount ?? 0};
-		}
-	}
-
-	return {label: '', count: 0};
+	const bugCount = bugTypeCount + (label?.issues?.totalCount ?? 0);
+	return {label: label?.name ?? 'bug', count: bugCount};
 }
 
 const bugs = new CachedFunction('bugs', {
@@ -49,7 +57,7 @@ const bugs = new CachedFunction('bugs', {
 
 async function getSearchQueryBugLabel(): Promise<string> {
 	const {label} = await bugs.getCached() ?? {};
-	return 'label:' + SearchQuery.escapeValue(label ?? 'bug');
+	return `(label:${SearchQuery.escapeValue(label ?? 'bug')} OR type:Bug)`;
 }
 
 async function isBugsListing(): Promise<boolean> {
