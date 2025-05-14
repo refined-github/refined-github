@@ -35,14 +35,6 @@ Exclusively use simple sums and use `0px` instead of `0`
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: var(--rgh-sticky-sidebar-offset, 0) !important;
-
-	/* `sticky` will trap the `fixed` dialog’s z-index in some sidebars #3732 */
-	/* Higher than sticky readme header #4192 */
-	z-index: 90;
-}
-
-#partial-discussion-sidebar.rgh-sticky-sidebar {
-	z-index: 1;
 }
 
 #discussion_bucket #partial-discussion-sidebar.rgh-sticky-sidebar-container {
@@ -52,27 +44,4 @@ Exclusively use simple sums and use `0px` instead of `0`
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
 .rgh-sticky-sidebar + .border-top {
 	display: none;
-}
-
-/* Avoid z-index issue with Stars dropdown in repo header #5214 */
-[rgh-sticky-sidebar-enabled] .pagehead-actions .js-user-list-menu {
-	z-index: unset;
-}
-
-/* z-index fights - header on issue side */
-div[data-testid='issue-metadata-sticky'] {
-	z-index: 92; /* Native: 14 */
-}
-
-/* z-index fights 🥲 This is the search dropdown on the repo root #6151 */
-html[rgh-sticky-sidebar-enabled]:has(.rgh-sticky-sidebar)
-	.search-input.expanded
-	.search-with-dialog {
-	z-index: 95; /* Native: 35 */
-}
-
-html[rgh-sticky-sidebar-enabled]:has(.rgh-sticky-sidebar)
-	.search-input.expanded
-	.dark-backdrop {
-	z-index: 92; /* Native: 32 */
 }
