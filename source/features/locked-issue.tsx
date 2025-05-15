@@ -18,17 +18,17 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLock(element: HTMLElement): void {
-	const isIssue = element.getAttribute('data-testid')?.startsWith('issue-metadata');
+	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
 
 	// Avoid adding it duplicately in issue
-	if (isIssue && elementExists('.rgh-locked-issue', element)) {
+	if (isReactView && elementExists('.rgh-locked-issue', element)) {
 		return;
 	}
 
 	const closestSticky = element.closest('.gh-header-sticky');
-	const classes = `${closestSticky ? 'mr-2 ' : ''}${isIssue ? '' : 'mb-2 '}`;
+	const classes = `${closestSticky ? 'mr-2 ' : ''}${isReactView ? '' : 'mb-2 '}`;
 
-	const container = isIssue ? $('[data-testid="header-state"]', element).parentElement! : element;
+	const container = isReactView ? $('[data-testid="header-state"]', element).parentElement! : element;
 	container!.after(
 		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
 	);
