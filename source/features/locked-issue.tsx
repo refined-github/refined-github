@@ -1,6 +1,8 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -16,21 +18,28 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLock(element: HTMLElement): void {
-	const classes = (
-		element.closest('.gh-header-sticky')
-			? 'mr-2 '
-			: ''
-	)
-	+ 'mb-2 rgh-locked-issue';
-	element.after(
-		<LockedIndicator className={classes} />,
+	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
+
+	// Avoid adding it duplicately in issue
+	if (isReactView && elementExists('.rgh-locked-issue', element)) {
+		return;
+	}
+
+	const closestSticky = element.closest('.gh-header-sticky');
+	const classes = `${closestSticky ? 'mr-2 ' : ''}${isReactView ? '' : 'mb-2 '}`;
+
+	const container = isReactView ? $('[data-testid="header-state"]', element).parentElement! : element;
+	container!.after(
+		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe([
-		'.gh-header-meta > :first-child', // Issue title
-		'.gh-header-sticky .flex-row > :first-child', // Sticky issue title
+		'[data-testid="issue-metadata-fixed"]', // Issue title
+		'[data-testid="issue-metadata-sticky"]', // Sticky issue title
+		'.gh-header-meta > :first-child', // PR title
+		'.gh-header-sticky .flex-row > :first-child', // Sticky PR title
 	], addLock, {signal});
 }
 
