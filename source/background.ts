@@ -5,6 +5,7 @@ import {globalCache} from 'webext-storage-cache'; // Also needed to regularly cl
 import addPermissionToggle from 'webext-permission-toggle';
 import {StorageItem} from 'webext-storage';
 import {handleMessages} from 'webext-msg';
+import {isSafari} from 'webext-detect';
 
 import optionsStorage, {hasToken} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
@@ -18,7 +19,9 @@ const {version} = chrome.runtime.getManifest();
 const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
 // GHE support
-addPermissionToggle();
+if (!isSafari()) {
+	addPermissionToggle();
+}
 
 // Add "Reload without content scripts" functionality
 addReloadWithoutContentScripts();
