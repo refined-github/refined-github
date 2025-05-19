@@ -118,6 +118,14 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	}
 }
 
+/* Container's width is overing browser viewport */
+.suggester-container li {
+	max-width: 500px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 /*
 
 Test URLs:
