@@ -45,26 +45,6 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 	</a></p>
 </table>
 
-<table><tr><td width="550">
-<div align="center">
-	<p>
-		<sup>
-			Sindre’s open source work is supported by the community.<br>Special thanks to:
-		</sup>
-	</p>
-	<br>
-	<a href="https://workos.com/?utm_campaign=github_repo&utm_medium=referral&utm_content=refined-github&utm_source=github">
-		<div>
-			<img src="https://sindresorhus.com/assets/thanks/workos-logo-white-bg.svg" width="210" alt="WorkOS">
-		</div>
-		<b>Your app, enterprise-ready.</b>
-		<div>
-			<sub>Start selling to enterprise customers with just a few lines of code. Add Single Sign-On (and more) in minutes instead of months.</sup>
-		</div>
-	</a>
-</div>
-</table>
-
 </div>
 
 ---
