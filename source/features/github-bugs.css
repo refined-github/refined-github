@@ -118,7 +118,9 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	}
 }
 
-/* Container's width is overing browser viewport #8454 */
+/* Issue picker does not clip unbreakable issue titles in PRs */
+/* Info: https://github.com/refined-github/refined-github/pull/8454 */
+/* Test: type "#113" in https://github.com/refined-github/sandbox/pull/4 */
 .suggester-container li {
 	max-width: 500px;
 	overflow: hidden;
