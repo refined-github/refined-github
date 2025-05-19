@@ -118,7 +118,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	}
 }
 
-/* Container's width is overing browser viewport */
+/* Container's width is overing browser viewport #8454 */
 .suggester-container li {
 	max-width: 500px;
 	overflow: hidden;
