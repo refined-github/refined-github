@@ -28,8 +28,21 @@ function addLock(element: HTMLElement): void {
 	const closestSticky = element.closest('.gh-header-sticky');
 	const classes = `${closestSticky ? 'mr-2 ' : ''}${isReactView ? '' : 'mb-2 '}`;
 
-	const container = isReactView ? $('[data-testid="header-state"]', element).parentElement! : element;
-	container!.after(
+	let container: HTMLElement | undefined;
+
+	if (isReactView) {
+		const wrapper = $('[data-testid="header-state"]', element).parentElement!;
+
+		// Check if the element is wrapped by jump to close event feature
+		const isWrappedByCloseEvent = wrapper.tagName === 'A';
+		container = isWrappedByCloseEvent
+			? wrapper.parentElement!
+			: wrapper;
+	} else {
+		container = element;
+	}
+
+	container.after(
 		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
 	);
 }
