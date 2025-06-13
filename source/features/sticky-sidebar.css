@@ -35,11 +35,6 @@ Exclusively use simple sums and use `0px` instead of `0`
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: var(--rgh-sticky-sidebar-offset, 0) !important;
-	/*
-		Make sure the container's z-index is higher than the readme header
-		to avoid the README header overlapping the sidebar.
-	 */
-	z-index: 9;
 }
 
 #discussion_bucket #partial-discussion-sidebar.rgh-sticky-sidebar-container {
@@ -49,4 +44,8 @@ Exclusively use simple sums and use `0px` instead of `0`
 /* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
 .rgh-sticky-sidebar + .border-top {
 	display: none;
+}
+
+.rgh-sticky-sidebar:has(.details-reset[open]) {
+	z-index: 90;
 }
