@@ -45,3 +45,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
+
+.rgh-sticky-sidebar:has(.details-reset[open]) {
+	z-index: 90;
+}
