@@ -180,3 +180,8 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 .octicon-star-fill {
 	color: var(--button-star-iconColor);
 }
+
+/* Untruncate long job name #8372 */
+.ActionListItem .ActionListItem-label--truncate {
+	white-space: unset !important;
+}
