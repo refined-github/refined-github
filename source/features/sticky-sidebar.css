@@ -45,3 +45,8 @@ Exclusively use simple sums and use `0px` instead of `0`
 .rgh-sticky-sidebar + .border-top {
 	display: none;
 }
+
+/* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
+.rgh-sticky-sidebar:has(.details-reset[open]) {
+	z-index: 90;
+}

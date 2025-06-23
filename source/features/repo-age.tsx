@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 		: <><strong>{value}</strong> {unit} old</>;
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
-	sidebarForksLinkIcon!.closest('.mt-2')!.append(
+	sidebarForksLinkIcon!.closest('.mt-2')!.after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
