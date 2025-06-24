@@ -124,9 +124,11 @@ async function addButton(mergeBar: Element): Promise<void> {
 			</div>,
 		);
 	} else {
+		// We need to create a new row when `Checks` is present
+		const checkFailed = $optional('[aria-label="Checks"]');
 		// Old view draft PRs require a new row to display the button
 		// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
-		mergeBar.before(createMergeabilityRow({
+		(checkFailed ?? mergeBar).before(createMergeabilityRow({
 			className: 'rgh-update-pr-from-base-branch-row',
 			action: createButton(),
 			icon: <CheckIcon />,

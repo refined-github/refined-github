@@ -117,7 +117,7 @@ async function init(): Promise<void | false> {
 		} else if (targetTags.length > 0) {
 			const commitMeta = $([
 				'div[data-testid="list-view-item-description"]',
-				'[class^="Description-module__container"] > [class^="Box-sc"]',
+				'[class^="Description-module__container"]',
 			], commit);
 
 			commitMeta.append(

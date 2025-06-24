@@ -37,7 +37,7 @@ function setStorage(): void {
 
 function add(submitButtonLine: HTMLElement): void {
 	submitButtonLine.before(
-		<div className="flash flash-warn py-0 ml-n3">
+		<div className="flash flash-warn py-0 ml-n3 mb-4">
 			<div className="form-checkbox checked">
 				<label>
 					<input
@@ -57,13 +57,14 @@ function add(submitButtonLine: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('form :has(> [type=submit])', add, {signal});
-	delegate(['#new_repository', '#new_new_repository'], 'submit', setStorage, {signal});
+	delegate('form', 'submit', setStorage, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewRepo,
 		pageDetect.isNewRepoTemplate,
+		pageDetect.isForkingRepo,
 	],
 	init,
 }, {
