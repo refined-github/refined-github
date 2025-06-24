@@ -111,7 +111,7 @@ async function cleanSidebar(): Promise<void> {
 	}
 
 	// Development (linked issues/PRs)
-	const developmentHint = $optional('[aria-label="Link issues"] p');
+	const developmentHint = $optional('[aria-label="Link issues"] > p');
 	if (developmentHint) { // This may not exist if issues are disabled
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
