@@ -40,7 +40,7 @@ function canNativelyUpdate(): boolean {
 		return true;
 	}
 
-	return false;
+	return nativeButton?.textContent === 'etc';
 }
 
 async function disableFeatureOnRepo(): Promise<void> {
