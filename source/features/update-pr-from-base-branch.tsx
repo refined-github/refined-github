@@ -35,12 +35,7 @@ function canNativelyUpdate(): boolean {
 	}
 
 	const nativeButton = $optional('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]');
-
-	if (nativeButton && nativeButton.textContent === 'Update branch') {
-		return true;
-	}
-
-	return nativeButton?.textContent === 'etc';
+	return nativeButton?.textContent === 'Update branch';
 }
 
 async function disableFeatureOnRepo(): Promise<void> {
