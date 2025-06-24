@@ -137,7 +137,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	observe([
-		'[aria-label="More file actions"]', // `isSingleFile`
+		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
 		'[data-hotkey="Mod+s"]', // `isEditingFile`
 	], add, {signal});
 }
