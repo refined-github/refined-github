@@ -29,10 +29,14 @@ const nativeRepos = new CachedFunction('native-update-button', {
 	},
 });
 
-const canNativelyUpdate = [
-	'.js-update-branch-form', // Old view - TODO: Remove in July 2025
-	'[aria-label="Update branch options"]',
-] as const;
+function canNativelyUpdate(): boolean {
+	if (elementExists('.js-update-branch-form')) {
+		return true;
+	}
+
+	const nativeButton = $optional('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]');
+	return nativeButton?.textContent === 'Update branch';
+}
 
 async function disableFeatureOnRepo(): Promise<void> {
 	const repo = getRepo()!.nameWithOwner;
@@ -77,7 +81,7 @@ function createButton(): JSX.Element {
 }
 
 async function addButton(mergeBar: Element): Promise<void> {
-	if (elementExists(canNativelyUpdate)) {
+	if (canNativelyUpdate()) {
 		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
 		disableFeatureOnRepo();
 		return;
@@ -141,7 +145,10 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
 		'[class^="MergeBox-module__mergePartialContainer"]',
 	], addButton, {signal});
-	observe(canNativelyUpdate, disableFeatureOnRepo, {signal});
+	observe([
+		'.js-update-branch-form', // Old view - TODO: Remove in July 2025
+		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]',
+	], disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {
