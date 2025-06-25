@@ -75,6 +75,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCompare,
 	],
+	exclude: [
+		() =>	new URLSearchParams(location.search).has('title'),
+	],
 	deduplicate: 'has-rgh',
 	init,
 });
