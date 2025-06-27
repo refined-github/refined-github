@@ -138,6 +138,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
+		'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
 		'[data-hotkey="Mod+s"]', // `isEditingFile`
 	], add, {signal});
 }
