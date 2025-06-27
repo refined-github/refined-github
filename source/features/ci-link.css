@@ -3,3 +3,8 @@
 	pointer-events: none;
 	margin-left: 0.3em;
 }
+
+/* The popup is cut off by the global bar #8495 */
+.AppHeader-globalBar-start {
+	overflow: visible !important;
+}
