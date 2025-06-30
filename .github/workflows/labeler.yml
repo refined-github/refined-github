@@ -5,9 +5,34 @@ on:
     types: [opened, edited]
   issues:
     types: [opened, edited]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  Label:
+  Reminder:
+    if: >
+      github.event.review.state == 'approved' ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check if PR has no labels
+        id: check_labels
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const labels = context.payload.pull_request.labels;
+            return labels.length === 0 ? 'true' : 'false';
+
+      - name: Post comment if unlabeled
+        if: steps.check_labels.outputs.result == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: Please add labels to this PR
+  Title:
+    if: ${{ github.event_name != 'pull_request_target' && github.event.action != 'closed' }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
