@@ -2,7 +2,7 @@ name: Labeler
 
 on:
   pull_request_target:
-    types: [opened, edited]
+    types: [opened, edited, closed]
   issues:
     types: [opened, edited]
   pull_request_review:
@@ -11,7 +11,7 @@ on:
 jobs:
   Reminder:
     if: >
-      github.event.review.state == 'commented' ||
+      github.event_name == 'pull_request_review' ||
       (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     permissions:
@@ -32,7 +32,7 @@ jobs:
         with:
           message: Please add labels to this PR
   Title:
-    if: ${{ github.event_name != 'pull_request_target' && github.event.action != 'closed' }}
+    if: ${{ github.event_name != 'pull_request_review' && github.event.action != 'closed' }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
