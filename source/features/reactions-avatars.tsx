@@ -28,9 +28,10 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
 		users = button.nextElementSibling!
 			.textContent
+			.replace(/.*including /, '')
+			.replace(/\)/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
-			.replace(/\)/, '')
 			.split(', ');
 	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
