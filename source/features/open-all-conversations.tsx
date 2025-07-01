@@ -97,7 +97,8 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - Global: https://github.com/issues
-- Repo: https://github.com/sindresorhus/refined-github/pulls
+- Issues: https://github.com/sindresorhus/refined-github/issues
+- PRs: https://github.com/sindresorhus/refined-github/pulls
 - Nothing to open: https://github.com/fregante/empty/pulls
 
 */
