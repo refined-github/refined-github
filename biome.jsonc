@@ -1,0 +1,23 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+	"css": {
+		"formatter": {
+			"quoteStyle": "single"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				// TODO: Enable later
+				"noDescendingSpecificity": "off"
+			}
+		}
+	},
+	"files": {
+		"includes": [
+			"source/**/*.css"
+		]
+	}
+}

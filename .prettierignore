@@ -1,5 +1,4 @@
 # Ensure Prettier is not automatically run by editors on unwanted files
 *.*
 !*.gql
-!*.css
 !*.svelte
