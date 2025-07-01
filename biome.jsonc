@@ -16,8 +16,6 @@
 		}
 	},
 	"files": {
-		"includes": [
-			"source/**/*.css"
-		]
+		"includes": ["source/**/*.css"]
 	}
 }

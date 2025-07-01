@@ -4,20 +4,26 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	.js-diff-table:has([data-split-side]) {
 		&:not(
-			:has(
-				[data-split-side='left']:is(.blob-code-addition, .blob-code-deletion)
-			)
-		) {
+				:has(
+						[data-split-side='left']:is(
+								.blob-code-addition,
+								.blob-code-deletion
+							)
+					)
+			) {
 			--rgh-only-additions: none;
 
 			table-layout: auto !important;
 		}
 
 		&:not(
-			:has(
-				[data-split-side='right']:is(.blob-code-addition, .blob-code-deletion)
-			)
-		) {
+				:has(
+						[data-split-side='right']:is(
+								.blob-code-addition,
+								.blob-code-deletion
+							)
+					)
+			) {
 			--rgh-only-deletions: none;
 
 			table-layout: auto !important;
@@ -39,9 +45,6 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	/* Any applicable situation: Re-align annotations */
 	:is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
-		display: var(
-			--rgh-only-additions,
-			var(--rgh-only-deletions, table-cell)
-		) !important;
+		display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 	}
 }
