@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.0-beta.2/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
 	"linter": {
 		"enabled": true,
 		"rules": { "recommended": true }
