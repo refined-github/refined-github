@@ -15,7 +15,7 @@
 			"DOM.Iterable",
 			"ESNext.Collection",
 			"ESNext.Object",
-			"ES2023"
+			"ES2024"
 		]
 	},
 	"include": [
