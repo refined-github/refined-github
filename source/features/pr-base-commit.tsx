@@ -43,7 +43,11 @@ async function addInfo(statusMeta: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
-	observe('section:first-child [class^="MergeBoxSectionHeader"] .fgColor-muted', addInfo, {signal});
+	observe(
+		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted',
+		addInfo,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
