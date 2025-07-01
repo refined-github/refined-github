@@ -1,8 +1,7 @@
 /* TODO: Drop coloring in July 2025. New PR view renders this defunct and redundant. */
 
 /* Show approvals count in PR list */
-.js-issue-row
-	.color-fg-muted
+.js-issue-row .color-fg-muted
 	[href$='#partial-pull-merging'][aria-label*='approval'] {
 	font-size: 0;
 	color: transparent !important;
@@ -31,8 +30,7 @@
 }
 
 /* Disable now-duplicate tooltip */
-.js-issue-row
-	.color-fg-muted
+.js-issue-row .color-fg-muted
 	[href$='#partial-pull-merging'][aria-label*='approval']::after {
 	content: none;
 }

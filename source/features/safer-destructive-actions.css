@@ -3,7 +3,7 @@
 /* ...in issue comment form */
 #issuecomment-new #partial-new-comment-form-actions > .d-flex,
 /* ...in comment edit form */
-div.previewable-edit .d-flex:has(>.js-comment-cancel-button) {
+div.previewable-edit .d-flex:has(> .js-comment-cancel-button) {
 	justify-content: space-between !important;
 	width: 100%; /* https://github.com/refined-github/refined-github/issues/7711 */
 }
@@ -11,7 +11,7 @@ div.previewable-edit .d-flex:has(>.js-comment-cancel-button) {
 /* ...in PR review form */
 button.js-hide-inline-comment-form,
 /* ... in PR review add comment form */
-.float-right:has(>button.js-hide-inline-comment-form) {
+	.float-right:has(> button.js-hide-inline-comment-form) {
 	float: none !important;
 }
 

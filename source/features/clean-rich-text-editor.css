@@ -4,13 +4,13 @@
 	html:not([rgh-OFF-clean-rich-text-editor])
 		:is(
 			/* Classic fields */
-			[data-md-button='mention'],
+				[data-md-button='mention'],
 			[data-md-button='ref'],
 			[data-md-button='header-3'],
 			[data-md-button='bold'],
 			[data-md-button='italic'],
 			/* React fields */
-			[data-component='IconButton']:has(.octicon-heading),
+				[data-component='IconButton']:has(.octicon-heading),
 			[data-component='IconButton']:has(.octicon-bold),
 			[data-component='IconButton']:has(.octicon-italic),
 			[data-component='IconButton']:has(.octicon-cross-reference),

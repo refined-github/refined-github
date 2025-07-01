@@ -3,21 +3,21 @@
 @media (min-resolution: 2x) {
 	html:not([rgh-OFF-emphasize-draft-pr-label]) {
 		.js-issue-row
-		:is(
-			/* Repo PR lists */
-			[aria-label='Open draft pull request'],
-			/* Global PR lists */
-			[aria-label='Draft Pull Request']
-		)
-		svg,
+			:is(
+				/* Repo PR lists */
+					[aria-label='Open draft pull request'],
+				/* Global PR lists */
+					[aria-label='Draft Pull Request']
+			)
+			svg,
 		/* React issue list */
-		[aria-label*='Status: Draft (not ready)']
-		[data-testid='list-row-state-icon']
-		svg,
+			[aria-label*='Status: Draft (not ready)']
+			[data-testid='list-row-state-icon']
+			svg,
 		/* Notification select by */
-		.rgh-select-notifications .octicon-git-pull-request-draft,
+			.rgh-select-notifications .octicon-git-pull-request-draft,
 		/* Notification list */
-		.notification-list-item-link .octicon-git-pull-request-draft {
+			.notification-list-item-link .octicon-git-pull-request-draft {
 			stroke: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 			stroke-width: 1.2px;
 			color: var(--rgh-background, fuchsia) !important;

@@ -6,8 +6,9 @@
 
 	/* Commit titles, dim */
 	&:not(.rgh-tagged, :hover) > *,
-/* PR row, dim */
-&:not(.rgh-tagged, :hover) .Box-row--drag-hide {
+	/* PR row, dim */
+		&:not(.rgh-tagged, :hover)
+		.Box-row--drag-hide {
 		opacity: 50%; /* Match `mark-merge-commits-in-list` */
 	}
 
@@ -17,9 +18,9 @@
 			margin-bottom: 0 !important;
 		}
 
-		.mb-1 ~ *, /* Commit metadata */
-		.dropdown-signed-commit, /* Commit verified label */
-		.flex-shrink-0 .BtnGroup, /* Commit buttons on side */
+		.mb-1 ~ * /* Commit metadata */,
+		.dropdown-signed-commit /* Commit verified label */,
+		.flex-shrink-0 .BtnGroup /* Commit buttons on side */,
 		.min-width-0 > :is(.d-block, .d-flex) /* PR */ {
 			display: none !important;
 		}

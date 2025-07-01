@@ -8,7 +8,7 @@ query CountBugs($owner: String!, $name: String!) {
 				}
 			}
 		}
-		issues(filterBy: {type: "Bug", states: OPEN}) {
+		issues(filterBy: { type: "Bug", states: OPEN }) {
 			totalCount
 		}
 	}

@@ -8,11 +8,10 @@
 	width: 72ch;
 
 	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
-	/* stylelint-disable */
 	max-width: -webkit-fill-available;
+	/* biome-ignore lint/suspicious/noDuplicateProperties: Cross-browser way. TODO: Verify again */
 	max-width: -moz-available;
 	max-width: intrinsic;
-	/* stylelint-enable */
 }
 
 #commit-summary-input,
@@ -21,11 +20,7 @@
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
-		background-color: color-mix(
-			in srgb,
-			var(--rgh-limit-color) 3%,
-			transparent
-		);
+		background-color: color-mix(in srgb, var(--rgh-limit-color) 3%, transparent);
 
 		&:focus {
 			box-shadow:

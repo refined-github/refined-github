@@ -1,6 +1,6 @@
 [rgh-no-navigation-highlight] {
-	.Box-row.navigation-focus, /* Issue list */
-	.react-directory-row:hover, /* React file list */
+	.Box-row.navigation-focus /* Issue list */,
+	.react-directory-row:hover /* React file list */,
 	.navigation-focus td /* File list */ {
 		background: none !important;
 	}

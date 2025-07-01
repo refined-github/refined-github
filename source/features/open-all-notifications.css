@@ -1,6 +1,6 @@
 /* Only show "Open all unread" if no notifications are selected */
 .js-notifications-mark-selected-actions[hidden]
-	~ .rgh-open-notifications-button {
+~ .rgh-open-notifications-button {
 	display: inline-block !important;
 }
 
