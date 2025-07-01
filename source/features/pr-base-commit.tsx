@@ -27,13 +27,6 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 }
 
 async function addInfo(statusMeta: Element): Promise<void> {
-	// This excludes hidden ".status-meta" items without adding this longass selector to the observer
-	// Added: .rgh-update-pr-from-base-branch-row
-	// eslint-disable-next-line no-restricted-syntax -- Selector copied from GitHub. Don't @ me
-	if (!statusMeta.closest('.merge-pr.is-merging .merging-body, .merge-pr.is-merging .merge-commit-author-email-info, .merge-pr.is-merging-solo .merging-body, .merge-pr.is-merging-jump .merging-body, .merge-pr.is-merging-group .merging-body, .merge-pr.is-rebasing .rebasing-body, .merge-pr.is-squashing .squashing-body, .merge-pr.is-squashing .squash-commit-author-email-info, .merge-pr.is-merging .branch-action-state-error-if-merging .merging-body-merge-warning, .rgh-update-pr-from-base-branch-row')) {
-		return;
-	}
-
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate) {
@@ -50,7 +43,7 @@ async function addInfo(statusMeta: Element): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
-	observe('.branch-action-item .status-meta', addInfo, {signal});
+	observe('section:first-child [class^="MergeBoxSectionHeader"] .fgColor-muted', addInfo, {signal});
 }
 
 void features.add(import.meta.url, {
