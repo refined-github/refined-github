@@ -4,7 +4,7 @@ query getPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
 			first: 25
 			states: OPEN
 			baseRefName: $defaultBranch
-			orderBy: {field: UPDATED_AT, direction: DESC}
+			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
 			nodes {
 				number

@@ -5,6 +5,11 @@
 			"quoteStyle": "single"
 		}
 	},
+	"graphql": {
+		"formatter": {
+			"enabled": true
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -16,6 +21,6 @@
 		}
 	},
 	"files": {
-		"includes": ["source/**/*.css"]
+		"includes": ["source/**/*.css", "source/**/*.gql"]
 	}
 }
