@@ -37,9 +37,9 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 :is(
-	.js-notifications-mark-selected-actions,
-	.js-notifications-mark-all-actions
-):not([hidden]) {
+		.js-notifications-mark-selected-actions,
+		.js-notifications-mark-all-actions
+	):not([hidden]) {
 	display: contents !important;
 }
 

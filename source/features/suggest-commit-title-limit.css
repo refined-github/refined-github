@@ -8,10 +8,11 @@
 	width: 72ch;
 
 	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
+	/* stylelint-disable */
 	max-width: -webkit-fill-available;
-	/* biome-ignore lint/suspicious/noDuplicateProperties: Cross-browser way. TODO: Verify again */
 	max-width: -moz-available;
 	max-width: intrinsic;
+	/* stylelint-enable */
 }
 
 #commit-summary-input,
