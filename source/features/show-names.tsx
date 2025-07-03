@@ -24,19 +24,17 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 	const {parentElement} = element;
 	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 	const nameElement = (
-		<span className="color-fg-muted css-truncate d-inline-block ml-1">
+		<span className="color-fg-muted css-truncate d-inline-block">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
 			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
 	);
 
-	if (insertionPoint.parentElement!.className.startsWith('Box-')) {
-		insertionPoint.after(nameElement, ' ');
-	} else {
-		// TODO: Drop condition in May 2025
-		nameElement.classList.remove('ml-1');
-		insertionPoint.after(' ', nameElement, ' ');
-	}
+	const testId = element.getAttribute('data-testid');
+	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId))
+		nameElement.classList.add('ml-1');
+
+	insertionPoint.after(' ', nameElement, ' ');
 }
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
