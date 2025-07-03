@@ -225,3 +225,8 @@ export const usernameLinksSelector = [
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as unknown as Array<'a'>;
+
+export const actionBarSelectors = [
+	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
+	'[aria-label="Formatting tools"]',
+];

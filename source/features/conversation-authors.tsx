@@ -28,7 +28,6 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 		'.js-issue-row [data-hovercard-type="user"]',
 		'a[class^="IssueItem-module__authorCreatedLink"]',
 	], author => {
-		console.log('author', author);
 		if (list.includes(author.textContent.trim())) {
 			author.classList.add('rgh-collaborator');
 		}
