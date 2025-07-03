@@ -12,7 +12,7 @@ const issueTypeContainerSelector = '[class*="issueTypeTokenContainer"]';
 
 const ghMargin = 'var(--base-size-4)';
 
-function moveBadges(issueRows: HTMLElement[]): void {
+function alignBadges(issueRows: HTMLElement[]): void {
 	for (const issueRow of issueRows) {
 		const badgesContainer = issueRow.querySelector(badgesContainerSelector);
 		if (!badgesContainer) {
@@ -43,7 +43,7 @@ function moveBadges(issueRows: HTMLElement[]): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe(issueRowSelector, batchedFunction(moveBadges, {delay: 100}), {signal});
+	observe(issueRowSelector, batchedFunction(alignBadges, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
