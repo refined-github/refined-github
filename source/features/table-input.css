@@ -55,7 +55,7 @@
 	)::before,
 /* Hovering the 5th column */
 	.rgh-tic:has(~ .rgh-tic:hover:nth-of-type(5n + 5))::before {
-	border-color: var(--borderColor-accent-emphasis, fuchsia);
+	border-color: var(--borderColor-accent-muted, fuchsia);
 	background-color: var(--bgColor-accent-muted, fuchsia);
 }
 
