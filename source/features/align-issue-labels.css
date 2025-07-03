@@ -13,10 +13,10 @@
 .rgh-issue-type {
 	display: inline-block;
 	margin-right: var(--base-size-4);
-}
 
-.rgh-issue-badges:has(:nth-child(2)) .rgh-issue-type::after {
-	content: '•';
-	display: inline-block;
-	margin-left: var(--base-size-4);
+	.rgh-issue-badges:has(:nth-child(2)) &:after {
+		content: '•';
+		display: inline-block;
+		margin-left: var(--base-size-4);
+	}
 }
