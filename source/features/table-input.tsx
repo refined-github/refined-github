@@ -10,6 +10,7 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
+import {actionBarSelectors} from './collapsible-content-button';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('[data-testid="comment-composer"]')!;
@@ -37,6 +38,8 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 }
 
 function append(container: HTMLElement): void {
+	container.classList.add('d-flex');
+
 	container.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
 			<summary
@@ -71,7 +74,7 @@ function append(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[aria-label="Formatting tools"]', append, {signal});
+	observe(actionBarSelectors, append, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 
