@@ -9,11 +9,7 @@ import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
-
-export const actionBarSelectors = [
-	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
-	'[aria-label="Formatting tools"]',
-];
+import {actionBarSelectors} from '../github-helpers/selectors.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = delegateTarget.closest([

@@ -10,7 +10,7 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {actionBarSelectors} from './collapsible-content-button';
+import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('[data-testid="comment-composer"]')!;
