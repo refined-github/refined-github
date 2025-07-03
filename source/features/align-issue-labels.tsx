@@ -1,4 +1,5 @@
-import React from 'dom-chef';
+import './align-issue-labels.css';
+
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
 
@@ -8,9 +9,8 @@ import observe from '../helpers/selector-observer.js';
 const issueRowSelector = '[class^="IssueRow-module__row"]';
 const badgesContainerSelector = '[class*="trailingBadgesContainer"]';
 const mainContentInnerSelector = '[class^="MainContent-module__inner"]';
+const descriptionContainerSelector = '[class^="Description-module__container"]';
 const issueTypeContainerSelector = '[class*="issueTypeTokenContainer"]';
-
-const ghMargin = 'var(--base-size-4)';
 
 function alignBadges(issueRows: HTMLElement[]): void {
 	for (const issueRow of issueRows) {
@@ -24,21 +24,20 @@ function alignBadges(issueRows: HTMLElement[]): void {
 			continue;
 		}
 
-		mainContentInner.style.gap = ghMargin;
+		badgesContainer.classList.add('rgh-issue-badges');
+		mainContentInner.classList.add('rgh-issue-main-content-inner');
 		mainContentInner.append(badgesContainer);
+
+		const descriptionContainer = issueRow.querySelector(descriptionContainerSelector);
+		descriptionContainer?.classList.add('rgh-issue-description');
 
 		const issueTypeTokenContainer = issueRow.querySelector(issueTypeContainerSelector);
 		if (!issueTypeTokenContainer) {
 			continue;
 		}
 
-		issueTypeTokenContainer.style.marginRight = ghMargin;
-		issueTypeTokenContainer.style.display = 'inline-block';
+		issueTypeTokenContainer.classList.add('rgh-issue-type');
 		badgesContainer.prepend(issueTypeTokenContainer);
-
-		issueTypeTokenContainer.after(
-			<span style={{display: 'inline-block', marginLeft: ghMargin}}>•</span>,
-		);
 	}
 }
 

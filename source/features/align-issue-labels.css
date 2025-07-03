@@ -1,0 +1,22 @@
+.rgh-issue-badges {
+	margin-top: var(--base-size-4);
+}
+
+.rgh-issue-main-content-inner {
+	gap: var(--base-size-4);
+}
+
+.rgh-issue-description {
+	gap: unset;
+}
+
+.rgh-issue-type {
+	display: inline-block;
+	margin-right: var(--base-size-4);
+
+	&::after {
+		content: '•';
+		display: inline-block;
+		margin-left: var(--base-size-4);
+	}
+}

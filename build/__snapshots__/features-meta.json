@@ -17,6 +17,7 @@
 	{
 		"id": "align-issue-labels",
 		"description": "In issue/PR lists, aligns the labels to the left, below each title.",
+		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160640-28ae4f12-0e95-4db5-a79c-e89ae523a4d0.png"
 	},
 	{
