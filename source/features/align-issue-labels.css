@@ -35,7 +35,8 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	}
 }
 
-/* New view */
+/* React issue lists */
+/* TODO: Remove the old styles in 2026 */
 
 .rgh-issue-badges {
 	margin-top: var(--base-size-4);
