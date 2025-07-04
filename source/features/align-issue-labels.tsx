@@ -14,7 +14,6 @@ void features.addCssFeature(import.meta.url);
 const issueSelector = '[class^="IssueRow-module__row"]';
 const badgesSelector = '[class*="trailingBadgesContainer"]';
 const mainContentSelector = '[class^="MainContent-module__inner"]';
-const descriptionSelector = '[class^="Description-module__container"]';
 const issueTypeSelector = '[class*="issueTypeTokenContainer"]';
 
 function alignBadges(issue: HTMLElement): void {
