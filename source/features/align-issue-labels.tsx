@@ -34,8 +34,7 @@ function alignBadges(issue: HTMLElement): void {
 		badges.prepend(issueType);
 	}
 
-	const description = $(descriptionSelector, issue);
-	description.classList.add('rgh-issue-description');
+	$('[class^="Description-module__container"]', issue).classList.add('rgh-issue-description');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
