@@ -37,7 +37,7 @@ function alignBadges(issue: HTMLElement): void {
 	}
 }
 
-async function init(signal: AbortSignal): Promise<void> {
+function init(signal: AbortSignal): void {
 	observe(issueSelector, alignBadges, {signal});
 }
 
