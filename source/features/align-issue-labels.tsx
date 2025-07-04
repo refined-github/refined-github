@@ -55,7 +55,7 @@ void features.add(import.meta.url, {
 https://github.com/pulls
 https://github.com/bmish/eslint-doc-generator/pulls
 https://github.com/bmish/eslint-doc-generator/issues
-https://github.com/bmish/eslint-doc-generator/milestone/1
+https://github.com/bmish/eslint-doc-generator/milestone/1?closed=1
 https://github.com/nrwl/nx/issues
 
 */
