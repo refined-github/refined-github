@@ -9,12 +9,9 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 	const mergeEvent = new Promise(resolve => {
 		// `emphasis` excludes merge commit icons added by `mark-merge-commits-in-list`
 		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', () => {
-			console.log('[Observe]: Branch merged');
 			resolve(void 0);
 		}, {ancestor: 4});
 	});
-
-	console.log('On Pr Merge');
 
 	await oneEvent([
 		// TODO: Drop in May 2025
@@ -25,8 +22,6 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 		// TODO: Support "Confirm auto-merge (squash)" button (it's not primary/green)
 		'div[class^="MergeBox-module"] div[data-has-label] ~ div button[data-size="medium"][data-variant="primary"]',
 	], 'click', {signal});
-
-	console.log('[OneEvent]: Clicked');
 
 	// It won't resolve once the signal is aborted
 	await mergeEvent;

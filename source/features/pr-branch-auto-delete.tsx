@@ -35,8 +35,6 @@ async function init(): Promise<void> {
 		'[class^="MergeBoxSectionHeader"] button',
 	]).find(button => button.textContent === 'Delete branch');
 
-	console.log('[Init]: deleteButton', deleteButton);
-
 	if (!deleteButton) {
 		return;
 	}
