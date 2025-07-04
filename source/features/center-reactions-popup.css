@@ -31,7 +31,7 @@
 	}
 
 	/* Reset the width */
-	min-width: 120px !important;
+	min-width: 0px !important;
 
 	/* Move the popups */
 	translate: -56px -52px;
