@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Drop in 2026
 void features.addCssFeature(import.meta.url);
 
-/* New view */
+/* React issue lists */
 
 const issueSelector = '[class^="IssueRow-module__row"]';
 const badgesSelector = '[class*="trailingBadgesContainer"]';
