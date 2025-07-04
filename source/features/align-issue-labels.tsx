@@ -19,7 +19,6 @@ const issueTypeSelector = '[class*="issueTypeTokenContainer"]';
 function alignBadges(issue: HTMLElement): void {
 	const badges = $(badgesSelector, issue);
 	const mainContent = $(mainContentSelector, issue);
-	const issueType = $optional(issueTypeSelector, issue);
 
 	if (badges.children.length === 0) {
 		return;
@@ -29,12 +28,13 @@ function alignBadges(issue: HTMLElement): void {
 	mainContent.classList.add('rgh-issue-main-content-inner');
 	mainContent.append(badges);
 
+	$('[class^="Description-module__container"]', issue).classList.add('rgh-issue-description');
+
+	const issueType = $optional(issueTypeSelector, issue);
 	if (issueType) {
 		issueType.classList.add('rgh-issue-type');
 		badges.prepend(issueType);
 	}
-
-	$('[class^="Description-module__container"]', issue).classList.add('rgh-issue-description');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
