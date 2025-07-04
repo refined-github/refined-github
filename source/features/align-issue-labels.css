@@ -50,6 +50,6 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	content: '|';
 	display: inline-block;
 	margin-left: var(--base-size-6);
-	margin-right: var(--base-size-2);
+	margin-right: var(--base-size-6);
 	color: var(--fgColor-muted, fuchsia);
 }

@@ -32,7 +32,7 @@ function alignBadges(issue: HTMLElement): void {
 
 	const issueType = $optional(issueTypeSelector, issue);
 	if (issueType) {
-		issueType.classList.add('rgh-issue-type', 'd-inline-block', 'mr-1');
+		issueType.classList.add('rgh-issue-type', 'd-inline-block');
 		badges.prepend(issueType);
 	}
 }
