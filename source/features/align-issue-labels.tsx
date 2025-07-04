@@ -1,48 +1,45 @@
 import './align-issue-labels.css';
 
 import * as pageDetect from 'github-url-detection';
-import batchedFunction from 'batched-function';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const issueRowSelector = '[class^="IssueRow-module__row"]';
-const badgesContainerSelector = '[class*="trailingBadgesContainer"]';
-const mainContentInnerSelector = '[class^="MainContent-module__inner"]';
-const descriptionContainerSelector = '[class^="Description-module__container"]';
-const issueTypeContainerSelector = '[class*="issueTypeTokenContainer"]';
+void features.addCssFeature(import.meta.url);
 
-function alignBadges(issueRows: HTMLElement[]): void {
-	for (const issueRow of issueRows) {
-		const badgesContainer = issueRow.querySelector(badgesContainerSelector);
-		if (!badgesContainer) {
-			continue;
-		}
+/* New view */
 
-		const mainContentInner = issueRow.querySelector(mainContentInnerSelector);
-		if (!mainContentInner) {
-			continue;
-		}
+const issueSelector = '[class^="IssueRow-module__row"]';
+const badgesSelector = '[class*="trailingBadgesContainer"]';
+const mainContentSelector = '[class^="MainContent-module__inner"]';
+const descriptionSelector = '[class^="Description-module__container"]';
+const issueTypeSelector = '[class*="issueTypeTokenContainer"]';
 
-		badgesContainer.classList.add('rgh-issue-badges');
-		mainContentInner.classList.add('rgh-issue-main-content-inner');
-		mainContentInner.append(badgesContainer);
+function alignBadges(issue: HTMLElement): void {
+	const badges = $(badgesSelector, issue);
+	const mainContent = $(mainContentSelector, issue);
+	const issueType = $optional(issueTypeSelector, issue);
 
-		const descriptionContainer = issueRow.querySelector(descriptionContainerSelector);
-		descriptionContainer?.classList.add('rgh-issue-description');
-
-		const issueTypeTokenContainer = issueRow.querySelector(issueTypeContainerSelector);
-		if (!issueTypeTokenContainer) {
-			continue;
-		}
-
-		issueTypeTokenContainer.classList.add('rgh-issue-type');
-		badgesContainer.prepend(issueTypeTokenContainer);
+	if (badges.children.length === 0 && !issueType) {
+		return;
 	}
+
+	badges.classList.add('rgh-issue-badges');
+	mainContent.classList.add('rgh-issue-main-content-inner');
+	mainContent.append(badges);
+
+	if (issueType) {
+		issueType.classList.add('rgh-issue-type');
+		badges.prepend(issueType);
+	}
+
+	const description = $(descriptionSelector, issue);
+	description.classList.add('rgh-issue-description');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe(issueRowSelector, batchedFunction(alignBadges, {delay: 100}), {signal});
+	observe(issueSelector, alignBadges, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,3 +1,42 @@
+html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
+	/* Move labels in the Issue/PR list below the title */
+	.min-width-0 {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	/* Labels */
+	.min-width-0 > .lh-default {
+		order: 1;
+	}
+
+	.min-width-0 .text-small {
+		flex-basis: 100%; /* #4949 */
+	}
+
+	/* Build status */
+	.commit-build-statuses {
+		margin-left: 4px;
+	}
+
+	/* Issue details line */
+	.mt-1.text-small.color-fg-muted {
+		flex-basis: 100%;
+	}
+
+	/* Title */
+	.h4 {
+		max-width: 100%; /* #1518 */
+	}
+
+	.IssueLabel {
+		margin-top: 4px;
+		font-size: 11px !important;
+	}
+}
+
+/* New view */
+
 .rgh-issue-badges {
 	margin-top: var(--base-size-4);
 }
