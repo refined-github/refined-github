@@ -34,6 +34,7 @@ async function init(): Promise<void> {
 		'[action$="/cleanup"] [type="submit"]', // TODO: Drop in May 2025
 		'[class^="MergeBoxSectionHeader"] button',
 	]).find(button => button.textContent === 'Delete branch');
+
 	if (!deleteButton) {
 		return;
 	}

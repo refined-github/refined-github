@@ -12,13 +12,12 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 	});
 
 	await oneEvent([
-		// TODO: Drop in May 2025
+		// TODO: Drop in 2026
 		'.js-merge-commit-button',
 
-		// `:has(textarea)` excludes the first "Merge pull request" button that only opens the box
 		// TODO: Add a textContent check after https://github.com/fregante/delegate-it/issues/55
 		// TODO: Support "Confirm auto-merge (squash)" button (it's not primary/green)
-		'[aria-label="Checks"] ~ div:has(textarea) button[data-size="medium"][data-variant="primary"]',
+		'div[class^="MergeBox-module"] div[data-has-label] ~ div button[data-size="medium"][data-variant="primary"]',
 	], 'click', {signal});
 
 	// It won't resolve once the signal is aborted
