@@ -1,5 +1,5 @@
 /* Restore two-line layout */
-:root .dropdown-menu-reactions {
+:root ul[role="menu"]:has([class*="ReactionsMenuItem-module"]) {
 	display: grid !important;
 	grid-template-rows: 1fr 1fr; /* Keep two lines whether there are 6 or 8 reactions */
 	grid-auto-flow: column;
