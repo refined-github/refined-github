@@ -49,7 +49,6 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 .rgh-issue-badges:has(:nth-child(2)) .rgh-issue-type:after {
 	content: '|';
 	display: inline-block;
-	margin-left: var(--base-size-6);
-	margin-right: var(--base-size-6);
+	margin-inline: var(--base-size-6);
 	color: var(--fgColor-muted, fuchsia);
 }
