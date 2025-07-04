@@ -6,6 +6,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
+// TODO: Drop in 2026
 void features.addCssFeature(import.meta.url);
 
 /* New view */
