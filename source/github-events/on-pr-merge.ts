@@ -8,11 +8,11 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 	// WARNING: Be very careful about the value of ancestor if you refactor this code
 	const mergeEvent = new Promise(resolve => {
 		// `emphasis` excludes merge commit icons added by `mark-merge-commits-in-list`
-		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', () => resolve, {ancestor: 4});
+		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', resolve, {ancestor: 4});
 	});
 
 	await oneEvent([
-		// TODO: Drop in May 2025
+		// TODO: Drop in 2026
 		'.js-merge-commit-button',
 
 		// TODO: Add a textContent check after https://github.com/fregante/delegate-it/issues/55
