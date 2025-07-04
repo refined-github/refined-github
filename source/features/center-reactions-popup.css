@@ -12,10 +12,29 @@
 		translate: 107px -22px;
 	}
 
+	&.dropdown-menu-se {
+		translate: -61px -44px;
+	}
+
 	/* Button on the bottom left of comments */
 	&.dropdown-menu-ne {
 		translate: -27px 61px;
 	}
+}
+
+/* React Issue View */
+:root div[data-visibility-visible]:has([class*='ReactionsMenuItem-module']) {
+	& > ul {
+		display: grid !important;
+		grid-template-rows: 1fr 1fr; /* Keep two lines whether there are 6 or 8 reactions */
+		grid-auto-flow: column;
+	}
+
+	/* Reset the width */
+	min-width: 0px !important;
+
+	/* Move the popups */
+	translate: -56px -52px;
 }
 
 /*
