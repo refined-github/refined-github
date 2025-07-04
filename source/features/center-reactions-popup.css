@@ -30,8 +30,11 @@
 		grid-auto-flow: column;
 	}
 
+	/* Reset the width */
+	min-width: 120px !important;
+
 	/* Move the popups */
-	translate: -61px -44px;
+	translate: -56px -52px;
 }
 
 /*
