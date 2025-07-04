@@ -21,7 +21,7 @@ function alignBadges(issue: HTMLElement): void {
 	const mainContent = $(mainContentSelector, issue);
 	const issueType = $optional(issueTypeSelector, issue);
 
-	if (badges.children.length === 0 && !issueType) {
+	if (badges.children.length === 0) {
 		return;
 	}
 
