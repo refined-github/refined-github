@@ -38,10 +38,6 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 /* React issue lists */
 /* TODO: Remove the old styles in 2026 */
 
-.rgh-issue-badges {
-	margin-top: var(--base-size-4);
-}
-
 .rgh-issue-main-content-inner {
 	gap: var(--base-size-4);
 }
@@ -50,13 +46,8 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	gap: unset;
 }
 
-.rgh-issue-type {
+.rgh-issue-badges:has(:nth-child(2)) .rgh-issue-type:after {
+	content: '•';
 	display: inline-block;
-	margin-right: var(--base-size-4);
-
-	.rgh-issue-badges:has(:nth-child(2)) &:after {
-		content: '•';
-		display: inline-block;
-		margin-left: var(--base-size-4);
-	}
+	margin-left: var(--base-size-4);
 }

@@ -24,7 +24,7 @@ function alignBadges(issue: HTMLElement): void {
 		return;
 	}
 
-	badges.classList.add('rgh-issue-badges');
+	badges.classList.add('rgh-issue-badges', 'mt-1');
 	mainContent.classList.add('rgh-issue-main-content-inner');
 	mainContent.append(badges);
 
@@ -32,7 +32,7 @@ function alignBadges(issue: HTMLElement): void {
 
 	const issueType = $optional(issueTypeSelector, issue);
 	if (issueType) {
-		issueType.classList.add('rgh-issue-type');
+		issueType.classList.add('rgh-issue-type', 'd-inline-block', 'mr-1');
 		badges.prepend(issueType);
 	}
 }
