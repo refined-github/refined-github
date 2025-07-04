@@ -51,5 +51,5 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	display: inline-block;
 	margin-left: var(--base-size-6);
 	margin-right: var(--base-size-2);
-	color: var(--fgColor-muted);
+	color: var(--fgColor-muted, fuchsia);
 }
