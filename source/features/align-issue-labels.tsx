@@ -11,9 +11,9 @@ void features.addCssFeature(import.meta.url);
 
 /* React issue lists */
 
-function alignBadges(issue: HTMLElement): void {
-	const badges = $('[class*="trailingBadgesContainer"]', issue);
-	const mainContent = $('[class^="MainContent-module__inner"]', issue);
+function alignBadges(row: HTMLElement): void {
+	const badges = $('[class*="trailingBadgesContainer"]', row);
+	const mainContent = $('[class^="MainContent-module__inner"]', row);
 
 	if (badges.children.length === 0) {
 		return;
@@ -23,9 +23,9 @@ function alignBadges(issue: HTMLElement): void {
 	mainContent.classList.add('rgh-issue-main-content-inner');
 	mainContent.append(badges);
 
-	$('[class^="Description-module__container"]', issue).classList.add('rgh-issue-description');
+	$('[class^="Description-module__container"]', row).classList.add('rgh-issue-description');
 
-	const issueType = $optional('[class*="issueTypeTokenContainer"]', issue);
+	const issueType = $optional('[class*="issueTypeTokenContainer"]', row);
 	if (issueType) {
 		issueType.classList.add('rgh-issue-type', 'd-inline-block');
 		badges.prepend(issueType);
