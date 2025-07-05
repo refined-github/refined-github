@@ -11,14 +11,9 @@ void features.addCssFeature(import.meta.url);
 
 /* React issue lists */
 
-const issueSelector = '[class^="IssueRow-module__row"]';
-const badgesSelector = '[class*="trailingBadgesContainer"]';
-const mainContentSelector = '[class^="MainContent-module__inner"]';
-const issueTypeSelector = '[class*="issueTypeTokenContainer"]';
-
 function alignBadges(issue: HTMLElement): void {
-	const badges = $(badgesSelector, issue);
-	const mainContent = $(mainContentSelector, issue);
+	const badges = $('[class*="trailingBadgesContainer"]', issue);
+	const mainContent = $('[class^="MainContent-module__inner"]', issue);
 
 	if (badges.children.length === 0) {
 		return;
@@ -30,7 +25,7 @@ function alignBadges(issue: HTMLElement): void {
 
 	$('[class^="Description-module__container"]', issue).classList.add('rgh-issue-description');
 
-	const issueType = $optional(issueTypeSelector, issue);
+	const issueType = $optional('[class*="issueTypeTokenContainer"]', issue);
 	if (issueType) {
 		issueType.classList.add('rgh-issue-type', 'd-inline-block');
 		badges.prepend(issueType);
@@ -38,7 +33,7 @@ function alignBadges(issue: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(issueSelector, alignBadges, {signal});
+	observe(['[class^="IssueRow-module__row"]', '[class^=PullRequestRow-module__row]'], alignBadges, {signal});
 }
 
 void features.add(import.meta.url, {
