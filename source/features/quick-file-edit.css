@@ -7,5 +7,7 @@
 /* Widen column to avoid bumps in directory-less listings */
 .rgh-quick-file-edit {
 	width: 16px;
+	font-size: 0;
+	line-height: 0;
 	display: inline-block;
 }
