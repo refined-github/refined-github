@@ -20,10 +20,10 @@ function alignBadges(row: HTMLElement): void {
 	}
 
 	badges.classList.add('rgh-issue-badges', 'mt-1');
-	mainContent.classList.add('rgh-issue-main-content-inner');
+	mainContent.classList.add('gap-1');
 	mainContent.append(badges);
 
-	$('[class^="Description-module__container"]', row).classList.add('rgh-issue-description');
+	$('[class^="Description-module__container"]', row).style.gap = 'unset';
 
 	const issueType = $optional('[class*="issueTypeTokenContainer"]', row);
 	if (issueType) {

@@ -38,14 +38,6 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 /* React issue lists */
 /* TODO: Remove the old styles in 2026 */
 
-.rgh-issue-main-content-inner {
-	gap: var(--base-size-4);
-}
-
-.rgh-issue-description {
-	gap: unset;
-}
-
 .rgh-issue-badges:has(:nth-child(2)) .rgh-issue-type:after {
 	content: '|';
 	display: inline-block;
