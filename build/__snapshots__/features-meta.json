@@ -409,7 +409,7 @@
 	},
 	{
 		"id": "linkify-useful-text",
-		"description": "Linkifies useful text like sidebar content that refers to issues in discussions.",
+		"description": "Makes certain text clickable, like issue references in the issue title and discussion sidebar.",
 		"screenshot": "https://github.com/user-attachments/assets/0bec7adc-52c5-432f-bca7-c9a3186649b4"
 	},
 	{
