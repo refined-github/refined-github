@@ -379,6 +379,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "sidebar-focus-file") [Scrolls the file tree to the current file.](https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194)
 - [](# "no-modals") [Disable modals that reduce user-experience instead of enhancing it.](https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e)
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
+- [](# "linkify-useful-text") Linkifies useful text in the UI.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

@@ -74,6 +74,7 @@
 	"linkify-branch-references",
 	"linkify-code",
 	"linkify-commit-sha",
+	"linkify-useful-text",
 	"linkify-line-numbers",
 	"linkify-symbolic-links",
 	"linkify-user-edit-history-popup",
