@@ -398,11 +398,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png"
 	},
 	{
-		"id": "linkify-useful-text",
-		"description": "Linkifies useful text in the UI.",
-		"screenshot": "https://github.com/user-attachments/assets/0bec7adc-52c5-432f-bca7-c9a3186649b4"
-	},
-	{
 		"id": "linkify-line-numbers",
 		"description": "Linkifies the line numbers where GitHub forgot to add links.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
@@ -411,6 +406,11 @@
 		"id": "linkify-symbolic-links",
 		"description": "Linkifies symbolic links files.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
+	},
+	{
+		"id": "linkify-useful-text",
+		"description": "Linkifies useful text in the UI.",
+		"screenshot": null
 	},
 	{
 		"id": "linkify-user-edit-history-popup",
