@@ -1,0 +1,24 @@
+html:not([rgh-OFF-sticky-comment-header]) {
+	/* Issue header */
+	[data-testid='issue-body']
+		[class^='Box']:has(> #issue-body-viewer)
+		> [class^='Box'],
+	[data-testid='comment-header'],
+	/* PR header */
+		.timeline-comment-header {
+		position: sticky;
+		top: calc(var(--base-sticky-header-height, 0px) + 56px);
+		z-index: 10;
+		backdrop-filter: blur(20px);
+
+		/* &::before {
+			content: '';
+			position: absolute;
+			height: 38px;
+			left: 0;
+			right: 0;
+			background-color: var(--rgh-background);
+			z-index: -1;
+		} */
+	}
+}

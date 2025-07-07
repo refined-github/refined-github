@@ -846,6 +846,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png"
 	},
 	{
+		"id": "sticky-comment-header",
+		"description": "Makes the comment header sticky when scrolling through long comments.",
+		"screenshot": null
+	},
+	{
 		"id": "sticky-conversation-list-toolbar",
 		"description": "Makes the issue/PR list’s filters toolbar sticky.",
 		"css": true,
