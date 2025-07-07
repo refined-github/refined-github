@@ -38,6 +38,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
+- https://github.com/refined-github/sandbox/pull/70/files
 - Discussions (title): https://github.com/File-New-Project/EarTrumpet/discussions/877
 - Discussions (sidebar item): https://github.com/renovatebot/renovate/discussions/24775
+
 */
