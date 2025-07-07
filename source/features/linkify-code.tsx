@@ -1,4 +1,4 @@
-import {$$, elementExists} from 'select-dom';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';
@@ -10,18 +10,16 @@ import {
 	linkifyURLs,
 	linkifyIssues,
 } from '../github-helpers/dom-formatters.js';
+import {linkifyIssue} from './linkify-useful-text.js';
 
 function initTitle(signal: AbortSignal): void {
 	// If we are not in a repo, relative issue references won't make sense but `user`/`repo` needs to be set to avoid breaking errors in `linkify-issues`
 	// https://github.com/refined-github/refined-github/issues/1305
-	const currentRepo = getRepo() ?? {};
 
-	observe('.js-issue-title', title => {
-		// TODO: Replace with :has
-		if (!elementExists('a', title)) {
-			linkifyIssues(currentRepo, title);
-		}
-	}, {signal});
+	observe([
+		'.js-issue-title',
+		'[data-component="TitleArea"] .markdown-title',
+	], linkifyIssue, {signal});
 }
 
 function linkifyContent(wrapper: Element): void {
