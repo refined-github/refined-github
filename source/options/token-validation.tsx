@@ -36,6 +36,7 @@ function getApiUrl(): string {
 		? 'https://api.github.com/'
 		: `${tokenLink.origin}/api/v3/`;
 }
+
 function expandTokenSection(): void {
 	$('details#token').open = true;
 }
@@ -45,8 +46,8 @@ async function validateToken(): Promise<void> {
 	reportStatus();
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-	// https://github.com/refined-github/refined-github/issues/6807
+		// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
+		// https://github.com/refined-github/refined-github/issues/6807
 		setTimeout(expandTokenSection, 100);
 		return;
 	}
@@ -71,6 +72,16 @@ async function validateToken(): Promise<void> {
 	}
 }
 
+let domainChangeTimeout: NodeJS.Timeout | undefined;
+async function validateTokenOnDomainChange(): Promise<void> {
+	if (domainChangeTimeout) {
+		clearTimeout(domainChangeTimeout);
+	}
+	domainChangeTimeout = setTimeout(() => {
+		validateToken();
+	}, 100);
+}
+
 export default async function initTokenValidation(syncedForm: SyncedForm | undefined): Promise<void> {
 	await validateToken();
 
@@ -85,5 +96,6 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(validateToken);
+	// Use debouncing to ensure we only validate once after all domain change handlers have run
+	syncedForm?.onChange(validateTokenOnDomainChange);
 }
