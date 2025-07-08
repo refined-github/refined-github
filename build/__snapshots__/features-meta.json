@@ -848,6 +848,7 @@
 	{
 		"id": "sticky-comment-header",
 		"description": "Makes the comment header sticky when scrolling through long comments.",
+		"css": true,
 		"screenshot": null
 	},
 	{
