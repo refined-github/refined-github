@@ -23,8 +23,8 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 		$([
 			'[aria-label="Toggle diff contents"]',
 			// React
-			'[aria-label^="collapse file"]',
-			'[aria-label^="expand file"]',
+			'[aria-label^="collapse file" i]',
+			'[aria-label^="expand file" i]',
 		], headerBar)
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
