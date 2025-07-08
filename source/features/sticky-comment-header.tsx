@@ -6,8 +6,9 @@ void features.addCssFeature(import.meta.url);
 
 /*
 
-# Test URLs
+Test URLs:
 
 https://github.com/refined-github/sandbox/issues/117
+https://github.com/refined-github/sandbox/pull/118
 
 */
