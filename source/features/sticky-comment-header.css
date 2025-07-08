@@ -3,6 +3,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	[data-testid='issue-body']
 		[class^='Box']:has(> #issue-body-viewer)
 		> [class^='Box'],
+	/* Issue comment header */
 	[data-testid='comment-header'],
 	/* PR description/comment header */
 		.timeline-comment-header {
@@ -15,6 +16,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 
 	/* Issue description container */
 	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
+	/* Issue comment container */
 	[class^='IssueCommentViewer-module__IssueCommentContent'],
 	/* PR description/comment container */
 		.timeline-comment {
