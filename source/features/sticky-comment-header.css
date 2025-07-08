@@ -1,24 +1,24 @@
 html:not([rgh-OFF-sticky-comment-header]) {
-	/* Issue header */
+	/* Issue description header */
 	[data-testid='issue-body']
 		[class^='Box']:has(> #issue-body-viewer)
 		> [class^='Box'],
 	[data-testid='comment-header'],
-	/* PR header */
+	/* PR description/comment header */
 		.timeline-comment-header {
 		position: sticky;
 		top: calc(var(--base-sticky-header-height, 0px) + 56px);
-		z-index: 10;
+		z-index: 1;
 		backdrop-filter: blur(20px);
+		border-radius: 0;
+	}
 
-		/* &::before {
-			content: '';
-			position: absolute;
-			height: 38px;
-			left: 0;
-			right: 0;
-			background-color: var(--rgh-background);
-			z-index: -1;
-		} */
+	/* Issue description container */
+	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
+	[class^='IssueCommentViewer-module__IssueCommentContent'],
+	/* PR description/comment container */
+	.timeline-comment {
+		border-radius: var(--borderRadius-medium);
+		overflow: clip;
 	}
 }
