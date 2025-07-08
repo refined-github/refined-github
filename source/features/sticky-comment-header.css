@@ -17,7 +17,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
 	[class^='IssueCommentViewer-module__IssueCommentContent'],
 	/* PR description/comment container */
-	.timeline-comment {
+		.timeline-comment {
 		border-radius: var(--borderRadius-medium);
 		overflow: clip;
 	}
