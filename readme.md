@@ -190,7 +190,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Conversations
 
-- [](# "open-all-conversations") [Lets you open all visible issues/PRs at once.](https://github.com/user-attachments/assets/0d890b01-d5ca-4247-8270-055dd6355606)
+- [](# "open-all-conversations") [Adds "View all" button to open all or selected issues/PRs in new tabs.](https://github.com/user-attachments/assets/0d890b01-d5ca-4247-8270-055dd6355606)
 - [](# "sticky-conversation-list-toolbar") [Makes the issue/PR list’s filters toolbar sticky.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif)
 - [](# "conversation-authors") [Highlights issues/PRs opened by you or the current repo’s collaborators.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png)
 - [](# "align-issue-labels") [In issue/PR lists, aligns the labels to the left, below each title.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160640-28ae4f12-0e95-4db5-a79c-e89ae523a4d0.png)
