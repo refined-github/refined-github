@@ -16,7 +16,7 @@ function alignBadges(row: HTMLElement): void {
 	}
 
 	badges.classList.add('rgh-issue-badges', 'mt-1');
-	
+
 	const mainContent = $('[class^="MainContent-module__inner"]', row);
 	mainContent.classList.add('gap-1');
 	mainContent.append(badges);
