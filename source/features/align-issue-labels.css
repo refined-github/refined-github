@@ -1,3 +1,11 @@
+.rgh-issue-badges:has(> :nth-child(2)) .rgh-issue-type:after {
+	content: '|';
+	display: inline-block;
+	margin-inline: var(--base-size-6);
+	color: var(--fgColor-muted, fuchsia);
+}
+
+/* TODO: Remove the old styles in 2026 */
 html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	/* Move labels in the Issue/PR list below the title */
 	.min-width-0 {
@@ -33,14 +41,4 @@ html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 		margin-top: 4px;
 		font-size: 11px !important;
 	}
-}
-
-/* React issue lists */
-/* TODO: Remove the old styles in 2026 */
-
-.rgh-issue-badges:has(:nth-child(2)) .rgh-issue-type:after {
-	content: '|';
-	display: inline-block;
-	margin-inline: var(--base-size-6);
-	color: var(--fgColor-muted, fuchsia);
 }
