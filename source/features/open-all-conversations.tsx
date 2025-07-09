@@ -59,8 +59,8 @@ function add(anchor: HTMLElement): void {
 			className={`rgh-open-all-conversations ${classes}`}
 		>
 			{isSelected
-				? 'Open selected'
-				: 'Open all'}
+				? 'View selected'
+				: 'View all'}
 		</button>,
 	);
 }
