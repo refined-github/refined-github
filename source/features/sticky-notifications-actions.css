@@ -1,5 +1,5 @@
 @media (height >= 500px) {
-	.Box:has(.js-notifications-mark-all-prompt) {
+	.js-notifications-container .Box:has(.js-notifications-mark-all-prompt) {
 		--sticky-padding: 10px;
 
 		& .Box-header {
