@@ -6,20 +6,18 @@ import {$, $optional} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-// TODO: Drop in 2026
+// TODO: Drop line in 2026
 void features.addCssFeature(import.meta.url);
-
-/* React issue lists */
 
 function alignBadges(row: HTMLElement): void {
 	const badges = $('[class*="trailingBadgesContainer"]', row);
-	const mainContent = $('[class^="MainContent-module__inner"]', row);
-
 	if (badges.children.length === 0) {
 		return;
 	}
 
 	badges.classList.add('rgh-issue-badges', 'mt-1');
+	
+	const mainContent = $('[class^="MainContent-module__inner"]', row);
 	mainContent.classList.add('gap-1');
 	mainContent.append(badges);
 
@@ -33,7 +31,10 @@ function alignBadges(row: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(['[class^="IssueRow-module__row"]', '[class^=PullRequestRow-module__row]'], alignBadges, {signal});
+	observe([
+		'[class^="IssueRow-module__row"]',
+		'[class^="PullRequestRow-module__row"]',
+	], alignBadges, {signal});
 }
 
 void features.add(import.meta.url, {
