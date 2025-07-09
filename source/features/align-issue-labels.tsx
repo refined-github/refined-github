@@ -14,7 +14,6 @@ function alignBadges(row: HTMLElement): void {
 	if (badges.children.length === 0) {
 		return;
 	}
-
 	badges.classList.add('rgh-issue-badges', 'mt-1');
 
 	const mainContent = $('[class^="MainContent-module__inner"]', row);
