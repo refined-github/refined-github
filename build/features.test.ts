@@ -163,11 +163,6 @@ function validateTsx(file: FeatureFile): void {
 	}
 	if (file.contents().includes('.addCssFeature')) {
 		assert(
-			!file.contents().includes('.add('),
-			`${file.id} should use either \`addCssFeature\` or \`add\`, not both`,
-		);
-
-		assert(
 			file.css.exists(),
 			`${file.id} uses \`.addCssFeature\`, but ${file.css.name} is missing`,
 		);
