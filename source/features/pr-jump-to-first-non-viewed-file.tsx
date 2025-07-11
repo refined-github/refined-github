@@ -6,7 +6,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function jumpToFirstNonViewed(): void {
-	const firstNonViewedFile = $optional('[id][data-details-container-group="file"]:not([data-file-user-viewed])');
+	const firstNonViewedFile = $optional([
+		'[id][data-details-container-group="file"]:not([data-file-user-viewed])', // TODO: Old PR Files view, drop in 2026
+		'div[class*="Files-module"] [id^="diff-"]:has(button[aria-pressed="false"]:not([aria-pressed="true"]))',
+	]);
+	console.log(firstNonViewedFile);
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
 		location.replace('#' + firstNonViewedFile.id);
@@ -16,11 +20,14 @@ function jumpToFirstNonViewed(): void {
 	}
 }
 
-const selector = '.diffbar-item progress-bar';
+const selectors = [
+	'.diffbar-item progress-bar', // TODO: Old PR Files view, drop in 2026
+	'section[class*="PullRequestFilesToolbar-module"] > div:last-child',
+].join(',');
 async function init(signal: AbortSignal): Promise<void> {
-	const bar = await elementReady(selector);
+	const bar = await elementReady(selectors);
 	bar!.style.cursor = 'pointer';
-	delegate(selector, 'click', jumpToFirstNonViewed, {signal});
+	delegate(selectors, 'click', jumpToFirstNonViewed, {signal});
 }
 
 void features.add(import.meta.url, {
