@@ -3,6 +3,8 @@ import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
+import debounceFn from 'debounce-fn';
+
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
@@ -27,18 +29,27 @@ const isFileMinimized = (element: HTMLElement | undefined): boolean => Boolean(
 
 let lastViewChange: HTMLElement | undefined;
 function trackLastViewChange(event: Event): void {
-	const element = (event.target as EventTarget & Partial<Pick<Element, 'closest'>>).closest?.('.js-targetable-element[id^="diff-"]') ?? undefined;
+	const element = (event.target as EventTarget & Partial<Pick<Element, 'closest'>>)
+		.closest?.(['.js-targetable-element[id^="diff-"]', '[data-targeted]']) ?? undefined;
 	if (element) {
 		lastViewChange = element;
 	}
 }
 
+const scrollIntoViewDebounced = debounceFn((element: HTMLElement) => {
+	element.scrollIntoView();
+}, {before: false, after: true, wait: 40});
+
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k' && event.key !== 'x') || isEditable(event.target)) {
+	if (
+		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x'
+			&& (!event.ctrlKey || (event.key !== 'u' && event.key !== 'd')))
+		|| isEditable(event.target)
+	) {
 		return;
 	}
 
-	const focusedComment = $optional(globalThis.location.hash || ':target') ?? lastViewChange;
+	const focusedComment = $optional(globalThis.location.hash || ':target:not([data-targeted=true])') ?? $optional('[data-targeted=true]') ?? lastViewChange;
 
 	if (event.key === 'x') {
 		if (!focusedComment) {
@@ -57,7 +68,7 @@ function runShortcuts(event: KeyboardEvent): void {
 			event.preventDefault();
 			console.log('toggling', toggle.ariaPressed, toggle, wasFileMinimized);
 			toggle.click();
-			if (wasFileMinimized) {
+			if (wasFileMinimized && !focusedComment.dataset.targeted) {
 				location.replace('#' + focusedComment.id);
 			}
 		}
@@ -78,7 +89,9 @@ function runShortcuts(event: KeyboardEvent): void {
 			);
 
 	// `j` goes to the next comment, `k` goes back a comment
-	const direction = event.key === 'j' ? 1 : -1;
+	const direction = event.ctrlKey
+		? event.key === 'd' ? 5 : -5
+		: event.key === 'j' ? 1 : -1;
 	// Without `focusedElement`, it will start from -1
 	let currentIndex = items.indexOf(focusedComment!);
 	if (currentIndex < 0) {
@@ -119,8 +132,14 @@ function runShortcuts(event: KeyboardEvent): void {
 				location.replace('#' + chosenComment.id);
 			}
 		} else if (chosenComment.role === 'region') {
-			// Focus comment without pushing to history
-			location.replace('#' + chosenComment.id);
+			// Change hash to avoid github's horrible hashchange event handlers
+			globalThis.history.replaceState(globalThis.history.state, '', '#' + chosenComment.id);
+			if (focusedComment?.dataset.targeted === 'true') {
+				focusedComment.dataset.targeted = 'false';
+			}
+
+			chosenComment.dataset.targeted = 'true';
+			scrollIntoViewDebounced(chosenComment);
 		} else {
 			((function_: (index: number, next: () => void) => void) => {
 				const createNext = (index: number) => () => {
