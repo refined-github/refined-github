@@ -8,8 +8,9 @@ import features from '../feature-manager.js';
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = $optional([
 		'[id][data-details-container-group="file"]:not([data-file-user-viewed])', // TODO: Old PR Files view, drop in 2026
-		'[id^="diff"]:has(button[aria-pressed="false"]:not([aria-pressed="true"]))',
+		'div[class*="Files-module"] [id^="diff-"]:has(button[aria-pressed="false"]:not([aria-pressed="true"]))',
 	]);
+	console.log(firstNonViewedFile);
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
 		location.replace('#' + firstNonViewedFile.id);
@@ -21,7 +22,7 @@ function jumpToFirstNonViewed(): void {
 
 const selectors = [
 	'.diffbar-item progress-bar', // TODO: Old PR Files view, drop in 2026
-	'.prc-Stack-Stack-WJVsK div:has(svg[role="presentation"])',
+	'section[class*="PullRequestFilesToolbar-module"] > div:last-child',
 ].join(',');
 async function init(signal: AbortSignal): Promise<void> {
 	const bar = await elementReady(selectors);
