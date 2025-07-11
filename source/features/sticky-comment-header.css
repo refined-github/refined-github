@@ -4,9 +4,9 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		[class^='Box']:has(> #issue-body-viewer)
 		> [class^='Box'],
 	/* Issue comment header */
-	[data-testid='comment-header'],
+		[data-testid='comment-header'],
 	/* PR description/comment header */
-	.timeline-comment-header {
+		.timeline-comment-header {
 		position: sticky;
 		top: calc(var(--base-sticky-header-height, 0px) + 56px);
 		z-index: 1;
@@ -23,17 +23,18 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	/* Issue description container */
 	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
 	/* Issue comment container */
-	[class^='IssueCommentViewer-module__IssueCommentContent'] {
+		[class^='IssueCommentViewer-module__IssueCommentContent'] {
 		border-radius: var(--borderRadius-medium);
 		overflow: clip;
 	}
 
 	@supports (anchor-name: --test) {
-		[class*="ActivityHeader-module__activityHeader"] button[aria-haspopup="true"][aria-expanded=true] {
+		[class*='ActivityHeader-module__activityHeader']
+			button[aria-haspopup='true'][aria-expanded='true'] {
 			anchor-name: --header;
 		}
 
-		[class^="prc-Overlay-Overlay"][data-variant="anchored"] {
+		[class^='prc-Overlay-Overlay'][data-variant='anchored'] {
 			position: fixed !important;
 			position-anchor: --header;
 			top: anchor(bottom) !important;
