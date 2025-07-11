@@ -23,4 +23,16 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		border-radius: var(--borderRadius-medium);
 		overflow: clip;
 	}
+
+	@supports (anchor-name: --test) {
+		[class*="ActivityHeader-module__activityHeader"] button[aria-haspopup="true"][aria-expanded=true] {
+			anchor-name: --header;
+		}
+
+		[class^="prc-Overlay-Overlay"][data-variant="anchored"] {
+			position: fixed !important;
+			position-anchor: --header;
+			top: anchor(bottom) !important;
+		}
+	}
 }
