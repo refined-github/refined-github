@@ -6,20 +6,24 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	/* Issue comment header */
 	[data-testid='comment-header'],
 	/* PR description/comment header */
-		.timeline-comment-header {
+	.timeline-comment-header {
 		position: sticky;
 		top: calc(var(--base-sticky-header-height, 0px) + 56px);
 		z-index: 1;
 		backdrop-filter: blur(20px);
+	}
+
+	[data-testid='issue-body']
+		[class^='Box']:has(> #issue-body-viewer)
+		> [class^='Box'],
+	[data-testid='comment-header'] {
 		border-radius: 0;
 	}
 
 	/* Issue description container */
 	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
 	/* Issue comment container */
-	[class^='IssueCommentViewer-module__IssueCommentContent'],
-	/* PR description/comment container */
-		.timeline-comment {
+	[class^='IssueCommentViewer-module__IssueCommentContent'] {
 		border-radius: var(--borderRadius-medium);
 		overflow: clip;
 	}
