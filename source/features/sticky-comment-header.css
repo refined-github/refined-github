@@ -13,6 +13,11 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		backdrop-filter: blur(20px);
 	}
 
+	/* show menus on top of headers */
+	.js-timeline-item:has(details:open) .timeline-comment-header {
+		z-index: 2;
+	}
+
 	[data-testid='issue-body']
 		[class^='Box']:has(> #issue-body-viewer)
 		> [class^='Box'],
