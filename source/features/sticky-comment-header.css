@@ -29,15 +29,20 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	@supports (anchor-name: --test) {
-		[class*='ActivityHeader-module__activityHeader']
-			button[aria-haspopup='true'][aria-expanded='true'] {
-			anchor-name: --header;
-		}
+		[app-name='issues-react'] {
+			[class*='ActivityHeader-module__activityHeader']
+				button[aria-haspopup='true'][aria-expanded='true'] {
+				anchor-name: --header;
+			}
 
-		[class^='prc-Overlay-Overlay'][data-variant='anchored'] {
-			position: fixed !important;
-			position-anchor: --header;
-			top: anchor(bottom) !important;
+			[class^='prc-Overlay-Overlay'][data-variant='anchored']:has(
+					.octicon-quote,
+					[class*='scrollableEditHistoryList']
+				) {
+				position: fixed !important;
+				position-anchor: --header;
+				top: anchor(bottom) !important;
+			}
 		}
 	}
 }
