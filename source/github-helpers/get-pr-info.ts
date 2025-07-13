@@ -14,7 +14,7 @@ export type PullRequestInfo = {
 	needsUpdate: boolean;
 	behindBy: number;
 	// https://docs.github.com/en/graphql/reference/enums#defaultrepositorypermissionfield
-	headRepoPerm: 'ADMIN' | 'WRITE' | 'READ' | 'NONE' | 'UNKNOWN';
+	headRepoPerm: 'ADMIN' | 'WRITE' | 'READ' | 'NONE';
 };
 
 export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
@@ -33,8 +33,8 @@ export default async function getPrInfo(base: string, number = getConversationNu
 					}
 				}
 				headRepository {
-          			viewerPermission
-        		}
+					viewerPermission
+				}
 			}
 		}
 	`);
@@ -57,6 +57,6 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		// The comparison in the API is base -> head, so it must be flipped
 		behindBy: headRef.compare.aheadBy,
 		needsUpdate: headRef.compare.status === 'DIVERGED',
-		headRepoPerm: headRepository?.viewerPermission ?? 'UNKNOWN',
+		headRepoPerm: headRepository.viewerPermission,
 	};
 }
