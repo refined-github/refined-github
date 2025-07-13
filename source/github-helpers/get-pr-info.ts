@@ -57,6 +57,6 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		// The comparison in the API is base -> head, so it must be flipped
 		behindBy: headRef.compare.aheadBy,
 		needsUpdate: headRef.compare.status === 'DIVERGED',
-		headRepoPerm: headRepository?.viewerPermission ?? undefined,
+		headRepoPerm: headRepository?.viewerPermission ?? 'UNKNOWN',
 	};
 }
