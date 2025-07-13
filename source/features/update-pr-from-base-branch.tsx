@@ -89,12 +89,14 @@ async function addButton(mergeBar: Element): Promise<void> {
 
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
+	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm);
 	if (
 		!prInfo.needsUpdate
 		|| prInfo.mergeable === 'CONFLICTING'
 		|| !(
 			prInfo.viewerCanUpdate
 			|| prInfo.viewerCanEditFiles
+			|| hasBranchAccess
 		)
 	) {
 		return;
