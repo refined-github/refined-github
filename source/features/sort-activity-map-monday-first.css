@@ -1,0 +1,32 @@
+/* Sort GitHub activity map from Monday to Sunday instead of Sunday to Saturday */
+
+/* Dynamic --dist variable based on border-spacing */
+/* when the activity overview is enabled the grid rects are 10px * 10px (3px spacing) */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid[style*="border-spacing: 3px"] {
+	--dist: 13px;
+}
+
+/* but when it's disabled, they're 11px * 11px (4px spacing) */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid[style*="border-spacing: 4px"] {
+	--dist: 15px;
+}
+
+/* all days move up a little */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid tbody tr {
+	transform: translateY(calc(var(--dist) * -1));
+}
+
+/* all sundays move all the way down */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid tbody tr:first-child {
+	transform: translateY(calc(var(--dist) * 6));
+}
+
+/* hide first sunday (otherwise it'll be outside the box) */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid tbody tr:first-child .ContributionCalendar-label + * {
+	display: none;
+}
+
+/* show sunday text */
+html:not([rgh-OFF-sort-activity-map-monday-first]) .ContributionCalendar-grid tbody tr:first-child .ContributionCalendar-label span:last-child {
+	clip-path: unset !important;
+}

@@ -56,6 +56,7 @@ import './features/pagination-hotkey.js';
 import './features/conversation-links-on-repo-lists.js';
 import './features/more-conversation-filters.js';
 import './features/sort-conversations-by-update-time.js'; // Must be after more-conversation-filters and conversation-links-on-repo-lists
+import './features/sort-activity-map-monday-first.js';
 import './features/pinned-issues-update-time.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
