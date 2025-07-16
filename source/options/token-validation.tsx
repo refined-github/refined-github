@@ -5,6 +5,7 @@ import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
+import delay from '../helpers/delay.js';
 
 type Status = {
 	error?: true;
@@ -36,6 +37,7 @@ function getApiUrl(): string {
 		? 'https://api.github.com/'
 		: `${tokenLink.origin}/api/v3/`;
 }
+
 function expandTokenSection(): void {
 	$('details#token').open = true;
 }
@@ -45,8 +47,8 @@ async function validateToken(): Promise<void> {
 	reportStatus();
 
 	if (!tokenField.validity.valid || tokenField.value.length === 0) {
-	// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-	// https://github.com/refined-github/refined-github/issues/6807
+		// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
+		// https://github.com/refined-github/refined-github/issues/6807
 		setTimeout(expandTokenSection, 100);
 		return;
 	}
@@ -85,5 +87,9 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(validateToken);
+	syncedForm?.onChange(async () => {
+		// TODO: Fix upstream bug https://github.com/fregante/webext-options-sync-per-domain/issues/10#issuecomment-3077459946
+		await delay(100);
+		await validateToken();
+	});
 }
