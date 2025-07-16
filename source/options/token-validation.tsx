@@ -5,6 +5,7 @@ import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 
 import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
+import delay from '../helpers/delay.js';
 
 type Status = {
 	error?: true;
@@ -96,6 +97,9 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
-	// Use debouncing to ensure we only validate once after all domain change handlers have run
-	syncedForm?.onChange(validateTokenOnDomainChange);
+	syncedForm?.onChange(async () => {
+		// TODO: Fix upstream bug https://github.com/fregante/webext-options-sync-per-domain/issues/10#issuecomment-3077459946
+		await delay(100);
+		await validateToken();
+	});
 }
