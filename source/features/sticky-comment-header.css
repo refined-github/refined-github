@@ -16,9 +16,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		z-index: 2;
 	}
 
-	[data-testid='issue-body']
-		[class^='Box']:has(> #issue-body-viewer)
-		> [class^='Box'],
+	[class^="IssueBodyHeader-module__IssueBodyHeaderContainer"],
 	[data-testid='comment-header'] {
 		border-radius: 0;
 	}
