@@ -1,8 +1,6 @@
 html:not([rgh-OFF-sticky-comment-header]) {
 	/* Issue description header */
-	[data-testid='issue-body']
-		[class^='Box']:has(> #issue-body-viewer)
-		> [class^='Box'],
+	[class^="IssueBodyHeader-module__IssueBodyHeaderContainer"],
 	/* Issue comment header */
 		[data-testid='comment-header'],
 	/* PR description/comment header */
