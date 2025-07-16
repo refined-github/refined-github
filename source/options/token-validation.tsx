@@ -73,16 +73,6 @@ async function validateToken(): Promise<void> {
 	}
 }
 
-let domainChangeTimeout: NodeJS.Timeout | undefined;
-async function validateTokenOnDomainChange(): Promise<void> {
-	if (domainChangeTimeout) {
-		clearTimeout(domainChangeTimeout);
-	}
-	domainChangeTimeout = setTimeout(() => {
-		validateToken();
-	}, 100);
-}
-
 export default async function initTokenValidation(syncedForm: SyncedForm | undefined): Promise<void> {
 	await validateToken();
 
