@@ -133,7 +133,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Code
 
-- [](# "linkify-code") [Linkifies issue/PR references and URLs in code and issue/PR titles.](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
+- [](# "linkify-code") [Linkifies issue/PR references and URLs in code.](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [](# "copy-on-y") Enhances [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) to also copy the permalink.
 - [](# "linkify-symbolic-links") [Linkifies symbolic links files.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 - [](# "list-prs-for-file") [Alerts you if the current file is altered by an open PR.](https://user-images.githubusercontent.com/1402241/234559302-b9911ac2-a1bb-4f8a-8e88-078d631cde18.png)
