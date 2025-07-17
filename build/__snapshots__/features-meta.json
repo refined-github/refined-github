@@ -410,7 +410,7 @@
 	{
 		"id": "linkify-text",
 		"description": "Makes certain text clickable, like issue references in the issue title and discussion sidebar.",
-		"screenshot": "https://github.com/user-attachments/assets/56f505aa-bca3-45cf-9f2e-7ad40b9c23f0"
+		"screenshot": "https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90"
 	},
 	{
 		"id": "linkify-user-edit-history-popup",
