@@ -133,7 +133,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Code
 
-- [](# "linkify-code") [Linkifies issue/PR references and URLs in code and issue/PR titles.](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
+- [](# "linkify-code") [Linkifies issue/PR references and URLs in code.](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
 - [](# "copy-on-y") Enhances [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) to also copy the permalink.
 - [](# "linkify-symbolic-links") [Linkifies symbolic links files.](https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png)
 - [](# "list-prs-for-file") [Alerts you if the current file is altered by an open PR.](https://user-images.githubusercontent.com/1402241/234559302-b9911ac2-a1bb-4f8a-8e88-078d631cde18.png)
@@ -379,6 +379,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "sidebar-focus-file") [Scrolls the file tree to the current file.](https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194)
 - [](# "no-modals") [Disable modals that reduce user-experience instead of enhancing it.](https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e)
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
+- [](# "linkify-text") [Makes certain text clickable, like issue references in the issue title and discussion sidebar.](https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

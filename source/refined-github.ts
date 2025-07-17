@@ -219,3 +219,4 @@ import './features/rgh-token-user.js';
 import './features/unread-anywhere.js';
 import './features/no-modals.js';
 import './features/same-page-links.js';
+import './features/linkify-text.js';
