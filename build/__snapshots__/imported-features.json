@@ -76,7 +76,7 @@
 	"linkify-commit-sha",
 	"linkify-line-numbers",
 	"linkify-symbolic-links",
-	"linkify-useful-text",
+	"linkify-text",
 	"linkify-user-edit-history-popup",
 	"linkify-user-labels",
 	"linkify-user-location",

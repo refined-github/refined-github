@@ -408,9 +408,9 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
 	},
 	{
-		"id": "linkify-useful-text",
+		"id": "linkify-text",
 		"description": "Makes certain text clickable, like issue references in the issue title and discussion sidebar.",
-		"screenshot": "https://github.com/user-attachments/assets/0bec7adc-52c5-432f-bca7-c9a3186649b4"
+		"screenshot": "https://github.com/user-attachments/assets/56f505aa-bca3-45cf-9f2e-7ad40b9c23f0"
 	},
 	{
 		"id": "linkify-user-edit-history-popup",
