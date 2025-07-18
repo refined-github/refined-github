@@ -15,7 +15,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*="IssueBodyHeader-module__viewerDidAuthor"] {
 		/* Color from GitHub"s dark mode styles */
-		--background: var(--bgColor-accent-muted, var(--color-accent-subtle, rgba(56, 139, 253, 0.1)));
+		--background: var(--bgColor-accent-muted, fuchsia);
 		background: linear-gradient(var(--background)), var(--rgh-background) !important;
 	}
 
