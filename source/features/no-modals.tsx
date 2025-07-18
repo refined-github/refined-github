@@ -12,7 +12,7 @@ function init(signal: AbortSignal): void {
 	delegate([
 		'a[href$="/issues/new/choose"]', // New issue button
 		'a[class*="SubIssueTitle"]', // Sub-issue links
-		'a[data-testid="issue-pr-title-link"]', // Global Issue title
+		'a[data-testid="issue-pr-title-link"]', // Global issue list links
 		'.board-view-column-card a', // Project issue links
 	], 'click', fix, {signal, capture: true});
 }
