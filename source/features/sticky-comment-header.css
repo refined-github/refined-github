@@ -8,37 +8,43 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		position: sticky;
 		top: calc(var(--base-sticky-header-height, 0px) + 56px);
 		z-index: 1;
-		backdrop-filter: blur(20px);
 	}
 
-	/* show menus on top of headers */
+	.timeline-comment.current-user .timeline-comment-header,
+	[class*="IssueBodyHeader-module__viewerDidAuthor"] {
+		/* Color from GitHub"s dark mode styles */
+		--background: var(--bgColor-accent-muted, var(--color-accent-subtle, rgba(56, 139, 253, 0.1)));
+		background: linear-gradient(var(--background)), var(--rgh-background) !important;
+	}
+
+	/* Show menus on top of headers */
 	.js-timeline-item:has(details:open) .timeline-comment-header {
 		z-index: 2;
 	}
 
 	[class^="IssueBodyHeader-module__IssueBodyHeaderContainer"],
-	[data-testid='comment-header'] {
+	[data-testid="comment-header"] {
 		border-radius: 0;
 	}
 
 	/* Issue description container */
-	[data-testid='issue-body'] [class^='Box']:has(> #issue-body-viewer),
+	[data-testid="issue-body"] [class^="Box"]:has(> #issue-body-viewer),
 	/* Issue comment container */
-		[class^='IssueCommentViewer-module__IssueCommentContent'] {
+		[class^="IssueCommentViewer-module__IssueCommentContent"] {
 		border-radius: var(--borderRadius-medium);
 		overflow: clip;
 	}
 
 	@supports (anchor-name: --test) {
-		[app-name='issues-react'] {
-			[class*='ActivityHeader-module__activityHeader']
-				button[aria-haspopup='true'][aria-expanded='true'] {
+		[app-name="issues-react"] {
+			[class*="ActivityHeader-module__activityHeader"]
+				button[aria-haspopup="true"][aria-expanded="true"] {
 				anchor-name: --header;
 			}
 
-			[class^='prc-Overlay-Overlay'][data-variant='anchored']:has(
+			[class^="prc-Overlay-Overlay"][data-variant="anchored"]:has(
 					.octicon-quote,
-					[class*='scrollableEditHistoryList']
+					[class*="scrollableEditHistoryList"]
 				) {
 				position: fixed !important;
 				position-anchor: --header;
