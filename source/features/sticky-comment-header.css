@@ -11,7 +11,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	/* Added by `show-names` */
-	.rgh-user-own-comment,
+	.rgh-viewer-did-author,
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*="IssueBodyHeader-module__viewerDidAuthor"] {
 		--background: var(--bgColor-accent-muted, fuchsia);
