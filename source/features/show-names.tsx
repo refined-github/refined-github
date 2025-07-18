@@ -41,11 +41,11 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const users = Map.groupBy(found, element => element.textContent.trim());
 
 	const currentUser = getUsername()!;
-	const ownElements = users.get(currentUser);
-	if (ownElements) {
-		for (const element of ownElements) {
+	const currentUserElements = users.get(currentUser);
+	if (currentUserElements) {
+		for (const currentUserElement of currentUserElements) {
 			// mark viewer's own comments on the issue page for `sticky-comment-header`
-			element.closest('[data-testid="comment-header"]')?.classList.add('rgh-viewer-did-author');
+			currentUserElement.closest('[data-testid="comment-header"]')?.classList.add('rgh-viewer-did-author');
 		}
 		users.delete(currentUser);
 	}
