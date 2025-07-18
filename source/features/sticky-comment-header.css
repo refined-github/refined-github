@@ -10,6 +10,8 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		z-index: 1;
 	}
 
+	/* Added by `show-names` */
+	.rgh-user-own-comment,
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*="IssueBodyHeader-module__viewerDidAuthor"] {
 		/* Color from GitHub"s dark mode styles */

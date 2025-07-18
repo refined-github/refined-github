@@ -39,7 +39,17 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const users = Map.groupBy(found, element => element.textContent.trim());
-	users.delete(getUsername()!);
+
+	const currentUser = getUsername()!;
+	const ownElements = users.get(currentUser);
+	if (ownElements) {
+		for (const element of ownElements) {
+			// mark user's own comments on the issue page for `sticky-comment-header`
+			element.closest('[data-testid="comment-header"]')?.classList.add('rgh-user-own-comment');
+		}
+		users.delete(currentUser);
+	}
+
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {
