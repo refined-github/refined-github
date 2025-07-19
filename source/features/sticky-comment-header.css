@@ -14,8 +14,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	.rgh-viewer-did-author,
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*="IssueBodyHeader-module__viewerDidAuthor"] {
-		--background: var(--bgColor-accent-muted, fuchsia);
-		background: linear-gradient(var(--background)), var(--rgh-background) !important;
+		background: linear-gradient(var(--bgColor-accent-muted, fuchsia)), var(--rgh-background) !important;
 	}
 
 	/* Show menus on top of headers */
