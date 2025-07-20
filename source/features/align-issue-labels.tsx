@@ -9,23 +9,15 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Drop line in 2026
 void features.addCssFeature(import.meta.url);
 
-function alignBadges(row: HTMLElement): void {
-	const badges = $('[class*="trailingBadgesContainer"]', row);
-	if (badges.children.length === 0) {
-		return;
-	}
-	badges.classList.add('rgh-issue-badges', 'mt-1');
-
-	const mainContent = $('[class^="MainContent-module__inner"]', row);
-	mainContent.classList.add('gap-1');
-	mainContent.append(badges);
+function alignBadges(badges: HTMLElement): void {
+	// Move badges to the last line
+	const conversation = badges.closest('li')!;
+	$('[class^="MainContent-module__inner"]', conversation).append(badges);
+	badges.classList.add('mt-1');
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'[class^="IssueRow-module__row"]',
-		'[class^="PullRequestRow-module__row"]',
-	], alignBadges, {signal});
+	observe('[class*="trailingBadgesContainer"]:not(:empty)', alignBadges, {signal});
 }
 
 void features.add(import.meta.url, {
