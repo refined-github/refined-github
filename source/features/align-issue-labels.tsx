@@ -1,7 +1,7 @@
 import './align-issue-labels.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -19,14 +19,6 @@ function alignBadges(row: HTMLElement): void {
 	const mainContent = $('[class^="MainContent-module__inner"]', row);
 	mainContent.classList.add('gap-1');
 	mainContent.append(badges);
-
-	$('[class^="Description-module__container"]', row).style.gap = 'unset';
-
-	const issueType = $optional('[class*="issueTypeTokenContainer"]', row);
-	if (issueType) {
-		issueType.classList.add('rgh-issue-type', 'd-inline-block');
-		badges.prepend(issueType);
-	}
 }
 
 function init(signal: AbortSignal): void {
