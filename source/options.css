@@ -2,6 +2,11 @@
 	display: none;
 }
 
+@font-face {
+	font-family: 'Font With A Syntax Highlighter';
+	src: url('https://blog.glyphdrawing.club/assets/fonts/FontWithASyntaxHighlighter-Regular.woff2') format('woff2');
+}
+
 :root {
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
@@ -133,6 +138,7 @@ summary:hover {
 
 [name='customCSS'] {
 	font-size: 11px;
+	font-family: 'Font With A Syntax Highlighter', monospace;
 }
 
 [name='personalToken']:not(:focus) {
