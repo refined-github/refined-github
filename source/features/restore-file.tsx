@@ -93,7 +93,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		.textContent
 		.split(' → ');
 
-	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}?`, `Discard changes to ${newFileName}`);
+	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}? Enter the commit title`, `Discard changes to ${newFileName}`);
 	if (!commitTitle) {
 		return;
 	}
