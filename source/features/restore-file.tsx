@@ -38,7 +38,7 @@ async function getFile(filePath: string): Promise<string | undefined> {
 	return textContent;
 }
 
-async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string): Promise<void> {
+async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
 		getFile(originalFileName),
@@ -77,7 +77,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				expectedHeadOid: headReference,
 				fileChanges,
 				message: {
-					headline: `Discard changes to ${originalFileName}`,
+					headline,
 				},
 			},
 		},
@@ -92,9 +92,13 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		.querySelector('.Link--primary')!
 		.textContent
 		.split(' → ');
-	if (!confirm(`Are you sure you want to discard changes to ${newFileName}?`))
+
+	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}?`, `Discard changes to ${newFileName}`);
+	if (!commitTitle) {
 		return;
-	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName), {
+	}
+
+	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});
