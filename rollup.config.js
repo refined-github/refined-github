@@ -70,6 +70,7 @@ const rollup = {
 		json(),
 		styles({
 			mode: 'extract',
+			// It misplaces the assets
 			url: false,
 		}),
 		string({
@@ -95,6 +96,9 @@ const rollup = {
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
 				{src: './source/*.+(html|png)', dest: 'distribution/assets'},
+
+				// Font and license files
+				{src: './source/options/font/*', dest: 'distribution/assets/options/font'},
 			],
 		}),
 		cleanup(),
