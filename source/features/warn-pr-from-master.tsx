@@ -9,7 +9,7 @@ import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 async function addWarning(anchor: HTMLElement): Promise<void> {
 	anchor.before(
 		<div className="flash flash-error my-3">
-			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://blog.jasonmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
+			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
 		</div>,
 	);
 }
