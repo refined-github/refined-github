@@ -13,11 +13,9 @@ import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = square.closest('[data-testid="comment-composer"]')!;
-	const field = $(
-		'textarea[aria-labelledby="comment-composer-heading"]',
-		container,
-	);
+	const container = square.closest('fieldset') // Issue
+		?? square.form!.querySelector('.CommentBox-container')!; // PR
+	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
