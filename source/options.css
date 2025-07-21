@@ -1,11 +1,25 @@
-#js-failed + form {
-	display: none;
+@font-palette-values --monokaiLight {
+	font-family: 'FontWithASyntaxHighlighter';
+	override-colors:
+		0 #ff6188, /* keywords, {} - coral pink */
+		1 #a9a9a9, /* comments - light gray */
+		2 #fc9867, /* literals - peach */
+		3 #ab9df2, /* numbers - light purple */
+		4 #a9dc76, /* functions, [] - light green */
+		5 #ffd866, /* js others - yellow */
+		6 #ffffff, /* not in use - white */
+		7 #727072, /* inside quotes, css properties, few chars - dark gray */
+		8 #78dce8 /* few chars - light teal */;
 }
 
 @font-face {
-	font-family: 'Font With A Syntax Highlighter';
+	font-family: 'FontWithASyntaxHighlighter';
 	src: url('options/font/FontWithASyntaxHighlighter-Regular.woff2')
 		format('woff2');
+}
+
+#js-failed + form {
+	display: none;
 }
 
 :root {
@@ -139,7 +153,8 @@ summary:hover {
 
 [name='customCSS'] {
 	font-size: 11px;
-	font-family: 'Font With A Syntax Highlighter', monospace;
+	font-family: 'FontWithASyntaxHighlighter', monospace;
+	font-palette: --monokaiLight;
 }
 
 [name='personalToken']:not(:focus) {
