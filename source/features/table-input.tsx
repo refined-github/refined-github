@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = square.closest('fieldset[class^="MarkdownEditor-module"]') // Issue
+	const container = square.closest('fieldset') // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;
