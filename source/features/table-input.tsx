@@ -13,13 +13,14 @@ import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	console.log('addTable', square);
-
-	const container = square.closest('#new_comment_form')!;
+	const container = square.closest([
+		'#new_comment_form', // New Comment
+		'.js-comment-container', // First Comment
+	])!;
 	console.log(container);
 
 	const field = $(
-		'textarea#new_comment_field',
+		'textarea.js-comment-field',
 		container,
 	);
 	const cursorPosition = field.selectionStart;
