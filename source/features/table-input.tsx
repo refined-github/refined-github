@@ -13,9 +13,13 @@ import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = square.closest('[data-testid="comment-composer"]')!;
+	console.log('addTable', square);
+
+	const container = square.closest('#new_comment_form')!;
+	console.log(container);
+
 	const field = $(
-		'textarea[aria-labelledby="comment-composer-heading"]',
+		'textarea#new_comment_field',
 		container,
 	);
 	const cursorPosition = field.selectionStart;
