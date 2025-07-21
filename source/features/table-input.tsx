@@ -14,13 +14,16 @@ import {actionBarSelectors} from '../github-helpers/selectors';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest([
-		'#new_comment_form', // New Comment
-		'.js-comment-container', // First Comment
+		'[data-testid="comment-composer"]', // Issue Comment
+		'#new_comment_form', // PR New Comment
+		'.js-comment-container', // PR First Comment
 	])!;
-	console.log(container);
 
 	const field = $(
-		'textarea.js-comment-field',
+		[
+			'textarea.js-comment-field', // PR Textarea
+			'textarea[aria-labelledby="comment-composer-heading"]', // Issue Textarea
+		],
 		container,
 	);
 	const cursorPosition = field.selectionStart;
