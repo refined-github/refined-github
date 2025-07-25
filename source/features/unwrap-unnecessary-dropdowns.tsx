@@ -1,4 +1,4 @@
-import {$, $$} from 'select-dom/strict.js';
+import {$, $$, $$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -14,7 +14,11 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 
 async function unwrapNotifications(): Promise<void | false> {
 	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
-	const forms = $$('[action="/notifications/beta/update_view_preference"]');
+	const forms = $$optional('[action="/notifications/beta/update_view_preference"]');
+
+	if (forms.length === 0) {
+		return false;
+	}
 
 	if (forms.length > 2) {
 		throw new Error('GitHub added new view types. This feature is obsolete.');
@@ -42,13 +46,13 @@ function replaceRerunDropdown(menu: Element): void {
 	}
 
 	const container = menu.parentElement!;
-	container.classList.add('d-flex', 'gap-2');
 
 	for (const button of $$('button.ActionListContent', menu)) {
 		button.className = 'Button--secondary Button--medium Button';
 		container.append(button.cloneNode(true));
 	}
 
+	container.classList.add('d-flex', 'gap-2');
 	menu.classList.add('d-none');
 }
 
