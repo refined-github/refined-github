@@ -45,7 +45,6 @@ function unwrapRerunActions(): void {
 	}
 
 	const triggerButton = $('focus-group > button', menu);
-	console.log(triggerButton.textContent.trim());
 
 	// We only need to unwrap the re-run jobs menu
 	if (triggerButton.textContent.trim() !== 'Re-run jobs') {
