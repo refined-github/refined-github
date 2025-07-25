@@ -38,11 +38,6 @@ async function unwrapNotifications(): Promise<void | false> {
 }
 
 function replaceRerunDropdown(menu: Element): void {
-	const dropdown = $('anchored-position', menu);
-	if (!dropdown) {
-		return;
-	}
-
 	const triggerButton = $('focus-group > button', menu);
 
 	// We only need to unwrap the re-run jobs menu
@@ -53,7 +48,7 @@ function replaceRerunDropdown(menu: Element): void {
 	const container = menu.parentElement!;
 	container.classList.add('d-flex', 'gap-2');
 
-	for (const button of $$('button.ActionListContent', dropdown)) {
+	for (const button of $$('button.ActionListContent', menu)) {
 		button.className = 'Button--secondary Button--medium Button';
 		container.append(button.cloneNode(true));
 	}
