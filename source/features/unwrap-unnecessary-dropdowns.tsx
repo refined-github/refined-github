@@ -4,6 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {
@@ -36,9 +37,7 @@ async function unwrapNotifications(): Promise<void | false> {
 	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }
 
-function unwrapRerunActions(): void {
-	const menu = $('.PageHeader-actions action-menu');
-
+function replaceRerunDropdown(menu: Element): void {
 	const dropdown = $('anchored-position', menu);
 	if (!dropdown) {
 		return;
@@ -54,13 +53,16 @@ function unwrapRerunActions(): void {
 	const container = menu.parentElement!;
 	container.classList.add('d-flex', 'gap-2');
 
-	const buttons = $$('button.ActionListContent', dropdown);
-	for (const button of buttons) {
+	for (const button of $$('button.ActionListContent', dropdown)) {
 		button.className = 'Button--secondary Button--medium Button';
 		container.append(button.cloneNode(true));
 	}
 
-	menu.remove();
+	menu.classList.add('d-none');
+}
+
+function unwrapRerunActions(signal: AbortSignal): void {
+	observe('.PageHeader-actions action-menu', replaceRerunDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
