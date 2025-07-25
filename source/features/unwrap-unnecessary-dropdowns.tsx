@@ -36,12 +36,45 @@ async function unwrapNotifications(): Promise<void | false> {
 	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }
 
+function unwrapRerunActions(): void {
+	const menu = $('.PageHeader-actions action-menu');
+
+	const dropdown = $('anchored-position', menu);
+	if (!dropdown) {
+		return;
+	}
+
+	const triggerButton = $('focus-group > button', menu);
+	console.log(triggerButton.textContent.trim());
+
+	// We only need to unwrap the re-run jobs menu
+	if (triggerButton.textContent.trim() !== 'Re-run jobs') {
+		return;
+	}
+
+	const container = menu.parentElement!;
+	container.classList.add('d-flex', 'gap-2');
+
+	const buttons = $$('button.ActionListContent', dropdown);
+	for (const button of buttons) {
+		button.className = 'Button--secondary Button--medium Button';
+		container.append(button.cloneNode(true));
+	}
+
+	menu.remove();
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
 	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
+}, {
+	include: [
+		pageDetect.isActionRun,
+	],
+	init: unwrapRerunActions,
 });
 
 /*
