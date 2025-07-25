@@ -187,8 +187,9 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	white-space: unset !important;
 }
 
+/* Add hover effect to attachment row on the release page #8339 */
+/* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
 html:not([rgh-no-navigation-highlight])
-	/* Attachment row on the release page */
 	details-toggle
 	.Box-row:has([href*='/releases/download/'], [href*='/archive/refs/']):hover {
 	background-color: var(--bgColor-muted, fuchsia);
