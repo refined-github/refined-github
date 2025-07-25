@@ -15,9 +15,6 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 async function unwrapNotifications(): Promise<void | false> {
 	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
 	const forms = $$('[action="/notifications/beta/update_view_preference"]');
-	if (forms.length === 0) {
-		return false;
-	}
 
 	if (forms.length > 2) {
 		throw new Error('GitHub added new view types. This feature is obsolete.');
@@ -75,6 +72,8 @@ void features.add(import.meta.url, {
 /*
 
 Test URLs:
-https://github.com/notifications
+
+- https://github.com/notifications
+- https://github.com/refined-github/refined-github/actions/runs/16143473286?pr=8544
 
 */
