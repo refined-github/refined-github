@@ -1,5 +1,4 @@
 import {$, $$, $$optional} from 'select-dom/strict.js';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -12,12 +11,11 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 	form.classList.remove('dropdown', 'details-reset', 'details-overlay');
 }
 
-async function unwrapNotifications(): Promise<void | false> {
-	await elementReady('.js-check-all-container > :first-child'); // Ensure the entire dropdown has loaded
+function replaceNotificationsDropdown(): void {
 	const forms = $$optional('[action="/notifications/beta/update_view_preference"]');
 
 	if (forms.length === 0) {
-		return false;
+		return;
 	}
 
 	if (forms.length > 2) {
@@ -56,6 +54,10 @@ function replaceRerunDropdown(menu: Element): void {
 	menu.classList.add('d-none');
 }
 
+function unwrapNotifications(signal: AbortSignal): void {
+	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
+}
+
 function unwrapRerunActions(signal: AbortSignal): void {
 	observe('.PageHeader-actions action-menu', replaceRerunDropdown, {signal});
 }
@@ -64,7 +66,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
-	deduplicate: 'has-rgh',
 	init: unwrapNotifications,
 }, {
 	include: [
