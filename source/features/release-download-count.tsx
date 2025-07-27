@@ -19,6 +19,7 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {assertNodeContent} from '../helpers/dom-utils';
 
 type Asset = {
 	name: string;
@@ -52,6 +53,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const assetSize = assetLink
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > span')!;
+		assertNodeContent(assetSize.firstChild, /^\d+ \w{2}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
