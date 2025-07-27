@@ -51,7 +51,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Place next to asset size
 		const assetSize = assetLink
 			.closest('.Box-row')!
-			.querySelector(':scope > .flex-justify-end > :first-child')!;
+			.querySelector(':scope > .flex-justify-end > span')!;
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
