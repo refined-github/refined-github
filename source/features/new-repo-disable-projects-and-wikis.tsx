@@ -4,6 +4,8 @@ import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 
+import {elementExists} from 'select-dom';
+
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -36,9 +38,8 @@ function setStorage(): void {
 }
 
 function add(submitButtonLine: HTMLElement): void {
-	const readme = $optional('#add-readme')?.closest('.controlBoxContainer');
-
-	if (readme) {
+	if (elementExists('[class^="CreateFormV2-module"]')) {
+		const readme = $('#add-readme').closest('.controlBoxContainer')!;
 		const disableProjectsAndWikis = readme.cloneNode(true);
 
 		const title = $('.titleBox h3', disableProjectsAndWikis);
