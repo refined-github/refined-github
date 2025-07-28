@@ -37,7 +37,7 @@ function setStorage(): void {
 
 function add(submitButtonLine: HTMLElement): void {
 	submitButtonLine.before(
-		<div className="flash flash-warn py-0 ml-n3 mb-4">
+		<div className="flash flash-warn py-0 ml-n3 mt-4">
 			<div className="form-checkbox checked">
 				<label>
 					<input
