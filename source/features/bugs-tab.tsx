@@ -44,7 +44,9 @@ async function countBugs(): Promise<Bugs> {
 		label = repository?.labels?.nodes?.find(label => isBugLabel(label.name));
 	}
 
-	const bugCount = bugTypeCount + (label?.issues?.totalCount ?? 0);
+	const bugLabelCount = label?.issues?.totalCount ?? 0;
+	const bugCount = Math.max(bugTypeCount, bugLabelCount);
+
 	return {label: label?.name ?? 'bug', count: bugCount};
 }
 
