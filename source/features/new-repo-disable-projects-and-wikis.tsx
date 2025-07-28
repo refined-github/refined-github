@@ -36,8 +36,39 @@ function setStorage(): void {
 }
 
 function add(submitButtonLine: HTMLElement): void {
+	const readme = $optional('#add-readme')?.closest('.controlBoxContainer');
+
+	if (readme) {
+		const disableProjectsAndWikis = readme.cloneNode(true);
+
+		const title = $('.titleBox h3', disableProjectsAndWikis);
+		title.textContent = 'Disable Projects and Wikis';
+		title.id = 'disable-projects-and-wikis';
+
+		const description = $('.descriptionBox span', disableProjectsAndWikis);
+		description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
+
+		const control = $('.blockControl', disableProjectsAndWikis);
+		control.replaceChildren(
+			<label>
+				<input
+					checked
+					type="checkbox"
+					id="rgh-disable-project"
+				/> Disable
+			</label>,
+		);
+		control.classList.add('d-flex', 'flex-items-center');
+
+		const groupContainer = readme.parentElement!.cloneNode(true);
+		groupContainer.replaceChildren(disableProjectsAndWikis);
+		readme.parentElement!.after(groupContainer);
+
+		return;
+	}
+
 	submitButtonLine.before(
-		<div className="flash flash-warn py-0 ml-n3 mb-4">
+		<div className="flash flash-warn py-0 ml-n3 mt-4">
 			<div className="form-checkbox checked">
 				<label>
 					<input
