@@ -3,6 +3,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
@@ -36,6 +37,36 @@ function setStorage(): void {
 }
 
 function add(submitButtonLine: HTMLElement): void {
+	if (elementExists('[class^="CreateFormV2-module"]')) {
+		const readme = $('#add-readme').closest('.controlBoxContainer')!;
+		const disableProjectsAndWikis = readme.cloneNode(true);
+
+		const title = $('.titleBox h3', disableProjectsAndWikis);
+		title.textContent = 'Disable Projects and Wikis';
+		title.id = 'disable-projects-and-wikis';
+
+		const description = $('.descriptionBox span', disableProjectsAndWikis);
+		description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
+
+		const control = $('.blockControl', disableProjectsAndWikis);
+		control.replaceChildren(
+			<label>
+				<input
+					checked
+					type="checkbox"
+					id="rgh-disable-project"
+				/> Disable
+			</label>,
+		);
+		control.classList.add('d-flex', 'flex-items-center');
+
+		const groupContainer = readme.parentElement!.cloneNode(true);
+		groupContainer.replaceChildren(disableProjectsAndWikis);
+		readme.parentElement!.after(groupContainer);
+
+		return;
+	}
+
 	submitButtonLine.before(
 		<div className="flash flash-warn py-0 ml-n3 mt-4">
 			<div className="form-checkbox checked">
