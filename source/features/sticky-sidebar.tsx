@@ -23,6 +23,13 @@ const sidebarObserver = new ResizeObserver(onResize);
 
 // Avoid disabling the stickiness while the user is interacting with it
 function toggleHoverState(event: MouseEvent): void {
+	// The listener is attached to the sidebar, but it's possible that the event is
+	// a bubbled `mouseleave` from a child element.
+	// This would cause the observer to be re-attached, making the sidebar unsticky.
+	if (event.target !== sidebar) {
+		return;
+	}
+
 	const isHovered = event.type === 'mouseenter';
 	if (isHovered) {
 		sidebarObserver.disconnect();
@@ -43,8 +50,8 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
 	container.classList.add('rgh-sticky-sidebar-container');
 
-	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
-	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
+	sidebar.addEventListener('mouseenter', toggleHoverState, {signal, passive: true});
+	sidebar.addEventListener('mouseleave', toggleHoverState, {signal, passive: true});
 }
 
 function updateStickiness(): void {
