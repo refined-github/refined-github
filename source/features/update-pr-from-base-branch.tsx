@@ -80,12 +80,17 @@ function createButton(): JSX.Element {
 	);
 }
 
-async function addButton(mergeBar: Element): Promise<void> {
+async function addButton(): Promise<void> {
 	if (canNativelyUpdate()) {
 		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
 		disableFeatureOnRepo();
 		return;
 	}
+
+	const mergeBar = $([
+		'.mergeability-details > *:last-child',
+		'[class^="MergeBox-module__mergePartialContainer"]',
+	]);
 
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
@@ -145,7 +150,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe([
 		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
-		'[class^="MergeBox-module__mergePartialContainer"]',
+		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted',
 	], addButton, {signal});
 	observe([
 		'.js-update-branch-form', // Old view - TODO: Remove in July 2025
