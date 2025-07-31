@@ -287,6 +287,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png"
 	},
 	{
+		"id": "global-conversation-list-filters",
+		"description": "Adds filters for PRs <em>in your repos</em> and <em>commented on by you</em> in the global PR search.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
+	},
+	{
 		"id": "hidden-review-comments-indicator",
 		"description": "Adds comment indicators when comments are hidden in PR review.",
 		"css": true,
