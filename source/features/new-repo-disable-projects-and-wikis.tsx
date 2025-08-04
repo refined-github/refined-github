@@ -66,8 +66,9 @@ function add(blueprintRow: HTMLElement): void {
 }
 
 function addOld(submitButton: HTMLElement): void {
+	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
 	submitButton.parentElement!.before(
-		<div className="flash flash-warn py-0 ml-n3 mt-4">
+		<div className="flash flash-warn py-0 ml-n3 my-4">
 			<div className="form-checkbox checked">
 				<label>
 					<input
