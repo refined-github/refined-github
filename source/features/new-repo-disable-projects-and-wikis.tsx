@@ -50,12 +50,15 @@ function add(submitButtonLine: HTMLElement): void {
 
 		const control = $('.blockControl', disableProjectsAndWikis);
 		control.replaceChildren(
-			<label>
+			<label className="d-flex gap-1 flex-items-center">
+				Disable
 				<input
 					checked
+					// @ts-expect-error Safari only
+					switch
 					type="checkbox"
 					id="rgh-disable-project"
-				/> Disable
+				/>
 			</label>,
 		);
 		control.classList.add('d-flex', 'flex-items-center');
