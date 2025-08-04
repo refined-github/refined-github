@@ -15,3 +15,9 @@
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 }
+
+[data-testid='list-row-repo-name-and-number'] relative-time {
+	/* Due to `inline-block` on `.small-user-avatars`, which is used as a "nowrap" container */
+	/* https://github.com/refined-github/refined-github/issues/8396 */
+	vertical-align: baseline;
+}
