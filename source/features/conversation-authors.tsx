@@ -28,7 +28,8 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 		'.js-issue-row [data-hovercard-type="user"]',
 		'a[class^="IssueItem-module__authorCreatedLink"]',
 	], author => {
-		if (list.includes(author.textContent.trim())) {
+		const name = author.textContent.trim();
+		if (list.includes(name) && name !== getUsername()) {
 			author.classList.add('rgh-collaborator');
 		}
 	}, {signal});
@@ -41,8 +42,7 @@ function highlightSelf(signal: AbortSignal): void {
 		`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`,
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getUsername()!)}/hovercard"]`,
 	], author => {
-		author.classList.add('rgh-collaborator');
-		author.style.fontStyle = 'italic';
+		author.classList.add('rgh-own-conversation');
 	}, {signal});
 }
 
