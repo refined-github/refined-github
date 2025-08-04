@@ -1,5 +1,7 @@
 import {css} from 'code-tag';
 
+const requiresLogin:UrlMatch[] = [];
+
 export type UrlMatch = [expectations: number, url: string];
 
 /** The repo navigation bar */
@@ -141,7 +143,7 @@ export const newCommentField = [
 	'[aria-labelledby="comment-composer-heading"]',
 ];
 
-export const newCommentField_ = [] satisfies UrlMatch[];
+export const newCommentField_ = requiresLogin;
 
 export const commitHashLinkInLists = [
 	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
@@ -230,3 +232,6 @@ export const actionBarSelectors = [
 	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
 	'[aria-label="Formatting tools"]',
 ];
+
+export const prMergeabilityBoxCaption = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption_ = requiresLogin;
