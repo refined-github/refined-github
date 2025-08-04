@@ -43,11 +43,15 @@ function add(blueprintRow: HTMLElement): void {
 	title.id = '';
 
 	const description = $('.descriptionBox p', disableProjectsAndWikis);
-	description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
+	description.replaceChildren(
+		'After creating the repository disable the projects and wiki. ',
+		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>,
+	);
 
 	const control = $('.blockControl', disableProjectsAndWikis);
 	control.replaceChildren(
-		<label className="d-flex gap-1 flex-items-center">
+		// Padding/margin classes added to increate hit area
+		<label className="d-flex gap-1 flex-items-center p-2 mr-n2">
 			Disable
 			<input
 				checked
