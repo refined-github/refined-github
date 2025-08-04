@@ -13,7 +13,9 @@
 	}
 
 	&.dropdown-menu-se {
-		translate: -61px -44px;
+		/* Keep in view on mobile too */
+		/* https://github.com/refined-github/refined-github/issues/8605 */
+		translate: -28px -62px;
 	}
 
 	/* Button on the bottom left of comments */
