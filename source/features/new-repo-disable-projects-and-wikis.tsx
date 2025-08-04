@@ -3,7 +3,6 @@ import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
@@ -36,41 +35,38 @@ function setStorage(): void {
 	}
 }
 
-function add(submitButtonLine: HTMLElement): void {
-	if (elementExists('[class^="CreateFormV2-module"]')) {
-		const readme = $('#add-readme').closest('.controlBoxContainer')!;
-		const disableProjectsAndWikis = readme.cloneNode(true);
+function add(blueprintRow: HTMLElement): void {
+	const disableProjectsAndWikis = blueprintRow.cloneNode(true);
 
-		const title = $('.titleBox h3', disableProjectsAndWikis);
-		title.textContent = 'Disable Projects and Wikis';
-		title.id = 'disable-projects-and-wikis';
+	const title = $('.titleBox h3', disableProjectsAndWikis);
+	title.textContent = 'Disable Projects and Wikis';
+	title.id = '';
 
-		const description = $('.descriptionBox span', disableProjectsAndWikis);
-		description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
+	const description = $('.descriptionBox span', disableProjectsAndWikis);
+	description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
 
-		const control = $('.blockControl', disableProjectsAndWikis);
-		control.replaceChildren(
-			<label className="d-flex gap-1 flex-items-center">
-				Disable
-				<input
-					checked
-					// @ts-expect-error Safari only
-					switch
-					type="checkbox"
-					id="rgh-disable-project"
-				/>
-			</label>,
-		);
-		control.classList.add('d-flex', 'flex-items-center');
+	const control = $('.blockControl', disableProjectsAndWikis);
+	control.replaceChildren(
+		<label className="d-flex gap-1 flex-items-center">
+			Disable
+			<input
+				checked
+				// @ts-expect-error Safari only
+				switch
+				type="checkbox"
+				id="rgh-disable-project"
+			/>
+		</label>,
+	);
+	control.classList.add('d-flex', 'flex-items-center');
 
-		const groupContainer = readme.parentElement!.cloneNode(true);
-		groupContainer.replaceChildren(disableProjectsAndWikis);
-		readme.parentElement!.after(groupContainer);
+	const groupContainer = blueprintRow.parentElement!.cloneNode(true);
+	groupContainer.replaceChildren(disableProjectsAndWikis);
+	blueprintRow.parentElement!.after(groupContainer);
+}
 
-		return;
-	}
-
-	submitButtonLine.before(
+function addOld(submitButton: HTMLElement): void {
+	submitButton.parentElement!.before(
 		<div className="flash flash-warn py-0 ml-n3 mt-4">
 			<div className="form-checkbox checked">
 				<label>
@@ -90,7 +86,8 @@ function add(submitButtonLine: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('form :has(> [type=submit])', add, {signal});
+	observe('.controlBoxContainer:has(#add-readme)', add, {signal});
+	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal});
 }
 
