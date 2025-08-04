@@ -68,6 +68,10 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 
 	let tags: CommitTags = {};
 	for (const node of nodes) {
+		if (node.name === 'nightly') {
+			continue;
+		}
+
 		const commit = node.target.commitResourcePath.split('/')[4];
 		tags[commit] ||= [];
 
