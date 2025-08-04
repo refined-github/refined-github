@@ -42,7 +42,7 @@ function add(blueprintRow: HTMLElement): void {
 	title.textContent = 'Disable Projects and Wikis';
 	title.id = '';
 
-	const description = $('.descriptionBox span', disableProjectsAndWikis);
+	const description = $('.descriptionBox p', disableProjectsAndWikis);
 	description.innerHTML = 'After creating the repository disable the projects and wiki. <a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis" target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>';
 
 	const control = $('.blockControl', disableProjectsAndWikis);
@@ -60,9 +60,7 @@ function add(blueprintRow: HTMLElement): void {
 	);
 	control.classList.add('d-flex', 'flex-items-center');
 
-	const groupContainer = blueprintRow.parentElement!.cloneNode(true);
-	groupContainer.replaceChildren(disableProjectsAndWikis);
-	blueprintRow.parentElement!.after(groupContainer);
+	blueprintRow!.parentElement!.append(disableProjectsAndWikis);
 }
 
 function addOld(submitButton: HTMLElement): void {
@@ -87,7 +85,7 @@ function addOld(submitButton: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('.controlBoxContainer:has(#add-readme)', add, {signal});
+	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal});
 }
