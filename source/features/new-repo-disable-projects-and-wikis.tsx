@@ -35,9 +35,44 @@ function setStorage(): void {
 	}
 }
 
-function add(submitButtonLine: HTMLElement): void {
-	submitButtonLine.before(
-		<div className="flash flash-warn py-0 ml-n3 mb-4">
+function add(blueprintRow: HTMLElement): void {
+	const disableProjectsAndWikis = blueprintRow.cloneNode(true);
+
+	disableProjectsAndWikis.classList.add('flash-warn');
+
+	const title = $('.titleBox h3', disableProjectsAndWikis);
+	title.textContent = 'Disable Projects and Wikis';
+	title.id = '';
+
+	const description = $('.descriptionBox p', disableProjectsAndWikis);
+	description.replaceChildren(
+		'After creating the repository disable the projects and wiki. ',
+		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>,
+	);
+
+	const control = $('.blockControl', disableProjectsAndWikis);
+	control.replaceChildren(
+		// Padding/margin classes added to increate hit area
+		<label className="d-flex gap-1 flex-items-center p-2 mr-n2">
+			Disable
+			<input
+				checked
+				// @ts-expect-error Safari only
+				switch
+				type="checkbox"
+				id="rgh-disable-project"
+			/>
+		</label>,
+	);
+	control.classList.add('d-flex', 'flex-items-center');
+
+	blueprintRow!.parentElement!.append(disableProjectsAndWikis);
+}
+
+function addOld(submitButton: HTMLElement): void {
+	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
+	submitButton.parentElement!.before(
+		<div className="flash flash-warn py-0 ml-n3 my-4">
 			<div className="form-checkbox checked">
 				<label>
 					<input
@@ -56,7 +91,8 @@ function add(submitButtonLine: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('form :has(> [type=submit])', add, {signal});
+	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
+	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal});
 }
 
