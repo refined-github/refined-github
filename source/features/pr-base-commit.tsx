@@ -11,6 +11,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
@@ -44,7 +45,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	observe(
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted',
+		prMergeabilityBoxCaption,
 		addInfo,
 		{signal},
 	);
