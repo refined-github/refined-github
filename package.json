@@ -54,7 +54,7 @@
 		"github-url-detection": "^10.2.1",
 		"indent-textarea": "^4.0.0",
 		"js-abbreviation-number": "^1.4.0",
-		"linkify-issues": "^4.1.0",
+		"linkify-issues": "^4.1.1",
 		"linkify-urls": "^5.0.2",
 		"memoize": "^10.1.0",
 		"octicons-plain-react": "^19.15.2",
