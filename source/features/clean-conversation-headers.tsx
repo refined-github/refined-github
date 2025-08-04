@@ -22,6 +22,14 @@ async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
 	commentCount.replaceWith(<span>{commentCount.textContent.replace('·', '')}</span>);
 }
 
+async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: string): Promise<void> {
+	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
+	const isDefaultBranch = baseBranch === await getDefaultBranch();
+	if (!isDefaultBranch && !wasDefaultBranch) {
+		base.classList.add('rgh-non-default-branch');
+	}
+}
+
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
 	byline.parentElement!.closest('.d-flex')!.classList.add('flex-items-center');
@@ -57,11 +65,8 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
 	}
 
-	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
-	const isDefaultBranch = baseBranch === await getDefaultBranch();
-	if (!isDefaultBranch && !wasDefaultBranch) {
-		base.classList.add('rgh-non-default-branch');
-	}
+	// Don't await https://github.com/refined-github/refined-github/issues/8331
+	void highlightNonDefaultBranchPRs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
 	const anchor
