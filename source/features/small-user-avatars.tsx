@@ -5,10 +5,14 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
+import {getUsername} from '../github-helpers/index.js';
 
 function addAvatar(link: HTMLElement): void {
-	const username = link.textContent;
 	const size = 14;
+	const username = link.textContent;
+	if (username === getUsername()) {
+		return;
+	}
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
@@ -24,6 +28,10 @@ function addAvatar(link: HTMLElement): void {
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
 	const username = link.href.split('/').pop()!;
+	if (username === getUsername()) {
+		return;
+	}
+
 	const avatarUrl = getUserAvatarURL(username, 16);
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
