@@ -1,6 +1,6 @@
 import {css} from 'code-tag';
 
-const requiresLogin:UrlMatch[] = [];
+const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
 
