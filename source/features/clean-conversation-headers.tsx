@@ -57,11 +57,6 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
 	}
 
-	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
-	const isDefaultBranch = baseBranch === await getDefaultBranch();
-	if (!isDefaultBranch && !wasDefaultBranch) {
-		base.classList.add('rgh-non-default-branch');
-	}
 
 	// Shows on PRs: main [←] feature
 	const anchor
@@ -69,6 +64,14 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 			?? base.nextSibling?.nextSibling;
 	assertNodeContent(anchor, 'from');
 	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
+
+	// Highlight non-default base branch. PLACE LAST
+	// https://github.com/refined-github/refined-github/issues/8331
+	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
+	const isDefaultBranch = baseBranch === await getDefaultBranch();
+	if (!isDefaultBranch && !wasDefaultBranch) {
+		base.classList.add('rgh-non-default-branch');
+	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
