@@ -42,7 +42,6 @@ function add(blueprintRow: HTMLElement): void {
 
 	const title = $('.titleBox h3', disableProjectsAndWikis);
 	title.textContent = 'Disable Projects and Wikis';
-	title.id = '';
 
 	const description = $('.descriptionBox p', disableProjectsAndWikis);
 	description.replaceChildren(
@@ -93,7 +92,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
-	delegate('form', 'submit', setStorage, {signal});
+	delegate('form', 'submit', setStorage, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
