@@ -38,6 +38,8 @@ function setStorage(): void {
 function add(blueprintRow: HTMLElement): void {
 	const disableProjectsAndWikis = blueprintRow.cloneNode(true);
 
+	disableProjectsAndWikis.classList.add('flash-warn');
+
 	const title = $('.titleBox h3', disableProjectsAndWikis);
 	title.textContent = 'Disable Projects and Wikis';
 	title.id = '';
