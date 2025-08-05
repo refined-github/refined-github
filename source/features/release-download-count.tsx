@@ -53,7 +53,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const assetSize = assetLink
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > span')!;
-		assertNodeContent(assetSize.firstChild, /^\d+ \w{2,5}$/);
+		assertNodeContent(assetSize.firstChild, /^\d+(\.\d+)? \w{2,5}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
