@@ -95,7 +95,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- One release: https://github.com/cli/cli/releases/tag/v2.30.0
+- One release: https://github.com/refined-github/sandbox/releases/tag/v1.0.0
 - List of releases: https://github.com/cli/cli/releases
 - Lots of assets: https://github.com/notepad-plus-plus/notepad-plus-plus/releases
 
