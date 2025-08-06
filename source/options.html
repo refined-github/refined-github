@@ -27,7 +27,7 @@
 		<summary><strong>🔑 Personal token</strong></summary>
 		<div>
 			<!-- Keep this URL in sync with welcome.html -->
-			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
 			<p>
 				<input
@@ -46,6 +46,7 @@
 				<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 				<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
 				<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repo/org uses projects
+				<li data-validation data-scope="workflow">The <code>workflow</code> scope lets them <strong>edit workflow files</strong> like <code>.github/workflows/*.yml</code>
 			</ul>
 		</div>
 	</details>
