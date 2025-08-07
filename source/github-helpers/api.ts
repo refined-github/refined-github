@@ -264,8 +264,7 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 		);
 	}
 
-	if ((apiResponse.message as string)?.includes('Personal Access Token')
-		&& (apiResponse.message as string)?.includes('without `workflow` scope')) {
+	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
 		return new RefinedGitHubAPIError(
 			'Your personal access token lacks the `workflow` scope.',
 			'To update workflow files, you need to grant the `workflow` scope to your token.',
