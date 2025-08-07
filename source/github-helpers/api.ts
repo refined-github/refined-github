@@ -264,6 +264,12 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 		);
 	}
 
+	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
+		return new RefinedGitHubAPIError(
+			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
+		);
+	}
+
 	const error = new RefinedGitHubAPIError(
 		'Unable to fetch.',
 		personalToken
