@@ -100,7 +100,7 @@
 			>
 				<!-- Keep this URL in sync with options.html -->
 				<a
-					href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project&default_expires_at=none"
+					href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none"
 					onclick={markSecondStep}
 				>
 					Generate a token
