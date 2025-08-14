@@ -144,17 +144,15 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		return;
 	}
 
-	const nextTimes = workflow.schedules
-		.map(schedule => parseCron.nextDate(schedule))
-		.filter(schedule => schedule !== undefined);
-	if (nextTimes.length === 0) {
-		return;
-	}
 	let nextTime: Date | undefined;
-	for (const possibleTime of nextTimes) {
-		if (!nextTime || possibleTime.getTime() < nextTime.getTime()) {
-			nextTime = possibleTime;
+	for (const schedule of workflow.schedules) {
+		const time = parseCron.nextDate(schedule);
+		if (time && (!nextTime || time < nextTime)) {
+			nextTime = time;
 		}
+	}
+	if (!nextTime) {
+		return;
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)} />;
