@@ -19,7 +19,7 @@ type Workflow = {
 };
 
 type WorkflowDetails = {
-	schedule?: string;
+	schedules: string[];
 	manuallyDispatchable: boolean;
 };
 
@@ -60,6 +60,23 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
+function extractCronExpressions(input: string): string[] {
+	// Limit our search to just the first schedule block
+	const startRe = /(?:^|\r?\n) {2}schedule:\s*(?:#.*)?\r?\n/m;
+	const matches = startRe.exec(input);
+	if (!matches) {
+		return [];
+	};
+	const start = matches.index + matches[0].length;
+	const rest = input.slice(start);
+	const nextBoundary = rest.search(/\r?\n {2}[^ ]/);
+	const block = nextBoundary === -1 ? rest : rest.slice(0, nextBoundary);
+
+	// Find all cron lines - supports quotes and trailing comments
+	const cronRe = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm;
+	return Array.from(block.matchAll(cronRe), matches => matches[1]);
+};
+
 const workflowDetails = new CachedFunction('workflows-details', {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
 		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
@@ -74,11 +91,10 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			// Single-line regex, allows comments around
-			const cron = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
+			const crons = extractCronExpressions(workflowYaml);
 			details[workflow.name] = {
 				...workflow,
-				schedule: cron?.[1],
+				schedules: crons,
 				manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 			};
 		}
@@ -124,13 +140,21 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		}
 	}
 
-	if (!workflow.schedule) {
+	if (workflow.schedules.length === 0) {
 		return;
 	}
 
-	const nextTime = parseCron.nextDate(workflow.schedule);
-	if (!nextTime) {
+	const nextTimes = workflow.schedules
+		.map(schedule => parseCron.nextDate(schedule))
+		.filter(schedule => schedule !== undefined);
+	if (nextTimes.length === 0) {
 		return;
+	}
+	let nextTime: Date | undefined;
+	for (const possibleTime of nextTimes) {
+		if (!nextTime || possibleTime.getTime() < nextTime.getTime()) {
+			nextTime = possibleTime;
+		}
 	}
 
 	const relativeTime = <relative-time datetime={String(nextTime)} />;
