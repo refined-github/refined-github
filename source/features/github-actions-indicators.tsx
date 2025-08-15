@@ -60,23 +60,6 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
-function extractCronExpressions(input: string): string[] {
-	// Limit our search to just the first schedule block
-	const startRe = /(?:^|\r?\n) {2}schedule:\s*(?:#.*)?\r?\n/m;
-	const matches = startRe.exec(input);
-	if (!matches) {
-		return [];
-	};
-	const start = matches.index + matches[0].length;
-	const rest = input.slice(start);
-	const nextBoundary = rest.search(/\r?\n {2}[^ ]/);
-	const block = nextBoundary === -1 ? rest : rest.slice(0, nextBoundary);
-
-	// Find all cron lines - supports quotes and trailing comments
-	const cronRe = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm;
-	return Array.from(block.matchAll(cronRe), matches => matches[1]);
-};
-
 const workflowDetails = new CachedFunction('workflows-details', {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
 		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
@@ -91,7 +74,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			const crons = extractCronExpressions(workflowYaml);
+			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm)].map(match => match[1]);
 			details[workflow.name] = {
 				...workflow,
 				schedules: crons,
