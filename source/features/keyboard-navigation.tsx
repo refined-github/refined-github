@@ -167,6 +167,7 @@ function runShortcuts(event: KeyboardEvent): void {
 function init(signal: AbortSignal): void {
 	document.body.addEventListener('keypress', runShortcuts, {signal});
 	document.body.addEventListener('change', trackLastViewChange);
+	document.body.addEventListener('click', trackLastViewChange);
 	document.body.addEventListener('focus', trackLastViewChange);
 }
 
