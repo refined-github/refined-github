@@ -19,7 +19,7 @@ type Workflow = {
 };
 
 type WorkflowDetails = {
-	schedule?: string;
+	schedules: string[];
 	manuallyDispatchable: boolean;
 };
 
@@ -74,11 +74,10 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			// Single-line regex, allows comments around
-			const cron = /^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/m.exec(workflowYaml);
+			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm)].map(match => match[1]);
 			details[workflow.name] = {
 				...workflow,
-				schedule: cron?.[1],
+				schedules: crons,
 				manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
 			};
 		}
@@ -124,11 +123,17 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 		}
 	}
 
-	if (!workflow.schedule) {
+	if (workflow.schedules.length === 0) {
 		return;
 	}
 
-	const nextTime = parseCron.nextDate(workflow.schedule);
+	let nextTime: Date | undefined;
+	for (const schedule of workflow.schedules) {
+		const time = parseCron.nextDate(schedule);
+		if (time && (!nextTime || time < nextTime)) {
+			nextTime = time;
+		}
+	}
 	if (!nextTime) {
 		return;
 	}
