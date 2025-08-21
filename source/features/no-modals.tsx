@@ -13,7 +13,7 @@ function init(signal: AbortSignal): void {
 		'a[href$="/issues/new/choose"]', // New issue button
 		'a[class*="SubIssueTitle"]', // Sub-issue links
 		'a[data-testid="issue-pr-title-link"]', // Global issue list links
-		'.board-view-column-card a', // Project issue links
+		'.board-view-column-card a[href*="/issues/"]', // Project issue links
 	], 'click', fix, {signal, capture: true});
 }
 
