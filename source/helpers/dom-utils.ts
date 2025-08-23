@@ -134,5 +134,5 @@ export function getClasses(element: Element): Set<string> {
 }
 
 export function isSmallDevice(): boolean {
-	return screen.width + screen.height < 1200;
+	return screen.width < 500;
 }
