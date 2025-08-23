@@ -7,7 +7,9 @@
 
 	/* Date */
 	& > span:last-child {
-		min-width: 7em;
+		width: 7em;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	/* Right-align on mobile */

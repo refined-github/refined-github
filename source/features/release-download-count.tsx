@@ -49,22 +49,32 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
-		// Place next to asset size
+		// Place next to asset sha
 		const assetSize = assetLink
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > span')!;
 		assertNodeContent(assetSize.firstChild, /^\d+(\.\d+)? \w{2,5}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
-		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		const classes = new Set(assetSize.classList);
 		if (downloadCount === 0) {
+			// Don't show, but preserve space/column
 			classes.add('v-hidden');
 		}
 
-		assetSize.before(
-			<span className={[...classes].join(' ')}>
+		// Move margin to the right side
+		const className = [...classes].join(' ').replaceAll(/\bml\b/g, 'mr');
+
+		// Add class to parent in order to define "columns"
+		assetSize.parentElement!.classList.add('rgh-release-download-count');
+
+		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
+		assetSize.parentElement!.firstElementChild!.classList.add('d-none');
+
+		// Add at the beginning of the line to avoid (clickable) content shift
+		assetSize.parentElement!.prepend(
+			<span className={className}>
 				<span
 					className="d-inline-block text-right"
 					title={`${downloadCount} downloads`}
