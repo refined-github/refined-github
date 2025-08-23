@@ -9,6 +9,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {isSmallDevice} from '../helpers/dom-utils';
 
 async function getCommitWithChecks(): Promise<string | undefined> {
 	const {repository} = await api.v4(getChecks);
@@ -61,6 +62,10 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
+	],
+	exclude: [
+		// Disable the feature entirely on small screens
+		isSmallDevice,
 	],
 	init,
 });

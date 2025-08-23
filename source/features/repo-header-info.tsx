@@ -14,6 +14,7 @@ import GetRepositoryInfo from './repo-header-info.gql';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 
 type RepositoryInfo = {
 	isFork: boolean;
@@ -85,7 +86,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		// Disable the feature entirely on small screens
-		() => screen.width + screen.height < 1200,
+		isSmallDevice,
 	],
 	init,
 });
