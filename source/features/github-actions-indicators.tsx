@@ -89,22 +89,32 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
-		// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
-		workflowLink.parentElement!.classList.add('ActionListItem--withActions');
-
-		const url = new URL(workflowLink.href);
-		url.hash = 'rgh-run-workflow';
-		workflowLink.after(
-			<a
-				href={url.href}
-				data-turbo-frame={workflowLink.dataset.turboFrame}
-				// `actions-unpin-button` provides the hover style
-				className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
-				aria-label="Trigger manually"
-			>
-				<PlayIcon className="m-auto" />
-			</a>,
-		);
+		if (workflowLink.nextElementSibling) {
+			const url = new URL(workflowLink.href);
+			url.hash = 'rgh-run-workflow';
+			workflowLink.after(
+				<a
+					href={url.href}
+					data-turbo-frame={workflowLink.dataset.turboFrame}
+					// `actions-unpin-button` provides the hover style
+					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					aria-label="Trigger manually"
+				>
+					<PlayIcon />
+				</a>,
+			);
+		} else {
+			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
+			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
+			workflowLink.after(
+				<div
+					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent"
+					aria-label="This workflow can be triggered manually"
+				>
+					<PlayIcon />
+				</div>,
+			);
+		}
 	}
 
 	let nextTime: Date | undefined;
