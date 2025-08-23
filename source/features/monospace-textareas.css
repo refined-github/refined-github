@@ -1,0 +1,19 @@
+/* Use monospace font in various fields */
+/* Use same font-family as GitHub style for `code` */
+
+/* https://github.com/refined-github/sandbox/pull/10#issue-comment-box */
+[placeholder='Add an optional extended description…'],
+/* Test URL: https://github.com/refined-github/refined-github/edit/main/.editorconfig */
+	#commit-message-input,
+/* Test URL: https://github.com/refined-github/refined-github/edit/main/.editorconfig */
+	#commit-description-input,
+/* Test URL: https://github.com/refined-github/refined-github/releases/new */
+	#release_body,
+/* Test URL: https://github.com/settings/gpg/new */
+	#gpg_key_public_key,
+/* Test URL: https://github.com/settings/ssh/new */
+	#ssh_key_key {
+	font-family:
+		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+		monospace !important;
+}

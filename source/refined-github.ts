@@ -8,6 +8,7 @@ import './github-helpers/heat-map.css';
 import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/center-reactions-popup.css';
+import './features/monospace-textareas.css';
 import './features/safer-destructive-actions.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
