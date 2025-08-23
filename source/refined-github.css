@@ -189,9 +189,13 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 
 /* Add hover effect to attachment row on the release page #8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
-.Box-footer .Box--condensed li:has(.octicon-package, .octicon-file-zip):hover {
-	background-color: var(--bgColor-muted, fuchsia);
-	&:first-of-type {
-		border-top-color: var(--borderColor-muted, fuchsia);
+@media (min-width: 800px) {
+	.Box-footer
+		.Box--condensed
+		li:has(.octicon-package, .octicon-file-zip):hover {
+		background-color: var(--bgColor-muted, fuchsia);
+		&:first-of-type {
+			border-top-color: var(--borderColor-muted, fuchsia);
+		}
 	}
 }

@@ -49,22 +49,24 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
-		// Place next to asset size
+		// Place next to asset sha
 		const assetSize = assetLink
 			.closest('.Box-row')!
 			.querySelector(':scope > .flex-justify-end > span')!;
 		assertNodeContent(assetSize.firstChild, /^\d+(\.\d+)? \w{2,5}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
-		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		const classes = new Set(assetSize.classList);
 		if (downloadCount === 0) {
 			classes.add('v-hidden');
 		}
 
-		assetSize.before(
-			<span className={[...classes].join(' ')}>
+		const className = [...classes].join(' ').replaceAll(/\bml\b/g, 'mr');
+		assetSize.parentElement!.classList.add('rgh-release-download-count');
+		assetSize.parentElement!.firstElementChild!.classList.add('d-none');
+		assetSize.parentElement!.prepend(
+			<span className={className}>
 				<span
 					className="d-inline-block text-right"
 					title={`${downloadCount} downloads`}
