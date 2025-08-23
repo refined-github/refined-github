@@ -59,12 +59,20 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		const classes = new Set(assetSize.classList);
 		if (downloadCount === 0) {
+			// Don't show, but preserve space/column
 			classes.add('v-hidden');
 		}
 
+		// Move margin to the right side
 		const className = [...classes].join(' ').replaceAll(/\bml\b/g, 'mr');
+
+		// Add class to parent in order to define "columns"
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
+
+		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
 		assetSize.parentElement!.firstElementChild!.classList.add('d-none');
+
+		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
 			<span className={className}>
 				<span
