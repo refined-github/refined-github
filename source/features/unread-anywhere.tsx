@@ -10,7 +10,7 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
 import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
-import {getClasses} from '../helpers/dom-utils';
+import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
 const limit = 10;
 
@@ -81,6 +81,10 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'g u': 'Open all unread notifications from anywhere',
 	},
+	exclude: [
+		// Disable the feature entirely on small screens
+		isSmallDevice,
+	],
 	init: onetime(initOnce),
 });
 

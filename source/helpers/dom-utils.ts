@@ -132,3 +132,7 @@ export function getClasses(element: Element): Set<string> {
 	}
 	return list;
 }
+
+export function isSmallDevice(): boolean {
+	return screen.width < 500;
+}
