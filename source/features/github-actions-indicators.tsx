@@ -1,6 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@fregante/mi-cron';
 import * as pageDetect from 'github-url-detection';
@@ -22,16 +22,6 @@ type WorkflowDetails = {
 	schedules: string[];
 	manuallyDispatchable: boolean;
 };
-
-function addTooltip(element: HTMLElement, tooltip: string): void {
-	const existingTooltip = element.getAttribute('aria-label');
-	if (existingTooltip) {
-		element.setAttribute('aria-label', existingTooltip + '.\n' + tooltip);
-	} else {
-		element.classList.add('tooltipped', 'tooltipped-n');
-		element.setAttribute('aria-label', tooltip);
-	}
-}
 
 // There is no way to get a workflow list in the v4 API #6543
 async function getWorkflows(): Promise<Workflow[]> {
@@ -89,42 +79,32 @@ const workflowDetails = new CachedFunction('workflows-details', {
 	cacheKey: cacheByRepo,
 });
 
-async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void> {
+async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	// Called in `init`, memoized
 	const workflows = await workflowDetails.get();
-	const workflowName = workflowListItem.href.split('/').pop()!;
+	const workflowName = workflowLink.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
 		return;
 	}
 
-	const svgTrailer = $optional('.ActionListItem-visual--trailing', workflowListItem)
-		?? <div className="ActionListItem-visual--trailing" />;
-	if (!svgTrailer.isConnected) {
-		workflowListItem.append(svgTrailer);
-	}
+	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
+		// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
+		workflowLink.parentElement!.classList.add('ActionListItem--withActions');
 
-	svgTrailer.classList.add('m-auto', 'd-flex', 'gap-2');
-
-	if (workflow.manuallyDispatchable) {
-		addTooltip(workflowListItem, 'This workflow can be triggered manually');
-
-		const icon = <PlayIcon className="m-auto" />;
-		if (workflowListItem.pathname === location.pathname) {
-			svgTrailer.append(icon);
-		} else {
-			const url = new URL(workflowListItem.href);
-			url.hash = 'rgh-run-workflow';
-			svgTrailer.append(
-				<a href={url.href} data-turbo-frame={workflowListItem.dataset.turboFrame}>
-					{icon}
-				</a>,
-			);
-		}
-	}
-
-	if (workflow.schedules.length === 0) {
-		return;
+		const url = new URL(workflowLink.href);
+		url.hash = 'rgh-run-workflow';
+		workflowLink.after(
+			<a
+				href={url.href}
+				data-turbo-frame={workflowLink.dataset.turboFrame}
+				// `actions-unpin-button` provides the hover style
+				className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+				aria-label="Trigger manually"
+			>
+				<PlayIcon className="m-auto" />
+			</a>,
+		);
 	}
 
 	let nextTime: Date | undefined;
@@ -134,21 +114,16 @@ async function addIndicators(workflowListItem: HTMLAnchorElement): Promise<void>
 			nextTime = time;
 		}
 	}
+
 	if (!nextTime) {
 		return;
 	}
 
-	const relativeTime = <relative-time datetime={String(nextTime)} />;
-	$('.ActionListItem-label', workflowListItem).append(
+	$('.ActionListItem-label', workflowLink).append(
 		<em>
-			({relativeTime})
+			(<relative-time datetime={String(nextTime)} />)
 		</em>,
 	);
-
-	setTimeout(() => {
-		// The content of `relative-time` might is not immediately available
-		addTooltip(workflowListItem, `Next run: ${relativeTime.shadowRoot!.textContent}`);
-	}, 500);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
