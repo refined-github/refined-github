@@ -60,7 +60,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			style={{width: 10}}
 			aria-label="Open unread notifications"
 		/>
-	)
+	);
 	nativeLink.before(button);
 	button.classList.add(
 		...classes,
