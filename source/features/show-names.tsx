@@ -82,7 +82,6 @@ function updateDom(link: HTMLAnchorElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	document.body.classList.add('rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
 }
 

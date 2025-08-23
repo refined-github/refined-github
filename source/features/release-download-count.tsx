@@ -19,7 +19,7 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {assertNodeContent} from '../helpers/dom-utils';
+import {assertNodeContent, getClasses} from '../helpers/dom-utils';
 
 type Asset = {
 	name: string;
@@ -57,7 +57,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
 
-		const classes = new Set(assetSize.classList);
+		const classes = getClasses(assetSize);
 		if (downloadCount === 0) {
 			// Don't show, but preserve space/column
 			classes.add('v-hidden');
