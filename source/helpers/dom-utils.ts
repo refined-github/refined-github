@@ -122,3 +122,13 @@ export function getElementByAriaLabelledBy<T extends HTMLElement>(baseSelector: 
 
 	throw new ElementNotFoundError(`Expected element labelled "${label}" not found in: ${baseSelector}`);
 }
+
+export function getClasses(element: Element): Set<string> {
+	const list = new Set<string>();
+	for (const cls of element.classList) {
+		if (!cls.startsWith('rgh-')) {
+			list.add(cls);
+		}
+	}
+	return list;
+}

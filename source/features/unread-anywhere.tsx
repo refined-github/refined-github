@@ -1,5 +1,6 @@
 import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
+import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -8,6 +9,8 @@ import showToast from '../github-helpers/toast.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
 import {removeLinkToPRFilesTab} from './pr-notification-link.js';
+import observe from '../helpers/selector-observer';
+import {getClasses} from '../helpers/dom-utils';
 
 const limit = 10;
 
@@ -44,8 +47,34 @@ async function openUnreadNotifications(): Promise<void> {
 	});
 }
 
+function addButton(nativeLink: HTMLAnchorElement): void {
+	const classes = getClasses(nativeLink);
+	classes.delete('AppHeader-button--hasIndicator');
+	// Reverse order so that the new button is painted below the "unread indicator"
+	nativeLink.parentElement!.classList.add('d-flex', 'flex-row-reverse');
+	nativeLink.classList.add('AppHeader-buttonLeft');
+	const button = (
+		<button
+			type="button"
+			onClick={openUnreadNotifications}
+			style={{width: 10}}
+			aria-label="Open unread notifications"
+		/>
+	)
+	nativeLink.before(button);
+	button.classList.add(
+		...classes,
+		'AppHeader-buttonRight',
+		'tooltipped',
+		'tooltipped-sw',
+	);
+}
+
+// No signal, created once per load
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
+	document.documentElement.classList.add('rgh-unread-anywhere');
+	observe('a#AppHeader-notifications-button', addButton);
 }
 
 void features.add(import.meta.url, {
