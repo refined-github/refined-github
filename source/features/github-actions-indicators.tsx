@@ -28,7 +28,7 @@ function addTooltip(element: HTMLElement, tooltip: string): void {
 	if (existingTooltip) {
 		element.setAttribute('aria-label', existingTooltip + '.\n' + tooltip);
 	} else {
-		element.classList.add('tooltipped', 'tooltipped-s');
+		element.classList.add('tooltipped', 'tooltipped-n');
 		element.setAttribute('aria-label', tooltip);
 	}
 }
