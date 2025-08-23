@@ -59,7 +59,8 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			<a
 				href={buildRepoURL('stargazers')}
 				title={tooltip}
-				className="d-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
+				// Hide in small viewports, matches `ci-link`
+				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
 				{
 					viewerHasStarred
@@ -81,6 +82,10 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
+	],
+	exclude: [
+		// Disable the feature entirely on small screens
+		() => screen.width + screen.height < 1200,
 	],
 	init,
 });
