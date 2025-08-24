@@ -15,9 +15,11 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
+type LabelRemovalEvent = DelegateEvent<MouseEvent, HTMLButtonElement>;
+
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {
-	return elementExists('.label-select-menu .octicon-gear');
+	return elementExists(['[data-testid="sidebar-section"]:has([data-testid="issue-labels"]) .octicon-gear', '.label-select-menu .octicon-gear']);
 }
 
 function getLabelList(): HTMLElement {
@@ -37,7 +39,7 @@ function restoreLabelList(): void {
 	);
 }
 
-async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function removeLabelButtonClickHandler(event: LabelRemovalEvent, isNewUI: boolean): Promise<void> {
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
@@ -47,7 +49,9 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		label.hidden = true;
 		// Disable dropdown list to avoid race conditions in the UI.
 		// Each deletion would be followed by a reload of the list _at the wrong time_
-		removeLabelList();
+		if (!isNewUI) {
+			removeLabelList();
+		};
 
 		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
 			method: 'DELETE',
@@ -63,13 +67,13 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 	label.remove();
 }
 
-function addRemoveLabelButton(label: HTMLElement): void {
+function addRemoveLabelButton(label: HTMLElement, isNewUI: boolean): void {
 	label.classList.add('d-inline-flex');
 	label.append(
 		<button
 			type="button"
-			className="btn-link rgh-quick-label-removal"
-			data-name={label.dataset.name}
+			className={`btn-link rgh-quick-label-removal ${isNewUI ? 'new-ui' : 'old-ui'}`}
+			data-name={isNewUI ? label.textContent : label.dataset.name}
 		>
 			<XIcon />
 		</button>,
@@ -79,8 +83,21 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
-	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
+	observe('[data-testid="issue-labels"] [class^="TokenBase__StyledTokenBase"]', element => {
+		addRemoveLabelButton(element as HTMLElement, true);
+	}, {signal});
+
+	delegate('.rgh-quick-label-removal.new-ui:enabled', 'click', event => {
+		removeLabelButtonClickHandler(event as LabelRemovalEvent, true);
+	}, {signal});
+
+	observe('.js-issue-labels .IssueLabel', element => {
+		addRemoveLabelButton(element as HTMLElement, false);
+	}, {signal});
+
+	delegate('.rgh-quick-label-removal.old-ui:enabled', 'click', event => {
+		removeLabelButtonClickHandler(event as LabelRemovalEvent, false);
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
