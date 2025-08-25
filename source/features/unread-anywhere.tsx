@@ -1,6 +1,7 @@
 import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -84,6 +85,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,
+
+		// Can't work on gists due to CORS: https://github.com/refined-github/refined-github/issues/8641
+		pageDetect.isGist,
 	],
 	init: onetime(initOnce),
 });
