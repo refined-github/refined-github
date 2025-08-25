@@ -1,6 +1,7 @@
 import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -11,7 +12,6 @@ import pluralize from '../helpers/pluralize.js';
 import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
-import * as pageDetect from 'github-url-detection';
 
 const limit = 10;
 
@@ -72,12 +72,9 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 }
 
 // No signal, created once per load
-function registerHotkeyOnce(): void {
+function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-}
-
-function addButtonOnce(): void {
 	observe('a#AppHeader-notifications-button', addButton);
 }
 
@@ -88,17 +85,11 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,
-	],
-	init: onetime(registerHotkeyOnce),
-}, {
-	exclude: [
-		// Disable the feature entirely on small screens
-		isSmallDevice,
 
-		// Not worth integrating on gist: https://github.com/refined-github/refined-github/issues/8641
+		// Can't work on gists due to CORS: https://github.com/refined-github/refined-github/issues/8641
 		pageDetect.isGist,
 	],
-	init: onetime(addButtonOnce),
+	init: onetime(initOnce),
 });
 
 /*
