@@ -11,6 +11,7 @@ import pluralize from '../helpers/pluralize.js';
 import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
+import * as pageDetect from 'github-url-detection';
 
 const limit = 10;
 
@@ -71,9 +72,12 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 }
 
 // No signal, created once per load
-function initOnce(): void {
+function registerHotkeyOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
+}
+
+function addButtonOnce(): void {
 	observe('a#AppHeader-notifications-button', addButton);
 }
 
@@ -85,7 +89,16 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
-	init: onetime(initOnce),
+	init: onetime(registerHotkeyOnce),
+}, {
+	exclude: [
+		// Disable the feature entirely on small screens
+		isSmallDevice,
+
+		// Not worth integrating on gist: https://github.com/refined-github/refined-github/issues/8641
+		pageDetect.isGist,
+	],
+	init: onetime(addButtonOnce),
 });
 
 /*
