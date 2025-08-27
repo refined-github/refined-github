@@ -12,7 +12,7 @@ import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {getUsername} from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 
 type Commit = {
 	url: string;
@@ -121,7 +121,7 @@ async function insertUserLocalTime(hovercardContainer: Element): Promise<void> {
 	}
 
 	const login = $optional('a.Link--primary', hovercard)?.pathname.slice(1);
-	if (!login || login === getUsername()) {
+	if (!login || login === getLoggedInUser()) {
 		return;
 	}
 

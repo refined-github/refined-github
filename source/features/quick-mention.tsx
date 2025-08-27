@@ -10,7 +10,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {getUsername, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = [
@@ -26,14 +26,14 @@ const prCommentSelector = `
 	:is(
 		div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
 		a.TimelineItem-avatar
-	):not([href="/${getUsername()!}"])
+	):not([href="/${getLoggedInUser()!}"])
 `;
 
 const issueCommentSelector = [
 	// React Issue View
-	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getUsername()!}"])`,
+	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getLoggedInUser()!}"])`,
 	// React Issue View (first comment)
-	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getUsername()!}"])`,
+	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getLoggedInUser()!}"])`,
 ];
 
 function prefixUserMention(userMention: string): string {

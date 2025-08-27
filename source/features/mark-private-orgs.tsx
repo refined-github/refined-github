@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getUsername} from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const publicOrganizationsNames = new CachedFunction('public-organizations', {
@@ -29,7 +29,7 @@ function markPrivate(org: HTMLAnchorElement, organizations: string[]): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const organizations = await publicOrganizationsNames.get(getUsername()!);
+	const organizations = await publicOrganizationsNames.get(getLoggedInUser()!);
 	observe(
 		'a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]',
 		org => {

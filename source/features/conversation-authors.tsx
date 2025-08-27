@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, getUsername} from '../github-helpers/index.js';
+import {cacheByRepo, getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import GetCollaborators from './conversation-authors.gql';
@@ -29,7 +29,7 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 		'a[class^="IssueItem-module__authorCreatedLink"]',
 	], author => {
 		const name = author.textContent.trim();
-		if (list.includes(name) && name !== getUsername()) {
+		if (list.includes(name) && name !== getLoggedInUser()) {
 			author.classList.add('rgh-collaborator');
 		}
 	}, {signal});
@@ -39,8 +39,8 @@ function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	observe([
 		// Old issue lists - TODO: Drop in 2026
-		`.opened-by a[title$="ed by ${CSS.escape(getUsername()!)}"]`,
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getUsername()!)}/hovercard"]`,
+		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});

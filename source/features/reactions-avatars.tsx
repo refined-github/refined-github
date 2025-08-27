@@ -9,7 +9,7 @@ import {onAbort} from 'abort-utils';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {getUsername} from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
 
 const arbitraryAvatarLimit = 36;
@@ -45,7 +45,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		throw new Error('Unknown reaction button layout');
 	}
 
-	const currentUser = getUsername();
+	const currentUser = getLoggedInUser();
 	const participants = [];
 	for (const username of users) {
 		if (username === currentUser) {
