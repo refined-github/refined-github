@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getUsername, getCleanPathname} from '../github-helpers/index.js';
+import {getLoggedInUser, getCleanPathname} from '../github-helpers/index.js';
 import attachElement from '../helpers/attach-element.js';
 
 const doesUserFollow = new CachedFunction('user-follows', {
@@ -20,7 +20,7 @@ const doesUserFollow = new CachedFunction('user-follows', {
 });
 
 async function init(): Promise<void> {
-	if (!await doesUserFollow.get(getCleanPathname(), getUsername()!)) {
+	if (!await doesUserFollow.get(getCleanPathname(), getLoggedInUser()!)) {
 		return;
 	}
 

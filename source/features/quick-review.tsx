@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {
 	getConversationNumber,
-	getUsername,
+	getLoggedInUser,
 	scrollIntoViewIfNeeded,
 	triggerConversationUpdate,
 } from '../github-helpers/index.js';
@@ -59,7 +59,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
 	if (
-		getUsername() === $('.author').textContent
+		getLoggedInUser() === $('.author').textContent
 		|| pageDetect.isClosedConversation()
 		|| !(await getToken())
 	) {

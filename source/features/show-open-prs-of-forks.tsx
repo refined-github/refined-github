@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
-import {getForkedRepo, getUsername, getRepo} from '../github-helpers/index.js';
+import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
 function getLinkCopy(count: number): string {
@@ -18,7 +18,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
-				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getUsername()!}`,
+				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,
 			},
 		});
 

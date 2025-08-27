@@ -3,7 +3,7 @@ import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {getUsername} from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import {getToken} from '../options-storage.js';
 import {tokenUser} from '../github-helpers/github-token.js';
 import {api3} from '../github-helpers/api.js';
@@ -17,7 +17,7 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const currentWebUser = getUsername();
+	const currentWebUser = getLoggedInUser();
 	const currentTokenUser = await tokenUser.get(api3, token);
 	if (currentWebUser !== currentTokenUser) {
 		header.after(createBanner({

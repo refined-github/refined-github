@@ -4,7 +4,7 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getUsername, isUsernameAlreadyFullName} from '../github-helpers/index.js';
+import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
@@ -39,7 +39,7 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const users = Map.groupBy(found, element => element.textContent.trim());
-	users.delete(getUsername()!);
+	users.delete(getLoggedInUser()!);
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {

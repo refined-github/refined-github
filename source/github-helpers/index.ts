@@ -6,12 +6,10 @@ import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 
-import onetime from '../helpers/onetime.js';
 import {branchSelector} from './selectors.js';
 
-// This never changes, so it can be cached here
-export const getUsername = onetime(pageDetect.utils.getUsername);
-export const {getRepositoryInfo: getRepo, getCleanPathname} = pageDetect.utils;
+// Re-export for convenience
+export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
 	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
@@ -195,7 +193,7 @@ function getConversationAuthor(): string | undefined {
 }
 
 export function isOwnConversation(): boolean {
-	return getConversationAuthor() === getUsername();
+	return getConversationAuthor() === getLoggedInUser();
 }
 
 export function assertCommitHash(hash: string): void {
