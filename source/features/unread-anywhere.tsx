@@ -20,6 +20,7 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 	if (event?.target instanceof HTMLButtonElement) {
 		// Hide the tooltip
 		event.target.blur();
+		event.target.disabled = true; // Prevent multiple clicks
 	}
 
 	await showToast(async updateToast => {
@@ -51,6 +52,10 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
+	}).finally(() => {
+		if (event?.target instanceof HTMLButtonElement) {
+			event.target.disabled = false;
+		}
 	});
 }
 
@@ -64,7 +69,9 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 		<button
 			type="button"
 			onClick={openUnreadNotifications}
-			style={{width: 10}}
+			// Show pointer cursor even when disabled
+			style={{width: 10, cursor: 'pointer'}}
+
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
