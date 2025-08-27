@@ -1,6 +1,8 @@
 import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -12,11 +14,17 @@ import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
-const limit = 10;
+const limit = 5;
 
-async function openUnreadNotifications(): Promise<void> {
+async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
+	if (event?.target instanceof HTMLButtonElement) {
+		// Hide the tooltip
+		event.target.blur();
+		event.target.disabled = true; // Prevent multiple clicks
+	}
+
 	await showToast(async updateToast => {
-		const page = await fetchDomUncached('https://github.com/notifications?query=is%3Aunread');
+		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
 
 		const notifications = $$optional('a.js-navigation-open', page);
 		if (notifications.length === 0) {
@@ -44,6 +52,10 @@ async function openUnreadNotifications(): Promise<void> {
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
+	}).finally(() => {
+		if (event?.target instanceof HTMLButtonElement) {
+			event.target.disabled = false;
+		}
 	});
 }
 
@@ -57,9 +69,14 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 		<button
 			type="button"
 			onClick={openUnreadNotifications}
-			style={{width: 10}}
-			aria-label="Open unread notifications"
-		/>
+			// Show pointer cursor even when disabled
+			style={{width: 10, cursor: 'pointer'}}
+
+			// JSX swallows \n if you skip {''}
+			aria-label={'Open unread notifications\nHotkey: g u'}
+		>
+			<ArrowUpRightIcon className="mb-2" />
+		</button>
 	);
 	nativeLink.before(button);
 	button.classList.add(
@@ -74,7 +91,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe('a#AppHeader-notifications-button', addButton);
+	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
 }
 
 void features.add(import.meta.url, {
@@ -84,6 +101,12 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,
+
+		// Can't work on gists due to CORS: https://github.com/refined-github/refined-github/issues/8641
+		pageDetect.isGist,
+
+		// Disable on notification page, `open-all-notifications` already handles the entire UI better there
+		pageDetect.isNotifications,
 	],
 	init: onetime(initOnce),
 });

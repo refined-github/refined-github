@@ -541,7 +541,7 @@
 	},
 	{
 		"id": "open-all-notifications",
-		"description": "Adds a button to open all your unread notifications at once.",
+		"description": "Adds a button to the notification page to open all your unread notifications at once.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png"
 	},
@@ -929,8 +929,8 @@
 	},
 	{
 		"id": "unread-anywhere",
-		"description": "Adds a global shortcut to open all your unread notifications at once: <kbd>g</kbd> <kbd>u</kbd>",
-		"screenshot": "https://github.com/user-attachments/assets/3afb7e86-66e8-4b26-a5c0-9c93fb5d8141"
+		"description": "Adds a button to the global header to open your unread notifications from any page.",
+		"screenshot": "https://github.com/user-attachments/assets/978ac1fe-db98-40f9-9b56-7d289849aa2f"
 	},
 	{
 		"id": "unreleased-commits",
