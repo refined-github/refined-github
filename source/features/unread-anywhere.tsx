@@ -15,7 +15,12 @@ import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
 const limit = 5;
 
-async function openUnreadNotifications(): Promise<void> {
+async function openUnreadNotifications(event: Event): Promise<void> {
+	if (event.target instanceof HTMLButtonElement) {
+		// Hide the tooltip
+		event.target.blur();
+	}
+
 	await showToast(async updateToast => {
 		const page = await fetchDomUncached('https://github.com/notifications?query=is%3Aunread');
 
