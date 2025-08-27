@@ -16,8 +16,8 @@ import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
 const limit = 5;
 
-async function openUnreadNotifications(event: Event): Promise<void> {
-	if (event.target instanceof HTMLButtonElement) {
+async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
+	if (event?.target instanceof HTMLButtonElement) {
 		// Hide the tooltip
 		event.target.blur();
 	}
