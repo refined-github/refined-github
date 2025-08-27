@@ -2,6 +2,7 @@ import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -13,11 +14,16 @@ import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
-const limit = 10;
+const limit = 5;
 
-async function openUnreadNotifications(): Promise<void> {
+async function openUnreadNotifications(event: Event): Promise<void> {
+	if (event.target instanceof HTMLButtonElement) {
+		// Hide the tooltip
+		event.target.blur();
+	}
+
 	await showToast(async updateToast => {
-		const page = await fetchDomUncached('https://github.com/notifications?query=is%3Aunread');
+		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
 
 		const notifications = $$optional('a.js-navigation-open', page);
 		if (notifications.length === 0) {
@@ -60,7 +66,9 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			onClick={openUnreadNotifications}
 			style={{width: 10}}
 			aria-label="Open unread notifications"
-		/>
+		>
+			<ArrowUpRightIcon className="mb-2"/>
+		</button>
 	);
 	nativeLink.before(button);
 	button.classList.add(
@@ -75,7 +83,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe('a#AppHeader-notifications-button', addButton);
+	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
 }
 
 void features.add(import.meta.url, {
