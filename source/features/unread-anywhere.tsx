@@ -65,9 +65,10 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			type="button"
 			onClick={openUnreadNotifications}
 			style={{width: 10}}
-			aria-label="Open unread notifications\nHotkey: g u"
+			// JSX swallows \n if you skip {''}
+			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
-			<ArrowUpRightIcon className="mb-2"/>
+			<ArrowUpRightIcon className="mb-2" />
 		</button>
 	);
 	nativeLink.before(button);
