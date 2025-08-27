@@ -22,7 +22,7 @@ async function openUnreadNotifications(event: Event): Promise<void> {
 	}
 
 	await showToast(async updateToast => {
-		const page = await fetchDomUncached('https://github.com/notifications?query=is%3Aunread');
+		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
 
 		const notifications = $$optional('a.js-navigation-open', page);
 		if (notifications.length === 0) {
