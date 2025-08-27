@@ -13,7 +13,7 @@ import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
 
-const limit = 10;
+const limit = 5;
 
 async function openUnreadNotifications(): Promise<void> {
 	await showToast(async updateToast => {
