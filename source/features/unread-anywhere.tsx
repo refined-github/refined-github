@@ -77,7 +77,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe('a#AppHeader-notifications-button', addButton);
+	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
 }
 
 void features.add(import.meta.url, {
