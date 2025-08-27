@@ -1,6 +1,7 @@
 import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
+import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
@@ -59,7 +60,9 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			onClick={openUnreadNotifications}
 			style={{width: 10}}
 			aria-label="Open unread notifications"
-		/>
+		>
+			<ArrowUpRightIcon className="mb-2"/>
+		</button>
 	);
 	nativeLink.before(button);
 	button.classList.add(
