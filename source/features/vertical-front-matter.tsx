@@ -33,7 +33,14 @@ function transpose(table: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.markdown-body > table:first-child', transpose, {signal});
+	observe(
+		[
+			'.markdown-body > table:first-child', // TODO: remove in march 2026
+			'.markdown-body > markdown-accessiblity-table > table:first-child',
+		],
+		transpose,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
