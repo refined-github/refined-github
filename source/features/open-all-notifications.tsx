@@ -136,10 +136,11 @@ void features.add(import.meta.url, {
 	],
 	shortcuts: {
 		p: 'Open selected notifications',
+		gn: 'Open all notifications',
+		gu: 'Open all unread notifications',
 	},
 	init,
 });
-
 /*
 
 Test URLs:
