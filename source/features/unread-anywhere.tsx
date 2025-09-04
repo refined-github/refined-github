@@ -104,9 +104,6 @@ void features.add(import.meta.url, {
 
 		// Can't work on gists due to CORS: https://github.com/refined-github/refined-github/issues/8641
 		pageDetect.isGist,
-
-		// Disable on notification page, `open-all-notifications` already handles the entire UI better there
-		pageDetect.isNotifications,
 	],
 	init: onetime(initOnce),
 });
