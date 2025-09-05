@@ -78,7 +78,6 @@ const updateLink = batchedFunction(updateLinks, {delay: 200});
 function updateDom(link: HTMLAnchorElement): void {
 	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
 	void dropExtraCopy(link);
-	console.log(link);
 
 	updateLink(link);
 }
