@@ -38,6 +38,8 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 }
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
+	found = found.filter(element => element.textContent.trim() === element.href.split('/').pop());
+
 	const users = Map.groupBy(found, element => element.textContent.trim());
 	users.delete(getLoggedInUser()!);
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
@@ -76,6 +78,7 @@ const updateLink = batchedFunction(updateLinks, {delay: 200});
 function updateDom(link: HTMLAnchorElement): void {
 	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
 	void dropExtraCopy(link);
+	console.log(link);
 
 	updateLink(link);
 }
