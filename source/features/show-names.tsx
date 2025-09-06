@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
+import getEmojiRegex from 'emoji-regex-xs';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -9,6 +10,8 @@ import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
+
+const emojiRegex = getEmojiRegex();
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
@@ -61,11 +64,13 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 			continue;
 		}
 
+		const fullNameWithoutEmoji = fullName.replace(emojiRegex, '').trim();
+
 		for (const element of elements) {
-			if (isUsernameAlreadyFullName(username, fullName)) {
-				element.textContent = fullName;
+			if (isUsernameAlreadyFullName(username, fullNameWithoutEmoji)) {
+				element.textContent = fullNameWithoutEmoji;
 			} else {
-				appendName(element, fullName);
+				appendName(element, fullNameWithoutEmoji);
 			}
 		}
 	}
@@ -107,5 +112,6 @@ Special cases:
 - RTL: https://github.com/refined-github/refined-github/issues/8191
 - Bidi override case 1: https://togithub.com/FortAwesome/Font-Awesome/issues/2465
 - Bidi override case 2: https://togithub.com/w3c/webdriver/issues/385#issuecomment-598407238
+- With emoji: https://github.com/typescript-eslint/tsgolint/pull/2
 
 */
