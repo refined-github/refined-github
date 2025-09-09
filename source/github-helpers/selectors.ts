@@ -78,7 +78,7 @@ export const openPrsListLink = [
 	`,
 	// React view
 	css`
-		li[role="listitem"] a[data-hovercard-url*="/pull"]
+		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
 ];
 
