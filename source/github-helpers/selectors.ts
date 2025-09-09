@@ -78,10 +78,7 @@ export const openPrsListLink = [
 	`,
 	// React view
 	css`
-		li[role="listitem"]:has(
-			.octicon-git-pull-request.color-fg-open,
-			.octicon-git-pull-request-draft
-		) a[data-hovercard-url*="/pull"]
+		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
 ];
 
