@@ -16,6 +16,11 @@ span[class^='RenamedTitleEvent'],
 	word-break: break-word !important;
 }
 
+/* GitHub bug */
+.TimelineItem-body del.markdown-title {
+	text-decoration: line-through !important;
+}
+
 /*
 Test URLs
 
