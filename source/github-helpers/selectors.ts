@@ -174,6 +174,7 @@ const botNames = [
 	'rust-highfive',
 	'scala-steward',
 	'weblate',
+	'mend',
 	'apps', // Matches any `/apps/*` URLs
 	'github-apps', // GHE apps
 ] as const;
