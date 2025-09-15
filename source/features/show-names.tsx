@@ -39,8 +39,8 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const users = Map.groupBy(
-	    found.filter(element => element.textContent.trim() === element.href.split('/').pop()),
-	    element => element.textContent.trim()
+		found.filter(element => element.textContent.trim() === element.href.split('/').pop()),
+		element => element.textContent.trim(),
 	);
 	users.delete(getLoggedInUser()!);
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
