@@ -13,7 +13,6 @@ function init(signal: AbortSignal): void {
 		'a[href$="/issues/new/choose"]', // New issue button
 		'a[class*="SubIssueTitle"]', // Sub-issue links
 		'a[data-testid="issue-pr-title-link"]', // Global issue list links
-		'.board-view-column-card a[href^="https:"]', // Project issue links
 	], 'click', fix, {signal, capture: true});
 }
 
@@ -22,7 +21,6 @@ void features.add(import.meta.url, {
 		pageDetect.isIssue,
 		pageDetect.isRepoIssueList,
 		pageDetect.isGlobalIssueOrPRList,
-		pageDetect.isProject,
 	],
 	init,
 });
