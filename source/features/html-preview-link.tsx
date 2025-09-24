@@ -12,10 +12,12 @@ function add(rawButton: HTMLAnchorElement): void {
 	}
 
 	rawButton
+		.parentElement! // `div`
 		.parentElement! // `BtnGroup`
 		.prepend(
 			<a
-				className="btn btn-sm BtnGroup-item"
+				className="btn btn-sm BtnGroup-item border-right-0"
+				style={{zIndex: 0}}
 				// #3305
 				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
 			>
