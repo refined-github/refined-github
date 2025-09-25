@@ -13,11 +13,16 @@ struct AppMain: App {
 		.commands {
 			CommandGroup(replacing: .newItem) {}
 			CommandGroup(replacing: .help) {
-				Link("Website", destination: "https://github.com/refined-github/refined-github")
+				Link(
+					"Website",
+					systemImage: "safari",
+					destination: "https://github.com/refined-github/refined-github"
+				)
 				Divider()
 				RateAppLink(appStoreIdentifier: Constants.appStoreIdentifier)
-				// TODO: Doesn't work. (macOS 15.0)
-//				ShareAppLink(appStoreIdentifier: Constants.appStoreIdentifier)
+				if #available(macOS 26, *) {
+					ShareAppLink(appStoreIdentifier: Constants.appStoreIdentifier)
+				}
 			}
 		}
 		#endif

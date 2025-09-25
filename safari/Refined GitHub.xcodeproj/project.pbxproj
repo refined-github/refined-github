@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E332E6552E84FB0900C00D4C /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = E332E6542E84FB0900C00D4C /* AppIcon.icon */; };
 		E33B07A72AA4965C00BD57D5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07A62AA4965C00BD57D5 /* App.swift */; };
 		E33B07A92AA4965C00BD57D5 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33B07A82AA4965C00BD57D5 /* MainScreen.swift */; };
 		E33B07AB2AA4965D00BD57D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */; };
@@ -31,19 +32,18 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		E33B07D32AA496EE00BD57D5 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 				E33B07F42AA4975C00BD57D5 /* Web Extension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Web Extension.entitlements"; sourceTree = "<group>"; };
+		E332E6542E84FB0900C00D4C /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Refined GitHub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07A62AA4965C00BD57D5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E33B07A82AA4965C00BD57D5 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
@@ -63,17 +63,13 @@
 /* Begin PBXFrameworksBuildPhase section */
 		E33B07A02AA4965C00BD57D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E33B07D82AA4975C00BD57D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -105,6 +101,7 @@
 				E33B07A82AA4965C00BD57D5 /* MainScreen.swift */,
 				E33B07F92AA499F800BD57D5 /* Utilities.swift */,
 				E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */,
+				E332E6542E84FB0900C00D4C /* AppIcon.icon */,
 				E33B07FB2AA49A2700BD57D5 /* Info.plist */,
 				E33B07AF2AA4965D00BD57D5 /* Refined GitHub.entitlements */,
 			);
@@ -163,8 +160,6 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			name = "Web Extension";
 			productName = "Web Extension - iOS";
 			productReference = E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */;
@@ -178,7 +173,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					E33B07A22AA4965C00BD57D5 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -189,7 +184,6 @@
 				};
 			};
 			buildConfigurationList = E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Refined GitHub" */;
-			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -197,6 +191,8 @@
 				Base,
 			);
 			mainGroup = E33B079A2AA4965C00BD57D5;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = E33B07A42AA4965C00BD57D5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -210,42 +206,35 @@
 /* Begin PBXResourcesBuildPhase section */
 		E33B07A12AA4965C00BD57D5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E33B07AB2AA4965D00BD57D5 /* Assets.xcassets in Resources */,
+				E332E6552E84FB0900C00D4C /* AppIcon.icon in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E33B07D92AA4975C00BD57D5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E33B08362AA4AD8C00BD57D5 /* manifest.json in Resources */,
 				E33B08332AA4AD7900BD57D5 /* assets in Resources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E33B079F2AA4965C00BD57D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E33B07FA2AA499F800BD57D5 /* Utilities.swift in Sources */,
 				E33B07A92AA4965C00BD57D5 /* MainScreen.swift in Sources */,
 				E33B07A72AA4965C00BD57D5 /* App.swift in Sources */,
 				E33B08382AA4F6B500BD57D5 /* Constants.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E33B07D72AA4975C00BD57D5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				E33B08142AA4A28300BD57D5 /* SafariWebExtensionHandler.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -258,7 +247,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		E33B07B02AA4965D00BD57D5 /* Debug */ = {
+		E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Refined GitHub" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
@@ -318,12 +307,13 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		E33B07B12AA4965D00BD57D5 /* Release */ = {
+		E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Refined GitHub" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
@@ -376,12 +366,13 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		E33B07B32AA4965D00BD57D5 /* Debug */ = {
+		E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Refined GitHub" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -392,7 +383,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -420,7 +410,7 @@
 			};
 			name = Debug;
 		};
-		E33B07B42AA4965D00BD57D5 /* Release */ = {
+		E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Refined GitHub" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -431,7 +421,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -459,14 +448,13 @@
 			};
 			name = Release;
 		};
-		E33B07F62AA4975C00BD57D5 /* Debug */ = {
+		E33B07F62AA4975C00BD57D5 /* Debug configuration for PBXNativeTarget "Web Extension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Web Extension/Info.plist";
@@ -494,14 +482,13 @@
 			};
 			name = Debug;
 		};
-		E33B07F72AA4975C00BD57D5 /* Release */ = {
+		E33B07F72AA4975C00BD57D5 /* Release configuration for PBXNativeTarget "Web Extension" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Web Extension/Web Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YG56YK5RN5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Web Extension/Info.plist";
@@ -535,28 +522,25 @@
 		E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Refined GitHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E33B07B02AA4965D00BD57D5 /* Debug */,
-				E33B07B12AA4965D00BD57D5 /* Release */,
+				E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Refined GitHub" */,
+				E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Refined GitHub" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		E33B07B22AA4965D00BD57D5 /* Build configuration list for PBXNativeTarget "Refined GitHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E33B07B32AA4965D00BD57D5 /* Debug */,
-				E33B07B42AA4965D00BD57D5 /* Release */,
+				E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Refined GitHub" */,
+				E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Refined GitHub" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		E33B07F52AA4975C00BD57D5 /* Build configuration list for PBXNativeTarget "Web Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E33B07F62AA4975C00BD57D5 /* Debug */,
-				E33B07F72AA4975C00BD57D5 /* Release */,
+				E33B07F62AA4975C00BD57D5 /* Debug configuration for PBXNativeTarget "Web Extension" */,
+				E33B07F72AA4975C00BD57D5 /* Release configuration for PBXNativeTarget "Web Extension" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
