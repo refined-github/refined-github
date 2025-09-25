@@ -19,7 +19,10 @@ struct ShareAppLink: View {
 	let appStoreIdentifier: String
 
 	var body: some View {
-		ShareLink("Share App", item: "https://apps.apple.com/app/id\(appStoreIdentifier)")
+		ShareLink(
+			"Share App",
+			item: "https://apps.apple.com/app/id\(appStoreIdentifier)"
+		)
 	}
 }
 
@@ -34,7 +37,11 @@ struct RateAppLink: View {
 	let appStoreIdentifier: String
 
 	var body: some View {
-		Link("Rate App", destination: URL(string: "\(Self.urlScheme)://apps.apple.com/app/id\(appStoreIdentifier)?action=write-review")!)
+		Link(
+			"Rate App",
+			systemImage: "star",
+			destination: URL(string: "\(Self.urlScheme)://apps.apple.com/app/id\(appStoreIdentifier)?action=write-review")!
+		)
 	}
 }
 
@@ -218,3 +225,16 @@ extension Error {
 	}
 }
 #endif
+
+
+extension Link<Label<Text, Image>> {
+	init(
+		_ title: String,
+		systemImage: String,
+		destination: URL
+	) {
+		self.init(destination: destination) {
+			Label(title, systemImage: systemImage)
+		}
+	}
+}

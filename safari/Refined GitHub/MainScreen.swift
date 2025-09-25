@@ -13,11 +13,17 @@ struct MainScreen: View {
 				Image(.largeIcon)
 					.resizable()
 					.scaledToFit()
-					.frame(height: 120)
+					.frame(height: 140)
 					.accessibilityHidden(true)
 				Text("Refined GitHub")
 					.font(.largeTitle.bold())
+					#if os(macOS)
+					.padding(.top, 8)
+					#endif
 			}
+			#if os(macOS)
+			.padding(.top)
+			#endif
 			#if os(macOS)
 			VStack(spacing: 8) {
 				statusView
@@ -26,7 +32,7 @@ struct MainScreen: View {
 					.foregroundStyle(.secondary)
 			}
 			VStack(spacing: 16) {
-				Button("Open Safari Settings…") {
+				Button("Open Safari Settings") {
 					Task {
 						await openSafariSetting()
 					}
