@@ -13,7 +13,7 @@ const minimumViewportWidthForSidebar = 768; // Less than this, the layout is sin
 const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
-	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
+	'div[data-testid="issue-viewer-metadata-pane"]:not(:has([data-testid="sticky-sidebar"]))', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
 ];
 
