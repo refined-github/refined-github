@@ -3,6 +3,7 @@ import './sticky-sidebar.css';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {onAbort} from 'abort-utils';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -13,7 +14,7 @@ const minimumViewportWidthForSidebar = 768; // Less than this, the layout is sin
 const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
-	'div[data-testid="issue-viewer-metadata-pane"]:not(:has([data-testid="sticky-sidebar"]))', // `isConversation`
+	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
 ];
 
@@ -34,6 +35,10 @@ function toggleHoverState(event: MouseEvent): void {
 
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
+	if ($optional('[data-testid="sticky-sidebar"]', foundSidebar)) {
+		return;
+	}
+
 	sidebar = foundSidebar;
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
