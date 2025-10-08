@@ -381,6 +381,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "no-modals") [Disable modals that reduce user-experience instead of enhancing it.](https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e)
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
 - [](# "linkify-text") [Makes certain text clickable, like issue references in the issue title and discussion sidebar.](https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90)
+- [](# "new-milestone-button") [Adds a 'New Milestone' button to the milestone page.](https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

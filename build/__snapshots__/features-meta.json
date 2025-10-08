@@ -488,6 +488,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda"
 	},
 	{
+		"id": "new-milestone-button",
+		"description": "Adds a 'New Milestone' button to the milestone page.",
+		"screenshot": "https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987"
+	},
+	{
 		"id": "new-or-deleted-file",
 		"description": "Indicates with an icon whether files in commits and PRs are being added or removed.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png"
