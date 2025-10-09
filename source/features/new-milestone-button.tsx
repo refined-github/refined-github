@@ -6,11 +6,6 @@ import observe from '../helpers/selector-observer.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 function addButton(editButton: Element): void {
-	const container = editButton.parentElement;
-	if (!container) {
-		return;
-	}
-
 	editButton.before(
 		<a
 			href={buildRepoURL('milestones/new')}
@@ -31,7 +26,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isMilestone,
 	],
-	awaitDomReady: true, // Not urgent
 	init,
 });
 
