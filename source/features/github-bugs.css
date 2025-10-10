@@ -113,6 +113,15 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	white-space: nowrap;
 }
 
+/* Preserves new-lines in user bio #8631 */
+/* Test (profile): https://github.com/caugner */
+/* Test (hovercard): https://github.com/mdn/fred */
+.user-profile-bio,
+/* Hovercard */
+[aria-label="User bio"] div {
+	white-space: pre-wrap;
+}
+
 /*
 
 Test URLs:
