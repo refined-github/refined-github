@@ -117,8 +117,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 /* Test (profile): https://github.com/caugner */
 /* Test (hovercard): https://github.com/mdn/fred */
 .user-profile-bio,
-/* Hovercard */
-[aria-label="User bio"] div {
+[aria-label='User bio'] div /* Hovercard */ {
 	white-space: pre-wrap;
 }
 
