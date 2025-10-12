@@ -6,11 +6,9 @@ import observe from '../helpers/selector-observer.js';
 import './unwrap-workflow-menu.css';
 
 function unwrapMenu(row: HTMLDivElement): void {
-	const details = $('details:has(.octicon-kebab-horizontal)', row);
-
+	const details = $('details', row);
 	const menuItems = $$('li:not(.dropdown-divider)', details);
 	details.replaceWith(...menuItems);
-
 	$optional('.d-table-cell.v-align-top', row)?.classList.replace('v-align-top', 'v-align-middle');
 }
 
