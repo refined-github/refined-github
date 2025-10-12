@@ -48,8 +48,8 @@
 	},
 	{
 		"id": "clean-conversation-filters",
-		"description": "Hides <code>Projects</code> and <code>Milestones</code> filters in issue/PR lists if they are empty.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262557246-4ef1c702-eece-4701-9000-0aad21c54c1b.png"
+		"description": "Hides <code>Projects</code> filter in issue/PR lists if it is empty.",
+		"screenshot": "https://github.com/user-attachments/assets/b690405f-b138-413d-9779-9467c160e802"
 	},
 	{
 		"id": "clean-conversation-headers",
