@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 import './quick-delete-cancel-workflow.css';
 
 function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Element): void {
-	button.ariaLabel = button.textContent!.trim();
+	button.ariaLabel = button.textContent.trim();
 	button.replaceChildren(icon);
 	button.classList = 'Button Button--iconOnly Button--invisible';
 }
