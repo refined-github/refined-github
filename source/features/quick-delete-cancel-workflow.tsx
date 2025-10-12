@@ -6,7 +6,6 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import './quick-delete-cancel-workflow.css';
 
 function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Element): void {
 	button.ariaLabel = button.textContent.trim();
