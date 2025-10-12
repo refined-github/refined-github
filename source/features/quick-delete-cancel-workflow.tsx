@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import './quick-delete-cancel-workflow.css';
 
-function modifyButton(button: HTMLButtonElement, icon: React.JSX.Element): void {
+function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Element): void {
 	button.ariaLabel = button.textContent!.trim();
 	button.replaceChildren(icon);
 	button.classList = 'Button Button--iconOnly Button--invisible';
@@ -22,14 +22,14 @@ function addQuickButtons(row: HTMLDivElement): void {
 	if (deleteWorkflowButton) {
 		const dialogHelper = $('dialog-helper', deleteWorkflowButton.parentElement!);
 		dialogHelper.classList.add('text-left');
-		modifyButton(deleteWorkflowButton, <TrashIcon />);
+		transformIntoIconButton(deleteWorkflowButton, <TrashIcon />);
 		rightControlsContainer.prepend(deleteWorkflowButton, dialogHelper);
 	}
 
 	const cancelForm = $optional('form[action$="/cancel"]', details);
 	if (cancelForm) {
 		const cancelWorkflowButton = $('button[type="submit"]', cancelForm);
-		modifyButton(cancelWorkflowButton, <SquareCircleIcon />);
+		transformIntoIconButton(cancelWorkflowButton, <SquareCircleIcon />);
 		rightControlsContainer.prepend(cancelForm);
 	}
 
