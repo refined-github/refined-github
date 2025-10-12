@@ -6,29 +6,32 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import './quick-delete-cancel-workflow.css';
 
 function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Element): void {
 	button.ariaLabel = button.textContent.trim();
 	button.replaceChildren(icon);
-	button.classList = 'Button Button--iconOnly Button--invisible';
+	button.classList = 'Button Button--iconOnly';
 }
 
-function addQuickButtons(row: HTMLDivElement): void {
-	const details = $('details:has(.octicon-kebab-horizontal)', row);
-	const rightControlsContainer = details.parentElement!;
+function addQuickButtons(actionRunRow: HTMLDivElement): void {
+	const contextMenuDetails = $('details:has(.octicon-kebab-horizontal)', actionRunRow);
+	const rightControlsContainer = contextMenuDetails.parentElement!;
 
-	const deleteWorkflowButton = $optional('button[data-show-dialog-id^="delete-workflow-run"]', details);
+	const deleteWorkflowButton = $optional('button[data-show-dialog-id^="delete-workflow-run"]', contextMenuDetails);
 	if (deleteWorkflowButton) {
 		const dialogHelper = $('dialog-helper', deleteWorkflowButton.parentElement!);
 		dialogHelper.classList.add('text-left');
 		transformIntoIconButton(deleteWorkflowButton, <TrashIcon />);
+		deleteWorkflowButton.classList.add('rgh-delete');
 		rightControlsContainer.prepend(deleteWorkflowButton, dialogHelper);
 	}
 
-	const cancelForm = $optional('form[action$="/cancel"]', details);
+	const cancelForm = $optional('form[action$="/cancel"]', contextMenuDetails);
 	if (cancelForm) {
 		const cancelWorkflowButton = $('button[type="submit"]', cancelForm);
 		transformIntoIconButton(cancelWorkflowButton, <SquareCircleIcon />);
+		cancelWorkflowButton.classList.add('rgh-cancel');
 		rightControlsContainer.prepend(cancelForm);
 	}
 

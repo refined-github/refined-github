@@ -1,0 +1,3 @@
+:is(.rgh-delete, .rgh-cancel):is(:hover, :focus) {
+	color: var(--fgColor-danger, fuchsia) !important;
+}
