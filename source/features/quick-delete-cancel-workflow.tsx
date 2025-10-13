@@ -14,6 +14,15 @@ function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Elem
 	button.classList = 'Button Button--iconOnly';
 }
 
+function removeRedundantDivider(menuItem: HTMLElement): void {
+	if (!menuItem.previousElementSibling) {
+		const nextMenuItem = menuItem.nextElementSibling;
+		if (nextMenuItem?.classList.contains('dropdown-divider')) {
+			nextMenuItem.remove();
+		}
+	}
+}
+
 function addQuickButtons(actionRunRow: HTMLDivElement): void {
 	const contextMenuDetails = $('details:has(.octicon-kebab-horizontal)', actionRunRow);
 	const rightControlsContainer = contextMenuDetails.parentElement!;
@@ -23,7 +32,7 @@ function addQuickButtons(actionRunRow: HTMLDivElement): void {
 		const dialogHelper = $('dialog-helper', deleteWorkflowButton.parentElement!);
 		dialogHelper.classList.add('text-left');
 		transformIntoIconButton(deleteWorkflowButton, <TrashIcon />);
-		deleteWorkflowButton.classList.add('rgh-delete');
+		deleteWorkflowButton.classList.add('rgh-delete-workflow-run');
 		rightControlsContainer.prepend(deleteWorkflowButton, dialogHelper);
 	}
 
@@ -31,7 +40,8 @@ function addQuickButtons(actionRunRow: HTMLDivElement): void {
 	if (cancelForm) {
 		const cancelWorkflowButton = $('button[type="submit"]', cancelForm);
 		transformIntoIconButton(cancelWorkflowButton, <SquareCircleIcon />);
-		cancelWorkflowButton.classList.add('rgh-cancel');
+		cancelWorkflowButton.classList.add('rgh-cancel-workflow-run');
+		removeRedundantDivider(cancelForm.parentElement!);
 		rightControlsContainer.prepend(cancelForm);
 	}
 

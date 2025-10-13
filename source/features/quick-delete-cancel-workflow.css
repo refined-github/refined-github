@@ -1,3 +1,3 @@
-:is(.rgh-delete, .rgh-cancel):is(:hover, :focus) {
+:is(.rgh-delete-workflow-run, .rgh-cancel-workflow-run):is(:hover, :focus) {
 	color: var(--fgColor-danger, fuchsia) !important;
 }
