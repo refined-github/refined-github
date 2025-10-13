@@ -674,6 +674,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
 	},
 	{
+		"id": "quick-delete-cancel-workflow",
+		"description": "Adds \"Cancel\" and \"Delete\" buttons to each workflow run row.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/68397f01-bf0f-4a38-990a-fbfc2cb7f5d7"
+	},
+	{
 		"id": "quick-file-edit",
 		"description": "Adds a button to edit files from the repo file list.",
 		"css": true,
