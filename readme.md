@@ -110,7 +110,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "mobile-tabs") [Makes the tabs more compact on mobile so more of them can be seen.](https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png)
 - [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
-- [](# "quick-delete-cancel-workflow") [Moves the "Delete workflow" and "Cancel workflow" context menu items to the workflow row]()
+- [](# "quick-delete-cancel-workflow") [Adds "Cancel" and "Delete" buttons to each workflow run row.](https://github.com/user-attachments/assets/68397f01-bf0f-4a38-990a-fbfc2cb7f5d7)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
