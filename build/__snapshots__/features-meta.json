@@ -675,7 +675,7 @@
 	},
 	{
 		"id": "quick-delete-cancel-workflow",
-		"description": "Lets you cancel or delete workflows in faster from the workflow list.",
+		"description": "Lets you cancel or delete workflows faster from the workflow list.",
 		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/68397f01-bf0f-4a38-990a-fbfc2cb7f5d7"
 	},
