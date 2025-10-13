@@ -674,12 +674,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
 	},
 	{
-		"id": "quick-workflow-run-actions",
-		"description": "Lets you cancel or delete workflow runs faster from the workflow list.",
-		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/85362734-d442-4bee-9c88-69759e279471"
-	},
-	{
 		"id": "quick-file-edit",
 		"description": "Adds a button to edit files from the repo file list.",
 		"css": true,
@@ -716,6 +710,12 @@
 		"id": "quick-review-comment-deletion",
 		"description": "Adds a button to delete review comments in one click when editing them.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png"
+	},
+	{
+		"id": "quick-workflow-run-actions",
+		"description": "Lets you cancel or delete workflow runs faster from the workflow list.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/85362734-d442-4bee-9c88-69759e279471"
 	},
 	{
 		"id": "reactions-avatars",
