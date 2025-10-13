@@ -15,8 +15,8 @@ function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Elem
 	return button;
 }
 
-function addQuickButtons(contextMenu: HTMLElement): void {
-	const contextMenuDetails = contextMenu.closest('details')!;
+function addQuickButtons(contextMenuIcon: HTMLElement): void {
+	const contextMenuDetails = contextMenuIcon.closest('details')!;
 	const rightControlsContainer = contextMenuDetails.parentElement!;
 
 	const deleteWorkflowMenuItem = $optional('li:has(> button[data-show-dialog-id^="delete-workflow-run"])', contextMenuDetails)?.cloneNode(true);
