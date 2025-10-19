@@ -131,7 +131,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		'div.react-issue-body', // First comment
 		'[data-testid="review-thread"] > div',
 	], comment => {
-		const timestamp = $('relative-time', comment).attributes.datetime.value;
+		const relativeTime = $('relative-time', comment);
+		const timestamp = relativeTime.attributes.datetime?.value ?? new Date(`${relativeTime.textContent} UTC`).toISOString();
 		addInlineLinks(comment, timestamp);
 	}, {signal});
 }
