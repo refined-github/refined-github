@@ -123,7 +123,7 @@ import './features/html-preview-link.js';
 import './features/linkify-user-location.js';
 import './features/repo-age.js';
 import './features/user-local-time.js';
-import './features/quick-workflow-run-actions.js';
+import './features/quick-workflow-run-removal.js';
 import './features/quick-mention.js';
 import './features/extend-conversation-status-filters.js';
 import './features/expand-all-hidden-comments.js';

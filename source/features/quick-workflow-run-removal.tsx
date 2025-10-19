@@ -6,7 +6,7 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import './quick-workflow-run-actions.css';
+import './quick-workflow-run-removal.css';
 
 function transformIntoIconButton(button: HTMLButtonElement, icon: React.JSX.Element): HTMLButtonElement {
 	button.ariaLabel = button.textContent.trim();
