@@ -122,7 +122,13 @@ function add(editFile: HTMLAnchorElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
+	// Support both old and new PR Files dropdown markup:
+	// - Old: `.js-file-header-dropdown a[aria-label^="Change this"]`
+	// - New (React): The new dropdown is a `ul` menu whose li's have anchors with specific keyboard shortcuts exposed as aria values
+	observe([
+		'.js-file-header-dropdown a[aria-label^="Change this"]',
+		'ul[role="menu"] li:has(a[aria-keyshortcuts="e"])',
+	], add, {signal});
 
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
