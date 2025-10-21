@@ -87,15 +87,29 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
 
-	const [originalFileName, newFileName = originalFileName] = menuItem
-		.closest('[data-path]')!
-		.querySelector('.Link--primary')!
-		.textContent
-		.split(' → ');
+	let originalFileName = '';
+	let newFileName = '';
+	// eslint-disable-next-line ts/no-restricted-types -- prompt also returns null
+	let commitTitle: undefined | null | string;
 
-	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}? Enter the commit title`, `Discard changes to ${newFileName}`);
-	if (!commitTitle) {
-		return;
+	if (menuItem.tagName === 'A') {
+		originalFileName = '';
+		newFileName = '';
+		commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', '');
+		if (!commitTitle) {
+			return;
+		}
+	} else {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
+
+		commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}? Enter the commit title`, `Discard changes to ${newFileName}`);
+		if (!commitTitle) {
+			return;
+		}
 	}
 
 	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName, commitTitle), {
