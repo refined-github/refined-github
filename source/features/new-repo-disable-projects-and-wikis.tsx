@@ -70,7 +70,7 @@ function add(blueprintRow: HTMLElement): void {
 }
 
 function addOld(submitButton: HTMLElement): void {
-	// Special name banner has octicon-info icon as well
+	// .github repos have a banner that matches this #8716
 	if (elementExists('[data-testid="special-repo-name-banner"]')) {
 		return;
 	}
