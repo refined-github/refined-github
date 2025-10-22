@@ -69,6 +69,11 @@ function add(blueprintRow: HTMLElement): void {
 }
 
 function addOld(submitButton: HTMLElement): void {
+	// Special name banner has octicon-info icon as well
+	if ($optional('[data-testid="special-repo-name-banner"]')) {
+		return;
+	}
+
 	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
 	submitButton.parentElement!.before(
 		<div className="flash flash-warn py-0 ml-n3 my-4">
