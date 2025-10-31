@@ -46,7 +46,15 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		found.filter(element => element.textContent.trim() === element.href.split('/').pop()),
 		element => element.textContent.trim(),
 	);
-	users.delete(getLoggedInUser()!);
+	const currentUser = getLoggedInUser()!;
+	const currentUserElements = users.get(currentUser);
+	if (currentUserElements) {
+		for (const currentUserElement of currentUserElements) {
+			// mark viewer's own comments on the issue page for `sticky-comment-header`
+			currentUserElement.closest('[data-testid="comment-header"]')?.classList.add('rgh-viewer-did-author');
+		}
+		users.delete(currentUser);
+	}
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {
