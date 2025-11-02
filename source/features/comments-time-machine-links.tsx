@@ -135,10 +135,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		`:is(${commentSelector}) relative-time[datetime]`
 		, relativeTime => {
-			const comment = relativeTime.closest(`:is(${commentSelector})`);
-			if (comment) {
-				addInlineLinks(comment, relativeTime.attributes.datetime.value);
-			}
+			const comment = relativeTime.closest(`:is(${commentSelector})`)!;
+			addInlineLinks(comment, relativeTime.attributes.datetime.value);
 		},
 		{signal},
 	);
