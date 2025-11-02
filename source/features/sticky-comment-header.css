@@ -18,7 +18,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	/* Added by `show-names` */
-	.rgh-viewer-did-author:not([class^='ReviewThreadComment-module'] *),
+	[data-rgh-viewer-did-author]:not([class^='ReviewThreadComment-module'] *),
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		background:

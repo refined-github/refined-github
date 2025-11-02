@@ -51,7 +51,10 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	if (currentUserElements) {
 		for (const currentUserElement of currentUserElements) {
 			// mark viewer's own comments on the issue page for `sticky-comment-header`
-			currentUserElement.closest('[data-testid="comment-header"]')?.classList.add('rgh-viewer-did-author');
+			const header = currentUserElement.closest('[data-testid="comment-header"]');
+			if (header) {
+				header.dataset.rghViewerDidAuthor = '';
+			}
 		}
 		users.delete(currentUser);
 	}
