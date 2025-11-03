@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$optional} from 'select-dom/strict.js';
+import {$, $$optional, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -117,19 +117,29 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): Promise<void> {
 	const timestamp = $('relative-time[datetime]', delegate.closest('[class^="Box"]')!).attributes.datetime.value;
 	const menu = (await elementReady('[class^="prc-ActionList-ActionList"]'))!;
-	const divider = $('[data-component="ActionList.Divider"]', menu).cloneNode();
-	const menuItem = $('[class^="prc-ActionList-ActionListItem"]:has(> a)', menu).cloneNode(true);
+	const divider = $optional('[data-component="ActionList.Divider"]', menu)?.cloneNode();
+	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menu).cloneNode(true);
 
-	const link = $('a', menuItem);
-	link.href = buildRepoURL(`tree/HEAD@{${timestamp}}`);
-	link.removeAttribute('aria-keyshortcuts');
-	link.removeAttribute('target');
-	link.title = 'Browse repository like it appeared on this day';
+	menuItem.removeAttribute('aria-keyshortcuts');
+	menuItem.role = 'none';
+	const menuItemContentWrapper = $('[class^="prc-ActionList-ActionListContent"]', menuItem);
+	const link = (
+		<a
+			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
+			className={menuItemContentWrapper.className + ' ' + linkifiedURLClass}
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+			aria-keyshortcuts="v"
+		>
+		</a>
+	);
+	link.append(...menuItemContentWrapper.childNodes);
+	menuItemContentWrapper.replaceWith(link);
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = 'View repo at this time';
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
 
 	menu.append(
-		divider,
+		divider ?? '',
 		menuItem,
 	);
 }
@@ -154,7 +164,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		addDropdownLink(menu, timestamp);
 	}, {signal});
 
-	delegate(`:is(${commentSelector}) button:has(> .octicon-kebab-horizontal)`, 'click', addDropdownLinkReact, {signal});
+	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)`, 'click', addDropdownLinkReact, {signal});
 
 	observe(
 		`:is(${commentSelector}) relative-time[datetime]`
