@@ -29,7 +29,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 			), var(--rgh-background);
 	}
 
-	/* Prevent menu from displaying behind header */
+	/* Prevent header of the next comment from overlapping context menu of the sticky header */
 	.timeline-comment-header:has(details[open]) {
 		z-index: 4;
 	}
