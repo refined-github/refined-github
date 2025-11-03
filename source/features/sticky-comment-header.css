@@ -30,7 +30,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	/* Prevent menu from displaying behind header */
-	.js-comment-container:has(details[open]) .timeline-comment-header {
+	.timeline-comment-header:has(details[open]) {
 		z-index: 4;
 	}
 }
