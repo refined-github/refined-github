@@ -28,7 +28,7 @@ function addQuickButtons(contextMenuIcon: HTMLElement): void {
 	button.classList = 'timeline-comment-action color-fg-muted btn-link rgh-actions-run-removal p-1';
 	$('summary', contextMenuDetails).classList.add('p-1');
 	const rightControlsContainer = contextMenuDetails.parentElement!;
-	// Prepending so that the cloned dialog shows instead of the one inside the menu, as it is hidden when the menu is closed
+	// Prepending so that the cloned dialog opens instead of the one inside the menu, as it is hidden when the menu is closed
 	rightControlsContainer.classList.add('d-flex', 'flex-column-reverse', 'mt-n2', 'mb-n2');
 	rightControlsContainer.prepend(menuItem);
 }
