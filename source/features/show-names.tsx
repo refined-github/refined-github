@@ -50,11 +50,8 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const currentUserElements = users.get(currentUser);
 	if (currentUserElements) {
 		for (const currentUserElement of currentUserElements) {
-			// mark viewer's own comments on the issue page for `sticky-comment-header`
-			const header = currentUserElement.closest('[data-testid="comment-header"]');
-			if (header) {
-				header.dataset.rghViewerDidAuthor = '';
-			}
+			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
+			currentUserElement.closest('[data-testid="comment-header"]')?.setAttribure('data-rgh-viewer-did-author', '');
 		}
 		users.delete(currentUser);
 	}
