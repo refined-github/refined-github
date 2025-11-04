@@ -3,6 +3,7 @@ import './sticky-sidebar.css';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {onAbort} from 'abort-utils';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -34,6 +35,10 @@ function toggleHoverState(event: MouseEvent): void {
 
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
+	if (elementExists('[data-testid="sticky-sidebar"]', foundSidebar)) {
+		return;
+	}
+
 	sidebar = foundSidebar;
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {

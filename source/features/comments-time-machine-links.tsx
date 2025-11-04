@@ -1,7 +1,9 @@
 import React from 'dom-chef';
-import {$, $$optional} from 'select-dom/strict.js';
+import {$, $$optional, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import HistoryIcon from 'octicons-plain-react/History';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -14,6 +16,12 @@ import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+
+const commentSelector = [
+	'div.react-issue-comment', // First comment
+	'div.react-issue-body', // Comments
+	'[data-testid="review-thread"] > div',
+].join(',');
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
@@ -106,6 +114,36 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	);
 }
 
+async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): Promise<void> {
+	const timestamp = $('relative-time[datetime]', delegate.closest('[class^="Box"]')!).attributes.datetime.value;
+	const menu = (await elementReady('[class^="prc-ActionList-ActionList"]'))!;
+	const divider = $optional('[data-component="ActionList.Divider"]', menu)?.cloneNode();
+	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menu).cloneNode(true);
+
+	menuItem.removeAttribute('aria-keyshortcuts');
+	menuItem.role = 'none';
+	const menuItemContentWrapper = $('[class^="prc-ActionList-ActionListContent"]', menuItem);
+	const link = (
+		<a
+			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
+			className={menuItemContentWrapper.className + ' ' + linkifiedURLClass}
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+			aria-keyshortcuts="v"
+		>
+		</a>
+	);
+	link.append(...menuItemContentWrapper.childNodes);
+	menuItemContentWrapper.replaceWith(link);
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = 'View repo at this time';
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
+
+	menu.append(
+		divider ?? '',
+		menuItem,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
@@ -126,14 +164,16 @@ async function init(signal: AbortSignal): Promise<void> {
 		addDropdownLink(menu, timestamp);
 	}, {signal});
 
-	observe([
-		'div.react-issue-comment', // Comments
-		'div.react-issue-body', // First comment
-		'[data-testid="review-thread"] > div',
-	], comment => {
-		const timestamp = $('relative-time', comment).attributes.datetime.value;
-		addInlineLinks(comment, timestamp);
-	}, {signal});
+	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)`, 'click', addDropdownLinkReact, {signal});
+
+	observe(
+		`:is(${commentSelector}) relative-time[datetime]`
+		, relativeTime => {
+			const comment = relativeTime.closest(`:is(${commentSelector})`)!;
+			addInlineLinks(comment, relativeTime.attributes.datetime.value);
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -159,7 +199,8 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-Find them in https://github.com/refined-github/refined-github/pull/1863
+https://github.com/refined-github/refined-github/pull/1863
+https://github.com/refined-github/sandbox/issues/108
 
 See the bar on:
 

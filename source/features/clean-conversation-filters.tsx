@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -44,20 +44,8 @@ function getCount(element: HTMLElement): number {
 	return Number(element.textContent.trim());
 }
 
-// TODO: Drop in March 2025
-// The new beta view doesn't have .Counter and using the API isn't worth it
-async function hideMilestones(container: HTMLElement): Promise<void> {
-	const milestones = $optional('[data-selected-links^="repo_milestones"] .Counter');
-	if (milestones && getCount(milestones) === 0) {
-		$('#milestones-select-menu', container).remove();
-	}
-}
-
 async function hideProjects(container: HTMLElement): Promise<void> {
-	const filter = $optional([
-		'#project-select-menu', // TODO: Drop in March 2025
-		'[data-testid="action-bar-item-projects"]',
-	], container);
+	const filter = $optional('[data-testid="projects-anchor-button"]', container);
 
 	// If the filter is missing, then it has been disabled organization-wide already
 	if (filter && !(await hasAnyProjects.get())) {
@@ -67,16 +55,12 @@ async function hideProjects(container: HTMLElement): Promise<void> {
 
 async function hide(container: HTMLElement): Promise<void> {
 	// Keep separate so that one doesn't crash the other
-	void hideMilestones(container);
 	void hideProjects(container);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe([
-		'#js-issues-toolbar', // TODO: Remove after March 2025
-		'[data-testid="list-view-metadata"]',
-	], hide, {signal});
+	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
 }
 
 void features.add(import.meta.url, {

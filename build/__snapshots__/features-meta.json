@@ -54,8 +54,8 @@
 	},
 	{
 		"id": "clean-conversation-filters",
-		"description": "Hides <code>Projects</code> and <code>Milestones</code> filters in issue/PR lists if they are empty.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262557246-4ef1c702-eece-4701-9000-0aad21c54c1b.png"
+		"description": "Hides <code>Projects</code> filter in issue/PR lists if it is empty.",
+		"screenshot": "https://github.com/user-attachments/assets/b690405f-b138-413d-9779-9467c160e802"
 	},
 	{
 		"id": "clean-conversation-headers",
@@ -492,6 +492,11 @@
 		"id": "netiquette",
 		"description": "Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).",
 		"screenshot": "https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda"
+	},
+	{
+		"id": "new-milestone-button",
+		"description": "Adds a 'New Milestone' button to the milestone page.",
+		"screenshot": "https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987"
 	},
 	{
 		"id": "new-or-deleted-file",
