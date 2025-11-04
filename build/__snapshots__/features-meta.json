@@ -15,6 +15,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png"
 	},
 	{
+		"id": "actions-run-removal",
+		"description": "Lets you cancel or delete workflow runs faster from the workflow list.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b"
+	},
+	{
 		"id": "align-issue-labels",
 		"description": "In issue/PR lists, aligns the labels to the left, below each title.",
 		"css": true,
@@ -710,12 +716,6 @@
 		"id": "quick-review-comment-deletion",
 		"description": "Adds a button to delete review comments in one click when editing them.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png"
-	},
-	{
-		"id": "quick-workflow-run-removal",
-		"description": "Lets you cancel or delete workflow runs faster from the workflow list.",
-		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/85362734-d442-4bee-9c88-69759e279471"
 	},
 	{
 		"id": "reactions-avatars",
