@@ -8,7 +8,7 @@ import './release-download-count.css';
 
 import React from 'dom-chef';
 import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
@@ -70,7 +70,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
-		assetSize.parentElement!.firstElementChild!.classList.add('d-none');
+		$optional(':scope > div', assetSize.parentElement!)?.classList.add('d-none');
 
 		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
