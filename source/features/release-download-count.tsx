@@ -63,9 +63,6 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			classes.add('v-hidden');
 		}
 
-		// Move margin to the right side
-		const className = [...classes].join(' ').replaceAll(/\bml\b/g, 'mr');
-
 		// Add class to parent in order to define "columns"
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
@@ -74,7 +71,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
-			<span className={className}>
+			<span className={[...getClasses(assetSize)].join(' ')}>
 				<span
 					className="d-inline-block text-right"
 					title={`${downloadCount} downloads`}
@@ -84,6 +81,12 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				</span>
 			</span>,
 		);
+
+		// Remove via JS because we can't override utility classes...
+		for (const column of assetSize.parentElement!.children) {
+			column.classList.remove('ml-sm-3', 'ml-md-4');
+			column.classList.add('ml-lg-4');
+		}
 	}
 }
 
