@@ -36,6 +36,10 @@ handleMessages({
 				url,
 				index: tab!.index + index + 1,
 				active: false,
+
+				// @ts-expect-error Firefox-only property
+				// https://github.com/refined-github/refined-github/issues/8657
+				cookieStoreId: tab!.cookieStoreId,
 			});
 		}
 	},
