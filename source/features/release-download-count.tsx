@@ -84,7 +84,8 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Remove via JS because we can't override utility classes...
 		for (const column of assetSize.parentElement!.children) {
-			column.classList.remove('ml-sm-3','ml-md-4')
+			column.classList.remove('ml-sm-3', 'ml-md-4');
+			column.classList.add('ml-lg-4');
 		}
 	}
 }
