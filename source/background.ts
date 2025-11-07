@@ -31,15 +31,18 @@ customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every webs
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
+		// Reuse container
+		// https://github.com/refined-github/refined-github/issues/8657
+		const firefoxOnlyProps = tab && 'cookieStoreId' in tab
+			? {cookieStoreId: tab.cookieStoreId}
+			: {};
+
 		for (const [index, url] of urls.entries()) {
 			void chrome.tabs.create({
 				url,
 				index: tab!.index + index + 1,
 				active: false,
-
-				// @ts-expect-error Firefox-only property
-				// https://github.com/refined-github/refined-github/issues/8657
-				cookieStoreId: tab!.cookieStoreId,
+				...firefoxOnlyProps,
 			});
 		}
 	},
