@@ -31,13 +31,10 @@ function updateDocumentTitle(): void {
 		return;
 	}
 
-	if (
-		document.visibilityState === 'hidden'
-		&& hasDraftComments()
+	// Ensure it does not pile up
+	document.title = document.title.replace(prefix, '');
 
-		// Ensure it does not pile up
-		&& !document.title.startsWith(prefix)
-	) {
+	if (document.visibilityState === 'hidden' && hasDraftComments()) {
 		document.title = prefix + document.title;
 	} else {
 		document.title = document.title.replace(prefix, '');
