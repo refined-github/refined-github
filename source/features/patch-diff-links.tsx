@@ -23,6 +23,8 @@ function createLink(type: 'patch' | 'diff'): JSX.Element {
 		<a
 			href={getCommitUrl(type)}
 			className="sha color-fg-default"
+			// Update URL because it might be out of date due to SPA navigation
+			// https://github.com/refined-github/refined-github/issues/8737
 			onMouseEnter={updateCommitUrl}
 			onFocus={updateCommitUrl}
 		>
