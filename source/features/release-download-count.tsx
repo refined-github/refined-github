@@ -8,7 +8,7 @@ import './release-download-count.css';
 
 import React from 'dom-chef';
 import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
@@ -70,7 +70,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
-		assetSize.parentElement!.firstElementChild!.classList.add('d-none');
+		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
 
 		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
@@ -108,5 +108,6 @@ Test URLs
 - One release: https://github.com/refined-github/sandbox/releases/tag/v1.0.0
 - List of releases: https://github.com/cli/cli/releases
 - Lots of assets: https://github.com/notepad-plus-plus/notepad-plus-plus/releases
+- Assets without hashes: https://github.com/NateShoffner/Disable-Nvidia-Telemetry/releases/tag/1.1
 
 */
