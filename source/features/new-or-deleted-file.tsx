@@ -1,20 +1,23 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(filename: HTMLAnchorElement): void {
+function add(fileHeader: HTMLDivElement): void {
 	const list = $optional('ul[aria-label="File Tree"]');
 	if (!list && pageDetect.isCommit()) {
 		// Silence error, single-file commits don't have the file list
 		return;
 	}
 
+	// Link--primary excludes CODEOWNERS icon #5565
+	const fileLink = $('a.Link--primary', fileHeader);
+
 	const fileInList = $optional([
-		`[href="${filename.hash}"]`, // TODO: Old PR Files view, drop in 2026
-		`[class^="PRIVATE_TreeView-item-content"]:has([href="${filename.hash}"])`,
+		`[href="${fileLink.hash}"]`, // TODO: Old PR Files view, drop in 2026
+		`[class^="PRIVATE_TreeView-item-content"]:has([href="${fileLink.hash}"])`,
 	], list);
 	if (!fileInList) {
 		features.unload(import.meta.url);
@@ -30,17 +33,15 @@ function add(filename: HTMLAnchorElement): void {
 	], fileInList)
 		?.cloneNode(true);
 	if (icon) {
-		const filenameParent = filename.closest('div');
 		// `span` needed for native vertical alignment
-		filenameParent!.append(<span className="ml-1">{icon}</span>);
+		fileHeader.append(<span className="ml-1">{icon}</span>);
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// Link--primary excludes CODEOWNERS icon #5565
 	observe([
-		'.file-info a.Link--primary', // TODO: Old PR Files view, drop in 2026
-		'[class^="DiffFileHeader-module"] a.Link--primary',
+		'div.file-info', // TODO: Old PR Files view, drop in 2026
+		'div[class*="DiffFileHeader-module__file-path-section"]',
 	], add, {signal});
 }
 
