@@ -13,6 +13,8 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
+import {openTabsFromBackground} from './helpers/open-tabs.js';
+import openUnreadNotifications from './features/unread-anywhere.background.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -30,22 +32,8 @@ addReloadWithoutContentScripts();
 customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 
 handleMessages({
-	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
-		// Reuse container
-		// https://github.com/refined-github/refined-github/issues/8657
-		const firefoxOnlyProps = tab && 'cookieStoreId' in tab
-			? {cookieStoreId: tab.cookieStoreId}
-			: {};
-
-		for (const [index, url] of urls.entries()) {
-			void chrome.tabs.create({
-				url,
-				index: tab!.index + index + 1,
-				active: false,
-				...firefoxOnlyProps,
-			});
-		}
-	},
+	openUnreadNotifications,
+	openUrls: openTabsFromBackground,
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
 		void chrome.tabs.remove(tab!.id!);
 	},

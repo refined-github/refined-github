@@ -1,4 +1,4 @@
-import {$, $$optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -8,13 +8,11 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
-import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
-import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils';
-
-const limit = 5;
+import {expectToken} from '../github-helpers/github-token.js';
+import type {OpenResponse} from './unread-anywhere.background.js';
 
 async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
 	if (event?.target instanceof HTMLButtonElement) {
@@ -24,28 +22,19 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 	}
 
 	await showToast(async updateToast => {
-		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
+		const {opened, remaining} = await messageRuntime<OpenResponse>({
+			openUnreadNotifications: true,
+		});
 
-		const notifications = $$optional('a.js-navigation-open', page);
-		if (notifications.length === 0) {
+		if (opened === 0) {
 			updateToast('No unread notifications');
 			return;
 		}
 
-		updateToast('Opening…');
-		const urls = notifications.slice(0, limit).map(notification => {
-			removeLinkToPRFilesTab(notification); // Internally limited to PR Files links
-			return notification.href;
-		});
-
-		await messageRuntime({
-			openUrls: urls,
-		});
-
-		if (notifications.length > limit) {
-			updateToast(`Opened the last ${limit} unread notifications`);
+		if (remaining) {
+			updateToast(`Opened the last ${opened} unread notifications`);
 		} else {
-			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
+			updateToast(pluralize(opened, '$$ notification') + ' opened');
 			// Update the UI too
 			$('.AppHeader-button--hasIndicator').classList.remove('AppHeader-button--hasIndicator');
 		}
@@ -88,7 +77,8 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 }
 
 // No signal, created once per load
-function initOnce(): void {
+async function initOnce(): Promise<void> {
+	await expectToken();
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
 	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
