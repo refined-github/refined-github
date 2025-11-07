@@ -48,6 +48,6 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 /* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
-.rgh-sticky-sidebar:has(.details-reset[open]) {
+.rgh-sticky-sidebar:has(.details-overlay[open]) {
 	z-index: 90;
 }
