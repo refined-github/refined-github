@@ -93,9 +93,22 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	let commitTitle: undefined | null | string;
 
 	if (menuItem.tagName === 'A') {
-		originalFileName = '';
-		newFileName = '';
-		commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', '');
+		const fileUrl = menuItem
+			.parentNode
+			?.parentNode
+			?.querySelector('li[data-variant="danger"] a')!
+			.href;
+
+		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
+		const branchName = pageDetect.utils.parseRepoExplorerTitle(globalThis.location.pathname, document.title);
+
+		console.log('handleClick.fileUrl', fileUrl);
+		console.log('handleClick.branchName', branchName);
+		console.log('handleClick.repo', repo);
+		originalFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${branchName}`, '') ?? '';
+		newFileName = originalFileName;
+
+		commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', `Discard changes to ${originalFileName}`);
 		if (!commitTitle) {
 			return;
 		}
