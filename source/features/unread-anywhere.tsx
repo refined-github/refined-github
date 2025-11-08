@@ -1,4 +1,4 @@
-import {$, $$optional, $optional} from 'select-dom/strict.js';
+import {$$optional, $optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
