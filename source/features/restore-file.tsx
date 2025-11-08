@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
@@ -100,13 +101,19 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			.href;
 
 		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
-		const branchName = pageDetect.utils.parseRepoExplorerTitle(globalThis.location.pathname, document.title);
+		const {head} = getBranches();
 
-		console.log('handleClick.fileUrl', fileUrl);
-		console.log('handleClick.branchName', branchName);
-		console.log('handleClick.repo', repo);
-		originalFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${branchName}`, '') ?? '';
-		newFileName = originalFileName;
+		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+		const reactProps = JSON.parse(reactPropsRaw)
+
+		newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+
+		const diffContents = reactProps.payload.diffContents.find((dc) => dc.path === newFileName);
+		if (diffContents.status === 'RENAMED') {
+			originalFileName = diffContents.oldTreeEntry.path;
+		} else {
+			originalFileName = newFileName;
+		}
 
 		commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', `Discard changes to ${originalFileName}`);
 		if (!commitTitle) {
