@@ -1,4 +1,3 @@
-import {$} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
@@ -26,7 +25,10 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedConversation,
-		() => $('.head-ref').title === 'This repository has been deleted',
+		() => elementExists([
+			'span[title="This repository has been deleted"]',
+			'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+		]),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
@@ -38,6 +40,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/refined-github/sandbox/pull/4/files
+- PR: https://github.com/refined-github/sandbox/pull/4/files
+- deleted head repository: https://github.com/refined-github/refined-github/pull/271
 
 */

@@ -165,7 +165,10 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => $('.head-ref').title === 'This repository has been deleted',
+		() => elementExists([
+			'span[title="This repository has been deleted"]',
+			'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+		]),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

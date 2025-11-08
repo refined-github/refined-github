@@ -1,6 +1,7 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -57,7 +58,10 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => $('.head-ref').title === 'This repository has been deleted',
+		() => elementExists([
+			'span[title="This repository has been deleted"]',
+			'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+		]),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
