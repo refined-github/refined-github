@@ -1,4 +1,5 @@
-import {$} from 'select-dom/strict.js';
+import {$, $$} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -57,12 +58,56 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {
-	return {
-		get base() {
-			return parseReference($('.base-ref'));
-		},
-		get head() {
-			return parseReference($('.head-ref'));
-		},
-	};
+	// Try old selectors first (for compatibility with older GitHub UI)
+	// but dont blow up if select-dom fails
+	try {
+		const baseElement = $('.base-ref');
+		const headElement = $('.head-ref');
+
+		if (baseElement && headElement) {
+			// Use existing logic
+			return {
+				base: parseReference(baseElement as HTMLElement),
+				head: parseReference(headElement as HTMLElement),
+			};
+		}
+	} catch {}
+
+	// New GitHub UI: extract from /tree/ links
+	const links = [...new Map($$('a[href*="/tree/"]').map(link => [link.href, link])).values()];
+	let baseRef: PrReference | undefined;
+	let headRef: PrReference | undefined;
+
+	for (const link of links) {
+		const href = link.getAttribute('href') || '';
+		const match = href.match(/\/tree\/([^/]+)$/);
+		if (match) {
+			const branch = match[1];
+			const text = link.textContent?.trim() || branch;
+
+			try {
+				const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
+				const absoluteRef = href?.replaceAll(`https://github.com/${repo?.nameWithOwner}/`, '') ?? '';
+				const branch = absoluteRef.replace(`/${repo?.nameWithOwner}/tree/`, '');
+
+				const ref = parseReferenceRaw(`${repo?.nameWithOwner}:${branch}`, text);
+
+				if (!baseRef) {
+					baseRef = ref;
+				} else if (!headRef) {
+					headRef = ref;
+					break;
+				}
+			} catch {
+				// Skip invalid references
+				continue;
+			}
+		}
+	}
+
+	if (baseRef && headRef) {
+		return {base: baseRef, head: headRef};
+	}
+
+	throw new Error('Could not find PR branch information');
 }
