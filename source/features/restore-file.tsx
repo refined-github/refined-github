@@ -104,11 +104,11 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		const {head} = getBranches();
 
 		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
-		const reactProps = JSON.parse(reactPropsRaw)
+		const reactProps = JSON.parse(reactPropsRaw);
 
 		newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
 
-		const diffContents = reactProps.payload.diffContents.find((dc) => dc.path === newFileName);
+		const diffContents = reactProps.payload.diffContents.find(dc => dc.path === newFileName);
 		if (diffContents.status === 'RENAMED') {
 			originalFileName = diffContents.oldTreeEntry.path;
 		} else {
