@@ -12,7 +12,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
@@ -58,10 +58,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => elementExists([
-			'span[title="This repository has been deleted"]',
-			'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
-		]),
+		() => elementExists(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import observe from '../helpers/selector-observer.js';
+import {deletedHeadRepository} from '../github-helpers/selectors.js';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function alter(viewFileLink: HTMLAnchorElement): void {
@@ -25,10 +26,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedConversation,
-		() => elementExists([
-			'span[title="This repository has been deleted"]',
-			'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
-		]),
+		() => elementExists(deletedHeadRepository),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
