@@ -18,7 +18,9 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	/* Added by `show-names` */
-	[data-rgh-viewer-did-author]:not([class^='ReviewThreadComment-module'] > *),
+	[data-rgh-viewer-did-author]:not(
+		[class^='ReviewThreadComment-module'] > *
+	),
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		/* Draw a possibly semi-transparent accent color over the opaque background */
