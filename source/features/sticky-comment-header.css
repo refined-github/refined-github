@@ -3,7 +3,9 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	[class^='IssueBodyHeader-module__IssueBodyHeaderContainer'],
 	/* Issue comment header */
 		/* Exclude review thread comments (on the "Files changed" tab) */
-		[data-testid='comment-header']:not([class^='ReviewThreadComment-module'] > *),
+		[data-testid='comment-header']:not(
+			[class^='ReviewThreadComment-module'] > *
+		),
 	/* PR body/comment or gist comment header */
 		.timeline-comment-header {
 		position: sticky;
@@ -18,9 +20,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	}
 
 	/* Added by `show-names` */
-	[data-rgh-viewer-did-author]:not(
-		[class^='ReviewThreadComment-module'] > *
-	),
+	[data-rgh-viewer-did-author]:not([class^='ReviewThreadComment-module'] > *),
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		/* Draw a possibly semi-transparent accent color over the opaque background */
