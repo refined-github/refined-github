@@ -156,7 +156,6 @@ import './features/new-repo-disable-projects-and-wikis.js';
 import './features/table-input.js';
 import './features/link-to-github-io.js';
 import './features/github-actions-indicators.js';
-import './features/convert-pr-to-draft-improvements.js';
 import './features/unfinished-comments.js';
 import './features/jump-to-change-requested-comment.js';
 import './features/esc-to-cancel.js';

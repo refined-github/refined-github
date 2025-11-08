@@ -177,11 +177,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/78712349-82c54900-78e6-11ea-8328-3c2d39a78862.png"
 	},
 	{
-		"id": "convert-pr-to-draft-improvements",
-		"description": "Moves the \"Convert PR to Draft\" button to the mergeability box and adds visual feedback to its confirm button.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/95644892-885f3f80-0a7f-11eb-8428-8e0fb0c8dfa5.gif"
-	},
-	{
 		"id": "convert-release-to-draft",
 		"description": "Adds a button to convert a release to draft.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png"
