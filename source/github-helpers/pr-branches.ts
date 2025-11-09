@@ -93,8 +93,11 @@ export function getFilenames(menuItem: HTMLElement) {
 		const reactProps = JSON.parse(reactPropsRaw);
 
 		let originalFileName = '';
+		// Get the new filename from the "Delete" button href
 		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
 
+		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
+		// type change, in which case we'll also need to find the old filename correctly
 		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
 		if (diffContents.status === 'RENAMED') {
 			originalFileName = diffContents.oldTreeEntry.path;
