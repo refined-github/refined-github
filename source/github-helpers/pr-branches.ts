@@ -78,7 +78,7 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 	};
 }
 
-export function getFilenames(menuItem: HTMLElement) {
+export function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	if (menuItem.tagName === 'A') {
 		const fileUrl = menuItem
 			.parentElement!
