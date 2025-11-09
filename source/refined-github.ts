@@ -122,7 +122,6 @@ import './features/conflict-marker.js';
 import './features/html-preview-link.js';
 import './features/linkify-user-location.js';
 import './features/repo-age.js';
-import './features/user-local-time.js';
 import './features/quick-mention.js';
 import './features/extend-conversation-status-filters.js';
 import './features/expand-all-hidden-comments.js';

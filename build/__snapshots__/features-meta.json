@@ -964,12 +964,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png"
 	},
 	{
-		"id": "user-local-time",
-		"description": "Shows the user local time in their hovercard (based on their last commit).",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257039621-132bd789-e213-4a89-83ff-e1266215c60d.png"
-	},
-	{
 		"id": "user-profile-follower-badge",
 		"description": "On profiles, it shows whether the user follows you.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png"
