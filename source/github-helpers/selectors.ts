@@ -52,8 +52,8 @@ export const directoryListingFileIcon = [
 	'.js-navigation-container .octicon-file',
 ];
 export const directoryListingFileIcon_ = [
-	[1, 'https://github.com/refined-github/refined-github'],
-	[1, 'https://github.com/refined-github/refined-github/tree/main/.github'],
+	[18, 'https://github.com/refined-github/refined-github'],
+	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
 ] satisfies UrlMatch[];
 
 export const prCommit = '.TimelineItem--condensed:has(.octicon-git-commit)';
@@ -147,7 +147,6 @@ export const newCommentField_ = requiresLogin;
 
 export const commitHashLinkInLists = [
 	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
-	'[aria-label="View commit details"] a.text-mono', // `isCommitList` TODO: remove in May 2025
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
 ] as unknown as Array<'a'>;
@@ -158,8 +157,7 @@ export const commitHashLinkInLists_ = [
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = [
-	'[data-testid="commit-row-item"] [class^="Title-module"]', // `isCommitList`
-	'.js-commits-list-item .Details p.mb-1', // TODO: Remove in May 2025, pre-React
+	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
 ];
 export const commitTitleInLists_ = [
 	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
@@ -190,6 +188,9 @@ export const botLinksCommitSelectors = [
 	// :only-child excludes co-authored commits
 	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
 ];
+export const botLinksCommitSelectors_ = [
+	[1, 'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03'],
+];
 
 export const botLinksPrSelectors = [
 	...botNames.flatMap(bot => [
@@ -198,6 +199,9 @@ export const botLinksPrSelectors = [
 	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+];
+export const botLinksPrSelectors_ = [
+	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
 ];
 
 // `a` selector needed to skip commits by non-GitHub users
@@ -227,11 +231,15 @@ export const usernameLinksSelector = [
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 ] as unknown as Array<'a'>;
+export const usernameLinksSelector_ = [
+	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
+];
 
 export const actionBarSelectors = [
 	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
 	'[aria-label="Formatting tools"]',
 ];
+export const actionBarSelectors_ = requiresLogin;
 
 export const prMergeabilityBoxCaption = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
@@ -242,6 +250,6 @@ export const deletedHeadRepository = [
 ];
 
 export const deletedHeadRepository_ = [
-	[1, 'https://github.com/refined-github/refined-github/pull/271'],
+	[2, 'https://github.com/refined-github/refined-github/pull/271'],
 	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
 ];
