@@ -1,9 +1,10 @@
 import React from 'dom-chef';
-import {$, $$optional, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import HistoryIcon from 'octicons-plain-react/History';
+import oneEvent from 'one-event';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -18,9 +19,10 @@ import {expectToken} from '../github-helpers/github-token.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 
 const commentSelector = [
-	'div.react-issue-comment', // First comment
-	'div.react-issue-body', // Comments
-	'[data-testid="review-thread"] > div',
+	'.loaded .react-issue-body', // Issue description
+	'.react-issue-comment', // Issue comment
+	'[data-testid="review-thread"] > div', // Review thread comment
+	'.js-comment', // PR description or comment
 ].join(',');
 
 async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
@@ -80,24 +82,28 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-function addInlineLinks(comment: HTMLElement, timestamp: string): void {
-	for (const link of $$optional(`a[href^="${location.origin}"]:not(.${linkifiedURLClass})`, comment)) {
-		if (!pageDetect.isRepoGitObject(link)) {
-			continue;
-		}
-
-		// Skip permalinks
-		const linkParts = link.pathname.split('/');
-		if (/^[\da-f]{40}$/.test(linkParts[4])) {
-			continue;
-		}
-
-		saveOriginalHref(link);
-
-		const searchParameters = new URLSearchParams(link.search);
-		searchParameters.set('rgh-link-date', timestamp);
-		link.search = String(searchParameters);
+async function addDateParameterToLink(link: HTMLAnchorElement): Promise<void> {
+	if (!pageDetect.isRepoGitObject(link)) {
+		return;
 	}
+
+	// Skip permalinks
+	const linkParts = link.pathname.split('/');
+	if (/^[\da-f]{40}$/.test(linkParts[4])) {
+		return;
+	}
+
+	await Promise.any([oneEvent(link, 'pointerenter'), oneEvent(link, 'focus')]);
+
+	const comment = link.closest(`:is(${commentSelector})`)!;
+	const relativeTime = $('relative-time', comment);
+	const timestamp = relativeTime.attributes.datetime.value;
+
+	saveOriginalHref(link);
+
+	const searchParameters = new URLSearchParams(link.search);
+	searchParameters.set('rgh-link-date', timestamp);
+	link.search = String(searchParameters);
 }
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
@@ -115,10 +121,10 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): Promise<void> {
-	const timestamp = $('relative-time[datetime]', delegate.closest('[class^="Box"]')!).attributes.datetime.value;
-	const menu = (await elementReady('[class^="prc-ActionList-ActionList"]'))!;
-	const divider = $optional('[data-component="ActionList.Divider"]', menu)?.cloneNode();
-	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menu).cloneNode(true);
+	const timestamp = delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
+	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
+	const divider = $optional('[data-component="ActionList.Divider"]', menuItemList)?.cloneNode();
+	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
 	menuItem.removeAttribute('aria-keyshortcuts');
 	menuItem.role = 'none';
@@ -138,7 +144,7 @@ async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): 
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = 'View repo at this time';
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
 
-	menu.append(
+	menuItemList.append(
 		divider ?? '',
 		menuItem,
 	);
@@ -160,18 +166,14 @@ async function init(signal: AbortSignal): Promise<void> {
 			.datetime
 			.value;
 
-		addInlineLinks(menu.closest('.js-comment')!, timestamp);
 		addDropdownLink(menu, timestamp);
 	}, {signal});
 
 	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)`, 'click', addDropdownLinkReact, {signal});
 
 	observe(
-		`:is(${commentSelector}) relative-time[datetime]`
-		, relativeTime => {
-			const comment = relativeTime.closest(`:is(${commentSelector})`)!;
-			addInlineLinks(comment, relativeTime.attributes.datetime.value);
-		},
+		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedURLClass})`,
+		addDateParameterToLink,
 		{signal},
 	);
 }
