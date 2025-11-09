@@ -1,6 +1,7 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -11,7 +12,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const {base} = getBranches();
@@ -57,7 +58,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => $('.head-ref').title === 'This repository has been deleted',
+		() => elementExists(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

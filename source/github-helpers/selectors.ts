@@ -235,3 +235,13 @@ export const actionBarSelectors = [
 
 export const prMergeabilityBoxCaption = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
+
+export const deletedHeadRepository = [
+	'span[title="This repository has been deleted"]',
+	'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+];
+
+export const deletedHeadRepository_ = [
+	[1, 'https://github.com/refined-github/refined-github/pull/271'],
+	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
+];

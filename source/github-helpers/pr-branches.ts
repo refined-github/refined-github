@@ -52,17 +52,27 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 }
 
 function parseReference(referenceElement: HTMLElement): PrReference {
-	const {title, textContent} = referenceElement;
-	return parseReferenceRaw(title, textContent.trim());
+	const {title, textContent, nextElementSibling} = referenceElement;
+
+	// In the React version, we have a `title` attribute but it's used to mark deleted repos instead
+	return title && title !== 'This repository has been deleted'
+		? parseReferenceRaw(title, textContent.trim()) // TODO: Remove in June 2026
+		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
-			return parseReference($('.base-ref'));
+			return parseReference($([
+				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]',
+				'.base-ref', // TODO: Remove in June 2026
+			]));
 		},
 		get head() {
-			return parseReference($('.head-ref'));
+			return parseReference($([
+				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]',
+				'.head-ref', // TODO: Remove in June 2026
+			]));
 		},
 	};
 }
