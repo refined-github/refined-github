@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -123,7 +123,6 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): Promise<void> {
 	const timestamp = delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
-	const divider = $optional('[data-component="ActionList.Divider"]', menuItemList)?.cloneNode();
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
 	menuItem.removeAttribute('aria-keyshortcuts');
@@ -145,7 +144,7 @@ async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): 
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
 
 	menuItemList.append(
-		divider ?? '',
+		<li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
 		menuItem,
 	);
 }
