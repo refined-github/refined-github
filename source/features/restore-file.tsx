@@ -11,6 +11,45 @@ import showToast from '../github-helpers/toast.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
+	if (menuItem.tagName === 'A') {
+		const fileUrl = menuItem
+			.parentElement!
+			.parentElement!
+			.querySelector('li[data-variant="danger"] a')!
+			.href;
+
+		const {head} = getBranches();
+
+		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+		const reactProps = JSON.parse(reactPropsRaw);
+
+		let originalFileName = '';
+		// Get the new filename from the "Delete" button href
+		const newFileName = fileUrl?.replaceAll(`https://github.com/${head?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+
+		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
+		// type change, in which case we'll also need to find the old filename correctly
+		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
+		if (diffContents.status === 'RENAMED') {
+			originalFileName = diffContents.oldTreeEntry.path;
+		} else {
+			originalFileName = newFileName;
+		}
+
+		return {original: originalFileName, new: newFileName};
+	} else {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
+
+		return {original: originalFileName, new: newFileName};
+	}
+};
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -123,7 +162,7 @@ function add(editFile: HTMLAnchorElement): void {
 				type="button"
 			>
 				Discard changes
-			</button>
+			</button>,
 		);
 
 		return;
@@ -138,8 +177,8 @@ function add(editFile: HTMLAnchorElement): void {
 				<GitCompareIcon className="color-fg-muted" />
 				<span style={{gridArea: 'content'}}>Discard changes</span>
 			</a>
-		</li>
-	)
+		</li>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -153,45 +192,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
-
-function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
-	if (menuItem.tagName === 'A') {
-		const fileUrl = menuItem
-			.parentElement!
-			.parentElement!
-			.querySelector('li[data-variant="danger"] a')!
-			.href;
-
-		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
-		const {head} = getBranches();
-
-		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
-		const reactProps = JSON.parse(reactPropsRaw);
-
-		let originalFileName = '';
-		// Get the new filename from the "Delete" button href
-		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
-
-		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
-		// type change, in which case we'll also need to find the old filename correctly
-		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
-		if (diffContents.status === 'RENAMED') {
-			originalFileName = diffContents.oldTreeEntry.path;
-		} else {
-			originalFileName = newFileName;
-		}
-
-		return {original: originalFileName, new: newFileName};
-	} else {
-		const [originalFileName, newFileName = originalFileName] = menuItem
-			.closest('[data-path]')!
-			.querySelector('.Link--primary')!
-			.textContent
-			.split(' → ');
-
-		return {original: originalFileName, new: newFileName};
-	}
-};
 
 void features.add(import.meta.url, {
 	include: [
