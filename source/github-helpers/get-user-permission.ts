@@ -1,5 +1,4 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {canUserEditRepo} from 'github-url-detection';
 import {elementExists} from 'select-dom';
 
 import {hasToken} from '../options-storage.js';
@@ -24,12 +23,6 @@ type RepositoryPermission = 'ADMIN' | 'MAINTAIN' | 'READ' | 'TRIAGE' | 'WRITE';
 async function getViewerPermission(): Promise<RepositoryPermission> {
 	if (getRepo() === null) {
 		throw new Error('This can only be called on a repository page');
-	}
-
-	// Faster DOM-based check, if the DOM is available.
-	// This can be cached because it's the highest level of access
-	if (canUserEditRepo()) {
-		return 'ADMIN';
 	}
 
 	if (!await hasToken()) {
