@@ -80,11 +80,6 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 
 export function getFilenames(menuItem: HTMLElement) {
 	if (menuItem.tagName === 'A') {
-		console.log('menuItem', menuItem)
-		// const fileUrl = menuItem
-		// 	.closest!
-		// 	.querySelector('li[data-variant="danger"] a')!
-		// 	.href;
 		const fileUrl = menuItem
 			.parentElement!
 			.parentElement!
