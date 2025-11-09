@@ -16,9 +16,8 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	if (menuItem.tagName === 'A') {
 		const fileUrl = menuItem
-			.parentElement!
-			.parentElement!
-			.querySelector('li[data-variant="danger"] a')!
+			.closest('ul')!
+			.querySelector('li:has(svg.octicon-eye) a')!
 			.href;
 
 		const {head} = getBranches();
@@ -27,8 +26,11 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		const reactProps = JSON.parse(reactPropsRaw);
 
 		let originalFileName = '';
-		// Get the new filename from the "Delete" button href
-		const newFileName = fileUrl?.replaceAll(`https://github.com/${head?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+		// Get the new filename from the "View File" button href
+		const urlRegex = new RegExp(
+			`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/.*\/`,
+		);
+		const newFileName = fileUrl.replace(urlRegex, '')!;
 
 		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
 		// type change, in which case we'll also need to find the old filename correctly
@@ -142,10 +144,10 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	// Hide file from view
 	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
 	if (filesWrapper) {
+		// TODO: Find exact match to not delete files with partial path match
 		const fileElement = [...filesWrapper.children].find(child =>
 			child.textContent?.includes(filenames.original),
 		) as HTMLElement | undefined;
-
 		fileElement!.remove();
 	} else {
 		menuItem.closest('.file')!.remove();
