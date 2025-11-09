@@ -39,7 +39,12 @@ function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string 
 
 function useCommitTitle(firstCommitElement: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = $(['div.Box.mb-3 .octicon-git-commit', 'a[href="#commits_bucket"] .octicon-git-commit']);
+	const commitCountIcon = $([
+		// Few commits
+		'div.Box.mb-3 .octicon-git-commit',
+		// Many commits (rendered in tabs)
+		'a[href="#commits_bucket"] .octicon-git-commit',
+	]);
 	const commitCount = commitCountIcon?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
 		return;
@@ -81,12 +86,12 @@ void features.add(import.meta.url, {
 		() =>	new URLSearchParams(location.search).has('title'),
 		hasUserAlteredThePR,
 	],
-	deduplicate: 'has-rgh',
 	init,
 });
 
 /*
 Test URLs
 
-https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+Few commit: https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+Many commits: https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
 */
