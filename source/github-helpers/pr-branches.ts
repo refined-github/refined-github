@@ -1,5 +1,4 @@
 import {$} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -86,7 +85,6 @@ export function getFilenames(menuItem: HTMLElement): {original: string; new: str
 			.querySelector('li[data-variant="danger"] a')!
 			.href;
 
-		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
 		const {head} = getBranches();
 
 		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
@@ -94,7 +92,7 @@ export function getFilenames(menuItem: HTMLElement): {original: string; new: str
 
 		let originalFileName = '';
 		// Get the new filename from the "Delete" button href
-		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+		const newFileName = fileUrl?.replaceAll(`https://github.com/${head?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
 
 		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
 		// type change, in which case we'll also need to find the old filename correctly
