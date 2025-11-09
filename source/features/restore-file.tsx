@@ -102,11 +102,15 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	});
 
 	// Hide file from view
-
-	// '.file', // TODO: Remove in June 2026
-	const filesWrapper = $('div[class^="prc-PageLayout-Content"]')
+	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]')
 	if (filesWrapper) {
-		filesWrapper
+		const fileElement = Array.from(filesWrapper.children).find(child =>
+			child.textContent?.includes(filenames.original)
+		) as HTMLElement | null;
+
+		if (fileElement) {
+			fileElement.remove();
+		}
 	} else {
 		menuItem.closest('.file')!.remove();
 	}
