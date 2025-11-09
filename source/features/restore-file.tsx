@@ -8,7 +8,6 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
-import {getBranches, getFilenames} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -108,48 +107,44 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			child.textContent?.includes(filenames.original),
 		) as HTMLElement | undefined;
 
-		if (fileElement) {
-			fileElement.remove();
-		}
+		fileElement!.remove();
 	} else {
 		menuItem.closest('.file')!.remove();
 	}
 }
 
 function add(editFile: HTMLAnchorElement): void {
-	const content = editFile.tagName === 'LI'
-		? (
-			// Render new row for React view
-				<li
-					className={editFile.className}
-					role="none"
-				>
-					<a className={`rgh-restore-file ${editFile.querySelector('a')!.className}`}>
-						<GitCompareIcon className="color-fg-muted" />
-						<span style={{gridArea: 'content'}}>Discard changes</span>
-					</a>
-				</li>
-			)
-		: (
-			// Render old row for original view
-				<button
-					className="pl-5 dropdown-item btn-link rgh-restore-file"
-					role="menuitem"
-					type="button"
-				>
-					Discard changes
-				</button>
-			);
+	// TODO: Drop support for old view in June 2026
+	if (editFile.tagName === 'A') {
+		editFile.after(
+			<button
+				className="pl-5 dropdown-item btn-link rgh-restore-file"
+				role="menuitem"
+				type="button"
+			>
+				Discard changes
+			</button>
+		);
 
-	editFile.after(content);
+		return;
+	}
+
+	editFile.after(
+		<li
+			className={editFile.className}
+			role="none"
+		>
+			<a className={`rgh-restore-file ${editFile.querySelector('a')!.className}`}>
+				<GitCompareIcon className="color-fg-muted" />
+				<span style={{gridArea: 'content'}}>Discard changes</span>
+			</a>
+		</li>
+	)
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	// Support both old and new PR Files dropdown markup:
-	// - Old: `.js-file-header-dropdown a[aria-label^="Change this"]`
-	// - New (React): The new dropdown is a `ul` menu whose li's have anchors with specific keyboard shortcuts exposed as aria values
 	observe([
 		'.js-file-header-dropdown a[aria-label^="Change this"]',
 		'ul[role="menu"] li:has(a[aria-keyshortcuts="e"])',
@@ -158,6 +153,45 @@ async function init(signal: AbortSignal): Promise<void> {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
+
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
+	if (menuItem.tagName === 'A') {
+		const fileUrl = menuItem
+			.parentElement!
+			.parentElement!
+			.querySelector('li[data-variant="danger"] a')!
+			.href;
+
+		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
+		const {head} = getBranches();
+
+		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+		const reactProps = JSON.parse(reactPropsRaw);
+
+		let originalFileName = '';
+		// Get the new filename from the "Delete" button href
+		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+
+		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
+		// type change, in which case we'll also need to find the old filename correctly
+		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
+		if (diffContents.status === 'RENAMED') {
+			originalFileName = diffContents.oldTreeEntry.path;
+		} else {
+			originalFileName = newFileName;
+		}
+
+		return {original: originalFileName, new: newFileName};
+	} else {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
+
+		return {original: originalFileName, new: newFileName};
+	}
+};
 
 void features.add(import.meta.url, {
 	include: [
