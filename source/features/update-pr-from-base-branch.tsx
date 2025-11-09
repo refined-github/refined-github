@@ -15,7 +15,7 @@ import showToast from '../github-helpers/toast.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 
 // TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
 const nativeRepos = new CachedFunction('native-update-button', {
@@ -165,7 +165,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => $('.head-ref').title === 'This repository has been deleted',
+		() => elementExists(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

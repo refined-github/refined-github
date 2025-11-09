@@ -1,0 +1,4 @@
+/* Use dedicated class because there's no native class to have a "muted" button turn red */
+.rgh-actions-run-removal:is(:hover, :focus) {
+	color: var(--fgColor-danger, fuchsia) !important;
+}

@@ -52,7 +52,7 @@ function attachButton(editButton: HTMLAnchorElement): void {
 	editButton.before(
 		<button
 			type="button"
-			className="btn btn-sm ml-3 mr-1 rgh-convert-draft"
+			className="Button Button--secondary Button--small ml-3 mr-1 rgh-convert-draft"
 		>
 			Convert to draft
 		</button>,

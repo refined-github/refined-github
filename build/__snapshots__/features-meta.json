@@ -15,6 +15,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png"
 	},
 	{
+		"id": "actions-run-removal",
+		"description": "Lets you cancel or delete workflow runs faster from the workflow list.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b"
+	},
+	{
 		"id": "align-issue-labels",
 		"description": "In issue/PR lists, aligns the labels to the left, below each title.",
 		"css": true,
