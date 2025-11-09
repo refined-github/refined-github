@@ -3,6 +3,7 @@ import GitCompareIcon from 'octicons-plain-react/GitCompare';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -11,7 +12,6 @@ import {getBranches, getFilenames} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import { $ } from 'select-dom';
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -88,7 +88,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
-	const filenames = getFilenames(menuItem)
+	const filenames = getFilenames(menuItem);
 
 	const commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', `Discard changes to ${filenames.original}`);
 
@@ -102,11 +102,11 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	});
 
 	// Hide file from view
-	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]')
+	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
 	if (filesWrapper) {
-		const fileElement = Array.from(filesWrapper.children).find(child =>
-			child.textContent?.includes(filenames.original)
-		) as HTMLElement | null;
+		const fileElement = [...filesWrapper.children].find(child =>
+			child.textContent?.includes(filenames.original),
+		) as HTMLElement | undefined;
 
 		if (fileElement) {
 			fileElement.remove();

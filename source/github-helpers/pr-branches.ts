@@ -92,7 +92,7 @@ export function getFilenames(menuItem: HTMLElement) {
 		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
 		const reactProps = JSON.parse(reactPropsRaw);
 
-		let originalFileName = ''
+		let originalFileName = '';
 		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
 
 		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
@@ -102,7 +102,7 @@ export function getFilenames(menuItem: HTMLElement) {
 			originalFileName = newFileName;
 		}
 
-		return {original: originalFileName, new: newFileName}
+		return {original: originalFileName, new: newFileName};
 	} else {
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
@@ -110,6 +110,6 @@ export function getFilenames(menuItem: HTMLElement) {
 			.textContent
 			.split(' → ');
 
-			return {original: originalFileName, new: newFileName}
+		return {original: originalFileName, new: newFileName};
 	}
-}
+};
