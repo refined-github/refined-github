@@ -1,4 +1,5 @@
 import {$} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -75,4 +76,45 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 			]));
 		},
 	};
+}
+
+export function getFilenames(menuItem: HTMLElement) {
+	if (menuItem.tagName === 'A') {
+		console.log('menuItem', menuItem)
+		// const fileUrl = menuItem
+		// 	.closest!
+		// 	.querySelector('li[data-variant="danger"] a')!
+		// 	.href;
+		const fileUrl = menuItem
+			.parentElement!
+			.parentElement!
+			.querySelector('li[data-variant="danger"] a')!
+			.href;
+
+		const repo = pageDetect.utils.getRepositoryInfo(globalThis.location);
+		const {head} = getBranches();
+
+		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+		const reactProps = JSON.parse(reactPropsRaw);
+
+		let originalFileName = ''
+		const newFileName = fileUrl?.replaceAll(`https://github.com/${repo?.nameWithOwner}/delete/${head.branch}/`, '') ?? '';
+
+		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
+		if (diffContents.status === 'RENAMED') {
+			originalFileName = diffContents.oldTreeEntry.path;
+		} else {
+			originalFileName = newFileName;
+		}
+
+		return {original: originalFileName, new: newFileName}
+	} else {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
+
+			return {original: originalFileName, new: newFileName}
+	}
 }
