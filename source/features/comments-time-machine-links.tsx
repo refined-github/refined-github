@@ -4,7 +4,6 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import HistoryIcon from 'octicons-plain-react/History';
-import oneEvent from 'one-event';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -92,8 +91,6 @@ async function addDateParameterToLink(link: HTMLAnchorElement): Promise<void> {
 	if (/^[\da-f]{40}$/.test(linkParts[4])) {
 		return;
 	}
-
-	await Promise.any([oneEvent(link, 'pointerenter'), oneEvent(link, 'focus')]);
 
 	const comment = link.closest(commentSelector)!;
 	const relativeTime = $('relative-time', comment);
