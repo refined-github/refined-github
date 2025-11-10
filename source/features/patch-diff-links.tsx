@@ -5,20 +5,41 @@ import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
+function getCommitUrl(extension: 'patch' | 'diff'): string {
+	// The replacement avoids a redirection isPRCommit
+	const pathname = getCleanPathname().replace(/\/pull\/\d+\/commits/, '/commit');
+	return `/${pathname}.${extension}`;
+}
+
+function updateCommitUrl(
+	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
+): void {
+	const link = event.currentTarget;
+	link.href = getCommitUrl(link.textContent as 'patch' | 'diff');
+}
+
+function createLink(type: 'patch' | 'diff'): JSX.Element {
+	return (
+		<a
+			href={getCommitUrl(type)}
+			className="sha color-fg-default"
+			// Update URL because it might be out of date due to SPA navigation
+			// https://github.com/refined-github/refined-github/issues/8737
+			onMouseEnter={updateCommitUrl}
+			onFocus={updateCommitUrl}
+		>
+			{type}
+		</a>
+	);
+}
+
 async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
-	let commitUrl = '/' + getCleanPathname();
-
-	// Avoids a redirection
-	if (pageDetect.isPRCommit()) {
-		commitUrl = commitUrl.replace(/\/pull\/\d+\/commits/, '/commit');
-	}
-
-	commitMeta!.classList.remove('no-wrap'); // #5987
-	commitMeta!.prepend(
+	commitMeta.classList.remove('no-wrap'); // #5987
+	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
-			<a href={`${commitUrl}.patch`} className="sha color-fg-default">patch</a>
+			{createLink('patch')}
 			{' '}
-			<a href={`${commitUrl}.diff`} className="sha color-fg-default">diff</a>
+			{createLink('diff')}
 			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
 		</span>,
 	);

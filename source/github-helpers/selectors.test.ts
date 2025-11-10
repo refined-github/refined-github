@@ -54,8 +54,8 @@ describe.concurrent('selectors', () => {
 	// Exclude URL arrays
 	const selectors: Array<[name: string, selector: string]> = [];
 	for (const [name, selector] of Object.entries(exports)) {
-		if (!Array.isArray(selector)) {
-			selectors.push([name, selector]);
+		if (!name.endsWith('_')) {
+			selectors.push([name, String(selector)]);
 		}
 	}
 

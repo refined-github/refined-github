@@ -1,4 +1,4 @@
-import {$, $$optional} from 'select-dom/strict.js';
+import {$$optional, $optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -46,8 +46,8 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 			updateToast(`Opened the last ${limit} unread notifications`);
 		} else {
 			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
-			// Update the UI too
-			$('.AppHeader-button--hasIndicator').classList.remove('AppHeader-button--hasIndicator');
+			// Update the UI too. Optional because the UI is often out of date
+			$optional('.AppHeader-button--hasIndicator')?.classList.remove('AppHeader-button--hasIndicator');
 		}
 	}, {
 		message: 'Loading notifications…',
