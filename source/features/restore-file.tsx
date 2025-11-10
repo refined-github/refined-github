@@ -144,10 +144,23 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	// Hide file from view
 	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
 	if (filesWrapper) {
-		// TODO: Find exact match to not delete files with partial path match
-		const fileElement = [...filesWrapper.children].find(child =>
-			child.textContent?.includes(filenames.original),
-		) as HTMLElement | undefined;
+		const fileElement = [...filesWrapper.children].find(child => {
+			if (child.textContent === '') {
+				return false
+			}
+
+			const filenameRegex = child.textContent.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
+			let originalFilename = filenameRegex![1].trim();
+			if (originalFilename && /\brenamed\s+to\b/i.test(originalFilename)) {
+				originalFilename = originalFilename.split(/\s+renamed\s+to\s+/i)[0].trim();
+			}
+
+			// Clean any non-visible whitespace characters
+			originalFilename = originalFilename.replaceAll(/[\u200E\u200F\uFEFF]/g, '');
+
+			return originalFilename === filenames.original;
+		}) as HTMLElement | undefined;
+
 		fileElement!.remove();
 	} else {
 		menuItem.closest('.file')!.remove();
@@ -187,8 +200,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	observe([
-		'.js-file-header-dropdown a[aria-label^="Change this"]',
-		'ul[role="menu"] li:has(a[aria-keyshortcuts="e"])',
+		'.js-file-header-dropdown a[aria-label^="Change this"]', // TODO: Drop support for old view in June 2026
+		'ul[role="menu"] li:has(svg.octicon-pencil)',
 	], add, {signal});
 
 	// `capture: true` required to be fired before GitHub's handlers
