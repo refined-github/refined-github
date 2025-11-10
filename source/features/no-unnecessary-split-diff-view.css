@@ -30,8 +30,31 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		}
 	}
 
+	[class*='DiffLines-module__tableLayoutFixed']:has(col:nth-child(4)) {
+		&:not(
+				:has(
+						td:nth-child(2):is([style*='deletionLine'], [style*='additionLine'])
+					)
+			) {
+			--rgh-only-additions: none;
+
+			table-layout: auto !important;
+		}
+
+		&:not(
+				:has(
+						td:nth-child(4):is([style*='deletionLine'], [style*='additionLine'])
+					)
+			) {
+			--rgh-only-deletions: none;
+
+			table-layout: auto !important;
+		}
+	}
+
 	[data-hunk],
-	.blob-expanded {
+	.blob-expanded,
+	.diff-line-row {
 		/* Only additions: Hide the left side */
 		td:nth-child(2) {
 			display: var(--rgh-only-additions, table-cell) !important;
