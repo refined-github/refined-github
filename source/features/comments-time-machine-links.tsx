@@ -81,7 +81,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 	);
 }
 
-async function addDateParameterToLink(link: HTMLAnchorElement): Promise<void> {
+function addDateParameterToLink(link: HTMLAnchorElement): void {
 	if (!pageDetect.isRepoGitObject(link)) {
 		return;
 	}
