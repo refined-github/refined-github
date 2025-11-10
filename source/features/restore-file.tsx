@@ -145,8 +145,8 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	});
 
 	// Hide file from view
-	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
-	if (filesWrapper) {
+	if (menuItem.tagName === 'A') {
+		const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
 		const fileElement = [...filesWrapper.children].find(child => {
 			if (child.textContent === '') {
 				return false;
