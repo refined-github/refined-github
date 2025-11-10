@@ -12,9 +12,13 @@ function linkify(label: Element): void {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
 
+	// React might create a new label without removing the old one
+	// https://github.com/refined-github/refined-github/issues/8478
+	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
+
 	const url = new URL(buildRepoURL('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
-	wrap(label, <a className="Link--secondary" href={url.href} />);
+	wrap(label, <a className="Link--secondary rgh-linkify-user-labels" href={url.href} />);
 }
 
 function init(signal: AbortSignal): void {
