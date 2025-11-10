@@ -45,7 +45,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 			table-layout: auto !important;
 		}
 
-		/* Align line number cells with the header kebab icon cell */
+		/* Align line number cells with the header first cell */
 		.diff-line-number {
 			min-width: 40px;
 		}
