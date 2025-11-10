@@ -39,7 +39,6 @@ function handleMenuOpeningReact(): void {
 		const link = $('a', menuItem);
 		link.href = new GitHubFileURL(fileLink).assign({route}).href;
 		link.dataset.turbo = String(route !== 'raw');
-		link.ariaKeyShortcuts = 'v';
 		$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
 		$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon ?? '');
 		return menuItem;
