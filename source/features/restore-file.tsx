@@ -32,8 +32,8 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		);
 		const newFileName = fileUrl.replace(urlRegex, '')!;
 
-		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
-		// type change, in which case we'll also need to find the old filename correctly
+		// Leverage the React props inlined in a script tag in order to determine whether or not we're
+		// dealing with a RENAME change, in which case we'll also need to find the old filename correctly
 		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) =>
 			dc.path === newFileName,
 		);
@@ -45,6 +45,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 
 		return {original: originalFileName, new: newFileName};
 	} else {
+		// TODO: Drop support for old view in June 2026
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
@@ -153,6 +154,8 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 			const filenameRegex = child.textContent.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
 			let originalFilename = filenameRegex![1].trim();
+
+			// Rename changes return not just the file name, but "X renamed to Y" so require a bit more clean up.
 			if (originalFilename && /\brenamed\s+to\b/i.test(originalFilename)) {
 				originalFilename = originalFilename.split(/\s+renamed\s+to\s+/i)[0].trim();
 			}
@@ -165,6 +168,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 		fileElement!.remove();
 	} else {
+		// TODO: Drop support for old view in June 2026
 		menuItem.closest('.file')!.remove();
 	}
 }
