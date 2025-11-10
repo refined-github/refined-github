@@ -31,21 +31,13 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	}
 
 	[class*='DiffLines-module__tableLayoutFixed']:has(col:nth-child(4)) {
-		&:not(
-				:has(
-						td:nth-child(2) > :is(.deletion, .addition)
-					)
-			) {
+		&:not(:has(td:nth-child(2) > :is(.deletion, .addition))) {
 			--rgh-only-additions: none;
 
 			table-layout: auto !important;
 		}
 
-		&:not(
-				:has(
-						td:nth-child(4) > :is(.deletion, .addition)
-					)
-			) {
+		&:not(:has(td:nth-child(4) > :is(.deletion, .addition))) {
 			--rgh-only-deletions: none;
 
 			table-layout: auto !important;
