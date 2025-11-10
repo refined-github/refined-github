@@ -95,7 +95,7 @@ async function addDateParameterToLink(link: HTMLAnchorElement): Promise<void> {
 
 	await Promise.any([oneEvent(link, 'pointerenter'), oneEvent(link, 'focus')]);
 
-	const comment = link.closest(`:is(${commentSelector})`)!;
+	const comment = link.closest(commentSelector)!;
 	const relativeTime = $('relative-time', comment);
 	const timestamp = relativeTime.attributes.datetime.value;
 
