@@ -33,7 +33,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	[class*='DiffLines-module__tableLayoutFixed']:has(col:nth-child(4)) {
 		&:not(
 				:has(
-						td:nth-child(2):is([style*='deletionLine'], [style*='additionLine'])
+						td:nth-child(2) > :is(.deletion, .addition)
 					)
 			) {
 			--rgh-only-additions: none;
@@ -43,7 +43,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 		&:not(
 				:has(
-						td:nth-child(4):is([style*='deletionLine'], [style*='additionLine'])
+						td:nth-child(4) > :is(.deletion, .addition)
 					)
 			) {
 			--rgh-only-deletions: none;
