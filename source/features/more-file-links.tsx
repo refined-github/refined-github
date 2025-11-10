@@ -2,6 +2,9 @@ import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import HistoryIcon from 'octicons-plain-react/History';
+import FileCodeIcon from 'octicons-plain-react/FileCode';
+import GitBranchIcon from 'octicons-plain-react/GitBranch';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
@@ -27,9 +30,35 @@ function handleMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	);
 }
 
+function handleMenuOpeningReact(): void {
+	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
+	const fileLink = $('a', viewFile).href;
+
+	const getMenuItem = (name: string, route: string, icon?: React.JSX.Element): HTMLElement => {
+		const menuItem = viewFile.cloneNode(true);
+		const link = $('a', menuItem);
+		link.href = new GitHubFileURL(fileLink).assign({route}).href;
+		link.dataset.turbo = String(route !== 'raw');
+		link.ariaKeyShortcuts = 'v';
+		$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
+		$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon ?? '');
+		return menuItem;
+	};
+
+	viewFile.after(
+		getMenuItem('raw', 'raw', <FileCodeIcon />),
+		getMenuItem('blame', 'blame', <GitBranchIcon />),
+		getMenuItem('history', 'commits', <HistoryIcon />),
+		viewFile.nextElementSibling?.getAttribute('data-component') === 'ActionList.Divider'
+			? ''
+			: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
+	);
+}
+
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, {capture: true, signal});
+	delegate('[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpeningReact);
 }
 
 void features.add(import.meta.url, {
