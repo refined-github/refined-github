@@ -562,11 +562,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png"
 	},
 	{
-		"id": "pagination-hotkey",
-		"description": "Adds shortcuts to navigate through pages with pagination: <kbd>←</kbd> and <kbd>→</kbd>.",
-		"screenshot": null
-	},
-	{
 		"id": "parse-backticks",
 		"description": "GitHub renders `<code> </code>text in backticks<code> </code>` in some places but not others; this features fills in where forgotten.",
 		"css": true,

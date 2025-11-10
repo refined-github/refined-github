@@ -22,7 +22,6 @@ const noScreenshotExceptions = new Set([
 	'command-palette-navigation-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',
-	'pagination-hotkey',
 	'profile-hotkey',
 	'repo-wide-file-finder',
 	'select-all-notifications-shortcut',
