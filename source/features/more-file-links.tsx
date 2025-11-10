@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import HistoryIcon from 'octicons-plain-react/History';
 import FileCodeIcon from 'octicons-plain-react/FileCode';
-import GitBranchIcon from 'octicons-plain-react/GitBranch';
+import VersionsIcon from 'octicons-plain-react/Versions';
+import HistoryIcon from 'octicons-plain-react/History';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
@@ -46,7 +46,7 @@ function handleMenuOpeningReact(): void {
 
 	viewFile.after(
 		getMenuItem('raw', 'raw', <FileCodeIcon />),
-		getMenuItem('blame', 'blame', <GitBranchIcon />),
+		getMenuItem('blame', 'blame', <VersionsIcon />),
 		getMenuItem('history', 'commits', <HistoryIcon />),
 		viewFile.nextElementSibling?.getAttribute('data-component') === 'ActionList.Divider'
 			? ''
