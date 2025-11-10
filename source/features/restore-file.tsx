@@ -28,13 +28,15 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		let originalFileName = '';
 		// Get the new filename from the "View File" button href
 		const urlRegex = new RegExp(
-			`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/.*\/`,
+			`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/[^/]+\/`,
 		);
 		const newFileName = fileUrl.replace(urlRegex, '')!;
 
 		// Leverage the React props inlined in a script tag in order to determine whether or not we're dealing with a RENAME
 		// type change, in which case we'll also need to find the old filename correctly
-		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) => dc.path === newFileName);
+		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) =>
+			dc.path === newFileName,
+		);
 		if (diffContents.status === 'RENAMED') {
 			originalFileName = diffContents.oldTreeEntry.path;
 		} else {
@@ -146,7 +148,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	if (filesWrapper) {
 		const fileElement = [...filesWrapper.children].find(child => {
 			if (child.textContent === '') {
-				return false
+				return false;
 			}
 
 			const filenameRegex = child.textContent.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
