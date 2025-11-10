@@ -117,7 +117,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	);
 }
 
-async function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): Promise<void> {
+function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const timestamp = delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
