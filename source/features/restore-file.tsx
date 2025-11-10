@@ -166,7 +166,9 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 			return originalFilename === filenames.original;
 		}) as HTMLElement | undefined;
 
+		// Remove file element in list as well as portaled dropdown menu
 		fileElement!.remove();
+		menuItem.closest('div[data-focus-trap="active"]')!.remove();
 	} else {
 		// TODO: Drop support for old view in June 2026
 		menuItem.closest('.file')!.remove();
