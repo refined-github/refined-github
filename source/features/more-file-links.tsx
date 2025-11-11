@@ -34,7 +34,7 @@ function handleMenuOpeningReact(): void {
 	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
 	const fileLink = $('a', viewFile).href;
 
-	const getMenuItem = (name: string, route: string, icon: React.JSX.Element): HTMLElement => {
+	function getMenuItem(name: string, route: string, icon: React.JSX.Element): HTMLElement {
 		const menuItem = viewFile.cloneNode(true);
 		const link = $('a', menuItem);
 		link.href = new GitHubFileURL(fileLink).assign({route}).href;
