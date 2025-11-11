@@ -3,9 +3,10 @@
 @media (min-resolution: 2x) {
 	html:not([rgh-OFF-emphasize-draft-pr-label]) {
 		.js-issue-row
-			:/* Repo PR lists */
-			is(
-				[aria-label='Open draft pull request'],
+			/* biome-ignore format: bug */
+			:is(
+				/* Repo PR lists */
+					[aria-label='Open draft pull request'],
 				/* Global PR lists */
 					[aria-label='Draft Pull Request']
 			)
