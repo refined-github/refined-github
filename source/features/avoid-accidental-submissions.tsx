@@ -1,8 +1,7 @@
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';

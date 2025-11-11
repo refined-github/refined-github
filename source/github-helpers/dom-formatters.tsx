@@ -3,8 +3,7 @@ import {elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {linkifyIssuesToDom} from 'linkify-issues';
-import type {Options as LinkifyIssuesOptions} from 'linkify-issues';
+import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';

@@ -6,8 +6,7 @@ import {$} from 'select-dom/strict.js';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

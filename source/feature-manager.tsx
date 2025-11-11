@@ -14,11 +14,9 @@ import bisectFeatures from './helpers/bisect.js';
 import {
 	shouldFeatureRun,
 	isFeaturePrivate,
-
+	type RunConditions,
 } from './helpers/feature-utilities.js';
-import type {RunConditions} from './helpers/feature-utilities.js';
-import optionsStorage, {isFeatureDisabled} from './options-storage.js';
-import type {RGHOptions} from './options-storage.js';
+import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,

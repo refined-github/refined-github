@@ -4,8 +4,7 @@ import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
 import {$$, countElements, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';

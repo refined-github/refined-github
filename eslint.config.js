@@ -182,10 +182,9 @@ export default antfu(
 	importX.flatConfigs.recommended,
 	importX.flatConfigs.typescript,
 	{
-
 		rules: {
-			'import/consistent-type-specifier-style': "off",
-			'import-x/consistent-type-specifier-style': ['error', 'prefer-inline'],
+			'import/consistent-type-specifier-style': 'off',
+			'import-x/consistent-type-specifier-style': 'off',
 			'import-x/prefer-default-export': 'error',
 			'import-x/order': [
 				'error',

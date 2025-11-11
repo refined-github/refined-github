@@ -2,8 +2,7 @@ import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 import TrashIcon from 'octicons-plain-react/Trash';
 import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';

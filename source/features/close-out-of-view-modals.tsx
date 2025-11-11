@@ -1,6 +1,5 @@
 import {$$} from 'select-dom';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';

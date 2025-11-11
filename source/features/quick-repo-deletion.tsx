@@ -4,8 +4,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
-import delegate from 'delegate-it';
-import type {DelegateEvent} from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {buildRepoURL, getForkedRepo, getRepo} from '../github-helpers/index.js';
