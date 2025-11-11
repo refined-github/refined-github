@@ -184,6 +184,8 @@ export default antfu(
 	{
 
 		rules: {
+			'import/consistent-type-specifier-style': "off",
+			'import-x/consistent-type-specifier-style': ['error', 'prefer-inline'],
 			'import-x/prefer-default-export': 'error',
 			'import-x/order': [
 				'error',
