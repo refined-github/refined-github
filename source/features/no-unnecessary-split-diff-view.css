@@ -32,12 +32,12 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	[data-hunk],
 	.blob-expanded {
-		/* Only additions: Hide the left side and expand the right side */
+		/* Only additions: Hide the left side */
 		td:nth-child(2) {
 			display: var(--rgh-only-additions, table-cell) !important;
 		}
 
-		/* Only deletions: Hide the right side and expand the left side */
+		/* Only deletions: Hide the right side */
 		td:nth-child(4) {
 			display: var(--rgh-only-deletions, table-cell) !important;
 		}
