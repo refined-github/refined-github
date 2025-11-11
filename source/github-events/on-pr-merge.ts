@@ -28,4 +28,4 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 	} else {
 		callback();
 	}
-};;;;;
+}

@@ -47,6 +47,7 @@ export default antfu(
 			'jsonc/array-bracket-spacing': 'off', // Same
 			'style/brace-style': ['error', '1tbs'], // Naw, man
 			'style/semi': ['error', 'always'],
+			'style/no-extra-semi': 'error',
 			'style/member-delimiter-style': ['error', {
 				multiline: {
 					delimiter: 'semi',
