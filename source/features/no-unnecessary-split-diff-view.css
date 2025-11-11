@@ -32,12 +32,12 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	[data-hunk],
 	.blob-expanded {
-		/* Only additions: Hide the left side */
+		/* Only additions: Hide the left side and expand the right side */
 		td:nth-child(2) {
 			display: var(--rgh-only-additions, table-cell) !important;
 		}
 
-		/* Only deletions: Hide the right side */
+		/* Only deletions: Hide the right side and expand the left side */
 		td:nth-child(4) {
 			display: var(--rgh-only-deletions, table-cell) !important;
 		}
@@ -48,36 +48,39 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 	}
 
+	/* TODO: remove everything above in late 2026 */
 	[class*='DiffLines-module__tableLayoutFixed']:has(col:nth-child(4)) {
-		&:not(:has(td:nth-child(2) > :is(.deletion, .addition))) {
-			--rgh-only-additions: none;
+		/* No changes on the left side */
+		&:not(:has(td:nth-child(2) > .deletion)) {
+			--rgh-left-side-d: none;
 			--rgh-right-side-w: 100%;
 
 			table-layout: auto !important;
 		}
 
-		&:not(:has(td:nth-child(4) > :is(.deletion, .addition))) {
-			--rgh-only-deletions: none;
+		/* No changes on the right side */
+		&:not(:has(td:nth-child(4) > .addition)) {
+			--rgh-right-side-d: none;
 			--rgh-left-side-w: 100%;
 
 			table-layout: auto !important;
 		}
 
 		.diff-line-row {
-			/* The left side */
+			/* The left side (deletions) */
 			td:nth-child(2) {
-				/* Only additions: Expand the left side */
-				display: var(--rgh-only-additions, table-cell) !important;
-				/* Only deletions: Expand the left side */
-				width: var(--rgh-left-side-w) !important;
+				/* Only additions: hide the left side */
+				display: var(--rgh-left-side-d, table-cell) !important;
+				/* Only deletions: expand the left side */
+				width: var(--rgh-left-side-w, auto) !important;
 			}
 
-			/* The right side */
+			/* The right side (additions) */
 			td:nth-child(4) {
-				/* Only deletions: Hide the right side */
-				display: var(--rgh-only-additions, table-cell) !important;
-				/* Only deletions: Expand the right side */
-				width: var(--rgh-right-side-w) !important;
+				/* Only deletions: hide the right side */
+				display: var(--rgh-right-side-d, table-cell) !important;
+				/* Only additions: expand the right side */
+				width: var(--rgh-right-side-w, auto) !important;
 			}
 		}
 
