@@ -34,13 +34,13 @@ function handleMenuOpeningReact(): void {
 	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
 	const fileLink = $('a', viewFile).href;
 
-	const getMenuItem = (name: string, route: string, icon?: React.JSX.Element): HTMLElement => {
+	const getMenuItem = (name: string, route: string, icon: React.JSX.Element): HTMLElement => {
 		const menuItem = viewFile.cloneNode(true);
 		const link = $('a', menuItem);
 		link.href = new GitHubFileURL(fileLink).assign({route}).href;
 		link.dataset.turbo = String(route !== 'raw');
 		$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
-		$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon ?? '');
+		$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 		return menuItem;
 	};
 
@@ -57,7 +57,7 @@ function handleMenuOpeningReact(): void {
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleMenuOpening, {capture: true, signal});
-	delegate('[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpeningReact);
+	delegate('[class^="DiffFileHeader-module__diff-file-header"] [data-component="IconButton"]:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpeningReact);
 }
 
 void features.add(import.meta.url, {
