@@ -30,6 +30,24 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		}
 	}
 
+	[data-hunk],
+	.blob-expanded {
+		/* Only additions: Hide the left side */
+		td:nth-child(2) {
+			display: var(--rgh-only-additions, table-cell) !important;
+		}
+
+		/* Only deletions: Hide the right side */
+		td:nth-child(4) {
+			display: var(--rgh-only-deletions, table-cell) !important;
+		}
+	}
+
+	/* Any applicable situation: Re-align annotations */
+	:is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
+		display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
+	}
+
 	[class*='DiffLines-module__tableLayoutFixed']:has(col:nth-child(4)) {
 		&:not(:has(td:nth-child(2) > :is(.deletion, .addition))) {
 			--rgh-only-additions: none;
@@ -45,30 +63,27 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 			table-layout: auto !important;
 		}
 
+		.diff-line-row {
+			/* The left side */
+			td:nth-child(2) {
+				/* Only additions: Expand the left side */
+				display: var(--rgh-only-additions, table-cell) !important;
+				/* Only deletions: Expand the left side */
+				width: var(--rgh-left-side-w) !important;
+			}
+
+			/* The right side */
+			td:nth-child(4) {
+				/* Only deletions: Hide the right side */
+				display: var(--rgh-only-additions, table-cell) !important;
+				/* Only deletions: Expand the right side */
+				width: var(--rgh-right-side-w) !important;
+			}
+		}
+
 		/* Align line number cells with the header first cell */
 		.diff-line-number {
 			min-width: 40px;
 		}
-	}
-
-	[data-hunk],
-	.blob-expanded,
-	.diff-line-row {
-		/* Only additions: Hide the left side and expand the right side */
-		td:nth-child(2) {
-			display: var(--rgh-only-additions, table-cell) !important;
-			width: var(--rgh-left-side-w, auto) !important;
-		}
-
-		/* Only deletions: Hide the right side and expand the left side */
-		td:nth-child(4) {
-			display: var(--rgh-only-deletions, table-cell) !important;
-			width: var(--rgh-right-side-w, auto) !important;
-		}
-	}
-
-	/* Any applicable situation: Re-align annotations */
-	:is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
-		display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
 	}
 }
