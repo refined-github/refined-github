@@ -1,4 +1,5 @@
-import delegate, {type DelegateEventHandler} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEventHandler} from 'delegate-it';
 
 const fieldSelector = [
 	'#commit-summary-input', // Commit title on edit file page

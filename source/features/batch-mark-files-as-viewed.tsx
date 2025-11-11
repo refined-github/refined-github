@@ -3,7 +3,8 @@ import {$} from 'select-dom/strict.js';
 import {onAbort} from 'abort-utils';
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';

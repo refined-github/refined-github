@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utilities.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 

@@ -6,11 +6,12 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
+import getPrInfo from '../github-helpers/get-pr-info.js';
+import type {PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import pluralize from '../helpers/pluralize.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
-import {isTextNodeContaining} from '../helpers/dom-utils.js';
+import {isTextNodeContaining} from '../helpers/dom-utilities.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 

@@ -9,7 +9,7 @@ import DiffModifiedIcon from 'octicons-plain-react/DiffModified';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {removeTextNodeContaining} from '../helpers/dom-utilities.js';
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button

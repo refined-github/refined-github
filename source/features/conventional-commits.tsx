@@ -13,7 +13,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {conventionalCommitRegex, parseConventionalCommit} from '../helpers/conventional-commits.js';
-import {removeTextInTextNode} from '../helpers/dom-utils.js';
+import {removeTextInTextNode} from '../helpers/dom-utilities.js';
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const textNode = commitTitleElement.firstChild!;

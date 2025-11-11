@@ -9,7 +9,7 @@ function splitQueryString(query: string): string[] {
 function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 	const deduplicated = [];
 	let wasKeywordFound = false;
-	for (const current of [...array].reverse()) {
+	for (const current of array.toReversed()) {
 		const isKeyword = keywords.includes(current);
 		if (!isKeyword || !wasKeywordFound) {
 			deduplicated.unshift(current);

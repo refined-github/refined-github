@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import {CachedFunction} from 'webext-storage-cache';
 
 import api from '../github-helpers/api.js';

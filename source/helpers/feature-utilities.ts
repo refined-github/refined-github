@@ -1,6 +1,6 @@
 import type {Promisable} from 'type-fest';
 
-import {pEveryFunction, pSomeFunction} from './p-utils.js';
+import {pEveryFunction, pSomeFunction} from './p-utilities.js';
 
 export type BooleanFunction = () => boolean;
 type PromisableBooleanFunction = () => Promisable<boolean>;

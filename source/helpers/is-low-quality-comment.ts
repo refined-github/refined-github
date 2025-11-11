@@ -27,7 +27,7 @@ const lowQualityWords = [
 	'update',
 	'updates',
 ];
-const lowQualityWordsRegex = new RegExp(`\\b(${lowQualityWords.join('|')})\\b`, 'gi');
+const lowQualityWordsRegex = new RegExp(String.raw`\b(${lowQualityWords.join('|')})\b`, 'gi');
 
 export default function isLowQualityComment(text: string): boolean {
 	// Note: the unicode range targets skin color modifiers for the hand emojis

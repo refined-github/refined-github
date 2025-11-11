@@ -6,9 +6,10 @@ import {elementExists} from 'select-dom';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utilities.js';
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';

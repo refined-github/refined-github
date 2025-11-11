@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {removeTextNodeContaining} from '../helpers/dom-utilities.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';

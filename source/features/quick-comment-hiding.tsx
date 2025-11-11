@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utilities.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';

@@ -1,6 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';

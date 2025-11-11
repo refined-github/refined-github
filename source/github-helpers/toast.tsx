@@ -5,7 +5,7 @@ import StopIcon from 'octicons-plain-react/Stop';
 import oneEvent from 'one-event';
 
 import delay from '../helpers/delay.js';
-import {frame} from '../helpers/dom-utils.js';
+import {frame} from '../helpers/dom-utilities.js';
 
 function ToastSpinner(): JSX.Element {
 	return (

@@ -4,12 +4,13 @@ import React from 'dom-chef';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
-import {appendBefore} from '../helpers/dom-utils.js';
+import {appendBefore} from '../helpers/dom-utilities.js';
 import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
@@ -29,7 +30,7 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls = notifications
-		.reverse() // Open oldest first #6755
+		.toReversed() // Open oldest first #6755
 		.map(notification => $('a', notification).href);
 
 	const openingTabs = openTabs(urls);

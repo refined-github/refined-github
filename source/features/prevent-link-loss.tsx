@@ -4,7 +4,8 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {replaceFieldText} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {

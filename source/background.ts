@@ -9,7 +9,7 @@ import {isSafari} from 'webext-detect';
 
 import optionsStorage, {hasToken} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utilities.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';

@@ -14,7 +14,7 @@ import GetRepositoryInfo from './repo-header-info.gql';
 import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
+import {isSmallDevice} from '../helpers/dom-utilities.js';
 
 type RepositoryInfo = {
 	isFork: boolean;

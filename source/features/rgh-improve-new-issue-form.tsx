@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -10,7 +11,7 @@ import {baseApiFetch} from '../github-helpers/github-token.js';
 import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
-import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
+import {getElementByAriaLabelledBy} from '../helpers/dom-utilities.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';

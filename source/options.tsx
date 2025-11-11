@@ -4,7 +4,8 @@ import {$, $optional} from 'select-dom/strict.js';
 import {$$} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
@@ -14,7 +15,7 @@ import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
 import {perDomainOptions} from './options-storage.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utilities.js';
 import {state as bisectState} from './helpers/bisect.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
@@ -81,9 +82,9 @@ function getExclusions(): string | void {
 
 async function showStoredCssHotfixes(): Promise<void> {
 	$('#hotfixes-field').textContent
-	= getExclusions()
-		?? await styleHotfixes.getCached(version)
-		?? 'No CSS found in cache.';
+		= getExclusions()
+			?? await styleHotfixes.getCached(version)
+			?? 'No CSS found in cache.';
 }
 
 async function fetchHotfixes(event: MouseEvent): Promise<void> {
@@ -92,9 +93,9 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	try {
 		// Style
 		$('#hotfixes-field').textContent
-		= getExclusions()
-			?? await styleHotfixes.getFresh(version)
-			?? 'No hotfixes needed for this version! 🎉';
+			= getExclusions()
+				?? await styleHotfixes.getFresh(version)
+				?? 'No hotfixes needed for this version! 🎉';
 
 		// Broken features
 		const storage = await brokenFeatures.getFresh();

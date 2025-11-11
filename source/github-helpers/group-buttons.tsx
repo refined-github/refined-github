@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 
-import {wrapAll} from '../helpers/dom-utils.js';
+import {wrapAll} from '../helpers/dom-utilities.js';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
 export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElement {

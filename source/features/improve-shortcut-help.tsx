@@ -4,7 +4,7 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utils.js';
+import {isEditable} from '../helpers/dom-utilities.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
@@ -20,7 +20,7 @@ function improveShortcutHelp(dialog: Element): void {
 
 			<ul>
 				{[...shortcutMap]
-					.sort(([, a], [, b]) => a.localeCompare(b))
+					.toSorted(([, a], [, b]) => a.localeCompare(b))
 					.map(([hotkey, description]) => (
 						<li className="Box-row d-flex flex-row">
 							<div className="flex-auto">{description}</div>

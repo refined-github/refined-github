@@ -16,7 +16,7 @@ import {
 	getRepo,
 	triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
-import {appendBefore} from '../helpers/dom-utils.js';
+import {appendBefore} from '../helpers/dom-utilities.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -38,7 +38,7 @@ export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']
 	return releasesCount.get(repo);
 }
 
-async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases'] > {
+async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const [owner, name] = nameWithOwner.split('/');
 	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},

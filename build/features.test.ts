@@ -4,7 +4,7 @@ import {test, describe, assert} from 'vitest';
 import {regexJoinWithSeparator} from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
-import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
+import {isFeaturePrivate} from '../source/helpers/feature-utilities.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
@@ -54,7 +54,9 @@ const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex
 class FeatureFile {
 	readonly id: FeatureID;
 	readonly path: string;
-	constructor(readonly name: string) {
+	readonly name: string;
+	constructor(name: string) {
+		this.name = name;
 		this.id = path.parse(name).name as FeatureID;
 		this.path = path.join('source/features', name);
 	}
