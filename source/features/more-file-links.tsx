@@ -42,7 +42,7 @@ function handleMenuOpeningReact(): void {
 		$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
 		$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 		return menuItem;
-	};
+	}
 
 	viewFile.after(
 		getMenuItem('raw', 'raw', <FileCodeIcon />),
