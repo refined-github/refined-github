@@ -41,7 +41,8 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `undefined` hides the key when CSS is missing
 		css: existsSync(`source/features/${simpleId}.css`) || undefined,
-		screenshot: urls.find(url => screenshotRegex.test(url)),
+		// eslint-disable-next-line unicorn/no-null -- `null` makes the keys visible in the JSON file
+		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
 	};
 }
 
