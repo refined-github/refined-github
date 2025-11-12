@@ -96,7 +96,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 async function showMissingPartOnce(): Promise<void> {
 	const pathParts = parseCurrentURL();
 	const breadcrumbs = [...pathParts.entries()]
-		.reverse() // Checks the anchors right to left
+		.toReversed() // Checks the anchors right to left
 		.map(([index, part]) => {
 			if (
 				// Exclude parts that don't exist as standalones
@@ -112,7 +112,7 @@ async function showMissingPartOnce(): Promise<void> {
 			void crossIfNonExistent(link);
 			return link;
 		})
-		.reverse() // Restore order
+		.toReversed() // Restore order
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
 	$(['main > :first-child', '#parallax_illustration']).after(

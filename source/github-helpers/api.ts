@@ -90,7 +90,7 @@ const v4defaults: GHGraphQLApiOptions = {
 	allowErrors: false,
 };
 
-export const v3uncached = async (
+const v3uncached = async (
 	query: string,
 	options: GHRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
@@ -127,11 +127,11 @@ export const v3uncached = async (
 	throw await getError(apiResponse);
 };
 
-export const v3 = mem(v3uncached, {
+const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function * (
+const v3paginated = async function* (
 	query: string,
 	options?: GHRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {

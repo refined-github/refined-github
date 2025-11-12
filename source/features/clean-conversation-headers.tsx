@@ -72,7 +72,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const anchor
 		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
 			?? base.nextSibling?.nextSibling;
-	assertNodeContent(anchor, 'from');
+	assertNodeContent(anchor!, 'from');
 	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
 }
 

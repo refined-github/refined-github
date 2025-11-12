@@ -61,6 +61,7 @@ describe.concurrent('selectors', () => {
 
 	test.each(selectors)('%s', {timeout: 9999}, async (name, selector: string) => {
 		// @ts-expect-error Index signature bs
+		// eslint-disable-next-line import-x/namespace
 		const urls = exports[name + '_'] as exports.UrlMatch[];
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);

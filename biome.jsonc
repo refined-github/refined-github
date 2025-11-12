@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"css": {
 		"formatter": {
 			"quoteStyle": "single"
@@ -14,6 +14,9 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"complexity": {
+				"noImportantStyles": "off"
+			},
 			"style": {
 				// TODO: Enable later
 				"noDescendingSpecificity": "off"

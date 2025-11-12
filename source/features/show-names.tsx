@@ -10,6 +10,7 @@ import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import attachElement from '../helpers/attach-element.js';
 
 const emojiRegex = getEmojiRegex();
 
@@ -22,12 +23,9 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function appendName(element: HTMLAnchorElement, fullName: string): void {
-	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-	const {parentElement} = element;
-	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
-		<span className="color-fg-muted css-truncate d-inline-block">
+		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
 			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
@@ -36,8 +34,17 @@ function appendName(element: HTMLAnchorElement, fullName: string): void {
 	const testId = element.getAttribute('data-testid');
 	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId))
 		nameElement.classList.add('ml-1');
+	return nameElement;
+}
 
-	insertionPoint.after(' ', nameElement, ' ');
+function appendName(element: HTMLAnchorElement, fullName: string): void {
+	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
+	const {parentElement} = element;
+	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+
+	// React might create a new label without removing the old one
+	// https://github.com/refined-github/refined-github/issues/8478
+	attachElement(insertionPoint, {after: () => createElement(element, fullName)});
 }
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {

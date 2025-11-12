@@ -54,7 +54,9 @@ const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex
 class FeatureFile {
 	readonly id: FeatureID;
 	readonly path: string;
-	constructor(readonly name: string) {
+	readonly name: string;
+	constructor(name: string) {
+		this.name = name;
 		this.id = path.parse(name).name as FeatureID;
 		this.path = path.join('source/features', name);
 	}

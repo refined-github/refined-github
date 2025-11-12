@@ -12,7 +12,7 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
 import {removeLinkToPRFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer';
-import {getClasses, isSmallDevice} from '../helpers/dom-utils';
+import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
 
 const limit = 5;
 

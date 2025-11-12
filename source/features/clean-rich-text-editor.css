@@ -2,9 +2,10 @@
 /* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
 @media (hover: hover) and (pointer: fine) {
 	html:not([rgh-OFF-clean-rich-text-editor])
+		/* biome-ignore format: bug */
 		:is(
 			/* Classic fields */
-				[data-md-button='mention'],
+			[data-md-button='mention'],
 			[data-md-button='ref'],
 			[data-md-button='header-3'],
 			[data-md-button='bold'],
