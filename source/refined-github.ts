@@ -53,7 +53,6 @@ import './features/linkify-code.js';
 import './features/download-folder-button.js';
 import './features/linkify-branch-references.js';
 import './features/open-all-conversations.js';
-import './features/pagination-hotkey.js';
 import './features/conversation-links-on-repo-lists.js';
 import './features/global-conversation-list-filters.js';
 import './features/more-conversation-filters.js';
