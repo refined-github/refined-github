@@ -16,9 +16,9 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 		table.classList.remove('rgh-no-split-diff');
 		return;
 	}
-	if (!$optional(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
+	if (!$optional('td:nth-child(2) > .deletion', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
-	} else if (!$optional(':scope > tr > td:nth-child(4) > .addition', tableBody)) {
+	} else if (!$optional('td:nth-child(4) > .addition', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
 	}
 }
