@@ -18,13 +18,11 @@ export function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, rou
 	);
 }
 
-export function getMenuItem(viewFile: HTMLElement, name: string, route: string | undefined, icon: React.JSX.Element): HTMLElement {
+export function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
 	const menuItem = viewFile.cloneNode(true);
 	const fileLink = $('a', viewFile).href;
 	const link = $('a', menuItem);
-	if (route) {
-		link.href = new GitHubFileURL(fileLink).assign({route}).href;
-	}
+	link.href = new GitHubFileURL(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = name;
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);

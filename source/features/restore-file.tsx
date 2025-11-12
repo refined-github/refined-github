@@ -132,7 +132,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	event.preventDefault()
+	event.preventDefault();
 
 	const menuItem = event.delegateTarget;
 	const filenames = getFilenames(menuItem);
@@ -152,7 +152,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	// TODO: Drop support for old view in June 2026
 	if (menuItem.tagName === 'A') {
 		menuItem.closest('.file')!.remove();
-		return
+		return;
 	}
 
 	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
@@ -194,8 +194,8 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 function handleMenuOpening(): void {
 	const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
 
-	const discardChangesButton = getMenuItem(editFile, 'Discard Changes', undefined, <GitCompareIcon />);
-	discardChangesButton.classList.add('rgh-restore-file')
+	const discardChangesButton = getMenuItem(editFile, 'Discard Changes', '', <GitCompareIcon />);
+	discardChangesButton.classList.add('rgh-restore-file');
 
 	editFile.after(discardChangesButton);
 }
@@ -210,12 +210,12 @@ async function init(signal: AbortSignal): Promise<void> {
 		'.file-header .js-file-header-dropdown',
 		'toggle',
 		handleLegacyMenuOpening,
-		{capture: true, signal}
+		{capture: true, signal},
 	);
 	delegate(
 		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
-		handleMenuOpening
+		handleMenuOpening,
 	);
 }
 
