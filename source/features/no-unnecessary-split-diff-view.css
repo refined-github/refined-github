@@ -70,6 +70,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	.diff-line-row {
 		/* The left side (deletions) */
+		/* > to avoid selecting suggested changes */
 		& > td:nth-child(2) {
 			/* Only additions: hide the left side */
 			display: var(--rgh-left-side-d, table-cell) !important;
@@ -78,6 +79,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		}
 
 		/* The right side (additions) */
+		/* > to avoid selecting suggested changes */
 		& > td:nth-child(4) {
 			/* Only deletions: hide the right side */
 			display: var(--rgh-right-side-d, table-cell) !important;
