@@ -9,13 +9,24 @@ import HistoryIcon from 'octicons-plain-react/History';
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 
-function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
+export function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
 	const {href} = new GitHubFileURL(viewFile.href).assign({route});
 	return (
 		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View {name}
 		</a>
 	);
+}
+
+export function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
+	const menuItem = viewFile.cloneNode(true);
+	const fileLink = $('a', viewFile).href;
+	const link = $('a', menuItem);
+	link.href = new GitHubFileURL(fileLink).assign({route}).href;
+	link.dataset.turbo = String(route !== 'raw');
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
+	return menuItem;
 }
 
 function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
@@ -28,17 +39,6 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 		getLegacyMenuItem(viewFile, 'history', 'commits'),
 		<div className="dropdown-divider" role="none" />,
 	);
-}
-
-function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
-	const menuItem = viewFile.cloneNode(true);
-	const fileLink = $('a', viewFile).href;
-	const link = $('a', menuItem);
-	link.href = new GitHubFileURL(fileLink).assign({route}).href;
-	link.dataset.turbo = String(route !== 'raw');
-	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
-	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
-	return menuItem;
 }
 
 function handleMenuOpening(): void {
