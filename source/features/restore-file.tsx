@@ -14,46 +14,47 @@ import {expectToken} from '../github-helpers/github-token.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
-	if (menuItem.tagName === 'A') {
-		const fileUrl = menuItem
-			.closest('ul')!
-			.querySelector('li:has(svg.octicon-eye) a')!
-			.href;
-
-		const {head} = getBranches();
-
-		const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
-		const reactProps = JSON.parse(reactPropsRaw);
-
-		let originalFileName = '';
-		// Get the new filename from the "View File" button href
-		const urlRegex = new RegExp(
-			`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/[^/]+\/`,
-		);
-		const newFileName = fileUrl.replace(urlRegex, '')!;
-
-		// Leverage the React props inlined in a script tag in order to determine whether or not we're
-		// dealing with a RENAME change, in which case we'll also need to find the old filename correctly
-		const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) =>
-			dc.path === newFileName,
-		);
-		if (diffContents.status === 'RENAMED') {
-			originalFileName = diffContents.oldTreeEntry.path;
-		} else {
-			originalFileName = newFileName;
-		}
-
-		return {original: originalFileName, new: newFileName};
-	} else {
-		// TODO: Drop support for old view in June 2026
+	// TODO: Drop support for old view in June 2026
+	if (menuItem.tagName !== 'A') {
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
-			.textContent
+			.textContent!
 			.split(' → ');
 
 		return {original: originalFileName, new: newFileName};
 	}
+
+	const fileAnchor: HTMLAnchorElement = menuItem
+		.closest('ul')!
+		.querySelector('li:has(svg.octicon-eye) a')!;
+
+	const fileUrl = fileAnchor.href;
+
+	const {head} = getBranches();
+
+	const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+	const reactProps = JSON.parse(reactPropsRaw!);
+
+	let originalFileName = '';
+	// Get the new filename from the "View File" button href
+	const urlRegex = new RegExp(
+		`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/[^/]+\/`,
+	);
+	const newFileName = fileUrl.replace(urlRegex, '')!;
+
+	// Leverage the React props inlined in a script tag in order to determine whether or not we're
+	// dealing with a RENAME change, in which case we'll also need to find the old filename correctly
+	const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) =>
+		dc.path === newFileName,
+	);
+	if (diffContents.status === 'RENAMED') {
+		originalFileName = diffContents.oldTreeEntry.path;
+	} else {
+		originalFileName = newFileName;
+	}
+
+	return {original: originalFileName, new: newFileName};
 };
 
 async function getMergeBaseReference(): Promise<string> {
@@ -146,34 +147,35 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	});
 
 	// Hide file from view
-	if (menuItem.tagName === 'A') {
-		const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
-		const fileElement = [...filesWrapper.children].find(child => {
-			if (child.textContent === '') {
-				return false;
-			}
-
-			const filenameRegex = child.textContent.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
-			let originalFilename = filenameRegex![1].trim();
-
-			// Rename changes return not just the file name, but "X renamed to Y" so require a bit more clean up.
-			if (originalFilename && /\brenamed\s+to\b/i.test(originalFilename)) {
-				originalFilename = originalFilename.split(/\s+renamed\s+to\s+/i)[0].trim();
-			}
-
-			// Clean any non-visible whitespace characters
-			originalFilename = originalFilename.replaceAll(/[\u200E\u200F\uFEFF]/g, '');
-
-			return originalFilename === filenames.original;
-		}) as HTMLElement | undefined;
-
-		// Remove file element in list as well as portaled dropdown menu
-		fileElement!.remove();
-		menuItem.closest('div[data-focus-trap="active"]')!.remove();
-	} else {
-		// TODO: Drop support for old view in June 2026
+	// TODO: Drop support for old view in June 2026
+	if (menuItem.tagName !== 'A') {
 		menuItem.closest('.file')!.remove();
+		return
 	}
+
+	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
+	const fileElement = [...filesWrapper.children].find(child => {
+		if (child.textContent === '') {
+			return false;
+		}
+
+		const filenameRegex = child.textContent!.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
+		let originalFilename = filenameRegex![1].trim();
+
+		// Rename changes return not just the file name, but "X renamed to Y" so require a bit more clean up.
+		if (originalFilename && /\brenamed\s+to\b/i.test(originalFilename)) {
+			originalFilename = originalFilename.split(/\s+renamed\s+to\s+/i)[0].trim();
+		}
+
+		// Clean any non-visible whitespace characters
+		originalFilename = originalFilename.replaceAll(/[\u200E\u200F\uFEFF]/g, '');
+
+		return originalFilename === filenames.original;
+	}) as HTMLElement | undefined;
+
+	// Remove file element in list as well as portaled dropdown menu
+	fileElement!.remove();
+	menuItem.closest('div[data-focus-trap="active"]')!.remove();
 }
 
 function add(editFile: HTMLAnchorElement): void {
