@@ -74,16 +74,18 @@ function addButton(hunk: HTMLElement): void {
 		reblameLink.setAttribute('aria-label', 'View blame prior to this change. Hold `Alt` to extract commits from this PR first');
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$('.timestamp-wrapper-mobile', hunk).after(<button
-			type='button'
-			aria-label={multilineAriaLabel(
-				'View blame prior to this change',
-				'(extracts commits from this PR first)',
-			)}
-			className='rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex'
-		>
-			<VersionsIcon />
-		</button>);
+		$('.timestamp-wrapper-mobile', hunk).after(
+			<button
+				type="button"
+				aria-label={multilineAriaLabel(
+					'View blame prior to this change',
+					'(extracts commits from this PR first)',
+				)}
+				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
+			>
+				<VersionsIcon />
+			</button>,
+		);
 	}
 }
 

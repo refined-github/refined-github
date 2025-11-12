@@ -91,7 +91,9 @@ async function cleanSidebar(): Promise<void> {
 		const assignYourself = $optional('.js-issue-assign-self');
 		if (assignYourself) {
 			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
-			$('[aria-label="Select assignees"] summary').append(<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>);
+			$('[aria-label="Select assignees"] summary').append(
+				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
+			);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}
@@ -118,7 +120,9 @@ async function cleanSidebar(): Promise<void> {
 	const openWorkspaceButton = $optional('a[href^="https://copilot-workspace.githubnext.com"]');
 	if (createBranchLink && !openWorkspaceButton) {
 		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
-		$('[aria-label="Link issues"] summary').append(<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>);
+		$('[aria-label="Link issues"] summary').append(
+			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+		);
 	}
 
 	cleanSection('[aria-label="Link issues"]');

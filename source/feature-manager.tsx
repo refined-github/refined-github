@@ -25,9 +25,7 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {
-	getFeatureID, listenToAjaxedLoad, log, shortcutMap,
-} from './helpers/feature-helpers.js';
+import {getFeatureID, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 import {contentScriptToggle} from './options/reload-without.js';
 
 type FeatureInitResult = void | false;
@@ -154,7 +152,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		} else {
 			log.info('↩️', 'Skipping', id);
 		}
-
 		return;
 	}
 
@@ -189,7 +186,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			if (awaitDomReady) {
 				await domLoaded;
 			}
-
 			if (firstLoop) {
 				firstLoop = false;
 			} else if (deduplicate && elementExists(deduplicate)) {

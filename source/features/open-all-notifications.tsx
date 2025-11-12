@@ -74,15 +74,15 @@ function removeOpenUnreadButtons(container: ParentNode = document): void {
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	const button = (
 		<button
-			type='button'
+			type="button"
 			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
-			data-hotkey='p'
+			data-hotkey="p"
 			aria-label={multilineAriaLabel(
 				'Open selected notifications',
 				'Hotkey: P',
 			)}
 		>
-			<LinkExternalIcon className='mr-1' />Open
+			<LinkExternalIcon className="mr-1" />Open
 		</button>
 	);
 	appendBefore(
@@ -98,13 +98,15 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 		return;
 	}
 
-	markReadButton.before(<button
-		type='button'
-		className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
-		aria-label='Open all unread notifications from this repo'
-	>
-		<LinkExternalIcon width={16} /> Open unread
-	</button>);
+	markReadButton.before(
+		<button
+			type="button"
+			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
+			aria-label="Open all unread notifications from this repo"
+		>
+			<LinkExternalIcon width={16} /> Open unread
+		</button>,
+	);
 }
 
 function addToMainHeader(notificationHeader: HTMLElement): void {
@@ -112,9 +114,11 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 		return;
 	}
 
-	notificationHeader.append(<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type='button'>
-		<LinkExternalIcon className='mr-1' />Open all unread
-	</button>);
+	notificationHeader.append(
+		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
+			<LinkExternalIcon className="mr-1" />Open all unread
+		</button>,
+	);
 }
 
 function init(signal: AbortSignal): void {

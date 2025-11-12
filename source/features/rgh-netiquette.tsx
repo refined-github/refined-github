@@ -18,8 +18,8 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 
 	const button = (
 		<button
-			type='button'
-			className='btn-link'
+			type="button"
+			className="btn-link"
 			onClick={() => {
 				newCommentBox.hidden = false;
 
@@ -45,7 +45,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 		<Wrapper>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className='mr-1' />,
+				icon: <InfoIcon className="mr-1" />,
 				text: <>{getResolvedText()} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
 		</Wrapper>

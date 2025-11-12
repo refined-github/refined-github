@@ -45,6 +45,8 @@ export default [
 				],
 
 				'no-console': 'off',
+				'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
+				'@stylistic/function-paren-newline': 'off', // Allow JSX on separate lines from parens
 				
 				// Allow unassigned imports for CSS and feature files
 				'import-x/no-unassigned-import': ['error', {

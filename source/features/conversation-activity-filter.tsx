@@ -124,12 +124,12 @@ function applyState(state: State): void {
 function createRadios(current: State): JSX.Element[] {
 	return Object.entries(states).map(([state, label]) => (
 		<div
-			className='SelectMenu-item'
-			role='menuitemradio'
+			className="SelectMenu-item"
+			role="menuitemradio"
 			aria-checked={state === current ? 'true' : 'false'}
 			data-value={state}
 		>
-			<CheckIcon className='SelectMenu-icon SelectMenu-icon--check' />
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
 			{label || 'Show all'}
 		</div>
 	));
@@ -154,41 +154,43 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			? 'right-0'
 			: 'left-0';
 
-	wrap(position, <div className='rgh-conversation-activity-filter-wrapper' />);
+	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
-	position.after(<details
-		className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
-		id='rgh-conversation-activity-filter-select-menu'
-	>
-		<summary className='height-full color-fg-muted'>
-			<EyeIcon />
-			<EyeClosedIcon className='color-fg-danger' />
-			<span className='text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1'>events</span>
-			<div className='dropdown-caret ml-1' />
-		</summary>
-		<details-menu
-			className={`SelectMenu ${alignment}`}
-			on-details-menu-select={handleSelection}
+	position.after(
+		<details
+			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
+			id="rgh-conversation-activity-filter-select-menu"
 		>
-			<div className='SelectMenu-modal'>
-				<div className='SelectMenu-header'>
-					<h3 className='SelectMenu-title color-fg-default'>
-						Filter conversation activities
-					</h3>
-					<button
-						className='SelectMenu-closeButton'
-						type='button'
-						data-toggle-for='rgh-conversation-activity-filter-select-menu'
-					>
-						<XIcon />
-					</button>
+			<summary className="height-full color-fg-muted">
+				<EyeIcon />
+				<EyeClosedIcon className="color-fg-danger" />
+				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1">events</span>
+				<div className="dropdown-caret ml-1" />
+			</summary>
+			<details-menu
+				className={`SelectMenu ${alignment}`}
+				on-details-menu-select={handleSelection}
+			>
+				<div className="SelectMenu-modal">
+					<div className="SelectMenu-header">
+						<h3 className="SelectMenu-title color-fg-default">
+							Filter conversation activities
+						</h3>
+						<button
+							className="SelectMenu-closeButton"
+							type="button"
+							data-toggle-for="rgh-conversation-activity-filter-select-menu"
+						>
+							<XIcon />
+						</button>
+					</div>
+					<div className="SelectMenu-list">
+						{createRadios(state)}
+					</div>
 				</div>
-				<div className='SelectMenu-list'>
-					{createRadios(state)}
-				</div>
-			</div>
-		</details-menu>
-	</details>);
+			</details-menu>
+		</details>,
+	);
 }
 
 const minorFixesIssuePages = [

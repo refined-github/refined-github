@@ -12,7 +12,7 @@ import GitHubFileURL from '../github-helpers/github-file-url.js';
 function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
 	const {href} = new GitHubFileURL(viewFile.href).assign({route});
 	return (
-		<a href={href} data-turbo={String(route !== 'raw')} className='pl-5 dropdown-item btn-link' role='menuitem'>
+		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View {name}
 		</a>
 	);
@@ -26,7 +26,7 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 		getLegacyMenuItem(viewFile, 'raw', 'raw'),
 		getLegacyMenuItem(viewFile, 'blame', 'blame'),
 		getLegacyMenuItem(viewFile, 'history', 'commits'),
-		<div className='dropdown-divider' role='none' />,
+		<div className="dropdown-divider" role="none" />,
 	);
 }
 
@@ -49,7 +49,7 @@ function handleMenuOpening(): void {
 		getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
 		viewFile.nextElementSibling?.getAttribute('data-component') === 'ActionList.Divider'
 			? ''
-			: <li className='dropdown-divider' aria-hidden='true' data-component='ActionList.Divider' />,
+			: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
 	);
 }
 

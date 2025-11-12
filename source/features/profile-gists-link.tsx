@@ -38,12 +38,12 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	const link = (
 		<a
 			href={user.url}
-			className='UnderlineNav-item js-responsive-underlinenav-item'
-			role='tab'
-			aria-selected='false'
-			data-tab-item='rgh-gists-item'
+			className="UnderlineNav-item js-responsive-underlinenav-item"
+			role="tab"
+			aria-selected="false"
+			data-tab-item="rgh-gists-item"
 		>
-			<CodeSquareIcon className='UnderlineNav-octicon hide-sm' />
+			<CodeSquareIcon className="UnderlineNav-octicon hide-sm" />
 			{' Gists '}
 		</a>
 	);
@@ -53,17 +53,19 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	// There are two UnderlineNav items (responsive…) that point to the same dropdown
 	const overflowNav = $(repoUnderlineNavDropdownUl);
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
-		overflowNav.append(createDropdownItem({
-			label: 'Gists',
-			href: user.url,
-			icon: CodeSquareIcon,
-			'data-rgh-label': 'Gists',
-		}));
+		overflowNav.append(
+			createDropdownItem({
+				'label': 'Gists',
+				'href': user.url,
+				'icon': CodeSquareIcon,
+				'data-rgh-label': 'Gists',
+			}),
+		);
 	}
 
 	const count = await gistCount.get(user.name);
 	if (count > 0) {
-		link.append(<span className='Counter'>{count}</span>);
+		link.append(<span className="Counter">{count}</span>);
 	}
 
 	triggerRepoNavOverflow();

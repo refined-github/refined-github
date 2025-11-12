@@ -16,8 +16,10 @@ type GistData = {
 };
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
-const fetchGist = mem(async (url: string): Promise<GistData> =>
-	messageRuntime({fetchJSON: `${url}.json`}));
+const fetchGist = mem(
+	async (url: string): Promise<GistData> =>
+		messageRuntime({fetchJSON: `${url}.json`}),
+);
 
 function parseGistLink(link: HTMLAnchorElement): string | undefined {
 	if (link.host === 'gist.github.com') {
@@ -62,7 +64,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 					}
 				`}
 				</style>,
-				<link rel='stylesheet' href={gistData.stylesheet} />,
+				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);
 			link.parentElement!.after(container);

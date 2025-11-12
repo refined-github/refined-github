@@ -33,7 +33,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 	const spacer = new Text(' · ');
 	const link = (
 		<a
-			className='Link--muted'
+			className="Link--muted"
 			href={hiddenCommentsForm}
 			onClick={() => {
 				// The count will be outdated after the first expansion. We can remove it until the next header update by GitHub.
@@ -45,7 +45,8 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 		</a>
 	);
 	headerCommentCount.append(spacer);
-	headerCommentCount.after(link);
+	headerCommentCount.after(link,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

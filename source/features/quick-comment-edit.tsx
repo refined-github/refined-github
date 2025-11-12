@@ -38,14 +38,16 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 		return;
 	}
 
-	commentDropdown.before(<button
-		type='button'
-		role='menuitem'
-		className='timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button'
-		aria-label='Edit comment'
-	>
-		<PencilIcon />
-	</button>);
+	commentDropdown.before(
+		<button
+			type="button"
+			role="menuitem"
+			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			aria-label="Edit comment"
+		>
+			<PencilIcon />
+		</button>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

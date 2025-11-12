@@ -71,9 +71,8 @@ function isEnterprise(): boolean {
 }
 
 function getExclusions(): string | void {
-	if (isEnterprise()) {
+	if (isEnterprise())
 		return 'Hotfixes are not applied on GitHub Enterprise.';
-	}
 
 	if (isDevelopmentVersion()) {
 		return 'Hotfixes are not applied in the development version';

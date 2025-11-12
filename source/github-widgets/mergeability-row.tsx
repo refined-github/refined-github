@@ -20,7 +20,7 @@ export default function createMergeabilityRow({
 	return (
 		<div className={`branch-action-item ${className}`}>
 			<div
-				className='branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header'
+				className="branch-action-btn float-right js-immediate-updates js-needs-timeline-marker-header"
 			>
 				{action}
 			</div>
@@ -29,10 +29,10 @@ export default function createMergeabilityRow({
 			>
 				{icon}
 			</div>
-			<h3 className='h4 status-heading'>
+			<h3 className="h4 status-heading">
 				{heading}
 			</h3>
-			<span className='status-meta'>
+			<span className="status-meta">
 				{meta}
 			</span>
 		</div>

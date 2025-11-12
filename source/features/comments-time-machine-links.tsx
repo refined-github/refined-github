@@ -72,11 +72,13 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className='rgh-link-date' href={url.href}>
+		<a className="rgh-link-date" href={url.href}>
 			view this object as it appeared at the time of the comment
 		</a>
 	);
-	await addNotice(<>You can also {link} (<relative-time datetime={date} />)</>);
+	await addNotice(
+		<>You can also {link} (<relative-time datetime={date} />)</>,
+	);
 }
 
 function addDateParameterToLink(link: HTMLAnchorElement): void {
@@ -103,12 +105,12 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!).append(
-		<div className='dropdown-divider' />,
+		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={'dropdown-item btn-link ' + linkifiedURLClass}
-			role='menuitem'
-			title='Browse repository like it appeared on this day'
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
 		>
 			View repo at this time
 		</a>,
@@ -127,9 +129,9 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 		<a
 			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
 			className={menuItemContentWrapper.className + ' ' + linkifiedURLClass}
-			role='menuitem'
-			title='Browse repository like it appeared on this day'
-			aria-keyshortcuts='v'
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+			aria-keyshortcuts="v"
 		>
 		</a>
 	);
@@ -139,7 +141,7 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
 
 	menuItemList.append(
-		<li className='dropdown-divider' aria-hidden='true' data-component='ActionList.Divider' />,
+		<li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
 		menuItem,
 	);
 }

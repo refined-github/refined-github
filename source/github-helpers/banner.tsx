@@ -25,7 +25,7 @@ export default function createBanner(props: BannerProps): JSX.Element {
 		);
 	} else if (typeof props.action === 'function') {
 		button = (
-			<button type='button' className={classes} onClick={props.action}>
+			<button type="button" className={classes} onClick={props.action}>
 				{props.buttonLabel}
 			</button>
 		);
@@ -33,8 +33,8 @@ export default function createBanner(props: BannerProps): JSX.Element {
 
 	return (
 		<div className={['flash', ...props.classes ?? ''].join(' ')}>
-			<div className='d-sm-flex flex-items-center gap-2'>
-				<div className='d-flex flex-auto flex-self-center flex-items-center gap-2'>
+			<div className="d-sm-flex flex-items-center gap-2">
+				<div className="d-flex flex-auto flex-self-center flex-items-center gap-2">
 					{props.icon}
 					<span>{props.text}</span>
 				</div>

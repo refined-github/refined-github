@@ -18,16 +18,18 @@ function transpose(table: HTMLElement): void {
 	}
 
 	const values = [...rows[0].children];
-	table.replaceWith(<table className='rgh-vertical-front-matter-table'>
-		<tbody>
-			{headers.map((cell, index) => (
-				<tr>
-					{cell}
-					{values[index]}
-				</tr>
-			))}
-		</tbody>
-	</table>);
+	table.replaceWith(
+		<table className="rgh-vertical-front-matter-table">
+			<tbody>
+				{headers.map((cell, index) => (
+					<tr>
+						{cell}
+						{values[index]}
+					</tr>
+				))}
+			</tbody>
+		</table>,
+	);
 }
 
 function init(signal: AbortSignal): void {

@@ -11,7 +11,7 @@ async function init(): Promise<void> {
 		stopOnDomReady: false,
 	});
 
-	document.head.append(<script type='module' src={chrome.runtime.getURL('assets/resolve-conflicts.js')} />);
+	document.head.append(<script type="module" src={chrome.runtime.getURL('assets/resolve-conflicts.js')} />);
 }
 
 void features.add(import.meta.url, {

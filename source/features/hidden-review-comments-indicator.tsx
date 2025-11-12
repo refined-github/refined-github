@@ -27,14 +27,16 @@ function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
 	const commentCount = countElements('.review-comment.js-comment', commentThread);
-	commentThread.before(<tr>
-		<td className='rgh-comments-indicator blob-num' colSpan={2}>
-			<button type='button' className='btn-link'>
-				<CommentIcon />
-				<span>{commentCount}</span>
-			</button>
-		</td>
-	</tr>);
+	commentThread.before(
+		<tr>
+			<td className="rgh-comments-indicator blob-num" colSpan={2}>
+				<button type="button" className="btn-link">
+					<CommentIcon />
+					<span>{commentCount}</span>
+				</button>
+			</td>
+		</tr>,
+	);
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)

@@ -48,13 +48,15 @@ async function init(): Promise<void | false> {
 	].join(',');
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
-	navbar!.append(<a
-		className='subnav-item tooltipped tooltipped-n'
-		aria-label={`View the ${changelog} file`}
-		href={buildRepoURL('blob', 'HEAD', changelog)}
-	>
-		<span>Changelog</span>
-	</a>);
+	navbar!.append(
+		<a
+			className="subnav-item tooltipped tooltipped-n"
+			aria-label={`View the ${changelog} file`}
+			href={buildRepoURL('blob', 'HEAD', changelog)}
+		>
+			<span>Changelog</span>
+		</a>,
+	);
 }
 
 void features.add(import.meta.url, {

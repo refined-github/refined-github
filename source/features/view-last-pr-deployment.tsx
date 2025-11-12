@@ -12,15 +12,17 @@ function addLink(header: HTMLElement): void {
 		return;
 	}
 
-	header.prepend(<a
-		className='rgh-last-deployment btn btn-sm d-none d-md-block mr-1'
-		target='_blank' // Matches GitHub’s own behavior
-		rel='noopener noreferrer'
-		href={lastDeployment.href}
-	>
-		<RocketIcon className='mr-1 v-align-text-top' />
-		Latest deployment
-	</a>);
+	header.prepend(
+		<a
+			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
+			target="_blank" // Matches GitHub’s own behavior
+			rel="noopener noreferrer"
+			href={lastDeployment.href}
+		>
+			<RocketIcon className="mr-1 v-align-text-top" />
+			Latest deployment
+		</a>,
+	);
 }
 
 function init(signal: AbortSignal): void {

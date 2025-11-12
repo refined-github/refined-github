@@ -102,9 +102,9 @@ export function linkifyCommit(sha: string): JSX.Element {
 	return (
 		<code>
 			<a
-				className='Link--secondary'
+				className="Link--secondary"
 				href={buildRepoURL('commit', sha)}
-				data-hovercard-type='commit'
+				data-hovercard-type="commit"
 				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
 			>
 				{sha.slice(0, 7)}

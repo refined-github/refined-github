@@ -31,9 +31,9 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 
 	attachElement(anchor, {
 		after: () => (
-			<div className='flex-self-stretch'>
-				<p className='note'>
-					The description field was cleared by <a target='_blank' href='https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message' rel='noreferrer'>Refined GitHub</a>.
+			<div className="flex-self-stretch">
+				<p className="note">
+					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
 				</p>
 			</div>
 		),

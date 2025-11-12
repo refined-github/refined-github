@@ -12,18 +12,18 @@ import {multilineAriaLabel} from '../github-helpers/index.js';
 // Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttributes = {
 	'aria-selected': true,
-	className: 'selected',
-	tabIndex: -1,
-	style: {pointerEvents: 'none'},
+	'className': 'selected',
+	'tabIndex': -1,
+	'style': {pointerEvents: 'none'},
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
 function SubButton(): JSX.Element {
 	return (
 		<button
 			data-disable-with
-			name='id'
-			type='submit'
-			className='btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw'
+			name="id"
+			type="submit"
+			className="btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw"
 		/>
 	);
 }
@@ -56,11 +56,11 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	const originalId = subscriptionButton.form!.elements.id;
 
 	subscriptionButton.after(
-		<div className='BtnGroup d-flex width-full'>
+		<div className="BtnGroup d-flex width-full">
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
-				value='unsubscribe'
-				aria-label='Unsubscribe'
+				value="unsubscribe"
+				aria-label="Unsubscribe"
 				{...(status === 'none' && disableAttributes)}
 			>
 				<BellSlashIcon /> None
@@ -68,8 +68,8 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
-				value='subscribe'
-				aria-label='Subscribe to all events'
+				value="subscribe"
+				aria-label="Subscribe to all events"
 				{...(status === 'all' && disableAttributes)}
 			>
 				<BellIcon /> All
@@ -77,7 +77,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 			<SubButton
 				// @ts-expect-error I don't remember how to fix this
-				value='subscribe_to_custom_notifications'
+				value="subscribe_to_custom_notifications"
 				aria-label={multilineAriaLabel(
 					'Subscribe just to status changes',
 					'(closing, reopening, merging)',
@@ -90,9 +90,9 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
-		<input type='hidden' name='events[]' value='merged' />,
-		<input type='hidden' name='events[]' value='closed' />,
-		<input type='hidden' name='events[]' value='reopened' />,
+		<input type="hidden" name="events[]" value="merged" />,
+		<input type="hidden" name="events[]" value="closed" />,
+		<input type="hidden" name="events[]" value="reopened" />,
 	);
 
 	// Remove it only if the form was successfully added

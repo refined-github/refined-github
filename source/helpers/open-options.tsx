@@ -8,6 +8,6 @@ export default function openOptions(event: Event | React.UIEvent): void {
 
 export function OptionsLink(): JSX.Element {
 	return (
-		<button type='button' onClick={openOptions} />
+		<button type="button" onClick={openOptions} />
 	);
 }

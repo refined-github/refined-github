@@ -27,12 +27,12 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		<div className='d-flex gap-2' />,
+		<div className="d-flex gap-2" />,
 		branchSelector,
 		<a
-			className='btn px-2 tooltipped tooltipped-se rgh-visit-tag'
+			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
 			href={buildRepoURL('releases/tag', tag)}
-			aria-label='Visit tag'
+			aria-label="Visit tag"
 		>
 			<ArrowUpRightIcon />
 		</a>,

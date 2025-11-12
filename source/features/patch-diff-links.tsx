@@ -11,7 +11,9 @@ function getCommitUrl(extension: 'patch' | 'diff'): string {
 	return `/${pathname}.${extension}`;
 }
 
-function updateCommitUrl(event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>): void {
+function updateCommitUrl(
+	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
+): void {
 	const link = event.currentTarget;
 	link.href = getCommitUrl(link.textContent as 'patch' | 'diff');
 }
@@ -20,7 +22,7 @@ function createLink(type: 'patch' | 'diff'): JSX.Element {
 	return (
 		<a
 			href={getCommitUrl(type)}
-			className='sha color-fg-default'
+			className="sha color-fg-default"
 			// Update URL because it might be out of date due to SPA navigation
 			// https://github.com/refined-github/refined-github/issues/8737
 			onMouseEnter={updateCommitUrl}
@@ -33,12 +35,14 @@ function createLink(type: 'patch' | 'diff'): JSX.Element {
 
 async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	commitMeta.classList.remove('no-wrap'); // #5987
-	commitMeta.prepend(<span className='sha-block' data-turbo='false'>
-		{createLink('patch')}
-		{' '}
-		{createLink('diff')}
-		{commitMeta.tagName !== 'DIV' && <span className='px-2'>·</span>}
-	</span>);
+	commitMeta.prepend(
+		<span className="sha-block" data-turbo="false">
+			{createLink('patch')}
+			{' '}
+			{createLink('diff')}
+			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
+		</span>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

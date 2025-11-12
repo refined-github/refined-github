@@ -72,7 +72,9 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 		: addDesktopDom(historyButton);
 
 	previousButton.href = url;
-	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(<VersionsIcon />);
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
+		<VersionsIcon />,
+	);
 
 	onReactPageUpdate(async pageUnload => {
 		const url = await getPreviousFileUrl();

@@ -53,18 +53,20 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 
 		const branch = pr.baseRef && buildRepoURL('tree', pr.baseRefName);
 
-		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(<span className='issue-meta-section ml-2'>
-			<GitPullRequestIcon />
-			{' To '}
-			<span
-				className='commit-ref css-truncate user-select-contain mb-n1'
-				style={(branch ? {} : {textDecoration: 'line-through'})}
-			>
-				<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
-					{pr.baseRefName}
-				</a>
-			</span>
-		</span>);
+		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
+			<span className="issue-meta-section ml-2">
+				<GitPullRequestIcon />
+				{' To '}
+				<span
+					className="commit-ref css-truncate user-select-contain mb-n1"
+					style={(branch ? {} : {textDecoration: 'line-through'})}
+				>
+					<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
+						{pr.baseRefName}
+					</a>
+				</span>
+			</span>,
+		);
 	}
 }
 

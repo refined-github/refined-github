@@ -10,11 +10,13 @@ import observe from '../helpers/selector-observer.js';
 
 function linkifyQuickPR(element: HTMLElement): void {
 	const branchUrl = buildRepoURL('tree', element.textContent);
-	element.replaceWith(<span className='commit-ref'>
-		<a className='no-underline' href={branchUrl} data-turbo-frame='repo-content-turbo-frame'>
-			{element.textContent}
-		</a>
-	</span>);
+	element.replaceWith(
+		<span className="commit-ref">
+			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
+				{element.textContent}
+			</a>
+		</span>,
+	);
 }
 
 function linkifyHovercard(hovercard: HTMLElement): void {
@@ -31,9 +33,11 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 			url.user = user.textContent;
 		}
 
-		reference.replaceChildren(<a className='no-underline' href={url.href} data-turbo-frame='repo-content-turbo-frame'>
-			{[...reference.childNodes]}
-		</a>);
+		reference.replaceChildren(
+			<a className="no-underline" href={url.href} data-turbo-frame="repo-content-turbo-frame">
+				{[...reference.childNodes]}
+			</a>,
+		);
 	}
 }
 

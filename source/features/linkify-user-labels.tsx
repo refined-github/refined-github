@@ -18,7 +18,7 @@ function linkify(label: Element): void {
 
 	const url = new URL(buildRepoURL('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
-	wrap(label, <a className='Link--secondary rgh-linkify-user-labels' href={url.href} />);
+	wrap(label, <a className="Link--secondary rgh-linkify-user-labels" href={url.href} />);
 }
 
 function init(signal: AbortSignal): void {

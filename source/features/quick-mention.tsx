@@ -82,9 +82,8 @@ function add(avatar: HTMLElement): void {
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
 			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-		) {
+		)
 			return;
-		}
 	} else {
 		// Make sure the comment isn't hidden
 		const contentItem = avatar.parentElement!.querySelector([
@@ -104,23 +103,25 @@ function add(avatar: HTMLElement): void {
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className='avatar-parent-child TimelineItem-avatar d-none d-md-block' />);
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
 	if (!isOldView) {
 		avatar.style.height = 'auto';
-		wrap(avatar, <div className='avatar-parent-child d-none d-md-block' />);
+		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
 	}
 
 	const userMention = $('img', avatar).alt;
 
-	avatar.after(<button
-		type='button'
-		className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
-		aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-	>
-		<ReplyIcon />
-	</button>);
+	avatar.after(
+		<button
+			type="button"
+			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
+			aria-label={`Mention ${prefixUserMention(userMention!)} in a new comment`}
+		>
+			<ReplyIcon />
+		</button>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

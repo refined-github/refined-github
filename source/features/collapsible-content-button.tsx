@@ -61,23 +61,22 @@ function append(container: HTMLElement): void {
 	const divider = $([
 		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
 		'[class^="Toolbar-module__divider"]',
-	], container).cloneNode(true);
+	], container).cloneNode(true) as HTMLElement;
 
 	container.append(
 		divider,
 		<button
-			type='button'
+			type="button"
 			className={classes.join(' ')}
-			aria-label='Add collapsible content'
-			data-targets='action-bar.items' // Enables automatic hiding when it doesn't fit
+			aria-label="Add collapsible content"
+			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>
 			<FoldDownIcon />
 		</button>,
 	);
 
-	if (container.getAttribute('aria-label') === 'Formatting tools') {
+	if (container.getAttribute('aria-label') === 'Formatting tools')
 		return;
-	}
 
 	// Only needed on the old version
 	// TODO: remove after March 2025

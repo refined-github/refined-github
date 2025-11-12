@@ -13,7 +13,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 
 	const avatar = (
 		<img
-			className='avatar ml-1 mr-2'
+			className="avatar ml-1 mr-2"
 			src={source}
 			width={size}
 			height={size}

@@ -62,7 +62,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	if (base.title) {
 		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
 	} else {
-		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent, base.textContent).branch;
+		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
 	}
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
@@ -73,7 +73,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
 			?? base.nextSibling?.nextSibling;
 	assertNodeContent(anchor!, 'from');
-	anchor!.after(<span><ArrowLeftIcon className='v-align-middle mx-1' /></span>);
+	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

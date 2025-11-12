@@ -73,20 +73,22 @@ async function addLink(branch: HTMLElement): Promise<void> {
 		.item(4)!;
 
 	cell.classList.add('rgh-pr-cell');
-	cell.append(<div className='rgh-pr-box'>
-		<a
-			href={prInfo.url}
-			target='_blank' // Matches native behavior
-			data-hovercard-url={prInfo.url + '/hovercard'}
-			aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
-			className='rgh-pr-link'
-			rel='noreferrer'
-		>
-			<StateIcon width={14} height={14} className={stateClassName} />
-			<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
-			#{prInfo.number}
-		</a>
-	</div>);
+	cell.append(
+		<div className="rgh-pr-box">
+			<a
+				href={prInfo.url}
+				target="_blank" // Matches native behavior
+				data-hovercard-url={prInfo.url + '/hovercard'}
+				aria-label={`Link to the ${prInfo.isDraft ? 'draft ' : ''}pull request #${prInfo.number}`}
+				className="rgh-pr-link"
+				rel="noreferrer"
+			>
+				<StateIcon width={14} height={14} className={stateClassName} />
+				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
+				#{prInfo.number}
+			</a>
+		</div>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

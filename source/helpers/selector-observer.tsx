@@ -84,7 +84,6 @@ export default function observe<
 			console.warn(currentFeature, '→ Selector not found on page:', selector);
 		}
 	})();
-
 	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
 		const target = event.target as ExpectedElement;
 		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here

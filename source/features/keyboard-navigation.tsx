@@ -28,7 +28,8 @@ function runShortcuts(event: KeyboardEvent): void {
 			.filter(element =>
 				element.classList.contains('js-minimizable-comment-group')
 					? !isCommentGroupMinimized(element)
-					: true);
+					: true,
+			);
 
 	// `j` goes to the next comment, `k` goes back a comment
 	const direction = event.key === 'j' ? 1 : -1;

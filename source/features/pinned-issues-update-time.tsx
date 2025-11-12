@@ -34,7 +34,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt($('.opened-by', pinnedIssue).firstChild);
+	return looseParseInt($('.opened-by', pinnedIssue).firstChild!);
 }
 
 async function update(pinnedIssues: HTMLElement[]): Promise<void> {
@@ -45,9 +45,10 @@ async function update(pinnedIssues: HTMLElement[]): Promise<void> {
 		const originalLine = $('.opened-by', pinnedIssue);
 		originalLine.after(
 			// .rgh class enables tweakers to hide the number
-			<span className='text-small color-fg-muted'>
-				<span className='rgh-pinned-issue-number'>#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
-			</span>);
+			<span className="text-small color-fg-muted">
+				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
+			</span>,
+		);
 
 		originalLine.hidden = true;
 	}

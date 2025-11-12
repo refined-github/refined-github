@@ -10,9 +10,11 @@ import observe from '../helpers/selector-observer.js';
 
 function extract(textarea: HTMLTextAreaElement): void {
 	replaceFieldText(textarea, /<!--(.+)-->\n/s, (_, match) => {
-		textarea.closest('tab-container')!.before(<div style={{whiteSpace: 'pre-wrap'}} className='flash mb-3 p-3'>
-			{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
-		</div>);
+		textarea.closest('tab-container')!.before(
+			<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 p-3">
+				{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
+			</div>,
+		);
 
 		return '';
 	});

@@ -10,8 +10,8 @@ import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title='Locked' className='State d-flex flex-items-center flex-shrink-0'>
-			<LockIcon className='flex-items-center mr-1' />
+		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
+			<LockIcon className="flex-items-center mr-1" />
 			Locked
 		</span>
 	);
@@ -42,7 +42,9 @@ function addLock(element: HTMLElement): void {
 		container = element;
 	}
 
-	container.after(<LockedIndicator className={classes + 'rgh-locked-issue'} />);
+	container.after(
+		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {

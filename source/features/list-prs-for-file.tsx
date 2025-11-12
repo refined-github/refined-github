@@ -30,38 +30,38 @@ let count = 0;
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
 	const icon = isEditing
-		? <AlertIcon className='color-fg-attention' />
+		? <AlertIcon className="color-fg-attention" />
 		: <GitPullRequestIcon />;
 
 	count++;
 	return (
 		<div>
 			<button
-				type='button'
-				className='Button Button--secondary color-fg-muted'
+				type="button"
+				className="Button Button--secondary color-fg-muted"
 				id={buttonId + count}
 				// @ts-expect-error HTML standard
 				popovertarget={buttonId + 'popover-' + count}
 			>
 				{icon}
-				<span className='color-fg-default'> {prs.length} </span>
-				<div className='dropdown-caret' />
+				<span className="color-fg-default"> {prs.length} </span>
+				<div className="dropdown-caret" />
 			</button>
 
 			<anchored-position
 				id={buttonId + 'popover-' + count}
 				anchor={buttonId + count}
-				popover='auto'
+				popover="auto"
 			>
-				<div className='Overlay Overlay--size-auto'>
-					<div className='px-3 pt-3 h6 color-fg-muted'>
+				<div className="Overlay Overlay--size-auto">
+					<div className="px-3 pt-3 h6 color-fg-muted">
 						File also being edited in
 					</div>
-					<ul className='ActionListWrap ActionListWrap--inset'>
+					<ul className="ActionListWrap ActionListWrap--inset">
 						{prs.map(prNumber => (
-							<li className='ActionListItem'>
+							<li className="ActionListItem">
 								<a
-									className='ActionListContent js-hovercard-left'
+									className="ActionListContent js-hovercard-left"
 									href={getPRUrl(prNumber)}
 									data-hovercard-url={getHovercardUrl(prNumber)}
 								>
