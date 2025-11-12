@@ -17,7 +17,10 @@
 a.rgh-own-conversation,
 a.rgh-own-conversation:hover {
 	/* Colors taken from native .user-mention class */
-	color: var(--color-user-mention-fg, fuchsia) !important; /* Their :hover	uses !important... */
+	color: var(
+		--color-user-mention-fg,
+		fuchsia
+	) !important; /* Their :hover	uses !important... */
 	background-color: var(--bgColor-attention-muted, fuchsia);
 }
 

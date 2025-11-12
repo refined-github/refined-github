@@ -53,7 +53,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							<CopyIcon className="v-align-baseline" />
 						</clipboard-copy>
 					</h3>
-					{ /* eslint-disable-next-line react-dom/no-dangerously-set-innerhtml */ }
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>

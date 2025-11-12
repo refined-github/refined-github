@@ -20,7 +20,11 @@
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
-		background-color: color-mix(in srgb, var(--rgh-limit-color) 3%, transparent);
+		background-color: color-mix(
+			in srgb,
+			var(--rgh-limit-color) 3%,
+			transparent
+		);
 
 		&:focus {
 			box-shadow:

@@ -51,7 +51,7 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 	});
 
 	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
-		.reverse()
+		.toReversed()
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 

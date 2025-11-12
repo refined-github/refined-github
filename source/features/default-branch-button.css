@@ -7,7 +7,10 @@ details.rgh-highlight-non-default-branch > summary {
 		var(--color-accent-subtle, fuchsia)
 	) !important;
 	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
-	border-color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
+	border-color: var(
+		--fgColor-accent,
+		var(--color-accent-fg, fuchsia)
+	) !important;
 }
 
 button.rgh-highlight-non-default-branch svg,

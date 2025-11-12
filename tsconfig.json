@@ -5,6 +5,7 @@
 		"rootDir": "./",
 		"module": "preserve",
 		"moduleResolution": "bundler",
+		"jsx": "react",
 		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,

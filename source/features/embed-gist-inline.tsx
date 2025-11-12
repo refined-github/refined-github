@@ -35,7 +35,7 @@ function parseGistLink(link: HTMLAnchorElement): string | undefined {
 
 // TODO: Replace with updated github-url-detection: isGistFile(link)
 function isGist(link: HTMLAnchorElement): boolean {
-	return parseGistLink(link)?.replace(/[^/]/g, '').length === 1; // Exclude user links and file links
+	return parseGistLink(link)?.replaceAll(/[^/]/g, '').length === 1; // Exclude user links and file links
 }
 
 const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();
