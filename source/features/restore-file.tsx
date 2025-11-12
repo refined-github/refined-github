@@ -157,23 +157,22 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
 	const fileElement = [...filesWrapper.children].find(child => {
-		if (child.textContent === '') {
+		const filenameElement = child.querySelector('h3 code');
+		if (!filenameElement?.textContent) {
 			return false;
 		}
 
-		const filenameRegex = child.textContent!.match(/^Collapse file([\s\S]*?)Copy file name(?: to clipboard)?/);
-		let originalFilename = filenameRegex![1].trim();
+		let filename = filenameElement.textContent
+			.replaceAll(/[\u200E\u200F\uFEFF]/g, '')
+			.trim();
 
-		// Rename changes return not just the file name, but "X renamed to Y" so require a bit more clean up.
-		if (originalFilename && /\brenamed\s+to\b/i.test(originalFilename)) {
-			originalFilename = originalFilename.split(/\s+renamed\s+to\s+/i)[0].trim();
+		// Handle rename heading "old renamed to new"
+		if (/\brenamed\s+to\b/i.test(filename)) {
+			filename = filename.split(/\s+renamed\s+to\s+/i)[0].trim();
 		}
 
-		// Clean any non-visible whitespace characters
-		originalFilename = originalFilename.replaceAll(/[\u200E\u200F\uFEFF]/g, '');
-
-		return originalFilename === filenames.original;
-	}) as HTMLElement | undefined;
+		return filename === filenames.original;
+	}) as HTMLElement;
 
 	// Remove file element in list as well as portaled dropdown menu
 	fileElement!.remove();
