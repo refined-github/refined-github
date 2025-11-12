@@ -53,17 +53,17 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 }
 
 /* TODO: remove everything above in late 2026 */
-.rgh-diff:has(> .rgh-no-split-diff) {
+.rgh-no-split-diff {
 	table-layout: auto !important;
 
 	/* No changes on the left side */
-	.rgh-only-additions {
+	&.rgh-only-additions {
 		--rgh-left-side-d: none;
 		--rgh-right-side-w: 100%;
 	}
 
 	/* No changes on the right side */
-	.rgh-only-deletions {
+	&.rgh-only-deletions {
 		--rgh-right-side-d: none;
 		--rgh-left-side-w: 100%;
 	}
