@@ -2,7 +2,7 @@ import {ElementNotFoundError} from 'select-dom';
 import {$, $$, $optional} from 'select-dom/strict.js';
 
 // eslint-disable-next-line ts/no-restricted-types -- Nodes may be exactly `null`
-type Nullable<T> = T | null;
+type Nullable<T> = T | undefined;
 
 /**
  * Append to an element, but before a element that might not exist.
@@ -112,9 +112,7 @@ export function removeTextInTextNode(node: Text | ChildNode, text: RegExp | stri
 
 export function getElementByAriaLabelledBy<T extends HTMLElement>(baseSelector: string, label: string): T {
 	for (const element of $$(baseSelector + '[aria-labelledby]')) {
-		const labelElement = $optional(
-			`[id="${element.getAttribute('aria-labelledby')!}"]`,
-		);
+		const labelElement = $optional(`[id="${element.getAttribute('aria-labelledby')!}"]`);
 
 		if (labelElement?.textContent?.trim() === label) {
 			return element as T;
@@ -131,6 +129,7 @@ export function getClasses(element: Element): Set<string> {
 			list.add(cls);
 		}
 	}
+
 	return list;
 }
 

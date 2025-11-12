@@ -18,7 +18,7 @@ type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
-	screenshot: string | null; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
+	screenshot: string | undefined; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
 	css?: true;
 }
 
@@ -59,7 +59,7 @@ declare namespace JSX {
 		'has-rgh': IntrinsicElements.div;
 		'has-rgh-inner': IntrinsicElements.div;
 		'include-fragment': IntrinsicElements.div & {src?: string};
-		'label': IntrinsicElements.label & {for?: string};
+		label: IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'tab-container': IntrinsicElements.div;
 		'batch-deferred-content': IntrinsicElements.div;
@@ -75,14 +75,10 @@ declare namespace JSX {
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-interface NamedNodeMap {
-	[key: string]: Attr;
-}
+type NamedNodeMap = Record<string, Attr>;
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-interface HTMLFormControlsCollection {
-	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
-}
+type HTMLFormControlsCollection = Record<string, HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement>;
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {

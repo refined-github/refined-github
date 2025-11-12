@@ -163,6 +163,7 @@ function validateTsx(file: FeatureFile): void {
 			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
 		);
 	}
+
 	if (file.contents().includes('.addCssFeature')) {
 		assert(
 			file.css.exists(),
