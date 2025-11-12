@@ -10,16 +10,16 @@ void features.addCssFeature(import.meta.url);
 
 function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 	const table = tableBody.closest('table')!;
+	table.classList.add('rgh-diff');
 	const columnsGroup = $('colgroup', table);
 	// Diff view is unified
 	if (columnsGroup.childElementCount !== 4) {
-		table.classList.remove('rgh-no-split-diff');
 		return;
 	}
 	if (!$optional(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
-		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
+		tableBody.classList.add('rgh-no-split-diff', 'rgh-only-additions');
 	} else if (!$optional(':scope > tr > td:nth-child(4) > .addition', tableBody)) {
-		table.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
+		tableBody.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
 	}
 }
 
