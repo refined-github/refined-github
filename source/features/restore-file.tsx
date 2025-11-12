@@ -9,13 +9,13 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
+import {getLegacyMenuItem, getMenuItem} from './more-file-links.js';
 
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// TODO: Drop support for old view in June 2026
-	if (menuItem.tagName !== 'A') {
+	if (menuItem.tagName === 'A') {
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
@@ -55,7 +55,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	}
 
 	return {original: originalFileName, new: newFileName};
-};
+}
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -132,6 +132,8 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	event.preventDefault()
+
 	const menuItem = event.delegateTarget;
 	const filenames = getFilenames(menuItem);
 
@@ -148,7 +150,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	// Hide file from view
 	// TODO: Drop support for old view in June 2026
-	if (menuItem.tagName !== 'A') {
+	if (menuItem.tagName === 'A') {
 		menuItem.closest('.file')!.remove();
 		return
 	}
@@ -178,45 +180,43 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	menuItem.closest('div[data-focus-trap="active"]')!.remove();
 }
 
-function add(editFile: HTMLAnchorElement): void {
-	// TODO: Drop support for old view in June 2026
-	if (editFile.tagName === 'A') {
-		editFile.after(
-			<button
-				className="pl-5 dropdown-item btn-link rgh-restore-file"
-				role="menuitem"
-				type="button"
-			>
-				Discard changes
-			</button>,
-		);
+function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
+	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
-		return;
-	}
+	const editFile = $('a[data-ga-click^="Edit file"]', dropdown);
 
-	editFile.after(
-		<li
-			className={editFile.className}
-			role="none"
-		>
-			<a className={`rgh-restore-file ${editFile.querySelector('a')!.className}`}>
-				<GitCompareIcon className="color-fg-muted" />
-				<span style={{gridArea: 'content'}}>Discard changes</span>
-			</a>
-		</li>,
-	);
+	const discardChangesButton = getLegacyMenuItem(editFile, 'Discard Changes', 'Discard Changes');
+	discardChangesButton.classList.add('rgh-restore-file');
+
+	editFile.after(discardChangesButton);
+}
+
+function handleMenuOpening(): void {
+	const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
+
+	const discardChangesButton = getMenuItem(editFile, 'Discard Changes', undefined, <GitCompareIcon />);
+	discardChangesButton.classList.add('rgh-restore-file')
+
+	editFile.after(discardChangesButton);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe([
-		'.js-file-header-dropdown a[aria-label^="Change this"]', // TODO: Drop support for old view in June 2026
-		'ul[role="menu"] li:has(svg.octicon-pencil)',
-	], add, {signal});
-
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
+
+	delegate(
+		'.file-header .js-file-header-dropdown',
+		'toggle',
+		handleLegacyMenuOpening,
+		{capture: true, signal}
+	);
+	delegate(
+		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening
+	);
 }
 
 void features.add(import.meta.url, {
