@@ -29,7 +29,7 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
 	const urls = notifications
-		.reverse() // Open oldest first #6755
+		.toReversed() // Open oldest first #6755
 		.map(notification => $('a', notification).href);
 
 	const openingTabs = openTabs(urls);

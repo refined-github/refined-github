@@ -22,9 +22,7 @@ function inputListener({target}: Event): void {
 
 function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
 	// Disable constrained GitHub feature
-	textarea.classList.remove('size-to-fit');
-	textarea.classList.remove('js-size-to-fit');
-	textarea.classList.remove('issue-form-textarea'); // Remove !important height and min-height
+	textarea.classList.remove('size-to-fit', 'js-size-to-fit', 'issue-form-textarea'); // Remove !important height and min-height
 	textarea.classList.add('rgh-fit-textareas');
 
 	if (nativeFit) {

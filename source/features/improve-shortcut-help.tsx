@@ -20,7 +20,7 @@ function improveShortcutHelp(dialog: Element): void {
 
 			<ul>
 				{[...shortcutMap]
-					.sort(([, a], [, b]) => a.localeCompare(b))
+					.toSorted(([, a], [, b]) => a.localeCompare(b))
 					.map(([hotkey, description]) => (
 						<li className="Box-row d-flex flex-row">
 							<div className="flex-auto">{description}</div>

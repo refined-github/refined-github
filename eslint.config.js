@@ -1,9 +1,10 @@
-import antfu from '@antfu/eslint-config';
+import {antfu} from '@antfu/eslint-config';
+import {importX} from 'eslint-plugin-import-x';
 
 export default antfu(
 	{
-		react: true,
 		svelte: true,
+		import: false,
 		stylistic: {
 			indent: 'tab',
 		},
@@ -46,6 +47,7 @@ export default antfu(
 			'jsonc/array-bracket-spacing': 'off', // Same
 			'style/brace-style': ['error', '1tbs'], // Naw, man
 			'style/semi': ['error', 'always'],
+			'style/no-extra-semi': 'error',
 			'style/member-delimiter-style': ['error', {
 				multiline: {
 					delimiter: 'semi',
@@ -66,6 +68,7 @@ export default antfu(
 				'error',
 				{
 					replacements: {
+						utils: false,
 						props: false,
 						ref: false,
 						nav: false,
@@ -167,8 +170,24 @@ export default antfu(
 			'ts/no-unsafe-return': 'off',
 			'ts/no-unsafe-call': 'off',
 			'n/prefer-global/process': 'off',
-			'import/prefer-default-export': 'error',
-			'import/order': [
+			// TODO: Enable after https://github.com/Rel1cx/eslint-react/issues/739
+			// "react/function-component-definition": [
+			// 	"error",
+			// 	{
+			// 		"namedComponents": "function-declaration"
+			// 	}
+			// ]
+		},
+	},
+
+	importX.flatConfigs.recommended,
+	importX.flatConfigs.typescript,
+	{
+		rules: {
+			'import/consistent-type-specifier-style': 'off',
+			'import-x/consistent-type-specifier-style': 'off',
+			'import-x/prefer-default-export': 'error',
+			'import-x/order': [
 				'error',
 				{
 					'groups': [
@@ -180,13 +199,6 @@ export default antfu(
 					'newlines-between': 'always-and-inside-groups',
 				},
 			],
-			// TODO: Enable after https://github.com/Rel1cx/eslint-react/issues/739
-			// "react/function-component-definition": [
-			// 	"error",
-			// 	{
-			// 		"namedComponents": "function-declaration"
-			// 	}
-			// ]
 		},
 	},
 	{
@@ -203,7 +215,7 @@ export default antfu(
 			'source/features/*',
 		],
 		rules: {
-			'import/prefer-default-export': 'off',
+			'import-x/prefer-default-export': 'off',
 		},
 	},
 	{
@@ -227,7 +239,7 @@ export default antfu(
 			'**/*.svelte',
 		],
 		rules: {
-			'import/prefer-default-export': 'off',
+			'import-x/prefer-default-export': 'off',
 			// Until: https://github.com/sveltejs/prettier-plugin-svelte/issues/253
 			'svelte/html-quotes': 'off',
 		},

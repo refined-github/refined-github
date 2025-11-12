@@ -10,7 +10,7 @@ const isTwoDotDiff = (): boolean =>
 	&& location.pathname.includes('..');
 
 function init(): void {
-	const {path} = (getRepo()!);
+	const {path} = getRepo()!;
 
 	// `main...main` comparison
 	if (path === 'compare') {
@@ -20,7 +20,7 @@ function init(): void {
 	const references = path
 		.replace('compare/', '')
 		.split('...')
-		.reverse();
+		.toReversed();
 
 	// Compares against the "base" branch if the URL only has one reference
 	if (references.length === 1) {

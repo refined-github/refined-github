@@ -45,6 +45,9 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	/* Any applicable situation: Re-align annotations */
 	:is(.inline-comments, .js-inline-annotations) .empty-cell:not(.blob-num) {
-		display: var(--rgh-only-additions, var(--rgh-only-deletions, table-cell)) !important;
+		display: var(
+			--rgh-only-additions,
+			var(--rgh-only-deletions, table-cell)
+		) !important;
 	}
 }
