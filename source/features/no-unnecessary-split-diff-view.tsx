@@ -10,9 +10,7 @@ void features.addCssFeature(import.meta.url);
 
 function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 	const table = tableBody.closest('table')!;
-	if (!table.classList.contains('rgh-diff')) {
-		table.classList.add('rgh-diff');
-	}
+	table.classList.add('rgh-diff');
 	const columnsGroup = $('colgroup', table);
 	// Diff view is unified
 	if (columnsGroup.childElementCount !== 4) {
