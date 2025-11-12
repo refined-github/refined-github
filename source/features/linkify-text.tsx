@@ -15,7 +15,7 @@ function linkifyIssue(paragraph: HTMLParagraphElement): void {
 	}
 
 	linkifyIssues(getRepo()!, paragraph);
-};
+}
 
 function init(signal: AbortSignal): void {
 	observe([

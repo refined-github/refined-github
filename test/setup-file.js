@@ -26,7 +26,7 @@ link.type = 'application/atom+xml';
 navigateToCommits('master', '/refined-github/refined-github/commits');
 document.head.append(link);
 
-// eslint-disable-next-line import/prefer-default-export
+// eslint-disable-next-line import-x/prefer-default-export
 export function navigateToCommits(branch, pathname) {
 	link.href = `https://github.com/refined-github/refined-github/commits/${branch}.atom`;
 	link.title = `Recent Commits to ava:${branch}`;
