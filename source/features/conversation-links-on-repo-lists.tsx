@@ -6,7 +6,7 @@ import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utilities.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;

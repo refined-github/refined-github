@@ -16,7 +16,7 @@ import {
 	getRepo,
 	triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
-import {appendBefore} from '../helpers/dom-utilities.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';

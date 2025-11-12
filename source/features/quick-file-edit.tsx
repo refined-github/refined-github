@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utilities.js';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';

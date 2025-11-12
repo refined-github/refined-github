@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 import {branchSelector} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {wrapAll} from '../helpers/dom-utilities.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {

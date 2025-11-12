@@ -5,7 +5,7 @@ import {$$, lastElement} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utilities.js';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void | false {

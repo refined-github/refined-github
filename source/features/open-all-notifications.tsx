@@ -9,7 +9,7 @@ import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
-import {appendBefore} from '../helpers/dom-utilities.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';

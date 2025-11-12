@@ -10,7 +10,7 @@ import {baseApiFetch} from '../github-helpers/github-token.js';
 import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
-import {getElementByAriaLabelledBy} from '../helpers/dom-utilities.js';
+import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';

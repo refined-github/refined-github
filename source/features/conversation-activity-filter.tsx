@@ -11,7 +11,7 @@ import XIcon from 'octicons-plain-react/X';
 import domLoaded from 'dom-loaded';
 
 import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utilities.js';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';

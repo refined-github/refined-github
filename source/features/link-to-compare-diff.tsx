@@ -6,7 +6,7 @@ import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {wrapAll} from '../helpers/dom-utilities.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 
 function init(): void {
 	const changedFilesSummary = $('.Box li:has(.octicon-file-diff)');

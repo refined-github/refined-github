@@ -21,7 +21,7 @@ import {branchSelector} from '../github-helpers/selectors.js';
 import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
-import {wrapAll} from '../helpers/dom-utilities.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';

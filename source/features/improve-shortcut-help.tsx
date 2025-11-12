@@ -4,7 +4,7 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utilities.js';
+import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
 
 function splitKeys(keys: string): DocumentFragment[] {

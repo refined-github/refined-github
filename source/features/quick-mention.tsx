@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
-import {wrap} from '../helpers/dom-utilities.js';
+import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';

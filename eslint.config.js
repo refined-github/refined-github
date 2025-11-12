@@ -68,6 +68,7 @@ export default antfu(
 				'error',
 				{
 					replacements: {
+						utils: false,
 						props: false,
 						ref: false,
 						nav: false,

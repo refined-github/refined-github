@@ -13,7 +13,7 @@ import {brokenFeatures} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
-import {isFeaturePrivate} from '../helpers/feature-utilities.js';
+import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');

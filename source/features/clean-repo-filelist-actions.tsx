@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent, wrap} from '../helpers/dom-utilities.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import './clean-repo-filelist-actions.css';
 

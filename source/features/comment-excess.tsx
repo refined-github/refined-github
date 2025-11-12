@@ -5,7 +5,7 @@ import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utilities.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';
 import {isMac, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 

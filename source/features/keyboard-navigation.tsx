@@ -3,7 +3,7 @@ import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utilities.js';
+import {isEditable} from '../helpers/dom-utils.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)

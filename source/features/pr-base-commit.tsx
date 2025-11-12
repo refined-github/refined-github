@@ -10,7 +10,7 @@ import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js'
 import pluralize from '../helpers/pluralize.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
-import {isTextNodeContaining} from '../helpers/dom-utilities.js';
+import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 

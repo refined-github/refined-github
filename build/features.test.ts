@@ -4,7 +4,7 @@ import {test, describe, assert} from 'vitest';
 import {regexJoinWithSeparator} from 'regex-join';
 import fastIgnore from 'fast-ignore';
 
-import {isFeaturePrivate} from '../source/helpers/feature-utilities.js';
+import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864

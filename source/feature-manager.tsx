@@ -15,7 +15,7 @@ import {
 	shouldFeatureRun,
 	isFeaturePrivate,
 	type RunConditions,
-} from './helpers/feature-utilities.js';
+} from './helpers/feature-utils.js';
 import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,

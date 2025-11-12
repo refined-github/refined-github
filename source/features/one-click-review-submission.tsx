@@ -7,7 +7,7 @@ import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utilities.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
