@@ -24,7 +24,7 @@ function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 
 function ExplanationLink(): JSX.Element {
 	return (
-		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks" />
+		<a href='https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks' />
 	);
 }
 
@@ -64,27 +64,25 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
-	discussionHeader.parentElement!.append(
-		<span>
-			<TagIcon className="ml-2 mr-1 color-fg-muted" />
-			<a
-				href={tagUrl}
-				className="commit-ref"
-				title={`${tagName} was the first Git tag to include this pull request`}
-			>
-				{tagName}
-			</a>
-		</span>,
-	);
+	discussionHeader.parentElement!.append(<span>
+		<TagIcon className='ml-2 mr-1 color-fg-muted' />
+		<a
+			href={tagUrl}
+			className='commit-ref'
+			title={`${tagName} was the first Git tag to include this pull request`}
+		>
+			{tagName}
+		</a>
+	</span>);
 }
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
-	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
+	const linkedTag = <a href={tagUrl} className='Link--primary text-bold'>{tagName}</a>;
 	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					icon: <TagIcon className="m-0" />,
+					icon: <TagIcon className='m-0' />,
 					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
@@ -102,7 +100,7 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 	const url = createReleaseUrl();
 	const bannerContent = {
 		text,
-		icon: <TagIcon className="m-0" />,
+		icon: <TagIcon className='m-0' />,
 		classes: ['rgh-bg-none'],
 	} satisfies BannerProps;
 
@@ -139,7 +137,7 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init(signal: AbortSignal): void {
-		onPrMerge(() => addReleaseBanner('Now you can release this change'), signal);
+		onPrMerge(async () => addReleaseBanner('Now you can release this change'), signal);
 	},
 });
 

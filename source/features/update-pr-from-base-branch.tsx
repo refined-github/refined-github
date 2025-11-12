@@ -25,7 +25,7 @@ const nativeRepos = new CachedFunction('native-update-button', {
 	staleWhileRevalidate: {
 		days: 1,
 	},
-	updater: async (_nameWithOwner: string): Promise<boolean> => {
+	async updater(_nameWithOwner: string): Promise<boolean> {
 		throw new TypeError('bad usage');
 	},
 });
@@ -72,9 +72,9 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 function createButton(): JSX.Element {
 	return (
 		<button
-			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w"
-			aria-label="Use Refined GitHub to update the PR from the base branch"
+			type='button'
+			className='btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w'
+			aria-label='Use Refined GitHub to update the PR from the base branch'
 		>
 			Update branch
 		</button>
@@ -119,13 +119,11 @@ async function addButton(): Promise<void> {
 			? 'float-right'
 			: 'flex-order-2 flex-self-center';
 
-		mergeabilityRow.prepend(
-			<div
-				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
-			>
-				{createButton()}
-			</div>,
-		);
+		mergeabilityRow.prepend(<div
+			className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
+		>
+			{createButton()}
+		</div>);
 	} else {
 		// We need to create a new row when `Checks` is present
 		const checkFailed = $optional('[aria-label="Checks"]');

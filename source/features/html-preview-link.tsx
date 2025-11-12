@@ -14,19 +14,17 @@ function add(rawButton: HTMLAnchorElement): void {
 	rawButton
 		.parentElement! // `div`
 		.parentElement! // `BtnGroup`
-		.prepend(
-			<div>
-				<a
-					className={rawButton.className}
-					data-variant="default"
-					data-size="small"
-					// #3305
-					href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
-				>
-					Preview
-				</a>
-			</div>,
-		);
+		.prepend(<div>
+			<a
+				className={rawButton.className}
+				data-variant='default'
+				data-size='small'
+				// #3305
+				href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
+			>
+				Preview
+			</a>
+		</div>);
 }
 
 function init(signal: AbortSignal): void {

@@ -34,7 +34,7 @@ function getType(): string {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-fg-subtle">{text}</del>;
+	return <del className='color-fg-subtle'>{text}</del>;
 }
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
@@ -115,9 +115,7 @@ async function showMissingPartOnce(): Promise<void> {
 		.toReversed() // Restore order
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
-	$(['main > :first-child', '#parallax_illustration']).after(
-		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
-	);
+	$(['main > :first-child', '#parallax_illustration']).after(<h2 className='container mt-4 text-center'>{breadcrumbs}</h2>);
 }
 
 async function showDefaultBranchLink(): Promise<void> {
@@ -126,11 +124,9 @@ async function showDefaultBranchLink(): Promise<void> {
 		return;
 	}
 
-	$('main > .container-lg').before(
-		<p className="container mt-4 text-center">
-			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
-		</p>,
-	);
+	$('main > .container-lg').before(<p className='container mt-4 text-center'>
+		<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
+	</p>);
 }
 
 async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
@@ -164,7 +160,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
 	return (
-		<p className="container mt-4 text-center">
+		<p className='container mt-4 text-center'>
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>
 	);
@@ -199,9 +195,7 @@ async function initPRCommitOnce(): Promise<void | false> {
 	}
 
 	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
-	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
-	);
+	blankSlateParagraph!.after(<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {

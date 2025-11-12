@@ -99,7 +99,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName, commitTitle), {
+	await showToast(async progress => discardChanges(progress, originalFileName, newFileName, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});
@@ -109,15 +109,13 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 }
 
 function add(editFile: HTMLAnchorElement): void {
-	editFile.after(
-		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
-			role="menuitem"
-			type="button"
-		>
-			Discard changes
-		</button>,
-	);
+	editFile.after(<button
+		className='pl-5 dropdown-item btn-link rgh-restore-file'
+		role='menuitem'
+		type='button'
+	>
+		Discard changes
+	</button>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

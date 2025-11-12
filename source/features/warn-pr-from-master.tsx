@@ -7,11 +7,9 @@ import parseCompareUrl from '../github-helpers/parse-compare-url.js';
 import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
 
 async function addWarning(anchor: HTMLElement): Promise<void> {
-	anchor.before(
-		<div className="flash flash-error my-3">
-			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
-		</div>,
-	);
+	anchor.before(<div className='flash flash-error my-3'>
+		<strong>Note:</strong> Creating a PR from the default branch is an <a href='https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/' target='_blank' rel='noopener noreferrer'>anti-pattern</a>.
+	</div>);
 }
 
 function init(signal: AbortSignal): void {
@@ -21,7 +19,7 @@ function init(signal: AbortSignal): void {
 async function isCrossRepoCompareFromMaster(): Promise<boolean> {
 	const c = parseCompareUrl(location.pathname);
 
-	return !!c && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.repo);
+	return Boolean(c) && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.repo);
 }
 
 void features.add(import.meta.url, {

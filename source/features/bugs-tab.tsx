@@ -40,9 +40,7 @@ async function countBugs(): Promise<Bugs> {
 	const bugTypeCount = repository?.issues?.totalCount ?? 0;
 
 	let label = repository?.labels?.nodes?.find(label => label.name === 'bug');
-	if (!label) {
-		label = repository?.labels?.nodes?.find(label => isBugLabel(label.name));
-	}
+	label ||= repository?.labels?.nodes?.find(label => isBugLabel(label.name));
 
 	const bugLabelCount = label?.issues?.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
@@ -102,7 +100,7 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
+	$('.octicon', bugsTab).replaceWith(<BugIcon className='UnderlineNav-octicon d-none d-sm-inline' />);
 
 	// Set temporary counter
 	const bugsCounter = $('.Counter', bugsTab);
@@ -114,7 +112,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
+		issuesTab.parentElement.after(<li className='d-inline-flex'>{bugsTab}</li>);
 	} else {
 		issuesTab.after(bugsTab);
 	}

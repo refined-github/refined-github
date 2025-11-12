@@ -92,28 +92,24 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		if (workflowLink.nextElementSibling) {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
-			workflowLink.after(
-				<a
-					href={url.href}
-					data-turbo-frame={workflowLink.dataset.turboFrame}
-					// `actions-unpin-button` provides the hover style
-					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
-					aria-label="Trigger manually"
-				>
-					<PlayIcon />
-				</a>,
-			);
+			workflowLink.after(<a
+				href={url.href}
+				data-turbo-frame={workflowLink.dataset.turboFrame}
+				// `actions-unpin-button` provides the hover style
+				className='tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button'
+				aria-label='Trigger manually'
+			>
+				<PlayIcon />
+			</a>);
 		} else {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
-			workflowLink.after(
-				<div
-					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent"
-					aria-label="This workflow can be triggered manually"
-				>
-					<PlayIcon />
-				</div>,
-			);
+			workflowLink.after(<div
+				className='tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent'
+				aria-label='This workflow can be triggered manually'
+			>
+				<PlayIcon />
+			</div>);
 		}
 	}
 
@@ -129,11 +125,9 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('.ActionListItem-label', workflowLink).append(
-		<em>
-			(<relative-time datetime={String(nextTime)} />)
-		</em>,
-	);
+	$('.ActionListItem-label', workflowLink).append(<em>
+		(<relative-time datetime={String(nextTime)} />)
+	</em>);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {

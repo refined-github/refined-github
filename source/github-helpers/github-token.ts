@@ -22,8 +22,8 @@ export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions):
 			cache: 'no-store',
 			headers: {
 				'User-Agent': 'Refined GitHub',
-				'Accept': 'application/vnd.github.v3+json',
-				'Authorization': `token ${token}`,
+				Accept: 'application/vnd.github.v3+json',
+				Authorization: `token ${token}`,
 			},
 		},
 	);
@@ -37,7 +37,7 @@ export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions):
 }
 
 export const tokenUser = new CachedFunction('token-user', {
-	updater: async (apiBase: string, token: string): Promise<string> => {
+	async updater(apiBase: string, token: string): Promise<string> {
 		const response = await baseApiFetch({apiBase, token, path: 'user'});
 		const details = await response.json();
 		return details.login;

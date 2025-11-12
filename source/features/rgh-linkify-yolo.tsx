@@ -13,13 +13,11 @@ function linkifyIssue(issueCell: HTMLElement): void {
 
 function linkifyFeature(issueCell: HTMLElement): void {
 	const url = getFeatureUrl(issueCell.textContent as FeatureID);
-	issueCell.replaceChildren(
-		<code>
-			<a className="d-inline-block" href={url}>
-				{issueCell.firstChild}
-			</a>
-		</code>,
-	);
+	issueCell.replaceChildren(<code>
+		<a className='d-inline-block' href={url}>
+			{issueCell.firstChild}
+		</a>
+	</code>);
 }
 
 function init(signal: AbortSignal): void {

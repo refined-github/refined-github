@@ -21,9 +21,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	$optional([
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
-	], event.delegateTarget)?.dispatchEvent(
-		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
-	);
+	], event.delegateTarget)?.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 }
 
 const commitMessagesSelector = [

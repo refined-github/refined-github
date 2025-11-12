@@ -32,8 +32,8 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
-			className="btn flex-self-center rgh-list-prs-for-branch"
-			data-hovercard-type="pull_request"
+			className='btn flex-self-center rgh-list-prs-for-branch'
+			data-hovercard-type='pull_request'
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
 			<StateIcon className={stateColorMap[prInfo.state]} />

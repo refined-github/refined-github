@@ -1,5 +1,5 @@
 // eslint-disable-next-line ts/no-restricted-types -- Simplify passing random nodes
-export default function looseParseInt(text: ChildNode | string | undefined | null): number {
+export default function looseParseInt(text: ChildNode | string | undefined): number {
 	if (!text) {
 		return 0;
 	}

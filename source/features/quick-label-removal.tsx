@@ -32,9 +32,7 @@ function removeLabelList(): void {
 
 function restoreLabelList(): void {
 	const list = getLabelList();
-	list.replaceChildren(
-		<include-fragment src={list.closest('[src]')!.getAttribute('src')!} />,
-	);
+	list.replaceChildren(<include-fragment src={list.closest('[src]')!.getAttribute('src')!} />);
 }
 
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -65,15 +63,13 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 
 function addRemoveLabelButton(label: HTMLElement): void {
 	label.classList.add('d-inline-flex');
-	label.append(
-		<button
-			type="button"
-			className="btn-link rgh-quick-label-removal"
-			data-name={label.dataset.name}
-		>
-			<XIcon />
-		</button>,
-	);
+	label.append(<button
+		type='button'
+		className='btn-link rgh-quick-label-removal'
+		data-name={label.dataset.name}
+	>
+		<XIcon />
+	</button>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

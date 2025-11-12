@@ -25,15 +25,17 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 
 function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
-		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
+		<span className='color-fg-muted css-truncate d-inline-block rgh-show-names'>
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
-			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
+			(<span className='css-truncate-target' style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
 	);
 
 	const testId = element.getAttribute('data-testid');
-	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId))
+	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId)) {
 		nameElement.classList.add('ml-1');
+	}
+
 	return nameElement;
 }
 
@@ -60,11 +62,8 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		return;
 	}
 
-	const names = await api.v4(
-		[...users.keys()].map(username =>
-			api.escapeKey(username) + `: user(login: "${username}") {name}`,
-		).join(','),
-	);
+	const names = await api.v4([...users.keys()].map(username =>
+		api.escapeKey(username) + `: user(login: "${username}") {name}`).join(','));
 
 	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);

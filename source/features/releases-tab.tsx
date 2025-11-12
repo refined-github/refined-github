@@ -64,22 +64,20 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 	// Wait for the dropdown because `observe` fires as soon as it encounter the container. `releases-tab` must be appended.
 	await elementReady(repoUnderlineNavUl);
 
-	repoNavigationBar.append(
-		<li className="d-flex">
-			<a
-				href={buildRepoURL(type.toLowerCase())}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
-			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
-				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
-			</a>
-		</li>,
-	);
+	repoNavigationBar.append(<li className='d-flex'>
+		<a
+			href={buildRepoURL(type.toLowerCase())}
+			className='js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab'
+			data-hotkey='g r'
+			data-selected-links='repo_releases'
+			data-tab-item='rgh-releases-item'
+			data-turbo-frame='repo-content-turbo-frame' /* Required for `data-selected-links` to work */
+		>
+			<TagIcon className='UnderlineNav-octicon d-none d-sm-inline' />
+			<span data-content={type}>{type}</span>
+			<span className='Counter' title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+		</a>
+	</li>);
 
 	triggerRepoNavOverflow();
 }
@@ -96,9 +94,9 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
-			'label': type,
-			'href': buildRepoURL(type.toLowerCase()),
-			'icon': TagIcon,
+			label: type,
+			href: buildRepoURL(type.toLowerCase()),
+			icon: TagIcon,
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);

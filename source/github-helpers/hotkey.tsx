@@ -5,7 +5,7 @@ import {isMac} from './index.js';
 export function registerHotkey(hotkey: string, functionOrUrl: VoidFunction | string, {signal}: SignalAsOptions = {}): void {
 	const element = typeof functionOrUrl === 'string'
 		? <a hidden href={functionOrUrl} data-hotkey={hotkey} />
-		: <button hidden type="button" data-hotkey={hotkey} onClick={functionOrUrl} />;
+		: <button hidden type='button' data-hotkey={hotkey} onClick={functionOrUrl} />;
 
 	document.body.append(element);
 

@@ -28,7 +28,7 @@ function createWhitespaceButton(): HTMLElement {
 	return (
 		<a
 			href={url.href}
-			data-hotkey="d w"
+			data-hotkey='d w'
 			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
@@ -49,31 +49,27 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 
 	const type = isUnified ? 'split' : 'unified';
 	const Icon = isUnified ? BookIcon : DiffIcon;
-	diffSettingsForm.append(
-		<button
-			className="tooltipped tooltipped-s ml-2 btn-link Link--muted px-2"
-			aria-label={`Switch to the ${type} diff view`}
-			name="diff"
-			value={type}
-			type="submit"
-		>
-			<Icon className="v-align-middle" />
-		</button>,
-	);
+	diffSettingsForm.append(<button
+		className='tooltipped tooltipped-s ml-2 btn-link Link--muted px-2'
+		aria-label={`Switch to the ${type} diff view`}
+		name='diff'
+		value={type}
+		type='submit'
+	>
+		<Icon className='v-align-middle' />
+	</button>);
 
 	if (!isHidingWhitespace()) {
-		diffSettingsForm.append(
-			<button
-				data-hotkey="d w"
-				className="tooltipped tooltipped-s btn-link Link--muted px-2"
-				aria-label="Hide whitespace changes"
-				name="w"
-				value="1"
-				type="submit"
-			>
-				<DiffModifiedIcon className="v-align-middle" />
-			</button>,
-		);
+		diffSettingsForm.append(<button
+			data-hotkey='d w'
+			className='tooltipped tooltipped-s btn-link Link--muted px-2'
+			aria-label='Hide whitespace changes'
+			name='w'
+			value='1'
+			type='submit'
+		>
+			<DiffModifiedIcon className='v-align-middle' />
+		</button>);
 	}
 
 	dropdown.replaceWith(diffSettingsForm);
@@ -106,11 +102,9 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
 	const usesFloats = anchor?.classList.contains('float-right');
 	if (usesFloats) {
-		anchor.after(
-			<div className="float-right mr-3">
-				{createWhitespaceButton()}
-			</div>,
-		);
+		anchor.after(<div className='float-right mr-3'>
+			{createWhitespaceButton()}
+		</div>);
 	} else {
 		anchor.before(createWhitespaceButton());
 	}

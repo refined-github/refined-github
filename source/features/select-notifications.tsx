@@ -24,15 +24,15 @@ const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed
 const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
 const filters = {
 	'Pull requests': prIcons,
-	'Issues': issueIcons,
+	Issues: issueIcons,
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
-	'Others': `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
-	'Open': ':is(.octicon-issue-opened, .octicon-git-pull-request)',
-	'Closed': ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
-	'Draft': '.octicon-git-pull-request-draft',
-	'Merged': '.octicon-git-merge',
-	'Read': '.notification-read',
-	'Unread': '.notification-unread',
+	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
+	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
+	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
+	Draft: '.octicon-git-pull-request-draft',
+	Merged: '.octicon-git-merge',
+	Read: '.notification-read',
+	Unread: '.notification-unread',
 } as const;
 
 type Filter = keyof typeof filters;
@@ -74,8 +74,7 @@ function handleSelection({target}: Event): void {
 			.filter(notification =>
 				(types.length > 0 && !elementExists(types, notification))
 				|| (statuses.length > 0 && !elementExists(statuses, notification))
-				|| (readStatus.length > 0 && !notification.matches(readStatus)),
-			)
+				|| (readStatus.length > 0 && !notification.matches(readStatus)))
 			.map(notification => $('.js-notification-bulk-action-check-item', notification));
 
 		// Make excluded notifications unselectable
@@ -92,40 +91,40 @@ function handleSelection({target}: Event): void {
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
-	const icons: {[Key in Filter]: JSX.Element} = {
-		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
-		'Issues': <IssueOpenedIcon className="color-fg-muted" />,
-		'Open': <CheckCircleIcon className="color-fg-success" />,
-		'Others': <SquirrelIcon className="color-fg-muted" />,
-		'Closed': <XCircleIcon className="color-fg-danger" />,
-		'Draft': <GitPullRequestDraftIcon className="color-fg-subtle" />,
-		'Merged': <GitMergeIcon className="color-fg-done" />,
-		'Read': <DotIcon className="color-fg-accent" />,
-		'Unread': <DotFillIcon className="color-fg-accent" />,
+	const icons: Record<Filter, JSX.Element> = {
+		'Pull requests': <GitPullRequestIcon className='color-fg-muted' />,
+		Issues: <IssueOpenedIcon className='color-fg-muted' />,
+		Open: <CheckCircleIcon className='color-fg-success' />,
+		Others: <SquirrelIcon className='color-fg-muted' />,
+		Closed: <XCircleIcon className='color-fg-danger' />,
+		Draft: <GitPullRequestDraftIcon className='color-fg-subtle' />,
+		Merged: <GitMergeIcon className='color-fg-done' />,
+		Read: <DotIcon className='color-fg-accent' />,
+		Unread: <DotFillIcon className='color-fg-accent' />,
 	};
 
 	return (
-		<div className="SelectMenu-list">
-			<header className="SelectMenu-header">
-				<span className="SelectMenu-title">{category}</span>
+		<div className='SelectMenu-list'>
+			<header className='SelectMenu-header'>
+				<span className='SelectMenu-title'>{category}</span>
 			</header>
 			{filters.map(filter => (
 				<label
-					className="SelectMenu-item text-normal"
-					role="menuitemcheckbox"
-					aria-checked="false"
+					className='SelectMenu-item text-normal'
+					role='menuitemcheckbox'
+					aria-checked='false'
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
-					<div className="SelectMenu-item-text">
+					<CheckIcon className='octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2' aria-hidden='true' />
+					<div className='SelectMenu-item-text'>
 						<input
 							hidden
-							type="checkbox"
+							type='checkbox'
 							name={category}
 							value={filter}
 						/>
 						{icons[filter]}
-						<span className="ml-2">{filter}</span>
+						<span className='ml-2'>{filter}</span>
 					</div>
 				</label>
 			))}
@@ -135,27 +134,27 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
+		className='details-reset details-overlay position-relative rgh-select-notifications mr-2'
 		onToggle={resetFilters}
 	>
 		<summary
-			className="h6" // `h6` matches "Select all" style
-			data-hotkey="Shift+S"
-			aria-haspopup="menu"
+			className='h6' // `h6` matches "Select all" style
+			data-hotkey='Shift+S'
+			aria-haspopup='menu'
 			// Don't use tooltipped, it remains visible when the dropdown is open
-			title="Hotkey: Shift+S"
-			role="button"
+			title='Hotkey: Shift+S'
+			role='button'
 		>
-			Select by <span className="dropdown-caret ml-1" />
+			Select by <span className='dropdown-caret ml-1' />
 		</summary>
 		<details-menu
-			className="SelectMenu left-0"
-			aria-label="Select by"
-			role="menu"
+			className='SelectMenu left-0'
+			aria-label='Select by'
+			role='menu'
 			on-details-menu-selected={handleSelection}
 		>
-			<div className="SelectMenu-modal">
-				<form id="rgh-select-notifications-form">
+			<div className='SelectMenu-modal'>
+				<form id='rgh-select-notifications-form'>
 					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
@@ -173,7 +172,7 @@ function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
 	selectAllCheckbox.closest('label')!.after(
 		// `h6` matches "Select all" style
-		<span className="mx-2 h6">·</span>,
+		<span className='mx-2 h6'>·</span>,
 		createDropdown(),
 	);
 }

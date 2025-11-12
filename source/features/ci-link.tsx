@@ -32,16 +32,15 @@ async function add(anchor: HTMLElement): Promise<void> {
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
-		<span className="rgh-ci-link ml-1 d-none d-sm-inline" title="CI status of latest commit">
+		<span className='rgh-ci-link ml-1 d-none d-sm-inline' title='CI status of latest commit'>
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
-					name="oid"
+					name='oid'
 					value={commit}
-					data-targets="batch-deferred-content.inputs"
+					data-targets='batch-deferred-content.inputs'
 				/>
 			</batch-deferred-content>
-		</span>,
-	);
+		</span>);
 
 	// A parent is clipping the popup
 	anchor.closest('.AppHeader-context-full')?.style.setProperty('overflow', 'visible');

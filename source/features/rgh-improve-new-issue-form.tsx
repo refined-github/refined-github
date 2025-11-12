@@ -16,15 +16,13 @@ const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(adjective: JSX.Element | string): void {
-	$('#issue_body_template_name').before(
-		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
-			<p>
-				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
-			</p>
-			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
-		</div>,
-	);
+	$('#issue_body_template_name').before(<div className='flash flash-error h3 my-9' style={{animation: 'pulse-in 0.3s 2'}}>
+		<p>
+			Your token is {adjective}. Many Refined GitHub features don't work without it.
+			You can update it <OptionsLink className='btn-link'>in the options</OptionsLink>.
+		</p>
+		<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
+	</div>);
 }
 
 async function checkToken(): Promise<void> {
@@ -66,21 +64,19 @@ async function setVersion(): Promise<void> {
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	$('[href="#clear-cache"]').replaceWith(
-		<button
-			className="btn"
-			type="button"
-			onClick={clearCacheHandler}
-		>
-			Clear cache
-		</button>,
-	);
+	$('[href="#clear-cache"]').replaceWith(<button
+		className='btn'
+		type='button'
+		onClick={clearCacheHandler}
+	>
+		Clear cache
+	</button>);
 }
 
 function Lies(): JSX.Element {
 	return (
-		<a href="https://www.youtube.com/watch?v=YWdD206eSv0">
-			<img src={liesGif} alt="Just go on the internet and tell lies?" className="d-inline-block" />
+		<a href='https://www.youtube.com/watch?v=YWdD206eSv0'>
+			<img src={liesGif} alt='Just go on the internet and tell lies?' className='d-inline-block' />
 		</a>
 	);
 }

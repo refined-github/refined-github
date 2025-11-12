@@ -48,6 +48,7 @@ export default async function isConversationLocked(): Promise<boolean | undefine
 				resolve(result);
 			}
 		};
+
 		resolveIfDefined(isConversationLockedViaReactData);
 		resolveIfDefined(isConversationLockedViaDom);
 		resolveIfDefined(isConversationLockedViaApi);

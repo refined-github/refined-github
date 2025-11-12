@@ -13,7 +13,7 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	const mapLink = `https://www.openstreetmap.org/search?query=${encodeURIComponent(locationName)}`;
 
 	userLocation.before(' '); // Keeps the link’s underline from extending out to the icon
-	const link = <a className="Link--primary" href={mapLink} />;
+	const link = <a className='Link--primary' href={mapLink} />;
 
 	if (userLocation.parentElement!.closest('.Popover')) {
 	// Match the style of other links in the hovercard

@@ -70,17 +70,15 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
 
 		// Add at the beginning of the line to avoid (clickable) content shift
-		assetSize.parentElement!.prepend(
-			<span className={[...getClasses(assetSize)].join(' ')}>
-				<span
-					className="d-inline-block text-right"
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon />
-				</span>
-			</span>,
-		);
+		assetSize.parentElement!.prepend(<span className={[...getClasses(assetSize)].join(' ')}>
+			<span
+				className='d-inline-block text-right'
+				title={`${downloadCount} downloads`}
+				data-rgh-heat={calculateHeatIndex(downloadCount)}
+			>
+				{abbreviateNumber(downloadCount)} <DownloadIcon />
+			</span>
+		</span>);
 
 		// Remove via JS because we can't override utility classes...
 		for (const column of assetSize.parentElement!.children) {

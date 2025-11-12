@@ -29,18 +29,16 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		initialGroupedButtons.after(
-			<button
-				data-disable-invalid
-				className={classList.join(' ')}
-				aria-label={description}
-				type="submit"
-				name={radioButton.name}
-				value={radioButton.value}
-			>
-				{title}
-			</button>,
-		);
+		initialGroupedButtons.after(<button
+			data-disable-invalid
+			className={classList.join(' ')}
+			aria-label={description}
+			type='submit'
+			name={radioButton.name}
+			value={radioButton.value}
+		>
+			{title}
+		</button>);
 	}
 
 	initialGroupedButtons.remove();

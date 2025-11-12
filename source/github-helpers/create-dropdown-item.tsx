@@ -17,24 +17,24 @@ export default function createDropdownItem({
 }: Options): Element {
 	return (
 		<li
-			data-targets="action-list.items action-list.items"
-			role="none"
-			data-view-component="true"
-			className="ActionListItem"
+			data-targets='action-list.items action-list.items'
+			role='none'
+			data-view-component='true'
+			className='ActionListItem'
 			{...attributes}
 		>
 			<a
 				tabIndex={-1}
 				href={href}
-				role="menuitem"
-				data-view-component="true"
-				className="ActionListContent ActionListContent--visual16"
+				role='menuitem'
+				data-view-component='true'
+				className='ActionListContent ActionListContent--visual16'
 			>
-				<span className="ActionListItem-visual ActionListItem-visual--leading">
+				<span className='ActionListItem-visual ActionListItem-visual--leading'>
 					<Icon />
 				</span>
 
-				<span data-view-component="true" className="ActionListItem-label">
+				<span data-view-component='true' className='ActionListItem-label'>
 					{label}
 				</span>
 			</a>

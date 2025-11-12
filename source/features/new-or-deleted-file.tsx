@@ -34,7 +34,7 @@ function add(fileHeader: HTMLDivElement): void {
 		?.cloneNode(true);
 	if (icon) {
 		// `span` needed for native vertical alignment
-		fileHeader.append(<span className="ml-1">{icon}</span>);
+		fileHeader.append(<span className='ml-1'>{icon}</span>);
 	}
 }
 

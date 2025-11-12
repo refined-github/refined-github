@@ -67,7 +67,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 	nativeLink.classList.add('AppHeader-buttonLeft');
 	const button = (
 		<button
-			type="button"
+			type='button'
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 10, cursor: 'pointer'}}
@@ -75,7 +75,7 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
-			<ArrowUpRightIcon className="mb-2" />
+			<ArrowUpRightIcon className='mb-2' />
 		</button>
 	);
 	nativeLink.before(button);

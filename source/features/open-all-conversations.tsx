@@ -22,8 +22,7 @@ function onButtonClick(): void {
 		link.closest([
 			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
 			'[aria-label^="Selected"]',
-		]),
-	);
+		]));
 
 	const linksToOpen = selectedLinks.length > 0
 		? selectedLinks
@@ -53,16 +52,14 @@ function add(anchor: HTMLElement): void {
 		: isSelected
 			? 'btn'
 			: 'btn btn-sm';
-	anchor.prepend(
-		<button
-			type="button"
-			className={`rgh-open-all-conversations ${classes}`}
-		>
-			{isSelected
-				? 'Open selected'
-				: 'Open all'}
-		</button>,
-	);
+	anchor.prepend(<button
+		type='button'
+		className={`rgh-open-all-conversations ${classes}`}
+	>
+		{isSelected
+			? 'Open selected'
+			: 'Open all'}
+	</button>);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {

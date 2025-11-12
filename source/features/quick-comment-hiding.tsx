@@ -34,17 +34,15 @@ function generateSubmenu(hideButton: Element): void {
 	newForm.className = ['js-comment-minimize', 'dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
 
 	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
-		newForm.append(
-			<button
-				type="submit"
-				name="classifier"
-				value={reason.value}
-				className="dropdown-item btn-link"
-				role="menuitem"
-			>
-				{reason.textContent}
-			</button>,
-		);
+		newForm.append(<button
+			type='submit'
+			name='classifier'
+			value={reason.value}
+			className='dropdown-item btn-link'
+			role='menuitem'
+		>
+			{reason.textContent}
+		</button>);
 	}
 
 	// Close immediately after the clicking option

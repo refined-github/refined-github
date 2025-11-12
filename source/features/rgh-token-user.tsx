@@ -21,11 +21,10 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 	if (currentWebUser !== currentTokenUser) {
 		header.after(
 			// Use raw "flash" classes to blend in better with the dropdown menu
-			<div className="flash px-3 mt-3 mb-0 py-2 d-flex flex-items-center border-0 rounded-0">
-				<AlertIcon className="mr-2" />
-				<span>Your <OptionsLink className="btn-link">Refined GitHub token</OptionsLink> is for a different user, the extension will act on behalf of <code>{currentTokenUser}</code></span>
-			</div>,
-		);
+			<div className='flash px-3 mt-3 mb-0 py-2 d-flex flex-items-center border-0 rounded-0'>
+				<AlertIcon className='mr-2' />
+				<span>Your <OptionsLink className='btn-link'>Refined GitHub token</OptionsLink> is for a different user, the extension will act on behalf of <code>{currentTokenUser}</code></span>
+			</div>);
 	}
 }
 

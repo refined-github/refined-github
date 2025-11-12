@@ -65,12 +65,13 @@ export function getResolvedText(): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-resolved-banner'))
+	if (elementExists('.rgh-resolved-banner')) {
 		return;
+	}
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
-		icon: <InfoIcon className="m-0" />,
+		icon: <InfoIcon className='m-0' />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
 		text: getResolvedText(),
 	});
@@ -84,12 +85,13 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-popular-banner'))
+	if (elementExists('.rgh-popular-banner')) {
 		return;
+	}
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
-		icon: <FlameIcon className="m-0" />,
+		icon: <FlameIcon className='m-0' />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
 		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
@@ -103,13 +105,11 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 }
 
 function addDraftBanner(newCommentField: HTMLElement): void {
-	newCommentField.prepend(
-		createBanner({
-			icon: <GitPullRequestDraftIcon className="m-0" />,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
-		}),
-	);
+	newCommentField.prepend(createBanner({
+		icon: <GitPullRequestDraftIcon className='m-0' />,
+		classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+		text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
+	}));
 }
 
 function initDraft(signal: AbortSignal): void {

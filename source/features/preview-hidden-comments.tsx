@@ -27,9 +27,9 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	const reason = /duplicate|outdated|off-topic|hidden/.exec(commentHeader)?.[0];
 	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 	hiddenCommentHeader.append(
-		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
-		<span className="Details-content--closed">
-			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}{commentText.slice(0, 100)}
+		<span className='Details-content--open'>{hiddenCommentHeader.firstChild}</span>,
+		<span className='Details-content--closed'>
+			{reason && <span className='Label mr-2'>{upperCaseFirst(reason)}</span>}{commentText.slice(0, 100)}
 		</span>,
 	);
 }

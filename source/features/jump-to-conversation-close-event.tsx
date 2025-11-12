@@ -39,8 +39,8 @@ function addToConversation(discussionHeader: HTMLElement): void {
 	wrap(
 		discussionHeader,
 		<a
-			aria-label="Scroll to most recent close event"
-			className="tooltipped tooltipped-e"
+			aria-label='Scroll to most recent close event'
+			className='tooltipped tooltipped-e'
 			href={getLastCloseEvent()!.closest('a')!.href}
 		/>,
 	);

@@ -13,19 +13,17 @@ export default async function addNotice(
 	{
 		type = 'notice',
 		action = (
-			<button className="flash-close js-flash-close" type="button" aria-label="Dismiss this message">
+			<button className='flash-close js-flash-close' type='button' aria-label='Dismiss this message'>
 				<XIcon />
 			</button>
 		),
 	}: Options = {},
 ): Promise<void> {
 	const container = await elementReady('#js-flash-container');
-	container!.append(
-		<div className={`flash flash-full flash-${type} px-4`}>
-			{action}
-			<div>
-				{message}
-			</div>
-		</div>,
-	);
+	container!.append(<div className={`flash flash-full flash-${type} px-4`}>
+		{action}
+		<div>
+			{message}
+		</div>
+	</div>);
 }

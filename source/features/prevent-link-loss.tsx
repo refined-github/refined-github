@@ -38,11 +38,11 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 
 function getUI(container: HTMLElement): HTMLElement {
 	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
-		icon: <AlertIcon className="m-0" />,
+		icon: <AlertIcon className='m-0' />,
 		text: (
 			<>
 				{' Your link may be '}
-				<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+				<a href={documentation} target='_blank' rel='noopener noreferrer' data-hovercard-type='issue'>
 					misinterpreted
 				</a>
 				{' by GitHub.'}

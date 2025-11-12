@@ -29,8 +29,8 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		wrap(
 			possibleFeature,
 			<a
-				className="color-fg-accent"
-				data-turbo-frame="repo-content-turbo-frame"
+				className='color-fg-accent'
+				data-turbo-frame='repo-content-turbo-frame'
 				href={href}
 			/>,
 		);

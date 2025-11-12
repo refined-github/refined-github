@@ -12,7 +12,7 @@ import './clean-repo-filelist-actions.css';
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement,
-		<div className="tooltipped tooltipped-n" aria-label={tooltip} />,
+		<div className='tooltipped tooltipped-n' aria-label={tooltip} />,
 	);
 }
 
