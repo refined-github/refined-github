@@ -65,7 +65,7 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line node/prefer-global/buffer, ts/no-restricted-types -- Just passing it
+	// eslint-disable-next-line node/prefer-global/buffer, @typescript-eslint/no-restricted-types -- Just passing it
 	contents(): Buffer {
 		return readFileSync(this.path);
 	}

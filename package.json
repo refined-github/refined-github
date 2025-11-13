@@ -88,6 +88,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.5",
 		"@eslint-react/eslint-plugin": "^2.3.4",
+		"@eslint/compat": "^1.4.1",
 		"@rollup/plugin-alias": "^6.0.0",
 		"@rollup/plugin-commonjs": "^29.0.0",
 		"@rollup/plugin-json": "^6.1.0",

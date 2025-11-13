@@ -1,8 +1,13 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
+import { includeIgnoreFile } from "@eslint/compat";
+import { fileURLToPath } from "node:url";
+
+const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
 
 export default [
+	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
 	...xo.xoToEslintConfig([
 		{
 			semicolon: true,
@@ -47,12 +52,12 @@ export default [
 				'no-console': 'off',
 				'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 				'@stylistic/function-paren-newline': 'off', // Allow JSX on separate lines from parens
-				
+
 				// Allow unassigned imports for CSS and feature files
 				'import-x/no-unassigned-import': ['error', {
 					allow: ['**/*.css', '**/*.scss', '**/*.sass', '**/*.less', '**/features/**', '**/github-helpers/**'],
 				}],
-				
+
 				'no-restricted-imports': [
 					'error',
 					{
