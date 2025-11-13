@@ -18,7 +18,7 @@ type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
-	screenshot: string | undefined; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
+	screenshot: string | null; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
 	css?: true;
 }
 
