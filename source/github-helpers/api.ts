@@ -108,7 +108,7 @@ const v3uncached = async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			'Accept': 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
@@ -131,7 +131,7 @@ const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function * (
+const v3paginated = async function* (
 	query: string,
 	options?: GHRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -205,7 +205,7 @@ const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			Authorization: `bearer ${personalToken}`,
+			'Authorization': `bearer ${personalToken}`,
 		},
 		method: 'POST',
 		body: JSON.stringify({
@@ -259,11 +259,15 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 	}
 
 	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGitHubAPIError('The token seems to be incorrect or expired. Update it in the options.');
+		return new RefinedGitHubAPIError(
+			'The token seems to be incorrect or expired. Update it in the options.',
+		);
 	}
 
 	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
-		return new RefinedGitHubAPIError('To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens');
+		return new RefinedGitHubAPIError(
+			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
+		);
 	}
 
 	const error = new RefinedGitHubAPIError(

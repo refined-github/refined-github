@@ -4,17 +4,17 @@ import {importedFeatures, renamedFeatures} from './feature-data.js';
 
 export type RGHOptions = typeof defaults;
 
-const defaults = {
+const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCSS: '',
 	personalToken: '',
 	logging: false,
-	logHTTP: false, ...Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])),
-};
+	logHTTP: false,
+}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
-	return !options[`feature:${id}`];
+	return options[`feature:${id}`] === false;
 }
 
 const migrations = [

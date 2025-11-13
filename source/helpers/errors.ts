@@ -17,10 +17,11 @@ const preferredMessage = 'Refined GitHub does not support per-organization fine-
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureID | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
-	const match = /assets\/features\/(.+)\.js/.exec(stack
+	const match = stack
 		.split('\n')
 		.toReversed()
-		.join('\n'));
+		.join('\n')
+		.match(/assets\/features\/(.+)\.js/);
 	return match?.[1] as FeatureID | undefined;
 }
 
@@ -39,7 +40,7 @@ export function logError(error: Error): void {
 		return;
 	}
 
-	const id = parseFeatureNameFromStack(stack);
+	const id = parseFeatureNameFromStack(stack!);
 
 	// Avoid duplicate errors
 	if (loggedStacks.has(stack!)) {

@@ -3,7 +3,9 @@ import {test, assert} from 'vitest';
 import {getParsedBackticksParts} from './parse-backticks.js';
 
 function parseBackticks(string: string): string {
-	return getParsedBackticksParts(string).map((part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part).join('');
+	return getParsedBackticksParts(string).map(
+		(part, index) => index % 2 && part.length > 0 ? `<code>${part.trim()}</code>` : part,
+	).join('');
 }
 
 test('parseBackticks', () => {

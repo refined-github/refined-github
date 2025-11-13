@@ -24,11 +24,13 @@ editor.on('changes', (_, [firstChange]) => {
 });
 
 function getLineNumber(lineChild: Element): number {
-	return Number(lineChild
-		.closest(['.CodeMirror-gutter-wrapper', '.CodeMirror-linewidget'])!
-		.parentElement!
-		.querySelector('.CodeMirror-linenumber')!
-		.textContent) - 1;
+	return Number(
+		lineChild
+			.closest(['.CodeMirror-gutter-wrapper', '.CodeMirror-linewidget'])!
+			.parentElement!
+			.querySelector('.CodeMirror-linenumber')!
+			.textContent,
+	) - 1;
 }
 
 function appendLineInfo(lineHandle: CodeMirror.LineHandle, text: string): void {

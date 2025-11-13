@@ -1,8 +1,10 @@
 export function getTrueSizeOfObject(object: Record<string, any>): number {
 	// Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=1385832#c20
-	return new TextEncoder().encode(Object.entries(object)
-		.map(([key, value]) => key + JSON.stringify(value))
-		.join('')).length;
+	return new TextEncoder().encode(
+		Object.entries(object)
+			.map(([key, value]) => key + JSON.stringify(value))
+			.join(''),
+	).length;
 }
 
 /** `getBytesInUse` polyfill */

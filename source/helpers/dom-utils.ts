@@ -2,7 +2,7 @@ import {ElementNotFoundError} from 'select-dom';
 import {$, $$, $optional} from 'select-dom/strict.js';
 
 // eslint-disable-next-line ts/no-restricted-types -- Nodes may be exactly `null`
-type Nullable<T> = T | undefined;
+type Nullable<T> = T | null;
 
 /**
  * Append to an element, but before a element that might not exist.
