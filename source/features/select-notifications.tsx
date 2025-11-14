@@ -55,7 +55,7 @@ function handleSelection(): void {
 	const types = getFiltersSelector(formData, 'Type');
 	const statuses = getFiltersSelector(formData, 'Status');
 	const readStatus = getFiltersSelector(formData, 'Read');
-	const selectorGroups = [types, statuses, readStatus].filter(array => array.length > 0);
+	const selectorGroups = [types, statuses, readStatus].filter(selectors => selectors.length > 0);
 	const deselectAll = selectorGroups.length === 0;
 
 	const notifications = $$('.notifications-list-item');
@@ -69,6 +69,7 @@ function handleSelection(): void {
 			input.checked = selectorGroups.every(selectorGroup => elementExists(selectorGroup, notification));
 		}
 
+		// Trigger the selection action bar update
 		if (notifications.length - index === 1) {
 			input.dispatchEvent(new Event('change', {bubbles: true}));
 		}
