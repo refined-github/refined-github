@@ -9,13 +9,24 @@ import HistoryIcon from 'octicons-plain-react/History';
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
 
-function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
+export function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
 	const {href} = new GitHubFileURL(viewFile.href).assign({route});
 	return (
 		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 dropdown-item btn-link" role="menuitem">
-			View {name}
+			{name}
 		</a>
 	);
+}
+
+export function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
+	const menuItem = viewFile.cloneNode(true);
+	const fileLink = $('a', viewFile).href;
+	const link = $('a', menuItem);
+	link.href = new GitHubFileURL(fileLink).assign({route}).href;
+	link.dataset.turbo = String(route !== 'raw');
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = name;
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
+	return menuItem;
 }
 
 function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
@@ -23,30 +34,19 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 
 	const viewFile = $('a[data-ga-click^="View file"]', dropdown);
 	viewFile.after(
-		getLegacyMenuItem(viewFile, 'raw', 'raw'),
-		getLegacyMenuItem(viewFile, 'blame', 'blame'),
-		getLegacyMenuItem(viewFile, 'history', 'commits'),
+		getLegacyMenuItem(viewFile, 'View raw', 'raw'),
+		getLegacyMenuItem(viewFile, 'View blame', 'blame'),
+		getLegacyMenuItem(viewFile, 'View history', 'commits'),
 		<div className="dropdown-divider" role="none" />,
 	);
-}
-
-function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
-	const menuItem = viewFile.cloneNode(true);
-	const fileLink = $('a', viewFile).href;
-	const link = $('a', menuItem);
-	link.href = new GitHubFileURL(fileLink).assign({route}).href;
-	link.dataset.turbo = String(route !== 'raw');
-	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
-	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
-	return menuItem;
 }
 
 function handleMenuOpening(): void {
 	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
 	viewFile.after(
-		getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
-		getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
-		getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
+		getMenuItem(viewFile, 'View raw', 'raw', <FileCodeIcon />),
+		getMenuItem(viewFile, 'View blame', 'blame', <VersionsIcon />),
+		getMenuItem(viewFile, 'View history', 'commits', <HistoryIcon />),
 		viewFile.nextElementSibling?.getAttribute('data-component') === 'ActionList.Divider'
 			? ''
 			: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,

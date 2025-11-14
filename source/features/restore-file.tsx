@@ -1,15 +1,61 @@
 import React from 'dom-chef';
+import GitCompareIcon from 'octicons-plain-react/GitCompare';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import showToast from '../github-helpers/toast.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import {getLegacyMenuItem, getMenuItem} from './more-file-links.js';
+
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
+	// TODO: Drop support for old view in June 2026
+	if (menuItem.tagName === 'A') {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent!
+			.split(' → ');
+
+		return {original: originalFileName, new: newFileName};
+	}
+
+	const fileAnchor: HTMLAnchorElement = menuItem
+		.closest('ul')!
+		.querySelector('li:has(svg.octicon-eye) a')!;
+
+	const fileUrl = fileAnchor.href;
+
+	const {head} = getBranches();
+
+	const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
+	const reactProps = JSON.parse(reactPropsRaw!);
+
+	let originalFileName = '';
+	// Get the new filename from the "View File" button href
+	const urlRegex = new RegExp(
+		`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/[^/]+\/`,
+	);
+	const newFileName = fileUrl.replace(urlRegex, '')!;
+
+	// Leverage the React props inlined in a script tag in order to determine whether or not we're
+	// dealing with a RENAME change, in which case we'll also need to find the old filename correctly
+	const diffContents = reactProps.payload.diffContents.find((dc: Record<string, unknown>) =>
+		dc.path === newFileName,
+	);
+	if (diffContents.status === 'RENAMED') {
+		originalFileName = diffContents.oldTreeEntry.path;
+	} else {
+		originalFileName = newFileName;
+	}
+
+	return {original: originalFileName, new: newFileName};
+}
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -86,47 +132,95 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+	event.preventDefault();
+
 	const menuItem = event.delegateTarget;
+	const filenames = getFilenames(menuItem);
 
-	const [originalFileName, newFileName = originalFileName] = menuItem
-		.closest('[data-path]')!
-		.querySelector('.Link--primary')!
-		.textContent
-		.split(' → ');
+	const commitTitle = prompt('Are you sure you want to discard these changes? Enter the commit title', `Discard changes to ${filenames.original}`);
 
-	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}? Enter the commit title`, `Discard changes to ${newFileName}`);
 	if (!commitTitle) {
 		return;
 	}
 
-	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName, commitTitle), {
+	await showToast(async progress => discardChanges(progress!, filenames.original, filenames.new, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});
 
 	// Hide file from view
-	menuItem.closest('.file')!.remove();
+	// TODO: Drop support for old view in June 2026
+	if (menuItem.tagName === 'A') {
+		menuItem.closest('.file')!.remove();
+		return;
+	}
+
+	const filesWrapper = $('div[class^="prc-PageLayout-Content-"] div[data-hpc="true"]');
+	const fileElement = [...filesWrapper.children].find(child => {
+		const filenameElement = child.querySelector('h3 code');
+		if (!filenameElement?.textContent) {
+			return false;
+		}
+
+		let filename = filenameElement.textContent
+			.replaceAll(/[\u200E\u200F\uFEFF]/g, '')
+			.trim();
+
+		// Handle rename heading "old renamed to new"
+		if (/\brenamed\s+to\b/i.test(filename)) {
+			filename = filename.split(/\s+renamed\s+to\s+/i)[0].trim();
+		}
+
+		return filename === filenames.original;
+	}) as HTMLElement;
+
+	// Remove file element in list as well as portaled dropdown menu
+	fileElement!.remove();
+	menuItem.closest('div[data-focus-trap="active"]')!.remove();
 }
 
-function add(editFile: HTMLAnchorElement): void {
-	editFile.after(
-		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
-			role="menuitem"
-			type="button"
-		>
-			Discard changes
-		</button>,
-	);
+function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
+	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
+
+	const editFile = $('a[data-ga-click^="Edit file"]', dropdown);
+
+	// Skip if already added to prevent duplicates
+	if (editFile.nextElementSibling?.classList.contains('rgh-restore-file')) {
+		return;
+	}
+
+	const discardChangesButton = getLegacyMenuItem(editFile, 'Discard Changes', 'Discard Changes');
+	discardChangesButton.classList.add('rgh-restore-file');
+
+	editFile.after(discardChangesButton);
+}
+
+function handleMenuOpening(): void {
+	const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
+
+	const discardChangesButton = getMenuItem(editFile, 'Discard Changes', '', <GitCompareIcon />);
+	discardChangesButton.classList.add('rgh-restore-file');
+
+	editFile.after(discardChangesButton);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
-
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
+
+	delegate(
+		'.file-header .js-file-header-dropdown',
+		'toggle',
+		handleLegacyMenuOpening,
+		{capture: true, signal},
+	);
+	delegate(
+		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+	);
 }
 
 void features.add(import.meta.url, {
