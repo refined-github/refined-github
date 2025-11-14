@@ -63,6 +63,7 @@ function handleSelection(): void {
 		const notification = notifications[index];
 		const input = $('input.js-notification-bulk-action-check-item', notification);
 
+		// Updating the "checked" property does not raise any events
 		if (deselectAll) {
 			input.checked = false;
 		} else {
