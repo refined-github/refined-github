@@ -184,6 +184,11 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 
 	const editFile = $('a[data-ga-click^="Edit file"]', dropdown);
 
+	// Skip if already added to prevent duplicates
+	if (editFile.nextElementSibling?.classList.contains('rgh-restore-file')) {
+		return;
+	}
+
 	const discardChangesButton = getLegacyMenuItem(editFile, 'Discard Changes', 'Discard Changes');
 	discardChangesButton.classList.add('rgh-restore-file');
 
