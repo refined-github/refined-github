@@ -1,13 +1,13 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
-import { includeIgnoreFile } from "@eslint/compat";
-import { fileURLToPath } from "node:url";
+import {includeIgnoreFile} from '@eslint/compat';
+import {fileURLToPath} from 'node:url';
 
-const gitignorePath = fileURLToPath(new URL(".gitignore", import.meta.url));
+const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 
 export default [
-	includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
+	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
 		{
 			semicolon: true,

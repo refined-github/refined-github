@@ -96,9 +96,9 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 		dropdownMenu,
 		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
-			'label': type,
-			'href': buildRepoURL(type.toLowerCase()),
-			'icon': TagIcon,
+			label: type,
+			href: buildRepoURL(type.toLowerCase()),
+			icon: TagIcon,
 			'data-menu-item': 'rgh-releases-item',
 		}),
 	);

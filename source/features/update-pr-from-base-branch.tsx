@@ -25,7 +25,7 @@ const nativeRepos = new CachedFunction('native-update-button', {
 	staleWhileRevalidate: {
 		days: 1,
 	},
-	updater: async (_nameWithOwner: string): Promise<boolean> => {
+	async updater(_nameWithOwner: string): Promise<boolean> {
 		throw new TypeError('bad usage');
 	},
 });

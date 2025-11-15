@@ -139,7 +139,7 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init(signal: AbortSignal): void {
-		onPrMerge(() => addReleaseBanner('Now you can release this change'), signal);
+		onPrMerge(async () => addReleaseBanner('Now you can release this change'), signal);
 	},
 });
 

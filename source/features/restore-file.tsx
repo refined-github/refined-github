@@ -99,7 +99,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	await showToast(async progress => discardChanges(progress!, originalFileName, newFileName, commitTitle), {
+	await showToast(async progress => discardChanges(progress, originalFileName, newFileName, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});

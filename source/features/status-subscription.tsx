@@ -12,9 +12,9 @@ import {multilineAriaLabel} from '../github-helpers/index.js';
 // Make the element look selected, not disabled, but effectively disable clicks/focus
 const disableAttributes = {
 	'aria-selected': true,
-	'className': 'selected',
-	'tabIndex': -1,
-	'style': {pointerEvents: 'none'},
+	className: 'selected',
+	tabIndex: -1,
+	style: {pointerEvents: 'none'},
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
 function SubButton(): JSX.Element {

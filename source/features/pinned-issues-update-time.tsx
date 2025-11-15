@@ -34,7 +34,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt($('.opened-by', pinnedIssue).firstChild!);
+	return looseParseInt($('.opened-by', pinnedIssue).firstChild);
 }
 
 async function update(pinnedIssues: HTMLElement[]): Promise<void> {

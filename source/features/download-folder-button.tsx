@@ -34,7 +34,7 @@ function add(menu: HTMLUListElement): void {
 
 	$('[id$="--label"]', link).textContent = 'Download directory';
 
-	menu!.prepend(item);
+	menu.prepend(item);
 }
 
 function init(signal: AbortSignal): void {
