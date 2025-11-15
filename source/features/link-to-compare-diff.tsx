@@ -26,7 +26,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
