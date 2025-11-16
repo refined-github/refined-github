@@ -4,17 +4,19 @@ import {importedFeatures, renamedFeatures} from './feature-data.js';
 
 export type RGHOptions = typeof defaults;
 
-const defaults = {
+// eslint-disable-next-line prefer-object-spread -- TypeScript hates this one weird trick
+const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCSS: '',
 	personalToken: '',
 	logging: false,
-	logHTTP: false, ...Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])),
-};
+	logHTTP: false,
+}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
 
 export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
-	return !options[`feature:${id}`];
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
+	return options[`feature:${id}`] === false;
 }
 
 const migrations = [

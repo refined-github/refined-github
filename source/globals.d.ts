@@ -75,10 +75,16 @@ declare namespace JSX {
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-type NamedNodeMap = Record<string, Attr>;
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
+interface NamedNodeMap {
+	[key: string]: Attr;
+}
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-type HTMLFormControlsCollection = Record<string, HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement>;
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/naming-convention -- Declaration merging
+interface HTMLFormControlsCollection {
+	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
+}
 
 // Make `element.cloneNode()` preserve its type instead of returning Node
 interface Node extends EventTarget {

@@ -31,14 +31,15 @@ function unload(): void {
 	features.unload(import.meta.url);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
 		'#issue_title',
 		'#pull_request_title',
 	], 'input', validatePrTitle, {signal, passive: true});
-	void waitForPrMerge(unload, signal);
+	await waitForPrMerge(signal);
+	unload();
 }
 
 void features.add(import.meta.url, {
