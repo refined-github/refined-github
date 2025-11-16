@@ -24,7 +24,7 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 					<kbd className={keybindingHint.className}>
 						{hotkey.split(' ').map(key => (
 							<span className={chord.className}>
-								{key.length === 1 ? key.toUpperCase() : key.charAt(0).toUpperCase() + key.slice(1)}
+								{key.charAt(0).toUpperCase() + key.slice(1)}
 							</span>
 						))}
 					</kbd>,
