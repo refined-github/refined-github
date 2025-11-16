@@ -52,10 +52,21 @@ export default [
 				'no-console': 'off',
 				'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 				'@stylistic/function-paren-newline': 'off', // Allow JSX on separate lines from parens
+				'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 
 				// Allow unassigned imports for CSS and feature files
 				'import-x/no-unassigned-import': ['error', {
-					allow: ['**/*.css', '**/*.scss', '**/*.sass', '**/*.less', '**/features/**', '**/github-helpers/**'],
+					allow: [
+						'**/*.css',
+						'**/*.scss',
+						'**/*.sass',
+						'**/*.less',
+						'**/features/**',
+						'**/github-helpers/**',
+						'webext-bugs/*',
+						'vite/client',
+						'webext-dynamic-content-scripts',
+					],
 				}],
 
 				'no-restricted-imports': [
@@ -107,7 +118,7 @@ export default [
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
 
-				// Import-x rules customization (xo already includes import-x plugin)
+				// Import-x rules customization
 				'import-x/consistent-type-specifier-style': 'off',
 				'import-x/prefer-default-export': 'error',
 				'import-x/order': [
@@ -151,6 +162,12 @@ export default [
 						},
 					},
 				],
+				'@typescript-eslint/switch-exhaustiveness-check': ['error', {
+					considerDefaultExhaustiveForUnions: true,
+				}],
+
+				'@typescript-eslint/parameter-properties': 'off', // Conflicts with erasable sintax
+				'@typescript-eslint/no-deprecated': 'off', // Too noisy for now
 				'@typescript-eslint/no-unsafe-assignment': 'off',
 				'@typescript-eslint/no-unsafe-argument': 'off',
 				'@typescript-eslint/no-unsafe-member-access': 'off',
@@ -236,6 +253,10 @@ export default [
 			ignores: ['safari'],
 		},
 	]),
+	{
+		// Disable on markdown files, which are somehow being read as JS files
+		ignores: ['**/*.md'],
+	},
 	// Svelte support
 	...sveltePlugin.configs['flat/recommended'],
 	{

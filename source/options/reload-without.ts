@@ -1,6 +1,5 @@
 import {StorageItem} from 'webext-storage';
 import webextAlert from 'webext-alert';
-import chromeP from 'webext-polyfill-kinda';
 import {isScriptableUrl} from 'webext-content-scripts';
 import {isFirefox} from 'webext-detect';
 import {createContextMenu} from 'webext-tools';
@@ -14,19 +13,19 @@ export const contentScriptToggle = new StorageItem('contentScript', {
 });
 
 async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
-	if (tab.url && isScriptableUrl(tab.url) && await chromeP.permissions.contains({
+	if (tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
 		origins: [tab.url],
 	})) {
 		await contentScriptToggle.set(false);
-		chrome.tabs.reload(tab.id!);
+		await chrome.tabs.reload(tab.id!);
 	} else {
 		// TODO: Use https://github.com/fregante/webext-events/issues/31 to disable the item instead
-		webextAlert('Refined GitHub is already not running on this page');
+		await webextAlert('Refined GitHub is already not running on this page');
 	}
 }
 
 export default function addReloadWithoutContentScripts(): void {
-	chrome.storage.session.setAccessLevel?.({accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS'});
+	void chrome.storage.session.setAccessLevel?.({accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS'});
 
 	void createContextMenu({
 		id: 'reload-without-content-scripts',

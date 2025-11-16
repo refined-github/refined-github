@@ -7,7 +7,7 @@ import GetIssueLockStatus from './is-conversation-locked.gql';
 import {getConversationNumber} from '../github-helpers/index.js';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
-	if (!hasToken()) {
+	if (!await hasToken()) {
 		return undefined;
 	}
 
@@ -49,8 +49,8 @@ export default async function isConversationLocked(): Promise<boolean | undefine
 			}
 		};
 
-		resolveIfDefined(isConversationLockedViaReactData);
-		resolveIfDefined(isConversationLockedViaDom);
-		resolveIfDefined(isConversationLockedViaApi);
+		void resolveIfDefined(isConversationLockedViaReactData);
+		void resolveIfDefined(isConversationLockedViaDom);
+		void resolveIfDefined(isConversationLockedViaApi);
 	});
 }

@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import onPrMerge from '../github-events/on-pr-merge.js';
+import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranch from './pr-branch-auto-delete.gql';
@@ -77,8 +77,9 @@ void features.add(import.meta.url, {
 		pageDetect.isOpenConversation,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
-	init(signal: AbortSignal): void {
-		onPrMerge(init, signal);
+	async init(signal: AbortSignal): Promise<void> {
+		await waitForPrMerge(signal);
+		await init();
 	},
 });
 

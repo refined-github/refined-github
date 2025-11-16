@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop -- Event loops */
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
@@ -100,6 +101,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
+	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
 	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
@@ -146,7 +148,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			// CSS-only https://github.com/refined-github/refined-github/issues/7944
 			// GitHub cleans up the CSS disabling attributes after navigation.
 			// https://github.com/refined-github/refined-github/issues/8172
-			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
 			do {
 				document.documentElement.setAttribute('rgh-OFF-' + id, '');
 				log.info('↩️', 'Skipping', id);

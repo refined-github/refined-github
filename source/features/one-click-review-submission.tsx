@@ -19,7 +19,6 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
 	if (radios.length === 0) {
 		throw new Error('Could not find radio buttons');
-		return;
 	}
 
 	// Set the default action for cmd+enter to Comment
