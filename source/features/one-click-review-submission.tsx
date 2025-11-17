@@ -117,7 +117,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		['[class^="ReviewMenuButton-module__AnchoredReviewBody"]', '[class^="prc-Dialog-Body"]'],
 		dialog,
 	);
-	const radioGroup = $('[class*="prc-CheckboxOrRadioGroup-GroupFieldset"]', dialog);
+	const radioGroup = $('[class*="prc-CheckboxOrRadioGroup-GroupFieldset"]', reviewBody);
 	const actionRow = reviewBody.nextElementSibling ?? $('[class^="prc-Dialog-Footer"]', dialog);
 
 	const choices: [HTMLInputElement, string, string][] = $$(
@@ -144,7 +144,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		switch (radioButton.value) {
 			case 'comment': {
 				icon = <CommentIcon />;
-				// The submit button is disabled when there is no text
+				// The original submit button is disabled when the comment textarea is empty
 				isDisabled = $(`button${reviewButtonSelector}`, actionRow).disabled;
 				break;
 			}
