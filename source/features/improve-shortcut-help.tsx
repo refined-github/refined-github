@@ -22,10 +22,13 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 				currentItem.firstElementChild!.textContent = description;
 				currentItem.lastElementChild!.replaceChildren(
 					<kbd className={keybindingHint.className}>
-						{hotkey.split(' ').map(key => (
-							<span className={chord.className}>
-								{key.charAt(0).toUpperCase() + key.slice(1)}
-							</span>
+						{hotkey.split(' ').map((key, index) => (
+							<>
+								{index > 0 && ' '}
+								<span className={chord.className}>
+									{key.charAt(0).toUpperCase() + key.slice(1)}
+								</span>
+							</>
 						))}
 					</kbd>,
 				);
