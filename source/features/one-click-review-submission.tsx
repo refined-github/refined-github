@@ -113,6 +113,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	}
 
 	const dialog = $('div[role="dialog"]');
+	// Desktop layout first, then mobile layout
 	const reviewBody = $(
 		['[class^="ReviewMenuButton-module__AnchoredReviewBody"]', '[class^="prc-Dialog-Body"]'],
 		dialog,
@@ -130,6 +131,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 			radioButton.click();
 		}
 		const description = $('[class^="ReviewMenu-module__RadioText"]', horizontalControl);
+		// The reason why the radio button is disabled
 		const maybeTooltip = horizontalControl.parentElement!;
 		const tooltipText = (
 			maybeTooltip.role === 'tooltip' ? maybeTooltip.ariaLabel! : description.textContent
