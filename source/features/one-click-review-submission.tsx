@@ -197,6 +197,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	cancelButton.parentElement!.replaceChildren(...buttons.toReversed());
 
 	radioGroup.classList.add('d-none');
+	// It re-renders every time a radio button is selected, so use a clone
 	actionRow.classList.add('d-none');
 	actionRow.after(rghActionRow);
 	// Fix tooltips getting cut off
