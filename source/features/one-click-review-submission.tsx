@@ -127,7 +127,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	).map(horizontalControl => {
 		const radioButton = $('input', horizontalControl);
 		if (radioButton.value === 'comment') {
-			// Choose the "Comment" option to check if the submit button is enabled for it
+			// Select the "Comment" option to check if the original submit button is enabled later
 			radioButton.click();
 		}
 		const description = $('[class^="ReviewMenu-module__RadioText"]', horizontalControl);
@@ -146,7 +146,8 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		switch (radioButton.value) {
 			case 'comment': {
 				icon = <CommentIcon />;
-				// The original submit button is disabled when the comment textarea is empty
+				// radioButton.disabled for the "Comment" option is always false
+				// Check the disabled state of the original submit button, which depends on whether the comment textarea is empty
 				isDisabled = $(`button${reviewButtonSelector}`, actionRow).disabled;
 				break;
 			}
@@ -188,13 +189,10 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		for (const button of buttons) button.setAttribute('disabled', 'true');
 		$(`button${reviewButtonSelector}`, actionRow).click();
 	}
-	function cancelReview(): void {
-		$(`button${cancelButtonSelector}`, actionRow).click();
-	}
 
 	const rghActionRow = actionRow.cloneNode(true);
 	const cancelButton = $(`button${cancelButtonSelector}`, rghActionRow);
-	cancelButton.addEventListener('click', cancelReview);
+	cancelButton.addEventListener('click', () => $(`button${cancelButtonSelector}`, actionRow).click());
 	buttons.push(cancelButton);
 	cancelButton.parentElement!.replaceChildren(...buttons.toReversed());
 
@@ -204,6 +202,14 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	actionRow.after(rghActionRow);
 	// Fix tooltips getting cut off
 	dialog.style.overflow = 'visible';
+
+	// Sync the disabled state of our "Comment" button with the original submit button
+	// When the "Comment" option is selected, actionRow re-renders each time the submit button state changes
+	const commentButton = buttons[0] as HTMLButtonElement;
+	const observer = new MutationObserver(() => {
+		commentButton.disabled = $(`button${reviewButtonSelector}`, actionRow).disabled;
+	});
+	observer.observe(actionRow, {childList: true});
 }
 
 let lastSubmission: number | undefined;
