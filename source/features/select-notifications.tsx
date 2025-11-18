@@ -64,11 +64,7 @@ function handleSelection(): void {
 		const input = $('input.js-notification-bulk-action-check-item', notification);
 
 		// Updating the "checked" property does not raise any events
-		if (deselectAll) {
-			input.checked = false;
-		} else {
-			input.checked = selectorGroups.every(selectorGroup => elementExists(selectorGroup, notification));
-		}
+		input.checked = !deselectAll && selectorGroups.every(selectorGroup => elementExists(selectorGroup, notification));
 
 		// Trigger the selection action bar update
 		if (notifications.length - index === 1) {
