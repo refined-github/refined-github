@@ -1,0 +1,10 @@
+.rgh-action-row {
+	/* Don't hide the entire element when there is a message */
+	&:not(:has([class^="prc-Flash-Flash"])) {
+		display: none !important;
+	}
+	/* Always hide buttons */
+	& > :nth-child(2) {
+		display: none !important;
+	}
+}

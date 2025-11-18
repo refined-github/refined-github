@@ -1,10 +1,12 @@
+import './one-click-review-submission.css';
+
 import React from 'dom-chef';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CommentIcon from 'octicons-plain-react/Comment';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$, $$} from 'select-dom/strict.js';
+import {$, $$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -191,6 +193,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
+	$optional('[class^="prc-Flash-Flash"]', rghActionRow)?.remove();
 	const cancelButton = $(cancelButtonSelector, rghActionRow);
 	cancelButton.addEventListener('click', () => $(cancelButtonSelector, actionRow).click());
 	buttons.push(cancelButton);
@@ -198,7 +201,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 
 	radioGroup.classList.add('d-none');
 	// It re-renders every time a radio button is selected, so use a clone
-	actionRow.classList.add('d-none');
+	actionRow.classList.add('rgh-action-row');
 	actionRow.after(rghActionRow);
 	// Fix tooltips getting cut off
 	dialog.style.overflow = 'visible';
