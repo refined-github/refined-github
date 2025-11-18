@@ -187,9 +187,12 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		);
 	});
 
+	const commentRadioButton = choices[0][0];
 	function submitReview(): void {
 		for (const button of buttons) button.setAttribute('disabled', 'true');
 		$(reviewButtonSelector, actionRow).click();
+		// Reselect the "Comment" option to keep the comment button disabled state in sync
+		commentRadioButton.click();
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
