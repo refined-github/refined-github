@@ -193,7 +193,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
-	$optional('[class^="prc-Flash-Flash"]', rghActionRow)?.remove();
+	$optional('[class^="prc-Flash"]', rghActionRow)?.remove();
 	const cancelButton = $(cancelButtonSelector, rghActionRow);
 	cancelButton.addEventListener('click', () => $(cancelButtonSelector, actionRow).click());
 	buttons.push(cancelButton);
