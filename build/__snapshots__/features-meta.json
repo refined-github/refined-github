@@ -533,6 +533,7 @@
 	{
 		"id": "one-click-review-submission",
 		"description": "Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/236627732-df341ff7-cd98-4cd0-a579-722d1fffa5cf.png"
 	},
 	{
