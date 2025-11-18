@@ -62,7 +62,7 @@ async function init(): Promise<void> {
 
 	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
 		stopOnDomReady: false,
-		timeout: 2000,
+		signal: AbortSignal.timeout(2000),
 	});
 
 	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';

@@ -136,7 +136,7 @@
   },
   "source/github-helpers/api.ts": {
     "@typescript-eslint/naming-convention": {
-      "count": 9
+      "count": 8
     }
   },
   "source/github-helpers/dom-formatters.tsx": {
