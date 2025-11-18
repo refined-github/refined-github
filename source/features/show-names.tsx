@@ -62,8 +62,10 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
 			currentUserElement.closest('[data-testid="comment-header"]')?.setAttribute('data-rgh-viewer-did-author', '');
 		}
+
 		users.delete(currentUser);
 	}
+
 	users.delete('ghost'); // Consider using `github-reserved-names` if more exclusions are needed
 
 	if (users.size === 0) {
