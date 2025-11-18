@@ -189,10 +189,25 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 
 	const commentRadioButton = choices[0][0];
 	function submitReview(): void {
-		for (const button of buttons) button.setAttribute('disabled', 'true');
 		$(reviewButtonSelector, actionRow).click();
 		// Reselect the "Comment" option to keep the comment button disabled state in sync
 		commentRadioButton.click();
+	}
+
+	const commentButton = buttons[0] as HTMLButtonElement;
+	function syncButtonsDisabledState(): void {
+		commentButton.disabled = $(reviewButtonSelector, actionRow).disabled;
+		const shouldDisableAll = $(cancelButtonSelector, actionRow).disabled;
+		// Start with 1 to exclude the "Comment" button
+		for (let index = 1; index < buttons.length; index++) {
+			const button = buttons[index] as HTMLButtonElement;
+			const radioButton = choices[index][0];
+			if (shouldDisableAll) {
+				button.disabled = true;
+			} else {
+				button.disabled = radioButton.disabled;
+			}
+		}
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
@@ -211,11 +226,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 
 	// Sync the disabled state of our "Comment" button with the original submit button
 	// When the "Comment" option is selected, actionRow re-renders each time the submit button state changes
-	const commentButton = buttons[0] as HTMLButtonElement;
-	const observer = new MutationObserver(() => {
-		commentButton.disabled = $(reviewButtonSelector, actionRow).disabled;
-	});
-	observer.observe(actionRow, {childList: true});
+	new MutationObserver(syncButtonsDisabledState).observe(actionRow, {childList: true});
 }
 
 let lastSubmission: number | undefined;
