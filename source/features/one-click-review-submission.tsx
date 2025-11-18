@@ -103,8 +103,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	originalSubmitButton.remove();
 }
 
-const reviewButtonSelector = '[class*="ReviewMenuButton-module__SubmitReviewButton"]';
-const cancelButtonSelector = `:not(${reviewButtonSelector})`;
+const reviewButtonSelector = 'button[class*="ReviewMenuButton-module__SubmitReviewButton"]';
+const cancelButtonSelector = `button:not(${reviewButtonSelector})`;
 
 function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	// Exclude the "Submit comments" button
@@ -148,7 +148,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 				icon = <CommentIcon />;
 				// radioButton.disabled for the "Comment" option is always false
 				// Check the disabled state of the original submit button, which depends on whether the comment textarea is empty
-				isDisabled = $(`button${reviewButtonSelector}`, actionRow).disabled;
+				isDisabled = $(reviewButtonSelector, actionRow).disabled;
 				break;
 			}
 			case 'approve': {
@@ -187,12 +187,12 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 
 	function submitReview(): void {
 		for (const button of buttons) button.setAttribute('disabled', 'true');
-		$(`button${reviewButtonSelector}`, actionRow).click();
+		$(reviewButtonSelector, actionRow).click();
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
-	const cancelButton = $(`button${cancelButtonSelector}`, rghActionRow);
-	cancelButton.addEventListener('click', () => $(`button${cancelButtonSelector}`, actionRow).click());
+	const cancelButton = $(cancelButtonSelector, rghActionRow);
+	cancelButton.addEventListener('click', () => $(cancelButtonSelector, actionRow).click());
 	buttons.push(cancelButton);
 	cancelButton.parentElement!.replaceChildren(...buttons.toReversed());
 
@@ -207,7 +207,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	// When the "Comment" option is selected, actionRow re-renders each time the submit button state changes
 	const commentButton = buttons[0] as HTMLButtonElement;
 	const observer = new MutationObserver(() => {
-		commentButton.disabled = $(`button${reviewButtonSelector}`, actionRow).disabled;
+		commentButton.disabled = $(reviewButtonSelector, actionRow).disabled;
 	});
 	observer.observe(actionRow, {childList: true});
 }
