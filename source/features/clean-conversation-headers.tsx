@@ -37,7 +37,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const prCreatorSelector = [
 		'.TimelineItem .author',
 		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
-	].join(',');
+	];
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
