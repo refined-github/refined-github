@@ -51,3 +51,45 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		) !important;
 	}
 }
+
+/* TODO: remove everything above in late 2026 */
+.rgh-no-split-diff {
+	table-layout: auto !important;
+
+	/* No changes on the left side */
+	&.rgh-only-additions {
+		--rgh-left-side-d: none;
+		--rgh-right-side-w: 100%;
+	}
+
+	/* No changes on the right side */
+	&.rgh-only-deletions {
+		--rgh-right-side-d: none;
+		--rgh-left-side-w: 100%;
+	}
+
+	/* Align line number cells with the header first cell */
+	.diff-line-number {
+		min-width: 40px;
+	}
+
+	.diff-line-row {
+		/* The left side (deletions) */
+		/* > to avoid selecting suggested changes */
+		& > td:nth-child(2) {
+			/* Only additions: hide the left side */
+			display: var(--rgh-left-side-d, table-cell) !important;
+			/* Only deletions: expand the left side */
+			width: var(--rgh-left-side-w, auto) !important;
+		}
+
+		/* The right side (additions) */
+		/* > to avoid selecting suggested changes */
+		& > td:nth-child(4) {
+			/* Only deletions: hide the right side */
+			display: var(--rgh-right-side-d, table-cell) !important;
+			/* Only additions: expand the right side */
+			width: var(--rgh-right-side-w, auto) !important;
+		}
+	}
+}
