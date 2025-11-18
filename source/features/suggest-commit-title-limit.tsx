@@ -8,7 +8,7 @@ import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import {formatPrCommitTitle} from './sync-pr-commit-title.js';
-import onPrMerge from '../github-events/on-pr-merge.js';
+import waitForPrMerge from '../github-events/on-pr-merge.js';
 import abortableClassName from '../helpers/abortable-classname.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
@@ -31,14 +31,15 @@ function unload(): void {
 	features.unload(import.meta.url);
 }
 
-function init(signal: AbortSignal): void {
+async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
 		'#issue_title',
 		'#pull_request_title',
 	], 'input', validatePrTitle, {signal, passive: true});
-	onPrMerge(unload, signal);
+	await waitForPrMerge(signal);
+	unload();
 }
 
 void features.add(import.meta.url, {

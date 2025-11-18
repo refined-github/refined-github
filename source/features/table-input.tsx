@@ -10,7 +10,7 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
-import {actionBarSelectors} from '../github-helpers/selectors';
+import {actionBarSelectors} from '../github-helpers/selectors.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('fieldset') // Issue

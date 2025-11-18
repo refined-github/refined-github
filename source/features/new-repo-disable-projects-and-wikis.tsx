@@ -66,7 +66,7 @@ function add(blueprintRow: HTMLElement): void {
 	);
 	control.classList.add('d-flex', 'flex-items-center');
 
-	blueprintRow!.parentElement!.append(disableProjectsAndWikis);
+	blueprintRow.parentElement!.append(disableProjectsAndWikis);
 }
 
 function addOld(submitButton: HTMLElement): void {

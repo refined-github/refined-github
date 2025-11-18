@@ -55,9 +55,9 @@ async function appendTab(navigationBar: Element): Promise<void> {
 	if (!elementExists('[data-rgh-label="Gists"]', overflowNav)) {
 		overflowNav.append(
 			createDropdownItem({
-				'label': 'Gists',
-				'href': user.url,
-				'icon': CodeSquareIcon,
+				label: 'Gists',
+				href: user.url,
+				icon: CodeSquareIcon,
 				'data-rgh-label': 'Gists',
 			}),
 		);

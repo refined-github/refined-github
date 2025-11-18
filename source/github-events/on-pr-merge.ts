@@ -2,8 +2,8 @@ import {oneEvent} from 'delegate-it';
 
 import observe from '../helpers/selector-observer.js';
 
-// This event ensures that the callback appears exclusively to the person that merged the PR and not anyone who was on the page at the time of the merge
-export default async function onPrMerge(callback: VoidFunction, signal: AbortSignal): Promise<void> {
+// This event ensures that the feature appears exclusively to the person that merged the PR and not anyone who was on the page at the time of the merge
+export default async function waitForPrMerge(signal: AbortSignal): Promise<void> {
 	// It must start listening early or else the animation ID will be generated incorrectly (ancestor)
 	// WARNING: Be very careful about the value of ancestor if you refactor this code
 	const mergeEvent = new Promise(resolve => {
@@ -25,7 +25,5 @@ export default async function onPrMerge(callback: VoidFunction, signal: AbortSig
 
 	if (signal.aborted) {
 		throw new Error('The code shouldn’t have reached this point');
-	} else {
-		callback();
 	}
 }

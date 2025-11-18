@@ -27,7 +27,7 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 				button.replaceWith(button.firstChild!);
 
 				// Keep the banner, make it visible
-				// eslint-disable-next-line ts/no-use-before-define -- Cyclic
+
 				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
 
 				window.scrollBy({

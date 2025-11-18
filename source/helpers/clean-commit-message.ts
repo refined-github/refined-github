@@ -12,7 +12,6 @@ export default function cleanCommitMessage(message: string, closingKeywords = fa
 
 	// Preserve closing issues numbers when a PR is merged into a non-default branch since GitHub doesn't close them #4531
 	// https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/using-keywords-in-issues-and-pull-requests#linking-a-pull-request-to-an-issue
-	// eslint-disable-next-line regexp/no-misleading-capturing-group
 	for (const [line] of message.matchAll(/(fix(es|ed)?|close[sd]?|resolve[sd]?)([^\n]+)/gi)) {
 		// Ensure it includes a reference or URL
 		if (/#\d+/.test(line) || line.includes('http')) {
