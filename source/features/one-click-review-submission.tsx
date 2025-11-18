@@ -143,7 +143,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	});
 
 	const buttons: HTMLButtonElement[] = choices.map(([radioButton, label, tooltip], index) => {
-		let icon: React.JSX.Element;
+		let icon;
 		let isDisabled = radioButton.disabled;
 		switch (radioButton.value) {
 			case 'comment': {
@@ -193,6 +193,9 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		// Reselect the "Comment" option to keep the comment button disabled state in sync
 		commentRadioButton.click();
 	}
+	function cancelReview(): void {
+		$(cancelButtonSelector, actionRow).click();
+	}
 
 	const commentButton = buttons[0];
 	function syncButtonsDisabledState(): void {
@@ -211,16 +214,16 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		}
 	}
 
+	// actionRow re-renders frequently, so use a clone
 	const rghActionRow = actionRow.cloneNode(true);
 	// Remove message like "You need to leave a comment indicating the requested changes"
 	$optional('[class^="prc-Flash"]', rghActionRow)?.remove();
 	const cancelButton = $(cancelButtonSelector, rghActionRow);
-	cancelButton.addEventListener('click', () => $(cancelButtonSelector, actionRow).click());
+	cancelButton.addEventListener('click', cancelReview);
 	buttons.push(cancelButton);
 	cancelButton.parentElement!.replaceChildren(...buttons.toReversed());
 
 	radioGroup.classList.add('d-none');
-	// It re-renders every time a radio button is selected, so use a clone
 	actionRow.classList.add('rgh-action-row');
 	actionRow.after(rghActionRow);
 	// Fix tooltips getting cut off
