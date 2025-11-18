@@ -62,7 +62,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	if (base.title) {
 		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
 	} else {
-		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent!, base.textContent).branch;
+		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent, base.textContent).branch;
 	}
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331

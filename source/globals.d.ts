@@ -1,4 +1,4 @@
-/* eslint-disable no-var -- TypeScript weirdness */
+/* eslint-disable no-var,@typescript-eslint/triple-slash-reference -- TypeScript weirdness */
 
 /// <reference types="@types/dom-navigation" />
 
@@ -18,7 +18,7 @@ type FeatureID = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureID;
 	description: string;
-	screenshot: string | null; // eslint-disable-line ts/no-restricted-types -- We use `null` in the JSON file
+	screenshot: string | null; // eslint-disable-line @typescript-eslint/no-restricted-types -- We use `null` in the JSON file
 	css?: true;
 }
 
@@ -59,7 +59,7 @@ declare namespace JSX {
 		'has-rgh': IntrinsicElements.div;
 		'has-rgh-inner': IntrinsicElements.div;
 		'include-fragment': IntrinsicElements.div & {src?: string};
-		'label': IntrinsicElements.label & {for?: string};
+		label: IntrinsicElements.label & {for?: string};
 		'relative-time': IntrinsicElements.div & {datetime: string};
 		'tab-container': IntrinsicElements.div;
 		'batch-deferred-content': IntrinsicElements.div;
@@ -75,11 +75,13 @@ declare namespace JSX {
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/naming-convention -- Declaration merging
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }

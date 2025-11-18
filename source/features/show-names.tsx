@@ -32,8 +32,10 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	);
 
 	const testId = element.getAttribute('data-testid');
-	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId))
+	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId)) {
 		nameElement.classList.add('ml-1');
+	}
+
 	return nameElement;
 }
 

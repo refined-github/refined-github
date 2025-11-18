@@ -64,7 +64,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const StateIcon = stateIcon[prInfo.state] ?? (() => {});
+	const StateIcon = stateIcon[prInfo.state] ?? (() => {/* empty */});
 	const stateClassName = prInfo.state.toLowerCase();
 
 	const cell = branch

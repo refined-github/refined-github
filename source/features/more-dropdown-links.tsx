@@ -37,7 +37,7 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 	const branchesUrl = buildRepoURL('branches');
 	const dependenciesUrl = buildRepoURL('network/dependencies');
 
-	repoNavigationDropdown!.append(
+	repoNavigationDropdown.append(
 		<li className="dropdown-divider" role="separator" />,
 		createDropdownItem({
 			label: 'Compare',
@@ -47,10 +47,10 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 		pageDetect.isEnterprise()
 			? ''
 			: createDropdownItem({
-					label: 'Dependencies',
-					href: dependenciesUrl,
-					icon: PackageDependenciesIcon,
-				}),
+				label: 'Dependencies',
+				href: dependenciesUrl,
+				icon: PackageDependenciesIcon,
+			}),
 		createDropdownItem({
 			label: 'Commits',
 			href: commitsUrl,

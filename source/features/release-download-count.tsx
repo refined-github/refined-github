@@ -19,7 +19,7 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {assertNodeContent, getClasses} from '../helpers/dom-utils';
+import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
 
 type Asset = {
 	name: string;

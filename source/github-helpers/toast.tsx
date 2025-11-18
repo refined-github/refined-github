@@ -54,7 +54,7 @@ export default async function showToast(
 		// rAF also allows showToast to resolve as soon as task is done
 		await frame();
 
-		const displayTime = message.split(' ').length * 300 + 2000;
+		const displayTime = (message.split(' ').length * 300) + 2000;
 		await delay(displayTime);
 
 		// Display time is over, animate out
