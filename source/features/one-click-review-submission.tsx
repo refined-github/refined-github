@@ -142,7 +142,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		return [radioButton, label.textContent, tooltipText];
 	});
 
-	const buttons: Element[] = choices.map(([radioButton, label, tooltip], index) => {
+	const buttons: HTMLButtonElement[] = choices.map(([radioButton, label, tooltip], index) => {
 		let icon: React.JSX.Element;
 		let isDisabled = radioButton.disabled;
 		switch (radioButton.value) {
@@ -183,7 +183,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 					<span className="Button-visual Button-leadingVisual">{icon}</span>
 					<span className="Button-label">{label}</span>
 				</span>
-			</button>
+			</button> as unknown as HTMLButtonElement
 		);
 	});
 
@@ -194,14 +194,14 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		commentRadioButton.click();
 	}
 
-	const commentButton = buttons[0] as HTMLButtonElement;
+	const commentButton = buttons[0];
 	function syncButtonsDisabledState(): void {
 		commentButton.disabled = $(reviewButtonSelector, actionRow).disabled;
 		// If the "Cancel" button is disabled, other buttons are be disabled too
 		const shouldDisableAll = $(cancelButtonSelector, actionRow).disabled;
 		// Start with 1 to exclude the "Comment" button
 		for (let index = 1; index < buttons.length; index++) {
-			const button = buttons[index] as HTMLButtonElement;
+			const button = buttons[index];
 			const radioButton = choices[index][0];
 			if (shouldDisableAll) {
 				button.disabled = true;
