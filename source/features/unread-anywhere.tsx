@@ -52,7 +52,6 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
-	// eslint-disable-next-line promise/prefer-await-to-then -- Nah
 	}).finally(() => {
 		if (event?.target instanceof HTMLButtonElement) {
 			event.target.disabled = false;

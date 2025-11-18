@@ -1,9 +1,9 @@
+import './no-unnecessary-split-diff-view.css';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import './no-unnecessary-split-diff-view.css';
 
 /* TODO: remove in late 2026 */
 void features.addCssFeature(import.meta.url);
@@ -16,7 +16,8 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 		table.classList.remove('rgh-no-split-diff');
 		return;
 	}
-	// avoid selecting suggested deletions/additions
+
+	// Avoid selecting suggested deletions/additions
 	if (!$optional(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
 	} else if (!$optional(':scope > tr > td:nth-child(4) > .addition', tableBody)) {

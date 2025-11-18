@@ -68,6 +68,11 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 		--rgh-left-side-w: 100%;
 	}
 
+	/* Align line number cells with the header first cell */
+	.diff-line-number {
+		min-width: 40px;
+	}
+
 	.diff-line-row {
 		/* The left side (deletions) */
 		/* > to avoid selecting suggested changes */
@@ -86,10 +91,5 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 			/* Only additions: expand the right side */
 			width: var(--rgh-right-side-w, auto) !important;
 		}
-	}
-
-	/* Align line number cells with the header first cell */
-	.diff-line-number {
-		min-width: 40px;
 	}
 }
