@@ -35,6 +35,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isPRFile404,
+		pageDetect.isPRCommit,
 	],
 	init,
 });
