@@ -204,13 +204,8 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 		const shouldDisableAll = $(cancelButtonSelector, actionRow).disabled;
 		// Start with 1 to exclude the "Comment" button
 		for (let index = 1; index < buttons.length; index++) {
-			const button = buttons[index];
 			const radioButton = choices[index][0];
-			if (shouldDisableAll) {
-				button.disabled = true;
-			} else {
-				button.disabled = radioButton.disabled;
-			}
+			buttons[index].disabled = shouldDisableAll || radioButton.disabled;
 		}
 	}
 
