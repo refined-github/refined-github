@@ -212,6 +212,7 @@ function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
 	}
 
 	const rghActionRow = actionRow.cloneNode(true);
+	// Remove message like "You need to leave a comment indicating the requested changes"
 	$optional('[class^="prc-Flash"]', rghActionRow)?.remove();
 	const cancelButton = $(cancelButtonSelector, rghActionRow);
 	cancelButton.addEventListener('click', () => $(cancelButtonSelector, actionRow).click());
