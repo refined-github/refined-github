@@ -9,7 +9,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
 import {expectToken} from '../github-helpers/github-token.js';
-import {isSmallDevice} from '../helpers/dom-utils';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 
 async function getCommitWithChecks(): Promise<string | undefined> {
 	const {repository} = await api.v4(getChecks);

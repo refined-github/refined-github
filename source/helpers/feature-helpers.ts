@@ -22,7 +22,7 @@ export function getIdentifiers(url: string): FeatureHelper {
 	};
 }
 
-function noop(): void {}
+function noop(): void {/* empty */}
 
 const httpLog = console.log.bind(console, '🌏');
 

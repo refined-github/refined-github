@@ -70,7 +70,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 			doneMessage: 'Repo deleted',
 		});
 
-		modifyUIAfterSuccessfulDeletion();
+		await modifyUIAfterSuccessfulDeletion();
 	}
 }
 

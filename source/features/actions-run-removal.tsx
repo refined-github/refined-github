@@ -12,6 +12,7 @@ import features from '../feature-manager.js';
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
 	const contextMenuDetails = contextMenuIcon.closest('details')!;
 
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- Wrong
 	const menuItem = $optional<HTMLElement>([
 		'form[action$="/cancel"]',
 		'li:has(> button[data-show-dialog-id^="delete-workflow-run"])',

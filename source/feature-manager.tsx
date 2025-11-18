@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop -- Event loops */
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
@@ -25,7 +26,9 @@ import {
 } from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {getFeatureID, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
+import {
+	getFeatureID, listenToAjaxedLoad, log, shortcutMap,
+} from './helpers/feature-helpers.js';
 import {contentScriptToggle} from './options/reload-without.js';
 
 type FeatureInitResult = void | false;
@@ -98,6 +101,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
+	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
 	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCSS.trim().length > 0) {
@@ -144,7 +148,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			// CSS-only https://github.com/refined-github/refined-github/issues/7944
 			// GitHub cleans up the CSS disabling attributes after navigation.
 			// https://github.com/refined-github/refined-github/issues/8172
-			/* eslint-disable no-await-in-loop -- It's a, ahem, *event loop* */
 			do {
 				document.documentElement.setAttribute('rgh-OFF-' + id, '');
 				log.info('↩️', 'Skipping', id);
@@ -152,6 +155,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		} else {
 			log.info('↩️', 'Skipping', id);
 		}
+
 		return;
 	}
 
@@ -186,6 +190,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			if (awaitDomReady) {
 				await domLoaded;
 			}
+
 			if (firstLoop) {
 				firstLoop = false;
 			} else if (deduplicate && elementExists(deduplicate)) {

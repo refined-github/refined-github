@@ -25,7 +25,7 @@ const nativeRepos = new CachedFunction('native-update-button', {
 	staleWhileRevalidate: {
 		days: 1,
 	},
-	updater: async (_nameWithOwner: string): Promise<boolean> => {
+	async updater(_nameWithOwner: string): Promise<boolean> {
 		throw new TypeError('bad usage');
 	},
 });
@@ -57,6 +57,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 	button.disabled = true;
 	await showToast(async () => {
 		// Reads Error#message or GitHub’s "message" response
+		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
 		const response = await mergeBranches().catch(error => error);
 		if (response instanceof Error || !response.ok) {
 			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
@@ -84,7 +85,7 @@ function createButton(): JSX.Element {
 async function addButton(): Promise<void> {
 	if (canNativelyUpdate()) {
 		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
-		disableFeatureOnRepo();
+		await disableFeatureOnRepo();
 		return;
 	}
 

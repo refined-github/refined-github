@@ -108,7 +108,7 @@ const v3uncached = async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'User-Agent': 'Refined GitHub',
-			'Accept': 'application/vnd.github.v3+json',
+			Accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
@@ -131,7 +131,7 @@ const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function* (
+const v3paginated = async function * (
 	query: string,
 	options?: GHRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -205,7 +205,8 @@ const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			'Authorization': `bearer ${personalToken}`,
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
+			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
 		body: JSON.stringify({

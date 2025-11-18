@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';
 
-// eslint-disable-next-line ts/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 	let wrapper: Element = paginationButton!.form!.parentElement!;
 	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';

@@ -1,0 +1,212 @@
+{
+  "source/background.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/action-pr-link.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/action-used-by-link.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/features/clean-conversation-headers.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/comments-time-machine-links.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/deep-reblame.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/embed-gist-inline.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/html-preview-link.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/linkify-branch-references.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/list-prs-for-branch.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 4
+    }
+  },
+  "source/features/list-prs-for-file.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/mark-merge-commits-in-list.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/new-repo-disable-projects-and-wikis.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/one-click-diff-options.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/pagination-hotkey.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/pr-first-commit-title.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/pr-notification-link.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/prevent-link-loss.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/features/quick-mention.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/quick-repo-deletion.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/features/show-associated-branch-prs-on-fork.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 4
+    }
+  },
+  "source/features/show-open-prs-of-forks.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/sort-conversations-by-update-time.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/sync-pr-commit-title.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/features/update-pr-from-base-branch.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/features/useful-not-found-page.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/features/user-profile-follower-badge.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/api.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 8
+    }
+  },
+  "source/github-helpers/dom-formatters.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/github-helpers/get-default-branch.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/github-helpers/github-file-url.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/github-token.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/github-helpers/index.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/github-helpers/selectors.test.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/globals.d.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/helpers/caller-id.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/helpers/feature-helpers.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/helpers/fetch-dom.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 2
+    }
+  },
+  "source/helpers/hotfix.tsx": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/helpers/show-whitespace-on-line.test.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  },
+  "source/options-storage.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 3
+    }
+  },
+  "source/resolve-conflicts.ts": {
+    "@typescript-eslint/naming-convention": {
+      "count": 1
+    }
+  }
+}

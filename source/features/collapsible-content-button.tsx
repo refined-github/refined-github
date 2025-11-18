@@ -61,7 +61,7 @@ function append(container: HTMLElement): void {
 	const divider = $([
 		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
 		'[class^="Toolbar-module__divider"]',
-	], container).cloneNode(true) as HTMLElement;
+	], container).cloneNode(true);
 
 	container.append(
 		divider,
@@ -75,8 +75,9 @@ function append(container: HTMLElement): void {
 		</button>,
 	);
 
-	if (container.getAttribute('aria-label') === 'Formatting tools')
+	if (container.getAttribute('aria-label') === 'Formatting tools') {
 		return;
+	}
 
 	// Only needed on the old version
 	// TODO: remove after March 2025
