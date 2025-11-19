@@ -1,18 +1,22 @@
 html:not([rgh-OFF-sticky-comment-header]) {
 	/* Issue body header */
+	/* biome-ignore format: bug */
 	[class^='IssueBodyHeader-module__IssueBodyHeaderContainer'],
-	/* Issue comment header */
-		/* Exclude review thread comments (on the "Files changed" tab) */
-		[data-testid='comment-header']:not(
-			[class^='ReviewThreadComment-module'] > *
-		),
+	/* Issue/review/commit comment header */
+	/* Exclude review thread comments (on the "Files changed" tab) */
+	[data-testid='comment-header']:not(
+		[class^='ReviewThreadComment-module'] > *
+	),
 	/* PR body/comment or gist comment header */
-		.timeline-comment-header {
+	.timeline-comment-header {
 		position: sticky;
 		/* Prevent header from being covered by media */
 		z-index: 3;
 		--rgh-issue-or-pr-sticky-header-height: 56px;
-		top: calc(var(--base-sticky-header-height, 0px) + var(--rgh-issue-or-pr-sticky-header-height, 0px));
+		top: calc(
+			var(--base-sticky-header-height, 0px) +
+			var(--rgh-issue-or-pr-sticky-header-height, 0px)
+		);
 	}
 
 	:is([id^='gistcomment'], [id^='commitcomment']) > * {
