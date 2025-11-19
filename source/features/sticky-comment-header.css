@@ -3,8 +3,8 @@ html:not([rgh-OFF-sticky-comment-header]) {
 	/* biome-ignore format: bug */
 	[class^='IssueBodyHeader-module__IssueBodyHeaderContainer'],
 	/* Issue/review/commit comment header */
-	/* Exclude review thread comments (on the "Files changed" tab) */
 	[data-testid='comment-header']:not(
+		/* Exclude review thread comments (on the "Files changed" tab) */
 		[class^='ReviewThreadComment-module'] > *
 	),
 	/* PR body/comment or gist comment header */
