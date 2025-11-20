@@ -28,7 +28,6 @@ const rollup = {
 		background: './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
-		'resolve-conflicts': './source/resolve-conflicts.ts',
 	},
 	output: {
 		dir: 'distribution/assets',
