@@ -20,7 +20,8 @@
 		"scripting",
 		"contextMenus",
 		"activeTab",
-		"alarms"
+		"alarms",
+		"cookies"
 	],
 	"host_permissions": [
 		"https://github.com/*",
