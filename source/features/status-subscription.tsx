@@ -152,7 +152,6 @@ const fetchIssue = mem(fetchIssueUncached, {
 async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): Promise<Response> {
 	const data = await fetchIssue();
 	const {id} = data.repository.issue;
-	const version = $('meta[name="release"]').content;
 
 	const body = {
 		query: 'd0752b2e49295017f67c84f21bfe41a3',
