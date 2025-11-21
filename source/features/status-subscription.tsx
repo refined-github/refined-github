@@ -110,52 +110,38 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 }
 
 const githubClientVersion = $('meta[name="release"]').content;
-const issuesApiBaseHeaders = {
+const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
 	// Maybe 0749b7b39e97665203056321616a829ef6854483 should be hardcoded
 	'x-github-client-version': githubClientVersion,
 	credentials: 'include',
-};
+});
 
-interface IssueData {
-	repoOwner: string;
-	repoName: string;
-	issueNumber: number;
-}
+type IssueApiResponse = Record<string, any>;
 
-function getIssue(): IssueData {
+async function fetchIssue(): Promise<IssueApiResponse> {
 	const repo = getRepo()!;
-	const number = getConversationNumber()!;
 
-	return {
-		repoOwner: repo.owner,
-		repoName: repo.name,
-		issueNumber: number,
-	};
-}
-
-async function fetchIssue({repoOwner, repoName, issueNumber}: IssueData): Promise<Record<string, any>> {
 	const body = {
 		query: 'dd170c659a085a45885ee5a168fc52c8',
 		variables: {
-			number: issueNumber,
-			owner: repoOwner,
-			repo: repoName,
+			number: getConversationNumber()!,
+			owner: repo.owner,
+			repo: repo.name,
 		},
 	};
 	const url = new URL('/_graphql', location.origin);
 	url.searchParams.set('body', JSON.stringify(body));
 
-	const response = await fetch(url, {headers: issuesApiBaseHeaders});
+	const response = await fetch(url, {headers: githubApiBaseHeaders});
 
 	const {data} = await response.json();
 	return data;
 }
 
-async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): Promise<Response> {
-	const data = await fetchIssue(getIssue());
-	const {id} = data.repository.issue;
+async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, issue: IssueApiResponse): Promise<Response> {
+	const {id} = issue.repository.issue;
 
 	const body = {
 		query: 'd0752b2e49295017f67c84f21bfe41a3',
@@ -170,16 +156,15 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): 
 
 	return fetch('/_graphql',
 		{
-			headers: issuesApiBaseHeaders,
+			headers: githubApiBaseHeaders,
 			method: 'POST',
 			body: JSON.stringify(body),
 		},
 	);
 }
 
-async function getCurrentStatusIssue(): Promise<SubscriptionStatus> {
-	const data = await fetchIssue(getIssue());
-	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = data.repository.issue;
+async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<SubscriptionStatus> {
+	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
 	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
 
 	if (isSubscribed) {
@@ -194,7 +179,8 @@ async function getCurrentStatusIssue(): Promise<SubscriptionStatus> {
 }
 
 async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<void> {
-	const status = await getCurrentStatusIssue();
+	const issue = await fetchIssue();
+	const status = await getCurrentStatusIssue(issue);
 	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
 
 	subscriptionButton.after(
@@ -202,7 +188,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 			<SubButton
 				aria-label="Unsubscribe"
 				onClick={async () => {
-					await updateIssueSubscriptionStatus('none');
+					await updateIssueSubscriptionStatus('none', issue);
 					void addButtonIssue(subscriptionButton);
 				}}
 				{...(status === 'none' && disableAttributes)}
@@ -213,7 +199,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 			<SubButton
 				aria-label="Subscribe to all events"
 				onClick={async () => {
-					await updateIssueSubscriptionStatus('all');
+					await updateIssueSubscriptionStatus('all', issue);
 					void addButtonIssue(subscriptionButton);
 				}}
 				{...(status === 'all' && disableAttributes)}
@@ -227,7 +213,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 					'(closing, reopening, merging)',
 				)}
 				onClick={async () => {
-					await updateIssueSubscriptionStatus('status');
+					await updateIssueSubscriptionStatus('status', issue);
 					void addButtonIssue(subscriptionButton);
 				}}
 				{...(status === 'status' && disableAttributes)}
