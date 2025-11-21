@@ -17,7 +17,6 @@
 	"no-useless-split-diff-view": "no-unnecessary-split-diff-view",
 	"unwrap-useless-dropdowns": "unwrap-unnecessary-dropdowns",
 	"tag-changelog-link": "tag-changes-link",
-	"navigate-pages-with-arrow-keys": "pagination-hotkey",
 	"list-pr-for-branch": "list-prs-for-branch",
 	"quick-label-hiding": "quick-label-removal",
 	"next-scheduled-github-action": "github-actions-indicators",
