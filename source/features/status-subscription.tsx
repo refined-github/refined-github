@@ -136,12 +136,9 @@ async function fetchIssueUncached(): Promise<Record<string, any>> {
 	const url = new URL('/_graphql', location.origin);
 	url.searchParams.set('body', JSON.stringify(body));
 
-	const response = await fetch(url, {
-		headers: issuesApiBaseHeaders,
-	});
+	const response = await fetch(url, {headers: issuesApiBaseHeaders});
 
 	const {data} = await response.json();
-
 	return data;
 }
 
