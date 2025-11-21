@@ -126,15 +126,8 @@ interface IssueData {
 }
 
 function getIssue(): IssueData {
-	const repo = getRepo();
-	if (!repo) {
-		throw new Error('Can\'t get the repository info');
-	}
-
-	const number = getConversationNumber();
-	if (!number) {
-		throw new Error('Can\'t get the issue number');
-	}
+	const repo = getRepo()!;
+	const number = getConversationNumber()!;
 
 	return {
 		repoOwner: repo.owner,
