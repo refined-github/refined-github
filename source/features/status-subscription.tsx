@@ -114,7 +114,7 @@ const githubClientVersion = $('meta[name="release"]').content;
 const issuesApiBaseHeaders = {
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	// Maybe 0749b7b39e97665203056321616a829ef6854483 should be harcoded
+	// Maybe 0749b7b39e97665203056321616a829ef6854483 should be hardcoded
 	'x-github-client-version': githubClientVersion,
 	credentials: 'include',
 };
@@ -164,7 +164,7 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): 
 		},
 	};
 
-	return fetch(`https://${location.hostname}/_graphql`,
+	return fetch('/_graphql',
 		{
 			headers: issuesApiBaseHeaders,
 			method: 'POST',
