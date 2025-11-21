@@ -119,18 +119,37 @@ const issuesApiBaseHeaders = {
 	credentials: 'include',
 };
 
-async function fetchIssueUncached(): Promise<Record<string, any>> {
-	const repoInfo = getRepo();
-	if (!repoInfo) {
+interface IssueData {
+	repoOwner: string;
+	repoName: string;
+	issueNumber: number;
+}
+
+function getIssue(): IssueData {
+	const repo = getRepo();
+	if (!repo) {
 		throw new Error('Can\'t get the repository info');
 	}
 
+	const number = getConversationNumber();
+	if (!number) {
+		throw new Error('Can\'t get the issue number');
+	}
+
+	return {
+		repoOwner: repo.owner,
+		repoName: repo.name,
+		issueNumber: number,
+	};
+}
+
+async function fetchIssueUncached({repoOwner, repoName, issueNumber}: IssueData): Promise<Record<string, any>> {
 	const body = {
 		query: 'dd170c659a085a45885ee5a168fc52c8',
 		variables: {
-			number: getConversationNumber(),
-			owner: repoInfo.owner,
-			repo: repoInfo.name,
+			number: issueNumber,
+			owner: repoOwner,
+			repo: repoName,
 		},
 	};
 	const url = new URL('/_graphql', location.origin);
@@ -147,7 +166,7 @@ const fetchIssue = mem(fetchIssueUncached, {
 });
 
 async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): Promise<Response> {
-	const data = await fetchIssue();
+	const data = await fetchIssue(getIssue());
 	const {id} = data.repository.issue;
 
 	const body = {
@@ -171,7 +190,7 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): 
 }
 
 async function getCurrentStatusIssue(): Promise<SubscriptionStatus> {
-	const data = await fetchIssue();
+	const data = await fetchIssue(getIssue());
 	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = data.repository.issue;
 	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
 
