@@ -1,9 +1,12 @@
+import './one-click-review-submission.css';
+
 import React from 'dom-chef';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import CommentIcon from 'octicons-plain-react/Comment';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$} from 'select-dom/strict.js';
+import {$, $$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -101,6 +104,129 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	originalSubmitButton.remove();
 }
 
+const reviewButtonSelector = 'button[class*="ReviewMenuButton-module__SubmitReviewButton"]';
+const cancelButtonSelector = `button:not(${reviewButtonSelector})`;
+
+function replaceCheckboxesReact({delegateTarget}: DelegateEvent): void {
+	// Exclude the "Submit comments" button
+	if (delegateTarget.textContent !== 'Submit review') {
+		return;
+	}
+
+	const dialog = $('div[role="dialog"]');
+	// Desktop layout first, then mobile layout
+	const reviewBody = $(
+		['[class^="ReviewMenuButton-module__AnchoredReviewBody"]', '[class^="prc-Dialog-Body"]'],
+		dialog,
+	);
+	const radioGroup = $('[class*="prc-CheckboxOrRadioGroup-GroupFieldset"]', reviewBody);
+	const actionRow = reviewBody.nextElementSibling ?? $('[class^="prc-Dialog-Footer"]', dialog);
+
+	const choices: [HTMLInputElement, string, string][] = $$(
+		'[class^="prc-FormControl-ControlHorizontalLayout"]',
+		radioGroup,
+	).map(horizontalControl => {
+		const radioButton = $('input', horizontalControl);
+		if (radioButton.value === 'comment') {
+			// Select the "Comment" option to check if the original submit button is enabled later
+			radioButton.click();
+		}
+		const description = $('[class^="ReviewMenu-module__RadioText"]', horizontalControl);
+		// The reason why the radio button is disabled
+		const maybeTooltip = horizontalControl.parentElement!;
+		const tooltipText = (
+			maybeTooltip.role === 'tooltip' ? maybeTooltip.ariaLabel! : description.textContent
+		).replace(/.$/, '');
+		const label = description.previousElementSibling!;
+		return [radioButton, label.textContent, tooltipText];
+	});
+
+	const buttons: HTMLButtonElement[] = choices.map(([radioButton, label, tooltip], index) => {
+		let icon;
+		let isDisabled = radioButton.disabled;
+		switch (radioButton.value) {
+			case 'comment': {
+				icon = <CommentIcon />;
+				// radioButton.disabled for the "Comment" option is always false
+				// Check the disabled state of the original submit button, which depends on whether the comment textarea is empty
+				isDisabled = $(reviewButtonSelector, actionRow).disabled;
+				break;
+			}
+			case 'approve': {
+				icon = <CheckIcon className="color-fg-success" />;
+				break;
+			}
+			case 'request changes': {
+				icon = <FileDiffIcon className="color-fg-danger" />;
+				break;
+			}
+			default: {
+				throw new Error('Unknown radio button');
+			}
+		}
+
+		return (
+			<button
+				className={
+					`Button--${index === 0 ? 'primary' : 'secondary'} `
+					+ 'Button--medium Button tooltipped tooltipped-nw tooltipped-no-delay'
+				}
+				aria-label={tooltip}
+				disabled={isDisabled}
+				onClick={() => {
+					radioButton.click();
+					submitReview();
+				}}
+			>
+				<span className="Button-content">
+					<span className="Button-visual Button-leadingVisual">{icon}</span>
+					<span className="Button-label">{label}</span>
+				</span>
+			</button> as unknown as HTMLButtonElement
+		);
+	});
+
+	const commentRadioButton = choices[0][0];
+	function submitReview(): void {
+		$(reviewButtonSelector, actionRow).click();
+		// Reselect the "Comment" option to keep the comment button disabled state in sync
+		commentRadioButton.click();
+	}
+	function cancelReview(): void {
+		$(cancelButtonSelector, actionRow).click();
+	}
+
+	const commentButton = buttons[0];
+	function syncButtonsDisabledState(): void {
+		commentButton.disabled = $(reviewButtonSelector, actionRow).disabled;
+		// If the "Cancel" button is disabled, other buttons are be disabled too
+		const shouldDisableAll = $(cancelButtonSelector, actionRow).disabled;
+		// Start with 1 to exclude the "Comment" button
+		for (let index = 1; index < buttons.length; index++) {
+			const radioButton = choices[index][0];
+			buttons[index].disabled = shouldDisableAll || radioButton.disabled;
+		}
+	}
+
+	// actionRow re-renders frequently, so use a clone
+	const rghActionRow = actionRow.cloneNode(true);
+	// Remove message like "You need to leave a comment indicating the requested changes"
+	$optional('[class^="prc-Flash"]', rghActionRow)?.remove();
+	const cancelButton = $(cancelButtonSelector, rghActionRow);
+	cancelButton.addEventListener('click', cancelReview);
+	buttons.push(cancelButton);
+	cancelButton.parentElement!.replaceChildren(...buttons.toReversed());
+
+	radioGroup.classList.add('d-none');
+	actionRow.classList.add('rgh-action-row');
+	actionRow.after(rghActionRow);
+	// Fix tooltips getting cut off
+	dialog.style.overflow = 'visible';
+
+	// actionRow re-renders each time the submit button state changes
+	new MutationObserver(syncButtonsDisabledState).observe(actionRow, {childList: true});
+}
+
 let lastSubmission: number | undefined;
 function blockDuplicateSubmissions(event: DelegateEvent): void {
 	if (lastSubmission && Date.now() - lastSubmission < 1000) {
@@ -116,13 +242,13 @@ function init(signal: AbortSignal): void {
 	// The selector excludes the "Cancel" button
 	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
 	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	delegate('button[class*="ReviewMenuButton-module__ReviewMenuButton"]', 'click', replaceCheckboxesReact, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
-	awaitDomReady: true,
 	init,
 });
 
@@ -132,5 +258,6 @@ Test URLs
 
 https://github.com/refined-github/sandbox/pull/4/files
 https://github.com/refined-github/sandbox/pull/12/files
-
+https://github.com/facebook/react/pull/14679/files (No radio buttons)
+A pull request opened by you ("Approve" and "Request changes" radio buttons will be disabled)
 */
