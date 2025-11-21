@@ -2,8 +2,7 @@ import './status-subscription.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import mem from 'memoize';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
@@ -136,7 +135,7 @@ function getIssue(): IssueData {
 	};
 }
 
-async function fetchIssueUncached({repoOwner, repoName, issueNumber}: IssueData): Promise<Record<string, any>> {
+async function fetchIssue({repoOwner, repoName, issueNumber}: IssueData): Promise<Record<string, any>> {
 	const body = {
 		query: 'dd170c659a085a45885ee5a168fc52c8',
 		variables: {
@@ -153,10 +152,6 @@ async function fetchIssueUncached({repoOwner, repoName, issueNumber}: IssueData)
 	const {data} = await response.json();
 	return data;
 }
-
-const fetchIssue = mem(fetchIssueUncached, {
-	cacheKey: JSON.stringify,
-});
 
 async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus): Promise<Response> {
 	const data = await fetchIssue(getIssue());
@@ -200,13 +195,16 @@ async function getCurrentStatusIssue(): Promise<SubscriptionStatus> {
 
 async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<void> {
 	const status = await getCurrentStatusIssue();
+	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
 
-	// TODO: Update buttons state after clicking
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
 			<SubButton
 				aria-label="Unsubscribe"
-				onClick={async () => updateIssueSubscriptionStatus('none')}
+				onClick={async () => {
+					await updateIssueSubscriptionStatus('none');
+					void addButtonIssue(subscriptionButton);
+				}}
 				{...(status === 'none' && disableAttributes)}
 			>
 				<BellSlashIcon /> None
@@ -214,7 +212,10 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 
 			<SubButton
 				aria-label="Subscribe to all events"
-				onClick={async () => updateIssueSubscriptionStatus('all')}
+				onClick={async () => {
+					await updateIssueSubscriptionStatus('all');
+					void addButtonIssue(subscriptionButton);
+				}}
 				{...(status === 'all' && disableAttributes)}
 			>
 				<BellIcon /> All
@@ -225,7 +226,10 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 					'Subscribe just to status changes',
 					'(closing, reopening, merging)',
 				)}
-				onClick={async () => updateIssueSubscriptionStatus('status')}
+				onClick={async () => {
+					await updateIssueSubscriptionStatus('status');
+					void addButtonIssue(subscriptionButton);
+				}}
 				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon /> Status
@@ -233,6 +237,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 		</div>,
 	);
 
+	previousRghButton?.remove();
 	subscriptionButton.hidden = true;
 }
 
