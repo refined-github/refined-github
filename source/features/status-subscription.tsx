@@ -133,12 +133,12 @@ async function fetchIssueUncached(): Promise<Record<string, any>> {
 			repo: repoInfo.name,
 		},
 	};
+	const url = new URL('/_graphql', location.origin);
+	url.searchParams.set('body', JSON.stringify(body));
 
-	const response = await fetch(`${location.origin}/_graphql?body=${encodeURIComponent(JSON.stringify(body))}`,
-		{
-			headers: issuesApiBaseHeaders,
-		},
-	);
+	const response = await fetch(url, {
+		headers: issuesApiBaseHeaders,
+	});
 
 	const {data} = await response.json();
 
