@@ -14,7 +14,10 @@ import getReactProps from '../helpers/react.js';
 const isIssueIneditable = memoize(
 	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
 	// However, if you can edit every comment, you can still edit the comment
-	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists([
+		'.js-pick-reaction:first-child',
+		'[class*="ReadonlyCommentBox-module"]',
+	]) && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
