@@ -19,7 +19,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
 			.querySelector('.Link--primary')!
-			.textContent!
+			.textContent
 			.split(' → ');
 
 		return {original: originalFileName, new: newFileName};
@@ -34,14 +34,14 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	const {head} = getBranches();
 
 	const reactPropsRaw = $('[data-target="react-app.embeddedData"]').textContent;
-	const reactProps = JSON.parse(reactPropsRaw!);
+	const reactProps = JSON.parse(reactPropsRaw);
 
 	let originalFileName = '';
 	// Get the new filename from the "View File" button href
 	const urlRegex = new RegExp(
-		`https:\/\/github.com\/${head?.nameWithOwner.replaceAll('/', '\/')}\/blob\/[^/]+\/`,
+		`https://github.com/${head?.nameWithOwner.replaceAll('/', '/')}/blob/[^/]+/`,
 	);
-	const newFileName = fileUrl.replace(urlRegex, '')!;
+	const newFileName = fileUrl.replace(urlRegex, '');
 
 	// Leverage the React props inlined in a script tag in order to determine whether or not we're
 	// dealing with a RENAME change, in which case we'll also need to find the old filename correctly
@@ -143,7 +143,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	await showToast(async progress => discardChanges(progress!, filenames.original, filenames.new, commitTitle), {
+	await showToast(async progress => discardChanges(progress, filenames.original, filenames.new, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});
@@ -175,7 +175,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	}) as HTMLElement;
 
 	// Remove file element in list as well as portaled dropdown menu
-	fileElement!.remove();
+	fileElement.remove();
 	menuItem.closest('div[data-focus-trap="active"]')!.remove();
 }
 
