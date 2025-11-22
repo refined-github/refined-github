@@ -67,6 +67,7 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 		throw new TypeError('Can\'t find edit hook');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 	const canEdit = props.viewerCanUpdate || props.comment?.viewerCanUpdate;
 	if (!canEdit) {
 		return;
