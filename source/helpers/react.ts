@@ -1,15 +1,18 @@
 type Tobject = Record<string, unknown>;
 
 class ReactProps {
-	props;
+	[key: string]: unknown;
+
+	#props: Tobject;
 
 	constructor(props: Tobject) {
-		this.props = props;
+		this.#props = props;
+		Object.assign(this, props);
 	}
 
 	findPropByName(expression: string | RegExp): unknown {
 		// eslint-disable-next-line unicorn/prevent-abbreviations
-		return Object.entries(this.props).find(([propName]) => {
+		return Object.entries(this.#props).find(([propName]) => {
 			if (typeof expression === 'string') {
 				return propName === expression;
 			}
@@ -20,7 +23,7 @@ class ReactProps {
 
 	findPropByValue(expression: string | RegExp): unknown {
 		// eslint-disable-next-line unicorn/prevent-abbreviations
-		return Object.values(this.props).find(propValue => {
+		return Object.values(this.#props).find(propValue => {
 			if (propValue === null || propValue === undefined) {
 				return false;
 			}
@@ -49,7 +52,7 @@ class ReactProps {
 	// eslint-disable-next-line unicorn/prevent-abbreviations
 	findProp(callback: (propName: string, propValue: unknown) => boolean): unknown {
 		// eslint-disable-next-line unicorn/prevent-abbreviations
-		return Object.entries(this.props).find(([propName, propValue]) => callback(propName, propValue))?.[1];
+		return Object.entries(this.#props).find(([propName, propValue]) => callback(propName, propValue))?.[1];
 	}
 }
 
