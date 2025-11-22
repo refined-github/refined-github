@@ -67,11 +67,7 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 		throw new TypeError('Can\'t find edit hook');
 	}
 
-	const canEdit = props.findPropByName(/viewerCanUpdate|viewerDidAuthor/);
-	if (typeof canEdit !== 'boolean') {
-		throw new TypeError('Can\'t find canUpdate prop');
-	}
-
+	const canEdit = props.viewerCanUpdate || props.comment?.viewerCanUpdate;
 	if (!canEdit) {
 		return;
 	}
