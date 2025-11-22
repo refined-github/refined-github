@@ -8,6 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
+import getReactProps from '../helpers/react.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
@@ -50,6 +51,44 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 	);
 }
 
+async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+	if (await isIssueIneditable(signal)) {
+		features.unload(import.meta.url);
+		return;
+	}
+
+	const props = getReactProps(contextMenuButton);
+	if (!props) {
+		throw new Error('Can\'t get React props from context menu button', {cause: contextMenuButton});
+	}
+
+	const editHook = props.findPropByName(/edit/);
+	if (typeof editHook !== 'function') {
+		throw new TypeError('Can\'t find edit hook');
+	}
+
+	const canEdit = props.findPropByName(/viewerCanUpdate|viewerDidAuthor/);
+	if (typeof canEdit !== 'boolean') {
+		throw new TypeError('Can\'t find canUpdate prop');
+	}
+
+	if (!canEdit) {
+		return;
+	}
+
+	contextMenuButton.before(
+		<button
+			type="button"
+			role="menuitem"
+			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			aria-label="Edit comment"
+			onClick={editHook()}
+		>
+			<PencilIcon />
+		</button>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	if (await isArchivedRepoAsync()) {
 		return;
@@ -59,6 +98,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	const preSelector = await userIsModerator() ? '' : '.current-user';
 
 	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
+
+	observe(':is(.loaded .react-issue-body, .react-issue-comment) button:has(> .octicon-kebab-horizontal)', addQuickEditButtonReact, {signal});
 }
 
 void features.add(import.meta.url, {
