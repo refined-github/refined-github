@@ -59,7 +59,7 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 
 	const props = getReactProps(contextMenuButton);
 	if (!props) {
-		throw new Error('Can\'t get React props from context menu button', {cause: contextMenuButton});
+		throw new Error('Can\'t get React props from context menu button');
 	}
 
 	const editHook = props.findPropByName(/edit/);
