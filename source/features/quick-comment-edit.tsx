@@ -8,12 +8,16 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
+import getReactProps from '../helpers/react.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
 	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
 	// However, if you can edit every comment, you can still edit the comment
-	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists([
+		'.js-pick-reaction:first-child',
+		'[class*="ReadonlyCommentBox-module"]',
+	]) && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
@@ -50,6 +54,40 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 	);
 }
 
+async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+	if (await isIssueIneditable(signal)) {
+		features.unload(import.meta.url);
+		return;
+	}
+
+	const props = getReactProps(contextMenuButton);
+	if (!props) {
+		throw new Error('Can\'t get React props from context menu button');
+	}
+
+	const editHook = props.findPropByName(/edit/);
+	if (typeof editHook !== 'function') {
+		throw new TypeError('Can\'t find edit hook');
+	}
+
+	const canEdit = props.viewerCanUpdate ?? (props.comment as Record<string, unknown> | undefined)?.viewerCanUpdate;
+	if (!canEdit) {
+		return;
+	}
+
+	contextMenuButton.before(
+		<button
+			type="button"
+			role="menuitem"
+			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			aria-label="Edit comment"
+			onClick={editHook()}
+		>
+			<PencilIcon />
+		</button>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	if (await isArchivedRepoAsync()) {
 		return;
@@ -59,6 +97,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	const preSelector = await userIsModerator() ? '' : '.current-user';
 
 	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
+
+	observe(':is(.loaded .react-issue-body, .react-issue-comment) button:has(> .octicon-kebab-horizontal)', addQuickEditButtonReact, {signal});
 }
 
 void features.add(import.meta.url, {
