@@ -57,7 +57,6 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 }
 
 const validVersion = /^[vr]?\d+(?:\.\d+)+/;
-// eslint-disable-next-line regexp/no-useless-non-capturing-group -- I don't think so?
 const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.

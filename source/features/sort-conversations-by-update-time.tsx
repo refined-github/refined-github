@@ -10,7 +10,7 @@ import {linksToConversationLists} from '../github-helpers/selectors.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
-	link.dataset.originalHref ||= link.href;
+	link.dataset.originalHref ??= link.href;
 }
 
 async function selectCurrentConversationFilter(): Promise<void> {

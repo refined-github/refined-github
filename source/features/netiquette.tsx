@@ -65,8 +65,9 @@ export function getResolvedText(): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-resolved-banner'))
+	if (elementExists('.rgh-resolved-banner')) {
 		return;
+	}
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
@@ -84,8 +85,9 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-popular-banner'))
+	if (elementExists('.rgh-popular-banner')) {
 		return;
+	}
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({

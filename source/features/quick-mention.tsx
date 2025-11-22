@@ -82,8 +82,9 @@ function add(avatar: HTMLElement): void {
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
 			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-		)
+		) {
 			return;
+		}
 	} else {
 		// Make sure the comment isn't hidden
 		const contentItem = avatar.parentElement!.querySelector([
@@ -117,7 +118,7 @@ function add(avatar: HTMLElement): void {
 		<button
 			type="button"
 			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
-			aria-label={`Mention ${prefixUserMention(userMention!)} in a new comment`}
+			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 		>
 			<ReplyIcon />
 		</button>,

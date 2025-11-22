@@ -1,4 +1,4 @@
-async function* createEventIterator<T extends Event>(
+async function * createEventIterator<T extends Event>(
 	element: EventTarget,
 	eventName: string,
 	{signal, once}: {
@@ -23,6 +23,7 @@ async function* createEventIterator<T extends Event>(
 				// eslint-disable-next-line no-await-in-loop
 				await deferred.promise;
 			}
+
 			yield queue.shift()!;
 
 			if (once) {

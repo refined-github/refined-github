@@ -100,10 +100,12 @@ function updateOffCount(): void {
 			offCount.nodeValue = '';
 			break;
 		}
+
 		case countElements('.feature-checkbox'): {
 			offCount.nodeValue = '(JS off… are you breaking up with me?)';
 			break;
 		}
+
 		default: {
 			offCount.nodeValue = `(${count} off)`;
 		}

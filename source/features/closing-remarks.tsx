@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
-import onPrMerge from '../github-events/on-pr-merge.js';
+import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import {TimelineItemOld as TimelineItem} from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
@@ -138,8 +138,9 @@ void features.add(import.meta.url, {
 		userHasPushAccess,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
-	init(signal: AbortSignal): void {
-		onPrMerge(() => addReleaseBanner('Now you can release this change'), signal);
+	async init(signal: AbortSignal): Promise<void> {
+		await waitForPrMerge(signal);
+		await addReleaseBanner('Now you can release this change');
 	},
 });
 

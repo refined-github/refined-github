@@ -1,0 +1,42 @@
+html:not([rgh-OFF-sticky-comment-header]) {
+	/* biome-ignore format: bug */
+	/* Issue body header */
+	[class^='IssueBodyHeader-module__IssueBodyHeaderContainer'],
+	/* Issue/review/commit comment header */
+	[data-testid='comment-header']:not(
+		/* Exclude review thread comments (on the "Files changed" tab) */
+		[class^='ReviewThreadComment-module'] > *
+	),
+	/* PR body/comment or gist comment header */
+	.timeline-comment-header {
+		position: sticky;
+		/* Prevent header from being covered by media */
+		z-index: 3;
+		--rgh-issue-or-pr-sticky-header-height: 56px;
+		top: calc(
+			var(--base-sticky-header-height, 0px) +
+			var(--rgh-issue-or-pr-sticky-header-height, 0px)
+		);
+	}
+
+	:is([id^='gistcomment'], [id^='commitcomment']) > * {
+		--rgh-issue-or-pr-sticky-header-height: 0px !important;
+	}
+
+	/* Added by `show-names` */
+	[data-rgh-viewer-did-author]:not([class^='ReviewThreadComment-module'] > *),
+	.timeline-comment.current-user .timeline-comment-header,
+	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
+		/* Draw a possibly semi-transparent accent color over the opaque background */
+		background:
+			linear-gradient(
+				var(--bgColor-accent-muted, fuchsia),
+				var(--bgColor-accent-muted, fuchsia)
+			), var(--rgh-background);
+	}
+
+	/* Prevent header of the next comment from overlapping context menu of the sticky header */
+	.timeline-comment-header:has(details[open]) {
+		z-index: 4;
+	}
+}

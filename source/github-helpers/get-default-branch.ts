@@ -47,6 +47,7 @@ export const defaultBranchOfRepo = new CachedFunction('default-branch', {
 			throw new Error('getDefaultBranch was called on a non-repository page');
 		}
 
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- Wrong, type can be `false`
 		return (isCurrentRepo(repository) && await fromDOM()) || fromAPI(repository);
 	},
 

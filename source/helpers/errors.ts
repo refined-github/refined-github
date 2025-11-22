@@ -21,6 +21,7 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 		.split('\n')
 		.toReversed()
 		.join('\n')
+		// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec -- Linear code is best
 		.match(/assets\/features\/(.+)\.js/);
 	return match?.[1] as FeatureID | undefined;
 }
@@ -40,7 +41,7 @@ export function logError(error: Error): void {
 		return;
 	}
 
-	const id = parseFeatureNameFromStack(stack!);
+	const id = parseFeatureNameFromStack(stack);
 
 	// Avoid duplicate errors
 	if (loggedStacks.has(stack!)) {

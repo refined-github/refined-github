@@ -45,7 +45,7 @@ async function init(): Promise<void | false> {
 	const releasesOrTagsNavbarSelector = [
 		'nav[aria-label^="Releases and Tags"]', // Release list
 		'.subnav-links', // Tag list
-	].join(',');
+	];
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
 	navbar!.append(
