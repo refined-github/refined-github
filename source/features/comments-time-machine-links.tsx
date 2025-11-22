@@ -165,7 +165,9 @@ async function init(signal: AbortSignal): Promise<void> {
 		addDropdownLink(menu, timestamp);
 	}, {signal});
 
-	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)`, 'click', addDropdownLinkReact, {signal});
+	// [data-component="IconButton"] includes only React buttons
+	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
+	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
 
 	observe(
 		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedURLClass})`,
