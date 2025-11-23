@@ -63,6 +63,7 @@ export default [
 						'**/*.less',
 						'**/features/**',
 						'**/github-helpers/**',
+						'**/messages/**',
 						'webext-bugs/*',
 						'vite/client',
 						'webext-dynamic-content-scripts',

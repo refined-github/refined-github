@@ -1,6 +1,8 @@
+import addMessageHandler from './message-manager.js';
+
 type Tobject = Record<string, unknown>;
 
-class ReactProps {
+export default class ReactProps {
 	[key: string]: unknown;
 
 	constructor(props: Tobject) {
@@ -53,7 +55,7 @@ class ReactProps {
 	}
 }
 
-export default function getReactProps(targetElement: HTMLElement): ReactProps | undefined {
+function getReactProps(targetElement: HTMLElement): ReactProps | undefined {
 	const parent = targetElement.parentElement;
 	if (!parent) {
 		return;
@@ -91,7 +93,7 @@ export default function getReactProps(targetElement: HTMLElement): ReactProps | 
 		return new ReactProps(targetReactNode.props);
 	}
 
-	// "Not all code paths return a value.ts(7030)" error if removed
+	// "Not all code paths return a value. ts(7030)" error if removed
 	// eslint-disable-next-line no-useless-return
 	return;
 }
@@ -109,3 +111,11 @@ function isReactElement(node: React.ReactNode): node is React.ReactElement {
 		)
 	);
 }
+
+addMessageHandler('get-react-props', ({target}) => {
+	if (!(target instanceof HTMLElement)) {
+		throw new TypeError('get-react-props called on non-HTMLElement node');
+	}
+
+	return getReactProps(target);
+});

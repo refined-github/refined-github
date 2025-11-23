@@ -8,7 +8,8 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
-import getReactProps from '../helpers/react.js';
+import type ReactProps from '../messages/react-props.js';
+import {sendMessageAndWaitForResponse} from '../helpers/messages.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
@@ -60,7 +61,7 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 		return;
 	}
 
-	const props = getReactProps(contextMenuButton);
+	const props = await sendMessageAndWaitForResponse<ReactProps>('get-react-props', contextMenuButton);
 	if (!props) {
 		throw new Error('Can\'t get React props from context menu button');
 	}

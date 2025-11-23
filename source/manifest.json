@@ -59,6 +59,20 @@
 			"js": [
 				"assets/content-script.js"
 			]
+		},
+		{
+			"run_at": "document_start",
+			"matches": [
+				"https://github.com/*",
+				"https://gist.github.com/*"
+			],
+			"exclude_matches": [
+				"https://*/login/*"
+			],
+			"js": [
+				"assets/messages.js"
+			],
+			"world": "MAIN"
 		}
 	],
 	"web_accessible_resources": [
