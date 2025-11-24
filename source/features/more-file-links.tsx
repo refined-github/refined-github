@@ -18,17 +18,6 @@ export function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, rou
 	);
 }
 
-export function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
-	const menuItem = viewFile.cloneNode(true);
-	const fileLink = $('a', viewFile).href;
-	const link = $('a', menuItem);
-	link.href = new GitHubFileURL(fileLink).assign({route}).href;
-	link.dataset.turbo = String(route !== 'raw');
-	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = name;
-	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
-	return menuItem;
-}
-
 function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): void {
 	dropdown.classList.add('rgh-more-file-links'); // Mark this as processed
 
@@ -39,6 +28,17 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 		getLegacyMenuItem(viewFile, 'View history', 'commits'),
 		<div className="dropdown-divider" role="none" />,
 	);
+}
+
+export function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
+	const menuItem = viewFile.cloneNode(true);
+	const fileLink = $('a', viewFile).href;
+	const link = $('a', menuItem);
+	link.href = new GitHubFileURL(fileLink).assign({route}).href;
+	link.dataset.turbo = String(route !== 'raw');
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = name;
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
+	return menuItem;
 }
 
 function handleMenuOpening(): void {
