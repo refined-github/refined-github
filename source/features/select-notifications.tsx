@@ -59,18 +59,14 @@ function handleSelection(): void {
 	const deselectAll = selectorGroups.length === 0;
 
 	const notifications = $$('.notifications-list-item');
-	for (let index = 0; index < notifications.length; index++) {
-		const notification = notifications[index];
-		const input = $('input.js-notification-bulk-action-check-item', notification);
-
+	let input: HTMLInputElement;
+	for (const notification of notifications) {
+		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
 		input.checked = !deselectAll && selectorGroups.every(selectorGroup => elementExists(selectorGroup, notification));
-
-		// Trigger the selection action bar update
-		if (notifications.length - index === 1) {
-			input.dispatchEvent(new Event('change', {bubbles: true}));
-		}
 	}
+	// Trigger the selection action bar update
+	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
