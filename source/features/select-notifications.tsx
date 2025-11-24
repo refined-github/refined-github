@@ -65,7 +65,9 @@ function handleSelection(): void {
 		// Updating the "checked" property does not raise any events
 		input.checked = !deselectAll && selectorGroups.every(selectorGroup => elementExists(selectorGroup, notification));
 	}
+
 	// Trigger the selection action bar update
+	// @ts-expect-error input will be assigned in the loop above
 	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
