@@ -94,3 +94,7 @@ interface Node extends EventTarget {
 interface SignalAsOptions {
 	signal?: AbortSignal;
 }
+
+declare global {
+	const _rgh: Record<string, any>;
+}

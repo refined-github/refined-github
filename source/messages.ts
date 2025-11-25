@@ -1,1 +1,1 @@
-import './messages/react-props.js';
+import './messages/main/react-props.js';

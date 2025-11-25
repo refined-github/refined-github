@@ -6,6 +6,7 @@
 		"module": "preserve",
 		"moduleResolution": "bundler",
 		"jsx": "react",
+		"noEmitOnError": false,
 		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
