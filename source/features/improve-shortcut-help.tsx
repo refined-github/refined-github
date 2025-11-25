@@ -59,7 +59,7 @@ function initOnce(): void {
 }
 
 // TODO: Remove everything above in 2026
-const getRghShortcutsElement = memoize(
+const getRghShortcutsContainer = memoize(
 	(baseShortcutsContainer: Element): Element => {
 		const rghShortcutsContainer = baseShortcutsContainer.cloneNode(true);
 		const shortcutsList = $('ul', rghShortcutsContainer);
@@ -105,7 +105,7 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 	}
 
 	const lastColumn = columnsContainer.lastElementChild!;
-	lastColumn.append(getRghShortcutsElement(lastColumn.firstElementChild!));
+	lastColumn.append(getRghShortcutsContainer(lastColumn.firstElementChild!));
 }
 
 function init(signal: AbortSignal): void {
