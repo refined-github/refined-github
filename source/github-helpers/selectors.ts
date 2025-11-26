@@ -156,9 +156,7 @@ export const commitHashLinkInLists_ = [
 	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
 ] satisfies UrlMatch[];
 
-export const commitTitleInLists = [
-	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
-];
+export const commitTitleInLists = '[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
 export const commitTitleInLists_ = [
 	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
