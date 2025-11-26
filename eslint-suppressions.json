@@ -203,10 +203,5 @@
     "@typescript-eslint/naming-convention": {
       "count": 3
     }
-  },
-  "source/resolve-conflicts.ts": {
-    "@typescript-eslint/naming-convention": {
-      "count": 1
-    }
   }
 }
