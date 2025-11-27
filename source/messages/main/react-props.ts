@@ -6,16 +6,15 @@ import {
 import {toRghMessageValue, untransferable, type Untransferable} from './message-value.js';
 import {registerRpcFunction} from './rpc.js';
 
-type Tobject = Record<string, unknown>;
-
 export type ReactPropMessageTarget = HTMLElement;
 
 export type ReactPropMessageEvent = RghMessageEvent<never>;
 
+export type ReactProps = Record<string, RghMessageValue>;
+
 type ReactPropMessage = ReactPropMessageEvent & {target: ReactPropMessageTarget};
 
-// eslint-disable-next-line @typescript-eslint/no-restricted-types -- React props can be both null and undefined
-function getReactProps(targetElement: HTMLElement): Tobject | undefined | null {
+function getReactProps(targetElement: HTMLElement): Record<string, unknown> | undefined {
 	const parent = targetElement.parentElement;
 	if (!parent) {
 		return;
@@ -58,7 +57,7 @@ function getReactProps(targetElement: HTMLElement): Tobject | undefined | null {
 	return;
 }
 
-function getReactPropsEntryValue(element: HTMLElement): Tobject | undefined {
+function getReactPropsEntryValue(element: HTMLElement): Record<string, unknown> | undefined {
 	return Object.entries(element).find(([key]) => key.includes('reactProps'))?.[1];
 }
 

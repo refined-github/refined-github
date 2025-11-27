@@ -1,10 +1,8 @@
-import type {Primitive} from 'type-fest';
-
 import type {
-	RghMessage, RghMessageEvent, RghMessageName, RghMessageNameOut,
+	RghMessage, RghMessageEvent, RghMessageName, RghMessageNameOut, RghMessageValue,
 } from '../main/message-manager.js';
 
-export function sendMessage(messageName: string, target: EventTarget, value: Primitive): void {
+export function sendMessage(messageName: string, target: EventTarget, value: RghMessageValue): void {
 	const event = new CustomEvent(
 		`rgh:${messageName}` satisfies RghMessageName,
 		{
@@ -16,17 +14,16 @@ export function sendMessage(messageName: string, target: EventTarget, value: Pri
 	target.dispatchEvent(event);
 }
 
-export async function sendMessageAndWaitForResponse(
+export async function sendMessageAndWaitForResponse<ExpectedResponse extends RghMessageValue>(
 	messageName: string,
 	target: EventTarget,
-	value?: unknown,
-): Promise<T | undefined> {
+	value?: RghMessageValue,
+): Promise<ExpectedResponse> {
 	return new Promise(resolve => {
 		target.addEventListener(
 			`rgh:out:${messageName}` satisfies RghMessageNameOut,
 			event => {
-				const value = (event as RghMessage<unknown>).detail as T | undefined;
-				resolve(value);
+				resolve((event as RghMessage<ExpectedResponse>).detail);
 			},
 			{once: true},
 		);

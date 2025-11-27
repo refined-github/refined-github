@@ -8,8 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
-import type ReactProps from '../messages/main/react-props.js';
-import {sendMessageAndWaitForResponse} from '../messages/isolated/messages.js';
+import getReactProps from '../helpers/get-react-props.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(
@@ -61,12 +60,12 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 		return;
 	}
 
-	const props = await sendMessageAndWaitForResponse<ReactProps>('get-react-props', contextMenuButton);
+	const props = await getReactProps(contextMenuButton);
 	if (!props) {
 		throw new Error('Can\'t get React props from context menu button');
 	}
 
-	const editHook = props.findPropByName(/edit/);
+	const editHook = props.startIssueBodyEdit ?? props.editComment;
 	if (typeof editHook !== 'function') {
 		throw new TypeError('Can\'t find edit hook');
 	}
@@ -82,7 +81,7 @@ async function addQuickEditButtonReact(contextMenuButton: HTMLButtonElement, {si
 			role="menuitem"
 			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
 			aria-label="Edit comment"
-			onClick={editHook()}
+			onClick={() => editHook()}
 		>
 			<PencilIcon />
 		</button>,
