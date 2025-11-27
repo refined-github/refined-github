@@ -58,16 +58,15 @@ function initOnce(): void {
 }
 
 // TODO: Remove everything above in 2026
-function improveShortcutHelp(columnsContainer: HTMLElement): void {
-	const lastColumn = columnsContainer.lastElementChild!;
-	const shortcutsContainer = lastColumn.firstElementChild!.cloneNode(true);
-	const shortcutsList = $('ul', shortcutsContainer);
-	const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutsList);
+const getRghShortcutContainer = (baseShortcutContainer: Element): Element => {
+	const rghShortcutContainer = baseShortcutContainer.cloneNode(true);
+	const shortcutList = $('ul', rghShortcutContainer);
+	const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutList);
 	const keybindingHint = $('kbd', shortcutItem);
 	const chord = $('span', shortcutItem);
 
-	$('h2', shortcutsContainer).textContent = 'Refined GitHub';
-	shortcutsList.replaceChildren(
+	$('h2', rghShortcutContainer).textContent = 'Refined GitHub';
+	shortcutList.replaceChildren(
 		...[...shortcutMap]
 			.toSorted(([, a], [, b]) => a.localeCompare(b))
 			.map(([hotkey, description]) => {
@@ -89,7 +88,45 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 			}),
 	);
 
-	lastColumn.append(shortcutsContainer);
+	return rghShortcutContainer;
+};
+
+// observe({once: true}) doesn't work as expected
+// improveShortcutHelp just never gets called
+let hasRun = false;
+function improveShortcutHelp(columnsContainer: HTMLElement, {signal}: SignalAsOptions): void {
+	if (hasRun) {
+		return;
+	}
+
+	hasRun = true;
+
+	if (shortcutMap.size === 0) {
+		features.unload(import.meta.url);
+		return;
+	}
+
+	const lastColumn = columnsContainer.lastElementChild!;
+	lastColumn.append(getRghShortcutContainer(lastColumn.firstElementChild!));
+
+	const dialogBackdrop = columnsContainer.closest('[class^="prc-Dialog-Backdrop"]')!.cloneNode(true);
+	dialogBackdrop.addEventListener('click', ({target}) => {
+		if (target === dialogBackdrop) {
+			dialogBackdrop.remove();
+		}
+	}, {signal});
+	$('button:has(> .octicon-x)', dialogBackdrop).addEventListener('click', () => {
+		dialogBackdrop.remove();
+	}, {signal});
+
+	document.body.addEventListener('keydown', ({key}) => {
+		if (key === 'Escape') {
+			dialogBackdrop.remove();
+		} else if (key === '?' && !dialogBackdrop.isConnected) {
+			document.body.append(dialogBackdrop);
+		}
+	// capture: true to fire before GitHub's handlers, one of which calls event.stopImmediatePropagation()
+	}, {capture: true, signal});
 }
 
 function init(signal: AbortSignal): void {
