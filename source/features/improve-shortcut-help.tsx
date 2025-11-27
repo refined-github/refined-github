@@ -110,8 +110,8 @@ function improveShortcutHelp(columnsContainer: HTMLElement, {signal}: SignalAsOp
 	lastColumn.append(getRghShortcutContainer(lastColumn.firstElementChild!));
 
 	const dialog = columnsContainer.closest('[class^="prc-Dialog-Backdrop"]')!.cloneNode(true);
-	dialog.addEventListener('click', event => {
-		if (event.target === dialog) {
+	dialog.addEventListener('click', ({target}) => {
+		if (target === dialog) {
 			dialog.remove();
 		}
 	}, {signal});
