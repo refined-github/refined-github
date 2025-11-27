@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
-import memoize from 'memoize';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
@@ -59,53 +58,74 @@ function initOnce(): void {
 }
 
 // TODO: Remove everything above in 2026
-const getRghShortcutsContainer = memoize(
-	(baseShortcutsContainer: Element): Element => {
-		const rghShortcutsContainer = baseShortcutsContainer.cloneNode(true);
-		const shortcutsList = $('ul', rghShortcutsContainer);
-		const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutsList);
-		const keybindingHint = $('kbd', shortcutItem);
-		const chord = $('span', shortcutItem);
+const getRghShortcutContainer = (baseShortcutContainer: Element): Element => {
+	const rghShortcutContainer = baseShortcutContainer.cloneNode(true);
+	const shortcutList = $('ul', rghShortcutContainer);
+	const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutList);
+	const keybindingHint = $('kbd', shortcutItem);
+	const chord = $('span', shortcutItem);
 
-		$('h2', rghShortcutsContainer).textContent = 'Refined GitHub';
-		shortcutsList.replaceChildren(
-			...[...shortcutMap]
-				.toSorted(([, a], [, b]) => a.localeCompare(b))
-				.map(([hotkey, description]) => {
-					const currentItem = shortcutItem.cloneNode(true);
-					currentItem.firstElementChild!.textContent = description;
-					currentItem.lastElementChild!.replaceChildren(
-						<kbd className={keybindingHint.className}>
-							{hotkey.split(' ').map((key, index) => (
-								<>
-									{index > 0 && ' '}
-									<span className={chord.className}>
-										{key.charAt(0).toUpperCase() + key.slice(1)}
-									</span>
-								</>
-							))}
-						</kbd>,
-					);
-					return currentItem;
-				}),
-		);
+	$('h2', rghShortcutContainer).textContent = 'Refined GitHub';
+	shortcutList.replaceChildren(
+		...[...shortcutMap]
+			.toSorted(([, a], [, b]) => a.localeCompare(b))
+			.map(([hotkey, description]) => {
+				const currentItem = shortcutItem.cloneNode(true);
+				currentItem.firstElementChild!.textContent = description;
+				currentItem.lastElementChild!.replaceChildren(
+					<kbd className={keybindingHint.className}>
+						{hotkey.split(' ').map((key, index) => (
+							<>
+								{index > 0 && ' '}
+								<span className={chord.className}>
+									{key.charAt(0).toUpperCase() + key.slice(1)}
+								</span>
+							</>
+						))}
+					</kbd>,
+				);
+				return currentItem;
+			}),
+	);
 
-		return rghShortcutsContainer;
-	},
-	{
-		cacheKey: () => location.origin + location.pathname,
-	},
+	return rghShortcutContainer;
+};
 
-);
+// observe({once: true}) doesn't work as expected
+// improveShortcutHelp just never gets called
+let hasRun = false;
+function improveShortcutHelp(columnsContainer: HTMLElement, {signal}: SignalAsOptions): void {
+	if (hasRun) {
+		return;
+	}
 
-function improveShortcutHelp(columnsContainer: HTMLElement): void {
+	hasRun = true;
+
 	if (shortcutMap.size === 0) {
 		features.unload(import.meta.url);
 		return;
 	}
 
 	const lastColumn = columnsContainer.lastElementChild!;
-	lastColumn.append(getRghShortcutsContainer(lastColumn.firstElementChild!));
+	lastColumn.append(getRghShortcutContainer(lastColumn.firstElementChild!));
+
+	const dialog = columnsContainer.closest('[class^="prc-Dialog-Backdrop"]')!.cloneNode(true);
+	dialog.addEventListener('click', (event) => {
+		if (event.target === dialog) {
+			dialog.remove();
+		}
+	}, {signal});
+	$('button:has(> .octicon-x)', dialog).addEventListener('click', () => {
+		dialog.remove();
+	}, {signal});
+
+	document.body.addEventListener('keydown', event => {
+		if (event.key === 'Escape') {
+			dialog.remove();
+		} else if (event.key === '?' && !dialog.isConnected) {
+			document.body.append(dialog);
+		}
+	}, {capture: true, signal});
 }
 
 function init(signal: AbortSignal): void {
