@@ -119,10 +119,10 @@ function improveShortcutHelp(columnsContainer: HTMLElement, {signal}: SignalAsOp
 		dialog.remove();
 	}, {signal});
 
-	document.body.addEventListener('keydown', event => {
-		if (event.key === 'Escape') {
+	document.body.addEventListener('keydown', ({key}) => {
+		if (key === 'Escape') {
 			dialog.remove();
-		} else if (event.key === '?' && !dialog.isConnected) {
+		} else if (key === '?' && !dialog.isConnected) {
 			document.body.append(dialog);
 		}
 	}, {capture: true, signal});
