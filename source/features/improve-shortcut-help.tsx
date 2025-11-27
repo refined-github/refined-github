@@ -109,21 +109,21 @@ function improveShortcutHelp(columnsContainer: HTMLElement, {signal}: SignalAsOp
 	const lastColumn = columnsContainer.lastElementChild!;
 	lastColumn.append(getRghShortcutContainer(lastColumn.firstElementChild!));
 
-	const dialog = columnsContainer.closest('[class^="prc-Dialog-Backdrop"]')!.cloneNode(true);
-	dialog.addEventListener('click', ({target}) => {
-		if (target === dialog) {
-			dialog.remove();
+	const dialogBackdrop = columnsContainer.closest('[class^="prc-Dialog-Backdrop"]')!.cloneNode(true);
+	dialogBackdrop.addEventListener('click', ({target}) => {
+		if (target === dialogBackdrop) {
+			dialogBackdrop.remove();
 		}
 	}, {signal});
-	$('button:has(> .octicon-x)', dialog).addEventListener('click', () => {
-		dialog.remove();
+	$('button:has(> .octicon-x)', dialogBackdrop).addEventListener('click', () => {
+		dialogBackdrop.remove();
 	}, {signal});
 
 	document.body.addEventListener('keydown', ({key}) => {
 		if (key === 'Escape') {
-			dialog.remove();
-		} else if (key === '?' && !dialog.isConnected) {
-			document.body.append(dialog);
+			dialogBackdrop.remove();
+		} else if (key === '?' && !dialogBackdrop.isConnected) {
+			document.body.append(dialogBackdrop);
 		}
 	// capture: true to fire before GitHub's handlers, one of which calls event.stopImmediatePropagation()
 	}, {capture: true, signal});
