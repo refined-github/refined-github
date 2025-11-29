@@ -28,9 +28,6 @@
 
 .rgh-conversation-activity-filter-wrapper {
 	display: flex;
-}
-
-[class^='HeaderMetadata-module'] .rgh-conversation-activity-filter-wrapper {
 	align-items: center;
 }
 
@@ -52,7 +49,3 @@
 	width: max-content;
 }
 
-/* Our `position:relative` overlaps this element https://github.com/refined-github/refined-github/issues/6663 */
-.gh-header-meta .tracked-in-parent-pill {
-	z-index: 1;
-}
