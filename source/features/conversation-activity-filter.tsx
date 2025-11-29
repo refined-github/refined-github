@@ -29,6 +29,11 @@ type State = keyof typeof states;
 const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
 const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
+const timelineItem = [
+	'.js-timeline-item',
+	// React issue pages
+	'[data-wrapper-timeline-id]',
+];
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -52,7 +57,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)
-			.closest('.js-timeline-item')!
+			.closest(timelineItem)!
 			.classList
 			.add(collapsedClassName);
 	}
@@ -88,7 +93,7 @@ function processItem(item: HTMLElement): void {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if (elementExists('.comment-body', item)) {
+	} else if (elementExists('.markdown-body', item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
@@ -104,7 +109,7 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $('.js-issues-results');
+	const container = $(':is(.js-issues-results, [data-testid="issue-viewer-container"])');
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -145,7 +150,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
 	await delay(100); // Let `clean-conversation-headers` run first
 	const availableSpaceToTheLeftOfTheDropdown
-		= position.lastElementChild!.getBoundingClientRect().right
+		= (position.lastElementChild ?? position).getBoundingClientRect().right
 			- position.parentElement!.getBoundingClientRect().left;
 
 	const alignment
@@ -158,7 +163,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	position.classList.add('rgh-conversation-activity-filter');
 	position.after(
 		<details
-			className={`details-reset details-overlay d-inline-block ml-2 position-relative ${dropdownClass}`}
+			className={`details-reset details-overlay ${position.clientWidth > 0 && 'ml-2'} d-inline-block position-relative ${dropdownClass}`}
 			id="rgh-conversation-activity-filter-select-menu"
 		>
 			<summary className="height-full color-fg-muted">
@@ -203,7 +208,7 @@ const minorFixesIssuePages = [
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
 		$optional(`.${collapsedClassName} ${location.hash}`)
-			?.closest('.js-timeline-item')
+			?.closest(timelineItem)
 			?.classList
 			.remove(collapsedClassName);
 	}
@@ -237,7 +242,10 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .gh-header-sticky .sticky-content .meta:last-child',
+		'#partial-discussion-header .sticky-header-container .meta:last-child',
+		// React issue pages
+		'[class^="HeaderMetadata-module__metadataContent"]',
+		'[class*="HeaderMetadata-module__smallMetadataRow"]',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
@@ -249,7 +257,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 
-	observe('.js-timeline-item', processItem, {signal});
+	observe(timelineItem, processItem, {signal});
 
 	registerHotkey('h', switchToNextFilter, {signal});
 }

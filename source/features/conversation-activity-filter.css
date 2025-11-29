@@ -10,7 +10,9 @@
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
-.js-issues-results:not(.rgh-conversation-activity-is-filtered)
+:is(.js-issues-results, [data-testid='issue-viewer-container']):not(
+		.rgh-conversation-activity-is-filtered
+	)
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye-closed {
 	display: none !important;
@@ -20,6 +22,27 @@
 	/* outline: solid 5px #f00; */
 }
 
+[class^='HeaderMetadata-module__titleAndMetadata'] {
+	overflow: visible !important;
+}
+
+.rgh-conversation-activity-filter-wrapper {
+	display: flex;
+}
+
+[class^='HeaderMetadata-module'] .rgh-conversation-activity-filter-wrapper {
+	align-items: center;
+}
+
+.gh-header-meta .rgh-conversation-activity-filter-dropdown {
+	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
+}
+
+.rgh-conversation-activity-filter-dropdown summary {
+	display: flex;
+	align-items: center;
+}
+
 [data-rgh-conversation-activity-filter='hideEvents']
 	.rgh-conversation-events-label {
 	display: inline !important;
@@ -27,28 +50,6 @@
 
 .rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
 	width: max-content;
-}
-
-.gh-header-meta .rgh-conversation-activity-filter {
-	display: inline;
-}
-
-.gh-header-sticky .rgh-conversation-activity-filter-wrapper {
-	display: flex;
-}
-
-.gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
-	display: flex;
-	align-items: center;
-}
-
-.gh-header-meta .rgh-conversation-activity-filter-wrapper {
-	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
-}
-
-/* Temporary (?) AJAX issue https://github.com/refined-github/refined-github/issues/6437#issuecomment-1540526012 */
-#rgh-conversation-activity-filter-select-menu:not(.js-issues-results details) {
-	display: none !important;
 }
 
 /* Our `position:relative` overlaps this element https://github.com/refined-github/refined-github/issues/6663 */
