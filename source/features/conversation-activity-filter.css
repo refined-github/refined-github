@@ -41,10 +41,21 @@
 	align-items: center;
 }
 
-.gh-header-meta .rgh-conversation-activity-filter-dropdown {
-	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
-}
-
 .rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
 	width: max-content;
+}
+
+.gh-header-meta {
+	.rgh-conversation-activity-filter-wrapper {
+		display: block;
+		margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
+	}
+
+	.rgh-conversation-activity-filter {
+		display: inline;
+	}
+
+	.rgh-conversation-activity-filter-dropdown summary {
+		display: list-item;
+	}
 }
