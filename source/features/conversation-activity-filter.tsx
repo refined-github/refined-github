@@ -46,7 +46,7 @@ function processTimelineEvent(item: HTMLElement): void {
 
 function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
-	if (elementExists('.minimized-comment > details', item)) {
+	if (elementExists('.octicon-unfold', item)) {
 		item.classList.add(collapsedClassName);
 	}
 }
@@ -93,7 +93,7 @@ function processItem(item: HTMLElement): void {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if (elementExists('.markdown-body', item)) {
+	} else if (elementExists(['.comment-body', '.react-issue-comment'], item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
