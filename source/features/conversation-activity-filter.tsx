@@ -32,7 +32,7 @@ const collapsedClassName = 'rgh-conversation-activity-collapsed';
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
-	'[data-wrapper-timeline-id]',
+	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
 function processTimelineEvent(item: HTMLElement): void {
