@@ -146,55 +146,56 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
-	// TODO: Use `<anchored-position>` instead
-	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
 	await delay(100); // Let `clean-conversation-headers` run first
-	const availableSpaceToTheLeftOfTheDropdown
-		= (position.lastElementChild ?? position).getBoundingClientRect().right
-			- position.parentElement!.getBoundingClientRect().left;
-
-	const alignment
-		= availableSpaceToTheLeftOfTheDropdown === 0
-			|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-			? 'right-0'
-			: 'left-0';
-
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
-	position.after(
-		<details
-			className={`details-reset details-overlay ${position.clientWidth > 0 ? 'ml-2' : ''} d-inline-block position-relative ${dropdownClass}`}
-			id="rgh-conversation-activity-filter-select-menu"
+
+	// Place the icon first to calculate available space for the dropdown after
+	const details = <details
+		className={`details-reset details-overlay ${position.clientWidth > 0 ? 'ml-2' : ''} d-inline-block position-relative ${dropdownClass}`}
+		id="rgh-conversation-activity-filter-select-menu"
+	>
+		<summary className="height-full color-fg-muted">
+			<EyeIcon />
+			<EyeClosedIcon className="color-fg-danger" />
+			<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1">events</span>
+			<div className="dropdown-caret ml-1" />
+		</summary>
+	</details>;
+	position.after(details);
+
+	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
+	// TODO: Use `<anchored-position>` instead
+	const availableSpaceToTheLeftOfTheDropdown = details.getBoundingClientRect().left;
+	const alignment
+	= availableSpaceToTheLeftOfTheDropdown === 0
+		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
+		? 'right-0'
+		: 'left-0';
+
+	details.append(
+		<details-menu
+			className={`SelectMenu ${alignment}`}
+			on-details-menu-select={handleSelection}
 		>
-			<summary className="height-full color-fg-muted">
-				<EyeIcon />
-				<EyeClosedIcon className="color-fg-danger" />
-				<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1">events</span>
-				<div className="dropdown-caret ml-1" />
-			</summary>
-			<details-menu
-				className={`SelectMenu ${alignment}`}
-				on-details-menu-select={handleSelection}
-			>
-				<div className="SelectMenu-modal">
-					<div className="SelectMenu-header">
-						<h3 className="SelectMenu-title color-fg-default">
-							Filter conversation activities
-						</h3>
-						<button
-							className="SelectMenu-closeButton"
-							type="button"
-							data-toggle-for="rgh-conversation-activity-filter-select-menu"
-						>
-							<XIcon />
-						</button>
-					</div>
-					<div className="SelectMenu-list">
-						{createRadios(state)}
-					</div>
+			<div className="SelectMenu-modal">
+				<div className="SelectMenu-header">
+					<h3 className="SelectMenu-title color-fg-default">
+						Filter conversation activities
+					</h3>
+					<button
+						className="SelectMenu-closeButton"
+						type="button"
+						data-toggle-for="rgh-conversation-activity-filter-select-menu"
+					>
+						<XIcon />
+					</button>
 				</div>
-			</details-menu>
-		</details>,
+				<div className="SelectMenu-list">
+					{createRadios(state)}
+				</div>
+			</div>
+		</details-menu>,
 	);
 }
 
