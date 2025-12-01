@@ -27,6 +27,7 @@
 	display: inline !important;
 }
 
+/* Fix dropdown getting cut off on issue headers */
 [class^='HeaderMetadata-module__titleAndMetadata'] {
 	overflow: visible !important;
 }
