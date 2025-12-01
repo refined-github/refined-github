@@ -92,7 +92,6 @@ import './features/warn-pr-from-master.js';
 import './features/preview-hidden-comments.js';
 import './features/fit-textareas.js';
 import './features/collapsible-content-button.js';
-import './features/resolve-conflicts.js';
 import './features/actionable-pr-view-file.js'; // Must be before more-file-links
 import './features/more-file-links.js';
 import './features/pr-filters.js';
