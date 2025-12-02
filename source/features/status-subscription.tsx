@@ -109,12 +109,10 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	}
 }
 
-const githubClientVersion = $('meta[name="release"]').content;
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	// Maybe 0749b7b39e97665203056321616a829ef6854483 should be hardcoded
-	'x-github-client-version': githubClientVersion,
+	'x-github-client-version': $('meta[name="release"]').content,
 	credentials: 'include',
 });
 
