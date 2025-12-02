@@ -35,6 +35,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isPRFile404,
+		// TODO: remove once #8778#issuecomment-3550122271 is fixed
 		pageDetect.isPRCommit,
 	],
 	init,
