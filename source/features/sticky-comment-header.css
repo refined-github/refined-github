@@ -22,6 +22,8 @@ html:not([rgh-OFF-sticky-comment-header]) {
 			var(--base-sticky-header-height, 0px) +
 			var(--rgh-issue-or-pr-sticky-header-height, 0px)
 		);
+		/* Fallback in case `show-names` is disabled - #8726#issuecomment-3606420543 */
+		background: var(--bgColor-muted, var(--color-canvas-subtle, fuchsia));
 	}
 
 	:is([id^='gistcomment'], [id^='commitcomment']) > * {
