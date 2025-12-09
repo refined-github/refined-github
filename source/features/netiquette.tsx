@@ -97,6 +97,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	});
 
 	if (reactWrapper) {
+		reactWrapper.parentElement?.classList.add('flex-column');
 		reactWrapper.before(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
