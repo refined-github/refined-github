@@ -113,6 +113,14 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	white-space: nowrap;
 }
 
+/* Fix button color contrast when deleting an unused tag */
+/* Info: https://github.com/refined-github/refined-github/issues/8803 */
+/* Test: https://github.com/refined-github/sandbox/tags */
+.dropdown-item.btn-link.color-fg-danger:hover {
+	color: var(--fgColor-onEmphasis, fuchsia) !important;
+	background-color: var(--bgColor-danger-emphasis, fuchsia);
+}
+
 /*
 
 Test URLs:
