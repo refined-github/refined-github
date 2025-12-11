@@ -1,6 +1,11 @@
 import features from '../feature-manager.js';
 // Bypassing problematic external imports
 
+// Test URLs:
+// https://github.com/refined-github/refined-github/issues/1
+// https://github.com/refined-github/refined-github/pull/1
+// https://github.com/refined-github/refined-github/discussions/1
+
 // --- Custom DOM Utilities to replace missing 'select-dom' exports ---
 // Implements the functionality of select-dom's 'all' using native APIs
 // FIX 2: Set return type to 'Element[]' by default
