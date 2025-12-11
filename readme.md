@@ -176,6 +176,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "shorten-links") [Shortens URLs and repo URLs to readable references like "_user/repo/.file@`d71718d`".](https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png)
 - [](# "preview-hidden-comments") 🔥 [Previews hidden comments inline.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262556553-ca04b870-9adb-4a8c-a6d0-6238863948be.png)
 - [](# "highest-rated-comment") 🔥 [Highlights the most useful comment in issues.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png)
+- [](# "highlight-sponsor-contributions") [Highlights sponsor contributions in PR/timeline and contributors area so sponsors stand out.]
 - [](# "hide-low-quality-comments") [Hides reaction comments ("+1", "👍", …)](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258220965-4743b9b9-2aef-41b3-a905-ccf8d7beb74e.png) (except the maintainers’) [but they can still be shown.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258221444-e43f2486-5ba1-40b5-aa1d-d9d5768e8c0a.png)
 - [](# "scrollable-areas") [Limits the height of tall code blocks and quotes.](https://github.com/refined-github/refined-github/issues/1123)
 - [](# "quick-comment-hiding") [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
