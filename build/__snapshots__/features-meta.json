@@ -344,6 +344,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png"
 	},
 	{
+		"id": "highlight-sponsor-contributions",
+		"description": "<a href=\"undefined\">Highlights sponsor contributions in PR/timeline and contributors area so sponsors stand out.</a>",
+		"screenshot": null
+	},
+	{
 		"id": "html-preview-link",
 		"description": "Adds a link to preview HTML files.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png"

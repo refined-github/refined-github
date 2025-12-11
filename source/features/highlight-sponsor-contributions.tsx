@@ -1,4 +1,6 @@
 import features from '../feature-manager.js';
+
+export const description = 'Highlights sponsor contributions in PR/timeline and contributors area so sponsors stand out.';
 // Bypassing problematic external imports
 
 // Test URLs:
