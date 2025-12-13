@@ -23,11 +23,6 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	const filtersToRemove = searchQuery.getQueryParts().filter(part => part.startsWith(`${filterCategory}:`));
 	searchQuery.remove(...filtersToRemove);
 
-	const hasSearchParameters = searchQuery.searchParams.size > 0;
-	if (!hasSearchParameters) {
-		searchQuery.append('is:pr');
-	}
-
 	if (!isSelected) {
 		searchQuery.append(filterQuery);
 	}
