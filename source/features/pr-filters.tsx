@@ -10,29 +10,26 @@ import observe from '../helpers/selector-observer.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import HasChecks from './pr-filters.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import SearchQuery from '../github-helpers/search-query.js';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
 function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
-	const searchParameter = new URLSearchParams(location.search);
-	const currentQuerySegments = searchParameter.get('q')?.split(/\s+/) ?? [];
-	const isSelected = currentQuerySegments.some(
-		segment => segment.toLowerCase() === filterQuery,
-	);
+	const searchQuery = SearchQuery.from(location);
+	const isSelected = searchQuery.includes(filterQuery);
 
-	const query = currentQuerySegments.filter(
-		segment => !segment.startsWith(`${filterCategory}:`),
-	).join(' ');
+	const filtersToRemove = searchQuery.getQueryParts().filter(part => part.startsWith(`${filterCategory}:`));
+	searchQuery.remove(...filtersToRemove);
 
-	const search = new URLSearchParams({
-		q: query + (isSelected ? '' : ` ${filterQuery}`),
-	});
+	if (!isSelected) {
+		searchQuery.append(filterQuery);
+	}
 
 	dropdown.append(
 		<a
-			href={`?${String(search)}`}
+			href={searchQuery.href}
 			className="SelectMenu-item"
 			aria-checked={isSelected ? 'true' : 'false'}
 			role="menuitemradio"
