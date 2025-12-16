@@ -228,7 +228,9 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
 	observe('button[data-thread-subscribe-button]:enabled', addButton, {signal});
-	observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButtonIssue, {signal});
+	if (!pageDetect.isEnterprise()) {
+		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButtonIssue, {signal});
+	}
 }
 
 void features.add(import.meta.url, {
