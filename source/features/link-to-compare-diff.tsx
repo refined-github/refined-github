@@ -16,7 +16,7 @@ function linkify(changedFilesSummary: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.Box li:has(.octicon-file-diff)', linkify, {signal});
+	observe('.Box li:has(> .octicon-file-diff)', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
