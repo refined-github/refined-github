@@ -1,19 +1,22 @@
 import './link-to-compare-diff.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 
-function init(): void {
-	const changedFilesSummary = $('.Box li:has(.octicon-file-diff)');
+function linkify(changedFilesSummary: HTMLElement): void {
 	wrapAll(
 		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket" />,
 		...changedFilesSummary.children,
 	);
+}
+
+function init(signal: AbortSignal): void {
+	observe('.Box li:has(> .octicon-file-diff)', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -21,10 +24,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => elementExists('.tabnav'), // The commit list and compare diff are in two separate tabs
+		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],
-	deduplicate: 'has-rgh-inner',
-	awaitDomReady: true, // DOM-based filter
+	awaitDomReady: true, // DOM-based exclusion filter
 	init,
 });
 
