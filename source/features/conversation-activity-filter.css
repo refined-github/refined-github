@@ -10,7 +10,9 @@
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
-.js-issues-results:not(.rgh-conversation-activity-is-filtered)
+:is(.js-issues-results, [data-testid='issue-viewer-container']):not(
+		.rgh-conversation-activity-is-filtered
+	)
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye-closed {
 	display: none !important;
@@ -25,33 +27,36 @@
 	display: inline !important;
 }
 
-.rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
-	width: max-content;
+/* Fix dropdown getting cut off on issue headers */
+[class^='HeaderMetadata-module__titleAndMetadata'] {
+	overflow: visible !important;
 }
 
-.gh-header-meta .rgh-conversation-activity-filter {
-	display: inline;
-}
-
-.gh-header-sticky .rgh-conversation-activity-filter-wrapper {
-	display: flex;
-}
-
-.gh-header-sticky .rgh-conversation-activity-filter-dropdown summary {
+.rgh-conversation-activity-filter-wrapper {
 	display: flex;
 	align-items: center;
 }
 
-.gh-header-meta .rgh-conversation-activity-filter-wrapper {
-	margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
+.rgh-conversation-activity-filter-dropdown summary {
+	display: flex;
+	align-items: center;
 }
 
-/* Temporary (?) AJAX issue https://github.com/refined-github/refined-github/issues/6437#issuecomment-1540526012 */
-#rgh-conversation-activity-filter-select-menu:not(.js-issues-results details) {
-	display: none !important;
+.rgh-conversation-activity-filter-dropdown .SelectMenu-modal {
+	width: max-content;
 }
 
-/* Our `position:relative` overlaps this element https://github.com/refined-github/refined-github/issues/6663 */
-.gh-header-meta .tracked-in-parent-pill {
-	z-index: 1;
+.gh-header-meta {
+	.rgh-conversation-activity-filter-wrapper {
+		display: block;
+		margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
+	}
+
+	.rgh-conversation-activity-filter {
+		display: inline;
+	}
+
+	.rgh-conversation-activity-filter-dropdown summary {
+		display: list-item;
+	}
 }
