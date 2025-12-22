@@ -63,7 +63,7 @@ jobs:
             const linkedIssues = pullRequest.closingIssuesReferences?.nodes;
             const labelNames = new Set(
               linkedIssues?.flatMap(
-                linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
+                linkedIssue => linkedIssue.labels.nodes.map(label => label.name)
               )
             );
             isEnhancement = isEnhancement || labelNames.has('enhancement');
