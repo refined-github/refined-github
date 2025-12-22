@@ -736,7 +736,7 @@
 	},
 	{
 		"id": "releases-dropdown",
-		"description": "Adds a tags dropdown/search on tag/release pages.",
+		"description": "Adds a tags dropdown/search on release pages.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png"
 	},
 	{
@@ -768,11 +768,6 @@
 		"id": "repo-wide-file-finder",
 		"description": "Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.",
 		"screenshot": null
-	},
-	{
-		"id": "resolve-conflicts",
-		"description": "Adds one-click merge conflict fixers.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png"
 	},
 	{
 		"id": "restore-file",

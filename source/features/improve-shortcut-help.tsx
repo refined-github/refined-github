@@ -6,12 +6,13 @@ import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
 }
 
-function improveShortcutHelp(dialog: Element): void {
+function improveShortcutHelpLegacy(dialog: Element): void {
 	$('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
@@ -36,7 +37,7 @@ function improveShortcutHelp(dialog: Element): void {
 
 const observer = new MutationObserver(([{target}]) => {
 	if (target instanceof Element && !elementExists('.js-details-dialog-spinner', target)) {
-		improveShortcutHelp(target);
+		improveShortcutHelpLegacy(target);
 		observer.disconnect();
 	}
 });
@@ -56,8 +57,47 @@ function initOnce(): void {
 	document.body.addEventListener('keypress', observeShortcutModal);
 }
 
+// TODO: Remove everything above in 2026
+function improveShortcutHelp(columnsContainer: HTMLElement): void {
+	const lastColumn = columnsContainer.lastElementChild!;
+	const shortcutsContainer = lastColumn.firstElementChild!.cloneNode(true);
+	const shortcutsList = $('ul', shortcutsContainer);
+	const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutsList);
+	const keybindingHint = $('kbd', shortcutItem);
+	const chord = $('span', shortcutItem);
+
+	$('h2', shortcutsContainer).textContent = 'Refined GitHub';
+	shortcutsList.replaceChildren(
+		...[...shortcutMap]
+			.toSorted(([, a], [, b]) => a.localeCompare(b))
+			.map(([hotkey, description]) => {
+				const currentItem = shortcutItem.cloneNode(true);
+				currentItem.firstElementChild!.textContent = description;
+				currentItem.lastElementChild!.replaceChildren(
+					<kbd className={keybindingHint.className}>
+						{hotkey.split(' ').map((key, index) => (
+							<>
+								{index > 0 && ' '}
+								<span className={chord.className}>
+									{key.charAt(0).toUpperCase() + key.slice(1)}
+								</span>
+							</>
+						))}
+					</kbd>,
+				);
+				return currentItem;
+			}),
+	);
+
+	lastColumn.append(shortcutsContainer);
+}
+
+function init(signal: AbortSignal): void {
+	observe('[class^="ShortcutsDialog-module__ColumnsContainer"]', improveShortcutHelp, {signal});
+}
+
 void features.add(import.meta.url, {
-	init: onetime(initOnce),
+	init: [init, onetime(initOnce)],
 });
 
 /*

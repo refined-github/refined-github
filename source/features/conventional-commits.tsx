@@ -47,7 +47,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${commitTitleInLists.join(',')}) h4 > span > a:first-child`, renderLabelInCommitTitle, {signal});
+	observe(`${commitTitleInLists} > span > a:first-child`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -57,8 +57,8 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 			<p><a title="show-whitespace"></a> Makes whitespace characters visible
 			<p><img src="https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png">
 		<th width="50%">
-			<p><a title="resolve-conflicts"></a> Adds one-click merge conflict fixers
-			<p><img src="https://user-images.githubusercontent.com/1402241/54978791-45906080-4fdc-11e9-8fe1-45374f8ff636.png">
+			<p><a title="unreleased-commits"></a> Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits
+			<p><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png">
 	<tr>
 		<th width="50%">
 			<p><a title="pr-base-commit"></a> Shows how far behind a PR head branch is + tells you its base commit
@@ -105,7 +105,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
 - [](# "quick-new-issue") [Adds a link to create issues from anywhere in a repository.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/274816033-820ec518-049d-4248-9f8a-27b9423e350b.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
-- [](# "unreleased-commits") 🔥 [Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
 - [](# "mobile-tabs") [Makes the tabs more compact on mobile so more of them can be seen.](https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png)
 - [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
@@ -290,7 +289,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "release-download-count") [Adds a download count next to release assets.](https://user-images.githubusercontent.com/1402241/197958719-1577bc1b-1f4d-44a8-98c2-2645b7b14d31.png)
 - [](# "releases-tab") [Adds a `Releases` tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.](https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png)
-- [](# "releases-dropdown") [Adds a tags dropdown/search on tag/release pages.](https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png)
+- [](# "releases-dropdown") [Adds a tags dropdown/search on release pages.](https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png)
 - [](# "create-release-shortcut") Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
 - [](# "tag-changes-link") 🔥 [Adds a link to changes since last tag/release for each tag/release.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257036739-bebafb94-cb94-4053-9768-ff97306ab862.png)
 - [](# "convert-release-to-draft") [Adds a button to convert a release to draft.](https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png)

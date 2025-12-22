@@ -1,25 +1,37 @@
 @media (height >= 500px) {
-	.js-notifications-container .Box:has(.js-notifications-mark-all-prompt) {
+	.js-notifications-container {
 		--sticky-padding: 10px;
+		--shadow-blur-radius: 10px;
+		--shadow-spread-radius: 10px;
 
-		& .Box-header {
-			position: sticky;
-			top: var(--sticky-padding);
-			z-index: 10;
+		.Box:has(.js-notifications-mark-all-prompt) {
+			& .Box-header {
+				position: sticky;
+				top: var(--sticky-padding);
+				z-index: 10;
 
-			/* Cover up the content seen through the rounded corners above */
-			box-shadow: 0
-				calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0
-				var(--rgh-background);
+				/* Cover up the content seen through the rounded corners above */
+				box-shadow: 0
+					calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0
+					var(--rgh-background);
+			}
+
+			/* Grouped by repo; .Box only contains the header */
+			&:not(.notifications-list) {
+				display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
+				& .Box-header {
+					/* Since its section already has its own .Box-header, we try to further "elevate" it */
+					box-shadow: 0 0 var(--shadow-blur-radius) var(--shadow-spread-radius)
+						var(--rgh-background);
+				}
+			}
 		}
 
-		/* Grouped by repo; .Box only contains the header */
-		&:not(.notifications-list) {
-			display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
-			& .Box-header {
-				/* Since its section already has its own .Box-header, we try to further "elevate" it */
-				box-shadow: 0 0 10px 10px var(--rgh-background);
-			}
+		.js-notifications-banners-target {
+			margin-bottom: calc(
+				max(var(--shadow-blur-radius) * 0.6, 0px) +
+				var(--shadow-spread-radius)
+			);
 		}
 	}
 }

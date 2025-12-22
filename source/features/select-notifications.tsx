@@ -1,8 +1,8 @@
 import './select-notifications.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
@@ -31,8 +31,8 @@ const filters = {
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
-	Read: '.notification-read',
-	Unread: '.notification-unread',
+	Read: '.notification-read *',
+	Unread: '.notification-unread *',
 } as const;
 
 type Filter = keyof typeof filters;
@@ -49,46 +49,26 @@ function getFiltersSelector(formData: FormData, category: Category): string[] {
 	return formData.getAll(category).map(value => filters[value as Filter]);
 }
 
-function handleSelection({target}: Event): void {
-	const selectAllCheckbox = $('input[type="checkbox"].js-notifications-mark-all-prompt');
-	// Reset the "Select all" checkbox
-	if (selectAllCheckbox.checked) {
-		selectAllCheckbox.click();
+function handleSelection(): void {
+	// @ts-expect-error TS bug
+	const formData = new FormData($('form#rgh-select-notifications-form'));
+	const types = getFiltersSelector(formData, 'Type');
+	const statuses = getFiltersSelector(formData, 'Status');
+	const readStatus = getFiltersSelector(formData, 'Read');
+	const selectorGroups = [types, statuses, readStatus].filter(selectors => selectors.length > 0);
+	const deselectAll = selectorGroups.length === 0;
+
+	const notifications = $$('.notifications-list-item');
+	let input: HTMLInputElement;
+	for (const notification of notifications) {
+		input = $('input.js-notification-bulk-action-check-item', notification);
+		// Updating the "checked" property does not raise any events
+		input.checked = !deselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
 	}
 
-	let excluded: HTMLElement[] = [];
-	const toggleSelectability = (elements: HTMLElement[], state: boolean): void => {
-		for (const element of elements) {
-			element.toggleAttribute('data-check-all-item', state);
-		}
-	};
-
-	if (elementExists(':checked', target as Element)) {
-		// @ts-expect-error TS bug
-		const formData = new FormData($('form#rgh-select-notifications-form'));
-		const types = getFiltersSelector(formData, 'Type');
-		const statuses = getFiltersSelector(formData, 'Status');
-		const readStatus = getFiltersSelector(formData, 'Read');
-
-		excluded = $$('.notifications-list-item')
-			.filter(notification =>
-				(types.length > 0 && !elementExists(types, notification))
-				|| (statuses.length > 0 && !elementExists(statuses, notification))
-				|| (readStatus.length > 0 && !notification.matches(readStatus)),
-			)
-			.map(notification => $('.js-notification-bulk-action-check-item', notification));
-
-		// Make excluded notifications unselectable
-		toggleSelectability(excluded, false);
-
-		// If at least one notification is selectable, trigger the "Select all" checkbox
-		if (elementExists('.js-notification-bulk-action-check-item[data-check-all-item]')) {
-			selectAllCheckbox.click();
-		}
-
-		// Make all notifications selectable again
-		toggleSelectability(excluded, true);
-	}
+	// Trigger the selection action bar update
+	// @ts-expect-error input will be assigned in the loop above
+	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
