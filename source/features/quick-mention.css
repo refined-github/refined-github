@@ -28,3 +28,7 @@
 .rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
 }
+
+.TimelineItem.pt-0 {
+	z-index: 0;
+}
