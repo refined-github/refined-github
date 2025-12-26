@@ -1,4 +1,4 @@
-name: Lint title
+name: Format title
 
 on:
   pull_request_target:
@@ -11,8 +11,8 @@ on:
       - edited
 
 jobs:
-  lint:
-    name: Lint
+  format:
+    name: Format
     permissions:
       pull-requests: write
       issues: write
