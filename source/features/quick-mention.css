@@ -28,3 +28,7 @@
 .rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
 }
+
+.TimelineItem:has(.rgh-quick-mention.tooltipped) {
+	z-index: 5;
+}
