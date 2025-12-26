@@ -35,8 +35,8 @@ jobs:
         with:
           script: |
             const prTitle = context.payload.pull_request.title;
-            let isEnhancement = /^`[\w`-]+` - New feature/.test(prTitle);
-            let isBugFix = /^`[\w`-]+` - Fix/.test(prTitle);
+            let isEnhancement = /^`[\w`-]+` - New feature/.test(prTitle) || /^feat:/.test(prTitle);
+            let isBugFix = /^`[\w`-]+` - Fix/.test(prTitle) || /^fix:/.test(prTitle);
             if (isEnhancement && isBugFix) return ['enhancement', 'bug'];
 
             const query = `
