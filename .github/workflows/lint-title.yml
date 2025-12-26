@@ -3,8 +3,8 @@ name: Lint title
 on:
   pull_request:
     types:
-    - opened
-    - edited
+      - opened
+      - edited
   issues:
     types:
       - opened
