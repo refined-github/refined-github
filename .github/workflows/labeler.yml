@@ -117,8 +117,10 @@ jobs:
     name: Remove reminder
     permissions:
       pull-requests: write
-    needs: check_labels
-    if: ${{ needs.check_labels.outputs.has_labels == 'true' }}
+    needs:
+      - check_labels
+      - assign_labels
+    if: ${{ always() && (needs.check_labels.outputs.has_labels == 'true' || needs.assign_labels.outputs.assigned == 'true') }}
     runs-on: ubuntu-latest
     steps:
       - uses: marocchino/sticky-pull-request-comment@v2
