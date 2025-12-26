@@ -1,0 +1,24 @@
+name: Lint title
+
+on:
+  pull_request:
+    types:
+    - opened
+    - edited
+  issues:
+    types:
+      - opened
+      - edited
+
+jobs:
+  lint:
+    permissions:
+      pull-requests: write
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fregante/keyword-formatter-action@v1
+        with:
+          token: ${{ github.token }}
+          keywords-path: source/features
