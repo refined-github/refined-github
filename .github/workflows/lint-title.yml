@@ -12,6 +12,7 @@ on:
 
 jobs:
   lint:
+    name: Lint
     permissions:
       pull-requests: write
       issues: write
