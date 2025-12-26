@@ -5,7 +5,7 @@ on:
     types:
       - opened
       - edited
-      - closed
+      - labeled
 
 jobs:
   check_labels:
@@ -22,10 +22,24 @@ jobs:
             const labels = context.payload.pull_request.labels;
             return labels.length > 0;
 
+  check_reminder:
+    name: Check if reminder exists
+    runs-on: ubuntu-latest
+    outputs:
+      has_reminder: ${{ steps.has_reminder.outputs.result }}
+    steps:
+      - id: has_reminder
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: reminder
+          ignore_empty: true
+
   determine_labels:
     name: Determine PR labels
-    needs: check_labels
-    if: ${{ needs.check_labels.outputs.has_labels == 'false' }}
+    needs:
+      - check_labels
+      - check_reminder
+    if: ${{ needs.check_labels.outputs.has_labels == 'false' && needs.check_reminder.outputs.has_reminder == 'false' }}
     outputs:
       pr_labels: ${{ steps.labels.outputs.result }}
     runs-on: ubuntu-latest
@@ -100,7 +114,7 @@ jobs:
             });
             return true;
 
-  remind:
+  add_reminder:
     name: Remind to add labels
     permissions:
       pull-requests: write
@@ -110,4 +124,18 @@ jobs:
     steps:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          message: Please add labels to this PR
+          header: reminder
+          message: 'To reviewers: please add labels to this PR'
+
+  remove_reminder:
+    name: Remove reminder
+    permissions:
+      pull-requests: write
+    needs: check_labels
+    if: ${{ needs.check_labels.outputs.has_labels == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: reminder
+          delete: true
