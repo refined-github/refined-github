@@ -1,0 +1,25 @@
+name: Format title
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+  issues:
+    types:
+      - opened
+      - edited
+
+jobs:
+  format:
+    name: Format
+    permissions:
+      pull-requests: write
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fregante/keyword-formatter-action@v1
+        with:
+          token: ${{ github.token }}
+          keywords-path: source/features
