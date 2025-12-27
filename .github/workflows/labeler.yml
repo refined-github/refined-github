@@ -22,6 +22,18 @@ jobs:
             const labels = context.payload.pull_request.labels;
             return labels.length > 0;
 
+  title_to_labels:
+    name: Map PR title to labels
+    permissions:
+      pull-requests: write
+    needs: check_labels
+    if: ${{ needs.check_labels.outputs.has_labels == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fregante/title-to-labels-action@v1
+        with:
+          token: ${{ github.token }}
+
   determine_labels:
     name: Determine PR labels
     needs: check_labels
@@ -34,11 +46,6 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const prTitle = context.payload.pull_request.title;
-            let isEnhancement = /^`[\w`-]+` - New feature/.test(prTitle) || /^feat:/.test(prTitle);
-            let isBugFix = /^`[\w`-]+` - Fix/.test(prTitle) || /^fix:/.test(prTitle);
-            if (isEnhancement && isBugFix) return ['enhancement', 'bug'];
-
             const query = `
               query($owner: String!, $repo: String!, $prNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -59,6 +66,7 @@ jobs:
             const prNumber = context.payload.pull_request.number;
             const { owner, repo } = context.repo;
             const result = await github.graphql(query, { owner, repo, prNumber });
+
             const { pullRequest } = result.repository;
             const linkedIssues = pullRequest.closingIssuesReferences?.nodes;
             const labelNames = new Set(
@@ -66,12 +74,11 @@ jobs:
                 linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
               )
             );
-            isEnhancement = isEnhancement || labelNames.has('enhancement');
-            isBugFix = isBugFix || labelNames.has('bug');
 
             const prLabels = [];
-            if (isEnhancement) prLabels.push('enhancement');
-            if (isBugFix) prLabels.push('bug');
+            if (labelNames.has('enhancement')) prLabels.push('enhancement');
+            if (labelNames.has('bug')) prLabels.push('bug');
+            if (labelNames.has('meta')) prLabels.push('meta');
             return prLabels;
 
   assign_labels:
