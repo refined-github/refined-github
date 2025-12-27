@@ -120,7 +120,7 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: reminder
-          message: 'To maintainers: please add labels to this PR'
+          message: 'To maintainers: Please add labels to this PR'
 
   remove_reminder:
     name: Remove reminder
