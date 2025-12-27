@@ -46,6 +46,8 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
+            const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
+
             const query = `
               query($owner: String!, $repo: String!, $prNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -76,9 +78,9 @@ jobs:
             );
 
             const prLabels = [];
-            if (labelNames.has('enhancement')) prLabels.push('enhancement');
-            if (labelNames.has('bug')) prLabels.push('bug');
-            if (labelNames.has('meta')) prLabels.push('meta');
+            LABELS_TO_INHERIT.forEach(label => {
+              if (labelNames.has(label)) prLabels.push(label);
+            })
             return prLabels;
 
   assign_labels:
