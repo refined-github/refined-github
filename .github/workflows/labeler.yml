@@ -34,8 +34,8 @@ jobs:
         with:
           token: ${{ github.token }}
 
-  determine_labels:
-    name: Determine PR labels
+  inherit_labels:
+    name: Inherit labels from linked issues
     needs: check_labels
     if: ${{ needs.check_labels.outputs.has_labels == 'false' }}
     outputs:
@@ -85,7 +85,7 @@ jobs:
     name: Assign PR labels
     permissions:
       pull-requests: write
-    needs: determine_labels
+    needs: inherit_labels
     outputs:
       assigned: ${{ steps.assign.outputs.result }}
     runs-on: ubuntu-latest
@@ -95,7 +95,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const prLabels = ${{ needs.determine_labels.outputs.pr_labels }};
+            const prLabels = ${{ needs.inherit_labels.outputs.pr_labels }};
             if (prLabels.length === 0) return false;
             const { owner, repo } = context.repo;
             const prNumber = context.payload.pull_request.number;
