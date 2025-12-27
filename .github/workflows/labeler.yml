@@ -71,7 +71,7 @@ jobs:
 
             const { pullRequest } = result.repository;
             const linkedIssues = pullRequest.closingIssuesReferences?.nodes;
-            const labelNames = new Set(
+            const linkedIssueLabels = new Set(
               linkedIssues?.flatMap(
                 linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
               )
@@ -79,7 +79,7 @@ jobs:
 
             const prLabels = [];
             LABELS_TO_INHERIT.forEach(label => {
-              if (labelNames.has(label)) prLabels.push(label);
+              if (linkedIssueLabels.has(label)) prLabels.push(label);
             })
             return prLabels;
 
