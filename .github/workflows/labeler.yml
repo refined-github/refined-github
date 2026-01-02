@@ -32,20 +32,18 @@ jobs:
           token: ${{ github.token }}
           keywords-path: source/features
 
-  add_labels:
-    name: Add PR labels
+  labels:
+    name: Labels
     permissions:
       pull-requests: write
     if: ${{ github.event_name == 'pull_request_target' && github.event.action != 'closed' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v8
+      - name: Get linked issue labels
+        id: linked_issue_labels
+        uses: actions/github-script@v8
         with:
           script: |
-            const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
-            const prNumber = context.payload.pull_request.number;
-            const { owner, repo } = context.repo;
-
             const query = `
               query($owner: String!, $repo: String!, $prNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -63,19 +61,28 @@ jobs:
                 }
               }
             `;
+            const prNumber = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
             const result = await github.graphql(query, { owner, repo, prNumber });
 
             const { pullRequest } = result.repository;
             const linkedIssues = pullRequest.closingIssuesReferences?.nodes;
-            const linkedIssueLabels = new Set(
+            return new Set(
               linkedIssues?.flatMap(
                 linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
               )
             );
+      - name: Add PR labels
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
+            const prNumber = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
 
             const prLabels = [];
             LABELS_TO_INHERIT.forEach(label => {
-              if (linkedIssueLabels.has(label)) prLabels.push(label);
+              if (${{ steps.linked_issue_labels.outputs.result }}.has(label)) prLabels.push(label);
             })
 
             await github.rest.issues.addLabels({
