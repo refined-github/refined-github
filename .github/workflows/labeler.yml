@@ -80,7 +80,9 @@ jobs:
   Reminder:
     permissions:
       pull-requests: write
-    if: ${{ github.event_name == 'pull_request_review' || github.event.pull_request.merged == true }}
+    if: >
+      github.event_name == 'pull_request_review' ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR has labels
