@@ -37,11 +37,13 @@ jobs:
     if: ${{ github.event_name == 'pull_request_target' && github.event.action != 'closed' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Get linked issue labels
-        id: linked_issue_labels
-        uses: actions/github-script@v8
+      - uses: actions/github-script@v8
         with:
           script: |
+            const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
+            const prNumber = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
+
             const query = `
               query($owner: String!, $repo: String!, $prNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -59,35 +61,20 @@ jobs:
                 }
               }
             `;
-            const prNumber = context.payload.pull_request.number;
-            const { owner, repo } = context.repo;
             const result = await github.graphql(query, { owner, repo, prNumber });
 
             const { pullRequest } = result.repository;
             const linkedIssues = pullRequest.closingIssuesReferences?.nodes;
-            return new Set(
-              linkedIssues?.flatMap(
-                linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
-              )
+            const linkedIssueLabels = linkedIssues?.flatMap(
+              linkedIssue => linkedIssue.labels?.nodes.map(label => label.name) ?? []
             );
-      - name: Add PR labels
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
-            const prNumber = context.payload.pull_request.number;
-            const { owner, repo } = context.repo;
 
-            const prLabels = [];
-            LABELS_TO_INHERIT.forEach(label => {
-              if (${{ steps.linked_issue_labels.outputs.result }}.has(label)) prLabels.push(label);
-            })
-
+            const labels = LABELS_TO_INHERIT.filter(label => linkedIssueLabels.includes(label));
             await github.rest.issues.addLabels({
               owner,
               repo,
               issue_number: prNumber,
-              labels: prLabels,
+              labels,
             });
 
   Reminder:
