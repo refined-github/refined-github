@@ -9,18 +9,28 @@ on:
   pull_request_review:
     types:
       - submitted
+  issues:
+    types:
+      - opened
+      - edited
 
 jobs:
-  title_to_labels:
-    name: Map PR title to labels
+  title:
+    name: Title
     permissions:
       pull-requests: write
-    if: ${{ github.event_name == 'pull_request_target' && github.event.action == 'opened' }}
+      issues: write
+    if: ${{ github.event_name != 'pull_request_review' && github.event.action == 'opened' }}
     runs-on: ubuntu-latest
     steps:
       - uses: fregante/title-to-labels-action@v1
         with:
           token: ${{ github.token }}
+      - uses: actions/checkout@v6
+      - uses: fregante/keyword-formatter-action@v1
+        with:
+          token: ${{ github.token }}
+          keywords-path: source/features
 
   inherit_labels:
     name: Inherit labels from linked issues
