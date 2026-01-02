@@ -85,29 +85,22 @@ jobs:
               labels: prLabels,
             });
 
-  check_labels:
-    name: Check if PR has labels
+  reminder:
+    permissions:
+      pull-requests: write
     if: ${{ github.event_name == 'pull_request_review' || github.event.pull_request.merged == true }}
-    outputs:
-      has_labels: ${{ steps.has_labels.outputs.result }}
     runs-on: ubuntu-latest
     steps:
-      - id: has_labels
+      - name: Check if PR has labels
+        id: has_labels
         uses: actions/github-script@v8
         with:
           result-encoding: string
           script: |
             const { labels } = context.payload.pull_request;
             return labels.length > 0;
-
-  post_reminder:
-    name: Post comment if unlabeled
-    permissions:
-      pull-requests: write
-    needs: check_labels
-    if: ${{ needs.check_labels.outputs.has_labels == 'false' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - name: Post comment if unlabeled
+        if: ${{ steps.has_labels.outputs.result == 'false' }}
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: 'To maintainers: Please add labels to this PR'
