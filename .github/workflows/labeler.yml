@@ -70,12 +70,14 @@ jobs:
             );
 
             const labels = LABELS_TO_INHERIT.filter(label => linkedIssueLabels.includes(label));
-            await github.rest.issues.addLabels({
-              owner,
-              repo,
-              issue_number: prNumber,
-              labels,
-            });
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: prNumber,
+                labels,
+              });
+            }
 
   Reminder:
     permissions:
