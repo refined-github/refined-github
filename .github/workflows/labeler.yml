@@ -32,18 +32,19 @@ jobs:
           token: ${{ github.token }}
           keywords-path: source/features
 
-  inherit_labels:
-    name: Inherit labels from linked issues
+  add_labels:
+    name: Add PR labels
+    permissions:
+      pull-requests: write
     if: ${{ github.event_name == 'pull_request_target' && github.event.action != 'closed' }}
-    outputs:
-      pr_labels: ${{ steps.labels.outputs.result }}
     runs-on: ubuntu-latest
     steps:
-      - id: labels
-        uses: actions/github-script@v8
+      - uses: actions/github-script@v8
         with:
           script: |
             const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
+            const prNumber = context.payload.pull_request.number;
+            const { owner, repo } = context.repo;
 
             const query = `
               query($owner: String!, $repo: String!, $prNumber: Int!) {
@@ -62,8 +63,6 @@ jobs:
                 }
               }
             `;
-            const prNumber = context.payload.pull_request.number;
-            const { owner, repo } = context.repo;
             const result = await github.graphql(query, { owner, repo, prNumber });
 
             const { pullRequest } = result.repository;
@@ -78,33 +77,13 @@ jobs:
             LABELS_TO_INHERIT.forEach(label => {
               if (linkedIssueLabels.has(label)) prLabels.push(label);
             })
-            return prLabels;
 
-  assign_labels:
-    name: Assign PR labels
-    permissions:
-      pull-requests: write
-    needs: inherit_labels
-    outputs:
-      assigned: ${{ steps.assign.outputs.result }}
-    runs-on: ubuntu-latest
-    steps:
-      - id: assign
-        uses: actions/github-script@v8
-        with:
-          result-encoding: string
-          script: |
-            const prLabels = ${{ needs.inherit_labels.outputs.pr_labels }};
-            if (prLabels.length === 0) return false;
-            const { owner, repo } = context.repo;
-            const prNumber = context.payload.pull_request.number;
-            const result = await github.rest.issues.addLabels({
+            await github.rest.issues.addLabels({
               owner,
               repo,
               issue_number: prNumber,
               labels: prLabels,
             });
-            return true;
 
   check_labels:
     name: Check if PR has labels
