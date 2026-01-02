@@ -1,4 +1,4 @@
-name: Format title
+name: Conversations
 
 on:
   pull_request_target:
@@ -12,13 +12,13 @@ on:
 
 jobs:
   format:
-    name: Format
+    name: Format Title
     permissions:
       pull-requests: write
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: fregante/keyword-formatter-action@v1
         with:
           token: ${{ github.token }}
