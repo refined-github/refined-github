@@ -6,9 +6,6 @@ on:
       - opened
       - edited
       - closed
-  pull_request_review:
-    types:
-      - submitted
   issues:
     types:
       - opened
@@ -83,8 +80,8 @@ jobs:
     permissions:
       pull-requests: write
     if: >
-      github.event_name == 'pull_request_review' ||
-      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
+      github.event_name == 'pull_request_target' &&
+      !(github.event.action == 'closed' && github.event.pull_request.merged == false)
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR has labels
@@ -99,4 +96,11 @@ jobs:
         if: ${{ steps.has_labels.outputs.result == 'false' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: reminder
           message: 'To maintainers: Please add labels to this PR'
+      - name: Remove comment if labeled
+        if: ${{ steps.has_labels.outputs.result == 'true' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: reminder
+          delete: true
