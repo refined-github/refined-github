@@ -15,8 +15,7 @@ on:
       - edited
 
 jobs:
-  title:
-    name: Title
+  Title:
     permissions:
       pull-requests: write
       issues: write
@@ -32,8 +31,7 @@ jobs:
           token: ${{ github.token }}
           keywords-path: source/features
 
-  labels:
-    name: Labels
+  Labels:
     permissions:
       pull-requests: write
     if: ${{ github.event_name == 'pull_request_target' && github.event.action != 'closed' }}
@@ -92,7 +90,7 @@ jobs:
               labels: prLabels,
             });
 
-  reminder:
+  Reminder:
     permissions:
       pull-requests: write
     if: ${{ github.event_name == 'pull_request_review' || github.event.pull_request.merged == true }}
