@@ -32,10 +32,14 @@ jobs:
     permissions:
       pull-requests: write
     if: ${{ github.event_name == 'pull_request_target' && github.event.action != 'labeled' }}
+    outputs:
+      added: ${{ steps.add_labels.outputs.result }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v8
+      - id: add_labels
+        uses: actions/github-script@v8
         with:
+          result-encoding: string
           script: |
             const LABELS_TO_INHERIT = ['enhancement', 'bug', 'meta', 'github bug', 'firefox', 'safari', 'mobile'];
             const prNumber = context.payload.pull_request.number;
@@ -67,14 +71,15 @@ jobs:
             );
 
             const labels = LABELS_TO_INHERIT.filter(label => linkedIssueLabels.includes(label));
-            if (labels.length > 0) {
-              await github.rest.issues.addLabels({
-                owner,
-                repo,
-                issue_number: prNumber,
-                labels,
-              });
-            }
+            if (labels.length === 0) return false;
+
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: prNumber,
+              labels,
+            });
+            return true;
 
   Reminder:
     permissions:
@@ -85,22 +90,14 @@ jobs:
     if: ${{ always() && github.event_name == 'pull_request_target' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR has labels
-        id: has_labels
-        uses: actions/github-script@v8
-        with:
-          result-encoding: string
-          script: |
-            const { labels } = context.payload.pull_request;
-            return labels.length > 0;
       - name: Post comment if unlabeled
-        if: ${{ steps.has_labels.outputs.result == 'false' }}
+        if: ${{ needs.Labels.outputs.added == 'false' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: reminder
           message: 'To maintainers: Please add labels to this PR'
       - name: Remove comment if labeled
-        if: ${{ steps.has_labels.outputs.result == 'true' }}
+        if: ${{ needs.Labels.outputs.added == 'true' || github.event.action == 'labeled' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: reminder
