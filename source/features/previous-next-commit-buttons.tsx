@@ -5,13 +5,17 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): false | void {
-	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup');
+	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup') // Legacy
+		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label="Previous commit"])');
 	if (!originalPreviousNext) {
 		return false;
 	}
 
 	// Wrap the button in a <div> to avoid #4503
-	$('#files').after(
+	$([
+		'#files', // Legacy
+		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
+	]).after(
 		<div className="d-flex flex-justify-end mb-3">
 			{originalPreviousNext.cloneNode(true)}
 		</div>,

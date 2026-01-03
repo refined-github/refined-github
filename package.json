@@ -53,7 +53,7 @@
 		"fit-textarea": "^2.0.0",
 		"flat-zip": "^1.0.1",
 		"github-reserved-names": "^2.1.1",
-		"github-url-detection": "^10.2.1",
+		"github-url-detection": "^10.2.2",
 		"indent-textarea": "^4.0.0",
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "^4.2.0",
