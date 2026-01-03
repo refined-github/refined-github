@@ -9,6 +9,7 @@ import {buildRepoURL} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import abbreviateString from '../helpers/abbreviate-string.js';
 
 type BranchInfo = {
 	baseRef: string;
@@ -52,17 +53,18 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 		}
 
 		const branch = pr.baseRef && buildRepoURL('tree', pr.baseRefName);
+		const displayName = abbreviateString(pr.baseRefName, 25);
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
 			<span className="issue-meta-section ml-2">
 				<GitPullRequestIcon />
 				{' To '}
 				<span
-					className="commit-ref css-truncate user-select-contain mb-n1"
-					style={(branch ? {} : {textDecoration: 'line-through'})}
+					className="commit-ref user-select-contain mb-n1"
+					style={branch ? {} : {textDecoration: 'line-through'}}
 				>
 					<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
-						{pr.baseRefName}
+						{displayName}
 					</a>
 				</span>
 			</span>,
