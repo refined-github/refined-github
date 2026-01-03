@@ -6,7 +6,7 @@ import features from '../feature-manager.js';
 
 function init(): false | void {
 	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup') // Legacy
-		?? $optional('a[aria-label="Previous commit"]')?.closest('[class^="prc-ButtonGroup-ButtonGroup"]');
+		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label="Previous commit"])');
 	if (!originalPreviousNext) {
 		return false;
 	}
