@@ -28,3 +28,8 @@
 .rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
 }
+
+/* Show tooltip on top of `sticky-comment-header` */
+.TimelineItem-avatar:has(.rgh-quick-mention) {
+	z-index: 4;
+}
