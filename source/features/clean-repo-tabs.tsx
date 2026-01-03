@@ -122,7 +122,13 @@ async function moveRareTabs(): Promise<void | false> {
 
 	// Wait for the nav dropdown to be loaded #5244
 	await elementReady('.UnderlineNav-actions ul');
-	onlyShowInDropdown('security-tab');
+
+	// Only hide security tab if there are no vulnerability alerts #8457
+	const securityTab = $optional('[data-tab-item$="security-tab"]');
+	if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
+		onlyShowInDropdown('security-tab');
+	}
+
 	onlyShowInDropdown('insights-tab');
 }
 
@@ -158,5 +164,6 @@ Test URLs:
 - Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
 - Repo with 0 actions: https://github.com/babel/jade-babel
 - Repo with some actions not on main branch: https://github.com/quatquatt/no-actions-menu
+- Repo with security alerts: (requires a repo you own with Dependabot alerts enabled)
 
 */
