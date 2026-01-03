@@ -95,7 +95,6 @@ const getRghShortcutsContainer = memoize(
 	{
 		cacheKey: () => location.origin + location.pathname,
 	},
-
 );
 
 function improveShortcutHelp(columnsContainer: HTMLElement): void {
