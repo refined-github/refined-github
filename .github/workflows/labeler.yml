@@ -12,6 +12,28 @@ on:
       - edited
 
 jobs:
+  Reminder:
+    permissions:
+      pull-requests: write
+    needs:
+      - Title
+      - Labels
+    if: ${{ always() && github.event_name == 'pull_request_target' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post comment if unlabeled
+        if: ${{ needs.Labels.outputs.added == 'false' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: reminder
+          message: 'To maintainers: Please add labels to this PR'
+      - name: Remove comment if labeled
+        if: ${{ needs.Labels.outputs.added == 'true' || github.event.action == 'labeled' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: reminder
+          delete: true
+
   Title:
     permissions:
       pull-requests: write
@@ -80,25 +102,3 @@ jobs:
               labels,
             });
             return true;
-
-  Reminder:
-    permissions:
-      pull-requests: write
-    needs:
-      - Title
-      - Labels
-    if: ${{ always() && github.event_name == 'pull_request_target' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Post comment if unlabeled
-        if: ${{ needs.Labels.outputs.added == 'false' }}
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: reminder
-          message: 'To maintainers: Please add labels to this PR'
-      - name: Remove comment if labeled
-        if: ${{ needs.Labels.outputs.added == 'true' || github.event.action == 'labeled' }}
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: reminder
-          delete: true
