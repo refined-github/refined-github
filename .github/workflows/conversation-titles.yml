@@ -1,4 +1,4 @@
-name: Title labeler
+name: Conversation
 
 on:
   pull_request_target:
