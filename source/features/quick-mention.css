@@ -29,6 +29,6 @@
 	color: inherit;
 }
 
-.TimelineItem:has(.rgh-quick-mention.tooltipped) {
-	z-index: 5;
+.TimelineItem-avatar:has(.rgh-quick-mention) {
+	z-index: 4;
 }
