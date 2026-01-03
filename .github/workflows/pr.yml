@@ -1,4 +1,4 @@
-name: Labeler
+name: PR
 
 on:
   pull_request_target:
@@ -7,7 +7,8 @@ on:
     types: [submitted]
 
 jobs:
-  Reminder:
+  reminder:
+    name: Label Reminder
     if: github.event_name == 'pull_request_review' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
@@ -23,7 +24,7 @@ jobs:
             const labels = context.payload.pull_request.labels;
             return labels.length === 0;
 
-      - name: Post comment if unlabeled
+      - name: Post comment if unlabeled, or fail on third party PRs
         if: steps.check_labels.outputs.result == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
