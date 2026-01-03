@@ -15,7 +15,7 @@ import showToast from '../github-helpers/toast.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';
 import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 
 // TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
 const nativeRepos = new CachedFunction('native-update-button', {
@@ -152,7 +152,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
 	observe([
 		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
-		prMergeabilityBoxCaption,
+		prMergeabilityBoxHeader,
 	], addButton, {signal});
 	observe([
 		'.js-update-branch-form', // Old view - TODO: Remove in July 2025

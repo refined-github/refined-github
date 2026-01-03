@@ -27,11 +27,13 @@ jobs:
       - run: sudo apt-get install ripgrep
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
-      - run: npm run vitest -- selectors
-        # For some reason it fails on CI, but not locally
-        # Mentioned in https://github.com/refined-github/refined-github/issues/7747
-        if: false
-        continue-on-error: true
+
+      # TODO: Restore
+      # For some reason it fails on CI, but not locally
+      # Mentioned in https://github.com/refined-github/refined-github/issues/7747
+      # - run: npm run vitest -- selectors
+      #   if: false
+      #   continue-on-error: true
 
   Verify:
     runs-on: ubuntu-latest
@@ -109,18 +111,3 @@ jobs:
           path: |
             distribution
             !./distribution/assets/webpack-stats.json
-
-  Safari:
-    # Disabled because it's a waste of time
-    if: false
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-          cache: npm
-      - run: npm ci
-      - run: npm run build:bundle
-      - uses: maxim-lobanov/setup-xcode@v1
-      - run: npm run pack:safari
