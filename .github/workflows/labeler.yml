@@ -8,9 +8,7 @@ on:
 
 jobs:
   Reminder:
-    if: >
-      github.event_name == 'pull_request_review' ||
-      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
+    if: github.event_name == 'pull_request_review' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,10 +21,11 @@ jobs:
           result-encoding: string
           script: |
             const labels = context.payload.pull_request.labels;
-            return labels.length === 0 ? 'true' : 'false';
+            return labels.length === 0;
 
       - name: Post comment if unlabeled
         if: steps.check_labels.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2.10.0
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          message: Please add labels to this PR
+          GITHUB_TOKEN: ${{ github.token }}
+          message: 'To maintainers: Please add labels to this PR'
