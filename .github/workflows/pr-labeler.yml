@@ -2,7 +2,7 @@ name: PR labeler
 
 on:
   pull_request_target:
-    types: [opened, reopened, edit]
+    types: [opened, reopened, edited]
 
 jobs:
   Sync:
