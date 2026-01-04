@@ -99,6 +99,11 @@ export async function getTokenScopes(apiBase: string, personalToken: string): Pr
 	return parseTokenScopes(response.headers);
 }
 
+export async function getTokenExpiration(apiBase: string, personalToken: string): Promise<string | undefined> {
+	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
+	return response.headers.get('GitHub-Authentication-Token-Expiration') ?? undefined;
+}
+
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();
 	const api = pageDetect.isEnterprise()
