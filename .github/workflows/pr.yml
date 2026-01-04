@@ -2,21 +2,18 @@ name: PR
 
 on:
   pull_request_target:
-    types: [closed]
-  pull_request_review:
-    types: [submitted]
+    types: [opened, reopened, edited, closed]
 
 jobs:
   reminder:
     name: Label Reminder
-    if: github.event_name == 'pull_request_review' || github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       pull-requests: write
     steps:
       - name: Check if PR has no labels
-        id: check_labels
+        id: check
         uses: actions/github-script@v7
         with:
           result-encoding: string
@@ -24,9 +21,58 @@ jobs:
             const labels = context.payload.pull_request.labels;
             return labels.length === 0;
 
-      - name: Post comment if unlabeled, or fail on third party PRs
-        if: steps.check_labels.outputs.result == 'true'
+      - name: Post comment if unlabeled
+        if: steps.check.outputs.result == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          GITHUB_TOKEN: ${{ github.token }}
           message: 'To maintainers: Please add labels to this PR'
+
+  Sync:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: read
+      contents: read
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const allowed = ['bug', 'enhancement', 'meta']
+            const { owner, repo } = context.repo
+            const pr = context.payload.pull_request
+
+            const query = `
+              query($owner:String!, $repo:String!, $number:Int!) {
+                repository(owner:$owner, name:$repo) {
+                  pullRequest(number:$number) {
+                    closingIssuesReferences(first: 10) {
+                      nodes {
+                        labels(first: 20) {
+                          nodes { name }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            `
+
+            const res = await github.graphql(query, {
+              owner, repo, number: pr.number
+            })
+
+            const labels = new Set()
+            for (const issue of res.repository.pullRequest.closingIssuesReferences.nodes) {
+              for (const l of issue.labels.nodes) {
+                if (allowed.includes(l.name)) labels.add(l.name)
+              }
+            }
+
+            if (labels.size > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number: pr.number,
+                labels: [...labels]
+              })
+            }
