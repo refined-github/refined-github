@@ -52,6 +52,10 @@ const selectors = [
 
 	// https://github.com/notifications/subscriptions
 	'.notification-thread-subscription [id^="subscription_link_"]',
+
+	// Dashboard
+	// https://github.com
+	'[class^="DashboardListView-module__ItemTitle"]',
 ] as const;
 
 function initOnce(): void {
