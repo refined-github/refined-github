@@ -7,7 +7,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
-import {featuresMeta, getNewFeatureName} from '../feature-data.js';
+import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import observe from '../helpers/selector-observer.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
@@ -28,7 +28,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open "${id}"`);
+	const oldNames = getOldFeatureNames(id as FeatureID);
+	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
+	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open ${searchTerms}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
@@ -53,6 +55,11 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							<CopyIcon className="v-align-baseline" />
 						</clipboard-copy>
 					</h3>
+					{oldNames.length > 0 && (
+						<div className="color-fg-muted">
+							Previously: {oldNames.map(name => <code key={name}>{name}</code>).reduce((prev, curr) => <>{prev}, {curr}</>)}
+						</div>
+					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>

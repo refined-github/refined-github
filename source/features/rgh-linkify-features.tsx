@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
-import {getNewFeatureName} from '../feature-data.js';
+import {getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -15,6 +15,8 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	const href = getFeatureUrl(id);
+	const oldNames = getOldFeatureNames(id);
+	const title = oldNames.length > 0 ? `Previously: ${oldNames.join(', ')}` : undefined;
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -23,6 +25,9 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// - <code> > <a>
 		possibleLink.href = href;
 		possibleLink.classList.add('color-fg-accent');
+		if (title) {
+			possibleLink.title = title;
+		}
 	} else if (!possibleFeature.closest('a')) {
 		// Possible DOM structure:
 		// - <code>
@@ -32,6 +37,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				className="color-fg-accent"
 				data-turbo-frame="repo-content-turbo-frame"
 				href={href}
+				title={title}
 			/>,
 		);
 	}
