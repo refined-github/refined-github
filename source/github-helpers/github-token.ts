@@ -94,15 +94,30 @@ function parseTokenScopes(headers: Headers): string[] {
 	return scopes;
 }
 
-export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
+type TokenInfo = {
+	scopes: string[];
+	expiration?: string;
+};
+
+async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
 	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
-	return parseTokenScopes(response.headers);
+	return {
+		scopes: parseTokenScopes(response.headers),
+		expiration: response.headers.get('GitHub-Authentication-Token-Expiration') ?? undefined,
+	};
+}
+
+export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
+	const {scopes} = await getTokenInfo(apiBase, personalToken);
+	return scopes;
 }
 
 export async function getTokenExpiration(apiBase: string, personalToken: string): Promise<string | undefined> {
-	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
-	return response.headers.get('GitHub-Authentication-Token-Expiration') ?? undefined;
+	const {expiration} = await getTokenInfo(apiBase, personalToken);
+	return expiration;
 }
+
+export {getTokenInfo};
 
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();

@@ -4,7 +4,7 @@ import {$} from 'select-dom/strict.js';
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 
-import {getTokenScopes, getTokenExpiration, tokenUser} from '../github-helpers/github-token.js';
+import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
 type Status = {
@@ -75,15 +75,14 @@ async function validateToken(): Promise<void> {
 
 	try {
 		const base = getApiUrl();
-		const [scopes, user, expiration] = await Promise.all([
-			getTokenScopes(base, tokenField.value),
+		const [tokenInfo, user] = await Promise.all([
+			getTokenInfo(base, tokenField.value),
 			tokenUser.get(base, tokenField.value),
-			getTokenExpiration(base, tokenField.value),
 		]);
 		reportStatus({
 			text: `👤 @${user}`,
-			scopes,
-			expiration,
+			scopes: tokenInfo.scopes,
+			expiration: tokenInfo.expiration,
 		});
 	} catch (error) {
 		assertError(error);
