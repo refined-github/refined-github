@@ -3,6 +3,7 @@ import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
+import graphqlPlugin from '@graphql-eslint/eslint-plugin';
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 
@@ -271,6 +272,27 @@ export default [
 				chrome: 'readonly',
 				location: 'readonly',
 			},
+		},
+	},
+	// GraphQL support
+	{
+		files: ['**/*.graphql', '**/*.gql'],
+		plugins: {
+			'@graphql-eslint': graphqlPlugin,
+		},
+		languageOptions: {
+			parser: graphqlPlugin.parser,
+			parserOptions: {
+				graphQLConfig: {
+					schema: './schema.docs.graphql',
+					documents: ['source/**/*.gql', 'source/**/*.graphql'],
+				},
+			},
+		},
+		rules: {
+			'@graphql-eslint/known-type-names': 'error',
+			'@graphql-eslint/no-undefined-variables': 'error',
+			'@graphql-eslint/no-unused-variables': 'warn',
 		},
 	},
 ];

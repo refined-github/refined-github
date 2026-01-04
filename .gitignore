@@ -10,3 +10,7 @@ artifacts
 desktop.ini
 
 LocalOverrides.xcconfig
+
+# GraphQL
+schema.docs.graphql
+source/github-helpers/github-graphql-types.ts

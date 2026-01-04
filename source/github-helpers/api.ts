@@ -74,9 +74,9 @@ type GHRestApiOptions = {
 	json?: boolean;
 };
 
-type GHGraphQLApiOptions = {
+type GHGraphQLApiOptions<TVariables = JsonObject> = {
 	allowErrors?: boolean;
-	variables?: JsonObject;
+	variables?: TVariables;
 };
 
 const v3defaults: GHRestApiOptions = {
@@ -86,7 +86,7 @@ const v3defaults: GHRestApiOptions = {
 	json: true,
 };
 
-const v4defaults: GHGraphQLApiOptions = {
+const v4defaults: GHGraphQLApiOptions<any> = {
 	allowErrors: false,
 };
 
@@ -162,10 +162,10 @@ const v3hasAnyItems = async (
 	return headers.has('link');
 };
 
-const v4uncached = async (
+const v4uncached = async <TData = AnyObject, TVariables = JsonObject>(
 	query: string,
-	options: GHGraphQLApiOptions = v4defaults,
-): Promise<AnyObject> => {
+	options: GHGraphQLApiOptions<TVariables> = v4defaults,
+): Promise<TData> => {
 	const personalToken = await getToken();
 
 	if (!personalToken) {
@@ -227,7 +227,7 @@ const v4uncached = async (
 	}
 
 	if (response.ok) {
-		return data;
+		return data as TData;
 	}
 
 	throw await getError(apiResponse as JsonObject);
@@ -245,7 +245,7 @@ const v4 = mem(v4uncached, {
 
 		return JSON.stringify(key);
 	},
-});
+}) as typeof v4uncached;
 
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
 	const personalToken = await getToken();

@@ -24,5 +24,8 @@
 		"test",
 		"build",
 		"vite.config.ts"
+	],
+	"exclude": [
+		"source/github-helpers/github-graphql-types.ts"
 	]
 }
