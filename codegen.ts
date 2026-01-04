@@ -32,7 +32,7 @@ const config: CodegenConfig = {
 				},
 			},
 			hooks: {
-				afterOneFileWrite: ['sed -i \'1i/* eslint-disable */\\n// @ts-nocheck\' source/github-helpers/github-graphql-types.ts || true'],
+				afterOneFileWrite: ['node -e "const fs=require(\'fs\');const file=\'source/github-helpers/github-graphql-types.ts\';const content=fs.readFileSync(file,\'utf8\');fs.writeFileSync(file,\'/* eslint-disable */\\n// @ts-nocheck\\n\'+content);"'],
 			},
 		},
 	},

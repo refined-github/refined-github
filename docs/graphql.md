@@ -72,10 +72,11 @@ To update the GitHub GraphQL schema:
 
 ```bash
 npm run graphql:download-schema
-npm run graphql:codegen
 ```
 
-Or both at once:
+### Update Schema and Regenerate Types
+
+To update both the schema and regenerate types in one command:
 
 ```bash
 npm run graphql:generate

@@ -21,7 +21,8 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:bundle": "rollup -c --watch",
 		"graphql:download-schema": "curl -o schema.docs.graphql https://docs.github.com/public/fpt/schema.docs.graphql",
-		"graphql:codegen": "graphql-codegen --config codegen.ts"
+		"graphql:codegen": "graphql-codegen --config codegen.ts",
+		"graphql:generate": "npm run graphql:download-schema && npm run graphql:codegen"
 	},
 	"prettier": {
 		"bracketSpacing": false,
