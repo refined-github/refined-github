@@ -17,12 +17,12 @@ type Status = {
 function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = {}): void {
 	const tokenStatus = $('#validation');
 	let statusText = text ?? '';
-	
+
 	if (expiration) {
 		const expirationDate = new Date(expiration);
 		const now = new Date();
 		const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-		
+
 		if (daysUntilExpiration > 0) {
 			const emoji = daysUntilExpiration <= 30 ? '⚠️' : 'ℹ️';
 			statusText += ` ${emoji} Token expires in ${daysUntilExpiration} day${daysUntilExpiration === 1 ? '' : 's'}`;
@@ -32,7 +32,7 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 			statusText += ' ⚠️ Token has expired';
 		}
 	}
-	
+
 	tokenStatus.textContent = statusText;
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
