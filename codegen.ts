@@ -31,6 +31,9 @@ const config: CodegenConfig = {
 					GitRefname: 'string',
 				},
 			},
+			hooks: {
+				afterOneFileWrite: ['sed -i \'1i/* eslint-disable */\\n// @ts-nocheck\' source/github-helpers/github-graphql-types.ts || true'],
+			},
 		},
 	},
 };

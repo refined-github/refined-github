@@ -74,9 +74,9 @@ type GHRestApiOptions = {
 	json?: boolean;
 };
 
-type GHGraphQLApiOptions<TVariables = JsonObject> = {
+type GhGraphQlApiOptions<Variables = JsonObject> = {
 	allowErrors?: boolean;
-	variables?: TVariables;
+	variables?: Variables;
 };
 
 const v3defaults: GHRestApiOptions = {
@@ -86,7 +86,7 @@ const v3defaults: GHRestApiOptions = {
 	json: true,
 };
 
-const v4defaults: GHGraphQLApiOptions<any> = {
+const v4defaults: GhGraphQlApiOptions = {
 	allowErrors: false,
 };
 
@@ -162,10 +162,10 @@ const v3hasAnyItems = async (
 	return headers.has('link');
 };
 
-const v4uncached = async <TData = AnyObject, TVariables = JsonObject>(
+const v4uncached = async <Data = AnyObject, Variables extends JsonObject = JsonObject>(
 	query: string,
-	options: GHGraphQLApiOptions<TVariables> = v4defaults,
-): Promise<TData> => {
+	options: GhGraphQlApiOptions<Variables> = v4defaults as GhGraphQlApiOptions<Variables>,
+): Promise<Data> => {
 	const personalToken = await getToken();
 
 	if (!personalToken) {
@@ -227,7 +227,8 @@ const v4uncached = async <TData = AnyObject, TVariables = JsonObject>(
 	}
 
 	if (response.ok) {
-		return data as TData;
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- Generic return type needs assertion
+		return data as Data;
 	}
 
 	throw await getError(apiResponse as JsonObject);

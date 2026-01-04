@@ -23,7 +23,8 @@
 		"source",
 		"test",
 		"build",
-		"vite.config.ts"
+		"vite.config.ts",
+		"codegen.ts"
 	],
 	"exclude": [
 		"source/github-helpers/github-graphql-types.ts"

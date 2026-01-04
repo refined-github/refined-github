@@ -6,6 +6,7 @@ import api from './api.js';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
 import GetDefaultBranch from './get-default-branch.gql';
+import type {GetDefaultBranchQuery, GetDefaultBranchQueryVariables} from './github-graphql-types.js';
 
 const isCurrentRepo = (nameWithOwner: NameWithOwner): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 
@@ -29,14 +30,14 @@ async function fromDOM(): Promise<string | undefined> {
 
 async function fromAPI(repository: NameWithOwner): Promise<string> {
 	const [owner, name] = repository.split('/');
-	const response = await api.v4(GetDefaultBranch, {
+	const response = await api.v4<GetDefaultBranchQuery, GetDefaultBranchQueryVariables>(GetDefaultBranch, {
 		variables: {
 			owner,
 			name,
 		},
 	});
 
-	return response.repository.defaultBranchRef.name;
+	return response.repository!.defaultBranchRef!.name;
 }
 
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
