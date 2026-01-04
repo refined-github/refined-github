@@ -29,7 +29,7 @@ export function parseConventionalCommit(commitTitle: string): {
 	}
 
 	const {type: rawType, scope, major} = match.groups;
-	const type = types.get(rawType);
+	const type = types.get(rawType.toLowerCase());
 	if (!type) {
 		return;
 	}
