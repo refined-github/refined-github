@@ -99,7 +99,7 @@ type TokenInfo = {
 	expiration?: string;
 };
 
-async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
+export async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
 	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
 	return {
 		scopes: parseTokenScopes(response.headers),
@@ -116,8 +116,6 @@ export async function getTokenExpiration(apiBase: string, personalToken: string)
 	const {expiration} = await getTokenInfo(apiBase, personalToken);
 	return expiration;
 }
-
-export {getTokenInfo};
 
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();
