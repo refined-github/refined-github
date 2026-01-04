@@ -141,7 +141,7 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	return data;
 }
 
-async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, issue: IssueApiResponse): Promise<Response> {
+async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, issue: IssueApiResponse): Promise<void> {
 	const {id} = issue.repository.issue;
 
 	const body = {
@@ -165,8 +165,6 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 	if (!response.ok) {
 		throw new Error('Failed to update the issue subscription status');
 	}
-
-	return response;
 }
 
 async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<SubscriptionStatus> {
