@@ -7,6 +7,8 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
+const EXPIRATION_WARNING_THRESHOLD_DAYS = 15;
+
 type Status = {
 	error?: true;
 	text?: string;
@@ -39,7 +41,7 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 		const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
 		if (daysUntilExpiration > 0) {
-			expirationElement.dataset.validation = daysUntilExpiration > 15 ? 'valid' : 'warning';
+			expirationElement.dataset.validation = daysUntilExpiration > EXPIRATION_WARNING_THRESHOLD_DAYS ? 'valid' : 'warning';
 			expirationElement.textContent = `Token expires in ${daysUntilExpiration} day${daysUntilExpiration === 1 ? '' : 's'}`;
 			expirationElement.hidden = false;
 		} else if (daysUntilExpiration === 0) {
