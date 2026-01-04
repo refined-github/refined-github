@@ -15,7 +15,7 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 	return importedFeatures.includes(newFeatureName) ? newFeatureName : undefined;
 }
 
-export function getOldFeatureNames(featureName: FeatureID): string[] {
+export function getOldFeatureNames(featureName: string): string[] {
 	const oldNames: string[] = [];
 	for (const [oldName, newName] of Object.entries(renamedFeatures)) {
 		if (newName === featureName) {

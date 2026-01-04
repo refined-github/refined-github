@@ -28,7 +28,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	const oldNames = getOldFeatureNames(id as FeatureID);
+	const oldNames = getOldFeatureNames(id);
 	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open ${searchTerms}`);
 
