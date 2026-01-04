@@ -37,7 +37,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				className="color-fg-accent"
 				data-turbo-frame="repo-content-turbo-frame"
 				href={href}
-				title={title}
+				{...(title ? {title} : {})}
 			/>,
 		);
 	}

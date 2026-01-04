@@ -57,7 +57,12 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					</h3>
 					{oldNames.length > 0 && (
 						<div className="color-fg-muted">
-							Previously: {oldNames.map(name => <code key={name}>{name}</code>).reduce((prev, curr) => <>{prev}, {curr}</>)}
+							Previously: {oldNames.map((name, index) => (
+								<React.Fragment key={name}>
+									{index > 0 && ', '}
+									<code>{name}</code>
+								</React.Fragment>
+							))}
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
