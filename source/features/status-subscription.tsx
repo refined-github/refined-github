@@ -133,6 +133,9 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	url.searchParams.set('body', JSON.stringify(body));
 
 	const response = await fetch(url, {headers: githubApiBaseHeaders});
+	if (!response.ok) {
+		throw new Error('Failed to fetch the issue');
+	}
 
 	const {data} = await response.json();
 	return data;
@@ -152,13 +155,18 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		},
 	};
 
-	return fetch('/_graphql',
+	const response = await fetch('/_graphql',
 		{
 			headers: githubApiBaseHeaders,
 			method: 'POST',
 			body: JSON.stringify(body),
 		},
 	);
+	if (!response.ok) {
+		throw new Error('Failed to update the issue subscription status');
+	}
+
+	return response;
 }
 
 async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<SubscriptionStatus> {
