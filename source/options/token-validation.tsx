@@ -16,24 +16,7 @@ type Status = {
 
 function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = {}): void {
 	const tokenStatus = $('#validation');
-	let statusText = text ?? '';
-
-	if (expiration) {
-		const expirationDate = new Date(expiration);
-		const now = new Date();
-		const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-
-		if (daysUntilExpiration > 0) {
-			const emoji = daysUntilExpiration <= 30 ? '⚠️' : 'ℹ️';
-			statusText += ` ${emoji} Token expires in ${daysUntilExpiration} day${daysUntilExpiration === 1 ? '' : 's'}`;
-		} else if (daysUntilExpiration === 0) {
-			statusText += ' ⚠️ Token expires today';
-		} else {
-			statusText += ' ⚠️ Token has expired';
-		}
-	}
-
-	tokenStatus.textContent = statusText;
+	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
@@ -46,6 +29,30 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 			: scopes.includes('unknown')
 				? ''
 				: 'invalid';
+	}
+
+	// Update token expiration list item
+	const expirationElement = $('#token-expiration');
+	if (expiration) {
+		const expirationDate = new Date(expiration);
+		const now = new Date();
+		const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+		if (daysUntilExpiration > 0) {
+			expirationElement.dataset.validation = daysUntilExpiration > 15 ? 'valid' : 'warning';
+			expirationElement.textContent = `Token expires in ${daysUntilExpiration} day${daysUntilExpiration === 1 ? '' : 's'}`;
+			expirationElement.hidden = false;
+		} else if (daysUntilExpiration === 0) {
+			expirationElement.dataset.validation = 'warning';
+			expirationElement.textContent = 'Token expires today';
+			expirationElement.hidden = false;
+		} else {
+			expirationElement.dataset.validation = 'invalid';
+			expirationElement.textContent = 'Token has expired';
+			expirationElement.hidden = false;
+		}
+	} else {
+		expirationElement.hidden = true;
 	}
 }
 
