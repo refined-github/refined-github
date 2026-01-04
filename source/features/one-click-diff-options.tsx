@@ -31,6 +31,7 @@ function createWhitespaceButton(): HTMLElement {
 			data-hotkey="d w"
 			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
+			title="Hotkey: D W"
 		>
 			{isHidingWhitespace() && <CheckIcon />} No Whitespace
 		</a>
@@ -67,6 +68,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 				data-hotkey="d w"
 				className="tooltipped tooltipped-s btn-link Link--muted px-2"
 				aria-label="Hide whitespace changes"
+				title="Hotkey: D W"
 				name="w"
 				value="1"
 				type="submit"

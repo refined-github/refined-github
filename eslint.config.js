@@ -115,12 +115,10 @@ export default [
 						selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
 					},
 					{
-						message: 'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
+						message: 'Elements with data-hotkey must have a title in the format "Hotkey: <key>"',
 						selector:
 								'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])'
-								+ ':not(:has(JSXAttribute[name.name="title"]))'
-								+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
-								+ ':not(:has(JSXAttribute[name.name="hidden"]))',
+								+ ':not(:has(JSXAttribute[name.name="title"]))',
 					},
 				],
 				'no-alert': 'off',
