@@ -122,7 +122,7 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	const repo = getRepo()!;
 
 	const body = {
-		query: 'dd170c659a085a45885ee5a168fc52c8',
+		query: 'fa182058c0b83a77481f98108cdbf1eb',
 		variables: {
 			number: getConversationNumber()!,
 			owner: repo.owner,
