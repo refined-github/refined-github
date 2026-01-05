@@ -94,9 +94,17 @@ function parseTokenScopes(headers: Headers): string[] {
 	return scopes;
 }
 
-export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
+type TokenInfo = {
+	scopes: string[];
+	expiration?: string;
+};
+
+export async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
 	const response = await baseApiFetch({apiBase, token: personalToken, path: ''});
-	return parseTokenScopes(response.headers);
+	return {
+		scopes: parseTokenScopes(response.headers),
+		expiration: response.headers.get('GitHub-Authentication-Token-Expiration') ?? undefined,
+	};
 }
 
 export async function expectTokenScope(scope: string): Promise<void> {
@@ -105,7 +113,7 @@ export async function expectTokenScope(scope: string): Promise<void> {
 		? `${location.origin}/api/v3/`
 		: 'https://api.github.com/';
 
-	const tokenScopes = await getTokenScopes(api, token);
+	const {scopes: tokenScopes} = await getTokenInfo(api, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
 	}

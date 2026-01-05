@@ -4,8 +4,10 @@ import {$} from 'select-dom/strict.js';
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 
-import {getTokenScopes, tokenUser} from '../github-helpers/github-token.js';
+import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
+
+const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
 type Status = {
 	error?: true;
@@ -57,13 +59,24 @@ async function validateToken(): Promise<void> {
 
 	try {
 		const base = getApiUrl();
-		const [scopes, user] = await Promise.all([
-			getTokenScopes(base, tokenField.value),
+		const [tokenInfo, user] = await Promise.all([
+			getTokenInfo(base, tokenField.value),
 			tokenUser.get(base, tokenField.value),
 		]);
+
+		// Build status message with user and expiration
+		let statusMessage = `👤 @${user}`;
+		if (tokenInfo.expiration) {
+			const msUntilExpiration = new Date(tokenInfo.expiration).getTime() - Date.now();
+			const daysUntilExpiration = Math.ceil(msUntilExpiration / (1000 * 60 * 60 * 24));
+			statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
+		} else {
+			statusMessage += ', no expiration';
+		}
+
 		reportStatus({
-			text: `👤 @${user}`,
-			scopes,
+			text: statusMessage,
+			scopes: tokenInfo.scopes,
 		});
 	} catch (error) {
 		assertError(error);
