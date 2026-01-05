@@ -1,8 +1,10 @@
 .rgh-mention-avatar::before {
 	content: '';
 	display: inline-block;
-	width: 16px !important;
-	height: 16px;
+	width: 1em !important;
+	height: 1em;
+	min-width: 16px;
+	min-height: 16px;
 	margin-right: 0.2em;
 	border-radius: 50%;
 	background-image: var(--avatar-url);
