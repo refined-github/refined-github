@@ -13,24 +13,11 @@ type Status = {
 	error?: true;
 	text?: string;
 	scopes?: string[];
-	expiration?: string;
 };
 
-function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = {}): void {
+function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 	const tokenStatus = $('#validation');
-	let statusText = text ?? '';
-
-	// Add expiration info inline
-	if (expiration) {
-		const expirationDate = new Date(expiration).getTime();
-		const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
-
-		statusText += `, ${rtf.format(daysUntilExpiration, 'day')}`;
-	} else if (text) {
-		statusText += ', no expiration';
-	}
-
-	tokenStatus.textContent = statusText;
+	tokenStatus.textContent = text ?? '';
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
@@ -76,10 +63,20 @@ async function validateToken(): Promise<void> {
 			getTokenInfo(base, tokenField.value),
 			tokenUser.get(base, tokenField.value),
 		]);
+		
+		// Build status message with user and expiration
+		let statusMessage = `👤 @${user}`;
+		if (tokenInfo.expiration) {
+			const expirationDate = new Date(tokenInfo.expiration).getTime();
+			const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
+			statusMessage += `, ${rtf.format(daysUntilExpiration, 'day')}`;
+		} else {
+			statusMessage += ', no expiration';
+		}
+		
 		reportStatus({
-			text: `👤 @${user}`,
+			text: statusMessage,
 			scopes: tokenInfo.scopes,
-			expiration: tokenInfo.expiration,
 		});
 	} catch (error) {
 		assertError(error);
