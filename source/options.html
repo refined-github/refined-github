@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="options.css">
 <script type="module" src="header.js"></script>
 <script type="module" src="storage-usage.js"></script>
+<script type="module" src="rgh-token.js"></script>
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub">
 	<p>
@@ -29,25 +30,7 @@
 			<!-- Keep this URL in sync with welcome.svelte -->
 			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
-			<p>
-				<input
-					type="text"
-					name="personalToken"
-					spellcheck="false"
-					autocomplete="off"
-					autocapitalize="off"
-					size="20"
-					class="monospace-field"
-				>
-				<span id="validation"></span>
-			</p>
-			<ul>
-				<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
-				<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
-				<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
-				<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repo/org uses projects
-				<li data-validation data-scope="workflow">The <code>workflow</code> scope lets them <strong>edit workflow files</strong> <code>.github/workflows/*.yml</code>
-			</ul>
+			<rgh-token personal-token-link="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none"></rgh-token>
 		</div>
 	</details>
 
