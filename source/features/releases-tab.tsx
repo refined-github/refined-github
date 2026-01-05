@@ -73,6 +73,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 				data-selected-links="repo_releases"
 				data-tab-item="rgh-releases-item"
 				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
+				title="Hotkey: G R"
 			>
 				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
