@@ -10,6 +10,7 @@
 <!-- prettier-ignore -->
 <script lang="ts">
 	import {onMount} from 'svelte';
+	import {SvelteMap} from 'svelte/reactivity';
 	import {assertError} from 'ts-extras';
 
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
@@ -18,25 +19,33 @@
 
 	let validationText = $state('');
 	let validationError = $state(false);
-	let scopeStates = $state<Map<string, 'valid' | 'invalid' | ''>>(new Map());
+	let scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
 
 	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
-	let tokenField: HTMLInputElement;
+	let tokenField;
 
-	function reportStatus({error, text, scopes = ['unknown']}: {
-		error?: boolean;
-		text?: string;
-		scopes?: string[];
-	} = {}): void {
+	function reportStatus(
+		{error, text, scopes = ['unknown']}: {
+			error?: boolean;
+			text?: string;
+			scopes?: string[];
+		} = {},
+	): void {
 		validationText = text ?? '';
 		validationError = error ?? false;
 
 		// Update scope states
-		const newStates = new Map<string, 'valid' | 'invalid' | ''>();
-		const scopeElements = ['valid_token', 'public_repo', 'repo', 'read:project', 'workflow'];
+		scopeStates.clear();
+		const scopeElements = [
+			'valid_token',
+			'public_repo',
+			'repo',
+			'read:project',
+			'workflow',
+		];
 		for (const scope of scopeElements) {
-			newStates.set(
+			scopeStates.set(
 				scope,
 				scopes.includes(scope)
 					? 'valid'
@@ -45,13 +54,13 @@
 						: 'invalid',
 			);
 		}
-		scopeStates = newStates;
 	}
 
 	function getApiUrl(): string {
 		if (!personalTokenLink) {
 			return 'https://api.github.com/';
 		}
+
 		try {
 			const url = new URL(personalTokenLink);
 			return url.host === 'github.com'
