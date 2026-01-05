@@ -7,6 +7,8 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
+const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
+
 type Status = {
 	error?: true;
 	text?: string;
@@ -23,12 +25,7 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 		const expirationDate = new Date(expiration).getTime();
 		const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
 
-		const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
-		if (daysUntilExpiration >= 0) {
-			statusText += `, ${rtf.format(daysUntilExpiration, 'day')}`;
-		} else {
-			statusText += ', expired';
-		}
+		statusText += `, ${rtf.format(daysUntilExpiration, 'day')}`;
 	} else if (text) {
 		statusText += ', no expiration';
 	}
