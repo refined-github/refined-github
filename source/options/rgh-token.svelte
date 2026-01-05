@@ -139,7 +139,7 @@
 <p>
 	<input
 		bind:this={tokenField}
-		type="text"
+		type="password"
 		name="personalToken"
 		spellcheck="false"
 		autocomplete="off"
