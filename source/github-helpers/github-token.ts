@@ -107,23 +107,13 @@ export async function getTokenInfo(apiBase: string, personalToken: string): Prom
 	};
 }
 
-export async function getTokenScopes(apiBase: string, personalToken: string): Promise<string[]> {
-	const {scopes} = await getTokenInfo(apiBase, personalToken);
-	return scopes;
-}
-
-export async function getTokenExpiration(apiBase: string, personalToken: string): Promise<string | undefined> {
-	const {expiration} = await getTokenInfo(apiBase, personalToken);
-	return expiration;
-}
-
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();
 	const api = pageDetect.isEnterprise()
 		? `${location.origin}/api/v3/`
 		: 'https://api.github.com/';
 
-	const tokenScopes = await getTokenScopes(api, token);
+	const {scopes: tokenScopes} = await getTokenInfo(api, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
 	}

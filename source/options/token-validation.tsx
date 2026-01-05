@@ -36,9 +36,8 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 	// Update token expiration list item
 	const expirationElement = $('#token-expiration');
 	if (expiration) {
-		const expirationDate = new Date(expiration);
-		const now = new Date();
-		const daysUntilExpiration = Math.ceil((expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+		const expirationDate = new Date(expiration).getTime();
+		const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
 
 		if (daysUntilExpiration > 0) {
 			expirationElement.dataset.validation = daysUntilExpiration > EXPIRATION_WARNING_THRESHOLD_DAYS ? 'valid' : 'warning';
@@ -54,7 +53,9 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 			expirationElement.hidden = false;
 		}
 	} else {
-		expirationElement.hidden = true;
+		delete expirationElement.dataset.validation;
+		expirationElement.textContent = 'Token has no expiration date';
+		expirationElement.hidden = false;
 	}
 }
 
