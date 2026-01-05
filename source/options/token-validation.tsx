@@ -7,8 +7,6 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
-const EXPIRATION_WARNING_THRESHOLD_DAYS = 15;
-
 type Status = {
 	error?: true;
 	text?: string;
@@ -18,7 +16,24 @@ type Status = {
 
 function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = {}): void {
 	const tokenStatus = $('#validation');
-	tokenStatus.textContent = text ?? '';
+	let statusText = text ?? '';
+
+	// Add expiration info inline
+	if (expiration) {
+		const expirationDate = new Date(expiration).getTime();
+		const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
+
+		const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
+		if (daysUntilExpiration >= 0) {
+			statusText += `, ${rtf.format(daysUntilExpiration, 'day')}`;
+		} else {
+			statusText += ', expired';
+		}
+	} else if (text) {
+		statusText += ', no expiration';
+	}
+
+	tokenStatus.textContent = statusText;
 	if (error) {
 		tokenStatus.dataset.validation = 'invalid';
 	} else {
@@ -31,31 +46,6 @@ function reportStatus({error, text, scopes = ['unknown'], expiration}: Status = 
 			: scopes.includes('unknown')
 				? ''
 				: 'invalid';
-	}
-
-	// Update token expiration list item
-	const expirationElement = $('#token-expiration');
-	if (expiration) {
-		const expirationDate = new Date(expiration).getTime();
-		const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
-
-		if (daysUntilExpiration > 0) {
-			expirationElement.dataset.validation = daysUntilExpiration > EXPIRATION_WARNING_THRESHOLD_DAYS ? 'valid' : 'warning';
-			expirationElement.textContent = `Token expires in ${daysUntilExpiration} day${daysUntilExpiration === 1 ? '' : 's'}`;
-			expirationElement.hidden = false;
-		} else if (daysUntilExpiration === 0) {
-			expirationElement.dataset.validation = 'warning';
-			expirationElement.textContent = 'Token expires today';
-			expirationElement.hidden = false;
-		} else {
-			expirationElement.dataset.validation = 'invalid';
-			expirationElement.textContent = 'Token has expired';
-			expirationElement.hidden = false;
-		}
-	} else {
-		delete expirationElement.dataset.validation;
-		expirationElement.textContent = 'Token has no expiration date';
-		expirationElement.hidden = false;
 	}
 }
 
