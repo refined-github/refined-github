@@ -63,17 +63,17 @@ async function validateToken(): Promise<void> {
 			getTokenInfo(base, tokenField.value),
 			tokenUser.get(base, tokenField.value),
 		]);
-		
+
 		// Build status message with user and expiration
 		let statusMessage = `👤 @${user}`;
 		if (tokenInfo.expiration) {
-			const expirationDate = new Date(tokenInfo.expiration).getTime();
-			const daysUntilExpiration = Math.ceil((expirationDate - Date.now()) / (1000 * 60 * 60 * 24));
-			statusMessage += `, ${rtf.format(daysUntilExpiration, 'day')}`;
+			const msUntilExpiration = new Date(tokenInfo.expiration).getTime() - Date.now();
+			const daysUntilExpiration = Math.ceil(msUntilExpiration / (1000 * 60 * 60 * 24));
+			statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
 		} else {
 			statusMessage += ', no expiration';
 		}
-		
+
 		reportStatus({
 			text: statusMessage,
 			scopes: tokenInfo.scopes,
