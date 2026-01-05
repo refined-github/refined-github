@@ -114,6 +114,14 @@ export default [
 						message: 'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
 						selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
 					},
+					{
+						message: 'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
+						selector:
+								'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])'
+								+ ':not(:has(JSXAttribute[name.name="title"]))'
+								+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
+								+ ':not(:has(JSXAttribute[name.name="hidden"]))',
+					},
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
