@@ -81,7 +81,6 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 				'Open selected notifications',
 				'Hotkey: P',
 			)}
-			title="Hotkey: P"
 		>
 			<LinkExternalIcon className="mr-1" />Open
 		</button>
