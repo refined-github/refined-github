@@ -26,6 +26,7 @@ const rollup = {
 		header: './source/options/header.svelte',
 		'storage-usage': './source/options/storage-usage.svelte',
 		'rgh-token': './source/options/rgh-token.svelte',
+		'token-scope': './source/options/token-scope.svelte',
 		background: './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',

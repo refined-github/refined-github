@@ -19,7 +19,7 @@
 
 	let validationText = $state('');
 	let validationError = $state(false);
-	let scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
+	const scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
 
 	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
@@ -158,30 +158,27 @@
 	</span>
 </p>
 <ul>
-	<li data-scope="valid_token" data-validation={scopeStates.get('valid_token')}>
+	<token-scope name="valid_token" state={scopeStates.get('valid_token')}>
 		The token enables <a
 			href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code"
 			>some features</a
 		>
 		to <strong>read</strong> data from public repositories
-	</li>
-	<li data-scope="public_repo" data-validation={scopeStates.get('public_repo')}>
+	</token-scope>
+	<token-scope name="public_repo" state={scopeStates.get('public_repo')}>
 		The <code>public_repo</code> scope lets them <strong>edit</strong> your public
 		repositories
-	</li>
-	<li data-scope="repo" data-validation={scopeStates.get('repo')}>
+	</token-scope>
+	<token-scope name="repo" state={scopeStates.get('repo')}>
 		The <code>repo</code> scope lets them <strong>edit private</strong> repositories
 		as well
-	</li>
-	<li
-		data-scope="read:project"
-		data-validation={scopeStates.get('read:project')}
-	>
+	</token-scope>
+	<token-scope name="read:project" state={scopeStates.get('read:project')}>
 		The <code>read:project</code> scope lets them determine if a repo/org uses projects
-	</li>
-	<li data-scope="workflow" data-validation={scopeStates.get('workflow')}>
+	</token-scope>
+	<token-scope name="workflow" state={scopeStates.get('workflow')}>
 		The <code>workflow</code> scope lets them
 		<strong>edit workflow files</strong>
 		<code>.github/workflows/*.yml</code>
-	</li>
+	</token-scope>
 </ul>
