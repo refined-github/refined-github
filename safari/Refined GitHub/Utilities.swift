@@ -1,4 +1,28 @@
 import SwiftUI
+import SafariServices
+
+
+enum SafariExtension {
+	#if os(macOS)
+	static func isEnabled(forIdentifier identifier: String) async throws -> Bool {
+		try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: identifier).isEnabled
+	}
+
+	static func openSettings(forIdentifier identifier: String) async throws {
+		try await SFSafariApplication.showPreferencesForExtension(withIdentifier: identifier)
+	}
+	#else
+	@available(iOS 26.2, visionOS 26.2, *)
+	static func isEnabled(forIdentifier identifier: String) async throws -> Bool {
+		try await SFSafariExtensionManager.stateOfExtension(withIdentifier: identifier).isEnabled
+	}
+
+	@available(iOS 26.2, visionOS 26.2, *)
+	static func openSettings(forIdentifier identifier: String) async throws {
+		try await SFSafariSettings.openExtensionsSettings(forIdentifiers: [identifier])
+	}
+	#endif
+}
 
 
 enum SSApp {
