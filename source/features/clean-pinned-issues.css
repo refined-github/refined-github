@@ -14,6 +14,9 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			li {
 				display: table-row !important;
 				border-color: var(--rgh-border-color, fuchsia) !important;
+				& > div {
+					padding-right: var(--base-size-12, 12px);
+				}
 			}
 
 			[class^='PinnedIssue-module__titleOptionsContainer'] {
