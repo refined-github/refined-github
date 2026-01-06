@@ -81,3 +81,83 @@ test('parseConventionalCommit', () => {
 	expect(parseConventionalCommit('feat(): Commit message')).toBeUndefined();
 	expect(parseConventionalCommit('fe at(scope): Commit message) ')).toBeUndefined();
 });
+
+test('parseConventionalCommit support upper case types', () => {
+	expect(parseConventionalCommit('Fix: Commit message')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Fix: ",
+		  "rawType": "Fix",
+		  "scope": undefined,
+		  "type": "Fix",
+		}
+	`);
+	expect(parseConventionalCommit('Feat: Commit message')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Feat: ",
+		  "rawType": "Feat",
+		  "scope": undefined,
+		  "type": "Feature",
+		}
+	`);
+	expect(parseConventionalCommit('Fix!: Breaking change')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Fix!: ",
+		  "rawType": "Fix",
+		  "scope": undefined,
+		  "type": "Fix!",
+		}
+	`);
+	expect(parseConventionalCommit('Feat(scope): Commit message')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Feat(scope): ",
+		  "rawType": "Feat",
+		  "scope": "scope: ",
+		  "type": "Feature",
+		}
+	`);
+	expect(parseConventionalCommit('Feat(scope)!: Breaking change')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Feat(scope)!: ",
+		  "rawType": "Feat",
+		  "scope": "scope: ",
+		  "type": "Feature!",
+		}
+	`);
+	expect(parseConventionalCommit('Revert(scope): Revert "Feat(scope): Commit message"')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Revert(scope): ",
+		  "rawType": "Revert",
+		  "scope": "scope: ",
+		  "type": "Revert",
+		}
+	`);
+	expect(parseConventionalCommit('Feat(sco pe): Commit message')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Feat(sco pe): ",
+		  "rawType": "Feat",
+		  "scope": "sco pe: ",
+		  "type": "Feature",
+		}
+	`);
+	expect(parseConventionalCommit(('Feat: Commit (message)'))).toMatchInlineSnapshot(`
+		{
+		  "raw": "Feat: ",
+		  "rawType": "Feat",
+		  "scope": undefined,
+		  "type": "Feature",
+		}
+	`);
+	expect(parseConventionalCommit('Fix:')).toMatchInlineSnapshot(`
+		{
+		  "raw": "Fix:",
+		  "rawType": "Fix",
+		  "scope": undefined,
+		  "type": "Fix",
+		}
+	`);
+
+	expect(parseConventionalCommit('Idk(label): not recognized')).toBeUndefined();
+	expect(parseConventionalCommit('Commit message')).toBeUndefined();
+	expect(parseConventionalCommit('Feat(): Commit message')).toBeUndefined();
+	expect(parseConventionalCommit('Fe at(scope): Commit message) ')).toBeUndefined();
+});
