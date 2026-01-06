@@ -4,6 +4,7 @@ import StoreKit
 
 struct MainScreen: View {
 	@Environment(\.requestReview) private var requestReview
+	@Environment(\.scenePhase) private var scenePhase
 	@AppStorage("hasRequestedReview") private var hasRequestedReview = false
 	@State private var isEnabled = false
 
@@ -25,16 +26,11 @@ struct MainScreen: View {
 			.padding(.top)
 			#endif
 			#if os(macOS)
-			VStack(spacing: 8) {
-				statusView
-				Text("You can turn it \(isEnabled ? "off" : "on") in the Safari extensions settings")
-					.font(.subheadline)
-					.foregroundStyle(.secondary)
-			}
+			extensionStatusView
 			VStack(spacing: 16) {
 				Button("Open Safari Settings") {
 					Task {
-						await openSafariSetting()
+						await openExtensionSettings()
 					}
 				}
 				.buttonStyle(.borderedProminent)
@@ -43,18 +39,27 @@ struct MainScreen: View {
 					.controlSize(.small)
 			}
 			#else
-			Link("Get Started", destination: URL(string: "x-safari-https://refined-github.github.io/ios/enable.html")!)
+			if #available(iOS 26.2, visionOS 26.2, *) {
+				extensionStatusView
+				Button(isEnabled ? "Extension Settings" : "Enable Extension") {
+					Task {
+						await openExtensionSettings()
+					}
+				}
 				.buttonStyle(.borderedProminent)
 				.controlSize(.large)
 				.font(.title3.weight(.medium))
+			} else {
+				Link("Get Started", destination: URL(string: "x-safari-https://refined-github.github.io/ios/enable.html")!)
+					.buttonStyle(.borderedProminent)
+					.controlSize(.large)
+					.font(.title3.weight(.medium))
+			}
 			#endif
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.padding()
 		.offset(y: -20) // Looks better than fully center.
-		.task {
-			requestReviewIfNeeded()
-		}
 		.safeAreaInset(edge: .bottom) {
 			Text("The app is just a container for the Safari extension and does not do anything.")
 				.font(.subheadline)
@@ -63,13 +68,23 @@ struct MainScreen: View {
 				.padding()
 				.padding(.horizontal)
 		}
+		.task {
+			requestReviewIfNeeded()
+			await updateExtensionStatus()
+		}
+		.onChange(of: scenePhase) { newScenePhase in
+			guard newScenePhase == .active else {
+				return
+			}
+
+			Task {
+				await updateExtensionStatus()
+			}
+		}
 		#if os(macOS)
 		.padding()
 		.padding()
 		.fixedSize()
-		.task {
-			await setExtensionStatus()
-		}
 		.windowLevel(.floating)
 		.windowIsRestorable(false)
 		.windowIsMinimizable(false)
@@ -78,41 +93,63 @@ struct MainScreen: View {
 		#endif
 	}
 
-	private var statusView: some View {
-		Group {
-			if isEnabled {
-				(
+	private var extensionStatusView: some View {
+		VStack(spacing: 8) {
+			Group {
+				if isEnabled {
 					Text(Image(systemName: "checkmark.seal.fill"))
 						.foregroundColor(.green)
-							+ Text(" Enabled")
-				)
-			} else {
-				(
+						+ Text(" Enabled")
+				} else {
 					Text(Image(systemName: "xmark.seal.fill"))
 						.foregroundColor(.red)
-							+ Text(" Disabled")
-				)
+						+ Text(" Disabled")
+				}
 			}
-		}
 			.symbolRenderingMode(.multicolor)
 			.font(.title3)
+			Text("You can turn it \(isEnabled ? "off" : "on") in the Safari extensions settings")
+				.font(.subheadline)
+				.foregroundStyle(.secondary)
+		}
+	}
+
+	private func updateExtensionStatus() async {
+		#if os(macOS)
+		do {
+			isEnabled = try await SafariExtension.isEnabled(forIdentifier: Constants.extensionBundleIdentifier)
+		} catch {
+			error.present()
+		}
+		#else
+		guard #available(iOS 26.2, visionOS 26.2, *) else {
+			return
+		}
+
+		do {
+			isEnabled = try await SafariExtension.isEnabled(forIdentifier: Constants.extensionBundleIdentifier)
+		} catch {
+			print(error)
+		}
+		#endif
 	}
 
 	#if os(macOS)
-	private func setExtensionStatus() async {
+	private func openExtensionSettings() async {
 		do {
-			isEnabled = try await SFSafariExtensionManager.stateOfSafariExtension(withIdentifier: Constants.extensionBundleIdentifier).isEnabled
+			try await SafariExtension.openSettings(forIdentifier: Constants.extensionBundleIdentifier)
+			NSApplication.shared.terminate(nil)
 		} catch {
 			error.present()
 		}
 	}
-
-	private func openSafariSetting() async {
+	#else
+	@available(iOS 26.2, visionOS 26.2, *)
+	private func openExtensionSettings() async {
 		do {
-			try await SFSafariApplication.showPreferencesForExtension(withIdentifier: Constants.extensionBundleIdentifier)
-			NSApplication.shared.terminate(nil)
+			try await SafariExtension.openSettings(forIdentifier: Constants.extensionBundleIdentifier)
 		} catch {
-			error.present()
+			print(error)
 		}
 	}
 	#endif
