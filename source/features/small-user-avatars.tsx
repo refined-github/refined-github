@@ -15,10 +15,8 @@ function addAvatar(link: HTMLElement): void {
 		<img
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
 			src={getUserAvatarURL(username, size)!}
-			width="1em"
-			height="1em"
-			min-width={size}
-			min-height={size}
+			width={size}
+			height={size}
 			loading="lazy"
 		/>,
 	);
