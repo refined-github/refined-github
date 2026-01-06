@@ -1,60 +1,33 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
-	/* Changes the layout of pinned issues from side-by-side to a standard list. */
-	.js-pinned-issues-reorder-container .f4 {
-		display: none !important; /* Hide title */
-	}
-
-	.js-pinned-issues-reorder-list {
-		gap: 16px;
-	}
-
-	.pinned-issue-item {
-		width: auto !important;
-		flex: 1;
-		margin-inline: 0 !important;
-	}
-
 	@media (width >= 700px) {
-		.js-pinned-issues-reorder-list {
+		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
 			width: 100%;
 			margin: 0;
-			margin-bottom: 20px;
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 			box-shadow: 0 0 0 2px var(--rgh-border-color, fuchsia);
 			border-collapse: collapse;
 			border-radius: 6px;
 			border-style: hidden;
-		}
 
-		.pinned-issue-item {
-			display: table-row !important;
-			border-color: var(--rgh-border-color, fuchsia) !important;
-		}
+			li {
+				display: table-row !important;
+				border-color: var(--rgh-border-color, fuchsia) !important;
+				& > div {
+					padding-right: var(--base-size-12, 12px);
+				}
+			}
 
-		.pinned-issue-item > * {
-			display: table-cell !important;
-			padding: 6px 12px;
-			vertical-align: middle;
-			white-space: nowrap;
-		}
+			[class^='PinnedIssue-module__titleOptionsContainer'] {
+				flex: 1;
+			}
 
-		/* Move `x` before the title and align both icons */
-		.pinned-issue-item > :first-child {
-			display: flex !important;
-			white-space: normal; /* Restore wrapping on title */
-		}
-
-		.pinned-issue-handle {
-			order: -1;
-			margin-top: -2px;
-		}
-
-		.pinned-issue-item form button {
-			float: unset !important;
-			margin-left: -10px;
-			margin-right: 2px !important;
+			[class^='PinnedIssue-module__contentContainer'] {
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
 		}
 	}
 }
