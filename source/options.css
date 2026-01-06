@@ -46,11 +46,6 @@ ul:last-child {
 	margin-bottom: 0;
 }
 
-ul {
-	padding-left: 0;
-	list-style: none;
-}
-
 li[data-validation] {
 	margin-bottom: 0.3em;
 }
@@ -133,10 +128,6 @@ summary:hover {
 
 [name='customCSS'] {
 	font-size: 11px;
-}
-
-[name='personalToken']:not(:focus) {
-	-webkit-text-security: circle;
 }
 
 .feature:not([hidden]) {

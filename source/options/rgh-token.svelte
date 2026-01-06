@@ -21,8 +21,6 @@
 	let validationError = $state(false);
 	const scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
 
-	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
-
 	let tokenField;
 
 	function reportStatus(
@@ -97,15 +95,18 @@
 				tokenUser.get(base, tokenField.value),
 			]);
 
-			// Build status message with user and expiration
-			let statusMessage = `👤 @${user}`;
+			// Check if token is expired
 			if (tokenInfo.expiration) {
 				const msUntilExpiration = new Date(tokenInfo.expiration).getTime() - Date.now();
-				const daysUntilExpiration = Math.ceil(msUntilExpiration / (1000 * 60 * 60 * 24));
-				statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
-			} else {
-				statusMessage += ', no expiration';
+				if (msUntilExpiration < 0) {
+					reportStatus({error: true, text: 'Token expired'});
+					expandTokenSection();
+					return;
+				}
 			}
+
+			// Build status message with user
+			const statusMessage = `👤 @${user}`;
 
 			reportStatus({
 				text: statusMessage,
@@ -113,7 +114,8 @@
 			});
 		} catch (error) {
 			assertError(error);
-			reportStatus({error: true, text: error.message});
+			const errorMessage = error.message + (error.message.includes('401') || error.message.includes('403') ? ' (expired?)' : '');
+			reportStatus({error: true, text: errorMessage});
 			expandTokenSection();
 			throw error;
 		}
@@ -182,3 +184,24 @@
 		<code>.github/workflows/*.yml</code>
 	</token-scope>
 </ul>
+
+<style>
+	input[name='personalToken']:not(:focus) {
+		-webkit-text-security: circle;
+	}
+
+	ul {
+		padding-left: 0;
+		list-style: none;
+	}
+
+	p,
+	ul {
+		margin-top: 0;
+	}
+
+	p:last-child,
+	ul:last-child {
+		margin-bottom: 0;
+	}
+</style>
