@@ -114,8 +114,7 @@
 			});
 		} catch (error) {
 			assertError(error);
-			const errorMessage = error.message + (error.message.includes('401') || error.message.includes('403') ? ' (expired?)' : '');
-			reportStatus({error: true, text: errorMessage});
+			reportStatus({error: true, text: error.message + ' (expired?)'});
 			expandTokenSection();
 			throw error;
 		}
