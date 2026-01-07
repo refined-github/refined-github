@@ -1,19 +1,20 @@
 import * as pageDetect from 'github-url-detection';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import { getConversationNumber } from '../github-helpers/index.js';
+import {getConversationNumber} from '../github-helpers/index.js';
 import getTextNodes from '../helpers/get-text-nodes.js';
 
 function underlinePrSelfReference(prConversation: HTMLElement): void {
 	const prNumber = getConversationNumber();
 
 	const textNodesOnThisLine = getTextNodes(prConversation);
-	for (const [, textNode] of textNodesOnThisLine.entries()){
-		let text = textNode.textContent;
-		let prLink = textNode.parentElement;
-		let prSelfReference = '#' + prNumber!.toString();
+	for (const [, textNode] of textNodesOnThisLine.entries()) {
+		const text = textNode.textContent;
+		const prLink = textNode.parentElement;
+		const prSelfReference = '#' + prNumber!.toString();
 
-		if (prLink != null && text.includes(prSelfReference)) {
+		if (prLink !== null && text.includes(prSelfReference)) {
 			prLink.style.textDecoration = 'underline wavy red';
 		}
 	}
