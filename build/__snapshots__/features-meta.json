@@ -925,6 +925,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253063446-6f556e7d-2ac5-439d-92f0-0c6d719fc86f.gif"
 	},
 	{
+		"id": "underline-pr-self-reference",
+		"description": "Underlines PR links that are self reference.",
+		"screenshot": "https://github.com/user-attachments/assets/7a0ee4b1-6eba-4c83-8a89-b7722c13a537"
+	},
+	{
 		"id": "unfinished-comments",
 		"description": "Notifies the user of unfinished comments in hidden tabs.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif"
