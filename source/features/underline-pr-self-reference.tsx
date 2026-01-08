@@ -16,9 +16,7 @@ function underlinePrSelfReference(prConversation: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.issue-link',
-	], underlinePrSelfReference, {signal});
+	observe('.issue-link', underlinePrSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
