@@ -14,6 +14,18 @@
 					this._internals = this.attachInternals();
 				}
 
+				get form() {
+					return this._internals.form;
+				}
+
+				get name() {
+					return this.getAttribute('name');
+				}
+
+				get type() {
+					return this.localName;
+				}
+
 				get internals() {
 					return this._internals;
 				}
@@ -206,7 +218,12 @@
 </ul>
 
 <style>
-	@import 'webext-base-css/webext-base.css';
+	.monospace-field {
+		/* Same as GitHub style for `code` */
+		font-family:
+			ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+			'Liberation Mono', monospace !important;
+	}
 
 	input[name='personalToken']:not(:focus) {
 		-webkit-text-security: circle;
