@@ -7,6 +7,16 @@
 		extend(customElementConstructor) {
 			return class extends customElementConstructor {
 				static formAssociated = true;
+				_internals;
+
+				constructor() {
+					super();
+					this._internals = this.attachInternals();
+				}
+
+				get internals() {
+					return this._internals;
+				}
 			};
 		},
 	}}
@@ -27,19 +37,8 @@
 	const scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
 
 	let tokenField;
-	let internals;
 
-	// Set up form participation
 	onMount(() => {
-		const host = tokenField?.getRootNode()?.host;
-		if (host && 'attachInternals' in host) {
-			try {
-				internals = host.attachInternals();
-			} catch {
-				// AttachInternals might have already been called
-			}
-		}
-
 		validateToken();
 	});
 
@@ -142,8 +141,9 @@
 
 	function handleInput(): void {
 		// Sync value with form
-		if (internals && tokenField) {
-			internals.setFormValue(tokenField.value);
+		const host = tokenField?.getRootNode()?.host;
+		if (host && 'internals' in host) {
+			host.internals.setFormValue(tokenField.value);
 		}
 
 		validateToken();
@@ -206,17 +206,7 @@
 </ul>
 
 <style>
-	.monospace-field {
-		/* Same as GitHub style for `code` */
-		font-family:
-			ui-monospace,
-			SFMono-Regular,
-			'SF Mono',
-			Menlo,
-			Consolas,
-			'Liberation Mono',
-			monospace !important;
-	}
+	@import 'webext-base-css/webext-base.css';
 
 	input[name='personalToken']:not(:focus) {
 		-webkit-text-security: circle;
