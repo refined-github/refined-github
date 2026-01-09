@@ -4,6 +4,11 @@
 		props: {
 			personalTokenLink: {type: 'String', attribute: 'personal-token-link'},
 		},
+		extend(customElementConstructor) {
+			return class extends customElementConstructor {
+				static formAssociated = true;
+			};
+		},
 	}}
 />
 
@@ -22,6 +27,21 @@
 	const scopeStates = new SvelteMap<string, 'valid' | 'invalid' | ''>();
 
 	let tokenField;
+	let internals;
+
+	// Set up form participation
+	onMount(() => {
+		const host = tokenField?.getRootNode()?.host;
+		if (host && 'attachInternals' in host) {
+			try {
+				internals = host.attachInternals();
+			} catch {
+				// AttachInternals might have already been called
+			}
+		}
+
+		validateToken();
+	});
 
 	function reportStatus(
 		{error, text, scopes = ['unknown']}: {
@@ -121,6 +141,11 @@
 	}
 
 	function handleInput(): void {
+		// Sync value with form
+		if (internals && tokenField) {
+			internals.setFormValue(tokenField.value);
+		}
+
 		validateToken();
 	}
 
@@ -131,10 +156,6 @@
 	function handleBlur(): void {
 		tokenField.type = 'password';
 	}
-
-	onMount(() => {
-		validateToken();
-	});
 </script>
 
 <p>
@@ -185,6 +206,18 @@
 </ul>
 
 <style>
+	.monospace-field {
+		/* Same as GitHub style for `code` */
+		font-family:
+			ui-monospace,
+			SFMono-Regular,
+			'SF Mono',
+			Menlo,
+			Consolas,
+			'Liberation Mono',
+			monospace !important;
+	}
+
 	input[name='personalToken']:not(:focus) {
 		-webkit-text-security: circle;
 	}
