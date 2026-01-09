@@ -206,6 +206,9 @@ export const botLinksNotificationSelectors = [
 	// Notification list items with bot avatars
 	`.notification-list-item-link a:is(${botAttributes})`,
 ];
+export const botLinksNotificationSelectors_ = [
+	[0, 'https://github.com/notifications'],
+] satisfies UrlMatch[];
 
 // `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
