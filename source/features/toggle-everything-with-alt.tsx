@@ -83,4 +83,5 @@ Commit messages:
 - PR description: https://github.com/OpenLightingProject/open-fixture-library/pull/2455
 - PR comment: https://github.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
 
+Add suggestion to batch: https://github.com/refined-github/sandbox/pull/121/changes
 */
