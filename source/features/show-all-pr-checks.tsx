@@ -5,7 +5,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 
 function init(signal: AbortSignal): void {
-	// When the "Show all checks" button is clicked, remove the height restriction from the checks list
+	// When the checks panel is expanded, remove the height restriction from the checks list
 	delegate(
 		'details:has(.merge-status-list) > summary',
 		'click',
@@ -13,7 +13,7 @@ function init(signal: AbortSignal): void {
 			const details = delegateTarget.closest('details')!;
 			// Only apply when expanding (details will be opened after the click)
 			if (!details.open) {
-				const checksList = $optional('.merge-status-list.js-updatable-content-preserve-scroll-position', details);
+				const checksList = $optional('.merge-status-list', details);
 				if (checksList) {
 					checksList.style.maxHeight = 'none';
 				}
