@@ -202,6 +202,11 @@ export const botLinksPrSelectors_ = [
 	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
 ];
 
+export const botLinksNotificationSelectors = [
+	// Notification list items with bot avatars
+	`.notification-list-item-link a:is(${botAttributes})`,
+];
+
 // `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
 	'.js-discussion a.author',

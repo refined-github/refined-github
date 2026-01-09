@@ -12,6 +12,7 @@ import DotIcon from 'octicons-plain-react/Dot';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
@@ -19,6 +20,7 @@ import XCircleIcon from 'octicons-plain-react/XCircle';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 
 const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
 const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
@@ -27,6 +29,7 @@ const filters = {
 	Issues: issueIcons,
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
 	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
+	Bots: botLinksNotificationSelectors.join(', '),
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
@@ -77,6 +80,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 		Issues: <IssueOpenedIcon className="color-fg-muted" />,
 		Open: <CheckCircleIcon className="color-fg-success" />,
 		Others: <SquirrelIcon className="color-fg-muted" />,
+		Bots: <HubotIcon className="color-fg-muted" />,
 		Closed: <XCircleIcon className="color-fg-danger" />,
 		Draft: <GitPullRequestDraftIcon className="color-fg-subtle" />,
 		Merged: <GitMergeIcon className="color-fg-done" />,
@@ -136,7 +140,7 @@ const createDropdown = onetime(() => (
 		>
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form">
-					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others'])}
+					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others', 'Bots'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
