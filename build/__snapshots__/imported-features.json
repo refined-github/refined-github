@@ -159,6 +159,7 @@
 	"select-notifications",
 	"selection-in-new-tab",
 	"shorten-links",
+	"show-all-pr-checks",
 	"show-associated-branch-prs-on-fork",
 	"show-names",
 	"show-open-prs-of-forks",

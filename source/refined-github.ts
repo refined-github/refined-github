@@ -138,6 +138,7 @@ import './features/stop-redirecting-in-notification-bar.js';
 import './features/prevent-link-loss.js';
 import './features/closing-remarks.js';
 import './features/show-associated-branch-prs-on-fork.js';
+import './features/show-all-pr-checks.js';
 import './features/quick-review.js';
 import './features/pr-jump-to-first-non-viewed-file.js';
 import './features/keyboard-navigation.js';

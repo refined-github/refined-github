@@ -806,6 +806,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png"
 	},
 	{
+		"id": "show-all-pr-checks",
+		"description": "Automatically shows all checks without scrolling when expanding the checks panel.",
+		"screenshot": "https://user-images.githubusercontent.com/530122/230127565-5ced407d-cd1e-435c-9434-e54563bd9a06.png"
+	},
+	{
 		"id": "show-associated-branch-prs-on-fork",
 		"description": "Shows the associated PRs on branches for forked repositories.",
 		"css": true,
