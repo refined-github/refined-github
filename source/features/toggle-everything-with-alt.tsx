@@ -49,7 +49,7 @@ function init(signal: AbortSignal): void {
 	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
 
 	// "Add suggestion to batch" buttons in PR files
-	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal});
+	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
