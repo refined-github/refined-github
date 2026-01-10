@@ -5,7 +5,7 @@ import observe from '../helpers/selector-observer.js';
 
 function underlinePrSelfReference(prLink: HTMLElement): void {
 	prLink.style.textDecoration = 'underline wavy red';
-	prLink.title = "Link is a self-reference";
+	prLink.title = 'Link is a self-reference';
 }
 
 function init(signal: AbortSignal): void {
