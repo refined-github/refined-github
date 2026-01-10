@@ -26,6 +26,27 @@
 					return this.localName;
 				}
 
+				get validity() {
+					const input = this.shadowRoot?.querySelector(
+						'input[name="personalToken"]',
+					);
+					return input?.validity ?? {valid: true};
+				}
+
+				get value() {
+					const input = this.shadowRoot?.querySelector(
+						'input[name="personalToken"]',
+					);
+					return input?.value ?? '';
+				}
+
+				get disabled() {
+					const input = this.shadowRoot?.querySelector(
+						'input[name="personalToken"]',
+					);
+					return input?.disabled ?? false;
+				}
+
 				get internals() {
 					return this._internals;
 				}
