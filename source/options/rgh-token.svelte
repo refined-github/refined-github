@@ -8,6 +8,7 @@
 			return class extends customElementConstructor {
 				static formAssociated = true;
 				_internals;
+				_pendingValue = null;
 
 				constructor() {
 					super();
@@ -37,7 +38,7 @@
 					const input = this.shadowRoot?.querySelector(
 						'input[name="personalToken"]',
 					);
-					return input?.value ?? '';
+					return input?.value ?? this._pendingValue ?? '';
 				}
 
 				set value(newValue) {
@@ -47,8 +48,13 @@
 					if (input) {
 						input.value = newValue;
 						this._internals.setFormValue(newValue);
+						this._pendingValue = null;
 						// Trigger validation after setting value
 						input.dispatchEvent(new Event('input', {bubbles: true}));
+					} else {
+						// Shadow DOM not ready yet, store for later
+						this._pendingValue = newValue;
+						this._internals.setFormValue(newValue);
 					}
 				}
 
@@ -84,6 +90,13 @@
 	let tokenField;
 
 	onMount(() => {
+		// Apply pending value if set before mount
+		const host = tokenField?.getRootNode()?.host;
+		if (host && '_pendingValue' in host && host._pendingValue !== null) {
+			tokenField.value = host._pendingValue;
+			host._pendingValue = null;
+		}
+
 		validateToken();
 	});
 
