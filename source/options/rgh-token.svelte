@@ -40,6 +40,18 @@
 					return input?.value ?? '';
 				}
 
+				set value(newValue) {
+					const input = this.shadowRoot?.querySelector(
+						'input[name="personalToken"]',
+					);
+					if (input) {
+						input.value = newValue;
+						this._internals.setFormValue(newValue);
+						// Trigger validation after setting value
+						input.dispatchEvent(new Event('input', {bubbles: true}));
+					}
+				}
+
 				get disabled() {
 					const input = this.shadowRoot?.querySelector(
 						'input[name="personalToken"]',
