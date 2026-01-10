@@ -54,6 +54,7 @@ Test URLs:
 https://github.com/notifications/subscriptions
 https://github.com/refined-github/refined-github/issues
 https://github.com/refined-github/refined-github/pull/7004
+https://github.com/refined-github/refined-github/issues/8802#issuecomment-3711163697
 https://github.com/refined-github/refined-github/releases
 https://github.com/refined-github/refined-github/releases/tag/23.9.21
 https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
