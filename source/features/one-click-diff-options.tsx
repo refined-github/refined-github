@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import BookIcon from 'octicons-plain-react/Book';
@@ -12,7 +13,7 @@ import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
-	return new URL(location.href).searchParams.get('w') === '1' || $optional('button[name="w"][value="0"]:not([hidden])');
+	return new URL(location.href).searchParams.get('w') === '1' || elementExists('button[name="w"][value="0"]:not([hidden])');
 }
 
 function createWhitespaceButton(): HTMLElement {
@@ -79,7 +80,7 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 
 	// Trim title
 	const prTitle = $optional('.pr-toolbar .js-issue-title');
-	if (prTitle && $optional('.pr-toolbar progress-bar')) { // Only review view has progress-bar
+	if (prTitle && elementExists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
 		prTitle.style.maxWidth = '24em';
 		prTitle.title = prTitle.textContent;
 	}

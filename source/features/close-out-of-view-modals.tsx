@@ -1,4 +1,4 @@
-import {$$optional as $$} from 'select-dom/strict.js';
+import {$$optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import onetime from '../helpers/onetime.js';
@@ -39,7 +39,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 
 	lastOpen = Date.now();
 
-	const modals = $$([
+	const modals = $$optional([
 		':scope > details-menu', // "Watch repo" dropdown
 		':scope > details-dialog', // "Watch repo" dropdown
 		':scope > modal-dialog', // "Development" dropdown #7093

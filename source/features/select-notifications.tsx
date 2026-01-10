@@ -1,6 +1,8 @@
 import './select-notifications.css';
 
 import React from 'dom-chef';
+import {elementExists} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
@@ -18,7 +20,6 @@ import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-import {$optional} from 'select-dom/strict.js';
 const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
 const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
 const filters = {
@@ -62,7 +63,7 @@ function handleSelection(): void {
 	for (const notification of notifications) {
 		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
-		input.checked = !deselectAll && selectorGroups.every(selectors => $optional(selectors, notification));
+		input.checked = !deselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
 	}
 
 	// Trigger the selection action bar update

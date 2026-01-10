@@ -1,4 +1,5 @@
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional, $} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
@@ -98,7 +99,7 @@ export const isPermalink = mem(async () => {
 	}
 
 	// Awaiting only the branch selector means it resolves early even if the icon tag doesn't exist, whereas awaiting the icon tag would wait for the DOM ready event before resolving.
-	return $optional(
+	return elementExists(
 		'.octicon-tag', // Tags have an icon
 		await elementReady(branchSelector),
 	);
@@ -124,7 +125,7 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePR = (): boolean => Boolean($optional('.discussion-sidebar-item .octicon-lock'));
+export const userCanLikelyMergePR = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 

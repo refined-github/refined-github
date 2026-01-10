@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop -- Event loops */
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
 import stripIndent from 'strip-indent';
 import type {Promisable} from 'type-fest';
@@ -85,7 +85,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		return;
 	}
 
-	if ($optional('[refined-github]')) {
+	if (elementExists('[refined-github]')) {
 		console.warn(stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
@@ -117,7 +117,7 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 		Object.assign(options, localHotfixes);
 	}
 
-	if ($optional('body.logged-out')) {
+	if (elementExists('body.logged-out')) {
 		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		disableErrorLogging();
 	} else {
@@ -193,7 +193,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 			if (firstLoop) {
 				firstLoop = false;
-			} else if (deduplicate && $optional(deduplicate)) {
+			} else if (deduplicate && elementExists(deduplicate)) {
 				continue;
 			}
 

@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -20,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		() => Boolean($optional(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]'])),
+		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]']),
 		pageDetect.isEmptyRepo,
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,

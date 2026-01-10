@@ -1,6 +1,8 @@
 import './quick-label-removal.css';
 
 import React from 'dom-chef';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import XIcon from 'octicons-plain-react/X';
 import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
@@ -13,10 +15,9 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-import {$optional} from 'select-dom/strict.js';
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {
-	return Boolean($optional('.label-select-menu .octicon-gear'));
+	return elementExists('.label-select-menu .octicon-gear');
 }
 
 function getLabelList(): HTMLElement {

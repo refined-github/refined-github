@@ -1,11 +1,12 @@
-import {$optional, $$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
-	$optional('.minimized-comment:not(.d-none)', comment)
+	elementExists('.minimized-comment:not(.d-none)', comment)
 	|| Boolean(comment.closest([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
@@ -20,7 +21,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	const focusedComment = $optional(':target');
 	const items
-		= $$optional([
+		= $$([
 			'.js-targetable-element[id^="diff-"]', // Files in diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])

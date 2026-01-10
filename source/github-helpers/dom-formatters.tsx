@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
@@ -68,7 +68,7 @@ export function linkifyURLs(element: Element): void {
 		return;
 	}
 
-	if ($optional(linkifiedURLSelector, element)) {
+	if (elementExists(linkifiedURLSelector, element)) {
 		console.warn('Links already exist', element);
 		throw new Error('Links already exist');
 	}

@@ -1,4 +1,6 @@
 import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -9,7 +11,6 @@ import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-import {$} from 'select-dom/strict.js';
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
 async function convertToDraft(): Promise<void> {
@@ -30,7 +31,7 @@ const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
 async function onConvertClick(): Promise<void> {
-	const message = $optional('.js-reaction-group-button')
+	const message = elementExists('.js-reaction-group-button')
 		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
 		: [confirmMessage, confirmMessageQuestion];
 	if (!confirm(message.join(' '))) {
@@ -44,7 +45,7 @@ async function onConvertClick(): Promise<void> {
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {
-	if ($optional('[title="Draft"]')) {
+	if (elementExists('[title="Draft"]')) {
 		return;
 	}
 

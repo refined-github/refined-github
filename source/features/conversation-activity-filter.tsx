@@ -1,7 +1,8 @@
 import './conversation-activity-filter.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional as $$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
@@ -36,7 +37,7 @@ const timelineItem = [
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
-	if (pageDetect.isPR() && $optional('.TimelineItem-badge .octicon-git-commit', item)) {
+	if (pageDetect.isPR() && elementExists('.TimelineItem-badge .octicon-git-commit', item)) {
 		return;
 	}
 
@@ -45,7 +46,7 @@ function processTimelineEvent(item: HTMLElement): void {
 
 function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
-	if ($optional('.octicon-unfold', item)) {
+	if (elementExists('.octicon-unfold', item)) {
 		item.classList.add(collapsedClassName);
 	}
 }
@@ -54,7 +55,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
-	for (const {hash: staleReviewId} of $$optional('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
+	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)
 			.closest(timelineItem)!
 			.classList
@@ -63,11 +64,11 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 }
 
 function processReview(review: HTMLElement): void {
-	const hasMainComment = $optional('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
+	const unresolvedThreads = $$('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = $$('.timeline-comment-group:not(.minimized-comment)', review);
 
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
@@ -84,15 +85,15 @@ function processReview(review: HTMLElement): void {
 
 function processItem(item: HTMLElement): void {
 	// Exclude deep-linked comment
-	if (location.hash.startsWith('#issuecomment-') && $optional(location.hash, item)) {
+	if (location.hash.startsWith('#issuecomment-') && elementExists(location.hash, item)) {
 		return;
 	}
 
-	if ($optional('.js-comment[id^=pullrequestreview]', item)) {
+	if (elementExists('.js-comment[id^=pullrequestreview]', item)) {
 		processReview(item);
-	} else if ($optional('.TimelineItem-badge .octicon-x', item)) {
+	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if ($optional(['.comment-body', '.react-issue-comment'], item)) {
+	} else if (elementExists(['.comment-body', '.react-issue-comment'], item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);

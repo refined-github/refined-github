@@ -3,6 +3,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
@@ -70,7 +71,7 @@ function add(blueprintRow: HTMLElement): void {
 
 function addOld(submitButton: HTMLElement): void {
 	// .github repos have a banner that matches this #8716
-	if ($optional('[data-testid="special-repo-name-banner"]')) {
+	if (elementExists('[data-testid="special-repo-name-banner"]')) {
 		return;
 	}
 

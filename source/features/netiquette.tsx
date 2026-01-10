@@ -2,7 +2,8 @@ import React from 'dom-chef';
 import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$optional, $$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
+import {countElements, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
@@ -32,12 +33,12 @@ function getCloseDate(): Date {
 
 function isPopular(): boolean {
 	return (
-		$$optional('[data-testid="comment-header"]').length > 30
+		countElements('[data-testid="comment-header"]') > 30
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
-		|| $optional('[data-testid="issue-timeline-load-more-count-front"]')
+		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 		// TODO: Drop in April 2025; old conversation style
-		|| $$optional('.timeline-comment').length > 30
-		|| $$optional('.participant-avatar').length > 10
+		|| countElements('.timeline-comment') > 30
+		|| countElements('.participant-avatar') > 10
 	);
 }
 
@@ -64,7 +65,7 @@ export function getResolvedText(): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement): void {
-	if ($optional('.rgh-resolved-banner')) {
+	if (elementExists('.rgh-resolved-banner')) {
 		return;
 	}
 
@@ -84,7 +85,7 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	if ($optional('.rgh-popular-banner')) {
+	if (elementExists('.rgh-popular-banner')) {
 		return;
 	}
 

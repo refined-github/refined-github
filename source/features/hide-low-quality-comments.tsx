@@ -1,7 +1,8 @@
 import './hide-low-quality-comments.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
+import {$$, countElements, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
@@ -12,14 +13,14 @@ import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
 
 async function unhide(event: DelegateEvent): Promise<void> {
-	for (const comment of $$optional('.rgh-hidden-comment')) {
+	for (const comment of $$('.rgh-hidden-comment')) {
 		comment.hidden = false;
 	}
 
 	await delay(10); // "Similar comments" aren't expanded without this in Safari #3830
 
 	// Expand all "similar comments" boxes
-	for (const similarCommentsExpandButton of $$optional('.rgh-hidden-comment > summary')) {
+	for (const similarCommentsExpandButton of $$('.rgh-hidden-comment > summary')) {
 		similarCommentsExpandButton.click();
 	}
 
@@ -33,7 +34,7 @@ function hideComment(comment: HTMLElement): void {
 }
 
 function init(): void {
-	for (const similarCommentsBox of $$optional('.js-discussion .Details-element:not([data-body-version])')) {
+	for (const similarCommentsBox of $$('.js-discussion .Details-element:not([data-body-version])')) {
 		hideComment(similarCommentsBox);
 	}
 
@@ -41,7 +42,7 @@ function init(): void {
 		? $optional(`${location.hash} ${singleParagraphCommentSelector}`)
 		: undefined;
 
-	for (const commentText of $$optional(singleParagraphCommentSelector)) {
+	for (const commentText of $$(singleParagraphCommentSelector)) {
 		// Exclude explicitly linked comments #5363
 		if (commentText === linkedComment) {
 			continue;
@@ -53,13 +54,13 @@ function init(): void {
 
 		// Comments that contain useful images or links shouldn't be removed
 		// Images are wrapped in <a> tags on GitHub hence included in the selector
-		if ($optional('a', commentText)) {
+		if (elementExists('a', commentText)) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		const comment = commentText.closest('.js-timeline-item')!;
-		if ($optional('.Label', comment)) {
+		if (elementExists('.Label', comment)) {
 			continue;
 		}
 
@@ -75,7 +76,7 @@ function init(): void {
 		hideComment(comment);
 	}
 
-	const lowQualityCount = $$optional('.rgh-hidden-comment').length;
+	const lowQualityCount = countElements('.rgh-hidden-comment');
 	if (lowQualityCount > 0) {
 		$('.discussion-timeline-actions').prepend(
 			<p className="rgh-low-quality-comments-note">

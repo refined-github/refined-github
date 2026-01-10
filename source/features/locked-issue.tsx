@@ -1,12 +1,13 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 
-import {$optional} from 'select-dom/strict.js';
 function LockedIndicator(): JSX.Element {
 	return (
 		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
@@ -20,7 +21,7 @@ function addLock(element: HTMLElement): void {
 	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
 
 	// Avoid adding it duplicately in issue
-	if (isReactView && $optional('.rgh-locked-issue', element)) {
+	if (isReactView && elementExists('.rgh-locked-issue', element)) {
 		return;
 	}
 

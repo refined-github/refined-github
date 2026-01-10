@@ -1,7 +1,8 @@
 import './one-click-pr-or-gist.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -16,7 +17,7 @@ function init(): void | false {
 
 	const parent = initialGroupedButtons.parentElement!;
 
-	for (const dropdownItem of $$optional('.select-menu-item', initialGroupedButtons)) {
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
 		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
 		const description = $('.description', dropdownItem).textContent.trim();
 		const radioButton = $('input[type=radio]', dropdownItem);
@@ -56,7 +57,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 	],
 	exclude: [
-		() => Boolean($optional('[data-show-dialog-id="drafts-upgrade-dialog"]')),
+		() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true,

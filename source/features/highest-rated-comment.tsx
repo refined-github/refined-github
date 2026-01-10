@@ -2,6 +2,7 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
+import {$, $optional, $$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -11,7 +12,6 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
-import {$, $optional} from 'select-dom/strict.js';
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 
@@ -40,7 +40,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of $$(positiveReactionsSelector)) {
+	for (const reaction of $$optional(positiveReactionsSelector)) {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
@@ -65,7 +65,7 @@ function highlightBestComment(bestComment: Element): void {
 
 function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
-	const position = $$(commentSelector).indexOf(bestComment);
+	const position = $$optional(commentSelector).indexOf(bestComment);
 
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position < 3) {
@@ -92,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$optional(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {

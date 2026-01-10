@@ -1,7 +1,8 @@
 import './tag-changes-link.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';
@@ -89,7 +90,7 @@ async function init(): Promise<void> {
 	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = $$optional(tagsSelector, pages).map(tag => parseTags(tag));
+	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -97,7 +98,7 @@ async function init(): Promise<void> {
 			continue;
 		}
 
-		const lastLinks = $$optional([
+		const lastLinks = $$([
 			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);
@@ -114,7 +115,7 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && $optional('.release'))) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}

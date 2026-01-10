@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import type {RequireAtLeastOne} from 'type-fest';
 
 import getCallerID from './caller-id.js';
@@ -24,7 +24,7 @@ export default function attachElement<NewElement extends Element>(
 		throw new Error('Element not found');
 	}
 
-	if ($optional('.' + className, anchor.parentElement!)) {
+	if (elementExists('.' + className, anchor.parentElement!)) {
 		return;
 	}
 

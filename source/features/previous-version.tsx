@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -10,7 +12,6 @@ import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-import {$} from 'select-dom/strict.js';
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
@@ -62,7 +63,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
 	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
 
-	if ($optional(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
+	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
 		return;
 	}
 

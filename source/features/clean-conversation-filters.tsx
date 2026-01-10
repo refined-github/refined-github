@@ -1,5 +1,6 @@
 import {CachedFunction} from 'webext-storage-cache';
 import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -17,7 +18,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			return true;
 		}
 
-		const isOrganization = $optional('[rel=author][data-hovercard-type="organization"]');
+		const isOrganization = elementExists('[rel=author][data-hovercard-type="organization"]');
 		if (!activeProjectsCounter && !isOrganization) {
 			// No tab = Projects disabled in repo
 			// No organization = no Projects in organization

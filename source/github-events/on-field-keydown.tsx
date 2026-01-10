@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import delegate, {type DelegateEventHandler} from 'delegate-it';
 
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
@@ -12,7 +12,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 			// New autocomplete dropdown
 			|| field.hasAttribute('aria-autocomplete')
 			// Classic autocomplete dropdown
-			|| $optional('.suggester', field.form!)
+			|| elementExists('.suggester', field.form!)
 		) {
 			return;
 		}

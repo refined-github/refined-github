@@ -1,3 +1,4 @@
+import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
@@ -45,7 +46,7 @@ function useCommitTitle(firstCommitElement: HTMLElement): void {
 		'a[href="#commits_bucket"] .octicon-git-commit',
 	]);
 	const commitCount = commitCountIcon?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !$optional('#new_pull_request')) {
+	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
 		return;
 	}
 
