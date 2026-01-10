@@ -202,6 +202,14 @@ export const botLinksPrSelectors_ = [
 	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
 ];
 
+export const botLinksNotificationSelectors = [
+	// Only select if the bot is the primary author (last in DOM, first in avatar list)
+	`.AvatarStack-body a.avatar:last-child:is(${botAttributes})`,
+];
+export const botLinksNotificationSelectors_ = [
+	[0, 'https://github.com/notifications'],
+] satisfies UrlMatch[];
+
 // `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
 	'.js-discussion a.author',

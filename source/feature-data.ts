@@ -14,3 +14,14 @@ export function getNewFeatureName(possibleFeatureName: string): FeatureID | unde
 	const newFeatureName = renamedFeatures[possibleFeatureName] as FeatureID ?? possibleFeatureName;
 	return importedFeatures.includes(newFeatureName) ? newFeatureName : undefined;
 }
+
+export function getOldFeatureNames(featureName: string): string[] {
+	const oldNames: string[] = [];
+	for (const [oldName, newName] of Object.entries(renamedFeatures)) {
+		if (newName === featureName) {
+			oldNames.push(oldName);
+		}
+	}
+
+	return oldNames;
+}

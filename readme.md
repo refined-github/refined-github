@@ -225,6 +225,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
+- [](# "unclip-checks") [Automatically shows all checks without scrolling when expanding the checks panel.](https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
 - [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
