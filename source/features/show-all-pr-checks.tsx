@@ -1,23 +1,18 @@
-import {$optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
 function init(signal: AbortSignal): void {
-	// When the checks panel is expanded, remove the height restriction from the checks list
 	delegate(
-		'details:has(.merge-status-list) > summary',
+		'button[aria-label="Expand checks"]',
 		'click',
-		({delegateTarget}: DelegateEvent<MouseEvent, HTMLElement>) => {
-			const details = delegateTarget.closest('details')!;
-			// Only apply when expanding (details will be opened after the click)
-			if (!details.open) {
-				const checksList = $optional('.merge-status-list', details);
-				if (checksList) {
-					checksList.style.maxHeight = 'none';
-				}
-			}
+		({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
+			// Find the expandable wrapper - it's a sibling of the button's container
+			const container = delegateTarget.closest('[class*="MergeBoxExpandable"]')!;
+			const expandableWrapper = $('[class*="expandableWrapper"]', container);
+			expandableWrapper.style.maxHeight = 'none';
 		},
 		{signal},
 	);
