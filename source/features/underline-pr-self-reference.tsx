@@ -9,9 +9,7 @@ function underlineSelfReference(link: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		`.issue-link[href="${location.href.split('#')[0]}"]`,
-	], underlineSelfReference, {signal});
+	observe(`.issue-link[href="${location.href.split('#')[0]}"]`, underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
