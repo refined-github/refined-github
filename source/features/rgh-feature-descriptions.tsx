@@ -30,7 +30,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	const oldNames = getOldFeatureNames(id);
 	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open ${searchTerms}`);
+	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open (${searchTerms})`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
@@ -56,8 +56,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</clipboard-copy>
 					</h3>
 					{oldNames.length > 0 && (
-						<div className="color-fg-muted">
-							Previously: {oldNames.map((name, index) => (
+						<div className="color-fg-muted mt-n3">
+							<span class="text-small">previously named </span>
+							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
 									{index > 0 && ', '}
 									<code>{name}</code>
