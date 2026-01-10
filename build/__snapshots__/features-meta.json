@@ -515,7 +515,7 @@
 	},
 	{
 		"id": "no-self-reference",
-		"description": "Underlines PR links that are self reference.",
+		"description": "Underlines links that are self reference.",
 		"screenshot": "https://github.com/user-attachments/assets/7a0ee4b1-6eba-4c83-8a89-b7722c13a537"
 	},
 	{
