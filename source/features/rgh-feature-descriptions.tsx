@@ -57,7 +57,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					</h3>
 					{oldNames.length > 0 && (
 						<div className="color-fg-muted mt-n3">
-							<span class="text-small">previously named </span>
+							<span className="text-small">previously named </span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
 									{index > 0 && ', '}
