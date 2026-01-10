@@ -1,4 +1,4 @@
-import {$} from 'select-dom/strict.js';
+import './show-all-pr-checks.css'
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
@@ -9,12 +9,9 @@ function init(signal: AbortSignal): void {
 		'button[aria-label="Expand checks"]',
 		'click',
 		({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
-			// Find the expandable wrapper - it's a sibling of the button's container
-			const container = delegateTarget.closest('[class*="MergeBoxExpandable"]')!;
-			const expandableWrapper = $('[class*="expandableWrapper"]', container);
-			expandableWrapper.style.maxHeight = 'none';
+			delegateTarget.closest('section[aria-label="Checks"]')!.classList.add('rgh-show-all-pr-checks');
 		},
-		{signal},
+		{signal, capture: true},
 	);
 }
 
