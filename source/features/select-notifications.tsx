@@ -1,7 +1,7 @@
 import './select-notifications.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$, $$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -63,7 +63,7 @@ function handleSelection(): void {
 	for (const notification of notifications) {
 		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
-		input.checked = !deselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
+		input.checked = !deselectAll && selectorGroups.every(selectors => $optional(selectors, notification));
 	}
 
 	// Trigger the selection action bar update

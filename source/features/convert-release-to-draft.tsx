@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -31,7 +31,7 @@ const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
 async function onConvertClick(): Promise<void> {
-	const message = elementExists('.js-reaction-group-button')
+	const message = $optional('.js-reaction-group-button')
 		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
 		: [confirmMessage, confirmMessageQuestion];
 	if (!confirm(message.join(' '))) {
@@ -45,7 +45,7 @@ async function onConvertClick(): Promise<void> {
 }
 
 function attachButton(editButton: HTMLAnchorElement): void {
-	if (elementExists('[title="Draft"]')) {
+	if ($optional('[title="Draft"]')) {
 		return;
 	}
 

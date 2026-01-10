@@ -1,7 +1,7 @@
 import './link-to-compare-diff.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -24,7 +24,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
+		() => $optional('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],
 	awaitDomReady: true, // DOM-based exclusion filter
 	init,

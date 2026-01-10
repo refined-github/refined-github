@@ -1,7 +1,7 @@
 import './vertical-front-matter.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

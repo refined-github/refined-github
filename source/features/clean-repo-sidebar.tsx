@@ -1,5 +1,5 @@
 import './clean-repo-sidebar.css';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
@@ -16,7 +16,7 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
-	if (!elementExists('.octicon-tag', releasesSection)) {
+	if (!$optional('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
 		return;

@@ -2,7 +2,7 @@ import './deep-reblame.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import {$, $optional} from 'select-dom/strict.js';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';

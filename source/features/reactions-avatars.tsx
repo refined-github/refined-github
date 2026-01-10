@@ -1,7 +1,7 @@
 import './reactions-avatars.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 

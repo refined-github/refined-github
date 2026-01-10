@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import {$} from 'select-dom/strict.js';
 
 import TagIcon from 'octicons-plain-react/Tag';

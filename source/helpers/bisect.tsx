@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 

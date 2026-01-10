@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -63,7 +63,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
 	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
 
-	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
+	if ($optional(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
 		return;
 	}
 

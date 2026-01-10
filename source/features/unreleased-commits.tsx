@@ -3,7 +3,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
@@ -120,7 +120,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7536
-	if (elementExists('.rgh-unreleased-commits-wrapper')) {
+	if ($optional('.rgh-unreleased-commits-wrapper')) {
 		return;
 	}
 

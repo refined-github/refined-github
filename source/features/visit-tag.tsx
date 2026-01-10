@@ -1,5 +1,5 @@
 import React from 'react';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
 import * as pageDetect from 'github-url-detection';
@@ -11,7 +11,7 @@ import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	if (elementExists([
+	if ($optional([
 		// If the branch picker is open, do nothing #7491
 		'#selectPanel',
 

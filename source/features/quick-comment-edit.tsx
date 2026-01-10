@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
@@ -13,7 +13,7 @@ import {userIsModerator} from '../github-helpers/get-user-permission.js';
 const isIssueIneditable = memoize(
 	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
 	// However, if you can edit every comment, you can still edit the comment
-	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> => $optional('.js-pick-reaction:first-child') && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
@@ -29,12 +29,12 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 
 	// TODO: Potentially move to :has selector
 	// The comment is definitely not editable
-	if (!elementExists('.js-comment-update', commentBody)) {
+	if (!$optional('.js-comment-update', commentBody)) {
 		return;
 	}
 
 	// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
-	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
+	if ($optional('.rgh-quick-comment-edit-button', commentBody)) {
 		return;
 	}
 

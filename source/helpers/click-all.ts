@@ -1,5 +1,5 @@
 import mem from 'memoize';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom/strict.js';
 import type {DelegateEvent} from 'delegate-it';
 
 import preserveScroll from './preserve-scroll.js';
@@ -17,7 +17,7 @@ export default mem((selector: string | ((clickedItem: HTMLElement) => string)): 
 });
 
 function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
-	for (const item of $$(elementsToClick)) {
+	for (const item of $$optional(elementsToClick)) {
 		if (item !== except) {
 			item.click();
 		}

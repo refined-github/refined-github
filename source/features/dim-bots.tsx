@@ -1,6 +1,6 @@
 import './dim-bots.css';
 
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 

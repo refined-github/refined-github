@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -31,7 +31,7 @@ const nativeRepos = new CachedFunction('native-update-button', {
 });
 
 function canNativelyUpdate(): boolean {
-	if (elementExists('.js-update-branch-form')) {
+	if ($optional('.js-update-branch-form')) {
 		return true;
 	}
 
@@ -166,7 +166,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => elementExists(deletedHeadRepository),
+		() => $optional(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

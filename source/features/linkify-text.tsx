@@ -1,6 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -10,7 +10,7 @@ import {logError} from '../helpers/errors.js';
 
 function linkifyIssue(paragraph: HTMLParagraphElement): void {
 	// Already linkified
-	if (elementExists('a', paragraph)) {
+	if ($optional('a', paragraph)) {
 		logError(new Error(`${paragraph.textContent} is already linkified`));
 	}
 

@@ -1,5 +1,5 @@
 import {CachedFunction} from 'webext-storage-cache';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import {hasToken} from '../options-storage.js';
 import {getRepo} from './index.js';
@@ -62,7 +62,7 @@ export async function userHasPushAccess(): Promise<boolean> {
 export async function userIsModerator(): Promise<boolean> {
 	// Faster DOM-based check, if the DOM is available.
 	// This cannot be cached in `viewerPermission` because it guarantees you have *at least* moderation access, but can't tell if you have *more* capabilities
-	const domCheck = elementExists([
+	const domCheck = $optional([
 		'.lock-toggle-link > .octicon-lock',
 		'[aria-label^="You have been invited to collaborate"]',
 		'[title^="You are a member"]',

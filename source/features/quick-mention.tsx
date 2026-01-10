@@ -2,7 +2,7 @@ import './quick-mention.css';
 
 import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
@@ -81,7 +81,7 @@ function add(avatar: HTMLElement): void {
 
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+			!$optional('.unminimized-comment, .js-comment-container', timelineItem)
 		) {
 			return;
 		}

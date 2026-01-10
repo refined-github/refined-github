@@ -1,7 +1,7 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
@@ -21,7 +21,7 @@ function addLock(element: HTMLElement): void {
 	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
 
 	// Avoid adding it duplicately in issue
-	if (isReactView && elementExists('.rgh-locked-issue', element)) {
+	if (isReactView && $optional('.rgh-locked-issue', element)) {
 		return;
 	}
 

@@ -1,7 +1,7 @@
 import './more-dropdown-links.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import GitBranchIcon from 'octicons-plain-react/GitBranch';
@@ -22,7 +22,7 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
 
 	// No dropdown on mobile #5781
-	if (!elementExists('.js-responsive-underlinenav')) {
+	if (!$optional('.js-responsive-underlinenav')) {
 		return false;
 	}
 

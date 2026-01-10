@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import {$} from 'select-dom/strict.js';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

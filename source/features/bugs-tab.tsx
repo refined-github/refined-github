@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -168,7 +168,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 async function init(): Promise<void | false> {
 	await expectToken();
 
-	if (!elementExists('.rgh-bugs-tab')) {
+	if (!$optional('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}
 

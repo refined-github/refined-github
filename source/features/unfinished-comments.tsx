@@ -1,4 +1,4 @@
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

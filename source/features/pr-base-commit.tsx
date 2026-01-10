@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -58,7 +58,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => elementExists(deletedHeadRepository),
+		() => $optional(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

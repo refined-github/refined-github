@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import {$, $optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
@@ -37,7 +37,7 @@ function improveShortcutHelpLegacy(dialog: Element): void {
 }
 
 const observer = new MutationObserver(([{target}]) => {
-	if (target instanceof Element && !elementExists('.js-details-dialog-spinner', target)) {
+	if (target instanceof Element && !$optional('.js-details-dialog-spinner', target)) {
 		improveShortcutHelpLegacy(target);
 		observer.disconnect();
 	}

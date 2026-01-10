@@ -3,7 +3,7 @@ import './highest-rated-comment.css';
 import mem from 'memoize';
 import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
+import {$$optional as $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';

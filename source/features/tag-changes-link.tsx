@@ -1,8 +1,7 @@
 import './tag-changes-link.css';
 
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional, $$optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';
@@ -115,7 +114,7 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && $optional('.release'))) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}
