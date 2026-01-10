@@ -925,6 +925,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253063446-6f556e7d-2ac5-439d-92f0-0c6d719fc86f.gif"
 	},
 	{
+		"id": "unclip-checks",
+		"description": "Automatically shows all checks without scrolling when expanding the checks panel.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f"
+	},
+	{
 		"id": "unfinished-comments",
 		"description": "Notifies the user of unfinished comments in hidden tabs.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif"
