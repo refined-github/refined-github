@@ -2,7 +2,7 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $optional, $$} from 'select-dom/strict.js';
+import {$, $optional, $$, $$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -40,7 +40,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of $$(positiveReactionsSelector)) {
+	for (const reaction of $$optional(positiveReactionsSelector)) {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
@@ -92,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$optional(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {
