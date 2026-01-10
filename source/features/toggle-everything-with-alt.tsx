@@ -21,6 +21,8 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = 'button[data-testid="commit-row-show-description-button"]';
 
+const addSuggestionToBatchSelector = ':is(.js-apply-changes button[data-variant="primary"], .js-batched-suggested-changes-add)';
+
 function markdownCommentSelector(clickedItem: HTMLElement): string {
 	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
 	return `#${id} .markdown-body details > summary`;
@@ -45,6 +47,9 @@ function init(signal: AbortSignal): void {
 
 	// <details> elements in issue/PR comment Markdown content
 	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
+
+	// "Add suggestion to batch" buttons in PR files
+	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
@@ -52,6 +57,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 		pageDetect.hasFiles,
 		pageDetect.isCommitList,
+		pageDetect.isPRFiles,
 	],
 	init,
 });
@@ -77,4 +83,5 @@ Commit messages:
 - PR description: https://github.com/OpenLightingProject/open-fixture-library/pull/2455
 - PR comment: https://github.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
 
+Add suggestion to batch: https://github.com/refined-github/sandbox/pull/121/changes
 */
