@@ -22,6 +22,9 @@ function replaceDiscussionLink(string: string): string {
 }
 
 test('preventPrCommitLinkLoss', () => {
+	// Reset location to a non-PR page for most tests
+	location.href = 'https://github.com/refined-github/refined-github';
+
 	assert.equal(replacePrCommitLink('https://www.google.com/'), 'https://www.google.com/');
 	assert.equal(
 		replacePrCommitLink('https://github.com/refined-github/refined-github/commit/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
@@ -65,6 +68,29 @@ test('preventPrCommitLinkLoss', () => {
 		replacePrCommitLink('https://github.com/refined-github/shorten-repo-url/pull/33/commits/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658'),
 		'[refined-github/shorten-repo-url@`3d8d1cc` (#33)](https://github.com/refined-github/shorten-repo-url/pull/33/commits/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658)',
 	);
+
+	// Test "this PR" behavior when on same PR
+	location.href = 'https://github.com/refined-github/refined-github/pull/3205';
+	assert.equal(
+		replacePrCommitLink('https://github.com/refined-github/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5'),
+		'[`1da152b` (this PR)](https://github.com/refined-github/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5)',
+		'It should use "this PR" when on the same PR',
+	);
+	assert.equal(
+		replacePrCommitLink('lorem ipsum dolor https://github.com/refined-github/refined-github/pull/3205/commits/b0ac07948f9d30a760bda25a7106011441abfd5d#r438059292 some random string'),
+		'lorem ipsum dolor [`b0ac079` (this PR)](https://github.com/refined-github/refined-github/pull/3205/commits/b0ac07948f9d30a760bda25a7106011441abfd5d#r438059292) some random string',
+		'It should use "this PR" when on the same PR with hash',
+	);
+
+	// When on PR 3205, a link to PR 44 should still show #44
+	assert.equal(
+		replacePrCommitLink('https://github.com/refined-github/refined-github/pull/44/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb'),
+		'[`cb44a4e` (#44)](https://github.com/refined-github/refined-github/pull/44/commits/cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
+		'It should still use PR number when link is to a different PR',
+	);
+
+	// Reset location for other tests
+	location.href = 'https://github.com/refined-github/refined-github';
 });
 
 test('preventPrCompareLinkLoss', () => {

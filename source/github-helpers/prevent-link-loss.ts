@@ -1,6 +1,6 @@
 import type {RepositoryInfo} from 'github-url-detection';
 
-import {getRepo} from './index.js';
+import {getRepo, getConversationNumber} from './index.js';
 
 function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithOwner: string, delimiter = ''): string {
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
@@ -22,7 +22,9 @@ export function preventPrCommitLinkLoss(url: string, repoNameWithOwner: string, 
 		return url;
 	}
 
-	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commit}\` (#${pr})](${url})`;
+	const currentPr = getConversationNumber();
+	const prReference = currentPr && Number(pr) === currentPr ? '(this PR)' : `(#${pr})`;
+	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commit}\` ${prReference}](${url})`;
 }
 
 // To be used as replacer callback in string.replace() for compare links
