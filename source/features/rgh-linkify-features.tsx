@@ -9,12 +9,16 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
-	const id = getNewFeatureName(possibleFeature.textContent);
+	const originalText = possibleFeature.textContent;
+	const id = getNewFeatureName(originalText);
 	if (!id) {
 		return;
 	}
 
 	const href = getFeatureUrl(id);
+	// If the original text is different from the resolved ID, it's an old name
+	const isOldName = originalText !== id;
+	const title = isOldName ? `Now called ${id}` : undefined;
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -23,6 +27,9 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// - <code> > <a>
 		possibleLink.href = href;
 		possibleLink.classList.add('color-fg-accent');
+		if (title) {
+			possibleLink.title = title;
+		}
 	} else if (!possibleFeature.closest('a')) {
 		// Possible DOM structure:
 		// - <code>
@@ -32,6 +39,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				className="color-fg-accent"
 				data-turbo-frame="repo-content-turbo-frame"
 				href={href}
+				title={title}
 			/>,
 		);
 	}
