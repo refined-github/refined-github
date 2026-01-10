@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {$, $optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import onetime from '../helpers/onetime.js';

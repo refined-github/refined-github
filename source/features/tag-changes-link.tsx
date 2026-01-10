@@ -89,7 +89,7 @@ async function init(): Promise<void> {
 	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
+	const allTags = $$optional(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -97,7 +97,7 @@ async function init(): Promise<void> {
 			continue;
 		}
 
-		const lastLinks = $$([
+		const lastLinks = $$optional([
 			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
 			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
 		], container.element);

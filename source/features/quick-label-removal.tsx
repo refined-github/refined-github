@@ -17,7 +17,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {
-	return $optional('.label-select-menu .octicon-gear');
+	return Boolean($optional('.label-select-menu .octicon-gear'));
 }
 
 function getLabelList(): HTMLElement {

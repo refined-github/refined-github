@@ -24,7 +24,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => $optional('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
+		() => Boolean($optional('.tabnav:not(.CommentBox-header)')), // The commit list and compare diff are in two separate tabs
 	],
 	awaitDomReady: true, // DOM-based exclusion filter
 	init,

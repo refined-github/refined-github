@@ -64,7 +64,7 @@ export function getResolvedText(): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-resolved-banner')) {
+	if ($optional('.rgh-resolved-banner')) {
 		return;
 	}
 
@@ -84,7 +84,7 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 }
 
 function addPopularBanner(newCommentField: HTMLElement): void {
-	if (elementExists('.rgh-popular-banner')) {
+	if ($optional('.rgh-popular-banner')) {
 		return;
 	}
 

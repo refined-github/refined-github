@@ -1,6 +1,7 @@
 import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
+import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -9,7 +10,7 @@ import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
-const canEditSidebar = (): boolean => $optional('.discussion-sidebar-item [data-hotkey="l"]');
+const canEditSidebar = (): boolean => Boolean($optional('.discussion-sidebar-item [data-hotkey="l"]'));
 
 function getNodesAfter(node: Node): Range {
 	const range = new Range();

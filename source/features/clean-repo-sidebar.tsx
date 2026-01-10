@@ -1,4 +1,5 @@
 import './clean-repo-sidebar.css';
+import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

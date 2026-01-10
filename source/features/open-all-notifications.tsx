@@ -1,7 +1,7 @@
 import './open-all-notifications.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$, $optional, $$optional as $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import delegate, {type DelegateEvent} from 'delegate-it';

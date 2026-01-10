@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {$optional} from 'select-dom/strict.js';
 import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';

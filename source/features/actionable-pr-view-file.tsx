@@ -26,9 +26,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedConversation,
-		() => $optional(deletedHeadRepository),
+		() => Boolean($optional(deletedHeadRepository)),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
-		() => $optional('.js-commits-filtered') && !$optional('[aria-label="You are viewing the latest commit"]'),
+		() => Boolean($optional('.js-commits-filtered') && !$optional('[aria-label="You are viewing the latest commit"]')),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened
 	init,

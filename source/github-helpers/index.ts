@@ -1,3 +1,4 @@
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
@@ -123,7 +124,7 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePR = (): boolean => $optional('.discussion-sidebar-item .octicon-lock');
+export const userCanLikelyMergePR = (): boolean => Boolean($optional('.discussion-sidebar-item .octicon-lock'));
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 

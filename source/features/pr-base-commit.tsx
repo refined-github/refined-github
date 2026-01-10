@@ -58,7 +58,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => $optional(deletedHeadRepository),
+		() => Boolean($optional(deletedHeadRepository)),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,

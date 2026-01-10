@@ -20,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		() => $optional(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]']),
+		() => Boolean($optional(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]'])),
 		pageDetect.isEmptyRepo,
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,

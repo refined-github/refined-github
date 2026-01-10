@@ -56,7 +56,7 @@ void features.add(import.meta.url, {
 		pageDetect.isGist,
 	],
 	exclude: [
-		() => $optional('[data-show-dialog-id="drafts-upgrade-dialog"]'),
+		() => Boolean($optional('[data-show-dialog-id="drafts-upgrade-dialog"]')),
 	],
 	deduplicate: 'has-rgh',
 	awaitDomReady: true,
