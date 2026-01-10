@@ -1,6 +1,5 @@
-import {$$optional} from 'select-dom/strict.js';
-import {$} from 'select-dom/strict.js';
 
+import {$$optional} from 'select-dom/strict.js';
 function enableToggleAll(this: HTMLButtonElement): void {
 	const section = $('details#toggle-all');
 	section.hidden = false;

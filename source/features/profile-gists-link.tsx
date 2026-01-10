@@ -1,7 +1,5 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
@@ -14,6 +12,7 @@ import GetGistCount from './profile-gists-link.gql';
 import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
+import {$} from 'select-dom/strict.js';
 const gistCount = new CachedFunction('gist-count', {
 	async updater(username: string): Promise<number> {
 		const {user} = await api.v4(GetGistCount, {

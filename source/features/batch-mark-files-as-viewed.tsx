@@ -1,5 +1,4 @@
-import {$$optional as $$} from 'select-dom/strict.js';
-import {$} from 'select-dom/strict.js';
+import {$$optional as $$, $} from 'select-dom/strict.js';
 import {onAbort} from 'abort-utils';
 import * as pageDetect from 'github-url-detection';
 import debounceFn from 'debounce-fn';

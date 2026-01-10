@@ -1,5 +1,3 @@
-import {$$optional as $$} from 'select-dom/strict.js';
-import {$} from 'select-dom/strict.js';
 
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
@@ -7,6 +5,7 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
+import {$$optional as $$} from 'select-dom/strict.js';
 const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
 type Status = {

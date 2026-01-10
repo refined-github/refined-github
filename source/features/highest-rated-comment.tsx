@@ -2,8 +2,6 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$optional as $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -13,6 +11,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
+import {$, $optional} from 'select-dom/strict.js';
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
 

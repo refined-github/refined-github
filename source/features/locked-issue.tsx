@@ -1,13 +1,12 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
-import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 
+import {$optional} from 'select-dom/strict.js';
 function LockedIndicator(): JSX.Element {
 	return (
 		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">

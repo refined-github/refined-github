@@ -1,8 +1,6 @@
 import './quick-mention.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
 import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField} from 'text-field-edit';
@@ -13,6 +11,7 @@ import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
+import {$} from 'select-dom/strict.js';
 const fieldSelector = [
 	'textarea#new_comment_field',
 	'#react-issue-comment-composer textarea',

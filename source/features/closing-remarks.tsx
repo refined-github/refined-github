@@ -1,7 +1,5 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$$optional as $$} from 'select-dom/strict.js';
-import {$} from 'select-dom/strict.js';
 
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
@@ -17,6 +15,7 @@ import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
+import {$$optional as $$} from 'select-dom/strict.js';
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);

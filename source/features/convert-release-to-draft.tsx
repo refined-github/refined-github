@@ -1,6 +1,4 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
 
@@ -11,6 +9,7 @@ import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
+import {$} from 'select-dom/strict.js';
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
 async function convertToDraft(): Promise<void> {

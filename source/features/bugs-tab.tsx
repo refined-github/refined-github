@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

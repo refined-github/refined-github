@@ -1,13 +1,12 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import {$$optional as $$} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
 import {getFeatureUrl} from './rgh-links.js';
 import {importedFeatures} from '../feature-data.js';
 
+import {$$optional as $$} from 'select-dom/strict.js';
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
 function enableButtons(): void {
