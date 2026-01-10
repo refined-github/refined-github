@@ -1,6 +1,4 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import BookIcon from 'octicons-plain-react/Book';
 import CheckIcon from 'octicons-plain-react/Check';

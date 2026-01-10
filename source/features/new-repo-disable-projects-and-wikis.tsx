@@ -1,9 +1,7 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
 
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';

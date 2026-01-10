@@ -1,5 +1,3 @@
-import {$optional} from 'select-dom/strict.js';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
 

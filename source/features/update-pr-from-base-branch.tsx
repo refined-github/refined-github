@@ -1,6 +1,4 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import CheckIcon from 'octicons-plain-react/Check';

@@ -1,5 +1,3 @@
-import {$optional, $} from 'select-dom/strict.js';
-import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
