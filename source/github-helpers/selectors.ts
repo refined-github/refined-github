@@ -203,8 +203,8 @@ export const botLinksPrSelectors_ = [
 ];
 
 export const botLinksNotificationSelectors = [
-	// Notification list items with bot avatars
-	`.notification-list-item-link a:is(${botAttributes})`,
+	// Only select if the bot is the primary author (last in DOM, first in avatar list)
+	`.AvatarStack-body a.avatar:last-child:is(${botAttributes})`,
 ];
 export const botLinksNotificationSelectors_ = [
 	[0, 'https://github.com/notifications'],
