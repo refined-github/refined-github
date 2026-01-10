@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -26,9 +26,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedConversation,
-		() => Boolean($optional(deletedHeadRepository)),
+		() => elementExists(deletedHeadRepository),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
-		() => Boolean($optional('.js-commits-filtered') && !$optional('[aria-label="You are viewing the latest commit"]')),
+		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened
 	init,

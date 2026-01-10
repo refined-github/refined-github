@@ -2,6 +2,8 @@ import './deep-reblame.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
+import {$$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -16,7 +18,6 @@ import GetPullRequestBlameCommit from './deep-reblame.gql';
 import {multilineAriaLabel} from '../github-helpers/index.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-import {$$optional as $$} from 'select-dom/strict.js';
 const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 	const {repository} = await api.v4(GetPullRequestBlameCommit, {
 		variables: {
