@@ -2,7 +2,7 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $optional, $$, $$optional} from 'select-dom/strict.js';
+import {$, $optional, $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -92,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	return $$optional(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {
