@@ -1,5 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
@@ -15,7 +17,6 @@ import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
-import {$$optional} from 'select-dom/strict.js';
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
@@ -30,7 +31,7 @@ function ExplanationLink(): JSX.Element {
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
-		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
+		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},

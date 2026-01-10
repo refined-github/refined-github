@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-import {$$optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom/strict.js';
 const formSelector = [
 	'form[action$="/minimize-comment"]',
 	'form[action$="/minimize"]', // Review thread comments
@@ -32,7 +32,7 @@ function generateSubmenu(hideButton: Element): void {
 	// Imitate existing menu, reset classes
 	newForm.className = ['js-comment-minimize', 'dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
 
-	for (const reason of $$optional('option:not([value=""])', hideCommentForm.elements.classifier)) {
+	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
 			<button
 				type="submit"

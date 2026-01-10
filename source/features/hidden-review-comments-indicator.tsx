@@ -2,7 +2,7 @@ import './hidden-review-comments-indicator.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$$optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom/strict.js';
 import CommentIcon from 'octicons-plain-react/Comment';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -26,7 +26,7 @@ function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
-	const commentCount = $$optional('.review-comment.js-comment', commentThread).length;
+	const commentCount = $$('.review-comment.js-comment', commentThread).length;
 	commentThread.before(
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
@@ -46,7 +46,7 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
 		const isHidden = !file.classList.contains('show-inline-notes');
 		if (wasVisible && isHidden) {
-			for (const thread of $$optional('tr.inline-comments', file)) {
+			for (const thread of $$('tr.inline-comments', file)) {
 				addIndicator(thread);
 			}
 		}

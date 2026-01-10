@@ -1,3 +1,5 @@
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
@@ -5,7 +7,6 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
-import {$$optional} from 'select-dom/strict.js';
 const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
 type Status = {
@@ -23,7 +24,7 @@ function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 		delete tokenStatus.dataset.validation;
 	}
 
-	for (const scope of $$optional('[data-scope]')) {
+	for (const scope of $$('[data-scope]')) {
 		scope.dataset.validation = scopes.includes(scope.dataset.scope!)
 			? 'valid'
 			: scopes.includes('unknown')

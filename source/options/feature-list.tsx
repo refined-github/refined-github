@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$, $$optional} from 'select-dom/strict.js';
+import {$, $$} from 'select-dom/strict.js';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
@@ -9,7 +9,7 @@ import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
-	const features = $$optional('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
+	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
@@ -66,7 +66,7 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 
 	event.preventDefault();
 	if (event.altKey) {
-		for (const toggle of $$optional('input.screenshot-toggle')) {
+		for (const toggle of $$('input.screenshot-toggle')) {
 			toggle.checked = !toggle.checked;
 		}
 	} else {
@@ -85,7 +85,7 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 		.replaceAll(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
-	for (const feature of $$optional('.feature')) {
+	for (const feature of $$('.feature')) {
 		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
 	}
 }
@@ -93,14 +93,14 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 const offCount = new Text();
 
 function updateOffCount(): void {
-	const count = $$optional('.feature-checkbox:not(:checked)').length;
+	const count = $$('.feature-checkbox:not(:checked)').length;
 	switch (count) {
 		case 0: {
 			offCount.nodeValue = '';
 			break;
 		}
 
-		case $$optional('.feature-checkbox').length: {
+		case $$('.feature-checkbox').length: {
 			offCount.nodeValue = '(JS off… are you breaking up with me?)';
 			break;
 		}

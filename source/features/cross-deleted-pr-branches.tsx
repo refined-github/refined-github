@@ -1,7 +1,7 @@
 import './cross-deleted-pr-branches.css';
 
 import React from 'dom-chef';
-import {$, $optional, $$optional, lastElementOptional} from 'select-dom/strict.js';
+import {$, $optional, $$, lastElementOptional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -21,7 +21,7 @@ function init(): void | false {
 
 	const deletedBranchName = lastBranchAction.textContent.trim();
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
-	for (const element of $$optional('.commit-ref')) {
+	for (const element of $$('.commit-ref')) {
 		const branchName = element.textContent.trim().split(':').pop()!;
 		if (branchName === deletedBranchName) {
 			element.title = 'This branch has been deleted';

@@ -2,7 +2,7 @@ import './highest-rated-comment.css';
 
 import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$, $optional, $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
@@ -40,7 +40,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of $$optional(positiveReactionsSelector)) {
+	for (const reaction of $$(positiveReactionsSelector)) {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
@@ -65,7 +65,7 @@ function highlightBestComment(bestComment: Element): void {
 
 function linkBestComment(bestComment: HTMLElement): void {
 	// Find position of comment in thread
-	const position = $$optional(commentSelector).indexOf(bestComment);
+	const position = $$(commentSelector).indexOf(bestComment);
 
 	// Only link to it if it doesn't already appear at the top of the conversation
 	if (position < 3) {
@@ -92,7 +92,7 @@ function linkBestComment(bestComment: HTMLElement): void {
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	return $$optional(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {

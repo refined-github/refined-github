@@ -1,6 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {$, $optional, $$optional} from 'select-dom/strict.js';
+import {$, $optional, $$} from 'select-dom/strict.js';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -143,7 +143,7 @@ function addEventListeners(): void {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
 
-		for (const element of $$optional('storage-usage[item]')) {
+		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
 		}
 

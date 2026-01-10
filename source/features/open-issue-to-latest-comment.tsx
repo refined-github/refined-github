@@ -1,11 +1,11 @@
-import {$$optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {openIssueToLastComment} from '../github-helpers/selectors.js';
 
 function init(): void {
-	for (const link of $$optional(openIssueToLastComment)) {
+	for (const link of $$(openIssueToLastComment)) {
 		link.hash = '#issue-comment-box';
 	}
 }
