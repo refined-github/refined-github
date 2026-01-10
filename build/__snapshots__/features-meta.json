@@ -930,6 +930,7 @@
 		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f"
 	},
+	{
 		"id": "underline-pr-self-reference",
 		"description": "Underlines PR links that are self reference.",
 		"screenshot": "https://github.com/user-attachments/assets/7a0ee4b1-6eba-4c83-8a89-b7722c13a537"
