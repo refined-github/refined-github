@@ -1,7 +1,7 @@
 import './reactions-avatars.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom/strict.js';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 
@@ -74,7 +74,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 });
 
 function showAvatarsOn(commentReactions: Element): void {
-	const reactions = $$([
+	const reactions = $$optional([
 		'button[aria-pressed]', // Discussions, releases, PRs, old issues
 		'button[aria-checked]', // React issues
 	], commentReactions)

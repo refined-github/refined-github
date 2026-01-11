@@ -1,8 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
-import {$$, countElements} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
@@ -94,14 +93,14 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 const offCount = new Text();
 
 function updateOffCount(): void {
-	const count = countElements('.feature-checkbox:not(:checked)');
+	const count = $$('.feature-checkbox:not(:checked)').length;
 	switch (count) {
 		case 0: {
 			offCount.nodeValue = '';
 			break;
 		}
 
-		case countElements('.feature-checkbox'): {
+		case $$('.feature-checkbox').length: {
 			offCount.nodeValue = '(JS off… are you breaking up with me?)';
 			break;
 		}

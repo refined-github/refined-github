@@ -1,7 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
+import {$, $optional, $$} from 'select-dom/strict.js';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
