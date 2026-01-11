@@ -1,6 +1,6 @@
 import './dim-bots.css';
 
-import {$$optional} from 'select-dom/strict.js';
+import {$$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
@@ -22,7 +22,7 @@ function undimBots(event: DelegateEvent): void {
 	}
 
 	const resetScroll = preserveScroll(target);
-	for (const bot of $$optional(dimBots.selector)) {
+	for (const bot of $$(dimBots.selector)) {
 		bot.classList.add('rgh-interacted');
 	}
 
