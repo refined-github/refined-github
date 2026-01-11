@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$$optional} from 'select-dom/strict.js';
+import {countElements} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -52,7 +52,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		// Don't clear 1-commit PRs #3140
-		() => $$optional('.TimelineItem.js-commit').length === 1,
+		() => countElements('.TimelineItem.js-commit') === 1,
 	],
 	awaitDomReady: true, // Appears near the end of the page anyway
 	init,
