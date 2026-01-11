@@ -1,4 +1,4 @@
-import {$$} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
