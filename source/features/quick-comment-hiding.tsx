@@ -1,11 +1,10 @@
 import React from 'dom-chef';
-
+import {$, $$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-import {$$} from 'select-dom/strict.js';
 const formSelector = [
 	'form[action$="/minimize-comment"]',
 	'form[action$="/minimize"]', // Review thread comments
