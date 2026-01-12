@@ -23,7 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
-	const username = link.textContent.slice(1);
+	const username = link.href.split('/').pop()!;
 	const avatarUrl = getUserAvatarURL(username, 16)!;
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
