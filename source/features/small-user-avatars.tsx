@@ -40,7 +40,7 @@ function initOnce(): void {
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
 	], addAvatar);
-	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
+	observe('.user-mention:not(.commit-author)', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {
