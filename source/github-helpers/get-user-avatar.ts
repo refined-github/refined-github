@@ -14,7 +14,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 		return existingAvatar.src;
 	}
 
-	if (cleanName === 'Copilot') {
+	if (cleanName === 'copilot-coding-agent-docs' || cleanName === 'Copilot') {
 		cleanName = 'in/1143301';
 	}
 
