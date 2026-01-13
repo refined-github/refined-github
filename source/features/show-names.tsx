@@ -36,6 +36,12 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		nameElement.classList.add('ml-1');
 	}
 
+	// If it's a comment like "User added some commits" we need to add some margin
+	const {parentElement} = element;
+	if (parentElement && parentElement.tagName !== 'STRONG') {
+		nameElement.classList.add('ml-1');
+	}	
+
 	return nameElement;
 }
 
