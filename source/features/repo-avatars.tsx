@@ -30,7 +30,10 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', add, {signal});
+	observe([
+		'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after May 2026
+		'header.GlobalNav [data-testid="top-nav-center"] ol > li:first-child span',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
