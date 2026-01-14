@@ -12,7 +12,6 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
@@ -104,25 +103,10 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		return {original: originalFileName, new: newFileName};
 	}
 
-	// New React view: get filenames from the View File link and React props
-	const fileAnchor = menuItem
-		.closest('ul')!
-		.querySelector<HTMLAnchorElement>('li:has(svg.octicon-eye) a')!;
-
-	const fileUrl = new GitHubFileURL(fileAnchor.href);
-	const newFileName = fileUrl.filePath;
-
-	// Check if the file was renamed by looking at the React props
-	const reactPropsElement = $('[data-target="react-app.embeddedData"]');
-	const reactProps = JSON.parse(reactPropsElement.textContent);
-
-	const diffContents = reactProps.payload.diffContents.find(
-		(dc: {path: string}) => dc.path === newFileName,
-	);
-
-	const originalFileName = diffContents?.status === 'RENAMED'
-		? diffContents.oldTreeEntry.path
-		: newFileName;
+	// New React view: get filenames from the file header
+	const [originalFileName, newFileName = originalFileName] = $('.Link--primary span:not(.sr-only)', focusedFileContainer)
+		.textContent
+		.split('  ');
 
 	return {original: originalFileName, new: newFileName};
 }
