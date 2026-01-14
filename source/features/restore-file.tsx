@@ -3,7 +3,7 @@ import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
-import GitCompareIcon from 'octicons-plain-react/GitCompare';
+import UndoIcon from 'octicons-plain-react/Undo';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -190,7 +190,7 @@ function handleMenuOpening({delegateTarget}: DelegateEvent<MouseEvent, HTMLEleme
 		discardItem.classList.add('rgh-restore-file');
 		$('a', discardItem).removeAttribute('href');
 		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
-		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<GitCompareIcon />);
+		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
 
 		editFile.after(discardItem);
 	});
