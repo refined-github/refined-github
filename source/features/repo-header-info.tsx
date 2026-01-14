@@ -7,6 +7,8 @@ import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {$} from 'select-dom/strict.js';
+
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -33,7 +35,9 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 	cacheKey: cacheByRepo,
 });
 
-async function add(repoLink: HTMLAnchorElement): Promise<void> {
+async function add(ownerWithNameLabel: HTMLElement): Promise<void> {
+	const repoLink = $('a', ownerWithNameLabel);
+
 	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
@@ -56,6 +60,8 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			tooltip += ', including you';
 		}
 
+		ownerWithNameLabel.classList.add('d-flex');
+
 		repoLink.after(
 			<a
 				href={buildRepoURL('stargazers')}
@@ -77,7 +83,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', add, {signal});
+	observe('header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child', add, {signal});
 }
 
 void features.add(import.meta.url, {
