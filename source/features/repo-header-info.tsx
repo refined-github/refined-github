@@ -83,7 +83,10 @@ async function add(ownerWithNameLabel: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child', add, {signal});
+	observe([
+		'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+		'header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
