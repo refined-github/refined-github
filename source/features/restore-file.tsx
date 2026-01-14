@@ -180,12 +180,6 @@ function handleMenuOpening({delegateTarget}: DelegateEvent<MouseEvent, HTMLEleme
 	// Wait for the menu to be rendered
 	requestAnimationFrame(() => {
 		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
-
-		// Skip if already added
-		if (editFile.nextElementSibling?.classList.contains('rgh-restore-file')) {
-			return;
-		}
-
 		const discardItem = editFile.cloneNode(true);
 		discardItem.classList.add('rgh-restore-file');
 		$('a', discardItem).removeAttribute('href');
