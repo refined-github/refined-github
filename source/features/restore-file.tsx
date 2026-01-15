@@ -157,8 +157,7 @@ function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 // New React view handler: track the file container and add menu item
 function handleMenuOpening({delegateTarget}: DelegateEvent<MouseEvent, HTMLElement>): void {
 	// Track the file container for later removal
-	focusedFileContainer = delegateTarget.closest('[class*="DiffFileHeader-module__diff-file-header"]')!
-		.parentElement!;
+	focusedFileContainer = delegateTarget.closest('div[id^="diff-"]')!;
 
 	// Wait for the menu to be rendered
 	requestAnimationFrame(() => {
