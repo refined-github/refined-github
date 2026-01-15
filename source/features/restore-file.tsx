@@ -92,7 +92,6 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
-	// TODO: Drop in June 2026
 	if (menuItem.tagName === 'BUTTON') {
 		const [originalFileName, newFileName = originalFileName] = menuItem
 			.closest('[data-path]')!
@@ -130,7 +129,6 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	});
 
 	// Hide file from view
-	// TODO: Drop legacy handling in June 2026
 	if (menuItem.tagName === 'BUTTON') {
 		menuItem.closest('.file')!.remove();
 		return;
@@ -142,7 +140,6 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 }
 
 // Legacy view handler
-// TODO: Drop in June 2026
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
 		<button
@@ -178,7 +175,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	// Legacy view
-	// TODO: Drop in June 2026
 	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
 
 	// New React view
