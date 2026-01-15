@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
@@ -103,9 +103,11 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	}
 
 	// New React view: get filenames from the file header
-	const [originalFileName, newFileName = originalFileName] = $('.Link--primary span:not(.sr-only)', focusedFileContainer)
-		.textContent
-		.split('  ');
+	const fileNameElement = $('[class^="DiffFileHeader-module__file-name"]', focusedFileContainer);
+	const span = $optional('span:not(.sr-only)', fileNameElement);
+	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement)
+		// eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
+		.textContent.split('  ').map(text => text.replaceAll(/\u200E/g, ''));
 
 	return {original: originalFileName, new: newFileName};
 }
