@@ -244,7 +244,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 		// Workaround for #6554
 		// TODO: remove once the issue is resolved
-		pageDetect.isIssueOrPRList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	awaitDomReady: true, // The sidebar is at the end of the page
 	init,
