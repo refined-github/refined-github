@@ -8,7 +8,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 		throw new TypeError(`Expected a username, got ${cleanName}`);
 	}
 
-	// Find image on page. Saves a request and a redirect
+	// Find image on page. Saves a request and a redirect + add support for bot
 	const existingAvatar = $optional(`[href="/${cleanName}" i] img`);
 	if (existingAvatar) {
 		return existingAvatar.src;
