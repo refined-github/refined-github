@@ -23,6 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
+	// Don't use textContent #8389
 	const username = link.href.split('/').pop()!;
 	const avatarUrl = getUserAvatarURL(username, 16)!;
 
