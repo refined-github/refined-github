@@ -268,7 +268,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 		// Workaround for #6554
 		// TODO: remove once the issue is resolved
-		pageDetect.isIssueOrPRList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
