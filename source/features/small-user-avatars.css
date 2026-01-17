@@ -1,17 +1,15 @@
 .rgh-small-user-avatars {
-	width: 1em;
-	height: 1em;
+	display: inline-flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	width: 1em !important;
+	height: 1em !important;
 	min-height: 14px;
 	min-width: 14px;
-	text-align: center;
 
 	img {
 		width: 100%;
 		height: 100%;
-	}
-
-	.octicon {
-		vertical-align: baseline
 	}
 }
 
