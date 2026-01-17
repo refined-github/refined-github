@@ -10,7 +10,7 @@ import {onAbort} from 'abort-utils';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {getLoggedInUser} from '../github-helpers/index.js';
-import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import {getUserAvatar, type SVGAvatar} from '../github-helpers/get-user-avatar.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -19,7 +19,7 @@ const avatarSize = 16;
 type Participant = {
 	button: HTMLButtonElement;
 	username: string;
-	imageUrl: string;
+	avatar: string | SVGAvatar;
 };
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
@@ -52,9 +52,9 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			continue;
 		}
 
-		const imageUrl = getUserAvatar(username, avatarSize);
-		if (imageUrl) {
-			participants.push({button, username, imageUrl});
+		const avatar = getUserAvatar(username, avatarSize);
+		if (avatar) {
+			participants.push({button, username, avatar});
 		}
 	}
 
@@ -82,10 +82,14 @@ function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
-	for (const {button, username, imageUrl} of flatParticipants) {
+	for (const {button, username, avatar} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} loading="lazy" />
+				{typeof avatar === 'string'
+					? <img src={avatar} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} loading="lazy" />
+					// @ts-expect-error -- createElement should infer the props, but it doesn't
+					: React.createElement(avatar, {width: 12, height: 12, alt: `@${username}`})
+				}
 			</span>,
 		);
 	}

@@ -1,16 +1,18 @@
-.rgh-mention-avatar::before {
-	content: '';
-	display: inline-block;
-	width: 1em !important;
+.rgh-small-user-avatars {
+	width: 1em;
 	height: 1em;
-	min-width: 16px;
-	min-height: 16px;
-	margin-right: 0.2em;
-	border-radius: 50%;
-	background-image: var(--avatar-url);
-	background-size: cover;
-	background-position: center;
-	vertical-align: middle;
+	min-height: 14px;
+	min-width: 14px;
+	text-align: center;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.octicon {
+		vertical-align: baseline
+	}
 }
 
 .user-mention {

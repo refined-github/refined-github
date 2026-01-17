@@ -3,13 +3,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {getRepo} from '../github-helpers/index.js';
-import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import {getUserAvatar} from '../github-helpers/get-user-avatar.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	const username = getRepo()!.owner;
 	const size = 16;
-	const source = getUserAvatar(username, size)!;
+	const source = getUserAvatar(username, size) as string;
 
 	const avatar = (
 		<img

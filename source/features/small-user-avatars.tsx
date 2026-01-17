@@ -3,45 +3,41 @@ import React from 'dom-chef';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import {getUserAvatar} from '../github-helpers/get-user-avatar.js';
 import './small-user-avatars.css';
 
-function addAvatar(link: HTMLElement): void {
-	const username = link.textContent;
-	const size = 14;
+function addAvatar(link: HTMLAnchorElement): void {
+	const username = link.classList.contains('user-mention')
+		? link.href.split('/').pop()! // #8389
+		: link.textContent;
+	const avatar = getUserAvatar(username, 14);
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		<img
+		<span
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>,
+			aria-hidden="true" // https://github.com/refined-github/refined-github/issues/8218#issuecomment-3762891075
+		>
+			{typeof avatar === 'string'
+				? <img src={avatar} loading="lazy" />
+				// @ts-expect-error -- createElement should infer the props, but it doesn't
+				: React.createElement(avatar, {width: '75%', height: '75%'})
+			}
+		</span>,
 	);
-}
-
-function addMentionAvatar(link: HTMLAnchorElement): void {
-	// Don't use textContent #8389
-	const username = link.href.split('/').pop()!;
-	const avatarUrl = getUserAvatarURL(username, 16)!;
-
-	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
-	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
 }
 
 function initOnce(): void {
 	// Excludes bots
 	observe([
-		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
-		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+		'.js-issue-row a[data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
+		'.notification-thread-subscription a[data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
 		`:is(
 			[data-testid="created-at"],
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
+		'a.user-mention:not(.commit-author)',
 	], addAvatar);
-	observe('.user-mention:not(.commit-author)', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {

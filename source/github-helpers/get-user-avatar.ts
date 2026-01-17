@@ -1,8 +1,12 @@
 import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import CopilotIcon from 'octicons-plain-react/Copilot';
 
-export default function getUserAvatar(username: string, size: number): string | void {
-	let cleanName = username.replace('[bot]', '');
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export type SVGAvatar = (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
+
+export function getUserAvatar(username: string, size: number): string | SVGAvatar | void {
+	const cleanName = username.replace('[bot]', '');
 
 	if (/[^\w-]/.test(cleanName)) {
 		throw new TypeError(`Expected a username, got ${cleanName}`);
@@ -19,7 +23,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 		|| cleanName === 'copilot-coding-agent-docs'
 		|| cleanName === 'copilot-swe-agent'
 	) {
-		cleanName = 'in/1143301';
+		return CopilotIcon;
 	}
 
 	const url = pageDetect.isEnterprise()
