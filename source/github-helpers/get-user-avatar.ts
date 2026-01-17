@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import CopilotIcon from 'octicons-plain-react/Copilot';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export type SVGAvatar = (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
+export type SVGAvatar = typeof CopilotIcon;
 
 export function getUserAvatar(username: string, size: number): string | SVGAvatar | void {
 	const cleanName = username.replace('[bot]', '');
