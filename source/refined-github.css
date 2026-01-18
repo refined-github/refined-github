@@ -204,7 +204,6 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	position: fixed !important;
 	top: anchor(top);
 	left: anchor(left);
-	padding-left: 0 !important;
 	z-index: 2;
 	opacity: 0;
 }

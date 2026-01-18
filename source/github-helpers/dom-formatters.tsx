@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
@@ -86,21 +87,22 @@ export function linkifyURLs(element: HTMLElement): void {
 		return;
 	}
 
+	zipTextNodes(element, linkified);
+
 	// Support React-based views
 	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
 	if (menuPositioner) {
-		const clonedCodeLine = element.cloneNode(true);
-		zipTextNodes(clonedCodeLine, linkified);
-		clonedCodeLine.classList.add('rgh-invisible-anchored-link');
+		const link = $('a', element);
+		const clonedLink = link.cloneNode();
+		clonedLink.append(clonedLink.href);
+		clonedLink.classList.add('rgh-invisible-anchored-link');
 		// @ts-expect-error -- TODO: fix
-		element.style.anchorName = `--code-line-${element.id}`;
+		link.style.anchorName = `--code-line-${element.id}`;
 		// @ts-expect-error -- TODO: fix
-		clonedCodeLine.style.positionAnchor = `--code-line-${element.id}`;
+		clonedLink.style.positionAnchor = `--code-line-${element.id}`;
 		// Place the link before textarea
-		menuPositioner.prepend(clonedCodeLine);
+		menuPositioner.prepend(clonedLink);
 	}
-
-	zipTextNodes(element, linkified);
 }
 
 export function parseBackticks(element: Element): void {
