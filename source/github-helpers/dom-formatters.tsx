@@ -91,7 +91,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	if (menuPositioner) {
 		const clonedCodeLine = element.cloneNode(true);
 		zipTextNodes(clonedCodeLine, linkified);
-		clonedCodeLine.classList.add('rgh-invisible-link');
+		clonedCodeLine.classList.add('rgh-invisible-anchored-link');
 		// @ts-expect-error -- TODO: fix
 		element.style.anchorName = `--code-line-${element.id}`;
 		// @ts-expect-error -- TODO: fix

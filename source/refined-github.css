@@ -200,10 +200,11 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	}
 }
 
-.rgh-invisible-link {
+.rgh-invisible-anchored-link {
 	position: fixed !important;
 	top: anchor(top);
 	left: anchor(left);
+	padding-left: 0 !important;
 	z-index: 2;
 	opacity: 0;
 }
