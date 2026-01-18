@@ -11,7 +11,7 @@ import {
 	linkifyIssues,
 } from '../github-helpers/dom-formatters.js';
 
-function linkifyContent(wrapper: Element): void {
+function linkifyContent(wrapper: HTMLElement): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
 	wrapper.classList.add(linkifiedURLClass);
 
