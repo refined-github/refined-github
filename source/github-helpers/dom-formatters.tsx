@@ -18,6 +18,8 @@ export const codeElementsSelector = [
 	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
 	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 	'.comment-body code:not(a code, pre code)', // Inline code in comments
+	'.diff-text-inner',
+	'.react-code-text.react-code-line-contents-no-virtualization',
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -63,7 +65,7 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
-export function linkifyURLs(element: Element): void {
+export function linkifyURLs(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
@@ -82,6 +84,20 @@ export function linkifyURLs(element: Element): void {
 
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
+	}
+
+	// Support React-based views
+	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
+	if (menuPositioner) {
+		const clonedCodeLine = element.cloneNode(true);
+		zipTextNodes(clonedCodeLine, linkified);
+		clonedCodeLine.classList.add('rgh-invisible-link');
+		// @ts-expect-error -- TODO: fix
+		element.style.anchorName = `--code-line-${element.id}`;
+		// @ts-expect-error -- TODO: fix
+		clonedCodeLine.style.positionAnchor = `--code-line-${element.id}`;
+		// Place the link before textarea
+		menuPositioner.prepend(clonedCodeLine);
 	}
 
 	zipTextNodes(element, linkified);
