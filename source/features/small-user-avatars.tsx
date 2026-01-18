@@ -23,6 +23,7 @@ function addAvatar(link: HTMLElement): void {
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
+	// Don't use textContent #8389
 	const username = link.href.split('/').pop()!;
 	const avatarUrl = getUserAvatarURL(username, 16)!;
 
@@ -40,7 +41,7 @@ function initOnce(): void {
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
 	], addAvatar);
-	observe('.user-mention:not(.commit-author)[data-hovercard-type="user"]', addMentionAvatar);
+	observe('.user-mention:not(.commit-author)', addMentionAvatar);
 }
 
 void features.add(import.meta.url, {
