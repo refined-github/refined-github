@@ -7,8 +7,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 import './release-download-count.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $$, $optional} from 'select-dom/strict.js';
 import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';

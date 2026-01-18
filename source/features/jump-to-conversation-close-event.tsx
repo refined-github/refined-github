@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {lastElement} from 'select-dom';
+import {lastElementOptional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -12,7 +12,7 @@ export const statusBadge = [
 ] as const;
 
 export function getLastCloseEvent(): HTMLElement | undefined {
-	return lastElement([
+	return lastElementOptional([
 		// TODO: Move to selectors.ts
 		// Old view: Drop in April 2025
 		`.TimelineItem-badge :is(

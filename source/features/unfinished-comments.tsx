@@ -1,4 +1,4 @@
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -16,7 +16,7 @@ function isFieldDirty(field: HTMLTextAreaElement): boolean {
 
 function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return $$('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
+	return $$optional('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
 }
 
 function disableOnSubmit(): void {
