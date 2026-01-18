@@ -311,11 +311,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "hide-issue-list-autocomplete",
-		"description": "Removes the autocomplete on search fields.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/42991841-1f057e4e-8c07-11e8-909c-b051db7a2a03.png"
-	},
-	{
 		"id": "hide-low-quality-comments",
 		"description": "Hides reaction comments (\"+1\", \"👍\", …) (except the maintainers’) but they can still be shown.",
 		"css": true,
