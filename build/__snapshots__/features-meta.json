@@ -670,11 +670,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/162252055-54750c89-0ddc-487a-b4ad-cec6009d9870.png"
 	},
 	{
-		"id": "quick-comment-hiding",
-		"description": "Simplifies the UI to hide comments.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
-	},
-	{
 		"id": "quick-file-edit",
 		"description": "Adds a button to edit files from the repo file list.",
 		"css": true,

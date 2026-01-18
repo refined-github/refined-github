@@ -42,7 +42,6 @@ import './features/one-key-formatting.js';
 import './features/tab-to-indent.js';
 import './features/hide-navigation-hover-highlight.js';
 import './features/selection-in-new-tab.js';
-import './features/quick-comment-hiding.js';
 import './features/quick-comment-edit.js';
 import './features/open-all-notifications.js';
 import './features/copy-on-y.js';

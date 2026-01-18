@@ -10,7 +10,6 @@
 	"edit-files-faster": "quick-file-edit",
 	"edit-comments-faster": "quick-comment-edit",
 	"delete-review-comments-faster": "quick-review-comment-deletion",
-	"hide-comments-faster": "quick-comment-hiding",
 	"faster-reviews": "quick-review",
 	"faster-pr-diff-options": "one-click-diff-options",
 	"hide-useless-comments": "hide-low-quality-comments",
