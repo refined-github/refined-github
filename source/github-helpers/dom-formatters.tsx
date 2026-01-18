@@ -20,7 +20,7 @@ export const codeElementsSelector = [
 	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 	'.comment-body code:not(a code, pre code)', // Inline code in comments
 	'.diff-text-inner',
-	'.react-code-text.react-code-line-contents-no-virtualization',
+	'.react-code-text:not(.react-line-number)',
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -95,11 +95,14 @@ export function linkifyURLs(element: HTMLElement): void {
 		const link = $('a', element);
 		const clonedLink = link.cloneNode();
 		clonedLink.append(clonedLink.href);
+
 		clonedLink.classList.add('rgh-invisible-anchored-link');
-		// @ts-expect-error -- TODO: fix
-		link.style.anchorName = `--code-line-${element.id}`;
-		// @ts-expect-error -- TODO: fix
-		clonedLink.style.positionAnchor = `--code-line-${element.id}`;
+		const anchor = `--rgh-${element.id}`;
+		// @ts-expect-error -- Not widely available yet
+		link.style.anchorName = anchor;
+		// @ts-expect-error -- Not widely available yet
+		clonedLink.style.positionAnchor = anchor;
+
 		// Place the link before textarea
 		menuPositioner.prepend(clonedLink);
 	}
