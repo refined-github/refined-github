@@ -9,23 +9,9 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
-	if (
-		// The clicked element is either the bar itself or one of its 2 children
-		elementClicked === headerBar
-		|| elementClicked.parentElement === headerBar
-		// React
-		// TODO: Replace with `|| !elementClicked.closest('a, button')` if it works
-		|| elementClicked.matches([
-			'[class^="DiffFileHeader-module__diff-file-header"] > div',
-			'[class^="DiffFileHeader-module__diff-file-header"] > div > div',
-		])
-	) {
-		$([
-			'[aria-label="Toggle diff contents"]',
-			// React
-			'[aria-label^="collapse file" i]',
-			'[aria-label^="expand file" i]',
-		], headerBar)
+	// Exclude interactive elements
+	if (!elementClicked.closest(['a', 'button', 'clipboard-copy', 'details'])) {
+		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
