@@ -3,6 +3,5 @@ query GetRepositoryInfo($owner: String!, $name: String!) {
 		stargazerCount
 		isFork
 		isPrivate
-		viewerHasStarred
 	}
 }

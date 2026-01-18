@@ -5,6 +5,7 @@ import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 import {CachedFunction} from 'webext-storage-cache';
 
 import observe from '../helpers/selector-observer.js';
@@ -34,7 +35,8 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 });
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
+	const viewerHasStarred = $('.starring-container').classList.contains('on');
+	const {isFork, isPrivate, stargazerCount} = await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
