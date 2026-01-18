@@ -514,6 +514,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e"
 	},
 	{
+		"id": "no-self-reference",
+		"description": "Underlines links that are self reference.",
+		"screenshot": "https://github.com/user-attachments/assets/7a0ee4b1-6eba-4c83-8a89-b7722c13a537"
+	},
+	{
 		"id": "no-unnecessary-split-diff-view",
 		"description": "Always uses unified diffs on files where split diffs aren’t useful.",
 		"css": true,
