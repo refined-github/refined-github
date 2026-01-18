@@ -1,7 +1,9 @@
 import React from 'dom-chef';
+import {$, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {stringToBase64} from 'uint8array-extras';
+import UndoIcon from 'octicons-plain-react/Undo';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -10,6 +12,9 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+
+// Track the currently focused file container for removal after discard
+let focusedFileContainer: HTMLElement | undefined;
 
 async function getMergeBaseReference(): Promise<string> {
 	const {base, head} = getBranches();
@@ -85,30 +90,59 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	});
 }
 
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
+	// Legacy view: get filenames from the data-path and Link--primary elements
+	if (menuItem.tagName === 'BUTTON') {
+		const [originalFileName, newFileName = originalFileName] = menuItem
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
+
+		return {original: originalFileName, new: newFileName};
+	}
+
+	// New React view: get filenames from the file header
+	const fileNameElement = $('[class^="DiffFileHeader-module__file-name"]', focusedFileContainer);
+	const span = $optional('span:not(.sr-only)', fileNameElement);
+	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement)
+		// eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
+		.textContent.split('  ').map(text => text.replaceAll(/\u200E/g, ''));
+
+	return {original: originalFileName, new: newFileName};
+}
+
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	const menuItem = event.delegateTarget;
+	const filenames = getFilenames(menuItem);
 
-	const [originalFileName, newFileName = originalFileName] = menuItem
-		.closest('[data-path]')!
-		.querySelector('.Link--primary')!
-		.textContent
-		.split(' → ');
+	const commitTitle = prompt(
+		'Are you sure you want to discard these changes? Enter the commit title',
+		`Discard changes to ${filenames.original}`,
+	);
 
-	const commitTitle = prompt(`Are you sure you want to discard the changes to ${newFileName}? Enter the commit title`, `Discard changes to ${newFileName}`);
 	if (!commitTitle) {
 		return;
 	}
 
-	await showToast(async progress => discardChanges(progress, originalFileName, newFileName, commitTitle), {
+	await showToast(async progress => discardChanges(progress, filenames.original, filenames.new, commitTitle), {
 		message: 'Loading info…',
 		doneMessage: 'Changes discarded',
 	});
 
 	// Hide file from view
-	menuItem.closest('.file')!.remove();
+	if (menuItem.tagName === 'BUTTON') {
+		menuItem.closest('.file')!.remove();
+		return;
+	}
+
+	// New React view: remove the tracked file container and close the menu
+	focusedFileContainer!.remove();
+	menuItem.closest('div[data-focus-trap="active"]')!.remove();
 }
 
-function add(editFile: HTMLAnchorElement): void {
+// Legacy view handler
+function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
 		<button
 			className="pl-5 dropdown-item btn-link rgh-restore-file"
@@ -120,10 +154,37 @@ function add(editFile: HTMLAnchorElement): void {
 	);
 }
 
+// New React view handler: track the file container and add menu item
+function handleMenuOpening({delegateTarget}: DelegateEvent<MouseEvent, HTMLElement>): void {
+	// Track the file container for later removal
+	focusedFileContainer = delegateTarget.closest('div[id^="diff-"]')!;
+
+	// Wait for the menu to be rendered
+	requestAnimationFrame(() => {
+		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
+		const discardItem = editFile.cloneNode(true);
+		discardItem.classList.add('rgh-restore-file');
+		$('a', discardItem).removeAttribute('href');
+		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
+		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
+
+		editFile.after(discardItem);
+	});
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', add, {signal});
+	// Legacy view
+	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
+
+	// New React view
+	delegate(
+		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+		{signal},
+	);
 
 	// `capture: true` required to be fired before GitHub's handlers
 	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
