@@ -5,7 +5,6 @@
 	margin-left: calc(var(--size) * 0.3); /* Move away from count */
 	margin-right: calc(var(--size) * -0.5 - var(--inherited-gap));
 	height: var(--size);
-	width: var(--size);
 
 	&:last-of-type {
 		margin-right: 0 !important;
