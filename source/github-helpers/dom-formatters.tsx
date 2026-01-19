@@ -47,7 +47,7 @@ function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
 			// @ts-expect-error -- Not widely available yet
 			clonedLink.style.positionAnchor = anchor;
 
-			menuPositioner.style.overflowX = 'hidden';
+			menuPositioner.style.overflowX = 'clip';
 			menuPositioner.prepend(clonedLink);
 		}
 	}
