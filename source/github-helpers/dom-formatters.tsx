@@ -32,9 +32,30 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	}
 }
 
+// https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
+function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
+	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
+	if (menuPositioner) {
+		const links = $$('a', element);
+		for (const [index, link] of links.entries()) {
+			const clonedLink = link.cloneNode();
+			clonedLink.append(clonedLink.href);
+
+			clonedLink.classList.add('rgh-invisible-anchored-link');
+			const anchor = `--rgh-${element.id}-${index}`;
+			// @ts-expect-error -- Not widely available yet
+			link.style.anchorName = anchor;
+			// @ts-expect-error -- Not widely available yet
+			clonedLink.style.positionAnchor = anchor;
+
+			menuPositioner.prepend(clonedLink);
+		}
+	}
+}
+
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
-	element: Element,
+	element: HTMLElement,
 	options: Partial<LinkifyIssuesOptions> = {},
 ): void {
 	const linkified = linkifyIssuesToDom(element.textContent, {
@@ -64,6 +85,7 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
+	prependAnchorsBeforeCodeOverlay(element);
 }
 
 export function linkifyURLs(element: HTMLElement): void {
@@ -88,26 +110,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	}
 
 	zipTextNodes(element, linkified);
-
-	// Support React-based views
-	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
-	if (menuPositioner) {
-		const links = $$('a', element);
-		for (const [index, link] of links.entries()) {
-			const clonedLink = link.cloneNode();
-			clonedLink.append(clonedLink.href);
-
-			clonedLink.classList.add('rgh-invisible-anchored-link');
-			const anchor = `--rgh-${element.id}-${index}`;
-			// @ts-expect-error -- Not widely available yet
-			link.style.anchorName = anchor;
-			// @ts-expect-error -- Not widely available yet
-			clonedLink.style.positionAnchor = anchor;
-
-			// Place the link before textarea
-			menuPositioner.prepend(clonedLink);
-		}
-	}
+	prependAnchorsBeforeCodeOverlay(element);
 }
 
 export function parseBackticks(element: Element): void {
