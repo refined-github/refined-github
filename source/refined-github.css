@@ -202,8 +202,8 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 
 .rgh-invisible-anchored-link {
 	position: absolute !important;
-	top: anchor(top);
-	left: anchor(left);
+	position-area: center;
+	padding: 0 !important;
 	z-index: 2;
 	text-wrap: nowrap;
 	opacity: 0;

@@ -35,21 +35,26 @@ export function shortenLink(link: HTMLAnchorElement): void {
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
 function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
 	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
-	if (menuPositioner) {
-		const links = $$('a', element);
-		for (const [index, link] of links.entries()) {
-			const clonedLink = link.cloneNode(true);
+	if (!menuPositioner) {
+		return;
+	}
 
-			clonedLink.classList.add('rgh-invisible-anchored-link');
-			const anchor = `--rgh-${element.id}-${index}`;
-			// @ts-expect-error -- Not widely available yet
-			link.style.anchorName = anchor;
-			// @ts-expect-error -- Not widely available yet
-			clonedLink.style.positionAnchor = anchor;
+	const codeLine = element.closest('[id]');
+	if (!codeLine) {
+		throw new Error('Could not find parent code line');
+	}
 
-			menuPositioner.style.overflowX = 'clip';
-			menuPositioner.prepend(clonedLink);
-		}
+	const links = $$('a', codeLine);
+	for (const [index, link] of links.entries()) {
+		const clonedLink = link.cloneNode(true);
+		clonedLink.className += ` ${codeLine.className} rgh-invisible-anchored-link`;
+		const anchor = `--rgh-${codeLine.id}-${index}`;
+		// @ts-expect-error -- Not widely available yet
+		link.style.anchorName = anchor;
+		// @ts-expect-error -- Not widely available yet
+		clonedLink.style.positionAnchor = anchor;
+		menuPositioner.style.overflowX = 'clip';
+		menuPositioner.prepend(clonedLink);
 	}
 }
 
