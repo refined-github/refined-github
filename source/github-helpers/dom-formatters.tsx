@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$$} from 'select-dom/strict.js';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
@@ -92,19 +92,21 @@ export function linkifyURLs(element: HTMLElement): void {
 	// Support React-based views
 	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
 	if (menuPositioner) {
-		const link = $('a', element);
-		const clonedLink = link.cloneNode();
-		clonedLink.append(clonedLink.href);
+		const links = $$('a', element);
+		for (const [index, link] of links.entries()) {
+			const clonedLink = link.cloneNode();
+			clonedLink.append(clonedLink.href);
 
-		clonedLink.classList.add('rgh-invisible-anchored-link');
-		const anchor = `--rgh-${element.id}`;
-		// @ts-expect-error -- Not widely available yet
-		link.style.anchorName = anchor;
-		// @ts-expect-error -- Not widely available yet
-		clonedLink.style.positionAnchor = anchor;
+			clonedLink.classList.add('rgh-invisible-anchored-link');
+			const anchor = `--rgh-${element.id}-${index}`;
+			// @ts-expect-error -- Not widely available yet
+			link.style.anchorName = anchor;
+			// @ts-expect-error -- Not widely available yet
+			clonedLink.style.positionAnchor = anchor;
 
-		// Place the link before textarea
-		menuPositioner.prepend(clonedLink);
+			// Place the link before textarea
+			menuPositioner.prepend(clonedLink);
+		}
 	}
 }
 
