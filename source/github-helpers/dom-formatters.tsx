@@ -38,8 +38,7 @@ function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
 	if (menuPositioner) {
 		const links = $$('a', element);
 		for (const [index, link] of links.entries()) {
-			const clonedLink = link.cloneNode();
-			clonedLink.append(clonedLink.href);
+			const clonedLink = link.cloneNode(true);
 
 			clonedLink.classList.add('rgh-invisible-anchored-link');
 			const anchor = `--rgh-${element.id}-${index}`;
