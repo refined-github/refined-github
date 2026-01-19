@@ -201,9 +201,10 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 .rgh-invisible-anchored-link {
-	position: fixed !important;
+	position: absolute !important;
 	top: anchor(top);
 	left: anchor(left);
 	z-index: 2;
+	text-wrap: nowrap;
 	opacity: 0;
 }
