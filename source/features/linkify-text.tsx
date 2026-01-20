@@ -6,12 +6,11 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {getRepo} from '../github-helpers/index.js';
 import {linkifyIssues} from '../github-helpers/dom-formatters.js';
-import {logError} from '../helpers/errors.js';
 
 function linkifyIssue(paragraph: HTMLParagraphElement): void {
 	// Already linkified
 	if (elementExists('a', paragraph)) {
-		logError(new Error(`${paragraph.textContent} is already linkified`));
+		return;
 	}
 
 	linkifyIssues(getRepo()!, paragraph);
