@@ -1,5 +1,5 @@
 import {$optional} from 'select-dom/strict.js';
-import oneEvent from 'one-event';
+import {pEvent} from 'p-event';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
@@ -14,7 +14,7 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 
 	while (paginationButton) {
 		// eslint-disable-next-line no-await-in-loop
-		await oneEvent(paginationButton.form!, 'page:loaded');
+		await pEvent(paginationButton.form!, 'page:loaded');
 		if (isExpandingMainThread) {
 			// Pagination forms in the main thread load their content in a nested wrapper
 			wrapper = wrapper.lastElementChild!;

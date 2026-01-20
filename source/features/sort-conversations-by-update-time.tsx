@@ -1,7 +1,7 @@
 import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import oneEvent from 'one-event';
+import {pEvent} from 'p-event';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -35,7 +35,7 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		// Avoid rewriting /labels/ URLs until the last moment
 		// https://github.com/refined-github/refined-github/issues/7205
 		if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
-			await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
+			await pEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
 		}
 
 		saveOriginalHref(link);

@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import {assertError} from 'ts-extras';
 import CheckIcon from 'octicons-plain-react/Check';
 import StopIcon from 'octicons-plain-react/Stop';
-import oneEvent from 'one-event';
+import {pEvent} from 'p-event';
 
 import delay from '../helpers/delay.js';
 import {frame} from '../helpers/dom-utils.js';
@@ -59,7 +59,7 @@ export default async function showToast(
 
 		// Display time is over, animate out
 		toast.classList.replace('Toast--animateIn', 'Toast--animateOut');
-		await oneEvent(toast, 'animationend');
+		await pEvent(toast, 'animationend');
 		toast.remove();
 	};
 
