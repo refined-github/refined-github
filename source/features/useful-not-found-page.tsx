@@ -193,12 +193,12 @@ async function initOnce(): Promise<void> {
 }
 
 async function initPRCommitOnce(): Promise<void | false> {
-	const commitUrl = location.href.replace(/pull\/\d+\/commits/, 'commit');
+	const commitUrl = location.href.replace(/pull\/\d+\/(commits|changes)/, 'commit');
 	if (!(await isUrlReachable(commitUrl))) {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate p', {waitForChildren: false});
+	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
 	);
