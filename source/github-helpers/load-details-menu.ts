@@ -1,5 +1,5 @@
 import {$optional} from 'select-dom/strict.js';
-import {pEvent} from 'p-event';
+import oneEvent from 'one-event';
 
 export default async function loadDetailsMenu(detailsMenu: HTMLElement): Promise<void> {
 	const fragment = $optional('.js-comment-header-actions-deferred-include-fragment', detailsMenu);
@@ -8,5 +8,5 @@ export default async function loadDetailsMenu(detailsMenu: HTMLElement): Promise
 	}
 
 	detailsMenu.parentElement!.dispatchEvent(new Event('mouseover'));
-	await pEvent(fragment, 'load');
+	await oneEvent(fragment, 'load');
 }

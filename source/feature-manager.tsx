@@ -7,7 +7,7 @@ import type {Promisable} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
-import {pEvent} from 'p-event';
+import oneEvent from 'one-event';
 
 import waitFor from './helpers/wait-for.js';
 import ArrayMap from './helpers/map-of-arrays.js';
@@ -151,7 +151,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			do {
 				document.documentElement.setAttribute('rgh-OFF-' + id, '');
 				log.info('↩️', 'Skipping', id);
-			} while (await pEvent(document, ['turbo:render', 'soft-nav:react-done']));
+			} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 		} else {
 			log.info('↩️', 'Skipping', id);
 		}
@@ -216,7 +216,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 					}
 				}
 			});
-		} while (await pEvent(document, ['turbo:render', 'soft-nav:react-done']));
+		} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 	});
 }
 
