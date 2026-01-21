@@ -16,7 +16,7 @@ const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(adjective: JSX.Element | string): void {
-	$('#issue_body_template_name').before(
+	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
 		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
