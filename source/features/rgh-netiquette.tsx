@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import InfoIcon from 'octicons-plain-react/Info';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom/strict.js';
 
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
@@ -8,13 +9,19 @@ import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getResolvedText, wasClosedLongAgo} from './netiquette.js';
 import {TimelineItem, TimelineItemOld} from '../github-helpers/timeline-item.js';
+import {loadedConversationTimeline} from '../github-helpers/selectors.js';
 
-function addConversationBanner(newCommentBox: HTMLElement): void {
+function addConversationBanner(): void {
 	// Check inside the observer because React views load after dom-ready
 	if (!wasClosedLongAgo()) {
 		features.unload(import.meta.url);
 		return;
 	}
+
+	const newCommentBox = $([
+		'#issuecomment-new:has(file-attachment)',
+		'[data-testid="comment-composer"]',
+	])
 
 	const button = (
 		<button
@@ -54,11 +61,12 @@ function addConversationBanner(newCommentBox: HTMLElement): void {
 	newCommentBox.hidden = true;
 }
 
-function init(signal: AbortSignal): void | false {
-	observe([
-		'#issuecomment-new:has(file-attachment)',
-		'[data-testid="comment-composer"]',
-	], addConversationBanner, {signal});
+function init(signal: AbortSignal): void {
+	observe(
+		loadedConversationTimeline,
+		addConversationBanner,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -68,7 +76,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });
 

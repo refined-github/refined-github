@@ -1,20 +1,22 @@
 import React from 'dom-chef';
 import {lastElement} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {loadedConversationTimeline} from '../github-helpers/selectors.js';
 
 export const statusBadge = [
-	'#partial-discussion-header .State',
-	'[class^="StateLabel"]',
+	'#partial-discussion-header .State:not(.rgh-locked-issue)',
+	'[data-testid="header-state"]',
 ] as const;
 
 export function getLastCloseEvent(): HTMLElement | undefined {
 	return lastElement([
 		// TODO: Move to selectors.ts
-		// Old view: Drop in April 2025
+		// Old view
 		`.TimelineItem-badge :is(
 			.octicon-issue-closed,
 			.octicon-git-merge,
@@ -32,23 +34,26 @@ export function getLastCloseEvent(): HTMLElement | undefined {
 	])?.querySelector('relative-time') ?? undefined;
 }
 
-function addToConversation(discussionHeader: HTMLElement): void {
-	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
-	discussionHeader.style.pointerEvents = 'none';
+function addToConversation(): void {
+	const statusBadges = $$(statusBadge);
+	for (const statusBadge of statusBadges) {
+		// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
+		statusBadge.style.pointerEvents = 'none';
 
-	wrap(
-		discussionHeader,
-		<a
-			aria-label="Scroll to most recent close event"
-			className="tooltipped tooltipped-e"
-			href={getLastCloseEvent()!.closest('a')!.href}
-		/>,
-	);
+		wrap(
+			statusBadge,
+			<a
+				aria-label="Scroll to most recent close event"
+				className="tooltipped tooltipped-e"
+				href={getLastCloseEvent()!.closest('a')!.href}
+			/>,
+		);
+	}
 }
 
 function init(signal: AbortSignal): void {
 	observe(
-		statusBadge,
+		loadedConversationTimeline,
 		addToConversation,
 		{signal},
 	);
@@ -59,7 +64,6 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 		pageDetect.isClosedConversation,
 	],
-	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });
 

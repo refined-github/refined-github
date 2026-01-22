@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import FlameIcon from 'octicons-plain-react/Flame';
 import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {countElements, elementExists} from 'select-dom';
 import twas from 'twas';
 import InfoIcon from 'octicons-plain-react/Info';
@@ -13,9 +13,11 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
 import {getLastCloseEvent} from './jump-to-conversation-close-event.js';
-import {newCommentField} from '../github-helpers/selectors.js';
+import {loadedConversationTimeline, newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
+
+// TODO: REFACTOR!!! At least when the PR page is rewritten in React
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
@@ -120,7 +122,8 @@ function initDraft(signal: AbortSignal): void {
 }
 
 function initBanner(signal: AbortSignal): void {
-	observe(newCommentField, async (field: HTMLElement) => {
+	observe(loadedConversationTimeline, async () => {
+		const field = $(newCommentField);
 		// Check inside the observer because React views load after dom-ready
 		if (wasClosedLongAgo()) {
 			addResolvedBanner(field);
@@ -163,7 +166,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	awaitDomReady: true, // We're specifically looking for the last event
 	init: initBanner,
 }, {
 	include: [

@@ -262,3 +262,8 @@ export const deletedHeadRepository_ = [
 	[2, 'https://github.com/refined-github/refined-github/pull/271'],
 	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
 ];
+
+export const loadedConversationTimeline = [
+	'#issue-timeline:not(:has(> [data-wrapper-timeline-id="load-top"]:last-child))',
+	'.js-discussion',
+];
