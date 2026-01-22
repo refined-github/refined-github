@@ -56,6 +56,10 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			tooltip += ', including you';
 		}
 
+		if (!repoLink.classList.contains('AppHeader-context-item')) {
+			repoLink.closest('li')!.classList.add('d-flex');
+		}
+
 		repoLink.after(
 			<a
 				href={buildRepoURL('stargazers')}
@@ -77,7 +81,10 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', add, {signal});
+	observe([
+		'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+		'header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child a:first-child',
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
