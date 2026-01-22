@@ -17,8 +17,6 @@ import {loadedConversationTimeline, newCommentField} from '../github-helpers/sel
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 
-// TODO: REFACTOR!!! At least when the PR page is rewritten in React
-
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
 	return Date.now() - date.getTime();
