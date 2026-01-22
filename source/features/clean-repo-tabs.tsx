@@ -22,7 +22,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 		// User is on tab 👀
 		tab.matches('.selected')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
-		|| pageDetect.canUserEditRepo()
+		|| pageDetect.canUserAdminRepo()
 	);
 }
 
