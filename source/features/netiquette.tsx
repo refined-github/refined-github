@@ -15,7 +15,7 @@ import {
 	buildRepoURL,
 	getConversationNumber,
 	isAnyRefinedGitHubRepo,
-	isOwnConversation
+	isOwnConversation,
 } from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
@@ -27,12 +27,12 @@ export async function getCloseDate(): Promise<Date | undefined> {
 		return;
 	}
 
-	const {closed_at} = await api.v3(`issues/${getConversationNumber()!}`)
-	if (!closed_at) {
+	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
+	if (!closedAt) {
 		throw new Error('closed_at field is null');
 	}
 
-	return new Date(closed_at);
+	return new Date(closedAt);
 }
 
 const threeMonths = toMilliseconds({days: 90});
