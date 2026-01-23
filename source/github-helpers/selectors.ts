@@ -272,7 +272,7 @@ export const conversationCloseEvent = [
 		.octicon-skip
 	))`,
 	// React view (Issues)
-	`[data-timeline-event-id]:has([data-testid="state-reason-link"])`,
+	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
 ];
 export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues/123'],

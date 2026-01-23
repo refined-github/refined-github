@@ -7,7 +7,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
-import { getFeatureID } from '../helpers/feature-helpers.js';
+import {getFeatureID} from '../helpers/feature-helpers.js';
 
 export const statusBadge = [
 	'#partial-discussion-header .State:not(.rgh-locked-issue)',
@@ -18,10 +18,12 @@ const featureId = getFeatureID(import.meta.url);
 
 function addToConversation(closeEvent: HTMLAnchorElement): void {
 	const statusBadges = $$(statusBadge);
-	const eventAnchor = $('a[href*="#event-"]', closeEvent)
+	const eventAnchor = $('a[href*="#event-"]', closeEvent);
 
 	for (const statusBadge of statusBadges) {
-		if (!statusBadge.classList.contains(featureId)) {
+		if (statusBadge.classList.contains(featureId)) {
+			$('a', statusBadge).href = eventAnchor.href;
+		} else {
 			statusBadge.classList.add(featureId);
 			// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 			statusBadge.style.pointerEvents = 'none';
@@ -34,8 +36,6 @@ function addToConversation(closeEvent: HTMLAnchorElement): void {
 					href={eventAnchor.href}
 				/>,
 			);
-		} else {
-			$('a', statusBadge).href = eventAnchor.href;
 		}
 	}
 }
