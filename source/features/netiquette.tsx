@@ -23,7 +23,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import api from '../github-helpers/api.js';
 
 export async function getCloseDate(): Promise<Date | undefined> {
-	if (!pageDetect.isClosedConversation()) {
+	if (pageDetect.isOpenConversation()) {
 		return;
 	}
 
