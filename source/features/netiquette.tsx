@@ -11,24 +11,39 @@ import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL, isAnyRefinedGitHubRepo, isOwnConversation} from '../github-helpers/index.js';
-import {getLastCloseEvent} from './jump-to-conversation-close-event.js';
+import {
+	buildRepoURL,
+	getConversationNumber,
+	isAnyRefinedGitHubRepo,
+	isOwnConversation
+} from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
+import api from '../github-helpers/api.js';
+
+export async function getCloseDate(): Promise<Date | undefined> {
+	if (!pageDetect.isClosedConversation()) {
+		return;
+	}
+
+	const {closed_at} = await api.v3(`issues/${getConversationNumber()!}`)
+	if (!closed_at) {
+		throw new Error('closed_at field is null');
+	}
+
+	return new Date(closed_at);
+}
+
+const threeMonths = toMilliseconds({days: 90});
 
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
 	return Date.now() - date.getTime();
 }
 
-function getCloseDate(): Date {
-	const datetime = getLastCloseEvent()?.getAttribute('datetime');
-	if (!datetime) {
-		throw new TypeError('Datetime attribute missing from close event');
-	}
-
-	return new Date(datetime);
+export function wasClosedLongAgo(date: Date): boolean {
+	return timeAgo(date) > threeMonths;
 }
 
 function isPopular(): boolean {
@@ -42,19 +57,7 @@ function isPopular(): boolean {
 	);
 }
 
-const threeMonths = toMilliseconds({days: 90});
-
-export function wasClosedLongAgo(): boolean {
-	if (!pageDetect.isClosedConversation()) {
-		return false;
-	}
-
-	const closingDate = getCloseDate();
-	return timeAgo(closingDate) > threeMonths;
-}
-
-export function getResolvedText(): JSX.Element {
-	const closingDate = getCloseDate();
+export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 	return (
@@ -64,7 +67,7 @@ export function getResolvedText(): JSX.Element {
 	);
 }
 
-function addResolvedBanner(newCommentField: HTMLElement): void {
+function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): void {
 	if (elementExists('.rgh-resolved-banner')) {
 		return;
 	}
@@ -73,11 +76,11 @@ function addResolvedBanner(newCommentField: HTMLElement): void {
 	const banner = createBanner({
 		icon: <InfoIcon className="m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
-		text: getResolvedText(),
+		text: getResolvedText(closingDate),
 	});
 
 	if (reactWrapper) {
-		reactWrapper.before(banner);
+		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
 		newCommentField.prepend(banner);
@@ -97,8 +100,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	});
 
 	if (reactWrapper) {
-		reactWrapper.parentElement?.classList.add('flex-column');
-		reactWrapper.before(banner);
+		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
 		newCommentField.prepend(banner);
@@ -122,8 +124,9 @@ function initDraft(signal: AbortSignal): void {
 function initBanner(signal: AbortSignal): void {
 	observe(newCommentField, async (field: HTMLElement) => {
 		// Check inside the observer because React views load after dom-ready
-		if (wasClosedLongAgo()) {
-			addResolvedBanner(field);
+		const closingDate = await getCloseDate();
+		if (closingDate && wasClosedLongAgo(closingDate)) {
+			addResolvedBanner(field, closingDate);
 		} else if (isPopular() && !(await userIsModerator())) {
 			addPopularBanner(field);
 		}
