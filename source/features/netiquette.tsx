@@ -29,7 +29,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 
 	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
 	if (!closedAt) {
-		throw new Error('closed_at field is null');
+		throw new TypeError('closed_at field is null');
 	}
 
 	return new Date(closedAt);
