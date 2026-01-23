@@ -1,55 +1,49 @@
 import React from 'dom-chef';
-import {lastElement} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import debounce from 'debounce-fn';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {conversationCloseEvent} from '../github-helpers/selectors.js';
+import { getFeatureID } from '../helpers/feature-helpers.js';
 
 export const statusBadge = [
-	'#partial-discussion-header .State',
-	'[class^="StateLabel"]',
+	'#partial-discussion-header .State:not(.rgh-locked-issue)',
+	'[data-testid="header-state"]',
 ] as const;
 
-export function getLastCloseEvent(): HTMLElement | undefined {
-	return lastElement([
-		// TODO: Move to selectors.ts
-		// Old view: Drop in April 2025
-		`.TimelineItem-badge :is(
-			.octicon-issue-closed,
-			.octicon-git-merge,
-			.octicon-git-pull-request-closed,
-			.octicon-skip
-		)`,
-		// React view (values for PR states not yet known)
-		`[data-testid="state-reason-link"]:is(
-			[href*="reason%3Acompleted"],
-			[href*="reason%3Anot-planned"]
-		)`,
-	])?.closest([
-		'.TimelineItem', // Old view
-		'[data-timeline-event-id]',
-	])?.querySelector('relative-time') ?? undefined;
-}
+const featureId = getFeatureID(import.meta.url);
 
-function addToConversation(discussionHeader: HTMLElement): void {
-	// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
-	discussionHeader.style.pointerEvents = 'none';
+function addToConversation(closeEvent: HTMLAnchorElement): void {
+	const statusBadges = $$(statusBadge);
+	const eventAnchor = $('a[href*="#event-"]', closeEvent)
 
-	wrap(
-		discussionHeader,
-		<a
-			aria-label="Scroll to most recent close event"
-			className="tooltipped tooltipped-e"
-			href={getLastCloseEvent()!.closest('a')!.href}
-		/>,
-	);
+	for (const statusBadge of statusBadges) {
+		if (!statusBadge.classList.contains(featureId)) {
+			statusBadge.classList.add(featureId);
+			// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
+			statusBadge.style.pointerEvents = 'none';
+
+			wrap(
+				statusBadge,
+				<a
+					aria-label="Scroll to most recent close event"
+					className="tooltipped tooltipped-e"
+					href={eventAnchor.href}
+				/>,
+			);
+		} else {
+			$('a', statusBadge).href = eventAnchor.href;
+		}
+	}
 }
 
 function init(signal: AbortSignal): void {
 	observe(
-		statusBadge,
-		addToConversation,
+		conversationCloseEvent,
+		debounce(addToConversation, {wait: 100}),
 		{signal},
 	);
 }
