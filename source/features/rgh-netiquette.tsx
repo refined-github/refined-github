@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getCloseDate, getResolvedText, wasClosedLongAgo} from './netiquette.js';
-import {TimelineItem, TimelineItemOld} from '../github-helpers/timeline-item.js';
+import {TimelineItem} from '../github-helpers/timeline-item.js';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
@@ -40,16 +40,14 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		</button>
 	);
 
-	const isReactView = newCommentBox.matches('[data-testid="comment-composer"]');
-	const Wrapper = isReactView ? TimelineItem : TimelineItemOld;
 	const banner = (
-		<Wrapper>
+		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1" />,
 				text: <>{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
 			})}
-		</Wrapper>
+		</TimelineItem>
 	);
 	newCommentBox.before(banner);
 	newCommentBox.hidden = true;
