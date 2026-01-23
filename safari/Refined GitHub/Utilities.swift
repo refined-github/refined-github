@@ -26,6 +26,8 @@ enum SafariExtension {
 
 
 enum SSApp {
+	static let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "<Unknown version>"
+
 	static let isFirstLaunch: Bool = {
 		let key = "SS_hasLaunched"
 
