@@ -8,6 +8,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
 import {getFeatureID} from '../helpers/feature-helpers.js';
+import './jump-to-conversation-close-event.css';
 
 export const statusBadge = [
 	'#partial-discussion-header .State:not(.rgh-locked-issue)',
@@ -18,8 +19,8 @@ const featureId = getFeatureID(import.meta.url);
 
 function addToConversation(): void {
 	const closeEvent = lastElement(conversationCloseEvent);
-	const statusBadges = $$(statusBadge);
 	const eventAnchor = $('a[href*="#event-"]', closeEvent);
+	const statusBadges = $$(statusBadge);
 
 	for (const statusBadge of statusBadges) {
 		if (statusBadge.classList.contains(featureId)) {
