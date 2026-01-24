@@ -6,7 +6,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers';
+import {buildRepoURL} from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken

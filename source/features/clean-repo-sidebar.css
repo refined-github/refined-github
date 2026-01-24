@@ -32,7 +32,8 @@
 	* Hide "+ 123 contributors" link
 	* Don't hide "Create new release" link #8442
 	*/
-	.Layout-sidebar .BorderGrid-cell > .mt-3:not(:has(> a[href$="releases/new"])) {
+	.Layout-sidebar .BorderGrid-cell
+		> .mt-3:not(:has(> a[href$='releases/new'])) {
 		display: none;
 	}
 
