@@ -4,10 +4,18 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLElement): void {
+	link.title = 'Link is a self-reference';
+
+	// Disable hovercard
+	delete link.dataset.hovercardUrl
+	
+	// Disable link altogether
+	delete link.dataset.hovercardUrl
+	
+	// TODO: Use shorthand property in 2027 (due to Safari 18)
 	link.style.textDecorationStyle = 'underline';
 	link.style.textDecorationLine = 'wavy';
 	link.style.textDecorationColor = 'red';
-	link.title = 'Link is a self-reference';
 }
 
 function init(signal: AbortSignal): void {
