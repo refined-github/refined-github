@@ -4,7 +4,9 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLElement): void {
-	link.style.textDecoration = 'underline wavy red';
+	link.style.textDecorationStyle = 'underline';
+	link.style.textDecorationLine = 'wavy';
+	link.style.textDecorationColor = 'red';
 	link.title = 'Link is a self-reference';
 }
 
