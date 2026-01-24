@@ -30,8 +30,9 @@
 	* Hide "+ 65 releases" link
 	* Hide "Learn more about GitHub Sponsors" link
 	* Hide "+ 123 contributors" link
+	* Don't hide "Create new release" link #8442
 	*/
-	.Layout-sidebar .BorderGrid-cell > .mt-3 {
+	.Layout-sidebar .BorderGrid-cell > .mt-3:not(:has(> a[href$="releases/new"])) {
 		display: none;
 	}
 
