@@ -6,20 +6,19 @@ import observe from '../helpers/selector-observer.js';
 function underlineSelfReference(link: HTMLElement): void {
 	link.title = 'Link is a self-reference';
 
-	// Disable hovercard
-	delete link.dataset.hovercardUrl
+	// Disable link and hovercard
+	link.removeAttribute('href');
+	link.removeAttribute('data-hovercard-url');
 	
-	// Disable link altogether
-	delete link.dataset.hovercardUrl
-	
-	// TODO: Use shorthand property in 2027 (due to Safari 18)
+	// TODO: Use shorthand `text-decoration` property in 2027 (due to Safari 18)
 	link.style.textDecorationStyle = 'underline';
 	link.style.textDecorationLine = 'wavy';
 	link.style.textDecorationColor = 'red';
 }
 
 function init(signal: AbortSignal): void {
-	observe(`.issue-link[href="${location.href.split('#')[0]}"]`, underlineSelfReference, {signal});
+	const [currentPage] = location.href.split('#');
+	observe(`.issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
