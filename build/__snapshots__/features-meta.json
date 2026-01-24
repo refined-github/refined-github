@@ -515,8 +515,8 @@
 	},
 	{
 		"id": "no-self-reference",
-		"description": "Underlines links that are self reference.",
-		"screenshot": "https://github.com/user-attachments/assets/7a0ee4b1-6eba-4c83-8a89-b7722c13a537"
+		"description": "Warns against self-reference links, helping you avoid mistakes.",
+		"screenshot": "https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd"
 	},
 	{
 		"id": "no-unnecessary-split-diff-view",
