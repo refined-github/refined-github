@@ -11,8 +11,8 @@ function underlineSelfReference(link: HTMLElement): void {
 	link.removeAttribute('data-hovercard-url');
 
 	// TODO: Use shorthand `text-decoration` property in 2027 (due to Safari 18)
-	link.style.textDecorationStyle = 'underline';
-	link.style.textDecorationLine = 'wavy';
+	link.style.textDecorationLine = 'underline';
+	link.style.textDecorationStyle = 'wavy';
 	link.style.textDecorationColor = 'red';
 }
 
