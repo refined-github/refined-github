@@ -34,6 +34,11 @@ export function shortenLink(link: HTMLAnchorElement): void {
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
 function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
+	// TODO: bump min firefox version to 147 and safari to 26 in 2027
+	if (!CSS.supports('anchor-name: --test')) {
+		return;
+	}
+
 	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
 	if (!menuPositioner) {
 		return;
