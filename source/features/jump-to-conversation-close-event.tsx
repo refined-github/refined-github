@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom/strict.js';
+import {$, $$, lastElement} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import debounce from 'debounce-fn';
 
@@ -16,7 +16,8 @@ export const statusBadge = [
 
 const featureId = getFeatureID(import.meta.url);
 
-function addToConversation(closeEvent: HTMLAnchorElement): void {
+function addToConversation(): void {
+	const closeEvent = lastElement(conversationCloseEvent);
 	const statusBadges = $$(statusBadge);
 	const eventAnchor = $('a[href*="#event-"]', closeEvent);
 
