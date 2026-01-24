@@ -61,12 +61,16 @@ struct MainScreen: View {
 		.padding()
 		.offset(y: -20) // Looks better than fully center.
 		.safeAreaInset(edge: .bottom) {
-			Text("The app is just a container for the Safari extension and does not do anything.")
-				.font(.subheadline)
-				.foregroundStyle(.secondary)
-				.multilineTextAlignment(.center)
-				.padding()
-				.padding(.horizontal)
+			VStack(spacing: 16) {
+				Text("The app is just a container for the Safari extension and does not do anything.")
+				Text("v\(SSApp.version)")
+					.foregroundStyle(.tertiary)
+			}
+			.font(.subheadline)
+			.foregroundStyle(.secondary)
+			.multilineTextAlignment(.center)
+			.padding()
+			.padding(.horizontal)
 		}
 		.task {
 			requestReviewIfNeeded()

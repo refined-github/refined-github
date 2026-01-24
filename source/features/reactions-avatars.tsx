@@ -119,6 +119,8 @@ Test URLs
 
 - PR: https://github.com/refined-github/refined-github/pull/4119
 - Locked PR: https://github.com/refined-github/refined-github/pull/975
+- Copilot reaction: https://github.com/refined-github/refined-github/issues/7761
+- Dependabot reaction: https://github.com/aio-libs/aiohttp/pull/3809#issuecomment-498809698
 - Discussion: https://github.com/parcel-bundler/parcel/discussions/6490
 - Locked discussion: https://github.com/orgs/community/discussions/28776
 - Deferred participants loading: https://github.com/orgs/community/discussions/30093

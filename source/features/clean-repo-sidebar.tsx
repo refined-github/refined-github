@@ -44,7 +44,7 @@ async function hideLanguageHeader(): Promise<void> {
 async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
-	if (!pageDetect.canUserEditRepo()) {
+	if (!pageDetect.canUserAdminRepo()) {
 		$optional('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }

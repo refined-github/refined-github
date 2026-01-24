@@ -10,6 +10,10 @@ import observe from '../helpers/selector-observer.js';
 import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 
+const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
+	selector => `${selector}:not([href*="copilot"])`,
+);
+
 const dimBots = getIdentifiers(import.meta.url);
 
 const interactiveElementsSelector = 'a, button, input, [tabindex]';
@@ -38,7 +42,7 @@ function dim(commit: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([...botLinksCommitSelectors, ...botLinksPrSelectors], dim, {signal});
+	observe([...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors], dim, {signal});
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});

@@ -68,7 +68,6 @@ import './features/pull-request-hotkeys.js';
 import './features/one-click-review-submission.js';
 import './features/embed-gist-inline.js';
 import './features/comments-time-machine-links.js';
-import './features/hide-issue-list-autocomplete.js';
 import './features/esc-to-deselect-line.js';
 import './features/create-release-shortcut.js';
 import './features/patch-diff-links.js';

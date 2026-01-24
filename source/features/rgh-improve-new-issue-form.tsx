@@ -9,14 +9,14 @@ import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
 import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
-import delay from '../helpers/delay.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(adjective: JSX.Element | string): void {
-	$('#issue_body_template_name').before(
+	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
 		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
@@ -49,18 +49,24 @@ async function checkToken(): Promise<void> {
 	$(isSetTheTokenSelector).checked = true;
 }
 
+// https://stackoverflow.com/a/46012210
+const nativeInputValueSetter = Object.getOwnPropertyDescriptor(globalThis.HTMLInputElement.prototype, 'value')!.set!;
+function setReactInputValue(target: HTMLInputElement, value: string): void {
+	nativeInputValueSetter.call(target, value);
+	target.dispatchEvent(new Event('input', {bubbles: true}));
+}
+
 async function setVersion(): Promise<void> {
-	await delay(1000); // I give up https://github.com/refined-github/refined-github/issues/8296#issuecomment-2765270023
 	const {version} = chrome.runtime.getManifest();
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
 		'[class^="IssueCreatePage"] [class^="Box-sc"] input',
 		'Extension version*',
 	);
 
-	field.value = version;
+	setReactInputValue(field, version);
 	if (!await getToken()) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
-		field.value = '(' + version + ')';
+		setReactInputValue(field, '(' + version + ')');
 		field.disabled = true;
 	}
 }
@@ -104,20 +110,22 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
+function init(signal: AbortSignal): void {
+	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
+		void linkifyCacheRefresh();
+		void checkToken();
+		void validateTokenCheckbox();
+		void setVersion();
+	}, {signal});
+}
+
 void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
 		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
-	awaitDomReady: true, // Small page
-	deduplicate: 'has-rgh-inner',
-	init: [
-		linkifyCacheRefresh,
-		checkToken,
-		validateTokenCheckbox,
-		setVersion,
-	],
+	init,
 });
 
 /*
