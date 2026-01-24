@@ -9,13 +9,10 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "147.0"
+			"strict_min_version": "128.0"
 		},
 		"gecko_android": {
-			"strict_min_version": "147.0"
-		},
-		"safari": {
-			"strict_min_version": "26"
+			"strict_min_version": "128.0"
 		}
 	},
 	"permissions": [
