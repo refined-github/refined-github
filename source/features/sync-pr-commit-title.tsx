@@ -12,8 +12,8 @@ import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const prTitleFieldSelector = 'input#issue_title';
-const commitTitleFieldSelector = '[class^="MergeBox-module__mergePartialContainer"] input';
-const mergeButtonSelector = '[class^="MergeBox-module__mergePartialContainer"] button[data-variant="primary"]';
+const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
+const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	const mergeButton = $optional(mergeButtonSelector);
