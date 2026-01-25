@@ -20,7 +20,8 @@ function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	if (mergeButton?.textContent === 'Confirm squash and merge') {
 		return $optional(commitTitleFieldSelector);
 	}
-	// eslint-disable-next-line @stylistic/padding-line-between-statements, no-useless-return -- "Not all code paths return a value. ts(7030)" if removed
+
+	// eslint-disable-next-line no-useless-return -- "Not all code paths return a value. ts(7030)" if removed
 	return;
 }
 
