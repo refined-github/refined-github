@@ -15,14 +15,11 @@ const prTitleFieldSelector = 'input#issue_title';
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
-function getCurrentCommitTitleField(): HTMLInputElement | undefined {
+function getCurrentCommitTitleField(): HTMLInputElement | void {
 	const mergeButton = $optional(mergeButtonSelector);
 	if (mergeButton?.textContent === 'Confirm squash and merge') {
-		return $optional(commitTitleFieldSelector);
+		return $(commitTitleFieldSelector);
 	}
-
-	// eslint-disable-next-line no-useless-return -- "Not all code paths return a value. ts(7030)" if removed
-	return;
 }
 
 function getCurrentCommitTitle(): string | undefined {
