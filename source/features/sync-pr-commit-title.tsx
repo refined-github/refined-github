@@ -95,7 +95,7 @@ function init(signal: AbortSignal): void {
 	onCommitTitleUpdate(updateUI, signal);
 
 	// On submission, update PR
-	delegate('mergeButtonSelector', 'click', updatePRTitle, {signal});
+	delegate(mergeButtonSelector, 'click', updatePRTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
