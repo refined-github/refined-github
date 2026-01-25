@@ -6,9 +6,6 @@ const fieldSelector = [
 ];
 
 export default function onCommitTitleUpdate(callback: DelegateEventHandler<Event, HTMLInputElement>, signal: AbortSignal): void {
-	// GitHub restores the value from the previous session and only triggers this event
-	delegate(fieldSelector, 'change', callback, {signal});
-
 	// For immediate user input
 	delegate(fieldSelector, 'input', callback, {signal});
 }
