@@ -11,6 +11,7 @@ import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -47,13 +48,6 @@ async function checkToken(): Promise<void> {
 
 	// Thank you for following the instructions. I'll save you a click.
 	$(isSetTheTokenSelector).checked = true;
-}
-
-// https://stackoverflow.com/a/46012210
-const nativeInputValueSetter = Object.getOwnPropertyDescriptor(globalThis.HTMLInputElement.prototype, 'value')!.set!;
-function setReactInputValue(target: HTMLInputElement, value: string): void {
-	nativeInputValueSetter.call(target, value);
-	target.dispatchEvent(new Event('input', {bubbles: true}));
 }
 
 async function setVersion(): Promise<void> {
