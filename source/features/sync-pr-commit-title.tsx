@@ -18,7 +18,7 @@ const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-varian
 function getCurrentCommitTitleField(): HTMLInputElement | void {
 	const mergeButton = $optional(mergeButtonSelector);
 	if (mergeButton?.textContent === 'Confirm squash and merge') {
-		return $(commitTitleFieldSelector);
+		return $(commitTitleFieldSelector) as HTMLInputElement;
 	}
 }
 
