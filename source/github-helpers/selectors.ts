@@ -276,6 +276,5 @@ export const conversationCloseEvent = [
 ];
 export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues/123'],
-	// Too long and doesn't contain a merge event
 	[4, 'https://github.com/refined-github/refined-github/pull/4030'],
 ];
