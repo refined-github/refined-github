@@ -10,7 +10,7 @@ import features from '../feature-manager.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
-import {TimelineItemOld as TimelineItem} from '../github-helpers/timeline-item.js';
+import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getReleases} from './releases-tab.js';
