@@ -37,7 +37,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 
 const threeMonths = toMilliseconds({days: 90});
 
-export function wasClosedLongAgo(date: Date): boolean {
+export function wasLongAgo(date: Date): boolean {
 	return (Date.now() - date.getTime()) > threeMonths;
 }
 
@@ -120,7 +120,7 @@ function initBanner(signal: AbortSignal): void {
 	observe(newCommentField, async (field: HTMLElement) => {
 		// Check inside the observer because React views load after dom-ready
 		const closingDate = await getCloseDate();
-		if (closingDate && wasClosedLongAgo(closingDate)) {
+		if (closingDate && wasLongAgo(closingDate)) {
 			addResolvedBanner(field, closingDate);
 		} else if (isPopular() && !(await userIsModerator())) {
 			addPopularBanner(field);
