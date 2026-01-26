@@ -7,7 +7,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 import './release-download-count.css';
 
 import React from 'dom-chef';
-import {$, $$, $optional} from 'select-dom/strict.js';
+import {$, $$optional, $optional} from 'select-dom/strict.js';
 import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
@@ -44,7 +44,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 	const assets = await getAssetsForTag(releaseName);
 
 	const calculateHeatIndex = createHeatIndexFunction(Object.values(assets));
-	for (const assetLink of $$('.octicon-package ~ a', assetsList)) {
+	for (const assetLink of $$optional('.octicon-package ~ a', assetsList)) {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
