@@ -6,6 +6,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import {buildRepoURL} from '../github-helpers/index.js';
+
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
@@ -29,6 +31,11 @@ async function cleanReleases(): Promise<void> {
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList
 		.add('border-0', 'pb-0');
+
+	// Point to releases page; the user sees the same content, but there's more below
+	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
+		// The link is missing on tagged-but-no-releases repos
+		?.setAttribute('href', buildRepoURL('releases'));
 }
 
 async function hideLanguageHeader(): Promise<void> {
@@ -84,5 +91,7 @@ Test URLs:
 - https://github.com/refined-github/refined-github
 - Repo with empty packages section: https://github.com/isaacs/node-glob
 - Repo with 1 package: https://github.com/recyclarr/recyclarr
+- Repo with tags but not releases: https://github.com/fregante/bin-dir
+- Repo with no tags: https://github.com/refined-github/yolo
 
 */
