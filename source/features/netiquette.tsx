@@ -35,12 +35,12 @@ export async function getCloseDate(): Promise<Date | undefined> {
 	return new Date(closedAt);
 }
 
-const threeMonths = toMilliseconds({days: 90});
-
 /** Returns milliseconds passed since `date` */
 function timeAgo(date: Date): number {
 	return Date.now() - date.getTime();
 }
+
+const threeMonths = toMilliseconds({days: 90});
 
 export function wasClosedLongAgo(date: Date): boolean {
 	return timeAgo(date) > threeMonths;
