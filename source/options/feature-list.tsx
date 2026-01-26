@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import domify from 'doma';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import {countElements} from 'select-dom';
 import {$, $$} from 'select-dom/strict.js';
 
 import {getLocalHotfixes} from '../helpers/hotfix.js';
@@ -93,14 +94,14 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 const offCount = new Text();
 
 function updateOffCount(): void {
-	const count = $$('.feature-checkbox:not(:checked)').length;
+	const count = countElements('.feature-checkbox:not(:checked)');
 	switch (count) {
 		case 0: {
 			offCount.nodeValue = '';
 			break;
 		}
 
-		case $$('.feature-checkbox').length: {
+		case countElements('.feature-checkbox'): {
 			offCount.nodeValue = '(JS off… are you breaking up with me?)';
 			break;
 		}
