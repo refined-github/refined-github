@@ -7,7 +7,7 @@ export function registerHotkey(hotkey: string, functionOrUrl: VoidFunction | str
 		? <a hidden href={functionOrUrl} data-hotkey={hotkey} />
 		: <button hidden type="button" data-hotkey={hotkey} onClick={functionOrUrl} />;
 
-	document.body.append(element);
+	document.body.prepend(element);
 
 	signal?.addEventListener('abort', () => {
 		element.remove();
