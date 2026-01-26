@@ -2,7 +2,7 @@ name: PR
 
 on:
   pull_request_target:
-    types: [opened, reopened, edited]
+    types: [opened, reopened, edited, closed]
 
 jobs:
   reminder:
@@ -28,6 +28,7 @@ jobs:
           message: 'To maintainers: Please add labels to this PR'
 
   Sync:
+    if: github.event.pull_request.state == 'open'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
