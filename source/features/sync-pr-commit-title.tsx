@@ -15,11 +15,8 @@ const prTitleFieldSelector = 'input#issue_title';
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
-function getCurrentCommitTitleField(): HTMLInputElement | void {
-	const mergeButton = $optional(mergeButtonSelector);
-	if (mergeButton?.textContent === 'Confirm squash and merge') {
-		return $<HTMLInputElement>(commitTitleFieldSelector);
-	}
+function getCurrentCommitTitleField(): HTMLInputElement | undefined {
+	return $optional(commitTitleFieldSelector);
 }
 
 function getCurrentCommitTitle(): string | undefined {
@@ -36,6 +33,11 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
+	const mergeButton = $optional(mergeButtonSelector);
+	if (mergeButton?.textContent !== 'Confirm squash and merge') {
+		return false;
+	}
+
 	const currentCommitTitle = getCurrentCommitTitle();
 	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
@@ -72,10 +74,12 @@ async function updatePRTitle(): Promise<void> {
 }
 
 async function updateCommitTitle(): Promise<void> {
-	const field = getCurrentCommitTitleField();
-	if (field) {
-		setReactInputValue(field, createCommitTitle());
+	if (!needsSubmission()) {
+		return;
 	}
+
+	const field = getCurrentCommitTitleField()!;
+	setReactInputValue(field, createCommitTitle());
 }
 
 function disableSubmission(): void {
