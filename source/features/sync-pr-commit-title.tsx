@@ -18,8 +18,7 @@ const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-varian
 function getCurrentCommitTitleField(): HTMLInputElement | void {
 	const mergeButton = $optional(mergeButtonSelector);
 	if (mergeButton?.textContent === 'Confirm squash and merge') {
-		// @ts-expect-error: Seems like a TS bug - $(commitTitleFieldSelector) is correctly typed as HTMLInputElement
-		return $(commitTitleFieldSelector);
+		return $<HTMLInputElement>(commitTitleFieldSelector);
 	}
 }
 
