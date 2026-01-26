@@ -17,7 +17,7 @@ export const statusBadge = [
 
 const featureId = getFeatureID(import.meta.url);
 
-function addToConversation(): void {
+function updateStatusLabel(): void {
 	const closeEvent = lastElement(conversationCloseEvent);
 	const eventAnchor = $('a[href*="#event-"]', closeEvent);
 	const statusBadges = $$(statusBadge);
@@ -45,7 +45,7 @@ function addToConversation(): void {
 function init(signal: AbortSignal): void {
 	observe(
 		conversationCloseEvent,
-		debounce(addToConversation, {wait: 100}),
+		debounce(updateStatusLabel, {wait: 100}),
 		{signal},
 	);
 }
