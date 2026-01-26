@@ -18,8 +18,8 @@ export const statusBadge = [
 const featureId = getFeatureID(import.meta.url);
 
 function updateStatusLabel(): void {
-	const closeEvent = lastElement(conversationCloseEvent);
-	const eventAnchor = $('a[href*="#event-"]', closeEvent);
+	const lastCloseEvent = lastElement(conversationCloseEvent);
+	const eventAnchor = $('a[href*="#event-"]', lastCloseEvent);
 	const statusBadges = $$(statusBadge);
 
 	for (const statusBadge of statusBadges) {
