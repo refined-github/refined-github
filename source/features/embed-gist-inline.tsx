@@ -5,7 +5,6 @@ import mem from 'memoize';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {standaloneGistLinkInMarkdown} from '../github-helpers/selectors.js';
 
@@ -20,23 +19,6 @@ const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
 		messageRuntime({fetchJSON: `${url}.json`}),
 );
-
-function parseGistLink(link: HTMLAnchorElement): string | undefined {
-	if (link.host === 'gist.github.com') {
-		return getCleanPathname(link);
-	}
-
-	if (link.host === location.host && link.pathname.startsWith('gist/')) {
-		return link.pathname.replace('/gist', '').replace(/\/$/, '');
-	}
-
-	return undefined;
-}
-
-// TODO: Replace with updated github-url-detection: isGistFile(link)
-function isGist(link: HTMLAnchorElement): boolean {
-	return parseGistLink(link)?.replaceAll(/[^/]/g, '').length === 1; // Exclude user links and file links
-}
 
 const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();
 
@@ -78,7 +60,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	observe(standaloneGistLinkInMarkdown, link => {
-		if (isGist(link) && isOnlyChild(link)) {
+		if (pageDetect.isGistFile(link) && isOnlyChild(link)) {
 			void embedGist(link);
 		}
 	}, {signal});
