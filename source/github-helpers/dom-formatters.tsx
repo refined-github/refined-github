@@ -20,7 +20,7 @@ export const codeElementsSelector = [
 	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 	'.comment-body code:not(a code, pre code)', // Inline code in comments
 	'.diff-text-inner',
-	'.react-code-text:not(.react-line-number)',
+	'.react-file-line',
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
