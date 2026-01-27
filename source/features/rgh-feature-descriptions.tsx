@@ -4,6 +4,7 @@ import React from 'dom-chef';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
@@ -15,7 +16,7 @@ import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function getDescriptionBanner(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const isCss = location.pathname.endsWith('.css');
 
 	const description = meta?.description // Regular feature?
@@ -37,7 +38,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
-	infoBanner.before(
+	return (
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
@@ -93,11 +94,11 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					</a>
 				)}
 			</div>
-		</div>,
+		</div>
 	);
 }
 
-async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
+async function getDisabledBanner(id: string): Promise<JSX.Element | undefined> {
 	// Block and width classes required to avoid margin collapse
 	const classes = ['mb-3', 'd-inline-block', 'width-full'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
@@ -134,14 +135,8 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 	return undefined;
 }
 
-async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<void> {
-	const reason = await getDisabledReason(id);
-	if (reason) {
-		infoBanner.before(reason);
-	}
-}
-
-async function add(infoBanner: HTMLElement): Promise<void> {
+async function add(signal: AbortSignal): Promise<void> {
+	const infoBanner = $('#repos-sticky-header');
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(filename);
@@ -150,12 +145,25 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? filename;
 
-	addDescription(infoBanner, id, meta);
-	await addDisabledBanner(infoBanner, id);
+	const descriptionBanner = getDescriptionBanner(id, meta);
+	infoBanner.before(descriptionBanner);
+	signal.addEventListener('abort', () => {
+		descriptionBanner.remove();
+	});
+
+	const disabledBanner = await getDisabledBanner(id);
+	if (disabledBanner) {
+		infoBanner.before(disabledBanner);
+		signal.addEventListener('abort', () => {
+			disabledBanner.remove();
+		});
+	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('#repos-sticky-header', add, {signal});
+	// Active tree item in the sidebar
+	// `add` isn't being called after popstate events, despite `react-no-virtualization-wrapper > .react-file-line:first-child` not having a seen mark
+	observe('.react-no-virtualization-wrapper > .react-file-line:first-child', async () => add(signal), {signal});
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
