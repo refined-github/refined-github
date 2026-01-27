@@ -163,7 +163,7 @@ async function add(signal: AbortSignal): Promise<void> {
 function init(signal: AbortSignal): void {
 	// Active tree item in the sidebar
 	// `add` isn't being called after popstate events, despite `react-no-virtualization-wrapper > .react-file-line:first-child` not having a seen mark
-	observe('.react-no-virtualization-wrapper > .react-file-line:first-child', async () => add(signal), {signal});
+	observe('.react-no-virtualization-wrapper:first-of-type > .react-file-line:first-child', async () => add(signal), {signal});
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
