@@ -71,6 +71,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoWiki,
 		pageDetect.isPR,
 		pageDetect.isIssue,
+		pageDetect.isRepoTree,
 	],
 	init,
 });
