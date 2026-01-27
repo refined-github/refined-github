@@ -77,9 +77,13 @@ void features.add(import.meta.url, {
 
 Test URLs
 
+- hasComments: https://github.com/refined-github/refined-github/issues/8867
 - isReleasesOrTags: https://github.com/refined-github/refined-github/releases
-- isSingleCommit: https://github.com/refined-github/refined-github/releases/tag/23.7.25
-- isIssue: https://github.com/refined-github/refined-github/issues
-- isPR: https://github.com/refined-github/refined-github/pull
+- isSingleReleaseOrTag: https://github.com/refined-github/refined-github/releases/tag/23.7.25
+- isCommitList: https://github.com/refined-github/refined-github/commits/main/?after=bb96c11fe1dcc9e3583d54a5129401abe024f488%2034
+- isSingleCommit: https://github.com/refined-github/refined-github/commit/d63e2d97fc4d85f986a120fb49cd8e09f6785b93
+- isRepoWiki: https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions
+- isPR: https://github.com/refined-github/refined-github/pull/8904
+- isIssue: https://github.com/refined-github/refined-github/issues/8902
 
 */
