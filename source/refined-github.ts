@@ -84,6 +84,7 @@ import './features/hide-user-forks.js';
 import './features/user-profile-follower-badge.js';
 import './features/highlight-non-default-base-branch.js';
 import './features/mark-private-orgs.js';
+import './features/spam-user-indicator.js';
 import './features/linkify-commit-sha.js';
 import './features/warning-for-disallow-edits.js';
 import './features/warn-pr-from-master.js';
