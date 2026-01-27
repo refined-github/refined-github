@@ -161,7 +161,6 @@ async function add(signal: AbortSignal): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	// Active tree item in the sidebar
 	observe('.react-no-virtualization-wrapper:first-of-type > .react-file-line:first-child', async () => add(signal), {signal});
 }
 
