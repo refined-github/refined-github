@@ -7,6 +7,7 @@ import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getNewFeatureName} from '../feature-data.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;
@@ -51,8 +52,9 @@ function init(signal: AbortSignal): void {
 		'[data-testid="issue-title"] code', // `isIssue`
 		'.js-comment-body code', // Old view `hasComments`
 		'.markdown-body code', // `hasComments`, `isReleasesOrTags`
-		'.markdown-title:not(li) code', // `isSingleCommit`, `isRepoTree`, not on the issue autocomplete
-		'code .markdown-title', // `isCommitList`, `isRepoTree`
+		'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
+		`${commitTitleInLists} code`, // `isCommitList`,
+		'.react-directory-commit-message code', // `isRepoTree`
 	], linkifyFeature, {signal});
 }
 
