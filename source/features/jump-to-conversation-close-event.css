@@ -1,4 +1,6 @@
-/* Fix tooltip getting cut off */
-[class^='HeaderMetadata-module__metadataContent'] {
-	overflow: visible !important;
+html:not([rgh-OFF-jump-to-conversation-close-event]) {
+	/* Fix tooltip getting cut off */
+	[class^='HeaderMetadata-module__metadataContent'] {
+		overflow: visible !important;
+	}
 }
