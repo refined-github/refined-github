@@ -7,7 +7,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
-import {getFeatureID} from '../helpers/feature-helpers.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import './jump-to-conversation-close-event.css';
 
 export const statusBadge = [
@@ -15,7 +15,7 @@ export const statusBadge = [
 	'[data-testid="header-state"]',
 ] as const;
 
-const featureId = getFeatureID(import.meta.url);
+const {class: featureClass} = getIdentifiers(import.meta.url);
 
 function updateStatusBadges(): void {
 	const lastCloseEvent = lastElement(conversationCloseEvent);
@@ -23,10 +23,10 @@ function updateStatusBadges(): void {
 	const statusBadges = $$(statusBadge);
 
 	for (const statusBadge of statusBadges) {
-		if (statusBadge.classList.contains(featureId)) {
+		if (statusBadge.classList.contains(featureClass)) {
 			$('a', statusBadge).href = eventAnchor.href;
 		} else {
-			statusBadge.classList.add(featureId);
+			statusBadge.classList.add(featureClass);
 			// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 			statusBadge.style.pointerEvents = 'none';
 
