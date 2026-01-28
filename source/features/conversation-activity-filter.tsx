@@ -35,9 +35,19 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
-function getCurrentPageSessionStorageKey(): string {
-	return `rgh-conversation-activity-filter-state:${location.pathname}`;
-}
+const SessionPageSetting = {
+	get key(): string {
+		return `rgh-conversation-activity-filter-state:${location.pathname}`;
+	},
+
+	set(value: State): void {
+		sessionStorage.setItem(this.key, value);
+	},
+
+	get(): State | undefined {
+		return sessionStorage.getItem(this.key) as State | undefined;
+	},
+};
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -129,7 +139,7 @@ function applyState(state: State): void {
 		dropdownItem.setAttribute('aria-checked', 'false');
 	}
 
-	sessionStorage.setItem(getCurrentPageSessionStorageKey(), state);
+	SessionPageSetting.set(state);
 }
 
 function createRadios(current: State): JSX.Element[] {
@@ -243,7 +253,7 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const sessionStorageState = sessionStorage.getItem(getCurrentPageSessionStorageKey()) as State | undefined;
+	const sessionStorageState = SessionPageSetting.get();
 	const initialState = sessionStorageState
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
