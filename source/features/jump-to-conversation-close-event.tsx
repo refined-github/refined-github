@@ -18,7 +18,7 @@ export const statusBadge = [
 const {class: featureClass} = getIdentifiers(import.meta.url);
 
 function updateStatusBadges(): void {
-	// Not processing the element that has been observed and calling `lastElement` instead because past events may load in the middle of the page
+	// Not processing the element that has been observed because past events may load in the middle of the page
 	const lastCloseEvent = lastElement(conversationCloseEvent);
 	const eventAnchor = $('a[href*="#event-"]', lastCloseEvent);
 	const statusBadges = $$(statusBadge);
