@@ -46,6 +46,7 @@ function updateStatusBadges(): void {
 function init(signal: AbortSignal): void {
 	observe(
 		conversationCloseEvent,
+		// Avoid calling `updateStatusBadges` for every close event on initial load
 		debounce(updateStatusBadges, {wait: 100}),
 		{signal},
 	);
