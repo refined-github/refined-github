@@ -24,18 +24,17 @@ function updateStatusBadges(): void {
 	const statusBadges = $$(statusBadge);
 
 	for (const statusBadge of statusBadges) {
-		if (statusBadge.classList.contains(featureClass)) {
-			$('a', statusBadge).href = eventAnchor.href;
+		const maybeWrapper = statusBadge.parentElement!;
+		if (maybeWrapper.classList.contains(featureClass)) {
+			(maybeWrapper as HTMLAnchorElement).href = eventAnchor.href;
 		} else {
-			statusBadge.classList.add(featureClass);
 			// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 			statusBadge.style.pointerEvents = 'none';
-
 			wrap(
 				statusBadge,
 				<a
 					aria-label="Scroll to most recent close event"
-					className="tooltipped tooltipped-e"
+					className={`tooltipped tooltipped-e ${featureClass}`}
 					href={eventAnchor.href}
 				/>,
 			);
