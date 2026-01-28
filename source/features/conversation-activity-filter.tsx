@@ -243,7 +243,7 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const sessionStorageState = sessionStorage.getItem(getCurrentPageSessionStorageKey());
+	const sessionStorageState = sessionStorage.getItem(getCurrentPageSessionStorageKey()) as State | undefined;
 	const initialState = sessionStorageState
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
