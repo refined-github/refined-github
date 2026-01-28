@@ -9,9 +9,11 @@ import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/ind
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
+import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const prTitleFieldSelector = 'input#issue_title';
-const commitTitleFieldSelector = '.is-squashing form:not([hidden]) input#merge_title_field';
+const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
+const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
@@ -31,7 +33,12 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const currentCommitTitle = getCurrentCommitTitle();
+	const mergeButton = $optional(mergeButtonSelector);
+	if (mergeButton?.textContent !== 'Confirm squash and merge') {
+		return false;
+	}
+
+	const currentCommitTitle = getCurrentCommitTitle()!;
 	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
@@ -46,7 +53,7 @@ function getUI(): HTMLElement {
 
 function updateUI(): void {
 	if (needsSubmission()) {
-		getCurrentCommitTitleField()!.after(getUI());
+		getCurrentCommitTitleField()!.parentElement!.after(getUI());
 	} else {
 		getUI().remove();
 	}
@@ -67,14 +74,12 @@ async function updatePRTitle(): Promise<void> {
 }
 
 async function updateCommitTitle(): Promise<void> {
-	const field = getCurrentCommitTitleField()!;
-	if (field) {
-		// Do not use `text-field-edit` #6348
-		field.value = createCommitTitle();
-
-		// There might be listeners that need to be notified
-		field.dispatchEvent(new Event('input', {bubbles: true}));
+	if (!needsSubmission()) {
+		return;
 	}
+
+	const field = getCurrentCommitTitleField()!;
+	setReactInputValue(field, createCommitTitle());
 }
 
 function disableSubmission(): void {
@@ -91,7 +96,7 @@ function init(signal: AbortSignal): void {
 	onCommitTitleUpdate(updateUI, signal);
 
 	// On submission, update PR
-	delegate('form.js-merge-pull-request', 'submit', updatePRTitle, {signal});
+	delegate(mergeButtonSelector, 'click', updatePRTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
