@@ -253,8 +253,8 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const sessionStorageState = SessionPageSetting.get();
-	const initialState = sessionStorageState
+	const sessionPageSetting = SessionPageSetting.get();
+	const initialState = sessionPageSetting
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'default');
