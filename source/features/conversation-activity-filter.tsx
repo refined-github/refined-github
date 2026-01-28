@@ -35,6 +35,12 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
+const sessionStorageKey = 'rgh-conversation-activity-filter-state';
+
+function getCurrentPageSessionStorageKey(): string {
+	return `${sessionStorageKey}:${location.pathname}`;
+}
+
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
 	if (pageDetect.isPR() && elementExists('.TimelineItem-badge .octicon-git-commit', item)) {
@@ -124,6 +130,8 @@ function applyState(state: State): void {
 	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
 		dropdownItem.setAttribute('aria-checked', 'false');
 	}
+
+	sessionStorage.setItem(getCurrentPageSessionStorageKey(), state);
 }
 
 function createRadios(current: State): JSX.Element[] {
@@ -237,9 +245,11 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = minorFixesIssuePages.some(url => location.href.startsWith(url))
-		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-		: 'default';
+	const sessionStorageState = sessionStorage.getItem(getCurrentPageSessionStorageKey());
+	const initialState = sessionStorageState
+		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
+			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			: 'default');
 
 	observe([
 		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
