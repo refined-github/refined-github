@@ -18,7 +18,7 @@ function underlineSelfReference(link: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	const [currentPage] = location.href.split('#');
-	observe(`.issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
+	observe(`.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
