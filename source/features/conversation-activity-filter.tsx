@@ -35,10 +35,8 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
-const sessionStorageKey = 'rgh-conversation-activity-filter-state';
-
 function getCurrentPageSessionStorageKey(): string {
-	return `${sessionStorageKey}:${location.pathname}`;
+	return `rgh-conversation-activity-filter-state:${location.pathname}`;
 }
 
 function processTimelineEvent(item: HTMLElement): void {
