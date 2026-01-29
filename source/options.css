@@ -21,10 +21,6 @@ form {
 	padding-block: 1em;
 }
 
-html {
-	scroll-padding-top: calc(var(--summary-padding) * 2 + 1.5rlh + 1em);
-}
-
 html::after {
 	/* Add some extra scroll to the page to reduce section toggle jumps/scroll */
 	content: '';

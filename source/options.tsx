@@ -195,7 +195,7 @@ function scrollTargetIntoView(): void {
 	}
 
 	element.scrollIntoView({
-		block: 'start',
+		block: 'center',
 	});
 }
 
