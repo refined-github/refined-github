@@ -6,7 +6,6 @@
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
-	--summary-padding: 10px;
 
 	max-width: none;
 }
@@ -87,6 +86,8 @@ details > div {
 }
 
 summary {
+	--summary-padding: 10px;
+
 	position: sticky;
 	top: 0;
 	z-index: 1;
