@@ -189,7 +189,11 @@ function scrollTargetIntoView(): void {
 		return;
 	}
 
-	element.closest('details')!.open = true;
+	const details = element.closest('details');
+	if (details) {
+		details.open = true;
+	}
+
 	element.scrollIntoView({
 		block: 'start',
 	});
