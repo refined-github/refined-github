@@ -156,7 +156,8 @@ summary:hover {
 }
 
 @keyframes blink-border {
-	0%, 100% {
+	0%,
+	100% {
 		outline: solid 2px transparent;
 	}
 	50% {
