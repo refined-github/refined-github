@@ -178,9 +178,27 @@ function addEventListeners(): void {
 	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
+function handleUrlHash(): void {
+	const {hash} = location;
+	if (!hash) {
+		return;
+	}
+
+	const element = $optional(hash);
+	if (!element) {
+		return;
+	}
+
+	element.closest('details')!.open = true;
+	element.scrollIntoView({
+		block: 'start',
+	});
+}
+
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+	handleUrlHash();
 }
 
 void init();

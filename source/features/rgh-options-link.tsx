@@ -16,7 +16,7 @@ function linkify(anchor: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(placeholdersSelector, linkify, {signal});
-	delegate(placeholdersSelector, 'click', openOptions, {signal});
+	delegate(placeholdersSelector, 'click', () => openOptions, {signal});
 }
 
 void features.add(import.meta.url, {

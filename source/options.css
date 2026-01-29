@@ -6,6 +6,7 @@
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
+	--summary-padding: 10px;
 
 	max-width: none;
 }
@@ -18,6 +19,10 @@ form {
 	max-width: var(--content-width);
 	margin: auto;
 	padding-block: 1em;
+}
+
+html {
+	scroll-padding-top: calc(var(--summary-padding) * 2 + 1.5rlh + 1em);
 }
 
 html::after {
@@ -86,8 +91,6 @@ details > div {
 }
 
 summary {
-	--summary-padding: 10px;
-
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -144,6 +147,21 @@ summary:hover {
 	align-items: baseline;
 	flex-wrap: wrap;
 	gap: 0 0.4em;
+
+	&:has(> :target) {
+		animation-name: blink-border;
+		animation-duration: 1.5s;
+		animation-iteration-count: 2;
+	}
+}
+
+@keyframes blink-border {
+	0%, 100% {
+		outline: solid 2px transparent;
+	}
+	50% {
+		outline: solid 2px #1f6feb;
+	}
 }
 
 .feature input[type='checkbox'] {
