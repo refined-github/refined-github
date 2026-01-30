@@ -21,7 +21,7 @@ function addNotice(adjective: JSX.Element | string): void {
 		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink hash="token" className="btn-link">in the options</OptionsLink>.
+				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</div>,
