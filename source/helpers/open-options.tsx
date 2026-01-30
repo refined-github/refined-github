@@ -5,10 +5,10 @@ export default function openOptions(hash?: string): void {
 	void messageRuntime({openOptionsPage: hash});
 }
 
-export function OptionsLink({hash}: {hash?: string}): JSX.Element {
+export function OptionsLink(): JSX.Element {
 	return (
 		<button type="button" onClick={() => {
-			openOptions(hash);
+			openOptions();
 		}} />
 	);
 }
