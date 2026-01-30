@@ -176,7 +176,7 @@ summary:hover {
 	scroll-margin-top: calc(
 		var(--summary-padding) *
 		2 +
-		/* details p */
+		/* summary header */
 		1.5rem +
 		var(--outline-width) +
 		1lh
