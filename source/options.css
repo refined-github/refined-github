@@ -150,6 +150,14 @@ summary:hover {
 		animation-duration: 1.5s;
 		animation-iteration-count: 2;
 	}
+
+	padding: 0.5em 0;
+	&:first-of-type {
+		padding-top: 0;
+	}
+	p {
+		margin-bottom: 0;
+	}
 }
 
 @keyframes blink-border {
