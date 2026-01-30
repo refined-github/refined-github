@@ -6,6 +6,7 @@
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
+	--summary-padding: 10px;
 
 	max-width: none;
 }
@@ -86,8 +87,6 @@ details > div {
 }
 
 summary {
-	--summary-padding: 10px;
-
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -140,6 +139,7 @@ summary:hover {
 }
 
 .feature:not([hidden]) {
+	--outline-width: 2px;
 	display: flex;
 	align-items: baseline;
 	flex-wrap: wrap;
@@ -155,15 +155,18 @@ summary:hover {
 @keyframes blink-border {
 	0%,
 	100% {
-		outline: solid 2px transparent;
+		outline: solid var(--outline-width) transparent;
 	}
 	50% {
-		outline: solid 2px #1f6feb;
+		outline: solid var(--outline-width) #1f6feb;
 	}
 }
 
 .feature input[type='checkbox'] {
+	--padding: 10px;
 	flex-shrink: 0;
+	/* details p is 1.5rem */
+	scroll-margin-top: calc(var(--summary-padding) * 2 + 1.5rem + var(--outline-width) + var(--padding));
 }
 
 .feature-checkbox:not(:checked) + .info .feature-name {
