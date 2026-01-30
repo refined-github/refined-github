@@ -165,8 +165,14 @@ summary:hover {
 .feature input[type='checkbox'] {
 	--padding: 10px;
 	flex-shrink: 0;
-	/* details p is 1.5rem */
-	scroll-margin-top: calc(var(--summary-padding) * 2 + 1.5rem + var(--outline-width) + var(--padding));
+	scroll-margin-top: calc(
+		var(--summary-padding) *
+		2 +
+		/* details p */
+		1.5rem +
+		var(--outline-width) +
+		1lh
+	);
 }
 
 .feature-checkbox:not(:checked) + .info .feature-name {
