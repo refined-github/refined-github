@@ -100,6 +100,7 @@
 		"@types/chrome": "^0.1.36",
 		"@types/codemirror": "^5.60.17",
 		"@types/dom-navigation": "^1.0.6",
+		"@types/minimatch": "^6.0.0",
 		"@types/node": "^24.10.1",
 		"@types/react": "^17.0.52",
 		"browserslist": "^4.28.1",
