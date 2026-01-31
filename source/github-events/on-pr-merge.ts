@@ -1,6 +1,7 @@
 import {oneEvent} from 'delegate-it';
 
 import observe from '../helpers/selector-observer.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 
 // This event ensures that the feature appears exclusively to the person that merged the PR and not anyone who was on the page at the time of the merge
 export default async function waitForPrMerge(signal: AbortSignal): Promise<void> {
@@ -11,14 +12,7 @@ export default async function waitForPrMerge(signal: AbortSignal): Promise<void>
 		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', resolve, {ancestor: 4});
 	});
 
-	await oneEvent([
-		// TODO: Drop in 2026
-		'.js-merge-commit-button',
-
-		// TODO: Add a textContent check after https://github.com/fregante/delegate-it/issues/55
-		// TODO: Support "Confirm auto-merge (squash)" button (it's not primary/green)
-		'div[class^="MergeBox-module"] div[data-has-label] ~ div button[data-size="medium"][data-variant="primary"]',
-	], 'click', {signal});
+	await oneEvent(confirmMergeButton, 'click', {signal});
 
 	// It won't resolve once the signal is aborted
 	await mergeEvent;
