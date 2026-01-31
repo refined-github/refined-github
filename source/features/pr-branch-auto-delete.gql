@@ -1,4 +1,4 @@
-query GetPrsToBaseBranch(
+query GetPrsToBaseBranchAndDeleteBranchSetting(
 	$owner: String!
 	$name: String!
 	$baseRefName: String!
@@ -7,5 +7,6 @@ query GetPrsToBaseBranch(
 		pullRequests(baseRefName: $baseRefName, states: OPEN) {
 			totalCount
 		}
+		deleteBranchOnMerge
 	}
 }
