@@ -9,6 +9,7 @@ import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranchAndDeleteBranchSetting from './pr-branch-auto-delete.gql';
+import {userCanLikelyMergePR} from '../github-helpers/index.js';
 
 // DO NOT ask for additions or customizations. This is just a list of "obvious" permanent branches.
 // Protect your permanent branches instead: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches
@@ -75,6 +76,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenConversation,
+		userCanLikelyMergePR,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init,
