@@ -41,7 +41,6 @@ async function init(signal: AbortSignal): Promise<void> {
 			baseRefName: head.branch,
 		},
 	});
-
 	if (repository.pullRequests.totalCount) {
 		return;
 	}
@@ -62,9 +61,12 @@ async function init(signal: AbortSignal): Promise<void> {
 		stopOnDomReady: false,
 		signal,
 	});
+	if (!deletionEvent) {
+		return;
+	}
 
 	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
-	deletionEvent!.append(
+	deletionEvent.append(
 		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
 	);
 }
