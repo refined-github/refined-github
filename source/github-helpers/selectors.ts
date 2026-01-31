@@ -262,3 +262,6 @@ export const deletedHeadRepository_ = [
 	[2, 'https://github.com/refined-github/refined-github/pull/271'],
 	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
 ];
+
+export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
+export const confirmMergeButton_ = requiresLogin;
