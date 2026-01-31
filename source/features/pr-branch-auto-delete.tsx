@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import {$$optional} from 'select-dom/strict.js';
 import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
@@ -29,16 +28,7 @@ const exceptions = [
 	/^v\d/,
 ];
 
-async function init(): Promise<void> {
-	const deleteButton = $$optional([
-		'[action$="/cleanup"] [type="submit"]', // TODO: Drop in May 2025
-		'[class^="MergeBoxSectionHeader"] button',
-	]).find(button => button.textContent === 'Delete branch');
-
-	if (!deleteButton) {
-		return;
-	}
-
+async function init(signal: AbortSignal): Promise<void> {
 	// Skip branches that are likely to be long-lived https://github.com/refined-github/refined-github/issues/7755
 	const {head} = getBranches();
 	if (matchesAnyPattern(head.branch, exceptions)) {
@@ -56,13 +46,21 @@ async function init(): Promise<void> {
 		return;
 	}
 
-	// TODO: Drop label in May 2025
-	deleteButton.dataset.disableWith = 'Auto-deleting…';
+	await waitForPrMerge(signal);
+
+	const deleteButton = await elementReady('[class^="MergeBoxSectionHeader"] button', {
+		stopOnDomReady: false,
+		signal,
+	});
+	if (deleteButton?.textContent !== 'Delete branch') {
+		return;
+	}
+
 	deleteButton.click();
 
 	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
 		stopOnDomReady: false,
-		signal: AbortSignal.timeout(2000),
+		signal,
 	});
 
 	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
@@ -77,10 +75,7 @@ void features.add(import.meta.url, {
 		pageDetect.isOpenConversation,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
-	async init(signal: AbortSignal): Promise<void> {
-		await waitForPrMerge(signal);
-		await init();
-	},
+	init,
 });
 
 /*
