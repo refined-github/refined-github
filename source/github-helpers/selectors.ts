@@ -263,5 +263,21 @@ export const deletedHeadRepository_ = [
 	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
 ];
 
+export const conversationCloseEvent = [
+	// Old view (PRs)
+	`.TimelineItem:has(.TimelineItem-badge :is(
+		.octicon-issue-closed,
+		.octicon-git-merge,
+		.octicon-git-pull-request-closed,
+		.octicon-skip
+	))`,
+	// React view (Issues)
+	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
+];
+export const conversationCloseEvent_ = [
+	[4, 'https://github.com/refined-github/sandbox/issues/123'],
+	[4, 'https://github.com/refined-github/refined-github/pull/4030'],
+];
+
 export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
 export const confirmMergeButton_ = requiresLogin;
