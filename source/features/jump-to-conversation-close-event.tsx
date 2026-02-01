@@ -10,7 +10,7 @@ import {conversationCloseEvent} from '../github-helpers/selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import './jump-to-conversation-close-event.css';
 
-export const statusBadge = [
+export const statusBadgeSelector = [
 	'#partial-discussion-header .State:not(.rgh-locked-issue)',
 	'[data-testid="header-state"]',
 ] as const;
@@ -21,7 +21,7 @@ function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
 	const lastCloseEvent = lastElement(conversationCloseEvent);
 	const eventAnchor = $('a[href*="#event-"]', lastCloseEvent);
-	const statusBadges = $$(statusBadge);
+	const statusBadges = $$(statusBadgeSelector);
 
 	for (const statusBadge of statusBadges) {
 		const maybeWrapper = statusBadge.parentElement!;
