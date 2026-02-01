@@ -1,15 +1,14 @@
 import './cross-deleted-pr-branches.css';
 
 import React from 'dom-chef';
-import {$$, lastElement} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional, $$, lastElementOptional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void | false {
-	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');
+	const lastBranchAction = lastElementOptional('.TimelineItem-body .user-select-contain.commit-ref');
 
 	const headReferenceLink = $optional('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {

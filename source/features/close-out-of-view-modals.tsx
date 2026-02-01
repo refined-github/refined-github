@@ -1,4 +1,4 @@
-import {$$} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import onetime from '../helpers/onetime.js';

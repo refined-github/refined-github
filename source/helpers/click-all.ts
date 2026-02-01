@@ -1,5 +1,5 @@
 import mem from 'memoize';
-import {$$} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 import type {DelegateEvent} from 'delegate-it';
 
 import preserveScroll from './preserve-scroll.js';

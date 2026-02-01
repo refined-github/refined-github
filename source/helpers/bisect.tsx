@@ -1,17 +1,16 @@
 import React from 'dom-chef';
 import {CachedValue} from 'webext-storage-cache';
-import {$$} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 
 import pluralize from './pluralize.js';
 import {getFeatureUrl} from './rgh-links.js';
 import {importedFeatures} from '../feature-data.js';
 
+import {$$optional} from 'select-dom/strict.js';
 export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
 
 function enableButtons(): void {
-	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
+	for (const button of $$optional('#rgh-bisect-dialog [aria-disabled]')) {
 		button.removeAttribute('aria-disabled');
 	}
 }

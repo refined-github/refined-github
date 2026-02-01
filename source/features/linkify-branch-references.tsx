@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
+import {$, $optional, $$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import GitHubFileURL from '../github-helpers/github-file-url.js';
@@ -22,7 +21,7 @@ function linkifyQuickPR(element: HTMLElement): void {
 function linkifyHovercard(hovercard: HTMLElement): void {
 	const {href} = $('a.Link--primary', hovercard);
 
-	for (const reference of $$('.commit-ref', hovercard)) {
+	for (const reference of $$optional('.commit-ref', hovercard)) {
 		const url = new GitHubFileURL(href).assign({
 			route: 'tree',
 			branch: reference.title,

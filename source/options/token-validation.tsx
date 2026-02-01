@@ -1,5 +1,4 @@
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$, $$} from 'select-dom/strict.js';
 
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
