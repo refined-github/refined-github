@@ -14,4 +14,7 @@
 	& .SelectMenu-list {
 		margin-bottom: 0;
 	}
+	.SelectMenu-item {
+		padding: var(--base-size-8, 0.5rem)
+	}
 }
