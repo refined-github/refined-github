@@ -7,3 +7,11 @@
 		z-index: 100;
 	}
 }
+
+/* Remove scrollbars when they are not needed */
+#rgh-select-notifications-form {
+	&,
+	& .SelectMenu-list {
+		margin-bottom: 0;
+	}
+}
