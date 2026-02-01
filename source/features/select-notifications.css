@@ -8,10 +8,10 @@
 	}
 }
 
-/* Remove scrollbars when they are not needed */
 #rgh-select-notifications-form {
 	&,
 	& .SelectMenu-list {
+		/* Remove scrollbars when they are not needed */
 		margin-bottom: 0;
 	}
 	@media (max-width: 543px) {
