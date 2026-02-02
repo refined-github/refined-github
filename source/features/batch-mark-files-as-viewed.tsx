@@ -102,6 +102,10 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
+	exclude: [
+		pageDetect.isPRFile404,
+		pageDetect.isPRCommit,
+	],
 	init,
 });
 
