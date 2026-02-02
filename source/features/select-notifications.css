@@ -7,3 +7,16 @@
 		z-index: 100;
 	}
 }
+
+#rgh-select-notifications-form {
+	&,
+	& .SelectMenu-list {
+		/* Remove scrollbars when they are not needed */
+		margin-bottom: 0;
+	}
+	@media (max-width: 543px) {
+		.SelectMenu-item {
+			padding: var(--control-large-paddingBlock, 0);
+		}
+	}
+}
