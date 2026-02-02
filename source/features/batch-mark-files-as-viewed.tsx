@@ -23,7 +23,7 @@ const fileSelector = [
 let previousFile: HTMLElement | undefined;
 
 function remember(event: DelegateEvent): void {
-	if (!event.isTrusted) {
+	if (event.isTrusted) {
 		previousFile = event.delegateTarget.closest(fileSelector)!;
 	}
 }
