@@ -48,7 +48,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'.js-issue-title code', // Old `isPR` and `isIssue` views
+		'.js-issue-title code', // `isPRConversation`, Old view `isIssue`
 		'h1[class^="prc-PageHeader-Title"] code', // `isPRFiles`,
 		'[data-testid="issue-title"] code', // `isIssue`
 		'.js-comment-body code', // Old view `hasComments`
