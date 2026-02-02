@@ -19,6 +19,7 @@ const fileSelector = [
 	// Old view
 	'.js-file',
 ];
+const checkedSelector = ':is(:has(.octicon-checkbox-fill), [checked])';
 
 let previousFile: HTMLElement | undefined;
 
@@ -61,31 +62,24 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 	}
 }
 
-function markAsViewedSelector(target: HTMLElement): string {
-	const isTargetChecked = isChecked(target);
-
-	let checkedSelector: string;
-	if (target instanceof HTMLLabelElement) {
-		// Old view
-		checkedSelector = isTargetChecked ? ':not([checked])' : '[checked]';
-	} else {
-		checkedSelector = isTargetChecked ? ':has(.octicon-checkbox-fill)' : ':not(:has(.octicon-checkbox-fill))';
-	}
-
+function markAsViewedSelector(file: HTMLElement): string {
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
-	return `:is(${fileSelector.join(',')}):not([hidden]) :is(${viewedToggleSelector.join(',')})` + checkedSelector;
+	return `:is(${fileSelector.join(',')}):not([hidden]) `
+		+ `:is(${viewedToggleSelector.join(',')})`
+		+ (isChecked(file) ? `:not(${checkedSelector})` : checkedSelector);
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-// A single click is somehow causing two separate trusted `click` events, so it needs to be debounced
 const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
 	if (!event.altKey || !event.isTrusted) {
 		return;
 	}
 
-	const newState = isChecked(event.delegateTarget) ? 'unviewed' : 'viewed';
+	const file = event.delegateTarget.closest(fileSelector)!;
+	const newState = isChecked(file) ? 'unviewed' : 'viewed';
+
 	void showToast(async () => {
 		markAsViewed(event);
 	}, {
