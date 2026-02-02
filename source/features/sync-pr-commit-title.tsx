@@ -33,8 +33,9 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const mergeButton = $optional(confirmMergeButton);
-	if (mergeButton?.textContent !== 'Confirm squash and merge') {
+	const mergeButtonLabel = $optional(confirmMergeButton)?.textContent?.trim();
+	if (mergeButtonLabel !== 'Confirm squash and merge'
+		&& mergeButtonLabel !== 'Confirm auto-merge (squash)') {
 		return false;
 	}
 
