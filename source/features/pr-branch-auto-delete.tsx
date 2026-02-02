@@ -81,7 +81,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isMergedPR,
-	]
+	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init,
 });
