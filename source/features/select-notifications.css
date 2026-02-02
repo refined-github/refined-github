@@ -16,7 +16,7 @@
 	}
 	@media (max-width: 543px) {
 		.SelectMenu-item {
-			padding: var(--control-large-paddingBlock, 0.625rem);
+			padding: var(--control-large-paddingBlock, 0);
 		}
 	}
 }
