@@ -19,6 +19,7 @@ const fileSelector = [
 	// Old view
 	'.js-file',
 ];
+// New view, Old view
 const checkedSelector = ':is(:has(.octicon-checkbox-fill), [checked])';
 
 let previousFile: HTMLElement | undefined;
