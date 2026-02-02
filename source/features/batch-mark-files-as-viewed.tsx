@@ -79,7 +79,7 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 	}
 
 	const file = event.delegateTarget.closest(fileSelector)!;
-	const newState = isChecked(file) ? 'unviewed' : 'viewed';
+	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
 	void showToast(async () => {
 		markAsViewed(event);
