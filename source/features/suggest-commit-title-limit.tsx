@@ -37,7 +37,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	delegate([
 		'#pull_request_title', // `isCompare`
 		'#issue_title', // `isPRConversation`, checks
-		'[class^="prc-PageLayout-Header"] input', // other `isPR` pages
+		'[class^="prc-PageLayout-Header"] input', // Other `isPR` pages
 	], 'input', validatePrTitle, {signal, passive: true});
 	await waitForPrMerge(signal);
 	unload();
