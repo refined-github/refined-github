@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
@@ -18,6 +19,8 @@ export const codeElementsSelector = [
 	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
 	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
 	'.comment-body code:not(a code, pre code)', // Inline code in comments
+	'.diff-text-inner',
+	'.react-file-line',
 ];
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -29,9 +32,40 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	}
 }
 
+// https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
+function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
+	// TODO: bump min firefox version to 147 and safari to 26 in 2027
+	if (!CSS.supports('anchor-name: --test')) {
+		return;
+	}
+
+	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
+	if (!menuPositioner) {
+		return;
+	}
+
+	const codeLine = element.closest('[id]');
+	if (!codeLine) {
+		throw new Error('Could not find parent code line');
+	}
+
+	const links = $$('a', codeLine);
+	for (const [index, link] of links.entries()) {
+		const clonedLink = link.cloneNode(true);
+		clonedLink.className += ` ${codeLine.className} rgh-invisible-anchored-link`;
+		const anchor = `--rgh-${codeLine.id}-${index}`;
+		// @ts-expect-error -- Not widely available yet
+		link.style.anchorName = anchor;
+		// @ts-expect-error -- Not widely available yet
+		clonedLink.style.positionAnchor = anchor;
+		menuPositioner.style.overflowX = 'clip';
+		menuPositioner.prepend(clonedLink);
+	}
+}
+
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
-	element: Element,
+	element: HTMLElement,
 	options: Partial<LinkifyIssuesOptions> = {},
 ): void {
 	const linkified = linkifyIssuesToDom(element.textContent, {
@@ -61,9 +95,10 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
+	prependAnchorsBeforeCodeOverlay(element);
 }
 
-export function linkifyURLs(element: Element): void {
+export function linkifyURLs(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
@@ -85,6 +120,7 @@ export function linkifyURLs(element: Element): void {
 	}
 
 	zipTextNodes(element, linkified);
+	prependAnchorsBeforeCodeOverlay(element);
 }
 
 export function parseBackticks(element: Element): void {
