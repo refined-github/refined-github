@@ -1,12 +1,13 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
+
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function LockedIndicator(): JSX.Element {
 	return (
@@ -17,49 +18,36 @@ function LockedIndicator(): JSX.Element {
 	);
 }
 
-function addLock(element: HTMLElement): void {
-	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
-
-	// Avoid adding it duplicately in issue
-	if (isReactView && elementExists('.rgh-locked-issue', element)) {
-		return;
-	}
-
+function addLockLegacy(element: HTMLElement): void {
 	const closestSticky = element.closest('.gh-header-sticky');
-	const classes = `${closestSticky ? 'mr-2 ' : ''}${isReactView ? '' : 'mb-2 '}`;
+	const classes = 'mb-2 ' + (closestSticky ? 'mr-2 ' : '');
+	element.after(
+		<LockedIndicator className={classes + featureClass} />,
+	);
+}
 
-	let container: HTMLElement | undefined;
-
-	if (isReactView) {
-		const wrapper = $('[data-testid="header-state"]', element).parentElement!;
-
-		// Check if the element is wrapped by jump to close event feature
-		const isWrappedByCloseEvent = wrapper.tagName === 'A';
-		container = isWrappedByCloseEvent
-			? wrapper.parentElement!
-			: wrapper;
-	} else {
-		container = element;
-	}
-
-	container.after(
-		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
+function addLock(element: HTMLElement): void {
+	element.parentElement!.classList.add('d-flex', 'gap-2');
+	element.after(
+		<LockedIndicator className={element.className + ` ${featureClass}`} />,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe([
-		'[data-testid="issue-metadata-fixed"]', // Issue title
-		'[data-testid="issue-metadata-sticky"]', // Sticky issue title
-		'.gh-header-meta > :first-child', // PR title
-		'.gh-header-sticky .flex-row > :first-child', // Sticky PR title
-	], addLock, {signal});
+	// Old views - TODO: Drop after July 2026
+	observe(`:is(.gh-header-sticky, .gh-header-meta) .State:not(${featureSelector})`, addLockLegacy, {signal});
+	observe(
+		`:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) [class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
+		addLock, {signal}
+	);
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
+		async () => await isConversationLocked() === true,
+	],
+	include: [
 		pageDetect.isConversation,
-		async () => await isConversationLocked() ?? false,
 	],
 	init,
 });
