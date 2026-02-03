@@ -3,9 +3,8 @@
 }
 
 /* Limit width of commit title to 72 characters */
-.rgh-suggest-commit-title-limit
-:is(
-	/* biome-ignore format: bug */
+/* biome-ignore format: bug */
+.rgh-suggest-commit-title-limit :is(
 	#commit-summary-input /* <- TODO: Remove after July 2026 */
 	#commit-message-input,
 	[data-testid='mergebox-partial'] input
