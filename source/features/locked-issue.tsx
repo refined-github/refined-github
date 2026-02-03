@@ -38,7 +38,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	observe(`:is(.gh-header-sticky, .gh-header-meta) .State:not(${featureSelector})`, addLockLegacy, {signal});
 	observe(
 		`:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) [class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
-		addLock, {signal}
+		addLock,
+		{signal},
 	);
 }
 
