@@ -109,6 +109,9 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
+	exclude: [
+		pageDetect.isMergedPR,
+	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });
