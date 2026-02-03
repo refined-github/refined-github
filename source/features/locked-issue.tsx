@@ -26,14 +26,11 @@ function addLockLegacy(element: HTMLElement): void {
 	);
 }
 
-function addLock(element: HTMLElement, signal: AbortSignal): void {
+function addLock(element: HTMLElement): void {
 	element.parentElement!.classList.add('d-flex', 'gap-2');
-	const lockedIdicator = <LockedIndicator className={element.className + ` ${featureClass}`} />;
-	element.after(lockedIdicator);
-
-	signal.addEventListener('abort', () => {
-		lockedIdicator.remove();
-	});
+	element.after(
+		<LockedIndicator className={element.className + ` ${featureClass}`} />,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
@@ -41,9 +38,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	observe(`:is(.gh-header-sticky, .gh-header-meta) .State:not(${featureSelector})`, addLockLegacy, {signal});
 	observe(
 		`:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) [class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
-		(element: HTMLElement) => {
-			addLock(element, signal);
-		},
+		addLock,
 		{signal},
 	);
 }
