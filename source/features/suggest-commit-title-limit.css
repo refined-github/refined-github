@@ -5,8 +5,8 @@
 /* Limit width of commit title to 72 characters */
 .rgh-suggest-commit-title-limit
 :is(
-	#commit-summary-input
-		/* TODO: Remove next selector after July 2026 */
+	#commit-summary-input,
+	/* TODO: Remove next selector after July 2026 */
 		#commit-message-input,
 	[data-testid='mergebox-partial'] input
 ) {
