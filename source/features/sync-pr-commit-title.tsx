@@ -11,15 +11,10 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 
-const prTitleFieldSelector = [
-	'input#issue_title', // Old view - TODO: Remove after July 2026
-	'div[class^="prc-PageLayout-Header"] input',
-];
-const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
-	return $optional(commitTitleFieldSelector);
+	return $optional('[data-testid="mergebox-partial"] input');
 }
 
 function getCurrentCommitTitle(): string | undefined {
@@ -31,8 +26,13 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 }
 
 function createCommitTitle(): string {
-	const prTitle = $(prTitleFieldSelector).value.trim();
-	return formatPrCommitTitle(prTitle);
+	const prTitle = $([
+		'input#issue_title', // Old view - TODO: Remove after July 2026
+		'div[class^="prc-PageLayout-Header"] input',
+		'h1[class^="prc-PageHeader-Title"] span:first-of-type',
+	]);
+	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent;
+	return formatPrCommitTitle(prTitleText.trim());
 }
 
 function needsSubmission(): boolean {
@@ -91,9 +91,10 @@ function disableSubmission(): void {
 }
 
 function init(signal: AbortSignal): void {
-	// PR title -> Commit title field
-	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe('.gh-header-title', updateCommitTitle, {signal}); // On PR title change
+	observe([
+		'h1[class^="prc-PageHeader-Title"]',
+		'.gh-header-title', // Old view - TODO: Remove after July 2026
+	], updateCommitTitle, {signal}); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUI, signal);
