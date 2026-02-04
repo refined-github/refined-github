@@ -36,8 +36,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
 		'#pull_request_title', // `isCompare`
-		'#issue_title', // `isPRConversation`, checks - TODO: Remove after July 2026
-		'[class^="prc-PageLayout-Header"] input', // Other `isPR` pages
+		'#issue_title', // Old `isPR` views - TODO: Remove after July 2026
+		'[class^="prc-PageLayout-Header"] input', // `isPR`
 	], 'input', validatePrTitle, {signal, passive: true});
 	await waitForPrMerge(signal);
 	unload();
