@@ -5,9 +5,9 @@
 /* Limit width of commit title to 72 characters */
 .rgh-suggest-commit-title-limit
 :is(
-	#commit-summary-input,
+	#commit-message-input,
 	/* TODO: Remove next selector after July 2026 */
-		#commit-message-input,
+		#commit-summary-input,
 	[data-testid='mergebox-partial'] input
 ) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
