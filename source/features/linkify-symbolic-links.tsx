@@ -3,12 +3,20 @@ import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
+import {prependAnchorsBeforeCodeOverlay} from '../github-helpers/dom-formatters.js';
 import features from '../feature-manager.js';
 
 function init(): void {
-	if ($optional('.file-mode')?.textContent === 'symbolic link') {
-		const line = $('.js-file-line');
+	if ($optional([
+		'[class*="CodeSizeDetails-module__PrimerLink"]',
+		'.file-mode', // Old view - Remove after July 2026
+	])?.textContent.toLowerCase() === 'symbolic link') {
+		const line = $([
+			'.react-code-line-contents',
+			'.js-file-line', // Old view - Remove after July 2026
+		]);
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
+		prependAnchorsBeforeCodeOverlay(line);
 	}
 }
 
