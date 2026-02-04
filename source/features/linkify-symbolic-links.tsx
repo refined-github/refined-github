@@ -7,14 +7,8 @@ import {prependAnchorsBeforeCodeOverlay} from '../github-helpers/dom-formatters.
 import features from '../feature-manager.js';
 
 function init(): void {
-	if ($optional([
-		'[class*="CodeSizeDetails-module__PrimerLink"]',
-		'.file-mode', // Old view - Remove after July 2026
-	])?.textContent.toLowerCase() === 'symbolic link') {
-		const line = $([
-			'.react-code-line-contents',
-			'.js-file-line', // Old view - Remove after July 2026
-		]);
+	if ($optional('[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
+		const line = $('.react-code-line-contents');
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
 		prependAnchorsBeforeCodeOverlay(line);
 	}
@@ -39,3 +33,4 @@ Test URLs:
 https://github.com/wmluke/angular-flash/blob/0.1.14/app/components
 
 */
+
