@@ -11,7 +11,10 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 
-const prTitleFieldSelector = 'input#issue_title';
+const prTitleFieldSelector = [
+	'input#issue_title', // Old view - TODO: Remove after July 2026
+	'div[class^="prc-PageLayout-Header"] input',
+];
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
