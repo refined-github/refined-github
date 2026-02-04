@@ -11,10 +11,11 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 
+const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
-	return $optional('[data-testid="mergebox-partial"] input');
+	return $optional(commitTitleFieldSelector);
 }
 
 function getCurrentCommitTitle(): string | undefined {
@@ -91,6 +92,8 @@ function disableSubmission(): void {
 }
 
 function init(signal: AbortSignal): void {
+	// PR title -> Commit title field
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
 	observe([
 		'h1[class^="prc-PageHeader-Title"]',
 		'.gh-header-title', // Old view - TODO: Remove after July 2026
