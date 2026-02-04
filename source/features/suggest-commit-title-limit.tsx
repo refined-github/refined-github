@@ -73,6 +73,7 @@ void features.add(import.meta.url, {
 - Any editable file
 	- Markown: https://github.com/refined-github/refined-github/edit/main/readme.md
 	- Workflow: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
-- Compare page:
+- Compare page
 	- https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1
+
 */
