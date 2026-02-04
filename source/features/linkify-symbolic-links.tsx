@@ -1,15 +1,21 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
+import {prependAnchorsBeforeCodeOverlay} from '../github-helpers/dom-formatters.js';
+import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
-function init(): void {
-	if ($optional('.file-mode')?.textContent === 'symbolic link') {
-		const line = $('.js-file-line');
+function linkify(line: HTMLElement): void {
+	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
+		prependAnchorsBeforeCodeOverlay(line);
 	}
+}
+
+function init(signal: AbortSignal): void {
+	observe('.react-code-line-contents', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -19,8 +25,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isRepoFile404,
 	],
-	deduplicate: 'has-rgh',
-	awaitDomReady: true, // Small page
 	init,
 });
 
