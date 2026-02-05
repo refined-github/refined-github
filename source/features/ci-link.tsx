@@ -32,7 +32,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
-		<span className="rgh-ci-link ml-1 d-none d-sm-inline" title="CI status of latest commit">
+		<span className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center" title="CI status of latest commit">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"

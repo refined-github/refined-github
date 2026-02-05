@@ -1,5 +1,5 @@
-.rgh-ci-link {
-	align-self: center;
+.rgh-ci-link .commit-build-statuses {
+	font-size: 0;
 }
 
 /* The icon appears inside a clickable container, so it must be disabled */
