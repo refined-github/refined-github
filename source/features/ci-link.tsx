@@ -29,6 +29,10 @@ async function add(anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
+	if (!anchor.classList.contains('AppHeader-context-item')) {
+		anchor.closest('li')!.classList.add('d-flex');
+	}
+
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
