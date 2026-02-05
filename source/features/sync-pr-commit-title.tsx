@@ -32,8 +32,8 @@ function createCommitTitle(): string {
 		'div[class^="prc-PageLayout-Header"] input',
 		'h1[class^="prc-PageHeader-Title"] span:first-of-type',
 	]);
-	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent;
-	return formatPrCommitTitle(prTitleText.trim());
+	const prTitleText = (prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent).trim();
+	return formatPrCommitTitle(prTitleText);
 }
 
 function needsSubmission(): boolean {
