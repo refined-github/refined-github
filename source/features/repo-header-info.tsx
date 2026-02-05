@@ -82,8 +82,8 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe([
+		'div[data-testid="top-nav-center"] li[class^="prc-Breadcrumbs-ItemWrapper"]:last-child a[class*="prc-Breadcrumbs-Item"]',
 		'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
-		'header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child a:first-child',
 	], add, {signal});
 }
 

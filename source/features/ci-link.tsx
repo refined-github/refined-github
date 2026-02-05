@@ -51,7 +51,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	observe([
-		'header.GlobalNav [data-testid="top-nav-center"] ol > li:last-child a:first-child',
+		'div[data-testid="top-nav-center"] li[class^="prc-Breadcrumbs-ItemWrapper"]:last-child a[class*="prc-Breadcrumbs-Item"]',
 		// TODO: Remove after July 2026
 		// Desktop
 		'.AppHeader-context-item:not([data-hovercard-type])',
