@@ -64,13 +64,13 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([
-				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]',
+				'[class*="PullRequestHeaderSummary"] [class*="PullRequestBranchName"]:last-of-type',
 				'.base-ref', // TODO: Remove in June 2026
 			]));
 		},
 		get head() {
 			return parseReference($([
-				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]',
+				'[class*="PullRequestHeaderSummary"] [class*="PullRequestBranchName"]:first-of-type',
 				'.head-ref', // TODO: Remove in June 2026
 			]));
 		},
