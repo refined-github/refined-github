@@ -29,10 +29,14 @@ async function add(anchor: HTMLElement): Promise<void> {
 		return;
 	}
 
+	if (!anchor.classList.contains('AppHeader-context-item')) {
+		anchor.closest('li')!.classList.add('d-flex');
+	}
+
 	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
-		<span className="rgh-ci-link ml-1 d-none d-sm-inline" title="CI status of latest commit">
+		<span className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center" title="CI status of latest commit">
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
@@ -51,6 +55,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	observe([
+		'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+		// TODO: Remove after July 2026
 		// Desktop
 		'.AppHeader-context-item:not([data-hovercard-type])',
 
