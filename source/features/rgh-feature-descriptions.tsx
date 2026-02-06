@@ -126,7 +126,9 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
 			icon: <AlertIcon className="mr-0" />,
-			action: openOptions,
+			action() {
+				openOptions(id);
+			},
 			buttonLabel: 'Refined GitHub Options',
 		});
 	}
