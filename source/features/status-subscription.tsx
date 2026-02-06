@@ -242,9 +242,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		// Workaround for #6554
-		// TODO: remove once the issue is resolved
-		pageDetect.isRepoIssueOrPRList,
 	],
 	awaitDomReady: true, // The sidebar is at the end of the page
 	init,
