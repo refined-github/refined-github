@@ -31,7 +31,7 @@
 
 /* Fix dropdown getting cut off on issue headers */
 [class^='HeaderMetadata-module__titleAndMetadata'],
-span[class*="PullRequestHeaderSummary-module"] {
+span[class*='PullRequestHeaderSummary-module'] {
 	overflow: visible !important;
 }
 
