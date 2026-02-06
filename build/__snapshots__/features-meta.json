@@ -209,6 +209,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png"
 	},
 	{
+		"id": "delete-current-branch",
+		"description": "(Refined GitHub) Adds a delete button for the current branch on tree pages.",
+		"screenshot": "https://github.com/user-attachments/assets/ac4196b0-ac0e-4e21-82eb-d665bf2fb3a6"
+	},
+	{
 		"id": "dim-bots",
 		"description": "Dims commits and PRs by bots to reduce noise.",
 		"css": true,
