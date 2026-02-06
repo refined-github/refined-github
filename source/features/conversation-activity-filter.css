@@ -10,9 +10,11 @@
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
-:is(.js-issues-results, [data-testid='issue-viewer-container']):not(
-		.rgh-conversation-activity-is-filtered
-	)
+:is(
+		#diff-comparison-viewer-container,
+		[data-testid='issue-viewer-container'],
+		.js-issues-results
+	):not(.rgh-conversation-activity-is-filtered)
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye-closed {
 	display: none !important;
@@ -28,7 +30,8 @@
 }
 
 /* Fix dropdown getting cut off on issue headers */
-[class^='HeaderMetadata-module__titleAndMetadata'] {
+[class^='HeaderMetadata-module__titleAndMetadata'],
+span[class*="PullRequestHeaderSummary-module"] {
 	overflow: visible !important;
 }
 

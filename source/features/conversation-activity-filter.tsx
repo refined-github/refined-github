@@ -123,7 +123,7 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $(':is(.js-issues-results, [data-testid="issue-viewer-container"])');
+	const container = $(':is(#diff-comparison-viewer-container, [data-testid="issue-viewer-container"], .js-issues-results)');
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -259,11 +259,14 @@ async function init(signal: AbortSignal): Promise<void> {
 			: 'default');
 
 	observe([
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-		// React issue pages
+		// Issue pages
 		'[class^="HeaderMetadata-module__metadataContent"]',
 		'[class*="HeaderMetadata-module__smallMetadataRow"]',
+		// PR pages
+		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+		// Old PR pages. TODO: Remove after July 2026
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {
