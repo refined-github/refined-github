@@ -54,7 +54,7 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 function parseReference(referenceElement: HTMLElement): PrReference {
 	const {title, textContent, nextElementSibling} = referenceElement;
 
-	// In the old React version, we have a `title` attribute but it's used to mark deleted repos instead
+	// In the React version, we have a `title` attribute but it's used to mark deleted repos instead
 	return title && title !== 'This repository has been deleted'
 		? parseReferenceRaw(title, textContent.trim()) // TODO: Remove in June 2026
 		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
@@ -64,17 +64,19 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
+				'span[class*="PullRequestHeaderSummary"] > [class^="PullRequestBranchName"]',
 				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
 				'.base-ref', // TODO: Remove in June 2026
 			]));
 		},
 		get head() {
 			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > div > a[class^="PullRequestBranchName"]',
+				'span[class*="PullRequestHeaderSummary"] > div > [class^="PullRequestBranchName"]',
 				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
 				'.head-ref', // TODO: Remove in June 2026
 			]));
 		},
 	};
 }
+
+window.getBranches = getBranches;
