@@ -68,7 +68,12 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		'.commit-ref-dropdown',
 	], byline).nextSibling;
 	assertNodeContent(anchor, 'from');
-	anchor!.replaceWith(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
+
+	anchor!.after(
+	<span className='rgh-arrow'>
+		<ArrowLeftIcon className="v-align-middle mx-1" />
+	</span>
+);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
