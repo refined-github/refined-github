@@ -21,7 +21,6 @@
 	/* Removes: every text (but not icons) */
 	font-size: 0 !important;
 
-	/* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
 	/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
 	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
 	& > :not(.js-updating-pull-request-commits-count) {
@@ -38,16 +37,16 @@
 		margin-right: 4px;
 	}
 
-	/* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
 	&.rgh-hide-author {
-		.author + .Label /* #5832 */,
 		.author,
 		a[data-hovercard-type='user'] {
 			display: none;
 		}
 	}
 
+	[class^='PullRequestBranchName'],
+	/* TODO: Remove after July 2026 */
 	.commit-ref,
 	[class^='BranchName'] {
 		font-size: 12px;
@@ -57,11 +56,7 @@
 		margin-left: 4px;
 	}
 
-	/* Removes on issues: octocat opened this issue on [1 Jan] · 1 comments */
-	.gh-header.issue & relative-time {
-		display: none;
-	}
-
+	/* TODO: Remove after July 2026 */
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;
