@@ -47,7 +47,7 @@
 
 	[class^='PullRequestBranchName'],
 	/* TODO: Remove after July 2026 */
-	.commit-ref,
+		.commit-ref,
 	[class^='BranchName'] {
 		font-size: 12px;
 	}
