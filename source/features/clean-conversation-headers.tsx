@@ -70,10 +70,10 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	assertNodeContent(anchor, 'from');
 
 	anchor!.after(
-	<span className='rgh-arrow'>
-		<ArrowLeftIcon className="v-align-middle mx-1" />
-	</span>
-);
+		<span className='rgh-arrow'>
+			<ArrowLeftIcon className="v-align-middle mx-1" />
+		</span>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
