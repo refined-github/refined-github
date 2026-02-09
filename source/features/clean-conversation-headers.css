@@ -43,6 +43,10 @@
 		a[data-hovercard-type='user'] {
 			display: none;
 		}
+
+		& > [class*='PullRequestBranchName'] {
+			margin-left: -4px;
+		}
 	}
 
 	[class^='PullRequestBranchName'],

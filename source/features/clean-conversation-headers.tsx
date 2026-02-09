@@ -1,7 +1,7 @@
 import './clean-conversation-headers.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';
@@ -23,7 +23,8 @@ async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: strin
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
-	byline.parentElement!.closest('.d-flex')!.classList.add('flex-items-center');
+	// TODO: Remove after July 2026
+	byline.parentElement!.closest('.d-flex')?.classList.add('flex-items-center');
 
 	const prCreatorSelector = [
 		'.TimelineItem .author',
@@ -62,14 +63,17 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	void highlightNonDefaultBranchPRs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	const anchor = $([
+	let anchor = $optional([
 		'span[class*="Tooltip"]',
 		// TODO: Drop after July 2026
 		'.commit-ref-dropdown',
-	], byline).nextSibling;
+	], byline)?.nextSibling;
+	// TODO: Drop after July 2026
+	// There is no dropdown if PR is merged
+	anchor ??= base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
-	anchor!.after(
+	anchor.after(
 		<span className='rgh-arrow'>
 			<ArrowLeftIcon className="v-align-middle mx-1" />
 		</span>,
