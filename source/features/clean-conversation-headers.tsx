@@ -64,7 +64,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Shows on PRs: main [←] feature
 	const anchor
-		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: after July 2026
+		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: remove after July 2026
 			?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
