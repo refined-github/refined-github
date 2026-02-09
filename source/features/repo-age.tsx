@@ -68,7 +68,7 @@ const firstCommit = new CachedFunction('first-commit', {
 });
 
 async function init(): Promise<void> {
-	// Construct object only when it's needed, as it is relatively expensive
+	// Construct class only when it's needed, as it is relatively expensive
 	const dateFormatter = new Intl.DateTimeFormat('en-US', {
 		year: 'numeric',
 		month: 'long',
