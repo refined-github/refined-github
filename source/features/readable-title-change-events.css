@@ -1,6 +1,8 @@
 /* Stack titles in title edition events to improve readability */
 
-div[class^="row-module__timelineBodyContent"]:has(> span[class^='RenamedTitleEvent']),
+div[class^='row-module__timelineBodyContent']:has(
+		> span[class^='RenamedTitleEvent']
+	),
 .TimelineItem-body:has(> del.markdown-title) {
 	display: flex;
 	flex-wrap: wrap !important;
