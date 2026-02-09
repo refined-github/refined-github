@@ -63,14 +63,9 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	void highlightNonDefaultBranchPRs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	let anchor = $optional([
-		'span[class*="Tooltip"]',
-		// TODO: Drop after July 2026
-		'.commit-ref-dropdown',
-	], byline)?.nextSibling;
-	// TODO: Drop after July 2026
-	// There is no dropdown if PR is merged
-	anchor ??= base.nextSibling!.nextSibling!;
+	const anchor
+		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: after July 2026
+			?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
 	anchor.after(
