@@ -12,7 +12,7 @@ const selectors = [
 
 	// `isCommitList` commit description
 	// https://github.com/refined-github/sandbox/commits/buncha-files/
-	'.js-commits-list-item pre',
+	'.extended-commit-description-container',
 
 	// `isPRConversation` commit description
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
@@ -21,7 +21,7 @@ const selectors = [
 	// `isReleasesOrTags` Headers
 	// TODO: Fix. Not working
 	// https://github.com/refined-github/sandbox/releases/tag/cool
-	'.release-header',
+	'.Box-body h1',
 
 	// `isCompare` with existing PR
 	// https://github.com/refined-github/sandbox/compare/shorten-links
