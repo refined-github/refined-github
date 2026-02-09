@@ -51,6 +51,8 @@ const selectors = [
 	// Dashboard
 	// https://github.com
 	'a[class^="DashboardListView-module__ItemTitle"]',
+	// https://github.com/orgs/refined-github/dashboard
+	'.js-feed-item-component h3 > .Link--primary',
 ] as const;
 
 function initOnce(): void {
