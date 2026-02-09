@@ -1,4 +1,4 @@
-html:not([rgh-OFF-sticky-comment-header]) {
+html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	--rgh-bg-accent: var(
 		--bgColor-accent-muted,
 		var(--color-accent-subtle, fuchsia)
