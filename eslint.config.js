@@ -122,6 +122,12 @@ export default [
 								+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
 								+ ':not(:has(JSXAttribute[name.name="hidden"]))',
 					},
+					{
+						message: 'Use `elementExists` for checking if an element exists',
+						selector:
+								'*[test.type="CallExpression"][test.callee.name="$optional"],'
+								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
+					},
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
