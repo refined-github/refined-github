@@ -766,6 +766,11 @@
 		"screenshot": null
 	},
 	{
+		"id": "rerun-workflow",
+		"description": "Adds a keyboard shortcut to re-run failed GitHub Actions jobs on the Actions run page: <kbd>shift</kbd> <kbd>r</kbd>.",
+		"screenshot": null
+	},
+	{
 		"id": "restore-file",
 		"description": "Adds a button to discard all the changes to a file in a PR.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/236630610-e11a64f6-5e70-4353-89b8-39aae830dd16.gif"

@@ -1,15 +1,11 @@
-import {$$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function rerunFailedJobs(): void {
-	// The `unwrap-unnecessary-dropdowns` feature exposes re-run buttons directly
-	// in the page header as clickable buttons.
-	const button = $$optional('.PageHeader-actions button')
-		.find(element => element.textContent?.trim() === 'Re-run failed jobs');
-
+	const button = $optional('button[data-show-dialog-id="rerun-dialog-failed"]');
 	button?.click();
 }
 
