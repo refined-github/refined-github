@@ -25,6 +25,7 @@ const noScreenshotExceptions = new Set([
 	'profile-hotkey',
 	'repo-wide-file-finder',
 	'select-all-notifications-shortcut',
+	'rerun-workflow',
 	'selection-in-new-tab',
 	'click-outside-modal',
 	'same-page-links',
