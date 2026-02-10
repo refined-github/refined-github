@@ -19,7 +19,6 @@ const selectors = [
 	'.TimelineItem-body pre',
 
 	// `isReleasesOrTags` Headers
-	// TODO: Fix. Not working
 	// https://github.com/refined-github/sandbox/releases/tag/cool
 	'.Box-body h1',
 
