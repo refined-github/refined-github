@@ -132,6 +132,7 @@ import './features/clear-pr-merge-commit-message.js';
 import './features/action-used-by-link.js';
 import './features/batch-mark-files-as-viewed.js';
 import './features/unwrap-unnecessary-dropdowns.js';
+import './features/rerun-workflow.js';
 import './features/stop-redirecting-in-notification-bar.js';
 import './features/prevent-link-loss.js';
 import './features/closing-remarks.js';
