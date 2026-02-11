@@ -188,7 +188,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 					aria-controls={`${baseId}-list`}
 					aria-haspopup="true"
 					type="button"
-					className="Button--small Button--invisible Button p-1 mb-n1 mr-n1 ml-n1"
+					className="Button--small Button--invisible Button p-0 pl-1 ml-n1"
 				>
 					<span className="Button-content">
 						<span className="Button-visual Button-leadingVisual">
