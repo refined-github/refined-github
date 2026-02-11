@@ -195,8 +195,8 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 							<EyeIcon className="color-fg-muted" />
 							<EyeClosedIcon className="color-fg-danger" />
 						</span>
-						<span className="Button-label">
-							<span className="rgh-conversation-events-label color-fg-danger">events</span>
+						<span className="Button-label lh-condensed-ultra">
+							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">events</span>
 						</span>
 						<span className="Button-visual Button-trailingVisual">
 							<TriangleDownIcon />

@@ -23,13 +23,13 @@
 	.Button {
 		height: fit-content;
 	}
+	.Button-leadingVisual {
+		margin-right: 0 !important;
+	}
 
 	.octicon-eye-closed,
 	.rgh-conversation-events-label {
 		display: none;
-	}
-	.Button-leadingVisual {
-		margin-right: 0 !important;
 	}
 
 	&:is([data-rgh-conversation-activity-filter='hideEvents'] *) {
