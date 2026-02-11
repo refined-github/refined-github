@@ -183,7 +183,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 			<focus-group direction="vertical" mnemonics retain>
 				<button
 					id={`${baseId}-button`}
-					// @ts-expect-error: gh custom attribute
+					// @ts-expect-error HTML standard
 					popovertarget={`${baseId}-overlay`}
 					aria-controls={`${baseId}-list`}
 					aria-haspopup="true"
@@ -274,6 +274,8 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe(timelineItem, processItem, {signal});
 
+	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+
 	if (initialState !== 'showAll') {
 		// Wait for the DOM to be ready before applying the initial state
 		// https://github.com/refined-github/refined-github/issues/7086
@@ -282,8 +284,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	}
 
 	registerHotkey('h', switchToNextFilter, {signal});
-
-	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
 }
 
 void features.add(import.meta.url, {
