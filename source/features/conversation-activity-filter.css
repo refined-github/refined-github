@@ -20,6 +20,10 @@
 }
 
 .rgh-conversation-activity-filter-menu {
+	.Button {
+		height: fit-content;
+	}
+
 	.octicon-eye-closed,
 	.rgh-conversation-events-label {
 		display: none;
