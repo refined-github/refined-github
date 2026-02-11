@@ -122,7 +122,7 @@ function processItem(item: HTMLElement): void {
 
 async function handleSelection({target}: Event): Promise<void> {
 	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const state = $('[aria-checked="true"]', target as HTMLElement).dataset.state;
+	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
 	applyState(state as State);
 }
 
@@ -131,7 +131,7 @@ function applyState(targetState: State): void {
 		'#diff-comparison-viewer-container',
 		'[data-testid="issue-viewer-container"]',
 		// TODO: Remove after July 2026
-		'.js-issues-results'
+		'.js-issues-results',
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
