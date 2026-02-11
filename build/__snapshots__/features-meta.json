@@ -767,7 +767,7 @@
 	},
 	{
 		"id": "rerun-workflow",
-		"description": "Adds a keyboard shortcut to re-run failed GitHub Actions jobs on the Actions run page: <kbd>r</kbd> <kbd>f</kbd>.",
+		"description": "Unwraps the \"Re-run jobs\" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>.",
 		"screenshot": null
 	},
 	{

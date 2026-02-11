@@ -65,6 +65,7 @@ declare namespace JSX {
 		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 		'anchored-position': IntrinsicElements.div;
+		'tool-tip': IntrinsicElements.div & {for?: string; popover?: string};
 	}
 
 	type BaseElement = IntrinsicElements['div'];
