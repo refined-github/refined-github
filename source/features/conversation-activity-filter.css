@@ -32,7 +32,8 @@
 		.octicon-eye {
 			display: none;
 		}
-		.rgh-conversation-events-label, .octicon-eye-closed {
+		.rgh-conversation-events-label,
+		.octicon-eye-closed {
 			display: inline-block;
 		}
 		.Button-leadingVisual {
@@ -40,7 +41,9 @@
 		}
 	}
 
-	&:is([data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] *) {
+	&:is(
+			[data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] *
+		) {
 		.octicon-eye {
 			display: none;
 		}
