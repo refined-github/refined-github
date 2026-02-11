@@ -191,7 +191,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 					className="Button--small Button--invisible Button p-1 mt-n1 mb-n1 mr-n1 ml-n1"
 				>
 					<span className="Button-content">
-					<span className="Button-visual Button-leadingVisual">
+						<span className="Button-visual Button-leadingVisual">
 							<EyeIcon className="color-fg-muted" />
 							<EyeClosedIcon className="color-fg-danger" />
 						</span>
