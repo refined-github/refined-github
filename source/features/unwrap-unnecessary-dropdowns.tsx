@@ -1,4 +1,4 @@
-import {$, $$, $$optional} from 'select-dom/strict.js';
+import {$, $$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -29,49 +29,21 @@ function replaceNotificationsDropdown(): void {
 	// Replace dropdown
 	replaceDropdownInPlace(dropdown, desiredForm);
 
-	// Fix button’s style
+	// Fix button's style
 	const button = $('[type="submit"]', desiredForm);
 	button.className = 'btn';
 	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
 }
 
-function replaceRerunDropdown(menu: Element): void {
-	const triggerButton = $('focus-group > button', menu);
-
-	// We only need to unwrap the re-run jobs menu
-	if (triggerButton.textContent.trim() !== 'Re-run jobs') {
-		return;
-	}
-
-	const container = menu.parentElement!;
-
-	for (const button of $$('button.ActionListContent', menu)) {
-		button.className = 'Button--secondary Button--medium Button';
-		container.append(button.cloneNode(true));
-	}
-
-	container.classList.add('d-flex', 'gap-2');
-	menu.classList.add('d-none');
-}
-
-function unwrapNotifications(signal: AbortSignal): void {
+function init(signal: AbortSignal): void {
 	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
-}
-
-function unwrapRerunActions(signal: AbortSignal): void {
-	observe('.PageHeader-actions action-menu', replaceRerunDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
 	],
-	init: unwrapNotifications,
-}, {
-	include: [
-		pageDetect.isActionRun,
-	],
-	init: unwrapRerunActions,
+	init,
 });
 
 /*
@@ -79,6 +51,5 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - https://github.com/notifications
-- https://github.com/refined-github/refined-github/actions/runs/16143473286?pr=8544
 
 */
