@@ -25,8 +25,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 		/>
 	);
 
-	const container = isOldNavbar ? ownerLabel : ownerLabel.parentElement!;
-	container.classList.add('d-flex', 'flex-items-center');
+	(isOldNavbar ? ownerLabel : ownerLabel.parentElement!).classList.add('d-flex', 'flex-items-center');
 
 	ownerLabel.prepend(avatar);
 
