@@ -1,5 +1,5 @@
 html:not([rgh-OFF-improve-shortcut-help]) {
-	#__primerPortalRoot__ div[class*='ShortcutsDialogRoot'] {
+	div[class^='ShortcutsDialog-module__ShortcutsDialogRoot'] {
 		height: auto;
 	}
 }
