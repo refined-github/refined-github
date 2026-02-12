@@ -6,10 +6,8 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';
 
-const rerunFailedJobsButtonSelector = 'button[data-show-dialog-id="rerun-dialog-failed"]';
-
 function rerunFailedJobs(): void {
-	$optional(rerunFailedJobsButtonSelector)?.click();
+	$optional('button[data-show-dialog-id="rerun-dialog-failed"]')?.click();
 }
 
 function replaceRerunDropdown(menu: HTMLElement): void {
@@ -26,17 +24,18 @@ function replaceRerunDropdown(menu: HTMLElement): void {
 		clone.className = 'Button--secondary Button--medium Button';
 		clone.firstElementChild!.className = 'Button-label';
 		container.append(clone);
+
+		if (clone.dataset.showDialogId === 'rerun-dialog-failed') {
+			clone.after(
+				<tool-tip data-direction="s" data-type="description" role="tooltip">
+					Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
+				</tool-tip>,
+			);
+		}
 	}
 
 	container.classList.add('d-flex', 'gap-2');
 	menu.classList.add('d-none');
-
-	$optional(':scope > [data-show-dialog-id="rerun-dialog-failed"]', container)
-		?.append(
-			<tool-tip data-direction="s" data-type="description" role="tooltip">
-				Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
-			</tool-tip>,
-		);
 }
 
 function init(signal: AbortSignal): void {
@@ -58,6 +57,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/actions/runs/16143473286?pr=8544
+https://github.com/refined-github/refined-github/actions:
+	- Run with failed jobs
+	- Run without failed jobs
 
 */
