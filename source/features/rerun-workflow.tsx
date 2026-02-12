@@ -58,7 +58,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/refined-github/actions:
+https://github.com/refined-github/refined-github/actions
 	- Run with failed jobs
 	- Run without failed jobs
 
