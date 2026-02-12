@@ -13,8 +13,9 @@ function rerunFailedJobs(): void {
 }
 
 function replaceRerunDropdown(menu: HTMLElement): void {
-	const rerunFailedJobsButton = $optional(rerunFailedJobsButtonSelector, menu);
-	if (!rerunFailedJobsButton) {
+	const menuButton = $optional('focus-group > button', menu);
+	// The observer matches all action-menus; only transform the "Re-run jobs" dropdown
+	if (menuButton?.textContent.trim() !== 'Re-run jobs') {
 		return;
 	}
 
@@ -30,8 +31,8 @@ function replaceRerunDropdown(menu: HTMLElement): void {
 	container.classList.add('d-flex', 'gap-2');
 	menu.classList.add('d-none');
 
-	$(':scope > [data-show-dialog-id="rerun-dialog-failed"]', container)
-		.append(
+	$optional(':scope > [data-show-dialog-id="rerun-dialog-failed"]', container)
+		?.append(
 			<tool-tip data-direction="s" data-type="description" role="tooltip">
 				Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
 			</tool-tip>,
