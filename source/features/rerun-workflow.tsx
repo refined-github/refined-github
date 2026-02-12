@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$$, $optional} from 'select-dom/strict.js';
+import {$, $$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -7,10 +7,10 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';
 
 function rerunFailedJobs(): void {
-	$optional('button[data-show-dialog-id="rerun-dialog-failed"]')?.click();
+	$('button[data-show-dialog-id="rerun-dialog-failed"]').click();
 }
 
-function replaceRerunDropdown(menu: HTMLElement): void {
+function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 	const menuButton = $optional('focus-group > button', menu);
 	// The observer matches all action-menus; only transform the "Re-run jobs" dropdown
 	if (menuButton?.textContent.trim() !== 'Re-run jobs') {
@@ -26,6 +26,8 @@ function replaceRerunDropdown(menu: HTMLElement): void {
 		container.append(clone);
 
 		if (clone.dataset.showDialogId === 'rerun-dialog-failed') {
+			registerHotkey('r f', rerunFailedJobs, {signal});
+
 			clone.after(
 				<tool-tip data-direction="s" data-type="description" role="tooltip">
 					Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
@@ -39,8 +41,7 @@ function replaceRerunDropdown(menu: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	registerHotkey('r f', rerunFailedJobs, {signal});
-	observe('.PageHeader-actions action-menu', replaceRerunDropdown, {signal});
+	observe('.PageHeader-actions action-menu', replaceRerunDropdown.bind(undefined, signal), {signal});
 }
 
 void features.add(import.meta.url, {
