@@ -19,7 +19,7 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = element.closest('.gh-header-sticky');
+	const closestSticky = element.closest('.sticky-content');
 	const classes = 'mb-2 ' + (closestSticky ? 'mr-2 ' : '');
 	element.after(
 		<LockedIndicator className={classes + featureClass} />,
@@ -34,13 +34,16 @@ function addLock(element: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	// Old views - TODO: Drop after July 2026
-	observe(`:is(.gh-header-sticky, .gh-header-meta) .State:not(${featureSelector})`, addLockLegacy, {signal});
 	observe(
 		`:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) [class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
 		addLock,
 		{signal},
 	);
+	// Old PR view - TODO: Drop after July 2026
+	observe([
+		'.gh-header-meta > :first-child',
+		'.sticky-content .flex-row > :first-child'
+	], addLockLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
