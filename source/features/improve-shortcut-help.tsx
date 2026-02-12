@@ -1,3 +1,5 @@
+import './improve-shortcut-help.css';
+
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
@@ -8,7 +10,6 @@ import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import './improve-shortcut-help.css';
 
 function splitKeys(keys: string): DocumentFragment[] {
 	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
