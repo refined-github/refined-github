@@ -37,7 +37,8 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	}
 
 	// If it's a comment like "User added some commits" we need to add some margin
-	// Ensure it does not aply to regular comment author elements and those timeline items with del.markdown-title (already have gaps via CSS rule)
+	// Ensure it does not apply to regular comment author elements (parent is strong)
+	// and those timeline items with del.markdown-title (gap added by readable-title-change-events)
 	const {parentElement} = element;
 	if (parentElement!.tagName !== 'STRONG' && !parentElement?.querySelector('del.markdown-title')) {
 		nameElement.classList.add('ml-1');
