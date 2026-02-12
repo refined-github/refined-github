@@ -20,9 +20,8 @@ function LockedIndicator(): JSX.Element {
 
 function addLockLegacy(element: HTMLElement): void {
 	const closestSticky = element.closest('.sticky-content');
-	const classes = 'mb-2 ' + (closestSticky ? 'mr-2 ' : '');
 	element.after(
-		<LockedIndicator className={classes + featureClass} />,
+		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''} ${featureClass}`} />,
 	);
 }
 
@@ -42,7 +41,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	// Old PR view - TODO: Drop after July 2026
 	observe([
 		'.gh-header-meta > :first-child',
-		'.sticky-content .flex-row > :first-child'
+		'.sticky-content .flex-row > :first-child',
 	], addLockLegacy, {signal});
 }
 
