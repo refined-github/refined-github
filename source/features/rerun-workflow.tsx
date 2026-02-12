@@ -17,6 +17,8 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 		return;
 	}
 
+	registerHotkey('r f', rerunFailedJobs, {signal});
+
 	const container = menu.parentElement!;
 
 	for (const button of $$('button.ActionListContent', menu)) {
@@ -26,8 +28,6 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 		container.append(clone);
 
 		if (clone.dataset.showDialogId === 'rerun-dialog-failed') {
-			registerHotkey('r f', rerunFailedJobs, {signal});
-
 			clone.after(
 				<tool-tip data-direction="s" data-type="description" role="tooltip">
 					Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
