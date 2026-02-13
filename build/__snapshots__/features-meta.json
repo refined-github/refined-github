@@ -465,11 +465,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
 	},
 	{
-		"id": "more-conversation-filters",
-		"description": "Adds <code>Everything you’re involved in</code> and <code>Everything you subscribed to</code> filters in the search box dropdown.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253043952-cfb99cea-1c7b-43ad-9144-9d84bda8206f.png"
-	},
-	{
 		"id": "more-dropdown-links",
 		"description": "Adds useful links to the repository navigation dropdown",
 		"css": true,
