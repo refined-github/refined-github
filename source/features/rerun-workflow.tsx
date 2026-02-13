@@ -1,4 +1,3 @@
-import React from 'dom-chef';
 import {$, $$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
@@ -26,14 +25,6 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 		clone.className = 'Button--secondary Button--medium Button';
 		clone.firstElementChild!.className = 'Button-label';
 		container.append(clone);
-
-		if (clone.dataset.showDialogId === 'rerun-dialog-failed') {
-			clone.after(
-				<tool-tip data-direction="s" data-type="description" role="tooltip">
-					Re-run failed jobs <kbd>r</kbd> <kbd>f</kbd>
-				</tool-tip>,
-			);
-		}
 	}
 
 	container.classList.add('d-flex', 'gap-2');
