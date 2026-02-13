@@ -274,7 +274,7 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
 		return new RefinedGitHubAPIError(
 			'The organization requires a specific type of token.',
-			'Read more: https://github.com/refined-github/refined-github/wiki/Security#token',
+			'[Read more](https://github.com/refined-github/refined-github/wiki/Security#token)',
 		);
 	}
 

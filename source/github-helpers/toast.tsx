@@ -43,8 +43,28 @@ export default async function showToast(
 			</span>
 		</div>
 	);
+	let lastRawMessage = message;
 	const updateToast = (message: string): void => {
-		messageWrapper.textContent = message;
+		lastRawMessage = message;
+		messageWrapper.textContent = '';
+		for (const part of message.split(/(\[[^\]]+\]\(https?:\/\/[^)]+\)|https?:\/\/\S+)/)) {
+			if (!part) {
+				continue;
+			}
+
+			const mdLink = /^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/.exec(part);
+			if (mdLink) {
+				messageWrapper.append(
+					<a href={mdLink[2]} target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>{mdLink[1]}</a>,
+				);
+			} else if (/^https?:\/\//.test(part)) {
+				messageWrapper.append(
+					<a href={part} target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>{part}</a>,
+				);
+			} else {
+				messageWrapper.append(part);
+			}
+		}
 	};
 
 	const finalUpdateToast = async (message: string): Promise<void> => {
@@ -89,6 +109,6 @@ export default async function showToast(
 		throw error;
 	} finally {
 		// Use the last message if `false` was passed
-		void finalUpdateToast(finalToastMessage || messageWrapper.textContent);
+		void finalUpdateToast(finalToastMessage || lastRawMessage);
 	}
 }
