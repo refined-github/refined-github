@@ -13,15 +13,6 @@ import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 
-async function cleanIssueHeader(byline: HTMLElement): Promise<void> {
-	byline.classList.add('rgh-clean-conversation-headers', 'rgh-hide-author');
-
-	// Shows on issues: octocat opened this issue on 1 Jan · [1 comments]
-	// Removes on issues: octocat opened this issue on 1 Jan [·] 1 comments
-	const commentCount = $('relative-time', byline).nextSibling!;
-	commentCount.replaceWith(<span>{commentCount.textContent.replace('·', '')}</span>);
-}
-
 async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
@@ -32,7 +23,8 @@ async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: strin
 
 async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	byline.classList.add('rgh-clean-conversation-headers');
-	byline.parentElement!.closest('.d-flex')!.classList.add('flex-items-center');
+	// TODO: Remove after July 2026
+	byline.parentElement!.closest('.d-flex')?.classList.add('flex-items-center');
 
 	const prCreatorSelector = [
 		'.TimelineItem .author',
@@ -43,7 +35,13 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
-			&& !byline.closest('.gh-header-sticky') // #7802
+			// #7802
+			&& !byline.closest([
+				'div[class*="stickyHeader"]',
+				// TODO: Remove after July 2026
+				'.sticky-content',
+				'.gh-header-sticky',
+			])
 			&& $([
 				'.author',
 				'a[data-hovercard-url]',
@@ -54,6 +52,8 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	}
 
 	const base = $([
+		'[class^="PullRequestBranchName"]',
+		// Old views - TODO: Remove after July 2026
 		'.commit-ref',
 		'[class^="BranchName"]',
 	], byline);
@@ -70,26 +70,31 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Shows on PRs: main [←] feature
 	const anchor
-		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: Drop old PR layout support
-			?? base.nextSibling?.nextSibling;
-	assertNodeContent(anchor!, 'from');
-	anchor!.after(<span><ArrowLeftIcon className="v-align-middle mx-1" /></span>);
+		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: remove after July 2026
+			?? base.nextSibling!.nextSibling!;
+	assertNodeContent(anchor, 'from');
+
+	anchor.after(
+		<span className='rgh-arrow'>
+			<ArrowLeftIcon className="v-align-middle mx-1" />
+		</span>,
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	const cleanConversationHeader = pageDetect.isIssue() ? cleanIssueHeader : cleanPrHeader;
 	observe([
+		'span[class*="PullRequestHeaderSummary"]',
+		// Old views. TODO: Remove after July 2026
 		'.gh-header-meta > .flex-auto', // Real
 		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
 		'[class^="StateLabel"] + div > span:first-child',
-	], cleanConversationHeader, {signal});
+	], cleanPrHeader, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isIssue,
 		pageDetect.isPR,
 	],
 	init,
