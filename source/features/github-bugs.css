@@ -122,7 +122,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 }
 
 /* TODO: Remove after July 2026 */
-/* explanation here */
+/* Make the PR alter banner non-sticky so it doesn't cover the right sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/8975 */
 .sticky-header-wrapper.is-stuck .pr-alerts-banner {
 	position: absolute;
