@@ -27,6 +27,8 @@
 		font-size: 14px;
 	}
 
+	--margin: 4px;
+
 	/* Shows on PRs: [by ]octocat main ← feature */
 	&:not(.rgh-hide-author)::before {
 		content: 'by ';
@@ -34,7 +36,7 @@
 	}
 
 	.author {
-		margin-right: 4px;
+		margin-right: var(--margin);
 	}
 
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
@@ -45,7 +47,7 @@
 		}
 
 		& > [class*='PullRequestBranchName'] {
-			margin-left: -4px;
+			margin-left: calc(-1 * var(--margin));
 		}
 	}
 
@@ -58,11 +60,11 @@
 
 	span[class^='prc-TooltipV2'] ~ .rgh-arrow {
 		font-size: 0;
-		margin-left: -4px;
+		margin-left: calc(-1 * var(--margin));
 	}
 
 	relative-time {
-		margin-left: 4px;
+		margin-left: var(--margin)
 	}
 
 	/* TODO: Remove after July 2026 */
