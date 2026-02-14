@@ -46,7 +46,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	}
 
 	const base = $([
-		'a[class^="PullRequestBranchName"]',
+		'[class^="PullRequestBranchName"]',
 		// Old views - TODO: Remove after July 2026
 		'.commit-ref',
 		'[class^="BranchName"]',
