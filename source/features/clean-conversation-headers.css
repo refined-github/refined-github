@@ -64,7 +64,7 @@
 	}
 
 	relative-time {
-		margin-left: var(--margin)
+		margin-left: var(--margin);
 	}
 
 	/* TODO: Remove after July 2026 */
