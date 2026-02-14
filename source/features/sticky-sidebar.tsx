@@ -13,9 +13,8 @@ const minimumViewportWidthForSidebar = 768; // Less than this, the layout is sin
 
 const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
-	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
-	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
-	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
+	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation`
+	'#partial-discussion-sidebar', // `isDiscussion`, old `isConversation`
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -45,8 +44,7 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
-	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
-	container.classList.add('rgh-sticky-sidebar-container');
+	sidebar.classList.add('rgh-sticky-sidebar-container');
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
@@ -92,7 +90,9 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-Repo: https://github.com/refined-github/refined-github
-Conversation: https://github.com/refined-github/refined-github/issues/6752
+- Repo: https://github.com/refined-github/refined-github
+- Issue conversation: https://github.com/refined-github/refined-github/issues/6752
+- PR conversation: https://github.com/refined-github/refined-github/pull/755
+- Discussion: https://github.com/orgs/community/discussions/40299
 
 */
