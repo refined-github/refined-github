@@ -44,8 +44,6 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
-	sidebar.classList.add('rgh-sticky-sidebar-container');
-
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
 }
@@ -56,6 +54,7 @@ function updateStickiness(): void {
 	}
 
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
+	sidebar.style.height = 'min-content';
 	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
 		window.innerWidth >= minimumViewportWidthForSidebar

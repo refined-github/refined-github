@@ -20,9 +20,6 @@ Exclusively use simple sums and use `0px` instead of `0`
 	/* It needs to be on the same element as above for calc() to work */
 	--rgh-sticky-notification-header-height: 69px;
 }
-.rgh-sticky-sidebar-container {
-	height: min-content;
-}
 
 .rgh-sticky-sidebar {
 	position: sticky;
