@@ -35,7 +35,13 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
-			&& !byline.closest('.gh-header-sticky') // #7802
+			// #7802
+			&& !byline.closest([
+				'div[class*="stickyHeader"]',
+				// TODO: Remove after July 2026
+				'.sticky-content',
+				'.gh-header-sticky',
+			])
 			&& $([
 				'.author',
 				'a[data-hovercard-url]',
