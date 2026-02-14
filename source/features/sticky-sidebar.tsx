@@ -56,7 +56,6 @@ function updateStickiness(): void {
 	}
 
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
-	sidebar.style.height = 'min-content';
 	sidebar.classList.toggle(
 		'is-stuck',
 		window.innerWidth >= minimumViewportWidthForSidebar
