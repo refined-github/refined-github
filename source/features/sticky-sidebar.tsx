@@ -39,6 +39,8 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	}
 
 	sidebar = foundSidebar;
+	sidebar.classList.add('rgh-sticky-sidebar');
+
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
 		sidebar = undefined;
@@ -56,7 +58,7 @@ function updateStickiness(): void {
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
 	sidebar.style.height = 'min-content';
 	sidebar.classList.toggle(
-		'rgh-sticky-sidebar',
+		'is-stuck',
 		window.innerWidth >= minimumViewportWidthForSidebar
 		&& sidebar.offsetHeight + offset < window.innerHeight,
 	);

@@ -22,8 +22,11 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 .rgh-sticky-sidebar {
-	position: sticky;
-	top: var(--rgh-sticky-sidebar-offset, 0) !important;
+	height: min-content;
+	&.is-stuck {
+		position: sticky;
+		top: var(--rgh-sticky-sidebar-offset, 0) !important;
+	}
 }
 
 /* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
