@@ -122,7 +122,8 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 }
 
 /* TODO: Remove after July 2026 */
-/* https://github.com/refined-github/refined-github/issues/8975 */
+/* explanation here */
+/* Info: https://github.com/refined-github/refined-github/issues/8975 */
 .sticky-header-wrapper.is-stuck .pr-alerts-banner {
 	position: absolute;
 	visibility: hidden;
