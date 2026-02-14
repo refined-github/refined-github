@@ -13,8 +13,8 @@ const minimumViewportWidthForSidebar = 768; // Less than this, the layout is sin
 
 const sidebarSelector = [
 	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
-	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation`
-	'#partial-discussion-sidebar', // `isDiscussion`, old `isConversation`
+	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation`. TODO: Remove after March 2026
+	'#partial-discussion-sidebar', // `isDiscussion`, old `isPRConversation`
 ];
 
 let sidebar: HTMLElement | undefined;
