@@ -207,7 +207,6 @@ const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
