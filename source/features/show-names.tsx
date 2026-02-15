@@ -34,6 +34,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	if (element.matches([
 		'[data-testid="avatar-link"]',
 		'[data-testid="issue-body-header-author"]',
+		'.feed-item-content *',
 		// `readable-title-change-events` adds gap to rename events
 		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 	])) {
@@ -138,7 +139,7 @@ Test URLs:
 - issue: https://github.com/isaacs/github/issues/297
 - PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
-- newsfeed: https://github.com
+- feed: https://github.com/feed
 
 Special cases:
 
