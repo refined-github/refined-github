@@ -13,12 +13,12 @@ const viewedToggleSelector = [
 	'button[class*="MarkAsViewedButton"]',
 	// Old view
 	'input.js-reviewed-checkbox',
-];
+] as const;
 const fileSelector = [
 	'[class^="Diff-module__diffTargetable"]',
 	// Old view
 	'.js-file',
-];
+] as const;
 // New view, Old view
 const checkedSelector = ':is(:has(.octicon-checkbox-fill), [checked])';
 
