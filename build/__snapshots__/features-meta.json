@@ -764,7 +764,7 @@
 	{
 		"id": "rerun-workflow",
 		"description": "Unwraps the \"Re-run jobs\" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>.",
-		"screenshot": null
+		"screenshot": "https://github.com/user-attachments/assets/727b389d-c4a3-4d21-9932-db474d233cf3"
 	},
 	{
 		"id": "restore-file",
