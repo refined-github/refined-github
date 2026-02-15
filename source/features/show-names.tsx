@@ -31,17 +31,19 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		</span>
 	);
 
-	const testId = element.getAttribute('data-testid');
-	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId)) {
+	if (element.matches([
+		'[data-testid="avatar-link"]',
+		'[data-testid="issue-body-header-author"]',
+		// `readable-title-change-events` adds gap to rename events
+		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
+	])) {
 		nameElement.classList.add('ml-1');
-	}
-
-	// If it's a comment like "User added some commits" we need to add some margin
-	// Ensure it does not apply to regular comment author elements (parent is strong)
-	// and those timeline items with del.markdown-title (gap added by readable-title-change-events)
-	const {parentElement} = element;
-	if (parentElement!.tagName !== 'STRONG' && !parentElement?.querySelector('del.markdown-title')) {
-		nameElement.classList.add('ml-1');
+	} else if (
+		element.matches(
+			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
+		)
+	) {
+		nameElement.classList.add('mr-1');
 	}
 
 	return nameElement;
