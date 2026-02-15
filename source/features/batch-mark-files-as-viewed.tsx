@@ -70,7 +70,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 		`:is(${fileSelector.join(',')}):not([hidden])`,
 		' ',
 		`:is(${viewedToggleSelector.join(',')})`,
-		isChecked(file) ? `:not(${checkedSelector})` : checkedSelector
+		isChecked(file) ? `:not(${checkedSelector})` : checkedSelector,
 	].join('');
 }
 
