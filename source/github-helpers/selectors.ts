@@ -215,7 +215,7 @@ const authorLinks = [
 	'.js-discussion a.author',
 	'.inline-comments a.author',
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
-	'.react-issue-body a[data-testid="issue-body-header-author"]', // React issue view first comment
+	'a[data-testid="issue-body-header-author"]',
 	'a[class^="row-module__eventActorLink"]',
 ];
 
