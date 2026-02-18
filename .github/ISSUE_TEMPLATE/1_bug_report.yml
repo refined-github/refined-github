@@ -12,7 +12,7 @@ body:
         Please ensure:
 
         - The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
-        - The bug happens after clearing the extension cache. The "Clear cache" button can be found in the Debug tab of the options page. [](#clear-cache)
+        - The bug happens after clearing the extension cache. The "Clear cache" button can be found in the "Debug" tab of the options page. [](#clear-cache)
 
         Include in this issue:
 
