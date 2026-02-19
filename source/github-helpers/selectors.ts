@@ -141,6 +141,7 @@ export const newCommentField = [
 	'[input="fc-new_comment_field"]',
 	'[input^="fc-new_inline_comment_discussion"]',
 	'[aria-labelledby="comment-composer-heading"]',
+	'#new_comment_field',
 ];
 
 export const newCommentField_ = requiresLogin;
