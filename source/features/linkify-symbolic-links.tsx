@@ -15,7 +15,7 @@ function linkify(line: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-code-line-contents', linkify, {signal});
+	observe('.react-code-line-contents .react-file-line', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
