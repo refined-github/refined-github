@@ -5,7 +5,8 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	);
 
 	react-app[app-name='issues-react'],
-	.pull-request-tab-content {
+	/* TODO: Remove after July 2026 */
+		.pull-request-tab-content {
 		--rgh-issue-or-pr-sticky-header-height: 56px;
 	}
 	react-app[app-name='pull-requests'] {
