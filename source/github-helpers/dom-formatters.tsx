@@ -40,7 +40,7 @@ export function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
 	}
 
 	// Safety measure
-	// DOM changes made by this function is unnecessary if the textarea doesn't exist and may cause issues
+	// DOM changes made by this function is unnecessary if the textarea doesn't exist and can cause issues
 	if (!elementExists('#read-only-cursor-text-area')) {
 		return;
 	}
