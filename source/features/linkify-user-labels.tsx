@@ -23,11 +23,13 @@ function linkify(label: Element): void {
 
 function init(signal: AbortSignal): void {
 	observe([
-		'span[data-testid="comment-author-association"][aria-label*="a member of the"]',
+		'span[data-testid="comment-author-association"][aria-label^="This user is a member"]',
 		'span[data-testid="comment-author-association"][aria-label^="This user has previously committed"]',
+		'span[data-testid="comment-author-association"][aria-label^="This user has been invited to collaborate"]',
 		// PRs and pre-issue redesign 2024
-		'.tooltipped[aria-label*="a member of the"]',
+		'.tooltipped[aria-label^="This user is a member"]',
 		'.tooltipped[aria-label^="This user has previously committed"]',
+		'.tooltipped[aria-label^="This user has been invited to collaborate"]',
 	], linkify, {signal});
 }
 
@@ -64,4 +66,8 @@ https://github.com/refined-github/refined-github/pull/5691#discussion_r895192800
 
 Contributor review second comment in Files tab
 https://github.com/refined-github/refined-github/pull/2667/files#r366433031
+
+Collaborator review comment
+https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
+
 */
