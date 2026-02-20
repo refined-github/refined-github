@@ -178,7 +178,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
+			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
 			data-select-variant="single">
 			<focus-group direction="vertical" mnemonics retain>
 				<button
@@ -188,11 +188,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 					aria-controls={`${baseId}-list`}
 					aria-haspopup="true"
 					type="button"
-					className="Button--small Button--invisible Button p-1 ml-n1"
+					className="Button--small Button color-fg-muted p-0"
 				>
 					<span className="Button-content">
 						<span className="Button-visual Button-leadingVisual">
-							<EyeIcon className="color-fg-muted" />
+							<EyeIcon />
 							<EyeClosedIcon className="color-fg-danger" />
 						</span>
 						<span className="Button-label lh-condensed-ultra">
