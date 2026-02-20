@@ -21,15 +21,17 @@ function linkify(label: Element): void {
 	wrap(label, <a className="Link--secondary rgh-linkify-user-labels" href={url.href} />);
 }
 
+const ariaLabelSelector = [
+	'[aria-label^="This user is a member"]',
+	'[aria-label^="This user has previously committed"]',
+	'[aria-label^="This user has been invited to collaborate"]',
+].join(',');
+
 function init(signal: AbortSignal): void {
 	observe([
-		'span[data-testid="comment-author-association"][aria-label^="This user is a member"]',
-		'span[data-testid="comment-author-association"][aria-label^="This user has previously committed"]',
-		'span[data-testid="comment-author-association"][aria-label^="This user has been invited to collaborate"]',
-		// PRs and pre-issue redesign 2024
-		'.tooltipped[aria-label^="This user is a member"]',
-		'.tooltipped[aria-label^="This user has previously committed"]',
-		'.tooltipped[aria-label^="This user has been invited to collaborate"]',
+		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
+		// PRs
+		`.tooltipped:is(${ariaLabelSelector})`,
 	], linkify, {signal});
 }
 
