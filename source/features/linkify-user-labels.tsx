@@ -22,15 +22,16 @@ function linkify(label: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'span[data-testid="comment-author-association"][aria-label^="This user is a member"]',
-		'span[data-testid="comment-author-association"][aria-label^="This user has previously committed"]',
-		'span[data-testid="comment-author-association"][aria-label^="This user has been invited to collaborate"]',
-		// PRs and pre-issue redesign 2024
-		'.tooltipped[aria-label^="This user is a member"]',
-		'.tooltipped[aria-label^="This user has previously committed"]',
-		'.tooltipped[aria-label^="This user has been invited to collaborate"]',
-	], linkify, {signal});
+	observe(
+		`span:is(${[
+			'[data-testid="comment-author-association"]',
+			// PRs
+			'.tooltipped',
+		].join(',')}):is(${[
+			'[aria-label^="This user is a member"]',
+			'[aria-label^="This user has previously committed"]',
+			'[aria-label^="This user has been invited to collaborate"]',
+		].join(',')}`, linkify, {signal});
 }
 
 void features.add(import.meta.url, {
