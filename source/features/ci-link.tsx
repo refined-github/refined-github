@@ -11,16 +11,19 @@ import getChecks from './ci-link.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 
-async function getCommitWithChecks(): Promise<string | undefined> {
+async function getCommitWithChecks(): Promise<string | void> {
 	const {repository} = await api.v4(getChecks);
+
+	if (repository.isEmpty) {
+		return;
+	}
+
 	// Check earlier commits just in case the last one is CI-generated and doesn't have checks
 	for (const commit of repository.defaultBranchRef.target.history.nodes) {
 		if (commit.statusCheckRollup) {
 			return commit.oid;
 		}
 	}
-
-	return undefined;
 }
 
 async function add(anchor: HTMLElement): Promise<void> {
@@ -72,7 +75,6 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,
-		pageDetect.isEmptyRepo,
 	],
 	init,
 });
