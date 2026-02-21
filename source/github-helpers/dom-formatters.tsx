@@ -33,7 +33,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 }
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
-export function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
+export function createInvisibleAnchors(element: HTMLElement): void {
 	// TODO: bump min firefox version to 147 and safari to 26 in 2027
 	if (!CSS.supports('anchor-name: --test')) {
 		return;
@@ -100,7 +100,7 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
-	prependAnchorsBeforeCodeOverlay(element);
+	createInvisibleAnchors(element);
 }
 
 export function linkifyURLs(element: HTMLElement): void {
@@ -125,7 +125,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	}
 
 	zipTextNodes(element, linkified);
-	prependAnchorsBeforeCodeOverlay(element);
+	createInvisibleAnchors(element);
 }
 
 export function parseBackticks(element: Element): void {

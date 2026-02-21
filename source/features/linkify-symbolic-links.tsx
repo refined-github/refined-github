@@ -3,14 +3,14 @@ import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
-import {prependAnchorsBeforeCodeOverlay} from '../github-helpers/dom-formatters.js';
+import {createInvisibleAnchors} from '../github-helpers/dom-formatters.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
 function linkify(line: HTMLElement): void {
 	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
-		prependAnchorsBeforeCodeOverlay(line);
+		createInvisibleAnchors(line);
 	}
 }
 
