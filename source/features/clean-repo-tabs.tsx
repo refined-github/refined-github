@@ -27,7 +27,16 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = $('.Counter', tab);
+	let tabCounter = $optional('.Counter, .num', tab);
+	if (!tabCounter) {
+		const wrapper = document.createElement('span');
+		wrapper.dataset.component = 'counter';
+		tabCounter = document.createElement('span');
+		tabCounter.className = 'Counter';
+		wrapper.append(tabCounter);
+		tab.append(wrapper);
+	}
+
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
