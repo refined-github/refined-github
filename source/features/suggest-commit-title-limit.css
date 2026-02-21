@@ -39,7 +39,7 @@
 	}
 }
 
-span[class*='prc-components-TextInputWrapper']:has(> .rgh-title-over-limit) {
+span[class*='TextInputWrapper']:has(> .rgh-title-over-limit) {
 	border-color: var(--rgh-limit-color);
 	outline-color: var(--rgh-limit-color);
 	background-color: color-mix(in srgb, var(--rgh-limit-color) 3%, transparent);
