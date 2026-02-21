@@ -20,10 +20,11 @@
 		area: 'sync' | 'local';
 		item?: string;
 	} = $props();
-	const storage = chrome.storage[area];
-
 	let used = $state(0);
-	const available = $derived((item ? (storage as chrome.storage.SyncStorageArea).QUOTA_BYTES_PER_ITEM ?? storage.QUOTA_BYTES : storage.QUOTA_BYTES) - used);
+	const available = $derived.by(() => {
+		const storage = chrome.storage[area];
+		return (item ? (storage as chrome.storage.SyncStorageArea).QUOTA_BYTES_PER_ITEM ?? storage.QUOTA_BYTES : storage.QUOTA_BYTES) - used;
+	});
 
 	async function getStorageUsage() {
 		used = item ? await getStoredItemSize(area, item) : await getStorageBytesInUse(area);
@@ -41,7 +42,7 @@
 
 	$effect(() => {
 		if (item) {
-			used = getTrueSizeOfObject(storage.get(item));
+			used = getTrueSizeOfObject(chrome.storage[area].get(item));
 		}
 	});
 
