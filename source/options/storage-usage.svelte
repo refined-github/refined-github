@@ -41,9 +41,7 @@
 	};
 
 	$effect(() => {
-		if (item) {
-			used = getTrueSizeOfObject(chrome.storage[area].get(item));
-		}
+		void getStorageUsage();
 	});
 
 	onMount(() => {
