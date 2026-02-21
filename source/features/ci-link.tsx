@@ -72,6 +72,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,
+		pageDetect.isEmptyRepo,
 	],
 	init,
 });
