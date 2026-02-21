@@ -1,0 +1,6 @@
+.rgh-linkify-user-labels:hover {
+	/* Override label color on issue pages */
+	span {
+		color: inherit !important;
+	}
+}
