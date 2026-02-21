@@ -424,6 +424,7 @@
 	{
 		"id": "linkify-user-labels",
 		"description": "Links the \"Contributor\" and \"Member\" labels on comments to the author’s commits on the repo.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png"
 	},
 	{
