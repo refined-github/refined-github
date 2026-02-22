@@ -205,6 +205,10 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	position-area: center;
 	padding: 0 !important;
 	z-index: 2;
+	pointer-events: auto;
 	text-wrap: nowrap;
 	opacity: 0;
+	/* For debugging */
+	/* opacity: 1;
+	color: red !important; */
 }

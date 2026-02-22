@@ -10,9 +10,9 @@ import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
-const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
@@ -37,7 +37,7 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const mergeButton = $optional(mergeButtonSelector);
+	const mergeButton = $optional(confirmMergeButton);
 	if (mergeButton?.textContent !== 'Confirm squash and merge') {
 		return false;
 	}
@@ -103,7 +103,7 @@ function init(signal: AbortSignal): void {
 	onCommitTitleUpdate(updateUI, signal);
 
 	// On submission, update PR
-	delegate(mergeButtonSelector, 'click', updatePRTitle, {signal});
+	delegate(confirmMergeButton, 'click', updatePRTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});

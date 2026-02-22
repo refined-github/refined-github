@@ -133,6 +133,7 @@ export function getClasses(element: Element): Set<string> {
 	return list;
 }
 
+const _isSmallDevice = screen.width < 500;
 export function isSmallDevice(): boolean {
-	return screen.width < 500;
+	return _isSmallDevice;
 }
