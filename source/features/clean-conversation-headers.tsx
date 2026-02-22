@@ -42,10 +42,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 				'.sticky-content',
 				'.gh-header-sticky',
 			])
-			&& $([
-				'.author',
-				'a[data-hovercard-url]',
-			], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
+			&& $('a', byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		byline.classList.add('rgh-hide-author');
