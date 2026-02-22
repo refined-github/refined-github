@@ -42,6 +42,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 				'.sticky-content',
 				'.gh-header-sticky',
 			])
+			// First link in the summary row is always the author
 			&& $('a', byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
