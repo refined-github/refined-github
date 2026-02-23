@@ -35,11 +35,11 @@ function addLock(stateLabel: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe(
-		`:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) [class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
-		addLock,
-		{signal},
-	);
+	observe([
+			'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"])',
+			' ',
+			`span[class^="prc-StateLabel-StateLabel"]:not(${featureSelector})`,
+		].join(''), addLock, {signal});
 	// Old PR view - TODO: Drop after July 2026
 	observe([
 		'.gh-header-meta > :first-child',
