@@ -66,6 +66,27 @@ function updateRateLink(): void {
 	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/en-US/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
+function focusFeatureFromHash(): void {
+	const hash = decodeURIComponent(location.hash.slice(1));
+	if (!hash) {
+		return;
+	}
+
+	const target = $optional('#' + CSS.escape(hash));
+	if (!target) {
+		return;
+	}
+
+	$('details#features').open = true;
+	const featureFilter = $('input#filter-features');
+	if (featureFilter.value) {
+		featureFilter.value = '';
+		featureFilter.dispatchEvent(new Event('input'));
+	}
+
+	target.closest('.feature')?.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
 function isEnterprise(): boolean {
 	return syncedForm!.getSelectedDomain() !== 'default';
 }
@@ -131,6 +152,8 @@ async function generateDom(): Promise<void> {
 	if (doesBrowserActionOpenOptions) {
 		$('#action').hidden = true;
 	}
+
+	focusFeatureFromHash();
 
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();

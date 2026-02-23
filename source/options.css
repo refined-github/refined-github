@@ -166,6 +166,17 @@ summary:hover {
 	opacity: 80%;
 }
 
+#features :target {
+	scroll-margin-top: 80px;
+}
+
+#features .feature:has(:target) {
+	background: light-dark(#ddf4ff, #033a6b);
+	outline: 2px solid light-dark(#0969da, #1f6feb);
+	border-radius: 6px;
+	padding-inline: 0.3em;
+}
+
 .feature-link {
 	margin: 0 0.6em;
 }
