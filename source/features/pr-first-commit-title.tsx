@@ -39,7 +39,7 @@ function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string 
 
 function useCommitTitle(firstCommitElement: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = $([
+	const commitCountIcon = $optional([
 		// Few commits
 		'div.Box.mb-3 .octicon-git-commit',
 		// Many commits (rendered in tabs)
