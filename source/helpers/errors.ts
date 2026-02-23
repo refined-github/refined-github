@@ -12,7 +12,7 @@ export function disableErrorLogging(): void {
 const {version} = chrome.runtime.getManifest();
 
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
+const preferredMessage = 'The organization requires a specific type of token. Read more: https://github.com/refined-github/refined-github/wiki/Security#:~:text=If%20your%20organization%20blocks%20personal%20access%20tokens';
 
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureID | undefined {
@@ -50,7 +50,7 @@ export function logError(error: Error): void {
 
 	loggedStacks.add(stack!);
 
-	if (message.endsWith(fineGrainedTokenSuggestion)) {
+	if (message.includes(fineGrainedTokenSuggestion)) {
 		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
 		return;
 	}
