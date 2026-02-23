@@ -214,6 +214,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "linkify-user-labels") [Links the "Contributor" and "Member" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a issue/PR.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
 - [](# "close-as-unplanned") [Lets you "close issue as unplanned" in one click instead of three.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png)
+- [](# "issue-list-reactions") [Shows reaction counts on issue lists when sorting by reactions.](https://github.com/user-attachments/assets/82a70ca5-ba95-438b-9c79-012f115a1a1f)
 - [](# "locked-issue") [Show a label on locked issues and PRs.](https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png)
 
 <!--

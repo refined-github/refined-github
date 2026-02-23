@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import observe from '../helpers/selector-observer.js';
 
 type ReactionGroup = {
@@ -194,6 +195,7 @@ async function fetchMissingReactions(): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	reactionContent = getSortedReaction();
 
 	// On initial load with reaction sort, eagerly fetch reaction data
