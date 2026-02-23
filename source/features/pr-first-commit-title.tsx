@@ -41,7 +41,7 @@ function useCommitTitle(firstCommitElement: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCountIcon = $optional([
 		// Few commits
-		'div.Box.tmp-mb-3 .octicon-git-commit',
+		'div.Box:is(.tmp-mb-3, .mb-3) .octicon-git-commit',
 		// Many commits (rendered in tabs)
 		'a[href="#commits_bucket"] .octicon-git-commit',
 	]);
