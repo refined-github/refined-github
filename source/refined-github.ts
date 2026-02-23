@@ -221,3 +221,4 @@ import './features/linkify-text.js';
 import './features/actions-run-removal.js';
 import './features/new-milestone-button.js';
 import './features/no-self-reference.js';
+import './features/issue-list-reactions.js';
