@@ -6,7 +6,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
-import {featureSelector as jumpToCloseEventSelector} from './jump-to-conversation-close-event.js';
+import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
 
 export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
@@ -27,7 +27,7 @@ function addLockLegacy(element: HTMLElement): void {
 }
 
 function addLock(stateLabel: HTMLElement): void {
-	const isWrapped = Boolean(stateLabel.closest(jumpToCloseEventSelector));
+	const isWrapped = stateLabel.parentElement!.classList.contains(jumpToCloseEventClass);
 	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
 
 	container.parentElement!.classList.add('d-flex', 'gap-2');
