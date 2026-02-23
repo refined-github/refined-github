@@ -49,10 +49,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		async () => await isConversationLocked() ?? false,
-	],
-	include: [
 		pageDetect.isConversation,
+		async () => await isConversationLocked() ?? false,
 	],
 	init,
 });
