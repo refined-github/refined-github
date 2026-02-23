@@ -6,12 +6,13 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import {featureSelector as jumpToCloseEventSelector} from './jump-to-conversation-close-event.js';
 
 export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
+		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
 			<LockIcon className="flex-items-center mr-1" />
 			Locked
 		</span>
@@ -19,17 +20,18 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = element.closest('.sticky-content');
+	const closestSticky = element.closest(['.sticky-content', '.gh-header-sticky']);
 	element.after(
-		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''} ${featureClass}`} />,
+		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
 	);
 }
 
-function addLock(element: HTMLElement): void {
-	element.parentElement!.classList.add('d-flex', 'gap-2');
-	element.after(
-		<LockedIndicator className={element.className + ` ${featureClass}`} />,
-	);
+function addLock(stateLabel: HTMLElement): void {
+	const isWrapped = Boolean(stateLabel.closest(jumpToCloseEventSelector));
+	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
+
+	container.parentElement!.classList.add('d-flex', 'gap-2');
+	container.after(<LockedIndicator />);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
@@ -41,7 +43,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	// Old PR view - TODO: Drop after July 2026
 	observe([
 		'.gh-header-meta > :first-child',
-		'.sticky-content .flex-row > :first-child',
+		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
 	], addLockLegacy, {signal});
 }
 
