@@ -39,11 +39,11 @@ function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string 
 
 function useCommitTitle(firstCommitElement: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = $optional([
+	const commitCountIcon = $([
 		// Few commits
-		'div.Box.mb-3 .octicon-git-commit',
+		'div.Box.tmp-mb-3 .octicon-git-commit',
 		// Many commits (rendered in tabs)
-		'a[href="#commits_bucket"] .octicon-git-commit',
+		'div[href="#commits_bucket"] .octicon-git-commit',
 	]);
 	const commitCount = commitCountIcon?.nextElementSibling;
 	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
