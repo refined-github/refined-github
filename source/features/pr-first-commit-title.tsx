@@ -78,4 +78,5 @@ Test URLs
 
 Few commit: https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
 Many commits: https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+Commit name with backticks: https://github.com/refined-github/sandbox/compare/9012?expand=1
 */
