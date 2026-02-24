@@ -28,7 +28,7 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 
 function createCommitTitle(): string {
 	const prTitle = $([
-		'h1[class^="prc-PageHeader-Title"] span:first-of-type',
+		'h1[class^="prc-PageHeader-Title"] .markdown-title',
 		'div[class^="prc-PageLayout-Header"] input',
 		// Old view - TODO: Remove after July 2026
 		'input#issue_title',
