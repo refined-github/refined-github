@@ -21,10 +21,10 @@ async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: strin
 	}
 }
 
-async function cleanPrHeader(byline: HTMLElement): Promise<void> {
-	byline.classList.add('rgh-clean-conversation-headers');
+async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
+	summaryRow.classList.add('rgh-clean-conversation-headers');
 	// TODO: Remove after July 2026
-	byline.parentElement!.closest('.d-flex')?.classList.add('flex-items-center');
+	summaryRow.parentElement!.closest('.d-flex')?.classList.add('flex-items-center');
 
 	const prCreatorSelector = [
 		'.TimelineItem .author',
@@ -36,19 +36,17 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 	const shouldHideAuthor
 		= pageDetect.isPRConversation()
 			// #7802
-			&& !byline.closest([
+			&& !summaryRow.closest([
 				'div[class*="stickyHeader"]',
 				// TODO: Remove after July 2026
 				'.sticky-content',
 				'.gh-header-sticky',
 			])
-			&& $([
-				'.author',
-				'a[data-hovercard-url]',
-			], byline).textContent === (await elementReady(prCreatorSelector))!.textContent;
+			// First link in the summary row is always the author
+			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
-		byline.classList.add('rgh-hide-author');
+		summaryRow.classList.add('rgh-hide-author');
 	}
 
 	const base = $([
@@ -56,7 +54,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 		// Old views - TODO: Remove after July 2026
 		'.commit-ref',
 		'[class^="BranchName"]',
-	], byline);
+	], summaryRow);
 
 	let baseBranch;
 	if (base.title) {
@@ -70,7 +68,7 @@ async function cleanPrHeader(byline: HTMLElement): Promise<void> {
 
 	// Shows on PRs: main [←] feature
 	const anchor
-		= $optional('.commit-ref-dropdown', byline)?.nextSibling // TODO: remove after July 2026
+		= $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: remove after July 2026
 			?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
