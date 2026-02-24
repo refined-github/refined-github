@@ -129,6 +129,7 @@ import './features/show-open-prs-of-forks.js';
 import './features/deep-reblame.js';
 import './features/clear-pr-merge-commit-message.js';
 import './features/action-used-by-link.js';
+import './features/action-job-summary.js';
 import './features/batch-mark-files-as-viewed.js';
 import './features/unwrap-unnecessary-dropdowns.js';
 import './features/rerun-workflow.js';

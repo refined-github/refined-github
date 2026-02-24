@@ -1,5 +1,10 @@
 [
 	{
+		"id": "action-job-summary",
+		"description": "Shows the job summary on the individual job detail page, where GitHub only shows it on the run summary page.",
+		"screenshot": null
+	},
+	{
 		"id": "action-pr-link",
 		"description": "Adds a link back to the PR that ran the workflow.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png"
