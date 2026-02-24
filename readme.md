@@ -111,7 +111,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
-- [](# "action-job-summary") [Shows the job summary on the individual job detail page, where GitHub only shows it on the run summary page.](https://github.com/refined-github/refined-github/issues/0000)
+- [](# "action-job-summary") [Shows the job summary on the individual job detail page, where GitHub only shows it on the run summary page.](https://github.com/refined-github/refined-github/issues/9011)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

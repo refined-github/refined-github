@@ -1,46 +1,50 @@
 import React from 'dom-chef';
+import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {fetchDomUncached} from '../helpers/fetch-dom.js';
+import fetchDom, {fetchDomUncached} from '../helpers/fetch-dom.js';
 import {buildRepoURL} from '../github-helpers/index.js';
 
+const defined = /^actions\/runs\/(?<runId>\d+)\/job\/\d+/;
+
 function isActionJobDetailPage(): boolean {
-	return /^actions\/runs\/\d+\/job\/\d+/.test(
+	return defined.test(
 		pageDetect.utils.getRepositoryInfo()?.path ?? '',
 	);
 }
 
 function getRunId(): string | undefined {
-	return /actions\/runs\/(\d+)\/job\//.exec(location.pathname)?.[1];
+	return defined.exec(
+		pageDetect.utils.getRepositoryInfo()?.path ?? '',
+	)?.groups?.runId;
 }
 
 function getJobName(): string | undefined {
-	const heading = document.querySelector([
-		'.CheckRun-log-title', // Job name in the log header
-		'h2.PageHeader-title', // Possible future React-based header
-	].join(','));
-	return heading?.textContent?.trim();
+	return $optional('.CheckRun-log-title')?.textContent?.trim();
 }
 
 function createSummaryContainer(children: ChildNode[]): JSX.Element {
-	const container = (
-		<div className="rgh-action-job-summary mb-3">
+	const body = <div className="Box-body markdown-body" />;
+	body.append(...children);
+	return (
+		<div className="mb-3">
 			<div className="Box">
 				<div className="Box-header">
 					<h3 className="Box-title">Job Summary</h3>
 				</div>
-				<div className="Box-body markdown-body" />
+				{body}
 			</div>
 		</div>
 	);
-
-	container.querySelector('.Box-body')!.append(...children);
-	return container;
 }
 
-async function addSummary(stepsContainer: HTMLElement): Promise<void> {
+async function addSummary(signal: AbortSignal): Promise<void> {
+	const stepsContainer = $optional('.js-check-steps');
+	if (!stepsContainer) {
+		return;
+	}
+
 	const runId = getRunId();
 	if (!runId) {
 		return;
@@ -53,115 +57,70 @@ async function addSummary(stepsContainer: HTMLElement): Promise<void> {
 
 	const summaryUrl = buildRepoURL('actions', 'runs', runId);
 
-	// Fetch the summary page
+	// Fetch the run summary page (memoized — content won't change within a session)
 	let summaryDom: DocumentFragment;
 	try {
-		summaryDom = await fetchDomUncached(summaryUrl);
+		summaryDom = await fetchDom(summaryUrl);
 	} catch {
 		return;
 	}
 
-	// Look for job summary content in the fetched page.
-	// GitHub renders summaries in cards with the job name as heading.
-	const summaryContent = findJobSummary(summaryDom, jobName);
+	// Look for job summary content in the fetched page
+	const summaryContent = findJobSummary(summaryDom, jobName)
+		?? await fetchLazyJobSummary(summaryDom, jobName);
 
-	if (summaryContent) {
-		stepsContainer.parentElement!.insertBefore(
-			createSummaryContainer(summaryContent),
-			stepsContainer,
-		);
+	if (!summaryContent || signal.aborted) {
 		return;
 	}
 
-	// If summaries are behind lazy-loading elements, try fetching fragment URLs
-	const fragmentContent = await fetchLazyJobSummary(summaryDom, jobName);
-	if (fragmentContent) {
-		stepsContainer.parentElement!.insertBefore(
-			createSummaryContainer(fragmentContent),
-			stepsContainer,
-		);
-		return;
-	}
-
-	// Fallback: link to the summary page
-	stepsContainer.parentElement!.insertBefore(
-		<div className="rgh-action-job-summary mb-3">
-			<a href={summaryUrl} className="Link--muted">
-				View job summary on the run summary page
-			</a>
-		</div>,
-		stepsContainer,
-	);
+	const summary = createSummaryContainer(summaryContent);
+	stepsContainer.before(summary);
+	signal.addEventListener('abort', () => {
+		summary.remove();
+	});
 }
 
 function findJobSummary(dom: DocumentFragment, jobName: string): ChildNode[] | undefined {
-	// Strategy 1: Look for summary cards/sections that contain the job name
 	// GitHub wraps each job summary in a container with the job name as a heading
-	const allHeadings = dom.querySelectorAll([
-		'h1', // Top-level heading
-		'h2', // Section heading
-		'h3', // Sub-section heading
-		'h4', // Minor heading
-		'[role="heading"]', // ARIA heading
-	].join(','));
-	for (const heading of allHeadings) {
+	for (const heading of dom.querySelectorAll('h3')) {
 		if (heading.textContent?.trim() === jobName) {
-			// Found the heading for this job — get the sibling summary content
-			const card = heading.closest([
-				'.markdown-body', // Standard rendered markdown
-				'[data-testid*="summary"]', // React summary container
-				'.Box', // Generic box container
-				'.job-summary', // Job summary specific
-			].join(','));
+			const card = heading.closest('.markdown-body');
 			if (card) {
 				return [...card.childNodes];
 			}
 
-			// Try the next sibling element (heading then content pattern)
+			// Heading-then-content pattern: the summary follows the heading
 			const nextSibling = heading.nextElementSibling;
-			if (nextSibling?.classList.contains('markdown-body') ?? nextSibling?.querySelector('.markdown-body')) {
-				const markdownBody = nextSibling.classList.contains('markdown-body')
-					? nextSibling
-					: nextSibling.querySelector('.markdown-body')!;
+			const markdownBody = nextSibling?.classList.contains('markdown-body')
+				? nextSibling
+				: nextSibling?.querySelector('.markdown-body');
+			if (markdownBody) {
 				return [...markdownBody.childNodes];
 			}
 		}
 	}
 
-	// Strategy 2: Look for markdown-body sections inside job summary containers
+	// If there's exactly one markdown-body (single job), use it directly
 	const summaryContainers = dom.querySelectorAll('.markdown-body');
-	if (summaryContainers.length === 1) {
-		// If there's exactly one markdown-body (single job), use it directly
-		const content = summaryContainers[0];
-		if (content.children.length > 0) {
-			return [...content.childNodes];
-		}
+	if (summaryContainers.length === 1 && summaryContainers[0].children.length > 0) {
+		return [...summaryContainers[0].childNodes];
 	}
 
 	return undefined;
 }
 
 async function fetchLazyJobSummary(dom: DocumentFragment, jobName: string): Promise<ChildNode[] | undefined> {
-	// Look for include-fragment or batch-deferred-content elements
-	const fragments = dom.querySelectorAll([
-		'include-fragment[src]', // Standard lazy fragment
-		'batch-deferred-content[data-url]', // Batch lazy content
-	].join(','));
+	// Look for lazy-loaded summary fragments
+	const fragments = dom.querySelectorAll('include-fragment[src]');
 	if (fragments.length === 0) {
 		return undefined;
 	}
 
-	// Collect fragment URLs that likely contain job summaries
 	const fragmentUrls: string[] = [];
-
 	for (const fragment of fragments) {
-		const fragmentUrl = fragment.getAttribute('src') ?? fragment.getAttribute('data-url');
-		if (!fragmentUrl) {
-			continue;
-		}
-
+		const fragmentUrl = fragment.getAttribute('src')!;
 		// Only fetch URLs that look related to job summaries
-		if (fragmentUrl.includes('job_groups') || fragmentUrl.includes('summary') || fragmentUrl.includes('job')) {
+		if (fragmentUrl.includes('job_groups') || fragmentUrl.includes('summary')) {
 			fragmentUrls.push(fragmentUrl);
 		}
 	}
@@ -180,8 +139,8 @@ async function fetchLazyJobSummary(dom: DocumentFragment, jobName: string): Prom
 	return undefined;
 }
 
-function init(signal: AbortSignal): void {
-	observe('.js-check-steps', addSummary, {signal});
+async function init(signal: AbortSignal): Promise<void> {
+	await addSummary(signal);
 }
 
 void features.add(import.meta.url, {
