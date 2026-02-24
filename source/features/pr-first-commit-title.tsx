@@ -6,33 +6,17 @@ import {insertTextIntoField, setFieldText} from 'text-field-edit';
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
-
-function interpretNode(node: ChildNode): string | void {
-	switch (node instanceof Element && node.tagName) {
-		case false:
-		case 'A': {
-			return node.textContent;
-		}
-
-		case 'CODE': {
-			// Restore backticks that GitHub loses when rendering them
-			return '`' + node.textContent + '`';
-		}
-
-		default:
-			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
-	}
-}
+import {parseRenderedText} from '../github-helpers/dom-formatters.js';
 
 function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
 	const body = $optional('.Details-content--hidden pre', firstCommit)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = [...firstCommit.childNodes]
-		.map(node => interpretNode(node))
-		.join('')
-		.trim();
+	const title = parseRenderedText(firstCommit.firstElementChild!, ({nodeName}) =>
+		// Exclude expand body button
+		nodeName === '#text' || nodeName === 'CODE' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+	);
 
 	return {title, body};
 }
