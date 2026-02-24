@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
-import {parseRenderedText} from '../github-helpers/dom-formatters.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 

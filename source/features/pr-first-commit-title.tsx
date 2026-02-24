@@ -6,7 +6,7 @@ import {insertTextIntoField, setFieldText} from 'text-field-edit';
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
-import {parseRenderedText} from '../github-helpers/dom-formatters.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
 	const body = $optional('.Details-content--hidden pre', firstCommit)
