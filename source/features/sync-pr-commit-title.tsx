@@ -28,9 +28,10 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 
 function createCommitTitle(): string {
 	const prTitle = $([
-		'input#issue_title', // Old view - TODO: Remove after July 2026
-		'div[class^="prc-PageLayout-Header"] input',
 		'h1[class^="prc-PageHeader-Title"] span:first-of-type',
+		'div[class^="prc-PageLayout-Header"] input',
+		// Old view - TODO: Remove after July 2026
+		'input#issue_title',
 	]);
 	const prTitleText = (prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent).trim();
 	return formatPrCommitTitle(prTitleText);
