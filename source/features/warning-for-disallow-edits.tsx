@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import attachElement from '../helpers/attach-element.js';
 
 const getWarning = (): React.JSX.Element => (
-	<div className="flash flash-error mt-3 rgh-warning-for-disallow-edits">
+	<div className="flash flex-auto flash-error mt-3 mb-3 rgh-warning-for-disallow-edits">
 		<strong>Note:</strong> Maintainers may require changes. It&apos;s easier and faster to allow them to make direct changes before merging.
 	</div>
 );
@@ -19,10 +19,25 @@ function init(): void | false {
 		return false;
 	}
 
-	attachElement(
-		checkbox.closest('.discussion-sidebar-item')!,
-		{after: getWarning},
-	);
+	if (pageDetect.isPRConversation()) {
+		attachElement(
+			checkbox.closest('.discussion-sidebar-item')!,
+			{after: getWarning},
+		);
+	} else {
+		const option = checkbox.closest('.js-collab-option')!;
+
+		// Prevent layout shifting on warning showning
+		option.classList.remove('flex-auto');
+		const actionRow = option.parentElement!;
+		actionRow.classList.add('mt-1');
+		actionRow.parentElement!.classList.remove('flex-wrap');
+
+		attachElement(
+			actionRow.lastElementChild!,
+			{after: getWarning},
+		);
+	}
 }
 
 void features.add(import.meta.url, {
