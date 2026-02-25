@@ -15,7 +15,7 @@ export const statusBadgeSelector = [
 	'[data-testid="header-state"]',
 ] as const;
 
-const {class: featureClass} = getIdentifiers(import.meta.url);
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
