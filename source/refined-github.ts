@@ -9,7 +9,6 @@ import './features/github-bugs.css';
 import './features/tab-size.css';
 import './features/center-reactions-popup.css';
 import './features/monospace-textareas.css';
-import './features/safer-destructive-actions.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
 import './features/clean-conversations.css';
@@ -56,8 +55,7 @@ import './features/linkify-branch-references.js';
 import './features/open-all-conversations.js';
 import './features/conversation-links-on-repo-lists.js';
 import './features/global-conversation-list-filters.js';
-import './features/more-conversation-filters.js';
-import './features/sort-conversations-by-update-time.js'; // Must be after global-conversation-list-filters and more-conversation-filters and conversation-links-on-repo-lists
+import './features/sort-conversations-by-update-time.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
@@ -133,6 +131,7 @@ import './features/clear-pr-merge-commit-message.js';
 import './features/action-used-by-link.js';
 import './features/batch-mark-files-as-viewed.js';
 import './features/unwrap-unnecessary-dropdowns.js';
+import './features/rerun-workflow.js';
 import './features/stop-redirecting-in-notification-bar.js';
 import './features/prevent-link-loss.js';
 import './features/closing-remarks.js';

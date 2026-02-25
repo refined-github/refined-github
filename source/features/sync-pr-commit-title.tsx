@@ -10,10 +10,9 @@ import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 
-const prTitleFieldSelector = 'input#issue_title';
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
-const mergeButtonSelector = '[data-testid="mergebox-partial"] button[data-variant="primary"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
@@ -28,12 +27,18 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 }
 
 function createCommitTitle(): string {
-	const prTitle = $(prTitleFieldSelector).value.trim();
-	return formatPrCommitTitle(prTitle);
+	const prTitle = $([
+		'h1[class^="prc-PageHeader-Title"] .markdown-title',
+		'div[class^="prc-PageLayout-Header"] input',
+		// Old view - TODO: Remove after July 2026
+		'input#issue_title',
+	]);
+	const prTitleText = (prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent).trim();
+	return formatPrCommitTitle(prTitleText);
 }
 
 function needsSubmission(): boolean {
-	const mergeButton = $optional(mergeButtonSelector);
+	const mergeButton = $optional(confirmMergeButton);
 	if (mergeButton?.textContent !== 'Confirm squash and merge') {
 		return false;
 	}
@@ -90,13 +95,16 @@ function disableSubmission(): void {
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
 	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe('.gh-header-title', updateCommitTitle, {signal}); // On PR title change
+	observe([
+		'h1[class^="prc-PageHeader-Title"]',
+		'.gh-header-title', // Old view - TODO: Remove after July 2026
+	], updateCommitTitle, {signal}); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUI, signal);
 
 	// On submission, update PR
-	delegate(mergeButtonSelector, 'click', updatePRTitle, {signal});
+	delegate(confirmMergeButton, 'click', updatePRTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
@@ -108,6 +116,9 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isPRConversation,
+	],
+	exclude: [
+		pageDetect.isMergedPR,
 	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
