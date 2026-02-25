@@ -5,14 +5,14 @@
 	display: none;
 }
 
-div:is(.discussion-sidebar-item, .js-collab-option):has(
+:is(.discussion-sidebar-item, .js-collab-option):has(
 		input[name='collab_privs']:not(:checked)
 	)
 	~ .rgh-warning-for-disallow-edits {
 	display: block;
 }
 
-div:is(.discussion-sidebar-item, .js-collab-option):has(
+:is(.discussion-sidebar-item, .js-collab-option):has(
 		input[name='collab_privs']:checked
 	)
 	~ .rgh-warning-for-disallow-edits {
