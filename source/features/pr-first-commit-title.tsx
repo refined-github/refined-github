@@ -77,11 +77,11 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-Few commit: https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
-Many commits: https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
-
-Commit name with backticks:
-	- Few commits: https://github.com/refined-github/sandbox/compare/9012?expand=1
-	- Many commits: https://github.com/refined-github/sandbox/compare/9012-2?expand=1
+Few commits:
+	- https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012?expand=1
+Many commits:
+	- https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012-2?expand=1
 
 */
