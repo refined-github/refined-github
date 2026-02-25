@@ -19,13 +19,8 @@ function init(): void | false {
 		return false;
 	}
 
-	const container = checkbox.closest('.discussion-sidebar-item');
-	if (!container) {
-		return false;
-	}
-
 	attachElement(
-		container,
+		checkbox.closest('.discussion-sidebar-item')!,
 		{after: getWarning},
 	);
 }
