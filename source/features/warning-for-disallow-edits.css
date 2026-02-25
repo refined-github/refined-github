@@ -5,12 +5,12 @@
 	display: none;
 }
 
-form:has(input[name='collab_privs']:not(:checked))
+.discussion-sidebar-item:has(input[name='collab_privs']:not(:checked))
 	+ .rgh-warning-for-disallow-edits {
 	display: block;
 }
 
-form:has(input[name='collab_privs']:checked)
+.discussion-sidebar-item:has(input[name='collab_privs']:checked)
 	+ .rgh-warning-for-disallow-edits {
 	display: none;
 }
