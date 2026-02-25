@@ -64,14 +64,12 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(file: HTMLElement): string {
+	const fileElement = fileSelector.join(',');
+	const viewedToggle = viewedToggleSelector.join(',');
+	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
-	return [
-		`:is(${fileSelector.join(',')}):not([hidden])`,
-		' ',
-		`:is(${viewedToggleSelector.join(',')})`,
-		isChecked(file) ? `:not(${checkedSelector})` : checkedSelector,
-	].join('');
+	return `:is(${fileElement}):not([hidden]) :is(${viewedToggle})${checkedState}`;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);
