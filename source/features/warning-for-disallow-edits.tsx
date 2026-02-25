@@ -27,7 +27,7 @@ function init(): void | false {
 	} else {
 		const option = checkbox.closest('.js-collab-option')!;
 
-		// Prevent layout shifting on warning showning
+		// Prevent layout shifting when warning appears
 		option.classList.remove('flex-auto');
 		const actionRow = option.parentElement!;
 		actionRow.classList.add('mt-1');
