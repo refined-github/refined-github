@@ -31,7 +31,7 @@ const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
 const timelineItem = [
 	'.js-timeline-item',
-	// React issue pages
+	// Issue view
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
@@ -123,7 +123,14 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $(':is(.js-issues-results, [data-testid="issue-viewer-container"])');
+	const container = $([
+		// Current PR view
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Current issue view
+		'[class*="IssueViewer-module__mainContainer"]',
+		// Old PR view - TODO: Drop after July 2026
+		'.js-issues-results',
+	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -259,11 +266,14 @@ async function init(signal: AbortSignal): Promise<void> {
 			: 'default');
 
 	observe([
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-		// React issue pages
+		// Issue view
 		'[class^="HeaderMetadata-module__metadataContent"]',
 		'[class*="HeaderMetadata-module__smallMetadataRow"]',
+		// PR view
+		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+		// Old PR view - TODO: Remove after July 2026
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {

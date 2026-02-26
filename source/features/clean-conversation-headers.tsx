@@ -86,7 +86,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		'span[class*="PullRequestHeaderSummary"]',
 		// Old views. TODO: Remove after July 2026
 		'.gh-header-meta > .flex-auto', // Real
-		'.rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+		'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
 		'[class^="StateLabel"] + div > span:first-child',
 	], cleanPrHeader, {signal});
 }

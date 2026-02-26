@@ -10,9 +10,11 @@
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
-:is(.js-issues-results, [data-testid='issue-viewer-container']):not(
-		.rgh-conversation-activity-is-filtered
-	)
+div:is(
+		[class^='prc-PageLayout-PageLayoutWrapper'],
+		[class*='IssueViewer-module__mainContainer'],
+		.js-issues-results
+	):not(.rgh-conversation-activity-is-filtered)
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye-closed {
 	display: none !important;
@@ -27,8 +29,10 @@
 	display: inline !important;
 }
 
-/* Fix dropdown getting cut off on issue headers */
-[class^='HeaderMetadata-module__titleAndMetadata'] {
+/* Fix dropdown getting cut off */
+[class^='HeaderMetadata-module__titleAndMetadata'],
+span[class*='PullRequestHeaderSummary-module'],
+div[class^='prc-PageHeader-Description'] .overflow-hidden {
 	overflow: visible !important;
 }
 
