@@ -10,9 +10,9 @@
 .rgh-conversation-activity-is-filtered
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
-:is(
+div:is(
 		#diff-comparison-viewer-container,
-		[data-testid='issue-viewer-container'],
+		[class*='IssueViewer-module__mainContainer'],
 		.js-issues-results
 	):not(.rgh-conversation-activity-is-filtered)
 	.rgh-conversation-activity-filter-dropdown

@@ -123,7 +123,7 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $(':is(#diff-comparison-viewer-container, [data-testid="issue-viewer-container"], .js-issues-results)');
+	const container = $('div:is(#diff-comparison-viewer-container, [class*="IssueViewer-module__mainContainer"], .js-issues-results)');
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
