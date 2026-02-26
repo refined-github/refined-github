@@ -32,7 +32,7 @@
 /* Fix dropdown getting cut off */
 [class^='HeaderMetadata-module__titleAndMetadata'],
 span[class*='PullRequestHeaderSummary-module'],
-div[class^="prc-PageHeader-Description"] .overflow-hidden {
+div[class^='prc-PageHeader-Description'] .overflow-hidden {
 	overflow: visible !important;
 }
 
