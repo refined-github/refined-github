@@ -92,7 +92,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - Repo: https://github.com/refined-github/refined-github
-- Issue conversation: https://github.com/refined-github/refined-github/issues/6752
 - PR conversation: https://github.com/refined-github/refined-github/pull/755
 - Discussion: https://github.com/orgs/community/discussions/40299
 
