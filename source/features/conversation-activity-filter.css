@@ -11,7 +11,7 @@
 	.rgh-conversation-activity-filter-dropdown
 	.octicon-eye,
 div:is(
-		#diff-comparison-viewer-container,
+		[class^='prc-PageLayout-PageLayoutWrapper'],
 		[class*='IssueViewer-module__mainContainer'],
 		.js-issues-results
 	):not(.rgh-conversation-activity-is-filtered)

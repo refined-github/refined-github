@@ -123,7 +123,14 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $('div:is(#diff-comparison-viewer-container, [class*="IssueViewer-module__mainContainer"], .js-issues-results)');
+	const container = $([
+		// Current PR view
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Current issue view
+		'[class*="IssueViewer-module__mainContainer"]',
+		// Old PR view - TODO: Drop after July 2026
+		'.js-issues-results',
+	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
