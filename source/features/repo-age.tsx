@@ -37,12 +37,6 @@ const fresh = [
 	'So it begins, the great battle of our time',
 ];
 
-const dateFormatter = new Intl.DateTimeFormat('en-US', {
-	year: 'numeric',
-	month: 'long',
-	day: 'numeric',
-});
-
 async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
@@ -74,6 +68,13 @@ const firstCommit = new CachedFunction('first-commit', {
 });
 
 async function init(): Promise<void> {
+	// Construct class only when it's needed, as it is relatively expensive
+	const dateFormatter = new Intl.DateTimeFormat('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+
 	const [firstCommitDate, firstCommitHref] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 

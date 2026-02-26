@@ -46,19 +46,23 @@ async function disableFeatureOnRepo(): Promise<void> {
 	await nativeRepos.applyOverride([repo], true);
 }
 
-async function mergeBranches(): Promise<AnyObject> {
-	return api.v3(`pulls/${getConversationNumber()!}/update-branch`, {
+async function mergeBranches(expectedHeadSha: string): Promise<AnyObject> {
+	return api.v3uncached(`pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
-		ignoreHTTPStatus: true,
+		// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
+		body: {expected_head_sha: expectedHeadSha},
+		ignoreHTTPStatus: true, // eslint-disable-line @typescript-eslint/naming-convention -- Pre-existing
 	});
 }
 
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
 	await showToast(async () => {
-		// Reads Error#message or GitHub’s "message" response
+		const {base} = getBranches();
+		const {headRefOid} = await getPrInfo(base.relative);
+		// Reads Error#message or GitHub's "message" response
 		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
-		const response = await mergeBranches().catch(error => error);
+		const response = await mergeBranches(headRefOid).catch(error => error);
 		if (response instanceof Error || !response.ok) {
 			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
 		}
