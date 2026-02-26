@@ -1,3 +1,5 @@
+import './linkify-user-labels.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,7 +20,7 @@ function linkify(label: Element): void {
 
 	const url = new URL(buildRepoURL('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
-	wrap(label, <a className="Link--secondary rgh-linkify-user-labels" href={url.href} />);
+	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
 function init(signal: AbortSignal): void {
@@ -42,6 +44,7 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 Test URLs:
 
 Bot PR
@@ -64,4 +67,8 @@ https://github.com/refined-github/refined-github/pull/5691#discussion_r895192800
 
 Contributor review second comment in Files tab
 https://github.com/refined-github/refined-github/pull/2667/files#r366433031
+
+Member comment on issue
+https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
+
 */

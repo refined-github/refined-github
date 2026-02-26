@@ -59,7 +59,7 @@
 	},
 	{
 		"id": "clean-conversation-headers",
-		"description": "Removes duplicate information in the header of issues and PRs (\"User wants to merge X commits from Y into Z\")",
+		"description": "Removes duplicate information in the header of PRs (\"User wants to merge X commits from Y into Z\")",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png"
 	},
@@ -346,6 +346,7 @@
 	{
 		"id": "improve-shortcut-help",
 		"description": "Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
 	},
 	{
@@ -423,6 +424,7 @@
 	{
 		"id": "linkify-user-labels",
 		"description": "Links the \"Contributor\" and \"Member\" labels on comments to the author’s commits on the repo.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png"
 	},
 	{
@@ -462,11 +464,6 @@
 		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
-	},
-	{
-		"id": "more-conversation-filters",
-		"description": "Adds <code>Everything you’re involved in</code> and <code>Everything you subscribed to</code> filters in the search box dropdown.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253043952-cfb99cea-1c7b-43ad-9144-9d84bda8206f.png"
 	},
 	{
 		"id": "more-dropdown-links",
@@ -764,6 +761,11 @@
 		"id": "repo-wide-file-finder",
 		"description": "Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.",
 		"screenshot": null
+	},
+	{
+		"id": "rerun-workflow",
+		"description": "Unwraps the \"Re-run jobs\" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>.",
+		"screenshot": "https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7"
 	},
 	{
 		"id": "restore-file",

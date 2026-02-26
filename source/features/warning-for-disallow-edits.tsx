@@ -30,6 +30,9 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 		pageDetect.isPRConversation,
 	],
+	exclude: [
+		pageDetect.isMergedPR,
+	],
 	awaitDomReady: true,
 	init,
 });

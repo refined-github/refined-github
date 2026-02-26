@@ -128,9 +128,11 @@ async function handleSelection({target}: Event): Promise<void> {
 
 function applyState(targetState: State): void {
 	const container = $([
-		'#diff-comparison-viewer-container',
-		'[data-testid="issue-viewer-container"]',
-		// TODO: Remove after July 2026
+		// Current PR view
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Current issue view
+		'[class*="IssueViewer-module__mainContainer"]',
+		// Old PR view - TODO: Drop after July 2026
 		'.js-issues-results',
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
@@ -260,12 +262,12 @@ async function init(signal: AbortSignal): Promise<void> {
 			: 'showAll');
 
 	observe([
-		// Issue pages
+		// Issue view
 		'[class^="HeaderMetadata-module__metadataContent"]',
 		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR pages
+		// PR view
 		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR pages. TODO: Remove after July 2026
+		// Old PR view - TODO: Remove after July 2026
 		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
