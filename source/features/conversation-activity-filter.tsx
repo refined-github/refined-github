@@ -31,7 +31,7 @@ const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
 const timelineItem = [
 	'.js-timeline-item',
-	// React issue pages
+	// Issue view
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 
@@ -266,12 +266,12 @@ async function init(signal: AbortSignal): Promise<void> {
 			: 'default');
 
 	observe([
-		// Issue pages
+		// Issue view
 		'[class^="HeaderMetadata-module__metadataContent"]',
 		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR pages
+		// PR view
 		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR pages. TODO: Remove after July 2026
+		// Old PR view - TODO: Remove after July 2026
 		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
