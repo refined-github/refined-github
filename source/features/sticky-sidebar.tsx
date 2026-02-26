@@ -12,9 +12,10 @@ import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
-	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation`. TODO: Remove after March 2026
 	'#partial-discussion-sidebar', // `isDiscussion`, old `isPRConversation`
+	'div[class^="prc-PageLayout-Pane-"]', // `isRepoRoot`
+	'.Layout-sidebar .BorderGrid', // Old `isRepoRoot` - Remove after August 2026
+	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation` - TODO: Remove after March 2026
 ];
 
 let sidebar: HTMLElement | undefined;

@@ -12,7 +12,8 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 /* `isRepoRoot` */
-.Layout-sidebar .BorderGrid {
+.Layout-sidebar .BorderGrid,
+div[class^="prc-PageLayout-Pane-"] {
 	--rgh-sticky-sidebar-offset: 0;
 }
 
