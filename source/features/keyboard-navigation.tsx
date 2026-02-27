@@ -22,7 +22,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const focusedComment = $optional(':target');
 	const items
 		= $$([
-			'.js-targetable-element[id^="diff-"]', // Files in diffs
+			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])
 			.filter(element =>
@@ -68,5 +68,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github/pull/4030#discussion_r584184640
+https://github.com/refined-github/refined-github/pull/8517/changes
 
 */
