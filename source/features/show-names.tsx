@@ -36,7 +36,9 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		'[data-testid="avatar-link"]', // Commment on React-based views
 		'[data-testid="issue-body-header-author"]',
 		'.feed-item-content *',
-		// PR event: https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+		// PR event:
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
 		// `readable-title-change-events` adds gap to rename events
 		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 	])) {

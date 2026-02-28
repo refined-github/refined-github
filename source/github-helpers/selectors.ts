@@ -212,8 +212,10 @@ export const botLinksNotificationSelectors_ = [
 
 // `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
+	// Old views
 	'.js-discussion a.author',
 	'.inline-comments a.author',
+	// React-based views
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
 	'a[class^="row-module__eventActorLink"]',
