@@ -33,8 +33,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	);
 
 	if (element.matches([
-		// Issue commment
-		'[data-testid="avatar-link"]',
+		'[data-testid="avatar-link"]', // Issue commment
 		'[data-testid="issue-body-header-author"]',
 		'.feed-item-content *',
 		// PR event
