@@ -47,7 +47,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 			//  - https://github.com/refined-github/sandbox/issues/3#event-1142607402
 			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
 			// Username in issue events already has left margin
-			// Rename events use `gap` for spacing between username and event description
+			// Rename events use `gap` for spacing
 			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
 		)
 	) {
