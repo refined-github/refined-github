@@ -46,7 +46,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	} else if (
 		element.matches(
 			// Issue event:
-			//  - https://github.com/refined-github/sandbox/issues/3#event-1142607402
+			//  - https://github.com/refined-github/sandbox/issues/3#event-5474574930
 			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
 			// Username in issue events already has left margin
 			// Rename events use `gap` for spacing
