@@ -33,7 +33,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	);
 
 	if (element.matches([
-		'[data-testid="avatar-link"]', // Issue commment
+		'[data-testid="avatar-link"]', // Commment on React-based views
 		'[data-testid="issue-body-header-author"]',
 		'.feed-item-content *',
 		// PR event: https://github.com/refined-github/refined-github/pull/8970#event-22710755292
@@ -43,7 +43,11 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		nameElement.classList.add('ml-1');
 	} else if (
 		element.matches(
-			// Issue event: https://github.com/refined-github/refined-github/issues/8504#event-2733894650
+			// Issue event:
+			//  - https://github.com/refined-github/sandbox/issues/3#event-1142607402
+			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
+			// Username in issue events already has left margin
+			// Rename events use `gap` for spacing between username and event description
 			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
 		)
 	) {
