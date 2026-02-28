@@ -1,0 +1,5 @@
+html:not([rgh-OFF-improve-shortcut-help]) {
+	div[class^='ShortcutsDialog-module__ShortcutsDialogRoot'] {
+		height: auto;
+	}
+}

@@ -11,6 +11,7 @@ import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';
+import abortableClassName from '../helpers/abortable-classname.js';
 
 const emojiRegex = getEmojiRegex();
 
@@ -124,6 +125,8 @@ function updateDom(link: HTMLAnchorElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
+	// For `sticky-comment-header`
+	abortableClassName(document.documentElement, signal, 'rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
 }
 

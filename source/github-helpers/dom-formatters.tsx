@@ -33,16 +33,19 @@ export function shortenLink(link: HTMLAnchorElement): void {
 }
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
-export function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
+export function createInvisibleAnchors(element: HTMLElement): void {
 	// TODO: bump min firefox version to 147 and safari to 26 in 2027
 	if (!CSS.supports('anchor-name: --test')) {
 		return;
 	}
 
-	const menuPositioner = element.closest('#highlighted-line-menu-positioner');
-	if (!menuPositioner) {
+	// Safety measure
+	// DOM changes made by this function is unnecessary if the textarea doesn't exist and can cause issues
+	if (!elementExists('#read-only-cursor-text-area')) {
 		return;
 	}
+
+	const container = element.closest('.react-code-file-contents')!.parentElement!;
 
 	const codeLine = element.closest('[id]');
 	if (!codeLine) {
@@ -58,9 +61,11 @@ export function prependAnchorsBeforeCodeOverlay(element: HTMLElement): void {
 		link.style.anchorName = anchor;
 		// @ts-expect-error -- Not widely available yet
 		clonedLink.style.positionAnchor = anchor;
-		menuPositioner.style.overflowX = 'clip';
-		menuPositioner.prepend(clonedLink);
+		container.prepend(clonedLink);
 	}
+
+	// Hide overflow
+	container.style.position = 'relative';
 }
 
 export function linkifyIssues(
@@ -95,7 +100,7 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
-	prependAnchorsBeforeCodeOverlay(element);
+	createInvisibleAnchors(element);
 }
 
 export function linkifyURLs(element: HTMLElement): void {
@@ -120,7 +125,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	}
 
 	zipTextNodes(element, linkified);
-	prependAnchorsBeforeCodeOverlay(element);
+	createInvisibleAnchors(element);
 }
 
 export function parseBackticks(element: Element): void {
