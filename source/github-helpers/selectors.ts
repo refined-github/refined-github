@@ -217,7 +217,6 @@ const authorLinks = [
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
 	'a[class^="row-module__eventActorLink"]',
-	'.feed-item-content header a.Link--primary',
 ];
 
 const authorLinksException = [
@@ -237,6 +236,7 @@ export const usernameLinksSelector = [
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+	'.feed-item-content header a.Link--primary',
 ] as unknown as Array<'a'>;
 export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
