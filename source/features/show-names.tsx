@@ -32,9 +32,12 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 	);
 
 	if (element.matches([
+		// Issue commment
 		'[data-testid="avatar-link"]',
 		'[data-testid="issue-body-header-author"]',
 		'.feed-item-content *',
+		// PR event
+		// Example: https://github.com/refined-github/refined-github/pull/8970#event-22710755292
 		// `readable-title-change-events` adds gap to rename events
 		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 	])) {
