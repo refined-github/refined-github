@@ -27,7 +27,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = $('.Counter', tab);
+	const tabCounter = $(':is(.Counter, [data-component="counter"] > :first-child)', tab);
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
@@ -45,7 +45,10 @@ function onlyShowInDropdown(id: string): void {
 	menuItem.removeAttribute('data-menu-item');
 	menuItem.hidden = false;
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	$('.UnderlineNav-actions ul').append(menuItem);
+	const overflowUl = $optional(':is(.UnderlineNav-actions ul, action-menu ul)');
+	if (overflowUl) {
+		overflowUl.append(menuItem);
+	}
 }
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {

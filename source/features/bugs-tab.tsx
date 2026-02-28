@@ -80,7 +80,7 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	const issuesTab = await elementReady('a[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Issues are disabled
 		return false;
@@ -103,7 +103,7 @@ async function addBugsTab(): Promise<void | false> {
 	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
 	// Set temporary counter
-	const bugsCounter = $('.Counter', bugsTab);
+	const bugsCounter = $(':is(.Counter, [data-component="counter"] > :first-child)', bugsTab);
 	bugsCounter.textContent = '0';
 	bugsCounter.title = '';
 
@@ -133,7 +133,7 @@ async function addBugsTab(): Promise<void | false> {
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
-	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
+	unhighlightTab($('a[data-hotkey="g i"]'));
 	highlightTab($('.rgh-bugs-tab'));
 }
 

@@ -5,7 +5,7 @@ const requiresLogin: UrlMatch[] = [];
 export type UrlMatch = [expectations: number, url: string];
 
 /** The repo navigation bar */
-export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
+export const repoUnderlineNavUl = 'nav[aria-label="Repository"] > ul';
 export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	[1, 'https://github.com/refined-github/refined-github/releases'],
@@ -22,12 +22,12 @@ export const standaloneGistLinkInMarkdown_ = [
 ] satisfies UrlMatch[];
 
 /** The repo navigation bar’s overflow menu */
-export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
+export const repoUnderlineNavDropdownUl = ‘action-menu ul’;
 export const repoUnderlineNavDropdownUl_ = [
 	// Added via JS :(
 	// TODO: Use Puppeteer?
-	[1, 'https://github.com/refined-github/refined-github'],
-	[1, 'https://github.com/refined-github/refined-github/releases'],
+	[1, ‘https://github.com/refined-github/refined-github’],
+	[1, ‘https://github.com/refined-github/refined-github/releases’],
 ] satisfies UrlMatch[];
 
 export const branchSelector = '[data-hotkey="w"]';
