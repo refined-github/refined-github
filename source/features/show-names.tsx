@@ -36,14 +36,14 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		'[data-testid="avatar-link"]', // Issue commment
 		'[data-testid="issue-body-header-author"]',
 		'.feed-item-content *',
-		// PR event
-		// Example: https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+		// PR event: https://github.com/refined-github/refined-github/pull/8970#event-22710755292
 		// `readable-title-change-events` adds gap to rename events
 		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 	])) {
 		nameElement.classList.add('ml-1');
 	} else if (
 		element.matches(
+			// Issue event: https://github.com/refined-github/refined-github/issues/8504#event-2733894650
 			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
 		)
 	) {
