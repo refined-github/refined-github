@@ -19,9 +19,10 @@
 	max-width: intrinsic;
 }
 
+/* TODO: Remove after August 2026 */
+#pull_request_title,
 /* TODO: Remove after July 2026 */
 	#commit-summary-input,
-#pull_request_title,
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
