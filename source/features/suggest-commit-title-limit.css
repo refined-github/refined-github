@@ -8,7 +8,7 @@
 	[data-testid='mergebox-partial'] input,
 	#commit-message-input,
 	/* TODO: Remove after July 2026 */
-		#commit-summary-input,
+		#commit-summary-input
 ) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
