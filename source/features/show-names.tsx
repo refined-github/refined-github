@@ -32,9 +32,28 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		</span>
 	);
 
-	const testId = element.getAttribute('data-testid');
-	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId)) {
+	if (element.matches([
+		'[data-testid="avatar-link"]', // Commment on React-based views
+		'[data-testid="issue-body-header-author"]',
+		'.feed-item-content *',
+		// PR event:
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
+		// `readable-title-change-events` adds gap to rename events
+		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
+	])) {
 		nameElement.classList.add('ml-1');
+	} else if (
+		element.matches(
+			// Issue event:
+			//  - https://github.com/refined-github/sandbox/issues/3#event-5474574930
+			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
+			// Username in issue events already has left margin
+			// Rename events use `gap` for spacing
+			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
+		)
+	) {
+		nameElement.classList.add('mr-1');
 	}
 
 	return nameElement;
@@ -131,7 +150,7 @@ Test URLs:
 - issue: https://github.com/isaacs/github/issues/297
 - PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
-- newsfeed: https://github.com
+- feed: https://github.com/feed
 
 Special cases:
 
