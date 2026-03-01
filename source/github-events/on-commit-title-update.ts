@@ -1,9 +1,12 @@
 import delegate, {type DelegateEventHandler} from 'delegate-it';
 
 const fieldSelector = [
-	'#commit-summary-input', // Commit title on edit file page before some update. TODO: Remove after July 2026
-	'#commit-message-input', // Commit title on edit file page
-	'[data-testid="mergebox-partial"] input', // PR merge message field
+	// PR merge message field
+	'[data-testid="mergebox-partial"] input',
+	// Commit title on edit file page
+	'#commit-message-input',
+	// Commit title on edit file page before some update - TODO: Remove after July 2026
+	'#commit-summary-input',
 ];
 
 export default function onCommitTitleUpdate(callback: DelegateEventHandler<Event, HTMLInputElement>, signal: AbortSignal): void {
