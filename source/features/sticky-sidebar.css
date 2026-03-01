@@ -1,10 +1,3 @@
-[rgh-sticky-sidebar-enabled] #js-repo-pjax-container ul.pagehead-actions,
-/* https://github.com/refined-github/refined-github/issues/6761 */
-	[rgh-sticky-sidebar-enabled]
-	[id^='my-forks-menu'] {
-	z-index: initial !important; /* This affects the social buttons. It seems to have no effect but it constantly causes trouble with other features. */
-}
-
 /*
 Have the calculations available even when the sidebar isn't sticky so that `--rgh-sticky-sidebar-offset` can be used via JS.
 
@@ -19,7 +12,8 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 /* `isRepoRoot` */
-.Layout-sidebar .BorderGrid {
+.Layout-sidebar .BorderGrid,
+div[class^='prc-PageLayout-Pane-'] {
 	--rgh-sticky-sidebar-offset: 0;
 }
 
@@ -28,23 +22,12 @@ Exclusively use simple sums and use `0px` instead of `0`
 	--rgh-sticky-notification-header-height: 69px;
 }
 
-/* required to make `sticky` work for the issue Sidebar */
-.rgh-sticky-sidebar-container {
-	display: unset !important;
-}
-
 .rgh-sticky-sidebar {
-	position: sticky;
-	top: var(--rgh-sticky-sidebar-offset, 0) !important;
-}
-
-#discussion_bucket #partial-discussion-sidebar.rgh-sticky-sidebar-container {
 	height: min-content;
-}
-
-/* Hides the last divider (on pull requests) to avoid https://user-images.githubusercontent.com/10238474/62282128-af6fb980-b457-11e9-8b18-c29687b88da1.gif */
-.rgh-sticky-sidebar + .border-top {
-	display: none;
+	&.is-stuck {
+		position: sticky;
+		top: var(--rgh-sticky-sidebar-offset, 0) !important;
+	}
 }
 
 /* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */

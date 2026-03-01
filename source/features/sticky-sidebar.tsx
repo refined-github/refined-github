@@ -12,10 +12,10 @@ import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
-	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
-	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
-	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
+	'#partial-discussion-sidebar', // `isDiscussion`, old `isPRConversation`
+	'div[class^="prc-PageLayout-Pane-"]', // `isRepoRoot`
+	'.Layout-sidebar .BorderGrid', // Old `isRepoRoot` - Remove after August 2026
+	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation` - TODO: Remove after March 2026
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -40,13 +40,12 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	}
 
 	sidebar = foundSidebar;
+	sidebar.classList.add('rgh-sticky-sidebar');
+
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
 		sidebar = undefined;
 	});
-
-	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
-	container.classList.add('rgh-sticky-sidebar-container');
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
@@ -59,7 +58,7 @@ function updateStickiness(): void {
 
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
 	sidebar.classList.toggle(
-		'rgh-sticky-sidebar',
+		'is-stuck',
 		window.innerWidth >= minimumViewportWidthForSidebar
 		&& sidebar.offsetHeight + offset < window.innerHeight,
 	);
@@ -92,7 +91,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-Repo: https://github.com/refined-github/refined-github
-Conversation: https://github.com/refined-github/refined-github/issues/6752
+- Repo: https://github.com/refined-github/refined-github
+- PR conversation: https://github.com/refined-github/refined-github/pull/755
+- Discussion: https://github.com/orgs/community/discussions/40299
 
 */
