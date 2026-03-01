@@ -23,13 +23,17 @@ function linkify(label: Element): void {
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
+const ariaLabelSelector = [
+	'[aria-label^="This user is a member"]',
+	'[aria-label^="This user has previously committed"]',
+	'[aria-label^="This user has been invited to collaborate"]',
+].join(',');
+
 function init(signal: AbortSignal): void {
 	observe([
-		'span[data-testid="comment-author-association"][aria-label*="a member of the"]',
-		'span[data-testid="comment-author-association"][aria-label^="This user has previously committed"]',
-		// PRs and pre-issue redesign 2024
-		'.tooltipped[aria-label*="a member of the"]',
-		'.tooltipped[aria-label^="This user has previously committed"]',
+		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
+		// PRs
+		`.tooltipped:is(${ariaLabelSelector})`,
 	], linkify, {signal});
 }
 
@@ -70,5 +74,8 @@ https://github.com/refined-github/refined-github/pull/2667/files#r366433031
 
 Member comment on issue
 https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
+
+Collaborator review comment
+https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
 
 */
