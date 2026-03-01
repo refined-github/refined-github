@@ -35,8 +35,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
-		'#pull_request_title', // `isCompare`
 		'[class^="prc-PageLayout-Header"] input', // `isPR`
+		'input[name="pull_request[title]"]', // `isCompare`
+		'#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
 		'#issue_title', // Old `isPR` view - TODO: Remove after July 2026
 	], 'input', validatePrTitle, {signal, passive: true});
 	await waitForPrMerge(signal);
