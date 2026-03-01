@@ -7,8 +7,9 @@ import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
-import XIcon from 'octicons-plain-react/X';
+import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import domLoaded from 'dom-loaded';
+import delegate from 'delegate-it';
 
 import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
@@ -16,23 +17,19 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';
 
-const expectedDropdownWidth = 270;
-
 const states = {
-	default: '',
+	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
 	hideEventsAndCollapsedComments: 'Hide events and collapsed comments',
-};
+} as const;
 
 type State = keyof typeof states;
 
-const dropdownClass = 'rgh-conversation-activity-filter-dropdown';
-const hiddenClassName = 'rgh-conversation-activity-filtered';
-const collapsedClassName = 'rgh-conversation-activity-collapsed';
-const timelineItem = [
-	'.js-timeline-item',
-	// Issue view
-	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
+const minorFixesIssuePages = [
+	'https://github.com/refined-github/refined-github/issues/3686',
+	'https://github.com/refined-github/refined-github/issues/6000',
+	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
 ];
 
 const SessionPageSetting = {
@@ -48,6 +45,15 @@ const SessionPageSetting = {
 		return sessionStorage.getItem(this.key) as State | undefined;
 	},
 };
+
+const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
+const hiddenClassName = 'rgh-conversation-activity-filtered-event';
+const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
+const timelineItem = [
+	'.js-timeline-item',
+	// React issue pages
+	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
+];
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -115,14 +121,12 @@ function processItem(item: HTMLElement): void {
 }
 
 async function handleSelection({target}: Event): Promise<void> {
-	// The event is fired before the DOM is updated. Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	await delay(1);
-
-	const state = $('[aria-checked="true"]', target as Element).dataset.value as State;
-	applyState(state);
+	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
+	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
+	applyState(state as State);
 }
 
-function applyState(state: State): void {
+function applyState(targetState: State): void {
 	const container = $([
 		// Current PR view
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
@@ -131,35 +135,34 @@ function applyState(state: State): void {
 		// Old PR view - TODO: Drop after July 2026
 		'.js-issues-results',
 	]);
-	container.setAttribute('data-rgh-conversation-activity-filter', state);
-	container.classList.toggle(
-		'rgh-conversation-activity-is-filtered',
-		state !== 'default',
-	);
+	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
-	// Update the state of the dropdowns
-	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="false"][data-value="${state}"]`)) {
-		dropdownItem.setAttribute('aria-checked', 'true');
+	// Sync menu items state between two widgets
+	for (const menuItem of $$(`.${menuItemClass}`)) {
+		menuItem.ariaChecked = `${menuItem.dataset.state === targetState}`;
 	}
 
-	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
-		dropdownItem.setAttribute('aria-checked', 'false');
-	}
-
-	SessionPageSetting.set(state);
+	SessionPageSetting.set(targetState);
 }
 
-function createRadios(current: State): JSX.Element[] {
-	return Object.entries(states).map(([state, label]) => (
-		<div
-			className="SelectMenu-item"
-			role="menuitemradio"
-			aria-checked={state === current ? 'true' : 'false'}
-			data-value={state}
-		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
-			{label || 'Show all'}
-		</div>
+function createMenuItems(currentState: State): JSX.Element[] {
+	return Object.entries(states).map(([itemState, label]) => (
+		<li data-targets="action-list.items" role="none" className="ActionListItem">
+			<button data-state={itemState}
+				id={`item-${crypto.randomUUID()}`}
+				type="button"
+				role="menuitemradio"
+				className={'ActionListContent ' + menuItemClass}
+				aria-checked={`${itemState === currentState}`}
+			>
+				<span className="ActionListItem-visual ActionListItem-action--leading">
+					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
+				</span>
+				<span className="ActionListItem-label">
+					{label}
+				</span>
+			</button>
+		</li>
 	));
 }
 
@@ -173,61 +176,65 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
 
-	// Place the icon first to calculate available space for the dropdown after
-	const details = <details
-		className={`details-reset details-overlay ${position.offsetWidth > 0 ? 'ml-2' : ''} d-inline-block position-relative ${dropdownClass}`}
-		id="rgh-conversation-activity-filter-select-menu"
-	>
-		<summary className="height-full color-fg-muted">
-			<EyeIcon />
-			<EyeClosedIcon className="color-fg-danger" />
-			<span className="text-small color-fg-danger v-align-text-bottom rgh-conversation-events-label ml-1">events</span>
-			<div className="dropdown-caret ml-1" />
-		</summary>
-	</details>;
-	position.after(details);
+	const baseId = crypto.randomUUID();
 
-	// Try to place the dropdown to the left https://github.com/refined-github/refined-github/issues/5450#issuecomment-1068284635
-	// TODO: Use `<anchored-position>` instead
-	const availableSpaceToTheLeftOfTheDropdown = details.getBoundingClientRect().left;
-	const alignment
-	= availableSpaceToTheLeftOfTheDropdown === 0
-		|| (availableSpaceToTheLeftOfTheDropdown > expectedDropdownWidth)
-		? 'right-0'
-		: 'left-0';
-
-	details.append(
-		<details-menu
-			className={`SelectMenu ${alignment}`}
-			on-details-menu-select={handleSelection}
-		>
-			<div className="SelectMenu-modal">
-				<div className="SelectMenu-header">
-					<h3 className="SelectMenu-title color-fg-default">
-						Filter conversation activities
-					</h3>
-					<button
-						className="SelectMenu-closeButton"
-						type="button"
-						data-toggle-for="rgh-conversation-activity-filter-select-menu"
-					>
-						<XIcon />
-					</button>
-				</div>
-				<div className="SelectMenu-list">
-					{createRadios(state)}
-				</div>
-			</div>
-		</details-menu>,
+	const menu = (
+		<action-menu
+			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
+			data-select-variant="single">
+			<focus-group direction="vertical" mnemonics retain>
+				<button
+					id={`${baseId}-button`}
+					// @ts-expect-error HTML standard
+					popovertarget={`${baseId}-overlay`}
+					aria-controls={`${baseId}-list`}
+					aria-haspopup="true"
+					type="button"
+					className="Button--small Button color-fg-muted p-0"
+				>
+					<span className="Button-content">
+						<span className="Button-visual Button-leadingVisual">
+							<EyeIcon />
+							<EyeClosedIcon className="color-fg-danger" />
+						</span>
+						<span className="Button-label lh-condensed-ultra">
+							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">events</span>
+						</span>
+						<span className="Button-visual Button-trailingVisual">
+							<TriangleDownIcon />
+						</span>
+					</span>
+				</button>
+				<anchored-position
+					id={`${baseId}-overlay`}
+					data-target="action-menu.overlay"
+					anchor={`${baseId}-button`}
+					align="start"
+					side="outside-bottom"
+					anchor-offset="normal"
+					popover="auto"
+				>
+					<div className="Overlay Overlay--size-small-portrait">
+						<div className="Overlay-body Overlay-body--paddingNone">
+							<action-list>
+								<ul
+									id={`${baseId}-list`}
+									aria-labelledby={`${baseId}-button`}
+									role="menu"
+									className="ActionListWrap--inset ActionListWrap"
+								>
+									{createMenuItems(state)}
+								</ul>
+							</action-list>
+						</div>
+					</div>
+				</anchored-position>
+			</focus-group>
+		</action-menu>
 	);
-}
 
-const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/3686',
-	'https://github.com/refined-github/refined-github/issues/6000',
-	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
-];
+	position.after(menu);
+}
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
@@ -239,31 +246,20 @@ function uncollapseTargetedComment(): void {
 }
 
 function switchToNextFilter(): void {
-	const state = $(`.${dropdownClass} [aria-checked="true"]`).dataset.value as State;
+	const currentState = $(`.${menuItemClass}[aria-checked="true"]`).dataset.state as State;
 
-	switch (state) {
-		case 'default': {
-			applyState('hideEvents');
-			break;
-		}
+	const stateNames = Object.keys(states);
+	const nextIndex = stateNames.indexOf(currentState) + 1;
+	const nextState = stateNames.length > nextIndex ? stateNames.at(nextIndex) : stateNames.at(0);
 
-		case 'hideEvents': {
-			applyState('hideEventsAndCollapsedComments');
-			break;
-		}
-
-		case 'hideEventsAndCollapsedComments': {
-			applyState('default');
-			break;
-		}
-	}
+	applyState(nextState as State);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	const initialState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-			: 'default');
+			: 'showAll');
 
 	observe([
 		// Issue view
@@ -276,16 +272,18 @@ async function init(signal: AbortSignal): Promise<void> {
 		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
-	if (initialState !== 'default') {
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+
+	observe(timelineItem, processItem, {signal});
+
+	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+
+	if (initialState !== 'showAll') {
 		// Wait for the DOM to be ready before applying the initial state
 		// https://github.com/refined-github/refined-github/issues/7086
 		await domLoaded;
 		applyState(initialState);
 	}
-
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
-
-	observe(timelineItem, processItem, {signal});
 
 	registerHotkey('h', switchToNextFilter, {signal});
 }
