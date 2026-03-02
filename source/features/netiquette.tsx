@@ -54,10 +54,12 @@ function isPopular(): boolean {
 
 export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
+	const canOpenNewIssue = elementExists('li:has([data-content="Issues"])');
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
 	return (
 		<>
-			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}.
+			{canOpenNewIssue && <> Please consider opening a {newIssue} instead of leaving a comment here.</>}
 		</>
 	);
 }
