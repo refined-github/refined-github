@@ -3,7 +3,13 @@
 }
 
 /* Limit width of commit title to 72 characters */
-.rgh-suggest-commit-title-limit :is(#merge_title_field, #commit-summary-input) {
+.rgh-suggest-commit-title-limit
+:is(
+	[data-testid='mergebox-partial'] input,
+	#commit-message-input,
+	/* TODO: Remove after July 2026 */
+		#commit-summary-input
+) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
 
@@ -13,9 +19,10 @@
 	max-width: intrinsic;
 }
 
-#commit-summary-input,
-#merge_title_field,
+/* TODO: Remove after August 2026 */
 #pull_request_title,
+/* TODO: Remove after July 2026 */
+	#commit-summary-input,
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
@@ -31,4 +38,10 @@
 				0 0 0 0.2em color-mix(in srgb, var(--rgh-limit-color) 30%, transparent);
 		}
 	}
+}
+
+span[class*='TextInputWrapper']:has(> .rgh-title-over-limit) {
+	border-color: var(--rgh-limit-color);
+	outline-color: var(--rgh-limit-color);
+	background-color: color-mix(in srgb, var(--rgh-limit-color) 3%, transparent);
 }

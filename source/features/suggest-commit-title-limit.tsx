@@ -35,8 +35,10 @@ async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
-		'#issue_title',
-		'#pull_request_title',
+		'[class^="prc-PageLayout-Header"] input', // `isPR`
+		'input[name="pull_request[title]"]', // `isCompare`
+		'#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
+		'#issue_title', // Old `isPR` view - TODO: Remove after July 2026
 	], 'input', validatePrTitle, {signal, passive: true});
 	await waitForPrMerge(signal);
 	unload();
@@ -72,5 +74,7 @@ void features.add(import.meta.url, {
 - Any editable file
 	- Markown: https://github.com/refined-github/refined-github/edit/main/readme.md
 	- Workflow: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
+- Compare page
+	- https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1
 
 */
