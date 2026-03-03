@@ -9,13 +9,13 @@ import observe from '../helpers/selector-observer.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
-	const body = $optional('.Details-content--hidden pre', firstCommit)
+	const body = $optional('.Details-content--hidden pre', firstCommit.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = parseRenderedText(firstCommit.firstElementChild!, ({nodeName}) =>
+	const title = parseRenderedText(firstCommit, ({nodeName}) =>
 		// Exclude expand body button
-		nodeName === '#text' || nodeName === 'CODE' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
 	);
 
 	return {title, body};
@@ -37,7 +37,10 @@ function useCommitTitle(firstCommitElement: HTMLElement): void {
 
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			$('#pull_request_title'),
+			$([
+				'input[name="pull_request[title]"]',
+				'#pull_request_title', // Remove after August 2026
+			]),
 			firstCommit.title,
 		);
 	}
@@ -58,7 +61,11 @@ function init(signal: AbortSignal): void {
 // https://github.com/refined-github/refined-github/issues/7191
 function hasUserAlteredThePR(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
-	return Boolean(sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`));
+	return Boolean(
+		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
+		// Remove after August 2026
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+	);
 }
 
 void features.add(import.meta.url, {
@@ -66,7 +73,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() =>	new URLSearchParams(location.search).has('title'),
+		() => new URLSearchParams(location.search).has('title'),
 		hasUserAlteredThePR,
 	],
 	init,
