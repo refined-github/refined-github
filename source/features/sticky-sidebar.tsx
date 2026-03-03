@@ -34,7 +34,7 @@ function toggleHoverState(event: MouseEvent): void {
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	sidebar = foundSidebar;
-	sidebar.classList.add('rgh-sticky-sidebar');
+	sidebar.style.height = 'min-content';
 
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
@@ -52,7 +52,7 @@ function updateStickiness(): void {
 
 	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
 	sidebar.classList.toggle(
-		'is-stuck',
+		'rgh-sticky-sidebar',
 		window.innerWidth >= minimumViewportWidthForSidebar
 		&& sidebar.offsetHeight + offset < window.innerHeight,
 	);

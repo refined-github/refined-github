@@ -23,11 +23,8 @@ div[class^='prc-PageLayout-Pane-'] {
 }
 
 .rgh-sticky-sidebar {
-	height: min-content;
-	&.is-stuck {
-		position: sticky;
-		top: var(--rgh-sticky-sidebar-offset, 0) !important;
-	}
+	position: sticky;
+	top: var(--rgh-sticky-sidebar-offset, 0) !important;
 }
 
 /* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
