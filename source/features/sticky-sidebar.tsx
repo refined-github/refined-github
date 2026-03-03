@@ -3,7 +3,6 @@ import './sticky-sidebar.css';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {onAbort} from 'abort-utils';
-import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -15,7 +14,6 @@ const sidebarSelector = [
 	'#partial-discussion-sidebar', // `isDiscussion`, old `isPRConversation`
 	'div[class^="prc-PageLayout-Pane-"]', // `isRepoRoot`
 	'.Layout-sidebar .BorderGrid', // Old `isRepoRoot` - Remove after August 2026
-	'div[data-testid="issue-viewer-metadata-pane"]', // Issue `isConversation` - TODO: Remove after March 2026
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -35,10 +33,6 @@ function toggleHoverState(event: MouseEvent): void {
 
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
-	if (elementExists('[data-testid="sticky-sidebar"]', foundSidebar)) {
-		return;
-	}
-
 	sidebar = foundSidebar;
 	sidebar.classList.add('rgh-sticky-sidebar');
 
@@ -78,7 +72,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
-		pageDetect.isConversation,
+		pageDetect.isPRConversation,
 		pageDetect.isDiscussion,
 	],
 	exclude: [
