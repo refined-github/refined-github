@@ -12,7 +12,9 @@ Exclusively use simple sums and use `0px` instead of `0`
 }
 
 /* `isRepoRoot` */
-div[class^="prc-PageLayout-Pane"]:has(> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"]),
+div[class^='prc-PageLayout-Pane']:has(
+		> rails-partial[data-partial-name='codeViewRepoRoute.Sidebar']
+	),
 /* Old `isRepoRoot` - Remove after August 2026 */
 .Layout-sidebar .BorderGrid {
 	--rgh-sticky-sidebar-offset: 0;
