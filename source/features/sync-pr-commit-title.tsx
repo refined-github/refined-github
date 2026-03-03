@@ -11,6 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
 
@@ -33,7 +34,7 @@ function createCommitTitle(): string {
 		// Old view - TODO: Remove after July 2026
 		'input#issue_title',
 	]);
-	const prTitleText = (prTitle instanceof HTMLInputElement ? prTitle.value : prTitle.textContent).trim();
+	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value.trim() : parseRenderedText(prTitle);
 	return formatPrCommitTitle(prTitleText);
 }
 
