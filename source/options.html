@@ -1,4 +1,5 @@
 <!doctype html>
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="color-scheme" content="light dark">
@@ -11,9 +12,9 @@
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub">
 	<p>
-		Visit the <a href="https://github.com/refined-github/refined-github/wiki">wiki</a> to learn about updates, debugging, and GitHub Enterprise.
-		You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link">rate Refined GitHub</a> to help others find it.
-		Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
+		Visit the <a href="https://github.com/refined-github/refined-github/wiki" rel="noopener noreferrer">wiki</a> to learn about updates, debugging, and GitHub Enterprise.
+		You can <a href="https://chrome.google.com/webstore/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf/reviews" id="rate-link" rel="noopener noreferrer">rate Refined GitHub</a> to help others find it.
+		Follow or sponsor <a href="https://github.com/sponsors/fregante" rel="noopener noreferrer">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
 	</p>
 </rgh-header>
 
@@ -21,17 +22,19 @@
 
 <form id="options-form" class="detail-view-container">
 	<!-- Captures and ignores native enter-to-submit action -->
-	<button hidden>Capture Submit</button>
+	<button hidden aria-hidden="true">Capture Submit</button>
 
 	<details id="token">
 		<summary><strong>🔑 Personal token</strong></summary>
 		<div>
 			<!-- Keep this URL in sync with welcome.svelte -->
-			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none" rel="noopener noreferrer">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security" rel="noopener noreferrer">the wiki.</a></p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
 			<p>
+				<label for="personalToken">Personal access token</label>
 				<input
 					type="text"
+					id="personalToken"
 					name="personalToken"
 					spellcheck="false"
 					autocomplete="off"
@@ -41,8 +44,8 @@
 				>
 				<span id="validation"></span>
 			</p>
-			<ul>
-				<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code">some features</a> to <strong>read</strong> data from public repositories
+			<ul role="list" aria-label="Token permissions">
+				<li data-validation data-scope="valid_token">The token enables <a href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code" rel="noopener noreferrer">some features</a> to <strong>read</strong> data from public repositories
 				<li data-validation data-scope="public_repo">The <code>public_repo</code> scope lets them <strong>edit</strong> your public repositories
 				<li data-validation data-scope="repo">The <code>repo</code> scope lets them <strong>edit private</strong> repositories as well
 				<li data-validation data-scope="read:project">The <code>read:project</code> scope lets them determine if a repo/org uses projects
@@ -71,7 +74,8 @@
 		<summary><strong class="features-header">🔋 Features</strong></summary>
 		<div>
 			<p>
-					<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
+					<label for="filter-features" class="visually-hidden">Filter features</label>
+					<input id="filter-features" type="text" placeholder="Find features" aria-label="Filter features" spellcheck="false" autocomplete="off" autocapitalize="off">
 					<small>Use the "Identify feature" section below if you can't find what you're looking for.</small>
 			</p>
 			<div class="js-features"></div>
@@ -97,9 +101,10 @@
 		<summary><strong>💅 Custom CSS</strong></summary>
 		<div>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
-			<p><textarea name="customCSS" rows="2" spellcheck="false" class="monospace-field"></textarea></p>
+			<p><label for="customCSS">Custom CSS</label></p>
+			<p><textarea id="customCSS" name="customCSS" rows="2" spellcheck="false" class="monospace-field" aria-label="Custom CSS"></textarea></p>
 			<p>Options storage: <storage-usage area="sync" item="options">unknown</storage-usage></p>
-			<p>When the storage is full, the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>. If you need to use a lot of CSS, use a dedicated userstyle extension.</p>
+			<p>When the storage is full, the options <a href="https://github.com/fregante/webext-options-sync/issues/27" rel="noopener noreferrer">will stop being saved</a>. If you need to use a lot of CSS, use a dedicated userstyle extension.</p>
 		</div>
 	</details>
 
@@ -107,7 +112,8 @@
 		<summary><strong>🔗 Button link</strong></summary>
 		<div>
 			<p>You can pick what page opens when you click the Refined GitHub icon in the browser toolbar</p>
-			<p><input type="url" name="actionUrl" placeholder="https://example.com" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
+			<p><label for="actionUrl">Button link URL</label></p>
+			<p><input id="actionUrl" type="url" name="actionUrl" placeholder="https://example.com" aria-label="Button link URL" spellcheck="false" autocomplete="off" autocapitalize="off"></p>
 			<p>If left empty, clicking it will open this options page.</p>
 		</div>
 	</details>
@@ -148,10 +154,10 @@
 	<details id="hotfixes">
 		<summary><strong>☄️ Hotfixes</strong></summary>
 		<div>
-			<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo">More info.</a></p>
+			<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo" rel="noopener noreferrer">More info.</a></p>
 			<p>This is the latest CSS fetched from the server (if any):</p>
-			<p><textarea id="hotfixes-field" rows="2" disabled></textarea></p>
-			<p><textarea id="broken-features-field" rows="2" disabled hidden></textarea></p>
+			<p><textarea id="hotfixes-field" rows="2" disabled aria-label="Hotfixes CSS"></textarea></p>
+			<p><textarea id="broken-features-field" rows="2" disabled hidden aria-label="Broken features"></textarea></p>
 			<button type="button" id="fetch-hotfixes">Fetch hotfixes</button>
 		</div>
 	</details>
