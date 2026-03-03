@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {OptionsLink} from '../helpers/open-options.js';
@@ -11,7 +12,6 @@ import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -57,10 +57,10 @@ async function setVersion(): Promise<void> {
 		'Extension version*',
 	);
 
-	setReactInputValue(field, version);
+	setFieldText(field, version);
 	if (!await getToken()) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
-		setReactInputValue(field, '(' + version + ')');
+		setFieldText(field, '(' + version + ')');
 		field.disabled = true;
 	}
 }

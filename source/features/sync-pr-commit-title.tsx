@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {setFieldText} from 'text-field-edit';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
@@ -9,7 +10,6 @@ import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/ind
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
@@ -85,7 +85,7 @@ async function updateCommitTitle(): Promise<void> {
 	}
 
 	const field = getCurrentCommitTitleField()!;
-	setReactInputValue(field, createCommitTitle());
+	setFieldText(field, createCommitTitle());
 }
 
 function disableSubmission(): void {
