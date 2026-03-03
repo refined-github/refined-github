@@ -8,12 +8,12 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
-	const body = $optional('.Details-content--hidden pre', firstCommit.parentElement!)
+function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
+	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = parseRenderedText(firstCommit, ({nodeName}) =>
+	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
 		// Exclude expand body button
 		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
 	);
@@ -21,7 +21,7 @@ function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string 
 	return {title, body};
 }
 
-function useCommitTitle(firstCommitElement: HTMLElement): void {
+function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCount = $([
 		// Few commits
@@ -33,7 +33,7 @@ function useCommitTitle(firstCommitElement: HTMLElement): void {
 		return;
 	}
 
-	const firstCommit = getFirstCommit(firstCommitElement);
+	const firstCommit = getFirstCommit(firstCommitTitle);
 
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
