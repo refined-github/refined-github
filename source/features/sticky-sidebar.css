@@ -10,10 +10,10 @@ Have the calculations available even when the sidebar isn't sticky so that `--rg
 
 Exclusively use simple sums and use `0px` instead of `0`
 */
-.application-main {
-	--rgh-sticky-header-height: 16px;
+.rgh-sticky-sidebar-container {
+	--rgh-sticky-sidebar-minimal-margin: 16px;
 	--rgh-sticky-sidebar-offset: calc(
-		var(--rgh-sticky-header-height, 0px) +
+		var(--rgh-sticky-header-height, var(--rgh-sticky-sidebar-minimal-margin)) +
 		var(--rgh-sticky-notification-header-height, 0px)
 	);
 }
@@ -21,7 +21,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 #discussion_bucket /* `isDiscussion`, old `isConversation` */,
 react-app[app-name='issues-react'] {
 	.rgh-sticky-sidebar {
-		--rgh-sticky-sidebar-offset: 70px; /* 60px plus some padding */
+		--rgh-sticky-header-height: 70px; /* 60px plus some padding */
 	}
 }
 
