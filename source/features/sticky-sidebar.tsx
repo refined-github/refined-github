@@ -17,7 +17,9 @@ const sidebarSelector = [
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
 	'.page-profile .h-card', // `isUserProfile`
-	'.orghead + div .gutter-lg > :nth-child(2) > *', // `isOrganizationProfile`
+	'.orghead + div .gutter-lg > :nth-child(2) > *', // `isOrganizationProfile`,
+	'navigation-list[data-turbo-frame="settings-frame"]', // `isUserSettings`
+	'div:has(> nav[aria-label="General settings"])', // `isRepoSettings`
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -84,6 +86,8 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 		pageDetect.isDiscussion,
 		pageDetect.isProfile,
+		pageDetect.isRepoSettings,
+		pageDetect.isUserSettings,
 	],
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
@@ -97,5 +101,9 @@ Test URLs:
 
 Repo: https://github.com/refined-github/refined-github
 Conversation: https://github.com/refined-github/refined-github/issues/6752
+User profile: https://github.com/fregante
+Organization profile: https://github.com/orgs/refined-github
+User settings: https://github.com/settings/profile
+Repo settings: https://github.com/refined-github/refined-github/settings
 
 */
