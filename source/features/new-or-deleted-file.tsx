@@ -38,7 +38,7 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	], fileInList)
 		?.cloneNode(true);
 	if (icon) {
-		fileHeader.append(<div className="ml-1 d-flex">{icon}</div>);
+		fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 	}
 }
 
