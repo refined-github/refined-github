@@ -25,7 +25,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 
 /* isProfile */
 .page-profile .rgh-sticky-sidebar {
-	--rgh-sticky-sidebar-offset: 16px;
+	--rgh-sticky-sidebar-offset: 1rem;
 }
 
 .notification-shelf ~ .application-main {
