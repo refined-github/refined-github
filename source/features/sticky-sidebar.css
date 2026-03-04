@@ -18,8 +18,8 @@ Exclusively use simple sums and use `0px` instead of `0`
 	);
 }
 
-#discussion_bucket /* isDiscussion, old isConversation */,
-react-app[app-name="issues-react"] {
+#discussion_bucket /* `isDiscussion`, old `isConversation` */,
+react-app[app-name='issues-react'] {
 	.rgh-sticky-sidebar {
 		--rgh-sticky-sidebar-offset: 70px; /* 60px plus some padding */
 	}
