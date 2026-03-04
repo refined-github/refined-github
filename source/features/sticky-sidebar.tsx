@@ -16,6 +16,7 @@ const sidebarSelector = [
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
+	'.page-profile .h-card', // `isProfile`
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -81,6 +82,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoRoot,
 		pageDetect.isConversation,
 		pageDetect.isDiscussion,
+		pageDetect.isProfile,
 	],
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
