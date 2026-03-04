@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function addLegacy(filename: HTMLAnchorElement): void {
+function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 	const list = $optional('ul[aria-label="File Tree"]');
 	if (!list && pageDetect.isCommit()) {
 		// Silence error, single-file commits don't have the file list
@@ -26,7 +26,7 @@ function addLegacy(filename: HTMLAnchorElement): void {
 	}
 }
 
-function add(fileHeader: HTMLDivElement): void {
+function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const list = $('ul[aria-label="File Tree"]');
 	const fileLink = $('a', fileHeader);
 	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
@@ -43,10 +43,10 @@ function add(fileHeader: HTMLDivElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('div[class*="DiffFileHeader-module__file-path-section"]', add, {signal});
+	observe('div[class*="DiffFileHeader-module__file-path-section"]', maybeAddIcon, {signal});
 	// TODO: Old PR Files view, drop in 2026
 	// Link--primary excludes CODEOWNERS icon #5565
-	observe('.file-info a.Link--primary', addLegacy, {signal});
+	observe('.file-info a.Link--primary', maybeAddIconLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
