@@ -21,6 +21,7 @@ const sidebarSelector = [
 	'navigation-list[data-turbo-frame="settings-frame"]', // `isUserSettings`
 	'div:has(> nav[aria-label="General settings"])', // `isRepoSettings`
 	'.wiki-rightbar',
+	'.discussions-header-wrap + div .Layout-sidebar > *', // `isDiscussionList`
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -90,6 +91,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoSettings,
 		pageDetect.isUserSettings,
 		pageDetect.isRepoWiki,
+		pageDetect.isDiscussionList,
 	],
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
@@ -108,5 +110,6 @@ Organization profile: https://github.com/orgs/refined-github
 User settings: https://github.com/settings/profile
 Repo settings: https://github.com/refined-github/refined-github/settings
 Wiki: https://github.com/refined-github/refined-github/wiki/Contributing
+Discussion list: https://github.com/eslint/eslint/discussions
 
 */
