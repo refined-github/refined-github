@@ -20,6 +20,7 @@ const sidebarSelector = [
 	'.orghead + div .gutter-lg > :nth-child(2) > *', // `isOrganizationProfile`,
 	'navigation-list[data-turbo-frame="settings-frame"]', // `isUserSettings`
 	'div:has(> nav[aria-label="General settings"])', // `isRepoSettings`
+	'.wiki-rightbar',
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -88,6 +89,7 @@ void features.add(import.meta.url, {
 		pageDetect.isProfile,
 		pageDetect.isRepoSettings,
 		pageDetect.isUserSettings,
+		pageDetect.isRepoWiki,
 	],
 	exclude: [
 		() => screen.availWidth < minimumViewportWidthForSidebar,
@@ -105,5 +107,6 @@ User profile: https://github.com/fregante
 Organization profile: https://github.com/orgs/refined-github
 User settings: https://github.com/settings/profile
 Repo settings: https://github.com/refined-github/refined-github/settings
+Wiki: https://github.com/refined-github/refined-github/wiki/Contributing
 
 */
