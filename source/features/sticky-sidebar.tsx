@@ -12,7 +12,7 @@ import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
+	'.repository-content .Layout-sidebar .BorderGrid', // `isRepoRoot`
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
@@ -46,13 +46,12 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	}
 
 	sidebar = foundSidebar;
+	sidebar.classList.add('rgh-sidebar');
+
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
 		sidebar = undefined;
 	});
-
-	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
-	container.classList.add('rgh-sticky-sidebar-container');
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
