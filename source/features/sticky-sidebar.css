@@ -11,7 +11,7 @@ Have the calculations available even when the sidebar isn't sticky so that `--rg
 Exclusively use simple sums and use `0px` instead of `0`
 */
 .application-main {
-	--rgh-sticky-header-height: 1rem;
+	--rgh-sticky-header-height: 16px;
 	--rgh-sticky-sidebar-offset: calc(
 		var(--rgh-sticky-header-height, 0px) +
 		var(--rgh-sticky-notification-header-height, 0px)
