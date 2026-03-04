@@ -16,7 +16,8 @@ const sidebarSelector = [
 	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
 	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
 	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
-	'.page-profile .h-card', // `isProfile`
+	'.page-profile .h-card', // `isUserProfile`
+	'.orghead + div .gutter-lg > :nth-child(2) > *', // `isOrganizationProfile`
 ];
 
 let sidebar: HTMLElement | undefined;
