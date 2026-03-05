@@ -43,8 +43,8 @@ function needsSubmission(): boolean {
 	const textContent = mergeButton?.textContent?.trim();
 	if (!textContent || ![
 		'Confirm squash and merge',
-		'Confirm bypass rules and merge (squash)',
 		'Confirm auto-merge (squash)',
+		'Confirm bypass rules and merge (squash)',
 	].includes(textContent)) {
 		return false;
 	}
