@@ -11,9 +11,9 @@ import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-const prTitleFieldSelector = 'input#issue_title';
-const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
+const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
@@ -28,8 +28,14 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 }
 
 function createCommitTitle(): string {
-	const prTitle = $(prTitleFieldSelector).value.trim();
-	return formatPrCommitTitle(prTitle);
+	const prTitle = $([
+		'h1[class^="prc-PageHeader-Title"] .markdown-title',
+		'div[class^="prc-PageLayout-Header"] input',
+		// Old view - TODO: Remove after July 2026
+		'input#issue_title',
+	]);
+	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value.trim() : parseRenderedText(prTitle);
+	return formatPrCommitTitle(prTitleText);
 }
 
 function needsSubmission(): boolean {
@@ -90,7 +96,10 @@ function disableSubmission(): void {
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
 	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe('.gh-header-title', updateCommitTitle, {signal}); // On PR title change
+	observe([
+		'h1[class^="prc-PageHeader-Title"]',
+		'.gh-header-title', // Old view - TODO: Remove after July 2026
+	], updateCommitTitle, {signal}); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUI, signal);
@@ -108,6 +117,9 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isPRConversation,
+	],
+	exclude: [
+		pageDetect.isMergedPR,
 	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,

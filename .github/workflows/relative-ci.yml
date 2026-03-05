@@ -8,6 +8,7 @@ on:
 
 jobs:
   ingest:
+    if: github.event.repository.fork != true
     runs-on: ubuntu-latest
     steps:
       - name: Send bundle stats and build information to RelativeCI

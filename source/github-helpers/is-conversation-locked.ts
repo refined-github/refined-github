@@ -35,7 +35,7 @@ async function isConversationLockedViaReactData(): Promise<boolean | undefined> 
 	}
 
 	const data = await elementReady('[data-target="react-app.embeddedData"]');
-	return data ? JSON.parse(data.textContent).payload?.preloadedQueries[0].result.data.repository?.issue?.locked : undefined;
+	return data ? JSON.parse(data.textContent).payload?.preloadedQueries?.[0].result.data.repository?.issue?.locked : undefined;
 }
 
 export default async function isConversationLocked(): Promise<boolean | undefined> {

@@ -6,47 +6,30 @@ import {insertTextIntoField, setFieldText} from 'text-field-edit';
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
-
-function interpretNode(node: ChildNode): string | void {
-	switch (node instanceof Element && node.tagName) {
-		case false:
-		case 'A': {
-			return node.textContent;
-		}
-
-		case 'CODE': {
-			// Restore backticks that GitHub loses when rendering them
-			return '`' + node.textContent + '`';
-		}
-
-		default:
-			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
-	}
-}
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
 	const body = $optional('.Details-content--hidden pre', firstCommit)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = [...firstCommit.childNodes]
-		.map(node => interpretNode(node))
-		.join('')
-		.trim();
+	const title = parseRenderedText(firstCommit.firstElementChild!, ({nodeName}) =>
+		// Exclude expand body button
+		nodeName === '#text' || nodeName === 'CODE' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+	);
 
 	return {title, body};
 }
 
 function useCommitTitle(firstCommitElement: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = $([
+	const commitCount = $([
 		// Few commits
-		'div.Box.mb-3 .octicon-git-commit',
+		'div.Box:is(.tmp-mb-3, .mb-3) .octicon-git-commit + span',
 		// Many commits (rendered in tabs)
-		'a[href="#commits_bucket"] .octicon-git-commit',
+		'a[href="#commits_bucket"] .Counter',
 	]);
-	const commitCount = commitCountIcon?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
+	if (looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
 		return;
 	}
 
@@ -90,8 +73,14 @@ void features.add(import.meta.url, {
 });
 
 /*
+
 Test URLs
 
-Few commit: https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
-Many commits: https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+Few commits:
+	- https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012?expand=1
+Many commits:
+	- https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012-2?expand=1
+
 */

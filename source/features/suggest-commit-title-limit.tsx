@@ -10,6 +10,7 @@ import {getConversationNumber} from '../github-helpers/index.js';
 import {formatPrCommitTitle} from './sync-pr-commit-title.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import abortableClassName from '../helpers/abortable-classname.js';
+import observe from '../helpers/selector-observer.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
 const limit = 72;
@@ -18,7 +19,7 @@ function validateCommitTitle({delegateTarget: field}: DelegateEvent<Event, HTMLI
 	field.classList.toggle('rgh-title-over-limit', field.value.length > limit);
 }
 
-async function validatePrTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
+async function validatePrTitle(field: HTMLInputElement): Promise<void> {
 	// Include the PR number in the title length calculation because it will be added to the commit title
 	const prTitle = formatPrCommitTitle(
 		field.value,
@@ -33,11 +34,17 @@ function unload(): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
+
 	onCommitTitleUpdate(validateCommitTitle, signal);
 	delegate([
-		'#issue_title',
-		'#pull_request_title',
-	], 'input', validatePrTitle, {signal, passive: true});
+		'[class^="prc-PageLayout-Header"] input', // `isPR`
+		'input[name="pull_request[title]"]', // `isCompare`
+		'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
+		'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
+	], 'input', async ({delegateTarget}) => validatePrTitle(delegateTarget), {signal, passive: true});
+	// `isCompare` - input is re-rendered when previously entered title is restored
+	observe('input[name="pull_request[title]"]', validatePrTitle, {signal});
+
 	await waitForPrMerge(signal);
 	unload();
 }
@@ -72,5 +79,7 @@ void features.add(import.meta.url, {
 - Any editable file
 	- Markown: https://github.com/refined-github/refined-github/edit/main/readme.md
 	- Workflow: https://github.com/refined-github/refined-github/edit/fix-commit-title-limit/.github/workflows/features.yml
+- Compare page
+	- https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1
 
 */
