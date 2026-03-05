@@ -69,11 +69,6 @@
       "count": 2
     }
   },
-  "source/features/pagination-hotkey.tsx": {
-    "@typescript-eslint/naming-convention": {
-      "count": 2
-    }
-  },
   "source/features/pr-first-commit-title.tsx": {
     "@typescript-eslint/naming-convention": {
       "count": 1
@@ -136,7 +131,7 @@
   },
   "source/github-helpers/api.tsx": {
     "@typescript-eslint/naming-convention": {
-      "count": 8
+      "count": 6
     }
   },
   "source/github-helpers/dom-formatters.tsx": {
