@@ -67,7 +67,9 @@ async function validateToken(): Promise<void> {
 		// Build status message with user and expiration
 		let statusMessage = `👤 @${user}`;
 		if (tokenInfo.expiration) {
-			const msUntilExpiration = new Date(tokenInfo.expiration).getTime() - Date.now();
+			// https://stackoverflow.com/questions/60816691 #9043
+			const expirationDate = new Date(tokenInfo.expiration.replace(' ', 'T').replace(' UTC', 'Z'));
+			const msUntilExpiration = expirationDate.getTime() - Date.now();
 			const daysUntilExpiration = Math.ceil(msUntilExpiration / (1000 * 60 * 60 * 24));
 			statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
 		} else {
