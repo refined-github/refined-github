@@ -13,7 +13,7 @@ import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input';
+const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
