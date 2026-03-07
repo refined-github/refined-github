@@ -49,7 +49,8 @@ function needsSubmission(): boolean {
 		return false;
 	}
 
-	return createCommitTitle() !== getCurrentCommitTitle()!;
+	const currentCommitTitle = getCurrentCommitTitle()!;
+	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
 function getUI(): HTMLElement {
