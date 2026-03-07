@@ -16,7 +16,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNewRelease,
-		pageDetect.isEditingRelease,
 	],
 	init,
 });
@@ -26,6 +25,5 @@ void features.add(import.meta.url, {
 Test URLs:
 
 isNewRelease: https://github.com/refined-github/sandbox/releases/new
-isEditingRelease: https://github.com/refined-github/sandbox/releases/edit/cool
 
 */
