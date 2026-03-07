@@ -150,7 +150,7 @@
 	},
 	{
 		"id": "confirm-release",
-		"description": "Adds a confirmation dialog when publishing a release, preventing accidental submissions via misclick or keyboard.",
+		"description": "Adds a confirmation dialog when publishing a release, preventing accidental submissions.",
 		"screenshot": "https://github.com/user-attachments/assets/6cff805d-3825-43c4-ac20-38c76decd858"
 	},
 	{
