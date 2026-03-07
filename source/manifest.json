@@ -24,7 +24,8 @@
 	],
 	"host_permissions": [
 		"https://github.com/*",
-		"https://api.github.com/*"
+		"https://api.github.com/*",
+		"https://refined-github.github.io/*"
 	],
 	"action": {
 		"default_icon": "assets/icon.png"
