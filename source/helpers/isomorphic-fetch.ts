@@ -1,7 +1,12 @@
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
-export async function fetchText(url: string, options: RequestInit): Promise<string> {
+type FetchTextPayload = {
+	url: string;
+	options: RequestInit;
+};
+
+export async function fetchText({url, options}: FetchTextPayload): Promise<string> {
 	const response = await fetch(url, options);
 	return response.ok
 		? response.text()
@@ -12,5 +17,5 @@ export async function isomorphicFetchText(url: string, options: RequestInit): Pr
 	return isWebPage()
 		// Firefox CSP issue: https://github.com/refined-github/refined-github/issues/8144
 		? messageRuntime({fetchText: {url, options}})
-		: fetchText(url, options);
+		: fetchText({url, options});
 }
