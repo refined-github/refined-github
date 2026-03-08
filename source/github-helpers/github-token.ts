@@ -103,7 +103,7 @@ export async function getTokenInfo(apiBase: string, personalToken: string): Prom
 	const {headers} = await baseApiFetch({apiBase, token: personalToken, path: ''});
 	const expiration = headers.get('GitHub-Authentication-Token-Expiration');
 	// Convert `2026-06-03 19:52:44 UTC` to `2026-06-03T19:52:44Z` #9043
-	const expirationTransformed = expiration?.replace(' ', 'T').replace(' UTC', 'Z') ?? undefined;
+	const expirationTransformed = expiration?.replace(' ', 'T').replace(' UTC', 'Z');
 	return {
 		scopes: parseTokenScopes(headers),
 		expiration: expirationTransformed,
