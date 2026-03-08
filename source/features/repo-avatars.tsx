@@ -7,11 +7,21 @@ import getUserAvatar from '../github-helpers/get-user-avatar.js';
 import observe from '../helpers/selector-observer.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 
+// Some subpages act just like repository headers but don't belong to any user or organization,
+// therefore there is no avatar to show.
+const disallowedOwners = new Set([
+	'codespaces',
+]);
+
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	// TODO: Drop after June 2026
 	const isOldNavbar = ownerLabel.classList.contains('AppHeader-context-item-label');
 
 	const username = getRepo()!.owner;
+	if (disallowedOwners.has(username.toLowerCase())) {
+		return;
+	}
+
 	const size = 16;
 	const source = getUserAvatar(username, size)!;
 
