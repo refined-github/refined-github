@@ -149,6 +149,7 @@ import './features/quick-label-removal.js';
 import './features/clean-conversation-headers.js';
 import './features/new-or-deleted-file.js';
 import './features/convert-release-to-draft.js';
+import './features/confirm-release.js';
 import './features/new-repo-disable-projects-and-wikis.js';
 import './features/table-input.js';
 import './features/link-to-github-io.js';

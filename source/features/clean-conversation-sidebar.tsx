@@ -80,8 +80,8 @@ function cleanSection(selector: string): boolean {
 	return true;
 }
 
-async function cleanSidebar(): Promise<void> {
-	$('#partial-discussion-sidebar').classList.add('rgh-clean-sidebar');
+async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
+	sidebar.classList.add('rgh-clean-sidebar');
 
 	// Assignees
 	const assignees = $('.js-issue-assignees');
@@ -135,7 +135,7 @@ async function cleanSidebar(): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#partial-discussion-sidebar', cleanSidebar, {signal});
+	observe('#partial-discussion-sidebar', cleanSidebarLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -145,6 +145,8 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });
+
+void features.addCssFeature(import.meta.url);
 
 /*
 

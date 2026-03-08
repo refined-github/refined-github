@@ -1,3 +1,21 @@
+html:not([rgh-OFF-clean-conversation-sidebar]) {
+	div[class^='IssueSidebar-module__sidebarContent'] {
+		div[class*='SectionContainer'] {
+			&:has(span[class*='emptyText']):not(:has(.octicon-gear)) {
+				display: none;
+			}
+
+			span:is([class*='emptyText'], [class*='developmentHelpText']):not(
+					:has(> button)
+				) {
+				display: none;
+			}
+		}
+	}
+}
+
+/* Legacy styles */
+
 /* Adjust spacing of empty sections */
 .discussion-sidebar-item.rgh-clean-sidebar {
 	margin-bottom: -5px;

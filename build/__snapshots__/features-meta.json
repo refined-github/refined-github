@@ -149,6 +149,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252749373-9313f1d9-3d92-44a2-a1d1-2b49a29e6a5c.png"
 	},
 	{
+		"id": "confirm-release",
+		"description": "Adds a confirmation dialog when publishing a release, preventing accidental submissions.",
+		"screenshot": "https://github.com/user-attachments/assets/6cff805d-3825-43c4-ac20-38c76decd858"
+	},
+	{
 		"id": "conflict-marker",
 		"description": "Shows which PRs have conflicts in PR lists.",
 		"css": true,
@@ -423,7 +428,7 @@
 	},
 	{
 		"id": "linkify-user-labels",
-		"description": "Links the \"Contributor\" and \"Member\" labels on comments to the author’s commits on the repo.",
+		"description": "Links the \"Contributor\", \"Member\" and \"Collaborator\" labels on comments to the author’s commits on the repo.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png"
 	},
