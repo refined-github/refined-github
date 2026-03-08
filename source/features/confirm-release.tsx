@@ -17,7 +17,7 @@ function handleSubmitOnCtrlEnter(event: DelegateEvent<KeyboardEvent, HTMLElement
 }
 
 function handleSubmitOnEnter(event: DelegateEvent<KeyboardEvent, HTMLElement>): void {
-	if (event.key === 'Enter') {
+	if (event.key === 'Enter' && !event.isComposing) {
 		handleSubmit(event);
 	}
 }
