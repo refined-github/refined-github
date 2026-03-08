@@ -8,20 +8,20 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
-	const body = $optional('.Details-content--hidden pre', firstCommit)
+function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
+	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = parseRenderedText(firstCommit.firstElementChild!, ({nodeName}) =>
+	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
 		// Exclude expand body button
-		nodeName === '#text' || nodeName === 'CODE' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
 	);
 
 	return {title, body};
 }
 
-function useCommitTitle(firstCommitElement: HTMLElement): void {
+function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCount = $([
 		// Few commits
@@ -33,11 +33,14 @@ function useCommitTitle(firstCommitElement: HTMLElement): void {
 		return;
 	}
 
-	const firstCommit = getFirstCommit(firstCommitElement);
+	const firstCommit = getFirstCommit(firstCommitTitle);
 
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			$('#pull_request_title'),
+			$([
+				'input[name="pull_request[title]"]',
+				'#pull_request_title', // Remove after August 2026
+			]),
 			firstCommit.title,
 		);
 	}
@@ -58,7 +61,11 @@ function init(signal: AbortSignal): void {
 // https://github.com/refined-github/refined-github/issues/7191
 function hasUserAlteredThePR(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
-	return Boolean(sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`));
+	return Boolean(
+		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
+		// Remove after August 2026
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+	);
 }
 
 void features.add(import.meta.url, {
@@ -66,7 +73,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() =>	new URLSearchParams(location.search).has('title'),
+		() => new URLSearchParams(location.search).has('title'),
 		hasUserAlteredThePR,
 	],
 	init,
