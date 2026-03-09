@@ -42,7 +42,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 	);
 
 	if (isLegacyInput) {
-		if (pageDetect.isNewFile() || pageDetect.isEditingFile() || pageDetect.isPR()) {
+		if (pageDetect.isNewFile() || pageDetect.isEditingFile()) {
 			field.after(message);
 		} else {
 			field.parentElement!.append(message);
@@ -55,7 +55,6 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 }
 
 const legacyInputElements = [
-	'input#issue_title', // Old `isPR` - TODO: Remove after July 2026
 	'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
 	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
 ];
@@ -63,7 +62,6 @@ const legacyInputElements = [
 const inputElements = [
 	'input[name="pull_request[title]"]', // `isCompare`
 	'#commit-message-input', // `isEditingFile`, `isNewFile`
-	'div[class^="prc-PageLayout-Header"] input', // `isPR`
 ];
 
 function init(signal: AbortSignal): void {
@@ -75,7 +73,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNewFile,
 		pageDetect.isCompare,
 		pageDetect.isEditingFile,
-		pageDetect.isPR,
 	],
 	init,
 });
@@ -87,6 +84,5 @@ Test URLs:
 isNewFile: https://github.com/refined-github/sandbox/new/default-a
 isCompare: https://github.com/refined-github/sandbox/compare/default-a...quick-pr-branch?expand=1
 isEditingFile: https://github.com/refined-github/sandbox/edit/default-a/README.md
-isPR: https://github.com/refined-github/sandbox/pull/4
 
 */
