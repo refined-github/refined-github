@@ -12,7 +12,7 @@ import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
-import getOutdatedVersionAge from '../helpers/outdated-version.js';
+import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-version.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -38,11 +38,11 @@ function addTokenNotice(adjective: string): void {
 	);
 }
 
-function addVersionNotice(tokenAgeDays: number): void {
+function addVersionNotice(releaseAgeInDays: number): void {
 	addNotice(
 		'warn',
 		<p>
-			Your Refined GitHub is {tokenAgeDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
 		</p>,
 	);
 }
@@ -85,9 +85,10 @@ async function setVersion(): Promise<void> {
 }
 
 function checkVersionAge(): void {
-	const ageInDays = getOutdatedVersionAge();
-	if (ageInDays) {
-		addVersionNotice(ageInDays);
+	const releaseDate = getExtensionReleaseDate();
+	const releaseAgeInDays = toDaysAgo(releaseDate);
+	if (wasReleasedLongAgo(releaseAgeInDays)) {
+		addVersionNotice(releaseAgeInDays);
 	}
 }
 
