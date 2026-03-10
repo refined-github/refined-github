@@ -17,22 +17,40 @@ import getOutdatedVersionAge from '../helpers/outdated-version.js';
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
-function addNotice(adjective: JSX.Element | string): void {
+function addNotice(message: JSX.Element, type: 'error' | 'warn'): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+			{message}
+		</div>,
+	);
+}
+
+function addTokenNotice(adjective: string): void {
+	addNotice(
+		<>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
 				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
-		</div>,
+		</>,
+		'error',
+	);
+}
+
+function addVersionNotice(tokenAgeDays: number): void {
+	addNotice(
+		<p>
+			Your Refined GitHub is {tokenAgeDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+		</p>,
+		'warn',
 	);
 }
 
 async function checkToken(): Promise<void> {
 	const token = await getToken();
 	if (!token) {
-		addNotice('missing');
+		addTokenNotice('missing');
 		return;
 	}
 
@@ -43,7 +61,7 @@ async function checkToken(): Promise<void> {
 			return;
 		}
 
-		addNotice('invalid or expired');
+		addTokenNotice('invalid or expired');
 		return;
 	}
 
@@ -63,6 +81,13 @@ async function setVersion(): Promise<void> {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
 		field.disabled = true;
+	}
+}
+
+function checkVersionAge(): void {
+	const ageInDays = getOutdatedVersionAge();
+	if (ageInDays) {
+		addVersionNotice(ageInDays);
 	}
 }
 
@@ -105,28 +130,13 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
-function showOutdatedVersionNotice(): void {
-	const ageInDays = getOutdatedVersionAge();
-	if (!ageInDays) {
-		return;
-	}
-
-	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className="flash flash-warn h3 my-9">
-			<p>
-				Your Refined GitHub is {Math.floor(ageInDays)} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
-			</p>
-		</div>,
-	);
-}
-
 function init(signal: AbortSignal): void {
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
 		void linkifyCacheRefresh();
 		void checkToken();
 		void validateTokenCheckbox();
 		void setVersion();
-		showOutdatedVersionNotice();
+		checkVersionAge();
 	}, {signal});
 }
 
