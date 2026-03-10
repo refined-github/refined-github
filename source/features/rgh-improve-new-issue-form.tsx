@@ -17,7 +17,7 @@ import getOutdatedVersionAge from '../helpers/outdated-version.js';
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
-function addNotice(message: JSX.Element, type: 'error' | 'warn'): void {
+function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
 		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
@@ -27,6 +27,7 @@ function addNotice(message: JSX.Element, type: 'error' | 'warn'): void {
 
 function addTokenNotice(adjective: string): void {
 	addNotice(
+		'error',
 		<>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
@@ -34,16 +35,15 @@ function addTokenNotice(adjective: string): void {
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</>,
-		'error',
 	);
 }
 
 function addVersionNotice(tokenAgeDays: number): void {
 	addNotice(
+		'warn',
 		<p>
 			Your Refined GitHub is {tokenAgeDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
 		</p>,
-		'warn',
 	);
 }
 
