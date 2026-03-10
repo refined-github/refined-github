@@ -13,14 +13,14 @@ jobs:
   Security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: npx lockfile-lint --path package-lock.json --validate-https
 
   Vitest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
@@ -38,15 +38,15 @@ jobs:
   Verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
       - run: npm ci
       - run: npm run vitest -- build/features
       - name: Leave comment
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@v5
         if: failure() && github.event_name == 'pull_request'  && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -58,8 +58,8 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
@@ -74,8 +74,8 @@ jobs:
   Types:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
@@ -90,8 +90,8 @@ jobs:
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
@@ -104,7 +104,7 @@ jobs:
         uses: relative-ci/agent-upload-artifact-action@v2
         with:
           webpackStatsFile: ./distribution/assets/webpack-stats.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: matrix.os == 'ubuntu-latest'
         with:
           name: refined-github
