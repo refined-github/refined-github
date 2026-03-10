@@ -13,6 +13,7 @@ jobs:
   Version:
     outputs:
       created: ${{ env.DAILY_VERSION_CREATED }}
+      version: ${{ env.DAILY_VERSION }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -68,8 +69,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - name: Create release notes
+        run: echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}" > /tmp/amo-metadata.json
       - name: Upload build and source code
-        run: npx web-ext@8 sign --channel listed
+        run: npx web-ext@8 sign --channel listed --amo-metadata /tmp/amo-metadata.json
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
