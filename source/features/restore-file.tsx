@@ -154,12 +154,16 @@ function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	);
 }
 
-// New React view handler: track the file container and add menu item
-function handleMenuOpening({delegateTarget}: DelegateEvent<MouseEvent, HTMLElement>): void {
-	// Track the file container for later removal
-	focusedFileContainer = delegateTarget.closest('div[id^="diff-"]')!;
+function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+	// Don't run if the menu has been closed
+	if (menuButton.ariaExpanded === 'false') {
+		return;
+	}
 
-	// Wait for the menu to be rendered
+	// Track the file container for later removal
+	focusedFileContainer = menuButton.closest('div[id^="diff-"]')!;
+
+	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {
 		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
 		const discardItem = editFile.cloneNode(true);
