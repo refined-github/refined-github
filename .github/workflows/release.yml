@@ -16,8 +16,8 @@ jobs:
       version: ${{ env.DAILY_VERSION }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           cache: npm
@@ -31,7 +31,7 @@ jobs:
         run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
       - name: Ready for "submit" jobs
         if: env.DAILY_VERSION_CREATED
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           path: ${{ env.DIRECTORY }}
       - name: Create release
@@ -51,8 +51,8 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
       - run: npx chrome-webstore-upload-cli@3
         working-directory: artifact
         env:
@@ -67,12 +67,12 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
       - name: Create release notes
         run: echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}" > /tmp/amo-metadata.json
       - name: Upload build and source code
-        run: npx web-ext@8 sign --channel listed --amo-metadata /tmp/amo-metadata.json
+        run: npx web-ext@9 sign --channel listed --amo-metadata /tmp/amo-metadata.json
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
