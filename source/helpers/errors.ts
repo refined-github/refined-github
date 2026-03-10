@@ -94,7 +94,7 @@ export function catchErrors(): void {
 	addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
-		if (error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://')) {
+		if (error?.stack && (error.stack.includes('-extension://') || error.stack.includes('webkit-masked-url://'))) {
 			logError(error);
 			event.preventDefault();
 		}
