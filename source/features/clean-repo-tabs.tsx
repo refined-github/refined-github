@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {countElements} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
@@ -29,11 +30,13 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		const wrapper = document.createElement('span');
-		wrapper.dataset.component = 'counter';
-		tabCounter = document.createElement('span');
-		tabCounter.className = 'Counter';
-		wrapper.append(tabCounter);
+		const wrapper = (
+			<span data-component="counter">
+				<span className="Counter" />
+			</span>
+		);
+
+		tabCounter = wrapper.firstElementChild as HTMLSpanElement;
 		tab.append(wrapper);
 	}
 
