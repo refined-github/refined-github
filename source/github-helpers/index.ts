@@ -189,10 +189,8 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 
 function getConversationAuthor(): string | undefined {
 	return $optional([
-		// Old view (PRs)
-		'#partial-discussion-header .gh-header-meta .author',
-		// New view (issues)
-		'[data-testid="issue-body-header-author"]',
+		'.js-command-palette-pull-body .author', // PR conversation
+		'[data-testid="issue-body-header-author"]', // Issue conversation
 	])?.textContent;
 }
 

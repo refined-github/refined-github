@@ -25,6 +25,7 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
 */
 
+import React from 'dom-chef';
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
@@ -53,6 +54,7 @@ const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys
 
 export class RefinedGitHubAPIError extends Error {
 	response: AnyObject = {};
+	richMessage?: JSX.Element;
 	constructor(...messages: string[]) {
 		super(messages.join('\n'));
 	}
@@ -205,7 +207,6 @@ const v4uncached = async (
 		headers: {
 			'User-Agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
-			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			Authorization: `bearer ${personalToken}`,
 		},
 		method: 'POST',
@@ -269,6 +270,14 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 		return new RefinedGitHubAPIError(
 			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
 		);
+	}
+
+	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
+		const error = new RefinedGitHubAPIError(
+			'Your organization requires a specific type of token.',
+		);
+		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
+		return error;
 	}
 
 	const error = new RefinedGitHubAPIError(

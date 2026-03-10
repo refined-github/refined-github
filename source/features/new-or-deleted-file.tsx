@@ -5,44 +5,48 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function add(fileHeader: HTMLDivElement): void {
+function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 	const list = $optional('ul[aria-label="File Tree"]');
 	if (!list && pageDetect.isCommit()) {
 		// Silence error, single-file commits don't have the file list
 		return;
 	}
 
-	// Link--primary excludes CODEOWNERS icon #5565
-	const fileLink = $('a.Link--primary', fileHeader);
-
-	const fileInList = $optional([
-		`[href="${fileLink.hash}"]`, // TODO: Old PR Files view, drop in 2026
-		`[class^="PRIVATE_TreeView-item-content"]:has([href="${fileLink.hash}"])`,
-	], list);
+	const fileInList = $optional(`[href="${filename.hash}"]`, list);
 	if (!fileInList) {
 		features.unload(import.meta.url);
 		throw new Error('Could not find file in sidebar, is the sidebar loaded?');
 	}
 
+	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)
+		?.cloneNode(true);
+	if (icon) {
+		// `span` needed for native vertical alignment
+		filename.parentElement!.append(<span className="ml-1">{icon}</span>);
+	}
+}
+
+function maybeAddIcon(fileHeader: HTMLDivElement): void {
+	const list = $('ul[aria-label="File Tree"]');
+	const fileLink = $('a', fileHeader);
+	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
+
 	const icon = $optional([
-		'.octicon-diff-removed', // TODO: Old PR Files view, drop in 2026
-		'.octicon-diff-added', // TODO: Old PR Files view, drop in 2026
 		'.octicon-file-removed',
 		'.octicon-file-added',
 		'.octicon-file-moved',
 	], fileInList)
 		?.cloneNode(true);
 	if (icon) {
-		// `span` needed for native vertical alignment
-		fileHeader.append(<span className="ml-1">{icon}</span>);
+		fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		'div.file-info', // TODO: Old PR Files view, drop in 2026
-		'div[class*="DiffFileHeader-module__file-path-section"]',
-	], add, {signal});
+	observe('div[class*="file-path-section"]', maybeAddIcon, {signal});
+	// TODO: Old PR Files view, drop in 2026
+	// Link--primary excludes CODEOWNERS icon #5565
+	observe('.file-info a.Link--primary', maybeAddIconLegacy, {signal});
 }
 
 void features.add(import.meta.url, {

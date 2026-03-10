@@ -40,7 +40,12 @@ function createCommitTitle(): string {
 
 function needsSubmission(): boolean {
 	const mergeButton = $optional(confirmMergeButton);
-	if (mergeButton?.textContent !== 'Confirm squash and merge') {
+	const textContent = mergeButton?.textContent?.trim();
+	if (!textContent || ![
+		'Confirm squash and merge',
+		'Confirm auto-merge (squash)',
+		'Confirm bypass rules and merge (squash)',
+	].includes(textContent)) {
 		return false;
 	}
 

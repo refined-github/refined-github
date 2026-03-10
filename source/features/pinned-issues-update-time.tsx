@@ -1,6 +1,5 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
 import batchedFunction from 'batched-function';
 import * as pageDetect from 'github-url-detection';
 
@@ -33,30 +32,31 @@ const getLastUpdated = new CachedFunction('last-updated', {
 	cacheKey: ([issues]) => `${getRepo()!.nameWithOwner}:${String(issues)}`,
 });
 
-function getPinnedIssueNumber(pinnedIssue: HTMLElement): number {
-	return looseParseInt($('.opened-by', pinnedIssue).firstChild);
+function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
+	return looseParseInt(pinnedIssueMetadata.childNodes[2]);
 }
 
-async function update(pinnedIssues: HTMLElement[]): Promise<void> {
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(pinnedIssues.map(issue => getPinnedIssueNumber(issue)));
-	for (const pinnedIssue of pinnedIssues) {
-		const issueNumber = getPinnedIssueNumber(pinnedIssue);
+async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
+	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(
+		pinnedIssuesMetadata.map(issueMetadata => getPinnedIssueNumber(issueMetadata)),
+	);
+	for (const issueMetadata of pinnedIssuesMetadata) {
+		const issueNumber = getPinnedIssueNumber(issueMetadata);
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
-		const originalLine = $('.opened-by', pinnedIssue);
-		originalLine.after(
+		issueMetadata.after(
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
 				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
 			</span>,
 		);
 
-		originalLine.hidden = true;
+		issueMetadata.hidden = true;
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('.pinned-issue-item', batchedFunction(update, {delay: 100}), {signal});
+	observe('span[class^="PinnedIssue-module__issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {

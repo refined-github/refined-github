@@ -41,16 +41,25 @@ function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: R
 	return menuItem;
 }
 
-function handleMenuOpening(): void {
-	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
-	viewFile.after(
-		getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
-		getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
-		getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
-		viewFile.nextElementSibling?.getAttribute('data-component') === 'ActionList.Divider'
-			? ''
-			: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
-	);
+function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+	// Don't run if the menu has been closed
+	if (menuButton.ariaExpanded === 'false') {
+		return;
+	}
+
+	// Wait for the menu DOM to be created, but not rendered
+	requestAnimationFrame(() => {
+		const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
+		const {nextElementSibling} = viewFile;
+		viewFile.after(
+			getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
+			getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
+			getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
+			!nextElementSibling || nextElementSibling.getAttribute('data-component') === 'ActionList.Divider'
+				? ''
+				: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
+		);
+	});
 }
 
 function init(signal: AbortSignal): void {

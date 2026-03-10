@@ -21,7 +21,8 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]']),
-		pageDetect.isEmptyRepo,
+		// TODO: Detect empty repos differently or fail gracefully
+		pageDetect.isEmptyRepoRoot,
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,
 	],
