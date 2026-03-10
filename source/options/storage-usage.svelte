@@ -40,10 +40,6 @@
 		}
 	};
 
-	$effect(() => {
-		void getStorageUsage();
-	});
-
 	onMount(() => {
 		getStorageUsage();
 
