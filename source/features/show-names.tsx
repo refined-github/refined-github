@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
-import getEmojiRegex from 'emoji-regex-xs';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -12,8 +11,6 @@ import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';
 import abortableClassName from '../helpers/abortable-classname.js';
-
-const emojiRegex = getEmojiRegex();
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
@@ -102,7 +99,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		const userKey = api.escapeKey(username);
 		const {name: fullName} = names[userKey];
 
-		const fullNameWithoutEmoji = fullName?.replace(emojiRegex, '').trim();
+		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
 
 		// Could be `null` if not set or empty string if consisting only of emojis
 		if (!fullNameWithoutEmoji) {
