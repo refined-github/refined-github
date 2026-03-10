@@ -68,8 +68,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+      - name: Create release notes
+        run: |
+          VERSION=$(jq -r '.version' artifact/manifest.json)
+          echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/$VERSION\"}}" > /tmp/amo-metadata.json
       - name: Upload build and source code
-        run: npx web-ext@8 sign --channel listed
+        run: npx web-ext@8 sign --channel listed --amo-metadata /tmp/amo-metadata.json
         working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
