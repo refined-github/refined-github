@@ -13,5 +13,8 @@
 </script>
 
 <output>
-	{version}{#if outdatedAge} — <a href="https://github.com/refined-github/refined-github#install">A newer version may be available</a>{/if}
+	{version}{#if outdatedAge}
+		— <a href="https://github.com/refined-github/refined-github#install"
+			>A newer version may be available</a
+		>{/if}
 </output>
