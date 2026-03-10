@@ -21,12 +21,13 @@
 	/* Removes: every text (but not icons) */
 	font-size: 0 !important;
 
-	/* Shows on issues: [octocat] opened this issue on [1 Jan] · 1 comments */
 	/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
 	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
-	& > :not(.js-updating-pull-request-commits-count) {
+	& > [class]:not(.js-updating-pull-request-commits-count) {
 		font-size: 14px;
 	}
+
+	--margin: 4px;
 
 	/* Shows on PRs: [by ]octocat main ← feature */
 	&:not(.rgh-hide-author)::before {
@@ -35,33 +36,34 @@
 	}
 
 	.author {
-		margin-right: 4px;
+		margin-right: var(--margin);
 	}
 
-	/* Removes on issues: [octocat] opened this issue on 1 Jan · 1 comments */
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
 	&.rgh-hide-author {
-		.author + .Label /* #5832 */,
 		.author,
 		a[data-hovercard-type='user'] {
 			display: none;
 		}
 	}
 
-	.commit-ref,
+	[class^='PullRequestBranchName'],
+	/* TODO: Remove after July 2026 */
+		.commit-ref,
 	[class^='BranchName'] {
-		font-size: 12px;
+		font-size: 12px !important;
+	}
+
+	span[class^='prc-TooltipV2'] ~ .rgh-arrow {
+		font-size: 0;
+		margin-left: calc(-1 * var(--margin));
 	}
 
 	relative-time {
-		margin-left: 4px;
+		margin-left: var(--margin);
 	}
 
-	/* Removes on issues: octocat opened this issue on [1 Jan] · 1 comments */
-	.gh-header.issue & relative-time {
-		display: none;
-	}
-
+	/* TODO: Remove after July 2026 */
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;

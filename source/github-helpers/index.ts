@@ -188,7 +188,10 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 }
 
 function getConversationAuthor(): string | undefined {
-	return $optional('#partial-discussion-header .gh-header-meta .author')?.textContent;
+	return $optional([
+		'.js-command-palette-pull-body .author', // PR conversation
+		'[data-testid="issue-body-header-author"]', // Issue conversation
+	])?.textContent;
 }
 
 export function isOwnConversation(): boolean {

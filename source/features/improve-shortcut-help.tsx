@@ -1,3 +1,5 @@
+import './improve-shortcut-help.css';
+
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
@@ -114,6 +116,8 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	init: [init, onetime(initOnce)],
 });
+
+void features.addCssFeature(import.meta.url);
 
 /*
 

@@ -139,7 +139,7 @@ const createDropdown = onetime(() => (
 			on-details-menu-selected={handleSelection}
 		>
 			<div className="SelectMenu-modal">
-				<form id="rgh-select-notifications-form">
+				<form id="rgh-select-notifications-form" className="SelectMenu-list">
 					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others', 'Bots'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}

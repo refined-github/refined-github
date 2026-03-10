@@ -6,55 +6,41 @@ import {insertTextIntoField, setFieldText} from 'text-field-edit';
 import features from '../feature-manager.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-function interpretNode(node: ChildNode): string | void {
-	switch (node instanceof Element && node.tagName) {
-		case false:
-		case 'A': {
-			return node.textContent;
-		}
-
-		case 'CODE': {
-			// Restore backticks that GitHub loses when rendering them
-			return '`' + node.textContent + '`';
-		}
-
-		default:
-			// Ignore other nodes, like `<span>...</span>` that appears when commits have a body
-	}
-}
-
-function getFirstCommit(firstCommit: HTMLElement): {title: string; body: string | undefined} {
-	const body = $optional('.Details-content--hidden pre', firstCommit)
+function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
+	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = [...firstCommit.childNodes]
-		.map(node => interpretNode(node))
-		.join('')
-		.trim();
+	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
+		// Exclude expand body button
+		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+	);
 
 	return {title, body};
 }
 
-function useCommitTitle(firstCommitElement: HTMLElement): void {
+function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
-	const commitCountIcon = $([
+	const commitCount = $([
 		// Few commits
-		'div.Box.mb-3 .octicon-git-commit',
+		'div.Box:is(.tmp-mb-3, .mb-3) .octicon-git-commit + span',
 		// Many commits (rendered in tabs)
-		'a[href="#commits_bucket"] .octicon-git-commit',
+		'a[href="#commits_bucket"] .Counter',
 	]);
-	const commitCount = commitCountIcon?.nextElementSibling;
-	if (!commitCount || looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
+	if (looseParseInt(commitCount) < 2 || !elementExists('#new_pull_request')) {
 		return;
 	}
 
-	const firstCommit = getFirstCommit(firstCommitElement);
+	const firstCommit = getFirstCommit(firstCommitTitle);
 
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			$('#pull_request_title'),
+			$([
+				'input[name="pull_request[title]"]',
+				'#pull_request_title', // Remove after August 2026
+			]),
 			firstCommit.title,
 		);
 	}
@@ -75,7 +61,11 @@ function init(signal: AbortSignal): void {
 // https://github.com/refined-github/refined-github/issues/7191
 function hasUserAlteredThePR(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
-	return Boolean(sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`));
+	return Boolean(
+		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
+		// Remove after August 2026
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+	);
 }
 
 void features.add(import.meta.url, {
@@ -83,15 +73,21 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() =>	new URLSearchParams(location.search).has('title'),
+		() => new URLSearchParams(location.search).has('title'),
 		hasUserAlteredThePR,
 	],
 	init,
 });
 
 /*
+
 Test URLs
 
-Few commit: https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
-Many commits: https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+Few commits:
+	- https://github.com/refined-github/sandbox/compare/rendered-commit-title?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012?expand=1
+Many commits:
+	- https://github.com/refined-github/refined-github/compare/refined-github:refined-github:esbuild-2...pgimalac:refined-github:pgimalac/fit-rendered-markdown?expand=1
+	- https://github.com/refined-github/sandbox/compare/9012-2?expand=1
+
 */

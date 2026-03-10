@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import batchedFunction from 'batched-function';
-import getEmojiRegex from 'emoji-regex-xs';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -11,8 +10,7 @@ import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';
-
-const emojiRegex = getEmojiRegex();
+import abortableClassName from '../helpers/abortable-classname.js';
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
@@ -31,9 +29,28 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		</span>
 	);
 
-	const testId = element.getAttribute('data-testid');
-	if (testId && ['issue-body-header-author', 'avatar-link'].includes(testId)) {
+	if (element.matches([
+		'[data-testid="avatar-link"]', // Commment on React-based views
+		'[data-testid="issue-body-header-author"]',
+		'.feed-item-content *',
+		// PR event:
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
+		// `readable-title-change-events` adds gap to rename events
+		'.TimelineItem-body:not(:has(> del.markdown-title)) *',
+	])) {
 		nameElement.classList.add('ml-1');
+	} else if (
+		element.matches(
+			// Issue event:
+			//  - https://github.com/refined-github/sandbox/issues/3#event-5474574930
+			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
+			// Username in issue events already has left margin
+			// Rename events use `gap` for spacing
+			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
+		)
+	) {
+		nameElement.classList.add('mr-1');
 	}
 
 	return nameElement;
@@ -82,12 +99,12 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		const userKey = api.escapeKey(username);
 		const {name: fullName} = names[userKey];
 
-		// Could be `null` if not set
-		if (!fullName) {
+		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
+
+		// Could be `null` if not set or empty string if consisting only of emojis
+		if (!fullNameWithoutEmoji) {
 			continue;
 		}
-
-		const fullNameWithoutEmoji = fullName.replace(emojiRegex, '').trim();
 
 		for (const element of elements) {
 			if (isUsernameAlreadyFullName(username, fullNameWithoutEmoji)) {
@@ -110,6 +127,8 @@ function updateDom(link: HTMLAnchorElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
+	// For `sticky-comment-header`
+	abortableClassName(document.documentElement, signal, 'rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
 }
 
@@ -128,7 +147,7 @@ Test URLs:
 - issue: https://github.com/isaacs/github/issues/297
 - PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
-- newsfeed: https://github.com
+- feed: https://github.com/feed
 
 Special cases:
 

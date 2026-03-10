@@ -1,59 +1,50 @@
 import React from 'react';
 import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
+import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
+
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className="State d-flex flex-items-center flex-shrink-0">
+		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
 			<LockIcon className="flex-items-center mr-1" />
 			Locked
 		</span>
 	);
 }
 
-function addLock(element: HTMLElement): void {
-	const isReactView = element.getAttribute('data-testid')?.startsWith('issue-metadata');
-
-	// Avoid adding it duplicately in issue
-	if (isReactView && elementExists('.rgh-locked-issue', element)) {
-		return;
-	}
-
-	const closestSticky = element.closest('.gh-header-sticky');
-	const classes = `${closestSticky ? 'mr-2 ' : ''}${isReactView ? '' : 'mb-2 '}`;
-
-	let container: HTMLElement | undefined;
-
-	if (isReactView) {
-		const wrapper = $('[data-testid="header-state"]', element).parentElement!;
-
-		// Check if the element is wrapped by jump to close event feature
-		const isWrappedByCloseEvent = wrapper.tagName === 'A';
-		container = isWrappedByCloseEvent
-			? wrapper.parentElement!
-			: wrapper;
-	} else {
-		container = element;
-	}
-
-	container.after(
-		<LockedIndicator className={classes + 'rgh-locked-issue'} />,
+function addLockLegacy(element: HTMLElement): void {
+	const closestSticky = element.closest(['.sticky-content', '.gh-header-sticky']);
+	element.after(
+		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
 	);
 }
 
+function addLock(stateLabel: HTMLElement): void {
+	const isWrapped = stateLabel.parentElement!.classList.contains(jumpToCloseEventClass);
+	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
+
+	container.parentElement!.classList.add('d-flex', 'gap-2');
+	container.after(<LockedIndicator />);
+}
+
 async function init(signal: AbortSignal): Promise<void | false> {
+	observe(
+		'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) span[class^="prc-StateLabel"]',
+		addLock,
+		{signal},
+	);
+	// Old PR view - TODO: Drop after July 2026
 	observe([
-		'[data-testid="issue-metadata-fixed"]', // Issue title
-		'[data-testid="issue-metadata-sticky"]', // Sticky issue title
-		'.gh-header-meta > :first-child', // PR title
-		'.gh-header-sticky .flex-row > :first-child', // Sticky PR title
-	], addLock, {signal});
+		'.gh-header-meta > :first-child',
+		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+	], addLockLegacy, {signal});
 }
 
 void features.add(import.meta.url, {

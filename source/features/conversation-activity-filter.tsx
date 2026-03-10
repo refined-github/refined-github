@@ -31,9 +31,23 @@ const hiddenClassName = 'rgh-conversation-activity-filtered';
 const collapsedClassName = 'rgh-conversation-activity-collapsed';
 const timelineItem = [
 	'.js-timeline-item',
-	// React issue pages
+	// Issue view
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
+
+const SessionPageSetting = {
+	get key(): string {
+		return `rgh-conversation-activity-filter-state:${location.pathname}`;
+	},
+
+	set(value: State): void {
+		sessionStorage.setItem(this.key, value);
+	},
+
+	get(): State | undefined {
+		return sessionStorage.getItem(this.key) as State | undefined;
+	},
+};
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -109,7 +123,14 @@ async function handleSelection({target}: Event): Promise<void> {
 }
 
 function applyState(state: State): void {
-	const container = $(':is(.js-issues-results, [data-testid="issue-viewer-container"])');
+	const container = $([
+		// Current PR view
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Current issue view
+		'[class*="IssueViewer-module__mainContainer"]',
+		// Old PR view - TODO: Drop after July 2026
+		'.js-issues-results',
+	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', state);
 	container.classList.toggle(
 		'rgh-conversation-activity-is-filtered',
@@ -124,6 +145,8 @@ function applyState(state: State): void {
 	for (const dropdownItem of $$(`.${dropdownClass} [aria-checked="true"]:not([data-value="${state}"])`)) {
 		dropdownItem.setAttribute('aria-checked', 'false');
 	}
+
+	SessionPageSetting.set(state);
 }
 
 function createRadios(current: State): JSX.Element[] {
@@ -237,16 +260,20 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = minorFixesIssuePages.some(url => location.href.startsWith(url))
-		? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-		: 'default';
+	const initialState = SessionPageSetting.get()
+		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
+			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			: 'default');
 
 	observe([
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-		// React issue pages
+		// Issue view
 		'[class^="HeaderMetadata-module__metadataContent"]',
 		'[class*="HeaderMetadata-module__smallMetadataRow"]',
+		// PR view
+		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+		// Old PR view - TODO: Remove after July 2026
+		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+		'#partial-discussion-header .sticky-header-container .meta:last-child',
 	], addWidget.bind(undefined, initialState), {signal});
 
 	if (initialState !== 'default') {

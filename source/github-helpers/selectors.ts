@@ -212,11 +212,13 @@ export const botLinksNotificationSelectors_ = [
 
 // `a` selector needed to skip commits by non-GitHub users
 const authorLinks = [
+	// Old views
 	'.js-discussion a.author',
 	'.inline-comments a.author',
-	'.react-issue-comment a[data-testid="avatar-link"]',
-	'[data-testid="comment-header"] a[data-testid="avatar-link"]', // React commit view
-	'.react-issue-body a[data-testid="issue-body-header-author"]', // React issue view first comment
+	// React-based views
+	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
+	'a[data-testid="issue-body-header-author"]',
+	'a[class^="row-module__eventActorLink"]',
 ];
 
 const authorLinksException = [
@@ -236,6 +238,7 @@ export const usernameLinksSelector = [
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
 	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+	'.feed-item-content header a.Link--primary',
 ] as unknown as Array<'a'>;
 export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
@@ -262,3 +265,22 @@ export const deletedHeadRepository_ = [
 	[2, 'https://github.com/refined-github/refined-github/pull/271'],
 	[1, 'https://github.com/refined-github/refined-github/pull/271/files'],
 ];
+
+export const conversationCloseEvent = [
+	// Old view (PRs)
+	`.TimelineItem:has(.TimelineItem-badge :is(
+		.octicon-issue-closed,
+		.octicon-git-merge,
+		.octicon-git-pull-request-closed,
+		.octicon-skip
+	))`,
+	// React view (Issues)
+	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
+];
+export const conversationCloseEvent_ = [
+	[4, 'https://github.com/refined-github/sandbox/issues/123'],
+	[4, 'https://github.com/refined-github/refined-github/pull/4030'],
+];
+
+export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
+export const confirmMergeButton_ = requiresLogin;

@@ -16,6 +16,7 @@ function ToastSpinner(): JSX.Element {
 	);
 }
 
+type ToastMessage = string | JSX.Element;
 type ProgressCallback = (message: string) => void;
 type Task = Promise<unknown> | ((progress: ProgressCallback) => Promise<unknown>);
 export default async function showToast(
@@ -25,7 +26,7 @@ export default async function showToast(
 		doneMessage = 'Bulk action processing complete.',
 	}: {
 		message?: string;
-		doneMessage?: string | false;
+		doneMessage?: ToastMessage | false;
 	} = {},
 ): Promise<void> {
 	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
@@ -43,18 +44,21 @@ export default async function showToast(
 			</span>
 		</div>
 	);
-	const updateToast = (message: string): void => {
-		messageWrapper.textContent = message;
+	let lastRawMessage: ToastMessage = message;
+	const updateToast = (message: ToastMessage): void => {
+		lastRawMessage = message;
+		messageWrapper.textContent = '';
+		messageWrapper.append(message);
 	};
 
-	const finalUpdateToast = async (message: string): Promise<void> => {
+	const finalUpdateToast = async (message: ToastMessage): Promise<void> => {
 		updateToast(message);
 
 		// Without rAF the toast might be removed before the first page paint
 		// rAF also allows showToast to resolve as soon as task is done
 		await frame();
 
-		const displayTime = (message.split(' ').length * 300) + 2000;
+		const displayTime = (typeof message === 'string' ? message.split(' ').length * 300 : 3000) + 2000;
 		await delay(displayTime);
 
 		// Display time is over, animate out
@@ -66,7 +70,7 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
-	let finalToastMessage: string | false = 'Unknown error';
+	let finalToastMessage: ToastMessage | false = 'Unknown error';
 	try {
 		if (task instanceof Error) {
 			throw task;
@@ -84,11 +88,11 @@ export default async function showToast(
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		finalToastMessage = error.message;
+		finalToastMessage = 'richMessage' in error ? error.richMessage as JSX.Element : error.message;
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
 	} finally {
 		// Use the last message if `false` was passed
-		void finalUpdateToast(finalToastMessage || messageWrapper.textContent);
+		void finalUpdateToast(finalToastMessage || lastRawMessage);
 	}
 }
