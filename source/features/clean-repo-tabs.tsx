@@ -30,14 +30,8 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		const wrapper = (
-			<span data-component="counter">
-				<span className="Counter" />
-			</span>
-		);
-
-		tabCounter = wrapper.firstElementChild as HTMLSpanElement;
-		tab.append(wrapper);
+		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 
 	tabCounter.textContent = abbreviateNumber(count);
