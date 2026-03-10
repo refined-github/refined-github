@@ -19,6 +19,7 @@ import {state as bisectState} from './helpers/bisect.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initTokenValidation from './options/token-validation.js';
 import initToggleAllButtons from './options/toggle-all.js';
+import getOutdatedVersionAge from './helpers/outdated-version.js';
 
 const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
@@ -80,6 +81,12 @@ function getExclusions(): string | void {
 	}
 }
 
+function showOutdatedVersionWarning(): void {
+	if (getOutdatedVersionAge()) {
+		$('#outdated-version-notice').hidden = false;
+	}
+}
+
 async function showStoredCssHotfixes(): Promise<void> {
 	$('#hotfixes-field').textContent
 		= getExclusions()
@@ -136,6 +143,7 @@ async function generateDom(): Promise<void> {
 	void showStoredCssHotfixes();
 
 	$('#version').textContent = version;
+	showOutdatedVersionWarning();
 }
 
 function addEventListeners(): void {

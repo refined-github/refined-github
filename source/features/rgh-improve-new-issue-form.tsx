@@ -12,6 +12,7 @@ import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
+import getOutdatedVersionAge from '../helpers/outdated-version.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -104,12 +105,28 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
+function showOutdatedVersionNotice(): void {
+	const ageInDays = getOutdatedVersionAge();
+	if (!ageInDays) {
+		return;
+	}
+
+	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
+		<div className="flash flash-warn h3 my-9">
+			<p>
+				Your Refined GitHub is {Math.floor(ageInDays)} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			</p>
+		</div>,
+	);
+}
+
 function init(signal: AbortSignal): void {
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
 		void linkifyCacheRefresh();
 		void checkToken();
 		void validateTokenCheckbox();
 		void setVersion();
+		showOutdatedVersionNotice();
 	}, {signal});
 }
 
