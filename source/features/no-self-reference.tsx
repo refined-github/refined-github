@@ -1,24 +1,27 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import isCurrentPageLink from '../helpers/is-current-page-link.js';
 import observe from '../helpers/selector-observer.js';
 
-function underlineSelfReference(link: HTMLElement): void {
+function underlineSelfReference(link: HTMLAnchorElement): void {
+	if (!isCurrentPageLink(link)) {
+		return;
+	}
+
 	link.title = 'Link is a self-reference';
 
 	// Disable link and hovercard
 	link.removeAttribute('href');
 	link.removeAttribute('data-hovercard-url');
 
-	// TODO: Use shorthand `text-decoration` property in 2027 (due to Safari 18)
 	link.style.textDecorationLine = 'underline';
 	link.style.textDecorationStyle = 'wavy';
 	link.style.textDecorationColor = 'red';
 }
 
 function init(signal: AbortSignal): void {
-	const [currentPage] = location.href.split('#');
-	observe(`.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
+	observe('.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link', underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
