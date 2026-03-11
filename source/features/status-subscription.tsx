@@ -122,6 +122,7 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	const repo = getRepo()!;
 
 	const body = {
+		// `IssueViewerSecondaryViewQuery`
 		query: 'cb9b35846fadf5f80ec3a2c05bf42a89',
 		variables: {
 			number: getConversationNumber()!,
@@ -145,6 +146,7 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 	const {id} = issue.repository.issue;
 
 	const body = {
+		// `updateIssueSubscriptionMutation`
 		query: 'd0752b2e49295017f67c84f21bfe41a3',
 		variables: {
 			input: {
