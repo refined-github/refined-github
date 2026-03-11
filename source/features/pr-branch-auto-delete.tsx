@@ -48,15 +48,12 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	await waitForPrMerge(signal);
 
-	const deleteButton = await elementReady('[class^="MergeBoxSectionHeader"] button', {
+	const deleteButton = await elementReady('div[class^="MergeBoxSectionHeader-module__contentLayout"] button', {
+		predicate: button => button.textContent.trim() === 'Delete branch',
 		stopOnDomReady: false,
 		signal,
 	});
-	if (deleteButton?.textContent !== 'Delete branch') {
-		return;
-	}
-
-	deleteButton.click();
+	deleteButton!.click();
 
 	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
 		stopOnDomReady: false,
