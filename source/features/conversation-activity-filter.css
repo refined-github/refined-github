@@ -10,7 +10,7 @@
 [data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] {
 	.rgh-conversation-activity-filtered-event,
 	.rgh-conversation-activity-collapsed-comment,
-	.js-resolvable-timeline-thread-container[data-resolved="true"],
+	.js-resolvable-timeline-thread-container[data-resolved='true'],
 	.minimized-comment {
 		display: none;
 		/* For debugging purposes */
