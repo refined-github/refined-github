@@ -12,6 +12,8 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {
+	areDiscussionsEnabled,
+	areIssuesEnabled,
 	buildRepoURL,
 	getConversationNumber,
 	isAnyRefinedGitHubRepo,
@@ -46,7 +48,7 @@ function isPopular(): boolean {
 		countElements('[data-testid="comment-header"]') > 30
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
-		// TODO: Drop in April 2025; old conversation style
+		// TODO: Drop in 2026; old conversation style
 		|| countElements('.timeline-comment') > 30
 		|| countElements('.participant-avatar') > 10
 	);
@@ -55,16 +57,17 @@ function isPopular(): boolean {
 export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
+	const newDiscussion = <a href={buildRepoURL('discussions/new/choose')}>new discussion</a>;
+	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled() ? <> {newIssue} or a {newDiscussion} </> : areIssuesEnabled() ? newIssue : newDiscussion;
 	return (
 		<>
-			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.
+			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen} instead of leaving a comment here.
 		</>
 	);
 }
 
 function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): void {
-	const canOpenNewIssue = elementExists('li:has([data-content="Issues"])');
-	if (!canOpenNewIssue || elementExists('.rgh-resolved-banner')) {
+	if (elementExists('.rgh-resolved-banner')) {
 		return;
 	}
 
@@ -121,7 +124,7 @@ function initBanner(signal: AbortSignal): void {
 	observe(newCommentField, async (field: HTMLElement) => {
 		// Check inside the observer because React views load after dom-ready
 		const closingDate = await getCloseDate();
-		if (closingDate && wasLongAgo(closingDate)) {
+		if (closingDate && wasLongAgo(closingDate) && (areIssuesEnabled() || areDiscussionsEnabled())) {
 			addResolvedBanner(field, closingDate);
 		} else if (isPopular() && !(await userIsModerator())) {
 			addPopularBanner(field);
