@@ -47,6 +47,7 @@ interface GlobalEventHandlersEventMap {
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
 	'session:resume': CustomEvent;
+	itemActivated: CustomEvent;
 	// No input:InputEvent match
 	// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1174#issuecomment-933042088
 }
@@ -65,6 +66,9 @@ declare namespace JSX {
 		'batch-deferred-content': IntrinsicElements.div;
 		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 		'anchored-position': IntrinsicElements.div;
+		'action-menu': IntrinsicElements.HTMLELement;
+		'focus-group': IntrinsicElements.HTMLELement;
+		'action-list': IntrinsicElements.HTMLELement;
 	}
 
 	type BaseElement = IntrinsicElements['div'];
