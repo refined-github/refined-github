@@ -250,7 +250,7 @@ function switchToNextFilter(): void {
 
 	const stateNames = Object.keys(states);
 	const nextIndex = stateNames.indexOf(currentState) + 1;
-	const nextState = stateNames.length > nextIndex ? stateNames.at(nextIndex) : stateNames.at(0);
+	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
 
 	applyState(nextState as State);
 }
