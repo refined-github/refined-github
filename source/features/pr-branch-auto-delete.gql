@@ -1,4 +1,4 @@
-query GetPrsToBaseBranchAndDeleteBranchSetting(
+query GetPrsToBaseBranchAndDeleteOnMerge(
 	$owner: String!
 	$name: String!
 	$baseRefName: String!

@@ -8,7 +8,7 @@ import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
-import GetPrsToBaseBranchAndDeleteBranchSetting from './pr-branch-auto-delete.gql';
+import GetPrsToBaseBranchAndDeleteOnMerge from './pr-branch-auto-delete.gql';
 import {userCanLikelyMergePR} from '../github-helpers/index.js';
 
 // DO NOT ask for additions or customizations. This is just a list of "obvious" permanent branches.
@@ -37,7 +37,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	}
 
 	// Skip branches that have PRs open https://github.com/refined-github/refined-github/issues/7782
-	const {repository} = await api.v4(GetPrsToBaseBranchAndDeleteBranchSetting, {
+	const {repository} = await api.v4(GetPrsToBaseBranchAndDeleteOnMerge, {
 		variables: {
 			baseRefName: head.branch,
 		},
