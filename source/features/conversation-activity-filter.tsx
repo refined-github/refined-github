@@ -273,9 +273,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	], addWidget.bind(undefined, initialState), {signal});
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
-
 	observe(timelineItem, processItem, {signal});
-
 	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
 
 	if (initialState !== 'showAll') {
