@@ -94,7 +94,8 @@ export function catchErrors(): void {
 	addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
-		if (error?.stack.includes('-extension://')) {
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values
+		if (error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://')) {
 			logError(error);
 			event.preventDefault();
 		}
