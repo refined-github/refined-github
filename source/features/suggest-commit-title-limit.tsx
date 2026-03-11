@@ -28,10 +28,6 @@ async function validatePrTitle(field: HTMLInputElement): Promise<void> {
 	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
-function unload(): void {
-	features.unload(import.meta.url);
-}
-
 const currentPrTitleSelectors = [
 	'[class^="prc-PageLayout-Header"] input', // `isPR`
 	'input[name="pull_request[title]"]', // `isCompare`
@@ -52,7 +48,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(currentPrTitleSelectors, validatePrTitle, {signal});
 
 	await waitForPrMerge(signal);
-	unload();
+	features.unload(import.meta.url);
 }
 
 void features.add(import.meta.url, {
