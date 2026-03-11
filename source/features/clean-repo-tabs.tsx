@@ -1,3 +1,4 @@
+import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {countElements} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
@@ -27,7 +28,12 @@ function mustKeepTab(tab: HTMLElement): boolean {
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	const tabCounter = $('.Counter', tab);
+	let tabCounter = $optional('.Counter, .num', tab);
+	if (!tabCounter) {
+		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tab.append(<span data-component="counter">{tabCounter}</span>);
+	}
+
 	tabCounter.textContent = abbreviateNumber(count);
 	tabCounter.title = count > 999 ? String(count) : '';
 }
