@@ -28,25 +28,27 @@ async function validatePrTitle(field: HTMLInputElement): Promise<void> {
 	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
-function unload(): void {
-	features.unload(import.meta.url);
-}
+const currentPrTitleSelectors = [
+	'[class^="prc-PageLayout-Header"] input', // `isPR`
+	'input[name="pull_request[title]"]', // `isCompare`
+];
 
 async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
 
 	onCommitTitleUpdate(validateCommitTitle, signal);
+
 	delegate([
-		'[class^="prc-PageLayout-Header"] input', // `isPR`
-		'input[name="pull_request[title]"]', // `isCompare`
+		...currentPrTitleSelectors,
 		'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
 		'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
-	], 'input', async ({delegateTarget}) => validatePrTitle(delegateTarget), {signal, passive: true});
+	], 'input', async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement), {signal, passive: true});
+	// `isPR` - input is added to the DOM when user enters editing mode and removed when they exit it
 	// `isCompare` - input is re-rendered when previously entered title is restored
-	observe('input[name="pull_request[title]"]', validatePrTitle, {signal});
+	observe(currentPrTitleSelectors, validatePrTitle, {signal});
 
 	await waitForPrMerge(signal);
-	unload();
+	features.unload(import.meta.url);
 }
 
 void features.add(import.meta.url, {
