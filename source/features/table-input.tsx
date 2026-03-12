@@ -41,17 +41,13 @@ function append(container: HTMLElement): void {
 	container.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
 			<summary
+				id="rgh-table-input-button"
 				className="Button Button--iconOnly Button--invisible Button--medium"
 				role="button"
-				aria-label="Add a table"
+				aria-labelledby="rgh-table-input-tooltip"
 				aria-haspopup="menu"
 			>
-				<div
-					className="tooltipped tooltipped-sw"
-					aria-label="Add a table"
-				>
-					<TableIcon />
-				</div>
+				<TableIcon />
 			</summary>
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
@@ -68,6 +64,16 @@ function append(container: HTMLElement): void {
 				))}
 			</details-menu>
 		</details>,
+		<tool-tip
+			id="rgh-table-input-tooltip"
+			for="rgh-table-input-button"
+			className="sr-only position-absolute"
+			popover="manual"
+			data-direction="s"
+			data-type="label"
+		>
+			Add a table
+		</tool-tip>,
 	);
 }
 
