@@ -24,7 +24,7 @@ function underlineSelfReference(link: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link', underlineSelfReference, {signal});
+	observe('.markdown-body:is(:not(section[aria-label="Events"] *)) a.issue-link', underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
