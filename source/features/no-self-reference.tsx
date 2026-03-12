@@ -4,6 +4,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLAnchorElement): void {
+	// Revert #9086 once #6554 is resolved
 	const [currentPage] = location.href.split('#');
 	const [linkTarget] = link.href.split('#');
 	if (currentPage !== linkTarget) {
