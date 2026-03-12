@@ -3,7 +3,13 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function underlineSelfReference(link: HTMLElement): void {
+function underlineSelfReference(link: HTMLAnchorElement): void {
+	const [currentPage] = location.href.split('#');
+	const [linkTarget] = link.href.split('#');
+	if (currentPage !== linkTarget) {
+		return;
+	}
+
 	link.title = 'Link is a self-reference';
 
 	// Disable link and hovercard
@@ -17,8 +23,7 @@ function underlineSelfReference(link: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	const [currentPage] = location.href.split('#');
-	observe(`.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
+	observe('.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link', underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
