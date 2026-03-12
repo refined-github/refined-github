@@ -6,7 +6,7 @@ import {getRepo} from './index.js';
 import api from './api.js';
 
 /*
-From https://docs.github.com/graphql/reference/enums#repositorypermission
+From https://docs.github.com/en/graphql/reference/enums#repositorypermission
 
 ADMIN: Can read, clone, and push to this repository. Can also manage issues, pull requests, and repository settings, including adding collaborators.
 

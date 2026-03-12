@@ -4,7 +4,7 @@ import {isScriptableUrl} from 'webext-content-scripts';
 import {isFirefox} from 'webext-detect';
 import {createContextMenu} from 'webext-tools';
 
-// Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
+// Always Firefox… https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 const area = isFirefox() ? 'local' : 'session';
 
 export const contentScriptToggle = new StorageItem('contentScript', {
