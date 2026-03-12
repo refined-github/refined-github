@@ -4,7 +4,7 @@ import {getConversationNumber} from './index.js';
 export type PullRequestInfo = {
 	baseRefOid: string;
 	headRefOid: string;
-	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
+	// https://docs.github.com/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
 
 	viewerCanUpdate: boolean;
@@ -13,7 +13,7 @@ export type PullRequestInfo = {
 	viewerCanEditFiles: boolean;
 	needsUpdate: boolean;
 	behindBy: number;
-	// https://docs.github.com/en/graphql/reference/enums#defaultrepositorypermissionfield
+	// https://docs.github.com/graphql/reference/enums#defaultrepositorypermissionfield
 	headRepoPerm: 'ADMIN' | 'WRITE' | 'READ' | 'NONE';
 };
 

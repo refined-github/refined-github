@@ -56,7 +56,7 @@
 
 /*
 Can't use this because attr() returns strings and casting isn't supported anywhere yet
-https://developer.mozilla.org/en-US/docs/Web/CSS/attr
+https://developer.mozilla.org/docs/Web/CSS/attr
 
 [data-tab-size] {
 	--tab-size: attr(data-tab-size);

@@ -1,4 +1,4 @@
-# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuration-options
+# https://docs.github.com/repositories/releasing-projects-on-github/automatically-generated-release-notes#configuration-options
 changelog:
   categories:
     - title: Bugfixes
