@@ -71,7 +71,7 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 		},
 		get head() {
 			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > div > a[class^="PullRequestBranchName"]',
+				'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
 				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
 				'.head-ref', // TODO: Remove in June 2026
 			]));
