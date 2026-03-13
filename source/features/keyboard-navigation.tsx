@@ -109,6 +109,7 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above',
+		x: 'Mark the file as viewed/unviewed',
 	},
 	include: [
 		pageDetect.hasComments,
