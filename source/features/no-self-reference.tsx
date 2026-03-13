@@ -5,8 +5,11 @@ import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLAnchorElement): void {
 	// TODO: Revert #9086 once #6554 is resolved
-	// Also exclude reference to a comment on the same page
-	if (link.href !== location.href || link.href.includes('#')) {
+	if (
+		link.href !== location.href
+		// Exclude reference to a comment on the same page
+		|| link.href.includes('#')
+	) {
 		return;
 	}
 
