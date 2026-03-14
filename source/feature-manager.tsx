@@ -128,6 +128,8 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
 	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
 	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
+	document.addEventListener('soft-nav:start', unloadAll); // Soft navigation
+	addEventListener('popstate', unloadAll); // History navigation
 
 	resolve(options);
 });
@@ -151,7 +153,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			do {
 				document.documentElement.setAttribute('rgh-OFF-' + id, '');
 				log.info('↩️', 'Skipping', id);
-			} while (await oneEvent(document, 'turbo:render'));
+			} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 		} else {
 			log.info('↩️', 'Skipping', id);
 		}
@@ -216,7 +218,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 					}
 				}
 			});
-		} while (await oneEvent(document, 'turbo:render'));
+		} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 	});
 }
 
