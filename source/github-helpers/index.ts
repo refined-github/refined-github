@@ -127,6 +127,22 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 export const userCanLikelyMergePR = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
+const navigationBarSelector = `:is(${[
+	'.GlobalNav',
+	// Remove after June 2026
+	'.js-repo-nav',
+].join(',')}`;
+
+export function areIssuesEnabled(): boolean {
+	const repo = getRepo()!;
+	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/issues"]`);
+}
+
+export function areDiscussionsEnabled(): boolean {
+	const repo = getRepo()!;
+	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/discussions"]`);
+}
+
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
 // Commit lists for files and folders lack a branch selector
