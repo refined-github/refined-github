@@ -39,7 +39,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		// `readable-title-change-events` adds gap to rename events
 		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 		// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
-		'.TimelineItem-body:not(:has(> del.markdown-title)) > div > *',
+		'.TimelineItem-body > div > *',
 	])) {
 		nameElement.classList.add('ml-1');
 	} else if (
