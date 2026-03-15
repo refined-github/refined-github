@@ -28,6 +28,17 @@ const isFileMinimized = (element: HTMLElement | undefined): boolean =>
 		&& isDisplayNone($optional('.js-file-content', element)),
 	);
 
+let lastViewChange: HTMLElement | undefined;
+function trackLastViewChange(event: Event): void {
+	const element
+		= (event.target as EventTarget & Partial<Pick<Element, 'closest'>>).closest?.(
+			'.js-targetable-element[id^="diff-"]',
+		) ?? undefined;
+	if (element) {
+		lastViewChange = element;
+	}
+}
+
 function runShortcuts(event: KeyboardEvent): void {
 	if (
 		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x')
@@ -36,7 +47,9 @@ function runShortcuts(event: KeyboardEvent): void {
 		return;
 	}
 
-	const focusedComment = $optional(':target');
+	const focusedComment
+		= $optional(globalThis.location.hash || ':target') ?? lastViewChange;
+
 	if (event.key === 'x') {
 		if (!focusedComment) {
 			return;
@@ -87,6 +100,9 @@ function runShortcuts(event: KeyboardEvent): void {
 
 function init(signal: AbortSignal): void {
 	document.body.addEventListener('keypress', runShortcuts, {signal});
+	document.body.addEventListener('change', trackLastViewChange);
+	document.body.addEventListener('click', trackLastViewChange);
+	document.body.addEventListener('focus', trackLastViewChange);
 }
 
 void features.add(import.meta.url, {
