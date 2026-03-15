@@ -24,15 +24,23 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 
 const isFileMinimized = (element: HTMLElement | undefined): boolean =>
 	Boolean(
-		element?.classList.contains('js-file')
-		&& isDisplayNone($optional('.js-file-content', element)),
+		(element?.classList.contains('js-file')
+			&& isDisplayNone($optional('.js-file-content', element)))
+		?? (element
+			&& [...element.classList].some(className =>
+				className.startsWith('Diff-module__diffTargetable--'),
+			)
+			&& $optional([
+				'[class^="DiffFileHeader-module__collapsed--"]',
+				'[class*=" DiffFileHeader-module__collapsed--"]',
+			])),
 	);
 
 let lastViewChange: HTMLElement | undefined;
 function trackLastViewChange(event: Event): void {
 	const element
 		= (event.target as EventTarget & Partial<Pick<Element, 'closest'>>).closest?.(
-			'.js-targetable-element[id^="diff-"]',
+			['.js-targetable-element[id^="diff-"]', '[data-targeted]'],
 		) ?? undefined;
 	if (element) {
 		lastViewChange = element;
@@ -48,19 +56,31 @@ function runShortcuts(event: KeyboardEvent): void {
 	}
 
 	const focusedComment
-		= $optional(globalThis.location.hash || ':target') ?? lastViewChange;
+		= $optional(
+			globalThis.location.hash || ':target:not([data-targeted=true])',
+		)
+		?? $optional('[data-targeted=true]')
+		?? lastViewChange;
 
 	if (event.key === 'x') {
 		if (!focusedComment) {
 			return;
 		}
 
-		const toggle = $optional('.js-reviewed-toggle', focusedComment);
+		const toggle
+			= $optional('.js-reviewed-toggle', focusedComment)
+				?? $$(
+					[
+						':is([class^="Diff-module__diffHeaderWrapper"]',
+						'[class*=" Diff-module__diffHeaderWrapper"]) button[aria-pressed]',
+					],
+					focusedComment,
+				).find(element => element.textContent.trim() === 'Viewed');
 		if (toggle) {
 			const wasFileMinimized = isFileMinimized(focusedComment);
 			event.preventDefault();
 			toggle.click();
-			if (wasFileMinimized) {
+			if (wasFileMinimized && !focusedComment.dataset.targeted) {
 				location.replace('#' + focusedComment.id);
 			}
 		}
@@ -73,6 +93,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
+			'[role="region"]:is([class*=" Diff-module__diffTargetable--"], [class^="Diff-module__diffTargetable--"])[data-targeted]', // Files in new diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])
 			.filter(element =>
