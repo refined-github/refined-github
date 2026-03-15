@@ -44,22 +44,26 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 		},
 	});
 
-	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
+	const {committedDate} = repository.defaultBranchRef.target.history.nodes
 		.toReversed()
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
-	return [committedDate, resourcePath];
+	// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
+	const commitsUrl = `${location.pathname}/commits/${repository.defaultBranchRef.name}/?after=${commitSha}+${commitsCount - 2}`;
+	return [committedDate, commitsUrl];
 }
 
 const firstCommit = new CachedFunction('first-commit', {
 	async updater(): Promise<[committedDate: string, resourcePath: string]> {
 		const {repository} = await api.v4(GetFirstCommit);
 
-		const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
+		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
-			return [committedDate, resourcePath];
+			// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
+			const commitsUrl = `${location.pathname}/commits/${repository.defaultBranchRef.name}/?after=${commitSha}+${commitsCount - 2}`;
+			return [committedDate, commitsUrl];
 		}
 
 		return getRepoAge(commitSha, commitsCount);
