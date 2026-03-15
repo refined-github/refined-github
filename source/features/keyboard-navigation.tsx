@@ -25,7 +25,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const focusedComment = $optional(':target');
 	if (event.key === 'x') {
 		const toggle
-			= focusedComment && $optional('.js-reviewed-toggle', focusedComment);
+			= focusedComment && $optional(['.js-reviewed-toggle', '[class*=MarkAsViewedButton]'], focusedComment);
 		toggle?.click();
 		return;
 	}
