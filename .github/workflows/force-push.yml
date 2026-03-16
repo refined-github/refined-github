@@ -1,17 +1,8 @@
-name: Notify force-push
+name: PR etiquette
 
 on:
   pull_request_target:
     types: [synchronize]
-
-# To show this comment only once per user across all PRs, you could:
-# 1. Search existing PR comments for a previous warning to the same user:
-#    Use `github.rest.issues.listComments` across recent PRs to find prior warnings.
-# 2. Maintain a plain-text allowlist file (e.g. `.github/warned-users.txt`) in the
-#    repository. When a warning is posted, open a PR/commit adding the user to the
-#    file; on future force-pushes, check the file before commenting.
-# 3. Use a dedicated tracking issue whose body or comments list warned usernames.
-#    Look up the user before posting and skip if already listed.
 
 jobs:
   notify:
@@ -29,24 +20,14 @@ jobs:
           script: |
             const { before, after } = context.payload;
 
-            // A null/zero SHA means the branch was just created — not a force push
-            if (!before || before === '0000000000000000000000000000000000000000') {
-              return 'false';
-            }
+            const { data } = await github.rest.repos.compareCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base: before,
+              head: after,
+            });
 
-            try {
-              const { data } = await github.rest.repos.compareCommits({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                base: before,
-                head: after,
-              });
-              // A regular push makes `after` a direct descendant of `before` (status
-              // "ahead"). Any other status means history was rewritten (force push).
-              return String(data.status !== 'ahead' && data.status !== 'identical');
-            } catch {
-              return 'false';
-            }
+            return String(data.status !== 'ahead' && data.status !== 'identical');
 
       - name: Leave comment
         if: steps.check.outputs.result == 'true'
