@@ -18,13 +18,11 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const { before, after } = context.payload;
-
             const { data } = await github.rest.repos.compareCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              base: before,
-              head: after,
+              base: context.payload.before,
+              head: context.payload.after,
             });
 
             return String(data.status !== 'ahead' && data.status !== 'identical');
