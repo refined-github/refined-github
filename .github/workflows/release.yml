@@ -54,7 +54,6 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
       - run: npx chrome-webstore-upload-cli@3
-        working-directory: artifact
         env:
           EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
@@ -73,7 +72,6 @@ jobs:
         run: echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}" > /tmp/amo-metadata.json
       - name: Upload build and source code
         run: npx web-ext@9 sign --channel listed --amo-metadata /tmp/amo-metadata.json
-        working-directory: artifact
         env:
           WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
