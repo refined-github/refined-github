@@ -11,6 +11,7 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
+import {buildRepoURL} from '../github-helpers/index.js'; // imported the helper function to build repository URLs #7148
 
 type CommitTarget = {
 	oid: string;
@@ -50,7 +51,7 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
-	const commitsUrl = `${location.pathname}/commits/${repository.defaultBranchRef.name}/?after=${commitSha}+${commitsCount - 2}`;
+	const commitsUrl = buildRepoURL('commits', `?after=${commitSha}+${commitsCount - 2}`);
 	return [committedDate, commitsUrl];
 }
 
@@ -62,7 +63,7 @@ const firstCommit = new CachedFunction('first-commit', {
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
-			const commitsUrl = `${location.pathname}/commits/${repository.defaultBranchRef.name}/?after=${commitSha}+${commitsCount - 2}`;
+			const commitsUrl = buildRepoURL('commits', `?after=${commitSha}+${commitsCount - 2}`);
 			return [committedDate, commitsUrl];
 		}
 
