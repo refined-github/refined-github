@@ -5,8 +5,7 @@ on:
     types: [synchronize]
 
 jobs:
-  notify:
-    name: Notify on force push
+  no-force-push:
     if: github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     permissions:
@@ -25,10 +24,10 @@ jobs:
               head: context.payload.after,
             });
 
-            return String(data.status !== 'ahead' && data.status !== 'identical');
+            // This intentionally allows "force push to undo commit"
+            return String(data.status === 'diverged');
 
-      - name: Leave comment
-        if: steps.check.outputs.result == 'true'
+      - if: steps.check.outputs.result == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
