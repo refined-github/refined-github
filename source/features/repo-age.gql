@@ -1,7 +1,6 @@
 query GetRepoAge($owner: String!, $name: String!, $cursor: String!) {
 	repository(owner: $owner, name: $name) {
 		defaultBranchRef {
-			name # default branch name - 7148
 			target {
 				... on Commit {
 					history(first: 5, after: $cursor) {
