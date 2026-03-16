@@ -51,7 +51,6 @@ jobs:
     environment: Chrome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
       - run: npx chrome-webstore-upload-cli@3
         env:
@@ -66,7 +65,6 @@ jobs:
     environment: Firefox
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
       - name: Create release notes
         run: echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}" > /tmp/amo-metadata.json
