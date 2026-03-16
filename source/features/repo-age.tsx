@@ -7,11 +7,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
+import {cacheByRepo, buildRepoURL} from '../github-helpers/index.js'; // Imported the buildRepoURL function #7148
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
-import {buildRepoURL} from '../github-helpers/index.js'; // imported the helper function to build repository URLs #7148
 
 type CommitTarget = {
 	oid: string;
