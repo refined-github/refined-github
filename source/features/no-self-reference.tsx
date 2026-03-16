@@ -4,12 +4,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLAnchorElement): void {
-	// TODO: Revert #9086 once #6554 is resolved
-	if (
-		link.href !== location.href
-		// Exclude reference to a comment on the same page
-		|| link.href.includes('#')
-	) {
+	if (link.href !== location.href) {
 		return;
 	}
 
@@ -26,7 +21,9 @@ function underlineSelfReference(link: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.markdown-body:is(:not(section[aria-label="Events"] *)) a.issue-link', underlineSelfReference, {signal});
+	// TODO: Revert #9086 once #6554 is resolved
+	// Exclude reference to a comment on the same page
+	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {
