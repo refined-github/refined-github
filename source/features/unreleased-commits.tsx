@@ -34,14 +34,12 @@ type RepoPublishState = {
 type Tags = {
 	name: string;
 	tag: {
-		oid: string;
+		history?: {totalCount: number}; // Lightweight tag (Commit)
 		commit?: {
-			oid: string;
+			history?: {totalCount: number}; // Annotated tag (Tag → Commit)
 		};
 	};
 };
-
-const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 100 commits #5505
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
@@ -54,20 +52,22 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 			};
 		}
 
-		const tags = new Map<string, string>();
+		const tags = new Map<string, number>();
 		for (const node of repository.refs.nodes as Tags[]) {
-			tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
+			const totalCount = node.tag.commit?.history?.totalCount ?? node.tag.history?.totalCount;
+			if (totalCount !== undefined) {
+				tags.set(node.name, totalCount);
+			}
 		}
 
-		// If this logic ever gets dropped or becomes simpler, consider using the native "compare" API
-		// https://github.com/refined-github/refined-github/issues/6094
 		const latestTag = getLatestVersionTag([...tags.keys()]);
-		const latestTagOid = tags.get(latestTag)!;
-		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+		const latestTagTotalCount = tags.get(latestTag)!;
+		const headTotalCount = repository.defaultBranchRef.target.history.totalCount;
+		const aheadBy = headTotalCount - latestTagTotalCount;
 
 		return {
 			latestTag,
-			aheadBy: aheadBy === -1 ? undeterminableAheadBy : aheadBy,
+			aheadBy,
 		};
 	},
 	maxAge: {hours: 1},
@@ -79,11 +79,7 @@ async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'More than 100 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
+	const label = `${pluralize(aheadBy, '$$ unreleased commit')}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
 		<a
@@ -92,7 +88,7 @@ async function createLink(
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+			<sup className="ml-n2"> +{aheadBy}</sup>
 		</a>
 	);
 }
@@ -202,7 +198,7 @@ Test URLs
 Repo with no tags (no button)
 https://github.com/refined-github/yolo
 
-Repo with too many unreleased commits
+Repo with many unreleased commits (exact count shown)
 https://github.com/refined-github/sandbox
 
 Repo with some unreleased commits

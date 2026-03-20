@@ -8,10 +8,18 @@ query GetPublishRepoState($owner: String!, $name: String!) {
 			nodes {
 				name
 				tag: target {
-					oid
 					... on Tag {
 						commit: target {
-							oid
+							... on Commit {
+								history {
+									totalCount
+								}
+							}
+						}
+					}
+					... on Commit {
+						history {
+							totalCount
 						}
 					}
 				}
@@ -20,10 +28,8 @@ query GetPublishRepoState($owner: String!, $name: String!) {
 		defaultBranchRef {
 			target {
 				... on Commit {
-					history(first: 100) {
-						nodes {
-							oid
-						}
+					history {
+						totalCount
 					}
 				}
 			}
