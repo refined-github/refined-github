@@ -1,7 +1,7 @@
 import {buildRepoURL} from './index.js';
 
 // Build the commits page URL.
-export function buildCommitsPageUrl(commitSha?: string, commitsCount?: number): string {
+export default function buildCommitsPageUrl(commitSha?: string, commitsCount?: number): string {
 	if (!commitsCount || commitsCount <= 1) {
 		return buildRepoURL('commits');
 	}
