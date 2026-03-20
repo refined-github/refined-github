@@ -176,10 +176,10 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
 
 		const link = $('a', discardItem);
-		link.removeAttribute('href');
 		link.className = [...link.classList].filter(className => !/link/i.test(className)).join(' ');
 		link.ariaLabelledByElements = [label];
 		link.ariaKeyShortcuts = 'd';
+		link.removeAttribute('href');
 		replaceElementTypeInPlace(link, 'div');
 
 		editFile.after(discardItem);
