@@ -41,7 +41,7 @@ type Tags = {
 	};
 };
 
-const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
+const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 100 commits #5505
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
@@ -81,7 +81,7 @@ async function createLink(
 ): Promise<HTMLElement> {
 	const commitCount
 		= aheadBy === undeterminableAheadBy
-			? 'More than 20 unreleased commits'
+			? 'More than 100 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 

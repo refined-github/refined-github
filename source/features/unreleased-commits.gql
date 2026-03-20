@@ -20,7 +20,7 @@ query GetPublishRepoState($owner: String!, $name: String!) {
 		defaultBranchRef {
 			target {
 				... on Commit {
-					history(first: 20) {
+					history(first: 100) {
 						nodes {
 							oid
 						}
