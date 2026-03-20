@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
-import { buildCommitsPageUrl } from '../github-helpers/get-first-commit-page.js';
+import {buildCommitsPageUrl} from '../github-helpers/get-first-commit-page.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
