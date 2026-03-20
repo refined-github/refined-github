@@ -12,7 +12,6 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
@@ -169,20 +168,9 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
 		const discardItem = editFile.cloneNode(true);
 		discardItem.classList.add('rgh-restore-file');
-		const id = crypto.randomUUID();
-
-		const label = $('[class^="prc-ActionList-ItemLabel"]', discardItem);
-		label.id = `${id}--label`;
-		label.textContent = 'Discard changes';
+		$('a', discardItem).removeAttribute('href');
+		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
 		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
-
-		const link = $('a', discardItem);
-		link.id = id;
-		link.className = [...link.classList].filter(className => !/link/i.test(className)).join(' ');
-		link.ariaLabelledByElements = [label];
-		link.ariaKeyShortcuts = 'd';
-		link.removeAttribute('href');
-		replaceElementTypeInPlace(link, 'div');
 
 		editFile.after(discardItem);
 	});

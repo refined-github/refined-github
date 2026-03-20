@@ -30,22 +30,14 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 	);
 }
 
-function createMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
+function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
 	const menuItem = viewFile.cloneNode(true);
-	const id = crypto.randomUUID();
-
-	const label = $('[class^="prc-ActionList-ItemLabel"]', menuItem);
-	label.id = `${id}--label`;
-	label.textContent = `View ${name}`;
-	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
-
 	const fileLink = $('a', viewFile).href;
 	const link = $('a', menuItem);
-	link.id = id;
 	link.href = new GitHubFileURL(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
-	link.ariaLabelledByElements = [label];
-
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 	return menuItem;
 }
 
@@ -60,9 +52,9 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
 		const {nextElementSibling} = viewFile;
 		viewFile.after(
-			createMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
-			createMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
-			createMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
+			getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
+			getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
+			getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
 			!nextElementSibling || nextElementSibling.getAttribute('data-component') === 'ActionList.Divider'
 				? ''
 				: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
