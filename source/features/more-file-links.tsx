@@ -32,14 +32,16 @@ function handleLegacyMenuOpening({delegateTarget: dropdown}: DelegateEvent): voi
 
 function createMenuItem(viewFile: HTMLElement, name: string, route: string, icon: React.JSX.Element): HTMLElement {
 	const menuItem = viewFile.cloneNode(true);
+	const id = crypto.randomUUID();
 
 	const label = $('[class^="prc-ActionList-ItemLabel"]', menuItem);
-	label.id = crypto.randomUUID();
+	label.id = `${id}--label`;
 	label.textContent = `View ${name}`;
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 
 	const fileLink = $('a', viewFile).href;
 	const link = $('a', menuItem);
+	link.id = id;
 	link.href = new GitHubFileURL(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
 	link.ariaLabelledByElements = [label];
