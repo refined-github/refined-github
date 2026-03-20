@@ -7,7 +7,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, buildRepoURL} from '../github-helpers/index.js';
+import {cacheByRepo} from '../github-helpers/index.js';
+import { buildCommitsPageUrl } from '../github-helpers/get-first-commit-page.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
@@ -15,7 +16,6 @@ import {randomArrayItem} from '../helpers/math.js';
 type CommitTarget = {
 	oid: string;
 	committedDate: string;
-	resourcePath: string;
 	history: {
 		totalCount: number;
 	};
@@ -37,7 +37,7 @@ const fresh = [
 	'So it begins, the great battle of our time',
 ];
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> {
+async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, commitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -50,20 +50,20 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
-	const commitsUrl = buildRepoURL('commits', `?after=${commitSha}+${commitsCount - 2}`);
-	return [committedDate, commitsUrl];
+	const commitsPageUrl = buildCommitsPageUrl(commitSha, commitsCount);
+	return [committedDate, commitsPageUrl];
 }
 
 const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, resourcePath: string]> {
+	async updater(): Promise<[committedDate: string, commitsPageUrl: string]> {
 		const {repository} = await api.v4(GetFirstCommit);
 
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
-			const commitsUrl = buildRepoURL('commits', `?after=${commitSha}+${commitsCount - 2}`);
-			return [committedDate, commitsUrl];
+			const commitsPageUrl = buildCommitsPageUrl(undefined, commitsCount);
+			return [committedDate, commitsPageUrl];
 		}
 
 		return getRepoAge(commitSha, commitsCount);
@@ -121,5 +121,6 @@ Test URLs:
 
 https://github.com/refined-github/sandbox
 https://github.com/refined-github/sandbox/tree/6619
+https://github.com/bfred-it/bfred-it.github.io
 
 */
