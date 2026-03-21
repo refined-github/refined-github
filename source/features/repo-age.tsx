@@ -85,7 +85,7 @@ async function init(): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, firstCommitHref] = await firstCommit.get();
+	const [firstCommitDate, commitsPageUrl] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
@@ -103,7 +103,7 @@ async function init(): Promise<void> {
 	sidebarForksLinkIcon!.closest('.mt-2')!.after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
-			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+			<a href={commitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 				<RepoIcon className="mr-2" /> {age}
 			</a>
 		</div>,
