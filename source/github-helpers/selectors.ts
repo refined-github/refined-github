@@ -46,11 +46,7 @@ export const branchSelector_ = [
 export const branchSelectorParent = 'details#branch-select-menu';
 export const branchSelectorParent_ = branchSelector_;
 
-export const directoryListingFileIcon = [
-	// .color-fg-muted selects only files; some icon extensions use `img` tags
-	'.react-directory-filename-column > :is(svg, img).color-fg-muted',
-	'.js-navigation-container .octicon-file',
-];
+export const directoryListingFileIcon = '.react-directory-filename-column > .octicon-file';
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
