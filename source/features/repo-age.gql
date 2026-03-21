@@ -6,7 +6,6 @@ query GetRepoAge($owner: String!, $name: String!, $cursor: String!) {
 					history(first: 5, after: $cursor) {
 						nodes {
 							committedDate
-							resourcePath
 						}
 					}
 				}
