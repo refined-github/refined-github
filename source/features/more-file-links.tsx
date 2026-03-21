@@ -36,6 +36,7 @@ function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: R
 	const link = $('a', menuItem);
 	link.href = new GitHubFileURL(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
+	link.removeAttribute('aria-labelledby');
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 	return menuItem;
