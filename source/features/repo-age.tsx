@@ -7,8 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import buildCommitsPageUrl from '../github-helpers/get-first-commit-page.js';
+import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
@@ -37,6 +36,15 @@ const fresh = [
 	'So it begins, the great battle of our time',
 ];
 
+function buildCommitsPageUrl(commitSha: string, commitsCount: number): string {
+	if (commitsCount <= 2) {
+		return buildRepoURL('commits');
+	}
+
+	const offset = commitsCount - 2;
+	return buildRepoURL('commits', `?after=${commitSha}+${offset}`);
+}
+
 async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, commitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
@@ -49,7 +57,6 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
-	// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
 	const commitsPageUrl = buildCommitsPageUrl(commitSha, commitsCount);
 	return [committedDate, commitsPageUrl];
 }
@@ -61,8 +68,7 @@ const firstCommit = new CachedFunction('first-commit', {
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
-			// Go to the last page of commits, which is where the first commit is, and then go back a few commits to be sure to get a valid commit #7148
-			const commitsPageUrl = buildCommitsPageUrl(undefined, commitsCount);
+			const commitsPageUrl = buildCommitsPageUrl(commitSha, commitsCount);
 			return [committedDate, commitsPageUrl];
 		}
 
