@@ -36,7 +36,7 @@ const fresh = [
 	'So it begins, the great battle of our time',
 ];
 
-function buildCommitsPageUrl(commitSha: string, commitsCount: number): string {
+function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): string {
 	if (commitsCount <= 2) {
 		return buildRepoURL('commits');
 	}
@@ -45,7 +45,7 @@ function buildCommitsPageUrl(commitSha: string, commitsCount: number): string {
 	return buildRepoURL('commits', `?after=${commitSha}+${offset}`);
 }
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, commitsPageUrl: string]> {
+async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -57,19 +57,19 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
-	const commitsPageUrl = buildCommitsPageUrl(commitSha, commitsCount);
-	return [committedDate, commitsPageUrl];
+	const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
+	return [committedDate, lastCommitsPageUrl];
 }
 
 const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, commitsPageUrl: string]> {
+	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 		const {repository} = await api.v4(GetFirstCommit);
 
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
-			const commitsPageUrl = buildCommitsPageUrl(commitSha, commitsCount);
-			return [committedDate, commitsPageUrl];
+			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
+			return [committedDate, lastCommitsPageUrl];
 		}
 
 		return getRepoAge(commitSha, commitsCount);
@@ -85,7 +85,7 @@ async function init(): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, commitsPageUrl] = await firstCommit.get();
+	const [firstCommitDate, lastCommitsPageUrl] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
@@ -103,7 +103,7 @@ async function init(): Promise<void> {
 	sidebarForksLinkIcon!.closest('.mt-2')!.after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
-			<a href={commitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 				<RepoIcon className="mr-2" /> {age}
 			</a>
 		</div>,
