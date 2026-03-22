@@ -31,8 +31,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 
 				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
 
-				window.scrollBy({
-					top: 100,
+				newCommentBox.scrollIntoView({
 					behavior: 'smooth',
 				});
 			}}
