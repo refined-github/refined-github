@@ -3,7 +3,6 @@ import './sticky-sidebar.css';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {onAbort} from 'abort-utils';
-import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -12,10 +11,9 @@ import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	'.Layout-sidebar .BorderGrid', // `isRepoRoot`
-	'.Layout-sidebar #partial-discussion-sidebar', // Old `isConversation`
-	'div[data-testid="issue-viewer-metadata-pane"]', // `isConversation`
-	'#discussion_bucket #partial-discussion-sidebar', // `isDiscussion`
+	'#partial-discussion-sidebar', // `isDiscussion`, `isPRConversation`
+	'div[class^="prc-PageLayout-Pane"]:has(> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"])', // `isRepoRoot`
+	'.Layout-sidebar .BorderGrid', // Old `isRepoRoot` - Remove after August 2026
 ];
 
 let sidebar: HTMLElement | undefined;
@@ -35,18 +33,13 @@ function toggleHoverState(event: MouseEvent): void {
 
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
-	if (elementExists('[data-testid="sticky-sidebar"]', foundSidebar)) {
-		return;
-	}
-
 	sidebar = foundSidebar;
+	sidebar.style.height = 'min-content';
+
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
 		sidebar = undefined;
 	});
-
-	const container = sidebar.parentElement!.id === 'discussion_bucket' ? sidebar : sidebar.parentElement!;
-	container.classList.add('rgh-sticky-sidebar-container');
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
@@ -61,7 +54,7 @@ function updateStickiness(): void {
 	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
 		window.innerWidth >= minimumViewportWidthForSidebar
-		&& sidebar.offsetHeight + offset < window.innerHeight,
+		&& sidebar.offsetHeight + offset <= window.innerHeight,
 	);
 }
 
@@ -79,7 +72,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
-		pageDetect.isConversation,
+		pageDetect.isPRConversation,
 		pageDetect.isDiscussion,
 	],
 	exclude: [
@@ -92,7 +85,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-Repo: https://github.com/refined-github/refined-github
-Conversation: https://github.com/refined-github/refined-github/issues/6752
+- Repo: https://github.com/refined-github/refined-github
+- PR conversation: https://github.com/refined-github/refined-github/pull/755
+- Discussion: https://github.com/orgs/community/discussions/40299
 
 */

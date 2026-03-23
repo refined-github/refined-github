@@ -69,6 +69,7 @@ declare namespace JSX {
 		'action-menu': IntrinsicElements.HTMLELement;
 		'focus-group': IntrinsicElements.HTMLELement;
 		'action-list': IntrinsicElements.HTMLELement;
+		'tool-tip': IntrinsicElements.HTMLElement;
 	}
 
 	type BaseElement = IntrinsicElements['div'];

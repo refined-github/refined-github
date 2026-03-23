@@ -110,7 +110,7 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class^="ShortcutsDialog-module__ColumnsContainer"]', improveShortcutHelp, {signal});
+	observe('div[class^="ShortcutsDialog"][class*="ColumnsContainer"]', improveShortcutHelp, {signal});
 }
 
 void features.add(import.meta.url, {

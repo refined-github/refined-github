@@ -33,7 +33,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 }
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
-export function createInvisibleAnchors(element: HTMLElement): void {
+export function repositionAnchors(element: HTMLElement): void {
 	// TODO: bump min firefox version to 147 and safari to 26 in 2027
 	if (!CSS.supports('anchor-name: --test')) {
 		return;
@@ -54,14 +54,12 @@ export function createInvisibleAnchors(element: HTMLElement): void {
 
 	const links = $$('a', codeLine);
 	for (const [index, link] of links.entries()) {
-		const clonedLink = link.cloneNode(true);
-		clonedLink.className += ` ${codeLine.className} rgh-invisible-anchored-link`;
 		const anchor = `--rgh-${codeLine.id}-${index}`;
+		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
+		link.className = 'react-code-text rgh-anchored-link';
 		// @ts-expect-error -- Not widely available yet
-		link.style.anchorName = anchor;
-		// @ts-expect-error -- Not widely available yet
-		clonedLink.style.positionAnchor = anchor;
-		container.prepend(clonedLink);
+		link.style.positionAnchor = anchor;
+		container.prepend(link);
 	}
 
 	// Hide overflow
@@ -100,7 +98,7 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
-	createInvisibleAnchors(element);
+	repositionAnchors(element);
 }
 
 export function linkifyURLs(element: HTMLElement): void {
@@ -125,7 +123,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	}
 
 	zipTextNodes(element, linkified);
-	createInvisibleAnchors(element);
+	repositionAnchors(element);
 }
 
 export function parseBackticks(element: Element): void {
