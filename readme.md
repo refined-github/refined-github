@@ -396,7 +396,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 Most features can be disabled if they are JavaScript-based and you can override our CSS with your own in the extension options.
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/wiki/New-Feature-Request) Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) Users will always disagree with something. That being said, we're open to discussing things.
 
 ## Links
 
