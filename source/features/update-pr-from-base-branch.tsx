@@ -3,8 +3,6 @@ import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import CheckIcon from 'octicons-plain-react/Check';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -40,12 +38,12 @@ async function disableFeatureOnRepo(): Promise<void> {
 
 const updateMethods = {
 	merge: {
-		buttonLabel: 'Update branch',
-		menuItemLabel: 'Update with merge commit',
+		buttonLabel: 'Update',
+		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
 	},
 	rebase: {
-		buttonLabel: 'Rebase branch',
-		menuItemLabel: 'Update with rebase',
+		buttonLabel: 'Rebase',
+		tooltipLabel: 'Update branch with rebase using Refined GitHub',
 	},
 };
 
@@ -67,13 +65,15 @@ async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> 
 
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
+	const {method} = button.dataset as {method: UpdateMethod};
+
 	await showToast(async () => {
 		const {base} = getBranches();
 		const {id, headRefOid} = await getPrInfo(base.relative);
 		const options = {
 			expectedHeadOid: headRefOid,
 			pullRequestId: id,
-			updateMethod: currentUpdateMethod.toUpperCase(),
+			updateMethod: method.toUpperCase(),
 		};
 
 		// Reads Error#message or GitHub's "message" response
@@ -88,129 +88,49 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		doneMessage: 'Branch updated',
 	});
 
-	button.remove();
-}
-
-let currentUpdateMethod: UpdateMethod = 'merge';
-
-async function handleSelection({target}: Event): Promise<void> {
-	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const {method} = $('[aria-checked="true"]', target as HTMLElement).dataset;
-	currentUpdateMethod = method as UpdateMethod;
-	$(`.${updateButtonClass}`).textContent = updateMethods[currentUpdateMethod].buttonLabel;
-}
-
-function createMenuItems(): JSX.Element[] {
-	return Object.entries(updateMethods).map(([method, label], index) => (
-		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button data-method={method}
-				id={`item-${crypto.randomUUID()}`}
-				type="button"
-				role="menuitemradio"
-				className="ActionListContent"
-				aria-checked={`${index === 0}`}
-			>
-				<span className="ActionListItem-visual ActionListItem-action--leading">
-					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
-				</span>
-				<span className="ActionListItem-label">
-					{label.menuItemLabel}
-				</span>
-			</button>
-		</li>
-	));
+	button.closest('.ButtonGroup')!.remove();
 }
 
 const updateButtonClass = 'rgh-update-pr-from-base-branch';
-const updateOptionsMenuClass = 'rgh-update-pr-from-base-branch-menu';
 
 function createButton(): JSX.Element {
-	const baseId = `action-menu-${crypto.randomUUID()}`;
-	const updateButtonTooltipId = `tooltip-${crypto.randomUUID()}`;
-	const optionsTooltipId = `tooltip-${crypto.randomUUID()}`;
-
 	return (
 		<div className='ButtonGroup'>
-			<div>
-				<button
-					id="rgh-update-pr-from-base-branch-button"
-					className={`Button--secondary Button--medium Button ${updateButtonClass}`}
-					aria-labelledby={updateButtonTooltipId}
-					type="button">
-					<span className="Button-content">
-						<span className="Button-label">
-							{updateMethods.merge.buttonLabel}
-						</span>
-					</span>
-				</button>
-				<tool-tip
-					id={updateButtonTooltipId}
-					className="sr-only position-absolute"
-					for="rgh-update-pr-from-base-branch-button"
-					popover="manual"
-					data-direction="s"
-					data-type="label"
-					aria-hidden="true"
-					role="tooltip"
-					style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
-				>
-					Use Refined GitHub to update this PR from the base branch
-				</tool-tip>
-			</div>
-			<div>
-				<action-menu className={updateOptionsMenuClass} data-select-variant="single">
-					<focus-group direction="vertical" mnemonics retain>
+			{
+				Object.entries(updateMethods).map(([method, label]) => {
+					const buttonId = crypto.randomUUID();
+					const tooltipId = crypto.randomUUID();
+					return (
+						<div>
 						<button
-							id={`${baseId}-button`}
-							className="Button Button--iconOnly Button--secondary Button--medium"
-							// @ts-expect-error HTML standard
-							popovertarget={`${baseId}-overlay`}
-							aria-controls={`${baseId}-list`}
-							aria-haspopup="true"
-							aria-labelledby={optionsTooltipId}
-							type="button"
-						>
-							<TriangleDownIcon />
+							id={buttonId}
+							className={`Button--secondary Button--medium Button ${updateButtonClass}`}
+							data-method={method}
+							aria-labelledby={tooltipId}
+							type="button">
+							<span className="Button-content">
+								<span className="Button-label">
+									{label.buttonLabel}
+								</span>
+							</span>
 						</button>
 						<tool-tip
-							id={optionsTooltipId}
+							id={tooltipId}
 							className="sr-only position-absolute"
-							for={`${baseId}-button`}
+							for={buttonId}
 							popover="manual"
 							data-direction="s"
 							data-type="label"
 							aria-hidden="true"
 							role="tooltip"
+							style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
 						>
-							Update branch options
+							{label.tooltipLabel}
 						</tool-tip>
-						<anchored-position
-							id={`${baseId}-overlay`}
-							data-target="action-menu.overlay"
-							anchor={`${baseId}-button`}
-							align="end"
-							side="outside-bottom"
-							anchor-offset="normal"
-							popover="auto"
-						>
-							<div className="Overlay Overlay--size-auto">
-								<div className="Overlay-body Overlay-body--paddingNone">
-									<action-list>
-										<ul
-											id={`${baseId}-list`}
-											className="ActionListWrap--inset ActionListWrap"
-											aria-labelledby={`${baseId}-button`}
-											role="menu"
-										>
-											{createMenuItems()}
-										</ul>
-									</action-list>
-								</div>
-							</div>
-						</anchored-position>
-					</focus-group>
-				</action-menu>
-			</div>
+					</div>
+					)
+				})
+			}
 		</div>
 	);
 }
@@ -260,7 +180,6 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	}
 
 	delegate(`.${updateButtonClass}`, 'click', handler, {signal});
-	delegate(`.${updateOptionsMenuClass}`, 'itemActivated', handleSelection, {signal});
 	observe(prMergeabilityBoxHeader, addButton, {signal});
 	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
