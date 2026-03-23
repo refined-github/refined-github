@@ -127,8 +127,8 @@ function createButton(): JSX.Element {
 							>
 								{label.tooltipLabel}
 							</tool-tip>
-					</div>
-					)
+						</div>
+					);
 				})
 			}
 		</div>
