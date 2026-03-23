@@ -13,7 +13,8 @@ import api from '../github-helpers/api.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
-import {getConversationNumber, getRepo} from '../github-helpers/index.js';
+import {getRepo} from '../github-helpers/index.js';
+import UpdatePullRequestBranch from './update-pr-from-base-branch.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 
@@ -50,12 +51,17 @@ const updateMethods = {
 
 type UpdateMethod = keyof typeof updateMethods;
 
-async function mergeBranches(expectedHeadSha: string): Promise<AnyObject> {
-	return api.v3uncached(`pulls/${getConversationNumber()!}/update-branch`, {
-		method: 'PUT',
-		// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
-		body: {expected_head_sha: expectedHeadSha},
-		ignoreHTTPStatus: true, // eslint-disable-line @typescript-eslint/naming-convention -- Pre-existing
+type mergeBranchesOptions = {
+	expectedHeadOid: string;
+	pullRequestId: string;
+	updateMethod: Uppercase<UpdateMethod>;
+};
+
+async function mergeBranches(options: mergeBranchesOptions): Promise<AnyObject> {
+	return api.v4uncached(UpdatePullRequestBranch, {
+		variables: {
+			input: {...options}
+		}
 	});
 }
 
@@ -63,11 +69,17 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 	button.disabled = true;
 	await showToast(async () => {
 		const {base} = getBranches();
-		const {headRefOid} = await getPrInfo(base.relative);
+		const {id, headRefOid} = await getPrInfo(base.relative);
+		const options = {
+			expectedHeadOid: headRefOid,
+			pullRequestId: id,
+			updateMethod: currentUpdateMethod.toUpperCase(),
+		};
+
 		// Reads Error#message or GitHub's "message" response
 		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
-		const response = await mergeBranches(headRefOid).catch(error => error);
-		if (response instanceof Error || !response.ok) {
+		const response = await mergeBranches(options).catch(error => error);
+		if (response instanceof Error) {
 			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
 		}
 	}, {
