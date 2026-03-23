@@ -3,9 +3,9 @@ import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {CachedFunction} from 'webext-storage-cache';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import CheckIcon from 'octicons-plain-react/Check';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -51,17 +51,17 @@ const updateMethods = {
 
 type UpdateMethod = keyof typeof updateMethods;
 
-type mergeBranchesOptions = {
+type MergeBranchesOptions = {
 	expectedHeadOid: string;
 	pullRequestId: string;
 	updateMethod: Uppercase<UpdateMethod>;
 };
 
-async function mergeBranches(options: mergeBranchesOptions): Promise<AnyObject> {
+async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> {
 	return api.v4uncached(UpdatePullRequestBranch, {
 		variables: {
-			input: {...options}
-		}
+			input: {...options},
+		},
 	});
 }
 
@@ -80,7 +80,8 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
 		const response = await mergeBranches(options).catch(error => error);
 		if (response instanceof Error) {
-			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
+			// eslint-disable-next-line unicorn/prefer-type-error -- This is a generic error
+			throw new Error(`Error updating the branch: ${response.message}`, {cause: response});
 		}
 	}, {
 		message: 'Updating branch…',
