@@ -102,31 +102,31 @@ function createButton(): JSX.Element {
 					const tooltipId = crypto.randomUUID();
 					return (
 						<div>
-						<button
-							id={buttonId}
-							className={`Button--secondary Button--medium Button ${updateButtonClass}`}
-							data-method={method}
-							aria-labelledby={tooltipId}
-							type="button">
-							<span className="Button-content">
-								<span className="Button-label">
-									{label.buttonLabel}
+							<button
+								id={buttonId}
+								className={`Button--secondary Button--medium Button ${updateButtonClass}`}
+								data-method={method}
+								aria-labelledby={tooltipId}
+								type="button">
+								<span className="Button-content">
+									<span className="Button-label">
+										{label.buttonLabel}
+									</span>
 								</span>
-							</span>
-						</button>
-						<tool-tip
-							id={tooltipId}
-							className="sr-only position-absolute"
-							for={buttonId}
-							popover="manual"
-							data-direction="s"
-							data-type="label"
-							aria-hidden="true"
-							role="tooltip"
-							style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
-						>
-							{label.tooltipLabel}
-						</tool-tip>
+							</button>
+							<tool-tip
+								id={tooltipId}
+								className="sr-only position-absolute"
+								for={buttonId}
+								popover="manual"
+								data-direction="s"
+								data-type="label"
+								aria-hidden="true"
+								role="tooltip"
+								style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
+							>
+								{label.tooltipLabel}
+							</tool-tip>
 					</div>
 					)
 				})
