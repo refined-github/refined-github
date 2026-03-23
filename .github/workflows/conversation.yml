@@ -16,7 +16,7 @@ jobs:
       - uses: fregante/title-to-labels-action@v1
         with:
           token: ${{ github.token }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: fregante/keyword-formatter-action@v1
         with:
           token: ${{ github.token }}

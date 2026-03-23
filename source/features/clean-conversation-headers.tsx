@@ -23,8 +23,6 @@ async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: strin
 
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	summaryRow.classList.add('rgh-clean-conversation-headers');
-	// TODO: Remove after July 2026
-	summaryRow.parentElement!.closest('.d-flex')?.classList.add('flex-items-center');
 
 	const prCreatorSelector = [
 		'.TimelineItem .author',

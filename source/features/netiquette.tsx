@@ -63,7 +63,8 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 }
 
 function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): void {
-	if (elementExists('.rgh-resolved-banner')) {
+	const canOpenNewIssue = elementExists('li:has([data-content="Issues"])');
+	if (!canOpenNewIssue || elementExists('.rgh-resolved-banner')) {
 		return;
 	}
 

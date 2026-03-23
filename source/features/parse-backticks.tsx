@@ -18,6 +18,10 @@ const selectors = [
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
 	'.TimelineItem-body pre',
 
+	// `isIssue` linked PRs
+	// https://github.com/refined-github/refined-github/issues/7856
+	'span[id$="--label"]',
+
 	// `isPRFiles` sticky header PR title
 	// https://github.com/refined-github/refined-github/pull/9053/changes
 	'bdi[class*="pr-sticky-title"]',

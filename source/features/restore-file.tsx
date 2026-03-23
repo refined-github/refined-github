@@ -168,7 +168,10 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
 		const discardItem = editFile.cloneNode(true);
 		discardItem.classList.add('rgh-restore-file');
-		$('a', discardItem).removeAttribute('href');
+		const link = $('a', discardItem);
+		link.ariaKeyShortcuts = 'd';
+		link.removeAttribute('href');
+		link.removeAttribute('aria-labelledby');
 		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
 		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
 

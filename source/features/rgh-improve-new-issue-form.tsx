@@ -12,26 +12,45 @@ import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
+import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
-function addNotice(adjective: JSX.Element | string): void {
+function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className="flash flash-error h3 my-9" style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+			{message}
+		</div>,
+	);
+}
+
+function addTokenNotice(adjective: string): void {
+	addNotice(
+		'error',
+		<>
 			<p>
 				Your token is {adjective}. Many Refined GitHub features don't work without it.
 				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
-		</div>,
+		</>,
+	);
+}
+
+function addVersionNotice(releaseAgeInDays: number): void {
+	addNotice(
+		'warn',
+		<p>
+			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+		</p>,
 	);
 }
 
 async function checkToken(): Promise<void> {
 	const token = await getToken();
 	if (!token) {
-		addNotice('missing');
+		addTokenNotice('missing');
 		return;
 	}
 
@@ -42,7 +61,7 @@ async function checkToken(): Promise<void> {
 			return;
 		}
 
-		addNotice('invalid or expired');
+		addTokenNotice('invalid or expired');
 		return;
 	}
 
@@ -62,6 +81,14 @@ async function setVersion(): Promise<void> {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
 		field.disabled = true;
+	}
+}
+
+function checkVersionAge(): void {
+	const releaseDate = getExtensionReleaseDate();
+	const releaseAgeInDays = toDaysAgo(releaseDate);
+	if (wasReleasedLongAgo(releaseAgeInDays)) {
+		addVersionNotice(releaseAgeInDays);
 	}
 }
 
@@ -110,6 +137,7 @@ function init(signal: AbortSignal): void {
 		void checkToken();
 		void validateTokenCheckbox();
 		void setVersion();
+		checkVersionAge();
 	}, {signal});
 }
 

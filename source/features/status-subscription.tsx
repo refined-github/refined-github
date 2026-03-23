@@ -2,7 +2,7 @@ import './status-subscription.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
@@ -112,7 +112,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	'x-github-client-version': $('meta[name="release"]').content,
+	'x-github-client-version': 'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
 	credentials: 'include',
 });
 
@@ -122,7 +122,8 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	const repo = getRepo()!;
 
 	const body = {
-		query: 'fa182058c0b83a77481f98108cdbf1eb',
+		// `IssueViewerSecondaryViewQuery`
+		query: 'cb9b35846fadf5f80ec3a2c05bf42a89',
 		variables: {
 			number: getConversationNumber()!,
 			owner: repo.owner,
@@ -145,6 +146,7 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 	const {id} = issue.repository.issue;
 
 	const body = {
+		// `updateIssueSubscriptionMutation`
 		query: 'd0752b2e49295017f67c84f21bfe41a3',
 		variables: {
 			input: {

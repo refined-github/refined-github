@@ -1,0 +1,36 @@
+name: PR etiquette
+
+on:
+  pull_request_target:
+    types: [synchronize]
+
+jobs:
+  no-force-push:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check if force push
+        id: check
+        uses: actions/github-script@v8
+        with:
+          result-encoding: string
+          script: |
+            const { data } = await github.rest.repos.compareCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base: context.payload.before,
+              head: context.payload.after,
+            });
+
+            // This intentionally allows "force push to undo commit"
+            return String(data.status === 'diverged');
+
+      - if: steps.check.outputs.result == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
+
+            Just push new commits on top of the branch instead — PRs are squashed on merge, so the commit history doesn't need to be clean.
