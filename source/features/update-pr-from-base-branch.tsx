@@ -4,6 +4,8 @@ import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {CachedFunction} from 'webext-storage-cache';
+import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
+import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -35,6 +37,19 @@ async function disableFeatureOnRepo(): Promise<void> {
 	await nativeRepos.applyOverride([repo], true);
 }
 
+const updateMethods = {
+	merge: {
+		buttonLabel: 'Update branch',
+		menuItemLabel: 'Update with merge commit',
+	},
+	rebase: {
+		buttonLabel: 'Rebase branch',
+		menuItemLabel: 'Update with rebase',
+	},
+};
+
+type UpdateMethod = keyof typeof updateMethods;
+
 async function mergeBranches(expectedHeadSha: string): Promise<AnyObject> {
 	return api.v3uncached(`pulls/${getConversationNumber()!}/update-branch`, {
 		method: 'PUT',
@@ -63,15 +78,127 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 	button.remove();
 }
 
+let currentUpdateMethod: UpdateMethod = 'merge';
+
+async function handleSelection({target}: Event): Promise<void> {
+	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
+	const {method} = $('[aria-checked="true"]', target as HTMLElement).dataset;
+	currentUpdateMethod = method as UpdateMethod;
+	$(`.${updateButtonClass}`).textContent = updateMethods[currentUpdateMethod].buttonLabel;
+}
+
+function createMenuItems(): JSX.Element[] {
+	return Object.entries(updateMethods).map(([method, label], index) => (
+		<li data-targets="action-list.items" role="none" className="ActionListItem">
+			<button data-method={method}
+				id={`item-${crypto.randomUUID()}`}
+				type="button"
+				role="menuitemradio"
+				className="ActionListContent"
+				aria-checked={`${index === 0}`}
+			>
+				<span className="ActionListItem-visual ActionListItem-action--leading">
+					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
+				</span>
+				<span className="ActionListItem-label">
+					{label.menuItemLabel}
+				</span>
+			</button>
+		</li>
+	));
+}
+
+const updateButtonClass = 'rgh-update-pr-from-base-branch';
+const updateOptionsMenuClass = 'rgh-update-pr-from-base-branch-menu';
+
 function createButton(): JSX.Element {
+	const baseId = `action-menu-${crypto.randomUUID()}`;
+	const updateButtonTooltipId = `tooltip-${crypto.randomUUID()}`;
+	const optionsTooltipId = `tooltip-${crypto.randomUUID()}`;
+
 	return (
-		<button
-			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w"
-			aria-label="Use Refined GitHub to update the PR from the base branch"
-		>
-			Update branch
-		</button>
+		<div className='ButtonGroup'>
+			<div>
+				<button
+					id="rgh-update-pr-from-base-branch-button"
+					className={`Button--secondary Button--medium Button ${updateButtonClass}`}
+					aria-labelledby={updateButtonTooltipId}
+					type="button">
+					<span className="Button-content">
+						<span className="Button-label">
+							{updateMethods.merge.buttonLabel}
+						</span>
+					</span>
+				</button>
+				<tool-tip
+					id={updateButtonTooltipId}
+					className="sr-only position-absolute"
+					for="rgh-update-pr-from-base-branch-button"
+					popover="manual"
+					data-direction="s"
+					data-type="label"
+					aria-hidden="true"
+					role="tooltip"
+					style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
+				>
+					Use Refined GitHub to update this PR from the base branch
+				</tool-tip>
+			</div>
+			<div>
+				<action-menu className={updateOptionsMenuClass} data-select-variant="single">
+					<focus-group direction="vertical" mnemonics retain>
+						<button
+							id={`${baseId}-button`}
+							className="Button Button--iconOnly Button--secondary Button--medium"
+							// @ts-expect-error HTML standard
+							popovertarget={`${baseId}-overlay`}
+							aria-controls={`${baseId}-list`}
+							aria-haspopup="true"
+							aria-labelledby={optionsTooltipId}
+							type="button"
+						>
+							<TriangleDownIcon />
+						</button>
+						<tool-tip
+							id={optionsTooltipId}
+							className="sr-only position-absolute"
+							for={`${baseId}-button`}
+							popover="manual"
+							data-direction="s"
+							data-type="label"
+							aria-hidden="true"
+							role="tooltip"
+						>
+							Update branch options
+						</tool-tip>
+						<anchored-position
+							id={`${baseId}-overlay`}
+							data-target="action-menu.overlay"
+							anchor={`${baseId}-button`}
+							align="end"
+							side="outside-bottom"
+							anchor-offset="normal"
+							popover="auto"
+						>
+							<div className="Overlay Overlay--size-auto">
+								<div className="Overlay-body Overlay-body--paddingNone">
+									<action-list>
+										<ul
+											id={`${baseId}-list`}
+											className="ActionListWrap--inset ActionListWrap"
+											aria-labelledby={`${baseId}-button`}
+											role="menu"
+										>
+											{createMenuItems()}
+										</ul>
+									</action-list>
+								</div>
+							</div>
+						</anchored-position>
+					</focus-group>
+				</action-menu>
+			</div>
+		</div>
 	);
 }
 
@@ -110,7 +237,7 @@ async function addButton(): Promise<void> {
 	const mergeabilityRow = $(
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
 	);
-	mergeabilityRow.prepend(createButton());
+	mergeabilityRow.append(createButton());
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
@@ -119,7 +246,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
+	delegate(`.${updateButtonClass}`, 'click', handler, {signal});
+	delegate(`.${updateOptionsMenuClass}`, 'itemActivated', handleSelection, {signal});
 	observe(prMergeabilityBoxHeader, addButton, {signal});
 	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
