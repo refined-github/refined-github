@@ -171,9 +171,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	const mergeabilityRow = $(
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
-	);
+	const mergeabilityRow = $('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__contentLayout"]');
 	mergeabilityRow.append(createButton());
 }
 
