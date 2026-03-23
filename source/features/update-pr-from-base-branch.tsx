@@ -3,7 +3,6 @@ import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import CheckIcon from 'octicons-plain-react/Check';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -13,7 +12,6 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';
-import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 
@@ -29,15 +27,6 @@ const nativeRepos = new CachedFunction('native-update-button', {
 		throw new TypeError('bad usage');
 	},
 });
-
-function canNativelyUpdate(): boolean {
-	if (elementExists('.js-update-branch-form')) {
-		return true;
-	}
-
-	const nativeButton = $optional('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]');
-	return nativeButton?.textContent === 'Update branch';
-}
 
 async function disableFeatureOnRepo(): Promise<void> {
 	const repo = getRepo()!.nameWithOwner;
@@ -86,6 +75,27 @@ function createButton(): JSX.Element {
 	);
 }
 
+const nativeUpdateButtonSelector = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
+
+function canNativelyUpdate(): boolean {
+	const nativeButton = $optional(nativeUpdateButtonSelector);
+	return nativeButton?.textContent === 'Update branch';
+}
+
+async function canUpdateBranch(): Promise<boolean> {
+	const {base} = getBranches();
+	const prInfo = await getPrInfo(base.relative);
+	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
+
+	return prInfo.needsUpdate
+		&& prInfo.mergeable !== 'CONFLICTING'
+		&& (
+			prInfo.viewerCanUpdate
+			|| prInfo.viewerCanEditFiles
+			|| hasBranchAccess
+		);
+}
+
 async function addButton(): Promise<void> {
 	if (canNativelyUpdate()) {
 		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
@@ -93,58 +103,14 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	const mergeBar = $([
-		'.mergeability-details > *:last-child',
-		'[class^="MergeBox-module__mergePartialContainer"]',
-	]);
-
-	const {base} = getBranches();
-	const prInfo = await getPrInfo(base.relative);
-	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
-	if (
-		!prInfo.needsUpdate
-		|| prInfo.mergeable === 'CONFLICTING'
-		|| !(
-			prInfo.viewerCanUpdate
-			|| prInfo.viewerCanEditFiles
-			|| hasBranchAccess
-		)
-	) {
+	if (!await canUpdateBranch()) {
 		return;
 	}
 
-	const mergeabilityRow = $optional([
-		'.branch-action-item:has(.merging-body)', // TODO: Drop after June 2025
+	const mergeabilityRow = $(
 		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
-	]);
-
-	if (mergeabilityRow) {
-		const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
-		const positionClass = isOldView
-			? 'float-right'
-			: 'flex-order-2 flex-self-center';
-
-		mergeabilityRow.prepend(
-			<div
-				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
-			>
-				{createButton()}
-			</div>,
-		);
-	} else {
-		// We need to create a new row when `Checks` is present
-		const checkFailed = $optional('[aria-label="Checks"]');
-		// Old view draft PRs require a new row to display the button
-		// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
-		(checkFailed ?? mergeBar).before(createMergeabilityRow({
-			className: 'rgh-update-pr-from-base-branch-row',
-			action: createButton(),
-			icon: <CheckIcon />,
-			iconClass: 'completeness-indicator-success',
-			heading: 'This branch has no conflicts with the base branch',
-			meta: 'Merging can be performed automatically.',
-		}));
-	}
+	);
+	mergeabilityRow.prepend(createButton());
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
@@ -154,14 +120,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	}
 
 	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe([
-		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
-		prMergeabilityBoxHeader,
-	], addButton, {signal});
-	observe([
-		'.js-update-branch-form', // Old view - TODO: Remove in July 2025
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]',
-	], disableFeatureOnRepo, {signal});
+	observe(prMergeabilityBoxHeader, addButton, {signal});
+	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {
