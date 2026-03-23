@@ -3,14 +3,11 @@ import {getConversationNumber} from './index.js';
 
 export type PullRequestInfo = {
 	id: string;
-
 	baseRefOid: string;
 	headRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
-
 	viewerCanUpdate: boolean;
-
 	// It's not clear why this is `false` on a PR I received (I *can* edit the files), but I'm leaving it as a fallback
 	viewerCanEditFiles: boolean;
 	needsUpdate: boolean;
