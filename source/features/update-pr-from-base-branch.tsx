@@ -37,11 +37,11 @@ async function disableFeatureOnRepo(): Promise<void> {
 }
 
 const updateMethods = {
-	merge: {
+	MERGE: {
 		buttonLabel: 'Update',
 		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
 	},
-	rebase: {
+	REBASE: {
 		buttonLabel: 'Rebase',
 		tooltipLabel: 'Update branch with rebase using Refined GitHub',
 	},
@@ -52,7 +52,7 @@ type UpdateMethod = keyof typeof updateMethods;
 type MergeBranchesOptions = {
 	expectedHeadOid: string;
 	pullRequestId: string;
-	updateMethod: Uppercase<UpdateMethod>;
+	updateMethod: UpdateMethod;
 };
 
 async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> {
@@ -73,7 +73,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		const options = {
 			expectedHeadOid: headRefOid,
 			pullRequestId: id,
-			updateMethod: method.toUpperCase(),
+			updateMethod: method,
 		};
 		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
 		const response = await mergeBranches(options).catch(error => error);

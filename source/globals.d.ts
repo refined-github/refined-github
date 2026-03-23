@@ -99,9 +99,3 @@ interface Node extends EventTarget {
 interface SignalAsOptions {
 	signal?: AbortSignal;
 }
-
-// Make `string.toUpperCase()` preserve its value instead of returning string
-interface String {
-	/** Converts all the alphabetic characters in a string to uppercase. */
-	toUpperCase<S extends string>(this: S): Uppercase<S>;
-}
