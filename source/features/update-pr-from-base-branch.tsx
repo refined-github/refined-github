@@ -38,7 +38,7 @@ async function disableFeatureOnRepo(): Promise<void> {
 
 const updateMethods = {
 	MERGE: {
-		buttonLabel: 'Update',
+		buttonLabel: 'Update branch',
 		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
 	},
 	REBASE: {
