@@ -16,6 +16,16 @@ const markAllDone = getIdentifiers('mark-all-notifications-done');
 // goes to /notifications?query=repo%3Aowner%2Frepo
 const viewAllSelector = 'a[href^="/notifications?query="]';
 
+function findViewAllLink(group: Element): HTMLAnchorElement | undefined {
+	for (const link of group.querySelectorAll<HTMLAnchorElement>(viewAllSelector)) {
+		if (link.textContent?.trim().startsWith('View all')) {
+			return link;
+		}
+	}
+
+	return undefined;
+}
+
 async function markNotificationDone(notification: Element): Promise<void> {
 	const doneButton = notification.querySelector('[title="Done"]');
 	if (!doneButton) {
@@ -29,19 +39,23 @@ async function markNotificationDone(notification: Element): Promise<void> {
 
 	const action = new URL(form.getAttribute('action')!, location.origin).href;
 	// FormData includes GitHub's authenticity_token hidden input, handling CSRF automatically
-	await fetch(action, {
-		method: form.method?.toUpperCase() || 'POST',
+	const response = await fetch(action, {
+		method: form.method.toUpperCase(),
 		body: new FormData(form),
-		headers: {
-			'X-Requested-With': 'XMLHttpRequest',
-		},
 	});
+	if (!response.ok) {
+		throw new Error(response.statusText);
+	}
 }
 
 async function handleMarkAllDone(event: DelegateEvent<MouseEvent>): Promise<void> {
-	const group = event.delegateTarget.closest('.js-notifications-group')!;
-	const viewAllLink = group.querySelector<HTMLAnchorElement>(viewAllSelector);
+	const button = event.delegateTarget as HTMLButtonElement;
+	button.disabled = true;
+
+	const group = button.closest('.js-notifications-group')!;
+	const viewAllLink = findViewAllLink(group);
 	if (!viewAllLink) {
+		button.disabled = false;
 		return;
 	}
 
@@ -74,14 +88,19 @@ async function handleMarkAllDone(event: DelegateEvent<MouseEvent>): Promise<void
 				processed++;
 				progress(`Marking as done: ${processed}…`);
 				// eslint-disable-next-line no-await-in-loop
-				await delay(150);
+				await delay(100);
 			}
 
 			const nextHref = page.querySelector('a[aria-label="Next"]')?.getAttribute('href');
 			url = nextHref ? new URL(nextHref, location.origin).href : undefined;
 		}
 
-		group.remove();
+		if (failures < processed) {
+			group.remove();
+		} else {
+			button.disabled = false;
+		}
+
 		progress(
 			failures > 0
 				? `${processed - failures} notifications marked as done (${failures} failed)`
@@ -95,7 +114,7 @@ async function handleMarkAllDone(event: DelegateEvent<MouseEvent>): Promise<void
 
 function addMarkAllDoneButton(markReadButton: HTMLElement): void {
 	const group = markReadButton.closest('.js-notifications-group')!;
-	if (!group.querySelector(viewAllSelector)) {
+	if (!findViewAllLink(group)) {
 		return; // No overflow, no need for this button
 	}
 
