@@ -84,6 +84,7 @@
 	"list-prs-for-branch",
 	"list-prs-for-file",
 	"locked-issue",
+	"mark-all-notifications-done",
 	"mark-merge-commits-in-list",
 	"mark-private-orgs",
 	"more-dropdown-links",

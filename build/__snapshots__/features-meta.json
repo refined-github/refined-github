@@ -453,6 +453,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png"
 	},
 	{
+		"id": "mark-all-notifications-done",
+		"description": "Adds a “Mark all as done” button to notification groups with hidden notifications, marking every notification in the group as done including those behind the “View all” link.",
+		"screenshot": "https://raw.githubusercontent.com/mandrean/refined-github/mark-all-notifications-done/docs/screenshots/mark-all-notifications-done.png"
+	},
+	{
 		"id": "mark-merge-commits-in-list",
 		"description": "Marks merge commits in commit lists.",
 		"css": true,
