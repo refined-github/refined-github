@@ -37,10 +37,12 @@ async function disableFeatureOnRepo(): Promise<void> {
 }
 
 const updateMethods = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	MERGE: {
 		buttonLabel: 'Update branch',
 		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
 	},
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	REBASE: {
 		buttonLabel: 'Rebase',
 		tooltipLabel: 'Update branch with rebase using Refined GitHub',
