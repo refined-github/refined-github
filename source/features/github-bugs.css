@@ -151,12 +151,6 @@ div[class^='prc-PageHeader-Description']
 		align-items: center !important;
 	}
 }
-div[class^='MergeBoxSectionHeader-module__contentLayout'] {
-	/* Breakpoint matches GitHub's styles for this element */
-	@container (width >= 600px) {
-		align-items: center !important;
-	}
-}
 
 /*
 
