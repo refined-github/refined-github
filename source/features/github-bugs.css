@@ -141,7 +141,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	}
 }
 
-/* Horizontally PR summary row */
+/* Vertically center PR summary row */
 /* Info: https://github.com/refined-github/refined-github/pull/9116/ */
 /* Test: https://github.com/refined-github/sandbox/pull/61 */
 div[class^='prc-PageHeader-Description']
