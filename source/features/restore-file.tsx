@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {stringToBase64} from 'uint8array-extras';
 import UndoIcon from 'octicons-plain-react/Undo';
 
 import features from '../feature-manager.js';
