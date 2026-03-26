@@ -12,12 +12,17 @@ import PackageDependenciesIcon from 'octicons-plain-react/PackageDependencies';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoURL, isNewRepoNav} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
+	// New React nav manages overflow internally; cannot inject dropdown items
+	if (isNewRepoNav()) {
+		return false;
+	}
+
 	// Wait for the tab bar to be loaded
 	const repoNavigationBar = await elementReady('.UnderlineNav-body');
 
@@ -66,8 +71,13 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	await unhideOverflowDropdown();
 
+	// New React nav manages its own overflow; this feature only works on the old nav
+	if (isNewRepoNav()) {
+		return;
+	}
+
+	await unhideOverflowDropdown();
 	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
 }
 

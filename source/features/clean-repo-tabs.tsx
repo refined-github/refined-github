@@ -11,7 +11,12 @@ import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
+import {
+	buildRepoURL,
+	cacheByRepo,
+	getRepo,
+	isNewRepoNav,
+} from '../github-helpers/index.js';
 import {unhideOverflowDropdown} from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
@@ -21,14 +26,20 @@ async function canUserEditOrganization(): Promise<boolean> {
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
 		// User is on tab 👀
-		tab.matches('.selected')
+		tab.matches('.selected, [aria-current="page"]')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
 		|| pageDetect.canUserAdminRepo()
 	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	let tabCounter = $optional('.Counter, .num', tab);
+	let tabCounter = $optional([
+		// Old nav
+		'.Counter',
+		'.num',
+		// New Primer React nav
+		'[data-component="counter"] span[aria-hidden]',
+	], tab);
 	if (!tabCounter) {
 		tabCounter = <span className="Counter" /> as HTMLSpanElement;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
@@ -39,7 +50,15 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 }
 
 function onlyShowInDropdown(id: string): void {
-	// TODO: Use selector observer
+	if (isNewRepoNav()) {
+		// New React nav manages overflow internally; hide tab via CSS instead
+		const tab = $optional(`a[data-hotkey][href*="${id.replace('-tab', '')}"]`)
+			?? $optional(`[data-tab-item$="${id}"]`);
+		tab?.closest('li')?.setAttribute('hidden', '');
+		return;
+	}
+
+	// Old nav: move tab to overflow dropdown
 	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
 	if (!tabItem) { // #3962 #7140
 		return;
@@ -121,7 +140,19 @@ async function updateProjectsTab(): Promise<void | false> {
 }
 
 async function moveRareTabs(): Promise<void | false> {
-	// The user may have disabled `more-dropdown-links` so un-hide it
+	if (isNewRepoNav()) {
+		// New React nav: hide tabs directly via CSS; overflow is managed by React
+		const securityTab = $optional('[data-hotkey="g s"]')
+			?? $optional('[data-tab-item$="security-tab"]');
+		if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
+			onlyShowInDropdown('security-tab');
+		}
+
+		onlyShowInDropdown('insights-tab');
+		return;
+	}
+
+	// Old nav: use overflow dropdown
 	if (!await unhideOverflowDropdown()) {
 		return false;
 	}
@@ -129,7 +160,6 @@ async function moveRareTabs(): Promise<void | false> {
 	// Wait for the nav dropdown to be loaded #5244
 	await elementReady('.UnderlineNav-actions ul');
 
-	// Only hide security tab if there are no vulnerability alerts #8457
 	const securityTab = $optional('[data-tab-item$="security-tab"]');
 	if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
 		onlyShowInDropdown('security-tab');

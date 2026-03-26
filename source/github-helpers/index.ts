@@ -166,6 +166,11 @@ export function fixFileHeaderOverlap(child: Element): void {
 	child.closest('.container')?.classList.add('rgh-z-index-5');
 }
 
+/** Detect whether the current page uses the new Primer React repo navigation */
+export function isNewRepoNav(): boolean {
+	return Boolean(document.querySelector('nav[aria-label="Repository"] ul[role="list"]'));
+}
+
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
 	globalThis.dispatchEvent(new Event('resize'));

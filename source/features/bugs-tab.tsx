@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
 import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
@@ -80,7 +80,8 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	// Find Issues tab by hotkey (works in both old and new nav)
+	const issuesTab = await elementReady('a[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Issues are disabled
 		return false;
@@ -100,12 +101,25 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
-	// Set temporary counter
-	const bugsCounter = $('.Counter', bugsTab);
-	bugsCounter.textContent = '0';
-	bugsCounter.title = '';
+	// Icon: old nav uses `.octicon` with wrapper class; new nav wraps in `[data-component="icon"]`
+	const existingIcon = $optional('.octicon', bugsTab);
+	if (existingIcon) {
+		const isOldNav = existingIcon.classList.contains('UnderlineNav-octicon');
+		const iconClasses = isOldNav ? 'UnderlineNav-octicon d-none d-sm-inline' : '';
+		existingIcon.replaceWith(<BugIcon className={iconClasses || undefined} />);
+	}
+
+	const bugsCounter = $optional([
+		// Old nav
+		'.Counter',
+		// New Primer React nav
+		'[data-component="counter"] span[aria-hidden]',
+	], bugsTab);
+	if (bugsCounter) {
+		bugsCounter.textContent = '0';
+		bugsCounter.title = '';
+	}
 
 	// Update Bugs’ link
 	bugsTab.href = SearchQuery.from(bugsTab).append(await getSearchQueryBugLabel()).href;
@@ -122,18 +136,20 @@ async function addBugsTab(): Promise<void | false> {
 	// Update bugs count
 	try {
 		const {count: bugCount} = await bugsPromise;
-		bugsCounter.textContent = abbreviateNumber(bugCount);
-		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+		if (bugsCounter) {
+			bugsCounter.textContent = abbreviateNumber(bugCount);
+			bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+		}
 	} catch (error) {
-		bugsCounter.remove();
+		bugsCounter?.remove();
 		throw error; // Likely an API call error that will be handled by the init
 	}
 }
 
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
-	// Remove highlighting from "Issues" tab
-	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
+	// Remove highlighting from "Issues" tab (works in both old and new nav)
+	unhighlightTab($('a[data-hotkey="g i"]'));
 	highlightTab($('.rgh-bugs-tab'));
 }
 

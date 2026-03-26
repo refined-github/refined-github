@@ -5,7 +5,12 @@ const requiresLogin: UrlMatch[] = [];
 export type UrlMatch = [expectations: number, url: string];
 
 /** The repo navigation bar */
-export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
+export const repoUnderlineNavUl = [
+	// Old ViewComponent nav
+	'.js-responsive-underlinenav ul.UnderlineNav-body',
+	// New Primer React nav
+	'nav[aria-label="Repository"] ul[role="list"]',
+];
 export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	[1, 'https://github.com/refined-github/refined-github/releases'],
