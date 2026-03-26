@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {cacheByRepo, isNewRepoNav, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
@@ -82,7 +82,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// Find Issues tab by hotkey (old nav) or href (new React nav has no data-hotkey)
 	const issuesTab = await elementReady(
-		'a[data-hotkey="g i"], nav[aria-label="Repository"] ul[role="list"] a[href*="/issues"]',
+		'a[data-hotkey="g i"], nav[aria-label="Repository"] ul[role="list"] a[href$="/issues"]',
 		{waitForChildren: false},
 	);
 	if (!issuesTab) {
@@ -129,7 +129,12 @@ async function addBugsTab(): Promise<void | false> {
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
+		// New React nav uses bare <li>; old nav needs d-inline-flex
+		issuesTab.parentElement.after(
+			isNewRepoNav()
+				? <li>{bugsTab}</li>
+				: <li className="d-inline-flex">{bugsTab}</li>,
+		);
 	} else {
 		issuesTab.after(bugsTab);
 	}
@@ -153,7 +158,7 @@ async function addBugsTab(): Promise<void | false> {
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab (old nav uses hotkey, new React nav uses href)
 	const issuesTab = $optional('a[data-hotkey="g i"]')
-		?? $optional('nav[aria-label="Repository"] ul[role="list"] a[href*="/issues"]');
+		?? $optional('nav[aria-label="Repository"] ul[role="list"] a[href$="/issues"]');
 	if (issuesTab) {
 		unhighlightTab(issuesTab);
 	}
