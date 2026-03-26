@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import {$, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {stringToBase64} from 'uint8array-extras';
 import UndoIcon from 'octicons-plain-react/Undo';
 
 import features from '../feature-manager.js';
@@ -32,16 +31,16 @@ async function getHeadReference(): Promise<string> {
 
 async function getFile(filePath: string): Promise<string | undefined> {
 	const ref = await getMergeBaseReference();
-	const {textContent} = await api.v3(
+	const {content} = await api.v3(
 		`contents/${filePath}?ref=${ref}`,
 		{
-			json: false,
+			base64: true,
 			headers: {
 				Accept: 'application/vnd.github.raw',
 			},
 		},
 	);
-	return textContent;
+	return content;
 }
 
 async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
@@ -53,9 +52,8 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const isNewFile = !file;
 	const isRenamed = originalFileName !== newFileName;
 
-	const contents = file ? stringToBase64(file) : '';
 	const deleteNewFile = {deletions: [{path: newFileName}]};
-	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
+	const restoreOldFile = {additions: [{path: originalFileName, file}]};
 	const fileChanges = isRenamed
 		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
 		: isNewFile
