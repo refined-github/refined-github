@@ -98,7 +98,10 @@ const hasActionRuns = new CachedFunction('workflows-count', {
 });
 
 async function updateWikiTab(): Promise<void | false> {
-	const wikiTab = await elementReady('[data-hotkey="g w"]');
+	// Old nav uses hotkey; new React nav has no data-hotkey on tabs
+	const wikiTab = await elementReady(
+		'[data-hotkey="g w"], nav[aria-label="Repository"] ul[role="list"] a[href*="/wiki"]',
+	);
 	if (!wikiTab || mustKeepTab(wikiTab)) {
 		return false;
 	}
@@ -112,7 +115,9 @@ async function updateWikiTab(): Promise<void | false> {
 }
 
 async function updateActionsTab(): Promise<void | false> {
-	const actionsTab = await elementReady('[data-hotkey="g a"]');
+	const actionsTab = await elementReady(
+		'[data-hotkey="g a"], nav[aria-label="Repository"] ul[role="list"] a[href*="/actions"]',
+	);
 	if (!actionsTab || mustKeepTab(actionsTab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
 		return false;
 	}
@@ -121,7 +126,9 @@ async function updateActionsTab(): Promise<void | false> {
 }
 
 async function updateProjectsTab(): Promise<void | false> {
-	const projectsTab = await elementReady('[data-hotkey="g b"]');
+	const projectsTab = await elementReady(
+		'[data-hotkey="g b"], nav[aria-label="Repository"] ul[role="list"] a[href*="/projects"]',
+	);
 	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
 		return false;
 	}
@@ -143,7 +150,7 @@ async function moveRareTabs(): Promise<void | false> {
 	if (isNewRepoNav()) {
 		// New React nav: hide tabs directly via CSS; overflow is managed by React
 		const securityTab = $optional('[data-hotkey="g s"]')
-			?? $optional('[data-tab-item$="security-tab"]');
+			?? $optional('nav[aria-label="Repository"] ul[role="list"] a[href*="/security"]');
 		if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
 			onlyShowInDropdown('security-tab');
 		}

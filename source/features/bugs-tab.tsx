@@ -80,8 +80,11 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	// Find Issues tab by hotkey (works in both old and new nav)
-	const issuesTab = await elementReady('a[data-hotkey="g i"]', {waitForChildren: false});
+	// Find Issues tab by hotkey (old nav) or href (new React nav has no data-hotkey)
+	const issuesTab = await elementReady(
+		'a[data-hotkey="g i"], nav[aria-label="Repository"] ul[role="list"] a[href*="/issues"]',
+		{waitForChildren: false},
+	);
 	if (!issuesTab) {
 		// Issues are disabled
 		return false;
@@ -148,8 +151,13 @@ async function addBugsTab(): Promise<void | false> {
 
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
-	// Remove highlighting from "Issues" tab (works in both old and new nav)
-	unhighlightTab($('a[data-hotkey="g i"]'));
+	// Remove highlighting from "Issues" tab (old nav uses hotkey, new React nav uses href)
+	const issuesTab = $optional('a[data-hotkey="g i"]')
+		?? $optional('nav[aria-label="Repository"] ul[role="list"] a[href*="/issues"]');
+	if (issuesTab) {
+		unhighlightTab(issuesTab);
+	}
+
 	highlightTab($('.rgh-bugs-tab'));
 }
 
