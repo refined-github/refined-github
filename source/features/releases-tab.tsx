@@ -14,6 +14,7 @@ import {
 	buildRepoURL,
 	cacheByRepo,
 	getRepo,
+	isNewRepoNav,
 	triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
@@ -61,28 +62,54 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 		return false;
 	}
 
-	// Wait for the dropdown because `observe` fires as soon as it encounter the container. `releases-tab` must be appended.
-	await elementReady(repoUnderlineNavUl);
+	if (isNewRepoNav()) {
+		// Copy native tab styling from an existing non-selected tab
+		const nativeTab = $optional('nav[aria-label="Repository"] ul[role="list"] a:not([aria-current])');
+		const nativeClassName = nativeTab ? `${nativeTab.className} rgh-releases-tab` : 'rgh-releases-tab';
 
-	repoNavigationBar.append(
-		<li className="d-flex">
-			<a
-				href={buildRepoURL(type.toLowerCase())}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
-				title="Hotkey: G R"
-			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
-				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
-			</a>
-		</li>,
-	);
+		repoNavigationBar.append(
+			<li>
+				<a
+					href={buildRepoURL(type.toLowerCase())}
+					className={nativeClassName}
+					data-hotkey="g r"
+					data-turbo-frame="repo-content-turbo-frame"
+					title="Hotkey: G R"
+				>
+					<span data-component="icon"><TagIcon /></span>
+					<span data-component="text" data-content={type}>{type}</span>
+					<span data-component="counter">
+						<span className="Counter" aria-hidden="true" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+					</span>
+				</a>
+			</li>,
+		);
+		triggerRepoNavOverflow();
+	} else {
+		// Old ViewComponent nav
+		// Wait for the dropdown because `observe` fires as soon as it encounter the container
+		await elementReady(repoUnderlineNavUl.join?.(',') ?? repoUnderlineNavUl);
 
-	triggerRepoNavOverflow();
+		repoNavigationBar.append(
+			<li className="d-flex">
+				<a
+					href={buildRepoURL(type.toLowerCase())}
+					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
+					data-hotkey="g r"
+					data-selected-links="repo_releases"
+					data-tab-item="rgh-releases-item"
+					data-turbo-frame="repo-content-turbo-frame"
+					title="Hotkey: G R"
+				>
+					<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
+					<span data-content={type}>{type}</span>
+					<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+				</a>
+			</li>,
+		);
+
+		triggerRepoNavOverflow();
+	}
 }
 
 async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
@@ -110,8 +137,12 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
-	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
-	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
+
+	// Old nav only: overflow dropdown items and code-tab highlight detachment
+	if (!isNewRepoNav()) {
+		observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
+		observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
+	}
 }
 
 void features.add(import.meta.url, {

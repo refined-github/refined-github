@@ -1,20 +1,21 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {cacheByRepo, isNewRepoNav, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {repoUnderlineNavUl} from '../github-helpers/selectors.js';
 
 type ApiResponse = {
 	issues?: {
@@ -64,7 +65,7 @@ async function isBugsListing(): Promise<boolean> {
 	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
-async function addBugsTab(): Promise<void | false> {
+async function addBugsTab(repoNavigationBar: HTMLElement): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const bugsPromise = bugs.get();
 
@@ -80,9 +81,15 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	// Find Issues tab within the nav container
+	// Old nav: data-hotkey="g i"; New React nav: data-tab-item (href may have query params from other features)
+	const issuesTab = $optional([
+		// Old nav
+		'a[data-hotkey="g i"]',
+		// New React nav (href may have query params from other features)
+		'a[data-tab-item="issues"]',
+	], repoNavigationBar);
 	if (!issuesTab) {
-		// Issues are disabled
 		return false;
 	}
 
@@ -100,19 +107,37 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
-	// Set temporary counter
-	const bugsCounter = $('.Counter', bugsTab);
-	bugsCounter.textContent = '0';
-	bugsCounter.title = '';
+	// Icon: old nav uses `.octicon` with wrapper class; new nav wraps in `[data-component="icon"]`
+	const existingIcon = $optional('.octicon', bugsTab);
+	if (existingIcon) {
+		const isOldNav = existingIcon.classList.contains('UnderlineNav-octicon');
+		const iconClasses = isOldNav ? 'UnderlineNav-octicon d-none d-sm-inline' : '';
+		existingIcon.replaceWith(<BugIcon className={iconClasses || undefined} />);
+	}
+
+	const bugsCounter = $optional([
+		// Old nav
+		'.Counter',
+		// New Primer React nav
+		'[data-component="counter"] span[aria-hidden]',
+	], bugsTab);
+	if (bugsCounter) {
+		bugsCounter.textContent = '0';
+		bugsCounter.title = '';
+	}
 
 	// Update Bugs’ link
 	bugsTab.href = SearchQuery.from(bugsTab).append(await getSearchQueryBugLabel()).href;
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
+		// New React nav uses bare <li>; old nav needs d-inline-flex
+		issuesTab.parentElement.after(
+			isNewRepoNav()
+				? <li>{bugsTab}</li>
+				: <li className="d-inline-flex">{bugsTab}</li>,
+		);
 	} else {
 		issuesTab.after(bugsTab);
 	}
@@ -122,18 +147,25 @@ async function addBugsTab(): Promise<void | false> {
 	// Update bugs count
 	try {
 		const {count: bugCount} = await bugsPromise;
-		bugsCounter.textContent = abbreviateNumber(bugCount);
-		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+		if (bugsCounter) {
+			bugsCounter.textContent = abbreviateNumber(bugCount);
+			bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+		}
 	} catch (error) {
-		bugsCounter.remove();
+		bugsCounter?.remove();
 		throw error; // Likely an API call error that will be handled by the init
 	}
 }
 
 // TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
-	// Remove highlighting from "Issues" tab
-	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
+	// Remove highlighting from "Issues" tab (old nav uses hotkey, new React nav uses href)
+	const issuesTab = $optional('a[data-hotkey="g i"]')
+		?? $optional('nav[aria-label="Repository"] ul[role="list"] a[href$="/issues"]');
+	if (issuesTab) {
+		unhighlightTab(issuesTab);
+	}
+
 	highlightTab($('.rgh-bugs-tab'));
 }
 
@@ -165,14 +197,12 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 	return false;
 }
 
-async function init(): Promise<void | false> {
+async function init(signal: AbortSignal): Promise<void | false> {
 	await expectToken();
-
-	if (!elementExists('.rgh-bugs-tab')) {
-		await addBugsTab();
-	}
-
-	await updateBugsTagHighlighting();
+	observe(repoUnderlineNavUl, async repoNavigationBar => {
+		await addBugsTab(repoNavigationBar as HTMLElement);
+		await updateBugsTagHighlighting();
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
