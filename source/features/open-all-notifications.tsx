@@ -51,7 +51,8 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	const didOpenNotifications = await openNotifications(getUnreadNotifications(container), altKey);
+	const unreadNotifications = getUnreadNotifications(container);
+	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
 	if (didOpenNotifications) {
 		// Remove all now-unnecessary buttons
 		removeOpenUnreadButtons(container);
