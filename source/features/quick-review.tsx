@@ -109,10 +109,12 @@ async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 	(button.popoverTargetElement as HTMLElement).showPopover();
 }
 
+function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
+	reviewMenuButton.click();
+}
+
 function initNativeDeepLinking(signal: AbortSignal): void {
-	observe(reviewMenuButtonSelector, (button: HTMLButtonElement) => {
-		button.click();
-	}, {signal});
+	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
 	// Old view
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
