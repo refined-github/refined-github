@@ -52,8 +52,9 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const isNewFile = !file;
 	const isRenamed = originalFileName !== newFileName;
 
+	const contents = file ?? '';
 	const deleteNewFile = {deletions: [{path: newFileName}]};
-	const restoreOldFile = {additions: [{path: originalFileName, file}]};
+	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
 	const fileChanges = isRenamed
 		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
 		: isNewFile
