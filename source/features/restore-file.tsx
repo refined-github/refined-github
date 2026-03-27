@@ -50,7 +50,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 		getFile(originalFileName),
 	]);
 
-	const isNewFile = !file;
+	const isNewFile = file === undefined;
 	const isRenamed = originalFileName !== newFileName;
 
 	const contents = file ? stringToBase64(file) : '';
