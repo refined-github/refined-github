@@ -158,7 +158,7 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		},
 	};
 
-	// Manual assertion needed because this bypasses api.v4 and uses raw fetch
+	// Manual assertion needed because this bypasses the v4 API wrapper and uses raw fetch
 	await api.assertCurrentUser();
 	const response = await fetch('/_graphql',
 		{
