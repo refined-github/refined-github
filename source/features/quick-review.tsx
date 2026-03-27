@@ -20,6 +20,9 @@ import {getToken} from '../options-storage.js';
 
 const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
+// Be careful not to select the "Submit review" button in the dialog
+const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
+
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
@@ -92,7 +95,10 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
 	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
 
-	const reviewDropdownButton = await elementReady('.js-reviews-toggle');
+	const reviewDropdownButton = await elementReady([
+		reviewMenuButtonSelector,
+		'.js-reviews-toggle', // Old view
+	]);
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
 	}
@@ -104,6 +110,10 @@ async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 }
 
 function initNativeDeepLinking(signal: AbortSignal): void {
+	observe(reviewMenuButtonSelector, (button: HTMLButtonElement) => {
+		button.click();
+	}, {signal});
+	// Old view
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
 }
