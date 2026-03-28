@@ -119,10 +119,10 @@ const v3uncached = async (
 	const apiResponse = json ? JSON.parse(textContent) : {textContent};
 
 	if (
-		response.ok ||
-		(ignoreHTTPStatus &&
-		  (ignoreHTTPStatus === true || [ignoreHTTPStatus].flat().includes(response.status)))
-	  ) {
+		response.ok
+		|| (ignoreHTTPStatus
+			&& (ignoreHTTPStatus === true || [ignoreHTTPStatus].flat().includes(response.status)))
+	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
 			headers: response.headers,
