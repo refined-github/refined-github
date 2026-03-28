@@ -28,6 +28,11 @@ const migrations = [
 		}
 	},
 
+	(options: RghOptions): void => {
+		options.logHttp = options.logHTTP;
+		options.customCss = options.customCSS as unknown as string;
+	},
+
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
