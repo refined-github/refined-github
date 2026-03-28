@@ -76,7 +76,7 @@ type GhRestApiOptions = {
 	json?: boolean;
 };
 
-type GhGraphQqApiOptions = {
+type GhGraphQlApiOptions = {
 	allowErrors?: boolean;
 	variables?: JsonObject;
 };
@@ -88,7 +88,7 @@ const v3defaults: GhRestApiOptions = {
 	json: true,
 };
 
-const v4defaults: GhGraphQqApiOptions = {
+const v4defaults: GhGraphQlApiOptions = {
 	allowErrors: false,
 };
 
@@ -166,7 +166,7 @@ const v3hasAnyItems = async (
 
 const v4uncached = async (
 	query: string,
-	options: GhGraphQqApiOptions = v4defaults,
+	options: GhGraphQlApiOptions = v4defaults,
 ): Promise<AnyObject> => {
 	const personalToken = await getToken();
 
