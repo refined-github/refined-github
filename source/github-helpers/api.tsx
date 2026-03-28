@@ -52,7 +52,7 @@ type RestResponse = {
 
 const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
-export class RefinedGithubApiError extends Error {
+export class RefinedGitHubApiError extends Error {
 	response: AnyObject = {};
 	richMessage?: JSX.Element;
 	constructor(...messages: string[]) {
@@ -171,7 +171,7 @@ const v4uncached = async (
 	const personalToken = await getToken();
 
 	if (!personalToken) {
-		throw new RefinedGithubApiError('Personal token required for this feature');
+		throw new RefinedGitHubApiError('Personal token required for this feature');
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
@@ -224,7 +224,7 @@ const v4uncached = async (
 	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw new RefinedGithubApiError('GraphQL:', ...errors.map(error => error.message));
+		throw new RefinedGitHubApiError('GraphQL:', ...errors.map(error => error.message));
 	}
 
 	if (response.ok) {
@@ -248,11 +248,11 @@ const v4 = mem(v4uncached, {
 	},
 });
 
-async function getError(apiResponse: JsonObject): Promise<RefinedGithubApiError> {
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
-		return new RefinedGithubApiError(
+		return new RefinedGitHubApiError(
 			'Rate limit exceeded.',
 			personalToken
 				? 'It may be time for a walk! 🍃 🌞'
@@ -261,26 +261,26 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGithubApiError>
 	}
 
 	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGithubApiError(
+		return new RefinedGitHubApiError(
 			'The token seems to be incorrect or expired. Update it in the options.',
 		);
 	}
 
 	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
-		return new RefinedGithubApiError(
+		return new RefinedGitHubApiError(
 			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
 		);
 	}
 
 	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
-		const error = new RefinedGithubApiError(
+		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
 		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
 		return error;
 	}
 
-	const error = new RefinedGithubApiError(
+	const error = new RefinedGitHubApiError(
 		'Unable to fetch.',
 		personalToken
 			? 'Ensure that your token has access to this repo.'
