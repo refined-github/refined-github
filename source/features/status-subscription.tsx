@@ -7,7 +7,6 @@ import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
 
-import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
@@ -158,8 +157,6 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		},
 	};
 
-	// Manual assertion needed because this bypasses the v4 API wrapper and uses raw fetch
-	await api.assertCurrentUser();
 	const response = await fetch('/_graphql',
 		{
 			headers: githubApiBaseHeaders,

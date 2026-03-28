@@ -30,6 +30,7 @@ import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
 
+import onetime from '../helpers/onetime.js';
 import {getRepo, getLoggedInUser} from './index.js';
 import {getToken} from '../options-storage.js';
 import {log} from '../helpers/feature-helpers.js';
@@ -83,7 +84,7 @@ type GHGraphQLApiOptions = {
 };
 
 // Memoized: token and logged-in user don't change within a page lifecycle
-const assertCurrentUser = mem(async (): Promise<void> => {
+const assertCurrentUser = onetime(async (): Promise<void> => {
 	const personalToken = await getToken();
 	if (!personalToken) {
 		return;
@@ -203,7 +204,7 @@ const v4uncached = async (
 	}
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
-	if (/^\s*mutation/.test(query)) {
+	if (/^\s*mutation[\s({]/.test(query)) {
 		await assertCurrentUser();
 	}
 
