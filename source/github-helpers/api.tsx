@@ -69,7 +69,7 @@ const api4 = pageDetect.isEnterprise()
 	: 'https://api.github.com/graphql';
 
 type GHRestApiOptions = {
-	ignoreHTTPStatus?: boolean | number | number[];
+	ignoreHTTPStatus?: boolean | number;
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
@@ -121,7 +121,7 @@ const v3uncached = async (
 	if (
 		response.ok
 		|| (ignoreHTTPStatus
-			&& (ignoreHTTPStatus === true || [ignoreHTTPStatus].flat().includes(response.status)))
+			&& (ignoreHTTPStatus === true || ignoreHTTPStatus === response.status))
 	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
