@@ -97,7 +97,7 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
-		'.js-reviews-toggle', // Old view
+		'.js-reviews-toggle', // Old view -- TODO: Drop in the fall of 2026
 	]);
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
@@ -115,7 +115,7 @@ function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
 
 function initNativeDeepLinking(signal: AbortSignal): void {
 	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
-	// Old view
+	// Old view -- TODO: Drop in the fall of 2026
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
 }
