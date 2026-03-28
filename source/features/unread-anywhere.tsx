@@ -10,7 +10,7 @@ import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import pluralize from '../helpers/pluralize.js';
-import {removeLinkToPRFilesTab} from './pr-notification-link.js';
+import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 import observe from '../helpers/selector-observer.js';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
 
@@ -34,7 +34,7 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 
 		updateToast('Opening…');
 		const urls = notifications.slice(0, limit).map(notification => {
-			removeLinkToPRFilesTab(notification); // Internally limited to PR Files links
+			removeLinkToPrFilesTab(notification); // Internally limited to PR Files links
 			return notification.href;
 		});
 

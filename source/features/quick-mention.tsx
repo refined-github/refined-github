@@ -144,8 +144,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	const isPROrOldView = field.id === 'new_comment_field';
-	if (isPROrOldView) {
+	const isPrOrOldView = field.id === 'new_comment_field';
+	if (isPrOrOldView) {
 		observe(prCommentSelector, add, {signal});
 	} else {
 		observe(issueCommentSelector, add, {signal});

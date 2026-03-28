@@ -14,9 +14,9 @@ type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
 
-type FeatureID = string & {feature: true};
+type FeatureId = string & {feature: true};
 interface FeatureMeta {
-	id: FeatureID;
+	id: FeatureId;
 	description: string;
 	screenshot: string | null; // eslint-disable-line @typescript-eslint/no-restricted-types -- We use `null` in the JSON file
 	css?: true;

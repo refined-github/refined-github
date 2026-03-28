@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
+import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
@@ -53,7 +53,7 @@ function needsSubmission(): boolean {
 	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
-function getUI(): HTMLElement {
+function getUi(): HTMLElement {
 	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
 	return $optional('.rgh-sync-pr-commit-title-note') ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
@@ -62,15 +62,15 @@ function getUI(): HTMLElement {
 	);
 }
 
-function updateUI(): void {
+function updateUi(): void {
 	if (needsSubmission()) {
-		getCurrentCommitTitleField()!.parentElement!.after(getUI());
+		getCurrentCommitTitleField()!.parentElement!.after(getUi());
 	} else {
-		getUI().remove();
+		getUi().remove();
 	}
 }
 
-async function updatePRTitle(): Promise<void> {
+async function updatePrTitle(): Promise<void> {
 	if (!needsSubmission()) {
 		return;
 	}
@@ -95,7 +95,7 @@ async function updateCommitTitle(): Promise<void> {
 
 function disableSubmission(): void {
 	features.unload(import.meta.url);
-	getUI().remove();
+	getUi().remove();
 }
 
 function init(signal: AbortSignal): void {
@@ -107,10 +107,10 @@ function init(signal: AbortSignal): void {
 	], updateCommitTitle, {signal}); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
-	onCommitTitleUpdate(updateUI, signal);
+	onCommitTitleUpdate(updateUi, signal);
 
 	// On submission, update PR
-	delegate(confirmMergeButton, 'click', updatePRTitle, {signal});
+	delegate(confirmMergeButton, 'click', updatePrTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
@@ -118,7 +118,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		userCanLikelyMergePR,
+		userCanLikelyMergePr,
 	],
 	include: [
 		pageDetect.isPRConversation,

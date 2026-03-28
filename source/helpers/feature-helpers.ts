@@ -1,6 +1,6 @@
 export const shortcutMap = new Map<string, string>();
 
-export const getFeatureID = (url: string): FeatureID => url.split('/').pop()!.split('.')[0] as FeatureID;
+export const getFeatureId = (url: string): FeatureId => url.split('/').pop()!.split('.')[0] as FeatureId;
 
 type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
@@ -14,7 +14,7 @@ type FeatureHelper = {
 };
 
 export function getIdentifiers(url: string): FeatureHelper {
-	const id = getFeatureID(url);
+	const id = getFeatureId(url);
 	return {
 		id,
 		class: 'rgh-' + id,

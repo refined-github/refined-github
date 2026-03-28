@@ -51,7 +51,7 @@ handleMessages({
 		void chrome.tabs.remove(tab!.id!);
 	},
 	fetchText,
-	async fetchJSON(url: string) {
+	async fetchJson(url: string) {
 		const response = await fetch(url);
 		return response.json();
 	},

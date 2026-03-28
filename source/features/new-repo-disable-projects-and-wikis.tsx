@@ -19,7 +19,9 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 	await api.v3('', {
 		method: 'PATCH',
 		body: {
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			has_projects: false,
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			has_wiki: false,
 		},
 	});

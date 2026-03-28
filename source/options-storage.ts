@@ -2,25 +2,25 @@ import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
 import {importedFeatures, renamedFeatures} from './feature-data.js';
 
-export type RGHOptions = typeof defaults;
+export type RghOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript hates this one weird trick
 const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
-	customCSS: '',
+	customCss: '',
 	personalToken: '',
 	logging: false,
-	logHTTP: false,
+	logHttp: false,
 }, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
 
-export function isFeatureDisabled(options: RGHOptions, id: string): boolean {
+export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
 	return options[`feature:${id}`] === false;
 }
 
 const migrations = [
-	(options: RGHOptions): void => {
+	(options: RghOptions): void => {
 		for (const [from, to] of Object.entries(renamedFeatures)) {
 			if (typeof options[`feature:${from}`] === 'boolean') {
 				options[`feature:${to}`] = options[`feature:${from}`];

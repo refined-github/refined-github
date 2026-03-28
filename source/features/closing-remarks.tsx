@@ -12,7 +12,7 @@ import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getReleases} from './releases-tab.js';
 import observe from '../helpers/selector-observer.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
@@ -30,7 +30,7 @@ function ExplanationLink(): JSX.Element {
 
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
-		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
+		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
@@ -43,7 +43,7 @@ function createReleaseUrl(): string {
 		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
 	}
 
-	return buildRepoURL('releases/new');
+	return buildRepoUrl('releases/new');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -51,7 +51,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
-		const tagUrl = buildRepoURL('releases/tag', tagName);
+		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
 		addExistingTagLinkFooter(tagName, tagUrl);

@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
-import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
@@ -134,7 +134,7 @@ async function init(): Promise<void | false> {
 								{/* .markdown-title enables the background color */}
 								<a
 									className="Link--muted markdown-title"
-									href={buildRepoURL('releases/tag', tag)}
+									href={buildRepoUrl('releases/tag', tag)}
 								>
 									<code>{tag}</code>
 								</a>
