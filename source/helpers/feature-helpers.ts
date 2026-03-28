@@ -29,9 +29,9 @@ const httpLog = console.log.bind(console, '🌏');
 export const log = {
 	info: console.log,
 	http: httpLog,
-	setup({logging, logHTTP}: {logging: boolean; logHTTP: boolean}): void {
+	setup({logging, logHttp}: {logging: boolean; logHttp: boolean}): void {
 		log.info = logging ? console.log : noop;
-		log.http = logHTTP ? httpLog : noop;
+		log.http = logHttp ? httpLog : noop;
 	},
 };
 
