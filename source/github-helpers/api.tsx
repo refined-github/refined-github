@@ -109,7 +109,7 @@ const v3uncached = async (
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
-			'User-Agent': 'Refined GitHub',
+			'user-agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
@@ -205,7 +205,7 @@ const v4uncached = async (
 
 	const response = await fetch(api4, {
 		headers: {
-			'User-Agent': 'Refined GitHub',
+			'user-agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
 			Authorization: `bearer ${personalToken}`,
 		},
