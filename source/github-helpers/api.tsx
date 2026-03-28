@@ -120,8 +120,8 @@ const v3uncached = async (
 
 	if (
 		response.ok
-		|| (ignoreHTTPStatus
-			&& (ignoreHTTPStatus === true || ignoreHTTPStatus === response.status))
+		|| ignoreHTTPStatus === true
+		|| ignoreHTTPStatus === response.status
 	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
