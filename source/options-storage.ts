@@ -29,8 +29,15 @@ const migrations = [
 	},
 
 	(options: RghOptions): void => {
-		options.logHttp = options.logHTTP;
-		options.customCss = options.customCSS as unknown as string;
+		if (options.logHTTP) {
+			options.logHttp = options.logHTTP;
+			delete options.logHTTP;
+		}
+
+		if (options.customCSS) {
+			options.customCss = options.customCSS as unknown as string;
+			delete options.customCSS;
+		}
 	},
 
 	// Removed features will be automatically removed from the options as well
