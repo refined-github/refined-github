@@ -22,10 +22,8 @@ export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions):
 			cache: 'no-store',
 			headers: {
 				'User-Agent': 'Refined GitHub',
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				Accept: 'application/vnd.github.v3+json',
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				Authorization: `token ${token}`,
+				accept: 'application/vnd.github.v3+json',
+				authorization: `token ${token}`,
 			},
 		},
 	);
