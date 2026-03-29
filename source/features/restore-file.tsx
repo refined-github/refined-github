@@ -36,7 +36,7 @@ async function getFile(filePath: string): Promise<string | undefined> {
 		`contents/${filePath}?ref=${ref}`,
 		{
 			json: false,
-			ignoreHTTPStatus: 404,
+			ignoreHttpStatus: 404,
 			headers: {
 				Accept: 'application/vnd.github.raw',
 			},
