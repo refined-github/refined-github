@@ -12,7 +12,7 @@ import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {
-	buildRepoURL,
+	buildRepoUrl,
 	getConversationNumber,
 	isAnyRefinedGitHubRepo,
 	isOwnConversation,
@@ -54,7 +54,7 @@ function isPopular(): boolean {
 
 export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
-	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
+	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
 	return (
 		<>
 			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {newIssue} instead of leaving a comment here.

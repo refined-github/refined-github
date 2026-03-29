@@ -14,7 +14,7 @@ function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
-const countPRs = new CachedFunction('prs-on-forked-repo', {
+const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
@@ -38,7 +38,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-types
-async function getPRs(): Promise<[prCount: number, url: string] | []> {
+async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
 	// Maybe replace with https://github.com/refined-github/github-url-detection/issues/85
 	await elementReady('.UnderlineNav-body');
@@ -47,7 +47,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const forkedRepo = getForkedRepo()!;
-	const {count, firstPr} = await countPRs.get(forkedRepo);
+	const {count, firstPr} = await countPrs.get(forkedRepo);
 	if (count === 1) {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}
@@ -58,7 +58,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 }
 
 async function initHeadHint(): Promise<void | false> {
-	const [count, url] = await getPRs();
+	const [count, url] = await getPrs();
 	if (!count) {
 		return false;
 	}
@@ -70,7 +70,7 @@ async function initHeadHint(): Promise<void | false> {
 }
 
 async function initDeleteHint(): Promise<void | false> {
-	const [count, url] = await getPRs();
+	const [count, url] = await getPrs();
 	if (!count) {
 		return false;
 	}

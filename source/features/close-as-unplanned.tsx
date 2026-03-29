@@ -4,9 +4,9 @@ import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {getFeatureID} from '../helpers/feature-helpers.js';
+import {getFeatureId} from '../helpers/feature-helpers.js';
 
-const id = getFeatureID(import.meta.url);
+const id = getFeatureId(import.meta.url);
 
 const unplannedCheckbox = 'input[name="state_reason"][value="not_planned"]';
 

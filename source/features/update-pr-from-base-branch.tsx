@@ -51,7 +51,7 @@ async function mergeBranches(expectedHeadSha: string): Promise<AnyObject> {
 		method: 'PUT',
 		// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 		body: {expected_head_sha: expectedHeadSha},
-		ignoreHTTPStatus: true, // eslint-disable-line @typescript-eslint/naming-convention -- Pre-existing
+		ignoreHttpStatus: true,
 	});
 }
 

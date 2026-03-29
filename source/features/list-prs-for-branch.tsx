@@ -11,9 +11,13 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	OPEN: 'color-fg-success',
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	CLOSED: 'color-fg-danger',
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	MERGED: 'color-fg-done',
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	DRAFT: '',
 };
 

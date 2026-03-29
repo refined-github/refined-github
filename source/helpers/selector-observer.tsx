@@ -7,7 +7,7 @@ import {signalFromPromise} from 'abort-utils';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import optionsStorage from '../options-storage.js';
-import getCallerID from './caller-id.js';
+import getCallerId from './caller-id.js';
 import {parseFeatureNameFromStack} from './errors.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
@@ -48,7 +48,7 @@ export default function observe<
 	}
 
 	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
-	const seenMark = 'rgh-seen-' + getCallerID(ancestor);
+	const seenMark = 'rgh-seen-' + getCallerId(ancestor);
 
 	registerAnimation();
 
