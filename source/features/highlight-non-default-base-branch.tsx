@@ -5,7 +5,7 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -52,7 +52,7 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && buildRepoURL('tree', pr.baseRefName);
+		const branch = pr.baseRef && buildRepoUrl('tree', pr.baseRefName);
 		const displayName = abbreviateString(pr.baseRefName, 25);
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(

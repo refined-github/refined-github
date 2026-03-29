@@ -3,13 +3,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 
 function addLinkToBanner(banner: HTMLElement): void {
 	if (banner.lastChild!.textContent.includes('repository has been archived')) {
 		banner.lastChild!.after(
 			' You can check out ',
-			<a href={buildRepoURL('forks')}>its forks</a>,
+			<a href={buildRepoUrl('forks')}>its forks</a>,
 			'.',
 		);
 	}

@@ -8,7 +8,7 @@ import pluralize from './pluralize.js';
 import {getFeatureUrl} from './rgh-links.js';
 import {importedFeatures} from '../feature-data.js';
 
-export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
+export const state = new CachedValue<FeatureId[]>('bisect', {maxAge: {minutes: 15}});
 
 function enableButtons(): void {
 	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {

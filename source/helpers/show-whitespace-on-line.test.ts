@@ -8,7 +8,7 @@ function highlight(html: string): string {
 	return hl.highlight(html, {language: 'js'}).value;
 }
 
-function serializeDOM(element: Element): string {
+function serializeDom(element: Element): string {
 	for (const replacement of element.querySelectorAll('[data-rgh-whitespace]')) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
 			case 'space': {
@@ -36,7 +36,7 @@ function serializeDOM(element: Element): string {
 function process(html: string): string {
 	const element = document.createElement('div');
 	element.innerHTML = html;
-	return serializeDOM(showWhiteSpacesOnLine(element));
+	return serializeDom(showWhiteSpacesOnLine(element));
 }
 
 function assertProcess(actual: string, expected: string): void {

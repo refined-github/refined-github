@@ -8,7 +8,7 @@ import {branchSelector} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	if (elementExists([
@@ -31,7 +31,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		branchSelector,
 		<a
 			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
-			href={buildRepoURL('releases/tag', tag)}
+			href={buildRepoUrl('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
 			<ArrowUpRightIcon />

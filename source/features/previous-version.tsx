@@ -7,13 +7,13 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
-	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
+	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
 			filePath,
@@ -31,7 +31,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		return;
 	}
 
-	return new GitHubFileURL(location.href)
+	return new GitHubFileUrl(location.href)
 		.assign({branch: previousCommit})
 		.href;
 }
