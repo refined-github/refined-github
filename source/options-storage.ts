@@ -28,15 +28,14 @@ const migrations = [
 		}
 	},
 
+	// TODO: Drop in 2027
 	(options: RghOptions): void => {
 		if (options.logHTTP) {
 			options.logHttp = options.logHTTP;
-			delete options.logHTTP;
 		}
 
 		if (options.customCSS) {
 			options.customCss = options.customCSS as unknown as string;
-			delete options.customCSS;
 		}
 	},
 
