@@ -14,7 +14,7 @@ import observe from '../helpers/selector-observer.js';
 import {
 	areDiscussionsEnabled,
 	areIssuesEnabled,
-	buildRepoURL,
+	buildRepoUrl,
 	getConversationNumber,
 	isAnyRefinedGitHubRepo,
 	isOwnConversation,
@@ -56,8 +56,8 @@ function isPopular(): boolean {
 
 export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
-	const newIssue = <a href={buildRepoURL('issues/new/choose')}>new issue</a>;
-	const newDiscussion = <a href={buildRepoURL('discussions/new/choose')}>new discussion</a>;
+	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
+	const newDiscussion = <a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>;
 	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled() ? <> {newIssue} or a {newDiscussion} </> : areIssuesEnabled() ? newIssue : newDiscussion;
 	return (
 		<>

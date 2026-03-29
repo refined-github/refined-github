@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {unhideOverflowDropdown} from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
@@ -56,7 +56,7 @@ function onlyShowInDropdown(id: string): void {
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
-		const dom = await fetchDom(buildRepoURL('wiki'));
+		const dom = await fetchDom(buildRepoUrl('wiki'));
 		const counter = dom.querySelector('#wiki-pages-box .Counter');
 
 		if (counter) {

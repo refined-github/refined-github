@@ -7,7 +7,7 @@ import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
 
 import features from '../feature-manager.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
@@ -17,7 +17,7 @@ import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/inde
 import {expectToken} from '../github-helpers/github-token.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
-	const defaultUrl = new GitHubFileURL(currentUrl);
+	const defaultUrl = new GitHubFileUrl(currentUrl);
 	if (pageDetect.isRepoRoot()) {
 		// The default branch of the root directory is just /user/repo/
 		defaultUrl.route = '';

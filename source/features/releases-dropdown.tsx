@@ -5,7 +5,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleases from './releases-dropdown.gql';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -26,7 +26,7 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 	const selectedTag = field.value;
 	const releases = await getReleases.get(); // Expected to be in cache
 	if (!('inputType' in event) && releases.includes(selectedTag)) {
-		location.href = buildRepoURL('releases/tag', encodeURIComponent(selectedTag));
+		location.href = buildRepoUrl('releases/tag', encodeURIComponent(selectedTag));
 		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 	}
 }

@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
@@ -38,11 +38,11 @@ const fresh = [
 
 function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): string {
 	if (commitsCount <= 2) {
-		return buildRepoURL('commits');
+		return buildRepoUrl('commits');
 	}
 
 	const offset = commitsCount - 2;
-	return buildRepoURL('commits', `?after=${commitSha}+${offset}`);
+	return buildRepoUrl('commits', `?after=${commitSha}+${offset}`);
 }
 
 async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {

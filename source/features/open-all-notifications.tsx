@@ -27,14 +27,14 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return $$('.notification-unread', container);
 }
 
-async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
+async function openNotifications(notifications: Element[], markAsDone = false): Promise<boolean> {
 	const urls = notifications
 		.toReversed() // Open oldest first #6755
 		.map(notification => $('a', notification).href);
 
-	const openingTabs = openTabs(urls);
-	if (!await openingTabs) {
-		return;
+	const didOpenTabs = await openTabs(urls);
+	if (!didOpenTabs) {
+		return false;
 	}
 
 	for (const notification of notifications) {
@@ -45,14 +45,18 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 			notification.classList.replace('notification-unread', 'notification-read');
 		}
 	}
+
+	return true;
 }
 
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	await openNotifications(getUnreadNotifications(container), altKey);
-
-	// Remove all now-unnecessary buttons
-	removeOpenUnreadButtons(container);
+	const unreadNotifications = getUnreadNotifications(container);
+	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
+	if (didOpenNotifications) {
+		// Remove all now-unnecessary buttons
+		removeOpenUnreadButtons(container);
+	}
 }
 
 async function openSelectedNotifications(): Promise<void> {

@@ -15,7 +15,7 @@ const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a per
 const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
 // Reads from path like assets/features/NAME.js
-export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureID | undefined {
+export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
 	const match = stack
 		.split('\n')
@@ -23,7 +23,7 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 		.join('\n')
 		// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec -- Linear code is best
 		.match(/assets\/features\/(.+)\.js/);
-	return match?.[1] as FeatureID | undefined;
+	return match?.[1] as FeatureId | undefined;
 }
 
 /* Log errors only once */

@@ -3,7 +3,7 @@ import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 
 const isTwoDotDiff = (): boolean =>
 	!location.pathname.includes('...')
@@ -33,7 +33,7 @@ function init(): void {
 
 	const referencePicker = $('.range-editor .d-inline-block + .range-cross-repo-pair');
 	referencePicker.after(
-		<a className="btn btn-sm mx-2" href={buildRepoURL('compare/' + references.join('...'))}>
+		<a className="btn btn-sm mx-2" href={buildRepoUrl('compare/' + references.join('...'))}>
 			Swap
 		</a>,
 	);

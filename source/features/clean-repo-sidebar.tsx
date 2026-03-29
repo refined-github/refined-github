@@ -6,7 +6,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
@@ -35,7 +35,7 @@ async function cleanReleases(): Promise<void> {
 	// Point to releases page; the user sees the same content, but there's more below
 	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
 		// The link is missing on tagged-but-no-releases repos
-		?.setAttribute('href', buildRepoURL('releases'));
+		?.setAttribute('href', buildRepoUrl('releases'));
 }
 
 async function hideLanguageHeader(): Promise<void> {

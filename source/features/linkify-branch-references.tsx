@@ -4,12 +4,12 @@ import {$, $optional} from 'select-dom/strict.js';
 import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-function linkifyQuickPR(element: HTMLElement): void {
-	const branchUrl = buildRepoURL('tree', element.textContent);
+function linkifyQuickPr(element: HTMLElement): void {
+	const branchUrl = buildRepoUrl('tree', element.textContent);
 	element.replaceWith(
 		<span className="commit-ref">
 			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
@@ -23,7 +23,7 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 	const {href} = $('a.Link--primary', hovercard);
 
 	for (const reference of $$('.commit-ref', hovercard)) {
-		const url = new GitHubFileURL(href).assign({
+		const url = new GitHubFileUrl(href).assign({
 			route: 'tree',
 			branch: reference.title,
 		});
@@ -41,8 +41,8 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 	}
 }
 
-async function quickPRInit(signal: AbortSignal): Promise<void> {
-	observe('.branch-name', linkifyQuickPR, {signal});
+async function quickPrInit(signal: AbortSignal): Promise<void> {
+	observe('.branch-name', linkifyQuickPr, {signal});
 }
 
 function hovercardInit(signal: AbortSignal): void {
@@ -53,7 +53,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isQuickPR,
 	],
-	init: quickPRInit,
+	init: quickPrInit,
 }, {
 	init: hovercardInit,
 });

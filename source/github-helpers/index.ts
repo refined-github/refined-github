@@ -21,7 +21,7 @@ export const isMac = navigator.userAgent.includes('Macintosh');
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export function buildRepoURL<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
+export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
@@ -125,7 +125,7 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePR = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
+export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
 const navigationBarSelector = `:is(${[
 	'.GlobalNav',

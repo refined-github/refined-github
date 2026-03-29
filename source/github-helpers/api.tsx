@@ -19,7 +19,7 @@ The second argument is an options object,
 it lets you define accept error HTTP codes as a valid response, like:
 
 {
-	ignoreHTTPStatus: true
+	ignoreHttpStatus: true
 }
 
 so the call will not throw an error but it will return as usual.
@@ -38,7 +38,7 @@ type JsonError = {
 	message: string;
 };
 
-type GraphQLResponse = {
+type GraphQlResponse = {
 	message?: string;
 	data?: JsonObject;
 	errors?: JsonError[];
@@ -52,7 +52,7 @@ type RestResponse = {
 
 const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
-export class RefinedGitHubAPIError extends Error {
+export class RefinedGitHubApiError extends Error {
 	response: AnyObject = {};
 	richMessage?: JSX.Element;
 	constructor(...messages: string[]) {
@@ -68,35 +68,35 @@ const api4 = pageDetect.isEnterprise()
 	? `${location.origin}/api/graphql`
 	: 'https://api.github.com/graphql';
 
-type GHRestApiOptions = {
-	ignoreHTTPStatus?: boolean;
+type GhRestApiOptions = {
+	ignoreHttpStatus?: boolean;
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
 	json?: boolean;
 };
 
-type GHGraphQLApiOptions = {
+type GhGraphQlApiOptions = {
 	allowErrors?: boolean;
 	variables?: JsonObject;
 };
 
-const v3defaults: GHRestApiOptions = {
-	ignoreHTTPStatus: false,
+const v3defaults: GhRestApiOptions = {
+	ignoreHttpStatus: false,
 	method: 'GET',
 	body: undefined,
 	json: true,
 };
 
-const v4defaults: GHGraphQLApiOptions = {
+const v4defaults: GhGraphQlApiOptions = {
 	allowErrors: false,
 };
 
 const v3uncached = async (
 	query: string,
-	options: GHRestApiOptions = v3defaults,
+	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHTTPStatus, method, body, headers, json} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, json} = {...v3defaults, ...options};
 	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
@@ -109,7 +109,7 @@ const v3uncached = async (
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
-			'User-Agent': 'Refined GitHub',
+			'user-agent': 'Refined GitHub',
 			Accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
@@ -118,7 +118,7 @@ const v3uncached = async (
 	const textContent = await response.text();
 	const apiResponse = json ? JSON.parse(textContent) : {textContent};
 
-	if (response.ok || ignoreHTTPStatus) {
+	if (response.ok || ignoreHttpStatus) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
 			headers: response.headers,
@@ -135,7 +135,7 @@ const v3 = mem(v3uncached, {
 
 const v3paginated = async function * (
 	query: string,
-	options?: GHRestApiOptions,
+	options?: GhRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
 	while (true) {
 		// eslint-disable-next-line no-await-in-loop
@@ -153,7 +153,7 @@ const v3paginated = async function * (
 
 const v3hasAnyItems = async (
 	query: string,
-	options: GHRestApiOptions = {},
+	options: GhRestApiOptions = {},
 ): Promise<boolean> => {
 	const url = new URL(query, api3);
 	url.searchParams.set('per_page', '1'); // Ensure we create pagination after 1 item
@@ -166,12 +166,12 @@ const v3hasAnyItems = async (
 
 const v4uncached = async (
 	query: string,
-	options: GHGraphQLApiOptions = v4defaults,
+	options: GhGraphQlApiOptions = v4defaults,
 ): Promise<AnyObject> => {
 	const personalToken = await getToken();
 
 	if (!personalToken) {
-		throw new RefinedGitHubAPIError('Personal token required for this feature');
+		throw new RefinedGitHubApiError('Personal token required for this feature');
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
@@ -205,7 +205,7 @@ const v4uncached = async (
 
 	const response = await fetch(api4, {
 		headers: {
-			'User-Agent': 'Refined GitHub',
+			'user-agent': 'Refined GitHub',
 			'Content-Type': 'application/json',
 			Authorization: `bearer ${personalToken}`,
 		},
@@ -216,7 +216,7 @@ const v4uncached = async (
 		}),
 	});
 
-	const apiResponse: GraphQLResponse = await response.json();
+	const apiResponse: GraphQlResponse = await response.json();
 
 	const {
 		data = {},
@@ -224,7 +224,7 @@ const v4uncached = async (
 	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw new RefinedGitHubAPIError('GraphQL:', ...errors.map(error => error.message));
+		throw new RefinedGitHubApiError('GraphQL:', ...errors.map(error => error.message));
 	}
 
 	if (response.ok) {
@@ -248,11 +248,11 @@ const v4 = mem(v4uncached, {
 	},
 });
 
-async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError> {
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
-		return new RefinedGitHubAPIError(
+		return new RefinedGitHubApiError(
 			'Rate limit exceeded.',
 			personalToken
 				? 'It may be time for a walk! 🍃 🌞'
@@ -261,26 +261,26 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubAPIError>
 	}
 
 	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGitHubAPIError(
+		return new RefinedGitHubApiError(
 			'The token seems to be incorrect or expired. Update it in the options.',
 		);
 	}
 
 	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
-		return new RefinedGitHubAPIError(
+		return new RefinedGitHubApiError(
 			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
 		);
 	}
 
 	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
-		const error = new RefinedGitHubAPIError(
+		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
 		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
 		return error;
 	}
 
-	const error = new RefinedGitHubAPIError(
+	const error = new RefinedGitHubApiError(
 		'Unable to fetch.',
 		personalToken
 			? 'Ensure that your token has access to this repo.'

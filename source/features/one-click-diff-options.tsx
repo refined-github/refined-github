@@ -37,7 +37,7 @@ function createWhitespaceButton(): HTMLElement {
 	);
 }
 
-function attachPRButtons(dropdown: HTMLDetailsElement): void {
+function attachPrButtons(dropdown: HTMLDetailsElement): void {
 	const diffSettingsForm = $('form[action$="/diffview"]', dropdown);
 
 	// Preserve data before emption the form
@@ -95,9 +95,9 @@ function attachPRButtons(dropdown: HTMLDetailsElement): void {
 	$optional('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
-function initPR(signal: AbortSignal): void {
+function initPr(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPRButtons, {signal});
+	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPrButtons, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
@@ -133,7 +133,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFile404,
 		pageDetect.isEnterprise, // #5820
 	],
-	init: initPR,
+	init: initPr,
 }, {
 	shortcuts,
 	include: [
