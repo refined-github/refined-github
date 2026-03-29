@@ -2,7 +2,7 @@ import {isRepoRoot} from 'github-url-detection';
 
 import getCurrentGitRef from './get-current-git-ref.js';
 
-export default class GitHubFileURL {
+export default class GitHubFileUrl {
 	user = '';
 	repository = '';
 	route = '';
@@ -21,7 +21,7 @@ export default class GitHubFileURL {
 		return this.href;
 	}
 
-	assign(...replacements: Array<Partial<GitHubFileURL>>): this {
+	assign(...replacements: Array<Partial<GitHubFileUrl>>): this {
 		Object.assign(this, ...replacements);
 		return this;
 	}

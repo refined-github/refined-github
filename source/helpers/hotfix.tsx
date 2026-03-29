@@ -4,7 +4,7 @@ import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 
-import type {RGHOptions} from '../options-storage.js';
+import type {RghOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
 import {isomorphicFetchText} from './isomorphic-fetch.js';
 
@@ -29,7 +29,7 @@ async function fetchHotfix(path: string): Promise<string> {
 	});
 }
 
-type HotfixStorage = Array<[FeatureID, string, string]>;
+type HotfixStorage = Array<[FeatureId, string, string]>;
 
 export const brokenFeatures = new CachedFunction('broken-features', {
 	async updater(): Promise<HotfixStorage> {
@@ -39,9 +39,9 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 		}
 
 		const storage: HotfixStorage = [];
-		for (const [featureID, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-			if (featureID && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
-				storage.push([featureID as FeatureID, relatedIssue, unaffectedVersion]);
+		for (const [featureId, relatedIssue, unaffectedVersion] of parseCsv(content)) {
+			if (featureId && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
+				storage.push([featureId as FeatureId, relatedIssue, unaffectedVersion]);
 			}
 		}
 
@@ -69,8 +69,8 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 	return await brokenFeatures.get() ?? [];
 }
 
-export async function getLocalHotfixesAsOptions(): Promise<Partial<RGHOptions>> {
-	const options: Partial<RGHOptions> = {};
+export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> {
+	const options: Partial<RghOptions> = {};
 	for (const [feature] of await getLocalHotfixes()) {
 		options[`feature:${feature}`] = false;
 	}
