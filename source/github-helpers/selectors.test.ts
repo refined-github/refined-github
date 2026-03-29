@@ -41,7 +41,7 @@ const fsCache = {
 const fetchDocument = pMemoize(async (url: string): Promise<string> => {
 	const request = await fetch(url, {
 		headers: {
-			Accept: 'text/html',
+			accept: 'text/html',
 		},
 	});
 	return request.text();

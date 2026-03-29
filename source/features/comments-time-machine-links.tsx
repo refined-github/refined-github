@@ -7,10 +7,10 @@ import HistoryIcon from 'octicons-plain-react/History';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import addNotice from '../github-widgets/notice-bar.js';
-import {linkifiedURLClass} from '../github-helpers/dom-formatters.js';
-import {buildRepoURL, isPermalink} from '../github-helpers/index.js';
+import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
+import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
@@ -24,7 +24,7 @@ const commentSelector = [
 	'.js-comment', // PR description or comment
 ].join(',');
 
-async function updateURLtoDatedSha(url: GitHubFileURL, date: string): Promise<void> {
+async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
 	const [{oid}] = repository.ref.target.history.nodes;
@@ -55,14 +55,14 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const parsedUrl = new GitHubFileURL(location.href);
+		const parsedUrl = new GitHubFileUrl(location.href);
 
 		// Handle `isRepoHome` #4979
 		parsedUrl.branch ||= await getDefaultBranch();
 		parsedUrl.route ||= 'tree';
 
 		// Due to GitHub’s bug of supporting branches with slashes: #2901
-		void updateURLtoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
+		void updateUrltoDatedSha(parsedUrl, date); // Don't await it, since the link will usually work without the update
 
 		// Set temporary URL AFTER calling `updateURLtoDatedSha`
 		parsedUrl.branch = `${parsedUrl.branch}@{${date}}`;
@@ -107,8 +107,8 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!).append(
 		<div className="dropdown-divider" />,
 		<a
-			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
-			className={'dropdown-item btn-link ' + linkifiedURLClass}
+			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
+			className={'dropdown-item btn-link ' + linkifiedUrlClass}
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 		>
@@ -127,8 +127,8 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const menuItemContentWrapper = $('[class^="prc-ActionList-ActionListContent"]', menuItem);
 	const link = (
 		<a
-			href={buildRepoURL(`tree/HEAD@{${timestamp}}`)}
-			className={menuItemContentWrapper.className + ' ' + linkifiedURLClass}
+			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
+			className={menuItemContentWrapper.className + ' ' + linkifiedUrlClass}
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 			aria-keyshortcuts="v"
@@ -170,7 +170,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
 
 	observe(
-		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedURLClass})`,
+		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,
 		addDateParameterToLink,
 		{signal},
 	);

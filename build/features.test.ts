@@ -52,12 +52,12 @@ const userAttachmentsRegex = /user-attachments[/]assets[/]/;
 const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex, userAttachmentsRegex]);
 
 class FeatureFile {
-	readonly id: FeatureID;
+	readonly id: FeatureId;
 	readonly path: string;
 	readonly name: string;
 	constructor(name: string) {
 		this.name = name;
-		this.id = path.parse(name).name as FeatureID;
+		this.id = path.parse(name).name as FeatureId;
 		this.path = path.join('source/features', name);
 	}
 
@@ -131,7 +131,7 @@ function validateGql(file: FeatureFile): void {
 	);
 }
 
-function validateReadme(featureId: FeatureID): void {
+function validateReadme(featureId: FeatureId): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	assert(featureMeta, 'Should be described in the readme');
 

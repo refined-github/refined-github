@@ -6,16 +6,16 @@ import features from '../feature-manager.js';
 import {getRepo} from '../github-helpers/index.js';
 import {
 	codeElementsSelector,
-	linkifiedURLClass,
-	linkifyURLs,
+	linkifiedUrlClass,
+	linkifyUrls,
 	linkifyIssues,
 } from '../github-helpers/dom-formatters.js';
 
 function linkifyContent(wrapper: HTMLElement): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
-	wrapper.classList.add(linkifiedURLClass);
+	wrapper.classList.add(linkifiedUrlClass);
 
-	linkifyURLs(wrapper);
+	linkifyUrls(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number

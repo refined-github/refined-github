@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -18,7 +18,7 @@ function linkify(label: Element): void {
 	// https://github.com/refined-github/refined-github/issues/8478
 	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
 
-	const url = new URL(buildRepoURL('commits'));
+	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }

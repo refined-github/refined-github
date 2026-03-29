@@ -14,9 +14,9 @@ export function saveOriginalHref(link: HTMLAnchorElement): void {
 }
 
 async function selectCurrentConversationFilter(): Promise<void> {
-	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
+	const currentSearchUrl = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
 	const menu = await elementReady('#filters-select-menu');
-	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchURL}"]`, menu);
+	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchUrl}"]`, menu);
 	if (currentFilter) {
 		$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
 		currentFilter.setAttribute('aria-checked', 'true');

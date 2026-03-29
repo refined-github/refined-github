@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {
-	buildRepoURL,
+	buildRepoUrl,
 	cacheByRepo,
 	getRepo,
 	triggerRepoNavOverflow,
@@ -67,7 +67,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 	repoNavigationBar.append(
 		<li className="d-flex">
 			<a
-				href={buildRepoURL(type.toLowerCase())}
+				href={buildRepoUrl(type.toLowerCase())}
 				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
 				data-hotkey="g r"
 				data-selected-links="repo_releases"
@@ -98,7 +98,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
 			label: type,
-			href: buildRepoURL(type.toLowerCase()),
+			href: buildRepoUrl(type.toLowerCase()),
 			icon: TagIcon,
 			'data-menu-item': 'rgh-releases-item',
 		}),

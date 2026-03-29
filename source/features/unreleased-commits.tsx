@@ -10,7 +10,7 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
 import {
-	buildRepoURL,
+	buildRepoUrl,
 	cacheByRepo,
 	getLatestVersionTag,
 	getRepo,
@@ -88,7 +88,7 @@ async function createLink(
 	return (
 		<a
 			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoURL('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
@@ -107,7 +107,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		link,
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
-			href={buildRepoURL('releases/new')}
+			href={buildRepoUrl('releases/new')}
 			className="btn px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"

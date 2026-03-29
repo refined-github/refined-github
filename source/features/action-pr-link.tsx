@@ -17,7 +17,7 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 	setSearchParameter(runLink, 'pr', prNumber);
 }
 
-async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
+async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
 	setSearchParameter(actionLink, 'pr', String(getConversationNumber()));
 }
 
@@ -25,12 +25,12 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, {signal});
 }
 
-async function initForPRPage(signal: AbortSignal): Promise<void> {
+async function initForPrPage(signal: AbortSignal): Promise<void> {
 	// Exclude rgh-link, include isPRCommits
 	observe([
 		'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
 		'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
-	], addForPR, {signal});
+	], addForPr, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	init: initForPRPage,
+	init: initForPrPage,
 });
 
 /*

@@ -15,6 +15,6 @@ export function createRghIssueLink(issueNumber: number | string): Element {
 	);
 }
 
-export function getFeatureUrl(id: FeatureID): string {
+export function getFeatureUrl(id: FeatureId): string {
 	return `https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`;
 }

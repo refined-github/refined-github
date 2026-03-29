@@ -23,7 +23,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	} = match.groups!;
 	if (highlightedId) {
 		return {
-			id: highlightedId as FeatureID,
+			id: highlightedId as FeatureId,
 			description: parseMarkdown(highlightedDescripion + '.'),
 			screenshot: highlightedImage,
 		};
@@ -37,7 +37,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 
 	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)\]\((.+?)\)/g, urlExtracter);
 	return {
-		id: simpleId as FeatureID,
+		id: simpleId as FeatureId,
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `undefined` hides the key when CSS is missing
 		css: existsSync(`source/features/${simpleId}.css`) || undefined,
@@ -53,9 +53,9 @@ export function getFeaturesMeta(): FeatureMeta[] {
 		.toSorted((firstFeature, secondFeature) => firstFeature.id.localeCompare(secondFeature.id));
 }
 
-export function getImportedFeatures(): FeatureID[] {
+export function getImportedFeatures(): FeatureId[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf8');
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)]
-		.map(match => match[1] as FeatureID)
+		.map(match => match[1] as FeatureId)
 		.toSorted();
 }
