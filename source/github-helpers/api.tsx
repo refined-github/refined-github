@@ -1,5 +1,5 @@
 /*
-These will throw `RefinedGitHubAPIError` if something goes wrong or if it's a 404.
+These will throw `RefinedGitHubApiError` if something goes wrong or if it's a 404.
 Probably don't catch them so they will appear in the console
 next to the name of the feature that caused them.
 
@@ -97,7 +97,7 @@ const assertCurrentUser = onetime(async (): Promise<void> => {
 
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
 	if (currentTokenUser !== loggedInUser) {
-		throw new RefinedGitHubAPIError(
+		throw new RefinedGitHubApiError(
 			'API call blocked.',
 			`Your token belongs to "${currentTokenUser}" but you are logged in as "${loggedInUser}".`,
 			'Update your token in the Refined GitHub options.',
