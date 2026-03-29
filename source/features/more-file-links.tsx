@@ -7,10 +7,10 @@ import VersionsIcon from 'octicons-plain-react/Versions';
 import HistoryIcon from 'octicons-plain-react/History';
 
 import features from '../feature-manager.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 
 function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
-	const {href} = new GitHubFileURL(viewFile.href).assign({route});
+	const {href} = new GitHubFileUrl(viewFile.href).assign({route});
 	return (
 		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 dropdown-item btn-link" role="menuitem">
 			View {name}
@@ -34,8 +34,9 @@ function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: R
 	const menuItem = viewFile.cloneNode(true);
 	const fileLink = $('a', viewFile).href;
 	const link = $('a', menuItem);
-	link.href = new GitHubFileURL(fileLink).assign({route}).href;
+	link.href = new GitHubFileUrl(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
+	link.removeAttribute('aria-labelledby');
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(icon);
 	return menuItem;

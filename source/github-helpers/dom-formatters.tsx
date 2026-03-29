@@ -8,11 +8,11 @@ import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';
-import {buildRepoURL} from './index.js';
+import {buildRepoUrl} from './index.js';
 
 // Shared class necessary to avoid also shortening the links
-export const linkifiedURLClass = 'rgh-linkified-code';
-const linkifiedURLSelector = '.rgh-linkified-code';
+export const linkifiedUrlClass = 'rgh-linkified-code';
+const linkifiedUrlSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
@@ -77,7 +77,7 @@ export function linkifyIssues(
 		baseUrl: '',
 		...options,
 		attributes: {
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+			class: linkifiedUrlClass, // Necessary to avoid also shortening the links
 			...options.attributes,
 		},
 	});
@@ -101,12 +101,12 @@ export function linkifyIssues(
 	repositionAnchors(element);
 }
 
-export function linkifyURLs(element: HTMLElement): void {
+export function linkifyUrls(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
-	if (elementExists(linkifiedURLSelector, element)) {
+	if (elementExists(linkifiedUrlSelector, element)) {
 		console.warn('Links already exist', element);
 		throw new Error('Links already exist');
 	}
@@ -114,7 +114,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	const linkified = linkifyUrlsToDom(element.textContent, {
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+			class: linkifiedUrlClass, // Necessary to avoid also shortening the links
 		},
 	});
 
@@ -142,9 +142,9 @@ export function linkifyCommit(sha: string): JSX.Element {
 		<code>
 			<a
 				className="Link--secondary"
-				href={buildRepoURL('commit', sha)}
+				href={buildRepoUrl('commit', sha)}
 				data-hovercard-type="commit"
-				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
+				data-hovercard-url={buildRepoUrl('commit', sha, 'hovercard')}
 			>
 				{sha.slice(0, 7)}
 			</a>

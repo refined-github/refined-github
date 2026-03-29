@@ -17,7 +17,7 @@ import {
 	isFeaturePrivate,
 	type RunConditions,
 } from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, type RGHOptions} from './options-storage.js';
+import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,
@@ -27,7 +27,7 @@ import {
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {
-	getFeatureID, listenToAjaxedLoad, log, shortcutMap,
+	getFeatureId, listenToAjaxedLoad, log, shortcutMap,
 } from './helpers/feature-helpers.js';
 import {contentScriptToggle} from './options/reload-without.js';
 
@@ -51,10 +51,10 @@ type FeatureLoader = RunConditions & {
 	init: Arrayable<FeatureInit>;
 };
 
-const currentFeatureControllers = new ArrayMap<FeatureID, AbortController>();
+const currentFeatureControllers = new ArrayMap<FeatureId, AbortController>();
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
-const globalReady = new Promise<RGHOptions>(async resolve => {
+const globalReady = new Promise<RghOptions>(async resolve => {
 	if (!isWebPage()) {
 		throw new Error('This script should only be run on web pages');
 	}
@@ -104,9 +104,9 @@ const globalReady = new Promise<RGHOptions>(async resolve => {
 	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
 	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
-	if (options.customCSS.trim().length > 0) {
+	if (options.customCss.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
-		document.head.append(<style>{options.customCSS}</style>);
+		document.head.append(<style>{options.customCss}</style>);
 	}
 
 	if (bisectedFeatures) {
@@ -137,7 +137,7 @@ function castArray<Item>(value: Arrayable<Item>): Item[] {
 }
 
 async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
-	const id = getFeatureID(url);
+	const id = getFeatureId(url);
 
 	/* Feature filtering and running */
 	const options = await globalReady;
@@ -225,7 +225,7 @@ async function addCssFeature(url: string): Promise<void> {
 }
 
 function unload(featureUrl: string): void {
-	const id = getFeatureID(featureUrl);
+	const id = getFeatureId(featureUrl);
 	for (const controller of currentFeatureControllers.get(id) ?? []) {
 		controller.abort();
 	}

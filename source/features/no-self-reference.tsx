@@ -3,7 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function underlineSelfReference(link: HTMLElement): void {
+function underlineSelfReference(link: HTMLAnchorElement): void {
+	if (link.href !== location.href) {
+		return;
+	}
+
 	link.title = 'Link is a self-reference';
 
 	// Disable link and hovercard
@@ -17,8 +21,9 @@ function underlineSelfReference(link: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	const [currentPage] = location.href.split('#');
-	observe(`.markdown-body:is(:not(section[aria-label="Events"] *)) .issue-link[href="${currentPage}"]`, underlineSelfReference, {signal});
+	// TODO: Revert #9086 once #6554 is resolved
+	// Exclude reference to a comment on the same page
+	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import pluralize from '../helpers/pluralize.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -19,7 +19,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 	const commit = linkifyCommit(prInfo.baseRefOid);
 	const count = pluralize(prInfo.behindBy, '$$ commit');
 	const countLink = (
-		<a href={buildRepoURL('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
+		<a href={buildRepoUrl('compare', `${prInfo.baseRefOid.slice(0, 8)}...${base.branch}`)}>
 			{count}
 		</a>
 	);

@@ -7,7 +7,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import GetRepoAge from './repo-age.gql';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import {randomArrayItem} from '../helpers/math.js';
@@ -15,7 +15,6 @@ import {randomArrayItem} from '../helpers/math.js';
 type CommitTarget = {
 	oid: string;
 	committedDate: string;
-	resourcePath: string;
 	history: {
 		totalCount: number;
 	};
@@ -37,29 +36,40 @@ const fresh = [
 	'So it begins, the great battle of our time',
 ];
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, resourcePath: string]> {
+function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): string {
+	if (commitsCount <= 2) {
+		return buildRepoUrl('commits');
+	}
+
+	const offset = commitsCount - 2;
+	return buildRepoUrl('commits', `?after=${commitSha}+${offset}`);
+}
+
+async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
 		},
 	});
 
-	const {committedDate, resourcePath} = repository.defaultBranchRef.target.history.nodes
+	const {committedDate} = repository.defaultBranchRef.target.history.nodes
 		.toReversed()
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
-	return [committedDate, resourcePath];
+	const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
+	return [committedDate, lastCommitsPageUrl];
 }
 
 const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, resourcePath: string]> {
+	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 		const {repository} = await api.v4(GetFirstCommit);
 
-		const {oid: commitSha, history, committedDate, resourcePath} = repository.defaultBranchRef.target as CommitTarget;
+		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
-			return [committedDate, resourcePath];
+			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
+			return [committedDate, lastCommitsPageUrl];
 		}
 
 		return getRepoAge(commitSha, commitsCount);
@@ -75,7 +85,7 @@ async function init(): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, firstCommitHref] = await firstCommit.get();
+	const [firstCommitDate, lastCommitsPageUrl] = await firstCommit.get();
 	const birthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
@@ -93,7 +103,7 @@ async function init(): Promise<void> {
 	sidebarForksLinkIcon!.closest('.mt-2')!.after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
-			<a href={firstCommitHref} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
 				<RepoIcon className="mr-2" /> {age}
 			</a>
 		</div>,
@@ -117,5 +127,6 @@ Test URLs:
 
 https://github.com/refined-github/sandbox
 https://github.com/refined-github/sandbox/tree/6619
+https://github.com/bfred-it/bfred-it.github.io
 
 */

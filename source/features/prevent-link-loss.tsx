@@ -36,7 +36,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	fixButton.closest('.flash')!.remove();
 }
 
-function getUI(container: HTMLElement): HTMLElement {
+function getUi(container: HTMLElement): HTMLElement {
 	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
 		icon: <AlertIcon className="m-0" />,
 		text: (
@@ -66,27 +66,27 @@ function isVulnerableToLinkLoss(value: string): boolean {
 		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
-function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form).append(getUI(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
 		} else {
 			// React view
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
-			container.append(getUI(container));
+			container.append(getUi(container));
 		}
 	} else {
-		getUI(field).remove();
+		getUi(field).remove();
 	}
 }
 
-const updateUIDebounced = debounceFn(updateUI, {
+const updateUiDebounced = debounceFn(updateUi, {
 	wait: 300,
 });
 
 function init(signal: AbortSignal): void {
-	delegate(fieldSelector, 'input', updateUIDebounced, {signal});
-	delegate(fieldSelector, 'focusin', updateUI, {signal});
+	delegate(fieldSelector, 'input', updateUiDebounced, {signal});
+	delegate(fieldSelector, 'focusin', updateUi, {signal});
 }
 
 void features.add(import.meta.url, {

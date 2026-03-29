@@ -129,6 +129,29 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	visibility: hidden;
 }
 
+/* Hide the 'Markdown is supported' label from the comment box footer, as it can overflow the viewport and isn't very useful */
+/* Info: https://github.com/refined-github/refined-github/issues/9075 */
+/* Test: https://github.com/refined-github/refined-github/pull/9115 */
+.js-previewable-comment-form a[href$='basic-writing-and-formatting-syntax'] {
+	.Button-label {
+		display: none;
+	}
+	.Button-visual {
+		margin-right: 0;
+	}
+}
+
+/* Vertically center PR summary row */
+/* Info: https://github.com/refined-github/refined-github/pull/9116/ */
+/* Test: https://github.com/refined-github/sandbox/pull/61 */
+div[class^='prc-PageHeader-Description']
+> .flex-column.flex-sm-row.flex-items-start {
+	/* flex-sm-items-center */
+	@media (min-width: 544px) {
+		align-items: center !important;
+	}
+}
+
 /*
 
 Test URLs:
