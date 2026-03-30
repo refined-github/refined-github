@@ -129,7 +129,6 @@ function createButton(): JSX.Element {
 								data-type="label"
 								aria-hidden="true"
 								role="tooltip"
-								style={{whiteSpace: 'no-wrap', maxWidth: 'none'}}
 							>
 								{label.tooltipLabel}
 							</tool-tip>
