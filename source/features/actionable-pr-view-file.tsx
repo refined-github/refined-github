@@ -8,11 +8,13 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function alter(viewFileLink: HTMLAnchorElement): void {
-	const {nameWithOwner, branch} = getBranches().head;
+	const {owner, name, branch} = getBranches().head;
 	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
-	viewFileLink.pathname = [nameWithOwner, 'blob', branch, filePath].join('/');
+	viewFileLink.pathname = [owner, name, 'blob', branch, filePath]
+		.map(element => encodeURIComponent(element))
+		.join('/');
 }
 
 function init(signal: AbortSignal): void {
@@ -40,5 +42,6 @@ Test URLs
 
 - PR: https://github.com/refined-github/sandbox/pull/4/files
 - deleted head repository: https://github.com/refined-github/refined-github/pull/271
+- File with brackets in the name: https://github.com/refined-github/sandbox/pull/114/files
 
 */
