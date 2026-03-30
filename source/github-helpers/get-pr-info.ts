@@ -2,13 +2,12 @@ import api from './api.js';
 import {getConversationNumber} from './index.js';
 
 export type PullRequestInfo = {
+	id: string;
 	baseRefOid: string;
 	headRefOid: string;
 	// https://docs.github.com/en/graphql/reference/enums#mergeablestate
 	mergeable: 'CONFLICTING' | 'MERGEABLE' | 'UNKNOWN';
-
 	viewerCanUpdate: boolean;
-
 	// It's not clear why this is `false` on a PR I received (I *can* edit the files), but I'm leaving it as a fallback
 	viewerCanEditFiles: boolean;
 	needsUpdate: boolean;
@@ -21,6 +20,7 @@ export default async function getPrInfo(base: string, number = getConversationNu
 	const {repository} = await api.v4uncached(`
 		repository() {
 			pullRequest(number: ${number}) {
+				id
 				baseRefOid
 				headRefOid
 				mergeable
@@ -40,6 +40,7 @@ export default async function getPrInfo(base: string, number = getConversationNu
 	`);
 
 	const {
+		id,
 		baseRefOid,
 		headRefOid,
 		mergeable,
@@ -49,6 +50,7 @@ export default async function getPrInfo(base: string, number = getConversationNu
 		headRepository,
 	} = repository.pullRequest;
 	return {
+		id,
 		baseRefOid,
 		headRefOid,
 		viewerCanUpdate,
