@@ -140,10 +140,13 @@ summary:hover {
 
 .feature:not([hidden]) {
 	--outline-width: 2px;
+	--padding-block: 0.5em;
+
 	display: flex;
 	align-items: baseline;
 	flex-wrap: wrap;
 	gap: 0 0.4em;
+	border-radius: var(--border-radius);
 
 	&:has(> :target) {
 		animation-name: blink-border;
@@ -151,7 +154,8 @@ summary:hover {
 		animation-iteration-count: 2;
 	}
 
-	padding: 0.5em 0;
+	padding-block: var(--padding-block);
+	padding-inline: 0;
 	&:first-of-type {
 		padding-top: 0;
 	}
@@ -171,10 +175,10 @@ summary:hover {
 }
 
 .feature input[type='checkbox'] {
-	--padding: 10px;
 	flex-shrink: 0;
 	scroll-margin-top: calc(
-		var(--summary-padding) *
+		var(--summary-padding) +
+		var(--padding-block) *
 		2 +
 		/* summary header */
 		1.5rem +
