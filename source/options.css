@@ -177,12 +177,12 @@ summary:hover {
 .feature input[type='checkbox'] {
 	flex-shrink: 0;
 	scroll-margin-top: calc(
-		var(--summary-padding) +
+		var(--outline-width) +
 		var(--padding-block) *
 		2 +
 		/* summary header */
 		1.5rem +
-		var(--outline-width) +
+		var(--summary-padding) +
 		1lh
 	);
 }
