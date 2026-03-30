@@ -44,7 +44,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-Legacy views: https://github.com/refined-github/refined-github
-React views: https://github.com/refined-github/refined-github/tree/main/.github
+https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/tree/main/.github
 
 */
