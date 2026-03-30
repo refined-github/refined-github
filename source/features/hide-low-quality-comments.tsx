@@ -10,18 +10,11 @@ import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
-export const singleParagraphCommentSelector = '.comment-body > p:only-child';
+export const singleParagraphCommentSelector = '.react-issue-comment [class*="NewMarkdownViewer-module__safe-html-box"] > p:only-child';
 
 async function unhide(event: DelegateEvent): Promise<void> {
 	for (const comment of $$('.rgh-hidden-comment')) {
 		comment.hidden = false;
-	}
-
-	await delay(10); // "Similar comments" aren't expanded without this in Safari #3830
-
-	// Expand all "similar comments" boxes
-	for (const similarCommentsExpandButton of $$('.rgh-hidden-comment > summary')) {
-		similarCommentsExpandButton.click();
 	}
 
 	$('.rgh-hidden-comment').scrollIntoView();
@@ -33,10 +26,8 @@ function hideComment(comment: HTMLElement): void {
 	comment.classList.add('rgh-hidden-comment');
 }
 
-function init(): void {
-	for (const similarCommentsBox of $$('.js-discussion .Details-element:not([data-body-version])')) {
-		hideComment(similarCommentsBox);
-	}
+async function init(): Promise<void> {
+	await delay(1500) // Am I allowed to swear in code comments
 
 	const linkedComment = location.hash.startsWith('#issuecomment-')
 		? $optional(`${location.hash} ${singleParagraphCommentSelector}`)
@@ -59,17 +50,17 @@ function init(): void {
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		const comment = commentText.closest('.js-timeline-item')!;
-		if (elementExists('.Label', comment)) {
+		const comment = commentText.closest('[data-wrapper-timeline-id]')!;
+		if (elementExists('[class^="ActivityHeader-module__BadgesGroupContainer"] > *', comment)) {
 			continue;
 		}
 
 		// If the person is having a conversation, then don't hide it
-		const author = $('.author', comment).getAttribute('href')!;
+		const author = $('[class*="ActivityHeader-module__AuthorLink"]', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
-		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
-		if (previousComment?.closest('.js-timeline-item') !== comment) {
+		const previousComment = $(`[data-wrapper-timeline-id]:not(:has(.octicon-unfold)):has([class*="ActivityHeader-module__AuthorLink"][href="${author}"])`);
+		if (previousComment !== comment) {
 			continue;
 		}
 
@@ -78,7 +69,7 @@ function init(): void {
 
 	const lowQualityCount = countElements('.rgh-hidden-comment');
 	if (lowQualityCount > 0) {
-		$('.discussion-timeline-actions').prepend(
+		$('#react-issue-comment-composer').prepend(
 			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
 				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
