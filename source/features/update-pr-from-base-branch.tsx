@@ -147,7 +147,7 @@ function canNativelyUpdate(): boolean {
 	return nativeButton?.textContent === 'Update branch';
 }
 
-async function shouldShowUpdateButton(): Promise<boolean> {
+async function shouldShowButton(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
@@ -163,7 +163,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	if (!await shouldShowUpdateButton()) {
+	if (!await shouldShowButton()) {
 		return;
 	}
 
