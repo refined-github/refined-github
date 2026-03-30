@@ -29,6 +29,7 @@ import React from 'dom-chef';
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
+import {uint8ArrayToBase64} from 'uint8array-extras';
 
 import {getRepo} from './index.js';
 import {getToken} from '../options-storage.js';
@@ -73,8 +74,9 @@ type GhRestApiOptions = {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-	json?: boolean;
-};
+} & ({json: true; base64?: false}
+	| {base64: true; json?: false}
+	| {json?: false; base64?: false});
 
 type GhGraphQlApiOptions = {
 	allowErrors?: boolean;
@@ -86,6 +88,7 @@ const v3defaults: GhRestApiOptions = {
 	method: 'GET',
 	body: undefined,
 	json: true,
+	base64: false,
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -96,7 +99,7 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, json} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, json, base64} = {...v3defaults, ...options};
 	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
@@ -115,8 +118,15 @@ const v3uncached = async (
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
-	const textContent = await response.text();
-	const apiResponse = json ? JSON.parse(textContent) : {textContent};
+	let apiResponse: AnyObject;
+	if (base64) {
+		const arrayBuffer = await response.arrayBuffer();
+		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
+		apiResponse = {content};
+	} else {
+		const content = await response.text();
+		apiResponse = json ? JSON.parse(content) : {content};
+	}
 
 	if (response.ok || ignoreHttpStatus) {
 		return Object.assign(apiResponse, {
