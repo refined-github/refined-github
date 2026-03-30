@@ -150,6 +150,7 @@ function canNativelyUpdate(): boolean {
 async function shouldShowButton(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
+
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
 	const canUpdateBranch = prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles || hasBranchAccess;
 
