@@ -5,24 +5,95 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 
+const isDisplayNone = (element: Element | undefined): boolean =>
+	Boolean(element && getComputedStyle(element).display === 'none');
+
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
-	|| Boolean(comment.closest([
-		'.js-resolvable-thread-contents.d-none', // Regular comments
-		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	]));
+	// Review comments on Files tab
+	|| isDisplayNone(
+		comment.closest(['.js-file-content', '.js-file-level-comments-table'])
+		?? undefined,
+	)
+	|| Boolean(
+		comment.closest([
+			'.js-resolvable-thread-contents.d-none', // Regular comments
+			'details.js-resolvable-timeline-thread-container:not([open])', // Review comments on Conversation tab
+		]),
+	);
+
+const isFileMinimized = (element: HTMLElement | undefined): boolean =>
+	Boolean(
+		(element?.classList.contains('js-file')
+			&& isDisplayNone($optional('.js-file-content', element)))
+		?? (element
+			&& [...element.classList].some(className =>
+				className.startsWith('Diff-module__diffTargetable--'),
+			)
+			&& $optional([
+				'[class^="DiffFileHeader-module__collapsed--"]',
+				'[class*=" DiffFileHeader-module__collapsed--"]',
+			])),
+	);
+
+let lastViewChange: HTMLElement | undefined;
+function trackLastViewChange(event: Event): void {
+	const element
+		= (event.target as EventTarget & Partial<Pick<Element, 'closest'>>).closest?.(
+			['.js-targetable-element[id^="diff-"]', '[data-targeted]'],
+		) ?? undefined;
+	if (element) {
+		lastViewChange = element;
+	}
+}
 
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
+	if (
+		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x')
+		|| isEditable(event.target)
+	) {
+		return;
+	}
+
+	const focusedComment
+		= $optional(
+			globalThis.location.hash || ':target:not([data-targeted=true])',
+		)
+		?? $optional('[data-targeted=true]')
+		?? lastViewChange;
+
+	if (event.key === 'x') {
+		if (!focusedComment) {
+			return;
+		}
+
+		const toggle
+			= $optional('.js-reviewed-toggle', focusedComment)
+				?? $$(
+					[
+						':is([class^="Diff-module__diffHeaderWrapper"]',
+						'[class*=" Diff-module__diffHeaderWrapper"]) button[aria-pressed]',
+					],
+					focusedComment,
+				).find(element => element.textContent.trim() === 'Viewed');
+		if (toggle) {
+			const wasFileMinimized = isFileMinimized(focusedComment);
+			event.preventDefault();
+			toggle.click();
+			if (wasFileMinimized && !focusedComment.dataset.targeted) {
+				location.replace('#' + focusedComment.id);
+			}
+		}
+
 		return;
 	}
 
 	event.preventDefault();
 
-	const focusedComment = $optional(':target');
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
+			'[role="region"]:is([class*=" Diff-module__diffTargetable--"], [class^="Diff-module__diffTargetable--"])[data-targeted]', // Files in new diffs
 			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 		])
 			.filter(element =>
@@ -50,12 +121,16 @@ function runShortcuts(event: KeyboardEvent): void {
 
 function init(signal: AbortSignal): void {
 	document.body.addEventListener('keypress', runShortcuts, {signal});
+	document.body.addEventListener('change', trackLastViewChange);
+	document.body.addEventListener('click', trackLastViewChange);
+	document.body.addEventListener('focus', trackLastViewChange);
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above',
+		x: 'Mark the file as viewed/unviewed',
 	},
 	include: [
 		pageDetect.hasComments,
