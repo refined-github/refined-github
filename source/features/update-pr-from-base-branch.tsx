@@ -147,18 +147,13 @@ function canNativelyUpdate(): boolean {
 	return nativeButton?.textContent === 'Update branch';
 }
 
-async function canUpdateBranch(): Promise<boolean> {
+async function shouldShowUpdateButton(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
+	const canUpdateBranch = prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles || hasBranchAccess;
 
-	return prInfo.needsUpdate
-		&& prInfo.mergeable !== 'CONFLICTING'
-		&& (
-			prInfo.viewerCanUpdate
-			|| prInfo.viewerCanEditFiles
-			|| hasBranchAccess
-		);
+	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
 }
 
 async function addButton(): Promise<void> {
@@ -168,7 +163,7 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	if (!await canUpdateBranch()) {
+	if (!await shouldShowUpdateButton()) {
 		return;
 	}
 
