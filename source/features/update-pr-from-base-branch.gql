@@ -1,4 +1,4 @@
-mutation UpdatePullRequestBranch($input: UpdatePullRequestBranchInput!) {
+mutation updatePullRequestBranch($input: UpdatePullRequestBranchInput!) {
 	updatePullRequestBranch(input: $input) {
 		clientMutationId
 	}

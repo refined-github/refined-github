@@ -12,7 +12,7 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import showToast from '../github-helpers/toast.js';
 import {getRepo} from '../github-helpers/index.js';
-import UpdatePullRequestBranch from './update-pr-from-base-branch.gql';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 
@@ -64,7 +64,7 @@ type MergeBranchesOptions = {
 };
 
 async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> {
-	return api.v4uncached(UpdatePullRequestBranch, {
+	return api.v4uncached(updatePullRequestBranch, {
 		variables: {
 			input: {...options},
 		},
