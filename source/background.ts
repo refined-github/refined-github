@@ -55,8 +55,10 @@ handleMessages({
 		const response = await fetch(url);
 		return response.json();
 	},
-	async openOptionsPage() {
-		return chrome.runtime.openOptionsPage();
+	async openOptionsPage(hash?: string) {
+		return chrome.tabs.create({
+			url: chrome.runtime.getURL(`assets/options.html${hash ? `#${hash}` : ''}`),
+		});
 	},
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);
