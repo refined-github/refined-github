@@ -632,7 +632,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260087535-a0f19995-5f4a-44e9-87d8-cf742b9bfeed.gif"
 	},
 	{
-		"id": "prevent-pr-merge-panel-opening",
 		"description": "Prevents the merge panel from automatically opening on every page load after it’s been opened once.",
 		"screenshot": null
 	},
