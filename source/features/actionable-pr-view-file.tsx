@@ -1,27 +1,25 @@
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import observe from '../helpers/selector-observer.js';
 
-/** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
-function alter(viewFileLink: HTMLAnchorElement): void {
+/** Rebuilds the "View file" link to point to the head repo and its branch instead of the base repo and the commit */
+function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): void {
 	const {owner, name, branch} = getBranches().head;
-	const filePath
-		= $optional(':focus')
-			?.closest('[class*="diff-file-header"]')
-			?.querySelector('[class*="file-path-section"] code')
-			?.childNodes[2].textContent
-			// Old view -- TODO: Drop in the fall of 2026
-			?? viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
 	viewFileLink.pathname = [owner, name, 'blob', branch, filePath]
 		.map(element => encodeURIComponent(element))
 		.join('/');
+}
+
+function alter(viewFileLink: HTMLAnchorElement): void {
+	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
+	rebuildFileLink(viewFileLink, filePath);
 }
 
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
@@ -31,10 +29,18 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		return;
 	}
 
+	const filePathElement = menuButton.closest('[class*="diff-file-header"]')!
+		.querySelector('[class*="file-path-section"] code')!;
+	// Filter comment nodes
+	// First and thrid nodes after filtering are LRM/RLM
+	const filePath = [...filePathElement.childNodes].filter(
+		node => node.nodeType === Node.TEXT_NODE,
+	)[1].textContent;
+
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {
 		const viewFile = $('a[class^="prc-ActionList-ActionListContent"]:has(.octicon-eye)');
-		alter(viewFile);
+		rebuildFileLink(viewFile, filePath);
 	});
 }
 
