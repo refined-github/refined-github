@@ -1,6 +1,6 @@
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import {$, $$optional, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
