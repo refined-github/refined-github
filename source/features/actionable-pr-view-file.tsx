@@ -1,15 +1,22 @@
 import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$, $optional} from 'select-dom/strict.js';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import observe from '../helpers/selector-observer.js';
-import {deletedHeadRepository} from '../github-helpers/selectors.js';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function alter(viewFileLink: HTMLAnchorElement): void {
 	const {owner, name, branch} = getBranches().head;
-	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
+	const filePath
+		= $optional(':focus')
+			?.closest('[class*="diff-file-header"]')
+			?.querySelector('[class*="file-path-section"] code')
+			?.childNodes[2].textContent
+			// Old view -- TODO: Drop in the fall of 2026
+			?? viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
 	viewFileLink.pathname = [owner, name, 'blob', branch, filePath]
@@ -17,8 +24,34 @@ function alter(viewFileLink: HTMLAnchorElement): void {
 		.join('/');
 }
 
+function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+	// Don't run if the menu has been closed
+	// Check inverted value because `capture: true` makes this run before handler that toggle state
+	if (menuButton.ariaExpanded === 'true') {
+		return;
+	}
+
+	// Wait for the menu DOM to be created, but not rendered
+	requestAnimationFrame(() => {
+		const viewFile = $('a[class^="prc-ActionList-ActionListContent"]:has(.octicon-eye)');
+		alter(viewFile);
+	});
+}
+
 function init(signal: AbortSignal): void {
-	observe('.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]', alter, {signal});
+	delegate(
+		'div[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+		// `capture: true` to run before `more-file-links`
+		{capture: true, signal},
+	);
+	// Old view -- TODO: Drop in the fall of 2026
+	observe(
+		'.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]',
+		alter,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -28,8 +61,9 @@ void features.add(import.meta.url, {
 	exclude: [
 		// Editing files doesn't make sense after a PR is closed/merged
 		pageDetect.isClosedConversation,
-		() => elementExists(deletedHeadRepository),
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
+		() => pageDetect.isPRCommit() && !elementExists('[aria-label="No next commit"]'),
+		// Old view -- TODO: Drop in the fall of 2026
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened
@@ -40,8 +74,8 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- PR: https://github.com/refined-github/sandbox/pull/4/files
-- deleted head repository: https://github.com/refined-github/refined-github/pull/271
-- File with brackets in the name: https://github.com/refined-github/sandbox/pull/114/files
+- PR: https://github.com/refined-github/sandbox/pull/4/changes
+- deleted head repository: https://github.com/refined-github/refined-github/pull/271/changes
+- File with brackets in the path: https://github.com/refined-github/sandbox/pull/114/changes
 
 */

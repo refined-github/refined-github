@@ -64,9 +64,20 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	// `capture: true` required to be fired before GitHub's handlers
-	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleLegacyMenuOpening, {capture: true, signal});
-	delegate('[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpening);
+	delegate(
+		'div[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+		{signal},
+	);
+	// Old view -- TODO: Drop in the fall of 2026
+	delegate(
+		'.file-header .js-file-header-dropdown:not(.rgh-more-file-links)',
+		'toggle',
+		handleLegacyMenuOpening,
+		// `capture: true` required to be fired before GitHub's handlers
+		{capture: true, signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -79,7 +90,7 @@ void features.add(import.meta.url, {
 /*
 
 Test URLs:
-https://github.com/refined-github/sandbox/pull/55/files
+https://github.com/refined-github/sandbox/pull/55/changes
 https://github.com/refined-github/sandbox/compare/41c25160f0f574b302d72652ac83f4b2dab47e19...770d2ad5f086371da8a5f078f4267e6847e649f5
 https://github.com/refined-github/sandbox/commit/0504e7dccb40374c24c1217f37d3579993d6071e
 
