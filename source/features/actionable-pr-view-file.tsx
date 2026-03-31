@@ -29,8 +29,14 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		return;
 	}
 
-	const fileNameElement = menuButton.closest('[class*="diff-file-header"]')!
-		.querySelector('[class*="file-name"] code')!;
+	const fileHeader = menuButton.closest('[class*="diff-file-header"]')!;
+
+	const isDeletedFile = $$optional('[data-testid="deletion diffstat"]', fileHeader).length === 5;
+	if (isDeletedFile) {
+		return;
+	}
+
+	const fileNameElement = $('[class*="file-name"] code', fileHeader);
 	const renamedTooltip = $optional('span.sr-only', fileNameElement);
 	const filePath = (
 		renamedTooltip?.textContent.split(' renamed to ')[1]
