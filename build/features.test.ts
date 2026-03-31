@@ -18,7 +18,6 @@ const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 const noScreenshotExceptions = new Set([
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
 	'sort-conversations-by-update-time',
-	'prevent-pr-merge-panel-opening',
 	'command-palette-navigation-shortcuts',
 	'copy-on-y',
 	'create-release-shortcut',

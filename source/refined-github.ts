@@ -176,7 +176,6 @@ import './features/select-notifications.js';
 import './features/clean-repo-tabs.js';
 import './features/rgh-options-link.js';
 import './features/same-branch-author-commits.js';
-import './features/prevent-pr-merge-panel-opening.js';
 import './features/rgh-improve-new-issue-form.js';
 import './features/easy-toggle-commit-messages.js';
 import './features/command-palette-navigation-shortcuts.js';

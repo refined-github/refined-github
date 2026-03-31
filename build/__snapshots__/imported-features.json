@@ -116,7 +116,6 @@
 	"prevent-comment-loss",
 	"prevent-duplicate-pr-submission",
 	"prevent-link-loss",
-	"prevent-pr-merge-panel-opening",
 	"preview-hidden-comments",
 	"previous-next-commit-buttons",
 	"previous-version",
