@@ -29,13 +29,13 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		return;
 	}
 
-	const filePathElement = menuButton.closest('[class*="diff-file-header"]')!
-		.querySelector('[class*="file-path-section"] code')!;
-	// Filter comment nodes that are added if window width is less than 900px
-	// First and thrid nodes after filtering are LRM/RLM
-	const filePath = [...filePathElement.childNodes].filter(
-		node => node.nodeType === Node.TEXT_NODE,
-	)[1].textContent;
+	const fileNameElement = menuButton.closest('[class*="diff-file-header"]')!
+		.querySelector('[class*="file-name"] code')!;
+	const renamedTooltip = $optional('span.sr-only', fileNameElement);
+	const filePath = (
+		renamedTooltip?.textContent.split(' renamed to ')[1]
+		?? fileNameElement.textContent
+	).replaceAll(/\u200E|\u200F/g, '').trim();
 
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {
