@@ -1,4 +1,3 @@
-import {$optional} from 'select-dom/strict.js';
 import oneEvent from 'one-event';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -8,21 +7,13 @@ import showToast from '../github-helpers/toast.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
-	let wrapper: Element = paginationButton!.form!.parentElement!;
-	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';
-
-	while (paginationButton) {
-		// eslint-disable-next-line no-await-in-loop
-		await oneEvent(paginationButton.form!, 'page:loaded');
-		if (isExpandingMainThread) {
-			// Pagination forms in the main thread load their content in a nested wrapper
-			wrapper = wrapper.lastElementChild!;
-		}
-
-		paginationButton = $optional(`:scope > ${paginationButtonSelector}`, wrapper);
-		paginationButton?.click();
+async function collapseOneBatch(paginationButton: HTMLButtonElement | undefined) {
+	if (!paginationButton) {
+		return;
 	}
+
+	await oneEvent(paginationButton.form!, 'page:loaded');
+	paginationButton.click();
 }
 
 async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -30,9 +21,9 @@ async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent
 		return;
 	}
 
-	await showToast(expandHidden(delegateTarget), {
-		message: 'Expanding…',
-		doneMessage: 'Expanded',
+	await showToast(collapseOneBatch(delegateTarget), {
+		message: 'Collapsing…',
+		doneMessage: 'Collapsed a little',
 	});
 }
 

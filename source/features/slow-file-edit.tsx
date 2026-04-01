@@ -1,4 +1,4 @@
-import './quick-file-edit.css';
+import './slow-file-edit.css';
 
 import React from 'dom-chef';
 import PencilIcon from 'octicons-plain-react/Pencil';
@@ -17,10 +17,10 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 		.querySelector('a.Link--primary')!;
 
 	const url = new GitHubFileUrl(fileLink.href).assign({
-		route: 'edit',
+		route: 'blame',
 	});
 
-	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
+	wrap(fileIcon, <a href={url.href} className="rgh-slow-file-edit" />);
 	fileIcon.after(<PencilIcon />);
 }
 

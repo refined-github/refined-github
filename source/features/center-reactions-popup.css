@@ -8,7 +8,7 @@
 	/* Align the popups to the border + add 10px to make them overflow a bit */
 	/* Button on the top right of comments */
 	&.dropdown-menu-w {
-		/* Depends on the presence of `quick-comment-edit` */
+		/* Depends on the presence of `slow-comment-edit` */
 		translate: 107px -22px;
 	}
 

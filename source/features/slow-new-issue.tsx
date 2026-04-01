@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import {buildRepoUrl, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-const labelId = 'rgh-quick-new-issue';
+const labelId = 'rgh-slow-new-issue';
 
 function add(listItem: HTMLElement): void {
 	const newIssueItem = listItem.cloneNode(true);
@@ -17,7 +17,7 @@ function add(listItem: HTMLElement): void {
 	link.setAttribute('aria-labelledby', labelId);
 	label.id = labelId;
 
-	link.href = buildRepoUrl('issues/new/choose');
+	link.href = buildRepoUrl('issues');
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
 	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);

@@ -1,4 +1,4 @@
-import './quick-label-removal.css';
+import './slow-label-removal.css';
 
 import React from 'dom-chef';
 import {elementExists} from 'select-dom';
@@ -43,6 +43,10 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 	const removeLabelButton = event.delegateTarget;
 	const label = removeLabelButton.closest('a')!;
 
+	if (!confirm(`Remove the label ${removeLabelButton.dataset.name}?`)) {
+		return;
+	}
+
 	try {
 		label.hidden = true;
 		// Disable dropdown list to avoid race conditions in the UI.
@@ -68,8 +72,9 @@ function addRemoveLabelButton(label: HTMLElement): void {
 	label.append(
 		<button
 			type="button"
-			className="btn-link rgh-quick-label-removal"
+			className="btn-link rgh-slow-label-removal"
 			data-name={label.dataset.name}
+			title="Remove label with a confirmation"
 		>
 			<XIcon />
 		</button>,
@@ -79,7 +84,7 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
+	delegate('.rgh-slow-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
 

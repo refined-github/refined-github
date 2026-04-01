@@ -129,6 +129,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/169497171-85d4a97f-413a-41b4-84ba-885dca2b51cf.png"
 	},
 	{
+		"id": "collapse-all-hidden-comments",
+		"description": "Alt-clicking hidden comment pagination loads only one more batch at a time instead of the full thread.",
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png"
+	},
+	{
 		"id": "collapsible-content-button",
 		"description": "Adds a button in the text editor to insert collapsible content (via <code>&lt;details&gt;</code>).",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260875648-bd495d27-4cd1-4190-bcc5-b8b476f07d39.png"
@@ -225,16 +230,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png"
 	},
 	{
-		"id": "easy-toggle-commit-messages",
-		"description": "Enables toggling commit messages by clicking on the commit box.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif"
-	},
-	{
-		"id": "easy-toggle-files",
-		"description": "Enables toggling file diffs by clicking on their header bar.",
-		"screenshot": "https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif"
-	},
-	{
 		"id": "embed-gist-inline",
 		"description": "Embeds short gists when linked in comments on their own lines.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152117903-80d784d5-4f43-4786-bc4c-d4993aec5c79.png"
@@ -254,11 +249,6 @@
 		"id": "esc-to-deselect-line",
 		"description": "Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.",
 		"screenshot": null
-	},
-	{
-		"id": "expand-all-hidden-comments",
-		"description": "On long conversations where GitHub hides comments under a \"N hidden items. Load more...\", alt-clicking it will load up to 200 comments at once instead of 60.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png"
 	},
 	{
 		"id": "extend-conversation-status-filters",
@@ -297,6 +287,16 @@
 		"description": "Adds filters for PRs <em>in your repos</em> and <em>commented on by you</em> in the global PR search.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
+	},
+	{
+		"id": "hard-toggle-commit-messages",
+		"description": "Requires <kbd>alt</kbd> <kbd>shift</kbd> click to toggle commit messages.",
+		"screenshot": "https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif"
+	},
+	{
+		"id": "hard-toggle-files",
+		"description": "Requires <kbd>alt</kbd> <kbd>shift</kbd> click to toggle file diffs.",
+		"screenshot": "https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif"
 	},
 	{
 		"id": "hidden-review-comments-indicator",
@@ -663,54 +663,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png"
 	},
 	{
-		"id": "quick-comment-edit",
-		"description": "Lets you edit any comment with one click instead of having to open a dropdown.",
-		"screenshot": "https://user-images.githubusercontent.com/46634000/162252055-54750c89-0ddc-487a-b4ad-cec6009d9870.png"
-	},
-	{
-		"id": "quick-comment-hiding",
-		"description": "Simplifies the UI to hide comments.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
-	},
-	{
-		"id": "quick-file-edit",
-		"description": "Adds a button to edit files from the repo file list.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png"
-	},
-	{
-		"id": "quick-label-removal",
-		"description": "Adds one-click buttons to remove labels in issues/PRs.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif"
-	},
-	{
-		"id": "quick-mention",
-		"description": "Adds a button to <code>@mention</code> a user in issues and PRs.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261158402-5a79cc3e-4331-475f-8063-5ed81fefcf10.gif"
-	},
-	{
-		"id": "quick-new-issue",
-		"description": "Adds a link to create issues from anywhere in a repository.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/274816033-820ec518-049d-4248-9f8a-27b9423e350b.png"
-	},
-	{
-		"id": "quick-repo-deletion",
-		"description": "Simplifies the deletion of repositories. Adds \"Delete fork\" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.",
-		"screenshot": "https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5"
-	},
-	{
-		"id": "quick-review",
-		"description": "Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.",
-		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3"
-	},
-	{
-		"id": "quick-review-comment-deletion",
-		"description": "Adds a button to delete review comments in one click when editing them.",
-		"screenshot": "https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435"
-	},
-	{
 		"id": "reactions-avatars",
 		"description": "Adds reaction avatars showing <em>who</em> reacted to a comment.",
 		"css": true,
@@ -838,6 +790,54 @@
 		"id": "sidebar-focus-file",
 		"description": "Scrolls the file tree to the current file.",
 		"screenshot": "https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194"
+	},
+	{
+		"id": "slow-comment-edit",
+		"description": "Adds a button that opens the comment edit menu, so editing takes another click.",
+		"screenshot": "https://user-images.githubusercontent.com/46634000/162252055-54750c89-0ddc-487a-b4ad-cec6009d9870.png"
+	},
+	{
+		"id": "slow-comment-hiding",
+		"description": "Adds a confirmation step before falling back to GitHub's slower hide menu.",
+		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
+	},
+	{
+		"id": "slow-file-edit",
+		"description": "Adds a button that opens blame view from the repo file list, so editing takes an extra step.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png"
+	},
+	{
+		"id": "slow-label-removal",
+		"description": "Adds a confirmation step before removing labels in issues and PRs.",
+		"css": true,
+		"screenshot": "https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif"
+	},
+	{
+		"id": "slow-mention",
+		"description": "Adds a button that opens the user's profile instead of inserting a mention.",
+		"css": true,
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261158402-5a79cc3e-4331-475f-8063-5ed81fefcf10.gif"
+	},
+	{
+		"id": "slow-new-issue",
+		"description": "Adds a link to the issues list from anywhere in a repository, so you need one extra click before creating an issue.",
+		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/274816033-820ec518-049d-4248-9f8a-27b9423e350b.png"
+	},
+	{
+		"id": "slow-repo-deletion",
+		"description": "Makes deleting repositories slower by sending you to repository settings instead of deleting directly.",
+		"screenshot": "https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5"
+	},
+	{
+		"id": "slow-review",
+		"description": "Adds a review link that only sends you to the files tab, removing the instant review popup and approval shortcut.",
+		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3"
+	},
+	{
+		"id": "slow-review-comment-deletion",
+		"description": "Adds a confirmation step before deleting review comments while editing them.",
+		"screenshot": "https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435"
 	},
 	{
 		"id": "small-user-avatars",

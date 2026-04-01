@@ -7,6 +7,10 @@ import features from '../feature-manager.js';
 const activeElementsSelector = 'a, button, clipboard-copy, details';
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
+	if (!event.altKey || !event.shiftKey) {
+		return;
+	}
+
 	// The clicked element is a button, a link or a popup ("Verified" badge, CI details, etc.)
 	const elementClicked = event.target as HTMLElement;
 	if (elementClicked.closest(activeElementsSelector)) {
@@ -22,7 +26,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 	], event.delegateTarget)?.dispatchEvent(
-		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+		new MouseEvent('click', {bubbles: true, altKey: event.altKey, shiftKey: event.shiftKey}),
 	);
 }
 

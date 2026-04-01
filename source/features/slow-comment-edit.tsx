@@ -19,7 +19,11 @@ const isIssueIneditable = memoize(
 	},
 );
 
-async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
+function openEditMenu(commentDropdown: HTMLDetailsElement): void {
+	commentDropdown.open = true;
+}
+
+async function addSlowEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
 	if (await isIssueIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
@@ -34,20 +38,22 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 	}
 
 	// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
-	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
+	if (elementExists('.rgh-slow-comment-edit-button', commentBody)) {
 		return;
 	}
 
-	commentDropdown.before(
+	const slowEditButton = (
 		<button
 			type="button"
-			role="menuitem"
-			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
-			aria-label="Edit comment"
+			className="timeline-comment-action btn-link rgh-slow-comment-edit-button"
+			aria-label="Open the edit menu"
 		>
 			<PencilIcon />
-		</button>,
+		</button>
 	);
+
+	slowEditButton.addEventListener('click', () => openEditMenu(commentDropdown));
+	commentDropdown.before(slowEditButton);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -58,7 +64,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = await userIsModerator() ? '' : '.current-user';
 
-	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addQuickEditButton, {signal});
+	observe(preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative', addSlowEditButton, {signal});
 }
 
 void features.add(import.meta.url, {

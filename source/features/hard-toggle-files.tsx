@@ -9,10 +9,14 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
+	if (!event.altKey || !event.shiftKey) {
+		return;
+	}
+
 	// Exclude interactive elements
 	if (!elementClicked.closest(['a', 'button', 'clipboard-copy', 'details'])) {
 		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
-			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey, shiftKey: event.shiftKey}));
 	}
 }
 
@@ -21,9 +25,13 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 	const headerBar = event.delegateTarget;
 	const toggle = $(':scope > button', headerBar);
 
+	if (!event.altKey || !event.shiftKey) {
+		return;
+	}
+
 	// The clicked element is either the bar itself or one of its children excluding the button
 	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
-		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey, shiftKey: event.shiftKey}));
 	}
 }
 

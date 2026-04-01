@@ -1,9 +1,9 @@
 /* Show button when the avatar or the button itself are hovered/focused */
-:not(:hover, :focus) + .rgh-quick-mention:not(:hover, :focus) {
+:not(:hover, :focus) + .rgh-slow-mention:not(:hover, :focus) {
 	opacity: 20%;
 }
 
-.rgh-quick-mention {
+.rgh-slow-mention {
 	/* !important required to override .tooltipped */
 	position: absolute !important;
 	top: 100%;
@@ -14,7 +14,7 @@
 	padding: 4px 12px !important;
 }
 
-.rgh-quick-mention.react-view {
+.rgh-slow-mention.react-view {
 	position: static !important;
 	translate: none;
 
@@ -25,11 +25,11 @@
 }
 
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
-.rgh-quick-mention:not(:hover, :focus) {
+.rgh-slow-mention:not(:hover, :focus) {
 	color: inherit;
 }
 
 /* Show tooltip on top of `sticky-comment-header` */
-.TimelineItem-avatar:has(.rgh-quick-mention) {
+.TimelineItem-avatar:has(.rgh-slow-mention) {
 	z-index: 4;
 }

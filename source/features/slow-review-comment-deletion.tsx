@@ -11,6 +11,10 @@ import loadDetailsMenu from '../github-helpers/load-details-menu.js';
 import showToast from '../github-helpers/toast.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
+	if (!confirm('Delete this review comment the slow way?')) {
+		return;
+	}
+
 	try {
 		button
 			.closest('.js-comment')!
@@ -29,15 +33,15 @@ async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise
 
 function addDeleteButton(cancelButton: Element): void {
 	cancelButton.before(
-		<button className="btn btn-danger float-left mr-auto rgh-review-comment-delete-button" type="button">
+		<button className="btn btn-danger float-left mr-auto rgh-slow-review-comment-delete-button" type="button">
 			<TrashIcon />
 		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	delegate('.rgh-review-comment-delete-button', 'click', onButtonClick, {signal});
-	delegate('.rgh-quick-comment-edit-button', 'click', preloadDropdown, {signal});
+	delegate('.rgh-slow-review-comment-delete-button', 'click', onButtonClick, {signal});
+	delegate('.rgh-slow-comment-edit-button', 'click', preloadDropdown, {signal});
 	observe('.review-comment .js-comment-cancel-button', addDeleteButton, {signal});
 }
 
