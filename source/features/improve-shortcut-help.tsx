@@ -19,7 +19,7 @@ function improveShortcutHelpLegacy(dialog: Element): void {
 	$('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div className="Box Box--condensed m-4">
 			<div className="Box-header">
-				<h2 className="Box-title">Refined GitHub</h2>
+				<h2 className="Box-title">Rough GitHub</h2>
 			</div>
 
 			<ul>
@@ -69,7 +69,7 @@ const getRghShortcutsContainer = memoize(
 		const keybindingHint = $('kbd', shortcutItem);
 		const chord = $('span', shortcutItem);
 
-		$('h2', rghShortcutsContainer).textContent = 'Refined GitHub';
+		$('h2', rghShortcutsContainer).textContent = 'Rough GitHub';
 		shortcutsList.replaceChildren(
 			...[...shortcutMap]
 				.toSorted(([, a], [, b]) => a.localeCompare(b))

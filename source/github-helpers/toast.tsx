@@ -39,7 +39,7 @@ export default async function showToast(
 		>
 			{iconWrapper}
 			<span className="Toast-content py-2">
-				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Refined GitHub</div>
+				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Rough GitHub</div>
 				{messageWrapper}
 			</span>
 		</div>

@@ -31,7 +31,7 @@ const nativeRepos = new CachedFunction('native-update-button', {
 
 async function disableFeatureOnRepo(): Promise<void> {
 	const repo = getRepo()!.nameWithOwner;
-	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
+	console.trace('Rough GitHub: Disabling `update-pr-from-base-branch` on', repo);
 	features.unload(import.meta.url);
 	await nativeRepos.applyOverride([repo], true);
 }
@@ -40,12 +40,12 @@ const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	MERGE: {
 		buttonLabel: 'Update branch',
-		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
+		tooltipLabel: 'Update branch with merge commit using Rough GitHub',
 	},
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	REBASE: {
 		buttonLabel: 'Rebase',
-		tooltipLabel: 'Update branch with rebase using Refined GitHub',
+		tooltipLabel: 'Update branch with rebase using Rough GitHub',
 	},
 };
 

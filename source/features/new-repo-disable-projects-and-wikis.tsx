@@ -49,7 +49,7 @@ function add(blueprintRow: HTMLElement): void {
 	const description = $('.descriptionBox p', disableProjectsAndWikis);
 	description.replaceChildren(
 		'After creating the repository disable the projects and wiki. ',
-		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>,
+		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Rough GitHub.</a>,
 	);
 
 	const control = $('.blockControl', disableProjectsAndWikis);
@@ -89,7 +89,7 @@ function addOld(submitButton: HTMLElement): void {
 					/> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Rough GitHub.</a>
 				</span>
 			</div>
 		</div>,

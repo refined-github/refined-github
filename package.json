@@ -13,7 +13,7 @@
 		"lint:biome": "biome check",
 		"lint:prettier": "prettier . --check",
 		"new": "bash build/new-feature.sh",
-		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
+		"pack:safari": "xcodebuild -project 'safari/Rough GitHub.xcodeproj' -scheme 'Rough GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
 		"start": "npm run watch",
 		"test": "run-p vitest lint:* build:* --continue-on-error",

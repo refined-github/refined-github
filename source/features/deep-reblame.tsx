@@ -33,7 +33,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 	}
 
 	if (!repository.file) {
-		throw new Error('The file was renamed and Refined GitHub can’t find it');
+		throw new Error('The file was renamed and Rough GitHub can’t find it');
 	}
 
 	return associatedPr.commits.nodes[0].commit.oid;

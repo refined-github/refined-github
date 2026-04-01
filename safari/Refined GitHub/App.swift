@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct AppMain: App {
 	var body: some Scene {
-		WindowIfMacOS(Text("Refined GitHub"), id: "main") {
+		WindowIfMacOS(Text("Rough GitHub"), id: "main") {
 			MainScreen()
 		}
 		#if os(macOS)

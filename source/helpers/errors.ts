@@ -12,7 +12,7 @@ export function disableErrorLogging(): void {
 const {version} = chrome.runtime.getManifest();
 
 const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
+const preferredMessage = 'Rough GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {
@@ -37,7 +37,7 @@ export function logError(error: Error): void {
 	const {message, stack} = error;
 
 	if (message === 'Extension context invalidated.') {
-		warnOnce('ℹ️ Refined GitHub has been disabled or updated. Reload the page');
+		warnOnce('ℹ️ Rough GitHub has been disabled or updated. Reload the page');
 		return;
 	}
 
@@ -56,7 +56,7 @@ export function logError(error: Error): void {
 	}
 
 	if (message.includes('token')) {
-		console.log('ℹ️ Refined GitHub →', message, '→', id);
+		console.log('ℹ️ Rough GitHub →', message, '→', id);
 		return;
 	}
 
@@ -74,7 +74,7 @@ export function logError(error: Error): void {
 	].join('\n'));
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
+	console.group(`❌ Rough GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
 	console.log(`📕 ${version} ${isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
 	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);

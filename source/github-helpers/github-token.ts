@@ -21,7 +21,7 @@ export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions):
 		{
 			cache: 'no-store',
 			headers: {
-				'user-agent': 'Refined GitHub',
+				'user-agent': 'Rough GitHub',
 				accept: 'application/vnd.github.v3+json',
 				authorization: `token ${token}`,
 			},

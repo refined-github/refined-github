@@ -1,6 +1,6 @@
 # Privacy Policy
 
-No data or personal information is collected by Refined GitHub.
+No data or personal information is collected by Rough GitHub.
 
 ##### Contact
 

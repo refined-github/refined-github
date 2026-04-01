@@ -21,7 +21,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const description = meta?.description // Regular feature?
 		?? (
 			isFeaturePrivate(id)
-				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
+				? 'This feature applies only to "Rough GitHub" repositories and cannot be disabled.'
 				: isCss
 					? 'This feature is CSS-only and cannot be disabled.'
 					: undefined // The heck!?
@@ -127,7 +127,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			classes: [...classes, 'flash-warn'],
 			icon: <AlertIcon className="mr-0" />,
 			action: openOptions,
-			buttonLabel: 'Refined GitHub Options',
+			buttonLabel: 'Rough GitHub Options',
 		});
 	}
 

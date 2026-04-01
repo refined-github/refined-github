@@ -73,7 +73,7 @@
 </script>
 
 <main class:dimmed={stepValid === 3}>
-	<rgh-header title="Welcome to Refined GitHub"></rgh-header>
+	<rgh-header title="Welcome to Rough GitHub"></rgh-header>
 
 	<div class="content">
 		<ul>

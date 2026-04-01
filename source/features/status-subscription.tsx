@@ -112,7 +112,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	'x-github-client-version': 'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
+	'x-github-client-version': 'Rough GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
 	credentials: 'include',
 });
 

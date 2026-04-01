@@ -18,7 +18,7 @@
                BlueprintIdentifier = "E33B07DA2AA4975C00BD57D5"
                BuildableName = "Web Extension.appex"
                BlueprintName = "Web Extension"
-               ReferencedContainer = "container:Refined GitHub.xcodeproj">
+               ReferencedContainer = "container:Rough GitHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-               BuildableName = "Refined GitHub.app"
-               BlueprintName = "Refined GitHub"
-               ReferencedContainer = "container:Refined GitHub.xcodeproj">
+               BuildableName = "Rough GitHub.app"
+               BlueprintName = "Rough GitHub"
+               ReferencedContainer = "container:Rough GitHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-            BuildableName = "Refined GitHub.app"
-            BlueprintName = "Refined GitHub"
-            ReferencedContainer = "container:Refined GitHub.xcodeproj">
+            BuildableName = "Rough GitHub.app"
+            BlueprintName = "Rough GitHub"
+            ReferencedContainer = "container:Rough GitHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -84,9 +84,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-            BuildableName = "Refined GitHub.app"
-            BlueprintName = "Refined GitHub"
-            ReferencedContainer = "container:Refined GitHub.xcodeproj">
+            BuildableName = "Rough GitHub.app"
+            BlueprintName = "Rough GitHub"
+            ReferencedContainer = "container:Rough GitHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

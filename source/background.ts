@@ -27,7 +27,7 @@ if (!isSafari()) {
 addReloadWithoutContentScripts();
 
 // Extend the error message for the "No All URLs" bugfix
-customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
+customizeNoAllUrlsErrorMessage('Rough GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {

@@ -16,7 +16,7 @@ struct MainScreen: View {
 					.scaledToFit()
 					.frame(height: 140)
 					.accessibilityHidden(true)
-				Text("Refined GitHub")
+				Text("Rough GitHub")
 					.font(.largeTitle.bold())
 					#if os(macOS)
 					.padding(.top, 8)

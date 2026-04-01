@@ -20,7 +20,7 @@ async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
 		await chrome.tabs.reload(tab.id!);
 	} else {
 		// TODO: Use https://github.com/fregante/webext-events/issues/31 to disable the item instead
-		await webextAlert('Refined GitHub is already not running on this page');
+		await webextAlert('Rough GitHub is already not running on this page');
 	}
 }
 
@@ -29,7 +29,7 @@ export default function addReloadWithoutContentScripts(): void {
 
 	void createContextMenu({
 		id: 'reload-without-content-scripts',
-		title: 'Reload without Refined GitHub',
+		title: 'Reload without Rough GitHub',
 		contexts: ['action'],
 		onclick: reload,
 	});

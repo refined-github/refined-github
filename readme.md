@@ -1,4 +1,4 @@
-# <img src="source/icon.png" width="45" align="left"> Refined GitHub
+# <img src="source/icon.png" width="45" align="left"> Rough GitHub
 
 > Browser extension that simplifies the GitHub interface and adds useful features
 
@@ -8,7 +8,7 @@ Our hope is that GitHub will notice and implement some of these much-needed impr
 
 GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fsource%2Ficon.png). <!-- icon.png renders best -->
 
-*The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.*
+*The GITHUB and ROUGH GITHUB trademarks are owned by GitHub, Inc. and used under license.*
 
 ## Install
 
@@ -22,7 +22,7 @@ GitHub Enterprise is also supported: [How to enable it](https://fregante.github.
 
 [<img src="https://raw.githubusercontent.com/alrra/browser-logos/90fdf03c/src/safari/safari_128x128.png" width="48" alt="Safari" valign="middle">][link-safari] [<img valign="middle" src="https://img.shields.io/itunes/v/1519867270.svg?label=%20">][link-safari] on Mac, iOS and iPadOS
 
-[<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) _If you love Refined GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)_
+[<img src="https://raw.githubusercontent.com/iamcal/emoji-data/08ec822c38e0b7a6fea0b92a9c42e02b6ba24a84/img-apple-160/1f99a.png" width="48" valign="middle">](https://github.com/sponsors/fregante) *If you love Rough GitHub, consider [sponsoring or hiring](https://github.com/sponsors/fregante) the maintainer [@fregante](https://twitter.com/fregante)*
 
 
 <div align="center">
@@ -387,9 +387,9 @@ Refer to style guide in the wiki. Keep this message between sections.
 https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
 -->
 
-### Previously part of Refined GitHub
+### Previously part of Rough GitHub
 
-[GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.
+[GitHub took inspiration from Rough GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Rough GitHub in a single list.
 
 ## Customization
 

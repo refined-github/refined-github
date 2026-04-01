@@ -61,7 +61,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	});
 	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
-		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
+		<a className="d-inline-block" href={url}>via Rough GitHub <InfoIcon /></a>,
 	);
 }
 

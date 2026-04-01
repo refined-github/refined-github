@@ -1,4 +1,4 @@
-Refined GitHub is a Safari extension that simplifies the GitHub.com interface and adds useful features.
+Rough GitHub is a Safari extension that simplifies the GitHub.com interface and adds useful features.
 
 
 ■ Highlights
@@ -21,4 +21,4 @@ Refined GitHub is a Safari extension that simplifies the GitHub.com interface an
 And so much more! 200+ features. See the Developer Website for a full list of features.
 
 
-The GITHUB and REFINED GITHUB trademarks are owned by GitHub, Inc. and used under license.
+The GITHUB and ROUGH GITHUB trademarks are owned by GitHub, Inc. and used under license.

@@ -71,7 +71,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	if (!contentScripts) {
 		await contentScriptToggle.remove();
-		const message = 'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
+		const message = 'Rough GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
 		console.warn(message);
 		alert(message);
 		return;
@@ -87,7 +87,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	if (elementExists('[refined-github]')) {
 		console.warn(stripIndent(`
-			Refined GitHub has been loaded twice. This may be because:
+			Rough GitHub has been loaded twice. This may be because:
 
 			• You loaded the developer version, or
 			• The extension just updated
@@ -118,7 +118,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	}
 
 	if (elementExists('body.logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		console.warn('Rough GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
 		disableErrorLogging();
 	} else {
 		catchErrors();

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-               BuildableName = "Refined GitHub.app"
-               BlueprintName = "Refined GitHub"
-               ReferencedContainer = "container:Refined GitHub.xcodeproj">
+               BuildableName = "Rough GitHub.app"
+               BlueprintName = "Rough GitHub"
+               ReferencedContainer = "container:Rough GitHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-            BuildableName = "Refined GitHub.app"
-            BlueprintName = "Refined GitHub"
-            ReferencedContainer = "container:Refined GitHub.xcodeproj">
+            BuildableName = "Rough GitHub.app"
+            BlueprintName = "Rough GitHub"
+            ReferencedContainer = "container:Rough GitHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E33B07A22AA4965C00BD57D5"
-            BuildableName = "Refined GitHub.app"
-            BlueprintName = "Refined GitHub"
-            ReferencedContainer = "container:Refined GitHub.xcodeproj">
+            BuildableName = "Rough GitHub.app"
+            BlueprintName = "Rough GitHub"
+            ReferencedContainer = "container:Rough GitHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

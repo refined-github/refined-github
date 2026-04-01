@@ -44,11 +44,11 @@
 /* Begin PBXFileReference section */
 		E314AFCE2AB83A83008632D1 /* Web Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Web Extension.entitlements"; sourceTree = "<group>"; };
 		E332E6542E84FB0900C00D4C /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
-		E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Refined GitHub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E33B07A32AA4965C00BD57D5 /* Rough GitHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rough GitHub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33B07A62AA4965C00BD57D5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		E33B07A82AA4965C00BD57D5 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
 		E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E33B07AF2AA4965D00BD57D5 /* Refined GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Refined GitHub.entitlements"; sourceTree = "<group>"; };
+		E33B07AF2AA4965D00BD57D5 /* Rough GitHub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rough GitHub.entitlements"; sourceTree = "<group>"; };
 		E33B07BB2AA496EE00BD57D5 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
 		E33B07CE2AA496EE00BD57D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				E33B07F82AA498CC00BD57D5 /* Config.xcconfig */,
-				E33B07A52AA4965C00BD57D5 /* Refined GitHub */,
+				E33B07A52AA4965C00BD57D5 /* Rough GitHub */,
 				E33B07BA2AA496EE00BD57D5 /* Web Extension */,
 				E33B07A42AA4965C00BD57D5 /* Products */,
 			);
@@ -87,13 +87,13 @@
 		E33B07A42AA4965C00BD57D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */,
+				E33B07A32AA4965C00BD57D5 /* Rough GitHub.app */,
 				E33B07DB2AA4975C00BD57D5 /* Web Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E33B07A52AA4965C00BD57D5 /* Refined GitHub */ = {
+		E33B07A52AA4965C00BD57D5 /* Rough GitHub */ = {
 			isa = PBXGroup;
 			children = (
 				E33B07A62AA4965C00BD57D5 /* App.swift */,
@@ -103,9 +103,9 @@
 				E33B07AA2AA4965D00BD57D5 /* Assets.xcassets */,
 				E332E6542E84FB0900C00D4C /* AppIcon.icon */,
 				E33B07FB2AA49A2700BD57D5 /* Info.plist */,
-				E33B07AF2AA4965D00BD57D5 /* Refined GitHub.entitlements */,
+				E33B07AF2AA4965D00BD57D5 /* Rough GitHub.entitlements */,
 			);
-			path = "Refined GitHub";
+			path = "Rough GitHub";
 			sourceTree = "<group>";
 		};
 		E33B07BA2AA496EE00BD57D5 /* Web Extension */ = {
@@ -131,9 +131,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E33B07A22AA4965C00BD57D5 /* Refined GitHub */ = {
+		E33B07A22AA4965C00BD57D5 /* Rough GitHub */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E33B07B22AA4965D00BD57D5 /* Build configuration list for PBXNativeTarget "Refined GitHub" */;
+			buildConfigurationList = E33B07B22AA4965D00BD57D5 /* Build configuration list for PBXNativeTarget "Rough GitHub" */;
 			buildPhases = (
 				E33B079F2AA4965C00BD57D5 /* Sources */,
 				E33B07A02AA4965C00BD57D5 /* Frameworks */,
@@ -145,9 +145,9 @@
 			dependencies = (
 				E33B07F32AA4975C00BD57D5 /* PBXTargetDependency */,
 			);
-			name = "Refined GitHub";
-			productName = "Refined GitHub";
-			productReference = E33B07A32AA4965C00BD57D5 /* Refined GitHub.app */;
+			name = "Rough GitHub";
+			productName = "Rough GitHub";
+			productReference = E33B07A32AA4965C00BD57D5 /* Rough GitHub.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E33B07DA2AA4975C00BD57D5 /* Web Extension */ = {
@@ -183,7 +183,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Refined GitHub" */;
+			buildConfigurationList = E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Rough GitHub" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -197,7 +197,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E33B07A22AA4965C00BD57D5 /* Refined GitHub */,
+				E33B07A22AA4965C00BD57D5 /* Rough GitHub */,
 				E33B07DA2AA4975C00BD57D5 /* Web Extension */,
 			);
 		};
@@ -247,7 +247,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Refined GitHub" */ = {
+		E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Rough GitHub" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
@@ -313,7 +313,7 @@
 			};
 			name = Debug;
 		};
-		E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Refined GitHub" */ = {
+		E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Rough GitHub" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E33B07F82AA498CC00BD57D5 /* Config.xcconfig */;
 			buildSettings = {
@@ -372,12 +372,12 @@
 			};
 			name = Release;
 		};
-		E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Refined GitHub" */ = {
+		E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Rough GitHub" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined GitHub.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Rough GitHub/Rough GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -386,7 +386,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Refined GitHub/Info.plist";
+				INFOPLIST_FILE = "Rough GitHub/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -410,12 +410,12 @@
 			};
 			name = Debug;
 		};
-		E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Refined GitHub" */ = {
+		E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Rough GitHub" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Refined GitHub/Refined GitHub.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Rough GitHub/Rough GitHub.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -424,7 +424,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Refined GitHub/Info.plist";
+				INFOPLIST_FILE = "Rough GitHub/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -458,7 +458,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Web Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub Web Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = "Rough GitHub Web Extension";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -492,7 +492,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Web Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Refined GitHub Web Extension";
+				INFOPLIST_KEY_CFBundleDisplayName = "Rough GitHub Web Extension";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -519,19 +519,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Refined GitHub" */ = {
+		E33B079E2AA4965C00BD57D5 /* Build configuration list for PBXProject "Rough GitHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Refined GitHub" */,
-				E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Refined GitHub" */,
+				E33B07B02AA4965D00BD57D5 /* Debug configuration for PBXProject "Rough GitHub" */,
+				E33B07B12AA4965D00BD57D5 /* Release configuration for PBXProject "Rough GitHub" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		E33B07B22AA4965D00BD57D5 /* Build configuration list for PBXNativeTarget "Refined GitHub" */ = {
+		E33B07B22AA4965D00BD57D5 /* Build configuration list for PBXNativeTarget "Rough GitHub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Refined GitHub" */,
-				E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Refined GitHub" */,
+				E33B07B32AA4965D00BD57D5 /* Debug configuration for PBXNativeTarget "Rough GitHub" */,
+				E33B07B42AA4965D00BD57D5 /* Release configuration for PBXNativeTarget "Rough GitHub" */,
 			);
 			defaultConfigurationName = Release;
 		};

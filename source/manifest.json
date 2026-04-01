@@ -1,6 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/chrome-manifest",
-	"name": "Refined GitHub",
+	"name": "Rough GitHub",
 	"version": "0.0.0",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/refined-github/refined-github",
