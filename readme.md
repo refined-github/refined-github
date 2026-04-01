@@ -278,7 +278,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "new-or-deleted-file") [Indicates with an icon whether files in commits and PRs are being added or removed.](https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png)
 - [](# "hard-toggle-files") [Scales the original toggle button down to 25% size, so toggling file diffs becomes much harder to hit.](https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif)
 - [](# "same-branch-author-commits") [Preserves current branch and path when viewing all commits by an author.](https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png)
-- [](# "hard-toggle-commit-messages") [Requires <kbd>alt</kbd> <kbd>shift</kbd> click to toggle commit messages.](https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif)
+- [](# "hard-toggle-commit-messages") [Scales the original commit message toggle buttons down to 25% size, so expanding commit messages becomes much harder to hit.](https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif)
 - [](# "link-to-compare-diff") [Linkifies the "X files changed" text on compare pages to allow jumping to the diff.](https://user-images.githubusercontent.com/46634000/157072587-0335357a-18c7-44c4-ae6e-237080fb36b4.png)
 - [](# "conventional-commits") [Shows conventional commit types as labels before the commit message.](https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000)
 

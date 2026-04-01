@@ -1,0 +1,6 @@
+html:not([rgh-OFF-hard-toggle-commit-messages]) {
+	[data-testid='commit-row-show-description-button'],
+	[data-testid='latest-commit-details-toggle'] {
+		scale: 0.25;
+	}
+}

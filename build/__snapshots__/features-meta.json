@@ -290,7 +290,7 @@
 	},
 	{
 		"id": "hard-toggle-commit-messages",
-		"description": "Requires <kbd>alt</kbd> <kbd>shift</kbd> click to toggle commit messages.",
+		"description": "Scales the original commit message toggle buttons down to 25% size, so expanding commit messages becomes much harder to hit.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif"
 	},
 	{
