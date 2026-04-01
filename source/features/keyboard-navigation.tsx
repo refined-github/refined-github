@@ -13,10 +13,7 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	]));
 
 function runShortcuts(event: KeyboardEvent): void {
-	if (
-		(event.key !== 'j' && event.key !== 'k' && event.key !== 'x')
-		|| isEditable(event.target)
-	) {
+	if (!'jkx'.includes(event.key) || isEditable(event.target)) {
 		return;
 	}
 
