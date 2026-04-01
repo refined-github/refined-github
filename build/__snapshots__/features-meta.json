@@ -827,7 +827,7 @@
 	},
 	{
 		"id": "slow-repo-deletion",
-		"description": "Makes deleting repositories slower by sending you to repository settings instead of deleting directly.",
+		"description": "Makes deleting repositories slower by sending you to repository settings and throttling the confirmation field to one character per minute.",
 		"screenshot": "https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5"
 	},
 	{
