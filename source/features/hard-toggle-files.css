@@ -1,0 +1,7 @@
+html:not([rgh-OFF-hard-toggle-files]) {
+	[class^='DiffFileHeader-module__diff-file-header']
+		button:has(> .octicon-chevron-right, > .octicon-chevron-down),
+	.file-header .js-details-target {
+		scale: 0.25;
+	}
+}

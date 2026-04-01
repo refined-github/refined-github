@@ -295,7 +295,8 @@
 	},
 	{
 		"id": "hard-toggle-files",
-		"description": "Requires <kbd>alt</kbd> <kbd>shift</kbd> click to toggle file diffs.",
+		"description": "Scales the original toggle button down to 25% size, so toggling file diffs becomes much harder to hit.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif"
 	},
 	{

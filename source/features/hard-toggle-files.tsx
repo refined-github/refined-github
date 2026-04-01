@@ -1,64 +1,7 @@
-import {$} from 'select-dom/strict.js';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
-
-import {codeSearchHeader} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
+import './hard-toggle-files.css';
 
-function toggleFile(event: DelegateEvent<MouseEvent>): void {
-	const elementClicked = event.target as HTMLElement;
-	const headerBar = event.delegateTarget;
-
-	if (!event.altKey || !event.shiftKey) {
-		return;
-	}
-
-	// Exclude interactive elements
-	if (!elementClicked.closest(['a', 'button', 'clipboard-copy', 'details'])) {
-		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
-			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey, shiftKey: event.shiftKey}));
-	}
-}
-
-function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
-	const elementClicked = event.target as HTMLElement;
-	const headerBar = event.delegateTarget;
-	const toggle = $(':scope > button', headerBar);
-
-	if (!event.altKey || !event.shiftKey) {
-		return;
-	}
-
-	// The clicked element is either the bar itself or one of its children excluding the button
-	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
-		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey, shiftKey: event.shiftKey}));
-	}
-}
-
-function init(signal: AbortSignal): void {
-	delegate([
-		'.file-header',
-		// React
-		'[class^="Diff-module__diffHeaderWrapper"]',
-	], 'click', toggleFile, {signal});
-}
-
-function initSearchPage(signal: AbortSignal): void {
-	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, {signal});
-}
-
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasFiles,
-		pageDetect.isGistRevision,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalSearchResults,
-	],
-	init: initSearchPage,
-});
+void features.addCssFeature(import.meta.url);
 
 /*
 
