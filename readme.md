@@ -1,10 +1,10 @@
 # <img src="source/icon.png" width="45" align="left"> Rough GitHub
 
-> Browser extension that simplifies the GitHub interface and adds useful features
+> Browser extension that complicates the GitHub interface and adds frustrating annoyances
 
-We use GitHub a lot and notice many annoyances we'd like to fix. So here be dragons.
+We use GitHub a lot and notice many nice things we'd like to make worse. So here be dragons.
 
-Our hope is that GitHub will notice and implement some of these much-needed improvements. So if you like any of these improvements, please open a discussion on [GitHub feedback](https://github.com/github-community/community/discussions) or contact [GitHub support](https://support.github.com/request) about doing it.
+Our hope is that GitHub will notice and implement some of these much-needed regressions. So if you like any of these regressions, please open a discussion on [GitHub feedback](https://github.com/github-community/community/discussions) or contact [GitHub support](https://support.github.com/request) about doing it.
 
 GitHub Enterprise is also supported: [How to enable it](https://fregante.github.io/webext-permission-toggle/?name=Refined%20GitHub&icon=https%3A%2F%2Fraw.githubusercontent.com%2Frefined-github%2Frefined-github%2Fmain%2Fsource%2Ficon.png). <!-- icon.png renders best -->
 
