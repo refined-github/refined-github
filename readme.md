@@ -256,7 +256,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png) Common branch names known to be long-lived are excluded (`develop`, `release/*`, etc)
 - [](# "one-click-pr-or-gist") [Lets you create draft PRs and public gists in one click.](https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png)
 - [](# "clear-pr-merge-commit-message") [Clears the PR merge commit message of clutter, leaving only deduplicated co-authors.](https://user-images.githubusercontent.com/1402241/79257078-62b6fc00-7e89-11ea-8798-c06f33baa94b.png)
-- [](# "slow-review") [Adds a review link that only sends you to the files tab, removing the instant review popup and approval shortcut.](https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3)
+- [](# "slow-review") [Adds a review link that closes the tab when clicked. PR won't go anywhere, so why not take your time?](https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3)
 - [](# "pr-first-commit-title") [Uses the first commit for a new PR’s title and description.](https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif)
 
 <!--
