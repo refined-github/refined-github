@@ -3,11 +3,37 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
-function slowHideComment(event: DelegateEvent<MouseEvent>): void {
-	if (!confirm('Hide this comment the slow way?')) {
+const armedButtons = new WeakSet<HTMLButtonElement>();
+
+function slowHideComment(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	const button = event.delegateTarget;
+	if (armedButtons.has(button)) {
+		armedButtons.delete(button);
+		return;
+	}
+
+	if (!confirm('Are you sure you want to confirm that you want to hide this comment?')) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
+		return;
 	}
+
+	if (!confirm('Are you sure you want to hide this comment?')) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		return;
+	}
+
+	if (!confirm('Just making sure you are really sure')) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		return;
+	}
+
+
+	armedButtons.add(button);
+	event.preventDefault();
+	event.stopImmediatePropagation();
 }
 
 function init(signal: AbortSignal): void {

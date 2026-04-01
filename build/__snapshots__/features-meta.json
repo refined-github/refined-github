@@ -798,7 +798,7 @@
 	},
 	{
 		"id": "slow-comment-hiding",
-		"description": "Adds a confirmation step before falling back to GitHub's slower hide menu.",
+		"description": "Adds a confirmation step that makes hiding comments take 3 tries before falling back to GitHub's slower hide menu.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
 	},
 	{
