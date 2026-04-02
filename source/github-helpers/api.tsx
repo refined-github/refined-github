@@ -30,7 +30,6 @@ import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
 
-import onetime from '../helpers/onetime.js';
 import {getRepo, getLoggedInUser} from './index.js';
 import {getToken} from '../options-storage.js';
 import {log} from '../helpers/feature-helpers.js';
@@ -83,18 +82,7 @@ type GhGraphQlApiOptions = {
 	variables?: JsonObject;
 };
 
-// Memoized: token and logged-in user don't change within a page lifecycle
-const assertCurrentUser = onetime(async (): Promise<void> => {
-	const personalToken = await getToken();
-	if (!personalToken) {
-		return;
-	}
-
-	const loggedInUser = getLoggedInUser();
-	if (!loggedInUser) {
-		return;
-	}
-
+async function assertCurrentUser(personalToken: string, loggedInUser: string): Promise<void> {
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
 	if (currentTokenUser !== loggedInUser) {
 		throw new RefinedGitHubApiError(
@@ -103,7 +91,7 @@ const assertCurrentUser = onetime(async (): Promise<void> => {
 			'Update your token in the Refined GitHub options.',
 		);
 	}
-});
+}
 
 const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
@@ -121,12 +109,14 @@ const v3uncached = async (
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
 	const {ignoreHttpStatus, method, body, headers, json} = {...v3defaults, ...options};
+	const personalToken = await getToken();
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
-		await assertCurrentUser();
+		const loggedInUser = getLoggedInUser();
+		if (personalToken && loggedInUser) {
+			await assertCurrentUser(personalToken, loggedInUser);
+		}
 	}
-
-	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
 		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
@@ -209,7 +199,10 @@ const v4uncached = async (
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
 	if (/^\s*mutation[\s({]/.test(query)) {
-		await assertCurrentUser();
+		const loggedInUser = getLoggedInUser();
+		if (loggedInUser) {
+			await assertCurrentUser(personalToken, loggedInUser);
+		}
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
