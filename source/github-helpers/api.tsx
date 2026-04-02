@@ -82,7 +82,11 @@ type GhGraphQlApiOptions = {
 	variables?: JsonObject;
 };
 
-async function assertCurrentUser(personalToken: string, loggedInUser: string): Promise<void> {
+async function assertCurrentUser(personalToken: string | undefined, loggedInUser: string | undefined): Promise<void> {
+	if (!personalToken || !loggedInUser) {
+		return;
+	}
+
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
 	if (currentTokenUser !== loggedInUser) {
 		throw new RefinedGitHubApiError(
@@ -112,10 +116,7 @@ const v3uncached = async (
 	const personalToken = await getToken();
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
-		const loggedInUser = getLoggedInUser();
-		if (personalToken && loggedInUser) {
-			await assertCurrentUser(personalToken, loggedInUser);
-		}
+		await assertCurrentUser(personalToken, getLoggedInUser());
 	}
 
 	if (!query.startsWith('https')) {
@@ -199,10 +200,7 @@ const v4uncached = async (
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
 	if (/^\s*mutation[\s({]/.test(query)) {
-		const loggedInUser = getLoggedInUser();
-		if (loggedInUser) {
-			await assertCurrentUser(personalToken, loggedInUser);
-		}
+		await assertCurrentUser(personalToken, getLoggedInUser());
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
