@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
@@ -52,7 +52,7 @@ async function init(): Promise<void | false> {
 		<a
 			className="subnav-item tooltipped tooltipped-n"
 			aria-label={`View the ${changelog} file`}
-			href={buildRepoURL('blob', 'HEAD', changelog)}
+			href={buildRepoUrl('blob', 'HEAD', changelog)}
 		>
 			<span>Changelog</span>
 		</a>,

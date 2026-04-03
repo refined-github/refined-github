@@ -12,7 +12,7 @@ function linkifyIssue(issueCell: HTMLElement): void {
 }
 
 function linkifyFeature(issueCell: HTMLElement): void {
-	const url = getFeatureUrl(issueCell.textContent as FeatureID);
+	const url = getFeatureUrl(issueCell.textContent as FeatureId);
 	issueCell.replaceChildren(
 		<code>
 			<a className="d-inline-block" href={url}>

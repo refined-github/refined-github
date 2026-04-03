@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GetRepositoryInfo from './repo-header-info.gql';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
@@ -62,7 +62,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 		repoLink.after(
 			<a
-				href={buildRepoURL('stargazers')}
+				href={buildRepoUrl('stargazers')}
 				title={tooltip}
 				// Hide in small viewports, matches `ci-link`
 				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"

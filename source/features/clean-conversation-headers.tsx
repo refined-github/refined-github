@@ -13,7 +13,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 
-async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: string): Promise<void> {
+async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
@@ -62,7 +62,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	}
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
-	void highlightNonDefaultBranchPRs(base, baseBranch);
+	void highlightNonDefaultBranchPrs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
 	const anchor

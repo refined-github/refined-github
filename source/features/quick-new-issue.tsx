@@ -4,7 +4,7 @@ import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {buildRepoURL, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const labelId = 'rgh-quick-new-issue';
@@ -17,7 +17,7 @@ function add(listItem: HTMLElement): void {
 	link.setAttribute('aria-labelledby', labelId);
 	label.id = labelId;
 
-	link.href = buildRepoURL('issues/new/choose');
+	link.href = buildRepoUrl('issues/new/choose');
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
 	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);

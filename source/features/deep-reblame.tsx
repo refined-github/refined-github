@@ -10,7 +10,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
@@ -26,9 +26,9 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 		},
 	});
 
-	const associatedPR = repository.object.associatedPullRequests.nodes[0];
+	const associatedPr = repository.object.associatedPullRequests.nodes[0];
 
-	if (!associatedPR || !prNumbers.includes(associatedPR.number) || associatedPR.mergeCommit.oid !== commit) {
+	if (!associatedPr || !prNumbers.includes(associatedPr.number) || associatedPr.mergeCommit.oid !== commit) {
 		throw new Error('The PR linked in the title didn’t create this commit');
 	}
 
@@ -36,7 +36,7 @@ const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[]
 		throw new Error('The file was renamed and Refined GitHub can’t find it');
 	}
 
-	return associatedPR.commits.nodes[0].commit.oid;
+	return associatedPr.commits.nodes[0].commit.oid;
 });
 
 function extractCommitFromHoverCardUrl(url: string): string {
@@ -56,7 +56,7 @@ async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchor
 	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
 	const commitInfo = $('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
 	const prCommit = extractCommitFromHoverCardUrl(commitInfo);
-	const blameUrl = new GitHubFileURL(location.href);
+	const blameUrl = new GitHubFileUrl(location.href);
 
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);

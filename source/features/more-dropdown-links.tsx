@@ -12,7 +12,7 @@ import PackageDependenciesIcon from 'octicons-plain-react/PackageDependencies';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -32,10 +32,10 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 
 async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<void> {
 	const reference = getCurrentGitRef() ?? await getDefaultBranch();
-	const compareUrl = buildRepoURL('compare', reference);
-	const commitsUrl = buildRepoURL('commits', reference);
-	const branchesUrl = buildRepoURL('branches');
-	const dependenciesUrl = buildRepoURL('network/dependencies');
+	const compareUrl = buildRepoUrl('compare', reference);
+	const commitsUrl = buildRepoUrl('commits', reference);
+	const branchesUrl = buildRepoUrl('branches');
+	const dependenciesUrl = buildRepoUrl('network/dependencies');
 
 	repoNavigationDropdown.append(
 		<li className="dropdown-divider" role="separator" />,

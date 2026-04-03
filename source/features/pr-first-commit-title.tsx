@@ -59,7 +59,7 @@ function init(signal: AbortSignal): void {
 
 // The user already altered the PR title/body in a previous load, don't overwrite it
 // https://github.com/refined-github/refined-github/issues/7191
-function hasUserAlteredThePR(): boolean {
+function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
@@ -74,7 +74,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => new URLSearchParams(location.search).has('title'),
-		hasUserAlteredThePR,
+		hasUserAlteredThePr,
 	],
 	init,
 });

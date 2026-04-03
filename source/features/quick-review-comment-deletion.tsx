@@ -28,7 +28,7 @@ async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise
 }
 
 function addDeleteButton(cancelButton: Element): void {
-	cancelButton.after(
+	cancelButton.before(
 		<button className="btn btn-danger float-left mr-auto rgh-review-comment-delete-button" type="button">
 			<TrashIcon />
 		</button>,

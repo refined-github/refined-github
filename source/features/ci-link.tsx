@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -36,7 +36,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 		anchor.closest('li')!.classList.add('d-flex');
 	}
 
-	const endpoint = buildRepoURL('commits/checks-statuses-rollups');
+	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
 		<span className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center" title="CI status of latest commit">
