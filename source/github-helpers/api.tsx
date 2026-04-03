@@ -76,9 +76,8 @@ type GhRestApiOptions = {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-} & ({json: true; base64?: false}
-	| {base64: true; json?: false}
-	| {json?: false; base64?: false});
+	responseType?: 'json' | 'text' | 'base64';
+};
 
 type GhGraphQlApiOptions = {
 	allowErrors?: boolean;
@@ -111,8 +110,7 @@ const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
 	method: 'GET',
 	body: undefined,
-	json: true,
-	base64: false,
+	responseType: 'json',
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -123,7 +121,7 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, json, base64} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, responseType} = {...v3defaults, ...options};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
 		await assertCurrentUser();
@@ -142,19 +140,19 @@ const v3uncached = async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'user-agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
 	let apiResponse: AnyObject;
-	if (base64) {
+	if (responseType === 'base64') {
 		const arrayBuffer = await response.arrayBuffer();
 		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
 		apiResponse = {content};
 	} else {
 		const content = await response.text();
-		apiResponse = json ? JSON.parse(content) : {content};
+		apiResponse = responseType === 'json' ? JSON.parse(content) : {content};
 	}
 
 	if (

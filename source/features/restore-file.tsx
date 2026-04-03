@@ -34,10 +34,10 @@ async function getFile(filePath: string): Promise<string | undefined> {
 	const {content, httpStatus} = await api.v3(
 		`contents/${filePath}?ref=${ref}`,
 		{
-			base64: true,
+			responseType: 'base64',
 			ignoreHttpStatus: 404,
 			headers: {
-				Accept: 'application/vnd.github.raw',
+				accept: 'application/vnd.github.raw',
 			},
 		},
 	);
