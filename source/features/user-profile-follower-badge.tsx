@@ -11,7 +11,7 @@ import attachElement from '../helpers/attach-element.js';
 const doesUserFollow = new CachedFunction('user-follows', {
 	async updater(userA: string, userB: string): Promise<boolean> {
 		const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
-			json: false,
+			responseFormat: 'text',
 			ignoreHttpStatus: true,
 		});
 

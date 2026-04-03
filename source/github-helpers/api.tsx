@@ -29,6 +29,7 @@ import React from 'dom-chef';
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
+import {uint8ArrayToBase64} from 'uint8array-extras';
 
 import onetime from '../helpers/onetime.js';
 import {getRepo, getLoggedInUser} from './index.js';
@@ -75,7 +76,7 @@ type GhRestApiOptions = {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-	json?: boolean;
+	responseFormat?: 'json' | 'text' | 'base64';
 };
 
 type GhGraphQlApiOptions = {
@@ -109,7 +110,7 @@ const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
 	method: 'GET',
 	body: undefined,
-	json: true,
+	responseFormat: 'json',
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -120,7 +121,7 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, json} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
 		await assertCurrentUser();
@@ -139,13 +140,20 @@ const v3uncached = async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'user-agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
-	const textContent = await response.text();
-	const apiResponse = json ? JSON.parse(textContent) : {textContent};
+	let apiResponse: AnyObject;
+	if (responseFormat === 'base64') {
+		const arrayBuffer = await response.arrayBuffer();
+		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
+		apiResponse = {content};
+	} else {
+		const content = await response.text();
+		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
+	}
 
 	if (
 		response.ok

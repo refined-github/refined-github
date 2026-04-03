@@ -29,7 +29,7 @@ async function deleteRepository(): Promise<void> {
 	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
-		json: false,
+		responseFormat: 'text',
 	});
 }
 
