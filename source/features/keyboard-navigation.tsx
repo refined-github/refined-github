@@ -50,7 +50,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	);
 
 	if (currentIndex !== chosenItemIndex) {
-		// Set item as a target without pushing to history
+		// Make item a target without pushing to history
 		location.replace('#' + items[chosenItemIndex].id);
 	}
 }
