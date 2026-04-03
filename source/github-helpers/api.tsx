@@ -76,7 +76,7 @@ type GhRestApiOptions = {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-	responseType?: 'json' | 'text' | 'base64';
+	responseFormat?: 'json' | 'text' | 'base64';
 };
 
 type GhGraphQlApiOptions = {
@@ -110,7 +110,7 @@ const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
 	method: 'GET',
 	body: undefined,
-	responseType: 'json',
+	responseFormat: 'json',
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -121,7 +121,7 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, responseType} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
 		await assertCurrentUser();
@@ -146,13 +146,13 @@ const v3uncached = async (
 		},
 	});
 	let apiResponse: AnyObject;
-	if (responseType === 'base64') {
+	if (responseFormat === 'base64') {
 		const arrayBuffer = await response.arrayBuffer();
 		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
 		apiResponse = {content};
 	} else {
 		const content = await response.text();
-		apiResponse = responseType === 'json' ? JSON.parse(content) : {content};
+		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
 	}
 
 	if (
