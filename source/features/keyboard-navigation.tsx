@@ -2,8 +2,9 @@ import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
+import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
+import features from '../feature-manager.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
@@ -18,13 +19,10 @@ function runShortcuts(event: KeyboardEvent): void {
 	}
 
 	event.preventDefault();
+	const targetElement = $optional(':target');
 
-	const focusedComment = $optional(':target');
 	if (event.key === 'x') {
-		const toggle = focusedComment && $optional([
-			'.js-reviewed-toggle',
-			'[class*=MarkAsViewedButton]',
-		], focusedComment);
+		const toggle = targetElement && $optional(viewedToggleSelector, targetElement);
 		toggle?.click();
 		return;
 	}
@@ -40,20 +38,20 @@ function runShortcuts(event: KeyboardEvent): void {
 					: true,
 			);
 
-	// `j` goes to the next comment, `k` goes back a comment
+	// `j` goes to the next item, `k` goes back an item
 	const direction = event.key === 'j' ? 1 : -1;
-	// Without `focusedElement`, it will start from -1
-	const currentIndex = items.indexOf(focusedComment!);
+	// Without `targetElement`, it will start from -1
+	const currentIndex = items.indexOf(targetElement!);
 
 	// Start at 0 if nothing is; clamp index
-	const chosenCommentIndex = Math.min(
+	const chosenItemIndex = Math.min(
 		Math.max(0, currentIndex + direction),
 		items.length - 1,
 	);
 
-	if (currentIndex !== chosenCommentIndex) {
-		// Focus comment without pushing to history
-		location.replace('#' + items[chosenCommentIndex].id);
+	if (currentIndex !== chosenItemIndex) {
+		// Set item as a target without pushing to history
+		location.replace('#' + items[chosenItemIndex].id);
 	}
 }
 
