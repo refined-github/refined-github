@@ -58,5 +58,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/sandbox/pull/4
+https://github.com/refined-github/sandbox/pull/4/changes
+https://github.com/refined-github/sandbox/issues/3
 
 */
