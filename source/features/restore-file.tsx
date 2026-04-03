@@ -31,16 +31,17 @@ async function getHeadReference(): Promise<string> {
 
 async function getFile(filePath: string): Promise<string | undefined> {
 	const ref = await getMergeBaseReference();
-	const {content} = await api.v3(
+	const {content, httpStatus} = await api.v3(
 		`contents/${filePath}?ref=${ref}`,
 		{
 			base64: true,
+			ignoreHttpStatus: 404,
 			headers: {
 				Accept: 'application/vnd.github.raw',
 			},
 		},
 	);
-	return content;
+	return httpStatus === 404 ? undefined : content;
 }
 
 async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
@@ -49,7 +50,7 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 		getFile(originalFileName),
 	]);
 
-	const isNewFile = !file;
+	const isNewFile = file === undefined;
 	const isRenamed = originalFileName !== newFileName;
 
 	const contents = file ?? '';
