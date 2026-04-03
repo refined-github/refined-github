@@ -48,6 +48,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		: branchSelector;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
+	const buttonGroup = branchSelector.closest('[class*="ButtonGroup"]') ?? undefined;
+	const nativeButton = $optional('[type="button"]:has(> .octicon-chevron-left)', buttonGroup);
+	if (nativeButton?.ariaDisabled !== 'true') {
+		return;
+	}
+
 	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
@@ -81,6 +87,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	selectorWrapper.before(defaultLink);
 	wrapButtons([defaultLink, selectorWrapper]);
+
+	nativeButton?.classList.add('d-none');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
