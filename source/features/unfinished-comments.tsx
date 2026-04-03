@@ -9,7 +9,7 @@ let submitting: ReturnType<typeof setTimeout> | undefined;
 const prefix = '✏️ Comment - ';
 
 function isFieldDirty(field: HTMLTextAreaElement): boolean {
-	return field.matches('[class*="Textarea__StyledTextarea"]')
+	return field.matches('[class*="Textarea"]')
 		? field.value.length > 0 // React fields update both value and textContent, so default to "filled === dirty"
 		: field.value !== field.textContent;
 }
