@@ -9,7 +9,7 @@ let submitting: ReturnType<typeof setTimeout> | undefined;
 const prefix = '✏️ Comment - ';
 
 function isFieldDirty(field: HTMLTextAreaElement): boolean {
-	return field.matches('[class*="Textarea__StyledTextarea"]')
+	return field.matches('[class*="Textarea"]')
 		? field.value.length > 0 // React fields update both value and textContent, so default to "filled === dirty"
 		: field.value !== field.textContent;
 }
@@ -58,5 +58,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/sandbox/pull/4
+https://github.com/refined-github/sandbox/pull/4/changes
+https://github.com/refined-github/sandbox/issues/3
 
 */
