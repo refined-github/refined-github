@@ -208,8 +208,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/pull/16/files
-https://github.com/refined-github/sandbox/pull/29/files
+https://github.com/refined-github/sandbox/pull/16/changes
+https://github.com/refined-github/sandbox/pull/29/changes
 https://github.com/refined-github/sandbox/pull/128/changes
 
 */
