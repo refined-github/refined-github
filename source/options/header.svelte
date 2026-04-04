@@ -17,7 +17,7 @@
 	<div class="content">
 		<h1>
 			<img src="icon.png" alt="" height="32" />
-			{title} v{version}
+			{title} <span class="version">v{version}</span>
 		</h1>
 		<div>
 			<slot />
@@ -50,6 +50,11 @@
 		img {
 			height: 1.3em;
 			width: 1.3em;
+		}
+
+		.version {
+			font-size: 0.6em;
+			align-self: flex-end;
 		}
 	}
 </style>
