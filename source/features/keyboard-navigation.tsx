@@ -2,8 +2,9 @@ import {$optional} from 'select-dom/strict.js';
 import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
+import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
+import features from '../feature-manager.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
@@ -13,13 +14,19 @@ const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	]));
 
 function runShortcuts(event: KeyboardEvent): void {
-	if ((event.key !== 'j' && event.key !== 'k') || isEditable(event.target)) {
+	if (!'jkx'.includes(event.key) || isEditable(event.target)) {
 		return;
 	}
 
 	event.preventDefault();
+	const targetElement = $optional(':target');
 
-	const focusedComment = $optional(':target');
+	if (event.key === 'x') {
+		const toggle = targetElement && $optional(viewedToggleSelector, targetElement);
+		toggle?.click();
+		return;
+	}
+
 	const items
 		= $$([
 			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
@@ -31,20 +38,20 @@ function runShortcuts(event: KeyboardEvent): void {
 					: true,
 			);
 
-	// `j` goes to the next comment, `k` goes back a comment
+	// `j` goes to the next item, `k` goes back an item
 	const direction = event.key === 'j' ? 1 : -1;
-	// Without `focusedElement`, it will start from -1
-	const currentIndex = items.indexOf(focusedComment!);
+	// Without `targetElement`, it will start from -1
+	const currentIndex = items.indexOf(targetElement!);
 
 	// Start at 0 if nothing is; clamp index
-	const chosenCommentIndex = Math.min(
+	const chosenItemIndex = Math.min(
 		Math.max(0, currentIndex + direction),
 		items.length - 1,
 	);
 
-	if (currentIndex !== chosenCommentIndex) {
-		// Focus comment without pushing to history
-		location.replace('#' + items[chosenCommentIndex].id);
+	if (currentIndex !== chosenItemIndex) {
+		// Make item a target without pushing to history
+		location.replace('#' + items[chosenItemIndex].id);
 	}
 }
 
@@ -56,6 +63,7 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		j: 'Focus the comment/file below',
 		k: 'Focus the comment/file above',
+		x: 'Mark the file as viewed/unviewed',
 	},
 	include: [
 		pageDetect.hasComments,
