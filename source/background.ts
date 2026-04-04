@@ -55,7 +55,7 @@ handleMessages({
 		const response = await fetch(url);
 		return response.json();
 	},
-	async openOptionsPage(hash?: string) {
+	async openOptionsPage(hash: string) {
 		return chrome.tabs.create({
 			url: chrome.runtime.getURL(`assets/options.html${hash && `#${hash}`}`),
 		});
