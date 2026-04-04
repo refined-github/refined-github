@@ -15,10 +15,7 @@ import {
 	scrollIntoViewIfNeeded,
 	triggerConversationUpdate,
 } from '../github-helpers/index.js';
-import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../options-storage.js';
-
-const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
 
 // Be careful not to select the "Submit review" button in the dialog
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
@@ -36,7 +33,7 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 
 	await showToast(call, {
 		message: 'Approving…',
-		doneMessage: `${randomArrayItem(emojis)} Approved`,
+		doneMessage: 'Approved',
 	});
 
 	// Update timeline and scroll to bottom so the new review appears in view
