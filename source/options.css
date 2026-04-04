@@ -144,8 +144,8 @@ summary:hover {
 	align-items: baseline;
 	flex-wrap: wrap;
 	gap: 0 0.4em;
-	border-radius: var(--border-radius);
 
+	border-radius: var(--border-radius);
 	outline: solid 2px transparent;
 	&:has(> :target) {
 		animation-name: blink-border;
@@ -153,8 +153,7 @@ summary:hover {
 		animation-iteration-count: 2;
 	}
 
-	padding-block: 0.5em;
-	padding-inline: 0;
+	padding: 0.5em 0;
 	&:first-of-type {
 		padding-top: 0;
 	}
