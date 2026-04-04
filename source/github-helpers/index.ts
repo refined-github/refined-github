@@ -131,7 +131,7 @@ const navigationBarSelector = `:is(${[
 	'.GlobalNav',
 	// Remove after June 2026
 	'.js-repo-nav',
-].join(',')}`;
+].join(',')})`;
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
