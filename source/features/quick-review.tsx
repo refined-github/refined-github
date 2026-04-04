@@ -18,7 +18,7 @@ import {
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../options-storage.js';
 
-const emojis = [...'🚀🐿️⚡️🤌🥳🥰🤩🥸😎🤯🚢🛫🏳️🏁'];
+const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
 
 // Be careful not to select the "Submit review" button in the dialog
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
