@@ -6,7 +6,6 @@
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
-	--summary-padding: 10px;
 
 	max-width: none;
 }
@@ -87,6 +86,7 @@ details > div {
 }
 
 summary {
+	--summary-padding: 10px;
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -139,22 +139,20 @@ summary:hover {
 }
 
 .feature:not([hidden]) {
-	--outline-width: 2px;
-	--padding-block: 0.5em;
-
 	display: flex;
 	align-items: baseline;
 	flex-wrap: wrap;
 	gap: 0 0.4em;
 	border-radius: var(--border-radius);
 
+	outline: solid 2px transparent;
 	&:has(> :target) {
 		animation-name: blink-border;
 		animation-duration: 1.5s;
 		animation-iteration-count: 2;
 	}
 
-	padding-block: var(--padding-block);
+	padding-block: 0.5em;
 	padding-inline: 0;
 	&:first-of-type {
 		padding-top: 0;
@@ -165,26 +163,14 @@ summary:hover {
 }
 
 @keyframes blink-border {
-	0%,
-	100% {
-		outline: solid var(--outline-width) transparent;
-	}
 	50% {
-		outline: solid var(--outline-width) #1f6feb;
+		outline-color: #1f6feb;
 	}
 }
 
 .feature input[type='checkbox'] {
 	flex-shrink: 0;
-	scroll-margin-top: calc(
-		var(--outline-width) +
-		var(--padding-block) *
-		2 +
-		/* summary header */
-		1.5rem +
-		var(--summary-padding) +
-		1lh
-	);
+	scroll-margin-top: 64px;
 }
 
 .feature-checkbox:not(:checked) + .info .feature-name {
