@@ -57,7 +57,7 @@ handleMessages({
 	},
 	async openOptionsPage(hash?: string) {
 		return chrome.tabs.create({
-			url: chrome.runtime.getURL(`assets/options.html${hash ? `#${hash}` : ''}`),
+			url: chrome.runtime.getURL(`assets/options.html${hash && `#${hash}`}`),
 		});
 	},
 	async getStyleHotfixes() {
