@@ -54,7 +54,7 @@
 
 		.version {
 			font-size: 0.6em;
-			align-self: flex-end;
+			align-self: baseline;
 		}
 	}
 </style>
