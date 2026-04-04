@@ -82,7 +82,8 @@ type GhGraphQlApiOptions = {
 	variables?: JsonObject;
 };
 
-async function assertCurrentUser(personalToken: string | undefined, loggedInUser: string | undefined): Promise<void> {
+async function assertMatchesCurrentUser(personalToken: string | undefined): Promise<void> {
+	const loggedInUser = getLoggedInUser();
 	if (!personalToken || !loggedInUser) {
 		return;
 	}
@@ -116,7 +117,7 @@ const v3uncached = async (
 	const personalToken = await getToken();
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
-		await assertCurrentUser(personalToken, getLoggedInUser());
+		await assertMatchesCurrentUser(personalToken);
 	}
 
 	if (!query.startsWith('https')) {
@@ -200,7 +201,7 @@ const v4uncached = async (
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
 	if (/^\s*mutation[\s({]/.test(query)) {
-		await assertCurrentUser(personalToken, getLoggedInUser());
+		await assertMatchesCurrentUser(personalToken);
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
@@ -329,7 +330,7 @@ const api = {
 	v4uncached,
 	escapeKey,
 	getError,
-	assertCurrentUser,
+	assertMatchesCurrentUser,
 };
 
 export default api;
