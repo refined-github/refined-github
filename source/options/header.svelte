@@ -10,13 +10,14 @@
 <!-- prettier-ignore -->
 <script lang="ts">
 	const {title}: {title: string} = $props();
+	const {version} = chrome.runtime.getManifest();
 </script>
 
 <header>
 	<div class="content">
 		<h1>
 			<img src="icon.png" alt="" height="32" />
-			{title}
+			{title} <small>v{version}</small>
 		</h1>
 		<div>
 			<slot />
