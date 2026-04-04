@@ -1,7 +1,8 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
-/* `isCommitList` commit message */
-[data-testid='commit-row-item'] code,
-.Box-header .commit-author + span code /* `isRepoTree` commit message */ {
+[data-testid='commit-row-item'] code /* `isCommitList` commit message */,
+.Box-header .commit-author + span code /* `isRepoTree` commit message */,
+a[class*='PinnedIssue-module__Link'] code,
+div[class^='CommitHeader-module__commitMessageContainer'] code {
 	padding: 2px 4px;
 	background-color: var(
 		--bgColor-neutral-muted,
