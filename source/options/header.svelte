@@ -17,7 +17,7 @@
 	<div class="content">
 		<h1>
 			<img src="icon.png" alt="" height="32" />
-			{title} <small>v{version}</small>
+			{title} v{version}
 		</h1>
 		<div>
 			<slot />
