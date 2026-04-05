@@ -422,11 +422,6 @@
 		"screenshot": "https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90"
 	},
 	{
-		"id": "linkify-user-edit-history-popup",
-		"description": "Linkifies the username in the edit history popup.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png"
-	},
-	{
 		"id": "linkify-user-labels",
 		"description": "Links the \"Contributor\", \"Member\" and \"Collaborator\" labels on comments to the author’s commits on the repo.",
 		"css": true,
