@@ -12,7 +12,7 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 	const {owner, name, branch} = getBranches().head;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
-	viewFileLink.pathname = [owner, name, 'blob', branch, filePath]
+	viewFileLink.pathname = [owner, name, 'blob', branch, ...filePath.split('/')]
 		.map(element => encodeURIComponent(element))
 		.join('/');
 }
