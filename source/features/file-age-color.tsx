@@ -17,8 +17,9 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	const lastUpdate = new Date(lastUpdateElement.getAttribute('datetime') ?? lastUpdateElement.title);
 	const diff = Date.now() - lastUpdate.getTime();
 
+	// Files older than 1 year are dimmed; `createHeatIndex` only covers recently updated files
 	if (diff > 365.25 * 24 * 60 * 60 * 1000) {
-		lastUpdateElement.closest('tr, [role="row"]')!.style.opacity = '0.8';
+		lastUpdateElement.style.opacity = '0.8';
 		return;
 	}
 
