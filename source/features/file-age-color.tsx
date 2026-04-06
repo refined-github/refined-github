@@ -8,7 +8,7 @@ import * as pageDetect from 'github-url-detection';
 
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {createHeatIndexFunction} from '../helpers/math.js';
+import { createHeatIndexFunction } from '../helpers/math.js';
 
 const calculateHeatIndex = createHeatIndexFunction([0, -2_000_000_000]);
 const threeMonths = 365.25 / 4 * 24 * 60 * 60 * 1000;
@@ -25,7 +25,7 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	}
 
 	if (diff > threeMonths) {
-		lastUpdateElement.style.opacity = '0.65';
+		lastUpdateElement.style.opacity = '0.75';
 		return;
 	}
 
@@ -33,7 +33,7 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-directory-commit-age > [title]', addHeatIndex, {signal});
+	observe('.react-directory-commit-age > [title]', addHeatIndex, { signal });
 }
 
 void features.add(import.meta.url, {
