@@ -17,6 +17,11 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 	const lastUpdate = new Date(lastUpdateElement.getAttribute('datetime') ?? lastUpdateElement.title);
 	const diff = Date.now() - lastUpdate.getTime();
 
+	if (diff > 365.25 * 24 * 60 * 60 * 1000) {
+		lastUpdateElement.closest('tr, [role="row"]')!.style.opacity = '0.8';
+		return;
+	}
+
 	lastUpdateElement.setAttribute('data-rgh-heat', String(calculateHeatIndex(-diff)));
 }
 
