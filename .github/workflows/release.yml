@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v8
       - name: Create release notes
-        run: echo "{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}" > /tmp/amo-metadata.json
+        run: echo "{\"version\":{\"release_notes\":{\"en-US\":\"https://github.com/${{ github.repository }}/releases/tag/${{ needs.Version.outputs.version }}\"}}}" > /tmp/amo-metadata.json
       - name: Upload build and source code
         run: npx web-ext@9 sign --channel listed --amo-metadata /tmp/amo-metadata.json
         env:
