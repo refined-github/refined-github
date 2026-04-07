@@ -50,7 +50,7 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && `${location.origin}/${data.repository.nameWithOwner}/tree/${pr.baseRefName}`;
+		const branch = pr.baseRef && `/${data.repository.nameWithOwner}/tree/${pr.baseRefName}`;
 		const displayName = abbreviateString(pr.baseRefName, 25);
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
