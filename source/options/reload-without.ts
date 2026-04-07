@@ -5,7 +5,7 @@ import {createContextMenu} from 'webext-tools';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 // Don't use `isFirefox` - #9065
-const area = chrome.storage.session?.setAccessLevel === undefined ? 'local' : 'session';
+const area = chrome.storage.session?.setAccessLevel ? 'session' : 'local';
 
 export const contentScriptToggle = new StorageItem('contentScript', {
 	area,
