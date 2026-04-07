@@ -5,8 +5,6 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
@@ -23,6 +21,8 @@ function isClosed(prLink: HTMLElement): boolean {
 function buildQuery(issueIds: string[]): string {
 	return `
 		repository() {
+			nameWithOwner
+			defaultBranchRef {name}
 			${issueIds.map(id => `
 				${id}: pullRequest(number: ${id.replaceAll(/\D/g, '')}) {
 					baseRef {id}
@@ -35,10 +35,8 @@ function buildQuery(issueIds: string[]): string {
 
 async function add(prLinks: HTMLElement[]): Promise<void> {
 	const query = buildQuery(prLinks.map(pr => pr.id));
-	const [data, defaultBranch] = await Promise.all([
-		api.v4(query),
-		getDefaultBranch(),
-	]);
+	const data = await api.v4(query);
+	const defaultBranch = data.repository.defaultBranchRef?.name;
 
 	for (const prLink of prLinks) {
 		const pr: BranchInfo = data.repository[prLink.id];
@@ -52,7 +50,7 @@ async function add(prLinks: HTMLElement[]): Promise<void> {
 			continue;
 		}
 
-		const branch = pr.baseRef && buildRepoUrl('tree', pr.baseRefName);
+		const branch = pr.baseRef && `${location.origin}/${data.repository.nameWithOwner}/tree/${pr.baseRefName}`;
 		const displayName = abbreviateString(pr.baseRefName, 25);
 
 		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
