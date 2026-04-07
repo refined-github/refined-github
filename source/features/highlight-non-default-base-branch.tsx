@@ -14,70 +14,119 @@ type BranchInfo = {
 	baseRefName: string;
 };
 
+type PrRef = {
+	link: HTMLAnchorElement;
+	owner: string;
+	repo: string;
+	number: number;
+};
+
 function isClosed(prLink: HTMLElement): boolean {
-	return Boolean(prLink.closest('.js-issue-row')!.querySelector(['.octicon.merged', '.octicon.closed']));
+	return Boolean(prLink.closest('.js-issue-row')?.querySelector(['.octicon.merged', '.octicon.closed']));
 }
 
-function buildQuery(issueIds: string[]): string {
-	return `
-		repository() {
-			nameWithOwner
-			defaultBranchRef {name}
-			${issueIds.map(id => `
-				${id}: pullRequest(number: ${id.replaceAll(/\D/g, '')}) {
-					baseRef {id}
-					baseRefName
-				}
-			`).join('\n')}
-		}
-	`;
+function repoAlias(owner: string, repo: string): string {
+	return `repo_${owner}_${repo}`.replaceAll(/\W/g, '_');
 }
 
-async function add(prLinks: HTMLElement[]): Promise<void> {
-	const query = buildQuery(prLinks.map(pr => pr.id));
-	const data = await api.v4(query);
-	const defaultBranch = data.repository.defaultBranchRef?.name;
+function buildQuery(groups: Map<string, PrRef[]>): string {
+	return [...groups.values()].map(prs => {
+		const {owner, repo} = prs[0];
+		return `
+			${repoAlias(owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
+				nameWithOwner
+				defaultBranchRef {name}
+				${prs.map(pr => `
+					pr_${pr.number}: pullRequest(number: ${pr.number}) {
+						baseRef {id}
+						baseRefName
+					}
+				`).join('\n')}
+			}
+		`;
+	}).join('\n');
+}
 
-	for (const prLink of prLinks) {
-		const pr: BranchInfo = data.repository[prLink.id];
-		if (pr.baseRefName === defaultBranch) {
+function renderBadge(pr: PrRef, info: BranchInfo, nameWithOwner: string): void {
+	const branch = info.baseRef && `/${nameWithOwner}/tree/${info.baseRefName}`;
+	const displayName = abbreviateString(info.baseRefName, 25);
+
+	const badge = (
+		<span className="issue-meta-section ml-2">
+			<GitPullRequestIcon />
+			{' To '}
+			<span
+				className="commit-ref user-select-contain mb-n1"
+				style={branch ? {} : {textDecoration: 'line-through'}}
+			>
+				<a title={branch ? info.baseRefName : 'Deleted'} href={branch}>
+					{displayName}
+				</a>
+			</span>
+		</span>
+	);
+
+	// Legacy DOM exposes a dedicated metadata container; React rows (global list) don't, so place next to the title link
+	const legacyMeta = pr.link.parentElement?.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex');
+	if (legacyMeta) {
+		legacyMeta.append(badge);
+	} else {
+		pr.link.after(badge);
+	}
+}
+
+async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
+	const groups = new Map<string, PrRef[]>();
+	for (const link of prLinks) {
+		const [, owner, repo, , number] = link.pathname.split('/');
+		const ref: PrRef = {
+			link, owner, repo, number: Number(number),
+		};
+		const key = `${owner}/${repo}`;
+		const list = groups.get(key) ?? [];
+		list.push(ref);
+		groups.set(key, list);
+	}
+
+	const data = await api.v4(buildQuery(groups));
+
+	for (const prs of groups.values()) {
+		const {owner, repo} = prs[0];
+		const repository = data[repoAlias(owner, repo)];
+		if (!repository) {
 			continue;
 		}
 
-		// Avoid noise on old PRs pointing to `master` #3910
-		// If the PR is open, it means that `master` still exists
-		if (pr.baseRefName === 'master' && isClosed(prLink)) {
-			continue;
+		const defaultBranch = repository.defaultBranchRef?.name;
+		for (const pr of prs) {
+			const info: BranchInfo = repository[`pr_${pr.number}`];
+			if (info.baseRefName === defaultBranch) {
+				continue;
+			}
+
+			// Avoid noise on old PRs pointing to `master` #3910
+			// If the PR is open, it means that `master` still exists
+			if (info.baseRefName === 'master' && isClosed(pr.link)) {
+				continue;
+			}
+
+			renderBadge(pr, info, repository.nameWithOwner);
 		}
-
-		const branch = pr.baseRef && `/${data.repository.nameWithOwner}/tree/${pr.baseRefName}`;
-		const displayName = abbreviateString(pr.baseRefName, 25);
-
-		prLink.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!.append(
-			<span className="issue-meta-section ml-2">
-				<GitPullRequestIcon />
-				{' To '}
-				<span
-					className="commit-ref user-select-contain mb-n1"
-					style={branch ? {} : {textDecoration: 'line-through'}}
-				>
-					<a title={branch ? pr.baseRefName : 'Deleted'} href={branch}>
-						{displayName}
-					</a>
-				</span>
-			</span>,
-		);
 	}
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe('.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', batchedFunction(add, {delay: 100}), {signal});
+	observe([
+		'.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', // Per-repo issue/PR list
+		'a[data-testid="issue-pr-title-link"][href*="/pull/"]', // Global PR list (React row)
+	], batchedFunction(add, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
 });
@@ -86,6 +135,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
+- Repo PR list:   https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
+- Global PR list: https://github.com/pulls?q=is%3Apr+is%3Aopen+author%3A%40me
 
 */
