@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {CachedFunction} from 'webext-storage-cache';
 import {countElements} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
@@ -12,7 +12,13 @@ import getTabCount from '../github-helpers/get-tab-count.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {unhideOverflowDropdown} from './more-dropdown-links.js';
+import {
+	wikiTab,
+	actionsTab,
+	projectsTab,
+	securityTab,
+	insightsTab,
+} from '../github-helpers/selectors.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -20,16 +26,23 @@ async function canUserEditOrganization(): Promise<boolean> {
 
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
-		// User is on tab 👀
-		tab.matches('.selected')
+		// User is on tab
+		tab.matches('.selected, [aria-current="page"]')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
 		|| pageDetect.canUserAdminRepo()
 	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	let tabCounter = $optional('.Counter, .num', tab);
+	// Old DOM: .Counter or .num inside the tab link
+	// New React DOM: [data-component="counter"] wrapping the counter label
+	let tabCounter = $optional([
+		'.Counter', // Old DOM
+		'.num', // Old DOM alternate
+		'[data-component="counter"]', // React DOM
+	], tab);
 	if (!tabCounter) {
+		// Old DOM: create a .Counter span
 		tabCounter = <span className="Counter" /> as HTMLSpanElement;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
@@ -38,20 +51,11 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 	tabCounter.title = count > 999 ? String(count) : '';
 }
 
-function onlyShowInDropdown(id: string): void {
-	// TODO: Use selector observer
-	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
-	if (!tabItem) { // #3962 #7140
-		return;
+function hideTab(tab: HTMLElement): void {
+	const li = tab.closest('li');
+	if (li) {
+		li.hidden = true;
 	}
-
-	tabItem.closest('li')!.hidden = true;
-
-	const menuItem = $(`[data-menu-item$="${id}"]`);
-	menuItem.removeAttribute('data-menu-item');
-	menuItem.hidden = false;
-	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	$('.UnderlineNav-actions ul').append(menuItem);
 }
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
@@ -79,36 +83,36 @@ const hasActionRuns = new CachedFunction('workflows-count', {
 });
 
 async function updateWikiTab(): Promise<void | false> {
-	const wikiTab = await elementReady('[data-hotkey="g w"]');
-	if (!wikiTab || mustKeepTab(wikiTab)) {
+	const tab = await elementReady(wikiTab);
+	if (!tab || mustKeepTab(tab)) {
 		return false;
 	}
 
 	const count = await wikiPageCount.get();
 	if (count > 0) {
-		setTabCounter(wikiTab, count);
+		setTabCounter(tab, count);
 	} else {
-		onlyShowInDropdown('wiki-tab');
+		hideTab(tab);
 	}
 }
 
 async function updateActionsTab(): Promise<void | false> {
-	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
+	const tab = await elementReady(actionsTab);
+	if (!tab || mustKeepTab(tab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
 		return false;
 	}
 
-	onlyShowInDropdown('actions-tab');
+	hideTab(tab);
 }
 
 async function updateProjectsTab(): Promise<void | false> {
-	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
+	const tab = await elementReady(projectsTab);
+	if (!tab || mustKeepTab(tab) || await getTabCount(tab) > 0) {
 		return false;
 	}
 
 	if (pageDetect.isRepo()) {
-		onlyShowInDropdown('projects-tab');
+		hideTab(tab);
 		return;
 	}
 
@@ -117,25 +121,19 @@ async function updateProjectsTab(): Promise<void | false> {
 		return;
 	}
 
-	projectsTab.remove();
+	tab.remove();
 }
 
-async function moveRareTabs(): Promise<void | false> {
-	// The user may have disabled `more-dropdown-links` so un-hide it
-	if (!await unhideOverflowDropdown()) {
-		return false;
+async function hideRareTabs(): Promise<void | false> {
+	const security = await elementReady(securityTab);
+	if (security && !mustKeepTab(security) && await getTabCount(security) === 0) {
+		hideTab(security);
 	}
 
-	// Wait for the nav dropdown to be loaded #5244
-	await elementReady('.UnderlineNav-actions ul');
-
-	// Only hide security tab if there are no vulnerability alerts #8457
-	const securityTab = $optional('[data-tab-item$="security-tab"]');
-	if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
-		onlyShowInDropdown('security-tab');
+	const insights = await elementReady(insightsTab);
+	if (insights && !mustKeepTab(insights)) {
+		hideTab(insights);
 	}
-
-	onlyShowInDropdown('insights-tab');
 }
 
 void features.add(import.meta.url, {
@@ -147,12 +145,8 @@ void features.add(import.meta.url, {
 		updateActionsTab,
 		updateWikiTab,
 		updateProjectsTab,
+		hideRareTabs,
 	],
-}, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	init: moveRareTabs,
 }, {
 	include: [
 		pageDetect.isOrganizationProfile,

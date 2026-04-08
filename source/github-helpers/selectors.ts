@@ -97,9 +97,49 @@ export const openIssueToLastComment_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
 
-export const actionsTab = '#actions-tab';
+export const actionsTab = [
+	'#actions-tab', // Old DOM
+	'[data-tab-item$="actions-tab"]', // Old anonymous DOM
+	'[data-tab-item="actions"]', // React DOM
+];
 export const actionsTab_ = [
 	[1, 'https://github.com/refined-github/sandbox'],
+] satisfies UrlMatch[];
+
+/** Repo nav tab selectors — arrays support old DOM, old anonymous DOM, and React DOM */
+export const wikiTab = [
+	'[data-hotkey="g w"]', // Old DOM (logged in)
+	'[data-tab-item$="wiki-tab"]', // Old anonymous DOM
+	'[data-tab-item="wiki"]', // React DOM
+];
+export const wikiTab_ = [
+	[1, 'https://github.com/refined-github/refined-github'],
+] satisfies UrlMatch[];
+
+export const projectsTab = [
+	'[data-hotkey="g b"]', // Old DOM (logged in)
+	'[data-tab-item$="projects-tab"]', // Old anonymous DOM
+	'[data-tab-item="projects"]', // React DOM
+];
+export const projectsTab_ = [
+	// Not all repos have projects enabled
+	[0, 'https://github.com/refined-github/refined-github'],
+] satisfies UrlMatch[];
+
+export const securityTab = [
+	'[data-tab-item$="security-and-quality-tab"]', // Old anonymous DOM
+	'[data-tab-item="security-and-quality"]', // React DOM
+];
+export const securityTab_ = [
+	[1, 'https://github.com/refined-github/refined-github'],
+] satisfies UrlMatch[];
+
+export const insightsTab = [
+	'[data-tab-item$="insights-tab"]', // Old anonymous DOM
+	'[data-tab-item="insights"]', // React DOM
+];
+export const insightsTab_ = [
+	[1, 'https://github.com/refined-github/refined-github'],
 ] satisfies UrlMatch[];
 
 export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
