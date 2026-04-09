@@ -27,22 +27,15 @@ async function canUserEditOrganization(): Promise<boolean> {
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
 		// User is on tab
-		tab.matches('.selected, [aria-current="page"]')
+		tab.matches('[aria-current="page"]')
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
 		|| pageDetect.canUserAdminRepo()
 	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	// Old DOM: .Counter or .num inside the tab link
-	// New React DOM: [data-component="counter"] wrapping the counter label
-	let tabCounter = $optional([
-		'.Counter', // Old DOM
-		'.num', // Old DOM alternate
-		'[data-component="counter"]', // React DOM
-	], tab);
+	let tabCounter = $optional('[data-component="counter"]', tab);
 	if (!tabCounter) {
-		// Old DOM: create a .Counter span
 		tabCounter = <span className="Counter" /> as HTMLSpanElement;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
@@ -140,7 +133,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
-	deduplicate: 'has-rgh',
 	init: [
 		updateActionsTab,
 		updateWikiTab,
@@ -151,7 +143,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isOrganizationProfile,
 	],
-	deduplicate: 'has-rgh',
 	init: updateProjectsTab,
 });
 
