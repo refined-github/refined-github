@@ -8,8 +8,22 @@ import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import observe from '../helpers/selector-observer.js';
+import onetime from '../helpers/onetime.js';
 
-function linkify(label: Element): void {
+const isPrList = onetime((): boolean => pageDetect.isPRList());
+
+function getAuthor(label: HTMLElement): string {
+	if (isPrList()) {
+		const authorPrsLink = label.closest('.opened-by')!.querySelector('a')!;
+		// The link always ends with author
+		const username = authorPrsLink.href.split('author%3A')[1];
+		return username;
+	}
+
+	return getCommentAuthor(label);
+}
+
+function linkify(label: HTMLElement): void {
 	if (label.closest('a')) {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
@@ -19,7 +33,7 @@ function linkify(label: Element): void {
 	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
 
 	const url = new URL(buildRepoUrl('commits'));
-	url.searchParams.set('author', getCommentAuthor(label));
+	url.searchParams.set('author', getAuthor(label));
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
@@ -42,6 +56,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	include: [
+		isPrList,
 		pageDetect.hasComments,
 	],
 	init,
@@ -77,5 +92,8 @@ https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
 
 Collaborator review comment
 https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
+
+Pull request list
+https://github.com/refined-github/sandbox/pulls
 
 */
