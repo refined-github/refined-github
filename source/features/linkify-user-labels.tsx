@@ -1,6 +1,7 @@
 import './linkify-user-labels.css';
 
 import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -10,9 +11,9 @@ import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import observe from '../helpers/selector-observer.js';
 
 function getAuthor(label: HTMLElement): string {
-	// `isPRList`
-	if (label.parentElement!.classList.contains('opened-by')) {
-		const userPrsLink = label.previousElementSibling as HTMLAnchorElement;
+	const prMetadataRow = label.closest('.opened-by');
+	if (prMetadataRow) {
+		const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
 		// The link always ends with author
 		const username = userPrsLink.href.split('author%3A')[1];
 		return username;
@@ -91,7 +92,7 @@ https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
 Collaborator review comment
 https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
 
-Pull request list
-https://github.com/refined-github/sandbox/pulls
+Pull requests from a contributor
+https://github.com/refined-github/refined-github/pulls?q=is%3Apr+author%3Anotlmn
 
 */
