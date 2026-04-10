@@ -101,9 +101,9 @@ function reduceLabelSize(labelIcon: SVGSVGElement): void {
 	if (currentRghLabel) {
 		currentRghLabel.replaceWith(rghLabel);
 	} else {
-		label.parentElement!.classList.add('sr-only');
 		stickyHeader.style.setProperty('padding-block', 'var(--base-size-2)', 'important');
 		const prTitle = $('a[href="#top"]', stickyHeader);
+		label.parentElement!.classList.add('sr-only');
 		prTitle.before(rghLabel);
 	}
 }
