@@ -8,15 +8,13 @@ import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import observe from '../helpers/selector-observer.js';
-import onetime from '../helpers/onetime.js';
-
-const isPrList = onetime((): boolean => pageDetect.isPRList());
 
 function getAuthor(label: HTMLElement): string {
-	if (isPrList()) {
-		const authorPrsLink = label.closest('.opened-by')!.querySelector('a')!;
+	// `isPRList`
+	if (label.parentElement!.classList.contains('opened-by')) {
+		const userPrsLink = label.previousElementSibling as HTMLAnchorElement;
 		// The link always ends with author
-		const username = authorPrsLink.href.split('author%3A')[1];
+		const username = userPrsLink.href.split('author%3A')[1];
 		return username;
 	}
 
@@ -56,7 +54,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	include: [
-		isPrList,
+		pageDetect.isPRList,
 		pageDetect.hasComments,
 	],
 	init,
