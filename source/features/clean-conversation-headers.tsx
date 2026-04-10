@@ -11,7 +11,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import {assertNodeContent, isSmallDevice} from '../helpers/dom-utils.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
@@ -89,11 +89,44 @@ async function init(signal: AbortSignal): Promise<void> {
 	], cleanPrHeader, {signal});
 }
 
+function reduceLabelSize(labelIcon: SVGSVGElement): void {
+	const label = labelIcon.parentElement!;
+	const stickyHeader = label.closest('div[class*="use-sticky-header"]')!;
+
+	const rghLabel = label.cloneNode(true);
+	rghLabel.dataset.size = 'small';
+	rghLabel.classList.add('mr-2', 'd-inline', 'rgh-sticky-header-label');
+
+	const currentRghLabel = $optional('.rgh-sticky-header-label', stickyHeader);
+	if (currentRghLabel) {
+		currentRghLabel.replaceWith(rghLabel);
+	} else {
+		label.parentElement!.classList.add('sr-only');
+		stickyHeader.style.setProperty('padding-block', 'var(--base-size-2)', 'important');
+		const prTitle = $('a[href="#top"]', stickyHeader);
+		prTitle.before(rghLabel);
+	}
+}
+
+function initSmall(signal: AbortSignal): void {
+	observe('div[class*="use-sticky-header"] span[class*="StateLabel"] > svg',
+		reduceLabelSize,
+		{signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
 	init,
+}, {
+	asLongAs: [
+		isSmallDevice,
+	],
+	include: [
+		pageDetect.isPRConversation,
+	],
+	init: initSmall,
 });
 
 /* Test URLs
