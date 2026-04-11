@@ -9,11 +9,11 @@ import observe from '../helpers/selector-observer.js';
 // TODO: Drop line in 2026
 void features.addCssFeature(import.meta.url);
 
-function alignBadges(badges: HTMLElement): void {
+function alignBadges(badgesContainer: HTMLElement): void {
 	// Move badges to the last line
-	const conversation = badges.closest('li')!;
-	$('[class^="MainContent-module__inner"]', conversation).append(badges);
-	badges.classList.add('mt-1');
+	const conversation = badgesContainer.closest('li')!;
+	$('[class^="MainContent-module__inner"]', conversation).append(badgesContainer);
+	badgesContainer.classList.add('rgh-badges-container','mt-1');
 }
 
 function init(signal: AbortSignal): void {
