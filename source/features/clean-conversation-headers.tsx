@@ -11,7 +11,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent, isSmallDevice} from '../helpers/dom-utils.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
@@ -21,6 +21,8 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 	}
 }
 
+export const hideAuthorClass = 'rgh-hide-author';
+
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
@@ -29,9 +31,10 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
 	];
 
+	// Extra author name is only shown on `isPRConversation`
+	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor
-	= isSmallDevice()
-		|| (pageDetect.isPRConversation()
+		= pageDetect.isPRConversation()
 			// #7802
 			&& !summaryRow.closest([
 				'div[class*="stickyHeader"]',
@@ -40,10 +43,10 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 				'.gh-header-sticky',
 			])
 			// First link in the summary row is always the author
-			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent);
+			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
-		summaryRow.classList.add('rgh-hide-author');
+		summaryRow.classList.add(hideAuthorClass);
 	}
 
 	const base = $([
@@ -88,54 +91,11 @@ async function init(signal: AbortSignal): Promise<void> {
 	], cleanPrHeader, {signal});
 }
 
-function reducePrLabelSize(labelIcon: SVGSVGElement): void {
-	const label = labelIcon.parentElement!;
-	const stickyHeader = label.closest('div[class*="use-sticky-header"]')!;
-
-	const rghLabel = label.cloneNode(true);
-	rghLabel.dataset.size = 'small';
-	rghLabel.classList.add('mr-2', 'd-inline', 'rgh-sticky-header-label');
-
-	const currentRghLabel = $optional('.rgh-sticky-header-label', stickyHeader);
-	if (currentRghLabel) {
-		currentRghLabel.replaceWith(rghLabel);
-	} else {
-		stickyHeader.style.setProperty('padding-block', '2px', 'important');
-		const prTitle = $('a[href="#top"]', stickyHeader);
-		label.parentElement!.classList.add('sr-only');
-		prTitle.before(rghLabel);
-	}
-}
-
-function reduceIssueLabelSize(label: HTMLElement): void {
-	label.dataset.size = 'small';
-	const container = label.closest('div[class*="contentContainer"]')!;
-	container.classList.add('px-2');
-}
-
-function initSmall(signal: AbortSignal): void {
-	observe('div[class*="use-sticky-header"] span[class*="StateLabel"] > svg',
-		reducePrLabelSize,
-		{signal});
-
-	observe('#issue-viewer-sticky-header span[class*="StateLabel"]',
-		reduceIssueLabelSize,
-		{signal});
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
 	init,
-}, {
-	asLongAs: [
-		isSmallDevice,
-	],
-	include: [
-		pageDetect.isConversation,
-	],
-	init: initSmall,
 });
 
 /* Test URLs
@@ -148,7 +108,5 @@ void features.add(import.meta.url, {
 - Merged PR (different author + first published tag): https://github.com/sindresorhus/refined-github/pull/3227
 
 - Closed PR: https://github.com/sindresorhus/refined-github/pull/4141
-
-- Issue: https://github.com/refined-github/refined-github/issues/9169
 
 */

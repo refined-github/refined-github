@@ -460,6 +460,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
+		"id": "mobile-conversation-headers",
+		"description": "Makes the sticky headers in mobile view more compact.",
+		"screenshot": "https://github.com/user-attachments/assets/0a31db3f-ad86-4165-b9fb-d2010db8ecdc"
+	},
+	{
 		"id": "mobile-tabs",
 		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
 		"css": true,
