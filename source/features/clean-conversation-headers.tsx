@@ -150,4 +150,6 @@ void features.add(import.meta.url, {
 
 - Closed PR: https://github.com/sindresorhus/refined-github/pull/4141
 
+- Issue: https://github.com/refined-github/refined-github/issues/9169
+
 */
