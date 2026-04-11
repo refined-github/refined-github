@@ -153,7 +153,7 @@ div[class^='prc-PageHeader-Description']
 	}
 }
 
-/* Make the PR title take all available space in the row */
+/* Fix PR title width on small & medium screens */
 /* Info: https://github.com/refined-github/refined-github/issues/9180 */
 /* Test: https://github.com/refined-github/refined-github/pull/9179/changes */
 react-app[app-name='pull-requests'] {
