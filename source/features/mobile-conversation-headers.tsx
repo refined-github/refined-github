@@ -6,7 +6,7 @@ import observe from '../helpers/selector-observer.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import {hideAuthorClass} from './clean-conversation-headers.js';
 
-function reducePrLabelSize(labelIcon: SVGSVGElement): void {
+function reducePrStickyHeaderSize(labelIcon: SVGSVGElement): void {
 	const label = labelIcon.parentElement!;
 	const stickyHeader = label.closest('div[class*="use-sticky-header"]')!;
 
@@ -26,7 +26,7 @@ function reducePrLabelSize(labelIcon: SVGSVGElement): void {
 	}
 }
 
-function reduceIssueLabelSize(label: HTMLElement): void {
+function freeSpaceForIssueTitle(label: HTMLElement): void {
 	label.dataset.size = 'small';
 	const container = label.closest('div[class*="contentContainer"]')!;
 	container.classList.add('px-2');
@@ -34,11 +34,11 @@ function reduceIssueLabelSize(label: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('div[class*="use-sticky-header"] span[class*="StateLabel"] > svg',
-		reducePrLabelSize,
+		reducePrStickyHeaderSize,
 		{signal});
 
 	observe('#issue-viewer-sticky-header span[class*="StateLabel"]',
-		reduceIssueLabelSize,
+		freeSpaceForIssueTitle,
 		{signal});
 }
 
