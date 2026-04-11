@@ -31,16 +31,16 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	const shouldHideAuthor
 	= isSmallDevice()
-	|| (pageDetect.isPRConversation()
-		// #7802
-		&& !summaryRow.closest([
-			'div[class*="stickyHeader"]',
-			// TODO: Remove after July 2026
-			'.sticky-content',
-			'.gh-header-sticky',
-		])
-		// First link in the summary row is always the author
-		&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent);
+		|| (pageDetect.isPRConversation()
+			// #7802
+			&& !summaryRow.closest([
+				'div[class*="stickyHeader"]',
+				// TODO: Remove after July 2026
+				'.sticky-content',
+				'.gh-header-sticky',
+			])
+			// First link in the summary row is always the author
+			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent);
 
 	if (shouldHideAuthor) {
 		summaryRow.classList.add('rgh-hide-author');
