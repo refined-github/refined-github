@@ -30,13 +30,25 @@
 	--margin: 4px;
 
 	/* Shows on PRs: [by ]octocat main ← feature */
-	&::before {
+	&:not(.rgh-hide-author)::before {
 		content: 'by ';
 		font-size: 14px;
 	}
 
 	.author {
 		margin-right: var(--margin);
+	}
+
+	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
+	&.rgh-hide-author {
+		.author,
+		a[data-hovercard-type='user'] {
+			display: none;
+
+			& + [class*='PullRequestBranchName'] {
+				margin-left: calc(-1 * var(--margin));
+			}
+		}
 	}
 
 	[class^='PullRequestBranchName'],
@@ -59,21 +71,5 @@
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;
-	}
-}
-
-.rgh-hide-author {
-	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
-	.author,
-	a[data-hovercard-type='user'] {
-		display: none;
-
-		& + [class*='PullRequestBranchName'] {
-			margin-left: calc(-1 * var(--margin));
-		}
-	}
-
-	:is(&, & *).rgh-clean-conversation-headers::before {
-		display: none;
 	}
 }

@@ -4,7 +4,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
-import {hideAuthorClass} from './clean-conversation-headers.js';
+import {prSummarySelector, hideAuthorClass} from './clean-conversation-headers.js';
 
 function reducePrStickyHeaderSize(labelIcon: SVGSVGElement): void {
 	const label = labelIcon.parentElement!;
@@ -21,7 +21,7 @@ function reducePrStickyHeaderSize(labelIcon: SVGSVGElement): void {
 		const prTitle = $('a[href="#top"]', stickyHeader);
 		label.parentElement!.classList.add('sr-only');
 		prTitle.before(rghLabel);
-		stickyHeader.classList.add(hideAuthorClass);
+		$(prSummarySelector, stickyHeader).classList.add(hideAuthorClass);
 		stickyHeader.style.setProperty('padding-block', '2px', 'important');
 	}
 }
