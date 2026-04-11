@@ -44,6 +44,10 @@
 		.author,
 		a[data-hovercard-type='user'] {
 			display: none;
+
+			& + [class*="PullRequestBranchName"] {
+				margin-left: calc(-1 * var(--margin));
+			}
 		}
 	}
 

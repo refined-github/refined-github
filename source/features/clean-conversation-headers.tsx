@@ -29,10 +29,9 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
 	];
 
-	// Extra author name is only shown on `isPRConversation`
-	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor
-		= pageDetect.isPRConversation()
+	const shouldHideAuthor =
+	isSmallDevice()
+	|| (pageDetect.isPRConversation()
 			// #7802
 			&& !summaryRow.closest([
 				'div[class*="stickyHeader"]',
@@ -41,7 +40,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 				'.gh-header-sticky',
 			])
 			// First link in the summary row is always the author
-			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
+			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent);
 
 	if (shouldHideAuthor) {
 		summaryRow.classList.add('rgh-hide-author');
