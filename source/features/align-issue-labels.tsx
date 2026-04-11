@@ -13,7 +13,7 @@ function alignBadges(badgesContainer: HTMLElement): void {
 	// Move badges to the last line
 	const conversation = badgesContainer.closest('li')!;
 	$('[class^="MainContent-module__inner"]', conversation).append(badgesContainer);
-	badgesContainer.classList.add('rgh-badges-container','mt-1');
+	badgesContainer.classList.add('rgh-badges-container', 'mt-1');
 }
 
 function init(signal: AbortSignal): void {
