@@ -89,7 +89,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	], cleanPrHeader, {signal});
 }
 
-function reduceLabelSize(labelIcon: SVGSVGElement): void {
+function reducePrLabelSize(labelIcon: SVGSVGElement): void {
 	const label = labelIcon.parentElement!;
 	const stickyHeader = label.closest('div[class*="use-sticky-header"]')!;
 
@@ -108,9 +108,19 @@ function reduceLabelSize(labelIcon: SVGSVGElement): void {
 	}
 }
 
+function reduceIssueLabelSize(label: HTMLElement): void {
+	label.dataset.size = 'small';
+	const container = label.closest('div[class*="contentContainer"]')!;
+	container.classList.add('px-2');
+}
+
 function initSmall(signal: AbortSignal): void {
 	observe('div[class*="use-sticky-header"] span[class*="StateLabel"] > svg',
-		reduceLabelSize,
+		reducePrLabelSize,
+		{signal});
+
+	observe('#issue-viewer-sticky-header span[class*="StateLabel"]',
+		reduceIssueLabelSize,
 		{signal});
 }
 
@@ -124,7 +134,7 @@ void features.add(import.meta.url, {
 		isSmallDevice,
 	],
 	include: [
-		pageDetect.isPRConversation,
+		pageDetect.isConversation,
 	],
 	init: initSmall,
 });
