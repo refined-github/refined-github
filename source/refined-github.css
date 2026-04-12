@@ -89,11 +89,7 @@ pr-branches
 	vertical-align: middle;
 }
 
-/* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
-#partial-pull-merging .js-remove-unless-platform {
-	display: none;
-}
-
+/* TODO: Drop in 2026 */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
 .select-menu-item-text .diffstat {
 	display: inline !important;
