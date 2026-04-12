@@ -181,12 +181,6 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	color: var(--button-star-iconColor);
 }
 
-/* Untruncate long job name #8372 */
-/* Test: https://github.com/valkey-io/valkey-glide/actions/runs/14163355151/job/39672349767 */
-.ActionListItem .ActionListItem-label--truncate {
-	white-space: unset !important;
-}
-
 /* Add hover effect to attachment row on the release page #8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
 @media (min-width: 800px) {
@@ -207,4 +201,14 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	pointer-events: auto;
 	/* For debugging */
 	/* color: red !important; */
+}
+
+/* Untruncate long asset name */
+/* Info: https://github.com/refined-github/refined-github/issues/8065 */
+/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
+.col-12.col-lg-6:has(.octicon-package + a[href*='/releases/download/']) {
+	width: 100%;
+	.Truncate-text.text-bold {
+		white-space: wrap;
+	}
 }

@@ -13,13 +13,14 @@ a[class*='PinnedIssue-module__Link'] code {
 	border-radius: 6px;
 }
 
-/* Limit width of comment form on commit pages #5032 */
-#all_commit_comments .timeline-comment-wrapper {
-	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
-}
-
 /* Fix spacing of repo header button icons #5620 */
-.pagehead-actions :is(.btn, summary) .octicon:not(.octicon-triangle-down) {
+.pagehead-actions :is(
+		.btn,
+		.Button--secondary,
+		[class^='prc-Button-ButtonBase'],
+		summary
+	)
+	.octicon:not(.octicon-triangle-down) {
 	margin-right: 4px !important;
 }
 
@@ -28,23 +29,17 @@ a[class*='PinnedIssue-module__Link'] code {
 [action$='/releases'] .subnav-search-icon {
 	margin-top: -1px;
 }
-
 #release-filter::-webkit-calendar-picker-indicator {
 	margin-top: -4px;
 }
 
-/* Add margin to release download icon #6510 */
-.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
-	margin-right: 4px;
-}
-
-/* Mute unclickable reaction buttons, disable hover */
-/* Test: https://github.com/refined-github/sandbox/pull/48 */
+/* TODO: Drop in 2026 */
+/* Mute unclickable reaction buttons, disable hover #6795 */
+/* Test: https://github.com/facebook/react/pull/20646 */
 :root .social-reaction-summary-item:disabled {
 	filter: grayscale(0.5);
 	background-color: transparent;
 }
-
 :root .social-reaction-summary-item.user-has-reacted:disabled {
 	color: var(
 		--reactionButton-selected-fgColor-rest,
@@ -67,26 +62,11 @@ div.markdown-body {
 	min-height: 2em !important;
 }
 
-/* Sponsor button in mobile view #7853 */
-/* Test: https://github.com/refined-github/refined-github */
-#dialog-show-responsive-sponsor-modal {
-	width: var(--base-size-32);
-	height: var(--base-size-32);
-	padding: 0;
-}
-
 /* Notifications "Unread" dropdown  overlap (Safari, Mobile) */
 /* Info: https://github.com/refined-github/refined-github/issues/7959 */
 /* Test: https://github.com/notifications */
 #dialog-show-notifications-tabs-nav ~ action-menu {
 	flex-shrink: 0;
-}
-
-/* Long release asset download links break the layout */
-/* Info: https://github.com/refined-github/refined-github/issues/8065 */
-/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
-svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
-	white-space: wrap;
 }
 
 /* Notifications "Group by" button unnecessary space */
@@ -151,6 +131,13 @@ div[class^='prc-PageHeader-Description']
 	@media (min-width: 544px) {
 		align-items: center !important;
 	}
+}
+
+/* Fix Watch/Unwatch button height */
+/* Info: https://github.com/refined-github/refined-github/issues/ */
+/* Test: https://github.com/refined-github/refined-github */
+react-partial[partial-name='notifications-subscriptions-menu'] button {
+	height: 32px;
 }
 
 /*
