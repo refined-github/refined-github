@@ -108,11 +108,6 @@ pr-branches
 	margin-right: 4px !important;
 }
 
-/* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
-.file-navigation.flex-items-start {
-	align-items: center !important;
-}
-
 /* Bold username in conversation lists #4899 */
 :is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
 	font-weight: 600;
