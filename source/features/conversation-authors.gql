@@ -1,9 +1,0 @@
-query GetMaintainers($owner: String!, $name: String!) {
-	repository(owner: $owner, name: $name) {
-		collaborators(first: 100, affiliation: ALL) {
-			nodes {
-				login
-			}
-		}
-	}
-}
