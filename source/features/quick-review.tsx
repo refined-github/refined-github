@@ -96,7 +96,7 @@ function enhanceNativeReviewButton(button: HTMLAnchorElement): void {
 	// Clone button to remove GitHub's event listeners, which interfere with ours
 	const clonedButton = button.cloneNode(true);
 	const deepLink = new URL(button.href);
-	deepLink.hash = `#${openReviewMenuDeepLink}`;
+	deepLink.hash = openReviewMenuDeepLink;
 	clonedButton.href = deepLink.href;
 	button.replaceWith(clonedButton);
 }
