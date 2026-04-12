@@ -204,7 +204,7 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 }
 
 /* Untruncate long asset name */
-/* Info: https://github.com/refined-github/refined-github/issues/8065 */
+/* Info: https://github.com/refined-github/refined-github/issues/9184 */
 /* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
 .col-12.col-lg-6:has(.octicon-package + a[href*='/releases/download/']) {
 	width: 100%;

@@ -134,7 +134,7 @@ div[class^='prc-PageHeader-Description']
 }
 
 /* Fix Watch/Unwatch button height on mobile */
-/* Info: https://github.com/refined-github/refined-github/issues/ */
+/* Info: https://github.com/refined-github/refined-github/issues/9183 */
 /* Test: https://github.com/refined-github/refined-github */
 #responsive-meta-container
 	button[data-testid='notifications-subscriptions-menu-button'] {
