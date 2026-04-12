@@ -142,6 +142,16 @@ div[class^='prc-PageHeader-Description']
 	height: 32px;
 }
 
+/* Hide user badges in review threads on mobile */
+/* Info: https://github.com/refined-github/refined-github/issues/9186 */
+/* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
+@media (width < 544) {
+	div[data-testid='review-thread']
+		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
+		display: none;
+	}
+}
+
 /*
 
 Test URLs:
