@@ -59,11 +59,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	cursor: pointer;
 }
 
-/* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a.Button[href='/new'] {
-	display: none;
-}
-
 /* Expand empty diffs in PRs */
 :root .file .data.empty {
 	padding: 54px;
