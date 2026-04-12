@@ -115,11 +115,6 @@ pr-branches
 	margin-right: 4px !important;
 }
 
-/* Remove the underline on PR filename copy button hover #4871 */
-.file-header .file-info clipboard-copy {
-	display: inline-block;
-}
-
 /* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
 .file-navigation.flex-items-start {
 	align-items: center !important;
