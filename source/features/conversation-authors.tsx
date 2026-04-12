@@ -48,7 +48,7 @@ function highlightSelf(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoIssueOrPRList,
+		pageDetect.isRepoIssueList,
 	],
 	init: highlightCollaborators,
 }, {
@@ -63,6 +63,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/issues
+https://github.com/refined-github/refined-github/issues
 https://github.com/refined-github/refined-github/pulls
 
 */
