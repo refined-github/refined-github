@@ -168,4 +168,5 @@ Test URLs:
 - Open PR (review, approve) https://github.com/refined-github/sandbox/pull/10
 - Closed PR (only review) https://github.com/refined-github/sandbox/pull/26
 - PRs with your review requested: https://github.com/pulls/review-requested
+
 */
