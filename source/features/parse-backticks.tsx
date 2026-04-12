@@ -20,6 +20,8 @@ const selectors = [
 
 	// `isIssue` linked PRs
 	// https://github.com/refined-github/refined-github/issues/7856
+	'span[class^="LinkedPullRequests-module__PrTitle"]',
+	// TODO: Drop in October 2026
 	'span[id$="--label"]',
 
 	// `isPRFiles` sticky header PR title
