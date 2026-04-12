@@ -23,6 +23,8 @@ const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '�
 // Be careful not to select the "Submit review" button in the dialog
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
 
+const openReviewMenuDeepLink = 'review-changes-modal';
+
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
@@ -47,7 +49,7 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
-	reviewFormUrl.hash = 'review-changes-modal';
+	reviewFormUrl.hash = openReviewMenuDeepLink;
 
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
@@ -86,6 +88,19 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
+function initNativeReviewButton(signal: AbortSignal): void {
+	observe('section[aria-label="Review Request Banner"] a[type="button"]', enhanceNativeReviewButton, {signal});
+}
+
+function enhanceNativeReviewButton(button: HTMLAnchorElement): void {
+	// Clone button to remove GitHub's event listeners, which interfere with ours
+	const clonedButton = button.cloneNode(true);
+	const deepLink = new URL(button.href);
+	deepLink.hash = `#${openReviewMenuDeepLink}`;
+	clonedButton.href = deepLink.href;
+	button.replaceWith(clonedButton);
+}
+
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if ('newState' in event && event.newState === 'open') {
 		$('textarea', event.delegateTarget).focus();
@@ -93,7 +108,7 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate('#review-changes-modal', 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate(`#${openReviewMenuDeepLink}`, 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
@@ -117,7 +132,7 @@ function initNativeDeepLinking(signal: AbortSignal): void {
 	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
 	// Old view -- TODO: Drop in the fall of 2026
 	// Cannot target the [popover] itself because observe() can't see hidden elements
-	observe('[popovertarget="review-changes-modal"]', openReviewPopup, {signal});
+	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -125,6 +140,11 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	init: initSidebarReviewButton,
+}, {
+	include: [
+		pageDetect.isPRConversation,
+	],
+	init: initNativeReviewButton,
 }, {
 	shortcuts: {
 		v: 'Open PR review popup',
@@ -135,7 +155,7 @@ void features.add(import.meta.url, {
 	init: initReviewButtonEnhancements,
 }, {
 	asLongAs: [
-		() => location.hash === '#review-changes-modal',
+		() => location.hash === `#${openReviewMenuDeepLink}`,
 		pageDetect.isPRFiles,
 	],
 	init: initNativeDeepLinking,
@@ -147,5 +167,5 @@ Test URLs:
 
 - Open PR (review, approve) https://github.com/refined-github/sandbox/pull/10
 - Closed PR (only review) https://github.com/refined-github/sandbox/pull/26
-
+- PRs with your review requested: https://github.com/pulls/review-requested
 */
