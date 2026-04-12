@@ -134,14 +134,6 @@ div[class^='prc-PageHeader-Description']
 	}
 }
 
-/* Fix Watch/Unwatch button height on mobile */
-/* Info: https://github.com/refined-github/refined-github/issues/9183 */
-/* Test: https://github.com/refined-github/refined-github */
-#responsive-meta-container
-	button[data-testid='notifications-subscriptions-menu-button'] {
-	height: 32px;
-}
-
 /* Hide user badges in review threads on mobile */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
