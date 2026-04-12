@@ -109,7 +109,11 @@ pr-branches
 }
 
 /* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
+/* Test: https://github.com/refined-github/refined-github/pulls */
+/* Test: https://github.com/refined-github/refined-github/issues */
+:is(.js-issue-row, span[class^='PinnedIssue-module__issueMetadata'])
+	a[data-hovercard-type='user'],
+a[class^='IssueItem-module__authorCreatedLink'] {
 	font-weight: 600;
 }
 
