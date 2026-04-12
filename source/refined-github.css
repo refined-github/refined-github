@@ -52,13 +52,6 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
 
-/* Make <details> visibly clickable */
-.markdown-body summary /* Summary elements are always clickable when present */,
-.markdown-body details:not([open]) {
-	/* Summary-less details have unselectable clickable elements */
-	cursor: pointer;
-}
-
 /* Expand empty diffs in PRs */
 :root .file .data.empty {
 	padding: 54px;
