@@ -29,28 +29,22 @@ const closedSelectors = [
 ];
 
 function isClosed(prLink: HTMLElement): boolean {
-	const row = prLink.closest('.js-issue-row') // Legacy DOM
-		?? prLink.closest('[class^="IssueRow"]'); // React DOM
-	if (!row) {
-		return false;
-	}
-
-	return Boolean(row.querySelector(closedSelectors));
-}
-
-function repoAlias(owner: string, repo: string): string {
-	return `repo_${owner}_${repo}`.replaceAll(/\W/g, '_');
+	const row = prLink.closest([
+		'.js-issue-row', // Legacy DOM
+		'[class^="IssueRow"]', // React DOM
+	]);
+	return Boolean(row!.querySelector(closedSelectors));
 }
 
 function buildQuery(groups: Map<string, PrRef[]>): string {
 	return [...groups.values()].map(prs => {
 		const {owner, repo} = prs[0];
 		return `
-			${repoAlias(owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
+			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
 				nameWithOwner
 				defaultBranchRef {name}
 				${prs.map(pr => `
-					pr_${pr.number}: pullRequest(number: ${pr.number}) {
+					${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
 						baseRef {id}
 						baseRefName
 					}
@@ -105,14 +99,14 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 	for (const prs of groups.values()) {
 		const {owner, repo} = prs[0];
-		const repository = data[repoAlias(owner, repo)];
+		const repository = data[api.escapeKey('repo', owner, repo)];
 		if (!repository) {
 			continue;
 		}
 
 		const defaultBranch = repository.defaultBranchRef?.name;
 		for (const pr of prs) {
-			const info: BranchInfo = repository[`pr_${pr.number}`];
+			const info: BranchInfo = repository[api.escapeKey('pr', pr.number)];
 			if (info.baseRefName === defaultBranch) {
 				continue;
 			}
