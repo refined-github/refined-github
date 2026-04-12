@@ -69,6 +69,7 @@ div.markdown-body {
 	flex-shrink: 0;
 }
 
+/* TODO: drop in October 2026 */
 /* Notifications "Group by" button unnecessary space */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
