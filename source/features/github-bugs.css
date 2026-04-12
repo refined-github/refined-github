@@ -133,10 +133,11 @@ div[class^='prc-PageHeader-Description']
 	}
 }
 
-/* Fix Watch/Unwatch button height */
+/* Fix Watch/Unwatch button height on mobile */
 /* Info: https://github.com/refined-github/refined-github/issues/ */
 /* Test: https://github.com/refined-github/refined-github */
-react-partial[partial-name='notifications-subscriptions-menu'] button {
+#responsive-meta-container
+	button[data-testid='notifications-subscriptions-menu-button'] {
 	height: 32px;
 }
 
