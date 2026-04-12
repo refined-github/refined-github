@@ -177,6 +177,9 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	height: 72px;
 }
 
+/* Make the gray "Star" icon in the feed yellow */
+/* Info: https://github.com/refined-github/refined-github/pull/8407 */
+/* Test: https://github.com/feed */
 .octicon-star-fill {
 	color: var(--button-star-iconColor);
 }
