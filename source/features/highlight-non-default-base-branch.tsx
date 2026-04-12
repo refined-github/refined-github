@@ -21,8 +21,21 @@ type PrRef = {
 	number: number;
 };
 
+const closedSelectors = [
+	'.octicon.merged', // Legacy DOM
+	'.octicon.closed', // Legacy DOM
+	'.octicon-git-merge', // React DOM
+	'.octicon-git-pull-request-closed', // React DOM
+];
+
 function isClosed(prLink: HTMLElement): boolean {
-	return Boolean(prLink.closest('.js-issue-row')?.querySelector(['.octicon.merged', '.octicon.closed']));
+	const row = prLink.closest('.js-issue-row') // Legacy DOM
+		?? prLink.closest('[class^="IssueRow"]'); // React DOM
+	if (!row) {
+		return false;
+	}
+
+	return Boolean(row.querySelector(closedSelectors));
 }
 
 function repoAlias(owner: string, repo: string): string {
@@ -125,8 +138,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoIssueOrPRList,
-		pageDetect.isGlobalIssueOrPRList,
+		pageDetect.isIssueOrPRList,
 	],
 	init,
 });
