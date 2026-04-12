@@ -24,6 +24,7 @@ const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '�
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
 
 const openReviewMenuDeepLink = 'review-changes-modal';
+const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
@@ -95,9 +96,7 @@ function initNativeReviewButton(signal: AbortSignal): void {
 function enhanceNativeReviewButton(button: HTMLAnchorElement): void {
 	// Clone button to remove GitHub's event listeners, which interfere with ours
 	const clonedButton = button.cloneNode(true);
-	const deepLink = new URL(button.href);
-	deepLink.hash = openReviewMenuDeepLink;
-	clonedButton.href = deepLink.href;
+	clonedButton.hash = openReviewMenuDeepLink;
 	button.replaceWith(clonedButton);
 }
 
@@ -108,7 +107,7 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate(`#${openReviewMenuDeepLink}`, 'toggle', focusReviewTextarea, {capture: true, signal});
+	delegate(openReviewMenuDeepLinkSelector, 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
@@ -155,7 +154,7 @@ void features.add(import.meta.url, {
 	init: initReviewButtonEnhancements,
 }, {
 	asLongAs: [
-		() => location.hash === `#${openReviewMenuDeepLink}`,
+		() => location.hash === openReviewMenuDeepLinkSelector,
 		pageDetect.isPRFiles,
 	],
 	init: initNativeDeepLinking,
