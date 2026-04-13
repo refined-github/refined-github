@@ -184,11 +184,16 @@ div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
 
 	& > div[data-testid='comment-header-left-side-items'] {
-		justify-self: flex-start;
 		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: 0;
+		min-width: min-content;
+
+		a[class^='ActivityHeader-module__AuthorName'] {
+			overflow-wrap: unset;
+		}
 	}
 
 	& > div[data-testid='comment-header-right-side-items'] {
