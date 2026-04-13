@@ -182,17 +182,15 @@ react-app[app-name='pull-requests'] {
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
-	flex-direction: row;
 	flex-wrap: wrap;
 
 	& > div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
-		flex-shrink: 1;
-		flex-basis: 0;
-		min-width: min-content;
+		flex-basis: min-content;
 
 		a[class^='ActivityHeader-module__AuthorName'] {
-			overflow-wrap: unset;
+			overflow-wrap: break-word;
+			max-width: 100%;
 		}
 	}
 
