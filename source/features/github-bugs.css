@@ -177,7 +177,7 @@ react-app[app-name='pull-requests'] {
 	}
 }
 
-/* Make user badges in review threads correctly wrap */
+/* Make user badges (mostly in review threads) correctly wrap */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'] {
@@ -195,9 +195,11 @@ div[class*='ActivityHeaderGridLayout'] {
 	}
 
 	& > div[data-testid='comment-header-right-side-items'] {
-		flex-grow: unset;
+		flex-grow: 0;
 
 		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
+			flex-wrap: wrap;
+			justify-content: flex-start;
 			margin-left: 0;
 		}
 	}
