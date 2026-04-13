@@ -208,3 +208,25 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	/* For debugging */
 	/* color: red !important; */
 }
+
+/* Show PR reviews on mobile */
+/* Info: https://github.com/refined-github/refined-github/issues/9074 */
+/* Test (no CI checks): https://github.com/refined-github/sandbox/pulls?q=is%3Apr+review%3Aapproved */
+/* Test: https://github.com/refined-github/refined-github/pulls?q=is%3Apr+review%3Aapproved */
+@media (max-width: 768px) {
+	.js-issue-row .markdown-title ~ .d-flex {
+		flex-direction: column;
+
+		.d-md-inline-flex {
+			display: inline-flex !important;
+			/* Hide [•] 1 review approval*/
+			font-size: 0;
+			a {
+				font-size: 12px;
+			}
+			.ml-1 {
+				margin-left: 0 !important;
+			}
+		}
+	}
+}
