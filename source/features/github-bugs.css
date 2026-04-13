@@ -177,13 +177,26 @@ react-app[app-name='pull-requests'] {
 	}
 }
 
-/* Hide user badges in review threads on mobile */
+/* Make user badges in review threads correctly wrap */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
-@media (width < 544) {
-	div[data-testid='review-thread']
+div[class*='ActivityHeaderGridLayout'] {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	& > div[data-testid='comment-header-left-side-items'] {
+		justify-self: flex-start;
+		flex-grow: 1;
+	}
+
+	& > div[data-testid='comment-header-right-side-items'] {
+		flex-grow: unset;
+
 		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
-		display: none;
+			margin-left: 0;
+		}
 	}
 }
 
