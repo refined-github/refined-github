@@ -23,11 +23,7 @@ const collaborators = new CachedFunction('repo-collaborators', {
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	const list = await collaborators.get();
-	observe([
-		// Old issue lists - TODO: Drop in 2026
-		'.js-issue-row [data-hovercard-type="user"]',
-		'a[class^="IssueItem-module__authorCreatedLink"]',
-	], author => {
+	observe('a[class^="IssueItem-module__authorCreatedLink"]', author => {
 		const name = author.textContent.trim();
 		if (list.includes(name) && name !== getLoggedInUser()) {
 			author.classList.add('rgh-collaborator');
@@ -38,7 +34,7 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	observe([
-		// Old issue lists - TODO: Drop in 2026
+		// PRs - TODO: Drop in 2026
 		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
 	], author => {
@@ -64,6 +60,5 @@ Test URLs:
 
 https://github.com/issues
 https://github.com/refined-github/refined-github/issues
-https://github.com/refined-github/refined-github/pulls
 
 */
