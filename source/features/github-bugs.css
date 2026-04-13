@@ -161,6 +161,22 @@ div[class^='prc-PageHeader-Description']
 	height: 32px;
 }
 
+/* Fix PR title width on small & medium screens */
+/* Info: https://github.com/refined-github/refined-github/issues/9180 */
+/* Test: https://github.com/refined-github/refined-github/pull/9179/changes */
+react-app[app-name='pull-requests'] {
+	@media (max-width: 1011px) {
+		div[class^='prc-PageHeader-TitleArea'] {
+			grid-area: 2 / 1 / auto / -1;
+		}
+	}
+	@container (width <= 1011px) {
+		div[class^='prc-PageHeader-TitleArea'] {
+			grid-area: 2 / 1 / auto / -1;
+		}
+	}
+}
+
 /*
 
 Test URLs:
