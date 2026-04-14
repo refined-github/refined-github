@@ -241,8 +241,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "view-last-pr-deployment") [Adds a link to open the latest deployment from the header of a PR.](https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
-- [](# "pr-patch-diff-links") [Adds links to `.patch` and `.diff` files in PR page's Code dropdown.](https://github.com/user-attachments/assets/e4e02aba-c81c-42db-97ba-3efcd64bc4cd)
-
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
