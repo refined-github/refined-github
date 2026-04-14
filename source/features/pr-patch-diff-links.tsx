@@ -56,7 +56,10 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.react-overview-code-button-action-list > ul', addPrPatchDiffLinks, {signal});
+	observe([
+		'.react-overview-code-button-action-list > ul',
+		'#local-panel'
+	], addPrPatchDiffLinks, {signal});
 }
 
 void features.add(import.meta.url, {
