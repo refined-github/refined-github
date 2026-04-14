@@ -12,14 +12,14 @@ import observe from '../helpers/selector-observer.js';
 
 function getAuthor(label: HTMLElement): string {
 	const prMetadataRow = label.closest('.opened-by');
-	if (prMetadataRow) {
-		const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
-		// The link always ends with author
-		const username = userPrsLink.href.split('author%3A')[1];
-		return username;
+	if (!prMetadataRow) {
+		return getCommentAuthor(label);
 	}
 
-	return getCommentAuthor(label);
+	const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
+	// The link always ends with author
+	const username = userPrsLink.href.split('author%3A')[1];
+	return username;
 }
 
 function linkify(label: HTMLElement): void {
