@@ -8,8 +8,23 @@ const refinedGithubPlugin = {
 	rules: {
 		'no-optional-chaining': {
 			create(context) {
+				const {sourceCode} = context;
 				return {
 					'MemberExpression[optional=true]'(node) {
+						// Exception: usage is preceded by a comment explaining why
+						const prevLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
+						if (prevLine.startsWith('//') || prevLine.endsWith('*/')) {
+							return;
+						}
+
+						if (node.object.type === 'CallExpression' && node.object.callee.name === '$') {
+							context.report({
+								node,
+								message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
+							});
+							return;
+						}
+
 						context.report({
 							node,
 							message: 'Use `!.` instead of `?.`. If the value can be nullish, disable this rule with a comment explaining why.',
@@ -118,10 +133,6 @@ export default [
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$]',
 						message: 'Unused null expression: !',
-					},
-					{
-						selector: 'MemberExpression[optional=true][object.callee.name=$]',
-						message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
 					},
 					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
