@@ -1,7 +1,6 @@
 import './linkify-user-labels.css';
 
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -17,7 +16,7 @@ function linkify(label: Element): void {
 
 	// React might create a new label without removing the old one
 	// https://github.com/refined-github/refined-github/issues/8478
-	$optional('.rgh-linkify-user-labels', label.parentElement!)?.remove();
+	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
 
 	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getCommentAuthor(label));
