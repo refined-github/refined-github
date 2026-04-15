@@ -92,6 +92,7 @@ function attachPrButtons(dropdown: HTMLDetailsElement): void {
 	);
 
 	// Remove extraneous padding around "Clear filters" button
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
 }
 
@@ -104,6 +105,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 	const anchor = nativeDiffButtons.parentElement!;
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
+	// eslint-disable-next-line no-restricted-syntax -- parentElement may be null in some DOM contexts
 	const usesFloats = anchor?.classList.contains('float-right');
 	if (usesFloats) {
 		anchor.after(

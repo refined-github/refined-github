@@ -32,6 +32,7 @@ function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions)
 	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
 	textarea.addEventListener('focus', inputListener, {signal}); // The user triggers `focus` event
 	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
+	// eslint-disable-next-line no-restricted-syntax -- HTMLInputElement.form is null for standalone inputs
 	textarea.form?.addEventListener('reset', resetListener, {signal});
 	fitTextarea(textarea);
 }

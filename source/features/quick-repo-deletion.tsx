@@ -62,6 +62,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 
 	// Can't really prevent default, so we must close the dialog if we're on the repo settings page
 	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	if (confirm('Are you sure you want to delete this repository?')) {

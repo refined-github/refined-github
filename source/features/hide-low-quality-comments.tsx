@@ -69,6 +69,7 @@ function init(): void {
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
+		// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 		if (previousComment?.closest('.js-timeline-item') !== comment) {
 			continue;
 		}

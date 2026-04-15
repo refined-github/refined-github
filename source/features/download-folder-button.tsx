@@ -27,9 +27,11 @@ function add(menu: HTMLUListElement): void {
 	link.setAttribute('aria-keyshortcuts', 'c');
 
 	// Missing on permalinks and archived repos
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('svg', link)?.replaceWith(<DownloadIcon />);
 
 	// Only on permalinks and archived repos
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('[id$="--trailing-visual"]', link)?.remove();
 
 	$('[id$="--label"]', link).textContent = 'Download directory';

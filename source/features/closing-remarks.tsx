@@ -32,7 +32,7 @@ const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
-		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
+		// eslint-disable-next-line unicorn/no-array-callback-reference, no-restricted-syntax -- Just this once, I swear; Array element may not exist
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),

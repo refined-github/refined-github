@@ -9,6 +9,7 @@ export function registerHotkey(hotkey: string, functionOrUrl: VoidFunction | str
 
 	document.body.prepend(element);
 
+	// eslint-disable-next-line no-restricted-syntax -- signal is an optional AbortSignal parameter
 	signal?.addEventListener('abort', () => {
 		element.remove();
 	});
@@ -17,6 +18,7 @@ export function registerHotkey(hotkey: string, functionOrUrl: VoidFunction | str
 /** Safely add a hotkey to an element, preserving any existing ones and avoiding duplicates */
 export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefined, hotkey: string): void {
 	if (button) {
+		// eslint-disable-next-line no-restricted-syntax -- Dataset property may be absent
 		const hotkeys = new Set(button.dataset.hotkey?.split(','));
 		hotkeys.add(hotkey);
 		button.dataset.hotkey = [...hotkeys].join(',');

@@ -14,12 +14,13 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	// There is text selection
+	// eslint-disable-next-line no-restricted-syntax -- getSelection() can return null
 	if (globalThis.getSelection()?.toString().length !== 0) {
 		return;
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional([
-		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 		'.ellipsis-expander', // Compare
 	], event.delegateTarget)?.dispatchEvent(

@@ -114,6 +114,7 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 		return;
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- URL parameter may be absent
 	const editingPrNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
 	if (editingPrNumber) {
 		prs = prs.filter(pr => pr !== Number(editingPrNumber));

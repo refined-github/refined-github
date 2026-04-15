@@ -34,6 +34,7 @@ export default function observe<
 	listener: ObserverListener<ExpectedElement>,
 	{signal, stopOnDomReady, once, ancestor}: Options = {},
 ): void {
+	// eslint-disable-next-line no-restricted-syntax -- signal is an optional AbortSignal parameter
 	if (signal?.aborted) {
 		return;
 	}
@@ -65,6 +66,7 @@ export default function observe<
 		}
 	`;
 	document.body.prepend(rule);
+	// eslint-disable-next-line no-restricted-syntax -- signal is an optional AbortSignal parameter
 	signal?.addEventListener('abort', () => {
 		rule.remove();
 	});
@@ -80,6 +82,7 @@ export default function observe<
 
 		await domLoaded;
 		await delay(1000);
+		// eslint-disable-next-line no-restricted-syntax -- signal is an optional AbortSignal parameter
 		if (!called && !signal?.aborted) {
 			console.warn(currentFeature, '→ Selector not found on page:', selector);
 		}

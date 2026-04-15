@@ -18,6 +18,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 		throw new Error('Could not find file in sidebar, is the sidebar loaded?');
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)
 		?.cloneNode(true);
 	if (icon) {
@@ -31,6 +32,7 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileLink = $('a', fileHeader);
 	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const icon = $optional([
 		'.octicon-file-removed',
 		'.octicon-file-added',

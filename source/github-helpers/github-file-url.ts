@@ -42,6 +42,7 @@ export default class GitHubFileUrl {
 
 		// TODO: `getCurrentGitRef` uses global state https://github.com/refined-github/refined-github/issues/6637
 		const currentBranch = getCurrentGitRef();
+		// eslint-disable-next-line no-restricted-syntax -- getCurrentGitRef() may return undefined
 		const currentBranchSections = currentBranch?.split('/');
 		if (
 			!currentBranch // Current branch could not be determined (1/2)

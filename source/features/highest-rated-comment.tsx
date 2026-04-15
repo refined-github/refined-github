@@ -49,6 +49,7 @@ function getBestComment(): HTMLElement | undefined {
 		}
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- Array element may not exist
 	return highest?.comment;
 }
 
@@ -102,6 +103,7 @@ function init(): false | void {
 		return false;
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const commentText = $optional(singleParagraphCommentSelector, bestComment)?.textContent;
 	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;

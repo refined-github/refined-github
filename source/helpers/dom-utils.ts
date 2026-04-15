@@ -83,6 +83,7 @@ export const isTextNodeContaining = (node: Nullable<Text | ChildNode>, expectati
 	// Make sure only text is being considered, not links, icons, etc
 	if (!node || !isTextNode(node)) {
 		console.warn('Expected Text node', node);
+		// eslint-disable-next-line no-restricted-syntax -- node parameter may be null
 		throw new TypeError(`Expected Text node, received ${String(node?.nodeName)}`);
 	}
 
@@ -114,6 +115,7 @@ export function getElementByAriaLabelledBy<T extends HTMLElement>(baseSelector: 
 	for (const element of $$(baseSelector + '[aria-labelledby]')) {
 		const labelElement = $optional(`[id="${element.getAttribute('aria-labelledby')!}"]`);
 
+		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		if (labelElement?.textContent?.trim() === label) {
 			return element as T;
 		}

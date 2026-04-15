@@ -144,6 +144,7 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
+	// eslint-disable-next-line no-restricted-syntax -- syncedForm may not be initialized yet
 	syncedForm?.onChange(async domain => {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;

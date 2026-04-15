@@ -229,6 +229,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 		</div>,
 	);
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist on first initialization
 	previousRghButton?.remove();
 	subscriptionButton.hidden = true;
 }

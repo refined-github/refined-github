@@ -44,6 +44,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 
 const viewerPermission = new CachedFunction('viewer-permission', {
 	updater: getViewerPermission,
+	// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 	cacheKey: () => getRepo()?.nameWithOwner ?? '',
 });
 

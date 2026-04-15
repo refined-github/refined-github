@@ -8,6 +8,7 @@ import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
 function linkify(line: HTMLElement): void {
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
 		repositionAnchors(line);

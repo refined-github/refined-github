@@ -62,6 +62,7 @@ export default class SearchQuery {
 		}
 
 		// Parse label links #5176
+		// eslint-disable-next-line no-restricted-syntax -- Regex match may return null
 		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
 		if (labelName) {
 			this.queryParts = ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];

@@ -40,6 +40,7 @@ async function getWorkflows(): Promise<Workflow[]> {
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
 
+	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	const workflows: any[] = workflowFiles?.entries ?? [];
 
 	const result: Record<string, string> = {};

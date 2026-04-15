@@ -66,6 +66,7 @@ async function onEndButtonClick(): Promise<void> {
 }
 
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('#rgh-bisect-dialog')?.remove();
 	document.body.append(
 		<div id="rgh-bisect-dialog" className="Box p-3">

@@ -51,6 +51,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	);
 
 	// A parent is clipping the popup
+	// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 	anchor.closest('.AppHeader-context-full')?.style.setProperty('overflow', 'visible');
 }
 

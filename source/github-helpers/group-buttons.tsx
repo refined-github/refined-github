@@ -33,12 +33,14 @@ export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElem
 export function groupSiblings(button: Element): Element {
 	const siblings = [button];
 	let previous = button.previousElementSibling;
+	// eslint-disable-next-line no-restricted-syntax -- previousElementSibling can be null
 	while (previous?.classList.contains('btn')) {
 		siblings.unshift(previous);
 		previous = previous.previousElementSibling;
 	}
 
 	let next = button.nextElementSibling;
+	// eslint-disable-next-line no-restricted-syntax -- nextElementSibling can be null
 	while (next?.classList.contains('btn')) {
 		siblings.push(next);
 		next = next.nextElementSibling;

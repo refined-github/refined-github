@@ -35,6 +35,7 @@ async function cleanReleases(): Promise<void> {
 	// Point to releases page; the user sees the same content, but there's more below
 	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
 		// The link is missing on tagged-but-no-releases repos
+		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		?.setAttribute('href', buildRepoUrl('releases'));
 }
 
@@ -42,6 +43,7 @@ async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
 	const lastSidebarHeader = $optional('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -52,6 +54,7 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserAdminRepo()) {
+		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		$optional('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
@@ -59,6 +62,7 @@ async function hideEmptyMeta(): Promise<void> {
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link

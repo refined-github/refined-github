@@ -18,7 +18,8 @@ async function selectCurrentConversationFilter(): Promise<void> {
 	const menu = await elementReady('#filters-select-menu');
 	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchUrl}"]`, menu);
 	if (currentFilter) {
-		$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
+		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
+	$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
 		currentFilter.setAttribute('aria-checked', 'true');
 	}
 }

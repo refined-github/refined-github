@@ -100,6 +100,7 @@ export default async function initTokenValidation(syncedForm: SyncedForm | undef
 	});
 
 	// Update domain-dependent page content when the domain is changed
+	// eslint-disable-next-line no-restricted-syntax -- syncedForm may not be initialized yet
 	syncedForm?.onChange(async () => {
 		// TODO: Fix upstream bug https://github.com/fregante/webext-options-sync-per-domain/issues/10#issuecomment-3077459946
 		await delay(100);

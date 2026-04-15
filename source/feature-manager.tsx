@@ -176,11 +176,13 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			deduplicate = false,
 		} = loader;
 
+		// eslint-disable-next-line no-restricted-syntax -- Array parameter is optional
 		if (include?.length === 0) {
 			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
 		}
 
 		// 404 pages should only run 404-only features
+		// eslint-disable-next-line no-restricted-syntax -- Array parameter is optional
 		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
 			return;
 		}

@@ -32,7 +32,9 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 
 		return Boolean(repository.projects.totalCount)
 			|| Boolean(repository.projectsV2.totalCount)
+		// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 			|| Boolean(organization?.projects?.totalCount)
+		// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 			|| Boolean(organization?.projectsV2?.totalCount);
 	},
 	maxAge: {days: 1},

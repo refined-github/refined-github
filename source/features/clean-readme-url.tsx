@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function maybeCleanUrl(event?: NavigateEvent): void {
+	// eslint-disable-next-line no-restricted-syntax -- event is an optional parameter
 	const parsed = new URL(event?.destination.url ?? location.href);
 	if (parsed.searchParams.get('tab') === 'readme-ov-file') {
 		parsed.searchParams.delete('tab');

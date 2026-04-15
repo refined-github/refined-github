@@ -17,6 +17,7 @@ function linkify(label: Element): void {
 
 	// React might create a new label without removing the old one
 	// https://github.com/refined-github/refined-github/issues/8478
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('.rgh-linkify-user-labels', label.parentElement!)?.remove();
 
 	const url = new URL(buildRepoUrl('commits'));

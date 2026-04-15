@@ -36,6 +36,7 @@ function buildQuery(issueIds: string[]): string {
 async function add(prLinks: HTMLElement[]): Promise<void> {
 	const query = buildQuery(prLinks.map(pr => pr.id));
 	const data = await api.v4(query);
+	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	const defaultBranch = data.repository.defaultBranchRef?.name;
 
 	for (const prLink of prLinks) {

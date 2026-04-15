@@ -20,6 +20,7 @@ function openInNewTab(): void {
 	});
 
 	// Get the list element that contains the unread class and mark it as read.
+	// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 	selected.closest('.unread')?.classList.replace('unread', 'read');
 }
 

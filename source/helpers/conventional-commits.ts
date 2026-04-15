@@ -24,6 +24,7 @@ export function parseConventionalCommit(commitTitle: string): {
 	raw: string;
 } | undefined {
 	const match = conventionalCommitRegex.exec(commitTitle);
+	// eslint-disable-next-line no-restricted-syntax -- Regex match may return null
 	if (!match?.groups?.type) {
 		return;
 	}

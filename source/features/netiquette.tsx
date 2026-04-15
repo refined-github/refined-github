@@ -46,6 +46,7 @@ export function wasLongAgo(date: Date): boolean {
 function isPopular(): boolean {
 	return (
 		countElements('[data-testid="comment-header"]') > 30
+		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 		// TODO: Drop in 2026; old conversation style

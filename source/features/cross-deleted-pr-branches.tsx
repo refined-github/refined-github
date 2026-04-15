@@ -16,11 +16,13 @@ function init(): void | false {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
 
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent.includes(' deleted ')) {
 		return false;
 	}
 
 	const deletedBranchName = lastBranchAction.textContent.trim();
+	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const repoRootUrl = headReferenceLink?.href.split('/', 5).join('/');
 	for (const element of $$('.commit-ref')) {
 		const branchName = element.textContent.trim().split(':').pop()!;
