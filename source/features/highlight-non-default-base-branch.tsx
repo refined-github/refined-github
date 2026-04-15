@@ -10,9 +10,9 @@ import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 
-type BranchInfo = {
-	baseRef: string;
-	baseRefName: string;
+type BaseBranch = {
+	ref: string;
+	refName: string;
 };
 
 type PrRef = {
@@ -55,9 +55,9 @@ function buildQuery(groups: Map<string, PrRef[]>): string {
 	}).join('\n');
 }
 
-function renderBadge(pr: PrRef, info: BranchInfo, nameWithOwner: string): void {
-	const branch = info.baseRef && `/${nameWithOwner}/tree/${info.baseRefName}`;
-	const displayName = abbreviateString(info.baseRefName, 25);
+function renderBadge(pr: PrRef, baseBranch: BaseBranch, nameWithOwner: string): void {
+	const branch = baseBranch.ref && `/${nameWithOwner}/tree/${baseBranch.refName}`;
+	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
 		<span className="issue-meta-section ml-2">
@@ -67,7 +67,7 @@ function renderBadge(pr: PrRef, info: BranchInfo, nameWithOwner: string): void {
 				className="commit-ref user-select-contain mb-n1"
 				style={branch ? {} : {textDecoration: 'line-through'}}
 			>
-				<a title={branch ? info.baseRefName : 'Deleted'} href={branch}>
+				<a title={branch ? baseBranch.refName : 'Deleted'} href={branch}>
 					{displayName}
 				</a>
 			</span>
@@ -107,18 +107,18 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 		const defaultBranch = repository.defaultBranchRef?.name;
 		for (const pr of prs) {
-			const info: BranchInfo = repository[api.escapeKey('pr', pr.number)];
-			if (info.baseRefName === defaultBranch) {
+			const baseBranch: BaseBranch = repository[api.escapeKey('pr', pr.number)];
+			if (baseBranch.refName === defaultBranch) {
 				continue;
 			}
 
 			// Avoid noise on old PRs pointing to `master` #3910
 			// If the PR is open, it means that `master` still exists
-			if (info.baseRefName === 'master' && isClosed(pr.link)) {
+			if (baseBranch.refName === 'master' && isClosed(pr.link)) {
 				continue;
 			}
 
-			renderBadge(pr, info, repository.nameWithOwner);
+			renderBadge(pr, baseBranch, repository.nameWithOwner);
 		}
 	}
 }
