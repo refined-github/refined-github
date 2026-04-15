@@ -74,7 +74,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		</span>
 	);
 
-	const metadataRow = pr.link.matches('.js-navigation-open')
+	const metadataRow = pr.link.matches('.js-issue-row *')
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
 		: pr.link.closest('li')!.querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]',
@@ -122,11 +122,11 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe([
-		'.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', // Repo and global PR lists
-		'a[data-testid="listitem-title-link"][data-hovercard-type="pull_request"]', // Preview global PR list
-		'a[data-testid="issue-pr-title-link"][data-hovercard-type="pull_request"]', // Issue list
-	], batchedFunction(add, {delay: 100}), {signal});
+	observe(`a[data-hovercard-type="pull_request"]:is(${[
+		'.js-issue-row *', // Repo and global PR lists
+		'[data-testid="listitem-title-link"]', // Preview global PR list
+		'[data-testid="issue-pr-title-link"]', // Issue list
+	].join(',')})`, batchedFunction(add, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
