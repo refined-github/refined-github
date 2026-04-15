@@ -25,7 +25,7 @@ type Pr = {
 function isClosed(prLink: HTMLElement): boolean {
 	const row = prLink.closest([
 		'.js-issue-row', // Legacy DOM
-		'[class^="IssueRow"]',
+		'li',
 	])!;
 	return elementExists([
 		// Legacy DOM
@@ -76,7 +76,10 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 
 	const metadataRow = pr.link.matches('.js-navigation-open')
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
-		: pr.link.closest('li')!.querySelector('[data-testid="list-row-repo-name-and-number"]')!;
+		: pr.link.closest('li')!.querySelector([
+			'div[data-testid="list-row-repo-name-and-number"]',
+			'div[class^="Description"]'
+		])!;
 	metadataRow.append(badge);
 }
 
@@ -121,7 +124,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 	observe([
 		'.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', // Repo and global PR lists
-		'a[data-testid="issue-pr-title-link"][data-hovercard-type="pull_request"]', // Repo issue list
+		'a[data-testid="listitem-title-link"][data-hovercard-type="pull_request"]', // Preview global PR list
+		'a[data-testid="issue-pr-title-link"][data-hovercard-type="pull_request"]', // Issue list
 	], batchedFunction(add, {delay: 100}), {signal});
 }
 
