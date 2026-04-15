@@ -15,7 +15,7 @@ type BaseBranch = {
 	refName: string;
 };
 
-type PrRef = {
+type Pr = {
 	link: HTMLAnchorElement;
 	owner: string;
 	repo: string;
@@ -37,8 +37,8 @@ function isClosed(prLink: HTMLElement): boolean {
 	], row);
 }
 
-function buildQuery(groups: Map<string, PrRef[]>): string {
-	return [...groups.values()].map(prs => {
+function buildQuery(prsByRepo: Map<string, Pr[]>): string {
+	return [...prsByRepo.values()].map(prs => {
 		const {owner, repo} = prs[0];
 		return `
 			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
@@ -46,8 +46,8 @@ function buildQuery(groups: Map<string, PrRef[]>): string {
 				defaultBranchRef {name}
 				${prs.map(pr => `
 					${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
-						baseRef {id}
-						baseRefName
+						ref: baseRef {id}
+						refName: baseRefName
 					}
 				`).join('\n')}
 			}
@@ -55,7 +55,7 @@ function buildQuery(groups: Map<string, PrRef[]>): string {
 	}).join('\n');
 }
 
-function renderBadge(pr: PrRef, baseBranch: BaseBranch, nameWithOwner: string): void {
+function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): void {
 	const branch = baseBranch.ref && `/${nameWithOwner}/tree/${baseBranch.refName}`;
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
@@ -74,39 +74,33 @@ function renderBadge(pr: PrRef, baseBranch: BaseBranch, nameWithOwner: string): 
 		</span>
 	);
 
-	// Legacy DOM exposes a dedicated metadata container; React rows (global list) don't, so place next to the title link
-	const legacyMeta = pr.link.parentElement?.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex');
-	if (legacyMeta) {
-		legacyMeta.append(badge);
-	} else {
-		pr.link.after(badge);
-	}
+	const metadataRow = pr.link.matches('.js-navigation-open')
+		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
+		: pr.link.closest('li')!.querySelector('[data-testid="list-row-repo-name-and-number"]')!;
+	metadataRow.append(badge);
 }
 
 async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
-	const groups = new Map<string, PrRef[]>();
+	const prs = new Set<Pr>();
 	for (const link of prLinks) {
 		const [, owner, repo, , number] = link.pathname.split('/');
-		const ref: PrRef = {
+		prs.add({
 			link, owner, repo, number: Number(number),
-		};
-		const key = `${owner}/${repo}`;
-		const list = groups.get(key) ?? [];
-		list.push(ref);
-		groups.set(key, list);
+		});
 	}
 
-	const data = await api.v4(buildQuery(groups));
+	const prsByRepo = Map.groupBy(prs, pr => `${pr.owner}/${pr.repo}`);
+	const data = await api.v4(buildQuery(prsByRepo));
 
-	for (const prs of groups.values()) {
-		const {owner, repo} = prs[0];
+	for (const repoPrs of prsByRepo.values()) {
+		const {owner, repo} = repoPrs[0];
 		const repository = data[api.escapeKey('repo', owner, repo)];
 		if (!repository) {
 			continue;
 		}
 
 		const defaultBranch = repository.defaultBranchRef?.name;
-		for (const pr of prs) {
+		for (const pr of repoPrs) {
 			const baseBranch: BaseBranch = repository[api.escapeKey('pr', pr.number)];
 			if (baseBranch.refName === defaultBranch) {
 				continue;
@@ -118,7 +112,7 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 				continue;
 			}
 
-			renderBadge(pr, baseBranch, repository.nameWithOwner);
+			renderBranches(pr, baseBranch, repository.nameWithOwner);
 		}
 	}
 }
@@ -145,5 +139,6 @@ Test URLs:
 - Repo PR list: https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
 - Repo issue list: https://github.com/refined-github/sandbox/issues?q=is%3Apr%20state%3Aopen+pr+branch
 - Global PR list: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Arefined-github%2Fsandbox+pr+branch
+- Global issue list: https://github.com/issues?q=is%3Aopen+is%3Apr+repo%3Arefined-github%2Fsandbox+pr+branch
 
 */
