@@ -142,7 +142,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- Repo PR list:   https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
-- Global PR list: https://github.com/pulls?q=is%3Apr+is%3Aopen+author%3A%40me
+- Repo PR list: https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+pr+branch
+- Repo issue list: https://github.com/refined-github/sandbox/issues?q=is%3Apr%20state%3Aopen+pr+branch
+- Global PR list: https://github.com/pulls?q=is%3Aopen+is%3Apr+repo%3Arefined-github%2Fsandbox+pr+branch
 
 */
