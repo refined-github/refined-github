@@ -126,8 +126,8 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 	observe([
-		'.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', // Per-repo issue/PR list
-		'a[data-testid="issue-pr-title-link"][href*="/pull/"]', // Global PR list (React row)
+		'.js-issue-row .js-navigation-open[data-hovercard-type="pull_request"]', // Repo and global PR lists
+		'a[data-testid="issue-pr-title-link"][data-hovercard-type="pull_request"]', // Repo issue list
 	], batchedFunction(add, {delay: 100}), {signal});
 }
 
