@@ -20,8 +20,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		// TODO: Use `isIssueList` after it's added to `github-url-detection`
-		pageDetect.isIssueOrPRList,
+		pageDetect.isIssueList,
 		pageDetect.isIssue,
 	],
 	init,
