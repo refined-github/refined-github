@@ -11,7 +11,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 
 type BaseBranch = {
-	ref: string;
+	ref: string | undefined;
 	refName: string;
 };
 
