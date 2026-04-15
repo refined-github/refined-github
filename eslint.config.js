@@ -128,6 +128,10 @@ export default [
 								'*[test.type="CallExpression"][test.callee.name="$optional"],'
 								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
 					},
+					{
+						selector: 'MemberExpression[optional=true][object.callee.property.name=querySelector]',
+						message: 'Use $optional(selector, element) instead of element.querySelector(selector)?.',
+					},
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
