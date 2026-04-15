@@ -98,11 +98,7 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	for (const repoPrs of prsByRepo.values()) {
 		const {owner, repo} = repoPrs[0];
 		const repository = data[api.escapeKey('repo', owner, repo)];
-		if (!repository) {
-			continue;
-		}
-
-		const defaultBranch = repository.defaultBranchRef?.name;
+		const defaultBranch = repository.defaultBranchRef.name;
 		for (const pr of repoPrs) {
 			const baseBranch: BaseBranch = repository[api.escapeKey('pr', pr.number)];
 			if (baseBranch.refName === defaultBranch) {
