@@ -22,19 +22,19 @@ type PrRef = {
 	number: number;
 };
 
-const closedSelectors = [
-	'.octicon.merged', // Legacy DOM
-	'.octicon.closed', // Legacy DOM
-	'.octicon-git-merge', // React DOM
-	'.octicon-git-pull-request-closed', // React DOM
-];
-
 function isClosed(prLink: HTMLElement): boolean {
 	const row = prLink.closest([
 		'.js-issue-row', // Legacy DOM
-		'[class^="IssueRow"]', // React DOM
-	]);
-	return elementExists(closedSelectors, row!);
+		'[class^="IssueRow"]',
+	])!;
+	return elementExists([
+		// Legacy DOM
+		'.octicon.merged',
+		'.octicon.closed',
+		// React DOM
+		'.octicon-git-merge',
+		'.octicon-git-pull-request-closed',
+	], row);
 }
 
 function buildQuery(groups: Map<string, PrRef[]>): string {
