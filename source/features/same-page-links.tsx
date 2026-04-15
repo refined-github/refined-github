@@ -8,39 +8,30 @@ function fix(button: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'[data-testid="state-reason-link"] + [target="_blank"]', // "Closing issue" link
-		'[data-testid="issue-metadata-fixed"] [target="_blank"]', // Reference PR link in issue header
-		'[data-testid^="timeline-row-border"] [target="_blank"]', // Commit linkbacks in PRs
-	], fix, {signal});
-}
-
-function initIssueList(signal: AbortSignal): void {
-	observe(
-		'[data-testid="list-row-linked-pull-requests"] a[target="_blank"]', // Closing links on the issue list
-		fix,
-		{signal},
-	);
+	observe(`a[target="_blank"]:is(${[
+		'[class^="ClosedEvent-module__closerLink"]', // "Closing issue" link
+		'[class^="LinkedPullRequest-module__pullRequestLink"]', // Linked PR links in issue headers
+		'ul[data-testid="issue-viewer-linked-pr-container"] *', // Linked PR and release links on issue sidebar
+		'[class^="ReferencedEventInner-module__commitHashLink"]', // Commit linkbacks on issue timeline
+		'div[data-testid="list-row-linked-pull-requests"] > *', // Linked PRs on issue list
+	].join(',')})`, fix, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
+		// TODO: Use `isIssueList` after it's added to `github-url-detection`
+		pageDetect.isIssueOrPRList,
 		pageDetect.isIssue,
 	],
 	init,
-}, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
-	init: initIssueList,
 });
 
 /*
 
 Test URLs
 
-- "Closing issue" link https://github.com/refined-github/refined-github/issues/8346#event-16947543136
-- "Reference PR link" https://github.com/refined-github/refined-github/pull/8367
-- "Commit Linkbacks" https://github.com/sindresorhus/np/issues/82#event-22200037448, https://github.com/cli/cli/issues/10238
-- "Closing links on issue list" https://github.com/refined-github/refined-github/issues
+- "Closing issue" link: https://github.com/refined-github/refined-github/issues/8346#event-16947543136
+- Linked PR links on issue page: https://github.com/refined-github/refined-github/issues/8346
+- Commit linkbacks: https://github.com/sindresorhus/np/issues/82#event-22200037448, https://github.com/cli/cli/issues/10238
+- Linked PRs on issue list: https://github.com/refined-github/refined-github/issues?q=is%3Aissue%20has%3Alinked%20reason%3Acompleted
 */
