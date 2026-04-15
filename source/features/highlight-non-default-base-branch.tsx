@@ -78,7 +78,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
 		: pr.link.closest('li')!.querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]',
-			'div[class^="Description"]'
+			'div[class^="Description"]',
 		])!;
 	metadataRow.append(badge);
 }
