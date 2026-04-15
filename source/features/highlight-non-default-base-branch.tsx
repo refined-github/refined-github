@@ -2,6 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import batchedFunction from 'batched-function';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -33,7 +34,7 @@ function isClosed(prLink: HTMLElement): boolean {
 		'.js-issue-row', // Legacy DOM
 		'[class^="IssueRow"]', // React DOM
 	]);
-	return Boolean(row!.querySelector(closedSelectors));
+	return elementExists(closedSelectors, row!);
 }
 
 function buildQuery(groups: Map<string, PrRef[]>): string {
