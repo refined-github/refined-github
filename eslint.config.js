@@ -4,6 +4,23 @@ import svelteParser from 'svelte-eslint-parser';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 
+const refinedGithubPlugin = {
+	rules: {
+		'no-optional-chaining': {
+			create(context) {
+				return {
+					'MemberExpression[optional=true]'(node) {
+						context.report({
+							node,
+							message: 'Use `!.` instead of `?.`. If the value can be nullish, disable this rule with a comment explaining why.',
+						});
+					},
+				};
+			},
+		},
+	},
+};
+
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 
 export default [
@@ -127,10 +144,6 @@ export default [
 						selector:
 								'*[test.type="CallExpression"][test.callee.name="$optional"],'
 								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
-					},
-					{
-						selector: 'MemberExpression[optional=true]',
-						message: 'Use `!.` instead of `?.`. If the value can be nullish, disable this rule with a comment explaining why.',
 					},
 				],
 				'no-alert': 'off',
@@ -289,6 +302,14 @@ export default [
 				chrome: 'readonly',
 				location: 'readonly',
 			},
+		},
+	},
+	{
+		plugins: {
+			'refined-github': refinedGithubPlugin,
+		},
+		rules: {
+			'refined-github/no-optional-chaining': 'error',
 		},
 	},
 ];
