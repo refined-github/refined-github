@@ -35,7 +35,6 @@ export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBr
 		for (const {name, associatedPullRequests} of repository.refs.nodes) {
 			const [prInfo] = associatedPullRequests.nodes as PullRequest[];
 			// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
-			// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 			const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
 			if (prInfo && !headRefWasDeleted) {
 				prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;

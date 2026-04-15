@@ -22,7 +22,6 @@ async function getPreviousCommitForFile(pathname: string): Promise<string | unde
 	});
 
 	// The first commit refers to the current one, so we skip it
-	// eslint-disable-next-line no-restricted-syntax -- Array element may not exist
 	return resource.history.nodes[1]?.oid;
 }
 

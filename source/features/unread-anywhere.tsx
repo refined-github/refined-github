@@ -17,7 +17,6 @@ import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
 const limit = 5;
 
 async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
-	// eslint-disable-next-line no-restricted-syntax -- event is an optional parameter
 	if (event?.target instanceof HTMLButtonElement) {
 		// Hide the tooltip
 		event.target.blur();
@@ -48,14 +47,12 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 		} else {
 			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
 			// Update the UI too. Optional because the UI is often out of date
-			// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 			$optional('.AppHeader-button--hasIndicator')?.classList.remove('AppHeader-button--hasIndicator');
 		}
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
 	}).finally(() => {
-		// eslint-disable-next-line no-restricted-syntax -- event is an optional parameter
 		if (event?.target instanceof HTMLButtonElement) {
 			event.target.disabled = false;
 		}

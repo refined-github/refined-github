@@ -18,7 +18,6 @@ async function * createEventIterator<T extends Event>(
 	try {
 		element.addEventListener(eventName, handler, {once});
 
-		// eslint-disable-next-line no-restricted-syntax -- signal is an optional AbortSignal parameter
 		while (!signal?.aborted) {
 			if (queue.length === 0) {
 				// eslint-disable-next-line no-await-in-loop

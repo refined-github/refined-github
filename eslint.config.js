@@ -103,10 +103,6 @@ export default [
 						message: 'Unused null expression: !',
 					},
 					{
-						selector: 'MemberExpression[optional=true][object.callee.name=$]',
-						message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
-					},
-					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
 						selector: 'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
 					},
@@ -129,8 +125,8 @@ export default [
 								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
 					},
 					{
-						selector: 'MemberExpression[optional=true][object.callee.property.name=querySelector]',
-						message: 'Use $optional(selector, element) instead of element.querySelector(selector)?.',
+						selector: 'MemberExpression[optional=true]',
+						message: 'Use `!.` instead of `?.`. If the value can be nullish, disable this rule with a comment explaining why.',
 					},
 				],
 				'no-alert': 'off',

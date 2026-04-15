@@ -56,7 +56,6 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 
 		const tags = new Map<string, string>();
 		for (const node of repository.refs.nodes as Tags[]) {
-			// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 			tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 		}
 
@@ -191,7 +190,6 @@ void features.add(import.meta.url, {
 }, {
 	include: [
 		// Only first page of Releases
-		// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 		() => getRepo()?.path === 'releases',
 	],
 	init: initReleases,

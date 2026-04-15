@@ -45,7 +45,6 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 		addMergeLink(link);
 	}
 
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('.octicon', link)?.remove();
 	if (link.classList.contains('selected')) {
 		link.prepend(<CheckIcon />);

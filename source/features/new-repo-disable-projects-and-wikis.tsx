@@ -26,13 +26,9 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('[data-menu-item$="wiki-tab"]')?.remove();
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('[data-menu-item$="projects-tab"]')?.remove();
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('li:has([data-content="Wiki"]')?.remove();
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('li:has([data-content="Projects"])')?.remove();
 }
 

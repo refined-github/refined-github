@@ -67,7 +67,6 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
 
 		// Add at the beginning of the line to avoid (clickable) content shift

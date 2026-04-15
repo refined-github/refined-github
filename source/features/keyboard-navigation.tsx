@@ -23,8 +23,7 @@ function runShortcuts(event: KeyboardEvent): void {
 
 	if (event.key === 'x') {
 		const toggle = targetElement && $optional(viewedToggleSelector, targetElement);
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
-	toggle?.click();
+		toggle?.click();
 		return;
 	}
 

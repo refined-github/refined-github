@@ -66,7 +66,6 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	// Shows on PRs: main [←] feature
 	const anchor
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		= $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: remove after July 2026
 			?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');

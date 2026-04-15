@@ -79,7 +79,6 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	if (currentUserElements) {
 		for (const currentUserElement of currentUserElements) {
 			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
-			// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 			currentUserElement.closest('[data-testid="comment-header"]')?.setAttribute('data-rgh-viewer-did-author', '');
 		}
 
@@ -102,7 +101,6 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		const userKey = api.escapeKey(username);
 		const {name: fullName} = names[userKey];
 
-		// eslint-disable-next-line no-restricted-syntax -- GraphQL field may be null
 		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
 
 		// Could be `null` if not set or empty string if consisting only of emojis

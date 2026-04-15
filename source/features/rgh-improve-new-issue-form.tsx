@@ -57,7 +57,6 @@ async function checkToken(): Promise<void> {
 	try {
 		await baseApiFetch({apiBase: 'https://api.github.com/', path: 'user', token});
 	} catch (error) {
-		// eslint-disable-next-line no-restricted-syntax -- Type cast may produce a non-string value
 		if (!navigator.onLine || (error as any)?.message === 'Failed to fetch') {
 			return;
 		}

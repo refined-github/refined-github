@@ -90,8 +90,7 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 	const [, type] = await getReleases();
 
 	if (!type) {
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
-	$optional('.dropdown-divider', dropdownMenu)?.remove();
+		$optional('.dropdown-divider', dropdownMenu)?.remove();
 		return false;
 	}
 

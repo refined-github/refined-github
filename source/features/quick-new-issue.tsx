@@ -18,7 +18,6 @@ function add(listItem: HTMLElement): void {
 	label.id = labelId;
 
 	link.href = buildRepoUrl('issues/new/choose');
-	// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
 	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);

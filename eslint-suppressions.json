@@ -1,0 +1,387 @@
+{
+  "source/feature-manager.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/features/actions-run-removal.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/bugs-tab.tsx": {
+    "no-restricted-syntax": {
+      "count": 12
+    }
+  },
+  "source/features/ci-link.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/clean-conversation-filters.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/features/clean-conversation-headers.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/clean-readme-url.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/clean-repo-sidebar.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/features/closing-remarks.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/conversation-activity-filter.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/conversation-links-on-repo-lists.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/cross-deleted-pr-branches.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/download-folder-button.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/easy-toggle-commit-messages.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/expand-all-hidden-comments.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/extend-conversation-status-filters.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/fit-textareas.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/github-actions-indicators.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/hide-low-quality-comments.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/highest-rated-comment.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/highlight-non-default-base-branch.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/keyboard-navigation.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/link-to-github-io.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/linkify-symbolic-links.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/linkify-user-labels.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/list-prs-for-file.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/netiquette.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/new-or-deleted-file.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/new-repo-disable-projects-and-wikis.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/features/one-click-diff-options.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/pr-first-commit-title.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/preview-hidden-comments.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/previous-version.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/quick-new-issue.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/quick-repo-deletion.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/reactions-avatars.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/release-download-count.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/releases-tab.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/rerun-workflow.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/rgh-deduplicator.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/features/rgh-feature-descriptions.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/features/rgh-improve-new-issue-form.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/selection-in-new-tab.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/show-associated-branch-prs-on-fork.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/show-names.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/sort-conversations-by-update-time.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/status-subscription.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/sync-pr-commit-title.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/features/unread-anywhere.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/features/unreleased-commits.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/update-pr-from-base-branch.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/features/useful-not-found-page.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/features/visit-tag.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/api.tsx": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/github-helpers/dom-formatters.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/get-default-branch.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/get-user-permission.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/github-file-url.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/github-token.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/group-buttons.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/github-helpers/hotkey.tsx": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/github-helpers/index.ts": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/github-helpers/is-conversation-locked.ts": {
+    "no-restricted-syntax": {
+      "count": 4
+    }
+  },
+  "source/github-helpers/parse-rendered-text.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/github-helpers/search-query.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/helpers/bisect.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/helpers/conventional-commits.ts": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/helpers/delay.ts": {
+    "no-restricted-syntax": {
+      "count": 2
+    }
+  },
+  "source/helpers/dom-utils.ts": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/helpers/errors.ts": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/helpers/event-listener-loop.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/helpers/feature-utils.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/helpers/on-element-removal.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/helpers/selector-observer.tsx": {
+    "no-restricted-syntax": {
+      "count": 3
+    }
+  },
+  "source/options.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/options/reload-without.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "source/options/token-validation.tsx": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  }
+}

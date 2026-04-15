@@ -287,7 +287,6 @@ const v4 = mem(v4uncached, {
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
 		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
-			// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 			key.push(getRepo()?.nameWithOwner);
 		}
 
@@ -298,7 +297,6 @@ const v4 = mem(v4uncached, {
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
 
-	// eslint-disable-next-line no-restricted-syntax -- Type cast may produce a non-string value
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubApiError(
 			'Rate limit exceeded.',
@@ -314,14 +312,12 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		);
 	}
 
-	// eslint-disable-next-line no-restricted-syntax -- Type cast may produce a non-string value
 	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
 		return new RefinedGitHubApiError(
 			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
 		);
 	}
 
-	// eslint-disable-next-line no-restricted-syntax -- Type cast may produce a non-string value
 	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
 		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',

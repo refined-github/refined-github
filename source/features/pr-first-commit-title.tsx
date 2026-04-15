@@ -9,7 +9,6 @@ import observe from '../helpers/selector-observer.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
@@ -61,7 +60,6 @@ function init(signal: AbortSignal): void {
 // The user already altered the PR title/body in a previous load, don't overwrite it
 // https://github.com/refined-github/refined-github/issues/7191
 function hasUserAlteredThePr(): boolean {
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)

@@ -105,7 +105,6 @@ export async function getTokenInfo(apiBase: string, personalToken: string): Prom
 	const expiration = headers.get('GitHub-Authentication-Token-Expiration');
 	// Convert `2026-06-03 19:52:44 UTC` to `2026-06-03T19:52:44Z`
 	// So that `Date` constructor in Safari can parse it: #9043
-	// eslint-disable-next-line no-restricted-syntax -- headers.get() returns null if header is absent
 	const expirationTransformed = expiration?.replace(' ', 'T').replace(' UTC', 'Z');
 
 	return {

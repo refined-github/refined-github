@@ -144,7 +144,6 @@ const nativeUpdateButtonSelector = '[aria-label="Conflicts"] [class^="MergeBoxSe
 
 function canNativelyUpdate(): boolean {
 	const nativeButton = $optional(nativeUpdateButtonSelector);
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	return nativeButton?.textContent === 'Update branch';
 }
 

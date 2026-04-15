@@ -7,7 +7,6 @@ import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
 import GetDefaultBranch from './get-default-branch.gql';
 
-// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 const isCurrentRepo = (nameWithOwner: NameWithOwner): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 
 // Do not make this function complicated. We're only optimizing for the repo root.

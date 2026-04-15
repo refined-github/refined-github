@@ -47,7 +47,6 @@ function initRepoList(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 		() => /\.github\.(?:io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
 	],
 	include: [

@@ -21,7 +21,6 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 		}
 
 		paginationButton = $optional(`:scope > ${paginationButtonSelector}`, wrapper);
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		paginationButton?.click();
 	}
 }

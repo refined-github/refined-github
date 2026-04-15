@@ -18,7 +18,6 @@ import {isFeaturePrivate} from '../helpers/feature-utils.js';
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
 
-	// eslint-disable-next-line no-restricted-syntax -- meta is an optional FeatureMeta parameter
 	const description = meta?.description // Regular feature?
 		?? (
 			isFeaturePrivate(id)
@@ -75,14 +74,12 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{
 							meta && isCss
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								// eslint-disable-next-line no-restricted-syntax -- meta is an optional FeatureMeta parameter
 								: meta?.css
 									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
 									: undefined
 						}
 					</div>
 				</div>
-				{/* eslint-disable-next-line no-restricted-syntax -- meta is an optional FeatureMeta parameter */}
 				{meta?.screenshot && (
 					<a href={meta.screenshot} className="flex-self-center">
 						<img
@@ -153,7 +150,6 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
-	// eslint-disable-next-line no-restricted-syntax -- meta is an optional FeatureMeta parameter
 	const id = meta?.id ?? filename;
 
 	addDescription(infoBanner, id, meta);

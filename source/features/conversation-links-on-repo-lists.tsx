@@ -12,7 +12,6 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;
 
 	// Remove the "X issues need help" link
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	$optional('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
 
 	// Place before the update date

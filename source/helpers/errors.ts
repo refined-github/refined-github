@@ -23,7 +23,6 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 		.join('\n')
 		// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec -- Linear code is best
 		.match(/assets\/features\/(.+)\.js/);
-	// eslint-disable-next-line no-restricted-syntax -- Regex match may return null
 	return match?.[1] as FeatureId | undefined;
 }
 
@@ -95,7 +94,7 @@ export function catchErrors(): void {
 	addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, no-restricted-syntax -- False positive: `||` is used on booleans, not nullish values; Error object stack property access
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values
 		if (error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://')) {
 			logError(error);
 			event.preventDefault();

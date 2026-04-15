@@ -20,7 +20,6 @@ function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 }
 
 function getCurrentCommitTitle(): string | undefined {
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
@@ -41,7 +40,6 @@ function createCommitTitle(): string {
 
 function needsSubmission(): boolean {
 	const mergeButton = $optional(confirmMergeButton);
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	const textContent = mergeButton?.textContent?.trim();
 	if (!textContent || ![
 		'Confirm squash and merge',

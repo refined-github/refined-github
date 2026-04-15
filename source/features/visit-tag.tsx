@@ -21,7 +21,6 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	// eslint-disable-next-line no-restricted-syntax -- getAttribute() returns null if attribute is absent
 	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
 	if (!tag) {
 		throw new Error('Tag not found in DOM. The feature needs to be updated');

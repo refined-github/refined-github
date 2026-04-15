@@ -238,8 +238,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
-	$optional(`.${collapsedClassName} ${location.hash}`)
+		$optional(`.${collapsedClassName} ${location.hash}`)
 			?.closest(timelineItem)
 			?.classList
 			.remove(collapsedClassName);

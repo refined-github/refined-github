@@ -59,9 +59,7 @@ async function getLatestCommitToFile(branch: string, filePath: string): Promise<
 			filePath,
 		},
 	});
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	const commit = repository.object?.history.nodes[0];
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL object may be null
 	return commit?.oid;
 }
 

@@ -28,12 +28,10 @@ export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<A
 		}
 	}
 
-	// eslint-disable-next-line no-restricted-syntax -- getRepo() returns undefined when not on a repo page
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 }
 
 export function getForkedRepo(): string | undefined {
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
@@ -181,7 +179,6 @@ export function triggerConversationUpdate(): void {
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
 	// In the sidebar the container is not present and this fix is not needed
-	// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 	child.closest('.container')?.classList.add('rgh-z-index-5');
 }
 
@@ -207,7 +204,6 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 }
 
 function getConversationAuthor(): string | undefined {
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	return $optional([
 		'.js-command-palette-pull-body .author', // PR conversation
 		'[data-testid="issue-body-header-author"]', // Issue conversation

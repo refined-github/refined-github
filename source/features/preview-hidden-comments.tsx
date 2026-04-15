@@ -24,7 +24,6 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	}
 
 	// The reason is missing/lost in some cases
-	// eslint-disable-next-line no-restricted-syntax -- Regex match may return null
 	const reason = /duplicate|outdated|off-topic|hidden/.exec(commentHeader)?.[0];
 	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
 	hiddenCommentHeader.append(

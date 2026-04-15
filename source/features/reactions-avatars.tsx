@@ -33,7 +33,6 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
-	// eslint-disable-next-line no-restricted-syntax -- nextElementSibling can be null
 	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling

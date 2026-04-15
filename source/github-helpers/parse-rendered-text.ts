@@ -9,7 +9,6 @@ export default function parseRenderedText(element: Element, filter?: NodeFilter)
 		if (currentNode.nodeName === 'CODE') {
 			const {textContent} = currentNode;
 			// Restore backticks that GitHub loses when rendering them
-			// eslint-disable-next-line no-restricted-syntax -- textContent can be null on DOM nodes
 			parsedText += `\`${textContent?.trim()}\``;
 
 			// Skip the children

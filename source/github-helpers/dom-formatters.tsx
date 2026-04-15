@@ -27,7 +27,6 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	// eslint-disable-next-line no-restricted-syntax -- closest() returns null if no matching ancestor
 	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 	}

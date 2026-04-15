@@ -12,7 +12,6 @@ function rerunFailedJobs(): void {
 function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 	const menuButton = $optional('focus-group > button', menu);
 	// The observer matches all action-menus; only transform the "Re-run jobs" dropdown
-	// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 	if (menuButton?.textContent.trim() !== 'Re-run jobs') {
 		return;
 	}

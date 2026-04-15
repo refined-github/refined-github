@@ -15,11 +15,8 @@ void features.add('rgh-deduplicator' as FeatureId, {
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.
 		await Promise.resolve();
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		$optional('has-rgh')?.remove(); // https://github.com/refined-github/refined-github/issues/6568
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		$optional(_`#js-repo-pjax-container, #js-pjax-container`)?.append(<has-rgh />);
-		// eslint-disable-next-line no-restricted-syntax -- Element may not exist, using $optional intentionally
 		$optional(_`turbo-frame`)?.append(<has-rgh-inner />); // #4567
 	},
 });

@@ -37,19 +37,14 @@ type Bugs = {
 
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	const bugTypeCount = repository?.issues?.totalCount ?? 0;
 
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	let label = repository?.labels?.nodes?.find(label => label.name === 'bug');
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	label ??= repository?.labels?.nodes?.find(label => isBugLabel(label.name));
 
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	const bugLabelCount = label?.issues?.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
-	// eslint-disable-next-line no-restricted-syntax -- GraphQL field is nullable
 	return {label: label?.name ?? 'bug', count: bugCount};
 }
 
@@ -144,7 +139,6 @@ function highlightBugsTab(): void {
 
 async function removePinnedIssues(): Promise<void> {
 	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
-	// eslint-disable-next-line no-restricted-syntax -- elementReady() may return undefined if element is absent
 	pinnedIssues?.remove();
 }
 
