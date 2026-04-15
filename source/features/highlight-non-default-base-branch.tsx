@@ -60,7 +60,7 @@ function renderBadge(pr: PrRef, baseBranch: BaseBranch, nameWithOwner: string): 
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
-		<span className="issue-meta-section ml-2">
+		<span className="ml-2">
 			<GitPullRequestIcon />
 			{' To '}
 			<span
