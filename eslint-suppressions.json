@@ -64,11 +64,6 @@
       "count": 2
     }
   },
-  "source/features/highlight-non-default-base-branch.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/keyboard-navigation.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
