@@ -1,22 +1,12 @@
 {
-  "source/feature-manager.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/bugs-tab.tsx": {
     "refined-github/no-optional-chaining": {
-      "count": 12
+      "count": 1
     }
   },
   "source/features/clean-conversation-filters.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 4
-    }
-  },
-  "source/features/clean-conversation-headers.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
     }
   },
   "source/features/clean-readme-url.tsx": {
@@ -136,12 +126,12 @@
   },
   "source/features/rgh-deduplicator.tsx": {
     "refined-github/no-optional-chaining": {
-      "count": 3
+      "count": 1
     }
   },
   "source/features/rgh-feature-descriptions.tsx": {
     "refined-github/no-optional-chaining": {
-      "count": 3
+      "count": 2
     }
   },
   "source/features/rgh-improve-new-issue-form.tsx": {
@@ -192,86 +182,6 @@
   "source/features/visit-tag.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
-    }
-  },
-  "source/github-helpers/api.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 4
-    }
-  },
-  "source/github-helpers/get-default-branch.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/github-helpers/get-user-permission.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/github-helpers/github-file-url.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/github-helpers/group-buttons.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/github-helpers/hotkey.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/github-helpers/index.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
-    }
-  },
-  "source/github-helpers/is-conversation-locked.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 4
-    }
-  },
-  "source/helpers/bisect.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/helpers/conventional-commits.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/helpers/delay.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/helpers/dom-utils.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
-    }
-  },
-  "source/helpers/errors.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/helpers/event-listener-loop.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/helpers/on-element-removal.ts": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/helpers/selector-observer.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
     }
   }
 }

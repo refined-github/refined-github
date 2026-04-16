@@ -11,9 +11,11 @@ const refinedGithubPlugin = {
 				const {sourceCode} = context;
 				return {
 					'MemberExpression[optional=true]'(node) {
-						// Exception: usage is preceded by a comment explaining why
+						// Exception: usage is on a line with an inline comment, or preceded by a comment explaining why
+						const currentLine = (sourceCode.lines[node.loc.start.line - 1] ?? '');
+						const hasInlineComment = /\/\//.test(currentLine.slice(currentLine.indexOf('?.') + 2));
 						const prevLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
-						if (prevLine.startsWith('//') || prevLine.endsWith('*/')) {
+						if (hasInlineComment || prevLine.startsWith('//') || prevLine.endsWith('*/')) {
 							return;
 						}
 
@@ -27,7 +29,7 @@ const refinedGithubPlugin = {
 
 						context.report({
 							node,
-							message: 'Use `!.` instead of `?.`. If the value can be nullish, disable this rule with a comment explaining why.',
+							message: 'Use `!.` instead of `?.`. Add a comment on the same or preceding line describing in which scenario the value can CURRENTLY be null. If you cannot find such a scenario, use `!.` instead.',
 						});
 					},
 				};
@@ -316,6 +318,7 @@ export default [
 		},
 	},
 	{
+		files: ['source/features/**'],
 		plugins: {
 			'refined-github': refinedGithubPlugin,
 		},
