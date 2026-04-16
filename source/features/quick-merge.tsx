@@ -46,14 +46,21 @@ async function mergeBranches(): Promise<void> {
 	}
 
 	await showToast(async () => {
-		const headReference = await api.v3(`git/refs/heads/${encodeURIComponent(comparison.head.branch)}`);
-		await api.v3(`git/refs/heads/${encodeURIComponent(comparison.base.branch)}`, {
-			method: 'PATCH',
-			body: {
-				sha: headReference.object.sha,
-				force: false,
-			},
-		});
+		try {
+			const headReference = await api.v3(`git/refs/heads/${encodeURIComponent(comparison.head.branch)}`);
+			await api.v3(`git/refs/heads/${encodeURIComponent(comparison.base.branch)}`, {
+				method: 'PATCH',
+				body: {
+					sha: headReference.object.sha,
+					force: false,
+				},
+			});
+		} catch (error: unknown) {
+			throw new Error(
+				`Unable to quick-merge ${comparison.head.branch} into ${comparison.base.branch}. Ensure you can push to the base branch and that the merge is fast-forwardable.`,
+				{cause: error},
+			);
+		}
 	}, {
 		message: 'Fast-forwarding branch…',
 		doneMessage: 'Opening commits…',
