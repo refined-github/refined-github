@@ -7,7 +7,6 @@ import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-// PR URL resolution
 function getPrUrl(extension: 'patch' | 'diff'): string {
 	const pathname = getCleanPathname();
 	const [owner, repo, , id] = pathname.split('/');
@@ -76,7 +75,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'.react-overview-code-button-action-list > ul',
-		'#local-panel ul', // TODO: Remove after React PR
+		'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
 	], addPrPatchDiffLinks, {signal});
 }
 
