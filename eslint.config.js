@@ -14,8 +14,8 @@ const refinedGithubPlugin = {
 						// Exception: usage is on a line with an inline comment, or preceded by a comment explaining why
 						const currentLine = (sourceCode.lines[node.loc.start.line - 1] ?? '');
 						const hasInlineComment = /\/\//.test(currentLine.slice(currentLine.indexOf('?.') + 2));
-						const prevLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
-						if (hasInlineComment || prevLine.startsWith('//') || prevLine.endsWith('*/')) {
+						const previousLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
+						if (hasInlineComment || previousLine.startsWith('//') || previousLine.endsWith('*/')) {
 							return;
 						}
 
