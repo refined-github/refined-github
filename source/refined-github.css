@@ -43,27 +43,31 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	display: contents !important;
 }
 
+/* Test: https://github.com/refined-github/refined-github/404 */
 [alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
 }
 
 /* Lighten deletions in Markdown */
+/* Info: https://github.com/refined-github/refined-github/pull/958 */
 .markdown-body del {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
 
 /* Expand empty diffs in PRs */
+/* Info: https://github.com/refined-github/refined-github/issues/1630 */
+/* Test: https://github.com/webpack/webpack/pull/6446/changes */
 :root .file .data.empty {
 	padding: 54px;
 	text-align: center;
 }
-
 :root .file .data table {
 	text-align: left;
 }
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
+/* Info: https://github.com/refined-github/refined-github/pull/1715 */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
