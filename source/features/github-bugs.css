@@ -33,7 +33,7 @@ a[class*='PinnedIssue-module__Link'] code {
 	margin-top: -4px;
 }
 
-/* TODO: Drop in 2026 */
+/* TODO: Drop after React PR conversations */
 /* Mute unclickable reaction buttons, disable hover #6795 */
 /* Test: https://github.com/facebook/react/pull/20646 */
 :root .social-reaction-summary-item:disabled {
@@ -51,6 +51,7 @@ a[class*='PinnedIssue-module__Link'] code {
 	) !important;
 }
 
+/* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs #7108 */
 /* Test: https://github.com/refined-github/sandbox/issues/74 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
