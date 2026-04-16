@@ -59,6 +59,7 @@ a[class*='PinnedIssue-module__Link'] code {
 }
 
 /* Fit rendered markdown div to its content #7187 */
+/* Test: https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1 */
 div.markdown-body {
 	min-height: 2em !important;
 }
