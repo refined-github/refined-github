@@ -18,7 +18,7 @@ function createPrLink(type: 'patch' | 'diff'): JSX.Element {
 	return (
 		<a
 			href={getPrUrl(type)}
-			className="sha color-fg-accent text-normal"
+			className="text-normal"
 		>
 			{type}
 		</a>
@@ -67,15 +67,13 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 	prHeader.append(
-		<li className="mx-0 tmp-py-3 tmp-px-4 width-full rounded-0 border-top color-border-default">
-			<div className="d-flex flex-items-center text-bold">
-				<DiffIcon className="mr-2" />
-				<div className="sha-block" data-turbo="false">
-					Git URLs:&nbsp;
-					{createPrLink('patch')}
-					{' · '}
-					{createPrLink('diff')}
-				</div>
+		<li className="Box-row tmp-p-3 mt-0 d-flex flex-items-center">
+			<DiffIcon className="mr-2" />
+			<div data-turbo="false">
+				<span className="text-bold">Git URLs: </span>
+				{createPrLink('patch')}
+				{' · '}
+				{createPrLink('diff')}
 			</div>
 		</li>,
 	);
@@ -89,7 +87,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe([
 		'.react-overview-code-button-action-list > ul', // PR-specific selector
-		'#local-panel',
+		'#local-panel ul',
 	], addPrPatchDiffLinks, {signal});
 }
 
