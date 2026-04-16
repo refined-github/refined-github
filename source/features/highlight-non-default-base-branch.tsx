@@ -75,10 +75,12 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	);
 
 	const metadataRow = pr.link.matches('.js-issue-row *')
+		// Legacy DOM
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
+		// React DOM
 		: pr.link.closest('li')!.querySelector([
-			'div[data-testid="list-row-repo-name-and-number"]',
-			'div[class^="Description"]',
+			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
+			'div[class^="Description"]', // Preview global PR list
 		])!;
 	metadataRow.append(badge);
 }
