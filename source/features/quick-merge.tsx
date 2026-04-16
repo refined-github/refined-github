@@ -14,7 +14,8 @@ const buttonSelector = '.js-compare-pr button';
 const buttonClass = 'rgh-quick-merge';
 
 function addButton(compareButton: HTMLButtonElement): void {
-	if (compareButton.parentElement!.querySelector(`.${buttonClass}`)) {
+	const {parentElement} = compareButton;
+	if (!parentElement || parentElement.querySelector(`.${buttonClass}`)) {
 		return;
 	}
 
@@ -45,7 +46,7 @@ async function mergeBranches(): Promise<void> {
 	}
 
 	await showToast(async () => {
-		const headReference = await api.v3(`git/ref/heads/${encodeURIComponent(comparison.head.branch)}`);
+		const headReference = await api.v3(`git/refs/heads/${encodeURIComponent(comparison.head.branch)}`);
 		await api.v3(`git/refs/heads/${encodeURIComponent(comparison.base.branch)}`, {
 			method: 'PATCH',
 			body: {
