@@ -14,20 +14,11 @@ function getPrUrl(extension: 'patch' | 'diff'): string {
 	return `/${owner}/${repo}/pull/${id}.${extension}`;
 }
 
-function updatePrUrl(
-	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
-): void {
-	const link = event.currentTarget;
-	link.href = getPrUrl(link.textContent as 'patch' | 'diff');
-}
-
 function createPrLink(type: 'patch' | 'diff'): JSX.Element {
 	return (
 		<a
 			href={getPrUrl(type)}
-			className="sha color-fg-default"
-			onMouseEnter={updatePrUrl}
-			onFocus={updatePrUrl}
+			className="sha color-fg-accent text-normal"
 		>
 			{type}
 		</a>
@@ -76,12 +67,13 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 
 async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 	prHeader.append(
-		<li className="mx-0 tmp-py-3 tmp-px-4 width-full rounded-0">
+		<li className="mx-0 tmp-py-3 tmp-px-4 width-full rounded-0 border-top color-border-default">
 			<div className="d-flex flex-items-center text-bold">
 				<DiffIcon className="mr-2" />
 				<div className="sha-block" data-turbo="false">
+					Git URLs:&nbsp;
 					{createPrLink('patch')}
-					{' '}
+					{' · '}
 					{createPrLink('diff')}
 				</div>
 			</div>
