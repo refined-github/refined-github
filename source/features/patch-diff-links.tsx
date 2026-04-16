@@ -14,17 +14,6 @@ function getPrUrl(extension: 'patch' | 'diff'): string {
 	return `/${owner}/${repo}/pull/${id}.${extension}`;
 }
 
-function createPrLink(type: 'patch' | 'diff'): JSX.Element {
-	return (
-		<a
-			href={getPrUrl(type)}
-			className="text-normal"
-		>
-			{type}
-		</a>
-	);
-}
-
 function getCommitUrl(extension: 'patch' | 'diff'): string {
 	// The replacement avoids a redirection isPRCommit
 	const pathname = getCleanPathname().replace(/\/pull\/\d+\/commits/, '/commit');
@@ -71,9 +60,9 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 			<DiffIcon className="mr-2" />
 			<div data-turbo="false">
 				<span className="text-bold">Git URLs: </span>
-				{createPrLink('patch')}
+				<a href={getPrUrl('patch')}>patch</a>
 				{' · '}
-				{createPrLink('diff')}
+				<a href={getPrUrl('diff')}>diff</a>
 			</div>
 		</li>,
 	);
@@ -86,8 +75,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	], addPatchDiffLinks, {signal});
 
 	observe([
-		'.react-overview-code-button-action-list > ul', // PR-specific selector
-		'#local-panel ul',
+		'.react-overview-code-button-action-list > ul',
+		'#local-panel ul', // TODO: Remove after React PR
 	], addPrPatchDiffLinks, {signal});
 }
 
