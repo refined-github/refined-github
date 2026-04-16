@@ -102,6 +102,7 @@ pr-branches
 	z-index: 2147483647;
 }
 
+/* TODO: Drop after July 2026 */
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
