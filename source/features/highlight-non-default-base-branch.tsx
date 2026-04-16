@@ -120,11 +120,11 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe(`a[data-hovercard-type="pull_request"]:is(${[
-		'.js-issue-row *', // Repo and global PR lists
-		'[data-testid="listitem-title-link"]', // Preview global PR list
-		'[data-testid="issue-pr-title-link"]', // Issue list
-	].join(',')})`, batchedFunction(add, {delay: 100}), {signal});
+	observe([
+		'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
+		'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
+		'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
+	], batchedFunction(add, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
