@@ -72,6 +72,7 @@ import './features/patch-diff-links.js';
 import './features/parse-backticks.js';
 import './features/mark-merge-commits-in-list.js';
 import './features/swap-branches-on-compare.js';
+import './features/quick-merge.js';
 import './features/reactions-avatars.js';
 import './features/show-names.js';
 import './features/previous-next-commit-buttons.js';
