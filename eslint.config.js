@@ -4,6 +4,40 @@ import svelteParser from 'svelte-eslint-parser';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 
+const refinedGithubPlugin = {
+	rules: {
+		'no-optional-chaining': {
+			create(context) {
+				const {sourceCode} = context;
+				return {
+					'MemberExpression[optional=true]'(node) {
+						// Exception: usage is on a line with an inline comment, or preceded by a comment explaining why
+						const currentLine = (sourceCode.lines[node.loc.start.line - 1] ?? '');
+						const hasInlineComment = /\/\//.test(currentLine.slice(currentLine.indexOf('?.') + 2));
+						const previousLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
+						if (hasInlineComment || previousLine.startsWith('//') || previousLine.endsWith('*/')) {
+							return;
+						}
+
+						if (node.object.type === 'CallExpression' && node.object.callee.name === '$') {
+							context.report({
+								node,
+								message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
+							});
+							return;
+						}
+
+						context.report({
+							node,
+							message: 'Use `!.` instead of `?.`. Add a comment on the same or preceding line describing in which scenario the value can CURRENTLY be null. If you cannot find such a scenario, use `!.` instead.',
+						});
+					},
+				};
+			},
+		},
+	},
+};
+
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 
 export default [
@@ -101,10 +135,6 @@ export default [
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$]',
 						message: 'Unused null expression: !',
-					},
-					{
-						selector: 'MemberExpression[optional=true][object.callee.name=$]',
-						message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
 					},
 					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
@@ -285,6 +315,15 @@ export default [
 				chrome: 'readonly',
 				location: 'readonly',
 			},
+		},
+	},
+	{
+		files: ['source/features/**'],
+		plugins: {
+			'refined-github': refinedGithubPlugin,
+		},
+		rules: {
+			'refined-github/no-optional-chaining': 'error',
 		},
 	},
 ];
