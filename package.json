@@ -8,7 +8,7 @@
 		"build:bundle": "rollup -c",
 		"fix": "run-p \"lint:js -- --fix\" format \"vitest -- --update\" --continue-on-error",
 		"format": "prettier . --write && npm run format:oxfmt",
-		"format:oxfmt": "oxfmt --ignore-path /dev/null \"build/**/*.ts\" \"source/**/*.{ts,tsx}\" \"test/**/*.ts\"",
+		"format:oxfmt": "oxfmt --ignore-path .gitignore \"build/**/*.ts\" \"source/**/*.{ts,tsx}\" \"test/**/*.ts\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:js": "eslint .",
 		"lint:prettier": "prettier . --check",
