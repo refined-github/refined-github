@@ -5,7 +5,6 @@
 		/* Dashboard PR lists */
 		div[class*='DashboardListView-module__ItemLeadingVisual'] svg[aria-label='Status: Draft (not ready).'],
 		.js-issue-row
-			/* biome-ignore format: bug */
 			:is(
 				/* Repo PR lists */
 					[aria-label='Open draft pull request'],
