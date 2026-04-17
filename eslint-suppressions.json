@@ -1,4 +1,9 @@
 {
+	"source/features/actionable-pr-view-file.tsx": {
+    "refined-github/no-optional-chaining": {
+      "count": 1
+    }
+  },
   "source/features/bugs-tab.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
