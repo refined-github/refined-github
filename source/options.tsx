@@ -1,7 +1,7 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
+import {$$, elementExists} from 'select-dom';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -40,7 +40,13 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	$('#find-feature-message').hidden = false;
 }
 
+let hasScrolledToTarget = false;
+
 function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+	if (!hasScrolledToTarget && elementExists(':target')) {
+		return;
+	}
+
 	const rect = section.getBoundingClientRect();
 	if (rect.bottom > window.innerHeight || rect.top < 0) {
 		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
@@ -176,9 +182,33 @@ function addEventListeners(): void {
 	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
+function scrollTargetIntoView(): void {
+	const {hash} = location;
+	if (!hash) {
+		return;
+	}
+
+	const element = $optional(hash);
+	if (!element) {
+		return;
+	}
+
+	const details = element.closest('details');
+	if (details) {
+		details.open = true;
+	}
+
+	element.scrollIntoView({
+		block: 'start',
+	});
+
+	hasScrolledToTarget = true;
+}
+
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+	scrollTargetIntoView();
 }
 
 void init();

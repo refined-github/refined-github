@@ -17,14 +17,14 @@ import CountBugs from './bugs-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 
 type ApiResponse = {
-	issues?: {
-		totalCount?: number;
+	issues: {
+		totalCount: number;
 	};
-	labels?: {
-		nodes?: Array<{
+	labels: {
+		nodes: Array<{
 			name: string;
 			issues: {
-				totalCount?: number;
+				totalCount: number;
 			};
 		}>;
 	};
@@ -37,14 +37,16 @@ type Bugs = {
 
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
-	const bugTypeCount = repository?.issues?.totalCount ?? 0;
+	const bugTypeCount = repository.issues.totalCount;
 
-	let label = repository?.labels?.nodes?.find(label => label.name === 'bug');
-	label ??= repository?.labels?.nodes?.find(label => isBugLabel(label.name));
+	let label = repository.labels.nodes.find(label => label.name === 'bug');
+	label ??= repository.labels.nodes.find(label => isBugLabel(label.name));
 
-	const bugLabelCount = label?.issues?.totalCount ?? 0;
+	// Label might not be found if the repo uses a non-standard bug label name
+	const bugLabelCount = label?.issues.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
+	// Label might not be found if the repo uses a non-standard bug label name
 	return {label: label?.name ?? 'bug', count: bugCount};
 }
 

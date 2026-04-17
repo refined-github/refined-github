@@ -9,7 +9,7 @@ import clickAll from '../helpers/click-all.js';
 import showToast from '../github-helpers/toast.js';
 import getItemsBetween from '../helpers/get-items-between.js';
 
-const viewedToggleSelector = [
+export const viewedToggleSelector = [
 	'button[class*="MarkAsViewedButton"]',
 	// Old view
 	'input.js-reviewed-checkbox',

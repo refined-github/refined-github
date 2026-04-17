@@ -1,6 +1,7 @@
 import './linkify-user-labels.css';
 
 import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 
 import {wrap} from '../helpers/dom-utils.js';
@@ -9,7 +10,19 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import observe from '../helpers/selector-observer.js';
 
-function linkify(label: Element): void {
+function getAuthor(label: HTMLElement): string {
+	const prMetadataRow = label.closest('.opened-by');
+	if (!prMetadataRow) {
+		return getCommentAuthor(label);
+	}
+
+	const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
+	// The link always ends with author
+	const username = userPrsLink.href.split('author%3A')[1];
+	return username;
+}
+
+function linkify(label: HTMLElement): void {
 	if (label.closest('a')) {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
@@ -19,7 +32,7 @@ function linkify(label: Element): void {
 	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
 
 	const url = new URL(buildRepoUrl('commits'));
-	url.searchParams.set('author', getCommentAuthor(label));
+	url.searchParams.set('author', getAuthor(label));
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
@@ -42,6 +55,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	include: [
+		pageDetect.isPRList,
 		pageDetect.hasComments,
 	],
 	init,
@@ -77,5 +91,8 @@ https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
 
 Collaborator review comment
 https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
+
+Pull requests from a contributor
+https://github.com/refined-github/refined-github/pulls?q=is%3Apr+author%3Anotlmn
 
 */

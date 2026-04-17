@@ -1,9 +1,17 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
+import DiffIcon from 'octicons-plain-react/Diff';
+
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+
+function getPrUrl(extension: 'patch' | 'diff'): string {
+	const pathname = getCleanPathname();
+	const [owner, repo, , id] = pathname.split('/');
+	return `/${owner}/${repo}/pull/${id}.${extension}`;
+}
 
 function getCommitUrl(extension: 'patch' | 'diff'): string {
 	// The replacement avoids a redirection isPRCommit
@@ -45,16 +53,36 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	);
 }
 
+async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
+	prHeader.append(
+		<li className="Box-row p-3 tmp-p-3 mt-0 tmp-mt-0 d-flex flex-items-center">
+			<DiffIcon className="mr-2 tmp-mr-2" />
+			<div data-turbo="false">
+				<span className="text-bold">Git URLs: </span>
+				<a href={getPrUrl('patch')}>patch</a>
+				{' · '}
+				<a href={getPrUrl('diff')}>diff</a>
+			</div>
+		</li>,
+	);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
 		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
 		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
+
+	observe([
+		'.react-overview-code-button-action-list > ul',
+		'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
+	], addPrPatchDiffLinks, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isCommit,
+		pageDetect.isPR,
 	],
 	exclude: [
 		pageDetect.isPRCommit404,
@@ -68,5 +96,6 @@ Test URLs:
 
 - Commit:https://github.com/refined-github/refined-github/commit/132272786fdc058193e089d8c06f2a158844e101
 - PR Commit: https://github.com/refined-github/refined-github/pull/7751/commits/07ddf838c211075701e9a681ab061a158b05ee79
+- PR: https://github.com/refined-github/refined-github/pull/7751
 
 */

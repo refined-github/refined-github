@@ -144,10 +144,33 @@ summary:hover {
 	align-items: baseline;
 	flex-wrap: wrap;
 	gap: 0 0.4em;
+
+	padding: 0.5em 0;
+	&:first-of-type {
+		padding-top: 0;
+	}
+	p {
+		margin-bottom: 0;
+	}
+
+	border-radius: var(--border-radius);
+	outline: solid 2px transparent;
+	&:has(> :target) {
+		animation-name: blink-border;
+		animation-duration: 1.5s;
+		animation-iteration-count: 2;
+	}
+}
+
+@keyframes blink-border {
+	50% {
+		outline-color: #1f6feb;
+	}
 }
 
 .feature input[type='checkbox'] {
 	flex-shrink: 0;
+	scroll-margin-top: 64px;
 }
 
 .feature-checkbox:not(:checked) + .info .feature-name {

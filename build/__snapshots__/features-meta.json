@@ -367,7 +367,7 @@
 	},
 	{
 		"id": "keyboard-navigation",
-		"description": "Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.",
+		"description": "Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif"
 	},
 	{
@@ -422,13 +422,8 @@
 		"screenshot": "https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90"
 	},
 	{
-		"id": "linkify-user-edit-history-popup",
-		"description": "Linkifies the username in the edit history popup.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png"
-	},
-	{
 		"id": "linkify-user-labels",
-		"description": "Links the \"Contributor\", \"Member\" and \"Collaborator\" labels on comments to the author’s commits on the repo.",
+		"description": "Links the \"Contributor\", \"Member\" and \"Collaborator\" labels on comments and PRs to the author’s commits on the repo.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png"
 	},

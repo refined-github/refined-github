@@ -1,5 +1,5 @@
 /*
-These will throw `RefinedGitHubAPIError` if something goes wrong or if it's a 404.
+These will throw `RefinedGitHubApiError` if something goes wrong or if it's a 404.
 Probably don't catch them so they will appear in the console
 next to the name of the feature that caused them.
 
@@ -29,10 +29,13 @@ import React from 'dom-chef';
 import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
 import type {JsonObject, AsyncReturnType} from 'type-fest';
+import {uint8ArrayToBase64} from 'uint8array-extras';
 
-import {getRepo} from './index.js';
+import onetime from '../helpers/onetime.js';
+import {getRepo, getLoggedInUser} from './index.js';
 import {getToken} from '../options-storage.js';
 import {log} from '../helpers/feature-helpers.js';
+import {tokenUser} from './github-token.js';
 
 type JsonError = {
 	message: string;
@@ -69,11 +72,11 @@ const api4 = pageDetect.isEnterprise()
 	: 'https://api.github.com/graphql';
 
 type GhRestApiOptions = {
-	ignoreHttpStatus?: boolean;
+	ignoreHttpStatus?: boolean | number;
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-	json?: boolean;
+	responseFormat?: 'json' | 'text' | 'base64';
 };
 
 type GhGraphQlApiOptions = {
@@ -81,11 +84,33 @@ type GhGraphQlApiOptions = {
 	variables?: JsonObject;
 };
 
+// Memoized: token and logged-in user don't change within a page lifecycle
+const assertCurrentUser = onetime(async (): Promise<void> => {
+	const personalToken = await getToken();
+	if (!personalToken) {
+		return;
+	}
+
+	const loggedInUser = getLoggedInUser();
+	if (!loggedInUser) {
+		return;
+	}
+
+	const currentTokenUser = await tokenUser.get(api3, personalToken);
+	if (currentTokenUser !== loggedInUser) {
+		throw new RefinedGitHubApiError(
+			'API call blocked.',
+			`Your token belongs to "${currentTokenUser}" but you are logged in as "${loggedInUser}".`,
+			'Update your token in the Refined GitHub options.',
+		);
+	}
+});
+
 const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
 	method: 'GET',
 	body: undefined,
-	json: true,
+	responseFormat: 'json',
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -96,7 +121,12 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, json} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
+	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
+	if (method !== 'GET') {
+		await assertCurrentUser();
+	}
+
 	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
@@ -110,15 +140,26 @@ const v3uncached = async (
 		body: body && JSON.stringify(body),
 		headers: {
 			'user-agent': 'Refined GitHub',
-			Accept: 'application/vnd.github.v3+json',
+			accept: 'application/vnd.github.v3+json',
 			...headers,
 			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
-	const textContent = await response.text();
-	const apiResponse = json ? JSON.parse(textContent) : {textContent};
+	let apiResponse: AnyObject;
+	if (responseFormat === 'base64') {
+		const arrayBuffer = await response.arrayBuffer();
+		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
+		apiResponse = {content};
+	} else {
+		const content = await response.text();
+		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
+	}
 
-	if (response.ok || ignoreHttpStatus) {
+	if (
+		response.ok
+		|| ignoreHttpStatus === true
+		|| ignoreHttpStatus === response.status
+	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
 			headers: response.headers,
@@ -172,6 +213,11 @@ const v4uncached = async (
 
 	if (!personalToken) {
 		throw new RefinedGitHubApiError('Personal token required for this feature');
+	}
+
+	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
+	if (/^\s*mutation[\s({]/.test(query)) {
+		await assertCurrentUser();
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
@@ -300,6 +346,7 @@ const api = {
 	v4uncached,
 	escapeKey,
 	getError,
+	assertCurrentUser,
 };
 
 export default api;

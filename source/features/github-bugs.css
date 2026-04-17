@@ -1,7 +1,8 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
-/* `isCommitList` commit message */
-[data-testid='commit-row-item'] code,
-.Box-header .commit-author + span code /* `isRepoTree` commit message */ {
+li[data-testid='commit-row-item'] code /* `isCommitList` commit message */,
+div[class^='CommitHeader-module__commitMessageContainer']
+	code /* `isCommit` commit message */,
+a[class*='PinnedIssue-module__Link'] code {
 	padding: 2px 4px;
 	background-color: var(
 		--bgColor-neutral-muted,
@@ -12,13 +13,14 @@
 	border-radius: 6px;
 }
 
-/* Limit width of comment form on commit pages #5032 */
-#all_commit_comments .timeline-comment-wrapper {
-	max-width: 780px; /* This is the limit applied on the comment thread by `.comment-holder` */
-}
-
 /* Fix spacing of repo header button icons #5620 */
-.pagehead-actions :is(.btn, summary) .octicon:not(.octicon-triangle-down) {
+.pagehead-actions :is(
+		.btn,
+		.Button--secondary,
+		[class^='prc-Button-ButtonBase'],
+		summary
+	)
+	.octicon:not(.octicon-triangle-down) {
 	margin-right: 4px !important;
 }
 
@@ -27,23 +29,17 @@
 [action$='/releases'] .subnav-search-icon {
 	margin-top: -1px;
 }
-
 #release-filter::-webkit-calendar-picker-indicator {
 	margin-top: -4px;
 }
 
-/* Add margin to release download icon #6510 */
-.Box-row :is(.octicon-package, .octicon-file-zip):has(+ a[rel='nofollow']) {
-	margin-right: 4px;
-}
-
-/* Mute unclickable reaction buttons, disable hover */
-/* Test: https://github.com/refined-github/sandbox/pull/48 */
+/* TODO: Drop after React PR conversations */
+/* Mute unclickable reaction buttons, disable hover #6795 */
+/* Test: https://github.com/facebook/react/pull/20646 */
 :root .social-reaction-summary-item:disabled {
 	filter: grayscale(0.5);
 	background-color: transparent;
 }
-
 :root .social-reaction-summary-item.user-has-reacted:disabled {
 	color: var(
 		--reactionButton-selected-fgColor-rest,
@@ -55,6 +51,7 @@
 	) !important;
 }
 
+/* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs #7108 */
 /* Test: https://github.com/refined-github/sandbox/issues/74 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
@@ -62,32 +59,12 @@
 }
 
 /* Fit rendered markdown div to its content #7187 */
+/* Test: https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1 */
 div.markdown-body {
 	min-height: 2em !important;
 }
 
-/* Sponsor button in mobile view #7853 */
-/* Test: https://github.com/refined-github/refined-github */
-#dialog-show-responsive-sponsor-modal {
-	width: var(--base-size-32);
-	height: var(--base-size-32);
-	padding: 0;
-}
-
-/* Notifications "Unread" dropdown  overlap (Safari, Mobile) */
-/* Info: https://github.com/refined-github/refined-github/issues/7959 */
-/* Test: https://github.com/notifications */
-#dialog-show-notifications-tabs-nav ~ action-menu {
-	flex-shrink: 0;
-}
-
-/* Long release asset download links break the layout */
-/* Info: https://github.com/refined-github/refined-github/issues/8065 */
-/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
-svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
-	white-space: wrap;
-}
-
+/* TODO: drop in October 2026 */
 /* Notifications "Group by" button unnecessary space */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
@@ -103,7 +80,7 @@ svg.octicon-package + a.Truncate[href*='/releases/download/'] > .Truncate-text {
 	}
 }
 
-/* Issue picker does not clip unbreakable issue titles in PRs */
+/* Fix issue picker overflowing the viewport in PRs when it contains long unbreakable issue titles */
 /* Info: https://github.com/refined-github/refined-github/pull/8454 */
 /* Test: type "#113" in https://github.com/refined-github/sandbox/pull/4 */
 .suggester-container li {
@@ -149,6 +126,43 @@ div[class^='prc-PageHeader-Description']
 	/* flex-sm-items-center */
 	@media (min-width: 544px) {
 		align-items: center !important;
+	}
+}
+
+/* TODO: Drop in October 2026 */
+/* Fix Watch/Unwatch button height on mobile */
+/* Info: https://github.com/refined-github/refined-github/issues/9183 */
+/* Test: https://github.com/refined-github/refined-github */
+#responsive-meta-container
+	button[data-testid='notifications-subscriptions-menu-button'] {
+	height: 32px;
+}
+
+/* Fix PR title width on small & medium screens */
+/* Info: https://github.com/refined-github/refined-github/issues/9180 */
+/* Test: https://github.com/refined-github/refined-github/pull/9179/changes */
+react-app[app-name='pull-requests'] {
+	@media (max-width: 1011px) {
+		div[class^='prc-PageHeader-TitleArea'] {
+			grid-area: 2 / 1 / auto / -1;
+		}
+	}
+	@container (width <= 1011px) {
+		div[class^='prc-PageHeader-TitleArea'] {
+			grid-area: 2 / 1 / auto / -1;
+		}
+	}
+}
+
+/* Fix checks state icon alignment in file tree sidebar */
+/* Info: https://github.com/refined-github/refined-github/issues/9198 */
+/* Test: https://github.com/refined-github/refined-github/pull/8958/changes */
+div[class^='PRIVATE_TreeView-item-visual'] > .flex-items-center.flex-row
+	> div:has(> svg) {
+	line-height: 0;
+
+	& > svg {
+		vertical-align: text-top !important;
 	}
 }
 

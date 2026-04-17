@@ -10,13 +10,14 @@
 <!-- prettier-ignore -->
 <script lang="ts">
 	const {title}: {title: string} = $props();
+	const {version} = chrome.runtime.getManifest();
 </script>
 
 <header>
 	<div class="content">
 		<h1>
 			<img src="icon.png" alt="" height="32" />
-			{title}
+			{title} <small>v{version}</small>
 		</h1>
 		<div>
 			<slot />
@@ -41,14 +42,18 @@
 	}
 
 	h1 {
-		display: flex;
-		gap: 0.4em;
 		font-size: clamp(1.3em, 5vw, 2em);
 		font-weight: 200;
 
 		img {
 			height: 1.3em;
 			width: 1.3em;
+			vertical-align: top;
+		}
+
+		small {
+			font-size: 0.7em;
+			opacity: 0.9;
 		}
 	}
 </style>
