@@ -7,7 +7,7 @@ Exclusively use simple sums and use `0px` instead of `0`
 	--rgh-sticky-header-height: 70px; /* 60px plus some padding */
 	--rgh-sticky-sidebar-offset: calc(
 		var(--rgh-sticky-header-height, 0px) +
-		var(--rgh-sticky-notification-header-height, 0px)
+			var(--rgh-sticky-notification-header-height, 0px)
 	);
 }
 
