@@ -107,8 +107,15 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isPRFiles],
-	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
+	// prettier-ignore
+	include: [
+		pageDetect.isPRFiles,
+	],
+	// prettier-ignore
+	exclude: [
+		pageDetect.isPRFile404,
+		pageDetect.isPRCommit,
+	],
 	init,
 });
 
