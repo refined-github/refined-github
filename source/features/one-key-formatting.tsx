@@ -1,13 +1,17 @@
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {wrapFieldSelection} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import { wrapFieldSelection } from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {
+	onCommentFieldKeydown,
+	onCommitTitleFieldKeydown,
+	onConversationTitleFieldKeydown,
+} from '../github-events/on-field-keydown.js';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
-const quoteCharacters = new Set(['`', '\'', '"']);
+const formattingCharacters = ['`', "'", '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
+const matchingCharacters = ['`', "'", '"', ']', ')', '}', '*', '_', '~', '”', '’'];
+const quoteCharacters = new Set(['`', "'", '"']);
 
 function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;
@@ -39,12 +43,17 @@ function init(signal: AbortSignal): void {
 	onCommentFieldKeydown(eventHandler, signal);
 	onConversationTitleFieldKeydown(eventHandler, signal);
 	onCommitTitleFieldKeydown(eventHandler, signal);
-	delegate([
-		'input[name="commit_title"]',
-		'input[name="gist[description]"]',
-		'#saved-reply-title-field',
-		'#commit-message-input',
-	], 'keydown', eventHandler, {signal});
+	delegate(
+		[
+			'input[name="commit_title"]',
+			'input[name="gist[description]"]',
+			'#saved-reply-title-field',
+			'#commit-message-input',
+		],
+		'keydown',
+		eventHandler,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {

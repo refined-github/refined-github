@@ -1,5 +1,5 @@
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import { $$ } from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -16,7 +16,7 @@ function remove(issue: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-navigation-item[id^="issue_"]', remove, {signal});
+	observe('.js-navigation-item[id^="issue_"]', remove, { signal });
 }
 
 void features.add(import.meta.url, {

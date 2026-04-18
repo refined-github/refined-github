@@ -1,7 +1,7 @@
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utils.js';
+import { isEditable } from '../helpers/dom-utils.js';
 
-async function handler({key, target}: KeyboardEvent): Promise<void> {
+async function handler({ key, target }: KeyboardEvent): Promise<void> {
 	if (key === 'y' && !isEditable(target)) {
 		const url = location.href;
 		await navigator.clipboard.writeText(url);
@@ -11,7 +11,7 @@ async function handler({key, target}: KeyboardEvent): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	globalThis.addEventListener('keyup', handler, {signal});
+	globalThis.addEventListener('keyup', handler, { signal });
 }
 
 void features.add(import.meta.url, {

@@ -1,8 +1,8 @@
-import {isSafari} from 'webext-detect';
+import { isSafari } from 'webext-detect';
 
 import isDevelopmentVersion from './is-development-version.js';
 
-const {version} = chrome.runtime.getManifest();
+const { version } = chrome.runtime.getManifest();
 
 // Safari updates are less frequent
 const maxReleaseAgeInDays = isSafari() ? 50 : 20;

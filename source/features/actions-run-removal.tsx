@@ -1,13 +1,13 @@
 import './actions-run-removal.css';
 
 import React from 'dom-chef';
-import TrashIcon from 'octicons-plain-react/Trash';
-import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
+import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
+import TrashIcon from 'octicons-plain-react/Trash';
+import { $, $optional } from 'select-dom/strict.js';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
 	const contextMenuDetails = contextMenuIcon.closest('details')!;
@@ -35,7 +35,7 @@ function addQuickButtons(contextMenuIcon: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#partial-actions-workflow-runs .Box-row details .octicon-kebab-horizontal', addQuickButtons, {signal});
+	observe('#partial-actions-workflow-runs .Box-row details .octicon-kebab-horizontal', addQuickButtons, { signal });
 }
 
 void features.add(import.meta.url, {

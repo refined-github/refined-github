@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
 
 function addAvatar(link: HTMLElement): void {
@@ -12,13 +12,15 @@ function addAvatar(link: HTMLElement): void {
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		<img
-			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>,
+		(
+			<img
+				className='avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars'
+				src={getUserAvatarURL(username, size)!}
+				width={size}
+				height={size}
+				loading='lazy'
+			/>
+		),
 	);
 }
 
@@ -41,10 +43,15 @@ function initOnce(): void {
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
 	], addAvatar);
-	observe(`.user-mention:not(${[
-		'.opened-by > *', // Merge queue
-		'.commit-author',
-	].join(',')})`, addMentionAvatar);
+	observe(
+		`.user-mention:not(${
+			[
+				'.opened-by > *', // Merge queue
+				'.commit-author',
+			].join(',')
+		})`,
+		addMentionAvatar,
+	);
 }
 
 void features.add(import.meta.url, {

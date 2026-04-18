@@ -1,14 +1,14 @@
+import { any as concatenateTemplateLiteralTag } from 'code-tag';
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {isEnterprise} from 'github-url-detection';
+import { isEnterprise } from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
-import {any as concatenateTemplateLiteralTag} from 'code-tag';
+import { CachedFunction } from 'webext-storage-cache';
 
-import type {RghOptions} from '../options-storage.js';
+import type { RghOptions } from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';
-import {isomorphicFetchText} from './isomorphic-fetch.js';
+import { isomorphicFetchText } from './isomorphic-fetch.js';
 
-const {version: currentVersion} = chrome.runtime.getManifest();
+const { version: currentVersion } = chrome.runtime.getManifest();
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
@@ -47,15 +47,15 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 
 		return storage;
 	},
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 30},
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 30 },
 });
 
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
 	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 300},
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 300 },
 	cacheKey: () => '',
 });
 
@@ -98,8 +98,8 @@ const localStringsHotfix = new CachedFunction('strings-hotfixes', {
 		const json = await fetchHotfix('strings.json');
 		return json ? JSON.parse(json) : {};
 	},
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 30},
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 30 },
 });
 
 // Updates the local object from the storage to enable synchronous access

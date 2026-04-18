@@ -2,19 +2,19 @@ import './default-branch-button.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
+import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
+import { $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import observe from '../helpers/selector-observer.js';
-import {branchSelector} from '../github-helpers/selectors.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { groupButtons } from '../github-helpers/group-buttons.js';
+import { fixFileHeaderOverlap, isRepoCommitListRoot } from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import { branchSelector } from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);
@@ -64,14 +64,13 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
+			className='btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start'
 			href={await getUrl(location.href)}
-			aria-label="See this view on the default branch"
+			aria-label='See this view on the default branch'
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
 			onMouseEnter={updateUrl}
-
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>
@@ -85,7 +84,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(branchSelector, add, {signal});
+	observe(branchSelector, add, { signal });
 }
 
 void features.add(import.meta.url, {

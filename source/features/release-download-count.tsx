@@ -7,19 +7,19 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 import './release-download-count.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
-import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
-import {abbreviateNumber} from 'js-abbreviation-number';
+import { abbreviateNumber } from 'js-abbreviation-number';
+import DownloadIcon from 'octicons-plain-react/Download';
+import { $$ } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
-import getReleaseDownloadCount from './release-download-count.gql';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { assertNodeContent, getClasses } from '../helpers/dom-utils.js';
+import { createHeatIndexFunction } from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
-import {createHeatIndexFunction} from '../helpers/math.js';
-import {expectToken} from '../github-helpers/github-token.js';
-import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
+import getReleaseDownloadCount from './release-download-count.gql';
 
 type Asset = {
 	name: string;
@@ -27,9 +27,9 @@ type Asset = {
 };
 
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
-	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
+	const { repository } = await api.v4(getReleaseDownloadCount, { variables: { tag } });
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
-	return Object.fromEntries(assets.map(({name, downloadCount}) => ([name, downloadCount])));
+	return Object.fromEntries(assets.map(({ name, downloadCount }) => [name, downloadCount]));
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
@@ -71,15 +71,17 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
-			<span className={[...getClasses(assetSize)].join(' ')}>
-				<span
-					className="d-inline-block text-right"
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon />
+			(
+				<span className={[...getClasses(assetSize)].join(' ')}>
+					<span
+						className='d-inline-block text-right'
+						title={`${downloadCount} downloads`}
+						data-rgh-heat={calculateHeatIndex(downloadCount)}
+					>
+						{abbreviateNumber(downloadCount)} <DownloadIcon />
+					</span>
 				</span>
-			</span>,
+			),
 		);
 
 		// Remove via JS because we can't override utility classes...
@@ -93,7 +95,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
+	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, { signal });
 }
 
 void features.add(import.meta.url, {

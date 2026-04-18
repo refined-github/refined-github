@@ -1,12 +1,12 @@
-import {$$, elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
-import {onAbort} from 'abort-utils';
+import { onAbort } from 'abort-utils';
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import { $$, elementExists } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import clickAll from '../helpers/click-all.js';
 import showToast from '../github-helpers/toast.js';
+import clickAll from '../helpers/click-all.js';
 import getItemsBetween from '../helpers/get-items-between.js';
 
 export const viewedToggleSelector = [
@@ -91,9 +91,9 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 };
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
-	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
-	delegate(viewedToggleSelector, 'click', remember, {signal});
+	delegate(viewedToggleSelector, 'click', onAltClick, { signal });
+	delegate(viewedToggleSelector, 'click', batchToggle, { signal });
+	delegate(viewedToggleSelector, 'click', remember, { signal });
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});

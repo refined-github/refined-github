@@ -1,13 +1,13 @@
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import { $$ } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
 
-import {assertError} from 'ts-extras';
-import type {SyncedForm} from 'webext-options-sync-per-domain';
+import { assertError } from 'ts-extras';
+import type { SyncedForm } from 'webext-options-sync-per-domain';
 
-import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
+import { getTokenInfo, tokenUser } from '../github-helpers/github-token.js';
 import delay from '../helpers/delay.js';
 
-const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
 
 type Status = {
 	error?: true;
@@ -15,7 +15,7 @@ type Status = {
 	scopes?: string[];
 };
 
-function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
+function reportStatus({ error, text, scopes = ['unknown'] }: Status = {}): void {
 	const tokenStatus = $('#validation');
 	tokenStatus.textContent = text ?? '';
 	if (error) {
@@ -28,8 +28,8 @@ function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 		scope.dataset.validation = scopes.includes(scope.dataset.scope!)
 			? 'valid'
 			: scopes.includes('unknown')
-				? ''
-				: 'invalid';
+			? ''
+			: 'invalid';
 	}
 }
 
@@ -55,7 +55,7 @@ async function validateToken(): Promise<void> {
 		return;
 	}
 
-	reportStatus({text: 'Validating…'});
+	reportStatus({ text: 'Validating…' });
 
 	try {
 		const base = getApiUrl();
@@ -80,7 +80,7 @@ async function validateToken(): Promise<void> {
 		});
 	} catch (error) {
 		assertError(error);
-		reportStatus({error: true, text: error.message});
+		reportStatus({ error: true, text: error.message });
 		expandTokenSection();
 		throw error;
 	}

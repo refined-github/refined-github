@@ -1,19 +1,19 @@
 import './quick-label-removal.css';
 
+import delegate, { type DelegateEvent } from 'delegate-it';
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
-import XIcon from 'octicons-plain-react/X';
-import {assertError} from 'ts-extras';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import XIcon from 'octicons-plain-react/X';
+import { elementExists } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
+import { assertError } from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { getConversationNumber } from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {
@@ -26,7 +26,7 @@ function getLabelList(): HTMLElement {
 
 function removeLabelList(): void {
 	const list = getLabelList();
-	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
+	list.closest('details')!.addEventListener('toggle', restoreLabelList, { once: true });
 	list.replaceChildren();
 }
 
@@ -66,21 +66,23 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 function addRemoveLabelButton(label: HTMLElement): void {
 	label.classList.add('d-inline-flex');
 	label.append(
-		<button
-			type="button"
-			className="btn-link rgh-quick-label-removal"
-			data-name={label.dataset.name}
-		>
-			<XIcon />
-		</button>,
+		(
+			<button
+				type='button'
+				className='btn-link rgh-quick-label-removal'
+				data-name={label.dataset.name}
+			>
+				<XIcon />
+			</button>
+		),
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
-	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
+	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, { signal });
+	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, { signal });
 }
 
 void features.add(import.meta.url, {

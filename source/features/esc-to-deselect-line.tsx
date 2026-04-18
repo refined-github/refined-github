@@ -1,8 +1,8 @@
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import { $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utils.js';
+import { isEditable } from '../helpers/dom-utils.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 
 function isLineSelected(): boolean {
@@ -13,16 +13,16 @@ function isLineSelected(): boolean {
 	return /^#L|^#diff-[\da-f]+R\d+/.test(location.hash);
 }
 
-function listener({key, target}: KeyboardEvent): void {
+function listener({ key, target }: KeyboardEvent): void {
 	if (key === 'Escape' && isLineSelected() && !isEditable(target)) {
 		const selectedLineNumber = $optional('.react-line-number.highlighted-line');
 
 		if (selectedLineNumber) {
 			// Save and remove line number
-			const {lineNumber} = selectedLineNumber.dataset;
+			const { lineNumber } = selectedLineNumber.dataset;
 			selectedLineNumber.dataset.lineNumber = '';
 			// Trigger click to deselect
-			selectedLineNumber.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+			selectedLineNumber.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
 			// Restore line number
 			selectedLineNumber.dataset.lineNumber = lineNumber;
 			// Un-focus code block
@@ -37,7 +37,7 @@ function listener({key, target}: KeyboardEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.body.addEventListener('keyup', listener, {signal});
+	document.body.addEventListener('keyup', listener, { signal });
 }
 
 void features.add(import.meta.url, {

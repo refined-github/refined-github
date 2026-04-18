@@ -1,6 +1,6 @@
-import {$optional} from 'select-dom/strict.js';
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import { $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
@@ -23,7 +23,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 		'.ellipsis-expander', // Compare
 	], event.delegateTarget)?.dispatchEvent(
-		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+		new MouseEvent('click', { bubbles: true, altKey: event.altKey }),
 	);
 }
 
@@ -34,7 +34,7 @@ const commitMessagesSelector = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate(commitMessagesSelector, 'click', toggleCommitMessage, {signal});
+	delegate(commitMessagesSelector, 'click', toggleCommitMessage, { signal });
 }
 
 void features.add(import.meta.url, {

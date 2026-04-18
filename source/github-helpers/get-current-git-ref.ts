@@ -1,8 +1,8 @@
-import {isRepoCommitList} from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
+import { isRepoCommitList } from 'github-url-detection';
+import { $optional } from 'select-dom/strict.js';
 
-import {extractCurrentBranchFromBranchPicker} from './index.js';
-import {branchSelector} from './selectors.js';
+import { extractCurrentBranchFromBranchPicker } from './index.js';
+import { branchSelector } from './selectors.js';
 
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithGitRef = / at (?<branch>[.\w/-]+)(?: · [\w-]+\/[\w-]+)?$/i;

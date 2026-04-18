@@ -1,18 +1,18 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
+import { $, $optional } from 'select-dom/strict.js';
 
-import observe from '../helpers/selector-observer.js';
-import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import { assertNodeContent, wrap } from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 import './clean-repo-filelist-actions.css';
 
 /** Add tooltip on a wrapper to avoid breaking dropdown functionality */
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement,
-		<div className="tooltipped tooltipped-n" aria-label={tooltip} />,
+		<div className='tooltipped tooltipped-n' aria-label={tooltip} />,
 	);
 }
 
@@ -45,7 +45,7 @@ function cleanCodeButton(codeButton: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
+	observe('.react-directory-remove-file-icon', cleanFilelistActions, { signal });
 }
 
 void features.add(import.meta.url, {

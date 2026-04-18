@@ -1,16 +1,16 @@
 import './quick-mention.css';
 
+import delegate, { type DelegateEvent } from 'delegate-it';
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
-import ReplyIcon from 'octicons-plain-react/Reply';
 import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import ReplyIcon from 'octicons-plain-react/Reply';
+import { elementExists } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
+import { insertTextIntoField } from 'text-field-edit';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import { getLoggedInUser, isArchivedRepoAsync } from '../github-helpers/index.js';
+import { wrap } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = [
@@ -41,7 +41,7 @@ function prefixUserMention(userMention: string): string {
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-function mentionUser({delegateTarget: button}: DelegateEvent): void {
+function mentionUser({ delegateTarget: button }: DelegateEvent): void {
 	const userMention = button.parentElement!.querySelector('img')!.alt;
 	const newComment = $(fieldSelector);
 	newComment.focus();
@@ -104,24 +104,26 @@ function add(avatar: HTMLElement): void {
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
+		wrap(avatar, <div className='avatar-parent-child TimelineItem-avatar d-none d-md-block' />);
 	}
 
 	if (!isOldView) {
 		avatar.style.height = 'auto';
-		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
+		wrap(avatar, <div className='avatar-parent-child d-none d-md-block' />);
 	}
 
 	const userMention = $('img', avatar).alt;
 
 	avatar.after(
-		<button
-			type="button"
-			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-		>
-			<ReplyIcon />
-		</button>,
+		(
+			<button
+				type='button'
+				className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
+				aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+			>
+				<ReplyIcon />
+			</button>
+		),
 	);
 }
 
@@ -130,14 +132,14 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
+	delegate('button.rgh-quick-mention', 'click', mentionUser, { signal });
 
 	const controller = new AbortController();
 	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
 		observe(fieldSelector, field => {
 			resolve(field);
 			controller.abort();
-		}, {signal: AbortSignal.any([signal, controller.signal])});
+		}, { signal: AbortSignal.any([signal, controller.signal]) });
 	});
 
 	if (!field) {
@@ -146,9 +148,9 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	const isPrOrOldView = field.id === 'new_comment_field';
 	if (isPrOrOldView) {
-		observe(prCommentSelector, add, {signal});
+		observe(prCommentSelector, add, { signal });
 	} else {
-		observe(issueCommentSelector, add, {signal});
+		observe(issueCommentSelector, add, { signal });
 	}
 }
 

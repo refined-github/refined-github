@@ -1,20 +1,20 @@
 import './conversation-activity-filter.css';
 
+import delegate from 'delegate-it';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import domLoaded from 'dom-loaded';
-import delegate from 'delegate-it';
+import { $$, elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
-import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {registerHotkey} from '../github-helpers/hotkey.js';
+import { registerHotkey } from '../github-helpers/hotkey.js';
+import delay from '../helpers/delay.js';
+import { wrap } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const states = {
@@ -75,7 +75,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
-	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
+	for (const { hash: staleReviewId } of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
 		$(staleReviewId)
 			.closest(timelineItem)!
 			.classList
@@ -120,9 +120,9 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-async function handleSelection({target}: Event): Promise<void> {
+async function handleSelection({ target }: Event): Promise<void> {
 	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
+	const { state } = $('[aria-checked="true"]', target as HTMLElement).dataset;
 	applyState(state as State);
 }
 
@@ -147,18 +147,19 @@ function applyState(targetState: State): void {
 
 function createMenuItems(currentState: State): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
-		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button data-state={itemState}
+		<li data-targets='action-list.items' role='none' className='ActionListItem'>
+			<button
+				data-state={itemState}
 				id={`item-${crypto.randomUUID()}`}
-				type="button"
-				role="menuitemradio"
+				type='button'
+				role='menuitemradio'
 				className={'ActionListContent ' + menuItemClass}
 				aria-checked={`${itemState === currentState}`}
 			>
-				<span className="ActionListItem-visual ActionListItem-action--leading">
-					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
+				<span className='ActionListItem-visual ActionListItem-action--leading'>
+					<CheckIcon className='ActionListItem-singleSelectCheckmark' />
 				</span>
-				<span className="ActionListItem-label">
+				<span className='ActionListItem-label'>
 					{label}
 				</span>
 			</button>
@@ -173,55 +174,58 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	}
 
 	await delay(100); // Let `clean-conversation-headers` run first
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
+	wrap(position, <div className='rgh-conversation-activity-filter-wrapper' />);
 	position.classList.add('rgh-conversation-activity-filter');
 
 	const baseId = crypto.randomUUID();
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
-			data-select-variant="single">
-			<focus-group direction="vertical" mnemonics retain>
+			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+				position.offsetWidth > 0 ? 'ml-2' : ''
+			}`}
+			data-select-variant='single'
+		>
+			<focus-group direction='vertical' mnemonics retain>
 				<button
 					id={`${baseId}-button`}
 					// @ts-expect-error HTML standard
 					popovertarget={`${baseId}-overlay`}
 					aria-controls={`${baseId}-list`}
-					aria-haspopup="true"
-					type="button"
-					className="Button--small Button color-fg-muted p-0"
+					aria-haspopup='true'
+					type='button'
+					className='Button--small Button color-fg-muted p-0'
 				>
-					<span className="Button-content">
-						<span className="Button-visual Button-leadingVisual">
+					<span className='Button-content'>
+						<span className='Button-visual Button-leadingVisual'>
 							<EyeIcon />
-							<EyeClosedIcon className="color-fg-danger" />
+							<EyeClosedIcon className='color-fg-danger' />
 						</span>
-						<span className="Button-label lh-condensed-ultra">
-							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">events</span>
+						<span className='Button-label lh-condensed-ultra'>
+							<span className='rgh-conversation-events-label v-align-text-top color-fg-danger'>events</span>
 						</span>
-						<span className="Button-visual Button-trailingVisual">
+						<span className='Button-visual Button-trailingVisual'>
 							<TriangleDownIcon />
 						</span>
 					</span>
 				</button>
 				<anchored-position
 					id={`${baseId}-overlay`}
-					data-target="action-menu.overlay"
+					data-target='action-menu.overlay'
 					anchor={`${baseId}-button`}
-					align="start"
-					side="outside-bottom"
-					anchor-offset="normal"
-					popover="auto"
+					align='start'
+					side='outside-bottom'
+					anchor-offset='normal'
+					popover='auto'
 				>
-					<div className="Overlay Overlay--size-small-portrait">
-						<div className="Overlay-body Overlay-body--paddingNone">
+					<div className='Overlay Overlay--size-small-portrait'>
+						<div className='Overlay-body Overlay-body--paddingNone'>
 							<action-list>
 								<ul
 									id={`${baseId}-list`}
 									aria-labelledby={`${baseId}-button`}
-									role="menu"
-									className="ActionListWrap--inset ActionListWrap"
+									role='menu'
+									className='ActionListWrap--inset ActionListWrap'
 								>
 									{createMenuItems(state)}
 								</ul>
@@ -261,19 +265,23 @@ async function init(signal: AbortSignal): Promise<void> {
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
-	observe([
-		// Issue view
-		'[class^="HeaderMetadata-module__metadataContent"]',
-		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR view
-		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR view - TODO: Remove after July 2026
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-	], addWidget.bind(undefined, initialState), {signal});
+	observe(
+		[
+			// Issue view
+			'[class^="HeaderMetadata-module__metadataContent"]',
+			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			// PR view
+			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			// Old PR view - TODO: Remove after July 2026
+			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+			'#partial-discussion-header .sticky-header-container .meta:last-child',
+		],
+		addWidget.bind(undefined, initialState),
+		{ signal },
+	);
 
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
-	observe(timelineItem, processItem, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, { signal });
+	observe(timelineItem, processItem, { signal });
 	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
 
 	if (initialState !== 'showAll') {
@@ -283,7 +291,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		applyState(initialState);
 	}
 
-	registerHotkey('h', switchToNextFilter, {signal});
+	registerHotkey('h', switchToNextFilter, { signal });
 }
 
 void features.add(import.meta.url, {

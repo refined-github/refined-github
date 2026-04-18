@@ -1,6 +1,6 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
-import {importedFeatures, renamedFeatures} from './feature-data.js';
+import { importedFeatures, renamedFeatures } from './feature-data.js';
 
 export type RghOptions = typeof defaults;
 
@@ -43,14 +43,14 @@ const migrations = [
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
 
-export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
+export const perDomainOptions = new OptionsSyncPerDomain({ defaults, migrations });
 const optionsStorage = perDomainOptions.getOptionsForOrigin();
 export default optionsStorage;
 
 const cachedSettings = optionsStorage.getAll();
 
 export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
+	const { personalToken } = await cachedSettings;
 	return personalToken;
 }
 

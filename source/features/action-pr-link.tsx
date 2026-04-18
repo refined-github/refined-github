@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import { getConversationNumber } from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {getConversationNumber} from '../github-helpers/index.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);
@@ -22,15 +22,19 @@ async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {
-	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, {signal});
+	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, { signal });
 }
 
 async function initForPrPage(signal: AbortSignal): Promise<void> {
 	// Exclude rgh-link, include isPRCommits
-	observe([
-		'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
-		'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
-	], addForPr, {signal});
+	observe(
+		[
+			'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
+			'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
+		],
+		addForPr,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {

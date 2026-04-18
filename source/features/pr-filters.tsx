@@ -1,16 +1,16 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
+import CheckIcon from 'octicons-plain-react/Check';
+import { $ } from 'select-dom/strict.js';
+import { CachedFunction } from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import HasChecks from './pr-filters.gql';
-import {expectToken} from '../github-helpers/github-token.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { cacheByRepo } from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
+import observe from '../helpers/selector-observer.js';
+import HasChecks from './pr-filters.gql';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
@@ -28,23 +28,27 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 	}
 
 	dropdown.append(
-		<a
-			href={searchQuery.href}
-			className="SelectMenu-item"
-			aria-checked={isSelected ? 'true' : 'false'}
-			role="menuitemradio"
-		>
-			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
-			<span>{title}</span>
-		</a>,
+		(
+			<a
+				href={searchQuery.href}
+				className='SelectMenu-item'
+				aria-checked={isSelected ? 'true' : 'false'}
+				role='menuitemradio'
+			>
+				<CheckIcon className='SelectMenu-icon SelectMenu-icon--check' />
+				<span>{title}</span>
+			</a>
+		),
 	);
 }
 
 function addDraftFilter(dropdown: HTMLElement): void {
 	dropdown.append(
-		<div className="SelectMenu-divider">
-			Filter by draft pull requests
-		</div>,
+		(
+			<div className='SelectMenu-divider'>
+				Filter by draft pull requests
+			</div>
+		),
 	);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
@@ -53,11 +57,11 @@ function addDraftFilter(dropdown: HTMLElement): void {
 
 const hasChecks = new CachedFunction('has-checks', {
 	async updater(): Promise<boolean> {
-		const {repository} = await api.v4(HasChecks);
+		const { repository } = await api.v4(HasChecks);
 
 		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 	},
-	maxAge: {days: 3},
+	maxAge: { days: 3 },
 	cacheKey: cacheByRepo,
 });
 
@@ -85,8 +89,8 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(reviewsFilterSelector, addChecksFilter, {signal});
-	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
+	observe(reviewsFilterSelector, addChecksFilter, { signal });
+	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, { signal });
 }
 
 void features.add(import.meta.url, {

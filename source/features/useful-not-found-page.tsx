@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { $ } from 'select-dom/strict.js';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { getCleanPathname, isUrlReachable } from '../github-helpers/index.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import GetLatestCommitToFile from './useful-not-found-page.gql';
-import {expectToken} from '../github-helpers/github-token.js';
 
 type File = {
 	previous_filename?: string;
@@ -34,7 +34,7 @@ function getType(): string {
 }
 
 function getStrikeThrough(text: string): HTMLElement {
-	return <del className="color-fg-subtle">{text}</del>;
+	return <del className='color-fg-subtle'>{text}</del>;
 }
 
 async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
@@ -53,7 +53,7 @@ function parseCurrentUrl(): string[] {
 }
 
 async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
-	const {repository} = await api.v4(GetLatestCommitToFile, {
+	const { repository } = await api.v4(GetLatestCommitToFile, {
 		variables: {
 			branch,
 			filePath,
@@ -86,7 +86,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 		return;
 	}
 
-	parsedUrl.assign({branch: await getDefaultBranch()});
+	parsedUrl.assign({ branch: await getDefaultBranch() });
 	const urlOnDefault = parsedUrl.href;
 	if (urlOnDefault !== location.href && await isUrlReachable(urlOnDefault)) {
 		return urlOnDefault;
@@ -116,7 +116,7 @@ async function showMissingPartOnce(): Promise<void> {
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
 	$(['main > :first-child', '#parallax_illustration']).after(
-		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
+		<h2 className='container mt-4 text-center'>{breadcrumbs}</h2>,
 	);
 }
 
@@ -127,9 +127,11 @@ async function showDefaultBranchLink(): Promise<void> {
 	}
 
 	$('main > .container-lg').before(
-		<p className="container mt-4 text-center">
-			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
-		</p>,
+		(
+			<p className='container mt-4 text-center'>
+				<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
+			</p>
+		),
 	);
 }
 
@@ -149,9 +151,9 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 		return;
 	}
 
-	url.assign({route: 'commits'});
+	url.assign({ route: 'commits' });
 	const commitHistory = <a href={url.href}>Commit history</a>;
-	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
+	url.assign({ route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath });
 	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
 	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
 	const permalink = (
@@ -164,7 +166,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
 	return (
-		<p className="container mt-4 text-center">
+		<p className='container mt-4 text-center'>
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>
 	);
@@ -198,16 +200,20 @@ async function initPrCommitOnce(): Promise<void | false> {
 		return false;
 	}
 
-	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
+	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', { waitForChildren: false });
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
+		(
+			<p>
+				You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+			</p>
+		),
 	);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, { signal });
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, { signal }); // "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {

@@ -19,6 +19,6 @@ export function getStackLine(stack: string, line: number): string {
 }
 
 function warn(stack: string, line: number): string {
-	console.warn('The stack doesn’t have the line', {line, stack});
+	console.warn('The stack doesn’t have the line', { line, stack });
 	return Math.random().toString(16);
 }

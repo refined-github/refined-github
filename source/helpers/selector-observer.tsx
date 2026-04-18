@@ -1,14 +1,14 @@
+import { signalFromPromise } from 'abort-utils';
+import { css } from 'code-tag';
 import React from 'dom-chef';
-import {css} from 'code-tag';
-import type {ParseSelector} from 'typed-query-selector/parser.js';
 import domLoaded from 'dom-loaded';
-import {signalFromPromise} from 'abort-utils';
+import type { ParseSelector } from 'typed-query-selector/parser.js';
 
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import optionsStorage from '../options-storage.js';
 import getCallerId from './caller-id.js';
-import {parseFeatureNameFromStack} from './errors.js';
+import { parseFeatureNameFromStack } from './errors.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 
@@ -32,7 +32,7 @@ export default function observe<
 >(
 	selectors: Selector | readonly Selector[],
 	listener: ObserverListener<ExpectedElement>,
-	{signal, stopOnDomReady, once, ancestor}: Options = {},
+	{ signal, stopOnDomReady, once, ancestor }: Options = {},
 ): void {
 	if (signal?.aborted) {
 		return;
@@ -73,7 +73,7 @@ export default function observe<
 	// Capture stack outside
 	const currentFeature = parseFeatureNameFromStack();
 	(async () => {
-		const {logging} = await optionsStorage.getAll();
+		const { logging } = await optionsStorage.getAll();
 		if (!logging) {
 			return;
 		}
@@ -97,8 +97,8 @@ export default function observe<
 		// Removes this specific selector’s animation once it was seen
 		target.classList.add(seenMark);
 
-		listener(target, {signal});
-	}, {once, signal});
+		listener(target, { signal });
+	}, { once, signal });
 }
 
 // Untested, likely breaks due to wrong `ancestor` level
@@ -107,7 +107,7 @@ export async function waitForElement<
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
 >(
 	selectors: Selector | readonly Selector[],
-	{signal, stopOnDomReady}: Options = {},
+	{ signal, stopOnDomReady }: Options = {},
 ): Promise<ExpectedElement | void> {
 	const local = new AbortController();
 	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
@@ -116,7 +116,7 @@ export async function waitForElement<
 		observe<Selector, ExpectedElement>(selectors, element => {
 			resolve(element);
 			local.abort();
-		}, {signal, stopOnDomReady, once: true});
+		}, { signal, stopOnDomReady, once: true });
 
 		signal.addEventListener('abort', () => {
 			resolve();

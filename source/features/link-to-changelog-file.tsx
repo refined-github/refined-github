@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { CachedFunction } from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
+import { buildRepoUrl, getRepo } from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
@@ -13,7 +13,8 @@ type FileType = {
 	type: string;
 };
 
-const changelogFiles = /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
+const changelogFiles =
+	/^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
 }
@@ -21,8 +22,8 @@ function findChangelogName(files: string[]): string | false {
 const changelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
 		const [owner, name] = nameWithOwner.split('/');
-		const {repository} = await api.v4(GetFilesOnRoot, {
-			variables: {name, owner},
+		const { repository } = await api.v4(GetFilesOnRoot, {
+			variables: { name, owner },
 		});
 
 		const files: string[] = [];
@@ -49,13 +50,15 @@ async function init(): Promise<void | false> {
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
 	navbar!.append(
-		<a
-			className="subnav-item tooltipped tooltipped-n"
-			aria-label={`View the ${changelog} file`}
-			href={buildRepoUrl('blob', 'HEAD', changelog)}
-		>
-			<span>Changelog</span>
-		</a>,
+		(
+			<a
+				className='subnav-item tooltipped tooltipped-n'
+				aria-label={`View the ${changelog} file`}
+				href={buildRepoUrl('blob', 'HEAD', changelog)}
+			>
+				<span>Changelog</span>
+			</a>
+		),
 	);
 }
 

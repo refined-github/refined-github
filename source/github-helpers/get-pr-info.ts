@@ -1,5 +1,5 @@
 import api from './api.js';
-import {getConversationNumber} from './index.js';
+import { getConversationNumber } from './index.js';
 
 export type PullRequestInfo = {
 	id: string;
@@ -17,7 +17,7 @@ export type PullRequestInfo = {
 };
 
 export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
-	const {repository} = await api.v4uncached(`
+	const { repository } = await api.v4uncached(`
 		repository() {
 			pullRequest(number: ${number}) {
 				id

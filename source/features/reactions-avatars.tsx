@@ -1,16 +1,16 @@
 import './reactions-avatars.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {flatZip} from 'flat-zip';
+import { flatZip } from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
+import { $$ } from 'select-dom';
 
-import {onAbort} from 'abort-utils';
+import { onAbort } from 'abort-utils';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {getLoggedInUser} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import { getLoggedInUser } from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -54,7 +54,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 
 		const imageUrl = getUserAvatar(username, avatarSize);
 		if (imageUrl) {
-			participants.push({button, username, imageUrl});
+			participants.push({ button, username, imageUrl });
 		}
 	}
 
@@ -82,11 +82,20 @@ function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
-	for (const {button, username, imageUrl} of flatParticipants) {
+	for (const { button, username, imageUrl } of flatParticipants) {
 		button.append(
-			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} loading="lazy" />
-			</span>,
+			(
+				<span className='avatar-user avatar rgh-reactions-avatar p-0 flex-self-center'>
+					<img
+						src={imageUrl}
+						className='d-block'
+						width={avatarSize}
+						height={avatarSize}
+						alt={`@${username}`}
+						loading='lazy'
+					/>
+				</span>
+			),
 		);
 	}
 }
@@ -96,11 +105,15 @@ function observeCommentReactions(commentReactions: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// `batch-deferred-content` means the participant list hasn't loaded yet
-		'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
-		'[aria-label="Reactions"]',
-	], observeCommentReactions, {signal});
+	observe(
+		[
+			// `batch-deferred-content` means the participant list hasn't loaded yet
+			'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
+			'[aria-label="Reactions"]',
+		],
+		observeCommentReactions,
+		{ signal },
+	);
 	onAbort(signal, viewportObserver);
 }
 

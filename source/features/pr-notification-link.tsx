@@ -14,7 +14,7 @@ export function removeLinkToPrFilesTab(link: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	// It's ok if it's not 100% safe because trimLink's regex is super specific
-	observe('[href*="/pull/"][href*="/files/"][href*=".."]', removeLinkToPrFilesTab, {signal});
+	observe('[href*="/pull/"][href*="/files/"][href*=".."]', removeLinkToPrFilesTab, { signal });
 }
 
 void features.add(import.meta.url, {

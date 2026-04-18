@@ -6,9 +6,9 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {createHeatIndexFunction} from '../helpers/math.js';
+import { createHeatIndexFunction } from '../helpers/math.js';
+import observe from '../helpers/selector-observer.js';
 
 const calculateHeatIndex = createHeatIndexFunction([0, -2_000_000_000]);
 const month = 30 * 24 * 60 * 60 * 1000;
@@ -28,7 +28,7 @@ function addHeatIndex(lastUpdateElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-directory-commit-age > [title]', addHeatIndex, {signal});
+	observe('.react-directory-commit-age > [title]', addHeatIndex, { signal });
 }
 
 void features.add(import.meta.url, {

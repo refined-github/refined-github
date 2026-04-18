@@ -1,8 +1,14 @@
 {
-  "excludes": [
-    "**/*-lock.json"
-  ],
-  "plugins": [
-    // specify plugin urls here
-  ]
+	"typescript": {
+		"indentWidth": 1,
+		"useTabs": true,
+		"quoteStyle": "preferSingle",
+		"trailingCommas": "onlyMultiLine",
+		"semiColons": "always",
+		"lineWidth": 120,
+		"jsx.multiLineParens": "always"
+	},
+	"includes": ["source/**/*.ts", "source/**/*.tsx"],
+	"excludes": ["**/*-lock.json"],
+	"plugins": ["node_modules/@dprint/typescript/plugin.wasm"]
 }

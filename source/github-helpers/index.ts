@@ -1,15 +1,15 @@
-import {$optional, $} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
-import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import { elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
+import compareVersions from 'tiny-version-compare';
+import type { RequireAtLeastOne } from 'type-fest';
 
-import {branchSelector} from './selectors.js';
+import { branchSelector } from './selectors.js';
 
 // Re-export for convenience
-export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
+export const { getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser } = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
 	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
@@ -21,7 +21,9 @@ export const isMac = navigator.userAgent.includes('Macintosh');
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
+export function buildRepoUrl<S extends string>(
+	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
+): string {
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
@@ -35,9 +37,9 @@ export function getForkedRepo(): string | undefined {
 	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export function parseTag(tag: string): {version: string; namespace: string} {
+export function parseTag(tag: string): { version: string; namespace: string; } {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
-	return {namespace, version};
+	return { namespace, version };
 }
 
 export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
@@ -127,11 +129,13 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
-const navigationBarSelector = `:is(${[
-	'.GlobalNav',
-	// Remove after June 2026
-	'.js-repo-nav',
-].join(',')})`;
+const navigationBarSelector = `:is(${
+	[
+		'.GlobalNav',
+		// Remove after June 2026
+		'.js-repo-nav',
+	].join(',')
+})`;
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
@@ -146,10 +150,11 @@ export function areDiscussionsEnabled(): boolean {
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
 // Commit lists for files and folders lack a branch selector
-export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
+export const isRepoCommitListRoot = (): boolean =>
+	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const {ok} = await fetch(url, {method: 'head'});
+	const { ok } = await fetch(url, { method: 'head' });
 	return ok;
 });
 
@@ -170,10 +175,12 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
 	const marker = $('.js-timeline-marker');
-	marker.dispatchEvent(new CustomEvent('socket:message', {
-		bubbles: true,
-		detail: {data: {gid: marker.dataset.gid}},
-	}));
+	marker.dispatchEvent(
+		new CustomEvent('socket:message', {
+			bubbles: true,
+			detail: { data: { gid: marker.dataset.gid } },
+		}),
+	);
 }
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430

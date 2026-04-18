@@ -1,24 +1,23 @@
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField, setFieldText} from 'text-field-edit';
+import { elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
+import { insertTextIntoField, setFieldText } from 'text-field-edit';
 
 import features from '../feature-manager.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
-import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
+function getFirstCommit(firstCommitTitle: HTMLElement): { title: string; body: string | undefined; } {
 	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
+	const title = parseRenderedText(firstCommitTitle, ({ nodeName }) =>
 		// Exclude expand body button
-		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
-	);
+		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT);
 
-	return {title, body};
+	return { title, body };
 }
 
 function useCommitTitle(firstCommitTitle: HTMLElement): void {
@@ -54,7 +53,7 @@ function useCommitTitle(firstCommitTitle: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#commits_bucket > :first-child .js-commits-list-item:first-child p', useCommitTitle, {signal});
+	observe('#commits_bucket > :first-child .js-commits-list-item:first-child p', useCommitTitle, { signal });
 }
 
 // The user already altered the PR title/body in a previous load, don't overwrite it
@@ -63,8 +62,8 @@ function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
-		// Remove after August 2026
-		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+			// Remove after August 2026
+			?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
 	);
 }
 

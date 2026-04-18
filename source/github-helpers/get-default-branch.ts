@@ -1,11 +1,11 @@
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
-import type {NameWithOwner} from 'github-url-detection';
+import type { NameWithOwner } from 'github-url-detection';
+import { CachedFunction } from 'webext-storage-cache';
 
 import api from './api.js';
-import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
-import {branchSelector} from './selectors.js';
 import GetDefaultBranch from './get-default-branch.gql';
+import { extractCurrentBranchFromBranchPicker, getRepo } from './index.js';
+import { branchSelector } from './selectors.js';
 
 const isCurrentRepo = (nameWithOwner: NameWithOwner): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
 
@@ -51,8 +51,8 @@ export const defaultBranchOfRepo = new CachedFunction('default-branch', {
 		return (isCurrentRepo(repository) && await fromDom()) || fromApi(repository);
 	},
 
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 20},
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 20 },
 });
 
 export default async function getDefaultBranch(): Promise<string> {

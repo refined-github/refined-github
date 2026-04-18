@@ -1,16 +1,16 @@
-import twas from 'twas';
-import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import RepoIcon from 'octicons-plain-react/Repo';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import RepoIcon from 'octicons-plain-react/Repo';
+import twas from 'twas';
+import { CachedFunction } from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
-import GetRepoAge from './repo-age.gql';
+import { buildRepoUrl, cacheByRepo } from '../github-helpers/index.js';
+import { randomArrayItem } from '../helpers/math.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
-import {randomArrayItem} from '../helpers/math.js';
+import GetRepoAge from './repo-age.gql';
 
 type CommitTarget = {
 	oid: string;
@@ -45,14 +45,17 @@ function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): strin
 	return buildRepoUrl('commits', `?after=${commitSha}+${offset}`);
 }
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
-	const {repository} = await api.v4(GetRepoAge, {
+async function getRepoAge(
+	commitSha: string,
+	commitsCount: number,
+): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+	const { repository } = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
 		},
 	});
 
-	const {committedDate} = repository.defaultBranchRef.target.history.nodes
+	const { committedDate } = repository.defaultBranchRef.target.history.nodes
 		.toReversed()
 		// Filter out any invalid commit dates #3185
 		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
@@ -63,9 +66,9 @@ async function getRepoAge(commitSha: string, commitsCount: number): Promise<[com
 
 const firstCommit = new CachedFunction('first-commit', {
 	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
-		const {repository} = await api.v4(GetFirstCommit);
+		const { repository } = await api.v4(GetFirstCommit);
 
-		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
+		const { oid: commitSha, history, committedDate } = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
@@ -97,16 +100,22 @@ async function init(): Promise<void> {
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
 		? randomArrayItem(fresh)
-		: <><strong>{value}</strong> {unit} old</>;
+		: (
+			<>
+				<strong>{value}</strong> {unit} old
+			</>
+		);
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
 	sidebarForksLinkIcon!.closest('.mt-2')!.after(
-		<h3 className="sr-only">Repository age</h3>,
-		<div className="mt-2">
-			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-				<RepoIcon className="mr-2" /> {age}
-			</a>
-		</div>,
+		<h3 className='sr-only'>Repository age</h3>,
+		(
+			<div className='mt-2'>
+				<a href={lastCommitsPageUrl} className='Link--muted' title={`First commit dated ${dateFormatter.format(birthday)}`}>
+					<RepoIcon className='mr-2' /> {age}
+				</a>
+			</div>
+		),
 	);
 }
 

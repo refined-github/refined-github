@@ -1,9 +1,9 @@
-import {$$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { $$ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {addHotkey} from '../github-helpers/hotkey.js';
+import { addHotkey } from '../github-helpers/hotkey.js';
 
 async function init(): Promise<void> {
 	const tabnav = await elementReady([

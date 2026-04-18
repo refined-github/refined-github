@@ -1,18 +1,18 @@
 import './clean-repo-sidebar.css';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
+import { buildRepoUrl } from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
+	const sidebarReleases = await elementReady(releasesSidebarSelector, { waitForChildren: false });
 	if (!sidebarReleases) {
 		return;
 	}

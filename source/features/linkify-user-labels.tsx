@@ -1,13 +1,13 @@
 import './linkify-user-labels.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import { $ } from 'select-dom/strict.js';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
+import { buildRepoUrl } from '../github-helpers/index.js';
+import { wrap } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function getAuthor(label: HTMLElement): string {
@@ -33,7 +33,7 @@ function linkify(label: HTMLElement): void {
 
 	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getAuthor(label));
-	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
+	wrap(label, <a className='Link--onHover color-fg-inherit rgh-linkify-user-labels' href={url.href} />);
 }
 
 const ariaLabelSelector = [
@@ -43,11 +43,15 @@ const ariaLabelSelector = [
 ].join(',');
 
 function init(signal: AbortSignal): void {
-	observe([
-		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
-		// PRs
-		`.tooltipped:is(${ariaLabelSelector})`,
-	], linkify, {signal});
+	observe(
+		[
+			`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
+			// PRs
+			`.tooltipped:is(${ariaLabelSelector})`,
+		],
+		linkify,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {

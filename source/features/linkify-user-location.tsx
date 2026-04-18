@@ -1,11 +1,11 @@
 import React from 'dom-chef';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {wrap} from '../helpers/dom-utils.js';
+import { wrap } from '../helpers/dom-utils.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
+function addLocation({ nextElementSibling, nextSibling }: SVGElement): Element {
 	// `nextSibling` alone might point to an empty TextNode before an element, if there’s an element
 	const userLocation = nextElementSibling ?? nextSibling as Element;
 
@@ -13,10 +13,10 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	const mapLink = `https://www.openstreetmap.org/search?query=${encodeURIComponent(locationName)}`;
 
 	userLocation.before(' '); // Keeps the link’s underline from extending out to the icon
-	const link = <a className="Link--primary" href={mapLink} />;
+	const link = <a className='Link--primary' href={mapLink} />;
 
 	if (userLocation.parentElement!.closest('.Popover')) {
-	// Match the style of other links in the hovercard
+		// Match the style of other links in the hovercard
 		link.classList.add('text-underline');
 	}
 

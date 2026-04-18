@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
@@ -16,9 +16,11 @@ function init(): false | void {
 		'#files', // Legacy
 		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
 	]).after(
-		<div className="d-flex flex-justify-end mb-3">
-			{originalPreviousNext.cloneNode(true)}
-		</div>,
+		(
+			<div className='d-flex flex-justify-end mb-3'>
+				{originalPreviousNext.cloneNode(true)}
+			</div>
+		),
 	);
 }
 

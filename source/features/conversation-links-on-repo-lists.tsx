@@ -1,12 +1,12 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
+import { assertNodeContent } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	const repository = repositoryLink.closest('li')!;
@@ -19,20 +19,22 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		$('relative-time', repository).previousSibling,
 		'Updated',
 	).before(
-		<>
-			<a
-				className="Link--muted mr-3"
-				href={repositoryLink.href + '/issues'}
-			>
-				<IssueOpenedIcon />
-			</a>
-			<a
-				className="Link--muted mr-3"
-				href={repositoryLink.href + '/pulls'}
-			>
-				<GitPullRequestIcon />
-			</a>
-		</>,
+		(
+			<>
+				<a
+					className='Link--muted mr-3'
+					href={repositoryLink.href + '/issues'}
+				>
+					<IssueOpenedIcon />
+				</a>
+				<a
+					className='Link--muted mr-3'
+					href={repositoryLink.href + '/pulls'}
+				>
+					<GitPullRequestIcon />
+				</a>
+			</>
+		),
 	);
 }
 
@@ -49,39 +51,41 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		.closest('[data-testid="results-list"] > div')!
 		.querySelector('ul > span:last-of-type')!
 		.before(
-			<>
-				<span
-					aria-hidden="true"
-					className="color-fg-muted mx-2"
-				>
-					·
-				</span>
-				<li className="d-flex text-small">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/issues'}
+			(
+				<>
+					<span
+						aria-hidden='true'
+						className='color-fg-muted mx-2'
 					>
-						<IssueOpenedIcon />
-					</a>
-				</li>
-				<li className="d-flex text-small ml-2">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/pulls'}
-					>
-						<GitPullRequestIcon />
-					</a>
-				</li>
-			</>,
+						·
+					</span>
+					<li className='d-flex text-small'>
+						<a
+							className='Link--muted'
+							href={repositoryLink.href + '/issues'}
+						>
+							<IssueOpenedIcon />
+						</a>
+					</li>
+					<li className='d-flex text-small ml-2'>
+						<a
+							className='Link--muted'
+							href={repositoryLink.href + '/pulls'}
+						>
+							<GitPullRequestIcon />
+						</a>
+					</li>
+				</>
+			),
 		);
 }
 
 function init(signal: AbortSignal): void {
-	observe('a[itemprop="name codeRepository"]', addConversationLinks, {signal});
+	observe('a[itemprop="name codeRepository"]', addConversationLinks, { signal });
 }
 
 function initSearch(signal: AbortSignal): void {
-	observe('.search-title a', addSearchConversationLinks, {signal});
+	observe('.search-title a', addSearchConversationLinks, { signal });
 }
 
 void features.add(import.meta.url, {

@@ -1,13 +1,13 @@
 import './hide-low-quality-comments.css';
 
+import delegate, { type DelegateEvent } from 'delegate-it';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, countElements, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import { $$, countElements, elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
-import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
+import delay from '../helpers/delay.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
@@ -79,10 +79,12 @@ function init(): void {
 	const lowQualityCount = countElements('.rgh-hidden-comment');
 	if (lowQualityCount > 0) {
 		$('.discussion-timeline-actions').prepend(
-			<p className="rgh-low-quality-comments-note">
-				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
-			</p>,
+			(
+				<p className='rgh-low-quality-comments-note'>
+					{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
+					<button className='btn-link text-emphasized rgh-unhide-low-quality-comments' type='button'>Show</button>
+				</p>
+			),
 		);
 
 		// No need to add the signal here

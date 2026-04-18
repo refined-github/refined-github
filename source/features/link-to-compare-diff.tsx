@@ -1,22 +1,22 @@
 import './link-to-compare-diff.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import { elementExists } from 'select-dom';
 
 import features from '../feature-manager.js';
+import { wrapAll } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {wrapAll} from '../helpers/dom-utils.js';
 
 function linkify(changedFilesSummary: HTMLElement): void {
 	wrapAll(
-		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket" />,
+		<a className='no-underline rgh-link-to-compare-diff' href='#files_bucket' />,
 		...changedFilesSummary.children,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.Box li:has(> .octicon-file-diff)', linkify, {signal});
+	observe('.Box li:has(> .octicon-file-diff)', linkify, { signal });
 }
 
 void features.add(import.meta.url, {

@@ -1,10 +1,10 @@
-import {$optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import { $$, elementExists } from 'select-dom';
+import { $optional } from 'select-dom/strict.js';
 
-import {isEditable} from '../helpers/dom-utils.js';
-import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 import features from '../feature-manager.js';
+import { isEditable } from '../helpers/dom-utils.js';
+import { viewedToggleSelector } from './batch-mark-files-as-viewed.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
@@ -27,16 +27,15 @@ function runShortcuts(event: KeyboardEvent): void {
 		return;
 	}
 
-	const items
-		= $$([
-			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
-			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
-		])
-			.filter(element =>
-				element.classList.contains('js-minimizable-comment-group')
-					? !isCommentGroupMinimized(element)
-					: true,
-			);
+	const items = $$([
+		'div[class*="targetable" i][id^="diff-"]', // Files in diffs
+		'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
+	])
+		.filter(element =>
+			element.classList.contains('js-minimizable-comment-group')
+				? !isCommentGroupMinimized(element)
+				: true
+		);
 
 	// `j` goes to the next item, `k` goes back an item
 	const direction = event.key === 'j' ? 1 : -1;
@@ -56,7 +55,7 @@ function runShortcuts(event: KeyboardEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.body.addEventListener('keypress', runShortcuts, {signal});
+	document.body.addEventListener('keypress', runShortcuts, { signal });
 }
 
 void features.add(import.meta.url, {

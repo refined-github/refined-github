@@ -1,5 +1,5 @@
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
@@ -23,9 +23,9 @@ function handleSubmitOnEnter(event: DelegateEvent<KeyboardEvent, HTMLElement>): 
 }
 
 function init(signal: AbortSignal): void {
-	delegate('button[publish-release="true"]', 'click', handleSubmit, {signal, capture: true});
-	delegate('textarea#release_body', 'keydown', handleSubmitOnCtrlEnter, {signal, capture: true});
-	delegate('input#release_name', 'keydown', handleSubmitOnEnter, {signal, capture: true});
+	delegate('button[publish-release="true"]', 'click', handleSubmit, { signal, capture: true });
+	delegate('textarea#release_body', 'keydown', handleSubmitOnCtrlEnter, { signal, capture: true });
+	delegate('input#release_name', 'keydown', handleSubmitOnEnter, { signal, capture: true });
 }
 
 void features.add(import.meta.url, {

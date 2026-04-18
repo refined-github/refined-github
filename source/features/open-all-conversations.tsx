@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {$$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { $$ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
@@ -22,7 +22,7 @@ function onButtonClick(): void {
 		link.closest([
 			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
 			'[aria-label^="Selected"]',
-		]),
+		])
 	);
 
 	const linksToOpen = selectedLinks.length > 0
@@ -39,7 +39,7 @@ const multipleConversationsSelector = [
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector.join(', '), {waitForChildren: false}));
+	return Boolean(await elementReady(multipleConversationsSelector.join(', '), { waitForChildren: false }));
 }
 
 function add(anchor: HTMLElement): void {
@@ -51,27 +51,33 @@ function add(anchor: HTMLElement): void {
 	const classes = isLegacy
 		? 'btn-link px-2'
 		: isSelected
-			? 'btn'
-			: 'btn btn-sm';
+		? 'btn'
+		: 'btn btn-sm';
 	anchor.prepend(
-		<button
-			type="button"
-			className={`rgh-open-all-conversations ${classes}`}
-		>
-			{isSelected
-				? 'Open selected'
-				: 'Open all'}
-		</button>,
+		(
+			<button
+				type='button'
+				className={`rgh-open-all-conversations ${classes}`}
+			>
+				{isSelected
+					? 'Open selected'
+					: 'Open all'}
+			</button>
+		),
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe([
-		'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
-		'[aria-label="Bulk actions"] > :first-child',
-		'[aria-label="Actions"] > :first-child',
-	], add, {signal});
-	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
+	observe(
+		[
+			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			'[aria-label="Bulk actions"] > :first-child',
+			'[aria-label="Actions"] > :first-child',
+		],
+		add,
+		{ signal },
+	);
+	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, { signal });
 }
 
 void features.add(import.meta.url, {

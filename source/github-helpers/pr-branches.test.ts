@@ -1,6 +1,6 @@
-import {test, assert} from 'vitest';
+import { assert, test } from 'vitest';
 
-import {parseReferenceRaw} from './pr-branches.js';
+import { parseReferenceRaw } from './pr-branches.js';
 
 test('parseReferenceRaw', () => {
 	assert.deepEqual(parseReferenceRaw('fregante/mem:main', 'main'), {

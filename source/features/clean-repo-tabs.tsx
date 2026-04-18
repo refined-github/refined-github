@@ -1,18 +1,18 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {countElements} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { countElements } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
+import { CachedFunction } from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import { buildRepoUrl, cacheByRepo, getRepo } from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {unhideOverflowDropdown} from './more-dropdown-links.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
+import { unhideOverflowDropdown } from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -30,8 +30,8 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
-		tab.append(<span data-component="counter">{tabCounter}</span>);
+		tabCounter = <span className='Counter' /> as HTMLSpanElement;
+		tab.append(<span data-component='counter'>{tabCounter}</span>);
 	}
 
 	tabCounter.textContent = abbreviateNumber(count);
@@ -65,8 +65,8 @@ const wikiPageCount = new CachedFunction('wiki-page-count', {
 
 		return countElements('#wiki-content > .Box .Box-row', dom);
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 5},
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 5 },
 	cacheKey: cacheByRepo,
 });
 
@@ -74,8 +74,8 @@ const hasActionRuns = new CachedFunction('workflows-count', {
 	async updater(repoWithOwner: string): Promise<boolean> {
 		return api.v3hasAnyItems(`/repos/${repoWithOwner}/actions/runs`);
 	},
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
+	maxAge: { days: 1 },
+	staleWhileRevalidate: { days: 10 },
 });
 
 async function updateWikiTab(): Promise<void | false> {

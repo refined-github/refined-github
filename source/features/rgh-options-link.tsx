@@ -3,9 +3,9 @@
 import delegate from 'delegate-it';
 
 import features from '../feature-manager.js';
+import { isRefinedGitHubRepo } from '../github-helpers/index.js';
 import openOptions from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 
 const placeholdersSelector = 'a[name="user-content-options-page-link"]';
 
@@ -15,8 +15,8 @@ function linkify(anchor: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(placeholdersSelector, linkify, {signal});
-	delegate(placeholdersSelector, 'click', openOptions, {signal});
+	observe(placeholdersSelector, linkify, { signal });
+	delegate(placeholdersSelector, 'click', openOptions, { signal });
 }
 
 void features.add(import.meta.url, {

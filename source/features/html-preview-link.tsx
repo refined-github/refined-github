@@ -15,22 +15,24 @@ function add(rawButton: HTMLAnchorElement): void {
 		.parentElement! // `div`
 		.parentElement! // `BtnGroup`
 		.prepend(
-			<div>
-				<a
-					className={rawButton.className}
-					data-variant="default"
-					data-size="small"
-					// #3305
-					href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
-				>
-					Preview
-				</a>
-			</div>,
+			(
+				<div>
+					<a
+						className={rawButton.className}
+						data-variant='default'
+						data-size='small'
+						// #3305
+						href={`https://refined-github-html-preview.kidonng.workers.dev${rawButton.pathname}`}
+					>
+						Preview
+					</a>
+				</div>
+			),
 		);
 }
 
 function init(signal: AbortSignal): void {
-	observe(['a#raw-url', 'a[data-testid="raw-button"]'], add, {signal});
+	observe(['a#raw-url', 'a[data-testid="raw-button"]'], add, { signal });
 }
 
 void features.add(import.meta.url, {

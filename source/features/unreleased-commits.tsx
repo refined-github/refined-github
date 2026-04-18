@@ -1,30 +1,25 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
+import { elementExists } from 'select-dom';
+import { $optional } from 'select-dom/strict.js';
+import { CachedFunction } from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {
-	buildRepoUrl,
-	cacheByRepo,
-	getLatestVersionTag,
-	getRepo,
-} from '../github-helpers/index.js';
-import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import pluralize from '../helpers/pluralize.js';
-import {branchSelector} from '../github-helpers/selectors.js';
-import getPublishRepoState from './unreleased-commits.gql';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import { userHasPushAccess } from '../github-helpers/get-user-permission.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { groupButtons } from '../github-helpers/group-buttons.js';
+import { buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo } from '../github-helpers/index.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
+import { branchSelector } from '../github-helpers/selectors.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
-import {wrapAll} from '../helpers/dom-utils.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import {expectToken} from '../github-helpers/github-token.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import { wrapAll } from '../helpers/dom-utils.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
+import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -45,7 +40,7 @@ const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
-		const {repository} = await api.v4(getPublishRepoState);
+		const { repository } = await api.v4(getPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {
 			return {
@@ -63,15 +58,17 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		// https://github.com/refined-github/refined-github/issues/6094
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
-		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
+			node.oid === latestTagOid
+		);
 
 		return {
 			latestTag,
 			aheadBy: aheadBy === -1 ? undeterminableAheadBy : aheadBy,
 		};
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 2},
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 2 },
 	cacheKey: cacheByRepo,
 });
 
@@ -79,20 +76,19 @@ async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'More than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
+	const commitCount = aheadBy === undeterminableAheadBy
+		? 'More than 20 unreleased commits'
+		: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className='btn px-2 tooltipped tooltipped-se'
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon className="v-align-middle" />
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+			<TagIcon className='v-align-middle' />
+			{aheadBy === undeterminableAheadBy || <sup className='ml-n2'>+{aheadBy}</sup>}
 		</a>
 	);
 }
@@ -108,11 +104,11 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
 			href={buildRepoUrl('releases/new')}
-			className="btn px-2 tooltipped tooltipped-se"
-			aria-label="Draft a new release"
-			data-turbo-frame="repo-content-turbo-frame"
+			className='btn px-2 tooltipped tooltipped-se'
+			aria-label='Draft a new release'
+			data-turbo-frame='repo-content-turbo-frame'
 		>
-			<PlusIcon className="v-align-middle" />
+			<PlusIcon className='v-align-middle' />
 		</a>,
 	]);
 }
@@ -124,7 +120,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const {latestTag, aheadBy} = await repoPublishState.get();
+	const { latestTag, aheadBy } = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
 	if (!latestTag || !isAhead) {
@@ -135,14 +131,14 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
-		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
+		<div className='d-flex gap-2 rgh-unreleased-commits-wrapper' />,
 		branchSelector,
 		linkGroup,
 	);
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
-	const {latestTag, aheadBy} = await repoPublishState.get();
+	const { latestTag, aheadBy } = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
 	if (!latestTag || !isAhead) {
@@ -171,12 +167,12 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 
 async function initHome(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(branchSelector, addToHome, {signal});
+	observe(branchSelector, addToHome, { signal });
 }
 
 async function initReleases(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('input#release-filter', addToReleases, {signal});
+	observe('input#release-filter', addToReleases, { signal });
 }
 
 void features.add(import.meta.url, {

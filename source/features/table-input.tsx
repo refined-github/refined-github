@@ -1,18 +1,18 @@
 import './table-input.css';
 
+import delegate, { type DelegateEvent } from 'delegate-it';
 import React from 'dom-chef';
-import TableIcon from 'octicons-plain-react/Table';
 import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
+import TableIcon from 'octicons-plain-react/Table';
+import { $ } from 'select-dom/strict.js';
+import { insertTextIntoField } from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import { actionBarSelectors } from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
-function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function addTable({ delegateTarget: square }: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('fieldset') // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
@@ -23,7 +23,6 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const row = columns === 1
 		// One HTML line per row
 		? '<tr><td>\n'
-
 		// <tr> on its own line
 		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
 		: '<tr>\n' + ' <td>\n'.repeat(columns);
@@ -39,47 +38,51 @@ function append(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
 	container.append(
-		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
-			<summary
-				id="rgh-table-input-button"
-				className="Button Button--iconOnly Button--invisible Button--medium"
-				role="button"
-				aria-labelledby="rgh-table-input-tooltip"
-				aria-haspopup="menu"
+		(
+			<details className='details-reset details-overlay select-menu select-menu-modal-right hx_rsm'>
+				<summary
+					id='rgh-table-input-button'
+					className='Button Button--iconOnly Button--invisible Button--medium'
+					role='button'
+					aria-labelledby='rgh-table-input-tooltip'
+					aria-haspopup='menu'
+				>
+					<TableIcon />
+				</summary>
+				<details-menu
+					className='select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input'
+					role='menu'
+				>
+					{Array.from({ length: 25 }).map((_, index) => (
+						<button
+							type='button'
+							role='menuitem'
+							className='rgh-tic btn-link'
+							data-x={(index % 5) + 1}
+							data-y={Math.floor(index / 5) + 1}
+						/>
+					))}
+				</details-menu>
+			</details>
+		),
+		(
+			<tool-tip
+				id='rgh-table-input-tooltip'
+				for='rgh-table-input-button'
+				className='sr-only position-absolute'
+				popover='manual'
+				data-direction='s'
+				data-type='label'
 			>
-				<TableIcon />
-			</summary>
-			<details-menu
-				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
-				role="menu"
-			>
-				{Array.from({length: 25}).map((_, index) => (
-					<button
-						type="button"
-						role="menuitem"
-						className="rgh-tic btn-link"
-						data-x={(index % 5) + 1}
-						data-y={Math.floor(index / 5) + 1}
-					/>
-				))}
-			</details-menu>
-		</details>,
-		<tool-tip
-			id="rgh-table-input-tooltip"
-			for="rgh-table-input-button"
-			className="sr-only position-absolute"
-			popover="manual"
-			data-direction="s"
-			data-type="label"
-		>
-			Add a table
-		</tool-tip>,
+				Add a table
+			</tool-tip>
+		),
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
-	delegate('.rgh-tic', 'click', addTable, {signal});
+	observe(actionBarSelectors, append, { signal });
+	delegate('.rgh-tic', 'click', addTable, { signal });
 }
 
 void features.add(import.meta.url, {

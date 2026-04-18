@@ -1,15 +1,15 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import { elementExists } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { getRepo } from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
 
 const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
@@ -50,20 +50,22 @@ function attachButton(editButton: HTMLAnchorElement): void {
 	}
 
 	editButton.before(
-		<button
-			type="button"
-			className="Button Button--secondary Button--small ml-3 mr-1 rgh-convert-draft"
-		>
-			Convert to draft
-		</button>,
+		(
+			<button
+				type='button'
+				className='Button Button--secondary Button--small ml-3 mr-1 rgh-convert-draft'
+			>
+				Convert to draft
+			</button>
+		),
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
 	await expectToken();
 
-	observe(getReleaseEditLinkSelector(), attachButton, {signal});
-	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});
+	observe(getReleaseEditLinkSelector(), attachButton, { signal });
+	delegate('.rgh-convert-draft', 'click', onConvertClick, { signal });
 }
 
 void features.add(import.meta.url, {

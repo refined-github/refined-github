@@ -1,6 +1,6 @@
 import './unclip-checks.css';
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
@@ -8,10 +8,10 @@ function init(signal: AbortSignal): void {
 	delegate(
 		'button[aria-label="Expand checks"]',
 		'click',
-		({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
+		({ delegateTarget }: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
 			delegateTarget.closest('section[aria-label="Checks"]')!.classList.add('rgh-unclip-checks');
 		},
-		{signal, capture: true},
+		{ signal, capture: true },
 	);
 }
 

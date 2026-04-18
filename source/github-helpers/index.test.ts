@@ -1,11 +1,6 @@
-import {test, assert} from 'vitest';
+import { assert, test } from 'vitest';
 
-import {
-	getConversationNumber,
-	parseTag,
-	isUsernameAlreadyFullName,
-	getLatestVersionTag,
-} from './index.js';
+import { getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag } from './index.js';
 
 test('getConversationNumber', () => {
 	const pairs = new Map<string, number | undefined>([
@@ -77,12 +72,12 @@ test('getConversationNumber', () => {
 });
 
 test('parseTag', () => {
-	assert.deepEqual(parseTag(''), {namespace: '', version: ''});
-	assert.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
-	assert.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
-	assert.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
-	assert.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
-	assert.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
+	assert.deepEqual(parseTag(''), { namespace: '', version: '' });
+	assert.deepEqual(parseTag('1.2.3'), { namespace: '', version: '1.2.3' });
+	assert.deepEqual(parseTag('@1.2.3'), { namespace: '', version: '1.2.3' });
+	assert.deepEqual(parseTag('hi@1.2.3'), { namespace: 'hi', version: '1.2.3' });
+	assert.deepEqual(parseTag('hi/you@1.2.3'), { namespace: 'hi/you', version: '1.2.3' });
+	assert.deepEqual(parseTag('@hi/you@1.2.3'), { namespace: '@hi/you', version: '1.2.3' });
 });
 
 test('isUsernameAlreadyFullName', () => {
@@ -99,25 +94,37 @@ test('isUsernameAlreadyFullName', () => {
 });
 
 test('getLatestVersionTag', () => {
-	assert.equal(getLatestVersionTag([
-		'0.0.0',
-		'v1.1',
-		'r2.0',
+	assert.equal(
+		getLatestVersionTag([
+			'0.0.0',
+			'v1.1',
+			'r2.0',
+			'3.0',
+		]),
 		'3.0',
-	]), '3.0', 'Tags should be sorted by version');
+		'Tags should be sorted by version',
+	);
 
-	assert.equal(getLatestVersionTag([
-		'v2.1-0',
+	assert.equal(
+		getLatestVersionTag([
+			'v2.1-0',
+			'v2.0',
+			'r1.5.5',
+			'r1.0',
+			'v1.0-1',
+		]),
 		'v2.0',
-		'r1.5.5',
-		'r1.0',
-		'v1.0-1',
-	]), 'v2.0', 'Prereleases should be ignored');
+		'Prereleases should be ignored',
+	);
 
-	assert.equal(getLatestVersionTag([
+	assert.equal(
+		getLatestVersionTag([
+			'lol v0.0.0',
+			'2.0',
+			'2020-10-10',
+			'v1.0-1',
+		]),
 		'lol v0.0.0',
-		'2.0',
-		'2020-10-10',
-		'v1.0-1',
-	]), 'lol v0.0.0', 'Non-version tags should short-circuit the sorting and return the first tag');
+		'Non-version tags should short-circuit the sorting and return the first tag',
+	);
 });

@@ -1,7 +1,7 @@
-import {$optional} from 'select-dom/strict.js';
-import elementReady from 'element-ready';
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import { $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
@@ -26,7 +26,7 @@ const selectors = [
 async function init(signal: AbortSignal): Promise<void> {
 	const bar = await elementReady(selectors);
 	bar!.style.cursor = 'pointer';
-	delegate(selectors, 'click', jumpToFirstNonViewed, {signal});
+	delegate(selectors, 'click', jumpToFirstNonViewed, { signal });
 }
 
 void features.add(import.meta.url, {

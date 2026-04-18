@@ -1,19 +1,19 @@
-import React from 'react';
-import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
+import LockIcon from 'octicons-plain-react/Lock';
+import React from 'react';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
-import {getIdentifiers} from '../helpers/feature-helpers.js';
-import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
+import { getIdentifiers } from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
+import { featureClass as jumpToCloseEventClass } from './jump-to-conversation-close-event.js';
 
-export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
+export const { class: featureClass, selector: featureSelector } = getIdentifiers(import.meta.url);
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
-			<LockIcon className="flex-items-center mr-1" />
+		<span title='Locked' className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
+			<LockIcon className='flex-items-center mr-1' />
 			Locked
 		</span>
 	);
@@ -38,13 +38,17 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) span[class^="prc-StateLabel"]',
 		addLock,
-		{signal},
+		{ signal },
 	);
 	// Old PR view - TODO: Drop after July 2026
-	observe([
-		'.gh-header-meta > :first-child',
-		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
-	], addLockLegacy, {signal});
+	observe(
+		[
+			'.gh-header-meta > :first-child',
+			':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+		],
+		addLockLegacy,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {

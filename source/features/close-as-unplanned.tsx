@@ -1,10 +1,10 @@
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate, { type DelegateEvent } from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import { $ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
+import { getFeatureId } from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import {getFeatureId} from '../helpers/feature-helpers.js';
 
 const id = getFeatureId(import.meta.url);
 
@@ -35,13 +35,13 @@ function update(dropdown: HTMLElement): void {
 	form.append(checkbox);
 }
 
-function updateCheckbox({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLInputElement>): void {
+function updateCheckbox({ delegateTarget: button }: DelegateEvent<MouseEvent, HTMLInputElement>): void {
 	$(unplannedCheckbox, button.form!).checked = button.id === id;
 }
 
 function init(signal: AbortSignal): void {
-	observe('close-reason-selector .select-menu', update, {signal});
-	delegate('[name="comment_and_close"]', 'click', updateCheckbox, {signal});
+	observe('close-reason-selector .select-menu', update, { signal });
+	delegate('[name="comment_and_close"]', 'click', updateCheckbox, { signal });
 }
 
 void features.add(import.meta.url, {

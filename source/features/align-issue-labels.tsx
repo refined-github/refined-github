@@ -1,7 +1,7 @@
 import './align-issue-labels.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import { $ } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -17,7 +17,7 @@ function alignBadges(badges: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class*="trailingBadgesContainer"]:not(:empty)', alignBadges, {signal});
+	observe('[class*="trailingBadgesContainer"]:not(:empty)', alignBadges, { signal });
 }
 
 void features.add(import.meta.url, {

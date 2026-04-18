@@ -1,14 +1,14 @@
-import {elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import { elementExists } from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
+import { getBranches } from '../github-helpers/pr-branches.js';
+import { deletedHeadRepository } from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {deletedHeadRepository} from '../github-helpers/selectors.js';
 
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function alter(viewFileLink: HTMLAnchorElement): void {
-	const {owner, name, branch} = getBranches().head;
+	const { owner, name, branch } = getBranches().head;
 	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
@@ -18,7 +18,7 @@ function alter(viewFileLink: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]', alter, {signal});
+	observe('.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]', alter, { signal });
 }
 
 void features.add(import.meta.url, {

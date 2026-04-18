@@ -1,30 +1,31 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import { $$ } from 'select-dom';
+import { $ } from 'select-dom/strict.js';
+import { CachedFunction } from 'webext-storage-cache';
 
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
-import createBanner, {type BannerProps} from '../github-helpers/banner.js';
+import createBanner, { type BannerProps } from '../github-helpers/banner.js';
+import { userHasPushAccess } from '../github-helpers/get-user-permission.js';
+import { buildRepoUrl, getRepo, isRefinedGitHubRepo } from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getReleases} from './releases-tab.js';
+import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import { getReleases } from './releases-tab.js';
 
-function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
+function excludeNightliesAndJunk({ textContent }: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
 }
 
+// dprint-ignore
 function ExplanationLink(): JSX.Element {
 	return (
-		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks" />
+		<a href='https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks' />
 	);
 }
 
@@ -47,7 +48,8 @@ function createReleaseUrl(): string {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
+	const mergeCommit =
+		$(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
@@ -57,35 +59,49 @@ async function init(signal: AbortSignal): Promise<void> {
 		addExistingTagLinkFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {signal});
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+			signal,
+		});
 	} else {
-		void addReleaseBanner(<>This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.</>);
+		void addReleaseBanner(
+			(
+				<>
+					This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.
+				</>
+			),
+		);
 	}
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
 	discussionHeader.parentElement!.append(
-		<span>
-			<TagIcon className="ml-2 mr-1 color-fg-muted" />
-			<a
-				href={tagUrl}
-				className="commit-ref"
-				title={`${tagName} was the first Git tag to include this pull request`}
-			>
-				{tagName}
-			</a>
-		</span>,
+		(
+			<span>
+				<TagIcon className='ml-2 mr-1 color-fg-muted' />
+				<a
+					href={tagUrl}
+					className='commit-ref'
+					title={`${tagName} was the first Git tag to include this pull request`}
+				>
+					{tagName}
+				</a>
+			</span>
+		),
 	);
 }
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
-	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
+	const linkedTag = <a href={tagUrl} className='Link--primary text-bold'>{tagName}</a>;
 	attachElement($('#issue-comment-box'), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					icon: <TagIcon className="m-0" />,
-					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
+					icon: <TagIcon className='m-0' />,
+					text: (
+						<>
+							This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
+						</>
+					),
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>
@@ -102,7 +118,7 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 	const url = createReleaseUrl();
 	const bannerContent = {
 		text,
-		icon: <TagIcon className="m-0" />,
+		icon: <TagIcon className='m-0' />,
 		classes: ['rgh-bg-none'],
 	} satisfies BannerProps;
 

@@ -1,17 +1,18 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import { elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
+const documentation =
+	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
 async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -49,20 +50,20 @@ function add(blueprintRow: HTMLElement): void {
 	const description = $('.descriptionBox p', disableProjectsAndWikis);
 	description.replaceChildren(
 		'After creating the repository disable the projects and wiki. ',
-		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>,
+		<a href={documentation} target='_blank' rel='noreferrer'>Suggestion by Refined GitHub.</a>,
 	);
 
 	const control = $('.blockControl', disableProjectsAndWikis);
 	control.replaceChildren(
 		// Padding/margin classes added to increate hit area
-		<label className="d-flex gap-1 flex-items-center p-2 mr-n2">
+		<label className='d-flex gap-1 flex-items-center p-2 mr-n2'>
 			Disable
 			<input
 				checked
 				// @ts-expect-error Safari only
 				switch
-				type="checkbox"
-				id="rgh-disable-project"
+				type='checkbox'
+				id='rgh-disable-project'
 			/>
 		</label>,
 	);
@@ -79,28 +80,32 @@ function addOld(submitButton: HTMLElement): void {
 
 	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
 	submitButton.parentElement!.before(
-		<div className="flash flash-warn py-0 ml-n3 my-4">
-			<div className="form-checkbox checked">
-				<label>
-					<input
-						checked
-						type="checkbox"
-						id="rgh-disable-project"
-					/> Disable Projects and Wikis
-				</label>
-				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
-				</span>
+		(
+			<div className='flash flash-warn py-0 ml-n3 my-4'>
+				<div className='form-checkbox checked'>
+					<label>
+						<input
+							checked
+							type='checkbox'
+							id='rgh-disable-project'
+						/>{' '}
+						Disable Projects and Wikis
+					</label>
+					<span className='note mb-2'>
+						After creating the repository disable the projects and wiki.{' '}
+						<a href={documentation} target='_blank' rel='noreferrer'>Suggestion by Refined GitHub.</a>
+					</span>
+				</div>
 			</div>
-		</div>,
+		),
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
-	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
-	delegate('form', 'submit', setStorage, {signal, capture: true});
+	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, { signal });
+	observe('form:has(.octicon-info) [type=submit]', addOld, { signal });
+	delegate('form', 'submit', setStorage, { signal, capture: true });
 }
 
 void features.add(import.meta.url, {

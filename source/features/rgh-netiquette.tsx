@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import InfoIcon from 'octicons-plain-react/Info';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
+import createBanner from '../github-helpers/banner.js';
+import { isAnyRefinedGitHubRepo } from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
+import observe from '../helpers/selector-observer.js';
+import { getCloseDate, getResolvedText, wasLongAgo } from './netiquette.js';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
@@ -19,8 +19,8 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 
 	const button = (
 		<button
-			type="button"
-			className="btn-link"
+			type='button'
+			className='btn-link'
 			onClick={() => {
 				newCommentBox.hidden = false;
 
@@ -35,7 +35,8 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 					behavior: 'smooth',
 				});
 			}}
-		>comment
+		>
+			comment
 		</button>
 	);
 
@@ -43,8 +44,13 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1" />,
-				text: <>{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				icon: <InfoIcon className='mr-1' />,
+				text: (
+					<>
+						{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
+						<strong>Do not</strong> report issues here.
+					</>
+				),
 			})}
 		</TimelineItem>
 	);
@@ -53,10 +59,14 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 }
 
 function init(signal: AbortSignal): void | false {
-	observe([
-		'#issuecomment-new:has(file-attachment)',
-		'[data-testid="comment-composer"]',
-	], addConversationBanner, {signal});
+	observe(
+		[
+			'#issuecomment-new:has(file-attachment)',
+			'[data-testid="comment-composer"]',
+		],
+		addConversationBanner,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {

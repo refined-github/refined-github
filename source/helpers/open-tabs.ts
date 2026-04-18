@@ -1,4 +1,4 @@
-import {messageRuntime} from 'webext-msg';
+import { messageRuntime } from 'webext-msg';
 
 import showToast from '../github-helpers/toast.js';
 import pluralize from '../helpers/pluralize.js';

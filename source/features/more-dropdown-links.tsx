@@ -1,21 +1,21 @@
 import './more-dropdown-links.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import GitBranchIcon from 'octicons-plain-react/GitBranch';
-import GitCompareIcon from 'octicons-plain-react/GitCompare';
 import GitCommitIcon from 'octicons-plain-react/GitCommit';
+import GitCompareIcon from 'octicons-plain-react/GitCompare';
 import PackageDependenciesIcon from 'octicons-plain-react/PackageDependencies';
+import { elementExists } from 'select-dom';
 
 import features from '../feature-manager.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { buildRepoUrl } from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 
 export async function unhideOverflowDropdown(): Promise<boolean> {
 	// Wait for the tab bar to be loaded
@@ -38,7 +38,7 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 	const dependenciesUrl = buildRepoUrl('network/dependencies');
 
 	repoNavigationDropdown.append(
-		<li className="dropdown-divider" role="separator" />,
+		<li className='dropdown-divider' role='separator' />,
 		createDropdownItem({
 			label: 'Compare',
 			href: compareUrl,
@@ -68,7 +68,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	await unhideOverflowDropdown();
 
-	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
+	observe('.UnderlineNav-actions ul', addDropdownItems, { signal });
 }
 
 void features.add(import.meta.url, {

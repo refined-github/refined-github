@@ -1,13 +1,13 @@
-import React from 'react';
-import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {$, $optional} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
+import React from 'react';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
+import { isMac, scrollIntoViewIfNeeded } from '../github-helpers/index.js';
+import { paginationButtonSelector } from '../github-helpers/selectors.js';
+import { assertNodeContent } from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
-import {paginationButtonSelector} from '../github-helpers/selectors.js';
-import {isMac, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 
 const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 
@@ -33,7 +33,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 	const spacer = new Text(' · ');
 	const link = (
 		<a
-			className="Link--muted"
+			className='Link--muted'
 			href={hiddenCommentsForm}
 			onClick={() => {
 				// The count will be outdated after the first expansion. We can remove it until the next header update by GitHub.
@@ -45,14 +45,13 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 		</a>
 	);
 	headerCommentCount.append(spacer);
-	headerCommentCount.after(link,
-	);
+	headerCommentCount.after(link);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	if (await elementReady(`${hiddenCommentsForm} ${paginationButtonSelector}`)) {
-		observe('.gh-header-meta relative-time + span', addIndicator, {signal});
-		globalThis.addEventListener('keydown', scrollOnSearch, {signal});
+		observe('.gh-header-meta relative-time + span', addIndicator, { signal });
+		globalThis.addEventListener('keydown', scrollOnSearch, { signal });
 	}
 }
 

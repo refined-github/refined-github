@@ -1,58 +1,64 @@
 import './improve-shortcut-help.css';
 
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import memoize from 'memoize';
+import { elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import {isEditable} from '../helpers/dom-utils.js';
-import {shortcutMap} from '../helpers/feature-helpers.js';
+import { isEditable } from '../helpers/dom-utils.js';
+import { shortcutMap } from '../helpers/feature-helpers.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
+	return keys.split(' ').map(key => (
+		<>
+			<kbd>{key}</kbd>
+		</>
+	));
 }
 
 function improveShortcutHelpLegacy(dialog: Element): void {
 	$('.Box-body .col-5 .Box:first-child', dialog).after(
-		<div className="Box Box--condensed m-4">
-			<div className="Box-header">
-				<h2 className="Box-title">Refined GitHub</h2>
-			</div>
+		(
+			<div className='Box Box--condensed m-4'>
+				<div className='Box-header'>
+					<h2 className='Box-title'>Refined GitHub</h2>
+				</div>
 
-			<ul>
-				{[...shortcutMap]
-					.toSorted(([, a], [, b]) => a.localeCompare(b))
-					.map(([hotkey, description]) => (
-						<li className="Box-row d-flex flex-row">
-							<div className="flex-auto">{description}</div>
-							<div className="ml-2 no-wrap">
-								{splitKeys(hotkey)}
-							</div>
-						</li>
-					))}
-			</ul>
-		</div>,
+				<ul>
+					{[...shortcutMap]
+						.toSorted(([, a], [, b]) => a.localeCompare(b))
+						.map(([hotkey, description]) => (
+							<li className='Box-row d-flex flex-row'>
+								<div className='flex-auto'>{description}</div>
+								<div className='ml-2 no-wrap'>
+									{splitKeys(hotkey)}
+								</div>
+							</li>
+						))}
+				</ul>
+			</div>
+		),
 	);
 }
 
-const observer = new MutationObserver(([{target}]) => {
+const observer = new MutationObserver(([{ target }]) => {
 	if (target instanceof Element && !elementExists('.js-details-dialog-spinner', target)) {
 		improveShortcutHelpLegacy(target);
 		observer.disconnect();
 	}
 });
 
-function observeShortcutModal({key, target}: KeyboardEvent): void {
+function observeShortcutModal({ key, target }: KeyboardEvent): void {
 	if (key !== '?' || isEditable(target)) {
 		return;
 	}
 
 	const modal = $optional('body > details:not(.js-command-palette-dialog) > details-dialog');
 	if (modal) {
-		observer.observe(modal, {childList: true});
+		observer.observe(modal, { childList: true });
 	}
 }
 
@@ -77,16 +83,18 @@ const getRghShortcutsContainer = memoize(
 					const currentItem = shortcutItem.cloneNode(true);
 					currentItem.firstElementChild!.textContent = description;
 					currentItem.lastElementChild!.replaceChildren(
-						<kbd className={keybindingHint.className}>
-							{hotkey.split(' ').map((key, index) => (
-								<>
-									{index > 0 && ' '}
-									<span className={chord.className}>
-										{key.charAt(0).toUpperCase() + key.slice(1)}
-									</span>
-								</>
-							))}
-						</kbd>,
+						(
+							<kbd className={keybindingHint.className}>
+								{hotkey.split(' ').map((key, index) => (
+									<>
+										{index > 0 && ' '}
+										<span className={chord.className}>
+											{key.charAt(0).toUpperCase() + key.slice(1)}
+										</span>
+									</>
+								))}
+							</kbd>
+						),
 					);
 					return currentItem;
 				}),
@@ -110,7 +118,7 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('div[class^="ShortcutsDialog"][class*="ColumnsContainer"]', improveShortcutHelp, {signal});
+	observe('div[class^="ShortcutsDialog"][class*="ColumnsContainer"]', improveShortcutHelp, { signal });
 }
 
 void features.add(import.meta.url, {

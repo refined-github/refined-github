@@ -1,22 +1,22 @@
+import delegate, { type DelegateEvent } from 'delegate-it';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import UndoIcon from 'octicons-plain-react/Undo';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
+import { expectToken } from '../github-helpers/github-token.js';
+import { getBranches } from '../github-helpers/pr-branches.js';
+import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
 
 async function getMergeBaseReference(): Promise<string> {
-	const {base, head} = getBranches();
+	const { base, head } = getBranches();
 	// This v3 response is relatively large, but it doesn't seem to be available on v4
 	// Cache buster due to: https://github.com/refined-github/refined-github/issues/7312
 	const response = await api.v3(`compare/${base.relative}...${head.relative}?cachebust=${Date.now()}`);
@@ -24,14 +24,14 @@ async function getMergeBaseReference(): Promise<string> {
 }
 
 async function getHeadReference(): Promise<string> {
-	const {base} = getBranches();
-	const {headRefOid} = await getPrInfo(base.relative);
+	const { base } = getBranches();
+	const { headRefOid } = await getPrInfo(base.relative);
 	return headRefOid;
 }
 
 async function getFile(filePath: string): Promise<string | undefined> {
 	const ref = await getMergeBaseReference();
-	const {content, httpStatus} = await api.v3(
+	const { content, httpStatus } = await api.v3(
 		`contents/${filePath}?ref=${ref}`,
 		{
 			responseFormat: 'base64',
@@ -44,7 +44,12 @@ async function getFile(filePath: string): Promise<string | undefined> {
 	return httpStatus === 404 ? undefined : content;
 }
 
-async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
+async function discardChanges(
+	progress: (message: string) => void,
+	originalFileName: string,
+	newFileName: string,
+	headline: string,
+): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
 		getFile(originalFileName),
@@ -54,18 +59,19 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const isRenamed = originalFileName !== newFileName;
 
 	const contents = file ?? '';
-	const deleteNewFile = {deletions: [{path: newFileName}]};
-	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
+	const deleteNewFile = { deletions: [{ path: newFileName }] };
+	const restoreOldFile = { additions: [{ path: originalFileName, contents }] };
 	const fileChanges = isRenamed
-		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
+		? { ...restoreOldFile, ...deleteNewFile } // Renamed, maybe also changed
 		: isNewFile
-			? deleteNewFile // New
-			: restoreOldFile; // Changes
+		? deleteNewFile // New
+		: restoreOldFile; // Changes
 
-	const {nameWithOwner, branch: prBranch} = getBranches().head;
+	const { nameWithOwner, branch: prBranch } = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`
+	await api.v4(
+		`
 		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
 				commit {
@@ -73,24 +79,26 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				}
 			}
 		}
-	`, {
-		variables: {
-			input: {
-				branch: {
-					repositoryNameWithOwner: nameWithOwner,
-					branchName: prBranch,
-				},
-				expectedHeadOid: headReference,
-				fileChanges,
-				message: {
-					headline,
+	`,
+		{
+			variables: {
+				input: {
+					branch: {
+						repositoryNameWithOwner: nameWithOwner,
+						branchName: prBranch,
+					},
+					expectedHeadOid: headReference,
+					fileChanges,
+					message: {
+						headline,
+					},
 				},
 			},
 		},
-	});
+	);
 }
 
-function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
+function getFilenames(menuItem: HTMLElement): { original: string; new: string; } {
 	// Legacy view: get filenames from the data-path and Link--primary elements
 	if (menuItem.tagName === 'BUTTON') {
 		const [originalFileName, newFileName = originalFileName] = menuItem
@@ -99,7 +107,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 			.textContent
 			.split(' → ');
 
-		return {original: originalFileName, new: newFileName};
+		return { original: originalFileName, new: newFileName };
 	}
 
 	// New React view: get filenames from the file header
@@ -109,7 +117,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 		// eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
 		.textContent.split('  ').map(text => text.replaceAll(/\u200E/g, ''));
 
-	return {original: originalFileName, new: newFileName};
+	return { original: originalFileName, new: newFileName };
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -144,17 +152,19 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 // Legacy view handler
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
-		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
-			role="menuitem"
-			type="button"
-		>
-			Discard changes
-		</button>,
+		(
+			<button
+				className='pl-5 dropdown-item btn-link rgh-restore-file'
+				role='menuitem'
+				type='button'
+			>
+				Discard changes
+			</button>
+		),
 	);
 }
 
-function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+function handleMenuOpening({ delegateTarget: menuButton }: DelegateEvent): void {
 	// Don't run if the menu has been closed
 	if (menuButton.ariaExpanded === 'false') {
 		return;
@@ -183,18 +193,18 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	// Legacy view
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
+	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, { signal });
 
 	// New React view
 	delegate(
 		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
 		handleMenuOpening,
-		{signal},
+		{ signal },
 	);
 
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
+	delegate('.rgh-restore-file', 'click', handleClick, { capture: true, signal });
 }
 
 void features.add(import.meta.url, {

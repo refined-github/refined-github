@@ -1,6 +1,6 @@
+import delegate, { type DelegateEvent } from 'delegate-it';
+import { isAlteredClick } from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 
@@ -21,7 +21,7 @@ function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>):
 }
 
 function init(signal: AbortSignal): void {
-	delegate('td[data-line-number]:empty', 'click', openLinkToLine, {signal});
+	delegate('td[data-line-number]:empty', 'click', openLinkToLine, { signal });
 }
 
 void features.add(import.meta.url, {

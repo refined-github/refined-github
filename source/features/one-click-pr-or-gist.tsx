@@ -1,9 +1,9 @@
 import './one-click-pr-or-gist.css';
 
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import { $$, elementExists } from 'select-dom';
+import { $, $optional } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
@@ -30,16 +30,18 @@ function init(): void | false {
 		}
 
 		initialGroupedButtons.after(
-			<button
-				data-disable-invalid
-				className={classList.join(' ')}
-				aria-label={description}
-				type="submit"
-				name={radioButton.name}
-				value={radioButton.value}
-			>
-				{title}
-			</button>,
+			(
+				<button
+					data-disable-invalid
+					className={classList.join(' ')}
+					aria-label={description}
+					type='submit'
+					name={radioButton.name}
+					value={radioButton.value}
+				>
+					{title}
+				</button>
+			),
 		);
 	}
 
