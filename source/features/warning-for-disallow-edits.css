@@ -1,20 +1,14 @@
 /* Hide warning when PR is closed */
-[data-pull-is-open='false']
-	~ #discussion_bucket
-	.rgh-warning-for-disallow-edits {
+[data-pull-is-open='false'] ~ #discussion_bucket .rgh-warning-for-disallow-edits {
 	display: none;
 }
 
-:is(.discussion-sidebar-item, .js-collab-option):has(
-		input[name='collab_privs']:not(:checked)
-	)
+:is(.discussion-sidebar-item, .js-collab-option):has(input[name='collab_privs']:not(:checked))
 	~ .rgh-warning-for-disallow-edits {
 	display: block;
 }
 
-:is(.discussion-sidebar-item, .js-collab-option):has(
-		input[name='collab_privs']:checked
-	)
+:is(.discussion-sidebar-item, .js-collab-option):has(input[name='collab_privs']:checked)
 	~ .rgh-warning-for-disallow-edits {
 	display: none;
 }

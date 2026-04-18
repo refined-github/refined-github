@@ -1,9 +1,6 @@
 /* Style copied from GitHub's <code> */
 .rgh-parse-backticks {
-	background-color: var(
-		--bgColor-neutral-muted,
-		var(--color-neutral-muted, fuchsia)
-	);
+	background-color: var(--bgColor-neutral-muted, var(--color-neutral-muted, fuchsia));
 	border-radius: 6px;
 	font-size: 85%;
 	margin: 0;

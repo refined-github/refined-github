@@ -21,21 +21,6 @@
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:bundle": "rollup -c --watch"
 	},
-	"prettier": {
-		"bracketSpacing": false,
-		"plugins": [
-			"prettier-plugin-svelte"
-		],
-		"singleQuote": true,
-		"overrides": [
-			{
-				"files": "*.svelte",
-				"options": {
-					"parser": "svelte"
-				}
-			}
-		]
-	},
 	"dependencies": {
 		"@fregante/mi-cron": "^2.0.1",
 		"@sindresorhus/to-milliseconds": "^2.0.0",

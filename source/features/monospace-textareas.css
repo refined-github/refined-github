@@ -14,6 +14,5 @@
 /* Test URL: https://github.com/settings/ssh/new */
 	#ssh_key_key {
 	font-family:
-		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
-		monospace !important;
+		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace !important;
 }

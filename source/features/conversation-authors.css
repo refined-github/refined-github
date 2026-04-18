@@ -1,6 +1,5 @@
 .rgh-collaborator {
-	border: 1px solid
-		var(--borderColor-default, var(--color-border-default, fuchsia));
+	border: 1px solid var(--borderColor-default, var(--color-border-default, fuchsia));
 	border-radius: 2em;
 	padding: 2px 5px;
 
@@ -17,10 +16,7 @@
 a.rgh-own-conversation,
 a.rgh-own-conversation:hover {
 	/* Colors taken from native .user-mention class */
-	color: var(
-		--color-user-mention-fg,
-		fuchsia
-	) !important; /* Their :hover	uses !important... */
+	color: var(--color-user-mention-fg, fuchsia) !important; /* Their :hover	uses !important... */
 	background-color: var(--bgColor-attention-muted, fuchsia);
 }
 

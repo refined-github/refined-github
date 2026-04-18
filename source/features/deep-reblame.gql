@@ -1,9 +1,4 @@
-query GetPullRequestBlameCommit(
-	$owner: String!
-	$name: String!
-	$file: String!
-	$commit: String!
-) {
+query GetPullRequestBlameCommit($owner: String!, $name: String!, $file: String!, $commit: String!) {
 	repository(owner: $owner, name: $name) {
 		file: object(expression: $file) {
 			id

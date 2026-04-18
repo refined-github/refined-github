@@ -77,11 +77,7 @@
 
 	<div class="content">
 		<ul>
-			<li
-				class:valid={stepValid >= 1}
-				class:visible={stepVisible >= 1}
-				class="will-show"
-			>
+			<li class:valid={stepValid >= 1} class:visible={stepVisible >= 1} class="will-show">
 				{#if stepValid === 0}
 					<button onclick={grantPermissions}> Grant </button>
 				{:else}
@@ -106,18 +102,10 @@
 					Generate a token
 				</a>
 				to ensure that every feature works correctly.
-				<a
-					href="https://github.com/refined-github/refined-github/wiki/Security"
-				>
-					More info
-				</a>
+				<a href="https://github.com/refined-github/refined-github/wiki/Security"> More info </a>
 			</li>
 
-			<li
-				class:valid={stepValid >= 3}
-				class:visible={stepVisible >= 3}
-				class="will-show"
-			>
+			<li class:valid={stepValid >= 3} class:visible={stepVisible >= 3} class="will-show">
 				<label for="token-input">Paste token:</label>
 				<input
 					id="token-input"
