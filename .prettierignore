@@ -1,10 +1,8 @@
 # Ensure Prettier is not automatically run by editors on unwanted files
-*.*
+
 # Explicitly ignore these text formats
 *.md
 *.html
 *.json
 *.yml
 *.yaml
-# Enable Prettier on JS/TS/TSX and Svelte files
-!**/*.{js,ts,tsx,svelte}
