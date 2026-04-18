@@ -14,11 +14,11 @@ import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
-import { elementExists } from 'select-dom';
-import { $, $$ } from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { botLinksNotificationSelectors } from '../github-helpers/selectors.js';
+import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -42,7 +42,7 @@ const filters = {
 type Filter = keyof typeof filters;
 type Category = 'Type' | 'Status' | 'Read';
 
-function resetFilters({ target }: React.SyntheticEvent): void {
+function resetFilters({target}: React.SyntheticEvent): void {
 	$('form#rgh-select-notifications-form').reset();
 	for (const label of $$('label', target as Element)) {
 		label.setAttribute('aria-checked', 'false');
@@ -72,45 +72,45 @@ function handleSelection(): void {
 
 	// Trigger the selection action bar update
 	// @ts-expect-error input will be assigned in the loop above
-	input.dispatchEvent(new Event('change', { bubbles: true }));
+	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
 function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
 	const icons: Record<Filter, JSX.Element> = {
-		'Pull requests': <GitPullRequestIcon className='color-fg-muted' />,
-		Issues: <IssueOpenedIcon className='color-fg-muted' />,
-		Open: <CheckCircleIcon className='color-fg-success' />,
-		Others: <SquirrelIcon className='color-fg-muted' />,
-		Bots: <HubotIcon className='color-fg-muted' />,
-		Closed: <XCircleIcon className='color-fg-danger' />,
-		Draft: <GitPullRequestDraftIcon className='color-fg-subtle' />,
-		Merged: <GitMergeIcon className='color-fg-done' />,
-		Read: <DotIcon className='color-fg-accent' />,
-		Unread: <DotFillIcon className='color-fg-accent' />,
+		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
+		Issues: <IssueOpenedIcon className="color-fg-muted" />,
+		Open: <CheckCircleIcon className="color-fg-success" />,
+		Others: <SquirrelIcon className="color-fg-muted" />,
+		Bots: <HubotIcon className="color-fg-muted" />,
+		Closed: <XCircleIcon className="color-fg-danger" />,
+		Draft: <GitPullRequestDraftIcon className="color-fg-subtle" />,
+		Merged: <GitMergeIcon className="color-fg-done" />,
+		Read: <DotIcon className="color-fg-accent" />,
+		Unread: <DotFillIcon className="color-fg-accent" />,
 	};
 
 	return (
-		<div className='SelectMenu-list'>
-			<header className='SelectMenu-header'>
-				<span className='SelectMenu-title'>{category}</span>
+		<div className="SelectMenu-list">
+			<header className="SelectMenu-header">
+				<span className="SelectMenu-title">{category}</span>
 			</header>
 			{filters.map(filter => (
 				<label
-					className='SelectMenu-item text-normal'
-					role='menuitemcheckbox'
-					aria-checked='false'
+					className="SelectMenu-item text-normal"
+					role="menuitemcheckbox"
+					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className='octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2' aria-hidden='true' />
-					<div className='SelectMenu-item-text'>
+					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
+					<div className="SelectMenu-item-text">
 						<input
 							hidden
-							type='checkbox'
+							type="checkbox"
 							name={category}
 							value={filter}
 						/>
 						{icons[filter]}
-						<span className='ml-2'>{filter}</span>
+						<span className="ml-2">{filter}</span>
 					</div>
 				</label>
 			))}
@@ -120,27 +120,27 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className='details-reset details-overlay position-relative rgh-select-notifications mr-2'
+		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
 		onToggle={resetFilters}
 	>
 		<summary
-			className='h6' // `h6` matches "Select all" style
-			data-hotkey='Shift+S'
-			aria-haspopup='menu'
+			className="h6" // `h6` matches "Select all" style
+			data-hotkey="Shift+S"
+			aria-haspopup="menu"
 			// Don't use tooltipped, it remains visible when the dropdown is open
-			title='Hotkey: Shift+S'
-			role='button'
+			title="Hotkey: Shift+S"
+			role="button"
 		>
-			Select by <span className='dropdown-caret ml-1' />
+			Select by <span className="dropdown-caret ml-1" />
 		</summary>
 		<details-menu
-			className='SelectMenu left-0'
-			aria-label='Select by'
-			role='menu'
+			className="SelectMenu left-0"
+			aria-label="Select by"
+			role="menu"
 			on-details-menu-selected={handleSelection}
 		>
-			<div className='SelectMenu-modal'>
-				<form id='rgh-select-notifications-form' className='SelectMenu-list'>
+			<div className="SelectMenu-modal">
+				<form id="rgh-select-notifications-form" className="SelectMenu-list">
 					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others', 'Bots'])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
@@ -158,13 +158,13 @@ function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
 	selectAllCheckbox.closest('label')!.after(
 		// `h6` matches "Select all" style
-		<span className='mx-2 h6'>·</span>,
+		<span className="mx-2 h6">·</span>,
 		createDropdown(),
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('input.js-notifications-mark-all-prompt', addDropdown, { signal });
+	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
 	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {

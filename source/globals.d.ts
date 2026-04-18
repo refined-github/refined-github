@@ -12,11 +12,14 @@ declare var navigation: typeof window.navigation;
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit = { disconnect: VoidFunction; } | { clear: VoidFunction; } | { destroy: VoidFunction; } | {
-	abort: VoidFunction;
-} | VoidFunction;
+type Deinit =
+	| {disconnect: VoidFunction;}
+	| {clear: VoidFunction;}
+	| {destroy: VoidFunction;}
+	| {abort: VoidFunction;}
+	| VoidFunction;
 
-type FeatureId = string & { feature: true; };
+type FeatureId = string & {feature: true;};
 interface FeatureMeta {
 	id: FeatureId;
 	description: string;
@@ -56,17 +59,17 @@ interface GlobalEventHandlersEventMap {
 
 declare namespace JSX {
 	interface IntrinsicElements {
-		'clipboard-copy': IntrinsicElements.button & { for?: string; };
-		'details-dialog': IntrinsicElements.div & { tabindex: string; };
-		'details-menu': IntrinsicElements.div & { src?: string; preload?: boolean; };
+		'clipboard-copy': IntrinsicElements.button & {for?: string;};
+		'details-dialog': IntrinsicElements.div & {tabindex: string;};
+		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean;};
 		'has-rgh': IntrinsicElements.div;
 		'has-rgh-inner': IntrinsicElements.div;
-		'include-fragment': IntrinsicElements.div & { src?: string; };
-		label: IntrinsicElements.label & { for?: string; };
-		'relative-time': IntrinsicElements.div & { datetime: string; };
+		'include-fragment': IntrinsicElements.div & {src?: string;};
+		label: IntrinsicElements.label & {for?: string;};
+		'relative-time': IntrinsicElements.div & {datetime: string;};
 		'tab-container': IntrinsicElements.div;
 		'batch-deferred-content': IntrinsicElements.div;
-		'time-ago': IntrinsicElements.div & { datetime: string; format?: string; };
+		'time-ago': IntrinsicElements.div & {datetime: string; format?: string;};
 		'anchored-position': IntrinsicElements.div;
 		'action-menu': IntrinsicElements.HTMLELement;
 		'focus-group': IntrinsicElements.HTMLELement;

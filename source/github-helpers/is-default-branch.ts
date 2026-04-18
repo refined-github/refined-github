@@ -1,5 +1,5 @@
 import getDefaultBranch from './get-default-branch.js';
-import { getRepo } from './index.js';
+import {getRepo} from './index.js';
 
 /** Detects if the current view is on the default branch. To be used on file/folder/commit lists */
 export default async function isDefaultBranch(): Promise<boolean> {

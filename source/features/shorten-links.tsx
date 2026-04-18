@@ -1,5 +1,5 @@
 import features from '../feature-manager.js';
-import { linkifiedUrlClass, shortenLink } from '../github-helpers/dom-formatters.js';
+import {linkifiedUrlClass, shortenLink} from '../github-helpers/dom-formatters.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 

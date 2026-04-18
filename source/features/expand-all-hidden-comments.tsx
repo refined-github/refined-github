@@ -1,10 +1,10 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import { $optional } from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { paginationButtonSelector } from '../github-helpers/selectors.js';
+import {paginationButtonSelector} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -25,7 +25,7 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 	}
 }
 
-async function handleAltClick({ altKey, delegateTarget }: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	if (!altKey) {
 		return;
 	}
@@ -37,7 +37,7 @@ async function handleAltClick({ altKey, delegateTarget }: DelegateEvent<MouseEve
 }
 
 function init(signal: AbortSignal): void {
-	delegate(paginationButtonSelector, 'click', handleAltClick, { signal });
+	delegate(paginationButtonSelector, 'click', handleAltClick, {signal});
 }
 
 void features.add(import.meta.url, {

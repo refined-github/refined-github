@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import { linkifyIssuesToDom, type Options as LinkifyIssuesOptions } from 'linkify-issues';
-import { linkifyUrlsToDom } from 'linkify-urls';
-import { elementExists } from 'select-dom';
-import { $$ } from 'select-dom/strict.js';
-import { applyToLink } from 'shorten-repo-url';
+import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
+import {linkifyUrlsToDom} from 'linkify-urls';
+import {elementExists} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
+import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
-import { buildRepoUrl } from './index.js';
+import {buildRepoUrl} from './index.js';
 import parseBackticksCore from './parse-backticks.js';
 
 // Shared class necessary to avoid also shortening the links
@@ -55,7 +55,7 @@ export function repositionAnchors(element: HTMLElement): void {
 	const links = $$('a', codeLine);
 	for (const [index, link] of links.entries()) {
 		const anchor = `--rgh-${codeLine.id}-${index}`;
-		link.replaceWith(<span style={{ anchorName: anchor, opacity: 0 }}>{link.textContent}</span>);
+		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
 		link.className = 'react-code-text rgh-anchored-link';
 		// @ts-expect-error -- Not widely available yet
 		link.style.positionAnchor = anchor;
@@ -67,7 +67,7 @@ export function repositionAnchors(element: HTMLElement): void {
 }
 
 export function linkifyIssues(
-	currentRepo: { owner?: string; name?: string; },
+	currentRepo: {owner?: string; name?: string;},
 	element: HTMLElement,
 	options: Partial<LinkifyIssuesOptions> = {},
 ): void {
@@ -141,9 +141,9 @@ export function linkifyCommit(sha: string): JSX.Element {
 	return (
 		<code>
 			<a
-				className='Link--secondary'
+				className="Link--secondary"
 				href={buildRepoUrl('commit', sha)}
-				data-hovercard-type='commit'
+				data-hovercard-type="commit"
 				data-hovercard-url={buildRepoUrl('commit', sha, 'hovercard')}
 			>
 				{sha.slice(0, 7)}

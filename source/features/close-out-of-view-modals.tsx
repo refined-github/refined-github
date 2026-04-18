@@ -1,14 +1,14 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
-import { $$ } from 'select-dom';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { getFeatureId } from '../helpers/feature-helpers.js';
+import {getFeatureId} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {
 	let lastModal: Element;
-	for (const { intersectionRatio, target: modal } of entries) {
+	for (const {intersectionRatio, target: modal} of entries) {
 		if (intersectionRatio > 0) {
 			visible.add(modal);
 		} else {
@@ -52,7 +52,7 @@ function menuActivatedHandler(event: DelegateEvent): void {
 }
 
 function initOnce(): void {
-	delegate('.details-overlay', 'toggle', menuActivatedHandler, { capture: true, signal: safetySwitch.signal });
+	delegate('.details-overlay', 'toggle', menuActivatedHandler, {capture: true, signal: safetySwitch.signal});
 }
 
 void features.add(import.meta.url, {

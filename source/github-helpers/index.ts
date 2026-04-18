@@ -1,15 +1,15 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import { elementExists } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import compareVersions from 'tiny-version-compare';
-import type { RequireAtLeastOne } from 'type-fest';
+import type {RequireAtLeastOne} from 'type-fest';
 
-import { branchSelector } from './selectors.js';
+import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
-export const { getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser } = pageDetect.utils;
+export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
 	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
@@ -37,9 +37,9 @@ export function getForkedRepo(): string | undefined {
 	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
 }
 
-export function parseTag(tag: string): { version: string; namespace: string; } {
+export function parseTag(tag: string): {version: string; namespace: string;} {
 	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
-	return { namespace, version };
+	return {namespace, version};
 }
 
 export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
@@ -154,7 +154,7 @@ export const isRepoCommitListRoot = (): boolean =>
 	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const { ok } = await fetch(url, { method: 'head' });
+	const {ok} = await fetch(url, {method: 'head'});
 	return ok;
 });
 
@@ -178,7 +178,7 @@ export function triggerConversationUpdate(): void {
 	marker.dispatchEvent(
 		new CustomEvent('socket:message', {
 			bubbles: true,
-			detail: { data: { gid: marker.dataset.gid } },
+			detail: {data: {gid: marker.dataset.gid}},
 		}),
 	);
 }

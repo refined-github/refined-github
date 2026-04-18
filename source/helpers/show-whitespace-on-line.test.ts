@@ -1,11 +1,11 @@
 import hl from 'highlight.js';
-import { assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
 
 function highlight(html: string): string {
 	// Use highlighter to create multiple text nodes
-	return hl.highlight(html, { language: 'js' }).value;
+	return hl.highlight(html, {language: 'js'}).value;
 }
 
 function serializeDom(element: Element): string {

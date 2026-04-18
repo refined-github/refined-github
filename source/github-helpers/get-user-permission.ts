@@ -1,9 +1,9 @@
-import { elementExists } from 'select-dom';
-import { CachedFunction } from 'webext-storage-cache';
+import {elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
-import { hasToken } from '../options-storage.js';
+import {hasToken} from '../options-storage.js';
 import api from './api.js';
-import { getRepo } from './index.js';
+import {getRepo} from './index.js';
 
 /*
 From https://docs.github.com/en/graphql/reference/enums#repositorypermission
@@ -30,7 +30,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 	}
 
 	try {
-		const { repository } = await api.v4(`
+		const {repository} = await api.v4(`
 			repository() {
 				viewerPermission
 			}

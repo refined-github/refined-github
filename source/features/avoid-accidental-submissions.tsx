@@ -1,10 +1,10 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { elementExists } from 'select-dom';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { modKey as moduleKey } from '../github-helpers/hotkey.js';
+import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
@@ -69,7 +69,7 @@ const inputElements = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, { signal, capture: true });
+	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {

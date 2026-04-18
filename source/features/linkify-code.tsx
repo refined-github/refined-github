@@ -1,14 +1,9 @@
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {
-	codeElementsSelector,
-	linkifiedUrlClass,
-	linkifyIssues,
-	linkifyUrls,
-} from '../github-helpers/dom-formatters.js';
-import { getRepo } from '../github-helpers/index.js';
+import {codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls} from '../github-helpers/dom-formatters.js';
+import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyContent(wrapper: HTMLElement): void {
@@ -33,7 +28,7 @@ function linkifyContent(wrapper: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(codeElementsSelector, linkifyContent, { signal });
+	observe(codeElementsSelector, linkifyContent, {signal});
 }
 
 void features.add(import.meta.url, {

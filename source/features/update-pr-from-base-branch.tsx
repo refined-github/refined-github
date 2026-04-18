@@ -1,17 +1,17 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { elementExists } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
-import { CachedFunction } from 'webext-storage-cache';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { getRepo } from '../github-helpers/index.js';
-import { getBranches } from '../github-helpers/pr-branches.js';
-import { deletedHeadRepository, prMergeabilityBoxHeader } from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {getRepo} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
@@ -66,18 +66,18 @@ type MergeBranchesOptions = {
 async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> {
 	return api.v4uncached(updatePullRequestBranch, {
 		variables: {
-			input: { ...options },
+			input: {...options},
 		},
 	});
 }
 
-async function handler({ delegateTarget: button }: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
-	const { method } = button.dataset as { method: UpdateMethod; };
+	const {method} = button.dataset as {method: UpdateMethod;};
 
 	await showToast(async () => {
-		const { base } = getBranches();
-		const { id, headRefOid } = await getPrInfo(base.relative);
+		const {base} = getBranches();
+		const {id, headRefOid} = await getPrInfo(base.relative);
 		const options = {
 			expectedHeadOid: headRefOid,
 			pullRequestId: id,
@@ -87,7 +87,7 @@ async function handler({ delegateTarget: button }: DelegateEvent<MouseEvent, HTM
 		const response = await mergeBranches(options).catch(error => error);
 		if (response instanceof Error) {
 			// eslint-disable-next-line unicorn/prefer-type-error -- This is a generic error
-			throw new Error(`Error updating the branch: ${response.message}`, { cause: response });
+			throw new Error(`Error updating the branch: ${response.message}`, {cause: response});
 		}
 	}, {
 		message: 'Updating branch…',
@@ -101,7 +101,7 @@ const updateButtonClass = 'rgh-update-pr-from-base-branch';
 
 function createButton(): JSX.Element {
 	return (
-		<div className='ButtonGroup'>
+		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => {
 				const buttonId = crypto.randomUUID();
 				const tooltipId = crypto.randomUUID();
@@ -112,23 +112,23 @@ function createButton(): JSX.Element {
 							className={`Button--secondary Button--medium Button ${updateButtonClass}`}
 							data-method={method}
 							aria-labelledby={tooltipId}
-							type='button'
+							type="button"
 						>
-							<span className='Button-content'>
-								<span className='Button-label'>
+							<span className="Button-content">
+								<span className="Button-label">
 									{label.buttonLabel}
 								</span>
 							</span>
 						</button>
 						<tool-tip
 							id={tooltipId}
-							className='sr-only position-absolute'
+							className="sr-only position-absolute"
 							for={buttonId}
-							popover='manual'
-							data-direction='s'
-							data-type='label'
-							aria-hidden='true'
-							role='tooltip'
+							popover="manual"
+							data-direction="s"
+							data-type="label"
+							aria-hidden="true"
+							role="tooltip"
 						>
 							{label.tooltipLabel}
 						</tool-tip>
@@ -148,7 +148,7 @@ function canNativelyUpdate(): boolean {
 }
 
 async function shouldShowButton(): Promise<boolean> {
-	const { base } = getBranches();
+	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
@@ -178,9 +178,9 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	delegate(`.${updateButtonClass}`, 'click', handler, { signal });
-	observe(prMergeabilityBoxHeader, addButton, { signal });
-	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, { signal });
+	delegate(`.${updateButtonClass}`, 'click', handler, {signal});
+	observe(prMergeabilityBoxHeader, addButton, {signal});
+	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {

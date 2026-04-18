@@ -1,7 +1,7 @@
-import { execSync } from 'node:child_process';
+import {execSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { expect, test } from 'vitest';
+import {expect, test} from 'vitest';
 
 import featureRenames from './feature-renames.json';
 
@@ -13,7 +13,7 @@ test('old feature names cannot appear anywhere in the repo', () => {
 		const grep = `rg -l "[^-]${oldName}[^-]" -g !feature-renames.json -g !package-lock.json`;
 		let results;
 		try {
-			results = execSync(grep, { encoding: 'utf8' });
+			results = execSync(grep, {encoding: 'utf8'});
 		} catch {
 			continue;
 		}

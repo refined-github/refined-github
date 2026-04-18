@@ -6,8 +6,8 @@ import InfoIcon from 'octicons-plain-react/Info';
 import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import api from '../github-helpers/api.js';
-import { userCanLikelyMergePr } from '../github-helpers/index.js';
-import { getBranches } from '../github-helpers/pr-branches.js';
+import {userCanLikelyMergePr} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranchAndDeleteOnMerge from './pr-branch-auto-delete.gql';
 
@@ -31,13 +31,13 @@ const exceptions = [
 
 async function init(signal: AbortSignal): Promise<void> {
 	// Skip branches that are likely to be long-lived https://github.com/refined-github/refined-github/issues/7755
-	const { head } = getBranches();
+	const {head} = getBranches();
 	if (matchesAnyPattern(head.branch, exceptions)) {
 		return;
 	}
 
 	// Skip branches that have PRs open https://github.com/refined-github/refined-github/issues/7782
-	const { repository } = await api.v4(GetPrsToBaseBranchAndDeleteOnMerge, {
+	const {repository} = await api.v4(GetPrsToBaseBranchAndDeleteOnMerge, {
 		variables: {
 			baseRefName: head.branch,
 		},
@@ -62,11 +62,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	const url =
 		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
-		(
-			<a className='d-inline-block' href={url}>
-				via Refined GitHub <InfoIcon />
-			</a>
-		),
+		<a className="d-inline-block" href={url}>
+			via Refined GitHub <InfoIcon />
+		</a>,
 	);
 }
 

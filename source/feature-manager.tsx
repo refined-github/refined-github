@@ -3,17 +3,17 @@ import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import { elementExists } from 'select-dom';
+import {elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
-import type { Promisable } from 'type-fest';
-import { isWebPage } from 'webext-detect';
-import { messageRuntime } from 'webext-msg';
+import type {Promisable} from 'type-fest';
+import {isWebPage} from 'webext-detect';
+import {messageRuntime} from 'webext-msg';
 
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
-import { catchErrors, disableErrorLogging } from './helpers/errors.js';
-import { getFeatureId, listenToAjaxedLoad, log, shortcutMap } from './helpers/feature-helpers.js';
-import { isFeaturePrivate, type RunConditions, shouldFeatureRun } from './helpers/feature-utils.js';
+import {catchErrors, disableErrorLogging} from './helpers/errors.js';
+import {getFeatureId, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
+import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/feature-utils.js';
 import {
 	applyStyleHotfixes,
 	brokenFeatures,
@@ -22,8 +22,8 @@ import {
 } from './helpers/hotfix.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import waitFor from './helpers/wait-for.js';
-import optionsStorage, { isFeatureDisabled, type RghOptions } from './options-storage.js';
-import { contentScriptToggle } from './options/reload-without.js';
+import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
+import {contentScriptToggle} from './options/reload-without.js';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -96,7 +96,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
 	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
-	void messageRuntime<string>({ getStyleHotfixes: true }).then(applyStyleHotfixes);
+	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCss.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -191,7 +191,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 				continue;
 			}
 
-			if (!await shouldFeatureRun({ asLongAs, include, exclude })) {
+			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 				continue;
 			}
 

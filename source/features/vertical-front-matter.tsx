@@ -2,7 +2,7 @@ import './vertical-front-matter.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -20,18 +20,16 @@ function transpose(table: HTMLElement): void {
 
 	const values = [...rows[0].children];
 	table.replaceWith(
-		(
-			<table className='rgh-vertical-front-matter-table'>
-				<tbody>
-					{headers.map((cell, index) => (
-						<tr>
-							{cell}
-							{values[index]}
-						</tr>
-					))}
-				</tbody>
-			</table>
-		),
+		<table className="rgh-vertical-front-matter-table">
+			<tbody>
+				{headers.map((cell, index) => (
+					<tr>
+						{cell}
+						{values[index]}
+					</tr>
+				))}
+			</tbody>
+		</table>,
 	);
 }
 
@@ -42,7 +40,7 @@ function init(signal: AbortSignal): void {
 			'.markdown-body > markdown-accessiblity-table > table:first-child',
 		],
 		transpose,
-		{ signal },
+		{signal},
 	);
 }
 

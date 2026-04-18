@@ -20,7 +20,7 @@ function init(signal: AbortSignal): void {
 			].join(',')
 		})`,
 		fix,
-		{ signal },
+		{signal},
 	);
 }
 

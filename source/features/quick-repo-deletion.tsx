@@ -1,16 +1,16 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import TrashIcon from 'octicons-plain-react/Trash';
-import { $, $optional } from 'select-dom/strict.js';
-import { setFieldText } from 'text-field-edit';
+import {$, $optional} from 'select-dom/strict.js';
+import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { userIsAdmin } from '../github-helpers/get-user-permission.js';
-import { expectTokenScope } from '../github-helpers/github-token.js';
-import { buildRepoUrl, getForkedRepo, getRepo } from '../github-helpers/index.js';
+import {userIsAdmin} from '../github-helpers/get-user-permission.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
+import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
@@ -25,7 +25,7 @@ async function isRepoUnpopular(): Promise<boolean> {
 }
 
 async function deleteRepository(): Promise<void> {
-	const { nameWithOwner } = getRepo()!;
+	const {nameWithOwner} = getRepo()!;
 	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
@@ -34,7 +34,7 @@ async function deleteRepository(): Promise<void> {
 }
 
 async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
-	const { nameWithOwner, owner } = getRepo()!;
+	const {nameWithOwner, owner} = getRepo()!;
 	const forkSource = '/' + getForkedRepo()!;
 	const restoreUrl = pageDetect.isOrganizationRepo()
 		? `/organizations/${owner}/settings/deleted_repositories`
@@ -42,16 +42,14 @@ async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 	const otherForksUrl = `/${owner}?tab=repositories&type=fork`;
 
 	await addNotice(
-		(
-			<>
-				<TrashIcon />
-				<span>
-					Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>,{' '}
-					<a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
-				</span>
-			</>
-		),
-		{ action: false },
+		<>
+			<TrashIcon />
+			<span>
+				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>,{' '}
+				<a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
+			</span>
+		</>,
+		{action: false},
 	);
 	$('.application-main').remove();
 }
@@ -83,18 +81,16 @@ function addShortcutTooltip(button: HTMLElement): void {
 
 function addButton(header: HTMLElement): void {
 	header.prepend(
-		(
-			<li>
-				<a
-					href={buildRepoUrl('settings', buttonHashSelector)}
-					className='btn btn-sm btn-danger rgh-quick-repo-deletion'
-					title={tooltip}
-				>
-					<TrashIcon className='mr-2' />
-					Delete fork
-				</a>
-			</li>
-		),
+		<li>
+			<a
+				href={buildRepoUrl('settings', buttonHashSelector)}
+				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
+				title={tooltip}
+			>
+				<TrashIcon className="mr-2" />
+				Delete fork
+			</a>
+		</li>,
 	);
 }
 
@@ -104,17 +100,17 @@ function autoFill(field: HTMLInputElement): void {
 
 function autoOpenModal(signal: AbortSignal): void {
 	$(buttonHashSelector).click();
-	observe('.js-repo-delete-proceed-confirmation', autoFill, { signal });
+	observe('.js-repo-delete-proceed-confirmation', autoFill, {signal});
 }
 
 async function initRepoRoot(signal: AbortSignal): Promise<void | false> {
-	observe('.pagehead-actions', addButton, { signal });
-	delegate('.rgh-quick-repo-deletion', 'click', handleShiftAltClick, { signal });
+	observe('.pagehead-actions', addButton, {signal});
+	delegate('.rgh-quick-repo-deletion', 'click', handleShiftAltClick, {signal});
 }
 
 async function initRepoSettings(signal: AbortSignal): Promise<void | false> {
-	delegate(buttonHashSelector, 'click', handleShiftAltClick, { signal });
-	observe(buttonHashSelector, addShortcutTooltip, { signal });
+	delegate(buttonHashSelector, 'click', handleShiftAltClick, {signal});
+	observe(buttonHashSelector, addShortcutTooltip, {signal});
 }
 
 void features.add(import.meta.url, {

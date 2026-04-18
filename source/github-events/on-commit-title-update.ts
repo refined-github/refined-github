@@ -1,4 +1,4 @@
-import delegate, { type DelegateEventHandler } from 'delegate-it';
+import delegate, {type DelegateEventHandler} from 'delegate-it';
 
 const fieldSelector = [
 	// PR merge message field
@@ -14,5 +14,5 @@ export default function onCommitTitleUpdate(
 	signal: AbortSignal,
 ): void {
 	// For immediate user input
-	delegate(fieldSelector, 'input', callback, { signal });
+	delegate(fieldSelector, 'input', callback, {signal});
 }

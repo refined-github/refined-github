@@ -29,7 +29,7 @@ const httpLog = console.log.bind(console, '🌏');
 export const log = {
 	info: console.log,
 	http: httpLog,
-	setup({ logging, logHttp }: { logging: boolean; logHttp: boolean; }): void {
+	setup({logging, logHttp}: {logging: boolean; logHttp: boolean;}): void {
 		log.info = logging ? console.log : noop;
 		log.http = logHttp ? httpLog : noop;
 	},
@@ -46,6 +46,6 @@ export function markAjaxedLoad(): void {
 }
 
 export function listenToAjaxedLoad(): void {
-	document.addEventListener('soft-nav:start', markAjaxedLoad, { once: true });
-	document.addEventListener('pjax:start', markAjaxedLoad, { once: true });
+	document.addEventListener('soft-nav:start', markAjaxedLoad, {once: true});
+	document.addEventListener('pjax:start', markAjaxedLoad, {once: true});
 }

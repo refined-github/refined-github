@@ -1,5 +1,5 @@
-import { $$, countElements } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
+import {$$, countElements} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 function enableToggleAll(this: HTMLButtonElement): void {
 	const section = $('details#toggle-all');

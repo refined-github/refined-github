@@ -4,11 +4,11 @@ import BookIcon from 'octicons-plain-react/Book';
 import CheckIcon from 'octicons-plain-react/Check';
 import DiffIcon from 'octicons-plain-react/Diff';
 import DiffModifiedIcon from 'octicons-plain-react/DiffModified';
-import { elementExists } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { removeTextNodeContaining } from '../helpers/dom-utils.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function isHidingWhitespace(): boolean {
@@ -29,7 +29,7 @@ function createWhitespaceButton(): HTMLElement {
 	return (
 		<a
 			href={url.href}
-			data-hotkey='d w'
+			data-hotkey="d w"
 			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
@@ -51,33 +51,29 @@ function attachPrButtons(dropdown: HTMLDetailsElement): void {
 	const type = isUnified ? 'split' : 'unified';
 	const Icon = isUnified ? BookIcon : DiffIcon;
 	diffSettingsForm.append(
-		(
-			<button
-				className='tooltipped tooltipped-s ml-2 btn-link Link--muted px-2'
-				aria-label={`Switch to the ${type} diff view`}
-				name='diff'
-				value={type}
-				type='submit'
-			>
-				<Icon className='v-align-middle' />
-			</button>
-		),
+		<button
+			className="tooltipped tooltipped-s ml-2 btn-link Link--muted px-2"
+			aria-label={`Switch to the ${type} diff view`}
+			name="diff"
+			value={type}
+			type="submit"
+		>
+			<Icon className="v-align-middle" />
+		</button>,
 	);
 
 	if (!isHidingWhitespace()) {
 		diffSettingsForm.append(
-			(
-				<button
-					data-hotkey='d w'
-					className='tooltipped tooltipped-s btn-link Link--muted px-2'
-					aria-label='Hide whitespace changes'
-					name='w'
-					value='1'
-					type='submit'
-				>
-					<DiffModifiedIcon className='v-align-middle' />
-				</button>
-			),
+			<button
+				data-hotkey="d w"
+				className="tooltipped tooltipped-s btn-link Link--muted px-2"
+				aria-label="Hide whitespace changes"
+				name="w"
+				value="1"
+				type="submit"
+			>
+				<DiffModifiedIcon className="v-align-middle" />
+			</button>,
 		);
 	}
 
@@ -102,7 +98,7 @@ function attachPrButtons(dropdown: HTMLDetailsElement): void {
 
 function initPr(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPrButtons, { signal });
+	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPrButtons, {signal});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
@@ -112,11 +108,9 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 	const usesFloats = anchor?.classList.contains('float-right');
 	if (usesFloats) {
 		anchor.after(
-			(
-				<div className='float-right mr-3'>
-					{createWhitespaceButton()}
-				</div>
-			),
+			<div className="float-right mr-3">
+				{createWhitespaceButton()}
+			</div>,
 		);
 	} else {
 		anchor.before(createWhitespaceButton());
@@ -124,7 +118,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[action="/users/diffview"]', attachButtons, { signal });
+	observe('[action="/users/diffview"]', attachButtons, {signal});
 }
 
 const shortcuts = {

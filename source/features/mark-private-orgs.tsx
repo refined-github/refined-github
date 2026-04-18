@@ -3,11 +3,11 @@ import './mark-private-orgs.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
-import { CachedFunction } from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { getLoggedInUser } from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const publicOrganizationsNames = new CachedFunction('public-organizations', {
@@ -17,8 +17,8 @@ const publicOrganizationsNames = new CachedFunction('public-organizations', {
 		const response = await api.v3(`/users/${username}/orgs`);
 		return response.map((organization: AnyObject) => organization.login);
 	},
-	maxAge: { hours: 6 },
-	staleWhileRevalidate: { days: 10 },
+	maxAge: {hours: 6},
+	staleWhileRevalidate: {days: 10},
 });
 
 function markPrivate(org: HTMLAnchorElement, organizations: string[]): void {
@@ -35,7 +35,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		org => {
 			markPrivate(org, organizations);
 		},
-		{ signal, stopOnDomReady: true },
+		{signal, stopOnDomReady: true},
 	);
 }
 

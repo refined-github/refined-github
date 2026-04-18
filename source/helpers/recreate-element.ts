@@ -3,7 +3,7 @@ export default function replaceElementTypeInPlace<Type extends keyof HTMLElement
 	type: Type,
 ): HTMLElementTagNameMap[Type] {
 	const newElement = document.createElement(type);
-	for (const { name, value } of oldElement.attributes) {
+	for (const {name, value} of oldElement.attributes) {
 		newElement.setAttribute(name, value);
 	}
 

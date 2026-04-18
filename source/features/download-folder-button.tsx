@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import DownloadIcon from 'octicons-plain-react/Download';
-import { $, $optional } from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
@@ -38,7 +38,7 @@ function add(menu: HTMLUListElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('ul[role="menu"]:has([aria-keyshortcuts="c"])', add, { signal });
+	observe('ul[role="menu"]:has([aria-keyshortcuts="c"])', add, {signal});
 }
 
 void features.add(import.meta.url, {

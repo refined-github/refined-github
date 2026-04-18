@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import { getConversationNumber } from '../github-helpers/index.js';
+import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
@@ -22,7 +22,7 @@ async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {
-	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, { signal });
+	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, {signal});
 }
 
 async function initForPrPage(signal: AbortSignal): Promise<void> {
@@ -33,7 +33,7 @@ async function initForPrPage(signal: AbortSignal): Promise<void> {
 			'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
 		],
 		addForPr,
-		{ signal },
+		{signal},
 	);
 }
 

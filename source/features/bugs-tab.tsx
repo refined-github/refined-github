@@ -2,18 +2,18 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
-import { elementExists } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
-import { CachedFunction } from 'webext-storage-cache';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { cacheByRepo, triggerRepoNavOverflow } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import { highlightTab, unhighlightTab } from '../helpers/dom-utils.js';
+import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
@@ -36,7 +36,7 @@ type Bugs = {
 };
 
 async function countBugs(): Promise<Bugs> {
-	const { repository } = await api.v4(CountBugs) as { repository: ApiResponse; };
+	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse;};
 	const bugTypeCount = repository.issues.totalCount;
 
 	let label = repository.labels.nodes.find(label => label.name === 'bug');
@@ -47,18 +47,18 @@ async function countBugs(): Promise<Bugs> {
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
 	// Label might not be found if the repo uses a non-standard bug label name
-	return { label: label?.name ?? 'bug', count: bugCount };
+	return {label: label?.name ?? 'bug', count: bugCount};
 }
 
 const bugs = new CachedFunction('bugs', {
 	updater: countBugs,
-	maxAge: { minutes: 30 },
-	staleWhileRevalidate: { days: 4 },
+	maxAge: {minutes: 30},
+	staleWhileRevalidate: {days: 4},
 	cacheKey: cacheByRepo,
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
-	const { label } = await bugs.getCached() ?? {};
+	const {label} = await bugs.getCached() ?? {};
 	return `(label:${SearchQuery.escapeValue(label ?? 'bug')} OR type:Bug)`;
 }
 
@@ -76,13 +76,13 @@ async function addBugsTab(): Promise<void | false> {
 	// On other pages:
 	// - only show the tab if needed
 	if (!(await isBugsListing())) {
-		const { count } = await bugsPromise;
+		const {count} = await bugsPromise;
 		if (count === 0) {
 			return false;
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', { waitForChildren: false });
+	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
 	if (!issuesTab) {
 		// Issues are disabled
 		return false;
@@ -102,7 +102,7 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className='UnderlineNav-octicon d-none d-sm-inline' />);
+	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
 
 	// Set temporary counter
 	const bugsCounter = $('.Counter', bugsTab);
@@ -114,7 +114,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className='d-inline-flex'>{bugsTab}</li>);
+		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
 	} else {
 		issuesTab.after(bugsTab);
 	}
@@ -123,7 +123,7 @@ async function addBugsTab(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		const { count: bugCount } = await bugsPromise;
+		const {count: bugCount} = await bugsPromise;
 		bugsCounter.textContent = abbreviateNumber(bugCount);
 		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
 	} catch (error) {
@@ -140,12 +140,12 @@ function highlightBugsTab(): void {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', { waitForChildren: false });
+	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
 	pinnedIssues?.remove();
 }
 
 async function updateBugsTagHighlighting(): Promise<void | false> {
-	const { count, label } = await bugs.get();
+	const {count, label} = await bugs.get();
 	if (count === 0) {
 		return false;
 	}

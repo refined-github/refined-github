@@ -2,11 +2,11 @@ import './cross-deleted-pr-branches.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $$, lastElement } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {$$, lastElement} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { wrap } from '../helpers/dom-utils.js';
+import {wrap} from '../helpers/dom-utils.js';
 
 function init(): void | false {
 	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');

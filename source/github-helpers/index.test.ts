@@ -1,6 +1,6 @@
-import { assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
-import { getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag } from './index.js';
+import {getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag} from './index.js';
 
 test('getConversationNumber', () => {
 	const pairs = new Map<string, number | undefined>([
@@ -72,12 +72,12 @@ test('getConversationNumber', () => {
 });
 
 test('parseTag', () => {
-	assert.deepEqual(parseTag(''), { namespace: '', version: '' });
-	assert.deepEqual(parseTag('1.2.3'), { namespace: '', version: '1.2.3' });
-	assert.deepEqual(parseTag('@1.2.3'), { namespace: '', version: '1.2.3' });
-	assert.deepEqual(parseTag('hi@1.2.3'), { namespace: 'hi', version: '1.2.3' });
-	assert.deepEqual(parseTag('hi/you@1.2.3'), { namespace: 'hi/you', version: '1.2.3' });
-	assert.deepEqual(parseTag('@hi/you@1.2.3'), { namespace: '@hi/you', version: '1.2.3' });
+	assert.deepEqual(parseTag(''), {namespace: '', version: ''});
+	assert.deepEqual(parseTag('1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('@1.2.3'), {namespace: '', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi@1.2.3'), {namespace: 'hi', version: '1.2.3'});
+	assert.deepEqual(parseTag('hi/you@1.2.3'), {namespace: 'hi/you', version: '1.2.3'});
+	assert.deepEqual(parseTag('@hi/you@1.2.3'), {namespace: '@hi/you', version: '1.2.3'});
 });
 
 test('isUsernameAlreadyFullName', () => {

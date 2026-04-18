@@ -2,12 +2,12 @@ import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
 import React from 'react';
-import { elementExists } from 'select-dom';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
-import { branchSelector } from '../github-helpers/selectors.js';
-import { wrapAll } from '../helpers/dom-utils.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import {branchSelector} from '../github-helpers/selectors.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
@@ -29,17 +29,15 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	wrapAll(
-		<div className='d-flex gap-2' />,
+		<div className="d-flex gap-2" />,
 		branchSelector,
-		(
-			<a
-				className='btn px-2 tooltipped tooltipped-se rgh-visit-tag'
-				href={buildRepoUrl('releases/tag', tag)}
-				aria-label='Visit tag'
-			>
-				<ArrowUpRightIcon />
-			</a>
-		),
+		<a
+			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
+			href={buildRepoUrl('releases/tag', tag)}
+			aria-label="Visit tag"
+		>
+			<ArrowUpRightIcon />
+		</a>,
 	);
 }
 
@@ -49,11 +47,11 @@ function replaceIcon(tagIcon: SVGElement): void {
 }
 
 function clarifyIcon(signal: AbortSignal): void {
-	observe('.Link[href*="/tree/"] svg.octicon-tag', replaceIcon, { signal });
+	observe('.Link[href*="/tree/"] svg.octicon-tag', replaceIcon, {signal});
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, { signal });
+	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
 }
 
 void features.add(import.meta.url, {

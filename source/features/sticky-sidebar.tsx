@@ -1,6 +1,6 @@
 import './sticky-sidebar.css';
 
-import { onAbort } from 'abort-utils';
+import {onAbort} from 'abort-utils';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 
@@ -17,7 +17,7 @@ const sidebarSelector = [
 ];
 
 let sidebar: HTMLElement | undefined;
-const onResize = debounce(updateStickiness, { wait: 100 });
+const onResize = debounce(updateStickiness, {wait: 100});
 const sidebarObserver = new ResizeObserver(onResize);
 
 // Avoid disabling the stickiness while the user is interacting with it
@@ -41,8 +41,8 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 		sidebar = undefined;
 	});
 
-	sidebar.addEventListener('mouseenter', toggleHoverState, { signal });
-	sidebar.addEventListener('mouseleave', toggleHoverState, { signal });
+	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
+	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
 }
 
 function updateStickiness(): void {
@@ -63,10 +63,10 @@ function init(signal: AbortSignal): void {
 
 	// The element is recreated when the page is updated
 	// `trackSidebar` also triggers the first update via `sidebarObserver.observe()`
-	observe(sidebarSelector, trackSidebar.bind(undefined, signal), { signal });
+	observe(sidebarSelector, trackSidebar.bind(undefined, signal), {signal});
 
 	// Update it when the window is resized
-	window.addEventListener('resize', onResize, { signal });
+	window.addEventListener('resize', onResize, {signal});
 }
 
 void features.add(import.meta.url, {

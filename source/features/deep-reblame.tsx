@@ -1,18 +1,18 @@
 import './deep-reblame.css';
 
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import { $$ } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {$$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { multilineAriaLabel } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {multilineAriaLabel} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
@@ -20,7 +20,7 @@ import GetPullRequestBlameCommit from './deep-reblame.gql';
 
 const getPullRequestBlameCommit = mem(
 	async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
-		const { repository } = await api.v4(GetPullRequestBlameCommit, {
+		const {repository} = await api.v4(GetPullRequestBlameCommit, {
 			variables: {
 				commit,
 				file: commit + ':' + currentFilename,
@@ -82,18 +82,16 @@ function addButton(hunk: HTMLElement): void {
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
 		$('.timestamp-wrapper-mobile', hunk).after(
-			(
-				<button
-					type='button'
-					aria-label={multilineAriaLabel(
-						'View blame prior to this change',
-						'(extracts commits from this PR first)',
-					)}
-					className='rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex'
-				>
-					<VersionsIcon />
-				</button>
-			),
+			<button
+				type="button"
+				aria-label={multilineAriaLabel(
+					'View blame prior to this change',
+					'(extracts commits from this PR first)',
+				)}
+				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
+			>
+				<VersionsIcon />
+			</button>,
 		);
 	}
 }
@@ -101,8 +99,8 @@ function addButton(hunk: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, { signal });
-	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, { signal });
+	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
+	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
 }
 
 void features.add(import.meta.url, {

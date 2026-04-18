@@ -1,12 +1,12 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { assertNodeContent } from '../helpers/dom-utils.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
@@ -24,18 +24,16 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
 		form.prepend(
-			(
-				<input
-					type='hidden'
-					name='pull_request_review[event]'
-					value='comment'
-				/>
-			),
+			<input
+				type="hidden"
+				name="pull_request_review[event]"
+				value="comment"
+			/>,
 		);
 	}
 
 	if (actionsRow) {
-		actionsRow.prepend(<span className='spacer.gif ml-auto' />);
+		actionsRow.prepend(<span className="spacer.gif ml-auto" />);
 		radios.reverse();
 	}
 
@@ -60,8 +58,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 		const button = (
 			<button
-				type='submit'
-				name='pull_request_review[event]'
+				type="submit"
+				name="pull_request_review[event]"
 				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
 				form={formAttribute}
 				value={radio.value}
@@ -74,9 +72,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		);
 
 		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className='color-fg-success' />);
+			button.prepend(<CheckIcon className="color-fg-success" />);
 		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className='color-fg-danger' />);
+			button.prepend(<FileDiffIcon className="color-fg-danger" />);
 		}
 
 		if (actionsRow) {
@@ -116,8 +114,8 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// The selector excludes the "Cancel" button
-	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, { signal });
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, { signal });
+	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
+	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
 }
 
 void features.add(import.meta.url, {

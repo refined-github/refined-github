@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import { getNewFeatureName } from '../feature-data.js';
+import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
-import { isAnyRefinedGitHubRepo } from '../github-helpers/index.js';
-import { commitTitleInLists } from '../github-helpers/selectors.js';
-import { wrap } from '../helpers/dom-utils.js';
-import { getFeatureUrl } from '../helpers/rgh-links.js';
+import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
@@ -36,14 +36,12 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// - <code>
 		wrap(
 			possibleFeature,
-			(
-				<a
-					className='color-fg-accent'
-					data-turbo-frame='repo-content-turbo-frame'
-					href={href}
-					title={title}
-				/>
-			),
+			<a
+				className="color-fg-accent"
+				data-turbo-frame="repo-content-turbo-frame"
+				href={href}
+				title={title}
+			/>,
 		);
 	}
 }
@@ -61,7 +59,7 @@ function init(signal: AbortSignal): void {
 			'.react-directory-commit-message code', // `isRepoTree`
 		],
 		linkifyFeature,
-		{ signal },
+		{signal},
 	);
 }
 

@@ -1,15 +1,15 @@
 import './reactions-avatars.css';
 
 import React from 'dom-chef';
-import { flatZip } from 'flat-zip';
+import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
+import {$$} from 'select-dom';
 
-import { onAbort } from 'abort-utils';
+import {onAbort} from 'abort-utils';
 
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import { getLoggedInUser } from '../github-helpers/index.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const arbitraryAvatarLimit = 36;
@@ -54,7 +54,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 
 		const imageUrl = getUserAvatar(username, avatarSize);
 		if (imageUrl) {
-			participants.push({ button, username, imageUrl });
+			participants.push({button, username, imageUrl});
 		}
 	}
 
@@ -82,20 +82,18 @@ function showAvatarsOn(commentReactions: Element): void {
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
-	for (const { button, username, imageUrl } of flatParticipants) {
+	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
-			(
-				<span className='avatar-user avatar rgh-reactions-avatar p-0 flex-self-center'>
-					<img
-						src={imageUrl}
-						className='d-block'
-						width={avatarSize}
-						height={avatarSize}
-						alt={`@${username}`}
-						loading='lazy'
-					/>
-				</span>
-			),
+			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
+				<img
+					src={imageUrl}
+					className="d-block"
+					width={avatarSize}
+					height={avatarSize}
+					alt={`@${username}`}
+					loading="lazy"
+				/>
+			</span>,
 		);
 	}
 }
@@ -112,7 +110,7 @@ function init(signal: AbortSignal): void {
 			'[aria-label="Reactions"]',
 		],
 		observeCommentReactions,
-		{ signal },
+		{signal},
 	);
 	onAbort(signal, viewportObserver);
 }

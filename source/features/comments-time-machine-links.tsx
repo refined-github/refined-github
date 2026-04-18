@@ -1,21 +1,21 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import HistoryIcon from 'octicons-plain-react/History';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { linkifiedUrlClass } from '../github-helpers/dom-formatters.js';
+import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { buildRepoUrl, isPermalink } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
-import { saveOriginalHref } from './sort-conversations-by-update-time.js';
+import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 
 const commentSelector = [
 	'.loaded .react-issue-body', // Issue description
@@ -25,10 +25,10 @@ const commentSelector = [
 ].join(',');
 
 async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
-	const { repository } = await api.v4(GetCommitAtDate, { variables: { date, branch: url.branch } });
+	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
 
-	const [{ oid }] = repository.ref.target.history.nodes;
-	$('a.rgh-link-date').pathname = url.assign({ branch: oid }).pathname;
+	const [{oid}] = repository.ref.target.history.nodes;
+	$('a.rgh-link-date').pathname = url.assign({branch: oid}).pathname;
 }
 
 async function showTimeMachineBar(): Promise<void | false> {
@@ -50,7 +50,7 @@ async function showTimeMachineBar(): Promise<void | false> {
 		}
 
 		// Selector note: isRepoFile and isRepoTree have different DOM for this element
-		const lastCommitDate = await elementReady('.Box-header relative-time', { waitForChildren: false });
+		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -72,16 +72,14 @@ async function showTimeMachineBar(): Promise<void | false> {
 	}
 
 	const link = (
-		<a className='rgh-link-date' href={url.href}>
+		<a className="rgh-link-date" href={url.href}>
 			view this object as it appeared at the time of the comment
 		</a>
 	);
 	await addNotice(
-		(
-			<>
-				You can also {link} (<relative-time datetime={date} />)
-			</>
-		),
+		<>
+			You can also {link} (<relative-time datetime={date} />)
+		</>,
 	);
 }
 
@@ -109,21 +107,19 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 
 function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 	$('.show-more-popover', menu.parentElement!).append(
-		<div className='dropdown-divider' />,
-		(
-			<a
-				href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
-				className={'dropdown-item btn-link ' + linkifiedUrlClass}
-				role='menuitem'
-				title='Browse repository like it appeared on this day'
-			>
-				View repo at this time
-			</a>
-		),
+		<div className="dropdown-divider" />,
+		<a
+			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
+			className={'dropdown-item btn-link ' + linkifiedUrlClass}
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+		>
+			View repo at this time
+		</a>,
 	);
 }
 
-function addDropdownLinkReact({ delegateTarget: delegate }: DelegateEvent): void {
+function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const timestamp =
 		delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
@@ -136,9 +132,9 @@ function addDropdownLinkReact({ delegateTarget: delegate }: DelegateEvent): void
 		<a
 			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
 			className={menuItemContentWrapper.className + ' ' + linkifiedUrlClass}
-			role='menuitem'
-			title='Browse repository like it appeared on this day'
-			aria-keyshortcuts='v'
+			role="menuitem"
+			title="Browse repository like it appeared on this day"
+			aria-keyshortcuts="v"
 		>
 		</a>
 	);
@@ -148,7 +144,7 @@ function addDropdownLinkReact({ delegateTarget: delegate }: DelegateEvent): void
 	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
 
 	menuItemList.append(
-		<li className='dropdown-divider' aria-hidden='true' data-component='ActionList.Divider' />,
+		<li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
 		menuItem,
 	);
 }
@@ -170,7 +166,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			.value;
 
 		addDropdownLink(menu, timestamp);
-	}, { signal });
+	}, {signal});
 
 	// [data-component="IconButton"] includes only React buttons
 	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
@@ -178,13 +174,13 @@ async function init(signal: AbortSignal): Promise<void> {
 		`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`,
 		'click',
 		addDropdownLinkReact,
-		{ signal },
+		{signal},
 	);
 
 	observe(
 		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,
 		addDateParameterToLink,
-		{ signal },
+		{signal},
 	);
 }
 

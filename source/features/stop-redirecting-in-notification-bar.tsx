@@ -1,4 +1,4 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
@@ -16,7 +16,7 @@ function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): void 
 
 function init(signal: AbortSignal): void {
 	sessionStorage.rghIsNewTab = history.length === 1;
-	delegate('.notification-shelf .js-notification-action button', 'click', handleClick, { signal });
+	delegate('.notification-shelf .js-notification-action button', 'click', handleClick, {signal});
 }
 
 void features.add(import.meta.url, {

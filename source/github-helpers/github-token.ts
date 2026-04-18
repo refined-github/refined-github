@@ -1,9 +1,9 @@
 import * as pageDetect from 'github-url-detection';
-import { CachedFunction } from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 
 // Avoid importing api.js here, there's too much logic/caching we don't need
 import hashString from '../helpers/hash-string.js';
-import { getToken } from '../options-storage.js';
+import {getToken} from '../options-storage.js';
 
 type BaseApiFetchOptions = {
 	apiBase: string;
@@ -11,7 +11,7 @@ type BaseApiFetchOptions = {
 	path: string;
 };
 
-export async function baseApiFetch({ apiBase, token, path }: BaseApiFetchOptions): Promise<Response> {
+export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
 	if (!apiBase.endsWith('/')) {
 		throw new TypeError('apiBase must end with a slash');
 	}
@@ -38,7 +38,7 @@ export async function baseApiFetch({ apiBase, token, path }: BaseApiFetchOptions
 
 export const tokenUser = new CachedFunction('token-user', {
 	async updater(apiBase: string, token: string): Promise<string> {
-		const response = await baseApiFetch({ apiBase, token, path: 'user' });
+		const response = await baseApiFetch({apiBase, token, path: 'user'});
 		const details = await response.json();
 		return details.login;
 	},
@@ -65,7 +65,7 @@ export async function hasValidGitHubComToken(token?: string): Promise<boolean> {
 	}
 
 	try {
-		await baseApiFetch({ apiBase: 'https://api.github.com/', path: '', token });
+		await baseApiFetch({apiBase: 'https://api.github.com/', path: '', token});
 		return true;
 	} catch {
 		return false;
@@ -100,7 +100,7 @@ type TokenInfo = {
 };
 
 export async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
-	const { headers } = await baseApiFetch({ apiBase, token: personalToken, path: '' });
+	const {headers} = await baseApiFetch({apiBase, token: personalToken, path: ''});
 
 	const expiration = headers.get('GitHub-Authentication-Token-Expiration');
 	// Convert `2026-06-03 19:52:44 UTC` to `2026-06-03T19:52:44Z`
@@ -119,7 +119,7 @@ export async function expectTokenScope(scope: string): Promise<void> {
 		? `${location.origin}/api/v3/`
 		: 'https://api.github.com/';
 
-	const { scopes: tokenScopes } = await getTokenInfo(api, token);
+	const {scopes: tokenScopes} = await getTokenInfo(api, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error(
 			'The token you provided does not have ' + (tokenScopes.length > 0

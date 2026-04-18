@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import { $, $$, $$optional } from 'select-dom/strict.js';
+import {$, $$, $$optional} from 'select-dom/strict.js';
 import cache from 'webext-storage-cache/legacy.js';
 
 import * as pageDetect from 'github-url-detection';
@@ -7,10 +7,10 @@ import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { buildRepoUrl, getRepo } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
-import { getCommitHash } from './mark-merge-commits-in-list.js';
+import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 
 type CommitTags = Record<string, string[]>;
@@ -38,7 +38,7 @@ type TagNode = {
 };
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
-	const result: CommitTags = { ...oldTags };
+	const result: CommitTags = {...oldTags};
 	for (const commit of Object.keys(newTags)) {
 		result[commit] = result[commit]
 			? arrayUnion(result[commit], newTags[commit])
@@ -53,10 +53,10 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 }
 
 async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
-	const { repository } = await api.v4(GetTagsOnCommit, {
+	const {repository} = await api.v4(GetTagsOnCommit, {
 		variables: {
 			commit: lastCommit,
-			...after && { after },
+			...after && {after},
 		},
 	});
 	const nodes = repository.refs.nodes as TagNode[];
@@ -126,25 +126,23 @@ async function init(): Promise<void | false> {
 			], commit);
 
 			commitMeta.append(
-				(
-					<div className='ml-1 d-flex flex-items-center gap-1'>
-						<TagIcon />
-						<span className='d-flex flex-wrap gap-1'>
-							{...targetTags.map(tag => (
-								<>
-									{' '}
-									{/* .markdown-title enables the background color */}
-									<a
-										className='Link--muted markdown-title'
-										href={buildRepoUrl('releases/tag', tag)}
-									>
-										<code>{tag}</code>
-									</a>
-								</>
-							))}
-						</span>
-					</div>
-				),
+				<div className="ml-1 d-flex flex-items-center gap-1">
+					<TagIcon />
+					<span className="d-flex flex-wrap gap-1">
+						{...targetTags.map(tag => (
+							<>
+								{' '}
+								{/* .markdown-title enables the background color */}
+								<a
+									className="Link--muted markdown-title"
+									href={buildRepoUrl('releases/tag', tag)}
+								>
+									<code>{tag}</code>
+								</a>
+							</>
+						))}
+					</span>
+				</div>,
 			);
 			commit.classList.add('rgh-tagged');
 		}
@@ -156,7 +154,7 @@ async function init(): Promise<void | false> {
 		}
 	}
 
-	await cache.set(cacheKey, cached, { days: 1 });
+	await cache.set(cacheKey, cached, {days: 1});
 }
 
 void features.add(import.meta.url, {

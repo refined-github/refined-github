@@ -4,10 +4,10 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
-import { isAnyRefinedGitHubRepo } from '../github-helpers/index.js';
+import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import observe from '../helpers/selector-observer.js';
-import { getCloseDate, getResolvedText, wasLongAgo } from './netiquette.js';
+import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
@@ -19,8 +19,8 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 
 	const button = (
 		<button
-			type='button'
-			className='btn-link'
+			type="button"
+			className="btn-link"
 			onClick={() => {
 				newCommentBox.hidden = false;
 
@@ -44,13 +44,11 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className='mr-1' />,
-				text: (
-					<>
-						{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
-						<strong>Do not</strong> report issues here.
-					</>
-				),
+				icon: <InfoIcon className="mr-1" />,
+				text: <>
+					{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
+					<strong>Do not</strong> report issues here.
+				</>,
 			})}
 		</TimelineItem>
 	);
@@ -65,7 +63,7 @@ function init(signal: AbortSignal): void | false {
 			'[data-testid="comment-composer"]',
 		],
 		addConversationBanner,
-		{ signal },
+		{signal},
 	);
 }
 

@@ -2,11 +2,11 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import { elementExists } from 'select-dom';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { userIsModerator } from '../github-helpers/get-user-permission.js';
-import { isArchivedRepoAsync } from '../github-helpers/index.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
@@ -20,7 +20,7 @@ const isIssueIneditable = memoize(
 	},
 );
 
-async function addQuickEditButton(commentDropdown: HTMLDetailsElement, { signal }: SignalAsOptions): Promise<void> {
+async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
 	if (await isIssueIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
@@ -40,16 +40,14 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, { signal 
 	}
 
 	commentDropdown.before(
-		(
-			<button
-				type='button'
-				role='menuitem'
-				className='timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button'
-				aria-label='Edit comment'
-			>
-				<PencilIcon />
-			</button>
-		),
+		<button
+			type="button"
+			role="menuitem"
+			className="timeline-comment-action btn-link js-comment-edit-button rgh-quick-comment-edit-button"
+			aria-label="Edit comment"
+		>
+			<PencilIcon />
+		</button>,
 	);
 }
 
@@ -64,7 +62,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButton,
-		{ signal },
+		{signal},
 	);
 }
 

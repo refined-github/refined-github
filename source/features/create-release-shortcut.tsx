@@ -1,12 +1,12 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import { registerHotkey } from '../github-helpers/hotkey.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 
 function init(signal: AbortSignal): void {
 	// Reasoning for this feature: #1254
-	registerHotkey('c', buildRepoUrl('releases/new'), { signal });
+	registerHotkey('c', buildRepoUrl('releases/new'), {signal});
 }
 
 void features.add(import.meta.url, {

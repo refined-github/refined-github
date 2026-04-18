@@ -1,9 +1,9 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { codeSearchHeader } from '../github-helpers/selectors.js';
+import {codeSearchHeader} from '../github-helpers/selectors.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
@@ -12,7 +12,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	// Exclude interactive elements
 	if (!elementClicked.closest(['a', 'button', 'clipboard-copy', 'details'])) {
 		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
-			.dispatchEvent(new MouseEvent('click', { bubbles: true, altKey: event.altKey }));
+			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
 
@@ -23,7 +23,7 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 
 	// The clicked element is either the bar itself or one of its children excluding the button
 	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
-		toggle.dispatchEvent(new MouseEvent('click', { bubbles: true, altKey: event.altKey }));
+		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }
 
@@ -36,12 +36,12 @@ function init(signal: AbortSignal): void {
 		],
 		'click',
 		toggleFile,
-		{ signal },
+		{signal},
 	);
 }
 
 function initSearchPage(signal: AbortSignal): void {
-	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, { signal });
+	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, {signal});
 }
 
 void features.add(import.meta.url, {

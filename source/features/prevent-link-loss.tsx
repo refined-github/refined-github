@@ -1,10 +1,10 @@
 import debounceFn from 'debounce-fn';
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import { $, $optional } from 'select-dom/strict.js';
-import { replaceFieldText } from 'text-field-edit';
+import {$, $optional} from 'select-dom/strict.js';
+import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
@@ -25,7 +25,7 @@ const fieldSelector = [
 const documentation =
 	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
-function handleButtonClick({ currentTarget: fixButton }: React.MouseEvent<HTMLButtonElement>): void {
+function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
 		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
@@ -39,16 +39,14 @@ function handleButtonClick({ currentTarget: fixButton }: React.MouseEvent<HTMLBu
 
 function getUi(container: HTMLElement): HTMLElement {
 	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
-		icon: <AlertIcon className='m-0' />,
-		text: (
-			<>
-				{' Your link may be '}
-				<a href={documentation} target='_blank' rel='noopener noreferrer' data-hovercard-type='issue'>
-					misinterpreted
-				</a>
-				{' by GitHub.'}
-			</>
-		),
+		icon: <AlertIcon className="m-0" />,
+		text: <>
+			{' Your link may be '}
+			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+				misinterpreted
+			</a>
+			{' by GitHub.'}
+		</>,
 		classes: [
 			'rgh-prevent-link-loss-container',
 			'flash-warn',
@@ -67,7 +65,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
-function updateUi({ delegateTarget: field }: DelegateEvent<Event, HTMLTextAreaElement>): void {
+function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
 			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
@@ -86,8 +84,8 @@ const updateUiDebounced = debounceFn(updateUi, {
 });
 
 function init(signal: AbortSignal): void {
-	delegate(fieldSelector, 'input', updateUiDebounced, { signal });
-	delegate(fieldSelector, 'focusin', updateUi, { signal });
+	delegate(fieldSelector, 'input', updateUiDebounced, {signal});
+	delegate(fieldSelector, 'focusin', updateUi, {signal});
 }
 
 void features.add(import.meta.url, {

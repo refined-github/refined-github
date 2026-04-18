@@ -1,4 +1,4 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -17,7 +17,7 @@ function init(signal: AbortSignal): void {
 		],
 		'click',
 		fix,
-		{ signal, capture: true },
+		{signal, capture: true},
 	);
 }
 

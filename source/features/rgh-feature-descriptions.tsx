@@ -5,15 +5,15 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 
-import { featuresMeta, getNewFeatureName, getOldFeatureNames } from '../feature-data.js';
+import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
-import { isFeaturePrivate } from '../helpers/feature-utils.js';
-import { brokenFeatures } from '../helpers/hotfix.js';
+import {isFeaturePrivate} from '../helpers/feature-utils.js';
+import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
-import { createRghIssueLink } from '../helpers/rgh-links.js';
+import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
-import optionsStorage, { isFeatureDisabled } from '../options-storage.js';
+import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
@@ -39,25 +39,25 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
-		<div className='Box mb-3 d-inline-block width-full'>
-			<div className='Box-row d-flex gap-3 flex-wrap'>
-				<div className='rgh-feature-description d-flex flex-column gap-2'>
+		<div className="Box mb-3 d-inline-block width-full">
+			<div className="Box-row d-flex gap-3 flex-wrap">
+				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
 						<code>{id}</code>
 						<clipboard-copy
-							aria-label='Copy'
-							data-copy-feedback='Copied!'
+							aria-label="Copy"
+							data-copy-feedback="Copied!"
 							value={id}
-							class='Link--onHover color-fg-muted d-inline-block ml-2'
-							tabindex='0'
-							role='button'
+							class="Link--onHover color-fg-muted d-inline-block ml-2"
+							tabindex="0"
+							role="button"
 						>
-							<CopyIcon className='v-align-baseline' />
+							<CopyIcon className="v-align-baseline" />
 						</clipboard-copy>
 					</h3>
 					{oldNames.length > 0 && (
-						<div className='color-fg-muted mt-n3'>
-							<span className='text-small'>previously named</span>
+						<div className="color-fg-muted mt-n3">
+							<span className="text-small">previously named</span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
 									{index > 0 && ', '}
@@ -66,37 +66,33 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							))}
 						</div>
 					)}
-					{description && <div dangerouslySetInnerHTML={{ __html: description }} className='h3' />}
-					<div className='no-wrap'>
-						<a href={conversationsUrl.href} data-turbo-frame='repo-content-turbo-frame'>Related issues</a>
+					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
+					<div className="no-wrap">
+						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
-						<a href={newIssueUrl.href} data-turbo-frame='repo-content-turbo-frame'>Report bug</a>
+						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{meta && isCss
-							? (
-								<>
-									•{' '}
-									<a data-turbo-frame='repo-content-turbo-frame' href={location.pathname.replace('.css', '.tsx')}>
-										See .tsx file
-									</a>
-								</>
-							)
+							? <>
+								•{' '}
+								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>
+									See .tsx file
+								</a>
+							</>
 							: meta?.css
-							? (
-								<>
-									•{' '}
-									<a data-turbo-frame='repo-content-turbo-frame' href={location.pathname.replace('.tsx', '.css')}>
-										See .css file
-									</a>
-								</>
-							)
+							? <>
+								•{' '}
+								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>
+									See .css file
+								</a>
+							</>
 							: undefined}
 					</div>
 				</div>
 				{meta?.screenshot && (
-					<a href={meta.screenshot} className='flex-self-center'>
+					<a href={meta.screenshot} className="flex-self-center">
 						<img
 							src={meta.screenshot}
-							className='d-block border'
+							className="d-block border"
 							style={{
 								maxHeight: 100,
 								maxWidth: 150,
@@ -122,14 +118,14 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			return createBanner({
 				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
 				classes,
-				icon: <InfoIcon className='mr-0' />,
+				icon: <InfoIcon className="mr-0" />,
 			});
 		}
 
 		return createBanner({
 			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className='mr-0' />,
+			icon: <AlertIcon className="mr-0" />,
 		});
 	}
 
@@ -137,7 +133,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 		return createBanner({
 			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className='mr-0' />,
+			icon: <AlertIcon className="mr-0" />,
 			action(event) {
 				openOptions(event, id);
 			},
@@ -169,7 +165,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#repos-sticky-header', add, { signal });
+	observe('#repos-sticky-header', add, {signal});
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;

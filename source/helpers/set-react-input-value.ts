@@ -4,5 +4,5 @@ const nativeInputValueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.
 
 export default function setReactInputValue(target: HTMLInputElement, value: string): void {
 	nativeInputValueSetter.call(target, value);
-	target.dispatchEvent(new Event('input', { bubbles: true }));
+	target.dispatchEvent(new Event('input', {bubbles: true}));
 }

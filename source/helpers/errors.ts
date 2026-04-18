@@ -1,7 +1,7 @@
-import { isEnterprise } from 'github-url-detection';
+import {isEnterprise} from 'github-url-detection';
 import memoize from 'memoize';
 
-const warnOnce = memoize(console.warn, { cacheKey: JSON.stringify });
+const warnOnce = memoize(console.warn, {cacheKey: JSON.stringify});
 
 let loggingEnabled = true;
 
@@ -9,7 +9,7 @@ export function disableErrorLogging(): void {
 	loggingEnabled = false;
 }
 
-const { version } = chrome.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 const fineGrainedTokenSuggestion =
 	'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
@@ -36,7 +36,7 @@ export function logError(error: Error): void {
 		return;
 	}
 
-	const { message, stack } = error;
+	const {message, stack} = error;
 
 	if (message === 'Extension context invalidated.') {
 		warnOnce('ℹ️ Refined GitHub has been disabled or updated. Reload the page');
@@ -88,7 +88,7 @@ export function logError(error: Error): void {
 
 export function catchErrors(): void {
 	globalThis.addEventListener('error', event => {
-		const { error } = event; // Access only once
+		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
 		if (error) {
 			logError(error);

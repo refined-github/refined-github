@@ -1,4 +1,4 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -14,7 +14,7 @@ function preventSubmit(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('#new_pull_request', 'submit', preventSubmit, { signal });
+	delegate('#new_pull_request', 'submit', preventSubmit, {signal});
 }
 
 void features.add(import.meta.url, {

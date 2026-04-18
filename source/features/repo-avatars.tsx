@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import { getRepo } from '../github-helpers/index.js';
-import { isSmallDevice } from '../helpers/dom-utils.js';
+import {getRepo} from '../github-helpers/index.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
@@ -41,7 +41,7 @@ function init(signal: AbortSignal): void {
 			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
 		],
 		add,
-		{ signal },
+		{signal},
 	);
 }
 

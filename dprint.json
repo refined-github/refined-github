@@ -3,10 +3,14 @@
 		"indentWidth": 1,
 		"useTabs": true,
 		"quoteStyle": "preferSingle",
+		"jsx.quoteStyle": "preferDouble",
 		"trailingCommas": "onlyMultiLine",
 		"semiColons": "always",
 		"lineWidth": 120,
-		"jsx.multiLineParens": "always"
+		"jsx.multiLineParens": "never",
+		"spaceSurroundingProperties": false,
+		"importDeclaration.spaceSurroundingNamedImports": false,
+		"exportDeclaration.spaceSurroundingNamedExports": false
 	},
 	"includes": ["source/**/*.ts", "source/**/*.tsx"],
 	"excludes": ["**/*-lock.json"],

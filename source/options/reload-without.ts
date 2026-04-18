@@ -1,7 +1,7 @@
 import webextAlert from 'webext-alert';
-import { isScriptableUrl } from 'webext-content-scripts';
-import { StorageItem } from 'webext-storage';
-import { createContextMenu } from 'webext-tools';
+import {isScriptableUrl} from 'webext-content-scripts';
+import {StorageItem} from 'webext-storage';
+import {createContextMenu} from 'webext-tools';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 // Don't use `isFirefox` - #9065
@@ -27,7 +27,7 @@ async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
 }
 
 export default function addReloadWithoutContentScripts(): void {
-	void chrome.storage.session.setAccessLevel?.({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' });
+	void chrome.storage.session.setAccessLevel?.({accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS'});
 
 	void createContextMenu({
 		id: 'reload-without-content-scripts',

@@ -4,12 +4,12 @@ import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import DiffIcon from 'octicons-plain-react/Diff';
-import { $$, elementExists } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '../feature-manager.js';
-import { buildRepoUrl, getRepo, parseTag } from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
 
 type TagDetails = {
@@ -106,11 +106,11 @@ async function init(): Promise<void> {
 			const currentTag = allTags[index].tag;
 			const compareLink = (
 				<a
-					className='Link--muted tooltipped tooltipped-n'
+					className="Link--muted tooltipped tooltipped-n"
 					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`}
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className='ml-1 wb-break-all'>Commits</span>}
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
 				</a>
 			);
 
@@ -119,11 +119,9 @@ async function init(): Promise<void> {
 				pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
 			) {
 				lastLink.after(
-					(
-						<li className={lastLink.className + ' rgh-changelog-link'}>
-							{compareLink}
-						</li>
-					),
+					<li className={lastLink.className + ' rgh-changelog-link'}>
+						{compareLink}
+					</li>,
 				);
 				// Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056
 				lastLink.classList.remove('flex-auto');
@@ -131,11 +129,9 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				(
-					<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
-						{compareLink}
-					</div>
-				),
+				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
+					{compareLink}
+				</div>,
 			);
 			if (pageDetect.isReleases()) {
 				lastLink.classList.remove('mb-2');

@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
-import { $, $$, $optional } from 'select-dom/strict.js';
+import {$, $$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { registerHotkey } from '../github-helpers/hotkey.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
 import observe from '../helpers/selector-observer.js';
 
 function rerunFailedJobs(): void {
@@ -16,7 +16,7 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 		return;
 	}
 
-	registerHotkey('r f', rerunFailedJobs, { signal });
+	registerHotkey('r f', rerunFailedJobs, {signal});
 
 	const container = menu.parentElement!;
 
@@ -32,7 +32,7 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.PageHeader-actions action-menu', replaceRerunDropdown.bind(undefined, signal), { signal });
+	observe('.PageHeader-actions action-menu', replaceRerunDropdown.bind(undefined, signal), {signal});
 }
 
 void features.add(import.meta.url, {

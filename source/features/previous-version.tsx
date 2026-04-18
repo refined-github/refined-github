@@ -1,20 +1,20 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import { elementExists } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import { expectToken } from '../github-helpers/github-token.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import observe from '../helpers/selector-observer.js';
 import previousVersionQuery from './previous-version.gql';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
-	const { user, repository, branch, filePath } = new GitHubFileUrl(pathname);
-	const { resource } = await api.v4(previousVersionQuery, {
+	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
+	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
 			filePath,
 			resource: `/${user}/${repository}/commit/${branch}`,
@@ -32,7 +32,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 	}
 
 	return new GitHubFileUrl(location.href)
-		.assign({ branch: previousCommit })
+		.assign({branch: previousCommit})
 		.href;
 }
 
@@ -53,7 +53,7 @@ function addDesktopDom(historyButton: HTMLAnchorElement): HTMLAnchorElement {
 	return previousButton;
 }
 
-async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions): Promise<void> {
+async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
 	const url = await getPreviousFileUrl();
 	if (!url) {
 		return;
@@ -92,7 +92,7 @@ async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, { signal });
+	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
 }
 
 void features.add(import.meta.url, {

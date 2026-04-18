@@ -1,6 +1,6 @@
-import { expect, test } from 'vitest';
+import {expect, test} from 'vitest';
 
-import { parseConventionalCommit } from './conventional-commits.js';
+import {parseConventionalCommit} from './conventional-commits.js';
 
 test('parseConventionalCommit', () => {
 	expect(parseConventionalCommit('fix: Commit message')).toMatchInlineSnapshot(`

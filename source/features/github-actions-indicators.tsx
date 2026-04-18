@@ -1,14 +1,14 @@
-import { parseCron } from '@fregante/mi-cron';
+import {parseCron} from '@fregante/mi-cron';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
-import { $ } from 'select-dom/strict.js';
-import { CachedFunction } from 'webext-storage-cache';
+import {$} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { cacheByRepo } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
@@ -38,7 +38,7 @@ async function getWorkflows(): Promise<Workflow[]> {
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const { repository: { workflowFiles } } = await api.v4(GetWorkflows);
+	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
 
 	const workflows: any[] = workflowFiles?.entries ?? [];
 
@@ -74,8 +74,8 @@ const workflowDetails = new CachedFunction('workflows-details', {
 
 		return details;
 	},
-	maxAge: { days: 1 },
-	staleWhileRevalidate: { days: 10 },
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 10},
 	cacheKey: cacheByRepo,
 });
 
@@ -93,30 +93,26 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
-				(
-					<a
-						href={url.href}
-						data-turbo-frame={workflowLink.dataset.turboFrame}
-						// `actions-unpin-button` provides the hover style
-						className='tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button'
-						aria-label='Trigger manually'
-					>
-						<PlayIcon />
-					</a>
-				),
+				<a
+					href={url.href}
+					data-turbo-frame={workflowLink.dataset.turboFrame}
+					// `actions-unpin-button` provides the hover style
+					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					aria-label="Trigger manually"
+				>
+					<PlayIcon />
+				</a>,
 			);
 		} else {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
 			workflowLink.after(
-				(
-					<div
-						className='tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent'
-						aria-label='This workflow can be triggered manually'
-					>
-						<PlayIcon />
-					</div>
-				),
+				<div
+					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent"
+					aria-label="This workflow can be triggered manually"
+				>
+					<PlayIcon />
+				</div>,
 			);
 		}
 	}
@@ -134,17 +130,15 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	$('.ActionListItem-label', workflowLink).append(
-		(
-			<em>
-				(<relative-time datetime={String(nextTime)} />)
-			</em>
-		),
+		<em>
+			(<relative-time datetime={String(nextTime)} />)
+		</em>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe('a.ActionListContent', addIndicators, { signal });
+	observe('a.ActionListContent', addIndicators, {signal});
 }
 
 function openRunWorkflow(): void {

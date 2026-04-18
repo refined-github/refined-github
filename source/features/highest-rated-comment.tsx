@@ -5,13 +5,13 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
-import { $$ } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {$$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import { singleParagraphCommentSelector } from './hide-low-quality-comments.js';
+import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
 const commentSelector = '.js-timeline-item';
@@ -44,7 +44,7 @@ function getBestComment(): HTMLElement | undefined {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
-			highest = { comment, count: positiveReactions };
+			highest = {comment, count: positiveReactions};
 		}
 	}
 
@@ -54,14 +54,12 @@ function getBestComment(): HTMLElement | undefined {
 function highlightBestComment(bestComment: Element): void {
 	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
 	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
-		(
-			<span
-				className='color-fg-success tooltipped tooltipped-s'
-				aria-label='This comment has the most positive reactions on this issue.'
-			>
-				<CheckCircleFillIcon />
-			</span>
-		),
+		<span
+			className="color-fg-success tooltipped tooltipped-s"
+			aria-label="This comment has the most positive reactions on this issue."
+		>
+			<CheckCircleFillIcon />
+		</span>,
 	);
 }
 
@@ -75,27 +73,25 @@ function linkBestComment(bestComment: HTMLElement): void {
 	}
 
 	const text = $('.comment-body', bestComment).textContent.slice(0, 100);
-	const { hash } = $('a.js-timestamp', bestComment);
+	const {hash} = $('a.js-timestamp', bestComment);
 	const avatar = $('img.avatar', bestComment).cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		(
-			<a
-				href={hash}
-				className='no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center'
-			>
-				{avatar}
+		<a
+			href={hash}
+			className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center"
+		>
+			{avatar}
 
-				<h3 className='timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2'>
-					<span className='Label mr-2'>Highest-rated</span>
-					{text}
-				</h3>
+			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
+				<span className="Label mr-2">Highest-rated</span>
+				{text}
+			</h3>
 
-				<div className='color-fg-muted f6 no-wrap'>
-					<ArrowDownIcon className='mr-1' />Jump to comment
-				</div>
-			</a>
-		),
+			<div className="color-fg-muted f6 no-wrap">
+				<ArrowDownIcon className="mr-1" />Jump to comment
+			</div>
+		</a>,
 	);
 }
 

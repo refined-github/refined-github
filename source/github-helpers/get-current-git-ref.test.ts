@@ -1,8 +1,8 @@
-import { assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
 // @ts-expect-error JS only
-import { navigateToCommits } from '../../test/setup-file.js';
-import getCurrentGitRef, { getGitRef } from './get-current-git-ref.js';
+import {navigateToCommits} from '../../test/setup-file.js';
+import getCurrentGitRef, {getGitRef} from './get-current-git-ref.js';
 
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getGitRef', () => {

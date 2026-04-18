@@ -1,4 +1,4 @@
-import { globalCache } from 'webext-storage-cache';
+import {globalCache} from 'webext-storage-cache';
 
 export default async function clearCacheHandler(this: HTMLButtonElement): Promise<void> {
 	await globalCache.clear();

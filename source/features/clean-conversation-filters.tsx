@@ -1,13 +1,13 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import { elementExists } from 'select-dom';
-import { $optional } from 'select-dom/strict.js';
-import { CachedFunction } from 'webext-storage-cache';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken, expectTokenScope } from '../github-helpers/github-token.js';
-import { cacheByRepo } from '../github-helpers/index.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 
@@ -26,7 +26,7 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 		}
 
 		await expectTokenScope('read:project');
-		const { repository, organization } = await api.v4(HasAnyProjects, {
+		const {repository, organization} = await api.v4(HasAnyProjects, {
 			allowErrors: true,
 		});
 
@@ -35,8 +35,8 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			|| Boolean(organization?.projects?.totalCount)
 			|| Boolean(organization?.projectsV2?.totalCount);
 	},
-	maxAge: { days: 1 },
-	staleWhileRevalidate: { days: 20 },
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 20},
 	cacheKey: cacheByRepo,
 });
 
@@ -60,7 +60,7 @@ async function hide(container: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(String.raw`#\:rs\:-list-view-metadata`, hide, { signal });
+	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
 }
 
 void features.add(import.meta.url, {

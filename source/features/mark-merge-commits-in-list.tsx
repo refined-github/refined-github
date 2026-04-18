@@ -4,18 +4,18 @@ import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
-import { $ } from 'select-dom/strict.js';
-import { objectEntries } from 'ts-extras';
+import {$} from 'select-dom/strict.js';
+import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { assertCommitHash } from '../github-helpers/index.js';
-import { commitHashLinkInLists, commitTitleInLists } from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {assertCommitHash} from '../github-helpers/index.js';
+import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
-	const { repository } = await api.v4(`
+	const {repository} = await api.v4(`
 		repository() {
 			${
 		commits.map((commit: string) => `
@@ -50,9 +50,9 @@ export function getCommitHash(commit: HTMLElement): string {
 function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 	if (replace) {
 		// Align icon to the line; rem used to match the native units
-		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{ marginLeft: '0.5rem' }} />);
+		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
 	} else {
-		$(commitTitleInLists, commit).prepend(<GitMergeIcon className='mr-1' />);
+		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1" />);
 	}
 }
 
@@ -76,8 +76,8 @@ async function init(signal: AbortSignal): Promise<void> {
 			'.js-commits-list-item', // `isPRCommitList`
 			'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
 		],
-		batchedFunction(markCommits, { delay: 100 }),
-		{ signal },
+		batchedFunction(markCommits, {delay: 100}),
+		{signal},
 	);
 }
 

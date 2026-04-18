@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import { $$ } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
+import {$$} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -42,17 +42,15 @@ function generateSubmenu(hideButton: Element): void {
 
 	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
-			(
-				<button
-					type='submit'
-					name='classifier'
-					value={reason.value}
-					className='dropdown-item btn-link'
-					role='menuitem'
-				>
-					{reason.textContent}
-				</button>
-			),
+			<button
+				type="submit"
+				name="classifier"
+				value={reason.value}
+				className="dropdown-item btn-link"
+				role="menuitem"
+			>
+				{reason.textContent}
+			</button>,
 		);
 	}
 
@@ -91,8 +89,8 @@ function showSubmenu(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate('.js-comment-hide-button', 'click', showSubmenu, { capture: true, signal });
-	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, { capture: true, signal });
+	delegate('.js-comment-hide-button', 'click', showSubmenu, {capture: true, signal});
+	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
 // TODO: Drop feature in April 2025

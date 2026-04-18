@@ -25,26 +25,26 @@ const addSuggestionToBatchSelector =
 	':is(.js-apply-changes button[data-variant="primary"], .js-batched-suggested-changes-add)';
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
-	const { id } = clickedItem.closest('.TimelineItem-body[id]')!;
+	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;
 	return `#${id} .markdown-body details > summary`;
 }
 
 function init(signal: AbortSignal): void {
 	// Collapsed comments in PR conversations and files
-	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector), { signal });
+	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector), {signal});
 
 	// "Load diff" buttons in PR files
-	delegate(diffsSelector, 'click', clickAll(diffsSelector), { signal });
+	delegate(diffsSelector, 'click', clickAll(diffsSelector), {signal});
 
 	// Review comments in PR
-	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector), { signal });
+	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector), {signal});
 
 	// "Expand all" and "Collapse expanded lines" buttons in commit files
-	delegate(expandSelector, 'click', clickAll(expandSelector), { signal });
-	delegate(collapseSelector, 'click', clickAll(collapseSelector), { signal });
+	delegate(expandSelector, 'click', clickAll(expandSelector), {signal});
+	delegate(collapseSelector, 'click', clickAll(collapseSelector), {signal});
 
 	// Commit message buttons in commit lists and PR conversations
-	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), { signal });
+	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), {signal});
 
 	// <details> elements in issue/PR comment Markdown content
 	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {
@@ -52,7 +52,7 @@ function init(signal: AbortSignal): void {
 	});
 
 	// "Add suggestion to batch" buttons in PR files
-	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), { signal, capture: true });
+	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal, capture: true});
 }
 
 void features.add(import.meta.url, {

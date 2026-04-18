@@ -1,8 +1,8 @@
 import './extend-diff-expander.css';
 
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
@@ -25,7 +25,7 @@ function expandDiff(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	document.body.classList.add('rgh-extend-diff-expander');
-	delegate(lineSelectors, 'click', expandDiff, { signal });
+	delegate(lineSelectors, 'click', expandDiff, {signal});
 }
 
 void features.add(import.meta.url, {

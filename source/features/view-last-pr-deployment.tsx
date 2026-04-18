@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import RocketIcon from 'octicons-plain-react/Rocket';
-import { lastElement } from 'select-dom';
+import {lastElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -13,22 +13,20 @@ function addLink(header: HTMLElement): void {
 	}
 
 	header.prepend(
-		(
-			<a
-				className='rgh-last-deployment btn btn-sm d-none d-md-block mr-1'
-				target='_blank' // Matches GitHub’s own behavior
-				rel='noopener noreferrer'
-				href={lastDeployment.href}
-			>
-				<RocketIcon className='mr-1 v-align-text-top' />
-				Latest deployment
-			</a>
-		),
+		<a
+			className="rgh-last-deployment btn btn-sm d-none d-md-block mr-1"
+			target="_blank" // Matches GitHub’s own behavior
+			rel="noopener noreferrer"
+			href={lastDeployment.href}
+		>
+			<RocketIcon className="mr-1 v-align-text-top" />
+			Latest deployment
+		</a>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.gh-header-actions', addLink, { signal });
+	observe('.gh-header-actions', addLink, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,22 +1,22 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { CachedFunction } from 'webext-storage-cache';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { buildRepoUrl, cacheByRepo } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleases from './releases-dropdown.gql';
 
 const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
-		const { repository } = await api.v4(GetReleases);
-		return repository.releases.nodes.map(({ tagName }: { tagName: string; }) => tagName);
+		const {repository} = await api.v4(GetReleases);
+		return repository.releases.nodes.map(({tagName}: {tagName: string;}) => tagName);
 	},
-	maxAge: { hours: 1 },
-	staleWhileRevalidate: { days: 4 },
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 4},
 	cacheKey: cacheByRepo,
 });
 
@@ -39,19 +39,17 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 
 	searchField.setAttribute('list', 'rgh-releases-dropdown');
 	searchField.after(
-		(
-			<datalist id='rgh-releases-dropdown'>
-				{releases.map(tag => <option value={tag} />)}
-			</datalist>
-		),
+		<datalist id="rgh-releases-dropdown">
+			{releases.map(tag => <option value={tag} />)}
+		</datalist>,
 	);
 }
 
 const searchFieldSelector = 'input#release-filter';
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(searchFieldSelector, addList, { signal });
-	delegate(searchFieldSelector, 'input', selectionHandler, { signal });
+	observe(searchFieldSelector, addList, {signal});
+	delegate(searchFieldSelector, 'input', selectionHandler, {signal});
 }
 
 void features.add(import.meta.url, {

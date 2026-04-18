@@ -1,16 +1,16 @@
 import './open-all-notifications.css';
 
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import { $$, elementExists } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { multilineAriaLabel } from '../github-helpers/index.js';
-import { appendBefore } from '../helpers/dom-utils.js';
-import { getIdentifiers } from '../helpers/feature-helpers.js';
+import {multilineAriaLabel} from '../github-helpers/index.js';
+import {appendBefore} from '../helpers/dom-utils.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -49,7 +49,7 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	return true;
 }
 
-async function openUnreadNotifications({ delegateTarget, altKey }: DelegateEvent<MouseEvent>): Promise<void> {
+async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = delegateTarget.closest('.js-notifications-group') ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
 	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
@@ -78,15 +78,15 @@ function removeOpenUnreadButtons(container: ParentNode = document): void {
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	const button = (
 		<button
-			type='button'
+			type="button"
 			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
-			data-hotkey='p'
+			data-hotkey="p"
 			aria-label={multilineAriaLabel(
 				'Open selected notifications',
 				'Hotkey: P',
 			)}
 		>
-			<LinkExternalIcon className='mr-1' />Open
+			<LinkExternalIcon className="mr-1" />Open
 		</button>
 	);
 	appendBefore(
@@ -103,15 +103,13 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 	}
 
 	markReadButton.before(
-		(
-			<button
-				type='button'
-				className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
-				aria-label='Open all unread notifications from this repo'
-			>
-				<LinkExternalIcon width={16} /> Open unread
-			</button>
-		),
+		<button
+			type="button"
+			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
+			aria-label="Open all unread notifications from this repo"
+		>
+			<LinkExternalIcon width={16} /> Open unread
+		</button>,
 	);
 }
 
@@ -121,21 +119,19 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 	}
 
 	notificationHeader.append(
-		(
-			<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type='button'>
-				<LinkExternalIcon className='mr-1' />Open all unread
-			</button>
-		),
+		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
+			<LinkExternalIcon className="mr-1" />Open all unread
+		</button>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	delegate(openSelected.selector, 'click', openSelectedNotifications, { signal });
-	delegate(openUnread.selector, 'click', openUnreadNotifications, { signal });
+	delegate(openSelected.selector, 'click', openSelectedNotifications, {signal});
+	delegate(openUnread.selector, 'click', openUnreadNotifications, {signal});
 
-	observe(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', addSelectedButton, { signal });
-	observe(notificationHeaderSelector, addToMainHeader, { signal });
-	observe('.js-grouped-notifications-mark-all-read-button', addToRepoGroup, { signal });
+	observe(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', addSelectedButton, {signal});
+	observe(notificationHeaderSelector, addToMainHeader, {signal});
+	observe('.js-grouped-notifications-mark-all-read-button', addToRepoGroup, {signal});
 }
 
 void features.add(import.meta.url, {

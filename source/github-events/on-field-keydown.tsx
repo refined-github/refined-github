@@ -1,5 +1,5 @@
-import delegate, { type DelegateEventHandler } from 'delegate-it';
-import { elementExists } from 'select-dom';
+import delegate, {type DelegateEventHandler} from 'delegate-it';
+import {elementExists} from 'select-dom';
 
 type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
 

@@ -1,4 +1,4 @@
-import { signalFromEvent } from 'abort-utils';
+import {signalFromEvent} from 'abort-utils';
 
 export default function onReactPageUpdate(
 	callback: (signal: AbortSignal) => void,
@@ -10,5 +10,5 @@ export default function onReactPageUpdate(
 			signalFromEvent(document, 'soft-nav:payload'), // A "React page"-specific page navigation event
 		]);
 		callback(unifiedSignal);
-	}, { signal });
+	}, {signal});
 }

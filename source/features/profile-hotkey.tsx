@@ -1,8 +1,8 @@
-import { isEnterprise } from 'github-url-detection';
+import {isEnterprise} from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import { registerHotkey } from '../github-helpers/hotkey.js';
-import { getLoggedInUser } from '../github-helpers/index.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 
 function initOnce(): void {

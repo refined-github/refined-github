@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import { $optional } from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { _ } from '../helpers/hotfix.js';
+import {_} from '../helpers/hotfix.js';
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;

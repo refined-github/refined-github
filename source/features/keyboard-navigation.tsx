@@ -1,10 +1,10 @@
 import * as pageDetect from 'github-url-detection';
-import { $$, elementExists } from 'select-dom';
-import { $optional } from 'select-dom/strict.js';
+import {$$, elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { isEditable } from '../helpers/dom-utils.js';
-import { viewedToggleSelector } from './batch-mark-files-as-viewed.js';
+import {isEditable} from '../helpers/dom-utils.js';
+import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
@@ -55,7 +55,7 @@ function runShortcuts(event: KeyboardEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.body.addEventListener('keypress', runShortcuts, { signal });
+	document.body.addEventListener('keypress', runShortcuts, {signal});
 }
 
 void features.add(import.meta.url, {

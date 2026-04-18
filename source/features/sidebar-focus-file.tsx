@@ -2,11 +2,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import { scrollIntoViewIfNeeded } from '../github-helpers/index.js';
+import {scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
 
 async function init(): Promise<void | false> {
-	const { filePath } = new GitHubFileUrl(location.href);
+	const {filePath} = new GitHubFileUrl(location.href);
 
 	// eslint-disable-next-line unicorn/prefer-query-selector -- `querySelector` requires escaping
 	const item = document.getElementById(`${filePath}-item`);

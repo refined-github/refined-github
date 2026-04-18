@@ -1,12 +1,12 @@
 import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $, $$, lastElement } from 'select-dom/strict.js';
+import {$, $$, lastElement} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { conversationCloseEvent } from '../github-helpers/selectors.js';
-import { wrap } from '../helpers/dom-utils.js';
-import { getIdentifiers } from '../helpers/feature-helpers.js';
+import {conversationCloseEvent} from '../github-helpers/selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 import './jump-to-conversation-close-event.css';
 
@@ -15,7 +15,7 @@ export const statusBadgeSelector = [
 	'[data-testid="header-state"]',
 ] as const;
 
-export const { class: featureClass, selector: featureSelector } = getIdentifiers(import.meta.url);
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
@@ -32,13 +32,11 @@ function updateStatusBadges(): void {
 			statusBadge.style.pointerEvents = 'none';
 			wrap(
 				statusBadge,
-				(
-					<a
-						aria-label='Scroll to most recent close event'
-						className={`tooltipped tooltipped-e ${featureClass}`}
-						href={eventAnchor.href}
-					/>
-				),
+				<a
+					aria-label="Scroll to most recent close event"
+					className={`tooltipped tooltipped-e ${featureClass}`}
+					href={eventAnchor.href}
+				/>,
 			);
 		}
 	}
@@ -48,8 +46,8 @@ function init(signal: AbortSignal): void {
 	observe(
 		conversationCloseEvent,
 		// Avoid calling `updateStatusBadges` for every close event on initial load
-		debounce(updateStatusBadges, { wait: 100 }),
-		{ signal },
+		debounce(updateStatusBadges, {wait: 100}),
+		{signal},
 	);
 }
 

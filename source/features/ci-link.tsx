@@ -5,14 +5,14 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
-import { isSmallDevice } from '../helpers/dom-utils.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
 
 async function getCommitWithChecks(): Promise<string | void> {
-	const { repository } = await api.v4(getChecks);
+	const {repository} = await api.v4(getChecks);
 
 	if (repository.isEmpty) {
 		return;
@@ -40,14 +40,14 @@ async function add(anchor: HTMLElement): Promise<void> {
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
 		<span
-			className='rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center'
-			title='CI status of latest commit'
+			className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center"
+			title="CI status of latest commit"
 		>
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
-					name='oid'
+					name="oid"
 					value={commit}
-					data-targets='batch-deferred-content.inputs'
+					data-targets="batch-deferred-content.inputs"
 				/>
 			</batch-deferred-content>
 		</span>,
@@ -71,7 +71,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'.AppHeader-context-compact-mainItem > span:first-child',
 		],
 		add,
-		{ signal },
+		{signal},
 	);
 }
 

@@ -1,7 +1,7 @@
 import './no-unnecessary-split-diff-view.css';
 import * as pageDetect from 'github-url-detection';
-import { elementExists } from 'select-dom';
-import { $ } from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -27,7 +27,7 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class*="DiffLines-module__tableLayoutFixed"] > tbody', manageSplitDiffState, { signal });
+	observe('[class*="DiffLines-module__tableLayoutFixed"] > tbody', manageSplitDiffState, {signal});
 }
 
 void features.add(import.meta.url, {

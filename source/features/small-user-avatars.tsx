@@ -12,15 +12,13 @@ function addAvatar(link: HTMLElement): void {
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		(
-			<img
-				className='avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars'
-				src={getUserAvatarURL(username, size)!}
-				width={size}
-				height={size}
-				loading='lazy'
-			/>
-		),
+		<img
+			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
+			src={getUserAvatarURL(username, size)!}
+			width={size}
+			height={size}
+			loading="lazy"
+		/>,
 	);
 }
 

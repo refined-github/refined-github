@@ -1,17 +1,17 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import FoldDownIcon from 'octicons-plain-react/FoldDown';
-import { $ } from 'select-dom/strict.js';
-import { insertTextIntoField } from 'text-field-edit';
+import {$} from 'select-dom/strict.js';
+import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import { triggerActionBarOverflow } from '../github-helpers/index.js';
-import { actionBarSelectors } from '../github-helpers/selectors.js';
+import {triggerActionBarOverflow} from '../github-helpers/index.js';
+import {actionBarSelectors} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
-function addContentToDetails({ delegateTarget }: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = delegateTarget.closest([
 		'form',
 		'[data-testid="comment-composer"]', // Add comment form
@@ -65,16 +65,14 @@ function append(container: HTMLElement): void {
 
 	container.append(
 		divider,
-		(
-			<button
-				type='button'
-				className={classes.join(' ')}
-				aria-label='Add collapsible content'
-				data-targets='action-bar.items' // Enables automatic hiding when it doesn't fit
-			>
-				<FoldDownIcon />
-			</button>
-		),
+		<button
+			type="button"
+			className={classes.join(' ')}
+			aria-label="Add collapsible content"
+			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
+		>
+			<FoldDownIcon />
+		</button>,
 	);
 
 	if (container.getAttribute('aria-label') === 'Formatting tools') {
@@ -87,8 +85,8 @@ function append(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, { signal });
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, { signal });
+	observe(actionBarSelectors, append, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
 void features.add(import.meta.url, {

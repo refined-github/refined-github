@@ -1,14 +1,14 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import { $$ } from 'select-dom';
-import { $optional } from 'select-dom/strict.js';
-import { CachedValue } from 'webext-storage-cache';
+import {$$} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
+import {CachedValue} from 'webext-storage-cache';
 
-import { importedFeatures } from '../feature-data.js';
+import {importedFeatures} from '../feature-data.js';
 import pluralize from './pluralize.js';
-import { getFeatureUrl } from './rgh-links.js';
+import {getFeatureUrl} from './rgh-links.js';
 
-export const state = new CachedValue<FeatureId[]>('bisect', { maxAge: { minutes: 15 } });
+export const state = new CachedValue<FeatureId[]>('bisect', {maxAge: {minutes: 15}});
 
 function enableButtons(): void {
 	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
@@ -23,7 +23,7 @@ function enableButtons(): void {
 // Bisecting 1 feature: enable 0 // This is the last step, if the user says Yes, it's not caused by a JS feature
 const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
-async function onChoiceButtonClick({ currentTarget: button }: React.MouseEvent<HTMLButtonElement>): Promise<void> {
+async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const answer = button.value;
 	const bisectedFeatures = (await state.get())!;
 
@@ -34,7 +34,7 @@ async function onChoiceButtonClick({ currentTarget: button }: React.MouseEvent<H
 				: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
 
-		button.parentElement!.replaceWith(<div className='btn' aria-disabled='true'>Reloading…</div>);
+		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
 		location.reload();
 		return;
 	}
@@ -42,17 +42,15 @@ async function onChoiceButtonClick({ currentTarget: button }: React.MouseEvent<H
 	// Last step, no JS feature was enabled
 	if (answer === 'yes') {
 		createMessageBox(
-			(
-				<>
-					<p>
-						Unable to identify feature. It might be a CSS-only feature, a{' '}
-						<a href='https://github.com/refined-github/refined-github/wiki/Meta-features' target='_blank' rel='noreferrer'>
-							meta-feature
-						</a>, or unrelated to Refined GitHub.
-					</p>
-					<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
-				</>
-			),
+			<>
+				<p>
+					Unable to identify feature. It might be a CSS-only feature, a{' '}
+					<a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">
+						meta-feature
+					</a>, or unrelated to Refined GitHub.
+				</p>
+				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
+			</>,
 		);
 	} else {
 		const feature = (
@@ -76,15 +74,13 @@ async function onEndButtonClick(): Promise<void> {
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
 	$optional('#rgh-bisect-dialog')?.remove();
 	document.body.append(
-		(
-			<div id='rgh-bisect-dialog' className='Box p-3'>
-				<p>{message}</p>
-				<div className='d-flex flex-justify-between'>
-					<button type='button' className='btn' onClick={onEndButtonClick}>Exit</button>
-					{extraButtons}
-				</div>
+		<div id="rgh-bisect-dialog" className="Box p-3">
+			<p>{message}</p>
+			<div className="d-flex flex-justify-between">
+				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+				{extraButtons}
 			</div>
-		),
+		</div>,
 	);
 }
 
@@ -107,16 +103,14 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	await elementReady('body');
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
-		(
-			<div>
-				<button type='button' className='btn btn-danger mr-2' value='no' aria-disabled='true' onClick={onChoiceButtonClick}>
-					No
-				</button>
-				<button type='button' className='btn btn-primary' value='yes' aria-disabled='true' onClick={onChoiceButtonClick}>
-					Yes
-				</button>
-			</div>
-		),
+		<div>
+			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>
+				No
+			</button>
+			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>
+				Yes
+			</button>
+		</div>,
 	);
 
 	// Enable "Yes"/"No" buttons once the page is done loading
@@ -136,6 +130,6 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 		temporaryOptions[`feature:${feature}`] = index !== -1 && index < half;
 	}
 
-	console.log({ temporaryOptions });
+	console.log({temporaryOptions});
 	return temporaryOptions;
 }

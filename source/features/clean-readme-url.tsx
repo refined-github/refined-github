@@ -14,7 +14,7 @@ function init(signal: AbortSignal): void {
 	maybeCleanUrl();
 	let interval: NodeJS.Timeout;
 	if (globalThis.navigation) {
-		navigation.addEventListener('navigate', maybeCleanUrl, { signal });
+		navigation.addEventListener('navigate', maybeCleanUrl, {signal});
 	} else {
 		interval = setInterval(() => {
 			maybeCleanUrl();

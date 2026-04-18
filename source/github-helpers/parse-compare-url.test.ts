@@ -1,4 +1,4 @@
-import { expect, test } from 'vitest';
+import {expect, test} from 'vitest';
 
 import parseCompareUrl from './parse-compare-url.js';
 

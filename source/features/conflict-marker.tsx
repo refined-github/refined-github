@@ -7,8 +7,8 @@ import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { openPrsListLink } from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
@@ -25,7 +25,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	});
 
 	// Batch queries cannot be exported to .gql files
-	const batchQuery = prConfigs.map(({ key, owner, name, number }) => `
+	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			pullRequest(number: ${number}) {
 				mergeable
@@ -38,18 +38,16 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const data = await api.v4(batchQuery);
 
 	for (const pr of prConfigs) {
-		const { mergeable, state, isDraft } = data[pr.key].pullRequest;
+		const {mergeable, state, isDraft} = data[pr.key].pullRequest;
 		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
 			pr.link.after(
-				(
-					<a
-						className='rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2'
-						aria-label='This PR has conflicts that must be resolved'
-						href={`${pr.link.pathname}#partial-pull-merging`}
-					>
-						<AlertIcon className='v-align-middle' />
-					</a>
-				),
+				<a
+					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
+					aria-label="This PR has conflicts that must be resolved"
+					href={`${pr.link.pathname}#partial-pull-merging`}
+				>
+					<AlertIcon className="v-align-middle" />
+				</a>,
 			);
 		}
 	}
@@ -57,7 +55,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(openPrsListLink, batchedFunction(addIcon, { delay: 100 }), { signal });
+	observe(openPrsListLink, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,28 +1,26 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
-import { $, $optional } from 'select-dom/strict.js';
+import {$$} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyQuickPr(element: HTMLElement): void {
 	const branchUrl = buildRepoUrl('tree', element.textContent);
 	element.replaceWith(
-		(
-			<span className='commit-ref'>
-				<a className='no-underline' href={branchUrl} data-turbo-frame='repo-content-turbo-frame'>
-					{element.textContent}
-				</a>
-			</span>
-		),
+		<span className="commit-ref">
+			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
+				{element.textContent}
+			</a>
+		</span>,
 	);
 }
 
 function linkifyHovercard(hovercard: HTMLElement): void {
-	const { href } = $('a.Link--primary', hovercard);
+	const {href} = $('a.Link--primary', hovercard);
 
 	for (const reference of $$('.commit-ref', hovercard)) {
 		const url = new GitHubFileUrl(href).assign({
@@ -36,21 +34,19 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 		}
 
 		reference.replaceChildren(
-			(
-				<a className='no-underline' href={url.href} data-turbo-frame='repo-content-turbo-frame'>
-					{[...reference.childNodes]}
-				</a>
-			),
+			<a className="no-underline" href={url.href} data-turbo-frame="repo-content-turbo-frame">
+				{[...reference.childNodes]}
+			</a>,
 		);
 	}
 }
 
 async function quickPrInit(signal: AbortSignal): Promise<void> {
-	observe('.branch-name', linkifyQuickPr, { signal });
+	observe('.branch-name', linkifyQuickPr, {signal});
 }
 
 function hovercardInit(signal: AbortSignal): void {
-	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', linkifyHovercard, { signal });
+	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', linkifyHovercard, {signal});
 }
 
 void features.add(import.meta.url, {

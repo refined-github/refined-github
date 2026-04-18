@@ -1,12 +1,12 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import { $ } from 'select-dom/strict.js';
-import { CachedFunction } from 'webext-storage-cache';
+import {$} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { getForkedRepo, getLoggedInUser, getRepo } from '../github-helpers/index.js';
+import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
@@ -15,8 +15,8 @@ function getLinkCopy(count: number): string {
 }
 
 const countPrs = new CachedFunction('prs-on-forked-repo', {
-	async updater(forkedRepo: string): Promise<{ count: number; firstPr?: number; }> {
-		const { search } = await api.v4(GetPRs, {
+	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number;}> {
+		const {search} = await api.v4(GetPRs, {
 			variables: {
 				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,
 			},
@@ -27,13 +27,13 @@ const countPrs = new CachedFunction('prs-on-forked-repo', {
 
 		// If only one is found, pass the PR number so we can link to the PR directly
 		if (prs.length === 1) {
-			return { count: 1, firstPr: prs[0].number };
+			return {count: 1, firstPr: prs[0].number};
 		}
 
-		return { count: prs.length };
+		return {count: prs.length};
 	},
-	maxAge: { hours: 1 },
-	staleWhileRevalidate: { days: 2 },
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 2},
 	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
@@ -47,7 +47,7 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const forkedRepo = getForkedRepo()!;
-	const { count, firstPr } = await countPrs.get(forkedRepo);
+	const {count, firstPr} = await countPrs.get(forkedRepo);
 	if (count === 1) {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}
@@ -66,7 +66,7 @@ async function initHeadHint(): Promise<void | false> {
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		// The class is used by `quick-fork-deletion`
 		<>
-			with <a href={url} className='rgh-open-prs-of-forks'>{getLinkCopy(count)}</a>
+			with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>
 		</>,
 	);
 }
@@ -78,12 +78,10 @@ async function initDeleteHint(): Promise<void | false> {
 	}
 
 	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
-		(
-			<p className='flash flash-warn'>
-				It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
-				and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
-			</p>
-		),
+		<p className="flash flash-warn">
+			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
+			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+		</p>,
 	);
 }
 

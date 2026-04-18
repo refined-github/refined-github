@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
-import { $, $optional } from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { assertNodeContent, wrap } from '../helpers/dom-utils.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import './clean-repo-filelist-actions.css';
 
@@ -12,7 +12,7 @@ import './clean-repo-filelist-actions.css';
 function addTooltipToSummary(childElement: Element, tooltip: string): void {
 	wrap(
 		childElement,
-		<div className='tooltipped tooltipped-n' aria-label={tooltip} />,
+		<div className="tooltipped tooltipped-n" aria-label={tooltip} />,
 	);
 }
 
@@ -45,7 +45,7 @@ function cleanCodeButton(codeButton: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-directory-remove-file-icon', cleanFilelistActions, { signal });
+	observe('.react-directory-remove-file-icon', cleanFilelistActions, {signal});
 }
 
 void features.add(import.meta.url, {

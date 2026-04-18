@@ -1,7 +1,7 @@
 import React from 'dom-chef';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
-import { wrapAll } from '../helpers/dom-utils.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
 export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElement {
@@ -20,7 +20,7 @@ export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElem
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {
-		group = <div className='BtnGroup' />;
+		group = <div className="BtnGroup" />;
 		wrapAll(group, ...buttons);
 	}
 

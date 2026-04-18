@@ -1,4 +1,4 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 
@@ -18,7 +18,7 @@ function init(signal: AbortSignal): void {
 		],
 		'click',
 		filterAlteredClicks(openInNewTab),
-		{ signal },
+		{signal},
 	);
 }
 

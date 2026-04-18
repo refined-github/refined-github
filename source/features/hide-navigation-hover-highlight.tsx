@@ -9,7 +9,7 @@ function init(): void {
 	html.setAttribute(attribute, '');
 	html.addEventListener('navigation:keydown', () => {
 		html.removeAttribute(attribute);
-	}, { once: true });
+	}, {once: true});
 }
 
 void features.add(import.meta.url, {

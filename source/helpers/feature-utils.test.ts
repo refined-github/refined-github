@@ -1,6 +1,6 @@
-import { assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
-import { shouldFeatureRun } from './feature-utils.js';
+import {shouldFeatureRun} from './feature-utils.js';
 
 const yes = (): boolean => true;
 const no = (): boolean => false;

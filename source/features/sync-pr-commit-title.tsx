@@ -1,14 +1,14 @@
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $, $optional } from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import api from '../github-helpers/api.js';
-import { getConversationNumber, userCanLikelyMergePr } from '../github-helpers/index.js';
+import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
-import { confirmMergeButton } from '../github-helpers/selectors.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
@@ -56,11 +56,11 @@ function needsSubmission(): boolean {
 }
 
 function getUi(): HTMLElement {
-	const cancelButton = (
-		<button type='button' className='btn-link Link--muted text-underline rgh-sync-pr-commit-title'>Cancel</button>
-	);
+	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">
+		Cancel
+	</button>;
 	return $optional('.rgh-sync-pr-commit-title-note') ?? (
-		<p className='note rgh-sync-pr-commit-title-note'>
+		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. {cancelButton}
 		</p>
 	);
@@ -84,7 +84,7 @@ async function updatePrTitle(): Promise<void> {
 
 	await api.v3(`pulls/${getConversationNumber()!}`, {
 		method: 'PATCH',
-		body: { title },
+		body: {title},
 	});
 }
 
@@ -104,24 +104,24 @@ function disableSubmission(): void {
 
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
-	observe(commitTitleFieldSelector, updateCommitTitle, { signal }); // On panel open
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
 	observe(
 		[
 			'h1[class^="prc-PageHeader-Title"]',
 			'.gh-header-title', // Old view - TODO: Remove after July 2026
 		],
 		updateCommitTitle,
-		{ signal },
+		{signal},
 	); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUi, signal);
 
 	// On submission, update PR
-	delegate(confirmMergeButton, 'click', updatePrTitle, { signal });
+	delegate(confirmMergeButton, 'click', updatePrTitle, {signal});
 
 	// On "Cancel", disable the feature
-	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, { signal });
+	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
 }
 
 void features.add(import.meta.url, {

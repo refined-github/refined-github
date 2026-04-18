@@ -1,4 +1,4 @@
-import type { IterableElement, Promisable } from 'type-fest';
+import type {IterableElement, Promisable} from 'type-fest';
 
 export function pSomeFunction<
 	List extends Iterable<unknown>,

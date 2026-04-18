@@ -28,14 +28,14 @@ so the call will not throw an error but it will return as usual.
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import type { AsyncReturnType, JsonObject } from 'type-fest';
-import { uint8ArrayToBase64 } from 'uint8array-extras';
+import type {AsyncReturnType, JsonObject} from 'type-fest';
+import {uint8ArrayToBase64} from 'uint8array-extras';
 
-import { log } from '../helpers/feature-helpers.js';
+import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
-import { getToken } from '../options-storage.js';
-import { tokenUser } from './github-token.js';
-import { getLoggedInUser, getRepo } from './index.js';
+import {getToken} from '../options-storage.js';
+import {tokenUser} from './github-token.js';
+import {getLoggedInUser, getRepo} from './index.js';
 
 type JsonError = {
 	message: string;
@@ -121,7 +121,7 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const { ignoreHttpStatus, method, body, headers, responseFormat } = { ...v3defaults, ...options };
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
 		await assertCurrentUser();
@@ -142,17 +142,17 @@ const v3uncached = async (
 			'user-agent': 'Refined GitHub',
 			accept: 'application/vnd.github.v3+json',
 			...headers,
-			...personalToken && { Authorization: `token ${personalToken}` },
+			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
 	let apiResponse: AnyObject;
 	if (responseFormat === 'base64') {
 		const arrayBuffer = await response.arrayBuffer();
 		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
-		apiResponse = { content };
+		apiResponse = {content};
 	} else {
 		const content = await response.text();
-		apiResponse = responseFormat === 'json' ? JSON.parse(content) : { content };
+		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
 	}
 
 	if (
@@ -199,7 +199,7 @@ const v3hasAnyItems = async (
 	const url = new URL(query, api3);
 	url.searchParams.set('per_page', '1'); // Ensure we create pagination after 1 item
 	url.searchParams.set('page', '9999'); // Get an empty response
-	const { headers } = await v3(url.pathname + url.search, options);
+	const {headers} = await v3(url.pathname + url.search, options);
 
 	// If there's more than 1 item, we get a `Link` header
 	return headers.has('link');
@@ -322,19 +322,17 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
-		error.richMessage = (
-			<>
-				Your organization requires a specific type of token.{' '}
-				<a
-					href='https://github.com/refined-github/refined-github/wiki/Security#token'
-					target='_blank'
-					rel='noreferrer'
-					style={{ color: 'inherit', textDecoration: 'underline' }}
-				>
-					Fix…
-				</a>
-			</>
-		);
+		error.richMessage = <>
+			Your organization requires a specific type of token.{' '}
+			<a
+				href="https://github.com/refined-github/refined-github/wiki/Security#token"
+				target="_blank"
+				rel="noreferrer"
+				style={{color: 'inherit', textDecoration: 'underline'}}
+			>
+				Fix…
+			</a>
+		</>;
 		return error;
 	}
 

@@ -1,8 +1,8 @@
 import domify from 'doma';
 import mem from 'memoize';
-import type { ParseSelector } from 'typed-query-selector/parser.js';
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
-import { log } from './feature-helpers.js';
+import {log} from './feature-helpers.js';
 
 async function fetchDom(url: string): Promise<DocumentFragment>;
 async function fetchDom<
@@ -21,6 +21,6 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 	return dom;
 }
 
-export { fetchDom as fetchDomUncached };
+export {fetchDom as fetchDomUncached};
 
 export default mem(fetchDom);

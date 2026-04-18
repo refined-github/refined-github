@@ -4,14 +4,14 @@ import * as pageDetect from 'github-url-detection';
 import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
-import { countElements, elementExists } from 'select-dom';
-import { $optional } from 'select-dom/strict.js';
+import {countElements, elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
 import twas from 'twas';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import createBanner from '../github-helpers/banner.js';
-import { userIsModerator } from '../github-helpers/get-user-permission.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {
 	areDiscussionsEnabled,
 	areIssuesEnabled,
@@ -20,7 +20,7 @@ import {
 	isAnyRefinedGitHubRepo,
 	isOwnConversation,
 } from '../github-helpers/index.js';
-import { newCommentField } from '../github-helpers/selectors.js';
+import {newCommentField} from '../github-helpers/selectors.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -29,7 +29,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 		return;
 	}
 
-	const { closed_at: closedAt } = await api.v3(`issues/${getConversationNumber()!}`);
+	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
 	if (!closedAt) {
 		throw new TypeError('closed_at field is null');
 	}
@@ -37,7 +37,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 	return new Date(closedAt);
 }
 
-const threeMonths = toMilliseconds({ days: 90 });
+const threeMonths = toMilliseconds({days: 90});
 
 export function wasLongAgo(date: Date): boolean {
 	return (Date.now() - date.getTime()) > threeMonths;
@@ -78,7 +78,7 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
-		icon: <InfoIcon className='m-0' />,
+		icon: <InfoIcon className="m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
 		text: getResolvedText(closingDate),
 	});
@@ -98,7 +98,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
-		icon: <FlameIcon className='m-0' />,
+		icon: <FlameIcon className="m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
 		text:
 			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
@@ -115,19 +115,17 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.prepend(
 		createBanner({
-			icon: <GitPullRequestDraftIcon className='m-0' />,
+			icon: <GitPullRequestDraftIcon className="m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: (
-				<>
-					This is a <strong>draft PR</strong>, it might not be ready for review.
-				</>
-			),
+			text: <>
+				This is a <strong>draft PR</strong>, it might not be ready for review.
+			</>,
 		}),
 	);
 }
 
 function initDraft(signal: AbortSignal): void {
-	observe(newCommentField, addDraftBanner, { signal });
+	observe(newCommentField, addDraftBanner, {signal});
 }
 
 function initBanner(signal: AbortSignal): void {
@@ -139,7 +137,7 @@ function initBanner(signal: AbortSignal): void {
 		} else if (isPopular() && !(await userIsModerator())) {
 			addPopularBanner(field);
 		}
-	}, { signal });
+	}, {signal});
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {
@@ -161,14 +159,14 @@ function makeReactFieldKinder(field: HTMLTextAreaElement): void {
 }
 
 function initKindness(signal: AbortSignal): void {
-	observe('p.CommentBox-placeholder', makeFieldKinder, { signal });
+	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
 	observe(
 		[
 			'textarea[placeholder="Use Markdown to format your comment"]', // On issues
 			'textarea[placeholder="Leave a comment"]', // On single commits
 		],
 		makeReactFieldKinder,
-		{ signal },
+		{signal},
 	);
 }
 

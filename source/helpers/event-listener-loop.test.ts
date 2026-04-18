@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import {describe, expect, it} from 'vitest';
 
 import createEventIterator from './event-listener-loop.js';
 
@@ -20,7 +20,7 @@ describe('createEventIterator', () => {
 		const target = new EventTarget();
 		const eventName = 'test-event';
 		const controller = new AbortController();
-		const iterator = createEventIterator(target, eventName, { signal: controller.signal });
+		const iterator = createEventIterator(target, eventName, {signal: controller.signal});
 		const event = new Event(eventName);
 
 		setTimeout(() => {

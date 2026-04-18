@@ -1,6 +1,6 @@
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import { wrapFieldSelection } from 'text-field-edit';
+import {wrapFieldSelection} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {
@@ -52,7 +52,7 @@ function init(signal: AbortSignal): void {
 		],
 		'keydown',
 		eventHandler,
-		{ signal },
+		{signal},
 	);
 }
 

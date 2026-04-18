@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import { buildRepoUrl, getRepo, isArchivedRepoAsync } from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const labelId = 'rgh-quick-new-issue';
@@ -29,7 +29,7 @@ function add(listItem: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe('li:has(>a[href="/new/import"])', add, { signal });
+	observe('li:has(>a[href="/new/import"])', add, {signal});
 }
 
 void features.add(import.meta.url, {

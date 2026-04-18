@@ -1,8 +1,8 @@
-import { $optional } from 'select-dom/strict.js';
-import { messageRuntime } from 'webext-msg';
+import {$optional} from 'select-dom/strict.js';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-import { registerHotkey } from '../github-helpers/hotkey.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
 import onetime from '../helpers/onetime.js';
 
 function openInNewTab(): void {

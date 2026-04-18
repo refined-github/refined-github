@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLinkToBanner(banner: HTMLElement): void {
@@ -16,7 +16,7 @@ function addLinkToBanner(banner: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#js-repo-pjax-container > .flash-warn:first-of-type', addLinkToBanner, { signal });
+	observe('#js-repo-pjax-container > .flash-warn:first-of-type', addLinkToBanner, {signal});
 }
 
 void features.add(import.meta.url, {

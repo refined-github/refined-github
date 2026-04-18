@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import { $, $$optional } from 'select-dom/strict.js';
+import {$, $$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -36,7 +36,7 @@ function replaceNotificationsDropdown(): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, { signal });
+	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
 }
 
 void features.add(import.meta.url, {

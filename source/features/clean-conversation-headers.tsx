@@ -4,13 +4,13 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import { $, $optional } from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { parseReferenceRaw } from '../github-helpers/pr-branches.js';
-import { assertNodeContent } from '../helpers/dom-utils.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
@@ -69,11 +69,9 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	assertNodeContent(anchor, 'from');
 
 	anchor.after(
-		(
-			<span className='rgh-arrow'>
-				<ArrowLeftIcon className='v-align-middle mx-1' />
-			</span>
-		),
+		<span className="rgh-arrow">
+			<ArrowLeftIcon className="v-align-middle mx-1" />
+		</span>,
 	);
 }
 
@@ -89,7 +87,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class^="StateLabel"] + div > span:first-child',
 		],
 		cleanPrHeader,
-		{ signal },
+		{signal},
 	);
 }
 

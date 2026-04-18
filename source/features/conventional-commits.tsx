@@ -10,9 +10,9 @@ import * as pageDetect from 'github-url-detection';
 import React from 'react';
 
 import features from '../feature-manager.js';
-import { commitTitleInLists } from '../github-helpers/selectors.js';
-import { conventionalCommitRegex, parseConventionalCommit } from '../helpers/conventional-commits.js';
-import { removeTextInTextNode } from '../helpers/dom-utils.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
+import {conventionalCommitRegex, parseConventionalCommit} from '../helpers/conventional-commits.js';
+import {removeTextInTextNode} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
@@ -34,20 +34,18 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	}
 
 	commitTitleElement.prepend(
-		(
-			<span className='IssueLabel hx_IssueLabel mr-2' rgh-conventional-commits={commit.rawType}>
-				{commit.type}
-			</span>
-		),
+		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
+			{commit.type}
+		</span>,
 		// Keep scope outside because that's how they're rendered in release notes as well
-		commit.scope ? <span className='color-fg-muted'>{commit.scope}</span> : '',
+		commit.scope ? <span className="color-fg-muted">{commit.scope}</span> : '',
 	);
 
 	removeTextInTextNode(textNode, conventionalCommitRegex);
 }
 
 function init(signal: AbortSignal): void {
-	observe(`${commitTitleInLists} > span > a:first-child`, renderLabelInCommitTitle, { signal });
+	observe(`${commitTitleInLists} > span > a:first-child`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {

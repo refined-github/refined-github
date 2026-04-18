@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
 import TrashIcon from 'octicons-plain-react/Trash';
-import { $, $optional } from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -35,7 +35,7 @@ function addQuickButtons(contextMenuIcon: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#partial-actions-workflow-runs .Box-row details .octicon-kebab-horizontal', addQuickButtons, { signal });
+	observe('#partial-actions-workflow-runs .Box-row details .octicon-kebab-horizontal', addQuickButtons, {signal});
 }
 
 void features.add(import.meta.url, {

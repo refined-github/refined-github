@@ -1,21 +1,21 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import { elementExists } from 'select-dom';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { linkifyCommit } from '../github-helpers/dom-formatters.js';
-import getPrInfo, { type PullRequestInfo } from '../github-helpers/get-pr-info.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { buildRepoUrl } from '../github-helpers/index.js';
-import { getBranches } from '../github-helpers/pr-branches.js';
-import { deletedHeadRepository, prMergeabilityBoxCaption } from '../github-helpers/selectors.js';
-import { isTextNodeContaining } from '../helpers/dom-utils.js';
+import {linkifyCommit} from '../github-helpers/dom-formatters.js';
+import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
 
 function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
-	const { base } = getBranches();
+	const {base} = getBranches();
 	const commit = linkifyCommit(prInfo.baseRefOid);
 	const count = pluralize(prInfo.behindBy, '$$ commit');
 	const countLink = (
@@ -23,11 +23,13 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 			{count}
 		</a>
 	);
-	return <div>It’s {countLink} behind (base commit: {commit})</div>;
+	return (
+		<div>It’s {countLink} behind (base commit: {commit})</div>
+	);
 }
 
 async function addInfo(statusMeta: Element): Promise<void> {
-	const { base } = getBranches();
+	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 	if (!prInfo.needsUpdate) {
 		return;
@@ -46,7 +48,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe(
 		prMergeabilityBoxCaption,
 		addInfo,
-		{ signal },
+		{signal},
 	);
 }
 

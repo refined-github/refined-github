@@ -7,7 +7,7 @@ export default function parseRenderedText(element: Element, filter?: NodeFilter)
 
 	while (currentNode) {
 		if (currentNode.nodeName === 'CODE') {
-			const { textContent } = currentNode;
+			const {textContent} = currentNode;
 			// Restore backticks that GitHub loses when rendering them
 			parsedText += `\`${textContent?.trim()}\``;
 

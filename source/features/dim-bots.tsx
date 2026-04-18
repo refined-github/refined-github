@@ -1,12 +1,12 @@
 import './dim-bots.css';
 
-import delegate, { type DelegateEvent } from 'delegate-it';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import { botLinksCommitSelectors, botLinksPrSelectors } from '../github-helpers/selectors.js';
-import { getIdentifiers } from '../helpers/feature-helpers.js';
+import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -42,10 +42,10 @@ function dim(commit: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors], dim, { signal });
+	observe([...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors], dim, {signal});
 
 	// Undim on mouse focus
-	delegate(dimBots.selector, 'click', undimBots, { signal });
+	delegate(dimBots.selector, 'click', undimBots, {signal});
 }
 
 void features.add(import.meta.url, {

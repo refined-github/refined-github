@@ -1,9 +1,9 @@
 import elementReady from 'element-ready';
 
 import api from '../github-helpers/api.js';
-import { getConversationNumber } from '../github-helpers/index.js';
-import { isInitialLoad } from '../helpers/feature-helpers.js';
-import { hasToken } from '../options-storage.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import {isInitialLoad} from '../helpers/feature-helpers.js';
+import {hasToken} from '../options-storage.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
@@ -11,7 +11,7 @@ async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 		return undefined;
 	}
 
-	const { repository } = await api.v4uncached(GetIssueLockStatus, {
+	const {repository} = await api.v4uncached(GetIssueLockStatus, {
 		variables: {
 			number: getConversationNumber()!,
 		},

@@ -1,11 +1,11 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import { $optional } from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import { linksToConversationLists } from '../github-helpers/selectors.js';
+import {linksToConversationLists} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
@@ -35,7 +35,7 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		// Avoid rewriting /labels/ URLs until the last moment
 		// https://github.com/refined-github/refined-github/issues/7205
 		if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
-			await oneEvent(link, 'click', { filter: event => (event as MouseEvent).which < 2 });
+			await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
 		}
 
 		saveOriginalHref(link);
@@ -64,7 +64,7 @@ function init(signal: AbortSignal): void {
 	observe(
 		linksToConversationLists,
 		updateLink,
-		{ signal },
+		{signal},
 	);
 }
 

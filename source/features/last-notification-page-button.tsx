@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import { $ } from 'select-dom/strict.js';
-import { stringToBase64 } from 'uint8array-extras';
+import {$} from 'select-dom/strict.js';
+import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
-import { assertNodeContent } from '../helpers/dom-utils.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -19,17 +19,15 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	nextButtonSearch.set('after', stringToBase64(`cursor:${lastCursor}`));
 	totalNotificationsNode.replaceWith(
 		' of ',
-		(
-			<a href={'?' + String(nextButtonSearch)}>
-				{totalNotificationsNumber}
-			</a>
-		),
+		<a href={'?' + String(nextButtonSearch)}>
+			{totalNotificationsNumber}
+		</a>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	// When there's no "next page", this element becomes `<button disabled>`
-	observe('a[aria-label="Next"]', linkify, { signal });
+	observe('a[aria-label="Next"]', linkify, {signal});
 }
 
 void features.add(import.meta.url, {

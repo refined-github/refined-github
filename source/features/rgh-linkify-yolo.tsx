@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import { isRefinedGitHubYoloRepo } from '../github-helpers/index.js';
-import { createRghIssueLink, getFeatureUrl } from '../helpers/rgh-links.js';
+import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
+import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyIssue(issueCell: HTMLElement): void {
@@ -14,20 +14,18 @@ function linkifyIssue(issueCell: HTMLElement): void {
 function linkifyFeature(issueCell: HTMLElement): void {
 	const url = getFeatureUrl(issueCell.textContent as FeatureId);
 	issueCell.replaceChildren(
-		(
-			<code>
-				<a className='d-inline-block' href={url}>
-					{issueCell.firstChild}
-				</a>
-			</code>
-		),
+		<code>
+			<a className="d-inline-block" href={url}>
+				{issueCell.firstChild}
+			</a>
+		</code>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	// .js-csv-data is the old selector
-	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(2)', linkifyFeature, { signal });
-	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkifyIssue, { signal });
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(2)', linkifyFeature, {signal});
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkifyIssue, {signal});
 }
 
 void features.add(import.meta.url, {

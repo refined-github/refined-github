@@ -1,6 +1,6 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import { $$ } from 'select-dom';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -42,8 +42,8 @@ function updateDocumentTitle(): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('form', 'submit', disableOnSubmit, { capture: true, signal });
-	document.addEventListener('visibilitychange', updateDocumentTitle, { signal });
+	delegate('form', 'submit', disableOnSubmit, {capture: true, signal});
+	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
 }
 
 void features.add(import.meta.url, {

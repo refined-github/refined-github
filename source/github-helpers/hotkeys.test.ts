@@ -1,6 +1,6 @@
-import { assert, test } from 'vitest';
+import {assert, test} from 'vitest';
 
-import { addHotkey } from './hotkey.js';
+import {addHotkey} from './hotkey.js';
 
 function testAddHotkey(existing: string | undefined, added: string, final: string): void {
 	const link = document.createElement('a');

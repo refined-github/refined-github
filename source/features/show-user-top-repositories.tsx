@@ -16,7 +16,7 @@ function addLink(showCaseTitle: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-pinned-items-reorder-container h2', addLink, { signal });
+	observe('.js-pinned-items-reorder-container h2', addLink, {signal});
 }
 
 void features.add(import.meta.url, {

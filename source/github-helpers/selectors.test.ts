@@ -1,8 +1,8 @@
 import filenamify from 'filenamify';
-import { parseHTML } from 'linkedom';
-import { access, mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
+import {parseHTML} from 'linkedom';
+import {access, mkdir, readFile, unlink, writeFile} from 'node:fs/promises';
 import pMemoize from 'p-memoize';
-import { assert, describe, test } from 'vitest';
+import {assert, describe, test} from 'vitest';
 
 import * as exports from './selectors.js';
 
@@ -16,7 +16,7 @@ const fsCache = {
 		}
 	},
 	async set(path: string, contents: string): Promise<void> {
-		await mkdir('./test/.cache', { recursive: true });
+		await mkdir('./test/.cache', {recursive: true});
 		await writeFile(path, contents);
 	},
 	async has(path: string): Promise<boolean> {
@@ -53,7 +53,7 @@ describe.concurrent('selectors', () => {
 		}
 	}
 
-	test.each(selectors)('%s', { timeout: 9999 }, async (name, selector: string) => {
+	test.each(selectors)('%s', {timeout: 9999}, async (name, selector: string) => {
 		// @ts-expect-error Index signature bs
 
 		const urls = exports[name + '_'] as exports.UrlMatch[];
@@ -61,7 +61,7 @@ describe.concurrent('selectors', () => {
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async ([expectations, url]) => {
 			const html = await fetchDocument(url);
-			const { document } = parseHTML(html);
+			const {document} = parseHTML(html);
 			// TODO: ? Use snapshot with outerHTML[]
 			const matches = document.querySelectorAll(selector);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);

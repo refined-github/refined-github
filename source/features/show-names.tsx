@@ -4,12 +4,12 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { getLoggedInUser, isUsernameAlreadyFullName } from '../github-helpers/index.js';
-import { usernameLinksSelector } from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
+import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import abortableClassName from '../helpers/abortable-classname.js';
 import attachElement from '../helpers/attach-element.js';
-import { removeTextNodeContaining } from '../helpers/dom-utils.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
@@ -23,9 +23,9 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 
 function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
-		<span className='color-fg-muted css-truncate d-inline-block rgh-show-names'>
+		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
-			(<span className='css-truncate-target' style={{ maxWidth: '200px' }}>{fullName}</span>)
+			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
 	);
 
@@ -62,12 +62,12 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 
 function appendName(element: HTMLAnchorElement, fullName: string): void {
 	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
-	const { parentElement } = element;
+	const {parentElement} = element;
 	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
 
 	// React might create a new label without removing the old one
 	// https://github.com/refined-github/refined-github/issues/8478
-	attachElement(insertionPoint, { after: () => createElement(element, fullName) });
+	attachElement(insertionPoint, {after: () => createElement(element, fullName)});
 }
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
@@ -99,7 +99,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 
 	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);
-		const { name: fullName } = names[userKey];
+		const {name: fullName} = names[userKey];
 
 		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
 
@@ -118,7 +118,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	}
 }
 
-const updateLink = batchedFunction(updateLinks, { delay: 200 });
+const updateLink = batchedFunction(updateLinks, {delay: 200});
 
 function updateDom(link: HTMLAnchorElement): void {
 	// `dropExtraCopy` is async so that errors in this part don't break the entire feature
@@ -131,7 +131,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	// For `sticky-comment-header`
 	abortableClassName(document.documentElement, signal, 'rgh-show-names');
-	observe(usernameLinksSelector, updateDom, { signal });
+	observe(usernameLinksSelector, updateDom, {signal});
 }
 
 void features.add(import.meta.url, {

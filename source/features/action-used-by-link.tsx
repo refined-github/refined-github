@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SearchIcon from 'octicons-plain-react/Search';
-import { $ } from 'select-dom/strict.js';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -27,16 +27,14 @@ function addUsageLink(side: HTMLElement): void {
 
 	// TODO: Integrate style better https://github.com/refined-github/refined-github/pull/8285/files#r1951911960
 	side.after(
-		(
-			<a href={actionUrl.href} className='d-block mb-2'>
-				<SearchIcon width={14} className='color-fg-default mr-2' />Usage examples
-			</a>
-		),
+		<a href={actionUrl.href} className="d-block mb-2">
+			<SearchIcon width={14} className="color-fg-default mr-2" />Usage examples
+		</a>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="resources"] > ul', addUsageLink, { signal });
+	observe('[data-testid="resources"] > ul', addUsageLink, {signal});
 }
 
 void features.add(import.meta.url, {

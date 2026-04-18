@@ -1,18 +1,18 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
-import { $$optional, $optional } from 'select-dom/strict.js';
-import { messageRuntime } from 'webext-msg';
+import {$$optional, $optional} from 'select-dom/strict.js';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-import { registerHotkey } from '../github-helpers/hotkey.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
 import showToast from '../github-helpers/toast.js';
-import { getClasses, isSmallDevice } from '../helpers/dom-utils.js';
-import { fetchDomUncached } from '../helpers/fetch-dom.js';
+import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
+import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import { removeLinkToPrFilesTab } from './pr-notification-link.js';
+import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
 
@@ -67,14 +67,14 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 	nativeLink.classList.add('AppHeader-buttonLeft');
 	const button = (
 		<button
-			type='button'
+			type="button"
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
-			style={{ width: 10, cursor: 'pointer' }}
+			style={{width: 10, cursor: 'pointer'}}
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
-			<ArrowUpRightIcon className='mb-2' />
+			<ArrowUpRightIcon className="mb-2" />
 		</button>
 	);
 	nativeLink.before(button);

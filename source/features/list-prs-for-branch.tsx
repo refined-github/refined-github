@@ -2,12 +2,12 @@ import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import { expectToken } from '../github-helpers/github-token.js';
-import { addAfterBranchSelector, isPermalink, isRepoCommitListRoot } from '../github-helpers/index.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import { branchSelectorParent } from '../github-helpers/selectors.js';
+import {branchSelectorParent} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import { pullRequestsAssociatedWithBranch, stateIcon } from './show-associated-branch-prs-on-fork.js';
+import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
@@ -33,25 +33,23 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 
 	addAfterBranchSelector(
 		branchSelectorParent,
-		(
-			<a
-				data-issue-and-pr-hovercards-enabled
-				href={prInfo.url}
-				className='btn flex-self-center rgh-list-prs-for-branch'
-				data-hovercard-type='pull_request'
-				data-hovercard-url={prInfo.url + '/hovercard'}
-			>
-				<StateIcon className={stateColorMap[prInfo.state]} />
-				<span>#{prInfo.number}</span>
-			</a>
-		),
+		<a
+			data-issue-and-pr-hovercards-enabled
+			href={prInfo.url}
+			className="btn flex-self-center rgh-list-prs-for-branch"
+			data-hovercard-type="pull_request"
+			data-hovercard-url={prInfo.url + '/hovercard'}
+		>
+			<StateIcon className={stateColorMap[prInfo.state]} />
+			<span>#{prInfo.number}</span>
+		</a>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
-	observe(branchSelectorParent, add, { signal });
+	observe(branchSelectorParent, add, {signal});
 }
 
 void features.add(import.meta.url, {
