@@ -3,7 +3,7 @@ export default function matchesAnyPattern(
 	target: string,
 	patterns: Array<string | RegExp | ((x: string) => boolean)>,
 ): boolean {
-	return patterns.some(pattern => {
+	return patterns.some((pattern) => {
 		if (typeof pattern === 'string') {
 			return pattern === target;
 		}

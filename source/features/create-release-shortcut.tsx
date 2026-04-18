@@ -13,13 +13,8 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		c: 'Create a new release',
 	},
-	include: [
-		pageDetect.isReleasesOrTags,
-	],
-	exclude: [
-		pageDetect.isNewRelease,
-		pageDetect.isEditingRelease,
-	],
+	include: [pageDetect.isReleasesOrTags],
+	exclude: [pageDetect.isNewRelease, pageDetect.isEditingRelease],
 	init,
 });
 

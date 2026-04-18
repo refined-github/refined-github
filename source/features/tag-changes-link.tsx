@@ -48,7 +48,10 @@ function parseTags(element: HTMLElement): TagDetails {
 	};
 }
 
-function getPreviousTag(current: number, allTags: TagDetails[]): string | undefined {
+function getPreviousTag(
+	current: number,
+	allTags: TagDetails[],
+): string | undefined {
 	let unmatchedNamespaceTag: string | undefined;
 
 	for (let next = current + 1; next < allTags.length; next++) {
@@ -58,7 +61,9 @@ function getPreviousTag(current: number, allTags: TagDetails[]): string | undefi
 		}
 
 		// Find an earlier version
-		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
+		if (
+			tinyVersionCompare(allTags[current].version, allTags[next].version) < 1
+		) {
 			continue;
 		}
 
@@ -90,7 +95,7 @@ async function init(): Promise<void> {
 	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
+	const allTags = $$(tagsSelector, pages).map((tag) => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -98,10 +103,13 @@ async function init(): Promise<void> {
 			continue;
 		}
 
-		const lastLinks = $$([
-			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
-			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
-		], container.element);
+		const lastLinks = $$(
+			[
+				'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
+				'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
+			],
+			container.element,
+		);
 		for (const lastLink of lastLinks) {
 			const currentTag = allTags[index].tag;
 			const compareLink = (
@@ -110,12 +118,21 @@ async function init(): Promise<void> {
 					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`}
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
+					<DiffIcon />{' '}
+					{pageDetect.isEnterprise() ? (
+						'Commits'
+					) : (
+						<span className="ml-1 wb-break-all">Commits</span>
+					)}
 				</a>
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
+			if (
+				pageDetect.isEnterprise() ||
+				pageDetect.isTags() ||
+				(pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
+			) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}
@@ -127,7 +144,12 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
+				<div
+					className={
+						'rgh-changelog-link ' +
+						(pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')
+					}
+				>
 					{compareLink}
 				</div>,
 			);
@@ -140,13 +162,8 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-	],
-	exclude: [
-		pageDetect.isEmptyRepoRoot,
-	],
+	include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
+	exclude: [pageDetect.isEmptyRepoRoot],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

@@ -7,7 +7,11 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
-import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
+import {
+	featuresMeta,
+	getNewFeatureName,
+	getOldFeatureNames,
+} from '../feature-data.js';
 import observe from '../helpers/selector-observer.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
@@ -15,24 +19,34 @@ import openOptions from '../helpers/open-options.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function addDescription(
+	infoBanner: HTMLElement,
+	id: string,
+	meta: FeatureMeta | undefined,
+): void {
 	const isCss = location.pathname.endsWith('.css');
 
-	const description = meta?.description // Regular feature?
-		?? (
-			isFeaturePrivate(id)
-				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-				: isCss
-					? 'This feature is CSS-only and cannot be disabled.'
-					: undefined // The heck!?
-		);
+	const description =
+		meta?.description ?? // Regular feature?
+		(isFeaturePrivate(id)
+			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
+			: isCss
+				? 'This feature is CSS-only and cannot be disabled.'
+				: undefined); // The heck!?
 
-	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
+	const conversationsUrl = new URL(
+		'https://github.com/refined-github/refined-github/issues',
+	);
 	const oldNames = getOldFeatureNames(id);
-	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open (${searchTerms})`);
+	const searchTerms = [id, ...oldNames].map((name) => `"${name}"`).join(' OR ');
+	conversationsUrl.searchParams.set(
+		'q',
+		`sort:updated-desc is:open (${searchTerms})`,
+	);
 
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	const newIssueUrl = new URL(
+		'https://github.com/refined-github/refined-github/issues/new',
+	);
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
@@ -66,18 +80,49 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 							))}
 						</div>
 					)}
-					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
+					{description && (
+						<div
+							dangerouslySetInnerHTML={{__html: description}}
+							className="h3"
+						/>
+					)}
 					<div className="no-wrap">
-						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
+						<a
+							href={conversationsUrl.href}
+							data-turbo-frame="repo-content-turbo-frame"
+						>
+							Related issues
+						</a>
 						{' • '}
-						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
-						{
-							meta && isCss
-								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css
-									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
-									: undefined
-						}
+						<a
+							href={newIssueUrl.href}
+							data-turbo-frame="repo-content-turbo-frame"
+						>
+							Report bug
+						</a>
+						{meta && isCss ? (
+							<>
+								{' '}
+								•{' '}
+								<a
+									data-turbo-frame="repo-content-turbo-frame"
+									href={location.pathname.replace('.css', '.tsx')}
+								>
+									See .tsx file
+								</a>
+							</>
+						) : meta?.css ? (
+							<>
+								{' '}
+								•{' '}
+								<a
+									data-turbo-frame="repo-content-turbo-frame"
+									href={location.pathname.replace('.tsx', '.css')}
+								>
+									See .css file
+								</a>
+							</>
+						) : undefined}
 					</div>
 				</div>
 				{meta?.screenshot && (
@@ -101,14 +146,19 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 	// Block and width classes required to avoid margin collapse
 	const classes = ['mb-3', 'd-inline-block', 'width-full'];
 	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
-	const hotfixes = await brokenFeatures.get() ?? [];
+	const hotfixes = (await brokenFeatures.get()) ?? [];
 	const hotfixed = hotfixes.find(([feature]) => feature === id);
 	if (hotfixed) {
 		const [_name, issue, unaffectedVersion] = hotfixed;
 
 		if (unaffectedVersion) {
 			return createBanner({
-				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
+				text: (
+					<>
+						This feature was disabled until version {unaffectedVersion} due to{' '}
+						{createRghIssueLink(issue)}.
+					</>
+				),
 				classes,
 				icon: <InfoIcon className="mr-0" />,
 			});
@@ -136,7 +186,10 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 	return undefined;
 }
 
-async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<void> {
+async function addDisabledBanner(
+	infoBanner: HTMLElement,
+	id: string,
+): Promise<void> {
 	const reason = await getDisabledReason(id);
 	if (reason) {
 		infoBanner.before(reason);
@@ -144,10 +197,13 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 }
 
 async function add(infoBanner: HTMLElement): Promise<void> {
-	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
+	const [, filename] =
+		/source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(filename);
-	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
+	const meta = featuresMeta.find(
+		(feature) => feature.id === currentFeatureName,
+	);
 
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? filename;
@@ -160,12 +216,11 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
-const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
+const featureUrlRegex =
+	/^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
 void features.add(import.meta.url, {
-	include: [
-		() => featureUrlRegex.test(location.pathname),
-	],
+	include: [() => featureUrlRegex.test(location.pathname)],
 	init,
 });
 

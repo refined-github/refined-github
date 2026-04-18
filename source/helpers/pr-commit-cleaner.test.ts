@@ -8,6 +8,9 @@ test('cleanPrCommitTitle', () => {
 	assert.equal(cleanPrCommitTitle('  Something done  (#123)  ', 123), clean);
 	assert.equal(cleanPrCommitTitle(' Something done ', 123), clean);
 
-	assert.notEqual(cleanPrCommitTitle('Something done (fixes #123)', 123), clean);
+	assert.notEqual(
+		cleanPrCommitTitle('Something done (fixes #123)', 123),
+		clean,
+	);
 	assert.notEqual(cleanPrCommitTitle('Something done (#23454)', 123), clean);
 });

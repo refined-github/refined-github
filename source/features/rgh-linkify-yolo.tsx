@@ -24,8 +24,12 @@ function linkifyFeature(issueCell: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// .js-csv-data is the old selector
-	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(2)', linkifyFeature, {signal});
-	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkifyIssue, {signal});
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(2)', linkifyFeature, {
+		signal,
+	});
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkifyIssue, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {

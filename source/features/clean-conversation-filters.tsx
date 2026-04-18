@@ -13,12 +13,16 @@ import observe from '../helpers/selector-observer.js';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
-		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
+		const activeProjectsCounter = await elementReady(
+			'[data-hotkey="g b"] .Counter',
+		);
 		if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
 			return true;
 		}
 
-		const isOrganization = elementExists('[rel=author][data-hovercard-type="organization"]');
+		const isOrganization = elementExists(
+			'[rel=author][data-hovercard-type="organization"]',
+		);
 		if (!activeProjectsCounter && !isOrganization) {
 			// No tab = Projects disabled in repo
 			// No organization = no Projects in organization
@@ -30,10 +34,12 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 			allowErrors: true,
 		});
 
-		return Boolean(repository.projects.totalCount)
-			|| Boolean(repository.projectsV2.totalCount)
-			|| Boolean(organization?.projects?.totalCount)
-			|| Boolean(organization?.projectsV2?.totalCount);
+		return (
+			Boolean(repository.projects.totalCount) ||
+			Boolean(repository.projectsV2.totalCount) ||
+			Boolean(organization?.projects?.totalCount) ||
+			Boolean(organization?.projectsV2?.totalCount)
+		);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
@@ -64,9 +70,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
+	include: [pageDetect.isRepoIssueOrPRList],
 	init,
 });
 

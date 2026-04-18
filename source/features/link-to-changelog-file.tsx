@@ -13,9 +13,10 @@ type FileType = {
 	type: string;
 };
 
-const changelogFiles = /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
+const changelogFiles =
+	/^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
-	return files.find(name => changelogFiles.test(name)) ?? false;
+	return files.find((name) => changelogFiles.test(name)) ?? false;
 }
 
 const changelogName = new CachedFunction('changelog', {
@@ -60,12 +61,8 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleasesOrTags,
-	],
-	exclude: [
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isReleasesOrTags],
+	exclude: [pageDetect.isSingleReleaseOrTag],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

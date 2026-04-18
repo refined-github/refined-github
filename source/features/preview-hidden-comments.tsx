@@ -25,24 +25,33 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 
 	// The reason is missing/lost in some cases
 	const reason = /duplicate|outdated|off-topic|hidden/.exec(commentHeader)?.[0];
-	hiddenCommentHeader.classList.add('css-truncate', 'css-truncate-overflow', 'mr-2');
+	hiddenCommentHeader.classList.add(
+		'css-truncate',
+		'css-truncate-overflow',
+		'mr-2',
+	);
 	hiddenCommentHeader.append(
-		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
+		<span className="Details-content--open">
+			{hiddenCommentHeader.firstChild}
+		</span>,
 		<span className="Details-content--closed">
-			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}{commentText.slice(0, 100)}
+			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}
+			{commentText.slice(0, 100)}
 		</span>,
 	);
 }
 
 function init(signal: AbortSignal): void {
 	// `.timeline-comment-group` excludes review comments, which are always loaded on click, so it's not possible to preview them
-	observe('.timeline-comment-group .minimized-comment .timeline-comment-header-text', preview, {signal});
+	observe(
+		'.timeline-comment-group .minimized-comment .timeline-comment-header-text',
+		preview,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.hasComments],
 	init,
 });
 

@@ -23,5 +23,7 @@ export function getExtensionReleaseDate(): Date {
 }
 
 export function toDaysAgo(releaseDate: Date): number {
-	return Math.floor((Date.now() - releaseDate.getTime()) / (1000 * 60 * 60 * 24));
+	return Math.floor(
+		(Date.now() - releaseDate.getTime()) / (1000 * 60 * 60 * 24),
+	);
 }

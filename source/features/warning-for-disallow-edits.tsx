@@ -9,7 +9,8 @@ import attachElement from '../helpers/attach-element.js';
 
 const getWarning = (): React.JSX.Element => (
 	<div className="flash flex-auto flash-error my-3 rgh-warning-for-disallow-edits">
-		<strong>Note:</strong> Maintainers may require changes. It&apos;s easier and faster to allow them to make direct changes before merging.
+		<strong>Note:</strong> Maintainers may require changes. It&apos;s easier and
+		faster to allow them to make direct changes before merging.
 	</div>
 );
 
@@ -20,10 +21,9 @@ function init(): void | false {
 	}
 
 	if (pageDetect.isPRConversation()) {
-		attachElement(
-			checkbox.closest('.discussion-sidebar-item')!,
-			{after: getWarning},
-		);
+		attachElement(checkbox.closest('.discussion-sidebar-item')!, {
+			after: getWarning,
+		});
 	} else {
 		const option = checkbox.closest('.js-collab-option')!;
 
@@ -33,21 +33,13 @@ function init(): void | false {
 		actionRow.classList.add('mt-1');
 		actionRow.parentElement!.classList.remove('flex-wrap');
 
-		attachElement(
-			actionRow.lastElementChild!,
-			{after: getWarning},
-		);
+		attachElement(actionRow.lastElementChild!, {after: getWarning});
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-		pageDetect.isPRConversation,
-	],
-	exclude: [
-		pageDetect.isMergedPR,
-	],
+	include: [pageDetect.isCompare, pageDetect.isPRConversation],
+	exclude: [pageDetect.isMergedPR],
 	awaitDomReady: true,
 	init,
 });

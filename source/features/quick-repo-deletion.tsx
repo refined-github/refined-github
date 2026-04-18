@@ -45,7 +45,10 @@ async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 		<>
 			<TrashIcon />
 			<span>
-				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
+				Repository <strong>{nameWithOwner}</strong> deleted.{' '}
+				<a href={restoreUrl}>Restore it</a>,{' '}
+				<a href={forkSource}>visit the source repo</a>, or see{' '}
+				<a href={otherForksUrl}>your other forks.</a>
 			</span>
 		</>,
 		{action: false},
@@ -53,7 +56,9 @@ async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 	$('.application-main').remove();
 }
 
-async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
+async function handleShiftAltClick(
+	event: DelegateEvent<MouseEvent, HTMLElement>,
+): Promise<void> {
 	if (!event.shiftKey || !event.altKey) {
 		return;
 	}
@@ -62,7 +67,9 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 
 	// Can't really prevent default, so we must close the dialog if we're on the repo settings page
 	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
-	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
+	$optional<HTMLDialogElement>(
+		'#' + event.delegateTarget.getAttribute('data-show-dialog-id')!,
+	)?.close();
 
 	if (confirm('Are you sure you want to delete this repository?')) {
 		await showToast(deleteRepository, {
@@ -112,26 +119,27 @@ async function initRepoSettings(signal: AbortSignal): Promise<void | false> {
 	observe(buttonHashSelector, addShortcutTooltip, {signal});
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepoRoot,
-		pageDetect.isForkedRepo,
-		userIsAdmin,
-		isRepoUnpopular,
-	],
-	init: initRepoRoot,
-}, {
-	include: [
-		pageDetect.isRepoSettings,
-	],
-	init: initRepoSettings,
-}, {
-	include: [
-		() => location.hash === buttonHashSelector,
-	],
-	awaitDomReady: true, // The expected element is towards the bottom of the page
-	init: autoOpenModal,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [
+			pageDetect.isRepoRoot,
+			pageDetect.isForkedRepo,
+			userIsAdmin,
+			isRepoUnpopular,
+		],
+		init: initRepoRoot,
+	},
+	{
+		include: [pageDetect.isRepoSettings],
+		init: initRepoSettings,
+	},
+	{
+		include: [() => location.hash === buttonHashSelector],
+		awaitDomReady: true, // The expected element is towards the bottom of the page
+		init: autoOpenModal,
+	},
+);
 
 /*
 

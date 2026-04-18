@@ -4,7 +4,10 @@ import {$$} from 'select-dom/strict.js';
 import zipTextNodes from 'zip-text-nodes';
 import {applyToLink} from 'shorten-repo-url';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
+import {
+	linkifyIssuesToDom,
+	type Options as LinkifyIssuesOptions,
+} from 'linkify-issues';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
 import parseBackticksCore from './parse-backticks.js';
@@ -27,7 +30,11 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
+	if (
+		link
+			.closest(String([...codeElementsSelector, '.markdown-body']))
+			?.classList.contains('markdown-body')
+	) {
 		applyToLink(link, location.href);
 	}
 }
@@ -45,7 +52,9 @@ export function repositionAnchors(element: HTMLElement): void {
 		return;
 	}
 
-	const container = element.closest('.react-code-file-contents')!.parentElement!;
+	const container = element.closest(
+		'.react-code-file-contents',
+	)!.parentElement!;
 
 	const codeLine = element.closest('[id]');
 	if (!codeLine) {
@@ -55,7 +64,9 @@ export function repositionAnchors(element: HTMLElement): void {
 	const links = $$('a', codeLine);
 	for (const [index, link] of links.entries()) {
 		const anchor = `--rgh-${codeLine.id}-${index}`;
-		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
+		link.replaceWith(
+			<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>,
+		);
 		link.className = 'react-code-text rgh-anchored-link';
 		// @ts-expect-error -- Not widely available yet
 		link.style.positionAnchor = anchor;
@@ -81,7 +92,8 @@ export function linkifyIssues(
 			...options.attributes,
 		},
 	});
-	if (linkified.children.length === 0) { // Children are <a>
+	if (linkified.children.length === 0) {
+		// Children are <a>
 		return;
 	}
 
@@ -102,7 +114,8 @@ export function linkifyIssues(
 }
 
 export function linkifyUrls(element: HTMLElement): void {
-	if (element.textContent.length < 15) { // Must be long enough for a URL
+	if (element.textContent.length < 15) {
+		// Must be long enough for a URL
 		return;
 	}
 
@@ -118,7 +131,8 @@ export function linkifyUrls(element: HTMLElement): void {
 		},
 	});
 
-	if (linkified.children.length === 0) { // Children are <a>
+	if (linkified.children.length === 0) {
+		// Children are <a>
 		return;
 	}
 

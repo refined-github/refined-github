@@ -36,11 +36,11 @@ type Bugs = {
 };
 
 async function countBugs(): Promise<Bugs> {
-	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
+	const {repository} = (await api.v4(CountBugs)) as {repository: ApiResponse};
 	const bugTypeCount = repository.issues.totalCount;
 
-	let label = repository.labels.nodes.find(label => label.name === 'bug');
-	label ??= repository.labels.nodes.find(label => isBugLabel(label.name));
+	let label = repository.labels.nodes.find((label) => label.name === 'bug');
+	label ??= repository.labels.nodes.find((label) => isBugLabel(label.name));
 
 	// Label might not be found if the repo uses a non-standard bug label name
 	const bugLabelCount = label?.issues.totalCount ?? 0;
@@ -58,7 +58,7 @@ const bugs = new CachedFunction('bugs', {
 });
 
 async function getSearchQueryBugLabel(): Promise<string> {
-	const {label} = await bugs.getCached() ?? {};
+	const {label} = (await bugs.getCached()) ?? {};
 	return `(label:${SearchQuery.escapeValue(label ?? 'bug')} OR type:Bug)`;
 }
 
@@ -82,7 +82,10 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
+	const issuesTab = await elementReady(
+		'a.UnderlineNav-item[data-hotkey="g i"]',
+		{waitForChildren: false},
+	);
 	if (!issuesTab) {
 		// Issues are disabled
 		return false;
@@ -102,7 +105,9 @@ async function addBugsTab(): Promise<void | false> {
 	const bugsTabTitle = $('[data-content]', bugsTab);
 	bugsTabTitle.dataset.content = 'Bugs';
 	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
+	$('.octicon', bugsTab).replaceWith(
+		<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />,
+	);
 
 	// Set temporary counter
 	const bugsCounter = $('.Counter', bugsTab);
@@ -110,7 +115,9 @@ async function addBugsTab(): Promise<void | false> {
 	bugsCounter.title = '';
 
 	// Update Bugs’ link
-	bugsTab.href = SearchQuery.from(bugsTab).append(await getSearchQueryBugLabel()).href;
+	bugsTab.href = SearchQuery.from(bugsTab).append(
+		await getSearchQueryBugLabel(),
+	).href;
 
 	// In case GitHub changes its layout again #4166
 	if (issuesTab.parentElement instanceof HTMLLIElement) {
@@ -140,7 +147,10 @@ function highlightBugsTab(): void {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	const pinnedIssues = await elementReady(
+		'.js-pinned-issues-reorder-container',
+		{waitForChildren: false},
+	);
 	pinnedIssues?.remove();
 }
 
@@ -151,15 +161,21 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 	}
 
 	if (
-		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
-		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
+		(pageDetect.isRepoTaxonomyIssueOrPRList() &&
+			location.href.endsWith('/labels/' + encodeURIComponent(label))) ||
+		(pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
 		void removePinnedIssues();
 		highlightBugsTab();
 		return;
 	}
 
-	if (pageDetect.isIssue() && (await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`))) {
+	if (
+		pageDetect.isIssue() &&
+		(await elementReady(
+			`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`,
+		))
+	) {
 		highlightBugsTab();
 		return;
 	}
@@ -178,9 +194,7 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

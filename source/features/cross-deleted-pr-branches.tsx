@@ -9,14 +9,20 @@ import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 
 function init(): void | false {
-	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');
+	const lastBranchAction = lastElement(
+		'.TimelineItem-body .user-select-contain.commit-ref',
+	);
 
 	const headReferenceLink = $optional('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
 
-	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent.includes(' deleted ')) {
+	if (
+		!lastBranchAction
+			?.closest('.TimelineItem-body')!
+			.textContent.includes(' deleted ')
+	) {
 		return false;
 	}
 
@@ -41,9 +47,7 @@ function init(): void | false {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // Must wait for the last one
 	init,

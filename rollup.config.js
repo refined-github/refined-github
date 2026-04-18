@@ -16,7 +16,19 @@ import browserslist from 'browserslist';
 
 import svelteConfig from './svelte.config.js';
 
-const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
+const noise = new Set([
+	'index',
+	'dist',
+	'src',
+	'source',
+	'distribution',
+	'node_modules',
+	'main',
+	'esm',
+	'cjs',
+	'build',
+	'built',
+]);
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {
@@ -39,7 +51,7 @@ const rollup = {
 			if (chunkInfo.name.includes('node_modules')) {
 				const cleanName = chunkInfo.name
 					.split('/')
-					.filter(part => !noise.has(part))
+					.filter((part) => !noise.has(part))
 					.join('-');
 				return `npm/${cleanName}.js`;
 			}
@@ -63,7 +75,9 @@ const rollup = {
 			options: {
 				include: Features.Nesting,
 				// Lighting issue: https://github.com/parcel-bundler/lightningcss/issues/826#issuecomment-2453982986
-				targets: browserslistToTargets(browserslist('chrome 123, firefox 126, iOS 17.5')),
+				targets: browserslistToTargets(
+					browserslist('chrome 123, firefox 126, iOS 17.5'),
+				),
 			},
 		}),
 		svelte(svelteConfig),
@@ -76,9 +90,7 @@ const rollup = {
 			include: '**/*.gql',
 		}),
 		alias({
-			entries: [
-				{find: 'react', replacement: 'dom-chef'},
-			],
+			entries: [{find: 'react', replacement: 'dom-chef'}],
 		}),
 		sucrase({
 			transforms: ['typescript', 'jsx'],

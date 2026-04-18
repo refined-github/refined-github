@@ -22,7 +22,10 @@ test('old feature names cannot appear anywhere in the repo', () => {
 	}
 });
 
-test.concurrent.each(newNames)('new feature must exist: source/features/%s.tsx', async newName => {
-	const filePath = path.join('source', 'features', `${newName}.tsx`);
-	await expect(fs.stat(filePath)).resolves.toBeDefined();
-});
+test.concurrent.each(newNames)(
+	'new feature must exist: source/features/%s.tsx',
+	async (newName) => {
+		const filePath = path.join('source', 'features', `${newName}.tsx`);
+		await expect(fs.stat(filePath)).resolves.toBeDefined();
+	},
+);

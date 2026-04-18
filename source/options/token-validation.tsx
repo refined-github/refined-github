@@ -67,8 +67,11 @@ async function validateToken(): Promise<void> {
 		// Build status message with user and expiration
 		let statusMessage = `👤 @${user}`;
 		if (tokenInfo.expiration) {
-			const msUntilExpiration = new Date(tokenInfo.expiration).getTime() - Date.now();
-			const daysUntilExpiration = Math.ceil(msUntilExpiration / (1000 * 60 * 60 * 24));
+			const msUntilExpiration =
+				new Date(tokenInfo.expiration).getTime() - Date.now();
+			const daysUntilExpiration = Math.ceil(
+				msUntilExpiration / (1000 * 60 * 60 * 24),
+			);
 			statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
 		} else {
 			statusMessage += ', no expiration';
@@ -86,7 +89,9 @@ async function validateToken(): Promise<void> {
 	}
 }
 
-export default async function initTokenValidation(syncedForm: SyncedForm | undefined): Promise<void> {
+export default async function initTokenValidation(
+	syncedForm: SyncedForm | undefined,
+): Promise<void> {
 	await validateToken();
 
 	// Listen to events

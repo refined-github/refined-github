@@ -22,7 +22,9 @@ function listener({key, target}: KeyboardEvent): void {
 			const {lineNumber} = selectedLineNumber.dataset;
 			selectedLineNumber.dataset.lineNumber = '';
 			// Trigger click to deselect
-			selectedLineNumber.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+			selectedLineNumber.dispatchEvent(
+				new MouseEvent('mousedown', {bubbles: true}),
+			);
 			// Restore line number
 			selectedLineNumber.dataset.lineNumber = lineNumber;
 			// Un-focus code block
@@ -41,9 +43,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
+	include: [pageDetect.hasCode],
 	init,
 });
 

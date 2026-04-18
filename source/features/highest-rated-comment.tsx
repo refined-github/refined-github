@@ -30,10 +30,9 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	const count = selectSum(positiveReactionsSelector, comment);
 	if (
 		// It needs to be upvoted enough times
-		count >= 10
-
+		count >= 10 &&
 		// It can't be a controversial comment
-		&& selectSum(negativeReactionsSelector, comment) < count / 2
+		selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
 		return count;
 	}
@@ -53,7 +52,9 @@ function getBestComment(): HTMLElement | undefined {
 }
 
 function highlightBestComment(bestComment: Element): void {
-	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
+	$('.unminimized-comment', bestComment).classList.add(
+		'rgh-highest-rated-comment',
+	);
 	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
 		<span
 			className="color-fg-success tooltipped tooltipped-s"
@@ -78,22 +79,30 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = $('img.avatar', bestComment).cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center">
+		<a
+			href={hash}
+			className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center"
+		>
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
-				<span className="Label mr-2">Highest-rated</span>{text}
+				<span className="Label mr-2">Highest-rated</span>
+				{text}
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">
-				<ArrowDownIcon className="mr-1" />Jump to comment
+				<ArrowDownIcon className="mr-1" />
+				Jump to comment
 			</div>
 		</a>,
 	);
 }
 
 function selectSum(selector: string, container: HTMLElement): number {
-	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+	return $$(selector, container).reduce(
+		(sum, element) => sum + looseParseInt(element),
+		0,
+	);
 }
 
 function init(): false | void {
@@ -102,8 +111,12 @@ function init(): false | void {
 		return false;
 	}
 
-	const commentText = $optional(singleParagraphCommentSelector, bestComment)?.textContent;
-	if (commentText && isLowQualityComment(commentText)) { // #5567
+	const commentText = $optional(
+		singleParagraphCommentSelector,
+		bestComment,
+	)?.textContent;
+	if (commentText && isLowQualityComment(commentText)) {
+		// #5567
 		return false;
 	}
 
@@ -112,9 +125,7 @@ function init(): false | void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // Must wait for all to pick the best one
 	init,

@@ -5,7 +5,8 @@ import {createContextMenu} from 'webext-tools';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 // Don't use `isFirefox` - #9065
-const area = chrome.storage.session?.setAccessLevel === undefined ? 'local' : 'session';
+const area =
+	chrome.storage.session?.setAccessLevel === undefined ? 'local' : 'session';
 
 export const contentScriptToggle = new StorageItem('contentScript', {
 	area,
@@ -13,9 +14,13 @@ export const contentScriptToggle = new StorageItem('contentScript', {
 });
 
 async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
-	if (tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
-		origins: [tab.url],
-	})) {
+	if (
+		tab.url &&
+		isScriptableUrl(tab.url) &&
+		(await chrome.permissions.contains({
+			origins: [tab.url],
+		}))
+	) {
 		await contentScriptToggle.set(false);
 		await chrome.tabs.reload(tab.id!);
 	} else {
@@ -25,7 +30,9 @@ async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
 }
 
 export default function addReloadWithoutContentScripts(): void {
-	void chrome.storage.session.setAccessLevel?.({accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS'});
+	void chrome.storage.session.setAccessLevel?.({
+		accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS',
+	});
 
 	void createContextMenu({
 		id: 'reload-without-content-scripts',

@@ -29,14 +29,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-		isArchivedRepoAsync,
-		isPermalink,
-	],
+	include: [pageDetect.isRepoTree],
+	exclude: [pageDetect.isRepoFile404, isArchivedRepoAsync, isPermalink],
 	init,
 });
 

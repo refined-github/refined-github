@@ -30,15 +30,16 @@ async function getWorkflows(): Promise<Workflow[]> {
 	const workflows = response.workflows as any[];
 
 	// The response is not reliable: Some workflow's path is '' and deleted workflow's state is 'active'
-	return workflows
-		.map<Workflow>(workflow => ({
-			name: workflow.path.split('/').pop()!,
-			isEnabled: workflow.state === 'active',
-		}));
+	return workflows.map<Workflow>((workflow) => ({
+		name: workflow.path.split('/').pop()!,
+		isEnabled: workflow.state === 'active',
+	}));
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
+	const {
+		repository: {workflowFiles},
+	} = await api.v4(GetWorkflows);
 
 	const workflows: any[] = workflowFiles?.entries ?? [];
 
@@ -52,7 +53,10 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 
 const workflowDetails = new CachedFunction('workflows-details', {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
-		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
+		const [workflows, workflowFiles] = await Promise.all([
+			getWorkflows(),
+			getFilesInWorkflowPath(),
+		]);
 
 		const details: Record<string, Workflow & WorkflowDetails> = {};
 
@@ -64,7 +68,9 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm)].map(match => match[1]);
+			const crons = [
+				...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm),
+			].map((match) => match[1]);
 			details[workflow.name] = {
 				...workflow,
 				schedules: crons,
@@ -88,7 +94,10 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
+	if (
+		workflow.manuallyDispatchable &&
+		workflowLink.pathname !== location.pathname
+	) {
 		if (workflowLink.nextElementSibling) {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
@@ -144,23 +153,27 @@ async function init(signal: AbortSignal): Promise<false | void> {
 function openRunWorkflow(): void {
 	removeHashFromUrlBar();
 	// Note that the attribute is removed after the first opening, so the selector only matches it once
-	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
+	const dropdown = $(
+		'details[data-deferred-details-content-url*="/actions/manual?workflow="]',
+	);
 	dropdown.open = true;
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepositoryActions,
-		async () => Boolean(await workflowDetails.get()),
-	],
-	init,
-}, {
-	include: [
-		() => location.hash === '#rgh-run-workflow',
-	],
-	awaitDomReady: true,
-	init: openRunWorkflow,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [
+			pageDetect.isRepositoryActions,
+			async () => Boolean(await workflowDetails.get()),
+		],
+		init,
+	},
+	{
+		include: [() => location.hash === '#rgh-run-workflow'],
+		awaitDomReady: true,
+		init: openRunWorkflow,
+	},
+);
 
 /*
 

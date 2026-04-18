@@ -12,7 +12,10 @@ function addLink(showCaseTitle: Element): void {
 		sort: 'stargazers',
 	}).toString();
 
-	showCaseTitle.firstChild!.after(' / ', <a href={url.href}>Top repositories</a>);
+	showCaseTitle.firstChild!.after(
+		' / ',
+		<a href={url.href}>Top repositories</a>,
+	);
 }
 
 function init(signal: AbortSignal): void {
@@ -20,9 +23,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfileMainTab,
-	],
+	include: [pageDetect.isUserProfileMainTab],
 	init,
 });
 

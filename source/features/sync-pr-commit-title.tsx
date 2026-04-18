@@ -5,7 +5,10 @@ import * as pageDetect from 'github-url-detection';
 
 import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
+import {
+	getConversationNumber,
+	userCanLikelyMergePr,
+} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
 import observe from '../helpers/selector-observer.js';
 import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
@@ -13,7 +16,8 @@ import setReactInputValue from '../helpers/set-react-input-value.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
+const commitTitleFieldSelector =
+	'[data-testid="mergebox-partial"] input[type="text"]';
 
 function getCurrentCommitTitleField(): HTMLInputElement | undefined {
 	return $optional(commitTitleFieldSelector);
@@ -23,7 +27,10 @@ function getCurrentCommitTitle(): string | undefined {
 	return getCurrentCommitTitleField()?.value.trim();
 }
 
-export function formatPrCommitTitle(title: string, prNumber = getConversationNumber()!): string {
+export function formatPrCommitTitle(
+	title: string,
+	prNumber = getConversationNumber()!,
+): string {
 	return `${title} (#${prNumber})`;
 }
 
@@ -34,31 +41,48 @@ function createCommitTitle(): string {
 		// Old view - TODO: Remove after July 2026
 		'input#issue_title',
 	]);
-	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value.trim() : parseRenderedText(prTitle);
+	const prTitleText =
+		prTitle instanceof HTMLInputElement
+			? prTitle.value.trim()
+			: parseRenderedText(prTitle);
 	return formatPrCommitTitle(prTitleText);
 }
 
 function needsSubmission(): boolean {
 	const mergeButton = $optional(confirmMergeButton);
 	const textContent = mergeButton?.textContent?.trim();
-	if (!textContent || ![
-		'Confirm squash and merge',
-		'Confirm auto-merge (squash)',
-		'Confirm bypass rules and merge (squash)',
-	].includes(textContent)) {
+	if (
+		!textContent ||
+		![
+			'Confirm squash and merge',
+			'Confirm auto-merge (squash)',
+			'Confirm bypass rules and merge (squash)',
+		].includes(textContent)
+	) {
 		return false;
 	}
 
 	const currentCommitTitle = getCurrentCommitTitle()!;
-	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
+	return (
+		Boolean(currentCommitTitle) && createCommitTitle() !== currentCommitTitle
+	);
 }
 
 function getUi(): HTMLElement {
-	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
-	return $optional('.rgh-sync-pr-commit-title-note') ?? (
-		<p className="note rgh-sync-pr-commit-title-note">
-			The title of this PR will be updated to match this title. {cancelButton}
-		</p>
+	const cancelButton = (
+		<button
+			type="button"
+			className="btn-link Link--muted text-underline rgh-sync-pr-commit-title"
+		>
+			Cancel
+		</button>
+	);
+	return (
+		$optional('.rgh-sync-pr-commit-title-note') ?? (
+			<p className="note rgh-sync-pr-commit-title-note">
+				The title of this PR will be updated to match this title. {cancelButton}
+			</p>
+		)
 	);
 }
 
@@ -76,7 +100,10 @@ async function updatePrTitle(): Promise<void> {
 	}
 
 	// Remove PR number from commit title
-	const title = cleanPrCommitTitle(getCurrentCommitTitle()!, getConversationNumber()!);
+	const title = cleanPrCommitTitle(
+		getCurrentCommitTitle()!,
+		getConversationNumber()!,
+	);
 
 	await api.v3(`pulls/${getConversationNumber()!}`, {
 		method: 'PATCH',
@@ -101,10 +128,14 @@ function disableSubmission(): void {
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
 	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe([
-		'h1[class^="prc-PageHeader-Title"]',
-		'.gh-header-title', // Old view - TODO: Remove after July 2026
-	], updateCommitTitle, {signal}); // On PR title change
+	observe(
+		[
+			'h1[class^="prc-PageHeader-Title"]',
+			'.gh-header-title', // Old view - TODO: Remove after July 2026
+		],
+		updateCommitTitle,
+		{signal},
+	); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUi, signal);
@@ -117,15 +148,9 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		userCanLikelyMergePr,
-	],
-	include: [
-		pageDetect.isPRConversation,
-	],
-	exclude: [
-		pageDetect.isMergedPR,
-	],
+	asLongAs: [userCanLikelyMergePr],
+	include: [pageDetect.isPRConversation],
+	exclude: [pageDetect.isMergedPR],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
 	init,
 });

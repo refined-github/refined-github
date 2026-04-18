@@ -24,9 +24,10 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 			<div className="flash flash-error px-3 mt-3 mb-0 py-2 d-flex flex-items-center border-0 rounded-0">
 				<AlertIcon className="mr-2" />
 				<span>
-					Write API calls are blocked because your {' '}
-					<OptionsLink className="btn-link">Refined GitHub token</OptionsLink>
-					{' '} belongs to <code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.
+					Write API calls are blocked because your{' '}
+					<OptionsLink className="btn-link">Refined GitHub token</OptionsLink>{' '}
+					belongs to <code>{currentTokenUser}</code>, not{' '}
+					<code>{currentWebUser}</code>.
 				</span>
 			</div>,
 		);

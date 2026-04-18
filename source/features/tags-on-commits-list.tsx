@@ -15,7 +15,9 @@ import delay from '../helpers/delay.js';
 
 type CommitTags = Record<string, string[]>;
 
-const arrayUnion = (x: string[], y: string[]): string[] => [...new Set([...x, ...y])];
+const arrayUnion = (x: string[], y: string[]): string[] => [
+	...new Set([...x, ...y]),
+];
 
 type BaseTarget = {
 	commitResourcePath: string;
@@ -52,11 +54,14 @@ function isTagTarget(target: CommonTarget): target is TagTarget {
 	return 'tagger' in target;
 }
 
-async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
+async function getTags(
+	lastCommit: string,
+	after?: string,
+): Promise<CommitTags> {
 	const {repository} = await api.v4(GetTagsOnCommit, {
 		variables: {
 			commit: lastCommit,
-			...after && {after},
+			...(after && {after}),
 		},
 	});
 	const nodes = repository.refs.nodes as TagNode[];
@@ -79,11 +84,18 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	}
 
 	const lastTag = nodes.at(-1)!.target;
-	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
+	const lastTagIsYounger =
+		new Date(repository.object.committedDate) <
+		new Date(
+			isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate,
+		);
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
 	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {
-		tags = mergeTags(tags, await getTags(lastCommit, repository.refs.pageInfo.endCursor));
+		tags = mergeTags(
+			tags,
+			await getTags(lastCommit, repository.refs.pageInfo.endCursor),
+		);
 	}
 
 	// There are no tags for this commit
@@ -103,7 +115,7 @@ async function init(): Promise<void | false> {
 	}
 
 	const lastCommitOnPage = getCommitHash(commitsOnPage.at(-1)!);
-	let cached = await cache.get<Record<string, string[]>>(cacheKey) ?? {};
+	let cached = (await cache.get<Record<string, string[]>>(cacheKey)) ?? {};
 	const commitsWithNoTags = [];
 	for (const commit of commitsOnPage) {
 		const targetCommit = getCommitHash(commit);
@@ -119,16 +131,19 @@ async function init(): Promise<void | false> {
 			// There was no tag for this commit, save that info to the cache
 			commitsWithNoTags.push(targetCommit);
 		} else if (targetTags.length > 0) {
-			const commitMeta = $([
-				'div[data-testid="list-view-item-description"]',
-				'[class^="Description-module__container"]',
-			], commit);
+			const commitMeta = $(
+				[
+					'div[data-testid="list-view-item-description"]',
+					'[class^="Description-module__container"]',
+				],
+				commit,
+			);
 
 			commitMeta.append(
 				<div className="ml-1 d-flex flex-items-center gap-1">
 					<TagIcon />
 					<span className="d-flex flex-wrap gap-1">
-						{...targetTags.map(tag => (
+						{...targetTags.map((tag) => (
 							<>
 								{' '}
 								{/* .markdown-title enables the background color */}
@@ -157,9 +172,7 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoCommitList,
-	],
+	include: [pageDetect.isRepoCommitList],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
 	init,

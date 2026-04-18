@@ -20,7 +20,8 @@ const fetchGist = mem(
 		messageRuntime({fetchJson: `${url}.json`}),
 );
 
-const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();
+const isOnlyChild = (link: HTMLAnchorElement): boolean =>
+	link.textContent.trim() === link.parentElement!.textContent.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	const info = <em> (loading)</em>;
@@ -39,7 +40,8 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		} else {
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>{`
+				<style>
+					{`
 					.gist .gist-data {
 						max-height: 16em;
 						overflow-y: auto;
@@ -59,17 +61,19 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe(standaloneGistLinkInMarkdown, link => {
-		if (pageDetect.isGistFile(link) && isOnlyChild(link)) {
-			void embedGist(link);
-		}
-	}, {signal});
+	observe(
+		standaloneGistLinkInMarkdown,
+		(link) => {
+			if (pageDetect.isGistFile(link) && isOnlyChild(link)) {
+				void embedGist(link);
+			}
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.hasComments],
 	init,
 });
 

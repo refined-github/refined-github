@@ -4,7 +4,10 @@ import {$} from 'select-dom/strict.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 
 // Wrap a list of elements with BtnGroup + ensure each has BtnGroup-item
-export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElement {
+export function groupButtons(
+	buttons: Element[],
+	...classes: string[]
+): HTMLElement {
 	// Ensure every button has this class
 	for (let button of buttons) {
 		if (!button.matches('button, .btn')) {

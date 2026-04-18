@@ -30,8 +30,10 @@ export async function unhideOverflowDropdown(): Promise<boolean> {
 	return true;
 }
 
-async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<void> {
-	const reference = getCurrentGitRef() ?? await getDefaultBranch();
+async function addDropdownItems(
+	repoNavigationDropdown: HTMLElement,
+): Promise<void> {
+	const reference = getCurrentGitRef() ?? (await getDefaultBranch());
 	const compareUrl = buildRepoUrl('compare', reference);
 	const commitsUrl = buildRepoUrl('commits', reference);
 	const branchesUrl = buildRepoUrl('branches');
@@ -47,10 +49,10 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 		pageDetect.isEnterprise()
 			? ''
 			: createDropdownItem({
-				label: 'Dependencies',
-				href: dependenciesUrl,
-				icon: PackageDependenciesIcon,
-			}),
+					label: 'Dependencies',
+					href: dependenciesUrl,
+					icon: PackageDependenciesIcon,
+				}),
 		createDropdownItem({
 			label: 'Commits',
 			href: commitsUrl,
@@ -72,9 +74,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

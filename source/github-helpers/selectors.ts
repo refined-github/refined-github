@@ -5,7 +5,8 @@ const requiresLogin: UrlMatch[] = [];
 export type UrlMatch = [expectations: number, url: string];
 
 /** The repo navigation bar */
-export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
+export const repoUnderlineNavUl =
+	'.js-responsive-underlinenav ul.UnderlineNav-body';
 export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	[1, 'https://github.com/refined-github/refined-github/releases'],
@@ -22,7 +23,8 @@ export const standaloneGistLinkInMarkdown_ = [
 ] satisfies UrlMatch[];
 
 /** The repo navigation bar’s overflow menu */
-export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
+export const repoUnderlineNavDropdownUl =
+	'.js-responsive-underlinenav action-menu ul';
 export const repoUnderlineNavDropdownUl_ = [
 	// Added via JS :(
 	// TODO: Use Puppeteer?
@@ -71,10 +73,11 @@ export const prCommitStatusIcon_ = [
 export const openPrsListLink = [
 	// `.color-fg-open` is needed because of the icon added by `highlight-non-default-base-branch`
 	css`
-		.js-issue-row:has(
-			.octicon-git-pull-request.color-fg-open,
-			.octicon-git-pull-request-draft
-		) a.js-navigation-open
+		.js-issue-row: has(
+				.octicon-git-pull-request.color-fg-open,
+				.octicon-git-pull-request-draft
+			)
+			a.js-navigation-open;
 	`,
 	// React view
 	css`
@@ -102,20 +105,21 @@ export const actionsTab_ = [
 	[1, 'https://github.com/refined-github/sandbox'],
 ] satisfies UrlMatch[];
 
-export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
+export const paginationButtonSelector =
+	'.ajax-pagination-form button.ajax-pagination-btn';
 export const paginationButtonSelector_ = [
 	[2, 'https://github.com/refined-github/sandbox/pull/10'],
 ] satisfies UrlMatch[];
 
 export const codeSearchHeader = css`
-	div:has(
-		> [aria-label^="Collapse "],
-		> [aria-label^="Expand "]
-	)
+	div: has(> [aria-label^= 'Collapse '], > [aria-label^= 'Expand ']);
 `;
 export const codeSearchHeader_ = [
 	// Search not available when logged out :(
-	[0, 'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code'],
+	[
+		0,
+		'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code',
+	],
 ] satisfies UrlMatch[];
 
 export const linksToConversationLists = `
@@ -133,8 +137,14 @@ export const linksToConversationLists = `
 	)
 `;
 export const linksToConversationLists_ = [
-	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
-	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
+	[
+		6,
+		'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+',
+	],
+	[
+		26,
+		'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed',
+	],
 ] satisfies UrlMatch[];
 
 export const newCommentField = [
@@ -151,14 +161,24 @@ export const commitHashLinkInLists = [
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
 ] as unknown as Array<'a'>;
 export const commitHashLinkInLists_ = [
-	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[
+		35,
+		'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174',
+	],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
-	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
+	[
+		5,
+		'https://github.com/refined-github/refined-github/pull/6194#event-8016526003',
+	],
 ] satisfies UrlMatch[];
 
-export const commitTitleInLists = '[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
+export const commitTitleInLists =
+	'[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
 export const commitTitleInLists_ = [
-	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[
+		35,
+		'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174',
+	],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
 ];
 
@@ -174,7 +194,7 @@ const botNames = [
 	'github-apps', // GHE apps
 ] as const;
 
-const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+const botAttributes = botNames.map((bot) => `[href^="/${bot}"]`).join(', ');
 
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 // ^= is needed to match /apps/* URLs
@@ -187,11 +207,14 @@ export const botLinksCommitSelectors = [
 	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
 ];
 export const botLinksCommitSelectors_ = [
-	[1, 'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03'],
+	[
+		1,
+		'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03',
+	],
 ];
 
 export const botLinksPrSelectors = [
-	...botNames.flatMap(bot => [
+	...botNames.flatMap((bot) => [
 		`.opened-by [title$="pull requests created by ${bot}"]`,
 		`.opened-by [title$="pull requests opened by ${bot}"]`,
 	]),
@@ -199,7 +222,10 @@ export const botLinksPrSelectors = [
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
 ];
 export const botLinksPrSelectors_ = [
-	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
+	[
+		1,
+		'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash',
+	],
 ];
 
 export const botLinksNotificationSelectors = [
@@ -250,10 +276,12 @@ export const actionBarSelectors = [
 ];
 export const actionBarSelectors_ = requiresLogin;
 
-export const prMergeabilityBoxCaption = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption =
+	'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
-export const prMergeabilityBoxHeader = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader =
+	'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
 export const deletedHeadRepository = [
@@ -282,5 +310,6 @@ export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/refined-github/pull/4030'],
 ];
 
-export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
+export const confirmMergeButton =
+	'[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
 export const confirmMergeButton_ = requiresLogin;

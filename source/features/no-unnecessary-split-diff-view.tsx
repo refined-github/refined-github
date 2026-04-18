@@ -21,21 +21,23 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 	// Avoid selecting suggested deletions/additions
 	if (!elementExists(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
-	} else if (!elementExists(':scope > tr > td:nth-child(4) > .addition', tableBody)) {
+	} else if (
+		!elementExists(':scope > tr > td:nth-child(4) > .addition', tableBody)
+	) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class*="DiffLines-module__tableLayoutFixed"] > tbody', manageSplitDiffState, {signal});
+	observe(
+		'[class*="DiffLines-module__tableLayoutFixed"] > tbody',
+		manageSplitDiffState,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPR,
-		pageDetect.isCompare,
-		pageDetect.isCommit,
-	],
+	include: [pageDetect.isPR, pageDetect.isCompare, pageDetect.isCommit],
 	init,
 });
 

@@ -4,7 +4,15 @@ import {$optional} from 'select-dom/strict.js';
 import {extractCurrentBranchFromBranchPicker} from './index.js';
 import {branchSelector} from './selectors.js';
 
-const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
+const typesWithGitRef = new Set([
+	'tree',
+	'blob',
+	'blame',
+	'edit',
+	'commit',
+	'commits',
+	'compare',
+]);
 const titleWithGitRef = / at (?<branch>[.\w/-]+)(?: · [\w-]+\/[\w-]+)?$/i;
 
 /** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
@@ -49,14 +57,14 @@ export function getGitRef(pathname: string, title: string): string | undefined {
 
 // In <head>, but not reliable https://github.com/refined-github/refined-github/assets/1402241/50357d94-505f-48dc-bd54-74e86b19d642
 function getCurrentBranchFromFeed(): string | undefined {
-	const feedLink = isRepoCommitList() && $optional('link[type="application/atom+xml"]');
+	const feedLink =
+		isRepoCommitList() && $optional('link[type="application/atom+xml"]');
 	if (!feedLink) {
 		// Do not throw errors, the element may be missing after AJAX navigation even if on the right page
 		return;
 	}
 
-	return new URL(feedLink.href)
-		.pathname
+	return new URL(feedLink.href).pathname
 		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
 		.join('/')

@@ -3,13 +3,43 @@ import {wrapFieldSelection} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
-import {onCommentFieldKeydown, onConversationTitleFieldKeydown, onCommitTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {
+	onCommentFieldKeydown,
+	onConversationTitleFieldKeydown,
+	onCommitTitleFieldKeydown,
+} from '../github-events/on-field-keydown.js';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
-const quoteCharacters = new Set(['`', '\'', '"']);
+const formattingCharacters = [
+	'`',
+	"'",
+	'"',
+	'[',
+	'(',
+	'{',
+	'*',
+	'_',
+	'~',
+	'“',
+	'‘',
+];
+const matchingCharacters = [
+	'`',
+	"'",
+	'"',
+	']',
+	')',
+	'}',
+	'*',
+	'_',
+	'~',
+	'”',
+	'’',
+];
+const quoteCharacters = new Set(['`', "'", '"']);
 
-function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
+function eventHandler(
+	event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>,
+): void {
 	const field = event.delegateTarget;
 	const formattingChar = event.key;
 
@@ -25,13 +55,18 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 	}
 
 	// Allow replacing quotes #5960
-	if (quoteCharacters.has(formattingChar) && end - start === 1 && quoteCharacters.has(field.value.at(start)!)) {
+	if (
+		quoteCharacters.has(formattingChar) &&
+		end - start === 1 &&
+		quoteCharacters.has(field.value.at(start)!)
+	) {
 		return;
 	}
 
 	event.preventDefault();
 
-	const matchingEndChar = matchingCharacters[formattingCharacters.indexOf(formattingChar)];
+	const matchingEndChar =
+		matchingCharacters[formattingCharacters.indexOf(formattingChar)];
 	wrapFieldSelection(field, formattingChar, matchingEndChar);
 }
 
@@ -39,12 +74,17 @@ function init(signal: AbortSignal): void {
 	onCommentFieldKeydown(eventHandler, signal);
 	onConversationTitleFieldKeydown(eventHandler, signal);
 	onCommitTitleFieldKeydown(eventHandler, signal);
-	delegate([
-		'input[name="commit_title"]',
-		'input[name="gist[description]"]',
-		'#saved-reply-title-field',
-		'#commit-message-input',
-	], 'keydown', eventHandler, {signal});
+	delegate(
+		[
+			'input[name="commit_title"]',
+			'input[name="gist[description]"]',
+			'#saved-reply-title-field',
+			'#commit-message-input',
+		],
+		'keydown',
+		eventHandler,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

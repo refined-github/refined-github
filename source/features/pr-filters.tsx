@@ -14,13 +14,20 @@ import SearchQuery from '../github-helpers/search-query.js';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
-function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
+function addDropdownItem(
+	dropdown: HTMLElement,
+	title: string,
+	filterCategory: string,
+	filterValue: string,
+): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
 	const searchQuery = SearchQuery.from(location);
 	const isSelected = searchQuery.includes(filterQuery);
 
-	const filtersToRemove = searchQuery.getQueryParts().filter(part => part.startsWith(`${filterCategory}:`));
+	const filtersToRemove = searchQuery
+		.getQueryParts()
+		.filter((part) => part.startsWith(`${filterCategory}:`));
 	searchQuery.remove(...filtersToRemove);
 
 	if (!isSelected) {
@@ -42,9 +49,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 
 function addDraftFilter(dropdown: HTMLElement): void {
 	dropdown.append(
-		<div className="SelectMenu-divider">
-			Filter by draft pull requests
-		</div>,
+		<div className="SelectMenu-divider">Filter by draft pull requests</div>,
 	);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
@@ -55,14 +60,16 @@ const hasChecks = new CachedFunction('has-checks', {
 	async updater(): Promise<boolean> {
 		const {repository} = await api.v4(HasChecks);
 
-		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
+		return repository.head.history.nodes.some(
+			(commit: AnyObject) => commit.statusCheckRollup,
+		);
 	},
 	maxAge: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
-	if (!await hasChecks.get()) {
+	if (!(await hasChecks.get())) {
 		return;
 	}
 
@@ -86,13 +93,13 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
-	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
+	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRList,
-	],
+	include: [pageDetect.isPRList],
 	init,
 });
 

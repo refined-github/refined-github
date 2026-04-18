@@ -9,7 +9,9 @@ import pluralize from '../helpers/pluralize.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
 
 const commitChanges = new CachedFunction('commit-changes', {
-	async updater(commit: string): Promise<[additions: number, deletions: number]> {
+	async updater(
+		commit: string,
+	): Promise<[additions: number, deletions: number]> {
 		const {repository} = await api.v4(GetCommitChanges, {
 			variables: {
 				commit,
@@ -23,10 +25,17 @@ const commitChanges = new CachedFunction('commit-changes', {
 async function init(): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await commitChanges.get(commitSha);
-	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
+	const tooltip = pluralize(
+		additions + deletions,
+		'1 line changed',
+		'$$ lines changed',
+	);
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
-		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
+		<span
+			className="ml-2 diffstat tooltipped tooltipped-s"
+			aria-label={tooltip}
+		>
 			<span className="color-fg-success">+{additions}</span>{' '}
 			<span className="color-fg-danger">−{deletions}</span>{' '}
 			<span className="diffstat-block-neutral" />
@@ -39,9 +48,7 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRCommit],
 	deduplicate: 'has-rgh-inner',
 	init,
 });

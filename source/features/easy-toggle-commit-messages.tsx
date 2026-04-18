@@ -18,11 +18,14 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	$optional([
-		'[data-testid="commit-row-show-description-button"]', // Commit list
-		'[data-testid="latest-commit-details-toggle"]', // File/folder
-		'.ellipsis-expander', // Compare
-	], event.delegateTarget)?.dispatchEvent(
+	$optional(
+		[
+			'[data-testid="commit-row-show-description-button"]', // Commit list
+			'[data-testid="latest-commit-details-toggle"]', // File/folder
+			'.ellipsis-expander', // Compare
+		],
+		event.delegateTarget,
+	)?.dispatchEvent(
 		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
 	);
 }
@@ -44,9 +47,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

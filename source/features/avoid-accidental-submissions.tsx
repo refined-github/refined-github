@@ -6,38 +6,53 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
-function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
+function onKeyDown(
+	event: DelegateEvent<KeyboardEvent, HTMLInputElement>,
+): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
 	if (
-		event.key !== 'Enter'
-		|| event.ctrlKey
-		|| event.metaKey
-		|| event.isComposing // #4323
-		|| elementExists([
-			'.suggester', // GitHub’s autocomplete dropdown
-			'.rgh-avoid-accidental-submissions',
-		], form)
+		event.key !== 'Enter' ||
+		event.ctrlKey ||
+		event.metaKey ||
+		event.isComposing || // #4323
+		elementExists(
+			[
+				'.suggester', // GitHub’s autocomplete dropdown
+				'.rgh-avoid-accidental-submissions',
+			],
+			form,
+		)
 	) {
 		return;
 	}
 
-	if (elementExists([
-		'button[data-hotkey="Mod+Enter"]:disabled',
-		'button[type="submit"]:disabled',
-	], form)) {
+	if (
+		elementExists(
+			[
+				'button[data-hotkey="Mod+Enter"]:disabled',
+				'button[type="submit"]:disabled',
+			],
+			form,
+		)
+	) {
 		return;
 	}
 
 	const isLegacyInput = field.matches(legacyInputElements);
 
-	const spacingClasses = pageDetect.isNewFile() || pageDetect.isEditingFile()
-		? isLegacyInput ? 'my-1' : 'mb-3 mt-n2'
-		: 'mt-2 mb-n1';
+	const spacingClasses =
+		pageDetect.isNewFile() || pageDetect.isEditingFile()
+			? isLegacyInput
+				? 'my-1'
+				: 'mb-3 mt-n2'
+			: 'mt-2 mb-n1';
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd><kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press{' '}
+			<kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd>
+			<kbd>enter</kbd>.
 		</p>
 	);
 
@@ -65,7 +80,10 @@ const inputElements = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {signal, capture: true});
+	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {
+		signal,
+		capture: true,
+	});
 }
 
 void features.add(import.meta.url, {

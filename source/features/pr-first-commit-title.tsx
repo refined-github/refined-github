@@ -8,10 +8,15 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
-function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
-	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
-		?.textContent
-		.trim() ?? undefined;
+function getFirstCommit(firstCommitTitle: HTMLElement): {
+	title: string;
+	body: string | undefined;
+} {
+	const body =
+		$optional(
+			'.Details-content--hidden pre',
+			firstCommitTitle.parentElement!,
+		)?.textContent.trim() ?? undefined;
 
 	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
 		// Exclude expand body button
@@ -46,15 +51,16 @@ function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
-		insertTextIntoField(
-			$('#pull_request_body'),
-			firstCommit.body,
-		);
+		insertTextIntoField($('#pull_request_body'), firstCommit.body);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('#commits_bucket > :first-child .js-commits-list-item:first-child p', useCommitTitle, {signal});
+	observe(
+		'#commits_bucket > :first-child .js-commits-list-item:first-child p',
+		useCommitTitle,
+		{signal},
+	);
 }
 
 // The user already altered the PR title/body in a previous load, don't overwrite it
@@ -62,16 +68,17 @@ function init(signal: AbortSignal): void {
 function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
-		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
+		sessionStorage.getItem(
+			`copilot-generate-pull-title:${location.pathname}`,
+		) ??
 		// Remove after August 2026
-		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+		(sessionResumeId &&
+			sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	exclude: [
 		() => new URLSearchParams(location.search).has('title'),
 		hasUserAlteredThePr,

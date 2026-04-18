@@ -7,19 +7,24 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(textLine: HTMLElement): void {
-	const url = $('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
+	const url = $(
+		'a.dropdown-item[href^="#pullrequestreview-"]',
+		textLine.parentElement!,
+	);
 	// `lastChild` is a textNode
 	wrap(textLine.lastChild!, <a href={url.hash} />);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.merge-status-item.review-item [title*="requested changes"]', linkify, {signal});
+	observe(
+		'.merge-status-item.review-item [title*="requested changes"]',
+		linkify,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	init,
 });
 

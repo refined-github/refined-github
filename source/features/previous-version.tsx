@@ -12,7 +12,9 @@ import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
+async function getPreviousCommitForFile(
+	pathname: string,
+): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
@@ -31,9 +33,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		return;
 	}
 
-	return new GitHubFileUrl(location.href)
-		.assign({branch: previousCommit})
-		.href;
+	return new GitHubFileUrl(location.href).assign({branch: previousCommit}).href;
 }
 
 function addMobileDom(wrappedHistoryButton: HTMLElement): HTMLAnchorElement {
@@ -53,7 +53,10 @@ function addDesktopDom(historyButton: HTMLAnchorElement): HTMLAnchorElement {
 	return previousButton;
 }
 
-async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
+async function add(
+	historyButton: HTMLAnchorElement,
+	{signal}: SignalAsOptions,
+): Promise<void> {
 	const url = await getPreviousFileUrl();
 	if (!url) {
 		return;
@@ -63,7 +66,13 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
 	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
 
-	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
+	if (
+		elementExists(
+			wrappedHistoryButton
+				? '.rgh-previous-version-mobile'
+				: '.rgh-previous-version-desktop',
+		)
+	) {
 		return;
 	}
 
@@ -76,7 +85,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 		<VersionsIcon />,
 	);
 
-	onReactPageUpdate(async pageUnload => {
+	onReactPageUpdate(async (pageUnload) => {
 		const url = await getPreviousFileUrl();
 		if (pageUnload.aborted) {
 			return;
@@ -92,18 +101,14 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
+	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-		pageDetect.isRepoTree,
-		pageDetect.isBlame,
-	],
-	exclude: [
-		pageDetect.isRepoHome,
-	],
+	include: [pageDetect.isSingleFile, pageDetect.isRepoTree, pageDetect.isBlame],
+	exclude: [pageDetect.isRepoHome],
 	init,
 });
 

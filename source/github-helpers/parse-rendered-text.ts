@@ -1,5 +1,12 @@
-export default function parseRenderedText(element: Element, filter?: NodeFilter): string {
-	const walker = document.createTreeWalker(element, NodeFilter.SHOW_ALL, filter);
+export default function parseRenderedText(
+	element: Element,
+	filter?: NodeFilter,
+): string {
+	const walker = document.createTreeWalker(
+		element,
+		NodeFilter.SHOW_ALL,
+		filter,
+	);
 
 	// eslint-disable-next-line @typescript-eslint/no-restricted-types
 	let currentNode = walker.currentNode as Node | null;

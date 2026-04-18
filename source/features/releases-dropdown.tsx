@@ -13,7 +13,9 @@ import {expectToken} from '../github-helpers/github-token.js';
 const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
 		const {repository} = await api.v4(GetReleases);
-		return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
+		return repository.releases.nodes.map(
+			({tagName}: {tagName: string}) => tagName,
+		);
 	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},
@@ -21,12 +23,17 @@ const getReleases = new CachedFunction('releases', {
 });
 
 // `datalist` selections don't have an `inputType`
-async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
+async function selectionHandler(
+	event: DelegateEvent<Event, HTMLInputElement>,
+): Promise<void> {
 	const field = event.delegateTarget;
 	const selectedTag = field.value;
 	const releases = await getReleases.get(); // Expected to be in cache
 	if (!('inputType' in event) && releases.includes(selectedTag)) {
-		location.href = buildRepoUrl('releases/tag', encodeURIComponent(selectedTag));
+		location.href = buildRepoUrl(
+			'releases/tag',
+			encodeURIComponent(selectedTag),
+		);
 		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 	}
 }
@@ -40,7 +47,9 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 	searchField.setAttribute('list', 'rgh-releases-dropdown');
 	searchField.after(
 		<datalist id="rgh-releases-dropdown">
-			{releases.map(tag => <option value={tag} />)}
+			{releases.map((tag) => (
+				<option value={tag} />
+			))}
 		</datalist>,
 	);
 }
@@ -53,9 +62,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleases,
-	],
+	include: [pageDetect.isReleases],
 	init,
 });
 

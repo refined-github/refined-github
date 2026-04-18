@@ -4,7 +4,9 @@ import filterAlteredClicks from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 
-function openInNewTab(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
+function openInNewTab(
+	event: DelegateEvent<MouseEvent, HTMLAnchorElement>,
+): void {
 	event.preventDefault();
 	window.open(event.delegateTarget.href, '_blank');
 }
@@ -23,10 +25,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-		pageDetect.isEditingFile,
-	],
+	include: [pageDetect.hasRichTextEditor, pageDetect.isEditingFile],
 	init,
 });
 

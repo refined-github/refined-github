@@ -17,31 +17,43 @@ import {
 	triggerRepoNavOverflow,
 } from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
-import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
+import {
+	repoUnderlineNavUl,
+	repoUnderlineNavDropdownUl,
+} from '../github-helpers/selectors.js';
 import GetReleasesCount from './releases-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
-	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
+	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace(
+		'repo_releases ',
+		'',
+	);
 }
 
 const releasesCount = new CachedFunction('releases-count', {
 	updater: fetchCounts,
-	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
+	shouldRevalidate: (cachedValue) => typeof cachedValue === 'number',
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
-export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+export async function getReleases(): Promise<
+	[0] | [number, 'Tags' | 'Releases']
+> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
 }
 
-async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
+async function fetchCounts(
+	nameWithOwner: string,
+): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const [owner, name] = nameWithOwner.split('/');
-	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
+	const {
+		repository: {releases, tags},
+	} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},
 	});
 
@@ -56,7 +68,9 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	return [0];
 }
 
-async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
+async function addReleasesTab(
+	repoNavigationBar: HTMLElement,
+): Promise<false | void> {
 	const [count, type] = await getReleases();
 	if (!type) {
 		return false;
@@ -78,7 +92,9 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 			>
 				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+				<span className="Counter" title={count > 999 ? String(count) : ''}>
+					{abbreviateNumber(count)}
+				</span>
 			</a>
 		</li>,
 	);
@@ -86,7 +102,9 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 	triggerRepoNavOverflow();
 }
 
-async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
+async function addReleasesDropdownItem(
+	dropdownMenu: HTMLElement,
+): Promise<false | void> {
 	const [, type] = await getReleases();
 
 	if (!type) {
@@ -112,7 +130,11 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
-	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
+	observe(
+		['[data-menu-item="i0code-tab"] a', 'a#code-tab'],
+		detachHighlightFromCodeTab,
+		{signal},
+	);
 	// Workaround for #8867
 	// TODO: remove once the issue is resolved
 	registerHotkey('g r', buildRepoUrl('releases'), {signal});
@@ -122,9 +144,7 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		'g r': 'Go to Releases',
 	},
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

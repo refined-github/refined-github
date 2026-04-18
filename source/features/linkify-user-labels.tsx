@@ -33,7 +33,13 @@ function linkify(label: HTMLElement): void {
 
 	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getAuthor(label));
-	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
+	wrap(
+		label,
+		<a
+			className="Link--onHover color-fg-inherit rgh-linkify-user-labels"
+			href={url.href}
+		/>,
+	);
 }
 
 const ariaLabelSelector = [
@@ -43,21 +49,20 @@ const ariaLabelSelector = [
 ].join(',');
 
 function init(signal: AbortSignal): void {
-	observe([
-		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
-		// PRs
-		`.tooltipped:is(${ariaLabelSelector})`,
-	], linkify, {signal});
+	observe(
+		[
+			`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
+			// PRs
+			`.tooltipped:is(${ariaLabelSelector})`,
+		],
+		linkify,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepo,
-	],
-	include: [
-		pageDetect.isPRList,
-		pageDetect.hasComments,
-	],
+	asLongAs: [pageDetect.isRepo],
+	include: [pageDetect.isPRList, pageDetect.hasComments],
 	init,
 });
 

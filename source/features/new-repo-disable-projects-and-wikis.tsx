@@ -11,7 +11,8 @@ import api from '../github-helpers/api.js';
 import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
+const documentation =
+	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
 async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -49,7 +50,9 @@ function add(blueprintRow: HTMLElement): void {
 	const description = $('.descriptionBox p', disableProjectsAndWikis);
 	description.replaceChildren(
 		'After creating the repository disable the projects and wiki. ',
-		<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>,
+		<a href={documentation} target="_blank" rel="noreferrer">
+			Suggestion by Refined GitHub.
+		</a>,
 	);
 
 	const control = $('.blockControl', disableProjectsAndWikis);
@@ -82,14 +85,14 @@ function addOld(submitButton: HTMLElement): void {
 		<div className="flash flash-warn py-0 ml-n3 my-4">
 			<div className="form-checkbox checked">
 				<label>
-					<input
-						checked
-						type="checkbox"
-						id="rgh-disable-project"
-					/> Disable Projects and Wikis
+					<input checked type="checkbox" id="rgh-disable-project" /> Disable
+					Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki.{' '}
+					<a href={documentation} target="_blank" rel="noreferrer">
+						Suggestion by Refined GitHub.
+					</a>
 				</span>
 			</div>
 		</div>,
@@ -98,24 +101,30 @@ function addOld(submitButton: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
+	observe(
+		'[class^="ControlGroupContainer"]:has(#visibility-anchor-button)',
+		add,
+		{signal},
+	);
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal, capture: true});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNewRepo,
-		pageDetect.isNewRepoTemplate,
-		pageDetect.isForkingRepo,
-	],
-	init,
-}, {
-	include: [
-		() => Boolean(sessionStorage.rghNewRepo),
-	],
-	init: onetime(disableWikiAndProjectsOnce),
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [
+			pageDetect.isNewRepo,
+			pageDetect.isNewRepoTemplate,
+			pageDetect.isForkingRepo,
+		],
+		init,
+	},
+	{
+		include: [() => Boolean(sessionStorage.rghNewRepo)],
+		init: onetime(disableWikiAndProjectsOnce),
+	},
+);
 
 /*
 

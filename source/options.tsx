@@ -29,7 +29,9 @@ const {version} = chrome.runtime.getManifest();
 async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
 	const options = await perDomainOptions.getOptionsForOrigin().getAll();
-	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
+	const enabledFeatures = importedFeatures.filter(
+		(featureId) => options['feature:' + featureId],
+	);
 	await bisectState.set(enabledFeatures);
 
 	this.disabled = true;
@@ -42,7 +44,9 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 
 let hasScrolledToTarget = false;
 
-function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+function focusSection({
+	delegateTarget: section,
+}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	if (!hasScrolledToTarget && elementExists(':target')) {
 		return;
 	}
@@ -69,7 +73,9 @@ function updateRateLink(): void {
 		return;
 	}
 
-	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link').href = isFirefox()
+		? 'https://addons.mozilla.org/firefox/addon/refined-github-'
+		: 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -87,10 +93,10 @@ function getExclusions(): string | void {
 }
 
 async function showStoredCssHotfixes(): Promise<void> {
-	$('#hotfixes-field').textContent
-		= getExclusions()
-			?? await styleHotfixes.getCached(version)
-			?? 'No CSS found in cache.';
+	$('#hotfixes-field').textContent =
+		getExclusions() ??
+		(await styleHotfixes.getCached(version)) ??
+		'No CSS found in cache.';
 }
 
 async function fetchHotfixes(event: MouseEvent): Promise<void> {
@@ -98,10 +104,10 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	button.disabled = true;
 	try {
 		// Style
-		$('#hotfixes-field').textContent
-			= getExclusions()
-				?? await styleHotfixes.getFresh(version)
-				?? 'No hotfixes needed for this version! 🎉';
+		$('#hotfixes-field').textContent =
+			getExclusions() ??
+			(await styleHotfixes.getFresh(version)) ??
+			'No hotfixes needed for this version! 🎉';
 
 		// Broken features
 		const storage = await brokenFeatures.getFresh();
@@ -144,12 +150,16 @@ async function generateDom(): Promise<void> {
 
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(async domain => {
+	syncedForm?.onChange(async (domain) => {
 		// Point the link to the right domain
-		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+		$('a#personal-token-link').host =
+			domain === 'default' ? 'github.com' : domain;
 
 		for (const element of $$('storage-usage[item]')) {
-			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
+			element.setAttribute(
+				'item',
+				domain === 'default' ? 'options' : 'options:' + domain,
+			);
 		}
 
 		updateListDom();

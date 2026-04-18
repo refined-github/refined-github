@@ -12,7 +12,7 @@ import {openPrsListLink} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
-	const prConfigs = links.map(link => {
+	const prConfigs = links.map((link) => {
 		const [, owner, name, , prNumber] = link.pathname.split('/');
 		const key = api.escapeKey(owner, name, prNumber);
 		return {
@@ -25,7 +25,9 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	});
 
 	// Batch queries cannot be exported to .gql files
-	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
+	const batchQuery = prConfigs
+		.map(
+			({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			pullRequest(number: ${number}) {
 				mergeable
@@ -33,7 +35,9 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 				isDraft
 			}
 		}
-	`).join('\n');
+	`,
+		)
+		.join('\n');
 
 	const data = await api.v4(batchQuery);
 
@@ -59,9 +63,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isIssueOrPRList],
 	init,
 });
 

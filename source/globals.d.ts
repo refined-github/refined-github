@@ -2,9 +2,11 @@
 
 /// <reference types="@types/dom-navigation" />
 
-declare var content: {
-	fetch: GlobalFetch;
-} | undefined;
+declare var content:
+	| {
+			fetch: GlobalFetch;
+	  }
+	| undefined;
 
 // eslint-disable-next-line unicorn/prefer-global-this -- Types not available there
 declare var navigation: typeof window.navigation;
@@ -12,7 +14,12 @@ declare var navigation: typeof window.navigation;
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
+type Deinit =
+	| {disconnect: VoidFunction}
+	| {clear: VoidFunction}
+	| {destroy: VoidFunction}
+	| {abort: VoidFunction}
+	| VoidFunction;
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {
@@ -88,7 +95,11 @@ interface NamedNodeMap {
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/naming-convention -- Declaration merging
 interface HTMLFormControlsCollection {
-	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
+	[key: string]:
+		| HTMLInputElement
+		| HTMLTextAreaElement
+		| HTMLButtonElement
+		| HTMLSelectElement;
 }
 
 // Make `element.cloneNode()` preserve its type instead of returning Node

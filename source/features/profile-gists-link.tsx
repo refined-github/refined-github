@@ -7,7 +7,10 @@ import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {
+	getCleanPathname,
+	triggerRepoNavOverflow,
+} from '../github-helpers/index.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import observe from '../helpers/selector-observer.js';
 import GetGistCount from './profile-gists-link.gql';
@@ -77,9 +80,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfile,
-	],
+	include: [pageDetect.isUserProfile],
 	init,
 });
 

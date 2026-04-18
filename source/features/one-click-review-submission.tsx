@@ -16,7 +16,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Do not use `$$` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
-	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
+	const radios = [
+		...(form.elements.namedItem('pull_request_review[event]') as RadioNodeList),
+	] as HTMLInputElement[];
 	if (radios.length === 0) {
 		throw new Error('Could not find radio buttons');
 	}
@@ -24,11 +26,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
 		form.prepend(
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
-			/>,
+			<input type="hidden" name="pull_request_review[event]" value="comment" />,
 		);
 	}
 
@@ -40,14 +38,16 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			parent.querySelector('label')
-			?? radio.nextSibling! // TODO: Remove after April 2025
-		);
-		const tooltip = $([
-			'p', // TODO: Remove after April 2025
-			'.FormControl-caption',
-		], parent).textContent.trim().replace(/\.$/, '');
+		const labelElement = parent.querySelector('label') ?? radio.nextSibling!; // TODO: Remove after April 2025
+		const tooltip = $(
+			[
+				'p', // TODO: Remove after April 2025
+				'.FormControl-caption',
+			],
+			parent,
+		)
+			.textContent.trim()
+			.replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
@@ -114,14 +114,18 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// The selector excludes the "Cancel" button
-	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	observe(
+		'#review-changes-modal [type="submit"]:not([name])',
+		replaceCheckboxes,
+		{signal},
+	);
+	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	awaitDomReady: true,
 	init,
 });

@@ -9,7 +9,9 @@ import {isSmallDevice} from '../helpers/dom-utils.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	// TODO: Drop after June 2026
-	const isOldNavbar = ownerLabel.classList.contains('AppHeader-context-item-label');
+	const isOldNavbar = ownerLabel.classList.contains(
+		'AppHeader-context-item-label',
+	);
 
 	const username = getRepo()!.owner;
 	const size = 16;
@@ -25,7 +27,10 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 		/>
 	);
 
-	(isOldNavbar ? ownerLabel : ownerLabel.parentElement!).classList.add('d-flex', 'flex-items-center');
+	(isOldNavbar ? ownerLabel : ownerLabel.parentElement!).classList.add(
+		'd-flex',
+		'flex-items-center',
+	);
 
 	ownerLabel.prepend(avatar);
 
@@ -35,19 +40,19 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
-		'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
-	], add, {signal});
+	observe(
+		[
+			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
+			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	exclude: [
-		isSmallDevice,
-	],
+	include: [pageDetect.hasRepoHeader],
+	exclude: [isSmallDevice],
 	init,
 });
 

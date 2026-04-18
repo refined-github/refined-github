@@ -52,11 +52,11 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
 		if (
-			file !== thisFile
+			file !== thisFile &&
 			// `checkVisibility` excludes filtered-out files
 			// https://github.com/refined-github/refined-github/issues/7819
-			&& file.checkVisibility()
-			&& isChecked(file) !== isThisBeingFileChecked
+			file.checkVisibility() &&
+			isChecked(file) !== isThisBeingFileChecked
 		) {
 			$(viewedToggleSelector, file).click();
 		}
@@ -66,7 +66,9 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 function markAsViewedSelector(file: HTMLElement): string {
 	const fileElement = fileSelector.join(',');
 	const viewedToggle = viewedToggleSelector.join(',');
-	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
+	const checkedState = isChecked(file)
+		? `:not(${checkedSelector})`
+		: checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
 	return `:is(${fileElement}):not([hidden]) :is(${viewedToggle})${checkedState}`;
@@ -74,7 +76,9 @@ function markAsViewedSelector(file: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
+const onAltClick = (
+	event: DelegateEvent<MouseEvent, HTMLInputElement>,
+): void => {
 	if (!event.altKey || !event.isTrusted) {
 		return;
 	}
@@ -82,12 +86,15 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 	const file = event.delegateTarget.closest(fileSelector)!;
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
-	void showToast(async () => {
-		markAsViewed(event);
-	}, {
-		message: `Marking visible files as ${newState}`,
-		doneMessage: `Files marked as ${newState}`,
-	});
+	void showToast(
+		async () => {
+			markAsViewed(event);
+		},
+		{
+			message: `Marking visible files as ${newState}`,
+			doneMessage: `Files marked as ${newState}`,
+		},
+	);
 };
 
 function init(signal: AbortSignal): void {
@@ -100,13 +107,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
-	exclude: [
-		pageDetect.isPRFile404,
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRFiles],
+	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
 	init,
 });
 

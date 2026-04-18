@@ -17,7 +17,10 @@ import {
 	isFeaturePrivate,
 	type RunConditions,
 } from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
+import optionsStorage, {
+	isFeatureDisabled,
+	type RghOptions,
+} from './options-storage.js';
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,
@@ -27,7 +30,10 @@ import {
 import asyncForEach from './helpers/async-for-each.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {
-	getFeatureId, listenToAjaxedLoad, log, shortcutMap,
+	getFeatureId,
+	listenToAjaxedLoad,
+	log,
+	shortcutMap,
 } from './helpers/feature-helpers.js';
 import {contentScriptToggle} from './options/reload-without.js';
 
@@ -54,24 +60,26 @@ type FeatureLoader = RunConditions & {
 const currentFeatureControllers = new ArrayMap<FeatureId, AbortController>();
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
-const globalReady = new Promise<RghOptions>(async resolve => {
+const globalReady = new Promise<RghOptions>(async (resolve) => {
 	if (!isWebPage()) {
 		throw new Error('This script should only be run on web pages');
 	}
 
 	listenToAjaxedLoad();
 
-	const [options, contentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
-		optionsStorage.getAll(),
-		contentScriptToggle.get(),
-		getLocalHotfixesAsOptions(),
-		bisectFeatures(),
-		preloadSyncLocalStrings(),
-	]);
+	const [options, contentScripts, localHotfixes, bisectedFeatures] =
+		await Promise.all([
+			optionsStorage.getAll(),
+			contentScriptToggle.get(),
+			getLocalHotfixesAsOptions(),
+			bisectFeatures(),
+			preloadSyncLocalStrings(),
+		]);
 
 	if (!contentScripts) {
 		await contentScriptToggle.remove();
-		const message = 'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
+		const message =
+			'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
 		console.warn(message);
 		alert(message);
 		return;
@@ -86,14 +94,16 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	}
 
 	if (elementExists('[refined-github]')) {
-		console.warn(stripIndent(`
+		console.warn(
+			stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
 			• You loaded the developer version, or
 			• The extension just updated
 
 			If you see this at every load, please open an issue mentioning the browser you're using and the URL where this appears.
-		`));
+		`),
+		);
 		return;
 	}
 
@@ -102,7 +112,9 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
 	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
-	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void messageRuntime<string>({getStyleHotfixes: true}).then(
+		applyStyleHotfixes,
+	);
 
 	if (options.customCss.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -118,7 +130,9 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	}
 
 	if (elementExists('body.logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+		console.warn(
+			'Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.',
+		);
 		disableErrorLogging();
 	} else {
 		catchErrors();
@@ -164,7 +178,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		return;
 	}
 
-	void asyncForEach(loaders, async loader => {
+	void asyncForEach(loaders, async (loader) => {
 		// Input defaults and validation
 		const {
 			shortcuts = {},
@@ -177,11 +191,17 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		} = loader;
 
 		if (include?.length === 0) {
-			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
+			throw new Error(
+				`${id}: \`include\` cannot be an empty array, it means "run nowhere"`,
+			);
 		}
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
+		if (
+			pageDetect.is404() &&
+			!include?.includes(pageDetect.is404) &&
+			!asLongAs?.includes(pageDetect.is404)
+		) {
 			return;
 		}
 
@@ -197,7 +217,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 				continue;
 			}
 
-			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+			if (!(await shouldFeatureRun({asLongAs, include, exclude}))) {
 				continue;
 			}
 
@@ -205,7 +225,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			currentFeatureControllers.append(id, featureController);
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
-			void asyncForEach(castArray(init), async init => {
+			void asyncForEach(castArray(init), async (init) => {
 				const result = await init(featureController.signal);
 				// Features can return `false` when they decide not to run on the current page
 				if (result !== false && !isFeaturePrivate(id)) {

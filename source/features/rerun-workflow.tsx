@@ -32,16 +32,18 @@ function replaceRerunDropdown(signal: AbortSignal, menu: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.PageHeader-actions action-menu', replaceRerunDropdown.bind(undefined, signal), {signal});
+	observe(
+		'.PageHeader-actions action-menu',
+		replaceRerunDropdown.bind(undefined, signal),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
 		'r f': 'Re-run failed jobs',
 	},
-	include: [
-		pageDetect.isActionRun,
-	],
+	include: [pageDetect.isActionRun],
 	init,
 });
 

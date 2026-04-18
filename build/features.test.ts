@@ -48,7 +48,11 @@ const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
 const userAttachmentsRegex = /user-attachments[/]assets[/]/;
 
-const screenshotRegex = regexJoinWithSeparator('|', [imageRegex, rghUploadsRegex, userAttachmentsRegex]);
+const screenshotRegex = regexJoinWithSeparator('|', [
+	imageRegex,
+	rghUploadsRegex,
+	userAttachmentsRegex,
+]);
 
 class FeatureFile {
 	readonly id: FeatureId;
@@ -71,7 +75,9 @@ class FeatureFile {
 
 	get tsx(): FeatureFile {
 		if (this.name.endsWith('.gql')) {
-			const id = importedFeatures.find(featureId => this.id.startsWith(featureId));
+			const id = importedFeatures.find((featureId) =>
+				this.id.startsWith(featureId),
+			);
 			if (id) {
 				return new FeatureFile(id + '.tsx');
 			}
@@ -86,7 +92,9 @@ class FeatureFile {
 }
 
 function validateCss(file: FeatureFile): void {
-	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
+	const isImportedByEntrypoint = entryPointSource.includes(
+		`import './features/${file.name}';`,
+	);
 
 	if (/--[\w-]*color[\w-]*/i.test(file.contents().toString())) {
 		assert(
@@ -101,7 +109,10 @@ function validateCss(file: FeatureFile): void {
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
 
-		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		assert(
+			/test url/i.test(file.contents().toString()),
+			'Should have test URLs',
+		);
 		return;
 	}
 
@@ -115,7 +126,10 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
+	assert(
+		!/test url/i.test(file.contents().toString()),
+		'Only TSX files and *lone* CSS files should have test URLs',
+	);
 }
 
 function validateGql(file: FeatureFile): void {
@@ -131,7 +145,9 @@ function validateGql(file: FeatureFile): void {
 }
 
 function validateReadme(featureId: FeatureId): void {
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	const [featureMeta, duplicate] = featuresInReadme.filter(
+		(feature) => feature.id === featureId,
+	);
 	assert(featureMeta, 'Should be described in the readme');
 
 	assert(
@@ -140,8 +156,8 @@ function validateReadme(featureId: FeatureId): void {
 	);
 
 	assert(
-		screenshotRegex.test(featureMeta.screenshot!)
-		|| noScreenshotExceptions.has(featureId),
+		screenshotRegex.test(featureMeta.screenshot!) ||
+			noScreenshotExceptions.has(featureId),
 		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 
@@ -156,7 +172,10 @@ function validateTsx(file: FeatureFile): void {
 
 	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents())) && /observe\(|delegate\(/.test(String(file.contents()))) {
+	if (
+		/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents())) &&
+		/observe\(|delegate\(/.test(String(file.contents()))
+	) {
 		assert(
 			/await expectToken|hasToken/.test(String(file.contents())),
 			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
@@ -216,6 +235,8 @@ describe('features', () => {
 			return;
 		}
 
-		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
+		assert.fail(
+			`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``,
+		);
 	});
 });

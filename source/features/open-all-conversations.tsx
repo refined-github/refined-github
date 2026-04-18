@@ -18,18 +18,16 @@ function onButtonClick(): void {
 		console.warn('Selected too many links. Is the selector still correct?');
 	}
 
-	const selectedLinks = links.filter(link =>
+	const selectedLinks = links.filter((link) =>
 		link.closest([
 			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
 			'[aria-label^="Selected"]',
 		]),
 	);
 
-	const linksToOpen = selectedLinks.length > 0
-		? selectedLinks
-		: links;
+	const linksToOpen = selectedLinks.length > 0 ? selectedLinks : links;
 
-	const urls = linksToOpen.map(link => link.href);
+	const urls = linksToOpen.map((link) => link.href);
 	void openTabs(urls);
 }
 
@@ -39,7 +37,11 @@ const multipleConversationsSelector = [
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector.join(', '), {waitForChildren: false}));
+	return Boolean(
+		await elementReady(multipleConversationsSelector.join(', '), {
+			waitForChildren: false,
+		}),
+	);
 }
 
 function add(anchor: HTMLElement): void {
@@ -54,43 +56,40 @@ function add(anchor: HTMLElement): void {
 			? 'btn'
 			: 'btn btn-sm';
 	anchor.prepend(
-		<button
-			type="button"
-			className={`rgh-open-all-conversations ${classes}`}
-		>
-			{isSelected
-				? 'Open selected'
-				: 'Open all'}
+		<button type="button" className={`rgh-open-all-conversations ${classes}`}>
+			{isSelected ? 'Open selected' : 'Open all'}
 		</button>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe([
-		'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
-		'[aria-label="Bulk actions"] > :first-child',
-		'[aria-label="Actions"] > :first-child',
-	], add, {signal});
-	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
+	observe(
+		[
+			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			'[aria-label="Bulk actions"] > :first-child',
+			'[aria-label="Actions"] > :first-child',
+		],
+		add,
+		{signal},
+	);
+	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {
+		signal,
+	});
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		hasMoreThanOneConversation,
-	],
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	init,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [hasMoreThanOneConversation],
+		include: [pageDetect.isIssueOrPRList],
+		exclude: [pageDetect.isGlobalIssueOrPRList],
+		init,
+	},
+	{
+		include: [pageDetect.isGlobalIssueOrPRList],
+		init,
+	},
+);
 
 /*
 

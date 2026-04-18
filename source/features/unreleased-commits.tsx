@@ -63,7 +63,9 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		// https://github.com/refined-github/refined-github/issues/6094
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
-		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex(
+			(node: AnyObject) => node.oid === latestTagOid,
+		);
 
 		return {
 			latestTag,
@@ -79,8 +81,8 @@ async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
+	const commitCount =
+		aheadBy === undeterminableAheadBy
 			? 'More than 20 unreleased commits'
 			: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
@@ -88,16 +90,24 @@ async function createLink(
 	return (
 		<a
 			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			href={buildRepoUrl(
+				'compare',
+				`${latestTag}...${await getDefaultBranch()}`,
+			)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+			{aheadBy === undeterminableAheadBy || (
+				<sup className="ml-n2"> +{aheadBy}</sup>
+			)}
 		</a>
 	);
 }
 
-async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+async function createLinkGroup(
+	latestTag: string,
+	aheadBy: number,
+): Promise<HTMLElement> {
 	const link = await createLink(latestTag, aheadBy);
 	if (!(await userHasPushAccess())) {
 		return link;
@@ -155,16 +165,16 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
-		groupButtons([
-			widget,
-			newReleaseButton,
-		]);
+		groupButtons([widget, newReleaseButton]);
 		return;
 	}
 
 	// Otherwise, add it before filter input
 	releasesFilter.form!.before(widget);
-	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
+	releasesFilter.form!.parentElement!.classList.add(
+		'd-flex',
+		'flex-items-start',
+	);
 	// The form has .ml-md-2, this restores it on `sm`
 	widget.classList.add('mr-md-0', 'mr-2');
 }
@@ -179,21 +189,21 @@ async function initReleases(signal: AbortSignal): Promise<void> {
 	observe('input#release-filter', addToReleases, {signal});
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		isDefaultBranch,
-	],
-	include: [
-		pageDetect.isRepoHome,
-	],
-	init: initHome,
-}, {
-	include: [
-		// Only first page of Releases
-		() => getRepo()?.path === 'releases',
-	],
-	init: initReleases,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [isDefaultBranch],
+		include: [pageDetect.isRepoHome],
+		init: initHome,
+	},
+	{
+		include: [
+			// Only first page of Releases
+			() => getRepo()?.path === 'releases',
+		],
+		init: initReleases,
+	},
+);
 
 /*
 

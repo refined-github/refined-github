@@ -4,7 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const isSingleHtmlFile = (): boolean => pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
+const isSingleHtmlFile = (): boolean =>
+	pageDetect.isSingleFile() && /\.html?$/.test(location.pathname);
 
 function add(rawButton: HTMLAnchorElement): void {
 	if (!pageDetect.isPublicRepo()) {
@@ -34,12 +35,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		isSingleHtmlFile,
-	],
-	exclude: [
-		pageDetect.isEnterprise,
-	],
+	include: [isSingleHtmlFile],
+	exclude: [pageDetect.isEnterprise],
 	init,
 });
 

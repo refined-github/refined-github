@@ -15,7 +15,9 @@ export const statusBadgeSelector = [
 	'[data-testid="header-state"]',
 ] as const;
 
-export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(
+	import.meta.url,
+);
 
 function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
@@ -52,10 +54,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isConversation,
-		pageDetect.isClosedConversation,
-	],
+	asLongAs: [pageDetect.isConversation, pageDetect.isClosedConversation],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });

@@ -9,7 +9,11 @@ import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
+import {
+	getConversationNumber,
+	getRepo,
+	multilineAriaLabel,
+} from '../github-helpers/index.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 
@@ -32,13 +36,17 @@ function SubButton(): JSX.Element {
 	);
 }
 
-function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
+function getReasonElement(
+	subscriptionButton: HTMLButtonElement,
+): HTMLParagraphElement {
 	return subscriptionButton
 		.closest('.thread-subscription-status')!
 		.querySelector('p.reason')!;
 }
 
-function getCurrentStatus(subscriptionButton: HTMLButtonElement): SubscriptionStatus {
+function getCurrentStatus(
+	subscriptionButton: HTMLButtonElement,
+): SubscriptionStatus {
 	const reason = getReasonElement(subscriptionButton).textContent;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
@@ -112,7 +120,8 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	'x-github-client-version': 'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
+	'x-github-client-version':
+		'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
 	credentials: 'include',
 });
 
@@ -142,7 +151,10 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	return data;
 }
 
-async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, issue: IssueApiResponse): Promise<void> {
+async function updateIssueSubscriptionStatus(
+	targetStatus: SubscriptionStatus,
+	issue: IssueApiResponse,
+): Promise<void> {
 	const {id} = issue.repository.issue;
 
 	const body = {
@@ -151,26 +163,32 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		variables: {
 			input: {
 				events: targetStatus === 'status' ? ['CLOSED', 'REOPENED'] : [],
-				state: targetStatus === 'status' ? 'CUSTOM' : targetStatus === 'all' ? 'SUBSCRIBED' : 'UNSUBSCRIBED',
+				state:
+					targetStatus === 'status'
+						? 'CUSTOM'
+						: targetStatus === 'all'
+							? 'SUBSCRIBED'
+							: 'UNSUBSCRIBED',
 				subscribableId: id,
 			},
 		},
 	};
 
-	const response = await fetch('/_graphql',
-		{
-			headers: githubApiBaseHeaders,
-			method: 'POST',
-			body: JSON.stringify(body),
-		},
-	);
+	const response = await fetch('/_graphql', {
+		headers: githubApiBaseHeaders,
+		method: 'POST',
+		body: JSON.stringify(body),
+	});
 	if (!response.ok) {
 		throw new Error('Failed to update the issue subscription status');
 	}
 }
 
-async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<SubscriptionStatus> {
-	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
+async function getCurrentStatusIssue(
+	issue: IssueApiResponse,
+): Promise<SubscriptionStatus> {
+	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} =
+		issue.repository.issue;
 	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
 
 	if (isSubscribed) {
@@ -184,10 +202,15 @@ async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<Subscript
 	return 'none';
 }
 
-async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<void> {
+async function addButtonIssue(
+	subscriptionButton: HTMLButtonElement,
+): Promise<void> {
 	const issue = await fetchIssue();
 	const status = await getCurrentStatusIssue(issue);
-	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
+	const previousRghButton = $optional(
+		'.rgh-status-subscription',
+		subscriptionButton.parentElement!,
+	);
 
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
@@ -237,7 +260,11 @@ function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
 	observe('button[data-thread-subscribe-button]:enabled', addButton, {signal});
 	if (!pageDetect.isEnterprise()) {
-		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButtonIssue, {signal});
+		observe(
+			'button[aria-describedby*="issue-viewer-subscription-description"]',
+			addButtonIssue,
+			{signal},
+		);
 	}
 }
 

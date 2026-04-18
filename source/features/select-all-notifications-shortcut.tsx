@@ -16,9 +16,7 @@ void features.add(import.meta.url, {
 	shortcuts: {
 		a: 'Select all notifications',
 	},
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	init,
 });
 

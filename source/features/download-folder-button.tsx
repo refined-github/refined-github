@@ -18,10 +18,11 @@ function add(menu: HTMLUListElement): void {
 	item.removeAttribute('aria-keyshortcuts');
 	item.removeAttribute('aria-labelledby');
 
-	const link = item.firstElementChild instanceof HTMLAnchorElement
-		? item.firstElementChild
-		// Not a link on permalinks and archived repos
-		: replaceElementTypeInPlace(item.firstElementChild!, 'a');
+	const link =
+		item.firstElementChild instanceof HTMLAnchorElement
+			? item.firstElementChild
+			: // Not a link on permalinks and archived repos
+				replaceElementTypeInPlace(item.firstElementChild!, 'a');
 	link.href = downloadUrl.href;
 	link.classList.add('no-underline', 'fgColor-inherit');
 	link.setAttribute('aria-keyshortcuts', 'c');
@@ -42,9 +43,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
+	include: [pageDetect.isRepoTree],
 	exclude: [
 		pageDetect.isRepoRoot, // Already has an native download ZIP button
 		pageDetect.isEnterprise,

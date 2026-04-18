@@ -10,12 +10,16 @@ import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
-	const features = $$('.feature').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
-	const grouped = Object.groupBy(features, feature => {
+	const features = $$('.feature').toSorted((a, b) =>
+		a.dataset.text!.localeCompare(b.dataset.text!),
+	);
+	const grouped = Object.groupBy(features, (feature) => {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
 	});
-	for (const group of [grouped.off, grouped.broken, grouped.on].filter(Boolean)) {
+	for (const group of [grouped.off, grouped.broken, grouped.on].filter(
+		Boolean,
+	)) {
 		for (const feature of group!) {
 			container.append(feature);
 		}
@@ -29,19 +33,32 @@ async function markLocalHotfixes(): Promise<void> {
 			input.disabled = true;
 			input.removeAttribute('name');
 			$(`.feature-name[for="${feature}"]`).after(
-				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
+				<span className="hotfix-notice">
+					{' '}
+					(Disabled due to {createRghIssueLink(relatedIssue)})
+				</span>,
 			);
 		}
 	}
 }
 
-function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+function buildFeatureCheckbox({
+	id,
+	description,
+	screenshot,
+}: FeatureMeta): HTMLElement {
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
+			<input
+				type="checkbox"
+				name={`feature:${id}`}
+				id={id}
+				className="feature-checkbox"
+			/>
 			<div className="info">
-				<label className="feature-name" htmlFor={id}>{id}</label>
-				{' '}
+				<label className="feature-name" htmlFor={id}>
+					{id}
+				</label>{' '}
 				<a href={getFeatureUrl(id)} className="feature-link">
 					source
 				</a>
@@ -71,8 +88,7 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 			toggle.checked = !toggle.checked;
 		}
 	} else {
-		const toggle = event
-			.delegateTarget
+		const toggle = event.delegateTarget
 			.closest('.feature')!
 			.querySelector('input.screenshot-toggle')!;
 		toggle.checked = !toggle.checked;
@@ -80,14 +96,15 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 }
 
 function featuresFilterHandler(this: HTMLInputElement): void {
-	const keywords = this
-		.value
+	const keywords = this.value
 		.toLowerCase()
 		.replaceAll(/\W/g, ' ')
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
 	for (const feature of $$('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+		feature.hidden = !keywords.every((word) =>
+			feature.dataset.text!.includes(word),
+		);
 	}
 }
 
@@ -114,9 +131,10 @@ function updateOffCount(): void {
 
 export default async function initFeatureList(): Promise<void> {
 	// Generate list
-	$('.js-features').append(...featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => buildFeatureCheckbox(feature)),
+	$('.js-features').append(
+		...featuresMeta
+			.filter((feature) => importedFeatures.includes(feature.id))
+			.map((feature) => buildFeatureCheckbox(feature)),
 	);
 
 	// Add notice for features disabled via hotfix

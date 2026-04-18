@@ -29,7 +29,9 @@ export async function getCloseDate(): Promise<Date | undefined> {
 		return;
 	}
 
-	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
+	const {closed_at: closedAt} = await api.v3(
+		`issues/${getConversationNumber()!}`,
+	);
 	if (!closedAt) {
 		throw new TypeError('closed_at field is null');
 	}
@@ -40,33 +42,50 @@ export async function getCloseDate(): Promise<Date | undefined> {
 const threeMonths = toMilliseconds({days: 90});
 
 export function wasLongAgo(date: Date): boolean {
-	return (Date.now() - date.getTime()) > threeMonths;
+	return Date.now() - date.getTime() > threeMonths;
 }
 
 function isPopular(): boolean {
 	return (
-		countElements('[data-testid="comment-header"]') > 30
-		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
-		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
+		countElements('[data-testid="comment-header"]') > 30 ||
+		looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) >
+			30 ||
+		elementExists('[data-testid="issue-timeline-load-more-count-front"]') ||
 		// TODO: Drop in 2026; old conversation style
-		|| countElements('.timeline-comment') > 30
-		|| countElements('.participant-avatar') > 10
+		countElements('.timeline-comment') > 30 ||
+		countElements('.participant-avatar') > 10
 	);
 }
 
 export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
-	const newDiscussion = <a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>;
-	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled() ? <> {newIssue} or a {newDiscussion} </> : areIssuesEnabled() ? newIssue : newDiscussion;
+	const newDiscussion = (
+		<a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>
+	);
+	const whatToOpen =
+		areIssuesEnabled() && areDiscussionsEnabled() ? (
+			<>
+				{' '}
+				{newIssue} or a {newDiscussion}{' '}
+			</>
+		) : areIssuesEnabled() ? (
+			newIssue
+		) : (
+			newDiscussion
+		);
 	return (
 		<>
-			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen} instead of leaving a comment here.
+			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please
+			consider opening a {whatToOpen} instead of leaving a comment here.
 		</>
 	);
 }
 
-function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): void {
+function addResolvedBanner(
+	newCommentField: HTMLElement,
+	closingDate: Date,
+): void {
 	if (elementExists('.rgh-resolved-banner')) {
 		return;
 	}
@@ -74,7 +93,10 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
 		icon: <InfoIcon className="m-0" />,
-		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
+		classes:
+			'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(
+				' ',
+			),
 		text: getResolvedText(closingDate),
 	});
 
@@ -94,7 +116,10 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	const reactWrapper = newCommentField.closest('[class^="InlineAutocomplete"]');
 	const banner = createBanner({
 		icon: <FlameIcon className="m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
+		classes:
+			'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(
+				' ',
+			),
 		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
 
@@ -111,7 +136,11 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
+			text: (
+				<>
+					This is a <strong>draft PR</strong>, it might not be ready for review.
+				</>
+			),
 		}),
 	);
 }
@@ -121,15 +150,23 @@ function initDraft(signal: AbortSignal): void {
 }
 
 function initBanner(signal: AbortSignal): void {
-	observe(newCommentField, async (field: HTMLElement) => {
-		// Check inside the observer because React views load after dom-ready
-		const closingDate = await getCloseDate();
-		if (closingDate && wasLongAgo(closingDate) && (areIssuesEnabled() || areDiscussionsEnabled())) {
-			addResolvedBanner(field, closingDate);
-		} else if (isPopular() && !(await userIsModerator())) {
-			addPopularBanner(field);
-		}
-	}, {signal});
+	observe(
+		newCommentField,
+		async (field: HTMLElement) => {
+			// Check inside the observer because React views load after dom-ready
+			const closingDate = await getCloseDate();
+			if (
+				closingDate &&
+				wasLongAgo(closingDate) &&
+				(areIssuesEnabled() || areDiscussionsEnabled())
+			) {
+				addResolvedBanner(field, closingDate);
+			} else if (isPopular() && !(await userIsModerator())) {
+				addPopularBanner(field);
+			}
+		},
+		{signal},
+	);
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {
@@ -152,36 +189,35 @@ function makeReactFieldKinder(field: HTMLTextAreaElement): void {
 
 function initKindness(signal: AbortSignal): void {
 	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
-	observe([
-		'textarea[placeholder="Use Markdown to format your comment"]', // On issues
-		'textarea[placeholder="Leave a comment"]', // On single commits
-	], makeReactFieldKinder, {signal});
+	observe(
+		[
+			'textarea[placeholder="Use Markdown to format your comment"]', // On issues
+			'textarea[placeholder="Leave a comment"]', // On single commits
+		],
+		makeReactFieldKinder,
+		{signal},
+	);
 }
 
-void features.add(import.meta.url, {
-	exclude: [
-		isAnyRefinedGitHubRepo,
-	],
-	include: [
-		pageDetect.isConversation,
-	],
-	awaitDomReady: true, // We're specifically looking for the last event
-	init: initBanner,
-}, {
-	include: [
-		pageDetect.isDraftPR,
-	],
-	exclude: [
-		isOwnConversation,
-	],
-	awaitDomReady: true,
-	init: initDraft,
-}, {
-	include: [
-		pageDetect.hasComments,
-	],
-	init: initKindness,
-});
+void features.add(
+	import.meta.url,
+	{
+		exclude: [isAnyRefinedGitHubRepo],
+		include: [pageDetect.isConversation],
+		awaitDomReady: true, // We're specifically looking for the last event
+		init: initBanner,
+	},
+	{
+		include: [pageDetect.isDraftPR],
+		exclude: [isOwnConversation],
+		awaitDomReady: true,
+		init: initDraft,
+	},
+	{
+		include: [pageDetect.hasComments],
+		init: initKindness,
+	},
+);
 
 /*
 

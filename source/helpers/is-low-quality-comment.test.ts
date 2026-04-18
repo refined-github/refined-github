@@ -27,7 +27,7 @@ describe('isLowQualityComment', () => {
 			'Still an issue',
 			'Issue for me too.',
 			'and for me',
-		])('%s', comment => {
+		])('%s', (comment) => {
 			assert.isTrue(isLowQualityComment(comment));
 		});
 	});
@@ -38,7 +38,7 @@ describe('isLowQualityComment', () => {
 			'Same here. <some useful information>',
 			'Same here, please update, thanks',
 			'Same here! Please update, thank you.',
-		])('%s', comment => {
+		])('%s', (comment) => {
 			assert.isFalse(isLowQualityComment(comment));
 		});
 	});

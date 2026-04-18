@@ -10,7 +10,8 @@ import {paginationButtonSelector} from '../github-helpers/selectors.js';
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 	let wrapper: Element = paginationButton!.form!.parentElement!;
-	const isExpandingMainThread = wrapper.id === 'js-progressive-timeline-item-container';
+	const isExpandingMainThread =
+		wrapper.id === 'js-progressive-timeline-item-container';
 
 	while (paginationButton) {
 		// eslint-disable-next-line no-await-in-loop
@@ -20,12 +21,18 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 			wrapper = wrapper.lastElementChild!;
 		}
 
-		paginationButton = $optional(`:scope > ${paginationButtonSelector}`, wrapper);
+		paginationButton = $optional(
+			`:scope > ${paginationButtonSelector}`,
+			wrapper,
+		);
 		paginationButton?.click();
 	}
 }
 
-async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function handleAltClick({
+	altKey,
+	delegateTarget,
+}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	if (!altKey) {
 		return;
 	}
@@ -41,9 +48,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	init,
 });
 

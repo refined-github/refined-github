@@ -34,20 +34,17 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 });
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
+	const {isFork, isPrivate, stargazerCount, viewerHasStarred} =
+		await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
-		repoLink.append(
-			<LockIcon className="ml-1" width={12} height={12} />,
-		);
+		repoLink.append(<LockIcon className="ml-1" width={12} height={12} />);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
-		repoLink.append(
-			<RepoForkedIcon className="ml-1" width={12} height={12} />,
-		);
+		repoLink.append(<RepoForkedIcon className="ml-1" width={12} height={12} />);
 	}
 
 	if (stargazerCount > 1) {
@@ -67,12 +64,17 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				// Hide in small viewports, matches `ci-link`
 				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
-				{
-					viewerHasStarred
-						// Use `color` because `fill` is overridden with `currentColor`
-						? <StarFillIcon className="ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
-						: <StarIcon className="ml-1" width={12} height={12} />
-				}
+				{viewerHasStarred ? (
+					// Use `color` because `fill` is overridden with `currentColor`
+					<StarFillIcon
+						className="ml-1"
+						width={12}
+						height={12}
+						color="var(--button-star-iconColor)"
+					/>
+				) : (
+					<StarIcon className="ml-1" width={12} height={12} />
+				)}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
@@ -81,16 +83,18 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe([
-		'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-		'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
-	], add, {signal});
+	observe(
+		[
+			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,

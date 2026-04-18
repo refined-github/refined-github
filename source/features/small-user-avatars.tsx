@@ -33,18 +33,24 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 
 function initOnce(): void {
 	// Excludes bots
-	observe([
-		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
-		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		`:is(
+	observe(
+		[
+			'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
+			'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+			`:is(
 			[data-testid="created-at"],
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
-	], addAvatar);
-	observe(`.user-mention:not(${[
-		'.opened-by > *', // Merge queue
-		'.commit-author',
-	].join(',')})`, addMentionAvatar);
+		],
+		addAvatar,
+	);
+	observe(
+		`.user-mention:not(${[
+			'.opened-by > *', // Merge queue
+			'.commit-author',
+		].join(',')})`,
+		addMentionAvatar,
+	);
 }
 
 void features.add(import.meta.url, {

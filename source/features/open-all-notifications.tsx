@@ -18,19 +18,25 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 // https://github.com/notifications (Grouped by date)
 // https://github.com/notifications (Grouped by repo)
 // https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-const notificationHeaderSelector = '.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
+const notificationHeaderSelector =
+	'.js-check-all-container .js-bulk-action-toasts ~ div .Box-header';
 
 const openUnread = getIdentifiers('open-notifications-button');
 const openSelected = getIdentifiers('open-selected-button');
 
-function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
+function getUnreadNotifications(
+	container: ParentNode = document,
+): HTMLElement[] {
 	return $$('.notification-unread', container);
 }
 
-async function openNotifications(notifications: Element[], markAsDone = false): Promise<boolean> {
+async function openNotifications(
+	notifications: Element[],
+	markAsDone = false,
+): Promise<boolean> {
 	const urls = notifications
 		.toReversed() // Open oldest first #6755
-		.map(notification => $('a', notification).href);
+		.map((notification) => $('a', notification).href);
 
 	const didOpenTabs = await openTabs(urls);
 	if (!didOpenTabs) {
@@ -42,17 +48,27 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 			$('[title="Done"]', notification).click();
 		} else {
 			// Mark all as read instead
-			notification.classList.replace('notification-unread', 'notification-read');
+			notification.classList.replace(
+				'notification-unread',
+				'notification-read',
+			);
 		}
 	}
 
 	return true;
 }
 
-async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
+async function openUnreadNotifications({
+	delegateTarget,
+	altKey,
+}: DelegateEvent<MouseEvent>): Promise<void> {
+	const container =
+		delegateTarget.closest('.js-notifications-group') ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
-	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
+	const didOpenNotifications = await openNotifications(
+		unreadNotifications,
+		altKey,
+	);
 	if (didOpenNotifications) {
 		// Remove all now-unnecessary buttons
 		removeOpenUnreadButtons(container);
@@ -60,8 +76,9 @@ async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<M
 }
 
 async function openSelectedNotifications(): Promise<void> {
-	const selectedNotifications = $$('.notifications-list-item :checked')
-		.map(checkbox => checkbox.closest('.notifications-list-item')!);
+	const selectedNotifications = $$('.notifications-list-item :checked').map(
+		(checkbox) => checkbox.closest('.notifications-list-item')!,
+	);
 	await openNotifications(selectedNotifications);
 
 	if (!elementExists('.notification-unread')) {
@@ -79,21 +96,20 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	const button = (
 		<button
 			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
+			className={
+				'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class
+			}
 			data-hotkey="p"
 			aria-label={multilineAriaLabel(
 				'Open selected notifications',
 				'Hotkey: P',
 			)}
 		>
-			<LinkExternalIcon className="mr-1" />Open
+			<LinkExternalIcon className="mr-1" />
+			Open
 		</button>
 	);
-	appendBefore(
-		selectedActionsGroup,
-		'details',
-		button,
-	);
+	appendBefore(selectedActionsGroup, 'details', button);
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
@@ -119,8 +135,12 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 	}
 
 	notificationHeader.append(
-		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
-			<LinkExternalIcon className="mr-1" />Open all unread
+		<button
+			className={'btn btn-sm ml-auto d-none ' + openUnread.class}
+			type="button"
+		>
+			<LinkExternalIcon className="mr-1" />
+			Open all unread
 		</button>,
 	);
 }
@@ -129,15 +149,19 @@ function init(signal: AbortSignal): void {
 	delegate(openSelected.selector, 'click', openSelectedNotifications, {signal});
 	delegate(openUnread.selector, 'click', openUnreadNotifications, {signal});
 
-	observe(notificationHeaderSelector + ' .js-notifications-mark-selected-actions', addSelectedButton, {signal});
+	observe(
+		notificationHeaderSelector + ' .js-notifications-mark-selected-actions',
+		addSelectedButton,
+		{signal},
+	);
 	observe(notificationHeaderSelector, addToMainHeader, {signal});
-	observe('.js-grouped-notifications-mark-all-read-button', addToRepoGroup, {signal});
+	observe('.js-grouped-notifications-mark-all-read-button', addToRepoGroup, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	shortcuts: {
 		p: 'Open selected notifications',
 	},

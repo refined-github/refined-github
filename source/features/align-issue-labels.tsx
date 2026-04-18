@@ -17,13 +17,13 @@ function alignBadges(badges: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class*="trailingBadgesContainer"]:not(:empty)', alignBadges, {signal});
+	observe('[class*="trailingBadgesContainer"]:not(:empty)', alignBadges, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isIssueOrPRList],
 	init,
 });
 

@@ -27,27 +27,32 @@ type PullRequest = {
 	url: string;
 };
 
-export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBranchPullRequests', {
-	async updater(): Promise<Record<string, PullRequest>> {
-		const {repository} = await api.v4(AssociatedPullRequests);
+export const pullRequestsAssociatedWithBranch = new CachedFunction(
+	'associatedBranchPullRequests',
+	{
+		async updater(): Promise<Record<string, PullRequest>> {
+			const {repository} = await api.v4(AssociatedPullRequests);
 
-		const pullRequests: Record<string, PullRequest> = {};
-		for (const {name, associatedPullRequests} of repository.refs.nodes) {
-			const [prInfo] = associatedPullRequests.nodes as PullRequest[];
-			// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
-			const headRefWasDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
-			if (prInfo && !headRefWasDeleted) {
-				prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
-				pullRequests[name] = prInfo;
+			const pullRequests: Record<string, PullRequest> = {};
+			for (const {name, associatedPullRequests} of repository.refs.nodes) {
+				const [prInfo] = associatedPullRequests.nodes as PullRequest[];
+				// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
+				const headRefWasDeleted =
+					prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
+				if (prInfo && !headRefWasDeleted) {
+					prInfo.state =
+						prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
+					pullRequests[name] = prInfo;
+				}
 			}
-		}
 
-		return pullRequests;
+			return pullRequests;
+		},
+		maxAge: {hours: 1},
+		staleWhileRevalidate: {days: 4},
+		cacheKey: cacheByRepo,
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 4},
-	cacheKey: cacheByRepo,
-});
+);
 
 export const stateIcon = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
@@ -68,13 +73,14 @@ async function addLink(branch: HTMLElement): Promise<void> {
 		return;
 	}
 
-	const StateIcon = stateIcon[prInfo.state] ?? (() => {/* empty */});
+	const StateIcon =
+		stateIcon[prInfo.state] ??
+		(() => {
+			/* empty */
+		});
 	const stateClassName = prInfo.state.toLowerCase();
 
-	const cell = branch
-		.closest('tr.TableRow')!
-		.children
-		.item(4)!;
+	const cell = branch.closest('tr.TableRow')!.children.item(4)!;
 
 	cell.classList.add('rgh-pr-cell');
 	cell.append(
@@ -88,7 +94,11 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				rel="noreferrer"
 			>
 				<StateIcon width={14} height={14} className={stateClassName} />
-				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
+				<RepoForkedIcon
+					width={14}
+					height={14}
+					className={`mr-1 ${stateClassName}`}
+				/>
 				#{prInfo.number}
 			</a>
 		</div>,
@@ -99,16 +109,16 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	// Memoize because it's being called twice for each. Ideally this should be part of the selector observer
 	// https://github.com/refined-github/refined-github/pull/7194#issuecomment-1894972091
-	observe('react-app[app-name=repos-branches] a[class*=BranchName] div[title]', memoize(addLink), {signal});
+	observe(
+		'react-app[app-name=repos-branches] a[class*=BranchName] div[title]',
+		memoize(addLink),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	include: [
-		pageDetect.isBranches,
-	],
+	asLongAs: [pageDetect.isForkedRepo],
+	include: [pageDetect.isBranches],
 	init,
 });
 

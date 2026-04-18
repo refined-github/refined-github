@@ -15,7 +15,7 @@ function parseCsv(content: string): string[][] {
 	const [_header, ...rawLines] = content.trim().split('\n');
 	for (const line of rawLines) {
 		if (line.trim()) {
-			lines.push(line.split(',').map(cell => cell.trim()));
+			lines.push(line.split(',').map((cell) => cell.trim()));
 		}
 	}
 
@@ -39,8 +39,15 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 		}
 
 		const storage: HotfixStorage = [];
-		for (const [featureId, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-			if (featureId && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
+		for (const [featureId, relatedIssue, unaffectedVersion] of parseCsv(
+			content,
+		)) {
+			if (
+				featureId &&
+				relatedIssue &&
+				(!unaffectedVersion ||
+					compareVersions(unaffectedVersion, currentVersion) > 0)
+			) {
 				storage.push([featureId as FeatureId, relatedIssue, unaffectedVersion]);
 			}
 		}
@@ -52,7 +59,8 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 });
 
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
-	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
+	updater: async (version: string): Promise<string> =>
+		fetchHotfix(`style/${version}.css`),
 
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},
@@ -66,10 +74,12 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await brokenFeatures.get() ?? [];
+	return (await brokenFeatures.get()) ?? [];
 }
 
-export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> {
+export async function getLocalHotfixesAsOptions(): Promise<
+	Partial<RghOptions>
+> {
 	const options: Partial<RghOptions> = {};
 	for (const [feature] of await getLocalHotfixes()) {
 		options[`feature:${feature}`] = false;
@@ -88,7 +98,9 @@ export async function applyStyleHotfixes(style: string): Promise<void> {
 }
 
 let localStrings: Record<string, string> = {};
-export function _(...arguments_: Parameters<typeof concatenateTemplateLiteralTag>): string {
+export function _(
+	...arguments_: Parameters<typeof concatenateTemplateLiteralTag>
+): string {
 	const original = concatenateTemplateLiteralTag(...arguments_);
 	return localStrings[original] ?? original;
 }
@@ -108,5 +120,5 @@ export async function preloadSyncLocalStrings(): Promise<void> {
 		return;
 	}
 
-	localStrings = await localStringsHotfix.get() ?? {};
+	localStrings = (await localStringsHotfix.get()) ?? {};
 }

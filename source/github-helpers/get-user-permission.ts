@@ -25,7 +25,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 		throw new Error('This can only be called on a repository page');
 	}
 
-	if (!await hasToken()) {
+	if (!(await hasToken())) {
 		return 'READ';
 	}
 

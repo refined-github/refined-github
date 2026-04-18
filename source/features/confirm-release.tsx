@@ -10,28 +10,39 @@ function handleSubmit(event: DelegateEvent<Event, HTMLElement>): void {
 	}
 }
 
-function handleSubmitOnCtrlEnter(event: DelegateEvent<KeyboardEvent, HTMLElement>): void {
+function handleSubmitOnCtrlEnter(
+	event: DelegateEvent<KeyboardEvent, HTMLElement>,
+): void {
 	if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
 		handleSubmit(event);
 	}
 }
 
-function handleSubmitOnEnter(event: DelegateEvent<KeyboardEvent, HTMLElement>): void {
+function handleSubmitOnEnter(
+	event: DelegateEvent<KeyboardEvent, HTMLElement>,
+): void {
 	if (event.key === 'Enter' && !event.isComposing) {
 		handleSubmit(event);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	delegate('button[publish-release="true"]', 'click', handleSubmit, {signal, capture: true});
-	delegate('textarea#release_body', 'keydown', handleSubmitOnCtrlEnter, {signal, capture: true});
-	delegate('input#release_name', 'keydown', handleSubmitOnEnter, {signal, capture: true});
+	delegate('button[publish-release="true"]', 'click', handleSubmit, {
+		signal,
+		capture: true,
+	});
+	delegate('textarea#release_body', 'keydown', handleSubmitOnCtrlEnter, {
+		signal,
+		capture: true,
+	});
+	delegate('input#release_name', 'keydown', handleSubmitOnEnter, {
+		signal,
+		capture: true,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNewRelease,
-	],
+	include: [pageDetect.isNewRelease],
 	init,
 });
 

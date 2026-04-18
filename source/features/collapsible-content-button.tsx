@@ -11,7 +11,9 @@ import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 import {actionBarSelectors} from '../github-helpers/selectors.js';
 
-function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+function addContentToDetails({
+	delegateTarget,
+}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = delegateTarget.closest([
 		'form',
 		'[data-testid="comment-composer"]', // Add comment form
@@ -19,11 +21,14 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	])!;
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
-	const field = $([
-		'textarea.js-comment-field', // TODO: remove after March 2025
-		'textarea[aria-labelledby="comment-composer-heading"]', // Add comment textarea
-		'[class^="MarkdownInput-module__textArea"] textarea', // Edit comment textarea
-	], container);
+	const field = $(
+		[
+			'textarea.js-comment-field', // TODO: remove after March 2025
+			'textarea[aria-labelledby="comment-composer-heading"]', // Add comment textarea
+			'[class^="MarkdownInput-module__textArea"] textarea', // Edit comment textarea
+		],
+		container,
+	);
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
 	// Don't indent <summary> because indentation will not be automatic on multi-line content
@@ -34,7 +39,9 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 		${selection}
 
 		</details>
-	`.replaceAll(/(\n|\b)\t+/g, '$1').trim();
+	`
+		.replaceAll(/(\n|\b)\t+/g, '$1')
+		.trim();
 
 	field.focus();
 	insertTextIntoField(field, smartBlockWrap(newContent, field));
@@ -42,7 +49,9 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	// Restore selection.
 	// `selectionStart` will be right after the newly-inserted text
 	field.setSelectionRange(
-		field.value.lastIndexOf('</summary>', field.selectionStart) + '</summary>'.length + 2,
+		field.value.lastIndexOf('</summary>', field.selectionStart) +
+			'</summary>'.length +
+			2,
 		field.value.lastIndexOf('</details>', field.selectionStart) - 2,
 	);
 }
@@ -58,10 +67,13 @@ function append(container: HTMLElement): void {
 		'rgh-collapsible-content-btn',
 	];
 
-	const divider = $([
-		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
-		'[class^="Toolbar-module__divider"]',
-	], container).cloneNode(true);
+	const divider = $(
+		[
+			'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
+			'[class^="Toolbar-module__divider"]',
+		],
+		container,
+	).cloneNode(true);
 
 	container.append(
 		divider,
@@ -86,13 +98,13 @@ function append(container: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(actionBarSelectors, append, {signal});
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

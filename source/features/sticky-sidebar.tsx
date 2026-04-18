@@ -50,11 +50,13 @@ function updateStickiness(): void {
 		return;
 	}
 
-	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
+	const offset = calculateCssCalcString(
+		getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'),
+	);
 	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
-		window.innerWidth >= minimumViewportWidthForSidebar
-		&& sidebar.offsetHeight + offset <= window.innerHeight,
+		window.innerWidth >= minimumViewportWidthForSidebar &&
+			sidebar.offsetHeight + offset <= window.innerHeight,
 	);
 }
 
@@ -75,9 +77,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isDiscussion,
 	],
-	exclude: [
-		() => screen.availWidth < minimumViewportWidthForSidebar,
-	],
+	exclude: [() => screen.availWidth < minimumViewportWidthForSidebar],
 	init,
 });
 

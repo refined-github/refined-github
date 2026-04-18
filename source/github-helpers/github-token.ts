@@ -11,22 +11,23 @@ type BaseApiFetchOptions = {
 	path: string;
 };
 
-export async function baseApiFetch({apiBase, token, path}: BaseApiFetchOptions): Promise<Response> {
+export async function baseApiFetch({
+	apiBase,
+	token,
+	path,
+}: BaseApiFetchOptions): Promise<Response> {
 	if (!apiBase.endsWith('/')) {
 		throw new TypeError('apiBase must end with a slash');
 	}
 
-	const response = await fetch(
-		new URL(path, apiBase),
-		{
-			cache: 'no-store',
-			headers: {
-				'user-agent': 'Refined GitHub',
-				accept: 'application/vnd.github.v3+json',
-				authorization: `token ${token}`,
-			},
+	const response = await fetch(new URL(path, apiBase), {
+		cache: 'no-store',
+		headers: {
+			'user-agent': 'Refined GitHub',
+			accept: 'application/vnd.github.v3+json',
+			authorization: `token ${token}`,
 		},
-	);
+	});
 
 	if (!response.ok) {
 		const details = await response.json();
@@ -99,13 +100,22 @@ type TokenInfo = {
 	expiration?: string;
 };
 
-export async function getTokenInfo(apiBase: string, personalToken: string): Promise<TokenInfo> {
-	const {headers} = await baseApiFetch({apiBase, token: personalToken, path: ''});
+export async function getTokenInfo(
+	apiBase: string,
+	personalToken: string,
+): Promise<TokenInfo> {
+	const {headers} = await baseApiFetch({
+		apiBase,
+		token: personalToken,
+		path: '',
+	});
 
 	const expiration = headers.get('GitHub-Authentication-Token-Expiration');
 	// Convert `2026-06-03 19:52:44 UTC` to `2026-06-03T19:52:44Z`
 	// So that `Date` constructor in Safari can parse it: #9043
-	const expirationTransformed = expiration?.replace(' ', 'T').replace(' UTC', 'Z');
+	const expirationTransformed = expiration
+		?.replace(' ', 'T')
+		.replace(' UTC', 'Z');
 
 	return {
 		scopes: parseTokenScopes(headers),
@@ -121,6 +131,11 @@ export async function expectTokenScope(scope: string): Promise<void> {
 
 	const {scopes: tokenScopes} = await getTokenInfo(api, token);
 	if (!tokenScopes.includes(scope)) {
-		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
+		throw new Error(
+			'The token you provided does not have ' +
+				(tokenScopes.length > 0
+					? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.`
+					: 'any scope. You can change the scope of your token at https://github.com/settings/tokens'),
+		);
 	}
 }

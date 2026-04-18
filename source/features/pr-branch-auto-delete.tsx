@@ -42,39 +42,45 @@ async function init(signal: AbortSignal): Promise<void> {
 			baseRefName: head.branch,
 		},
 	});
-	if (repository.pullRequests.totalCount > 0 || repository.deleteBranchOnMerge) {
+	if (
+		repository.pullRequests.totalCount > 0 ||
+		repository.deleteBranchOnMerge
+	) {
 		return;
 	}
 
 	await waitForPrMerge(signal);
 
-	const deleteButton = await elementReady('div[class^="MergeBoxSectionHeader-module__contentLayout"] button', {
-		predicate: button => button.textContent.trim() === 'Delete branch',
-		stopOnDomReady: false,
-		signal,
-	});
+	const deleteButton = await elementReady(
+		'div[class^="MergeBoxSectionHeader-module__contentLayout"] button',
+		{
+			predicate: (button) => button.textContent.trim() === 'Delete branch',
+			stopOnDomReady: false,
+			signal,
+		},
+	);
 	deleteButton!.click();
 
-	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
-		stopOnDomReady: false,
-		signal,
-	});
-	const url = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
+	const deletionEvent = await elementReady(
+		'.TimelineItem-body:has(.pull-request-ref-restore-text)',
+		{
+			stopOnDomReady: false,
+			signal,
+		},
+	);
+	const url =
+		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
-		<a className="d-inline-block" href={url}>via Refined GitHub <InfoIcon /></a>,
+		<a className="d-inline-block" href={url}>
+			via Refined GitHub <InfoIcon />
+		</a>,
 	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		userCanLikelyMergePr,
-	],
-	include: [
-		pageDetect.isPRConversation,
-	],
-	exclude: [
-		pageDetect.isMergedPR,
-	],
+	asLongAs: [userCanLikelyMergePr],
+	include: [pageDetect.isPRConversation],
+	exclude: [pageDetect.isMergedPR],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	init,
 });

@@ -18,8 +18,8 @@ function linkifyContent(wrapper: HTMLElement): void {
 	linkifyUrls(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
-		// Look for the link on the line number
-		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		? // Look for the link on the line number
+			getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
 		: getRepo();
 	// Some non-repo pages like gists have issue references #3844
 	// They make no sense, but we still want `linkifyURLs` to run there
@@ -37,9 +37,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
+	include: [pageDetect.hasCode],
 	init,
 });
 

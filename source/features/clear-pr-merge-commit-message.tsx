@@ -11,11 +11,15 @@ import {expectToken} from '../github-helpers/github-token.js';
 import attachElement from '../helpers/attach-element.js';
 import observe from '../helpers/selector-observer.js';
 
-const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
+const isPrAgainstDefaultBranch = async (): Promise<boolean> =>
+	getBranches().base.branch === (await getDefaultBranch());
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
-	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
+	const cleanedMessage = cleanCommitMessage(
+		originalMessage,
+		!(await isPrAgainstDefaultBranch()),
+	);
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return;
@@ -33,7 +37,15 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 		after: () => (
 			<div className="flex-self-stretch">
 				<p className="note">
-					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
+					The description field was cleared by{' '}
+					<a
+						target="_blank"
+						href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
+						rel="noreferrer"
+					>
+						Refined GitHub
+					</a>
+					.
 				</p>
 			</div>
 		),
@@ -42,14 +54,15 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('textarea[placeholder="Add an optional extended description…"]', clear, {signal});
+	observe(
+		'textarea[placeholder="Add an optional extended description…"]',
+		clear,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isPRConversation,
-		userHasPushAccess,
-	],
+	asLongAs: [pageDetect.isPRConversation, userHasPushAccess],
 	exclude: [
 		// Don't clear 1-commit PRs #3140
 		() => countElements('.TimelineItem.js-commit') === 1,

@@ -21,16 +21,16 @@ async function canUserEditOrganization(): Promise<boolean> {
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
 		// User is on tab 👀
-		tab.matches('.selected')
+		tab.matches('.selected') ||
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
-		|| pageDetect.canUserAdminRepo()
+		pageDetect.canUserAdminRepo()
 	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tabCounter = (<span className="Counter" />) as HTMLSpanElement;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 
@@ -41,7 +41,8 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 function onlyShowInDropdown(id: string): void {
 	// TODO: Use selector observer
 	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
-	if (!tabItem) { // #3962 #7140
+	if (!tabItem) {
+		// #3962 #7140
 		return;
 	}
 
@@ -94,7 +95,11 @@ async function updateWikiTab(): Promise<void | false> {
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
+	if (
+		!actionsTab ||
+		mustKeepTab(actionsTab) ||
+		(await hasActionRuns.get(getRepo()!.nameWithOwner))
+	) {
 		return false;
 	}
 
@@ -103,7 +108,11 @@ async function updateActionsTab(): Promise<void | false> {
 
 async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
+	if (
+		!projectsTab ||
+		mustKeepTab(projectsTab) ||
+		(await getTabCount(projectsTab)) > 0
+	) {
 		return false;
 	}
 
@@ -122,7 +131,7 @@ async function updateProjectsTab(): Promise<void | false> {
 
 async function moveRareTabs(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
-	if (!await unhideOverflowDropdown()) {
+	if (!(await unhideOverflowDropdown())) {
 		return false;
 	}
 
@@ -131,35 +140,34 @@ async function moveRareTabs(): Promise<void | false> {
 
 	// Only hide security tab if there are no vulnerability alerts #8457
 	const securityTab = $optional('[data-tab-item$="security-tab"]');
-	if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
+	if (
+		securityTab &&
+		!mustKeepTab(securityTab) &&
+		(await getTabCount(securityTab)) === 0
+	) {
 		onlyShowInDropdown('security-tab');
 	}
 
 	onlyShowInDropdown('insights-tab');
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	deduplicate: 'has-rgh',
-	init: [
-		updateActionsTab,
-		updateWikiTab,
-		updateProjectsTab,
-	],
-}, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	init: moveRareTabs,
-}, {
-	include: [
-		pageDetect.isOrganizationProfile,
-	],
-	deduplicate: 'has-rgh',
-	init: updateProjectsTab,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasRepoHeader],
+		deduplicate: 'has-rgh',
+		init: [updateActionsTab, updateWikiTab, updateProjectsTab],
+	},
+	{
+		include: [pageDetect.hasRepoHeader],
+		init: moveRareTabs,
+	},
+	{
+		include: [pageDetect.isOrganizationProfile],
+		deduplicate: 'has-rgh',
+		init: updateProjectsTab,
+	},
+);
 
 /*
 

@@ -18,11 +18,15 @@ const getLastUpdated = new CachedFunction('last-updated', {
 	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
 		const {repository} = await api.v4(`
 		repository() {
-			${issueNumbers.map(number => `
+			${issueNumbers
+				.map(
+					(number) => `
 				${api.escapeKey(number)}: issue(number: ${number}) {
 					updatedAt
 				}
-			`).join('\n')}
+			`,
+				)
+				.join('\n')}
 		}
 	`);
 
@@ -38,7 +42,9 @@ function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
 
 async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(
-		pinnedIssuesMetadata.map(issueMetadata => getPinnedIssueNumber(issueMetadata)),
+		pinnedIssuesMetadata.map((issueMetadata) =>
+			getPinnedIssueNumber(issueMetadata),
+		),
 	);
 	for (const issueMetadata of pinnedIssuesMetadata) {
 		const issueNumber = getPinnedIssueNumber(issueMetadata);
@@ -46,7 +52,8 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 		issueMetadata.after(
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
-				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
+				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated{' '}
+				<relative-time datetime={updatedAt} />
 			</span>,
 		);
 
@@ -56,13 +63,15 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('span[class^="PinnedIssue-module__issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
+	observe(
+		'span[class^="PinnedIssue-module__issueMetadata"]',
+		batchedFunction(update, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueList,
-	],
+	include: [pageDetect.isRepoIssueList],
 	init,
 });
 

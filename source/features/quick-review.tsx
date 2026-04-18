@@ -18,16 +18,34 @@ import {
 import {randomArrayItem} from '../helpers/math.js';
 import {getToken} from '../options-storage.js';
 
-const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
+const emojis = [
+	'🚀',
+	'🐿️',
+	'⚡️',
+	'🤌',
+	'🥳',
+	'🥰',
+	'🤩',
+	'🥸',
+	'😎',
+	'🤯',
+	'🚢',
+	'🛫',
+	'🏳️',
+	'🏁',
+];
 
 // Be careful not to select the "Submit review" button in the dialog
-const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
+const reviewMenuButtonSelector =
+	'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
 
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
-	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
+	const approval = event.altKey
+		? ''
+		: prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
 		return;
 	}
@@ -47,7 +65,9 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	triggerConversationUpdate();
 }
 
-async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
+async function addSidebarReviewButton(
+	reviewersSection: Element,
+): Promise<void> {
 	const reviewFormUrl = new URL(location.href);
 	reviewFormUrl.pathname += '/files';
 	reviewFormUrl.hash = openReviewMenuDeepLink;
@@ -56,7 +76,16 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	await delay(300);
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
-			– <a href={reviewFormUrl.href} className="btn-link Link--muted Link--inTextBlock" data-hotkey="v" data-turbo-frame="repo-content-turbo-frame" title="Hotkey: V">review now</a>
+			–{' '}
+			<a
+				href={reviewFormUrl.href}
+				className="btn-link Link--muted Link--inTextBlock"
+				data-hotkey="v"
+				data-turbo-frame="repo-content-turbo-frame"
+				title="Hotkey: V"
+			>
+				review now
+			</a>
 		</span>
 	);
 
@@ -65,9 +94,9 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	// Can't approve own PRs and closed PRs
 	// API required for this action
 	if (
-		getLoggedInUser() === $('.author').textContent
-		|| pageDetect.isClosedConversation()
-		|| !(await getToken())
+		getLoggedInUser() === $('.author').textContent ||
+		pageDetect.isClosedConversation() ||
+		!(await getToken())
 	) {
 		return;
 	}
@@ -85,12 +114,20 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 }
 
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
-	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButton, {signal});
+	observe(
+		'#reviewers-select-menu .discussion-sidebar-heading',
+		addSidebarReviewButton,
+		{signal},
+	);
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
 function initNativeReviewButton(signal: AbortSignal): void {
-	observe('section[aria-label="Review Request Banner"] a[type="button"]', enhanceNativeReviewButton, {signal});
+	observe(
+		'section[aria-label="Review Request Banner"] a[type="button"]',
+		enhanceNativeReviewButton,
+		{signal},
+	);
 }
 
 function enhanceNativeReviewButton(button: HTMLAnchorElement): void {
@@ -106,8 +143,13 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	}
 }
 
-async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
-	delegate(openReviewMenuDeepLinkSelector, 'toggle', focusReviewTextarea, {capture: true, signal});
+async function initReviewButtonEnhancements(
+	signal: AbortSignal,
+): Promise<void> {
+	delegate(openReviewMenuDeepLinkSelector, 'toggle', focusReviewTextarea, {
+		capture: true,
+		signal,
+	});
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
@@ -131,34 +173,36 @@ function initNativeDeepLinking(signal: AbortSignal): void {
 	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
 	// Old view -- TODO: Drop in the fall of 2026
 	// Cannot target the [popover] itself because observe() can't see hidden elements
-	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
+	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {
+		signal,
+	});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	init: initSidebarReviewButton,
-}, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	init: initNativeReviewButton,
-}, {
-	shortcuts: {
-		v: 'Open PR review popup',
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isPRConversation],
+		init: initSidebarReviewButton,
 	},
-	include: [
-		pageDetect.isPRFiles,
-	],
-	init: initReviewButtonEnhancements,
-}, {
-	asLongAs: [
-		() => location.hash === openReviewMenuDeepLinkSelector,
-		pageDetect.isPRFiles,
-	],
-	init: initNativeDeepLinking,
-});
+	{
+		include: [pageDetect.isPRConversation],
+		init: initNativeReviewButton,
+	},
+	{
+		shortcuts: {
+			v: 'Open PR review popup',
+		},
+		include: [pageDetect.isPRFiles],
+		init: initReviewButtonEnhancements,
+	},
+	{
+		asLongAs: [
+			() => location.hash === openReviewMenuDeepLinkSelector,
+			pageDetect.isPRFiles,
+		],
+		init: initNativeDeepLinking,
+	},
+);
 
 /*
 

@@ -11,11 +11,15 @@ export function disableErrorLogging(): void {
 
 const {version} = chrome.runtime.getManifest();
 
-const fineGrainedTokenSuggestion = 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage = 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
+const fineGrainedTokenSuggestion =
+	'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
+const preferredMessage =
+	'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
 // Reads from path like assets/features/NAME.js
-export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {
+export function parseFeatureNameFromStack(
+	stack: string = new Error('stack').stack!,
+): FeatureId | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
 	const match = stack
 		.split('\n')
@@ -51,7 +55,12 @@ export function logError(error: Error): void {
 	loggedStacks.add(stack!);
 
 	if (message.endsWith(fineGrainedTokenSuggestion)) {
-		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
+		console.log(
+			'ℹ️',
+			id,
+			'→',
+			message.replace(fineGrainedTokenSuggestion, preferredMessage),
+		);
 		return;
 	}
 
@@ -60,18 +69,28 @@ export function logError(error: Error): void {
 		return;
 	}
 
-	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id ?? message}`);
+	const searchIssueUrl = new URL(
+		'https://github.com/refined-github/refined-github/issues',
+	);
+	searchIssueUrl.searchParams.set(
+		'q',
+		`is:issue is:open label:bug ${id ?? message}`,
+	);
 
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+	const newIssueUrl = new URL(
+		'https://github.com/refined-github/refined-github/issues/new',
+	);
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', id ? `\`${id}\`: ${message}` : message);
 	newIssueUrl.searchParams.set('repro', location.href);
-	newIssueUrl.searchParams.set('description', [
-		'```',
-		String(error instanceof Error ? error.stack! : error).trim(),
-		'```',
-	].join('\n'));
+	newIssueUrl.searchParams.set(
+		'description',
+		[
+			'```',
+			String(error instanceof Error ? error.stack! : error).trim(),
+			'```',
+		].join('\n'),
+	);
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
 	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
@@ -82,7 +101,7 @@ export function logError(error: Error): void {
 }
 
 export function catchErrors(): void {
-	globalThis.addEventListener('error', event => {
+	globalThis.addEventListener('error', (event) => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
 		if (error) {
@@ -91,11 +110,14 @@ export function catchErrors(): void {
 		}
 	});
 
-	addEventListener('unhandledrejection', event => {
+	addEventListener('unhandledrejection', (event) => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values
-		if (error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://')) {
+		if (
+			error?.stack.includes('-extension://') ||
+			error?.stack.includes('webkit-masked-url://')
+		) {
 			logError(error);
 			event.preventDefault();
 		}

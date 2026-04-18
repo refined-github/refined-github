@@ -50,11 +50,17 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	newComment.selectionStart = newComment.selectionEnd;
 
 	// If the cursor is preceded by a space (or is at place 0), don't add a space before the mention
-	const precedingCharacter = newComment.value.slice(newComment.selectionStart - 1, newComment.selectionStart);
+	const precedingCharacter = newComment.value.slice(
+		newComment.selectionStart - 1,
+		newComment.selectionStart,
+	);
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
+	insertTextIntoField(
+		newComment,
+		`${spacer}${prefixUserMention(userMention)} `,
+	);
 }
 
 const debug = false;
@@ -81,7 +87,10 @@ function add(avatar: HTMLElement): void {
 
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+			!elementExists(
+				'.unminimized-comment, .js-comment-container',
+				timelineItem,
+			)
 		) {
 			return;
 		}
@@ -104,7 +113,10 @@ function add(avatar: HTMLElement): void {
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
 	if (avatar.classList.contains('TimelineItem-avatar')) {
 		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
+		wrap(
+			avatar,
+			<div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />,
+		);
 	}
 
 	if (!isOldView) {
@@ -117,7 +129,10 @@ function add(avatar: HTMLElement): void {
 	avatar.after(
 		<button
 			type="button"
-			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
+			className={[
+				'rgh-quick-mention tooltipped tooltipped-e btn-link',
+				isOldView ? '' : 'react-view',
+			].join(' ')}
 			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 		>
 			<ReplyIcon />
@@ -133,12 +148,18 @@ async function init(signal: AbortSignal): Promise<void> {
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	const controller = new AbortController();
-	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
-		observe(fieldSelector, field => {
-			resolve(field);
-			controller.abort();
-		}, {signal: AbortSignal.any([signal, controller.signal])});
-	});
+	const field: HTMLTextAreaElement | undefined = await new Promise(
+		(resolve) => {
+			observe(
+				fieldSelector,
+				(field) => {
+					resolve(field);
+					controller.abort();
+				},
+				{signal: AbortSignal.any([signal, controller.signal])},
+			);
+		},
+	);
 
 	if (!field) {
 		return;
@@ -153,9 +174,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	init,
 });
 

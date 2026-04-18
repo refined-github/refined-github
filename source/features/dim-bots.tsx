@@ -7,11 +7,14 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
-import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
+import {
+	botLinksCommitSelectors,
+	botLinksPrSelectors,
+} from '../github-helpers/selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 
 const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
-	selector => `${selector}:not([href*="copilot"])`,
+	(selector) => `${selector}:not([href*="copilot"])`,
 );
 
 const dimBots = getIdentifiers(import.meta.url);
@@ -34,25 +37,28 @@ function undimBots(event: DelegateEvent): void {
 }
 
 function dim(commit: HTMLElement): void {
-	commit.closest([
-		'[data-testid="commit-row-item"]',
+	commit
+		.closest([
+			'[data-testid="commit-row-item"]',
 
-		'.Box-row', // PRs
-	])!.classList.add(dimBots.class);
+			'.Box-row', // PRs
+		])!
+		.classList.add(dimBots.class);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors], dim, {signal});
+	observe(
+		[...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors],
+		dim,
+		{signal},
+	);
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommitList,
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isCommitList, pageDetect.isIssueOrPRList],
 	init,
 });
 

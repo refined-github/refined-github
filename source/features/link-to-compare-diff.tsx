@@ -10,7 +10,10 @@ import {wrapAll} from '../helpers/dom-utils.js';
 
 function linkify(changedFilesSummary: HTMLElement): void {
 	wrapAll(
-		<a className="no-underline rgh-link-to-compare-diff" href="#files_bucket" />,
+		<a
+			className="no-underline rgh-link-to-compare-diff"
+			href="#files_bucket"
+		/>,
 		...changedFilesSummary.children,
 	);
 }
@@ -20,9 +23,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCompare,
-	],
+	include: [pageDetect.isCompare],
 	exclude: [
 		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],

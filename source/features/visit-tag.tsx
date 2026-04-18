@@ -11,13 +11,15 @@ import {wrapAll} from '../helpers/dom-utils.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	if (elementExists([
-		// If the branch picker is open, do nothing #7491
-		'#selectPanel',
+	if (
+		elementExists([
+			// If the branch picker is open, do nothing #7491
+			'#selectPanel',
 
-		// React view deduplication https://github.com/refined-github/refined-github/issues/7601
-		'.rgh-visit-tag',
-	])) {
+			// React view deduplication https://github.com/refined-github/refined-github/issues/7601
+			'.rgh-visit-tag',
+		])
+	) {
 		return;
 	}
 
@@ -52,19 +54,17 @@ function init(signal: AbortSignal): void {
 	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-	],
-	init: clarifyIcon,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isRepoTree, pageDetect.isSingleFile],
+		init,
+	},
+	{
+		include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
+		init: clarifyIcon,
+	},
+);
 
 /*
 

@@ -15,12 +15,17 @@ function getPrUrl(extension: 'patch' | 'diff'): string {
 
 function getCommitUrl(extension: 'patch' | 'diff'): string {
 	// The replacement avoids a redirection isPRCommit
-	const pathname = getCleanPathname().replace(/\/pull\/\d+\/commits/, '/commit');
+	const pathname = getCleanPathname().replace(
+		/\/pull\/\d+\/commits/,
+		'/commit',
+	);
 	return `/${pathname}.${extension}`;
 }
 
 function updateCommitUrl(
-	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
+	event:
+		| React.FocusEvent<HTMLAnchorElement>
+		| React.MouseEvent<HTMLAnchorElement>,
 ): void {
 	const link = event.currentTarget;
 	link.href = getCommitUrl(link.textContent as 'patch' | 'diff');
@@ -45,9 +50,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	commitMeta.classList.remove('no-wrap'); // #5987
 	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
-			{createLink('patch')}
-			{' '}
-			{createLink('diff')}
+			{createLink('patch')} {createLink('diff')}
 			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
 		</span>,
 	);
@@ -68,25 +71,28 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
-		'[class*="commit-header-actions"] + div pre',
-	], addPatchDiffLinks, {signal});
+	observe(
+		[
+			'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
+			'[class*="commit-header-actions"] + div pre',
+		],
+		addPatchDiffLinks,
+		{signal},
+	);
 
-	observe([
-		'.react-overview-code-button-action-list > ul',
-		'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
-	], addPrPatchDiffLinks, {signal});
+	observe(
+		[
+			'.react-overview-code-button-action-list > ul',
+			'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
+		],
+		addPrPatchDiffLinks,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommit,
-		pageDetect.isPR,
-	],
-	exclude: [
-		pageDetect.isPRCommit404,
-	],
+	include: [pageDetect.isCommit, pageDetect.isPR],
+	exclude: [pageDetect.isPRCommit404],
 	init,
 });
 

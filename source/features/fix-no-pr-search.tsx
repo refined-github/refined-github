@@ -26,9 +26,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRList,
-	],
+	include: [pageDetect.isPRList],
 	init,
 });
 

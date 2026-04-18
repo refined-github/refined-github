@@ -11,8 +11,12 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 
 	// Exclude interactive elements
 	if (!elementClicked.closest(['a', 'button', 'clipboard-copy', 'details'])) {
-		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
-			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+		$(
+			'button:has(> .octicon-chevron-down, > .octicon-chevron-right)',
+			headerBar,
+		).dispatchEvent(
+			new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+		);
 	}
 }
 
@@ -22,35 +26,44 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 	const toggle = $(':scope > button', headerBar);
 
 	// The clicked element is either the bar itself or one of its children excluding the button
-	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
-		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+	if (
+		elementClicked === headerBar ||
+		(elementClicked.parentElement === headerBar && elementClicked !== toggle)
+	) {
+		toggle.dispatchEvent(
+			new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+		);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'.file-header',
-		// React
-		'[class^="Diff-module__diffHeaderWrapper"]',
-	], 'click', toggleFile, {signal});
+	delegate(
+		[
+			'.file-header',
+			// React
+			'[class^="Diff-module__diffHeaderWrapper"]',
+		],
+		'click',
+		toggleFile,
+		{signal},
+	);
 }
 
 function initSearchPage(signal: AbortSignal): void {
 	delegate(codeSearchHeader, 'click', toggleCodeSearchFile, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasFiles,
-		pageDetect.isGistRevision,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalSearchResults,
-	],
-	init: initSearchPage,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasFiles, pageDetect.isGistRevision],
+		init,
+	},
+	{
+		include: [pageDetect.isGlobalSearchResults],
+		init: initSearchPage,
+	},
+);
 
 /*
 

@@ -9,11 +9,17 @@ import mem from 'memoize';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
-export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
+export const {
+	getRepositoryInfo: getRepo,
+	getCleanPathname,
+	getLoggedInUser,
+} = pageDetect.utils;
 
 export function getConversationNumber(): number | undefined {
 	const [, _owner, _repo, type, prNumber] = location.pathname.split('/');
-	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
+	return (type === 'pull' || type === 'issues') && Number(prNumber)
+		? Number(prNumber)
+		: undefined;
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
@@ -21,10 +27,14 @@ export const isMac = navigator.userAgent.includes('Macintosh');
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
+export function buildRepoUrl<S extends string>(
+	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
+): string {
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
-			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
+			throw new TypeError(
+				'The path parts shouldn’t start or end with a slash: ' + part,
+			);
 		}
 	}
 
@@ -32,7 +42,8 @@ export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<A
 }
 
 export function getForkedRepo(): string | undefined {
-	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')
+		?.content;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
@@ -40,11 +51,12 @@ export function parseTag(tag: string): {version: string; namespace: string} {
 	return {namespace, version};
 }
 
-export function isUsernameAlreadyFullName(username: string, realname: string): boolean {
+export function isUsernameAlreadyFullName(
+	username: string,
+	realname: string,
+): boolean {
 	// Normalize both strings
-	username = username
-		.replaceAll('-', '')
-		.toLowerCase();
+	username = username.replaceAll('-', '').toLowerCase();
 	realname = realname
 		.normalize('NFD')
 		// Remove diacritics, punctuation and spaces
@@ -61,13 +73,14 @@ const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
-	if (!tags.every(tag => validVersion.test(tag))) {
+	if (!tags.every((tag) => validVersion.test(tag))) {
 		return tags[0];
 	}
 
 	// Exclude pre-releases
-	let releases = tags.filter(tag => !isPrerelease.test(tag));
-	if (releases.length === 0) { // They were all pre-releases; undo.
+	let releases = tags.filter((tag) => !isPrerelease.test(tag));
+	if (releases.length === 0) {
+		// They were all pre-releases; undo.
 		releases = tags;
 	}
 
@@ -125,7 +138,8 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 	return pageDetect.isArchivedRepo();
 }
 
-export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
+export const userCanLikelyMergePr = (): boolean =>
+	elementExists('.discussion-sidebar-item .octicon-lock');
 
 const navigationBarSelector = `:is(${[
 	'.GlobalNav',
@@ -135,18 +149,23 @@ const navigationBarSelector = `:is(${[
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/issues"]`);
+	return elementExists(
+		`${navigationBarSelector} a[href="/${repo.nameWithOwner}/issues"]`,
+	);
 }
 
 export function areDiscussionsEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/discussions"]`);
+	return elementExists(
+		`${navigationBarSelector} a[href="/${repo.nameWithOwner}/discussions"]`,
+	);
 }
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
 // Commit lists for files and folders lack a branch selector
-export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
+export const isRepoCommitListRoot = (): boolean =>
+	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
 	const {ok} = await fetch(url, {method: 'head'});
@@ -154,13 +173,18 @@ export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
 });
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
-export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
+export function extractCurrentBranchFromBranchPicker(
+	branchPicker: HTMLElement,
+): string {
 	return branchPicker.title === 'Switch branches or tags'
 		? branchPicker.textContent.trim() // Branch name is shown in full
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 
-export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
+export function addAfterBranchSelector(
+	branchSelectorParent: HTMLDetailsElement,
+	sibling: HTMLElement,
+): void {
 	const row = branchSelectorParent.closest('.position-relative')!;
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
@@ -170,10 +194,12 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
 	const marker = $('.js-timeline-marker');
-	marker.dispatchEvent(new CustomEvent('socket:message', {
-		bubbles: true,
-		detail: {data: {gid: marker.dataset.gid}},
-	}));
+	marker.dispatchEvent(
+		new CustomEvent('socket:message', {
+			bubbles: true,
+			detail: {data: {gid: marker.dataset.gid}},
+		}),
+	);
 }
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430

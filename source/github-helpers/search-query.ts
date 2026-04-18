@@ -1,4 +1,5 @@
-const queryPartsRegExp = /[^\s"()]+:[^"\s()]*(?:"[^"]*")?|\([^)]*\)|"[^"]*"|[^\s"():]+/g;
+const queryPartsRegExp =
+	/[^\s"()]+:[^"\s()]*(?:"[^"]*")?|\([^)]*\)|"[^"]*"|[^\s"():]+/g;
 const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
 
 function splitQueryString(query: string): string[] {
@@ -64,7 +65,10 @@ export default class SearchQuery {
 		// Parse label links #5176
 		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
 		if (labelName) {
-			this.queryParts = ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
+			this.queryParts = [
+				'is:open',
+				'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName)),
+			];
 			return;
 		}
 
@@ -72,11 +76,15 @@ export default class SearchQuery {
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 
 		// Repo example: is:issue is:open
-		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'is:open');
+		this.queryParts.push(
+			/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue',
+			'is:open',
+		);
 
 		// Header nav example: is:open is:issue author:you archived:false
 		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
-			if (this.url.searchParams.has('user')) { // #1211
+			if (this.url.searchParams.has('user')) {
+				// #1211
 				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
 			} else {
 				this.queryParts.push('author:@me');
@@ -124,7 +132,9 @@ export default class SearchQuery {
 	}
 
 	remove(...queryPartsToRemove: string[]): this {
-		this.queryParts = this.getQueryParts().filter(queryPart => !queryPartsToRemove.includes(queryPart));
+		this.queryParts = this.getQueryParts().filter(
+			(queryPart) => !queryPartsToRemove.includes(queryPart),
+		);
 		return this;
 	}
 
@@ -139,6 +149,8 @@ export default class SearchQuery {
 	}
 
 	includes(...searchStrings: string[]): boolean {
-		return this.getQueryParts().some(queryPart => searchStrings.includes(queryPart));
+		return this.getQueryParts().some((queryPart) =>
+			searchStrings.includes(queryPart),
+		);
 	}
 }

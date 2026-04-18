@@ -17,7 +17,9 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 @returns user-name or dependabot[bot]
 
 */
-export default function getCommentAuthor(anyElementInsideComment: Element): string {
+export default function getCommentAuthor(
+	anyElementInsideComment: Element,
+): string {
 	const avatar: HTMLImageElement = anyElementInsideComment
 		.closest([
 			'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
@@ -33,11 +35,13 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 			'img[data-component="Avatar"]', // Commit comments
 		])!;
 
-	const name = avatar
-		.alt // Occasionally ends with `[bot]`
+	const name = avatar.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	if (!name.endsWith('[bot]') && avatar.closest('[href^="https://github.com/apps/"]')) {
+	if (
+		!name.endsWith('[bot]') &&
+		avatar.closest('[href^="https://github.com/apps/"]')
+	) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
 		return name + '[bot]';
 	}

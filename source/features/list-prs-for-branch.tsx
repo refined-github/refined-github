@@ -3,8 +3,15 @@ import React from 'dom-chef';
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
-import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {
+	pullRequestsAssociatedWithBranch,
+	stateIcon,
+} from './show-associated-branch-prs-on-fork.js';
+import {
+	addAfterBranchSelector,
+	isPermalink,
+	isRepoCommitListRoot,
+} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {branchSelectorParent} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -21,7 +28,9 @@ const stateColorMap = {
 	DRAFT: '',
 };
 
-async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
+async function add(
+	branchSelectorParent: HTMLDetailsElement,
+): Promise<void | false> {
 	const getPr = await pullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];
@@ -53,13 +62,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		isRepoCommitListRoot,
-	],
-	exclude: [
-		isDefaultBranch,
-		isPermalink,
-	],
+	include: [isRepoCommitListRoot],
+	exclude: [isDefaultBranch, isPermalink],
 	init,
 });
 

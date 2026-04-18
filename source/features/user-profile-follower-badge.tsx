@@ -20,26 +20,21 @@ const doesUserFollow = new CachedFunction('user-follows', {
 });
 
 async function init(): Promise<void> {
-	if (!await doesUserFollow.get(getCleanPathname(), getLoggedInUser()!)) {
+	if (!(await doesUserFollow.get(getCleanPathname(), getLoggedInUser()!))) {
 		return;
 	}
 
-	const target = await elementReady('.js-profile-editable-area [href$="?tab=following"]');
+	const target = await elementReady(
+		'.js-profile-editable-area [href$="?tab=following"]',
+	);
 	attachElement(target, {
-		after: () => (
-			<span className="color-fg-muted"> · Follows you</span>
-		),
+		after: () => <span className="color-fg-muted"> · Follows you</span>,
 	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	exclude: [
-		pageDetect.isOwnUserProfile,
-		pageDetect.isPrivateUserProfile,
-	],
+	include: [pageDetect.isUserProfile],
+	exclude: [pageDetect.isOwnUserProfile, pageDetect.isPrivateUserProfile],
 	init,
 });
 

@@ -20,7 +20,9 @@ async function unhide(event: DelegateEvent): Promise<void> {
 	await delay(10); // "Similar comments" aren't expanded without this in Safari #3830
 
 	// Expand all "similar comments" boxes
-	for (const similarCommentsExpandButton of $$('.rgh-hidden-comment > summary')) {
+	for (const similarCommentsExpandButton of $$(
+		'.rgh-hidden-comment > summary',
+	)) {
 		similarCommentsExpandButton.click();
 	}
 
@@ -34,7 +36,9 @@ function hideComment(comment: HTMLElement): void {
 }
 
 function init(): void {
-	for (const similarCommentsBox of $$('.js-discussion .Details-element:not([data-body-version])')) {
+	for (const similarCommentsBox of $$(
+		'.js-discussion .Details-element:not([data-body-version])',
+	)) {
 		hideComment(similarCommentsBox);
 	}
 
@@ -68,7 +72,9 @@ function init(): void {
 		const author = $('.author', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
-		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
+		const previousComment = $(
+			`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`,
+		);
 		if (previousComment?.closest('.js-timeline-item') !== comment) {
 			continue;
 		}
@@ -81,7 +87,12 @@ function init(): void {
 		$('.discussion-timeline-actions').prepend(
 			<p className="rgh-low-quality-comments-note">
 				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
+				<button
+					className="btn-link text-emphasized rgh-unhide-low-quality-comments"
+					type="button"
+				>
+					Show
+				</button>
 			</p>,
 		);
 
@@ -92,9 +103,7 @@ function init(): void {
 
 // This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	deduplicate: '.rgh-low-quality-comments-note',
 	awaitDomReady: true,
 	init,

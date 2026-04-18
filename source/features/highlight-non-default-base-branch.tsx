@@ -27,36 +27,50 @@ function isClosed(prLink: HTMLElement): boolean {
 		'.js-issue-row', // Legacy DOM
 		'li',
 	])!;
-	return elementExists([
-		// Legacy DOM
-		'.octicon.merged',
-		'.octicon.closed',
-		// React DOM
-		'.octicon-git-merge',
-		'.octicon-git-pull-request-closed',
-	], row);
+	return elementExists(
+		[
+			// Legacy DOM
+			'.octicon.merged',
+			'.octicon.closed',
+			// React DOM
+			'.octicon-git-merge',
+			'.octicon-git-pull-request-closed',
+		],
+		row,
+	);
 }
 
 function buildQuery(prsByRepo: Map<string, Pr[]>): string {
-	return [...prsByRepo.values()].map(prs => {
-		const {owner, repo} = prs[0];
-		return `
+	return [...prsByRepo.values()]
+		.map((prs) => {
+			const {owner, repo} = prs[0];
+			return `
 			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
 				nameWithOwner
 				defaultBranchRef {name}
-				${prs.map(pr => `
+				${prs
+					.map(
+						(pr) => `
 					${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
 						ref: baseRef {id}
 						refName: baseRefName
 					}
-				`).join('\n')}
+				`,
+					)
+					.join('\n')}
 			}
 		`;
-	}).join('\n');
+		})
+		.join('\n');
 }
 
-function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): void {
-	const branch = baseBranch.ref && `/${nameWithOwner}/tree/${baseBranch.refName}`;
+function renderBranches(
+	pr: Pr,
+	baseBranch: BaseBranch,
+	nameWithOwner: string,
+): void {
+	const branch =
+		baseBranch.ref && `/${nameWithOwner}/tree/${baseBranch.refName}`;
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
@@ -75,13 +89,15 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	);
 
 	const metadataRow = pr.link.matches('.js-issue-row *')
-		// Legacy DOM
-		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
-		// React DOM
-		: pr.link.closest('li')!.querySelector([
-			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
-			'div[class^="Description"]', // Preview global PR list
-		])!;
+		? // Legacy DOM
+			pr.link.parentElement!.querySelector(
+				'.text-small.color-fg-muted .d-none.d-md-inline-flex',
+			)!
+		: // React DOM
+			pr.link.closest('li')!.querySelector([
+				'div[data-testid="list-row-repo-name-and-number"]', // Issue list
+				'div[class^="Description"]', // Preview global PR list
+			])!;
 	metadataRow.append(badge);
 }
 
@@ -90,11 +106,14 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	for (const link of prLinks) {
 		const [, owner, repo, , number] = link.pathname.split('/');
 		prs.add({
-			link, owner, repo, number: Number(number),
+			link,
+			owner,
+			repo,
+			number: Number(number),
 		});
 	}
 
-	const prsByRepo = Map.groupBy(prs, pr => `${pr.owner}/${pr.repo}`);
+	const prsByRepo = Map.groupBy(prs, (pr) => `${pr.owner}/${pr.repo}`);
 	const data = await api.v4(buildQuery(prsByRepo));
 
 	for (const repoPrs of prsByRepo.values()) {
@@ -120,17 +139,19 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe([
-		'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
-		'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
-		'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
-	], batchedFunction(add, {delay: 100}), {signal});
+	observe(
+		[
+			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
+			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
+			'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
+		],
+		batchedFunction(add, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isIssueOrPRList],
 	init,
 });
 

@@ -11,5 +11,10 @@ test('getItemsBetween', () => {
 	assert.deepEqual(getItemsBetween(list, '💙', '❤️'), ['❤️', '💛', '💚', '💙']);
 	assert.deepEqual(getItemsBetween(list, undefined, '❤️'), ['❤️']);
 	assert.deepEqual(getItemsBetween(list, undefined, '💚'), ['❤️', '💛', '💚']);
-	assert.deepEqual(getItemsBetween(list, undefined, '💙'), ['❤️', '💛', '💚', '💙']);
+	assert.deepEqual(getItemsBetween(list, undefined, '💙'), [
+		'❤️',
+		'💛',
+		'💚',
+		'💙',
+	]);
 });

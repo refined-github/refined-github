@@ -22,13 +22,19 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	//   1 Total            // Apparently appears with is:merged/is:unmerged
 	if (isMerged) {
 		// It's a "Total" link for "is:merged"
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace(
+			'Total',
+			'Merged',
+		);
 		return;
 	}
 
 	if (isUnmerged) {
 		// It's a "Total" link for "is:unmerged"
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace(
+			'Total',
+			'Unmerged',
+		);
 		return;
 	}
 
@@ -36,7 +42,10 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.textContent = 'Merged';
 	mergeLink.classList.toggle('selected', isMerged);
-	mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
+	mergeLink.href = SearchQuery.from(mergeLink).replace(
+		'is:closed',
+		'is:merged',
+	).href;
 	lastLink.after(' ', mergeLink);
 }
 
@@ -48,15 +57,12 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 	$optional('.octicon', link)?.remove();
 	if (link.classList.contains('selected')) {
 		link.prepend(<CheckIcon />);
-		link.href = SearchQuery
-			.from(link)
-			.remove(
-				'is:open',
-				'is:closed',
-				'is:merged',
-				'is:unmerged',
-			)
-			.href;
+		link.href = SearchQuery.from(link).remove(
+			'is:open',
+			'is:closed',
+			'is:merged',
+			'is:unmerged',
+		).href;
 	}
 }
 
@@ -65,10 +71,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-		pageDetect.isGlobalIssueOrPRList,
-	],
+	include: [pageDetect.isRepoIssueOrPRList, pageDetect.isGlobalIssueOrPRList],
 	init,
 });
 

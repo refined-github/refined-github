@@ -8,10 +8,12 @@ import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
 import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
 import observe from '../helpers/selector-observer.js';
 
-const viewportObserver = new IntersectionObserver(changes => {
+const viewportObserver = new IntersectionObserver((changes) => {
 	for (const {target: line, isIntersecting} of changes) {
 		if (isIntersecting) {
-			const shouldAvoidSurroundingSpaces = Boolean(line.closest('.blob-wrapper-embedded')); // #2285
+			const shouldAvoidSurroundingSpaces = Boolean(
+				line.closest('.blob-wrapper-embedded'),
+			); // #2285
 			showWhiteSpacesOnLine(line, shouldAvoidSurroundingSpaces);
 			viewportObserver.unobserve(line);
 		}
@@ -23,14 +25,16 @@ function showWhitespaceWhenInViewport(line: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${codeElementsSelector.join(',')}):not(.blob-code-hunk)`, showWhitespaceWhenInViewport, {signal});
+	observe(
+		`:is(${codeElementsSelector.join(',')}):not(.blob-code-hunk)`,
+		showWhitespaceWhenInViewport,
+		{signal},
+	);
 	onAbort(signal, viewportObserver);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
+	include: [pageDetect.hasCode],
 	init,
 });
 

@@ -10,7 +10,10 @@ import optionsStorage from '../options-storage.js';
 import getCallerId from './caller-id.js';
 import {parseFeatureNameFromStack} from './errors.js';
 
-type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
+type ObserverListener<ExpectedElement extends Element> = (
+	element: ExpectedElement,
+	options: SignalAsOptions,
+) => void;
 
 type Options = {
 	stopOnDomReady?: boolean;
@@ -39,15 +42,20 @@ export default function observe<
 	}
 
 	if (stopOnDomReady) {
-		const delayedDomReady = signalFromPromise((async () => {
-			await domLoaded;
-			await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
-		})());
+		const delayedDomReady = signalFromPromise(
+			(async () => {
+				await domLoaded;
+				await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
+			})(),
+		);
 
-		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
+		signal = signal
+			? AbortSignal.any([signal, delayedDomReady])
+			: delayedDomReady;
 	}
 
-	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
+	const selector =
+		typeof selectors === 'string' ? selectors : selectors.join(',\n');
 	const seenMark = 'rgh-seen-' + getCallerId(ancestor);
 
 	registerAnimation();
@@ -85,20 +93,24 @@ export default function observe<
 		}
 	})();
 
-	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
-		const target = event.target as ExpectedElement;
-		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
-		if (target.classList.contains(seenMark) || !target.matches(selector)) {
-			return;
-		}
+	globalThis.addEventListener(
+		'animationstart',
+		(event: AnimationEvent) => {
+			const target = event.target as ExpectedElement;
+			// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
+			if (target.classList.contains(seenMark) || !target.matches(selector)) {
+				return;
+			}
 
-		called = true;
+			called = true;
 
-		// Removes this specific selector’s animation once it was seen
-		target.classList.add(seenMark);
+			// Removes this specific selector’s animation once it was seen
+			target.classList.add(seenMark);
 
-		listener(target, {signal});
-	}, {once, signal});
+			listener(target, {signal});
+		},
+		{once, signal},
+	);
 }
 
 // Untested, likely breaks due to wrong `ancestor` level
@@ -112,11 +124,15 @@ export async function waitForElement<
 	const local = new AbortController();
 	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
 
-	return new Promise<ExpectedElement | void>(resolve => {
-		observe<Selector, ExpectedElement>(selectors, element => {
-			resolve(element);
-			local.abort();
-		}, {signal, stopOnDomReady, once: true});
+	return new Promise<ExpectedElement | void>((resolve) => {
+		observe<Selector, ExpectedElement>(
+			selectors,
+			(element) => {
+				resolve(element);
+				local.abort();
+			},
+			{signal, stopOnDomReady, once: true},
+		);
 
 		signal.addEventListener('abort', () => {
 			resolve();

@@ -11,17 +11,19 @@ import observe from '../helpers/selector-observer.js';
 const itemsPerNotificationsPage = 25;
 
 function linkify(nextButton: HTMLAnchorElement): void {
-	const totalNotificationsNode = $('.js-notifications-list-paginator-counts').lastChild!;
+	const totalNotificationsNode = $(
+		'.js-notifications-list-paginator-counts',
+	).lastChild!;
 	assertNodeContent(totalNotificationsNode, /^of \d+$/);
 	const totalNotificationsNumber = looseParseInt(totalNotificationsNode);
-	const lastCursor = Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
+	const lastCursor =
+		Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) *
+		itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
 	nextButtonSearch.set('after', stringToBase64(`cursor:${lastCursor}`));
 	totalNotificationsNode.replaceWith(
 		' of ',
-		<a href={'?' + String(nextButtonSearch)}>
-			{totalNotificationsNumber}
-		</a>,
+		<a href={'?' + String(nextButtonSearch)}>{totalNotificationsNumber}</a>,
 	);
 }
 
@@ -31,9 +33,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	init,
 });
 

@@ -31,10 +31,12 @@ function cleanFilelistActions(addFileButton: Element): void {
 }
 
 function cleanAddFileButton(addFileButton: Element): void {
-	const fileButtonContent = $('[data-component="buttonContent"] > span', addFileButton);
+	const fileButtonContent = $(
+		'[data-component="buttonContent"] > span',
+		addFileButton,
+	);
 
-	assertNodeContent(fileButtonContent, 'Add file')
-		.replaceWith(<PlusIcon />);
+	assertNodeContent(fileButtonContent, 'Add file').replaceWith(<PlusIcon />);
 	addTooltipToSummary(addFileButton, 'Add file');
 }
 
@@ -49,13 +51,8 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	include: [pageDetect.isRepoTree, pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

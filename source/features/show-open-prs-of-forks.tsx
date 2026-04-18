@@ -7,15 +7,25 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
-import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
+import {
+	getForkedRepo,
+	getLoggedInUser,
+	getRepo,
+} from '../github-helpers/index.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
 function getLinkCopy(count: number): string {
-	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
+	return pluralize(
+		count,
+		'one open pull request',
+		'at least $$ open pull requests',
+	);
 }
 
 const countPrs = new CachedFunction('prs-on-forked-repo', {
-	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
+	async updater(
+		forkedRepo: string,
+	): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
 				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,
@@ -23,7 +33,10 @@ const countPrs = new CachedFunction('prs-on-forked-repo', {
 		});
 
 		// Only show PRs originated from the current repo
-		const prs = search.nodes.filter((pr: AnyObject) => pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner);
+		const prs = search.nodes.filter(
+			(pr: AnyObject) =>
+				pr.headRepository.nameWithOwner === getRepo()!.nameWithOwner,
+		);
 
 		// If only one is found, pass the PR number so we can link to the PR directly
 		if (prs.length === 1) {
@@ -34,7 +47,8 @@ const countPrs = new CachedFunction('prs-on-forked-repo', {
 	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 2},
-	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
+	cacheKey: ([forkedRepo]): string =>
+		`${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-types
@@ -65,7 +79,13 @@ async function initHeadHint(): Promise<void | false> {
 
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		// The class is used by `quick-fork-deletion`
-		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
+		<>
+			{' '}
+			with{' '}
+			<a href={url} className="rgh-open-prs-of-forks">
+				{getLinkCopy(count)}
+			</a>
+		</>,
 	);
 }
 
@@ -77,27 +97,27 @@ async function initDeleteHint(): Promise<void | false> {
 
 	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
 		<p className="flash flash-warn">
-			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in{' '}
+			<strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit{' '}
+			{count === 1 ? 'it' : 'them'}.
 		</p>,
 	);
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	deduplicate: 'has-rgh',
-	init: initHeadHint,
-}, {
-	asLongAs: [
-		pageDetect.isForkedRepo,
-	],
-	include: [
-		pageDetect.isRepoMainSettings,
-	],
-	deduplicate: 'has-rgh',
-	init: initDeleteHint,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [pageDetect.isForkedRepo],
+		deduplicate: 'has-rgh',
+		init: initHeadHint,
+	},
+	{
+		asLongAs: [pageDetect.isForkedRepo],
+		include: [pageDetect.isRepoMainSettings],
+		deduplicate: 'has-rgh',
+		init: initDeleteHint,
+	},
+);
 
 /*
 

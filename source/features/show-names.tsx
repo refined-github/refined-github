@@ -4,7 +4,10 @@ import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
+import {
+	getLoggedInUser,
+	isUsernameAlreadyFullName,
+} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
@@ -21,26 +24,35 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
-function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
+function createElement(
+	element: HTMLAnchorElement,
+	fullName: string,
+): JSX.Element {
 	const nameElement = (
 		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
-			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
+			(
+			<span className="css-truncate-target" style={{maxWidth: '200px'}}>
+				{fullName}
+			</span>
+			)
 		</span>
 	);
 
-	if (element.matches([
-		'[data-testid="avatar-link"]', // Commment on React-based views
-		'[data-testid="issue-body-header-author"]',
-		'.feed-item-content *',
-		// PR event:
-		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
-		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
-		// `readable-title-change-events` adds gap to rename events
-		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
-		// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
-		'.TimelineItem-body > div > *',
-	])) {
+	if (
+		element.matches([
+			'[data-testid="avatar-link"]', // Commment on React-based views
+			'[data-testid="issue-body-header-author"]',
+			'.feed-item-content *',
+			// PR event:
+			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
+			// `readable-title-change-events` adds gap to rename events
+			'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
+			// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
+			'.TimelineItem-body > div > *',
+		])
+	) {
 		nameElement.classList.add('ml-1');
 	} else if (
 		element.matches(
@@ -61,25 +73,32 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 function appendName(element: HTMLAnchorElement, fullName: string): void {
 	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 	const {parentElement} = element;
-	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+	const insertionPoint =
+		parentElement!.tagName === 'STRONG' ? parentElement! : element;
 
 	// React might create a new label without removing the old one
 	// https://github.com/refined-github/refined-github/issues/8478
-	attachElement(insertionPoint, {after: () => createElement(element, fullName)});
+	attachElement(insertionPoint, {
+		after: () => createElement(element, fullName),
+	});
 }
 
 async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const users = Map.groupBy(
 		// Exclude nested items https://github.com/refined-github/refined-github/pull/8661
-		found.filter(element => element.textContent.trim() === element.href.split('/').pop()),
-		element => element.textContent.trim(),
+		found.filter(
+			(element) => element.textContent.trim() === element.href.split('/').pop(),
+		),
+		(element) => element.textContent.trim(),
 	);
 	const currentUser = getLoggedInUser()!;
 	const currentUserElements = users.get(currentUser);
 	if (currentUserElements) {
 		for (const currentUserElement of currentUserElements) {
 			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
-			currentUserElement.closest('[data-testid="comment-header"]')?.setAttribute('data-rgh-viewer-did-author', '');
+			currentUserElement
+				.closest('[data-testid="comment-header"]')
+				?.setAttribute('data-rgh-viewer-did-author', '');
 		}
 
 		users.delete(currentUser);
@@ -92,16 +111,21 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	}
 
 	const names = await api.v4(
-		[...users.keys()].map(username =>
-			api.escapeKey(username) + `: user(login: "${username}") {name}`,
-		).join(','),
+		[...users.keys()]
+			.map(
+				(username) =>
+					api.escapeKey(username) + `: user(login: "${username}") {name}`,
+			)
+			.join(','),
 	);
 
 	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);
 		const {name: fullName} = names[userKey];
 
-		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
+		const fullNameWithoutEmoji = fullName
+			?.replaceAll(/\p{RGI_Emoji}/gv, '')
+			.trim();
 
 		// Could be `null` if not set or empty string if consisting only of emojis
 		if (!fullNameWithoutEmoji) {
@@ -135,10 +159,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isDashboard,
-		pageDetect.hasComments,
-	],
+	include: [pageDetect.isDashboard, pageDetect.hasComments],
 	init,
 });
 

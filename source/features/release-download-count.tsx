@@ -27,20 +27,26 @@ type Asset = {
 };
 
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
-	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
+	const {repository} = await api.v4(getReleaseDownloadCount, {
+		variables: {tag},
+	});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
-	return Object.fromEntries(assets.map(({name, downloadCount}) => ([name, downloadCount])));
+	return Object.fromEntries(
+		assets.map(({name, downloadCount}) => [name, downloadCount]),
+	);
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// Both pages have .Box but in the list .Box doesn't include the tag
-	const container = assetsList.closest('section') // Single-release page
-		?? assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
+	const container =
+		assetsList.closest('section') ?? // Single-release page
+		assetsList.closest('.Box:not(.Box--condensed)')!; // Releases list, excludes the assets list’s own .Box
 
 	// .octicon-code required by visit-tag feature
-	const releaseName = $(['.octicon-tag ~ span', '.octicon-code ~ span'], container)
-		.textContent
-		.trim();
+	const releaseName = $(
+		['.octicon-tag ~ span', '.octicon-code ~ span'],
+		container,
+	).textContent.trim();
 
 	const assets = await getAssetsForTag(releaseName);
 
@@ -67,7 +73,10 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		assetSize.parentElement!.classList.add('rgh-release-download-count');
 
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
-		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
+		$optional(
+			':scope > div:has(clipboard-copy)',
+			assetSize.parentElement!,
+		)?.classList.add('d-none');
 
 		// Add at the beginning of the line to avoid (clickable) content shift
 		assetSize.parentElement!.prepend(
@@ -93,14 +102,13 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
+	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleasesOrTags,
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
 	init,
 });
 

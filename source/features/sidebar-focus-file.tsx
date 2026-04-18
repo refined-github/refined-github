@@ -26,13 +26,8 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoRoot,
-	],
+	include: [pageDetect.isRepoTree, pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoRoot],
 	awaitDomReady: true,
 	init,
 });

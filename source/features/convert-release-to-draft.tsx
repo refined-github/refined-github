@@ -11,7 +11,8 @@ import observe from '../helpers/selector-observer.js';
 import showToast from '../github-helpers/toast.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
-const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
+const getReleaseEditLinkSelector = (): 'a' =>
+	`a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
 
 async function convertToDraft(): Promise<void> {
 	const tagName = location.pathname.split('/').pop()!;
@@ -26,7 +27,8 @@ async function convertToDraft(): Promise<void> {
 	$(getReleaseEditLinkSelector()).click(); // Visit "Edit release" page
 }
 
-const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
+const confirmMessage =
+	'The release will be effectively deleted and a new draft will be created.';
 const confirmMessageWithReactions = 'Existing user reactions will be lost.';
 const confirmMessageQuestion = 'Continue?';
 
@@ -67,9 +69,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isSingleReleaseOrTag],
 	init,
 });
 

@@ -22,8 +22,10 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 
-const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
-const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
+const prIcons =
+	':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
+const issueIcons =
+	':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
 const filters = {
 	'Pull requests': prIcons,
 	Issues: issueIcons,
@@ -31,7 +33,8 @@ const filters = {
 	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
 	Bots: botLinksNotificationSelectors.join(', '),
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
-	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
+	Closed:
+		':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
 	Read: '.notification-read *',
@@ -49,7 +52,7 @@ function resetFilters({target}: React.SyntheticEvent): void {
 }
 
 function getFiltersSelector(formData: FormData, category: Category): string[] {
-	return formData.getAll(category).map(value => filters[value as Filter]);
+	return formData.getAll(category).map((value) => filters[value as Filter]);
 }
 
 function handleSelection(): void {
@@ -58,7 +61,9 @@ function handleSelection(): void {
 	const types = getFiltersSelector(formData, 'Type');
 	const statuses = getFiltersSelector(formData, 'Status');
 	const readStatus = getFiltersSelector(formData, 'Read');
-	const selectorGroups = [types, statuses, readStatus].filter(selectors => selectors.length > 0);
+	const selectorGroups = [types, statuses, readStatus].filter(
+		(selectors) => selectors.length > 0,
+	);
 	const deselectAll = selectorGroups.length === 0;
 
 	const notifications = $$('.notifications-list-item');
@@ -66,7 +71,11 @@ function handleSelection(): void {
 	for (const notification of notifications) {
 		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
-		input.checked = !deselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
+		input.checked =
+			!deselectAll &&
+			selectorGroups.every((selectors) =>
+				elementExists(selectors, notification),
+			);
 	}
 
 	// Trigger the selection action bar update
@@ -74,7 +83,10 @@ function handleSelection(): void {
 	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
-function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
+function createDropdownList(
+	category: Category,
+	filters: Filter[],
+): JSX.Element {
 	const icons: Record<Filter, JSX.Element> = {
 		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
 		Issues: <IssueOpenedIcon className="color-fg-muted" />,
@@ -93,21 +105,19 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 			<header className="SelectMenu-header">
 				<span className="SelectMenu-title">{category}</span>
 			</header>
-			{filters.map(filter => (
+			{filters.map((filter) => (
 				<label
 					className="SelectMenu-item text-normal"
 					role="menuitemcheckbox"
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
+					<CheckIcon
+						className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2"
+						aria-hidden="true"
+					/>
 					<div className="SelectMenu-item-text">
-						<input
-							hidden
-							type="checkbox"
-							name={category}
-							value={filter}
-						/>
+						<input hidden type="checkbox" name={category} value={filter} />
 						{icons[filter]}
 						<span className="ml-2">{filter}</span>
 					</div>
@@ -140,7 +150,12 @@ const createDropdown = onetime(() => (
 		>
 			<div className="SelectMenu-modal">
 				<form id="rgh-select-notifications-form" className="SelectMenu-list">
-					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others', 'Bots'])}
+					{createDropdownList('Type', [
+						'Pull requests',
+						'Issues',
+						'Others',
+						'Bots',
+					])}
 					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
 					{createDropdownList('Read', ['Read', 'Unread'])}
 				</form>
@@ -166,16 +181,22 @@ function init(signal: AbortSignal): void {
 	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
+	delegate(
+		[
+			'.js-notifications-mark-selected-actions > *',
+			'.rgh-open-selected-button',
+		],
+		'click',
+		closeDropdown,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
 		'shift s': 'Open the "Select by" dropdown',
 	},
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	init,
 });
 

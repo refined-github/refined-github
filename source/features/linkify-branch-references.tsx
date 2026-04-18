@@ -12,7 +12,11 @@ function linkifyQuickPr(element: HTMLElement): void {
 	const branchUrl = buildRepoUrl('tree', element.textContent);
 	element.replaceWith(
 		<span className="commit-ref">
-			<a className="no-underline" href={branchUrl} data-turbo-frame="repo-content-turbo-frame">
+			<a
+				className="no-underline"
+				href={branchUrl}
+				data-turbo-frame="repo-content-turbo-frame"
+			>
 				{element.textContent}
 			</a>
 		</span>,
@@ -34,7 +38,11 @@ function linkifyHovercard(hovercard: HTMLElement): void {
 		}
 
 		reference.replaceChildren(
-			<a className="no-underline" href={url.href} data-turbo-frame="repo-content-turbo-frame">
+			<a
+				className="no-underline"
+				href={url.href}
+				data-turbo-frame="repo-content-turbo-frame"
+			>
 				{[...reference.childNodes]}
 			</a>,
 		);
@@ -46,17 +54,23 @@ async function quickPrInit(signal: AbortSignal): Promise<void> {
 }
 
 function hovercardInit(signal: AbortSignal): void {
-	observe('[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2', linkifyHovercard, {signal});
+	observe(
+		'[data-hydro-view*="pull-request-hovercard-hover"] ~ .d-flex.mt-2',
+		linkifyHovercard,
+		{signal},
+	);
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.isQuickPR,
-	],
-	init: quickPrInit,
-}, {
-	init: hovercardInit,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.isQuickPR],
+		init: quickPrInit,
+	},
+	{
+		init: hovercardInit,
+	},
+);
 
 /*
 

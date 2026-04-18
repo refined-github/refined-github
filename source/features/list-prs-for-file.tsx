@@ -16,7 +16,9 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 function getPrUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
-	const hash = isFirefox() ? '' : `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
+	const hash = isFirefox()
+		? ''
+		: `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
 	return buildRepoUrl('pull', prNumber, 'files') + hash;
 }
 
@@ -29,9 +31,11 @@ let count = 0;
 
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
-	const icon = isEditing
-		? <AlertIcon className="color-fg-attention" />
-		: <GitPullRequestIcon />;
+	const icon = isEditing ? (
+		<AlertIcon className="color-fg-attention" />
+	) : (
+		<GitPullRequestIcon />
+	);
 
 	count++;
 	return (
@@ -58,7 +62,7 @@ function getDropdown(prs: number[]): HTMLElement {
 						File also being edited in
 					</div>
 					<ul className="ActionListWrap ActionListWrap--inset">
-						{prs.map(prNumber => (
+						{prs.map((prNumber) => (
 							<li className="ActionListItem">
 								<a
 									className="ActionListContent js-hovercard-left"
@@ -114,9 +118,12 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 		return;
 	}
 
-	const editingPrNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	const editingPrNumber = new URLSearchParams(location.search)
+		.get('pr')
+		?.split('/')
+		.slice(-1);
 	if (editingPrNumber) {
-		prs = prs.filter(pr => pr !== Number(editingPrNumber));
+		prs = prs.filter((pr) => pr !== Number(editingPrNumber));
 		if (prs.length === 0) {
 			return;
 		}
@@ -136,18 +143,19 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe([
-		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
-		'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
-		'[data-hotkey="Mod+s"]', // `isEditingFile`
-	], add, {signal});
+	observe(
+		[
+			'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
+			'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
+			'[data-hotkey="Mod+s"]', // `isEditingFile`
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-		pageDetect.isEditingFile,
-	],
+	include: [pageDetect.isSingleFile, pageDetect.isEditingFile],
 	init,
 });
 

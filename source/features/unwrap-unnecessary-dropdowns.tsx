@@ -12,7 +12,9 @@ function replaceDropdownInPlace(dropdown: Element, form: Element): void {
 }
 
 function replaceNotificationsDropdown(): void {
-	const forms = $$optional('[action="/notifications/beta/update_view_preference"]');
+	const forms = $$optional(
+		'[action="/notifications/beta/update_view_preference"]',
+	);
 
 	if (forms.length === 0) {
 		return;
@@ -23,7 +25,10 @@ function replaceNotificationsDropdown(): void {
 	}
 
 	const dropdown = forms[0].closest('action-menu')!;
-	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
+	const currentView = $(
+		'.Button-label span:last-child',
+		dropdown,
+	).textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
 	// Replace dropdown
@@ -36,13 +41,15 @@ function replaceNotificationsDropdown(): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
+	observe(
+		'.js-check-all-container > :first-child',
+		replaceNotificationsDropdown,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
+	include: [pageDetect.isNotifications],
 	init,
 });
 

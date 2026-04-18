@@ -53,7 +53,8 @@ type RestResponse = {
 	ok: boolean;
 } & AnyObject;
 
-const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
+const escapeKey = (...keys: Array<string | number>): string =>
+	'_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
 export class RefinedGitHubApiError extends Error {
 	response: AnyObject = {};
@@ -121,7 +122,10 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {
+		...v3defaults,
+		...options,
+	};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
 	if (method !== 'GET') {
 		await assertCurrentUser();
@@ -130,7 +134,9 @@ const v3uncached = async (
 	const personalToken = await getToken();
 
 	if (!query.startsWith('https')) {
-		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
+		query = query.startsWith('/')
+			? query.slice(1)
+			: ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
 	}
 
 	const url = new URL(query, api3);
@@ -142,7 +148,7 @@ const v3uncached = async (
 			'user-agent': 'Refined GitHub',
 			accept: 'application/vnd.github.v3+json',
 			...headers,
-			...personalToken && {Authorization: `token ${personalToken}`},
+			...(personalToken && {Authorization: `token ${personalToken}`}),
 		},
 	});
 	let apiResponse: AnyObject;
@@ -156,9 +162,9 @@ const v3uncached = async (
 	}
 
 	if (
-		response.ok
-		|| ignoreHttpStatus === true
-		|| ignoreHttpStatus === response.status
+		response.ok ||
+		ignoreHttpStatus === true ||
+		ignoreHttpStatus === response.status
 	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
@@ -174,7 +180,7 @@ const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function * (
+const v3paginated = async function* (
 	query: string,
 	options?: GhRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -223,7 +229,10 @@ const v4uncached = async (
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
 	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
-	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
+	query = query.replace(
+		'repository() {',
+		() => 'repository(owner: $owner, name: $name) {',
+	);
 
 	// Automatically provide variables common variables only when used.
 	// GraphQL doesn't like unused variables.
@@ -264,13 +273,13 @@ const v4uncached = async (
 
 	const apiResponse: GraphQlResponse = await response.json();
 
-	const {
-		data = {},
-		errors = [],
-	} = apiResponse;
+	const {data = {}, errors = []} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw new RefinedGitHubApiError('GraphQL:', ...errors.map(error => error.message));
+		throw new RefinedGitHubApiError(
+			'GraphQL:',
+			...errors.map((error) => error.message),
+		);
 	}
 
 	if (response.ok) {
@@ -286,7 +295,10 @@ const v4 = mem(v4uncached, {
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
+		if (
+			query.includes('repository() {') ||
+			query.includes('owner: $owner, name: $name')
+		) {
 			key.push(getRepo()?.nameWithOwner);
 		}
 
@@ -294,7 +306,9 @@ const v4 = mem(v4uncached, {
 	},
 });
 
-async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
+async function getError(
+	apiResponse: JsonObject,
+): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
@@ -318,11 +332,27 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		);
 	}
 
-	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
+	if (
+		(apiResponse.message as string)?.includes(
+			'Resource not accessible by personal access token',
+		)
+	) {
 		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
-		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
+		error.richMessage = (
+			<>
+				Your organization requires a specific type of token.{' '}
+				<a
+					href="https://github.com/refined-github/refined-github/wiki/Security#token"
+					target="_blank"
+					rel="noreferrer"
+					style={{color: 'inherit', textDecoration: 'underline'}}
+				>
+					Fix…
+				</a>
+			</>
+		);
 		return error;
 	}
 

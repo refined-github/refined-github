@@ -27,16 +27,19 @@ if (!isSafari()) {
 addReloadWithoutContentScripts();
 
 // Extend the error message for the "No All URLs" bugfix
-customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
+customizeNoAllUrlsErrorMessage(
+	'Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.',
+);
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		// Reuse container
 		// TODO: https://github.com/refined-github/refined-github/issues/8657
 		// Soft-disabled via `cookies` permission check: https://github.com/refined-github/refined-github/pull/8786#pullrequestreview-3491531965
-		const firefoxOnlyProps = tab && 'cookieStoreId' in tab && permissions!.includes('cookies')
-			? {cookieStoreId: tab.cookieStoreId}
-			: {};
+		const firefoxOnlyProps =
+			tab && 'cookieStoreId' in tab && permissions!.includes('cookies')
+				? {cookieStoreId: tab.cookieStoreId}
+				: {};
 
 		for (const [index, url] of urls.entries()) {
 			void chrome.tabs.create({
@@ -65,7 +68,7 @@ handleMessages({
 	},
 });
 
-chrome.action.onClicked.addListener(async tab => {
+chrome.action.onClicked.addListener(async (tab) => {
 	if (doesBrowserActionOpenOptions) {
 		void chrome.runtime.openOptionsPage();
 		return;

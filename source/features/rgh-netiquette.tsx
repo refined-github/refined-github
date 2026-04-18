@@ -9,7 +9,9 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 
-async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
+async function addConversationBanner(
+	newCommentBox: HTMLElement,
+): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
 	const closingDate = await getCloseDate();
 	if (!closingDate || !wasLongAgo(closingDate)) {
@@ -29,13 +31,17 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 
 				// Keep the banner, make it visible
 
-				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
+				banner.firstElementChild!.classList.replace(
+					'rgh-bg-none',
+					'flash-error',
+				);
 
 				newCommentBox.scrollIntoView({
 					behavior: 'smooth',
 				});
 			}}
-		>comment
+		>
+			comment
 		</button>
 	);
 
@@ -44,7 +50,13 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1" />,
-				text: <>{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				text: (
+					<>
+						{getResolvedText(closingDate)} If you want to say something helpful,
+						you can leave a {button}. <strong>Do not</strong> report issues
+						here.
+					</>
+				),
 			})}
 		</TimelineItem>
 	);
@@ -53,19 +65,19 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 }
 
 function init(signal: AbortSignal): void | false {
-	observe([
-		'#issuecomment-new:has(file-attachment)',
-		'[data-testid="comment-composer"]',
-	], addConversationBanner, {signal});
+	observe(
+		[
+			'#issuecomment-new:has(file-attachment)',
+			'[data-testid="comment-composer"]',
+		],
+		addConversationBanner,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isAnyRefinedGitHubRepo,
-	],
-	include: [
-		pageDetect.isConversation,
-	],
+	asLongAs: [isAnyRefinedGitHubRepo],
+	include: [pageDetect.isConversation],
 	awaitDomReady: true, // We're specifically looking for the last event
 	init,
 });

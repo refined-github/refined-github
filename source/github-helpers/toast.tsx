@@ -10,15 +10,23 @@ import {frame} from '../helpers/dom-utils.js';
 function ToastSpinner(): JSX.Element {
 	return (
 		<svg className="Toast--spinner" viewBox="0 0 32 32" width="18" height="18">
-			<path fill="#959da5" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4" />
-			<path fill="#ffffff" d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" />
+			<path
+				fill="#959da5"
+				d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
+			/>
+			<path
+				fill="#ffffff"
+				d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"
+			/>
 		</svg>
 	);
 }
 
 type ToastMessage = string | JSX.Element;
 type ProgressCallback = (message: string) => void;
-type Task = Promise<unknown> | ((progress: ProgressCallback) => Promise<unknown>);
+type Task =
+	| Promise<unknown>
+	| ((progress: ProgressCallback) => Promise<unknown>);
 export default async function showToast(
 	task: Task | Error,
 	{
@@ -29,7 +37,11 @@ export default async function showToast(
 		doneMessage?: ToastMessage | false;
 	} = {},
 ): Promise<void> {
-	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
+	const iconWrapper = (
+		<span className="Toast-icon">
+			<ToastSpinner />
+		</span>
+	);
 	const messageWrapper = <span>{message}</span>;
 	const toast = (
 		<div
@@ -39,7 +51,11 @@ export default async function showToast(
 		>
 			{iconWrapper}
 			<span className="Toast-content py-2">
-				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Refined GitHub</div>
+				<div
+					style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}
+				>
+					Refined GitHub
+				</div>
 				{messageWrapper}
 			</span>
 		</div>
@@ -58,7 +74,9 @@ export default async function showToast(
 		// rAF also allows showToast to resolve as soon as task is done
 		await frame();
 
-		const displayTime = (typeof message === 'string' ? message.split(' ').length * 300 : 3000) + 2000;
+		const displayTime =
+			(typeof message === 'string' ? message.split(' ').length * 300 : 3000) +
+			2000;
 		await delay(displayTime);
 
 		// Display time is over, animate out
@@ -88,7 +106,10 @@ export default async function showToast(
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		finalToastMessage = 'richMessage' in error ? error.richMessage as JSX.Element : error.message;
+		finalToastMessage =
+			'richMessage' in error
+				? (error.richMessage as JSX.Element)
+				: error.message;
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
 	} finally {

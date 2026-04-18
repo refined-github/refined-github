@@ -16,43 +16,50 @@ import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
 
 const limit = 5;
 
-async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
+async function openUnreadNotifications(
+	event?: React.MouseEvent,
+): Promise<void> {
 	if (event?.target instanceof HTMLButtonElement) {
 		// Hide the tooltip
 		event.target.blur();
 		event.target.disabled = true; // Prevent multiple clicks
 	}
 
-	await showToast(async updateToast => {
-		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
+	await showToast(
+		async (updateToast) => {
+			const page = await fetchDomUncached('/notifications?query=is%3Aunread');
 
-		const notifications = $$optional('a.js-navigation-open', page);
-		if (notifications.length === 0) {
-			updateToast('No unread notifications');
-			return;
-		}
+			const notifications = $$optional('a.js-navigation-open', page);
+			if (notifications.length === 0) {
+				updateToast('No unread notifications');
+				return;
+			}
 
-		updateToast('Opening…');
-		const urls = notifications.slice(0, limit).map(notification => {
-			removeLinkToPrFilesTab(notification); // Internally limited to PR Files links
-			return notification.href;
-		});
+			updateToast('Opening…');
+			const urls = notifications.slice(0, limit).map((notification) => {
+				removeLinkToPrFilesTab(notification); // Internally limited to PR Files links
+				return notification.href;
+			});
 
-		await messageRuntime({
-			openUrls: urls,
-		});
+			await messageRuntime({
+				openUrls: urls,
+			});
 
-		if (notifications.length > limit) {
-			updateToast(`Opened the last ${limit} unread notifications`);
-		} else {
-			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
-			// Update the UI too. Optional because the UI is often out of date
-			$optional('.AppHeader-button--hasIndicator')?.classList.remove('AppHeader-button--hasIndicator');
-		}
-	}, {
-		message: 'Loading notifications…',
-		doneMessage: false,
-	}).finally(() => {
+			if (notifications.length > limit) {
+				updateToast(`Opened the last ${limit} unread notifications`);
+			} else {
+				updateToast(pluralize(urls.length, '$$ notification') + ' opened');
+				// Update the UI too. Optional because the UI is often out of date
+				$optional('.AppHeader-button--hasIndicator')?.classList.remove(
+					'AppHeader-button--hasIndicator',
+				);
+			}
+		},
+		{
+			message: 'Loading notifications…',
+			doneMessage: false,
+		},
+	).finally(() => {
 		if (event?.target instanceof HTMLButtonElement) {
 			event.target.disabled = false;
 		}
@@ -71,7 +78,6 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 10, cursor: 'pointer'}}
-
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
@@ -91,7 +97,10 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
+	observe(
+		'a#AppHeader-notifications-button.AppHeader-button--hasIndicator',
+		addButton,
+	);
 }
 
 void features.add(import.meta.url, {

@@ -20,17 +20,23 @@ type PrReference = {
 	nameWithOwner: string;
 };
 
-const absoluteReferenceRegex = /^(?<nameWithOwner>(?<owner>[^:/]+)\/(?<name>[^:]+)):(?<branch>.+)$/;
+const absoluteReferenceRegex =
+	/^(?<nameWithOwner>(?<owner>[^:/]+)\/(?<name>[^:]+)):(?<branch>.+)$/;
 
 /**
  * @param absolute - The full reference, e.g. `fregante/mem:main`
  * @param relative - The references it appear to the user in the PR, e.g. "main" on same-repo PRs, "fregante:main" on cross-repo PRs
  * @example parseReferenceRaw('fregante/mem:main', 'main')
  */
-export function parseReferenceRaw(absolute: string, relative: string): PrReference {
+export function parseReferenceRaw(
+	absolute: string,
+	relative: string,
+): PrReference {
 	const absoluteMatch = absoluteReferenceRegex.exec(absolute);
 	if (!absoluteMatch) {
-		throw new TypeError(`Expected \`absolute\` to be "user/repo:branch", got "${absolute}"`);
+		throw new TypeError(
+			`Expected \`absolute\` to be "user/repo:branch", got "${absolute}"`,
+		);
 	}
 
 	const {owner, name, nameWithOwner, branch} = absoluteMatch.groups!;
@@ -38,7 +44,9 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 	// We must receive the relative reference because it also tells whether it's a cross-repo PR
 	const expectedRelative = [branch, `${owner}:${branch}`];
 	if (!expectedRelative.includes(relative)) {
-		throw new TypeError(`Expected \`relative\` to be either "${expectedRelative.join('" or "')}", got "${relative}"`);
+		throw new TypeError(
+			`Expected \`relative\` to be either "${expectedRelative.join('" or "')}", got "${relative}"`,
+		);
 	}
 
 	return {
@@ -57,24 +65,31 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 	// In the old React version, we have a `title` attribute but it's used to mark deleted repos instead
 	return title && title !== 'This repository has been deleted'
 		? parseReferenceRaw(title, textContent.trim()) // TODO: Remove in June 2026
-		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
+		: parseReferenceRaw(
+				nextElementSibling!.textContent.trim(),
+				textContent.trim(),
+			);
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
-			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.base-ref', // TODO: Remove in June 2026
-			]));
+			return parseReference(
+				$([
+					'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
+					'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
+					'.base-ref', // TODO: Remove in June 2026
+				]),
+			);
 		},
 		get head() {
-			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.head-ref', // TODO: Remove in June 2026
-			]));
+			return parseReference(
+				$([
+					'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
+					'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
+					'.head-ref', // TODO: Remove in June 2026
+				]),
+			);
 		},
 	};
 }

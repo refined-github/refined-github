@@ -3,12 +3,16 @@ import React from 'dom-chef';
 import getTextNodes from './get-text-nodes.js';
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
-export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurroundingSpaces = false): Element {
+export default function showWhiteSpacesOnLine(
+	line: Element,
+	shouldAvoidSurroundingSpaces = false,
+): Element {
 	const textNodesOnThisLine = getTextNodes(line);
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent;
-		if (text.length > 1000) { // #5092
+		if (text.length > 1000) {
+			// #5092
 			continue;
 		}
 
@@ -16,12 +20,17 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 		const isLeading = nodeIndex === 0;
 		const isTrailing = nodeIndex === textNodesOnThisLine.length - 1;
 
-		const startingCharacterIndex = shouldAvoidSurroundingSpaces && isLeading ? 1 : 0;
+		const startingCharacterIndex =
+			shouldAvoidSurroundingSpaces && isLeading ? 1 : 0;
 		const skipLastCharacter = shouldAvoidSurroundingSpaces && isTrailing;
 		const endingCharacterIndex = text.length - 1 - Number(skipLastCharacter);
 
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
-		for (let index = endingCharacterIndex; index >= startingCharacterIndex; index--) {
+		for (
+			let index = endingCharacterIndex;
+			index >= startingCharacterIndex;
+			index--
+		) {
 			const thisCharacter = text[index];
 			const endingIndex = index;
 
@@ -31,12 +40,20 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			}
 
 			// Find the same character so they can be wrapped together, but stop at `startingCharacterIndex`
-			while (text[index - 1] === thisCharacter && !(index === startingCharacterIndex)) {
+			while (
+				text[index - 1] === thisCharacter &&
+				!(index === startingCharacterIndex)
+			) {
 				index--;
 			}
 
 			// Skip non-boundary single spaces
-			if (!isLeading && !isTrailing && index === endingIndex && thisCharacter === ' ') {
+			if (
+				!isLeading &&
+				!isTrailing &&
+				index === endingIndex &&
+				thisCharacter === ' '
+			) {
 				continue;
 			}
 

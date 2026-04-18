@@ -7,10 +7,7 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 
 function addButton(editButton: Element): void {
 	editButton.before(
-		<a
-			href={buildRepoUrl('milestones/new')}
-			className="btn"
-		>
+		<a href={buildRepoUrl('milestones/new')} className="btn">
 			New Milestone
 		</a>,
 	);
@@ -23,9 +20,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isMilestone,
-	],
+	include: [pageDetect.isMilestone],
 	init,
 });
 

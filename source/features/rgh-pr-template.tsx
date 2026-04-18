@@ -12,7 +12,9 @@ function extract(textarea: HTMLTextAreaElement): void {
 	replaceFieldText(textarea, /<!--(.+)-->\n/s, (_, match) => {
 		textarea.closest('tab-container')!.before(
 			<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 p-3">
-				{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
+				{linkifyUrlsToDom(match.trim(), {
+					value: (url) => shortenRepoUrl(url, location.href),
+				})}
 			</div>,
 		);
 
@@ -25,10 +27,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isRefinedGitHubRepo,
-		pageDetect.isCompare,
-	],
+	asLongAs: [isRefinedGitHubRepo, pageDetect.isCompare],
 	init,
 });
 

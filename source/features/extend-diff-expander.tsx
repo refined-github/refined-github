@@ -29,9 +29,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasFiles,
-	],
+	include: [pageDetect.hasFiles],
 	init,
 });
 

@@ -26,7 +26,10 @@ function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
 
 // `mem` avoids adding the indicator twice to the same thread
 const addIndicator = mem((commentThread: HTMLElement): void => {
-	const commentCount = countElements('.review-comment.js-comment', commentThread);
+	const commentCount = countElements(
+		'.review-comment.js-comment',
+		commentThread,
+	);
 	commentThread.before(
 		<tr>
 			<td className="rgh-comments-indicator blob-num" colSpan={2}>
@@ -40,7 +43,7 @@ const addIndicator = mem((commentThread: HTMLElement): void => {
 });
 
 // Add indicator when the `show-inline-notes` class is removed (i.e. the comments are hidden)
-const indicatorToggleObserver = new MutationObserver(mutations => {
+const indicatorToggleObserver = new MutationObserver((mutations) => {
 	for (const mutation of mutations) {
 		const file = mutation.target as HTMLElement;
 		const wasVisible = mutation.oldValue!.includes('show-inline-notes');
@@ -54,15 +57,19 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 });
 
 function init(signal: AbortSignal): void {
-	observe('.file.js-file', element => {
-		// #observe won't observe the same element twice
-		// TODO: toggle visibility via :has selector instead
-		indicatorToggleObserver.observe(element, {
-			attributes: true,
-			attributeOldValue: true,
-			attributeFilter: ['class'],
-		});
-	}, {signal});
+	observe(
+		'.file.js-file',
+		(element) => {
+			// #observe won't observe the same element twice
+			// TODO: toggle visibility via :has selector instead
+			indicatorToggleObserver.observe(element, {
+				attributes: true,
+				attributeOldValue: true,
+				attributeFilter: ['class'],
+			});
+		},
+		{signal},
+	);
 
 	delegate('.rgh-comments-indicator', 'click', handleIndicatorClick, {signal});
 
@@ -70,9 +77,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	init,
 });
 

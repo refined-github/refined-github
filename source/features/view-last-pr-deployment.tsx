@@ -7,7 +7,9 @@ import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLink(header: HTMLElement): void {
-	const lastDeployment = lastElement('.js-timeline-item a[title="Deployment has completed"]');
+	const lastDeployment = lastElement(
+		'.js-timeline-item a[title="Deployment has completed"]',
+	);
 	if (!lastDeployment) {
 		return;
 	}
@@ -30,9 +32,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true, // Must select last item on the page
 	init,
 });

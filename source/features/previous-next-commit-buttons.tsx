@@ -5,8 +5,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function init(): false | void {
-	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup') // Legacy
-		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label$="previous commit" i])');
+	const originalPreviousNext =
+		$optional('.commit .float-right.ButtonGroup') ?? // Legacy
+		$optional(
+			'[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label$="previous commit" i])',
+		);
 	if (!originalPreviousNext) {
 		return false;
 	}
@@ -23,9 +26,7 @@ function init(): false | void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRCommit],
 	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true,
 	init,

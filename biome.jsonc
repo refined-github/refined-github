@@ -2,28 +2,28 @@
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"css": {
 		"formatter": {
-			"quoteStyle": "single"
-		}
+			"quoteStyle": "single",
+		},
 	},
 	"graphql": {
 		"formatter": {
-			"enabled": true
-		}
+			"enabled": true,
+		},
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"recommended": true,
 			"complexity": {
-				"noImportantStyles": "off"
+				"noImportantStyles": "off",
 			},
 			"style": {
 				// TODO: Enable later
-				"noDescendingSpecificity": "off"
-			}
-		}
+				"noDescendingSpecificity": "off",
+			},
+		},
 	},
 	"files": {
-		"includes": ["source/**/*.css", "source/**/*.gql"]
-	}
+		"includes": ["source/**/*.css", "source/**/*.gql"],
+	},
 }

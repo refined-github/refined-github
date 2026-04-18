@@ -3,10 +3,19 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 
 import features from '../feature-manager.js';
 
-function onButtonClick({delegateTarget: delegate, target}: DelegateEvent): void {
+function onButtonClick({
+	delegateTarget: delegate,
+	target,
+}: DelegateEvent): void {
 	// Only close if clicking outside of modal
 	if (delegate === target) {
-		delegate.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
+		delegate.dispatchEvent(
+			new KeyboardEvent('keydown', {
+				bubbles: true,
+				key: 'Escape',
+				code: 'Escape',
+			}),
+		);
 	}
 }
 

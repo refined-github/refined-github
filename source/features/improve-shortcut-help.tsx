@@ -12,7 +12,12 @@ import {shortcutMap} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
+	return keys.split(' ').map((key) => (
+		<>
+			{' '}
+			<kbd>{key}</kbd>
+		</>
+	));
 }
 
 function improveShortcutHelpLegacy(dialog: Element): void {
@@ -28,9 +33,7 @@ function improveShortcutHelpLegacy(dialog: Element): void {
 					.map(([hotkey, description]) => (
 						<li className="Box-row d-flex flex-row">
 							<div className="flex-auto">{description}</div>
-							<div className="ml-2 no-wrap">
-								{splitKeys(hotkey)}
-							</div>
+							<div className="ml-2 no-wrap">{splitKeys(hotkey)}</div>
 						</li>
 					))}
 			</ul>
@@ -39,7 +42,10 @@ function improveShortcutHelpLegacy(dialog: Element): void {
 }
 
 const observer = new MutationObserver(([{target}]) => {
-	if (target instanceof Element && !elementExists('.js-details-dialog-spinner', target)) {
+	if (
+		target instanceof Element &&
+		!elementExists('.js-details-dialog-spinner', target)
+	) {
 		improveShortcutHelpLegacy(target);
 		observer.disconnect();
 	}
@@ -50,7 +56,9 @@ function observeShortcutModal({key, target}: KeyboardEvent): void {
 		return;
 	}
 
-	const modal = $optional('body > details:not(.js-command-palette-dialog) > details-dialog');
+	const modal = $optional(
+		'body > details:not(.js-command-palette-dialog) > details-dialog',
+	);
 	if (modal) {
 		observer.observe(modal, {childList: true});
 	}
@@ -65,7 +73,10 @@ const getRghShortcutsContainer = memoize(
 	(baseShortcutsContainer: Element): Element => {
 		const rghShortcutsContainer = baseShortcutsContainer.cloneNode(true);
 		const shortcutsList = $('ul', rghShortcutsContainer);
-		const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutsList);
+		const shortcutItem = $(
+			'[class^="ShortcutsGroupList-module__ShortcutItem"]',
+			shortcutsList,
+		);
 		const keybindingHint = $('kbd', shortcutItem);
 		const chord = $('span', shortcutItem);
 
@@ -110,7 +121,11 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('div[class^="ShortcutsDialog"][class*="ColumnsContainer"]', improveShortcutHelp, {signal});
+	observe(
+		'div[class^="ShortcutsDialog"][class*="ColumnsContainer"]',
+		improveShortcutHelp,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

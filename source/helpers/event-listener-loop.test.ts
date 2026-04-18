@@ -20,7 +20,9 @@ describe('createEventIterator', () => {
 		const target = new EventTarget();
 		const eventName = 'test-event';
 		const controller = new AbortController();
-		const iterator = createEventIterator(target, eventName, {signal: controller.signal});
+		const iterator = createEventIterator(target, eventName, {
+			signal: controller.signal,
+		});
 		const event = new Event(eventName);
 
 		setTimeout(() => {

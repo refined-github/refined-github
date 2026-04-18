@@ -24,8 +24,13 @@ const commentSelector = [
 	'.js-comment', // PR description or comment
 ].join(',');
 
-async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
-	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
+async function updateUrltoDatedSha(
+	url: GitHubFileUrl,
+	date: string,
+): Promise<void> {
+	const {repository} = await api.v4(GetCommitAtDate, {
+		variables: {date, branch: url.branch},
+	});
 
 	const [{oid}] = repository.ref.target.history.nodes;
 	$('a.rgh-link-date').pathname = url.assign({branch: oid}).pathname;
@@ -50,7 +55,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 		}
 
 		// Selector note: isRepoFile and isRepoTree have different DOM for this element
-		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady('.Box-header relative-time', {
+			waitForChildren: false,
+		});
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -77,7 +84,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 		</a>
 	);
 	await addNotice(
-		<>You can also {link} (<relative-time datetime={date} />)</>,
+		<>
+			You can also {link} (<relative-time datetime={date} />)
+		</>,
 	);
 }
 
@@ -118,13 +127,21 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
-	const timestamp = delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
+	const timestamp = delegate
+		.closest('[class^="Box"]')!
+		.querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
-	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
+	const menuItem = $(
+		'[class^="prc-ActionList-ActionListItem"]',
+		menuItemList,
+	).cloneNode(true);
 
 	menuItem.removeAttribute('aria-keyshortcuts');
 	menuItem.role = 'none';
-	const menuItemContentWrapper = $('[class^="prc-ActionList-ActionListContent"]', menuItem);
+	const menuItemContentWrapper = $(
+		'[class^="prc-ActionList-ActionListContent"]',
+		menuItem,
+	);
 	const link = (
 		<a
 			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
@@ -132,16 +149,22 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 			aria-keyshortcuts="v"
-		>
-		</a>
+		></a>
 	);
 	link.append(...menuItemContentWrapper.childNodes);
 	menuItemContentWrapper.replaceWith(link);
-	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = 'View repo at this time';
-	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(<HistoryIcon />);
+	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent =
+		'View repo at this time';
+	$('[class^="prc-ActionList-LeadingVisual"]', menuItem).replaceChildren(
+		<HistoryIcon />,
+	);
 
 	menuItemList.append(
-		<li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
+		<li
+			className="dropdown-divider"
+			aria-hidden="true"
+			data-component="ActionList.Divider"
+		/>,
 		menuItem,
 	);
 }
@@ -149,25 +172,34 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe('.timeline-comment-actions > details:last-child', menu => {
-		if (menu.closest('.js-pending-review-comment')) {
-			return;
-		}
+	observe(
+		'.timeline-comment-actions > details:last-child',
+		(menu) => {
+			if (menu.closest('.js-pending-review-comment')) {
+				return;
+			}
 
-		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = menu
-			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
-			.querySelector('relative-time')!
-			.attributes
-			.datetime
-			.value;
+			// The timestamp of main review comments isn't in their header but in the timeline event above #5423
+			const timestamp = menu
+				.closest([
+					'.js-comment:not([id^="pullrequestreview-"])',
+					'.js-timeline-item',
+				])!
+				.querySelector('relative-time')!.attributes.datetime.value;
 
-		addDropdownLink(menu, timestamp);
-	}, {signal});
+			addDropdownLink(menu, timestamp);
+		},
+		{signal},
+	);
 
 	// [data-component="IconButton"] includes only React buttons
 	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
-	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
+	delegate(
+		`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`,
+		'click',
+		addDropdownLinkReact,
+		{signal},
+	);
 
 	observe(
 		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,
@@ -176,25 +208,19 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasComments,
-	],
-	exclude: [
-		pageDetect.isGist,
-	],
-	init,
-}, {
-	asLongAs: [
-		() => new URLSearchParams(location.search).has('rgh-link-date'),
-	],
-	include: [
-		pageDetect.is404,
-		pageDetect.isSingleFile,
-		pageDetect.isRepoTree,
-	],
-	init: showTimeMachineBar,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasComments],
+		exclude: [pageDetect.isGist],
+		init,
+	},
+	{
+		asLongAs: [() => new URLSearchParams(location.search).has('rgh-link-date')],
+		include: [pageDetect.is404, pageDetect.isSingleFile, pageDetect.isRepoTree],
+		init: showTimeMachineBar,
+	},
+);
 
 /*
 Test URLs

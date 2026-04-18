@@ -16,9 +16,15 @@ export function saveOriginalHref(link: HTMLAnchorElement): void {
 async function selectCurrentConversationFilter(): Promise<void> {
 	const currentSearchUrl = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
 	const menu = await elementReady('#filters-select-menu');
-	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchUrl}"]`, menu);
+	const currentFilter = $optional(
+		`a.SelectMenu-item[href="${currentSearchUrl}"]`,
+		menu,
+	);
 	if (currentFilter) {
-		$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
+		$optional('[aria-checked="true"]', menu)?.setAttribute(
+			'aria-checked',
+			'false',
+		);
 		currentFilter.setAttribute('aria-checked', 'true');
 	}
 }
@@ -35,7 +41,9 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		// Avoid rewriting /labels/ URLs until the last moment
 		// https://github.com/refined-github/refined-github/issues/7205
 		if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
-			await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
+			await oneEvent(link, 'click', {
+				filter: (event) => (event as MouseEvent).which < 2,
+			});
 		}
 
 		saveOriginalHref(link);
@@ -44,7 +52,9 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 
 		// Preserve relative attributes as such #5435
 		const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
-		link.href = isRelativeAttribute ? newUrl.replace(location.origin, '') : newUrl;
+		link.href = isRelativeAttribute
+			? newUrl.replace(location.origin, '')
+			: newUrl;
 	}
 
 	// Also sort projects #4957
@@ -61,21 +71,19 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	// Get links that don't already have a specific sorting or pagination applied
-	observe(
-		linksToConversationLists,
-		updateLink,
-		{signal},
-	);
+	observe(linksToConversationLists, updateLink, {signal});
 }
 
-void features.add(import.meta.url, {
-	init,
-}, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	init: selectCurrentConversationFilter,
-});
+void features.add(
+	import.meta.url,
+	{
+		init,
+	},
+	{
+		include: [pageDetect.isRepoIssueOrPRList],
+		init: selectCurrentConversationFilter,
+	},
+);
 
 /*
 

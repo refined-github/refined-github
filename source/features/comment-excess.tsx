@@ -14,10 +14,10 @@ const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 // Don't use `data-hotkey` because it always prevents default
 function scrollOnSearch(event: KeyboardEvent): void {
 	if (
-		(isMac ? event.metaKey : event.ctrlKey)
-		&& !event.shiftKey
-		&& !event.altKey
-		&& event.key === 'f'
+		(isMac ? event.metaKey : event.ctrlKey) &&
+		!event.shiftKey &&
+		!event.altKey &&
+		event.key === 'f'
 	) {
 		const collapsedEvents = $optional(paginationButtonSelector);
 		if (collapsedEvents) {
@@ -45,8 +45,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 		</a>
 	);
 	headerCommentCount.append(spacer);
-	headerCommentCount.after(link,
-	);
+	headerCommentCount.after(link);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -57,9 +56,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	init,
 });
 

@@ -11,9 +11,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
+	include: [pageDetect.isIssueOrPRList],
 	awaitDomReady: true,
 	init,
 });

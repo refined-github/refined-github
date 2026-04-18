@@ -57,7 +57,10 @@ const timelineItem = [
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
-	if (pageDetect.isPR() && elementExists('.TimelineItem-badge .octicon-git-commit', item)) {
+	if (
+		pageDetect.isPR() &&
+		elementExists('.TimelineItem-badge .octicon-git-commit', item)
+	) {
 		return;
 	}
 
@@ -75,29 +78,41 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
-	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$(staleReviewId)
-			.closest(timelineItem)!
-			.classList
-			.add(collapsedClassName);
+	for (const {hash: staleReviewId} of $$(
+		'.TimelineItem-body > a[href^="#pullrequestreview-"]',
+		item,
+	)) {
+		$(staleReviewId).closest(timelineItem)!.classList.add(collapsedClassName);
 	}
 }
 
 function processReview(review: HTMLElement): void {
-	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
+	const hasMainComment = elementExists(
+		'.js-comment[id^=pullrequestreview] .timeline-comment',
+		review,
+	);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const unresolvedThreads = $$('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = $$('.timeline-comment-group:not(.minimized-comment)', review);
+	const unresolvedThreads = $$(
+		'.js-resolvable-timeline-thread-container[data-resolved="false"]',
+		review,
+	);
+	const unresolvedThreadComments = $$(
+		'.timeline-comment-group:not(.minimized-comment)',
+		review,
+	);
 
-	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
+	if (
+		!hasMainComment &&
+		(unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)
+	) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
 		return;
 	}
 
 	for (const thread of unresolvedThreads) {
 		// Hide threads containing only resolved comments
-		if (!unresolvedThreadComments.some(comment => thread.contains(comment))) {
+		if (!unresolvedThreadComments.some((comment) => thread.contains(comment))) {
 			thread.classList.add(collapsedClassName);
 		}
 	}
@@ -105,7 +120,10 @@ function processReview(review: HTMLElement): void {
 
 function processItem(item: HTMLElement): void {
 	// Exclude deep-linked comment
-	if (location.hash.startsWith('#issuecomment-') && elementExists(location.hash, item)) {
+	if (
+		location.hash.startsWith('#issuecomment-') &&
+		elementExists(location.hash, item)
+	) {
 		return;
 	}
 
@@ -148,7 +166,8 @@ function applyState(targetState: State): void {
 function createMenuItems(currentState: State): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button data-state={itemState}
+			<button
+				data-state={itemState}
 				id={`item-${crypto.randomUUID()}`}
 				type="button"
 				role="menuitemradio"
@@ -158,9 +177,7 @@ function createMenuItems(currentState: State): JSX.Element[] {
 				<span className="ActionListItem-visual ActionListItem-action--leading">
 					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
 				</span>
-				<span className="ActionListItem-label">
-					{label}
-				</span>
+				<span className="ActionListItem-label">{label}</span>
 			</button>
 		</li>
 	));
@@ -181,7 +198,8 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 	const menu = (
 		<action-menu
 			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
-			data-select-variant="single">
+			data-select-variant="single"
+		>
 			<focus-group direction="vertical" mnemonics retain>
 				<button
 					id={`${baseId}-button`}
@@ -198,7 +216,9 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 							<EyeClosedIcon className="color-fg-danger" />
 						</span>
 						<span className="Button-label lh-condensed-ultra">
-							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">events</span>
+							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">
+								events
+							</span>
 						</span>
 						<span className="Button-visual Button-trailingVisual">
 							<TriangleDownIcon />
@@ -240,41 +260,53 @@ function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
 		$optional(`.${collapsedClassName} ${location.hash}`)
 			?.closest(timelineItem)
-			?.classList
-			.remove(collapsedClassName);
+			?.classList.remove(collapsedClassName);
 	}
 }
 
 function switchToNextFilter(): void {
-	const currentState = $(`.${menuItemClass}[aria-checked="true"]`).dataset.state as State;
+	const currentState = $(`.${menuItemClass}[aria-checked="true"]`).dataset
+		.state as State;
 
 	const stateNames = Object.keys(states);
 	const nextIndex = stateNames.indexOf(currentState) + 1;
-	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
+	const nextState =
+		stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
 
 	applyState(nextState as State);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = SessionPageSetting.get()
-		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
+	const initialState =
+		SessionPageSetting.get() ??
+		(minorFixesIssuePages.some((url) => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
-	observe([
-		// Issue view
-		'[class^="HeaderMetadata-module__metadataContent"]',
-		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR view
-		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR view - TODO: Remove after July 2026
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-	], addWidget.bind(undefined, initialState), {signal});
+	observe(
+		[
+			// Issue view
+			'[class^="HeaderMetadata-module__metadataContent"]',
+			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			// PR view
+			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			// Old PR view - TODO: Remove after July 2026
+			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+			'#partial-discussion-header .sticky-header-container .meta:last-child',
+		],
+		addWidget.bind(undefined, initialState),
+		{signal},
+	);
 
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {
+		signal,
+	});
 	observe(timelineItem, processItem, {signal});
-	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+	delegate(
+		'.rgh-conversation-activity-filter-menu',
+		'itemActivated',
+		handleSelection,
+	);
 
 	if (initialState !== 'showAll') {
 		// Wait for the DOM to be ready before applying the initial state

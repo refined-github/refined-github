@@ -12,14 +12,22 @@ import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
-import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {
+	getExtensionReleaseDate,
+	toDaysAgo,
+	wasReleasedLongAgo,
+} from '../helpers/extension-release-age.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
-const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
+const liesGif =
+	'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+		<div
+			className={`flash flash-${type} h3 my-9`}
+			style={{animation: 'pulse-in 0.3s 2'}}
+		>
 			{message}
 		</div>,
 	);
@@ -30,10 +38,14 @@ function addTokenNotice(adjective: string): void {
 		'error',
 		<>
 			<p>
-				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
+				Your token is {adjective}. Many Refined GitHub features don't work
+				without it. You can update it{' '}
+				<OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
-			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
+			<p>
+				Before creating this issue, add a valid token and confirm the problem
+				still occurs.
+			</p>
 		</>,
 	);
 }
@@ -42,7 +54,10 @@ function addVersionNotice(releaseAgeInDays: number): void {
 	addNotice(
 		'warn',
 		<p>
-			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			Your Refined GitHub version is {releaseAgeInDays} days old.{' '}
+			<a href="https://github.com/refined-github/refined-github#install">
+				A newer version may be available.
+			</a>
 		</p>,
 	);
 }
@@ -55,7 +70,11 @@ async function checkToken(): Promise<void> {
 	}
 
 	try {
-		await baseApiFetch({apiBase: 'https://api.github.com/', path: 'user', token});
+		await baseApiFetch({
+			apiBase: 'https://api.github.com/',
+			path: 'user',
+			token,
+		});
 	} catch (error) {
 		if (!navigator.onLine || (error as any)?.message === 'Failed to fetch') {
 			return;
@@ -77,7 +96,7 @@ async function setVersion(): Promise<void> {
 	);
 
 	setReactInputValue(field, version);
-	if (!await getToken()) {
+	if (!(await getToken())) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
 		field.disabled = true;
@@ -94,11 +113,7 @@ function checkVersionAge(): void {
 
 async function linkifyCacheRefresh(): Promise<void> {
 	$('[href="#clear-cache"]').replaceWith(
-		<button
-			className="btn"
-			type="button"
-			onClick={clearCacheHandler}
-		>
+		<button className="btn" type="button" onClick={clearCacheHandler}>
 			Clear cache
 		</button>,
 	);
@@ -107,12 +122,18 @@ async function linkifyCacheRefresh(): Promise<void> {
 function Lies(): JSX.Element {
 	return (
 		<a href="https://www.youtube.com/watch?v=YWdD206eSv0">
-			<img src={liesGif} alt="Just go on the internet and tell lies?" className="d-inline-block" />
+			<img
+				src={liesGif}
+				alt="Just go on the internet and tell lies?"
+				className="d-inline-block"
+			/>
 		</a>
 	);
 }
 
-async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
+async function lieDetector({
+	delegateTarget,
+}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
 		delegateTarget.closest('fieldset')!.append(<Lies />);
 	}
@@ -132,20 +153,26 @@ async function validateTokenCheckbox(): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
-		void linkifyCacheRefresh();
-		void checkToken();
-		void validateTokenCheckbox();
-		void setVersion();
-		checkVersionAge();
-	}, {signal});
+	observe(
+		'[class^="CreateIssueForm-module__mainContentSection"]',
+		() => {
+			void linkifyCacheRefresh();
+			void checkToken();
+			void validateTokenCheckbox();
+			void setVersion();
+			checkVersionAge();
+		},
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
-		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
+		() =>
+			new URL(location.href).searchParams.get('template') ===
+			'1_bug_report.yml',
 	],
 	init,
 });

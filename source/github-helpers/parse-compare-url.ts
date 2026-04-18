@@ -15,7 +15,9 @@ type Comparison = {
 };
 
 const compareRegex = /compare[/]([^.]+)[.][.][.]?(.+)/;
-export default function parseCompareUrl(pathname: string): Comparison | undefined {
+export default function parseCompareUrl(
+	pathname: string,
+): Comparison | undefined {
 	const base = getRepo(pathname)!;
 
 	const [, baseBranch, heads] = compareRegex.exec(base.path) ?? [];

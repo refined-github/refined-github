@@ -9,16 +9,16 @@ function init(signal: AbortSignal): void {
 		'button[aria-label="Expand checks"]',
 		'click',
 		({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
-			delegateTarget.closest('section[aria-label="Checks"]')!.classList.add('rgh-unclip-checks');
+			delegateTarget
+				.closest('section[aria-label="Checks"]')!
+				.classList.add('rgh-unclip-checks');
 		},
 		{signal, capture: true},
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	init,
 });
 

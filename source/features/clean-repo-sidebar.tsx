@@ -10,9 +10,12 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
-const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
+const releasesSidebarSelector =
+	'.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
+	const sidebarReleases = await elementReady(releasesSidebarSelector, {
+		waitForChildren: false,
+	});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -26,11 +29,11 @@ async function cleanReleases(): Promise<void> {
 
 	// Collapse "Releases" section into previous section
 	releasesSection.classList.add('border-0', 'pt-md-0');
-	sidebarReleases.closest('.BorderGrid-row')!
+	sidebarReleases
+		.closest('.BorderGrid-row')!
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
-		.classList
-		.add('border-0', 'pb-0');
+		.classList.add('border-0', 'pb-0');
 
 	// Point to releases page; the user sees the same content, but there's more below
 	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
@@ -41,7 +44,9 @@ async function cleanReleases(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $optional('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = $optional(
+		'.Layout-sidebar .BorderGrid-row:last-of-type h2',
+	);
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -59,10 +64,14 @@ async function hideEmptyMeta(): Promise<void> {
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	const reportLink = $optional(
+		'.Layout-sidebar a[href^="/contact/report-content"]',
+	)?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
+		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(
+			reportLink,
+		);
 	}
 }
 
@@ -71,9 +80,7 @@ async function init(): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoRoot,
-	],
+	include: [pageDetect.isRepoRoot],
 	deduplicate: 'has-rgh-inner',
 	init: [
 		init,

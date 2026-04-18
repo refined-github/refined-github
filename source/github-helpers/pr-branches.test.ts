@@ -11,14 +11,20 @@ test('parseReferenceRaw', () => {
 		nameWithOwner: 'fregante/mem',
 		branch: 'main',
 	});
-	assert.deepEqual(parseReferenceRaw('134130/refined-github:feature/#5942', '134130:feature/#5942'), {
-		absolute: '134130/refined-github:feature/#5942',
-		relative: '134130:feature/#5942',
-		owner: '134130',
-		name: 'refined-github',
-		nameWithOwner: '134130/refined-github',
-		branch: 'feature/#5942',
-	});
+	assert.deepEqual(
+		parseReferenceRaw(
+			'134130/refined-github:feature/#5942',
+			'134130:feature/#5942',
+		),
+		{
+			absolute: '134130/refined-github:feature/#5942',
+			relative: '134130:feature/#5942',
+			owner: '134130',
+			name: 'refined-github',
+			nameWithOwner: '134130/refined-github',
+			branch: 'feature/#5942',
+		},
+	);
 
 	assert.throws(
 		() => parseReferenceRaw('mem:main', 'main'),

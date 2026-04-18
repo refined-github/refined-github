@@ -4,7 +4,9 @@ import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 
-function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>): void {
+function openLinkToLine(
+	event: DelegateEvent<MouseEvent, HTMLTableCellElement>,
+): void {
 	const cell = event.delegateTarget;
 	const fileLink = cell
 		.closest(['.Box', '.review-thread-component'])!
@@ -25,9 +27,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
+	include: [pageDetect.isConversation],
 	init,
 });
 

@@ -16,13 +16,15 @@ function addLinkToBanner(banner: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#js-repo-pjax-container > .flash-warn:first-of-type', addLinkToBanner, {signal});
+	observe(
+		'#js-repo-pjax-container > .flash-warn:first-of-type',
+		addLinkToBanner,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
+	include: [pageDetect.isRepo],
 	init,
 });
 

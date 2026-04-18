@@ -12,24 +12,37 @@ const refinedGithubPlugin = {
 				return {
 					'MemberExpression[optional=true]'(node) {
 						// Exception: usage is on a line with an inline comment, or preceded by a comment explaining why
-						const currentLine = (sourceCode.lines[node.loc.start.line - 1] ?? '');
-						const hasInlineComment = /\/\//.test(currentLine.slice(currentLine.indexOf('?.') + 2));
-						const previousLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
-						if (hasInlineComment || previousLine.startsWith('//') || previousLine.endsWith('*/')) {
+						const currentLine = sourceCode.lines[node.loc.start.line - 1] ?? '';
+						const hasInlineComment = /\/\//.test(
+							currentLine.slice(currentLine.indexOf('?.') + 2),
+						);
+						const previousLine = (
+							sourceCode.lines[node.loc.start.line - 2] ?? ''
+						).trim();
+						if (
+							hasInlineComment ||
+							previousLine.startsWith('//') ||
+							previousLine.endsWith('*/')
+						) {
 							return;
 						}
 
-						if (node.object.type === 'CallExpression' && node.object.callee.name === '$') {
+						if (
+							node.object.type === 'CallExpression' &&
+							node.object.callee.name === '$'
+						) {
 							context.report({
 								node,
-								message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
+								message:
+									'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
 							});
 							return;
 						}
 
 						context.report({
 							node,
-							message: 'Use `!.` instead of `?.`. Add a comment on the same or preceding line describing in which scenario the value can CURRENTLY be null. If you cannot find such a scenario, use `!.` instead.',
+							message:
+								'Use `!.` instead of `?.`. Add a comment on the same or preceding line describing in which scenario the value can CURRENTLY be null. If you cannot find such a scenario, use `!.` instead.',
 						});
 					},
 				};
@@ -89,19 +102,22 @@ export default [
 				'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 
 				// Allow unassigned imports for CSS and feature files
-				'import-x/no-unassigned-import': ['error', {
-					allow: [
-						'**/*.css',
-						'**/*.scss',
-						'**/*.sass',
-						'**/*.less',
-						'**/features/**',
-						'**/github-helpers/**',
-						'webext-bugs/*',
-						'vite/client',
-						'webext-dynamic-content-scripts',
-					],
-				}],
+				'import-x/no-unassigned-import': [
+					'error',
+					{
+						allow: [
+							'**/*.css',
+							'**/*.scss',
+							'**/*.sass',
+							'**/*.less',
+							'**/features/**',
+							'**/github-helpers/**',
+							'webext-bugs/*',
+							'vite/client',
+							'webext-dynamic-content-scripts',
+						],
+					},
+				],
 
 				'no-restricted-imports': [
 					'error',
@@ -110,53 +126,61 @@ export default [
 							{
 								name: 'select-dom',
 								importNames: ['$', 'expectElement'],
-								message: 'Import $ or $optional from `select-dom/strict.js` instead',
+								message:
+									'Import $ or $optional from `select-dom/strict.js` instead',
 							},
 						],
 					},
-
 				],
 				'no-restricted-syntax': [
 					'error',
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
-						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
+							':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+						message:
+							'Instead of a single string, pass an array of selectors and add comments to each selector',
 					},
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
-						message: 'If it\'s a single selector, use a single string instead of an array',
+							':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+						message:
+							"If it's a single selector, use a single string instead of an array",
 					},
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
-						message: 'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
+						message:
+							'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
 					},
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$]',
 						message: 'Unused null expression: !',
 					},
 					{
-						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
-						selector: 'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
-					},
-					{
-						message: 'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
-						selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
-					},
-					{
-						message: 'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
+						message:
+							'Init functions wrapped with onetime() must have a name ending with "Once"',
 						selector:
-								'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])'
-								+ ':not(:has(JSXAttribute[name.name="title"]))'
-								+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
-								+ ':not(:has(JSXAttribute[name.name="hidden"]))',
+							'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
+					},
+					{
+						message:
+							'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
+						selector:
+							'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
+					},
+					{
+						message:
+							'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
+						selector:
+							'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])' +
+							':not(:has(JSXAttribute[name.name="title"]))' +
+							':not(:has(JSXAttribute[name.name="aria-label"]))' +
+							':not(:has(JSXAttribute[name.name="hidden"]))',
 					},
 					{
 						message: 'Use `elementExists` for checking if an element exists',
 						selector:
-								'*[test.type="CallExpression"][test.callee.name="$optional"],'
-								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
+							'*[test.type="CallExpression"][test.callee.name="$optional"],' +
+							'*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
 					},
 				],
 				'no-alert': 'off',
@@ -168,12 +192,7 @@ export default [
 				'import-x/order': [
 					'error',
 					{
-						groups: [
-							[
-								'builtin',
-								'external',
-							],
-						],
+						groups: [['builtin', 'external']],
 						'newlines-between': 'always-and-inside-groups',
 					},
 				],
@@ -188,27 +207,32 @@ export default [
 					{
 						types: {
 							object: {
-								message: 'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
+								message:
+									'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
 								fixWith: 'Record<string, unknown>',
 							},
 							null: {
-								message: 'Use `undefined` instead. See: https://github.com/sindresorhus/meta/issues/7',
+								message:
+									'Use `undefined` instead. See: https://github.com/sindresorhus/meta/issues/7',
 								fixWith: 'undefined',
 							},
 							Buffer: {
-								message: 'Use Uint8Array instead. See: https://sindresorhus.com/blog/goodbye-nodejs-buffer',
-								suggest: [
-									'Uint8Array',
-								],
+								message:
+									'Use Uint8Array instead. See: https://sindresorhus.com/blog/goodbye-nodejs-buffer',
+								suggest: ['Uint8Array'],
 							},
-							'[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
-							'[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
+							'[]': "Don't use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.",
+							'[[]]':
+								"Don't use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.",
 						},
 					},
 				],
-				'@typescript-eslint/switch-exhaustiveness-check': ['error', {
-					considerDefaultExhaustiveForUnions: true,
-				}],
+				'@typescript-eslint/switch-exhaustiveness-check': [
+					'error',
+					{
+						considerDefaultExhaustiveForUnions: true,
+					},
+				],
 
 				'@typescript-eslint/parameter-properties': 'off', // Conflicts with erasable sintax
 				'@typescript-eslint/no-deprecated': 'off', // Too noisy for now
@@ -235,42 +259,32 @@ export default [
 			},
 		},
 		{
-			files: [
-				'build/*',
-			],
+			files: ['build/*'],
 			rules: {
 				'@typescript-eslint/triple-slash-reference': 'off',
 				'unicorn/prefer-module': 'off',
 			},
 		},
 		{
-			files: [
-				'source/features/*',
-			],
+			files: ['source/features/*'],
 			rules: {
 				'import-x/prefer-default-export': 'off',
 			},
 		},
 		{
-			files: [
-				'**/*.md',
-			],
+			files: ['**/*.md'],
 			rules: {
 				'unicorn/no-nested-ternary': 'off',
 			},
 		},
 		{
-			files: [
-				'.github/**',
-			],
+			files: ['.github/**'],
 			rules: {
 				'unicorn/filename-case': 'off',
 			},
 		},
 		{
-			files: [
-				'**/*.svelte',
-			],
+			files: ['**/*.svelte'],
 			rules: {
 				'import-x/prefer-default-export': 'off',
 			},

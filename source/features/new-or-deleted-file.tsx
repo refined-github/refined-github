@@ -18,8 +18,10 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 		throw new Error('Could not find file in sidebar, is the sidebar loaded?');
 	}
 
-	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)
-		?.cloneNode(true);
+	const icon = $optional(
+		['.octicon-diff-removed', '.octicon-diff-added'],
+		fileInList,
+	)?.cloneNode(true);
 	if (icon) {
 		// `span` needed for native vertical alignment
 		filename.parentElement!.append(<span className="ml-1">{icon}</span>);
@@ -29,14 +31,15 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const list = $('ul[aria-label="File Tree"]');
 	const fileLink = $('a', fileHeader);
-	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
+	const fileInList = $(
+		`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`,
+		list,
+	);
 
-	const icon = $optional([
-		'.octicon-file-removed',
-		'.octicon-file-added',
-		'.octicon-file-moved',
-	], fileInList)
-		?.cloneNode(true);
+	const icon = $optional(
+		['.octicon-file-removed', '.octicon-file-added', '.octicon-file-moved'],
+		fileInList,
+	)?.cloneNode(true);
 	if (icon) {
 		fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 	}
@@ -50,10 +53,7 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-		pageDetect.isCommit,
-	],
+	include: [pageDetect.isPRFiles, pageDetect.isCommit],
 	init,
 });
 

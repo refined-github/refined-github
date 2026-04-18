@@ -26,7 +26,9 @@ function getLabelList(): HTMLElement {
 
 function removeLabelList(): void {
 	const list = getLabelList();
-	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
+	list
+		.closest('details')!
+		.addEventListener('toggle', restoreLabelList, {once: true});
 	list.replaceChildren();
 }
 
@@ -37,7 +39,9 @@ function restoreLabelList(): void {
 	);
 }
 
-async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
+async function removeLabelButtonClickHandler(
+	event: DelegateEvent<MouseEvent, HTMLButtonElement>,
+): Promise<void> {
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
@@ -49,9 +53,12 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		// Each deletion would be followed by a reload of the list _at the wrong time_
 		removeLabelList();
 
-		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
-			method: 'DELETE',
-		});
+		await api.v3(
+			`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`,
+			{
+				method: 'DELETE',
+			},
+		);
 	} catch (error) {
 		assertError(error);
 		void showToast(error);
@@ -79,18 +86,18 @@ function addRemoveLabelButton(label: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
+	delegate(
+		'.rgh-quick-label-removal:enabled',
+		'click',
+		removeLabelButtonClickHandler,
+		{signal},
+	);
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isConversation,
-		canEditLabels,
-	],
-	exclude: [
-		pageDetect.isArchivedRepo,
-	],
+	asLongAs: [pageDetect.isConversation, canEditLabels],
+	exclude: [pageDetect.isArchivedRepo],
 	awaitDomReady: true, // The sidebar is near the end of the page
 	init,
 });

@@ -13,7 +13,10 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import observe from '../helpers/selector-observer.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {
+	fixFileHeaderOverlap,
+	isRepoCommitListRoot,
+} from '../github-helpers/index.js';
 import {expectToken} from '../github-helpers/github-token.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
@@ -29,7 +32,9 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	return defaultUrl.href;
 });
 
-async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
+async function updateUrl(
+	event: React.MouseEvent<HTMLAnchorElement>,
+): Promise<void> {
 	event.currentTarget.href = await getUrl(location.href);
 }
 
@@ -43,12 +48,16 @@ function wrapButtons(buttons: HTMLElement[]): void {
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// The DOM varies between details-based DOM and React-based one
-	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
+	const selectorWrapper =
+		branchSelector.tagName === 'SUMMARY'
+			? branchSelector.parentElement!
+			: branchSelector;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
-	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional(
+		'.rgh-default-branch-button',
+		branchSelector.parentElement!,
+	);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
@@ -94,9 +103,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		isRepoCommitListRoot,
 	],
-	exclude: [
-		isDefaultBranch,
-	],
+	exclude: [isDefaultBranch],
 	init,
 });
 

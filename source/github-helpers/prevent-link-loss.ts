@@ -2,33 +2,69 @@ import type {RepositoryInfo} from 'github-url-detection';
 
 import {getRepo, getConversationNumber} from './index.js';
 
-function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithOwner: string, delimiter = ''): string {
-	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
+function getRepoReference(
+	currentRepo: RepositoryInfo | undefined,
+	repoNameWithOwner: string,
+	delimiter = '',
+): string {
+	return repoNameWithOwner === currentRepo!.nameWithOwner
+		? ''
+		: repoNameWithOwner + delimiter;
 }
 
-const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
-const prCommitPathnameRegex = /[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/;
-export const prCommitUrlRegex = new RegExp(String.raw`\b` + escapeRegex(location.origin) + prCommitPathnameRegex.source, 'gi');
+const escapeRegex = (string: string): string =>
+	string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
+const prCommitPathnameRegex =
+	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/;
+export const prCommitUrlRegex = new RegExp(
+	String.raw`\b` + escapeRegex(location.origin) + prCommitPathnameRegex.source,
+	'gi',
+);
 
-const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fR-]+)/;
-export const prCompareUrlRegex = new RegExp(String.raw`\b` + escapeRegex(location.origin) + prComparePathnameRegex.source, 'gi');
+const prComparePathnameRegex =
+	/[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fR-]+)/;
+export const prCompareUrlRegex = new RegExp(
+	String.raw`\b` + escapeRegex(location.origin) + prComparePathnameRegex.source,
+	'gi',
+);
 
-const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#[\w-]+)?\b/;
-export const discussionUrlRegex = new RegExp(String.raw`\b` + escapeRegex(location.origin) + discussionPathnameRegex.source, 'gi');
+const discussionPathnameRegex =
+	/[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#[\w-]+)?\b/;
+export const discussionUrlRegex = new RegExp(
+	String.raw`\b` +
+		escapeRegex(location.origin) +
+		discussionPathnameRegex.source,
+	'gi',
+);
 
 // To be used as replacer callback in string.replace() for PR commit links
-export function preventPrCommitLinkLoss(url: string, repoNameWithOwner: string, pr: string, commit: string, index: number, fullText: string): string {
+export function preventPrCommitLinkLoss(
+	url: string,
+	repoNameWithOwner: string,
+	pr: string,
+	commit: string,
+	index: number,
+	fullText: string,
+): string {
 	if (fullText[index + url.length] === ')') {
 		return url;
 	}
 
 	const currentPr = getConversationNumber();
-	const prReference = currentPr && Number(pr) === currentPr ? '(this PR)' : `(#${pr})`;
+	const prReference =
+		currentPr && Number(pr) === currentPr ? '(this PR)' : `(#${pr})`;
 	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commit}\` ${prReference}](${url})`;
 }
 
 // To be used as replacer callback in string.replace() for compare links
-export function preventPrCompareLinkLoss(url: string, repoNameWithOwner: string, compare: string, hash: string, index: number, fullText: string): string {
+export function preventPrCompareLinkLoss(
+	url: string,
+	repoNameWithOwner: string,
+	compare: string,
+	hash: string,
+	index: number,
+	fullText: string,
+): string {
 	if (fullText[index + url.length] === ')') {
 		return url;
 	}
@@ -37,7 +73,14 @@ export function preventPrCompareLinkLoss(url: string, repoNameWithOwner: string,
 }
 
 // To be used as replacer callback in string.replace() for discussion links
-export function preventDiscussionLinkLoss(url: string, repoNameWithOwner: string, discussion: string, comment: string, index: number, fullText: string): string {
+export function preventDiscussionLinkLoss(
+	url: string,
+	repoNameWithOwner: string,
+	discussion: string,
+	comment: string,
+	index: number,
+	fullText: string,
+): string {
 	if (fullText[index + url.length] === ')') {
 		return url;
 	}

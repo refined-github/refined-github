@@ -10,15 +10,13 @@ import {expectToken} from '../github-helpers/github-token.js';
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	const ref = getCurrentGitRef() ?? await getDefaultBranch();
+	const ref = getCurrentGitRef() ?? (await getDefaultBranch());
 	const url = buildRepoUrl('tree', ref) + '?search=1';
 	registerHotkey('t', url, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
+	include: [pageDetect.isRepo],
 	exclude: [
 		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]']),
 		// TODO: Detect empty repos differently or fail gracefully

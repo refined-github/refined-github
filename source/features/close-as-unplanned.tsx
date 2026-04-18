@@ -29,13 +29,18 @@ function update(dropdown: HTMLElement): void {
 	unplannedButton.classList.add('btn', 'tooltipped', 'tooltipped-nw', 'mr-0');
 	// Prevent content from being changed #7024
 	unplannedButton.classList.remove('js-comment-and-button');
-	unplannedButton.setAttribute('aria-label', 'Close as not planned.\nWon’t fix, can’t repro, duplicate, stale');
+	unplannedButton.setAttribute(
+		'aria-label',
+		'Close as not planned.\nWon’t fix, can’t repro, duplicate, stale',
+	);
 
 	dropdown.replaceWith(unplannedButton);
 	form.append(checkbox);
 }
 
-function updateCheckbox({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLInputElement>): void {
+function updateCheckbox({
+	delegateTarget: button,
+}: DelegateEvent<MouseEvent, HTMLInputElement>): void {
 	$(unplannedCheckbox, button.form!).checked = button.id === id;
 }
 
@@ -45,9 +50,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssue,
-	],
+	include: [pageDetect.isIssue],
 	init,
 });
 

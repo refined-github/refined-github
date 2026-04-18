@@ -12,27 +12,31 @@ import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors.js';
 
-function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = square.closest('fieldset') // Issue
-		?? square.form!.querySelector('.CommentBox-container')!; // PR
+function addTable({
+	delegateTarget: square,
+}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	const container =
+		square.closest('fieldset') ?? // Issue
+		square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;
 
 	const columns = Number(square.dataset.x);
 	const rows = Number(square.dataset.y);
-	const row = columns === 1
-		// One HTML line per row
-		? '<tr><td>\n'
-
-		// <tr> on its own line
-		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
-		: '<tr>\n' + ' <td>\n'.repeat(columns);
+	const row =
+		columns === 1
+			? // One HTML line per row
+				'<tr><td>\n'
+			: // <tr> on its own line
+				// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
+				'<tr>\n' + ' <td>\n'.repeat(columns);
 	field.focus();
 	const table = '<table>\n' + row.repeat(rows) + '</table>';
 	insertTextIntoField(field, smartBlockWrap(table, field));
 
 	// Move caret to first cell
-	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
+	field.selectionEnd =
+		field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
 function append(container: HTMLElement): void {
@@ -83,9 +87,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

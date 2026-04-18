@@ -22,12 +22,18 @@ const fieldSelector = [
 	'textarea[aria-labelledby="comment-composer-heading"]', // React view
 ] as const;
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
+const documentation =
+	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
-function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
+function handleButtonClick({
+	currentTarget: fixButton,
+}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
+		fixButton.closest([
+			'form',
+			'[data-testid="markdown-editor-comment-composer"]',
+		])!,
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -37,42 +43,58 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 }
 
 function getUi(container: HTMLElement): HTMLElement {
-	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
-		icon: <AlertIcon className="m-0" />,
-		text: (
-			<>
-				{' Your link may be '}
-				<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-					misinterpreted
-				</a>
-				{' by GitHub.'}
-			</>
-		),
-		classes: [
-			'rgh-prevent-link-loss-container',
-			'flash-warn',
-			'my-2',
-			container.tagName === 'FORM' ? 'mx-2' : '',
-		],
-		action: handleButtonClick,
-		buttonLabel: 'Fix link',
-	}));
+	return (
+		$optional('.rgh-prevent-link-loss-container', container) ??
+		createBanner({
+			icon: <AlertIcon className="m-0" />,
+			text: (
+				<>
+					{' Your link may be '}
+					<a
+						href={documentation}
+						target="_blank"
+						rel="noopener noreferrer"
+						data-hovercard-type="issue"
+					>
+						misinterpreted
+					</a>
+					{' by GitHub.'}
+				</>
+			),
+			classes: [
+				'rgh-prevent-link-loss-container',
+				'flash-warn',
+				'my-2',
+				container.tagName === 'FORM' ? 'mx-2' : '',
+			],
+			action: handleButtonClick,
+			buttonLabel: 'Fix link',
+		})
+	);
 }
 
 function isVulnerableToLinkLoss(value: string): boolean {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
-	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)
-		|| value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)
-		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+	return (
+		value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss) ||
+		value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss) ||
+		value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss)
+	);
 }
 
-function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+function updateUi({
+	delegateTarget: field,
+}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(
+				getUi(field.form),
+			);
 		} else {
 			// React view
-			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
+			const container = field.closest(
+				'[data-testid="markdown-editor-comment-composer"]',
+			)!;
 			container.append(getUi(container));
 		}
 	} else {
@@ -90,9 +112,7 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

@@ -20,9 +20,16 @@ function inputListener({target}: Event): void {
 	fitTextarea(target as HTMLTextAreaElement);
 }
 
-function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
+function watchTextarea(
+	textarea: HTMLTextAreaElement,
+	{signal}: SignalAsOptions,
+): void {
 	// Disable constrained GitHub feature
-	textarea.classList.remove('size-to-fit', 'js-size-to-fit', 'issue-form-textarea'); // Remove !important height and min-height
+	textarea.classList.remove(
+		'size-to-fit',
+		'js-size-to-fit',
+		'issue-form-textarea',
+	); // Remove !important height and min-height
 	textarea.classList.add('rgh-fit-textareas');
 
 	if (nativeFit) {
@@ -39,19 +46,21 @@ function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions)
 function init(signal: AbortSignal): void {
 	// `anchored-position`: Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	// `#pull_request_body_ghost`: Special textarea that GitHub just matches to the visible textarea
-	observe(`
+	observe(
+		`
 		textarea:not(
 			anchored-position #pull_request_review_body,
 			#pull_request_body_ghost,
 			#pull_request_body_ghost_ruler
 		)
-	`, watchTextarea, {signal});
+	`,
+		watchTextarea,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	exclude: [
 		// Allow Safari only if it supports the native version
 		() => isSafari() && !nativeFit,

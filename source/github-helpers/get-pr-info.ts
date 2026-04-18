@@ -16,7 +16,10 @@ export type PullRequestInfo = {
 	headRepoPerm: 'ADMIN' | 'WRITE' | 'READ' | 'NONE';
 };
 
-export default async function getPrInfo(base: string, number = getConversationNumber()!): Promise<PullRequestInfo> {
+export default async function getPrInfo(
+	base: string,
+	number = getConversationNumber()!,
+): Promise<PullRequestInfo> {
 	const {repository} = await api.v4uncached(`
 		repository() {
 			pullRequest(number: ${number}) {

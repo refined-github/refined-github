@@ -8,11 +8,16 @@ import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
 
-export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(
+	import.meta.url,
+);
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
+		<span
+			title="Locked"
+			className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}
+		>
 			<LockIcon className="flex-items-center mr-1" />
 			Locked
 		</span>
@@ -20,14 +25,19 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = element.closest(['.sticky-content', '.gh-header-sticky']);
+	const closestSticky = element.closest([
+		'.sticky-content',
+		'.gh-header-sticky',
+	]);
 	element.after(
 		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
 	);
 }
 
 function addLock(stateLabel: HTMLElement): void {
-	const isWrapped = stateLabel.parentElement!.classList.contains(jumpToCloseEventClass);
+	const isWrapped = stateLabel.parentElement!.classList.contains(
+		jumpToCloseEventClass,
+	);
 	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
 
 	container.parentElement!.classList.add('d-flex', 'gap-2');
@@ -41,16 +51,20 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		{signal},
 	);
 	// Old PR view - TODO: Drop after July 2026
-	observe([
-		'.gh-header-meta > :first-child',
-		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
-	], addLockLegacy, {signal});
+	observe(
+		[
+			'.gh-header-meta > :first-child',
+			':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+		],
+		addLockLegacy,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isConversation,
-		async () => await isConversationLocked() ?? false,
+		async () => (await isConversationLocked()) ?? false,
 	],
 	init,
 });
