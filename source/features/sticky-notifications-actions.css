@@ -27,7 +27,9 @@
 		}
 
 		.js-notifications-banners-target {
-			margin-bottom: calc(max(var(--shadow-blur-radius) * 0.6, 0px) + var(--shadow-spread-radius));
+			margin-bottom: calc(
+				max(var(--shadow-blur-radius) * 0.6, 0px) + var(--shadow-spread-radius)
+			);
 		}
 	}
 }

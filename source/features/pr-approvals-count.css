@@ -6,7 +6,9 @@
 	color: transparent !important;
 }
 
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval']::before {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval']::before {
 	all: unset;
 	content: attr(aria-label);
 	display: inline-block !important;
@@ -23,7 +25,9 @@
 }
 
 /* Disable now-duplicate tooltip */
-.js-issue-row .color-fg-muted [href$='#partial-pull-merging'][aria-label*='approval']::after {
+.js-issue-row
+	.color-fg-muted
+	[href$='#partial-pull-merging'][aria-label*='approval']::after {
 	content: none;
 }
 

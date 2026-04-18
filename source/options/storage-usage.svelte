@@ -52,5 +52,7 @@
 </script>
 
 <output>
-	{available < 100_000 ? `Only ${prettyBytes(available)} available` : `${prettyBytes(used)} used`}
+	{available < 100_000
+		? `Only ${prettyBytes(available)} available`
+		: `${prettyBytes(used)} used`}
 </output>

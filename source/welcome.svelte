@@ -102,7 +102,9 @@
 					Generate a token
 				</a>
 				to ensure that every feature works correctly.
-				<a href="https://github.com/refined-github/refined-github/wiki/Security"> More info </a>
+				<a href="https://github.com/refined-github/refined-github/wiki/Security">
+					More info
+				</a>
 			</li>
 
 			<li class:valid={stepValid >= 3} class:visible={stepVisible >= 3} class="will-show">

@@ -22,7 +22,8 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 		/* Prevent header from being covered by media */
 		z-index: 3;
 		top: calc(
-			var(--base-sticky-header-height, 0px) + var(--rgh-issue-or-pr-sticky-header-height, 0px)
+			var(--base-sticky-header-height, 0px) +
+				var(--rgh-issue-or-pr-sticky-header-height, 0px)
 		);
 	}
 
@@ -31,7 +32,8 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		/* Draw a possibly semi-transparent accent color over the opaque background */
-		background: linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)), var(--rgh-background);
+		background:
+			linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)), var(--rgh-background);
 	}
 
 	/* Prevent header of the next comment from overlapping context menu of the sticky header */

@@ -9,7 +9,10 @@ query AssociatedPullRequests($owner: String!, $name: String!) {
 						state
 						isDraft
 						url
-						timelineItems(last: 1, itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]) {
+						timelineItems(
+							last: 1
+							itemTypes: [HEAD_REF_DELETED_EVENT, HEAD_REF_RESTORED_EVENT]
+						) {
 							nodes {
 								__typename
 							}
