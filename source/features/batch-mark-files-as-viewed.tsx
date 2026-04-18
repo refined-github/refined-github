@@ -106,16 +106,19 @@ function init(signal: AbortSignal): void {
 	});
 }
 
+// prettier-ignore
+const include = [
+	pageDetect.isPRFiles,
+];
+// prettier-ignore
+const exclude = [
+	pageDetect.isPRFile404,
+	pageDetect.isPRCommit,
+];
+
 void features.add(import.meta.url, {
-	// prettier-ignore
-	include: [
-		pageDetect.isPRFiles,
-	],
-	// prettier-ignore
-	exclude: [
-		pageDetect.isPRFile404,
-		pageDetect.isPRCommit,
-	],
+	include,
+	exclude,
 	init,
 });
 
