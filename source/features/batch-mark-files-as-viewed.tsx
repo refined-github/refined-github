@@ -107,17 +107,13 @@ function init(signal: AbortSignal): void {
 }
 
 // prettier-ignore
-const include = [
-	pageDetect.isPRFiles,
-];
-// prettier-ignore
 const exclude = [
 	pageDetect.isPRFile404,
 	pageDetect.isPRCommit,
 ];
 
 void features.add(import.meta.url, {
-	include,
+	include: [pageDetect.isPRFiles],
 	exclude,
 	init,
 });
