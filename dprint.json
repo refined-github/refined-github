@@ -1,0 +1,8 @@
+{
+  "excludes": [
+    "**/*-lock.json"
+  ],
+  "plugins": [
+    // specify plugin urls here
+  ]
+}
