@@ -16,15 +16,14 @@ type IssueInfo = {
 
 const getLastUpdated = new CachedFunction('last-updated', {
 	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
+		const issueFields = issueNumbers.map(number => `
+			${api.escapeKey(number)}: issue(number: ${number}) {
+				updatedAt
+			}
+		`).join('\n');
 		const {repository} = await api.v4(`
 		repository() {
-			${
-			issueNumbers.map(number => `
-				${api.escapeKey(number)}: issue(number: ${number}) {
-					updatedAt
-				}
-			`).join('\n')
-		}
+			${issueFields}
 		}
 	`);
 

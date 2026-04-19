@@ -23,7 +23,7 @@ const isOnlyChild = (link: HTMLAnchorElement): boolean =>
 	link.textContent.trim() === link.parentElement!.textContent.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
-	const info = <em>(loading)</em>;
+	const info = <em>{' (loading)'}</em>;
 	link.after(info);
 
 	try {
@@ -37,16 +37,15 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
+			const gistCss = `
+				.gist .gist-data {
+					max-height: 16em;
+					overflow-y: auto;
+				}
+			`;
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>
-					{`
-					.gist .gist-data {
-						max-height: 16em;
-						overflow-y: auto;
-					}
-				`}
-				</style>,
+				<style>{gistCss}</style>,
 				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);

@@ -56,7 +56,7 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 		<li className="Box-row p-3 tmp-p-3 mt-0 tmp-mt-0 d-flex flex-items-center">
 			<DiffIcon className="mr-2 tmp-mr-2" />
 			<div data-turbo="false">
-				<span className="text-bold">Git URLs:</span>
+				<span className="text-bold">{'Git URLs: '}</span>
 				<a href={getPrUrl('patch')}>patch</a>
 				{' · '}
 				<a href={getPrUrl('diff')}>diff</a>

@@ -15,19 +15,18 @@ import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selec
 import observe from '../helpers/selector-observer.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
-	const {repository} = await api.v4(`
-		repository() {
-			${
-		commits.map((commit: string) => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
-				... on Commit {
-						parents {
-							totalCount
-						}
+	const commitFields = commits.map((commit: string) => `
+			${api.escapeKey(commit)}: object(expression: "${commit}") {
+			... on Commit {
+					parents {
+						totalCount
 					}
 				}
-			`).join('\n')
-	}
+			}
+		`).join('\n');
+	const {repository} = await api.v4(`
+		repository() {
+			${commitFields}
 		}
 	`);
 

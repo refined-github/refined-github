@@ -56,7 +56,7 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	await delay(300);
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
-			–{' '}
+			{'– '}
 			<a
 				href={reviewFormUrl.href}
 				className="btn-link Link--muted Link--inTextBlock"

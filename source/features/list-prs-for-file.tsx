@@ -44,7 +44,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				popovertarget={buttonId + 'popover-' + count}
 			>
 				{icon}
-				<span className="color-fg-default">{prs.length}</span>
+				<span className="color-fg-default">{' '}{prs.length}{' '}</span>
 				<div className="dropdown-caret" />
 			</button>
 
