@@ -1,7 +1,7 @@
-import {$$, elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
+import { $$, elementExists } from "select-dom";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
 // This feature doesn't need an active observer
 function init(): void {
@@ -17,9 +17,7 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true,
 	init,
 });

@@ -1,10 +1,10 @@
-import React from 'dom-chef';
-import {lastElement} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-import RocketIcon from 'octicons-plain-react/Rocket';
+import React from "dom-chef";
+import { lastElement } from "select-dom";
+import * as pageDetect from "github-url-detection";
+import RocketIcon from "octicons-plain-react/Rocket";
 
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
 
 function addLink(header: HTMLElement): void {
 	const lastDeployment = lastElement('.js-timeline-item a[title="Deployment has completed"]');
@@ -26,13 +26,11 @@ function addLink(header: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.gh-header-actions', addLink, {signal});
+	observe(".gh-header-actions", addLink, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRConversation,
-	],
+	include: [pageDetect.isPRConversation],
 	awaitDomReady: true, // Must select last item on the page
 	init,
 });

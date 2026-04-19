@@ -1,15 +1,15 @@
-import {$$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
+import { $$ } from "select-dom";
+import * as pageDetect from "github-url-detection";
 
-import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
+import observe from "../helpers/selector-observer.js";
+import features from "../feature-manager.js";
+import { getRepo } from "../github-helpers/index.js";
 import {
 	codeElementsSelector,
 	linkifiedUrlClass,
 	linkifyUrls,
 	linkifyIssues,
-} from '../github-helpers/dom-formatters.js';
+} from "../github-helpers/dom-formatters.js";
 
 function linkifyContent(wrapper: HTMLElement): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
@@ -18,8 +18,8 @@ function linkifyContent(wrapper: HTMLElement): void {
 	linkifyUrls(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
-		// Look for the link on the line number
-		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		? // Look for the link on the line number
+			getRepo(wrapper.parentElement!.querySelector(".blob-num a")!.href)
 		: getRepo();
 	// Some non-repo pages like gists have issue references #3844
 	// They make no sense, but we still want `linkifyURLs` to run there
@@ -27,19 +27,17 @@ function linkifyContent(wrapper: HTMLElement): void {
 		return;
 	}
 
-	for (const element of $$('.pl-c', wrapper)) {
+	for (const element of $$(".pl-c", wrapper)) {
 		linkifyIssues(currentRepo, element);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe(codeElementsSelector, linkifyContent, {signal});
+	observe(codeElementsSelector, linkifyContent, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasCode,
-	],
+	include: [pageDetect.hasCode],
 	init,
 });
 

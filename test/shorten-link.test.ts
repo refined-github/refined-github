@@ -1,12 +1,12 @@
-import {parseHTML} from 'linkedom';
-import {expect, test} from 'vitest';
+import { parseHTML } from "linkedom";
+import { expect, test } from "vitest";
 
-import {shortenLink} from '../source/github-helpers/dom-formatters.js';
+import { shortenLink } from "../source/github-helpers/dom-formatters.js";
 
 function shortenLinksInFragment(html: string): string {
-	const {document} = parseHTML(html);
+	const { document } = parseHTML(html);
 
-	const links = document.querySelectorAll('a');
+	const links = document.querySelectorAll("a");
 	for (const link of links) {
 		shortenLink(link);
 	}
@@ -14,20 +14,23 @@ function shortenLinksInFragment(html: string): string {
 	return document.documentElement.outerHTML;
 }
 
-test('shorten link in comment text', () => {
+test("shorten link in comment text", () => {
 	// https://github.com/refined-github/refined-github/issues/4565#issue-943802539
-	expect(shortenLinksInFragment(`
+	expect(
+		shortenLinksInFragment(`
 		<td class="d-block comment-body markdown-body js-comment-body">
 			<p dir="auto">
 				<a href="https://github.com/darkred/test/compare/main...t2?expand=1">https://github.com/darkred/test/compare/main...t2?expand=1</a>
 			</p>
 		</td>
-	`)).toMatchSnapshot();
+	`),
+	).toMatchSnapshot();
 });
 
-test('avoid shortening link in code block inside comment', () => {
+test("avoid shortening link in code block inside comment", () => {
 	// https://github.com/denosaurs/mod.land/issues/55#issue-1160032701
-	expect(shortenLinksInFragment(`
+	expect(
+		shortenLinksInFragment(`
 		<div class="highlight highlight-source-ts">
 			<pre class="rgh-linkified-code">
 				<span class="pl-s">
@@ -37,12 +40,14 @@ test('avoid shortening link in code block inside comment', () => {
 				</span>
 			</pre>
 		</div>
-	`)).toMatchSnapshot();
+	`),
+	).toMatchSnapshot();
 });
 
-test('avoid shortening link in embedded file preview inside comment', () => {
+test("avoid shortening link in embedded file preview inside comment", () => {
 	// https://github.com/refined-github/refined-github/pull/4759#issue-988481591
-	expect(shortenLinksInFragment(`
+	expect(
+		shortenLinksInFragment(`
 		<div class="comment-body markdown-body js-comment-body soft-wrap user-select-contain d-block">
 			<div class="Box Box--condensed my-2">
 				<div itemprop="text" class="Box-body p-0 blob-wrapper blob-wrapper-embedded data">
@@ -62,23 +67,27 @@ test('avoid shortening link in embedded file preview inside comment', () => {
 				</div>
 			</div>
 		</div>
-	`)).toMatchSnapshot();
+	`),
+	).toMatchSnapshot();
 });
 
-test('shorten link in review comment text', () => {
+test("shorten link in review comment text", () => {
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r738167140
-	expect(shortenLinksInFragment(`
+	expect(
+		shortenLinksInFragment(`
 		<div class="comment-body markdown-body js-comment-body soft-wrap user-select-contain d-block">
 			<p dir="auto">
 				<a href="https://github.com/refined-github/refined-github">https://github.com/refined-github/refined-github</a>
 			</p>
 		</div>
-	`)).toMatchSnapshot();
+	`),
+	).toMatchSnapshot();
 });
 
-test('avoid shortening links in suggestion inside review comment', () => {
+test("avoid shortening links in suggestion inside review comment", () => {
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r738167140
-	expect(shortenLinksInFragment(`
+	expect(
+		shortenLinksInFragment(`
 		<div class="comment-body markdown-body js-comment-body soft-wrap user-select-contain d-block">
 			<div class="my-2 border rounded-2 js-suggested-changes-blob diff-view" id="">
 				<div itemprop="text" class="blob-wrapper data file" style="margin: 0; border: none; overflow-y: visible; overflow-x: auto;">
@@ -94,5 +103,6 @@ test('avoid shortening links in suggestion inside review comment', () => {
 				</div>
 			</div>
 		</div>
-	`)).toMatchSnapshot();
+	`),
+	).toMatchSnapshot();
 });

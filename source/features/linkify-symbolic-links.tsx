@@ -1,30 +1,31 @@
-import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { $optional } from "select-dom/strict.js";
+import * as pageDetect from "github-url-detection";
 
-import {wrap} from '../helpers/dom-utils.js';
-import {repositionAnchors} from '../github-helpers/dom-formatters.js';
-import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
+import { wrap } from "../helpers/dom-utils.js";
+import { repositionAnchors } from "../github-helpers/dom-formatters.js";
+import observe from "../helpers/selector-observer.js";
+import features from "../feature-manager.js";
 
 function linkify(line: HTMLElement): void {
-	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
-		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
+	if (
+		$optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === "Symbolic Link"
+	) {
+		wrap(
+			line.firstChild!,
+			<a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />,
+		);
 		repositionAnchors(line);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('.react-code-line-contents .react-file-line', linkify, {signal});
+	observe(".react-code-line-contents .react-file-line", linkify, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	include: [pageDetect.isSingleFile],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

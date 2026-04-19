@@ -1,33 +1,34 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import elementReady from "element-ready";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import GetFilesOnRoot from './link-to-changelog-file.gql';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import { buildRepoUrl, getRepo } from "../github-helpers/index.js";
+import GetFilesOnRoot from "./link-to-changelog-file.gql";
 
 type FileType = {
 	name: string;
 	type: string;
 };
 
-const changelogFiles = /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
+const changelogFiles =
+	/^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
-	return files.find(name => changelogFiles.test(name)) ?? false;
+	return files.find((name) => changelogFiles.test(name)) ?? false;
 }
 
-const changelogName = new CachedFunction('changelog', {
+const changelogName = new CachedFunction("changelog", {
 	async updater(nameWithOwner: string): Promise<string | false> {
-		const [owner, name] = nameWithOwner.split('/');
-		const {repository} = await api.v4(GetFilesOnRoot, {
-			variables: {name, owner},
+		const [owner, name] = nameWithOwner.split("/");
+		const { repository } = await api.v4(GetFilesOnRoot, {
+			variables: { name, owner },
 		});
 
 		const files: string[] = [];
 		for (const entry of repository.object.entries as FileType[]) {
-			if (entry.type === 'blob') {
+			if (entry.type === "blob") {
 				files.push(entry.name);
 			}
 		}
@@ -44,7 +45,7 @@ async function init(): Promise<void | false> {
 
 	const releasesOrTagsNavbarSelector = [
 		'nav[aria-label^="Releases and Tags"]', // Release list
-		'.subnav-links', // Tag list
+		".subnav-links", // Tag list
 	];
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
@@ -52,7 +53,7 @@ async function init(): Promise<void | false> {
 		<a
 			className="subnav-item tooltipped tooltipped-n"
 			aria-label={`View the ${changelog} file`}
-			href={buildRepoUrl('blob', 'HEAD', changelog)}
+			href={buildRepoUrl("blob", "HEAD", changelog)}
 		>
 			<span>Changelog</span>
 		</a>,
@@ -60,13 +61,9 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isReleasesOrTags,
-	],
-	exclude: [
-		pageDetect.isSingleReleaseOrTag,
-	],
-	deduplicate: 'has-rgh-inner',
+	include: [pageDetect.isReleasesOrTags],
+	exclude: [pageDetect.isSingleReleaseOrTag],
+	deduplicate: "has-rgh-inner",
 	init,
 });
 

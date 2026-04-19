@@ -1,35 +1,29 @@
 /* eslint-disable no-await-in-loop -- Event loops */
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import domLoaded from 'dom-loaded';
-import stripIndent from 'strip-indent';
-import type {Promisable} from 'type-fest';
-import * as pageDetect from 'github-url-detection';
-import {isWebPage} from 'webext-detect';
-import {messageRuntime} from 'webext-msg';
-import oneEvent from 'one-event';
+import React from "dom-chef";
+import { elementExists } from "select-dom";
+import domLoaded from "dom-loaded";
+import stripIndent from "strip-indent";
+import type { Promisable } from "type-fest";
+import * as pageDetect from "github-url-detection";
+import { isWebPage } from "webext-detect";
+import { messageRuntime } from "webext-msg";
+import oneEvent from "one-event";
 
-import waitFor from './helpers/wait-for.js';
-import ArrayMap from './helpers/map-of-arrays.js';
-import bisectFeatures from './helpers/bisect.js';
-import {
-	shouldFeatureRun,
-	isFeaturePrivate,
-	type RunConditions,
-} from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
+import waitFor from "./helpers/wait-for.js";
+import ArrayMap from "./helpers/map-of-arrays.js";
+import bisectFeatures from "./helpers/bisect.js";
+import { shouldFeatureRun, isFeaturePrivate, type RunConditions } from "./helpers/feature-utils.js";
+import optionsStorage, { isFeatureDisabled, type RghOptions } from "./options-storage.js";
 import {
 	applyStyleHotfixes,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 	brokenFeatures,
-} from './helpers/hotfix.js';
-import asyncForEach from './helpers/async-for-each.js';
-import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {
-	getFeatureId, listenToAjaxedLoad, log, shortcutMap,
-} from './helpers/feature-helpers.js';
-import {contentScriptToggle} from './options/reload-without.js';
+} from "./helpers/hotfix.js";
+import asyncForEach from "./helpers/async-for-each.js";
+import { catchErrors, disableErrorLogging } from "./helpers/errors.js";
+import { getFeatureId, listenToAjaxedLoad, log, shortcutMap } from "./helpers/feature-helpers.js";
+import { contentScriptToggle } from "./options/reload-without.js";
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
@@ -54,9 +48,9 @@ type FeatureLoader = RunConditions & {
 const currentFeatureControllers = new ArrayMap<FeatureId, AbortController>();
 
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
-const globalReady = new Promise<RghOptions>(async resolve => {
+const globalReady = new Promise<RghOptions>(async (resolve) => {
 	if (!isWebPage()) {
-		throw new Error('This script should only be run on web pages');
+		throw new Error("This script should only be run on web pages");
 	}
 
 	listenToAjaxedLoad();
@@ -71,7 +65,8 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	if (!contentScripts) {
 		await contentScriptToggle.remove();
-		const message = 'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
+		const message =
+			"Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.";
 		console.warn(message);
 		alert(message);
 		return;
@@ -85,24 +80,26 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 		return;
 	}
 
-	if (elementExists('[refined-github]')) {
-		console.warn(stripIndent(`
+	if (elementExists("[refined-github]")) {
+		console.warn(
+			stripIndent(`
 			Refined GitHub has been loaded twice. This may be because:
 
 			• You loaded the developer version, or
 			• The extension just updated
 
 			If you see this at every load, please open an issue mentioning the browser you're using and the URL where this appears.
-		`));
+		`),
+		);
 		return;
 	}
 
-	document.documentElement.setAttribute('refined-github', '');
+	document.documentElement.setAttribute("refined-github", "");
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
 	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
-	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	void messageRuntime<string>({ getStyleHotfixes: true }).then(applyStyleHotfixes);
 
 	if (options.customCss.trim().length > 0) {
 		// Review #5857 and #5493 before making changes
@@ -117,8 +114,10 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 		Object.assign(options, localHotfixes);
 	}
 
-	if (elementExists('body.logged-out')) {
-		console.warn('Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.');
+	if (elementExists("body.logged-out")) {
+		console.warn(
+			"Refined GitHub is only expected to work when you’re logged in to GitHub. Errors will not be shown.",
+		);
 		disableErrorLogging();
 	} else {
 		catchErrors();
@@ -126,8 +125,8 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	// Detect unload via two events to catch both clicks and history navigation
 	// https://github.com/refined-github/refined-github/issues/6437#issuecomment-1489921988
-	document.addEventListener('turbo:before-fetch-request', unloadAll); // Clicks
-	document.addEventListener('turbo:visit', unloadAll); // Back/forward button
+	document.addEventListener("turbo:before-fetch-request", unloadAll); // Clicks
+	document.addEventListener("turbo:visit", unloadAll); // Back/forward button
 
 	resolve(options);
 });
@@ -149,11 +148,11 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			// GitHub cleans up the CSS disabling attributes after navigation.
 			// https://github.com/refined-github/refined-github/issues/8172
 			do {
-				document.documentElement.setAttribute('rgh-OFF-' + id, '');
-				log.info('↩️', 'Skipping', id);
-			} while (await oneEvent(document, 'turbo:render'));
+				document.documentElement.setAttribute("rgh-OFF-" + id, "");
+				log.info("↩️", "Skipping", id);
+			} while (await oneEvent(document, "turbo:render"));
 		} else {
-			log.info('↩️', 'Skipping', id);
+			log.info("↩️", "Skipping", id);
 		}
 
 		return;
@@ -164,7 +163,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		return;
 	}
 
-	void asyncForEach(loaders, async loader => {
+	void asyncForEach(loaders, async (loader) => {
 		// Input defaults and validation
 		const {
 			shortcuts = {},
@@ -181,7 +180,11 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
+		if (
+			pageDetect.is404() &&
+			!include?.includes(pageDetect.is404) &&
+			!asLongAs?.includes(pageDetect.is404)
+		) {
 			return;
 		}
 
@@ -197,7 +200,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 				continue;
 			}
 
-			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
+			if (!(await shouldFeatureRun({ asLongAs, include, exclude }))) {
 				continue;
 			}
 
@@ -205,18 +208,18 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			currentFeatureControllers.append(id, featureController);
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
-			void asyncForEach(castArray(init), async init => {
+			void asyncForEach(castArray(init), async (init) => {
 				const result = await init(featureController.signal);
 				// Features can return `false` when they decide not to run on the current page
 				if (result !== false && !isFeaturePrivate(id)) {
-					log.info('✅', id);
+					log.info("✅", id);
 					// Register feature shortcuts
 					for (const [hotkey, description] of Object.entries(shortcuts)) {
 						shortcutMap.set(hotkey, description);
 					}
 				}
 			});
-		} while (await oneEvent(document, 'turbo:render'));
+		} while (await oneEvent(document, "turbo:render"));
 	});
 }
 

@@ -1,56 +1,58 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import TagIcon from 'octicons-plain-react/Tag';
-import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import TagIcon from "octicons-plain-react/Tag";
+import elementReady from "element-ready";
+import * as pageDetect from "github-url-detection";
+import { $optional } from "select-dom/strict.js";
 
-import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
-import createDropdownItem from '../github-helpers/create-dropdown-item.js';
+import observe from "../helpers/selector-observer.js";
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import abbreviateNumber from "../helpers/abbreviate-number.js";
+import createDropdownItem from "../github-helpers/create-dropdown-item.js";
 import {
 	buildRepoUrl,
 	cacheByRepo,
 	getRepo,
 	triggerRepoNavOverflow,
-} from '../github-helpers/index.js';
-import {appendBefore} from '../helpers/dom-utils.js';
-import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
-import GetReleasesCount from './releases-tab.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import {registerHotkey} from '../github-helpers/hotkey.js';
+} from "../github-helpers/index.js";
+import { appendBefore } from "../helpers/dom-utils.js";
+import { repoUnderlineNavUl, repoUnderlineNavDropdownUl } from "../github-helpers/selectors.js";
+import GetReleasesCount from "./releases-tab.gql";
+import { expectToken } from "../github-helpers/github-token.js";
+import { registerHotkey } from "../github-helpers/hotkey.js";
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
-	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
+	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace("repo_releases ", "");
 }
 
-const releasesCount = new CachedFunction('releases-count', {
+const releasesCount = new CachedFunction("releases-count", {
 	updater: fetchCounts,
-	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 3},
+	shouldRevalidate: (cachedValue) => typeof cachedValue === "number",
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 3 },
 	cacheKey: cacheByRepo,
 });
 
-export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+export async function getReleases(): Promise<[0] | [number, "Tags" | "Releases"]> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
 }
 
-async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
-	const [owner, name] = nameWithOwner.split('/');
-	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
-		variables: {name, owner},
+async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, "Tags" | "Releases"]> {
+	const [owner, name] = nameWithOwner.split("/");
+	const {
+		repository: { releases, tags },
+	} = await api.v4(GetReleasesCount, {
+		variables: { name, owner },
 	});
 
 	if (releases.totalCount) {
-		return [releases.totalCount, 'Releases'];
+		return [releases.totalCount, "Releases"];
 	}
 
 	if (tags.totalCount) {
-		return [tags.totalCount, 'Tags'];
+		return [tags.totalCount, "Tags"];
 	}
 
 	return [0];
@@ -78,7 +80,9 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 			>
 				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
 				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+				<span className="Counter" title={count > 999 ? String(count) : ""}>
+					{abbreviateNumber(count)}
+				</span>
 			</a>
 		</li>,
 	);
@@ -90,18 +94,18 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 	const [, type] = await getReleases();
 
 	if (!type) {
-		$optional('.dropdown-divider', dropdownMenu)?.remove();
+		$optional(".dropdown-divider", dropdownMenu)?.remove();
 		return false;
 	}
 
 	appendBefore(
 		dropdownMenu,
-		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
+		".dropdown-divider", // Won't exist if `clean-repo-tabs` is disabled
 		createDropdownItem({
 			label: type,
 			href: buildRepoUrl(type.toLowerCase()),
 			icon: TagIcon,
-			'data-menu-item': 'rgh-releases-item',
+			"data-menu-item": "rgh-releases-item",
 		}),
 	);
 
@@ -110,21 +114,21 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(repoUnderlineNavUl, addReleasesTab, {signal});
-	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
-	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
+	observe(repoUnderlineNavUl, addReleasesTab, { signal });
+	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, { signal });
+	observe(['[data-menu-item="i0code-tab"] a', "a#code-tab"], detachHighlightFromCodeTab, {
+		signal,
+	});
 	// Workaround for #8867
 	// TODO: remove once the issue is resolved
-	registerHotkey('g r', buildRepoUrl('releases'), {signal});
+	registerHotkey("g r", buildRepoUrl("releases"), { signal });
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		'g r': 'Go to Releases',
+		"g r": "Go to Releases",
 	},
-	include: [
-		pageDetect.hasRepoHeader,
-	],
+	include: [pageDetect.hasRepoHeader],
 	init,
 });
 

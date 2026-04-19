@@ -1,23 +1,23 @@
-import './quick-file-edit.css';
+import "./quick-file-edit.css";
 
-import React from 'dom-chef';
-import PencilIcon from 'octicons-plain-react/Pencil';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import PencilIcon from "octicons-plain-react/Pencil";
+import * as pageDetect from "github-url-detection";
 
-import {wrap} from '../helpers/dom-utils.js';
-import features from '../feature-manager.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import {directoryListingFileIcon} from '../github-helpers/selectors.js';
+import { wrap } from "../helpers/dom-utils.js";
+import features from "../feature-manager.js";
+import GitHubFileUrl from "../github-helpers/github-file-url.js";
+import { isArchivedRepoAsync, isPermalink } from "../github-helpers/index.js";
+import observe from "../helpers/selector-observer.js";
+import { directoryListingFileIcon } from "../github-helpers/selectors.js";
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = fileIcon
-		.closest('.react-directory-filename-column')!
-		.querySelector('a.Link--primary')!;
+		.closest(".react-directory-filename-column")!
+		.querySelector("a.Link--primary")!;
 
 	const url = new GitHubFileUrl(fileLink.href).assign({
-		route: 'edit',
+		route: "edit",
 	});
 
 	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
@@ -25,18 +25,12 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe(directoryListingFileIcon, linkifyIcon, {signal});
+	observe(directoryListingFileIcon, linkifyIcon, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-	],
-	exclude: [
-		pageDetect.isRepoFile404,
-		isArchivedRepoAsync,
-		isPermalink,
-	],
+	include: [pageDetect.isRepoTree],
+	exclude: [pageDetect.isRepoFile404, isArchivedRepoAsync, isPermalink],
 	init,
 });
 

@@ -1,30 +1,30 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import * as pageDetect from 'github-url-detection';
-import PlusIcon from 'octicons-plain-react/Plus';
-import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import * as pageDetect from "github-url-detection";
+import PlusIcon from "octicons-plain-react/Plus";
+import TagIcon from "octicons-plain-react/Tag";
+import { elementExists } from "select-dom";
+import { $optional } from "select-dom/strict.js";
 
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import api from '../github-helpers/api.js';
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
+import api from "../github-helpers/api.js";
 import {
 	buildRepoUrl,
 	cacheByRepo,
 	getLatestVersionTag,
 	getRepo,
-} from '../github-helpers/index.js';
-import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import pluralize from '../helpers/pluralize.js';
-import {branchSelector} from '../github-helpers/selectors.js';
-import getPublishRepoState from './unreleased-commits.gql';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import abbreviateString from '../helpers/abbreviate-string.js';
-import {wrapAll} from '../helpers/dom-utils.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import {expectToken} from '../github-helpers/github-token.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+} from "../github-helpers/index.js";
+import isDefaultBranch from "../github-helpers/is-default-branch.js";
+import pluralize from "../helpers/pluralize.js";
+import { branchSelector } from "../github-helpers/selectors.js";
+import getPublishRepoState from "./unreleased-commits.gql";
+import getDefaultBranch from "../github-helpers/get-default-branch.js";
+import abbreviateString from "../helpers/abbreviate-string.js";
+import { wrapAll } from "../helpers/dom-utils.js";
+import { groupButtons } from "../github-helpers/group-buttons.js";
+import { expectToken } from "../github-helpers/github-token.js";
+import { userHasPushAccess } from "../github-helpers/get-user-permission.js";
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -43,9 +43,9 @@ type Tags = {
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
-const repoPublishState = new CachedFunction('tag-ahead-by', {
+const repoPublishState = new CachedFunction("tag-ahead-by", {
 	async updater(): Promise<RepoPublishState> {
-		const {repository} = await api.v4(getPublishRepoState);
+		const { repository } = await api.v4(getPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {
 			return {
@@ -63,32 +63,31 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		// https://github.com/refined-github/refined-github/issues/6094
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
-		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex(
+			(node: AnyObject) => node.oid === latestTagOid,
+		);
 
 		return {
 			latestTag,
 			aheadBy: aheadBy === -1 ? undeterminableAheadBy : aheadBy,
 		};
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 2},
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 2 },
 	cacheKey: cacheByRepo,
 });
 
-async function createLink(
-	latestTag: string,
-	aheadBy: number,
-): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'More than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
+async function createLink(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+	const commitCount =
+		aheadBy === undeterminableAheadBy
+			? "More than 20 unreleased commits"
+			: pluralize(aheadBy, "$$ unreleased commit");
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
 		<a
 			className="btn px-2 tooltipped tooltipped-se"
-			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			href={buildRepoUrl("compare", `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
@@ -107,7 +106,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		link,
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
-			href={buildRepoUrl('releases/new')}
+			href={buildRepoUrl("releases/new")}
 			className="btn px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"
@@ -120,11 +119,11 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7536
-	if (elementExists('.rgh-unreleased-commits-wrapper')) {
+	if (elementExists(".rgh-unreleased-commits-wrapper")) {
 		return;
 	}
 
-	const {latestTag, aheadBy} = await repoPublishState.get();
+	const { latestTag, aheadBy } = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
 	if (!latestTag || !isAhead) {
@@ -132,7 +131,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	}
 
 	const linkGroup = await createLinkGroup(latestTag, aheadBy);
-	linkGroup.style.flexShrink = '0';
+	linkGroup.style.flexShrink = "0";
 
 	wrapAll(
 		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
@@ -142,7 +141,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
-	const {latestTag, aheadBy} = await repoPublishState.get();
+	const { latestTag, aheadBy } = await repoPublishState.get();
 	const isAhead = aheadBy > 0;
 
 	if (!latestTag || !isAhead) {
@@ -155,45 +154,42 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
-		groupButtons([
-			widget,
-			newReleaseButton,
-		]);
+		groupButtons([widget, newReleaseButton]);
 		return;
 	}
 
 	// Otherwise, add it before filter input
 	releasesFilter.form!.before(widget);
-	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
+	releasesFilter.form!.parentElement!.classList.add("d-flex", "flex-items-start");
 	// The form has .ml-md-2, this restores it on `sm`
-	widget.classList.add('mr-md-0', 'mr-2');
+	widget.classList.add("mr-md-0", "mr-2");
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(branchSelector, addToHome, {signal});
+	observe(branchSelector, addToHome, { signal });
 }
 
 async function initReleases(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('input#release-filter', addToReleases, {signal});
+	observe("input#release-filter", addToReleases, { signal });
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		isDefaultBranch,
-	],
-	include: [
-		pageDetect.isRepoHome,
-	],
-	init: initHome,
-}, {
-	include: [
-		// Only first page of Releases
-		() => getRepo()?.path === 'releases',
-	],
-	init: initReleases,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [isDefaultBranch],
+		include: [pageDetect.isRepoHome],
+		init: initHome,
+	},
+	{
+		include: [
+			// Only first page of Releases
+			() => getRepo()?.path === "releases",
+		],
+		init: initReleases,
+	},
+);
 
 /*
 

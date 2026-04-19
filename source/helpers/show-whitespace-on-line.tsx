@@ -1,14 +1,18 @@
-import React from 'dom-chef';
+import React from "dom-chef";
 
-import getTextNodes from './get-text-nodes.js';
+import getTextNodes from "./get-text-nodes.js";
 
 // `splitText` is used before and after each whitespace group so a new whitespace-only text node is created. This new node is then wrapped in a <span>
-export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurroundingSpaces = false): Element {
+export default function showWhiteSpacesOnLine(
+	line: Element,
+	shouldAvoidSurroundingSpaces = false,
+): Element {
 	const textNodesOnThisLine = getTextNodes(line);
 	for (const [nodeIndex, textNode] of textNodesOnThisLine.entries()) {
 		// `textContent` reads must be cached #2737
 		let text = textNode.textContent;
-		if (text.length > 1000) { // #5092
+		if (text.length > 1000) {
+			// #5092
 			continue;
 		}
 
@@ -26,7 +30,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			const endingIndex = index;
 
 			// Exclude irrelevant characters
-			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
+			if (thisCharacter !== " " && thisCharacter !== "\t") {
 				continue;
 			}
 
@@ -36,7 +40,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			}
 
 			// Skip non-boundary single spaces
-			if (!isLeading && !isTrailing && index === endingIndex && thisCharacter === ' ') {
+			if (!isLeading && !isTrailing && index === endingIndex && thisCharacter === " ") {
 				continue;
 			}
 
@@ -50,7 +54,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			text = textNode.textContent;
 
 			textNode.after(
-				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
+				<span data-rgh-whitespace={thisCharacter === "\t" ? "tab" : "space"}>
 					{textNode.nextSibling}
 				</span>,
 			);

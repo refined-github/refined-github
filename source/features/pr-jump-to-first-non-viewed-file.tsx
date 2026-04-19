@@ -1,9 +1,9 @@
-import {$optional} from 'select-dom/strict.js';
-import elementReady from 'element-ready';
-import delegate from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
+import { $optional } from "select-dom/strict.js";
+import elementReady from "element-ready";
+import delegate from "delegate-it";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = $optional([
@@ -12,7 +12,7 @@ function jumpToFirstNonViewed(): void {
 	]);
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
-		location.replace('#' + firstNonViewedFile.id);
+		location.replace("#" + firstNonViewedFile.id);
 	} else {
 		// The file hasn't loaded yet, so make GitHub load it by scrolling to the bottom
 		window.scrollTo(window.scrollX, document.body.scrollHeight);
@@ -20,23 +20,18 @@ function jumpToFirstNonViewed(): void {
 }
 
 const selectors = [
-	'.diffbar-item progress-bar', // TODO: Old PR Files view, drop in 2026
+	".diffbar-item progress-bar", // TODO: Old PR Files view, drop in 2026
 	'.d-flex:has([class*="ViewedFileProgress"])',
 ];
 async function init(signal: AbortSignal): Promise<void> {
 	const bar = await elementReady(selectors);
-	bar!.style.cursor = 'pointer';
-	delegate(selectors, 'click', jumpToFirstNonViewed, {signal});
+	bar!.style.cursor = "pointer";
+	delegate(selectors, "click", jumpToFirstNonViewed, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
-	exclude: [
-		pageDetect.isPRFile404,
-		pageDetect.isPRCommit,
-	],
+	include: [pageDetect.isPRFiles],
+	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
 	init,
 });
 

@@ -1,23 +1,24 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-import delegate from 'delegate-it';
+import React from "dom-chef";
+import { $ } from "select-dom/strict.js";
+import { elementExists } from "select-dom";
+import * as pageDetect from "github-url-detection";
+import delegate from "delegate-it";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import {getRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import showToast from '../github-helpers/toast.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import { getRepo } from "../github-helpers/index.js";
+import observe from "../helpers/selector-observer.js";
+import showToast from "../github-helpers/toast.js";
+import { expectToken } from "../github-helpers/github-token.js";
 
-const getReleaseEditLinkSelector = (): 'a' => `a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as 'a';
+const getReleaseEditLinkSelector = (): "a" =>
+	`a[href^="/${getRepo()!.nameWithOwner}/releases/edit"]` as "a";
 
 async function convertToDraft(): Promise<void> {
-	const tagName = location.pathname.split('/').pop()!;
+	const tagName = location.pathname.split("/").pop()!;
 	const release = await api.v3(`releases/tags/${tagName}`);
 	await api.v3(release.url, {
-		method: 'PATCH',
+		method: "PATCH",
 		body: {
 			draft: true,
 		},
@@ -26,21 +27,21 @@ async function convertToDraft(): Promise<void> {
 	$(getReleaseEditLinkSelector()).click(); // Visit "Edit release" page
 }
 
-const confirmMessage = 'The release will be effectively deleted and a new draft will be created.';
-const confirmMessageWithReactions = 'Existing user reactions will be lost.';
-const confirmMessageQuestion = 'Continue?';
+const confirmMessage = "The release will be effectively deleted and a new draft will be created.";
+const confirmMessageWithReactions = "Existing user reactions will be lost.";
+const confirmMessageQuestion = "Continue?";
 
 async function onConvertClick(): Promise<void> {
-	const message = elementExists('.js-reaction-group-button')
+	const message = elementExists(".js-reaction-group-button")
 		? [confirmMessage, confirmMessageWithReactions, confirmMessageQuestion]
 		: [confirmMessage, confirmMessageQuestion];
-	if (!confirm(message.join(' '))) {
+	if (!confirm(message.join(" "))) {
 		return;
 	}
 
 	await showToast(convertToDraft(), {
-		message: 'Converting…',
-		doneMessage: 'Redirecting…',
+		message: "Converting…",
+		doneMessage: "Redirecting…",
 	});
 }
 
@@ -62,14 +63,12 @@ function attachButton(editButton: HTMLAnchorElement): void {
 async function init(signal: AbortSignal): Promise<void | false> {
 	await expectToken();
 
-	observe(getReleaseEditLinkSelector(), attachButton, {signal});
-	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});
+	observe(getReleaseEditLinkSelector(), attachButton, { signal });
+	delegate(".rgh-convert-draft", "click", onConvertClick, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleReleaseOrTag,
-	],
+	include: [pageDetect.isSingleReleaseOrTag],
 	init,
 });
 

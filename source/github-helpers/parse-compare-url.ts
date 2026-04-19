@@ -1,6 +1,6 @@
-import type {NameWithOwner} from 'github-url-detection';
+import type { NameWithOwner } from "github-url-detection";
 
-import {getRepo} from './index.js';
+import { getRepo } from "./index.js";
 
 type Comparison = {
 	head: {
@@ -23,13 +23,13 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 		return;
 	}
 
-	const headParts = heads.split(':');
+	const headParts = heads.split(":");
 	const headBranch = headParts.pop()!; // Branch is always last, or the only one
 	const headOwner = headParts.shift() ?? base.owner; // The owner is first, or it's the same as the base
 	const headName = headParts.pop() ?? base.name; // The repo is first or middle, or it's the same as the base
 
 	if (headParts.length > 0) {
-		throw new Error('Invalid compare URL format');
+		throw new Error("Invalid compare URL format");
 	}
 
 	const headRepo: NameWithOwner = `${headOwner}/${headName}`;

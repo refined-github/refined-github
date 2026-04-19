@@ -3,11 +3,11 @@ export default function parseRenderedText(element: Element, filter?: NodeFilter)
 
 	// eslint-disable-next-line @typescript-eslint/no-restricted-types
 	let currentNode = walker.currentNode as Node | null;
-	let parsedText = '';
+	let parsedText = "";
 
 	while (currentNode) {
-		if (currentNode.nodeName === 'CODE') {
-			const {textContent} = currentNode;
+		if (currentNode.nodeName === "CODE") {
+			const { textContent } = currentNode;
 			// Restore backticks that GitHub loses when rendering them
 			parsedText += `\`${textContent?.trim()}\``;
 

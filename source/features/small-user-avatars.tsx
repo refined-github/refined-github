@@ -1,16 +1,16 @@
-import React from 'dom-chef';
+import React from "dom-chef";
 
-import onetime from '../helpers/onetime.js';
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
-import './small-user-avatars.css';
+import onetime from "../helpers/onetime.js";
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
+import getUserAvatarURL from "../github-helpers/get-user-avatar.js";
+import "./small-user-avatars.css";
 
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
 
-	link.classList.add('d-inline-block', 'lh-condensed-ultra');
+	link.classList.add("d-inline-block", "lh-condensed-ultra");
 	link.prepend(
 		<img
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
@@ -24,27 +24,33 @@ function addAvatar(link: HTMLElement): void {
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
 	// Don't use textContent #8389
-	const username = link.href.split('/').pop()!;
+	const username = link.href.split("/").pop()!;
 	const avatarUrl = getUserAvatarURL(username, 16)!;
 
-	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
-	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
+	link.classList.add("rgh-small-user-avatars", "rgh-mention-avatar");
+	link.style.setProperty("--avatar-url", `url(${avatarUrl})`);
 }
 
 function initOnce(): void {
 	// Excludes bots
-	observe([
-		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
-		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		`:is(
+	observe(
+		[
+			'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
+			'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+			`:is(
 			[data-testid="created-at"],
 			[data-testid="closed-at"]
 		) a[data-hovercard-url*="/users"]`, // `isIssueList`
-	], addAvatar);
-	observe(`.user-mention:not(${[
-		'.opened-by > *', // Merge queue
-		'.commit-author',
-	].join(',')})`, addMentionAvatar);
+		],
+		addAvatar,
+	);
+	observe(
+		`.user-mention:not(${[
+			".opened-by > *", // Merge queue
+			".commit-author",
+		].join(",")})`,
+		addMentionAvatar,
+	);
 }
 
 void features.add(import.meta.url, {

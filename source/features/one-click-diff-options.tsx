@@ -1,36 +1,42 @@
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
-import BookIcon from 'octicons-plain-react/Book';
-import CheckIcon from 'octicons-plain-react/Check';
-import DiffIcon from 'octicons-plain-react/Diff';
-import DiffModifiedIcon from 'octicons-plain-react/DiffModified';
+import React from "dom-chef";
+import { elementExists } from "select-dom";
+import { $, $optional } from "select-dom/strict.js";
+import * as pageDetect from "github-url-detection";
+import BookIcon from "octicons-plain-react/Book";
+import CheckIcon from "octicons-plain-react/Check";
+import DiffIcon from "octicons-plain-react/Diff";
+import DiffModifiedIcon from "octicons-plain-react/DiffModified";
 
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
+import { removeTextNodeContaining } from "../helpers/dom-utils.js";
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
-	return new URL(location.href).searchParams.get('w') === '1' || elementExists('button[name="w"][value="0"]:not([hidden])');
+	return (
+		new URL(location.href).searchParams.get("w") === "1" ||
+		elementExists('button[name="w"][value="0"]:not([hidden])')
+	);
 }
 
 function createWhitespaceButton(): HTMLElement {
 	const url = new URL(location.href);
 
 	if (isHidingWhitespace()) {
-		url.searchParams.delete('w');
+		url.searchParams.delete("w");
 	} else {
-		url.searchParams.set('w', '1');
+		url.searchParams.set("w", "1");
 	}
 
 	return (
 		<a
 			href={url.href}
 			data-hotkey="d w"
-			className={'tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
-			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
+			className={
+				"tooltipped tooltipped-s btn btn-sm tooltipped " +
+				(isHidingWhitespace() ? "color-fg-subtle" : "")
+			}
+			aria-label={`${isHidingWhitespace() ? "Show" : "Hide"} whitespace changes`}
 		>
 			{isHidingWhitespace() && <CheckIcon />} No Whitespace
 		</a>
@@ -41,13 +47,13 @@ function attachPrButtons(dropdown: HTMLDetailsElement): void {
 	const diffSettingsForm = $('form[action$="/diffview"]', dropdown);
 
 	// Preserve data before emption the form
-	const isUnified = new FormData(diffSettingsForm).get('diff') === 'unified';
+	const isUnified = new FormData(diffSettingsForm).get("diff") === "unified";
 	const token = $('[name="authenticity_token"]', diffSettingsForm);
 
 	// Empty form except the token field
 	diffSettingsForm.replaceChildren(token);
 
-	const type = isUnified ? 'split' : 'unified';
+	const type = isUnified ? "split" : "unified";
 	const Icon = isUnified ? BookIcon : DiffIcon;
 	diffSettingsForm.append(
 		<button
@@ -79,68 +85,64 @@ function attachPrButtons(dropdown: HTMLDetailsElement): void {
 	dropdown.replaceWith(diffSettingsForm);
 
 	// Trim title
-	const prTitle = $optional('.pr-toolbar .js-issue-title');
-	if (prTitle && elementExists('.pr-toolbar progress-bar')) { // Only review view has progress-bar
-		prTitle.style.maxWidth = '24em';
+	const prTitle = $optional(".pr-toolbar .js-issue-title");
+	if (prTitle && elementExists(".pr-toolbar progress-bar")) {
+		// Only review view has progress-bar
+		prTitle.style.maxWidth = "24em";
 		prTitle.title = prTitle.textContent;
 	}
 
 	// Make space for the new button #655
-	removeTextNodeContaining(
-		$('[data-hotkey="c"] strong').previousSibling!,
-		'Changes from',
-	);
+	removeTextNodeContaining($('[data-hotkey="c"] strong').previousSibling!, "Changes from");
 
 	// Remove extraneous padding around "Clear filters" button
-	$optional('.subset-files-tab')?.classList.replace('px-sm-3', 'ml-sm-2');
+	$optional(".subset-files-tab")?.classList.replace("px-sm-3", "ml-sm-2");
 }
 
 function initPr(signal: AbortSignal): void {
 	// There are two "diff settings" element, one for mobile and one for the desktop. We only replace the one for the desktop
-	observe('.hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)', attachPrButtons, {signal});
+	observe(".hide-sm.hide-md details.diffbar-item:has(svg.octicon-gear)", attachPrButtons, {
+		signal,
+	});
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
 	const anchor = nativeDiffButtons.parentElement!;
 
 	// `usesFloats` is necessary to ensure the order and spacing as seen in #5958
-	const usesFloats = anchor?.classList.contains('float-right');
+	const usesFloats = anchor?.classList.contains("float-right");
 	if (usesFloats) {
-		anchor.after(
-			<div className="float-right mr-3">
-				{createWhitespaceButton()}
-			</div>,
-		);
+		anchor.after(<div className="float-right mr-3">{createWhitespaceButton()}</div>);
 	} else {
 		anchor.before(createWhitespaceButton());
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('[action="/users/diffview"]', attachButtons, {signal});
+	observe('[action="/users/diffview"]', attachButtons, { signal });
 }
 
 const shortcuts = {
-	'd w': 'Show/hide whitespaces in diffs',
+	"d w": "Show/hide whitespaces in diffs",
 };
 
-void features.add(import.meta.url, {
-	shortcuts,
-	include: [
-		pageDetect.isPRFiles,
-	],
-	exclude: [
-		pageDetect.isPRFile404,
-		pageDetect.isEnterprise, // #5820
-	],
-	init: initPr,
-}, {
-	shortcuts,
-	include: [
-		pageDetect.isCompare,
-	],
-	init,
-});
+void features.add(
+	import.meta.url,
+	{
+		shortcuts,
+		include: [pageDetect.isPRFiles],
+		exclude: [
+			pageDetect.isPRFile404,
+			pageDetect.isEnterprise, // #5820
+		],
+		init: initPr,
+	},
+	{
+		shortcuts,
+		include: [pageDetect.isCompare],
+		init,
+	},
+);
 
 /*
 # Test URLs

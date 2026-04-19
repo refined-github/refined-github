@@ -1,17 +1,17 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import elementReady from "element-ready";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import {getLoggedInUser, getCleanPathname} from '../github-helpers/index.js';
-import attachElement from '../helpers/attach-element.js';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import { getLoggedInUser, getCleanPathname } from "../github-helpers/index.js";
+import attachElement from "../helpers/attach-element.js";
 
-const doesUserFollow = new CachedFunction('user-follows', {
+const doesUserFollow = new CachedFunction("user-follows", {
 	async updater(userA: string, userB: string): Promise<boolean> {
-		const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
-			responseFormat: 'text',
+		const { httpStatus } = await api.v3(`/users/${userA}/following/${userB}`, {
+			responseFormat: "text",
 			ignoreHttpStatus: true,
 		});
 
@@ -20,26 +20,19 @@ const doesUserFollow = new CachedFunction('user-follows', {
 });
 
 async function init(): Promise<void> {
-	if (!await doesUserFollow.get(getCleanPathname(), getLoggedInUser()!)) {
+	if (!(await doesUserFollow.get(getCleanPathname(), getLoggedInUser()!))) {
 		return;
 	}
 
 	const target = await elementReady('.js-profile-editable-area [href$="?tab=following"]');
 	attachElement(target, {
-		after: () => (
-			<span className="color-fg-muted"> · Follows you</span>
-		),
+		after: () => <span className="color-fg-muted"> · Follows you</span>,
 	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isUserProfile,
-	],
-	exclude: [
-		pageDetect.isOwnUserProfile,
-		pageDetect.isPrivateUserProfile,
-	],
+	include: [pageDetect.isUserProfile],
+	exclude: [pageDetect.isOwnUserProfile, pageDetect.isPrivateUserProfile],
 	init,
 });
 

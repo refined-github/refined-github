@@ -1,10 +1,10 @@
-import {$optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import { $optional } from "select-dom/strict.js";
+import * as pageDetect from "github-url-detection";
+import delegate, { type DelegateEvent } from "delegate-it";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
-const activeElementsSelector = 'a, button, clipboard-copy, details';
+const activeElementsSelector = "a, button, clipboard-copy, details";
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	// The clicked element is a button, a link or a popup ("Verified" badge, CI details, etc.)
@@ -18,23 +18,24 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
-	$optional([
-		'[data-testid="commit-row-show-description-button"]', // Commit list
-		'[data-testid="latest-commit-details-toggle"]', // File/folder
-		'.ellipsis-expander', // Compare
-	], event.delegateTarget)?.dispatchEvent(
-		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
-	);
+	$optional(
+		[
+			'[data-testid="commit-row-show-description-button"]', // Commit list
+			'[data-testid="latest-commit-details-toggle"]', // File/folder
+			".ellipsis-expander", // Compare
+		],
+		event.delegateTarget,
+	)?.dispatchEvent(new MouseEvent("click", { bubbles: true, altKey: event.altKey }));
 }
 
 const commitMessagesSelector = [
 	'[data-testid="commit-row-item"]',
 	'[data-testid="latest-commit"]', // Commit message in file tree header
-	'.js-commits-list-item', // Compare
+	".js-commits-list-item", // Compare
 ];
 
 function init(signal: AbortSignal): void {
-	delegate(commitMessagesSelector, 'click', toggleCommitMessage, {signal});
+	delegate(commitMessagesSelector, "click", toggleCommitMessage, { signal });
 }
 
 void features.add(import.meta.url, {
@@ -44,9 +45,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 	],
-	exclude: [
-		pageDetect.isRepoFile404,
-	],
+	exclude: [pageDetect.isRepoFile404],
 	init,
 });
 

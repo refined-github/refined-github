@@ -1,7 +1,7 @@
-import React from 'dom-chef';
+import React from "dom-chef";
 
 // Random icon just for types
-import type TagIcon from 'octicons-plain-react/Tag';
+import type TagIcon from "octicons-plain-react/Tag";
 
 type Options = {
 	label: string;
@@ -38,7 +38,6 @@ export default function createDropdownItem({
 					{label}
 				</span>
 			</a>
-
 		</li>
 	);
 }

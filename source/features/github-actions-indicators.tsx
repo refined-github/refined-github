@@ -1,17 +1,17 @@
-import {CachedFunction} from 'webext-storage-cache';
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import PlayIcon from 'octicons-plain-react/Play';
-import {parseCron} from '@fregante/mi-cron';
-import * as pageDetect from 'github-url-detection';
+import { CachedFunction } from "webext-storage-cache";
+import React from "dom-chef";
+import { $ } from "select-dom/strict.js";
+import PlayIcon from "octicons-plain-react/Play";
+import { parseCron } from "@fregante/mi-cron";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import GetWorkflows from './github-actions-indicators.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import removeHashFromUrlBar from '../helpers/history.js';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import { cacheByRepo } from "../github-helpers/index.js";
+import observe from "../helpers/selector-observer.js";
+import GetWorkflows from "./github-actions-indicators.gql";
+import { expectToken } from "../github-helpers/github-token.js";
+import removeHashFromUrlBar from "../helpers/history.js";
 
 type Workflow = {
 	name: string;
@@ -25,20 +25,21 @@ type WorkflowDetails = {
 
 // There is no way to get a workflow list in the v4 API #6543
 async function getWorkflows(): Promise<Workflow[]> {
-	const response = await api.v3('actions/workflows');
+	const response = await api.v3("actions/workflows");
 
 	const workflows = response.workflows as any[];
 
 	// The response is not reliable: Some workflow's path is '' and deleted workflow's state is 'active'
-	return workflows
-		.map<Workflow>(workflow => ({
-			name: workflow.path.split('/').pop()!,
-			isEnabled: workflow.state === 'active',
-		}));
+	return workflows.map<Workflow>((workflow) => ({
+		name: workflow.path.split("/").pop()!,
+		isEnabled: workflow.state === "active",
+	}));
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
+	const {
+		repository: { workflowFiles },
+	} = await api.v4(GetWorkflows);
 
 	const workflows: any[] = workflowFiles?.entries ?? [];
 
@@ -50,9 +51,12 @@ async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	return result;
 }
 
-const workflowDetails = new CachedFunction('workflows-details', {
+const workflowDetails = new CachedFunction("workflows-details", {
 	async updater(): Promise<Record<string, Workflow & WorkflowDetails>> {
-		const [workflows, workflowFiles] = await Promise.all([getWorkflows(), getFilesInWorkflowPath()]);
+		const [workflows, workflowFiles] = await Promise.all([
+			getWorkflows(),
+			getFilesInWorkflowPath(),
+		]);
 
 		const details: Record<string, Workflow & WorkflowDetails> = {};
 
@@ -64,25 +68,27 @@ const workflowDetails = new CachedFunction('workflows-details', {
 				continue;
 			}
 
-			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm)].map(match => match[1]);
+			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[:\s'"]+([^'"\n]+)/gm)].map(
+				(match) => match[1],
+			);
 			details[workflow.name] = {
 				...workflow,
 				schedules: crons,
-				manuallyDispatchable: workflowYaml.includes('workflow_dispatch:'),
+				manuallyDispatchable: workflowYaml.includes("workflow_dispatch:"),
 			};
 		}
 
 		return details;
 	},
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
+	maxAge: { days: 1 },
+	staleWhileRevalidate: { days: 10 },
 	cacheKey: cacheByRepo,
 });
 
 async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	// Called in `init`, memoized
 	const workflows = await workflowDetails.get();
-	const workflowName = workflowLink.href.split('/').pop()!;
+	const workflowName = workflowLink.href.split("/").pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
 		return;
@@ -91,7 +97,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
 		if (workflowLink.nextElementSibling) {
 			const url = new URL(workflowLink.href);
-			url.hash = 'rgh-run-workflow';
+			url.hash = "rgh-run-workflow";
 			workflowLink.after(
 				<a
 					href={url.href}
@@ -105,7 +111,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			);
 		} else {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
-			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
+			workflowLink.parentElement!.classList.add("ActionListItem--withActions");
 			workflowLink.after(
 				<div
 					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent"
@@ -129,7 +135,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('.ActionListItem-label', workflowLink).append(
+	$(".ActionListItem-label", workflowLink).append(
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
@@ -138,7 +144,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe('a.ActionListContent', addIndicators, {signal});
+	observe("a.ActionListContent", addIndicators, { signal });
 }
 
 function openRunWorkflow(): void {
@@ -148,19 +154,18 @@ function openRunWorkflow(): void {
 	dropdown.open = true;
 }
 
-void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isRepositoryActions,
-		async () => Boolean(await workflowDetails.get()),
-	],
-	init,
-}, {
-	include: [
-		() => location.hash === '#rgh-run-workflow',
-	],
-	awaitDomReady: true,
-	init: openRunWorkflow,
-});
+void features.add(
+	import.meta.url,
+	{
+		asLongAs: [pageDetect.isRepositoryActions, async () => Boolean(await workflowDetails.get())],
+		init,
+	},
+	{
+		include: [() => location.hash === "#rgh-run-workflow"],
+		awaitDomReady: true,
+		init: openRunWorkflow,
+	},
+);
 
 /*
 

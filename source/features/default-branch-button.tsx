@@ -1,27 +1,27 @@
-import './default-branch-button.css';
+import "./default-branch-button.css";
 
-import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
-import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$optional} from 'select-dom/strict.js';
-import memoize from 'memoize';
+import React from "dom-chef";
+import * as pageDetect from "github-url-detection";
+import ChevronLeftIcon from "octicons-plain-react/ChevronLeft";
+import { $optional } from "select-dom/strict.js";
+import memoize from "memoize";
 
-import features from '../feature-manager.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import observe from '../helpers/selector-observer.js';
-import {branchSelector} from '../github-helpers/selectors.js';
-import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import features from "../feature-manager.js";
+import GitHubFileUrl from "../github-helpers/github-file-url.js";
+import { groupButtons } from "../github-helpers/group-buttons.js";
+import getDefaultBranch from "../github-helpers/get-default-branch.js";
+import observe from "../helpers/selector-observer.js";
+import { branchSelector } from "../github-helpers/selectors.js";
+import isDefaultBranch from "../github-helpers/is-default-branch.js";
+import { fixFileHeaderOverlap, isRepoCommitListRoot } from "../github-helpers/index.js";
+import { expectToken } from "../github-helpers/github-token.js";
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);
 	if (pageDetect.isRepoRoot()) {
 		// The default branch of the root directory is just /user/repo/
-		defaultUrl.route = '';
-		defaultUrl.branch = '';
+		defaultUrl.route = "";
+		defaultUrl.branch = "";
 	} else {
 		defaultUrl.branch = await getDefaultBranch();
 	}
@@ -34,21 +34,20 @@ async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<vo
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, "d-flex", "rgh-default-branch-button-group");
 
 	// `rounded-left-0` is for Firefox
 	// https://github.com/refined-github/refined-github/pull/8030
-	buttons.at(-1)!.classList.add('rounded-left-0');
+	buttons.at(-1)!.classList.add("rounded-left-0");
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
 	// The DOM varies between details-based DOM and React-based one
-	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
-	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
+	const selectorWrapper =
+		branchSelector.tagName === "SUMMARY" ? branchSelector.parentElement! : branchSelector;
+	selectorWrapper.classList.add("rgh-highlight-non-default-branch");
 
-	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional(".rgh-default-branch-button", branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
@@ -85,18 +84,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(branchSelector, add, {signal});
+	observe(branchSelector, add, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepoTree,
-		pageDetect.isSingleFile,
-		isRepoCommitListRoot,
-	],
-	exclude: [
-		isDefaultBranch,
-	],
+	include: [pageDetect.isRepoTree, pageDetect.isSingleFile, isRepoCommitListRoot],
+	exclude: [isDefaultBranch],
 	init,
 });
 

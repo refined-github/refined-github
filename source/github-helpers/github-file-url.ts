@@ -1,13 +1,13 @@
-import {isRepoRoot} from 'github-url-detection';
+import { isRepoRoot } from "github-url-detection";
 
-import getCurrentGitRef from './get-current-git-ref.js';
+import getCurrentGitRef from "./get-current-git-ref.js";
 
 export default class GitHubFileUrl {
-	user = '';
-	repository = '';
-	route = '';
-	branch = '';
-	filePath = '';
+	user = "";
+	repository = "";
+	route = "";
+	branch = "";
+	filePath = "";
 
 	private readonly internalUrl: URL;
 
@@ -27,68 +27,78 @@ export default class GitHubFileUrl {
 	}
 
 	// Handle branch names containing multiple slashes #4492
-	private disambiguateReference(
-		ambiguousReference: string[],
-	): {branch: string; filePath: string} {
+	private disambiguateReference(ambiguousReference: string[]): {
+		branch: string;
+		filePath: string;
+	} {
 		const branch = ambiguousReference[0];
 		// History pages might use search parameters
-		const filePathFromSearch = this.searchParams.getAll('path[]').join('/');
+		const filePathFromSearch = this.searchParams.getAll("path[]").join("/");
 		if (filePathFromSearch) {
-			this.searchParams.delete('path[]');
-			return {branch, filePath: filePathFromSearch};
+			this.searchParams.delete("path[]");
+			return { branch, filePath: filePathFromSearch };
 		}
 
-		const filePath = ambiguousReference.slice(1).join('/');
+		const filePath = ambiguousReference.slice(1).join("/");
 
 		// TODO: `getCurrentGitRef` uses global state https://github.com/refined-github/refined-github/issues/6637
 		const currentBranch = getCurrentGitRef();
-		const currentBranchSections = currentBranch?.split('/');
+		const currentBranchSections = currentBranch?.split("/");
 		if (
-			!currentBranch // Current branch could not be determined (1/2)
-			|| !currentBranchSections // Current branch could not be determined (2/2)
-			|| ambiguousReference.length === 1 // Ref has no slashes
-			|| currentBranchSections.length === 1 // Current branch has no slashes
+			!currentBranch || // Current branch could not be determined (1/2)
+			!currentBranchSections || // Current branch could not be determined (2/2)
+			ambiguousReference.length === 1 || // Ref has no slashes
+			currentBranchSections.length === 1 // Current branch has no slashes
 		) {
 			// Then the reference is not ambiguous
-			return {branch, filePath};
+			return { branch, filePath };
 		}
 
 		for (const [index, section] of currentBranchSections.entries()) {
 			if (ambiguousReference[index] !== section) {
-				console.warn(`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`);
-				return {branch, filePath};
+				console.warn(
+					`The supplied path (${ambiguousReference.join("/")}) is ambiguous (current reference is \`${currentBranch}\`)`,
+				);
+				return { branch, filePath };
 			}
 		}
 
 		return {
 			branch: currentBranch,
-			filePath: ambiguousReference.slice(currentBranchSections.length).join('/'),
+			filePath: ambiguousReference.slice(currentBranchSections.length).join("/"),
 		};
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/(?:(?:undefined)?\/)+$/g, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(
+			/(?:(?:undefined)?\/)+$/g,
+			"",
+		);
 	}
 
 	set pathname(pathname: string) {
 		const [user, repository, route, ...ambiguousReference] = pathname
-			.replaceAll(/^\/|\/$/g, '')
-			.replaceAll('%2F', '/') // Escaped in some cases
-			.split('/');
+			.replaceAll(/^\/|\/$/g, "")
+			.replaceAll("%2F", "/") // Escaped in some cases
+			.split("/");
 
 		// If GitHubFileURL is being used on the current URL, then allow its "same page" optimizations to work (i.e. parse document.title)
-		if (pathname === location.pathname ? isRepoRoot() : isRepoRoot(new URL(pathname, this.internalUrl))) {
+		if (
+			pathname === location.pathname
+				? isRepoRoot()
+				: isRepoRoot(new URL(pathname, this.internalUrl))
+		) {
 			this.assign({
 				user,
 				repository,
 				route,
-				branch: ambiguousReference.join('/'),
-				filePath: '',
+				branch: ambiguousReference.join("/"),
+				filePath: "",
 			});
 			return;
 		}
 
-		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
+		const { branch, filePath } = this.disambiguateReference(ambiguousReference);
 		this.assign({
 			user,
 			repository,

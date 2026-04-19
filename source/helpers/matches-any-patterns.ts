@@ -3,12 +3,12 @@ export default function matchesAnyPattern(
 	target: string,
 	patterns: Array<string | RegExp | ((x: string) => boolean)>,
 ): boolean {
-	return patterns.some(pattern => {
-		if (typeof pattern === 'string') {
+	return patterns.some((pattern) => {
+		if (typeof pattern === "string") {
 			return pattern === target;
 		}
 
-		if (typeof pattern === 'function') {
+		if (typeof pattern === "function") {
 			return pattern(target);
 		}
 

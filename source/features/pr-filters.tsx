@@ -1,26 +1,33 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import CheckIcon from 'octicons-plain-react/Check';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import { $ } from "select-dom/strict.js";
+import CheckIcon from "octicons-plain-react/Check";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import HasChecks from './pr-filters.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import SearchQuery from '../github-helpers/search-query.js';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import observe from "../helpers/selector-observer.js";
+import { cacheByRepo } from "../github-helpers/index.js";
+import HasChecks from "./pr-filters.gql";
+import { expectToken } from "../github-helpers/github-token.js";
+import SearchQuery from "../github-helpers/search-query.js";
 
-const reviewsFilterSelector = '#reviews-select-menu';
+const reviewsFilterSelector = "#reviews-select-menu";
 
-function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: string, filterValue: string): void {
+function addDropdownItem(
+	dropdown: HTMLElement,
+	title: string,
+	filterCategory: string,
+	filterValue: string,
+): void {
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
 	const searchQuery = SearchQuery.from(location);
 	const isSelected = searchQuery.includes(filterQuery);
 
-	const filtersToRemove = searchQuery.getQueryParts().filter(part => part.startsWith(`${filterCategory}:`));
+	const filtersToRemove = searchQuery
+		.getQueryParts()
+		.filter((part) => part.startsWith(`${filterCategory}:`));
 	searchQuery.remove(...filtersToRemove);
 
 	if (!isSelected) {
@@ -31,7 +38,7 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		<a
 			href={searchQuery.href}
 			className="SelectMenu-item"
-			aria-checked={isSelected ? 'true' : 'false'}
+			aria-checked={isSelected ? "true" : "false"}
 			role="menuitemradio"
 		>
 			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
@@ -41,43 +48,39 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 }
 
 function addDraftFilter(dropdown: HTMLElement): void {
-	dropdown.append(
-		<div className="SelectMenu-divider">
-			Filter by draft pull requests
-		</div>,
-	);
+	dropdown.append(<div className="SelectMenu-divider">Filter by draft pull requests</div>);
 
-	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
-	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');
+	addDropdownItem(dropdown, "Ready for review", "draft", "false");
+	addDropdownItem(dropdown, "Not ready for review (Draft PR)", "draft", "true");
 }
 
-const hasChecks = new CachedFunction('has-checks', {
+const hasChecks = new CachedFunction("has-checks", {
 	async updater(): Promise<boolean> {
-		const {repository} = await api.v4(HasChecks);
+		const { repository } = await api.v4(HasChecks);
 
 		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 	},
-	maxAge: {days: 3},
+	maxAge: { days: 3 },
 	cacheKey: cacheByRepo,
 });
 
 async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
-	if (!await hasChecks.get()) {
+	if (!(await hasChecks.get())) {
 		return;
 	}
 
 	// Copy existing element and adapt its content
 	const checksFilter = reviewsFilter.cloneNode(true);
-	checksFilter.id = '';
+	checksFilter.id = "";
 
-	$('summary', checksFilter).firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
-	$('.SelectMenu-title', checksFilter).textContent = 'Filter by checks status';
+	$("summary", checksFilter).firstChild!.textContent = "Checks\u00A0"; // Only replace text node, keep caret
+	$(".SelectMenu-title", checksFilter).textContent = "Filter by checks status";
 
-	const dropdown = $('.SelectMenu-list', checksFilter);
-	dropdown.textContent = ''; // Drop previous filters
+	const dropdown = $(".SelectMenu-list", checksFilter);
+	dropdown.textContent = ""; // Drop previous filters
 
-	for (const status of ['Success', 'Failure', 'Pending']) {
-		addDropdownItem(dropdown, status, 'status', status.toLowerCase());
+	for (const status of ["Success", "Failure", "Pending"]) {
+		addDropdownItem(dropdown, status, "status", status.toLowerCase());
 	}
 
 	reviewsFilter.after(checksFilter);
@@ -85,14 +88,12 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(reviewsFilterSelector, addChecksFilter, {signal});
-	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
+	observe(reviewsFilterSelector, addChecksFilter, { signal });
+	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRList,
-	],
+	include: [pageDetect.isPRList],
 	init,
 });
 

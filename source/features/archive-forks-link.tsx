@@ -1,28 +1,26 @@
-import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
+import { buildRepoUrl } from "../github-helpers/index.js";
 
 function addLinkToBanner(banner: HTMLElement): void {
-	if (banner.lastChild!.textContent.includes('repository has been archived')) {
+	if (banner.lastChild!.textContent.includes("repository has been archived")) {
 		banner.lastChild!.after(
-			' You can check out ',
-			<a href={buildRepoUrl('forks')}>its forks</a>,
-			'.',
+			" You can check out ",
+			<a href={buildRepoUrl("forks")}>its forks</a>,
+			".",
 		);
 	}
 }
 
 function init(signal: AbortSignal): void {
-	observe('#js-repo-pjax-container > .flash-warn:first-of-type', addLinkToBanner, {signal});
+	observe("#js-repo-pjax-container > .flash-warn:first-of-type", addLinkToBanner, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
+	include: [pageDetect.isRepo],
 	init,
 });
 

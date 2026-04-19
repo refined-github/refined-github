@@ -1,37 +1,35 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {isFirefox} from 'webext-detect';
-import * as pageDetect from 'github-url-detection';
-import AlertIcon from 'octicons-plain-react/Alert';
-import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import { isFirefox } from "webext-detect";
+import * as pageDetect from "github-url-detection";
+import AlertIcon from "octicons-plain-react/Alert";
+import GitPullRequestIcon from "octicons-plain-react/GitPullRequest";
 
-import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import observe from '../helpers/selector-observer.js';
-import listPrsForFileQuery from './list-prs-for-file.gql';
-import {expectToken} from '../github-helpers/github-token.js';
+import features from "../feature-manager.js";
+import api from "../github-helpers/api.js";
+import getDefaultBranch from "../github-helpers/get-default-branch.js";
+import { buildRepoUrl, cacheByRepo } from "../github-helpers/index.js";
+import GitHubFileUrl from "../github-helpers/github-file-url.js";
+import observe from "../helpers/selector-observer.js";
+import listPrsForFileQuery from "./list-prs-for-file.gql";
+import { expectToken } from "../github-helpers/github-token.js";
 
 function getPrUrl(prNumber: number): string {
 	// https://caniuse.com/url-scroll-to-text-fragment
-	const hash = isFirefox() ? '' : `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
-	return buildRepoUrl('pull', prNumber, 'files') + hash;
+	const hash = isFirefox() ? "" : `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
+	return buildRepoUrl("pull", prNumber, "files") + hash;
 }
 
 function getHovercardUrl(prNumber: number): string {
-	return buildRepoUrl('pull', prNumber, 'hovercard');
+	return buildRepoUrl("pull", prNumber, "hovercard");
 }
 
-const buttonId = 'rgh-list-prs-for-file-';
+const buttonId = "rgh-list-prs-for-file-";
 let count = 0;
 
 function getDropdown(prs: number[]): HTMLElement {
 	const isEditing = pageDetect.isEditingFile();
-	const icon = isEditing
-		? <AlertIcon className="color-fg-attention" />
-		: <GitPullRequestIcon />;
+	const icon = isEditing ? <AlertIcon className="color-fg-attention" /> : <GitPullRequestIcon />;
 
 	count++;
 	return (
@@ -41,7 +39,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				className="Button Button--secondary color-fg-muted"
 				id={buttonId + count}
 				// @ts-expect-error HTML standard
-				popovertarget={buttonId + 'popover-' + count}
+				popovertarget={buttonId + "popover-" + count}
 			>
 				{icon}
 				<span className="color-fg-default"> {prs.length} </span>
@@ -49,16 +47,14 @@ function getDropdown(prs: number[]): HTMLElement {
 			</button>
 
 			<anchored-position
-				id={buttonId + 'popover-' + count}
+				id={buttonId + "popover-" + count}
 				anchor={buttonId + count}
 				popover="auto"
 			>
 				<div className="Overlay Overlay--size-auto">
-					<div className="px-3 pt-3 h6 color-fg-muted">
-						File also being edited in
-					</div>
+					<div className="px-3 pt-3 h6 color-fg-muted">File also being edited in</div>
 					<ul className="ActionListWrap ActionListWrap--inset">
-						{prs.map(prNumber => (
+						{prs.map((prNumber) => (
 							<li className="ActionListItem">
 								<a
 									className="ActionListContent js-hovercard-left"
@@ -79,9 +75,9 @@ function getDropdown(prs: number[]): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = new CachedFunction('files-with-prs', {
+const getPrsByFile = new CachedFunction("files-with-prs", {
 	async updater(): Promise<Record<string, number[]>> {
-		const {repository} = await api.v4(listPrsForFileQuery, {
+		const { repository } = await api.v4(listPrsForFileQuery, {
 			variables: {
 				defaultBranch: await getDefaultBranch(),
 			},
@@ -90,7 +86,7 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 		const files: Record<string, number[]> = {};
 
 		for (const pr of repository.pullRequests.nodes) {
-			for (const {path} of pr.files.nodes) {
+			for (const { path } of pr.files.nodes) {
 				files[path] ??= [];
 				if (files[path].length < 10) {
 					files[path].push(pr.number);
@@ -100,8 +96,8 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 
 		return files;
 	},
-	maxAge: {hours: 2},
-	staleWhileRevalidate: {days: 9},
+	maxAge: { hours: 2 },
+	staleWhileRevalidate: { days: 9 },
 	cacheKey: cacheByRepo,
 });
 
@@ -114,21 +110,21 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 		return;
 	}
 
-	const editingPrNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
+	const editingPrNumber = new URLSearchParams(location.search).get("pr")?.split("/").slice(-1);
 	if (editingPrNumber) {
-		prs = prs.filter(pr => pr !== Number(editingPrNumber));
+		prs = prs.filter((pr) => pr !== Number(editingPrNumber));
 		if (prs.length === 0) {
 			return;
 		}
 	}
 
 	const dropdown = getDropdown(prs);
-	if (anchor.parentElement!.matches('.gap-2')) {
+	if (anchor.parentElement!.matches(".gap-2")) {
 		// `isSingleFile`
 		anchor.before(dropdown);
 	} else {
 		// `isEditingFile`
-		dropdown.classList.add('mr-2');
+		dropdown.classList.add("mr-2");
 		anchor.parentElement!.prepend(dropdown);
 	}
 }
@@ -136,18 +132,19 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe([
-		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
-		'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
-		'[data-hotkey="Mod+s"]', // `isEditingFile`
-	], add, {signal});
+	observe(
+		[
+			'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
+			'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
+			'[data-hotkey="Mod+s"]', // `isEditingFile`
+		],
+		add,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isSingleFile,
-		pageDetect.isEditingFile,
-	],
+	include: [pageDetect.isSingleFile, pageDetect.isEditingFile],
 	init,
 });
 

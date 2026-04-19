@@ -1,7 +1,10 @@
-async function * createEventIterator<T extends Event>(
+async function* createEventIterator<T extends Event>(
 	element: EventTarget,
 	eventName: string,
-	{signal, once}: {
+	{
+		signal,
+		once,
+	}: {
 		signal?: AbortSignal;
 		once?: boolean;
 	} = {},
@@ -16,7 +19,7 @@ async function * createEventIterator<T extends Event>(
 	};
 
 	try {
-		element.addEventListener(eventName, handler, {once});
+		element.addEventListener(eventName, handler, { once });
 
 		while (!signal?.aborted) {
 			if (queue.length === 0) {

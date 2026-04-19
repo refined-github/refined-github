@@ -1,32 +1,29 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { $, $optional } from "select-dom/strict.js";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
 function init(): false | void {
-	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup') // Legacy
-		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label$="previous commit" i])');
+	const originalPreviousNext =
+		$optional(".commit .float-right.ButtonGroup") ?? // Legacy
+		$optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label$="previous commit" i])');
 	if (!originalPreviousNext) {
 		return false;
 	}
 
 	// Wrap the button in a <div> to avoid #4503
 	$([
-		'#files', // Legacy
+		"#files", // Legacy
 		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
 	]).after(
-		<div className="d-flex flex-justify-end mb-3">
-			{originalPreviousNext.cloneNode(true)}
-		</div>,
+		<div className="d-flex flex-justify-end mb-3">{originalPreviousNext.cloneNode(true)}</div>,
 	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRCommit,
-	],
-	deduplicate: 'has-rgh-inner',
+	include: [pageDetect.isPRCommit],
+	deduplicate: "has-rgh-inner",
 	awaitDomReady: true,
 	init,
 });

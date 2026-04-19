@@ -1,21 +1,21 @@
-import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import * as pageDetect from "github-url-detection";
 
-import DiffIcon from 'octicons-plain-react/Diff';
+import DiffIcon from "octicons-plain-react/Diff";
 
-import features from '../feature-manager.js';
-import {getCleanPathname} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import features from "../feature-manager.js";
+import { getCleanPathname } from "../github-helpers/index.js";
+import observe from "../helpers/selector-observer.js";
 
-function getPrUrl(extension: 'patch' | 'diff'): string {
+function getPrUrl(extension: "patch" | "diff"): string {
 	const pathname = getCleanPathname();
-	const [owner, repo, , id] = pathname.split('/');
+	const [owner, repo, , id] = pathname.split("/");
 	return `/${owner}/${repo}/pull/${id}.${extension}`;
 }
 
-function getCommitUrl(extension: 'patch' | 'diff'): string {
+function getCommitUrl(extension: "patch" | "diff"): string {
 	// The replacement avoids a redirection isPRCommit
-	const pathname = getCleanPathname().replace(/\/pull\/\d+\/commits/, '/commit');
+	const pathname = getCleanPathname().replace(/\/pull\/\d+\/commits/, "/commit");
 	return `/${pathname}.${extension}`;
 }
 
@@ -23,10 +23,10 @@ function updateCommitUrl(
 	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
 ): void {
 	const link = event.currentTarget;
-	link.href = getCommitUrl(link.textContent as 'patch' | 'diff');
+	link.href = getCommitUrl(link.textContent as "patch" | "diff");
 }
 
-function createLink(type: 'patch' | 'diff'): JSX.Element {
+function createLink(type: "patch" | "diff"): JSX.Element {
 	return (
 		<a
 			href={getCommitUrl(type)}
@@ -42,13 +42,11 @@ function createLink(type: 'patch' | 'diff'): JSX.Element {
 }
 
 async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
-	commitMeta.classList.remove('no-wrap'); // #5987
+	commitMeta.classList.remove("no-wrap"); // #5987
 	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
-			{createLink('patch')}
-			{' '}
-			{createLink('diff')}
-			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
+			{createLink("patch")} {createLink("diff")}
+			{commitMeta.tagName !== "DIV" && <span className="px-2">·</span>}
 		</span>,
 	);
 }
@@ -59,34 +57,37 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 			<DiffIcon className="mr-2 tmp-mr-2" />
 			<div data-turbo="false">
 				<span className="text-bold">Git URLs: </span>
-				<a href={getPrUrl('patch')}>patch</a>
-				{' · '}
-				<a href={getPrUrl('diff')}>diff</a>
+				<a href={getPrUrl("patch")}>patch</a>
+				{" · "}
+				<a href={getPrUrl("diff")}>diff</a>
 			</div>
 		</li>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
-		'[class*="commit-header-actions"] + div pre',
-	], addPatchDiffLinks, {signal});
+	observe(
+		[
+			".commit-meta > :is(span, div):last-child", // `isPRCommit` + old `isSingleCommit`
+			'[class*="commit-header-actions"] + div pre',
+		],
+		addPatchDiffLinks,
+		{ signal },
+	);
 
-	observe([
-		'.react-overview-code-button-action-list > ul',
-		'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
-	], addPrPatchDiffLinks, {signal});
+	observe(
+		[
+			".react-overview-code-button-action-list > ul",
+			"#local-panel > ul", // TODO: Drop after legacy PR files view is removed
+		],
+		addPrPatchDiffLinks,
+		{ signal },
+	);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isCommit,
-		pageDetect.isPR,
-	],
-	exclude: [
-		pageDetect.isPRCommit404,
-	],
+	include: [pageDetect.isCommit, pageDetect.isPR],
+	exclude: [pageDetect.isPRCommit404],
 	init,
 });
 

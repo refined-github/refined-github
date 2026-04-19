@@ -1,17 +1,20 @@
-import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
+import OptionsSyncPerDomain from "webext-options-sync-per-domain";
 
-import {importedFeatures, renamedFeatures} from './feature-data.js';
+import { importedFeatures, renamedFeatures } from "./feature-data.js";
 
 export type RghOptions = typeof defaults;
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript hates this one weird trick
-const defaults = Object.assign({
-	actionUrl: 'https://github.com/',
-	customCss: '',
-	personalToken: '',
-	logging: false,
-	logHttp: false,
-}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
+const defaults = Object.assign(
+	{
+		actionUrl: "https://github.com/",
+		customCss: "",
+		personalToken: "",
+		logging: false,
+		logHttp: false,
+	},
+	Object.fromEntries(importedFeatures.map((id) => [`feature:${id}`, true])),
+);
 
 export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
@@ -22,7 +25,7 @@ export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 const migrations = [
 	(options: RghOptions): void => {
 		for (const [from, to] of Object.entries(renamedFeatures)) {
-			if (typeof options[`feature:${from}`] === 'boolean') {
+			if (typeof options[`feature:${from}`] === "boolean") {
 				options[`feature:${to}`] = options[`feature:${from}`];
 			}
 		}
@@ -43,14 +46,14 @@ const migrations = [
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
 
-export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
+export const perDomainOptions = new OptionsSyncPerDomain({ defaults, migrations });
 const optionsStorage = perDomainOptions.getOptionsForOrigin();
 export default optionsStorage;
 
 const cachedSettings = optionsStorage.getAll();
 
 export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
+	const { personalToken } = await cachedSettings;
 	return personalToken;
 }
 

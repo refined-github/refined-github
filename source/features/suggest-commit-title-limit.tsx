@@ -1,31 +1,33 @@
-import './suggest-commit-title-limit.css';
+import "./suggest-commit-title-limit.css";
 
-import delegate, {type DelegateEvent} from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
+import delegate, { type DelegateEvent } from "delegate-it";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
-import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
-import {getConversationNumber} from '../github-helpers/index.js';
-import {formatPrCommitTitle} from './sync-pr-commit-title.js';
-import waitForPrMerge from '../github-events/on-pr-merge.js';
-import abortableClassName from '../helpers/abortable-classname.js';
-import observe from '../helpers/selector-observer.js';
+import features from "../feature-manager.js";
+import onCommitTitleUpdate from "../github-events/on-commit-title-update.js";
+import getNextConversationNumber from "../github-helpers/get-next-conversation-number.js";
+import { getConversationNumber } from "../github-helpers/index.js";
+import { formatPrCommitTitle } from "./sync-pr-commit-title.js";
+import waitForPrMerge from "../github-events/on-pr-merge.js";
+import abortableClassName from "../helpers/abortable-classname.js";
+import observe from "../helpers/selector-observer.js";
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
 const limit = 72;
 
-function validateCommitTitle({delegateTarget: field}: DelegateEvent<Event, HTMLInputElement>): void {
-	field.classList.toggle('rgh-title-over-limit', field.value.length > limit);
+function validateCommitTitle({
+	delegateTarget: field,
+}: DelegateEvent<Event, HTMLInputElement>): void {
+	field.classList.toggle("rgh-title-over-limit", field.value.length > limit);
 }
 
 async function validatePrTitle(field: HTMLInputElement): Promise<void> {
 	// Include the PR number in the title length calculation because it will be added to the commit title
 	const prTitle = formatPrCommitTitle(
 		field.value,
-		getConversationNumber() ?? await getNextConversationNumber(),
+		getConversationNumber() ?? (await getNextConversationNumber()),
 	);
-	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
+	field.classList.toggle("rgh-title-over-limit", prTitle.length > limit);
 }
 
 const currentPrTitleSelectors = [
@@ -34,29 +36,30 @@ const currentPrTitleSelectors = [
 ];
 
 async function init(signal: AbortSignal): Promise<void> {
-	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
+	abortableClassName(document.body, signal, "rgh-suggest-commit-title-limit");
 
 	onCommitTitleUpdate(validateCommitTitle, signal);
 
-	delegate([
-		...currentPrTitleSelectors,
-		'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-		'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
-	], 'input', async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement), {signal, passive: true});
+	delegate(
+		[
+			...currentPrTitleSelectors,
+			"input#pull_request_title", // Old `isCompare` - TODO: Remove after August 2026
+			"input#issue_title", // Old `isPR` view - TODO: Remove after July 2026
+		],
+		"input",
+		async ({ delegateTarget }) => validatePrTitle(delegateTarget as HTMLInputElement),
+		{ signal, passive: true },
+	);
 	// `isPR` - input is added to the DOM when user enters editing mode and removed when they exit it
 	// `isCompare` - input is re-rendered when previously entered title is restored
-	observe(currentPrTitleSelectors, validatePrTitle, {signal});
+	observe(currentPrTitleSelectors, validatePrTitle, { signal });
 
 	await waitForPrMerge(signal);
 	features.unload(import.meta.url);
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isEditingFile,
-		pageDetect.isCompare,
-		pageDetect.isPR,
-	],
+	include: [pageDetect.isEditingFile, pageDetect.isCompare, pageDetect.isPR],
 	exclude: [
 		// No need here https://github.com/refined-github/refined-github/issues/7922
 		pageDetect.isMergedPR,

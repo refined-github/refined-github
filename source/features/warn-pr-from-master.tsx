@@ -1,34 +1,41 @@
-import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import * as pageDetect from "github-url-detection";
 
-import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
-import parseCompareUrl from '../github-helpers/parse-compare-url.js';
-import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
+import observe from "../helpers/selector-observer.js";
+import features from "../feature-manager.js";
+import parseCompareUrl from "../github-helpers/parse-compare-url.js";
+import { defaultBranchOfRepo } from "../github-helpers/get-default-branch.js";
 
 async function addWarning(anchor: HTMLElement): Promise<void> {
 	anchor.before(
 		<div className="flash flash-error my-3">
-			<strong>Note:</strong> Creating a PR from the default branch is an <a href="https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/" target="_blank" rel="noopener noreferrer">anti-pattern</a>.
+			<strong>Note:</strong> Creating a PR from the default branch is an{" "}
+			<a
+				href="https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				anti-pattern
+			</a>
+			.
 		</div>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-compare-pr', addWarning, {signal});
+	observe(".js-compare-pr", addWarning, { signal });
 }
 
 async function isCrossRepoCompareFromMaster(): Promise<boolean> {
 	const c = parseCompareUrl(location.pathname);
 
-	return Boolean(c && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.repo));
+	return Boolean(
+		c && c.isCrossRepo && c.head.branch === (await defaultBranchOfRepo.get(c.head.repo)),
+	);
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.isCompare,
-		isCrossRepoCompareFromMaster,
-	],
+	asLongAs: [pageDetect.isCompare, isCrossRepoCompareFromMaster],
 	init,
 });
 

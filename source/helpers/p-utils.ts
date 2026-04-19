@@ -1,17 +1,14 @@
-import type {IterableElement, Promisable} from 'type-fest';
+import type { IterableElement, Promisable } from "type-fest";
 
 export function pSomeFunction<
 	List extends Iterable<unknown>,
 	Element extends IterableElement<List>,
->(
-	iterable: List,
-	predicate: (value: Element) => Promisable<boolean>,
-): Promisable<boolean> {
+>(iterable: List, predicate: (value: Element) => Promisable<boolean>): Promisable<boolean> {
 	const promises: Array<PromiseLike<boolean>> = [];
 	// Prioritize sync functions and early returns
 	for (const item of iterable) {
 		const result = predicate(item as Element);
-		if (typeof result === 'boolean') {
+		if (typeof result === "boolean") {
 			if (result) {
 				// Early sync return on the first truthy value
 				return true;
@@ -31,7 +28,7 @@ export function pSomeFunction<
 
 async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
 	// eslint-disable-next-line no-async-promise-executor -- It's fine, resolve is at the end
-	return new Promise(async resolve => {
+	return new Promise(async (resolve) => {
 		for (const promise of iterable) {
 			(async () => {
 				if (await promise) {
@@ -49,15 +46,12 @@ async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean>
 export function pEveryFunction<
 	List extends Iterable<unknown>,
 	Element extends IterableElement<List>,
->(
-	iterable: List,
-	predicate: (value: Element) => Promisable<boolean>,
-): Promisable<boolean> {
+>(iterable: List, predicate: (value: Element) => Promisable<boolean>): Promisable<boolean> {
 	const promises: Array<PromiseLike<boolean>> = [];
 	// Prioritize sync functions and early returns
 	for (const item of iterable) {
 		const result = predicate(item as Element);
-		if (typeof result === 'boolean') {
+		if (typeof result === "boolean") {
 			if (!result) {
 				// Early sync return on the first falsy value
 				return false;

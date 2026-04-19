@@ -1,12 +1,12 @@
-import {$$} from 'select-dom';
-import delegate from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
+import { $$ } from "select-dom";
+import delegate from "delegate-it";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
 let submitting: ReturnType<typeof setTimeout> | undefined;
 
-const prefix = '✏️ Comment - ';
+const prefix = "✏️ Comment - ";
 
 function isFieldDirty(field: HTMLTextAreaElement): boolean {
 	return field.matches('[class*="Textarea"]')
@@ -16,7 +16,7 @@ function isFieldDirty(field: HTMLTextAreaElement): boolean {
 
 function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return $$('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
+	return $$('textarea:not([id^="convert-to-issue-body"])').some((f) => isFieldDirty(f));
 }
 
 function disableOnSubmit(): void {
@@ -32,24 +32,22 @@ function updateDocumentTitle(): void {
 	}
 
 	// Ensure it does not pile up
-	document.title = document.title.replace(prefix, '');
+	document.title = document.title.replace(prefix, "");
 
-	if (document.visibilityState === 'hidden' && hasDraftComments()) {
+	if (document.visibilityState === "hidden" && hasDraftComments()) {
 		document.title = prefix + document.title;
 	} else {
-		document.title = document.title.replace(prefix, '');
+		document.title = document.title.replace(prefix, "");
 	}
 }
 
 function init(signal: AbortSignal): void {
-	delegate('form', 'submit', disableOnSubmit, {capture: true, signal});
-	document.addEventListener('visibilitychange', updateDocumentTitle, {signal});
+	delegate("form", "submit", disableOnSubmit, { capture: true, signal });
+	document.addEventListener("visibilitychange", updateDocumentTitle, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
+	include: [pageDetect.hasRichTextEditor],
 	init,
 });
 

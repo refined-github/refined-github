@@ -1,4 +1,4 @@
-import {$} from 'select-dom/strict.js';
+import { $ } from "select-dom/strict.js";
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -33,12 +33,14 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 		throw new TypeError(`Expected \`absolute\` to be "user/repo:branch", got "${absolute}"`);
 	}
 
-	const {owner, name, nameWithOwner, branch} = absoluteMatch.groups!;
+	const { owner, name, nameWithOwner, branch } = absoluteMatch.groups!;
 
 	// We must receive the relative reference because it also tells whether it's a cross-repo PR
 	const expectedRelative = [branch, `${owner}:${branch}`];
 	if (!expectedRelative.includes(relative)) {
-		throw new TypeError(`Expected \`relative\` to be either "${expectedRelative.join('" or "')}", got "${relative}"`);
+		throw new TypeError(
+			`Expected \`relative\` to be either "${expectedRelative.join('" or "')}", got "${relative}"`,
+		);
 	}
 
 	return {
@@ -52,29 +54,33 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 }
 
 function parseReference(referenceElement: HTMLElement): PrReference {
-	const {title, textContent, nextElementSibling} = referenceElement;
+	const { title, textContent, nextElementSibling } = referenceElement;
 
 	// In the old React version, we have a `title` attribute but it's used to mark deleted repos instead
-	return title && title !== 'This repository has been deleted'
+	return title && title !== "This repository has been deleted"
 		? parseReferenceRaw(title, textContent.trim()) // TODO: Remove in June 2026
 		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
 }
 
-export function getBranches(): {base: PrReference; head: PrReference} {
+export function getBranches(): { base: PrReference; head: PrReference } {
 	return {
 		get base() {
-			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.base-ref', // TODO: Remove in June 2026
-			]));
+			return parseReference(
+				$([
+					'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
+					'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
+					".base-ref", // TODO: Remove in June 2026
+				]),
+			);
 		},
 		get head() {
-			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.head-ref', // TODO: Remove in June 2026
-			]));
+			return parseReference(
+				$([
+					'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
+					'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
+					".head-ref", // TODO: Remove in June 2026
+				]),
+			);
 		},
 	};
 }

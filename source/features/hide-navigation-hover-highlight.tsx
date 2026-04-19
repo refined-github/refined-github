@@ -1,15 +1,19 @@
-import './hide-navigation-hover-highlight.css';
+import "./hide-navigation-hover-highlight.css";
 
-import features from '../feature-manager.js';
+import features from "../feature-manager.js";
 
-const attribute = 'rgh-no-navigation-highlight';
+const attribute = "rgh-no-navigation-highlight";
 const html = document.documentElement;
 
 function init(): void {
-	html.setAttribute(attribute, '');
-	html.addEventListener('navigation:keydown', () => {
-		html.removeAttribute(attribute);
-	}, {once: true});
+	html.setAttribute(attribute, "");
+	html.addEventListener(
+		"navigation:keydown",
+		() => {
+			html.removeAttribute(attribute);
+		},
+		{ once: true },
+	);
 }
 
 void features.add(import.meta.url, {

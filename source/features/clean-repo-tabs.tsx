@@ -1,18 +1,18 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {countElements} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
-import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import { countElements } from "select-dom";
+import { $, $optional } from "select-dom/strict.js";
+import elementReady from "element-ready";
+import * as pageDetect from "github-url-detection";
 
-import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
-import api from '../github-helpers/api.js';
-import getTabCount from '../github-helpers/get-tab-count.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {unhideOverflowDropdown} from './more-dropdown-links.js';
+import features from "../feature-manager.js";
+import fetchDom from "../helpers/fetch-dom.js";
+import api from "../github-helpers/api.js";
+import getTabCount from "../github-helpers/get-tab-count.js";
+import looseParseInt from "../helpers/loose-parse-int.js";
+import abbreviateNumber from "../helpers/abbreviate-number.js";
+import { buildRepoUrl, cacheByRepo, getRepo } from "../github-helpers/index.js";
+import { unhideOverflowDropdown } from "./more-dropdown-links.js";
 
 async function canUserEditOrganization(): Promise<boolean> {
 	return Boolean(await elementReady('.btn-primary[href$="repositories/new"]'));
@@ -21,61 +21,62 @@ async function canUserEditOrganization(): Promise<boolean> {
 function mustKeepTab(tab: HTMLElement): boolean {
 	return (
 		// User is on tab 👀
-		tab.matches('.selected')
+		tab.matches(".selected") ||
 		// Repo owners should see the tab. If they don't need it, they should disable the feature altogether
-		|| pageDetect.canUserAdminRepo()
+		pageDetect.canUserAdminRepo()
 	);
 }
 
 function setTabCounter(tab: HTMLElement, count: number): void {
-	let tabCounter = $optional('.Counter, .num', tab);
+	let tabCounter = $optional(".Counter, .num", tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tabCounter = (<span className="Counter" />) as HTMLSpanElement;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 
 	tabCounter.textContent = abbreviateNumber(count);
-	tabCounter.title = count > 999 ? String(count) : '';
+	tabCounter.title = count > 999 ? String(count) : "";
 }
 
 function onlyShowInDropdown(id: string): void {
 	// TODO: Use selector observer
 	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
-	if (!tabItem) { // #3962 #7140
+	if (!tabItem) {
+		// #3962 #7140
 		return;
 	}
 
-	tabItem.closest('li')!.hidden = true;
+	tabItem.closest("li")!.hidden = true;
 
 	const menuItem = $(`[data-menu-item$="${id}"]`);
-	menuItem.removeAttribute('data-menu-item');
+	menuItem.removeAttribute("data-menu-item");
 	menuItem.hidden = false;
 	// The item has to be moved somewhere else because the overflow nav is order-dependent
-	$('.UnderlineNav-actions ul').append(menuItem);
+	$(".UnderlineNav-actions ul").append(menuItem);
 }
 
-const wikiPageCount = new CachedFunction('wiki-page-count', {
+const wikiPageCount = new CachedFunction("wiki-page-count", {
 	async updater(): Promise<number> {
-		const dom = await fetchDom(buildRepoUrl('wiki'));
-		const counter = dom.querySelector('#wiki-pages-box .Counter');
+		const dom = await fetchDom(buildRepoUrl("wiki"));
+		const counter = dom.querySelector("#wiki-pages-box .Counter");
 
 		if (counter) {
 			return looseParseInt(counter);
 		}
 
-		return countElements('#wiki-content > .Box .Box-row', dom);
+		return countElements("#wiki-content > .Box .Box-row", dom);
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 5},
+	maxAge: { hours: 1 },
+	staleWhileRevalidate: { days: 5 },
 	cacheKey: cacheByRepo,
 });
 
-const hasActionRuns = new CachedFunction('workflows-count', {
+const hasActionRuns = new CachedFunction("workflows-count", {
 	async updater(repoWithOwner: string): Promise<boolean> {
 		return api.v3hasAnyItems(`/repos/${repoWithOwner}/actions/runs`);
 	},
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
+	maxAge: { days: 1 },
+	staleWhileRevalidate: { days: 10 },
 });
 
 async function updateWikiTab(): Promise<void | false> {
@@ -88,27 +89,31 @@ async function updateWikiTab(): Promise<void | false> {
 	if (count > 0) {
 		setTabCounter(wikiTab, count);
 	} else {
-		onlyShowInDropdown('wiki-tab');
+		onlyShowInDropdown("wiki-tab");
 	}
 }
 
 async function updateActionsTab(): Promise<void | false> {
 	const actionsTab = await elementReady('[data-hotkey="g a"]');
-	if (!actionsTab || mustKeepTab(actionsTab) || await hasActionRuns.get(getRepo()!.nameWithOwner)) {
+	if (
+		!actionsTab ||
+		mustKeepTab(actionsTab) ||
+		(await hasActionRuns.get(getRepo()!.nameWithOwner))
+	) {
 		return false;
 	}
 
-	onlyShowInDropdown('actions-tab');
+	onlyShowInDropdown("actions-tab");
 }
 
 async function updateProjectsTab(): Promise<void | false> {
 	const projectsTab = await elementReady('[data-hotkey="g b"]');
-	if (!projectsTab || mustKeepTab(projectsTab) || await getTabCount(projectsTab) > 0) {
+	if (!projectsTab || mustKeepTab(projectsTab) || (await getTabCount(projectsTab)) > 0) {
 		return false;
 	}
 
 	if (pageDetect.isRepo()) {
-		onlyShowInDropdown('projects-tab');
+		onlyShowInDropdown("projects-tab");
 		return;
 	}
 
@@ -122,44 +127,39 @@ async function updateProjectsTab(): Promise<void | false> {
 
 async function moveRareTabs(): Promise<void | false> {
 	// The user may have disabled `more-dropdown-links` so un-hide it
-	if (!await unhideOverflowDropdown()) {
+	if (!(await unhideOverflowDropdown())) {
 		return false;
 	}
 
 	// Wait for the nav dropdown to be loaded #5244
-	await elementReady('.UnderlineNav-actions ul');
+	await elementReady(".UnderlineNav-actions ul");
 
 	// Only hide security tab if there are no vulnerability alerts #8457
 	const securityTab = $optional('[data-tab-item$="security-tab"]');
-	if (securityTab && !mustKeepTab(securityTab) && await getTabCount(securityTab) === 0) {
-		onlyShowInDropdown('security-tab');
+	if (securityTab && !mustKeepTab(securityTab) && (await getTabCount(securityTab)) === 0) {
+		onlyShowInDropdown("security-tab");
 	}
 
-	onlyShowInDropdown('insights-tab');
+	onlyShowInDropdown("insights-tab");
 }
 
-void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	deduplicate: 'has-rgh',
-	init: [
-		updateActionsTab,
-		updateWikiTab,
-		updateProjectsTab,
-	],
-}, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	init: moveRareTabs,
-}, {
-	include: [
-		pageDetect.isOrganizationProfile,
-	],
-	deduplicate: 'has-rgh',
-	init: updateProjectsTab,
-});
+void features.add(
+	import.meta.url,
+	{
+		include: [pageDetect.hasRepoHeader],
+		deduplicate: "has-rgh",
+		init: [updateActionsTab, updateWikiTab, updateProjectsTab],
+	},
+	{
+		include: [pageDetect.hasRepoHeader],
+		init: moveRareTabs,
+	},
+	{
+		include: [pageDetect.isOrganizationProfile],
+		deduplicate: "has-rgh",
+		init: updateProjectsTab,
+	},
+);
 
 /*
 

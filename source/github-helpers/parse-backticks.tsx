@@ -1,10 +1,9 @@
-import React from 'dom-chef';
+import React from "dom-chef";
 
 const splittingRegex = /`` (.*?) ``|`([^`\n]+)`/g;
 
 export function getParsedBackticksParts(string: string): string[] {
-	return string.split(splittingRegex)
-		.filter(part => part !== undefined); // Only one of the regexp's capture groups matches
+	return string.split(splittingRegex).filter((part) => part !== undefined); // Only one of the regexp's capture groups matches
 }
 
 export default function parseBackticks(description: string): DocumentFragment {

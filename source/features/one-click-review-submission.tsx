@@ -1,35 +1,31 @@
-import React from 'dom-chef';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
-import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$} from 'select-dom/strict.js';
+import React from "dom-chef";
+import delegate, { type DelegateEvent } from "delegate-it";
+import * as pageDetect from "github-url-detection";
+import CheckIcon from "octicons-plain-react/Check";
+import FileDiffIcon from "octicons-plain-react/FileDiff";
+import { $ } from "select-dom/strict.js";
 
-import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import features from "../feature-manager.js";
+import observe from "../helpers/selector-observer.js";
+import { assertNodeContent } from "../helpers/dom-utils.js";
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = originalSubmitButton.closest('.Overlay-footer');
-	const formAttribute = originalSubmitButton.getAttribute('form')!;
+	const actionsRow = originalSubmitButton.closest(".Overlay-footer");
+	const formAttribute = originalSubmitButton.getAttribute("form")!;
 
 	// Do not use `$$` because elements can be outside `form`
 	// `RadioNodeList` is dynamic, so we need to make a copy
-	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
+	const radios = [
+		...(form.elements.namedItem("pull_request_review[event]") as RadioNodeList),
+	] as HTMLInputElement[];
 	if (radios.length === 0) {
-		throw new Error('Could not find radio buttons');
+		throw new Error("Could not find radio buttons");
 	}
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
-		form.prepend(
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
-			/>,
-		);
+		form.prepend(<input type="hidden" name="pull_request_review[event]" value="comment" />);
 	}
 
 	if (actionsRow) {
@@ -40,20 +36,22 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			parent.querySelector('label')
-			?? radio.nextSibling! // TODO: Remove after April 2025
-		);
-		const tooltip = $([
-			'p', // TODO: Remove after April 2025
-			'.FormControl-caption',
-		], parent).textContent.trim().replace(/\.$/, '');
+		const labelElement = parent.querySelector("label") ?? radio.nextSibling!; // TODO: Remove after April 2025
+		const tooltip = $(
+			[
+				"p", // TODO: Remove after April 2025
+				".FormControl-caption",
+			],
+			parent,
+		)
+			.textContent.trim()
+			.replace(/\.$/, "");
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
-		const classes = ['btn btn-sm'];
+		const classes = ["btn btn-sm"];
 
 		if (tooltip) {
-			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
+			classes.push("tooltipped tooltipped-nw tooltipped-no-delay");
 		}
 
 		const button = (
@@ -63,7 +61,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
 				form={formAttribute}
 				value={radio.value}
-				className={classes.join(' ')}
+				className={classes.join(" ")}
 				aria-label={tooltip}
 				disabled={radio.disabled}
 			>
@@ -71,9 +69,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			</button>
 		);
 
-		if (!radio.disabled && radio.value === 'approve') {
+		if (!radio.disabled && radio.value === "approve") {
 			button.prepend(<CheckIcon className="color-fg-success" />);
-		} else if (!radio.disabled && radio.value === 'reject') {
+		} else if (!radio.disabled && radio.value === "reject") {
 			button.prepend(<FileDiffIcon className="color-fg-danger" />);
 		}
 
@@ -81,20 +79,20 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			actionsRow.prepend(button);
 		} else {
 			// TODO: For GHE. Remove after June 2025
-			const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
+			const legacyActionsRow = originalSubmitButton.closest(".form-actions")!;
 			legacyActionsRow.append(button);
 		}
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	const fieldset = radios[0].closest('fieldset');
+	const fieldset = radios[0].closest("fieldset");
 
 	if (fieldset) {
 		fieldset.remove();
 	} else {
 		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
 		for (const radio of radios) {
-			radio.closest('.form-checkbox')!.remove();
+			radio.closest(".form-checkbox")!.remove();
 		}
 	}
 
@@ -105,7 +103,7 @@ let lastSubmission: number | undefined;
 function blockDuplicateSubmissions(event: DelegateEvent): void {
 	if (lastSubmission && Date.now() - lastSubmission < 1000) {
 		event.preventDefault();
-		console.log('Duplicate submission prevented');
+		console.log("Duplicate submission prevented");
 		return;
 	}
 
@@ -114,14 +112,12 @@ function blockDuplicateSubmissions(event: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// The selector excludes the "Cancel" button
-	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, { signal });
+	delegate("#review-changes-modal form", "submit", blockDuplicateSubmissions, { signal });
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
+	include: [pageDetect.isPRFiles],
 	awaitDomReady: true,
 	init,
 });

@@ -1,16 +1,16 @@
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from "github-url-detection";
+import delegate, { type DelegateEvent } from "delegate-it";
 
-import features from '../feature-manager.js';
-import SearchQuery from '../github-helpers/search-query.js';
+import features from "../feature-manager.js";
+import SearchQuery from "../github-helpers/search-query.js";
 
 function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 	const form = event.delegateTarget;
 	const query = SearchQuery.from(location);
-	query.set(form.elements['js-issues-search'].value);
+	query.set(form.elements["js-issues-search"].value);
 
-	if (!query.includes('is:pr')) {
-		form.action = form.action.replace(/\/pulls$/, '/issues');
+	if (!query.includes("is:pr")) {
+		form.action = form.action.replace(/\/pulls$/, "/issues");
 		// Prevent submission via AJAX and use .submit() to allow the change from /pulls to /issues
 		// https://github.com/refined-github/refined-github/pull/7614/files#r1694731354
 		event.preventDefault();
@@ -19,16 +19,14 @@ function redirectToIssues(event: DelegateEvent<Event, HTMLFormElement>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate('form.subnav-search[action$="/pulls"]', 'submit', redirectToIssues, {
+	delegate('form.subnav-search[action$="/pulls"]', "submit", redirectToIssues, {
 		signal,
 		capture: true,
 	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRList,
-	],
+	include: [pageDetect.isPRList],
 	init,
 });
 

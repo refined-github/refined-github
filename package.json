@@ -11,6 +11,7 @@
 		"format:oxfmt": "oxfmt --ignore-path .gitignore \"**/*.{ts,tsx}\"",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:js": "eslint .",
+		"lint:oxfmt": "oxfmt --check --ignore-path .gitignore \"**/*.{ts,tsx}\"",
 		"lint:prettier": "prettier . --check",
 		"new": "bash build/new-feature.sh",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",

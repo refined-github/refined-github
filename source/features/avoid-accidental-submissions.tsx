@@ -1,43 +1,53 @@
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import React from "dom-chef";
+import { elementExists } from "select-dom";
+import * as pageDetect from "github-url-detection";
+import delegate, { type DelegateEvent } from "delegate-it";
 
-import features from '../feature-manager.js';
-import {modKey as moduleKey} from '../github-helpers/hotkey.js';
+import features from "../feature-manager.js";
+import { modKey as moduleKey } from "../github-helpers/hotkey.js";
 
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
 	if (
-		event.key !== 'Enter'
-		|| event.ctrlKey
-		|| event.metaKey
-		|| event.isComposing // #4323
-		|| elementExists([
-			'.suggester', // GitHub’s autocomplete dropdown
-			'.rgh-avoid-accidental-submissions',
-		], form)
+		event.key !== "Enter" ||
+		event.ctrlKey ||
+		event.metaKey ||
+		event.isComposing || // #4323
+		elementExists(
+			[
+				".suggester", // GitHub’s autocomplete dropdown
+				".rgh-avoid-accidental-submissions",
+			],
+			form,
+		)
 	) {
 		return;
 	}
 
-	if (elementExists([
-		'button[data-hotkey="Mod+Enter"]:disabled',
-		'button[type="submit"]:disabled',
-	], form)) {
+	if (
+		elementExists(
+			['button[data-hotkey="Mod+Enter"]:disabled', 'button[type="submit"]:disabled'],
+			form,
+		)
+	) {
 		return;
 	}
 
 	const isLegacyInput = field.matches(legacyInputElements);
 
-	const spacingClasses = pageDetect.isNewFile() || pageDetect.isEditingFile()
-		? isLegacyInput ? 'my-1' : 'mb-3 mt-n2'
-		: 'mt-2 mb-n1';
+	const spacingClasses =
+		pageDetect.isNewFile() || pageDetect.isEditingFile()
+			? isLegacyInput
+				? "my-1"
+				: "mb-3 mt-n2"
+			: "mt-2 mb-n1";
 
 	const message = (
-		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd><kbd>enter</kbd>.
+		<p className={"rgh-avoid-accidental-submissions " + spacingClasses}>
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or
+			use <kbd>{moduleKey}</kbd>
+			<kbd>enter</kbd>.
 		</p>
 	);
 
@@ -55,25 +65,24 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 }
 
 const legacyInputElements = [
-	'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
+	"input#pull_request_title", // Old `isCompare` - TODO: Remove after August 2026
+	"input#commit-summary-input", // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
 ];
 
 const inputElements = [
 	'input[name="pull_request[title]"]', // `isCompare`
-	'#commit-message-input', // `isEditingFile`, `isNewFile`
+	"#commit-message-input", // `isEditingFile`, `isNewFile`
 ];
 
 function init(signal: AbortSignal): void {
-	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {signal, capture: true});
+	delegate([...inputElements, ...legacyInputElements], "keydown", onKeyDown, {
+		signal,
+		capture: true,
+	});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNewFile,
-		pageDetect.isCompare,
-		pageDetect.isEditingFile,
-	],
+	include: [pageDetect.isNewFile, pageDetect.isCompare, pageDetect.isEditingFile],
 	init,
 });
 

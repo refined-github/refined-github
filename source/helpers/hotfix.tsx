@@ -1,21 +1,21 @@
-import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {isEnterprise} from 'github-url-detection';
-import compareVersions from 'tiny-version-compare';
-import {any as concatenateTemplateLiteralTag} from 'code-tag';
+import React from "dom-chef";
+import { CachedFunction } from "webext-storage-cache";
+import { isEnterprise } from "github-url-detection";
+import compareVersions from "tiny-version-compare";
+import { any as concatenateTemplateLiteralTag } from "code-tag";
 
-import type {RghOptions} from '../options-storage.js';
-import isDevelopmentVersion from './is-development-version.js';
-import {isomorphicFetchText} from './isomorphic-fetch.js';
+import type { RghOptions } from "../options-storage.js";
+import isDevelopmentVersion from "./is-development-version.js";
+import { isomorphicFetchText } from "./isomorphic-fetch.js";
 
-const {version: currentVersion} = chrome.runtime.getManifest();
+const { version: currentVersion } = chrome.runtime.getManifest();
 
 function parseCsv(content: string): string[][] {
 	const lines = [];
-	const [_header, ...rawLines] = content.trim().split('\n');
+	const [_header, ...rawLines] = content.trim().split("\n");
 	for (const line of rawLines) {
 		if (line.trim()) {
-			lines.push(line.split(',').map(cell => cell.trim()));
+			lines.push(line.split(",").map((cell) => cell.trim()));
 		}
 	}
 
@@ -25,38 +25,42 @@ function parseCsv(content: string): string[][] {
 async function fetchHotfix(path: string): Promise<string> {
 	// Use GitHub Pages host because the API is rate-limited
 	return isomorphicFetchText(`https://refined-github.github.io/yolo/${path}`, {
-		cache: 'no-store', // Disable caching altogether
+		cache: "no-store", // Disable caching altogether
 	});
 }
 
 type HotfixStorage = Array<[FeatureId, string, string]>;
 
-export const brokenFeatures = new CachedFunction('broken-features', {
+export const brokenFeatures = new CachedFunction("broken-features", {
 	async updater(): Promise<HotfixStorage> {
-		const content = await fetchHotfix('broken-features.csv');
+		const content = await fetchHotfix("broken-features.csv");
 		if (!content) {
 			return [];
 		}
 
 		const storage: HotfixStorage = [];
 		for (const [featureId, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-			if (featureId && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
+			if (
+				featureId &&
+				relatedIssue &&
+				(!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)
+			) {
 				storage.push([featureId as FeatureId, relatedIssue, unaffectedVersion]);
 			}
 		}
 
 		return storage;
 	},
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 30},
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 30 },
 });
 
-export const styleHotfixes = new CachedFunction('style-hotfixes', {
+export const styleHotfixes = new CachedFunction("style-hotfixes", {
 	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
 
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 300},
-	cacheKey: () => '',
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 300 },
+	cacheKey: () => "",
 });
 
 export async function getLocalHotfixes(): Promise<HotfixStorage> {
@@ -66,7 +70,7 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 		return [];
 	}
 
-	return await brokenFeatures.get() ?? [];
+	return (await brokenFeatures.get()) ?? [];
 }
 
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> {
@@ -93,13 +97,13 @@ export function _(...arguments_: Parameters<typeof concatenateTemplateLiteralTag
 	return localStrings[original] ?? original;
 }
 
-const localStringsHotfix = new CachedFunction('strings-hotfixes', {
+const localStringsHotfix = new CachedFunction("strings-hotfixes", {
 	async updater(): Promise<Record<string, string>> {
-		const json = await fetchHotfix('strings.json');
+		const json = await fetchHotfix("strings.json");
 		return json ? JSON.parse(json) : {};
 	},
-	maxAge: {hours: 6},
-	staleWhileRevalidate: {days: 30},
+	maxAge: { hours: 6 },
+	staleWhileRevalidate: { days: 30 },
 });
 
 // Updates the local object from the storage to enable synchronous access
@@ -108,5 +112,5 @@ export async function preloadSyncLocalStrings(): Promise<void> {
 		return;
 	}
 
-	localStrings = await localStringsHotfix.get() ?? {};
+	localStrings = (await localStringsHotfix.get()) ?? {};
 }
