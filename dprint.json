@@ -5,11 +5,6 @@
 		"./node_modules/dprint-plugin-graphql/plugin.wasm"
 	],
 	"includes": ["source/**/*.css", "source/**/*.gql"],
-	"excludes": [
-		"source/features/clean-rich-text-editor.css",
-		"source/features/emphasize-draft-pr-label.css",
-		"source/features/suggest-commit-title-limit.css"
-	],
 	"malva": {
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle",

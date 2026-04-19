@@ -2,8 +2,7 @@
 /* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
 @media (hover: hover) and (pointer: fine) {
 	html:not([rgh-OFF-clean-rich-text-editor])
-		/* biome-ignore format: bug */
-		button:is(
+		/* biome-ignore format: bug */ button:is(
 			/* Classic fields */
 			[data-md-button='mention'],
 			[data-md-button='ref'],
@@ -12,11 +11,7 @@
 			[data-md-button='italic'],
 			/* React fields */
 			[data-component='IconButton']:has(
-				> .octicon-heading,
-				> .octicon-bold,
-				> .octicon-italic,
-				> .octicon-cross-reference,
-				> .octicon-mention
+				> .octicon-heading, > .octicon-bold, > .octicon-italic, > .octicon-cross-reference, > .octicon-mention
 			)
 		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
