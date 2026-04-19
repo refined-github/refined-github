@@ -4,5 +4,17 @@
 		"./node_modules/dprint-plugin-malva/plugin.wasm",
 		"./node_modules/dprint-plugin-graphql/plugin.wasm"
 	],
-	"includes": ["source/**/*.css", "source/**/*.gql"]
+	"includes": ["source/**/*.css", "source/**/*.gql"],
+	"excludes": [
+		"source/features/clean-rich-text-editor.css",
+		"source/features/emphasize-draft-pr-label.css",
+		"source/features/suggest-commit-title-limit.css"
+	],
+	"malva": {
+		"quotes": "alwaysSingle",
+		"useTabs": true
+	},
+	"graphql": {
+		"useTabs": true
+	}
 }
