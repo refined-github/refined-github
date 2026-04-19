@@ -12,6 +12,7 @@
 		"lint:js": "eslint .",
 		"lint:biome": "biome lint",
 		"lint:prettier": "prettier . --check",
+		"lint:dprint": "dprint check",
 		"new": "bash build/new-feature.sh",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
