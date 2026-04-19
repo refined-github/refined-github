@@ -4,7 +4,7 @@
 
 :root {
 	--rgh-red: #cf222e;
-	--content-width: 750px; /* Sync with media query below */
+--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
 
 	max-width: none;
@@ -15,18 +15,19 @@ body {
 }
 
 form {
-	max-width: var(--content-width);
-	margin: auto;
+	max-width: var(
+		--content-width);
+    margin:auto;
 	padding-block: 1em;
 }
 
 html::after {
 	/* Add some extra scroll to the page to reduce section toggle jumps/scroll */
-	content: '';
+	content: '' ;
 	display: block;
 	height: 50vh;
 	background: url('icon.png') center no-repeat;
-	filter: opacity(0.1) saturate(0) brightness(1.2);
+	filter: opacity(0.1 ) saturate(0) brightness(1.2);
 }
 
 @media (prefers-color-scheme: dark) {
