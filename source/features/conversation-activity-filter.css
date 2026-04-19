@@ -45,9 +45,7 @@
 		}
 	}
 
-	&:is(
-			[data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] *
-		) {
+	&:is([data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] *) {
 		.octicon-eye {
 			display: none;
 		}
