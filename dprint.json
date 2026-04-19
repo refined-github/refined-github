@@ -1,0 +1,13 @@
+{
+	"includes": [
+		"**/*.svelte"
+	],
+	"plugins": [
+		"./node_modules/dprint-plugin-markup/plugin.wasm"
+	],
+	"markup": {
+		"useTabs": true,
+		"scriptIndent": true,
+		"styleIndent": true
+	}
+}

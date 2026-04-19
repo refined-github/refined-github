@@ -7,11 +7,11 @@
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
 		"fix": "run-p \"lint:biome -- --write\" \"lint:js -- --fix\" format \"vitest -- --update\" --continue-on-error",
-		"format": "prettier . --write && biome format --fix",
+		"format": "dprint fmt && biome format --fix",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:js": "eslint .",
 		"lint:biome": "biome check",
-		"lint:prettier": "prettier . --check",
+		"lint:dprint": "dprint check",
 		"new": "bash build/new-feature.sh",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
@@ -20,21 +20,6 @@
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:bundle": "rollup -c --watch"
-	},
-	"prettier": {
-		"bracketSpacing": false,
-		"plugins": [
-			"prettier-plugin-svelte"
-		],
-		"singleQuote": true,
-		"overrides": [
-			{
-				"files": "*.svelte",
-				"options": {
-					"parser": "svelte"
-				}
-			}
-		]
 	},
 	"dependencies": {
 		"@fregante/mi-cron": "^2.0.1",

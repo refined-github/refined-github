@@ -1,5 +1,0 @@
-# Ensure Prettier is not automatically run by editors on unwanted files
-*.*
-# Only svelte files are covered
-# TODO: After https://github.com/biomejs/biome/issues/6657
-!*.svelte

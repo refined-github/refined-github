@@ -1,6 +1,6 @@
 <svelte:options customElement="rgh-welcome" />
 
-<!-- prettier-ignore -->
+<!-- markup-fmt-ignore -->
 <script lang="ts">
 	import {onMount} from 'svelte';
 	import 'webext-bugs/target-blank';
@@ -83,7 +83,7 @@
 				class="will-show"
 			>
 				{#if stepValid === 0}
-					<button onclick={grantPermissions}> Grant </button>
+					<button onclick={grantPermissions}>Grant</button>
 				{:else}
 					Grant
 				{/if}
@@ -140,8 +140,8 @@
 			<a
 				class="hidden-link"
 				href="https://github.com/refined-github/refined-github/wiki"
-				target="_self">GitHub</a
-			>…
+				target="_self"
+			>GitHub</a>…
 		</h2>
 	</footer>
 </main>
