@@ -5,12 +5,16 @@
 	display: none;
 }
 
-:is(.discussion-sidebar-item, .js-collab-option):has(input[name='collab_privs']:not(:checked))
+:is(.discussion-sidebar-item, .js-collab-option):has(
+	input[name='collab_privs']:not(:checked)
+)
 	~ .rgh-warning-for-disallow-edits {
 	display: block;
 }
 
-:is(.discussion-sidebar-item, .js-collab-option):has(input[name='collab_privs']:checked)
+:is(.discussion-sidebar-item, .js-collab-option):has(
+	input[name='collab_privs']:checked
+)
 	~ .rgh-warning-for-disallow-edits {
 	display: none;
 }

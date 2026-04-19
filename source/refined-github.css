@@ -36,7 +36,10 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 	min-height: 52px; /* Re-set the default height as a minimum height */
 }
 
-:is(.js-notifications-mark-selected-actions, .js-notifications-mark-all-actions):not([hidden]) {
+:is(
+	.js-notifications-mark-selected-actions,
+	.js-notifications-mark-all-actions
+):not([hidden]) {
 	display: contents !important;
 }
 

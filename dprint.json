@@ -11,6 +11,7 @@
 		"source/features/suggest-commit-title-limit.css"
 	],
 	"malva": {
+		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle",
 		"useTabs": true
 	},

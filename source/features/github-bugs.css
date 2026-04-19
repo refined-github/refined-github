@@ -67,8 +67,10 @@ div.markdown-body {
 /* Matches .d-md-block */
 @media (width >= 768px) {
 	/* Pulls the alert container to the right when empty */
-	.gap-4.pl-3:not(:has(a.h6)):has(> .d-md-block
-		> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']) {
+	.gap-4.pl-3:not(:has(a.h6)):has(
+		> .d-md-block
+			> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
+	) {
 		/* Subtract 16px spacing from both .gap-3 and .ml-3 */
 		margin-right: -32px;
 	}
