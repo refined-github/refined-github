@@ -83,7 +83,7 @@
 				class="will-show"
 			>
 				{#if stepValid === 0}
-					<button onclick={grantPermissions}>Grant</button>
+					<button onclick={grantPermissions}> Grant </button>
 				{:else}
 					Grant
 				{/if}

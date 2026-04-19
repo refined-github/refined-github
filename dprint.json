@@ -6,6 +6,7 @@
 		"./node_modules/dprint-plugin-markup/plugin.wasm"
 	],
 	"markup": {
+		"whitespaceSensitivity": "strict",
 		"useTabs": true,
 		"scriptIndent": true,
 		"styleIndent": true
