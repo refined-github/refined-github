@@ -1,14 +1,14 @@
 import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 const canEditSidebar = (): boolean => elementExists('.discussion-sidebar-item [data-hotkey="l"]');

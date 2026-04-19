@@ -1,21 +1,21 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import HistoryIcon from 'octicons-plain-react/History';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import addNotice from '../github-widgets/notice-bar.js';
 import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
-import {saveOriginalHref} from './sort-conversations-by-update-time.js';
+import addNotice from '../github-widgets/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 
 const commentSelector = [
 	'.loaded .react-issue-body', // Issue description

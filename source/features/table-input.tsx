@@ -1,16 +1,16 @@
 import './table-input.css';
 
-import React from 'dom-chef';
-import TableIcon from 'octicons-plain-react/Table';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import TableIcon from 'octicons-plain-react/Table';
 import {$} from 'select-dom/strict.js';
+import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = square.closest('fieldset') // Issue

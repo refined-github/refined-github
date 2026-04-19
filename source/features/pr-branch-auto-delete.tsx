@@ -1,15 +1,15 @@
 import React from 'dom-chef';
-import InfoIcon from 'octicons-plain-react/Info';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
-import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
+import api from '../github-helpers/api.js';
+import {userCanLikelyMergePr} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranchAndDeleteOnMerge from './pr-branch-auto-delete.gql';
-import {userCanLikelyMergePr} from '../github-helpers/index.js';
 
 // DO NOT ask for additions or customizations. This is just a list of "obvious" permanent branches.
 // Protect your permanent branches instead: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches

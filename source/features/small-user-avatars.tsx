@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
 
 function addAvatar(link: HTMLElement): void {

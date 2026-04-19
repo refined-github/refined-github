@@ -1,16 +1,16 @@
 import './tag-changes-link.css';
 
 import React from 'dom-chef';
+import domLoaded from 'dom-loaded';
+import * as pageDetect from 'github-url-detection';
+import DiffIcon from 'octicons-plain-react/Diff';
 import {$$, elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
-import domLoaded from 'dom-loaded';
-import DiffIcon from 'octicons-plain-react/Diff';
-import * as pageDetect from 'github-url-detection';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
+import fetchDom from '../helpers/fetch-dom.js';
 
 type TagDetails = {
 	element: HTMLElement;

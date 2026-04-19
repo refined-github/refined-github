@@ -1,9 +1,9 @@
-import {CachedFunction} from 'webext-storage-cache';
 import {elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import {hasToken} from '../options-storage.js';
-import {getRepo} from './index.js';
 import api from './api.js';
+import {getRepo} from './index.js';
 
 /*
 From https://docs.github.com/en/graphql/reference/enums#repositorypermission

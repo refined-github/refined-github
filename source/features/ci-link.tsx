@@ -5,11 +5,11 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import getChecks from './ci-link.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
 
 async function getCommitWithChecks(): Promise<string | void> {
 	const {repository} = await api.v4(getChecks);

@@ -1,18 +1,18 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {OptionsLink} from '../helpers/open-options.js';
-import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
-import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
+import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
-import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {getToken} from '../options-storage.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';

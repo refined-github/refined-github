@@ -1,16 +1,16 @@
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
-import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import attachElement from '../helpers/attach-element.js';
+import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
+import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import abortableClassName from '../helpers/abortable-classname.js';
+import attachElement from '../helpers/attach-element.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
