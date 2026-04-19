@@ -10,6 +10,7 @@
 		"format": "prettier . --write && npm run format:oxfmt",
 		"format:oxfmt": "oxfmt --ignore-path .gitignore \"**/*.css\"",
 		"lint": "run-p lint:* --continue-on-error",
+		"lint:biome": "biome lint",
 		"lint:js": "eslint .",
 		"lint:oxfmt": "oxfmt --check --ignore-path .gitignore \"**/*.css\"",
 		"lint:prettier": "prettier . --check",
@@ -88,6 +89,7 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.4.12",
 		"@eslint-react/eslint-plugin": "^2.7.2",
 		"@eslint/compat": "^2.0.1",
 		"@rollup/plugin-alias": "^6.0.0",
