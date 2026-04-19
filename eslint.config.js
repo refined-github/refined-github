@@ -39,6 +39,12 @@ const refinedGithubPlugin = {
 };
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
+const disabledStylisticRules = Object.fromEntries(
+	xo.xoToEslintConfig([{semicolon: true, prettier: false}])
+		.flatMap(config => Object.keys(config.rules ?? {}))
+		.filter(rule => rule.startsWith('@stylistic/'))
+		.map(rule => [rule, 'off']),
+);
 
 export default [
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
@@ -316,6 +322,7 @@ export default [
 				location: 'readonly',
 			},
 		},
+		rules: disabledStylisticRules,
 	},
 	{
 		files: ['source/features/**'],
