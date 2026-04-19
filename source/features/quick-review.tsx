@@ -1,21 +1,21 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import {$} from 'select-dom/strict.js';
 
-import delay from '../helpers/delay.js';
-import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import showToast from '../github-helpers/toast.js';
+import api from '../github-helpers/api.js';
 import {
 	getConversationNumber,
 	getLoggedInUser,
 	scrollIntoViewIfNeeded,
 	triggerConversationUpdate,
 } from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
+import observe from '../helpers/selector-observer.js';
 import {getToken} from '../options-storage.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];

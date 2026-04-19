@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {$$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';

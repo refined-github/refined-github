@@ -1,5 +1,5 @@
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$optional} from 'select-dom/strict.js';
 
 export default function getUserAvatar(username: string, size: number): string | void {
 	let cleanName = username.replace('[bot]', '');

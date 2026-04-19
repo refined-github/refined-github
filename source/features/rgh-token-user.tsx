@@ -1,14 +1,14 @@
-import React from 'react';
 import AlertIcon from 'octicons-plain-react/Alert';
+import React from 'react';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {getLoggedInUser} from '../github-helpers/index.js';
-import {getToken} from '../options-storage.js';
-import {tokenUser} from '../github-helpers/github-token.js';
 import {api3} from '../github-helpers/api.js';
+import {tokenUser} from '../github-helpers/github-token.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import {OptionsLink} from '../helpers/open-options.js';
+import observe from '../helpers/selector-observer.js';
+import {getToken} from '../options-storage.js';
 
 async function verify(header: HTMLButtonElement): Promise<void> {
 	const token = await getToken();

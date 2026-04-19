@@ -2,19 +2,19 @@ import './default-branch-button.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import memoize from 'memoize';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
 import {$optional} from 'select-dom/strict.js';
-import memoize from 'memoize';
 
 import features from '../feature-manager.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import observe from '../helpers/selector-observer.js';
-import {branchSelector} from '../github-helpers/selectors.js';
-import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
+import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
+import {branchSelector} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);

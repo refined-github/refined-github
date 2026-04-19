@@ -1,8 +1,8 @@
 import './vertical-front-matter.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

@@ -1,16 +1,16 @@
 import './quick-mention.css';
 
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
-import ReplyIcon from 'octicons-plain-react/Reply';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import ReplyIcon from 'octicons-plain-react/Reply';
+import {elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {insertTextIntoField} from 'text-field-edit';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = [

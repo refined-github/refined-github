@@ -1,9 +1,9 @@
-import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom/strict.js';
 
-import {codeSearchHeader} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
+import {codeSearchHeader} from '../github-helpers/selectors.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;

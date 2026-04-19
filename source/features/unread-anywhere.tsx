@@ -1,18 +1,18 @@
-import {$$optional, $optional} from 'select-dom/strict.js';
-import {messageRuntime} from 'webext-msg';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
+import {$$optional, $optional} from 'select-dom/strict.js';
+import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import onetime from '../helpers/onetime.js';
 import showToast from '../github-helpers/toast.js';
-import {fetchDomUncached} from '../helpers/fetch-dom.js';
-import pluralize from '../helpers/pluralize.js';
-import {removeLinkToPrFilesTab} from './pr-notification-link.js';
-import observe from '../helpers/selector-observer.js';
 import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
+import {fetchDomUncached} from '../helpers/fetch-dom.js';
+import onetime from '../helpers/onetime.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
+import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
 

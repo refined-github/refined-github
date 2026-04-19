@@ -1,11 +1,11 @@
-import React from 'react';
-import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
+import LockIcon from 'octicons-plain-react/Lock';
+import React from 'react';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
 
 export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);

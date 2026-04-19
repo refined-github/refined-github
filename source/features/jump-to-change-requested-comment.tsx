@@ -1,9 +1,9 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom/strict.js';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(textLine: HTMLElement): void {
