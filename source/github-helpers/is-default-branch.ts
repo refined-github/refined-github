@@ -1,5 +1,5 @@
-import getDefaultBranch from "./get-default-branch.js";
-import { getRepo } from "./index.js";
+import getDefaultBranch from './get-default-branch.js';
+import {getRepo} from './index.js';
 
 /** Detects if the current view is on the default branch. To be used on file/folder/commit lists */
 export default async function isDefaultBranch(): Promise<boolean> {
@@ -9,20 +9,20 @@ export default async function isDefaultBranch(): Promise<boolean> {
 		return false;
 	}
 
-	const [type, ...parts] = repo.path.split("/");
+	const [type, ...parts] = repo.path.split('/');
 	if (parts.length === 0) {
 		// Exactly /user/repo, which is on the default branch
 		return true;
 	}
 
-	if (!["tree", "blob", "commits"].includes(type)) {
+	if (!['tree', 'blob', 'commits'].includes(type)) {
 		// Like /user/repo/pulls
 		return false;
 	}
 
 	// Don't use `getCurrentGitRef` because it requires too much DOM. This is good enough, it only fails when:
 	// defaultBranch === 'a/b' && currentBranch === 'a'
-	const path = parts.join("/");
+	const path = parts.join('/');
 	const defaultBranch = await getDefaultBranch();
 	return path === defaultBranch || path.startsWith(`${defaultBranch}/`);
 }

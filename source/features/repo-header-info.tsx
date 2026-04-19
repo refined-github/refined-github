@@ -1,20 +1,20 @@
-import * as pageDetect from "github-url-detection";
-import LockIcon from "octicons-plain-react/Lock";
-import RepoForkedIcon from "octicons-plain-react/RepoForked";
-import StarIcon from "octicons-plain-react/Star";
-import StarFillIcon from "octicons-plain-react/StarFill";
-import React from "dom-chef";
-import { elementExists } from "select-dom";
-import { CachedFunction } from "webext-storage-cache";
+import * as pageDetect from 'github-url-detection';
+import LockIcon from 'octicons-plain-react/Lock';
+import RepoForkedIcon from 'octicons-plain-react/RepoForked';
+import StarIcon from 'octicons-plain-react/Star';
+import StarFillIcon from 'octicons-plain-react/StarFill';
+import React from 'dom-chef';
+import {elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
-import observe from "../helpers/selector-observer.js";
-import features from "../feature-manager.js";
-import api from "../github-helpers/api.js";
-import GetRepositoryInfo from "./repo-header-info.gql";
-import { buildRepoUrl, cacheByRepo } from "../github-helpers/index.js";
-import abbreviateNumber from "../helpers/abbreviate-number.js";
-import { expectToken } from "../github-helpers/github-token.js";
-import { isSmallDevice } from "../helpers/dom-utils.js";
+import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
+import api from '../github-helpers/api.js';
+import GetRepositoryInfo from './repo-header-info.gql';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 
 type RepositoryInfo = {
 	isFork: boolean;
@@ -23,57 +23,56 @@ type RepositoryInfo = {
 	viewerHasStarred: boolean;
 };
 
-const repositoryInfo = new CachedFunction("stargazer-count", {
+const repositoryInfo = new CachedFunction('stargazer-count', {
 	async updater(): Promise<RepositoryInfo> {
-		const { repository } = await api.v4(GetRepositoryInfo);
+		const {repository} = await api.v4(GetRepositoryInfo);
 		return repository;
 	},
-	maxAge: { days: 1 },
-	staleWhileRevalidate: { days: 3 },
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 3},
 	cacheKey: cacheByRepo,
 });
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const { isFork, isPrivate, stargazerCount, viewerHasStarred } = await repositoryInfo.get();
+	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
 
 	// GitHub may already show this icon natively, so we match its position
-	if (isPrivate && !elementExists(".octicon-lock", repoLink)) {
-		repoLink.append(<LockIcon className="ml-1" width={12} height={12} />);
+	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
+		repoLink.append(
+			<LockIcon className="ml-1" width={12} height={12} />,
+		);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
-	if (isFork && !elementExists(".octicon-repo-forked", repoLink)) {
-		repoLink.append(<RepoForkedIcon className="ml-1" width={12} height={12} />);
+	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
+		repoLink.append(
+			<RepoForkedIcon className="ml-1" width={12} height={12} />,
+		);
 	}
 
 	if (stargazerCount > 1) {
-		let tooltip = `Repository starred by ${stargazerCount.toLocaleString("us")} people`;
+		let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
 		if (viewerHasStarred) {
-			tooltip += ", including you";
+			tooltip += ', including you';
 		}
 
-		if (!repoLink.classList.contains("AppHeader-context-item")) {
-			repoLink.closest("li")!.classList.add("d-flex");
+		if (!repoLink.classList.contains('AppHeader-context-item')) {
+			repoLink.closest('li')!.classList.add('d-flex');
 		}
 
 		repoLink.after(
 			<a
-				href={buildRepoUrl("stargazers")}
+				href={buildRepoUrl('stargazers')}
 				title={tooltip}
 				// Hide in small viewports, matches `ci-link`
 				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
 			>
-				{viewerHasStarred ? (
-					// Use `color` because `fill` is overridden with `currentColor`
-					<StarFillIcon
-						className="ml-1"
-						width={12}
-						height={12}
-						color="var(--button-star-iconColor)"
-					/>
-				) : (
-					<StarIcon className="ml-1" width={12} height={12} />
-				)}
+				{
+					viewerHasStarred
+						// Use `color` because `fill` is overridden with `currentColor`
+						? <StarFillIcon className="ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
+						: <StarIcon className="ml-1" width={12} height={12} />
+				}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
@@ -82,18 +81,16 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(
-		[
-			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
-		],
-		add,
-		{ signal },
-	);
+	observe([
+		'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+		'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.hasRepoHeader],
+	include: [
+		pageDetect.hasRepoHeader,
+	],
 	exclude: [
 		// Disable the feature entirely on small screens
 		isSmallDevice,

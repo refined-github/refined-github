@@ -1,21 +1,21 @@
-import "./quick-mention.css";
+import './quick-mention.css';
 
-import React from "dom-chef";
-import { $ } from "select-dom/strict.js";
-import { elementExists } from "select-dom";
-import ReplyIcon from "octicons-plain-react/Reply";
-import * as pageDetect from "github-url-detection";
-import { insertTextIntoField } from "text-field-edit";
-import delegate, { type DelegateEvent } from "delegate-it";
+import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import ReplyIcon from 'octicons-plain-react/Reply';
+import * as pageDetect from 'github-url-detection';
+import {insertTextIntoField} from 'text-field-edit';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
-import { wrap } from "../helpers/dom-utils.js";
-import features from "../feature-manager.js";
-import { getLoggedInUser, isArchivedRepoAsync } from "../github-helpers/index.js";
-import observe from "../helpers/selector-observer.js";
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = [
-	"textarea#new_comment_field",
-	"#react-issue-comment-composer textarea",
+	'textarea#new_comment_field',
+	'#react-issue-comment-composer textarea',
 ] as const;
 
 // Old Issue View and PR View
@@ -38,11 +38,11 @@ const issueCommentSelector = [
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
-	return "@" + userMention.replace("@", "").replace(/\[bot\]$/, "");
+	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-function mentionUser({ delegateTarget: button }: DelegateEvent): void {
-	const userMention = button.parentElement!.querySelector("img")!.alt;
+function mentionUser({delegateTarget: button}: DelegateEvent): void {
+	const userMention = button.parentElement!.querySelector('img')!.alt;
 	const newComment = $(fieldSelector);
 	newComment.focus();
 
@@ -50,11 +50,8 @@ function mentionUser({ delegateTarget: button }: DelegateEvent): void {
 	newComment.selectionStart = newComment.selectionEnd;
 
 	// If the cursor is preceded by a space (or is at place 0), don't add a space before the mention
-	const precedingCharacter = newComment.value.slice(
-		newComment.selectionStart - 1,
-		newComment.selectionStart,
-	);
-	const spacer = /\s|^$/.test(precedingCharacter) ? "" : " ";
+	const precedingCharacter = newComment.value.slice(newComment.selectionStart - 1, newComment.selectionStart);
+	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
 	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
@@ -64,27 +61,27 @@ const debug = false;
 
 function add(avatar: HTMLElement): void {
 	if (debug) {
-		avatar.style.border = "solid 5px black";
+		avatar.style.border = 'solid 5px black';
 	}
 
 	const timelineItem = avatar.closest([
 		// Regular comments
-		".js-comment-container",
+		'.js-comment-container',
 
 		// Reviews
-		".js-comment",
+		'.js-comment',
 	])!;
 
 	const isOldView = Boolean(timelineItem);
 
 	if (isOldView) {
 		if (debug) {
-			timelineItem.style.border = "solid 5px red";
+			timelineItem.style.border = 'solid 5px red';
 		}
 
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-			!elementExists(".unminimized-comment, .js-comment-container", timelineItem)
+			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
 		) {
 			return;
 		}
@@ -92,7 +89,7 @@ function add(avatar: HTMLElement): void {
 		// Make sure the comment isn't hidden
 		const contentItem = avatar.parentElement!.querySelector([
 			'[data-testid="comment-header"] + div',
-			".react-issue-body", // First comment in React issues view
+			'.react-issue-body', // First comment in React issues view
 		])!;
 
 		if (!contentItem) {
@@ -101,29 +98,26 @@ function add(avatar: HTMLElement): void {
 	}
 
 	if (debug) {
-		timelineItem.style.border = "solid 5px green";
+		timelineItem.style.border = 'solid 5px green';
 	}
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-	if (avatar.classList.contains("TimelineItem-avatar")) {
-		avatar.classList.remove("TimelineItem-avatar");
+	if (avatar.classList.contains('TimelineItem-avatar')) {
+		avatar.classList.remove('TimelineItem-avatar');
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
 	if (!isOldView) {
-		avatar.style.height = "auto";
+		avatar.style.height = 'auto';
 		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
 	}
 
-	const userMention = $("img", avatar).alt;
+	const userMention = $('img', avatar).alt;
 
 	avatar.after(
 		<button
 			type="button"
-			className={[
-				"rgh-quick-mention tooltipped tooltipped-e btn-link",
-				isOldView ? "" : "react-view",
-			].join(" ")}
+			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
 			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 		>
 			<ReplyIcon />
@@ -136,34 +130,32 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	delegate("button.rgh-quick-mention", "click", mentionUser, { signal });
+	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
 	const controller = new AbortController();
-	const field: HTMLTextAreaElement | undefined = await new Promise((resolve) => {
-		observe(
-			fieldSelector,
-			(field) => {
-				resolve(field);
-				controller.abort();
-			},
-			{ signal: AbortSignal.any([signal, controller.signal]) },
-		);
+	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
+		observe(fieldSelector, field => {
+			resolve(field);
+			controller.abort();
+		}, {signal: AbortSignal.any([signal, controller.signal])});
 	});
 
 	if (!field) {
 		return;
 	}
 
-	const isPrOrOldView = field.id === "new_comment_field";
+	const isPrOrOldView = field.id === 'new_comment_field';
 	if (isPrOrOldView) {
-		observe(prCommentSelector, add, { signal });
+		observe(prCommentSelector, add, {signal});
 	} else {
-		observe(issueCommentSelector, add, { signal });
+		observe(issueCommentSelector, add, {signal});
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isConversation],
+	include: [
+		pageDetect.isConversation,
+	],
 	init,
 });
 

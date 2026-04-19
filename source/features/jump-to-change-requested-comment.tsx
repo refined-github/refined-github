@@ -1,10 +1,10 @@
-import React from "dom-chef";
-import { $ } from "select-dom/strict.js";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import {$} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
 
-import { wrap } from "../helpers/dom-utils.js";
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
+import {wrap} from '../helpers/dom-utils.js';
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkify(textLine: HTMLElement): void {
 	const url = $('a.dropdown-item[href^="#pullrequestreview-"]', textLine.parentElement!);
@@ -13,11 +13,13 @@ function linkify(textLine: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.merge-status-item.review-item [title*="requested changes"]', linkify, { signal });
+	observe('.merge-status-item.review-item [title*="requested changes"]', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isPRConversation],
+	include: [
+		pageDetect.isPRConversation,
+	],
 	init,
 });
 

@@ -1,12 +1,12 @@
-import "./link-to-compare-diff.css";
+import './link-to-compare-diff.css';
 
-import React from "dom-chef";
-import { elementExists } from "select-dom";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import {elementExists} from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
-import { wrapAll } from "../helpers/dom-utils.js";
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 
 function linkify(changedFilesSummary: HTMLElement): void {
 	wrapAll(
@@ -16,13 +16,15 @@ function linkify(changedFilesSummary: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(".Box li:has(> .octicon-file-diff)", linkify, { signal });
+	observe('.Box li:has(> .octicon-file-diff)', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isCompare],
+	include: [
+		pageDetect.isCompare,
+	],
 	exclude: [
-		() => elementExists(".tabnav:not(.CommentBox-header)"), // The commit list and compare diff are in two separate tabs
+		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],
 	awaitDomReady: true, // DOM-based exclusion filter
 	init,

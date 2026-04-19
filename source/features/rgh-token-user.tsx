@@ -1,14 +1,14 @@
-import React from "react";
-import AlertIcon from "octicons-plain-react/Alert";
+import React from 'react';
+import AlertIcon from 'octicons-plain-react/Alert';
 
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
-import { getLoggedInUser } from "../github-helpers/index.js";
-import { getToken } from "../options-storage.js";
-import { tokenUser } from "../github-helpers/github-token.js";
-import { api3 } from "../github-helpers/api.js";
-import onetime from "../helpers/onetime.js";
-import { OptionsLink } from "../helpers/open-options.js";
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
+import {getToken} from '../options-storage.js';
+import {tokenUser} from '../github-helpers/github-token.js';
+import {api3} from '../github-helpers/api.js';
+import onetime from '../helpers/onetime.js';
+import {OptionsLink} from '../helpers/open-options.js';
 
 async function verify(header: HTMLButtonElement): Promise<void> {
 	const token = await getToken();
@@ -24,9 +24,9 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 			<div className="flash flash-error px-3 mt-3 mb-0 py-2 d-flex flex-items-center border-0 rounded-0">
 				<AlertIcon className="mr-2" />
 				<span>
-					Write API calls are blocked because your{" "}
-					<OptionsLink className="btn-link">Refined GitHub token</OptionsLink> belongs to{" "}
-					<code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.
+					Write API calls are blocked because your {' '}
+					<OptionsLink className="btn-link">Refined GitHub token</OptionsLink>
+					{' '} belongs to <code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.
 				</span>
 			</div>,
 		);

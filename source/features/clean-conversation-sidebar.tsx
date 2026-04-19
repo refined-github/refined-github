@@ -1,14 +1,14 @@
-import "./clean-conversation-sidebar.css";
+import './clean-conversation-sidebar.css';
 
-import React from "dom-chef";
-import { elementExists } from "select-dom";
-import { $, $optional } from "select-dom/strict.js";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
-import onElementRemoval from "../helpers/on-element-removal.js";
-import observe from "../helpers/selector-observer.js";
-import { removeTextNodeContaining } from "../helpers/dom-utils.js";
+import features from '../feature-manager.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
+import observe from '../helpers/selector-observer.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 const canEditSidebar = (): boolean => elementExists('.discussion-sidebar-item [data-hotkey="l"]');
@@ -28,7 +28,7 @@ async function cleanReviewers(): Promise<void> {
 
 	const content = $('[aria-label="Select reviewers"] > .css-truncate');
 	if (!content.firstElementChild) {
-		removeTextNodeContaining(content, "No reviews");
+		removeTextNodeContaining(content, 'No reviews');
 	}
 }
 
@@ -54,28 +54,25 @@ function cleanSection(selector: string): boolean {
 	}
 
 	const identifiers = [
-		".IssueLabel",
+		'.IssueLabel',
 		'[aria-label="Select milestones"] .Progress-item',
 		'[aria-label="Link issues"] [data-hovercard-type]',
 		'a[href^="https://copilot-workspace.githubnext.com"]',
 		'[aria-label="Select projects"] .Link--primary',
 	];
 
-	const heading = $(
-		[
-			"details:has(> .discussion-sidebar-heading)", // Can edit sidebar, has a dropdown
-			".discussion-sidebar-heading", // Cannot editor sidebar, has a plain heading
-		],
-		container,
-	);
-	if (heading.closest(["form", ".discussion-sidebar-item"])!.querySelector(identifiers)) {
+	const heading = $([
+		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
+		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
+	], container);
+	if (heading.closest(['form', '.discussion-sidebar-item'])!.querySelector(identifiers)) {
 		return false;
 	}
 
-	const section = container.closest(".discussion-sidebar-item")!;
+	const section = container.closest('.discussion-sidebar-item')!;
 	if (canEditSidebar()) {
 		getNodesAfter(heading).deleteContents();
-		section.classList.add("rgh-clean-sidebar");
+		section.classList.add('rgh-clean-sidebar');
 	} else {
 		section.remove();
 	}
@@ -84,20 +81,20 @@ function cleanSection(selector: string): boolean {
 }
 
 async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
-	sidebar.classList.add("rgh-clean-sidebar");
+	sidebar.classList.add('rgh-clean-sidebar');
 
 	// Assignees
-	const assignees = $(".js-issue-assignees");
+	const assignees = $('.js-issue-assignees');
 	if (assignees.children.length === 0) {
-		assignees.closest(".discussion-sidebar-item")!.remove();
+		assignees.closest('.discussion-sidebar-item')!.remove();
 	} else {
-		const assignYourself = $optional(".js-issue-assign-self");
+		const assignYourself = $optional('.js-issue-assign-self');
 		if (assignYourself) {
-			removeTextNodeContaining(assignYourself.previousSibling!, "No one—");
+			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
 			$('[aria-label="Select assignees"] summary').append(
-				<span style={{ fontWeight: "normal" }}> – {assignYourself}</span>,
+				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);
-			assignees.closest(".discussion-sidebar-item")!.classList.add("rgh-clean-sidebar");
+			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
 	}
 
@@ -107,24 +104,24 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	}
 
 	// Labels
-	if (!cleanSection(".js-issue-labels") && !canEditSidebar()) {
+	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		$(".discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading").remove();
+		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')
+			.remove();
 	}
 
 	// Development (linked issues/PRs)
 	const developmentHint = $optional('[aria-label="Link issues"] > p');
-	if (developmentHint) {
-		// This may not exist if issues are disabled
+	if (developmentHint) { // This may not exist if issues are disabled
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
 	const createBranchLink = $optional('button[data-action="click:create-branch#openDialog"]');
 	const openWorkspaceButton = $optional('a[href^="https://copilot-workspace.githubnext.com"]');
 	if (createBranchLink && !openWorkspaceButton) {
-		createBranchLink.classList.add("Link--muted", "Link--inTextBlock");
+		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary').append(
-			<span style={{ fontWeight: "normal" }}> – {createBranchLink}</span>,
+			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
 		);
 	}
 
@@ -138,11 +135,13 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe("#partial-discussion-sidebar", cleanSidebarLegacy, { signal });
+	observe('#partial-discussion-sidebar', cleanSidebarLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isConversation],
+	include: [
+		pageDetect.isConversation,
+	],
 	awaitDomReady: true, // The sidebar is at the end of the page + it needs to be fully loaded
 	init,
 });

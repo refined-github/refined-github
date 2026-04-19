@@ -1,6 +1,6 @@
-import "./clean-rich-text-editor.css";
+import './clean-rich-text-editor.css';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 void features.addCssFeature(import.meta.url);
 

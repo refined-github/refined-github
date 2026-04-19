@@ -1,28 +1,28 @@
-import "./sticky-sidebar.css";
+import './sticky-sidebar.css';
 
-import debounce from "debounce-fn";
-import * as pageDetect from "github-url-detection";
-import { onAbort } from "abort-utils";
+import debounce from 'debounce-fn';
+import * as pageDetect from 'github-url-detection';
+import {onAbort} from 'abort-utils';
 
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
-import calculateCssCalcString from "../helpers/calculate-css-calc-string.js";
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
 
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
-	"#partial-discussion-sidebar", // `isDiscussion`, `isPRConversation`
+	'#partial-discussion-sidebar', // `isDiscussion`, `isPRConversation`
 	'div[class^="prc-PageLayout-Pane"]:has(> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"])', // `isRepoRoot`
-	".Layout-sidebar .BorderGrid", // Old `isRepoRoot` - Remove after August 2026
+	'.Layout-sidebar .BorderGrid', // Old `isRepoRoot` - Remove after August 2026
 ];
 
 let sidebar: HTMLElement | undefined;
-const onResize = debounce(updateStickiness, { wait: 100 });
+const onResize = debounce(updateStickiness, {wait: 100});
 const sidebarObserver = new ResizeObserver(onResize);
 
 // Avoid disabling the stickiness while the user is interacting with it
 function toggleHoverState(event: MouseEvent): void {
-	const isHovered = event.type === "mouseenter";
+	const isHovered = event.type === 'mouseenter';
 	if (isHovered) {
 		sidebarObserver.disconnect();
 	} else {
@@ -34,15 +34,15 @@ function toggleHoverState(event: MouseEvent): void {
 // Can't use delegate because it's not efficient to track mouse events across the document
 function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 	sidebar = foundSidebar;
-	sidebar.style.height = "min-content";
+	sidebar.style.height = 'min-content';
 
 	sidebarObserver.observe(sidebar);
 	onAbort(signal, sidebarObserver, () => {
 		sidebar = undefined;
 	});
 
-	sidebar.addEventListener("mouseenter", toggleHoverState, { signal });
-	sidebar.addEventListener("mouseleave", toggleHoverState, { signal });
+	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
+	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
 }
 
 function updateStickiness(): void {
@@ -50,30 +50,34 @@ function updateStickiness(): void {
 		return;
 	}
 
-	const offset = calculateCssCalcString(
-		getComputedStyle(sidebar).getPropertyValue("--rgh-sticky-sidebar-offset"),
-	);
+	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
 	sidebar.classList.toggle(
-		"rgh-sticky-sidebar",
-		window.innerWidth >= minimumViewportWidthForSidebar &&
-			sidebar.offsetHeight + offset <= window.innerHeight,
+		'rgh-sticky-sidebar',
+		window.innerWidth >= minimumViewportWidthForSidebar
+		&& sidebar.offsetHeight + offset <= window.innerHeight,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	document.documentElement.setAttribute("rgh-sticky-sidebar-enabled", "");
+	document.documentElement.setAttribute('rgh-sticky-sidebar-enabled', '');
 
 	// The element is recreated when the page is updated
 	// `trackSidebar` also triggers the first update via `sidebarObserver.observe()`
-	observe(sidebarSelector, trackSidebar.bind(undefined, signal), { signal });
+	observe(sidebarSelector, trackSidebar.bind(undefined, signal), {signal});
 
 	// Update it when the window is resized
-	window.addEventListener("resize", onResize, { signal });
+	window.addEventListener('resize', onResize, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isRepoRoot, pageDetect.isPRConversation, pageDetect.isDiscussion],
-	exclude: [() => screen.availWidth < minimumViewportWidthForSidebar],
+	include: [
+		pageDetect.isRepoRoot,
+		pageDetect.isPRConversation,
+		pageDetect.isDiscussion,
+	],
+	exclude: [
+		() => screen.availWidth < minimumViewportWidthForSidebar,
+	],
 	init,
 });
 

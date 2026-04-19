@@ -4,9 +4,9 @@ export default function looseParseInt(text: ChildNode | string | undefined | nul
 		return 0;
 	}
 
-	if (typeof text !== "string") {
+	if (typeof text !== 'string') {
 		text = text.textContent;
 	}
 
-	return Number(text.replaceAll(/\D+/g, ""));
+	return Number(text.replaceAll(/\D+/g, ''));
 }

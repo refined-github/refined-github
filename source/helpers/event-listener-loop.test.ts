@@ -1,11 +1,11 @@
-import { describe, it, expect } from "vitest";
+import {describe, it, expect} from 'vitest';
 
-import createEventIterator from "./event-listener-loop.js";
+import createEventIterator from './event-listener-loop.js';
 
-describe("createEventIterator", () => {
-	it("should yield events when they occur", async () => {
+describe('createEventIterator', () => {
+	it('should yield events when they occur', async () => {
 		const target = new EventTarget();
-		const eventName = "test-event";
+		const eventName = 'test-event';
 		const iterator = createEventIterator(target, eventName);
 		const event = new Event(eventName);
 
@@ -16,11 +16,11 @@ describe("createEventIterator", () => {
 		expect(result.done).toBe(false);
 	});
 
-	it("should stop yielding events when signal is aborted", async () => {
+	it('should stop yielding events when signal is aborted', async () => {
 		const target = new EventTarget();
-		const eventName = "test-event";
+		const eventName = 'test-event';
 		const controller = new AbortController();
-		const iterator = createEventIterator(target, eventName, { signal: controller.signal });
+		const iterator = createEventIterator(target, eventName, {signal: controller.signal});
 		const event = new Event(eventName);
 
 		setTimeout(() => {
@@ -37,9 +37,9 @@ describe("createEventIterator", () => {
 		expect(abortedResult.done).toBe(true);
 	});
 
-	it("should handle multiple events", async () => {
+	it('should handle multiple events', async () => {
 		const target = new EventTarget();
-		const eventName = "test-event";
+		const eventName = 'test-event';
 		const iterator = createEventIterator(target, eventName);
 		const event1 = new Event(eventName);
 		const event2 = new Event(eventName);
@@ -58,9 +58,9 @@ describe("createEventIterator", () => {
 		expect(result2.done).toBe(false);
 	});
 
-	it.skip("should handle synchronous events", async () => {
+	it.skip('should handle synchronous events', async () => {
 		const target = new EventTarget();
-		const eventName = "test-event";
+		const eventName = 'test-event';
 		const iterator = createEventIterator(target, eventName);
 		const event = new Event(eventName);
 

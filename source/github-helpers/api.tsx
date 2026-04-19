@@ -25,17 +25,17 @@ it lets you define accept error HTTP codes as a valid response, like:
 so the call will not throw an error but it will return as usual.
 */
 
-import React from "dom-chef";
-import mem from "memoize";
-import * as pageDetect from "github-url-detection";
-import type { JsonObject, AsyncReturnType } from "type-fest";
-import { uint8ArrayToBase64 } from "uint8array-extras";
+import React from 'dom-chef';
+import mem from 'memoize';
+import * as pageDetect from 'github-url-detection';
+import type {JsonObject, AsyncReturnType} from 'type-fest';
+import {uint8ArrayToBase64} from 'uint8array-extras';
 
-import onetime from "../helpers/onetime.js";
-import { getRepo, getLoggedInUser } from "./index.js";
-import { getToken } from "../options-storage.js";
-import { log } from "../helpers/feature-helpers.js";
-import { tokenUser } from "./github-token.js";
+import onetime from '../helpers/onetime.js';
+import {getRepo, getLoggedInUser} from './index.js';
+import {getToken} from '../options-storage.js';
+import {log} from '../helpers/feature-helpers.js';
+import {tokenUser} from './github-token.js';
 
 type JsonError = {
 	message: string;
@@ -53,31 +53,30 @@ type RestResponse = {
 	ok: boolean;
 } & AnyObject;
 
-const escapeKey = (...keys: Array<string | number>): string =>
-	"_" + String(keys).replaceAll(/[^a-z\d]/gi, "_");
+const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 
 export class RefinedGitHubApiError extends Error {
 	response: AnyObject = {};
 	richMessage?: JSX.Element;
 	constructor(...messages: string[]) {
-		super(messages.join("\n"));
+		super(messages.join('\n'));
 	}
 }
 
 export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
-	: "https://api.github.com/";
+	: 'https://api.github.com/';
 
 const api4 = pageDetect.isEnterprise()
 	? `${location.origin}/api/graphql`
-	: "https://api.github.com/graphql";
+	: 'https://api.github.com/graphql';
 
 type GhRestApiOptions = {
 	ignoreHttpStatus?: boolean | number;
-	method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: JsonObject;
 	headers?: HeadersInit;
-	responseFormat?: "json" | "text" | "base64";
+	responseFormat?: 'json' | 'text' | 'base64';
 };
 
 type GhGraphQlApiOptions = {
@@ -100,18 +99,18 @@ const assertCurrentUser = onetime(async (): Promise<void> => {
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
 	if (currentTokenUser !== loggedInUser) {
 		throw new RefinedGitHubApiError(
-			"API call blocked.",
+			'API call blocked.',
 			`Your token belongs to "${currentTokenUser}" but you are logged in as "${loggedInUser}".`,
-			"Update your token in the Refined GitHub options.",
+			'Update your token in the Refined GitHub options.',
 		);
 	}
 });
 
 const v3defaults: GhRestApiOptions = {
 	ignoreHttpStatus: false,
-	method: "GET",
+	method: 'GET',
 	body: undefined,
-	responseFormat: "json",
+	responseFormat: 'json',
 };
 
 const v4defaults: GhGraphQlApiOptions = {
@@ -122,18 +121,16 @@ const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
 ): Promise<RestResponse> => {
-	const { ignoreHttpStatus, method, body, headers, responseFormat } = { ...v3defaults, ...options };
+	const {ignoreHttpStatus, method, body, headers, responseFormat} = {...v3defaults, ...options};
 	// Block write operations (POST, PUT, PATCH, DELETE) when token user doesn't match
-	if (method !== "GET") {
+	if (method !== 'GET') {
 		await assertCurrentUser();
 	}
 
 	const personalToken = await getToken();
 
-	if (!query.startsWith("https")) {
-		query = query.startsWith("/")
-			? query.slice(1)
-			: ["repos", getRepo()!.nameWithOwner, query].filter(Boolean).join("/");
+	if (!query.startsWith('https')) {
+		query = query.startsWith('/') ? query.slice(1) : ['repos', getRepo()!.nameWithOwner, query].filter(Boolean).join('/');
 	}
 
 	const url = new URL(query, api3);
@@ -142,23 +139,27 @@ const v3uncached = async (
 		method,
 		body: body && JSON.stringify(body),
 		headers: {
-			"user-agent": "Refined GitHub",
-			accept: "application/vnd.github.v3+json",
+			'user-agent': 'Refined GitHub',
+			accept: 'application/vnd.github.v3+json',
 			...headers,
-			...(personalToken && { Authorization: `token ${personalToken}` }),
+			...personalToken && {Authorization: `token ${personalToken}`},
 		},
 	});
 	let apiResponse: AnyObject;
-	if (responseFormat === "base64") {
+	if (responseFormat === 'base64') {
 		const arrayBuffer = await response.arrayBuffer();
 		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
-		apiResponse = { content };
+		apiResponse = {content};
 	} else {
 		const content = await response.text();
-		apiResponse = responseFormat === "json" ? JSON.parse(content) : { content };
+		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
 	}
 
-	if (response.ok || ignoreHttpStatus === true || ignoreHttpStatus === response.status) {
+	if (
+		response.ok
+		|| ignoreHttpStatus === true
+		|| ignoreHttpStatus === response.status
+	) {
 		return Object.assign(apiResponse, {
 			httpStatus: response.status,
 			headers: response.headers,
@@ -173,7 +174,7 @@ const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function* (
+const v3paginated = async function * (
 	query: string,
 	options?: GhRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -182,7 +183,7 @@ const v3paginated = async function* (
 		const response = await v3(query, options);
 		yield response;
 
-		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get("link")!);
+		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!);
 		if (match) {
 			query = match[1]!;
 		} else {
@@ -191,14 +192,17 @@ const v3paginated = async function* (
 	}
 };
 
-const v3hasAnyItems = async (query: string, options: GhRestApiOptions = {}): Promise<boolean> => {
+const v3hasAnyItems = async (
+	query: string,
+	options: GhRestApiOptions = {},
+): Promise<boolean> => {
 	const url = new URL(query, api3);
-	url.searchParams.set("per_page", "1"); // Ensure we create pagination after 1 item
-	url.searchParams.set("page", "9999"); // Get an empty response
-	const { headers } = await v3(url.pathname + url.search, options);
+	url.searchParams.set('per_page', '1'); // Ensure we create pagination after 1 item
+	url.searchParams.set('page', '9999'); // Get an empty response
+	const {headers} = await v3(url.pathname + url.search, options);
 
 	// If there's more than 1 item, we get a `Link` header
-	return headers.has("link");
+	return headers.has('link');
 };
 
 const v4uncached = async (
@@ -208,7 +212,7 @@ const v4uncached = async (
 	const personalToken = await getToken();
 
 	if (!personalToken) {
-		throw new RefinedGitHubApiError("Personal token required for this feature");
+		throw new RefinedGitHubApiError('Personal token required for this feature');
 	}
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
@@ -219,20 +223,20 @@ const v4uncached = async (
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
 	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
-	query = query.replace("repository() {", () => "repository(owner: $owner, name: $name) {");
+	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
 
 	// Automatically provide variables common variables only when used.
 	// GraphQL doesn't like unused variables.
 	const variables: JsonObject = {};
 	const parameters: string[] = [];
-	if (query.includes("$owner")) {
+	if (query.includes('$owner')) {
 		variables.owner = currentRepoIfAny!.owner;
-		parameters.push("$owner: String!");
+		parameters.push('$owner: String!');
 	}
 
-	if (query.includes("$name")) {
+	if (query.includes('$name')) {
 		variables.name = currentRepoIfAny!.name;
-		parameters.push("$name: String!");
+		parameters.push('$name: String!');
 	}
 
 	Object.assign(variables, options.variables);
@@ -241,17 +245,17 @@ const v4uncached = async (
 		? query
 		: parameters.length === 0
 			? `query {${query}}`
-			: `query (${parameters.join(",")}) {${query}}`;
+			: `query (${parameters.join(',')}) {${query}}`;
 
 	log.http(fullQuery);
 
 	const response = await fetch(api4, {
 		headers: {
-			"user-agent": "Refined GitHub",
-			"Content-Type": "application/json",
+			'user-agent': 'Refined GitHub',
+			'Content-Type': 'application/json',
 			Authorization: `bearer ${personalToken}`,
 		},
-		method: "POST",
+		method: 'POST',
 		body: JSON.stringify({
 			variables,
 			query: fullQuery,
@@ -260,10 +264,13 @@ const v4uncached = async (
 
 	const apiResponse: GraphQlResponse = await response.json();
 
-	const { data = {}, errors = [] } = apiResponse;
+	const {
+		data = {},
+		errors = [],
+	} = apiResponse;
 
 	if (errors.length > 0 && !options.allowErrors) {
-		throw new RefinedGitHubApiError("GraphQL:", ...errors.map((error) => error.message));
+		throw new RefinedGitHubApiError('GraphQL:', ...errors.map(error => error.message));
 	}
 
 	if (response.ok) {
@@ -279,7 +286,7 @@ const v4 = mem(v4uncached, {
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		if (query.includes("repository() {") || query.includes("owner: $owner, name: $name")) {
+		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);
 		}
 
@@ -290,53 +297,41 @@ const v4 = mem(v4uncached, {
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
 
-	if ((apiResponse.message as string)?.includes("API rate limit exceeded")) {
+	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubApiError(
-			"Rate limit exceeded.",
+			'Rate limit exceeded.',
 			personalToken
-				? "It may be time for a walk! 🍃 🌞"
-				: "Set your token in the options or take a walk! 🍃 🌞",
+				? 'It may be time for a walk! 🍃 🌞'
+				: 'Set your token in the options or take a walk! 🍃 🌞',
 		);
 	}
 
-	if (apiResponse.message === "Bad credentials") {
+	if (apiResponse.message === 'Bad credentials') {
 		return new RefinedGitHubApiError(
-			"The token seems to be incorrect or expired. Update it in the options.",
+			'The token seems to be incorrect or expired. Update it in the options.',
 		);
 	}
 
-	if ((apiResponse.message as string)?.includes("without `workflow` scope")) {
+	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
 		return new RefinedGitHubApiError(
-			"To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens",
+			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
 		);
 	}
 
-	if (
-		(apiResponse.message as string)?.includes("Resource not accessible by personal access token")
-	) {
-		const error = new RefinedGitHubApiError("Your organization requires a specific type of token.");
-		error.richMessage = (
-			<>
-				Your organization requires a specific type of token.{" "}
-				<a
-					href="https://github.com/refined-github/refined-github/wiki/Security#token"
-					target="_blank"
-					rel="noreferrer"
-					style={{ color: "inherit", textDecoration: "underline" }}
-				>
-					Fix…
-				</a>
-			</>
+	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
+		const error = new RefinedGitHubApiError(
+			'Your organization requires a specific type of token.',
 		);
+		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
 		return error;
 	}
 
 	const error = new RefinedGitHubApiError(
-		"Unable to fetch.",
+		'Unable to fetch.',
 		personalToken
-			? "Ensure that your token has access to this repo."
-			: "Maybe adding a token in the options will fix this issue.",
-		JSON.stringify(apiResponse, undefined, "\t"), // Beautify
+			? 'Ensure that your token has access to this repo.'
+			: 'Maybe adding a token in the options will fix this issue.',
+		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
 	);
 	error.response = apiResponse;
 	return error;

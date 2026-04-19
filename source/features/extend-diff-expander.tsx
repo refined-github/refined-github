@@ -1,19 +1,19 @@
-import "./extend-diff-expander.css";
+import './extend-diff-expander.css';
 
-import { $ } from "select-dom/strict.js";
-import delegate, { type DelegateEvent } from "delegate-it";
-import * as pageDetect from "github-url-detection";
+import {$} from 'select-dom/strict.js';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 const lineSelectors = [
-	".diff-view .js-expandable-line", // Expandable lines in old view
-	".diff-line-row:has(button[data-direction])", // React view
+	'.diff-view .js-expandable-line', // Expandable lines in old view
+	'.diff-line-row:has(button[data-direction])', // React view
 ];
 
 const nativeButtonSelector = [
-	".js-expand", // Expand button in old view
-	"button[data-direction]", // React view
+	'.js-expand', // Expand button in old view
+	'button[data-direction]', // React view
 ];
 
 function expandDiff(event: DelegateEvent): void {
@@ -24,12 +24,14 @@ function expandDiff(event: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	document.body.classList.add("rgh-extend-diff-expander");
-	delegate(lineSelectors, "click", expandDiff, { signal });
+	document.body.classList.add('rgh-extend-diff-expander');
+	delegate(lineSelectors, 'click', expandDiff, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.hasFiles],
+	include: [
+		pageDetect.hasFiles,
+	],
 	init,
 });
 

@@ -1,14 +1,14 @@
-import React from "react";
-import LockIcon from "octicons-plain-react/Lock";
-import * as pageDetect from "github-url-detection";
+import React from 'react';
+import LockIcon from 'octicons-plain-react/Lock';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
-import isConversationLocked from "../github-helpers/is-conversation-locked.js";
-import { getIdentifiers } from "../helpers/feature-helpers.js";
-import { featureClass as jumpToCloseEventClass } from "./jump-to-conversation-close-event.js";
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import isConversationLocked from '../github-helpers/is-conversation-locked.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
+import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
 
-export const { class: featureClass, selector: featureSelector } = getIdentifiers(import.meta.url);
+export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
 function LockedIndicator(): JSX.Element {
 	return (
@@ -20,15 +20,17 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = element.closest([".sticky-content", ".gh-header-sticky"]);
-	element.after(<LockedIndicator className={`mb-2 ${closestSticky ? "mr-2 " : ""}`} />);
+	const closestSticky = element.closest(['.sticky-content', '.gh-header-sticky']);
+	element.after(
+		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
+	);
 }
 
 function addLock(stateLabel: HTMLElement): void {
 	const isWrapped = stateLabel.parentElement!.classList.contains(jumpToCloseEventClass);
 	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
 
-	container.parentElement!.classList.add("d-flex", "gap-2");
+	container.parentElement!.classList.add('d-flex', 'gap-2');
 	container.after(<LockedIndicator />);
 }
 
@@ -36,21 +38,20 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) span[class^="prc-StateLabel"]',
 		addLock,
-		{ signal },
+		{signal},
 	);
 	// Old PR view - TODO: Drop after July 2026
-	observe(
-		[
-			".gh-header-meta > :first-child",
-			":is(.sticky-content, .gh-header-sticky) .flex-row > :first-child",
-		],
-		addLockLegacy,
-		{ signal },
-	);
+	observe([
+		'.gh-header-meta > :first-child',
+		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+	], addLockLegacy, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [pageDetect.isConversation, async () => (await isConversationLocked()) ?? false],
+	asLongAs: [
+		pageDetect.isConversation,
+		async () => await isConversationLocked() ?? false,
+	],
 	init,
 });
 

@@ -1,4 +1,4 @@
-import React from "dom-chef";
+import React from 'dom-chef';
 
 export default function TimelineItem(): JSX.Element {
 	// Classes copied from #issuecomment-new + mt-3 added

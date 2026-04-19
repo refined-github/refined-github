@@ -1,4 +1,4 @@
-import delay from "../helpers/delay.js";
+import delay from '../helpers/delay.js';
 
 export default async function waitFor(condition: () => any): Promise<void> {
 	while (!condition()) {

@@ -1,10 +1,10 @@
-import { isRepoCommitList } from "github-url-detection";
-import { $optional } from "select-dom/strict.js";
+import {isRepoCommitList} from 'github-url-detection';
+import {$optional} from 'select-dom/strict.js';
 
-import { extractCurrentBranchFromBranchPicker } from "./index.js";
-import { branchSelector } from "./selectors.js";
+import {extractCurrentBranchFromBranchPicker} from './index.js';
+import {branchSelector} from './selectors.js';
 
-const typesWithGitRef = new Set(["tree", "blob", "blame", "edit", "commit", "commits", "compare"]);
+const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
 const titleWithGitRef = / at (?<branch>[.\w/-]+)(?: · [\w-]+\/[\w-]+)?$/i;
 
 /** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
@@ -27,11 +27,11 @@ export default function getCurrentGitRef(): string | undefined {
 }
 
 export function getGitRef(pathname: string, title: string): string | undefined {
-	if (!pathname.startsWith("/")) {
+	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
 	}
 
-	const [type, gitRefIfNonSlashed] = pathname.split("/").slice(3);
+	const [type, gitRefIfNonSlashed] = pathname.split('/').slice(3);
 	if (!type || !typesWithGitRef.has(type)) {
 		// Root; or piece of information not applicable to the page
 		return;
@@ -55,9 +55,10 @@ function getCurrentBranchFromFeed(): string | undefined {
 		return;
 	}
 
-	return new URL(feedLink.href).pathname
-		.split("/")
+	return new URL(feedLink.href)
+		.pathname
+		.split('/')
 		.slice(4) // Drops the initial /user/repo/route/ part
-		.join("/")
-		.replace(/\.atom$/, "");
+		.join('/')
+		.replace(/\.atom$/, '');
 }

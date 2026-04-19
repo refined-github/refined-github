@@ -1,73 +1,71 @@
-import React from "dom-chef";
-import { $, $optional } from "select-dom/strict.js";
-import delegate, { type DelegateEvent } from "delegate-it";
-import * as pageDetect from "github-url-detection";
-import UndoIcon from "octicons-plain-react/Undo";
+import React from 'dom-chef';
+import {$, $optional} from 'select-dom/strict.js';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import UndoIcon from 'octicons-plain-react/Undo';
 
-import features from "../feature-manager.js";
-import api from "../github-helpers/api.js";
-import showToast from "../github-helpers/toast.js";
-import { getBranches } from "../github-helpers/pr-branches.js";
-import getPrInfo from "../github-helpers/get-pr-info.js";
-import observe from "../helpers/selector-observer.js";
-import { expectToken } from "../github-helpers/github-token.js";
+import features from '../feature-manager.js';
+import api from '../github-helpers/api.js';
+import showToast from '../github-helpers/toast.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import getPrInfo from '../github-helpers/get-pr-info.js';
+import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
 
 async function getMergeBaseReference(): Promise<string> {
-	const { base, head } = getBranches();
+	const {base, head} = getBranches();
 	// This v3 response is relatively large, but it doesn't seem to be available on v4
 	// Cache buster due to: https://github.com/refined-github/refined-github/issues/7312
-	const response = await api.v3(
-		`compare/${base.relative}...${head.relative}?cachebust=${Date.now()}`,
-	);
+	const response = await api.v3(`compare/${base.relative}...${head.relative}?cachebust=${Date.now()}`);
 	return response.merge_base_commit.sha; // #4679
 }
 
 async function getHeadReference(): Promise<string> {
-	const { base } = getBranches();
-	const { headRefOid } = await getPrInfo(base.relative);
+	const {base} = getBranches();
+	const {headRefOid} = await getPrInfo(base.relative);
 	return headRefOid;
 }
 
 async function getFile(filePath: string): Promise<string | undefined> {
 	const ref = await getMergeBaseReference();
-	const { content, httpStatus } = await api.v3(`contents/${filePath}?ref=${ref}`, {
-		responseFormat: "base64",
-		ignoreHttpStatus: 404,
-		headers: {
-			accept: "application/vnd.github.raw",
+	const {content, httpStatus} = await api.v3(
+		`contents/${filePath}?ref=${ref}`,
+		{
+			responseFormat: 'base64',
+			ignoreHttpStatus: 404,
+			headers: {
+				accept: 'application/vnd.github.raw',
+			},
 		},
-	});
+	);
 	return httpStatus === 404 ? undefined : content;
 }
 
-async function discardChanges(
-	progress: (message: string) => void,
-	originalFileName: string,
-	newFileName: string,
-	headline: string,
-): Promise<void> {
-	const [headReference, file] = await Promise.all([getHeadReference(), getFile(originalFileName)]);
+async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
+	const [headReference, file] = await Promise.all([
+		getHeadReference(),
+		getFile(originalFileName),
+	]);
 
 	const isNewFile = file === undefined;
 	const isRenamed = originalFileName !== newFileName;
 
-	const contents = file ?? "";
-	const deleteNewFile = { deletions: [{ path: newFileName }] };
-	const restoreOldFile = { additions: [{ path: originalFileName, contents }] };
+	const contents = file ?? '';
+	const deleteNewFile = {deletions: [{path: newFileName}]};
+	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
 	const fileChanges = isRenamed
-		? { ...restoreOldFile, ...deleteNewFile } // Renamed, maybe also changed
+		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
 		: isNewFile
 			? deleteNewFile // New
 			: restoreOldFile; // Changes
 
-	const { nameWithOwner, branch: prBranch } = getBranches().head;
-	progress("Committing…");
+	const {nameWithOwner, branch: prBranch} = getBranches().head;
+	progress('Committing…');
 
-	await api.v4(
-		`
+	await api.v4(`
 		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
 				commit {
@@ -75,44 +73,43 @@ async function discardChanges(
 				}
 			}
 		}
-	`,
-		{
-			variables: {
-				input: {
-					branch: {
-						repositoryNameWithOwner: nameWithOwner,
-						branchName: prBranch,
-					},
-					expectedHeadOid: headReference,
-					fileChanges,
-					message: {
-						headline,
-					},
+	`, {
+		variables: {
+			input: {
+				branch: {
+					repositoryNameWithOwner: nameWithOwner,
+					branchName: prBranch,
+				},
+				expectedHeadOid: headReference,
+				fileChanges,
+				message: {
+					headline,
 				},
 			},
 		},
-	);
+	});
 }
 
-function getFilenames(menuItem: HTMLElement): { original: string; new: string } {
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
-	if (menuItem.tagName === "BUTTON") {
+	if (menuItem.tagName === 'BUTTON') {
 		const [originalFileName, newFileName = originalFileName] = menuItem
-			.closest("[data-path]")!
-			.querySelector(".Link--primary")!
-			.textContent.split(" → ");
+			.closest('[data-path]')!
+			.querySelector('.Link--primary')!
+			.textContent
+			.split(' → ');
 
-		return { original: originalFileName, new: newFileName };
+		return {original: originalFileName, new: newFileName};
 	}
 
 	// New React view: get filenames from the file header
 	const fileNameElement = $('[class^="DiffFileHeader-module__file-name"]', focusedFileContainer);
-	const span = $optional("span:not(.sr-only)", fileNameElement);
-	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement).textContent // eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
-		.split("  ")
-		.map((text) => text.replaceAll(/\u200E/g, ""));
+	const span = $optional('span:not(.sr-only)', fileNameElement);
+	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement)
+		// eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
+		.textContent.split('  ').map(text => text.replaceAll(/\u200E/g, ''));
 
-	return { original: originalFileName, new: newFileName };
+	return {original: originalFileName, new: newFileName};
 }
 
 async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
@@ -120,7 +117,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 	const filenames = getFilenames(menuItem);
 
 	const commitTitle = prompt(
-		"Are you sure you want to discard these changes? Enter the commit title",
+		'Are you sure you want to discard these changes? Enter the commit title',
 		`Discard changes to ${filenames.original}`,
 	);
 
@@ -128,17 +125,14 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 		return;
 	}
 
-	await showToast(
-		async (progress) => discardChanges(progress, filenames.original, filenames.new, commitTitle),
-		{
-			message: "Loading info…",
-			doneMessage: "Changes discarded",
-		},
-	);
+	await showToast(async progress => discardChanges(progress, filenames.original, filenames.new, commitTitle), {
+		message: 'Loading info…',
+		doneMessage: 'Changes discarded',
+	});
 
 	// Hide file from view
-	if (menuItem.tagName === "BUTTON") {
-		menuItem.closest(".file")!.remove();
+	if (menuItem.tagName === 'BUTTON') {
+		menuItem.closest('.file')!.remove();
 		return;
 	}
 
@@ -150,15 +144,19 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 // Legacy view handler
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
-		<button className="pl-5 dropdown-item btn-link rgh-restore-file" role="menuitem" type="button">
+		<button
+			className="pl-5 dropdown-item btn-link rgh-restore-file"
+			role="menuitem"
+			type="button"
+		>
 			Discard changes
 		</button>,
 	);
 }
 
-function handleMenuOpening({ delegateTarget: menuButton }: DelegateEvent): void {
+function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	// Don't run if the menu has been closed
-	if (menuButton.ariaExpanded === "false") {
+	if (menuButton.ariaExpanded === 'false') {
 		return;
 	}
 
@@ -169,12 +167,12 @@ function handleMenuOpening({ delegateTarget: menuButton }: DelegateEvent): void 
 	requestAnimationFrame(() => {
 		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
 		const discardItem = editFile.cloneNode(true);
-		discardItem.classList.add("rgh-restore-file");
-		const link = $("a", discardItem);
-		link.ariaKeyShortcuts = "d";
-		link.removeAttribute("href");
-		link.removeAttribute("aria-labelledby");
-		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = "Discard changes";
+		discardItem.classList.add('rgh-restore-file');
+		const link = $('a', discardItem);
+		link.ariaKeyShortcuts = 'd';
+		link.removeAttribute('href');
+		link.removeAttribute('aria-labelledby');
+		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
 		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
 
 		editFile.after(discardItem);
@@ -185,22 +183,24 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	// Legacy view
-	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, { signal });
+	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
 
 	// New React view
 	delegate(
 		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
-		"click",
+		'click',
 		handleMenuOpening,
-		{ signal },
+		{signal},
 	);
 
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate(".rgh-restore-file", "click", handleClick, { capture: true, signal });
+	delegate('.rgh-restore-file', 'click', handleClick, {capture: true, signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isPRFiles],
+	include: [
+		pageDetect.isPRFiles,
+	],
 	init,
 });
 

@@ -1,10 +1,10 @@
-import React from "dom-chef";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
-import { isRefinedGitHubYoloRepo } from "../github-helpers/index.js";
-import observe from "../helpers/selector-observer.js";
-import { createRghIssueLink, getFeatureUrl } from "../helpers/rgh-links.js";
+import features from '../feature-manager.js';
+import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
 function linkifyIssue(issueCell: HTMLElement): void {
 	// Linkify with hovercards
@@ -24,15 +24,15 @@ function linkifyFeature(issueCell: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// .js-csv-data is the old selector
-	observe(":is(.js-csv-data, .react-csv-row) td:nth-child(2)", linkifyFeature, { signal });
-	observe(":is(.js-csv-data, .react-csv-row) td:nth-child(3)", linkifyIssue, { signal });
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(2)', linkifyFeature, {signal});
+	observe(':is(.js-csv-data, .react-csv-row) td:nth-child(3)', linkifyIssue, {signal});
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubYoloRepo,
 		pageDetect.isSingleFile,
-		() => location.pathname.endsWith("broken-features.csv"),
+		() => location.pathname.endsWith('broken-features.csv'),
 	],
 	init,
 });

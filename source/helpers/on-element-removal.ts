@@ -1,12 +1,12 @@
-import mem from "memoize";
+import mem from 'memoize';
 
 const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Promise<void> => {
 	if (signal?.aborted) {
 		return;
 	}
 
-	return new Promise((resolve) => {
-		const observer = new ResizeObserver(([{ target }], observer) => {
+	return new Promise(resolve => {
+		const observer = new ResizeObserver(([{target}], observer) => {
 			if (!target.isConnected) {
 				observer.disconnect();
 				resolve();
@@ -14,16 +14,12 @@ const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Pro
 		});
 
 		if (signal) {
-			signal.addEventListener(
-				"abort",
-				() => {
-					observer.disconnect();
-					resolve();
-				},
-				{
-					once: true,
-				},
-			);
+			signal.addEventListener('abort', () => {
+				observer.disconnect();
+				resolve();
+			}, {
+				once: true,
+			});
 		}
 
 		observer.observe(element);

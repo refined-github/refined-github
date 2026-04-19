@@ -1,17 +1,17 @@
-import { CachedFunction } from "webext-storage-cache";
-import { $optional } from "select-dom/strict.js";
-import { elementExists } from "select-dom";
-import elementReady from "element-ready";
-import * as pageDetect from "github-url-detection";
+import {CachedFunction} from 'webext-storage-cache';
+import {$optional} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
+import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
-import { cacheByRepo } from "../github-helpers/index.js";
-import HasAnyProjects from "./clean-conversation-filters.gql";
-import api from "../github-helpers/api.js";
-import { expectToken, expectTokenScope } from "../github-helpers/github-token.js";
-import observe from "../helpers/selector-observer.js";
+import features from '../feature-manager.js';
+import {cacheByRepo} from '../github-helpers/index.js';
+import HasAnyProjects from './clean-conversation-filters.gql';
+import api from '../github-helpers/api.js';
+import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
 
-const hasAnyProjects = new CachedFunction("has-projects", {
+const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
 		if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
@@ -25,20 +25,18 @@ const hasAnyProjects = new CachedFunction("has-projects", {
 			return false;
 		}
 
-		await expectTokenScope("read:project");
-		const { repository, organization } = await api.v4(HasAnyProjects, {
+		await expectTokenScope('read:project');
+		const {repository, organization} = await api.v4(HasAnyProjects, {
 			allowErrors: true,
 		});
 
-		return (
-			Boolean(repository.projects.totalCount) ||
-			Boolean(repository.projectsV2.totalCount) ||
-			Boolean(organization?.projects?.totalCount) ||
-			Boolean(organization?.projectsV2?.totalCount)
-		);
+		return Boolean(repository.projects.totalCount)
+			|| Boolean(repository.projectsV2.totalCount)
+			|| Boolean(organization?.projects?.totalCount)
+			|| Boolean(organization?.projectsV2?.totalCount);
 	},
-	maxAge: { days: 1 },
-	staleWhileRevalidate: { days: 20 },
+	maxAge: {days: 1},
+	staleWhileRevalidate: {days: 20},
 	cacheKey: cacheByRepo,
 });
 
@@ -62,11 +60,13 @@ async function hide(container: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(String.raw`#\:rs\:-list-view-metadata`, hide, { signal });
+	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isRepoIssueOrPRList],
+	include: [
+		pageDetect.isRepoIssueOrPRList,
+	],
 	init,
 });
 

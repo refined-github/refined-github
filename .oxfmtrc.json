@@ -1,0 +1,12 @@
+{
+	"singleQuote": true,
+	"jsxSingleQuote": false,
+	"bracketSpacing": false,
+	"arrowParens": "avoid",
+	"quoteProps": "preserve",
+	"printWidth": 100,
+	"trailingComma": "all",
+	"semi": true,
+	"sortPackageJson": false,
+	"ignorePatterns": []
+}

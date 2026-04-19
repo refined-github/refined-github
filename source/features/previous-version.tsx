@@ -1,20 +1,20 @@
-import React from "dom-chef";
-import * as pageDetect from "github-url-detection";
-import VersionsIcon from "octicons-plain-react/Versions";
-import { $ } from "select-dom/strict.js";
-import { elementExists } from "select-dom";
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import VersionsIcon from 'octicons-plain-react/Versions';
+import {$} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 
-import features from "../feature-manager.js";
-import observe from "../helpers/selector-observer.js";
-import api from "../github-helpers/api.js";
-import GitHubFileUrl from "../github-helpers/github-file-url.js";
-import previousVersionQuery from "./previous-version.gql";
-import onReactPageUpdate from "../github-events/on-react-page-update.js";
-import { expectToken } from "../github-helpers/github-token.js";
+import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import previousVersionQuery from './previous-version.gql';
+import onReactPageUpdate from '../github-events/on-react-page-update.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
-	const { user, repository, branch, filePath } = new GitHubFileUrl(pathname);
-	const { resource } = await api.v4(previousVersionQuery, {
+	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
+	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
 			filePath,
 			resource: `/${user}/${repository}/commit/${branch}`,
@@ -31,27 +31,29 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		return;
 	}
 
-	return new GitHubFileUrl(location.href).assign({ branch: previousCommit }).href;
+	return new GitHubFileUrl(location.href)
+		.assign({branch: previousCommit})
+		.href;
 }
 
 function addMobileDom(wrappedHistoryButton: HTMLElement): HTMLAnchorElement {
 	const wrappedPreviousButton = wrappedHistoryButton.cloneNode(true);
-	wrappedPreviousButton.setAttribute("aria-label", "Previous version");
-	const previousButton = $("a", wrappedPreviousButton);
-	previousButton.classList.add("rgh-previous-version-mobile");
+	wrappedPreviousButton.setAttribute('aria-label', 'Previous version');
+	const previousButton = $('a', wrappedPreviousButton);
+	previousButton.classList.add('rgh-previous-version-mobile');
 	wrappedHistoryButton.before(wrappedPreviousButton);
 	return previousButton;
 }
 
 function addDesktopDom(historyButton: HTMLAnchorElement): HTMLAnchorElement {
 	const previousButton = historyButton.cloneNode(true);
-	previousButton.classList.add("mr-n2", "rgh-previous-version-desktop");
-	$('span[data-component="text"]', previousButton).textContent = "Previous";
+	previousButton.classList.add('mr-n2', 'rgh-previous-version-desktop');
+	$('span[data-component="text"]', previousButton).textContent = 'Previous';
 	historyButton.before(previousButton);
 	return previousButton;
 }
 
-async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions): Promise<void> {
+async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions): Promise<void> {
 	const url = await getPreviousFileUrl();
 	if (!url) {
 		return;
@@ -61,11 +63,7 @@ async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions
 	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
 	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
 
-	if (
-		elementExists(
-			wrappedHistoryButton ? ".rgh-previous-version-mobile" : ".rgh-previous-version-desktop",
-		)
-	) {
+	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
 		return;
 	}
 
@@ -74,9 +72,11 @@ async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions
 		: addDesktopDom(historyButton);
 
 	previousButton.href = url;
-	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(<VersionsIcon />);
+	$('span[data-component="leadingVisual"] svg', previousButton).replaceWith(
+		<VersionsIcon />,
+	);
 
-	onReactPageUpdate(async (pageUnload) => {
+	onReactPageUpdate(async pageUnload => {
 		const url = await getPreviousFileUrl();
 		if (pageUnload.aborted) {
 			return;
@@ -92,12 +92,18 @@ async function add(historyButton: HTMLAnchorElement, { signal }: SignalAsOptions
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, { signal });
+	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isSingleFile, pageDetect.isRepoTree, pageDetect.isBlame],
-	exclude: [pageDetect.isRepoHome],
+	include: [
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
+		pageDetect.isBlame,
+	],
+	exclude: [
+		pageDetect.isRepoHome,
+	],
 	init,
 });
 

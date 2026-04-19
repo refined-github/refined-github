@@ -1,31 +1,24 @@
-import React from "dom-chef";
+import React from 'dom-chef';
 
-import features from "../feature-manager.js";
-import getCurrentGitRef from "../github-helpers/get-current-git-ref.js";
-import isDefaultBranch from "../github-helpers/is-default-branch.js";
-import {
-	pullRequestsAssociatedWithBranch,
-	stateIcon,
-} from "./show-associated-branch-prs-on-fork.js";
-import {
-	addAfterBranchSelector,
-	isPermalink,
-	isRepoCommitListRoot,
-} from "../github-helpers/index.js";
-import observe from "../helpers/selector-observer.js";
-import { branchSelectorParent } from "../github-helpers/selectors.js";
-import { expectToken } from "../github-helpers/github-token.js";
+import features from '../feature-manager.js';
+import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
+import isDefaultBranch from '../github-helpers/is-default-branch.js';
+import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
+import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import {branchSelectorParent} from '../github-helpers/selectors.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
 const stateColorMap = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
-	OPEN: "color-fg-success",
+	OPEN: 'color-fg-success',
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
-	CLOSED: "color-fg-danger",
+	CLOSED: 'color-fg-danger',
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
-	MERGED: "color-fg-done",
+	MERGED: 'color-fg-done',
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
-	DRAFT: "",
+	DRAFT: '',
 };
 
 async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
@@ -45,7 +38,7 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 			href={prInfo.url}
 			className="btn flex-self-center rgh-list-prs-for-branch"
 			data-hovercard-type="pull_request"
-			data-hovercard-url={prInfo.url + "/hovercard"}
+			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
 			<StateIcon className={stateColorMap[prInfo.state]} />
 			<span> #{prInfo.number}</span>
@@ -56,12 +49,17 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
-	observe(branchSelectorParent, add, { signal });
+	observe(branchSelectorParent, add, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [isRepoCommitListRoot],
-	exclude: [isDefaultBranch, isPermalink],
+	include: [
+		isRepoCommitListRoot,
+	],
+	exclude: [
+		isDefaultBranch,
+		isPermalink,
+	],
 	init,
 });
 

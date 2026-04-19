@@ -1,26 +1,26 @@
-import { $$, elementExists } from "select-dom";
-import { $ } from "select-dom/strict.js";
-import { onAbort } from "abort-utils";
-import * as pageDetect from "github-url-detection";
-import delegate, { type DelegateEvent } from "delegate-it";
+import {$$, elementExists} from 'select-dom';
+import {$} from 'select-dom/strict.js';
+import {onAbort} from 'abort-utils';
+import * as pageDetect from 'github-url-detection';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
-import features from "../feature-manager.js";
-import clickAll from "../helpers/click-all.js";
-import showToast from "../github-helpers/toast.js";
-import getItemsBetween from "../helpers/get-items-between.js";
+import features from '../feature-manager.js';
+import clickAll from '../helpers/click-all.js';
+import showToast from '../github-helpers/toast.js';
+import getItemsBetween from '../helpers/get-items-between.js';
 
 export const viewedToggleSelector = [
 	'button[class*="MarkAsViewedButton"]',
 	// Old view
-	"input.js-reviewed-checkbox",
+	'input.js-reviewed-checkbox',
 ] as const;
 const fileSelector = [
 	'[class^="Diff-module__diffTargetable"]',
 	// Old view
-	".js-file",
+	'.js-file',
 ] as const;
 // New view, Old view
-const checkedSelector = ":is(:has(.octicon-checkbox-fill), [checked])";
+const checkedSelector = ':is(:has(.octicon-checkbox-fill), [checked])';
 
 let previousFile: HTMLElement | undefined;
 
@@ -35,7 +35,7 @@ function isChecked(file: HTMLElement): boolean {
 
 	return viewedToggle instanceof HTMLInputElement
 		? viewedToggle.checked
-		: elementExists(".octicon-checkbox-fill", viewedToggle);
+		: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
 function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
@@ -52,11 +52,11 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
 	for (const file of selectedFiles) {
 		if (
-			file !== thisFile &&
+			file !== thisFile
 			// `checkVisibility` excludes filtered-out files
 			// https://github.com/refined-github/refined-github/issues/7819
-			file.checkVisibility() &&
-			isChecked(file) !== isThisBeingFileChecked
+			&& file.checkVisibility()
+			&& isChecked(file) !== isThisBeingFileChecked
 		) {
 			$(viewedToggleSelector, file).click();
 		}
@@ -64,8 +64,8 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(file: HTMLElement): string {
-	const fileElement = fileSelector.join(",");
-	const viewedToggle = viewedToggleSelector.join(",");
+	const fileElement = fileSelector.join(',');
+	const viewedToggle = viewedToggleSelector.join(',');
 	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
@@ -80,31 +80,33 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 	}
 
 	const file = event.delegateTarget.closest(fileSelector)!;
-	const newState = isChecked(file) ? "viewed" : "unviewed";
+	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
-	void showToast(
-		async () => {
-			markAsViewed(event);
-		},
-		{
-			message: `Marking visible files as ${newState}`,
-			doneMessage: `Files marked as ${newState}`,
-		},
-	);
+	void showToast(async () => {
+		markAsViewed(event);
+	}, {
+		message: `Marking visible files as ${newState}`,
+		doneMessage: `Files marked as ${newState}`,
+	});
 };
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, "click", onAltClick, { signal });
-	delegate(viewedToggleSelector, "click", batchToggle, { signal });
-	delegate(viewedToggleSelector, "click", remember, { signal });
+	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
+	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
+	delegate(viewedToggleSelector, 'click', remember, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isPRFiles],
-	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
+	include: [
+		pageDetect.isPRFiles,
+	],
+	exclude: [
+		pageDetect.isPRFile404,
+		pageDetect.isPRCommit,
+	],
 	init,
 });
 

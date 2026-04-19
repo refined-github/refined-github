@@ -1,7 +1,6 @@
 export const shortcutMap = new Map<string, string>();
 
-export const getFeatureId = (url: string): FeatureId =>
-	url.split("/").pop()!.split(".")[0] as FeatureId;
+export const getFeatureId = (url: string): FeatureId => url.split('/').pop()!.split('.')[0] as FeatureId;
 
 type FeatureHelper = {
 	/** If `import.meta.url` is passed as URL, this will be the feature ID */
@@ -18,21 +17,19 @@ export function getIdentifiers(url: string): FeatureHelper {
 	const id = getFeatureId(url);
 	return {
 		id,
-		class: "rgh-" + id,
-		selector: ".rgh-" + id,
+		class: 'rgh-' + id,
+		selector: '.rgh-' + id,
 	};
 }
 
-function noop(): void {
-	/* empty */
-}
+function noop(): void {/* empty */}
 
-const httpLog = console.log.bind(console, "🌏");
+const httpLog = console.log.bind(console, '🌏');
 
 export const log = {
 	info: console.log,
 	http: httpLog,
-	setup({ logging, logHttp }: { logging: boolean; logHttp: boolean }): void {
+	setup({logging, logHttp}: {logging: boolean; logHttp: boolean}): void {
 		log.info = logging ? console.log : noop;
 		log.http = logHttp ? httpLog : noop;
 	},
@@ -49,6 +46,6 @@ export function markAjaxedLoad(): void {
 }
 
 export function listenToAjaxedLoad(): void {
-	document.addEventListener("soft-nav:start", markAjaxedLoad, { once: true });
-	document.addEventListener("pjax:start", markAjaxedLoad, { once: true });
+	document.addEventListener('soft-nav:start', markAjaxedLoad, {once: true});
+	document.addEventListener('pjax:start', markAjaxedLoad, {once: true});
 }

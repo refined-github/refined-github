@@ -1,7 +1,7 @@
-import { $$ } from "select-dom";
-import * as pageDetect from "github-url-detection";
+import {$$} from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 const authorLinkSelector = 'a[aria-label^="commits by"]';
 
@@ -12,7 +12,9 @@ function init(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isRepoCommitList],
+	include: [
+		pageDetect.isRepoCommitList,
+	],
 	awaitDomReady: true, // Small page
 	init,
 });

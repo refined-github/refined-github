@@ -1,6 +1,6 @@
-import "./hide-diff-signs.css";
+import './hide-diff-signs.css';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 void features.addCssFeature(import.meta.url);
 

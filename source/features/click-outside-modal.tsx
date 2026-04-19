@@ -1,19 +1,17 @@
-import * as pageDetect from "github-url-detection";
-import delegate, { type DelegateEvent } from "delegate-it";
+import * as pageDetect from 'github-url-detection';
+import delegate, {type DelegateEvent} from 'delegate-it';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
-function onButtonClick({ delegateTarget: delegate, target }: DelegateEvent): void {
+function onButtonClick({delegateTarget: delegate, target}: DelegateEvent): void {
 	// Only close if clicking outside of modal
 	if (delegate === target) {
-		delegate.dispatchEvent(
-			new KeyboardEvent("keydown", { bubbles: true, key: "Escape", code: "Escape" }),
-		);
+		delegate.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
 	}
 }
 
 function init(signal: AbortSignal): void {
-	delegate('[class*="Dialog__Backdrop-"]', "click", onButtonClick, { signal });
+	delegate('[class*="Dialog__Backdrop-"]', 'click', onButtonClick, {signal});
 }
 
 void features.add(import.meta.url, {

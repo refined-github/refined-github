@@ -1,16 +1,16 @@
-import "./tag-changes-link.css";
+import './tag-changes-link.css';
 
-import React from "dom-chef";
-import { $$, elementExists } from "select-dom";
-import { $, $optional } from "select-dom/strict.js";
-import domLoaded from "dom-loaded";
-import DiffIcon from "octicons-plain-react/Diff";
-import * as pageDetect from "github-url-detection";
-import tinyVersionCompare from "tiny-version-compare";
+import React from 'dom-chef';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import domLoaded from 'dom-loaded';
+import DiffIcon from 'octicons-plain-react/Diff';
+import * as pageDetect from 'github-url-detection';
+import tinyVersionCompare from 'tiny-version-compare';
 
-import features from "../feature-manager.js";
-import fetchDom from "../helpers/fetch-dom.js";
-import { buildRepoUrl, getRepo, parseTag } from "../github-helpers/index.js";
+import features from '../feature-manager.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -21,13 +21,13 @@ type TagDetails = {
 };
 
 async function getNextPage(): Promise<DocumentFragment> {
-	const nextPageLink = $optional(".pagination a:last-child");
+	const nextPageLink = $optional('.pagination a:last-child');
 	if (nextPageLink) {
 		return fetchDom(nextPageLink.href);
 	}
 
 	if (pageDetect.isSingleReleaseOrTag()) {
-		const [, tag = ""] = getRepo()!.path.split("releases/tag/", 2); // Already URL-encoded
+		const [, tag = ''] = getRepo()!.path.split('releases/tag/', 2); // Already URL-encoded
 		return fetchDom(buildRepoUrl(`tags?after=${tag}`));
 	}
 
@@ -74,23 +74,23 @@ function getPreviousTag(current: number, allTags: TagDetails[]): string | undefi
 }
 
 async function init(): Promise<void> {
-	document.documentElement.classList.add("rgh-tag-changes-link");
+	document.documentElement.classList.add('rgh-tag-changes-link');
 
 	const tagsSelector = [
 		// https://github.com/facebook/react/releases (release in releases list)
-		".repository-content .col-md-2",
+		'.repository-content .col-md-2',
 
 		// https://github.com/facebook/react/tags (tags list)
-		".Box-row .commit",
+		'.Box-row .commit',
 
 		// https://github.com/facebook/react/releases/tag/v17.0.2 (single release page)
-		".Box-body .border-md-bottom",
+		'.Box-body .border-md-bottom',
 	];
 
 	await domLoaded;
 	// Look for tags in the current page and the next page
 	const pages = [document, await getNextPage()];
-	const allTags = $$(tagsSelector, pages).map((tag) => parseTags(tag));
+	const allTags = $$(tagsSelector, pages).map(tag => parseTags(tag));
 
 	for (const [index, container] of allTags.entries()) {
 		const previousTag = getPreviousTag(index, allTags);
@@ -98,13 +98,10 @@ async function init(): Promise<void> {
 			continue;
 		}
 
-		const lastLinks = $$(
-			[
-				'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
-				".list-style-none > .d-inline-block:last-child", // Link to source tarball under release tag
-			],
-			container.element,
-		);
+		const lastLinks = $$([
+			'.Link--muted[data-hovercard-type="commit"]', // Link to commit in release sidebar
+			'.list-style-none > .d-inline-block:last-child', // Link to source tarball under release tag
+		], container.element);
 		for (const lastLink of lastLinks) {
 			const currentTag = allTags[index].tag;
 			const compareLink = (
@@ -113,50 +110,44 @@ async function init(): Promise<void> {
 					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`}
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon />{" "}
-					{pageDetect.isEnterprise() ? (
-						"Commits"
-					) : (
-						<span className="ml-1 wb-break-all">Commits</span>
-					)}
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
 				</a>
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (
-				pageDetect.isEnterprise() ||
-				pageDetect.isTags() ||
-				(pageDetect.isSingleReleaseOrTag() && elementExists(".release"))
-			) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
 				lastLink.after(
-					<li className={lastLink.className + " rgh-changelog-link"}>{compareLink}</li>,
+					<li className={lastLink.className + ' rgh-changelog-link'}>
+						{compareLink}
+					</li>,
 				);
 				// Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056
-				lastLink.classList.remove("flex-auto");
+				lastLink.classList.remove('flex-auto');
 				continue;
 			}
 
 			lastLink.parentElement!.after(
-				<div
-					className={
-						"rgh-changelog-link " + (pageDetect.isReleases() ? "mb-md-2 mr-3 mr-md-0" : "mr-4 mb-2")
-					}
-				>
+				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
 					{compareLink}
 				</div>,
 			);
 			if (pageDetect.isReleases()) {
-				lastLink.classList.remove("mb-2");
-				lastLink.parentElement!.classList.remove("mb-md-2");
+				lastLink.classList.remove('mb-2');
+				lastLink.parentElement!.classList.remove('mb-md-2');
 			}
 		}
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isReleasesOrTags, pageDetect.isSingleReleaseOrTag],
-	exclude: [pageDetect.isEmptyRepoRoot],
-	deduplicate: "has-rgh-inner",
+	include: [
+		pageDetect.isReleasesOrTags,
+		pageDetect.isSingleReleaseOrTag,
+	],
+	exclude: [
+		pageDetect.isEmptyRepoRoot,
+	],
+	deduplicate: 'has-rgh-inner',
 	init,
 });
 

@@ -1,6 +1,6 @@
-import "./clean-pinned-issues.css";
+import './clean-pinned-issues.css';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 void features.addCssFeature(import.meta.url);
 

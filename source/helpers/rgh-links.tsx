@@ -1,4 +1,4 @@
-import React from "dom-chef";
+import React from 'dom-chef';
 
 export function createRghIssueLink(issueNumber: number | string): Element {
 	const issueUrl = `https://github.com/refined-github/refined-github/issues/${issueNumber}`;
@@ -7,7 +7,7 @@ export function createRghIssueLink(issueNumber: number | string): Element {
 			target="_blank"
 			rel="noopener noreferrer"
 			data-hovercard-type="issue"
-			data-hovercard-url={issueUrl + "/hovercard"}
+			data-hovercard-url={issueUrl + '/hovercard'}
 			href={issueUrl}
 		>
 			#{issueNumber}

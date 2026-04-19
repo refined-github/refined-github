@@ -1,11 +1,11 @@
-import "./one-click-pr-or-gist.css";
+import './one-click-pr-or-gist.css';
 
-import React from "dom-chef";
-import { $$, elementExists } from "select-dom";
-import { $, $optional } from "select-dom/strict.js";
-import * as pageDetect from "github-url-detection";
+import React from 'dom-chef';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
 
-import features from "../feature-manager.js";
+import features from '../feature-manager.js';
 
 function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
@@ -17,22 +17,22 @@ function init(): void | false {
 
 	const parent = initialGroupedButtons.parentElement!;
 
-	for (const dropdownItem of $$(".select-menu-item", initialGroupedButtons)) {
-		let title = $(".select-menu-item-heading", dropdownItem).textContent.trim();
-		const description = $(".description", dropdownItem).textContent.trim();
-		const radioButton = $("input[type=radio]", dropdownItem);
-		const classList = ["btn", "ml-2", "tooltipped", "tooltipped-s"];
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
+		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
+		const description = $('.description', dropdownItem).textContent.trim();
+		const radioButton = $('input[type=radio]', dropdownItem);
+		const classList = ['btn', 'ml-2', 'tooltipped', 'tooltipped-s'];
 
 		if (/\bdraft\b/i.test(title)) {
-			title = "Create draft PR";
+			title = 'Create draft PR';
 		} else {
-			classList.push("btn-primary");
+			classList.push('btn-primary');
 		}
 
 		initialGroupedButtons.after(
 			<button
 				data-disable-invalid
-				className={classList.join(" ")}
+				className={classList.join(' ')}
 				aria-label={description}
 				type="submit"
 				name={radioButton.name}
@@ -46,18 +46,20 @@ function init(): void | false {
 	initialGroupedButtons.remove();
 
 	// Add minimal structure validation before adding a dangerous class
-	if (
-		parent.classList.contains("d-flex") &&
-		parent.parentElement!.classList.contains("flex-justify-end")
-	) {
-		parent.parentElement!.classList.add("flex-wrap");
+	if (parent.classList.contains('d-flex') && parent.parentElement!.classList.contains('flex-justify-end')) {
+		parent.parentElement!.classList.add('flex-wrap');
 	}
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isCompare, pageDetect.isGist],
-	exclude: [() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]')],
-	deduplicate: "has-rgh",
+	include: [
+		pageDetect.isCompare,
+		pageDetect.isGist,
+	],
+	exclude: [
+		() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
+	],
+	deduplicate: 'has-rgh',
 	awaitDomReady: true,
 	init,
 });

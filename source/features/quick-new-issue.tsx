@@ -1,42 +1,44 @@
-import React from "dom-chef";
-import * as pageDetect from "github-url-detection";
-import IssueOpenedIcon from "octicons-plain-react/IssueOpened";
-import { $ } from "select-dom/strict.js";
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+import {$} from 'select-dom/strict.js';
 
-import features from "../feature-manager.js";
-import { buildRepoUrl, getRepo, isArchivedRepoAsync } from "../github-helpers/index.js";
-import observe from "../helpers/selector-observer.js";
+import features from '../feature-manager.js';
+import {buildRepoUrl, getRepo, isArchivedRepoAsync} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
-const labelId = "rgh-quick-new-issue";
+const labelId = 'rgh-quick-new-issue';
 
 function add(listItem: HTMLElement): void {
 	const newIssueItem = listItem.cloneNode(true);
 
-	const link = $("a", newIssueItem);
-	const label = $('[id="' + link.getAttribute("aria-labelledby")!.trim() + '"]', newIssueItem);
-	link.setAttribute("aria-labelledby", labelId);
+	const link = $('a', newIssueItem);
+	const label = $('[id="' + link.getAttribute('aria-labelledby')!.trim() + '"]', newIssueItem);
+	link.setAttribute('aria-labelledby', labelId);
 	label.id = labelId;
 
-	link.href = buildRepoUrl("issues/new/choose");
+	link.href = buildRepoUrl('issues/new/choose');
 	label.textContent = `New issue in ${getRepo()?.name}`;
 
-	$("svg", newIssueItem).replaceWith(<IssueOpenedIcon />);
+	$('svg', newIssueItem).replaceWith(<IssueOpenedIcon />);
 
 	listItem.parentElement!.append(newIssueItem);
 
-	const separator = $('[data-component="ActionList.Divider"]', listItem.parentElement!).cloneNode(
-		true,
-	);
+	const separator = $('[data-component="ActionList.Divider"]', listItem.parentElement!).cloneNode(true);
 	newIssueItem.before(separator);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe('li:has(>a[href="/new/import"])', add, { signal });
+	observe('li:has(>a[href="/new/import"])', add, {signal});
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isRepo],
-	exclude: [isArchivedRepoAsync],
+	include: [
+		pageDetect.isRepo,
+	],
+	exclude: [
+		isArchivedRepoAsync,
+	],
 	init,
 });
 

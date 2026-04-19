@@ -1,10 +1,10 @@
-import features from "../feature-manager.js";
-import onetime from "../helpers/onetime.js";
-import observe from "../helpers/selector-observer.js";
+import features from '../feature-manager.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 
 function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	const search = new URLSearchParams(link.search);
-	search.set("type", "source");
+	search.set('type', 'source');
 	link.search = String(search);
 }
 
