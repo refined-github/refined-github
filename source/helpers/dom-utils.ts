@@ -139,3 +139,11 @@ const _isSmallDevice = screen.width < 500;
 export function isSmallDevice(): boolean {
 	return _isSmallDevice;
 }
+
+export function is(...classes: string[]): string {
+	return `:is(${classes.join(', ')})`;
+}
+
+export function not(...classes: string[]): string {
+	return `:not(${classes.join(', ')})`;
+}

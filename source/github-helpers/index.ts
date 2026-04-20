@@ -6,6 +6,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
+import {is} from '../helpers/dom-utils.js';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
@@ -129,13 +130,10 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
-const navigationBarSelector = `:is(${
-	[
-		'.GlobalNav',
-		// Remove after June 2026
-		'.js-repo-nav',
-	].join(',')
-})`;
+const navigationBarSelector = is(
+	'.GlobalNav',
+	'.js-repo-nav', // Remove after June 2026
+);
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;

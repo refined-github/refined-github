@@ -88,7 +88,7 @@ async function createLink(
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">{' '}+{aheadBy}</sup>}
 		</a>
 	);
 }
