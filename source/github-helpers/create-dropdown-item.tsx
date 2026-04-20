@@ -38,6 +38,7 @@ export default function createDropdownItem({
 					{label}
 				</span>
 			</a>
+
 		</li>
 	);
 }
