@@ -1,12 +1,12 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
 import {$$, countElements} from 'select-dom';
+import {$} from 'select-dom/strict.js';
 
+import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
-import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
