@@ -1,5 +1,5 @@
+/* Info: https://github.com/refined-github/refined-github/issues/7725 */
 @media (width <= 767px) {
-	/* https://github.com/refined-github/refined-github/issues/7725 */
 	a[class*='PullRequestHeaderNavigation'] {
 		display: inline-flex;
 		flex-wrap: wrap;
