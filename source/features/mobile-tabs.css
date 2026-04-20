@@ -14,12 +14,14 @@
 
 	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
 		display: grid;
+		height: 100%;
 		min-width: 50px;
 		grid:
 			'icon counter'
 			'title title';
 		gap: 0 5px;
 		padding: 6px 10px;
+		align-content: end;
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-hover-bg, fuchsia)
@@ -54,11 +56,15 @@
 		height: auto;
 		font-size: 10px;
 		color: var(--fgColor-default, var(--color-fg-default, fuchsia));
-		font-weight: inherit;
+		font-weight: normal;
 	}
 
 	:root [data-content='Pull requests']::before {
 		content: 'Pulls' !important;
+	}
+
+	:root [data-content='Security and quality']::before {
+		content: 'Sec' !important;
 	}
 
 	/* Tab label on on profiles */
@@ -83,23 +89,28 @@
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
 		padding: 0;
-		margin: 0;
+		margin: 0 !important;
 		border: none;
 		min-width: min-content;
 		justify-self: start;
 	}
 
-	/* When counter is missing */
+	/* When counter or icon is missing */
 	:root .UnderlineNav-item:not(:has(.Counter)),
 	:root .UnderlineNav-item:has(.Counter:empty),
 	:root .UnderlineNav-item:has([hidden]),
+	:root .UnderlineNav-item:not(:has(svg)),
 	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has([data-component='counter'])),
 	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter']:empty),
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]) {
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]),
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has(svg)) {
 		grid-template-areas:
 			'icon icon'
 			'title title';
 		svg {
+			justify-self: center;
+		}
+		:is(.Counter, [data-component='counter'], [data-variant='secondary']) {
 			justify-self: center;
 		}
 	}
