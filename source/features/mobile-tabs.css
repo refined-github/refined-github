@@ -101,9 +101,10 @@
 	/* PR tab navigation */
 	/* https://github.com/refined-github/refined-github/issues/7725 */
 	:root a[id^='prs-'][id$='-anchor-tab'][role='tab'] {
+		--rgh-mobile-pr-tab-width: 11ch;
 		display: inline-flex;
 		flex-wrap: wrap;
-		width: 11ch;
+		width: var(--rgh-mobile-pr-tab-width);
 		white-space: nowrap;
 		place-content: center center;
 		align-items: center;
@@ -120,17 +121,18 @@
 		}
 	}
 
+	/* Per-tab widths to keep Conversation/Commits/Checks/Changes visually balanced */
 	:root #prs-conversation-anchor-tab {
-		width: 12ch;
+		--rgh-mobile-pr-tab-width: 12ch;
 	}
 
 	:root #prs-commits-anchor-tab,
 	:root #prs-checks-anchor-tab {
-		width: 9ch;
+		--rgh-mobile-pr-tab-width: 9ch;
 	}
 
 	:root #prs-files-anchor-tab {
-		width: 10ch;
+		--rgh-mobile-pr-tab-width: 10ch;
 	}
 
 	@media (width <= 500px) {
