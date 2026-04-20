@@ -23,7 +23,7 @@ const commentSelector = is(
 	'.react-issue-comment', // Issue comment
 	'[data-testid="review-thread"] > div', // Review thread comment
 	'.js-comment', // PR description or comment
-];
+);
 
 async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
