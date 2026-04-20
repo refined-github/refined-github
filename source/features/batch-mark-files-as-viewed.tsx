@@ -21,7 +21,10 @@ const fileSelector = [
 	'.js-file',
 ] as const;
 // New view, Old view
-const checkedSelector = is(':has(.octicon-checkbox-fill)', '[checked]');
+const checkedSelector = is(
+	':has(.octicon-checkbox-fill)',
+	'[checked]',
+);
 
 let previousFile: HTMLElement | undefined;
 
@@ -68,7 +71,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
-	return `${is(...fileSelector)}:not([hidden]) ${is(...viewedToggleSelector)}${checkedState}`;
+	return is(fileSelector) + ':not([hidden]) ' + is(viewedToggleSelector) + checkedState;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);

@@ -24,7 +24,7 @@ const commentSelectors = [
 	'[data-testid="review-thread"] > div', // Review thread comment
 	'.js-comment', // PR description or comment
 ] as const;
-const commentSelector = is(...commentSelectors);
+const commentSelector = is(commentSelectors);
 
 async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});

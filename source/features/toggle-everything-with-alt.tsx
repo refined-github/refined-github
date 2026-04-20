@@ -22,7 +22,10 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = 'button[data-testid="commit-row-show-description-button"]';
 
-const addSuggestionToBatchSelector = is('.js-apply-changes button[data-variant="primary"]', '.js-batched-suggested-changes-add');
+const addSuggestionToBatchSelector = is(
+	'.js-apply-changes button[data-variant="primary"]',
+	'.js-batched-suggested-changes-add',
+);
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
 	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;

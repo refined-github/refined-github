@@ -45,9 +45,9 @@ const ariaLabelSelector = [
 
 function init(signal: AbortSignal): void {
 	observe([
-		`span[data-testid="comment-author-association"]${is(...ariaLabelSelector)}`,
+		'span[data-testid="comment-author-association"]' + is(ariaLabelSelector),
 		// PRs
-		`.tooltipped${is(...ariaLabelSelector)}`,
+		'.tooltipped' + is(ariaLabelSelector),
 	], linkify, {signal});
 }
 

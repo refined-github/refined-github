@@ -24,7 +24,7 @@ function showWhitespaceWhenInViewport(line: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`${is(...codeElementsSelector)}:not(.blob-code-hunk)`, showWhitespaceWhenInViewport, {signal});
+	observe(is(codeElementsSelector) + ':not(.blob-code-hunk)', showWhitespaceWhenInViewport, {signal});
 	onAbort(signal, viewportObserver);
 }
 
