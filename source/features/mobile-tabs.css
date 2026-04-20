@@ -15,7 +15,6 @@
 	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
 		display: grid;
 		height: 100%;
-		min-width: 50px;
 		grid:
 			'icon counter'
 			'title title';
@@ -87,7 +86,7 @@
 		nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item] [data-component='counter'] [data-variant='secondary']
 	) {
 		grid-area: counter;
-		background: none; /* Counters appears as pills */
+		background: none; /* Counters appear as pills */
 		padding: 0;
 		margin: 0 !important;
 		border: none;
@@ -96,22 +95,29 @@
 	}
 
 	/* When counter or icon is missing */
-	:root .UnderlineNav-item:not(:has(.Counter)),
-	:root .UnderlineNav-item:has(.Counter:empty),
-	:root .UnderlineNav-item:has([hidden]),
-	:root .UnderlineNav-item:not(:has(svg)),
 	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has([data-component='counter'])),
 	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter']:empty),
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]),
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has(svg)) {
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]) {
 		grid-template-areas:
-			'icon icon'
-			'title title';
+			'icon'
+			'title';
 		svg {
 			justify-self: center;
 		}
 		:is(.Counter, [data-component='counter'], [data-variant='secondary']) {
 			justify-self: center;
+		}
+	}
+}
+
+@media (width <= 608px) {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
+		grid:
+			'counter'
+			'title';
+
+		& :is(.Counter, [data-component='counter'], [data-variant='secondary']) {
+			justify-self: center !important;
 		}
 	}
 }
