@@ -31,6 +31,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	if (
 		// It needs to be upvoted enough times
 		count >= 10
+
 		// It can't be a controversial comment
 		&& selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
