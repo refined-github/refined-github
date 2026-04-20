@@ -83,7 +83,7 @@
 		justify-self: start;
 	}
 
-	/* When counter is missing */
+	/* When counter is missing, empty, or hidden */
 	nav[class*='LocalNavigation'] a[data-tab-item]:not(:has([data-component='counter'])),
 	nav[class*='LocalNavigation'] a[data-tab-item]:has([data-component='counter']:empty),
 	nav[class*='LocalNavigation'] a[data-tab-item]:has([data-component='counter'] [hidden]) {
