@@ -4,7 +4,6 @@ import React from 'react';
 
 import features from '../feature-manager.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
-import {is} from '../helpers/css-selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
@@ -37,14 +36,14 @@ function addLock(stateLabel: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
-		`div${is('[data-testid^="issue-metadata"]', '[class^="prc-PageLayout-Header"]')} span[class^="prc-StateLabel"]`,
+		'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) span[class^="prc-StateLabel"]',
 		addLock,
 		{signal},
 	);
 	// Old PR view - TODO: Drop after July 2026
 	observe([
 		'.gh-header-meta > :first-child',
-		`${is('.sticky-content', '.gh-header-sticky')} .flex-row > :first-child`,
+		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
 	], addLockLegacy, {signal});
 }
 
