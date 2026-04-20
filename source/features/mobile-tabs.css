@@ -3,16 +3,16 @@
 		padding: 0;
 	}
 
-	:root :is(.UnderlineNav, nav[aria-label='Repository'][data-variant='inset']) {
+	:root :is(.UnderlineNav, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item])) {
 		padding-inline: var(--base-size-16, 16px);
 		padding-block: 5px var(--control-medium-gap, 8px);
 	}
 
-	:root :is(.UnderlineNav-body, nav[aria-label='Repository'][data-variant='inset'] > [role='list']) {
+	:root :is(.UnderlineNav-body, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) > [role='list']) {
 		align-items: stretch; /* Ensure they have the same height */
 	}
 
-	:root :is(.UnderlineNav-item, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]) {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
 		display: grid;
 		min-width: 50px;
 		grid:
@@ -26,19 +26,19 @@
 		);
 	}
 
-	:root :is(.UnderlineNav-item, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]):hover {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]):hover {
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-active-bg, fuchsia)
 		); /* From: Counter background color */
 	}
 
-	:root :is(.UnderlineNav-item.selected, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item][aria-current='page'])::after {
+	:root :is(.UnderlineNav-item.selected, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item][aria-current='page'])::after {
 		/* Reposition the orange line */
 		bottom: -9px !important;
 	}
 
-	:root :is(.UnderlineNav-item, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]) [data-content] {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) [data-content] {
 		grid-area: title;
 		line-height: 1;
 		margin-top: 5px;
@@ -49,7 +49,7 @@
 		color: transparent !important;
 	}
 
-	:root :is(.UnderlineNav-item, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]) [data-content]::before {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) [data-content]::before {
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
@@ -69,7 +69,7 @@
 		font-size: 10px;
 	}
 
-	:root :is(.UnderlineNav-item, nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]) svg {
+	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) svg {
 		margin: 0 !important;
 		grid-area: icon;
 		justify-self: end;
@@ -77,7 +77,8 @@
 
 	:root :is(
 		.UnderlineNav-item .Counter,
-		nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item] [data-component='counter'] [data-variant='secondary']
+		nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item] [data-component='counter'],
+		nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item] [data-component='counter'] [data-variant='secondary']
 	) {
 		grid-area: counter;
 		background: none; /* Counters appears as pills */
@@ -92,9 +93,9 @@
 	:root .UnderlineNav-item:not(:has(.Counter)),
 	:root .UnderlineNav-item:has(.Counter:empty),
 	:root .UnderlineNav-item:has([hidden]),
-	:root nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]:not(:has([data-component='counter'] [data-variant='secondary'])),
-	:root nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]:has([data-component='counter'] [data-variant='secondary']:empty),
-	:root nav[aria-label='Repository'][data-variant='inset'] a[data-tab-item]:has([data-component='counter'] [hidden]) {
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has([data-component='counter'])),
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter']:empty),
+	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]) {
 		grid-template-areas:
 			'icon icon'
 			'title title';
