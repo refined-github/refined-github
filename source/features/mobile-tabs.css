@@ -3,16 +3,16 @@
 		padding: 0;
 	}
 
-	:root :is(.UnderlineNav, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item])) {
+	nav[class*='LocalNavigation'] {
 		padding-inline: var(--base-size-16, 16px);
 		padding-block: 5px var(--control-medium-gap, 8px);
 	}
 
-	:root :is(.UnderlineNav-body, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) > [role='list']) {
+	nav[class*='LocalNavigation'] > [role='list'] {
 		align-items: stretch; /* Ensure they have the same height */
 	}
 
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
+	nav[class*='LocalNavigation'] a[data-tab-item] {
 		display: grid;
 		height: 100%;
 		grid:
@@ -27,19 +27,19 @@
 		);
 	}
 
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]):hover {
+	nav[class*='LocalNavigation'] a[data-tab-item]:hover {
 		background: var(
 			--control-transparent-bgColor-hover,
 			var(--color-action-list-item-default-active-bg, fuchsia)
 		); /* From: Counter background color */
 	}
 
-	:root :is(.UnderlineNav-item.selected, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item][aria-current='page'])::after {
+	nav[class*='LocalNavigation'] a[data-tab-item][aria-current='page']::after {
 		/* Reposition the orange line */
 		bottom: -9px !important;
 	}
 
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) [data-content] {
+	nav[class*='LocalNavigation'] a[data-tab-item] [data-content] {
 		grid-area: title;
 		line-height: 1;
 		margin-top: 5px;
@@ -50,7 +50,7 @@
 		color: transparent !important;
 	}
 
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) [data-content]::before {
+	nav[class*='LocalNavigation'] a[data-tab-item] [data-content]::before {
 		visibility: inherit;
 		height: auto;
 		font-size: 10px;
@@ -58,33 +58,22 @@
 		font-weight: normal;
 	}
 
-	:root [data-content='Pull requests']::before {
+	nav[class*='LocalNavigation'] [data-content='Pull requests']::before {
 		content: 'Pulls' !important;
 	}
 
-	:root [data-content='Security and quality']::before {
+	nav[class*='LocalNavigation'] [data-content='Security and quality']::before {
 		content: 'Sec' !important;
 	}
 
-	/* Tab label on on profiles */
-	:root .UnderlineNav-item span[data-view-component]:not([class]) {
-		grid-area: title;
-		line-height: 1;
-		margin-top: 5px;
-		font-size: 10px;
-	}
-
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) svg {
+	nav[class*='LocalNavigation'] a[data-tab-item] svg {
 		margin: 0 !important;
 		grid-area: icon;
 		justify-self: end;
 	}
 
-	:root :is(
-		.UnderlineNav-item .Counter,
-		nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item] [data-component='counter'],
-		nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item] [data-component='counter'] [data-variant='secondary']
-	) {
+	nav[class*='LocalNavigation'] a[data-tab-item] [data-component='counter'],
+	nav[class*='LocalNavigation'] a[data-tab-item] [data-component='counter'] [data-variant='secondary'] {
 		grid-area: counter;
 		background: none; /* Counters appear as pills */
 		padding: 0;
@@ -94,29 +83,27 @@
 		justify-self: start;
 	}
 
-	/* When counter or icon is missing */
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:not(:has([data-component='counter'])),
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter']:empty),
-	:root nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]:has([data-component='counter'] [hidden]) {
+	/* When counter is missing */
+	nav[class*='LocalNavigation'] a[data-tab-item]:not(:has([data-component='counter'])),
+	nav[class*='LocalNavigation'] a[data-tab-item]:has([data-component='counter']:empty),
+	nav[class*='LocalNavigation'] a[data-tab-item]:has([data-component='counter'] [hidden]) {
 		grid-template-areas:
 			'icon'
 			'title';
 		svg {
 			justify-self: center;
 		}
-		:is(.Counter, [data-component='counter'], [data-variant='secondary']) {
-			justify-self: center;
-		}
 	}
 }
 
 @media (width <= 608px) {
-	:root :is(.UnderlineNav-item, nav[data-variant='inset']:has(> [role='list'] > li > a[data-tab-item]) a[data-tab-item]) {
+	nav[class*='LocalNavigation'] a[data-tab-item] {
 		grid:
 			'counter'
 			'title';
 
-		& :is(.Counter, [data-component='counter'], [data-variant='secondary']) {
+		& [data-component='counter'],
+		& [data-component='counter'] [data-variant='secondary'] {
 			justify-self: center !important;
 		}
 	}
