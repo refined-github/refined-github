@@ -108,32 +108,35 @@
 		white-space: nowrap;
 		place-content: center center;
 		align-items: center;
-		padding: 0.7em;
+		padding: 0.7em 0;
 		font-size: 13px;
+		gap: 0 5px;
 
 		svg {
-			order: -1;
+			order: -2;
 			display: block !important;
+			margin: 0 !important;
 		}
 
 		[data-variant='secondary'] {
-			order: -2;
+			order: -1;
+			margin: 0 !important;
 		}
 	}
 
 	/* Per-tab widths to keep Conversation/Commits/Checks/Changes visually balanced */
 	:root [role='tablist'] > a[role='tab'][href*='/pull/']:first-child {
-		--rgh-mobile-pr-tab-width: 12ch;
+		--rgh-mobile-pr-tab-width: 13ch;
 	}
 
 	:root [role='tablist'] > a[role='tab'][href$='/commits'],
 	:root [role='tablist'] > a[role='tab'][href$='/checks'] {
-		--rgh-mobile-pr-tab-width: 10ch;
+		--rgh-mobile-pr-tab-width: 12ch;
 	}
 
 	:root [role='tablist'] > a[role='tab'][href$='/files'],
 	:root [role='tablist'] > a[role='tab'][href$='/changes'] {
-		--rgh-mobile-pr-tab-width: 13ch;
+		--rgh-mobile-pr-tab-width: 15ch;
 	}
 
 	@media (width <= 500px) {
