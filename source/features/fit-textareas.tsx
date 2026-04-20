@@ -6,6 +6,7 @@ import {$} from 'select-dom/strict.js';
 import {isSafari} from 'webext-detect';
 
 import features from '../feature-manager.js';
+import {not} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 const nativeFit = CSS.supports('field-sizing', 'content');
@@ -39,13 +40,11 @@ function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions)
 function init(signal: AbortSignal): void {
 	// `anchored-position`: Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 	// `#pull_request_body_ghost`: Special textarea that GitHub just matches to the visible textarea
-	observe(`
-		textarea:not(
-			anchored-position #pull_request_review_body,
-			#pull_request_body_ghost,
-			#pull_request_body_ghost_ruler
-		)
-	`, watchTextarea, {signal});
+	observe(
+		`textarea${not('anchored-position #pull_request_review_body', '#pull_request_body_ghost', '#pull_request_body_ghost_ruler')}`,
+		watchTextarea,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

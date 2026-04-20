@@ -7,6 +7,7 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -40,13 +41,13 @@ const ariaLabelSelector = [
 	'[aria-label^="This user is a member"]',
 	'[aria-label^="This user has previously committed"]',
 	'[aria-label^="This user has been invited to collaborate"]',
-].join(',');
+] as const;
 
 function init(signal: AbortSignal): void {
 	observe([
-		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
+		`span[data-testid="comment-author-association"]${is(...ariaLabelSelector)}`,
 		// PRs
-		`.tooltipped:is(${ariaLabelSelector})`,
+		`.tooltipped${is(...ariaLabelSelector)}`,
 	], linkify, {signal});
 }
 

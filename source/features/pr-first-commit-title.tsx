@@ -5,6 +5,7 @@ import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
+import {is} from '../helpers/css-selectors.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -25,7 +26,7 @@ function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCount = $([
 		// Few commits
-		'div.Box:is(.tmp-mb-3, .mb-3) .octicon-git-commit + span',
+		`div.Box${is('.tmp-mb-3', '.mb-3')} .octicon-git-commit + span`,
 		// Many commits (rendered in tabs)
 		'a[href="#commits_bucket"] .Counter',
 	]);

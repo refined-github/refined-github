@@ -1,5 +1,7 @@
 import {css} from 'code-tag';
 
+import {is, not} from '../helpers/css-selectors.js';
+
 const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
@@ -12,10 +14,10 @@ export const repoUnderlineNavUl_ = [
 ] satisfies UrlMatch[];
 
 export const standaloneGistLinkInMarkdown = css`
-	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
-		[href^="https://gist.github.com/"],
-		[href^="${location.origin}/gist/"]
-	)
+	${is('.js-comment-body', '.react-issue-comment', '.react-issue-body')} p a:only-child${is(
+		'[href^="https://gist.github.com/"]',
+		`[href^="${location.origin}/gist/"]`,
+	)}
 ` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
@@ -48,7 +50,7 @@ export const branchSelectorParent_ = branchSelector_;
 
 export const directoryListingFileIcon = [
 	// .color-fg-muted selects only files; some icon extensions use `img` tags
-	'.react-directory-filename-column > :is(svg, img).color-fg-muted',
+	`.react-directory-filename-column > ${is('svg', 'img')}.color-fg-muted`,
 	'.js-navigation-container .octicon-file',
 ];
 export const directoryListingFileIcon_ = [
@@ -87,11 +89,11 @@ export const openPrsListLink_ = [
 ] satisfies UrlMatch[];
 
 export const openIssueToLastComment = `
-	:is(.js-issue-row, .js-pinned-issue-list-item)
-	.Link--muted:is(
-		a[aria-label$="comment"],
-		a[aria-label$="comments"]
-	)
+	${is('.js-issue-row', '.js-pinned-issue-list-item')}
+	.Link--muted${is(
+		'a[aria-label$="comment"]',
+		'a[aria-label$="comments"]',
+	)}
 `;
 export const openIssueToLastComment_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
@@ -119,18 +121,18 @@ export const codeSearchHeader_ = [
 ] satisfies UrlMatch[];
 
 export const linksToConversationLists = `
-	a:is(
-		[href*="/issues"],
-		[href*="/pulls"],
-		[href*="/projects"],
-		[href*="/labels/"]
-	):not(
-		[href*="sort%3A"],
-		[href*="page="],
-		.issues-reset-query,
-		.pagination *,
-		.table-list-header-toggle *
-	)
+	a${is(
+		'[href*="/issues"]',
+		'[href*="/pulls"]',
+		'[href*="/projects"]',
+		'[href*="/labels/"]',
+	)}${not(
+		'[href*="sort%3A"]',
+		'[href*="page="]',
+		'.issues-reset-query',
+		'.pagination *',
+		'.table-list-header-toggle *',
+	)}
 `;
 export const linksToConversationLists_ = [
 	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
@@ -174,17 +176,17 @@ const botNames = [
 	'github-apps', // GHE apps
 ] as const;
 
-const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+const botAttributes = botNames.map(bot => `[href^="/${bot}"]`);
 
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 // ^= is needed to match /apps/* URLs
 export const botLinksCommitSelectors = [
 	// Co-authored commits are excluded because their avatars are not linked
-	`a[data-testid="avatar-icon-link"]:is(${botAttributes})`,
+	`a[data-testid="avatar-icon-link"]${is(...botAttributes)}`,
 
 	// Legacy view, still used by PR commits
 	// :only-child excludes co-authored commits
-	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
+	`a[data-test-selector="commits-avatar-stack-avatar-link"]${is(...botAttributes)}:only-child`,
 ];
 export const botLinksCommitSelectors_ = [
 	[1, 'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03'],
@@ -204,7 +206,7 @@ export const botLinksPrSelectors_ = [
 
 export const botLinksNotificationSelectors = [
 	// Only select if the bot is the primary author (last in DOM, first in avatar list)
-	`.AvatarStack-body a.avatar:last-child:is(${botAttributes})`,
+	`.AvatarStack-body a.avatar:last-child${is(...botAttributes)}`,
 ];
 export const botLinksNotificationSelectors_ = [
 	[0, 'https://github.com/notifications'],
@@ -232,7 +234,7 @@ const authorLinksException = [
 ];
 
 export const usernameLinksSelector = [
-	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
+	`${is(...authorLinks)}${not(...authorLinksException)}`,
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
@@ -268,12 +270,12 @@ export const deletedHeadRepository_ = [
 
 export const conversationCloseEvent = [
 	// Old view (PRs)
-	`.TimelineItem:has(.TimelineItem-badge :is(
-		.octicon-issue-closed,
-		.octicon-git-merge,
-		.octicon-git-pull-request-closed,
-		.octicon-skip
-	))`,
+	`.TimelineItem:has(.TimelineItem-badge ${is(
+		'.octicon-issue-closed',
+		'.octicon-git-merge',
+		'.octicon-git-pull-request-closed',
+		'.octicon-skip',
+	)})`,
 	// React view (Issues)
 	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
 ];

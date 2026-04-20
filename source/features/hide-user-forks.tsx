@@ -1,4 +1,5 @@
 import features from '../feature-manager.js';
+import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -8,14 +9,14 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-const skipUrlsWithType = ':not([href*="&type="], .issues-reset-query)';
+const skipUrlsWithType = not('[href*="&type="]', '.issues-reset-query');
 
 const selectors = [
 	// User repos
-	`a[href*="?tab=repositories"]:is([href^="/"], [href^="${location.origin}/"])${skipUrlsWithType}`,
+	`a[href*="?tab=repositories"]${is('[href^="/"]', `[href^="${location.origin}/"]`)}${skipUrlsWithType}`,
 
 	// Organization repos
-	`a[href*="/repositories"]:is([href^="/orgs/"], [href^="${location.origin}/orgs/"])${skipUrlsWithType}`,
+	`a[href*="/repositories"]${is('[href^="/orgs/"]', `[href^="${location.origin}/orgs/"]`)}${skipUrlsWithType}`,
 ] as const;
 
 function initOnce(): void {

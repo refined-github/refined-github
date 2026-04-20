@@ -10,6 +10,7 @@ import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -23,10 +24,7 @@ const fieldSelector = [
 // Avatars next to review events aren't wrapped in a <div> #4844
 const prCommentSelector = `
 	.js-quote-selection-container
-	:is(
-		div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child,
-		a.TimelineItem-avatar
-	):not([href="/${getLoggedInUser()!}"])
+	${is('div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child', 'a.TimelineItem-avatar')}:not([href="/${getLoggedInUser()!}"])
 `;
 
 const issueCommentSelector = [

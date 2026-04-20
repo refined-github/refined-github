@@ -5,6 +5,7 @@ import DiffIcon from 'octicons-plain-react/Diff';
 
 import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 function getPrUrl(extension: 'patch' | 'diff'): string {
@@ -69,7 +70,7 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe([
-		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
+		`.commit-meta > ${is('span', 'div')}:last-child`, // `isPRCommit` + old `isSingleCommit`
 		'[class*="commit-header-actions"] + div pre',
 	], addPatchDiffLinks, {signal});
 
