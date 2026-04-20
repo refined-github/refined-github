@@ -1,10 +1,10 @@
-import {$optional, $} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
-import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import compareVersions from 'tiny-version-compare';
+import type {RequireAtLeastOne} from 'type-fest';
 
 import {branchSelector} from './selectors.js';
 
