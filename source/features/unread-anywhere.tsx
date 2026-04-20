@@ -2,7 +2,7 @@ import './unread-anywhere.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
-import {$$optional, $optional} from 'select-dom/strict.js';
+import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
@@ -57,11 +57,8 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 			updateToast(`Opened the last ${limit} unread notifications`);
 		} else {
 			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
-			// Update the UI too. Optional because the UI is often out of date
-			const button = $optional(buttonWithNotificationsSelector);
-			if (button) {
-				removeNotificationIndicator(button);
-			}
+			// Update the UI too
+			removeNotificationIndicator($(buttonWithNotificationsSelector));
 		}
 	}, {
 		message: 'Loading notifications…',
