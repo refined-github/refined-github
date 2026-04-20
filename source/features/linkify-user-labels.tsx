@@ -37,17 +37,17 @@ function linkify(label: HTMLElement): void {
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
-const ariaLabelSelector = [
+const ariaLabelSelector = is(
 	'[aria-label^="This user is a member"]',
 	'[aria-label^="This user has previously committed"]',
 	'[aria-label^="This user has been invited to collaborate"]',
-] as const;
+);
 
 function init(signal: AbortSignal): void {
 	observe([
-		'span[data-testid="comment-author-association"]' + is(ariaLabelSelector),
+		'span[data-testid="comment-author-association"]' + ariaLabelSelector,
 		// PRs
-		'.tooltipped' + is(ariaLabelSelector),
+		'.tooltipped' + ariaLabelSelector,
 	], linkify, {signal});
 }
 
