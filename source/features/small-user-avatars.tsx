@@ -43,8 +43,7 @@ function initOnce(): void {
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 	], addAvatar);
 	observe(
-		'.user-mention'
-		+ not([
+		'.user-mention' + not([
 			'.opened-by > *', // Merge queue
 			'.commit-author',
 		]),
