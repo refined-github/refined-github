@@ -1,7 +1,6 @@
 @media (width <= 767px) {
-	/* PR tab navigation */
 	/* https://github.com/refined-github/refined-github/issues/7725 */
-	[role='tablist'] > a[role='tab'][href*='/pull/'] {
+	a[class*='PullRequestHeaderNavigation'] {
 		--rgh-mobile-pr-tab-width: 11ch;
 		display: inline-flex;
 		flex-wrap: wrap;
@@ -33,7 +32,6 @@
 			--rgh-mobile-pr-tab-width: 12ch;
 		}
 
-		&[href$='/files'],
 		&[href$='/changes'] {
 			--rgh-mobile-pr-tab-width: 15ch;
 		}
@@ -41,7 +39,7 @@
 }
 
 @media (width <= 500px) {
-	[role='tablist'] > a[role='tab'][href*='/pull/'] {
+	a[class*='PullRequestHeaderNavigation'] {
 		font-size: 10px;
 
 		[data-variant='secondary'] {
@@ -57,6 +55,6 @@
 
 Test URLs:
 
-- PR: https://github.com/refined-github/refined-github/pull/9217
+- https://github.com/refined-github/sandbox/pull/1
 
 */
