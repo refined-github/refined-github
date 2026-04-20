@@ -37,7 +37,10 @@ function initOnce(): void {
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		`${is('[data-testid="created-at"]', '[data-testid="closed-at"]')} a[data-hovercard-url*="/users"]`, // `isIssueList`
+		`:is(
+			[data-testid="created-at"],
+			[data-testid="closed-at"]
+		) a[data-hovercard-url*="/users"]`, // `isIssueList`
 	], addAvatar);
 	observe(`.user-mention${not(
 		'.opened-by > *', // Merge queue
