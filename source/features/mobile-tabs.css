@@ -92,63 +92,8 @@
 		grid-template-areas:
 			'icon icon'
 			'title title';
-
 		svg {
 			justify-self: center;
-		}
-	}
-
-	/* PR tab navigation */
-	/* https://github.com/refined-github/refined-github/issues/7725 */
-	:root [role='tablist'] > a[role='tab'][href*='/pull/'] {
-		--rgh-mobile-pr-tab-width: 11ch;
-		display: inline-flex;
-		flex-wrap: wrap;
-		width: var(--rgh-mobile-pr-tab-width);
-		white-space: nowrap;
-		place-content: center center;
-		align-items: center;
-		padding: 0.7em 0;
-		font-size: 13px;
-		gap: 0 5px;
-
-		svg {
-			order: -2;
-			display: block !important;
-			margin: 0 !important;
-		}
-
-		[data-variant='secondary'] {
-			order: -1;
-			margin: 0 !important;
-		}
-	}
-
-	/* Per-tab widths to keep Conversation/Commits/Checks/Changes visually balanced */
-	:root [role='tablist'] > a[role='tab'][href*='/pull/']:first-child {
-		--rgh-mobile-pr-tab-width: 13ch;
-	}
-
-	:root [role='tablist'] > a[role='tab'][href$='/commits'],
-	:root [role='tablist'] > a[role='tab'][href$='/checks'] {
-		--rgh-mobile-pr-tab-width: 12ch;
-	}
-
-	:root [role='tablist'] > a[role='tab'][href$='/files'],
-	:root [role='tablist'] > a[role='tab'][href$='/changes'] {
-		--rgh-mobile-pr-tab-width: 15ch;
-	}
-
-	@media (width <= 500px) {
-		:root [role='tablist'] > a[role='tab'][href*='/pull/'] {
-			font-size: 10px;
-
-			[data-variant='secondary'] {
-				background: none;
-				padding: 0;
-				margin: 0;
-				min-width: 0;
-			}
 		}
 	}
 }
