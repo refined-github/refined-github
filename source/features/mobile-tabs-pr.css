@@ -1,10 +1,8 @@
 @media (width <= 767px) {
 	/* https://github.com/refined-github/refined-github/issues/7725 */
 	a[class*='PullRequestHeaderNavigation'] {
-		--rgh-mobile-pr-tab-width: 11ch;
 		display: inline-flex;
 		flex-wrap: wrap;
-		min-width: var(--rgh-mobile-pr-tab-width);
 		white-space: nowrap;
 		place-content: center center;
 		align-items: center;
@@ -24,16 +22,16 @@
 		}
 
 		&:first-child {
-			--rgh-mobile-pr-tab-width: 13ch;
+			width: 13ch;
 		}
 
 		&[href$='/commits'],
 		&[href$='/checks'] {
-			--rgh-mobile-pr-tab-width: 12ch;
+			width: 12ch;
 		}
 
 		&[href$='/changes'] {
-			--rgh-mobile-pr-tab-width: 15ch;
+			width: 15ch;
 		}
 	}
 }
