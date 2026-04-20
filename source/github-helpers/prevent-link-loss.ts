@@ -1,6 +1,6 @@
 import type {RepositoryInfo} from 'github-url-detection';
 
-import {getRepo, getConversationNumber} from './index.js';
+import {getConversationNumber, getRepo} from './index.js';
 
 function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithOwner: string, delimiter = ''): string {
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;

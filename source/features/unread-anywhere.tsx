@@ -71,7 +71,6 @@ function addButton(nativeLink: HTMLAnchorElement): void {
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 10, cursor: 'pointer'}}
-
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>

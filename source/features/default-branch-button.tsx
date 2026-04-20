@@ -71,7 +71,6 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
 			onMouseEnter={updateUrl}
-
 			// Don't enable AJAX on this behavior because we need a full page reload to drop the button, same reason as above #6554
 			// data-turbo-frame="repo-content-turbo-frame"
 		>

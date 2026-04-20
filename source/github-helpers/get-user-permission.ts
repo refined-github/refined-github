@@ -68,7 +68,6 @@ export async function userIsModerator(): Promise<boolean> {
 		'[title^="You are a member"]',
 		'[title^="You are a maintainer"]',
 		'[title^="You are a collaborator"]',
-
 		// Don't check for admin access here. If the user has admin access, the DOM check in `viewerPermission` will use the DOM and be cached anyway
 	]);
 

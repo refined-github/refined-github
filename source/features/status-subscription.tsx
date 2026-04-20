@@ -91,7 +91,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				<IssueReopenedIcon /> Status
 			</SubButton>
 		</div>,
-
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
 		<input type="hidden" name="events[]" value="merged" />,
