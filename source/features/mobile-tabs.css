@@ -100,7 +100,7 @@
 
 	/* PR tab navigation */
 	/* https://github.com/refined-github/refined-github/issues/7725 */
-	:root a[id^='prs-'][id$='-anchor-tab'][role='tab'] {
+	:root [role='tablist'] > a[role='tab'][href*='/pull/'] {
 		--rgh-mobile-pr-tab-width: 11ch;
 		display: inline-flex;
 		flex-wrap: wrap;
@@ -122,21 +122,22 @@
 	}
 
 	/* Per-tab widths to keep Conversation/Commits/Checks/Changes visually balanced */
-	:root #prs-conversation-anchor-tab {
+	:root [role='tablist'] > a[role='tab'][href*='/pull/']:first-child {
 		--rgh-mobile-pr-tab-width: 12ch;
 	}
 
-	:root #prs-commits-anchor-tab,
-	:root #prs-checks-anchor-tab {
-		--rgh-mobile-pr-tab-width: 9ch;
-	}
-
-	:root #prs-files-anchor-tab {
+	:root [role='tablist'] > a[role='tab'][href$='/commits'],
+	:root [role='tablist'] > a[role='tab'][href$='/checks'] {
 		--rgh-mobile-pr-tab-width: 10ch;
 	}
 
+	:root [role='tablist'] > a[role='tab'][href$='/files'],
+	:root [role='tablist'] > a[role='tab'][href$='/changes'] {
+		--rgh-mobile-pr-tab-width: 13ch;
+	}
+
 	@media (width <= 500px) {
-		:root a[id^='prs-'][id$='-anchor-tab'][role='tab'] {
+		:root [role='tablist'] > a[role='tab'][href*='/pull/'] {
 			font-size: 10px;
 
 			[data-variant='secondary'] {
