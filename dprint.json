@@ -7,8 +7,8 @@
 	],
 	"includes": [
 		"**/*.svelte",
-		"source/**/*.css",
-		"source/**/*.gql"
+		"**/*.css",
+		"**/*.gql"
 	],
 	"useTabs": true,
 	"markup": {
