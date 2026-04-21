@@ -2,7 +2,7 @@ import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
-import {not} from '../helpers/dom-utils.js';
+import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
@@ -37,13 +37,16 @@ function initOnce(): void {
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		`:is(
-			[data-testid="created-at"],
-			[data-testid="closed-at"]
-		) a[data-hovercard-url*="/users"]`, // `isIssueList`
+		is(
+			'[data-testid="created-at"]',
+			'[data-testid="closed-at"]',
+		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 	], addAvatar);
 	observe(
-		`.user-mention${not('.opened-by > *', '.commit-author')}`, // Merge queue, commit author
+		'.user-mention' + not(
+			'.opened-by > *', // Merge queue
+			'.commit-author',
+		),
 		addMentionAvatar,
 	);
 }

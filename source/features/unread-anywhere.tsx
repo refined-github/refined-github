@@ -1,13 +1,15 @@
+import './unread-anywhere.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
-import {$$optional, $optional} from 'select-dom/strict.js';
+import {$, $$optional} from 'select-dom/strict.js';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import showToast from '../github-helpers/toast.js';
-import {getClasses, isSmallDevice} from '../helpers/dom-utils.js';
+import {getClasses, isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
@@ -15,6 +17,16 @@ import observe from '../helpers/selector-observer.js';
 import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
+
+const buttonWithNotificationsSelector = 'a[class*="notificationIndicator"]';
+
+function removeNotificationIndicator(element: HTMLElement): void {
+	for (const className of element.classList) {
+		if (className.includes('notificationIndicator')) {
+			element.classList.remove(className);
+		}
+	}
+}
 
 async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
 	if (event?.target instanceof HTMLButtonElement) {
@@ -46,8 +58,8 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 			updateToast(`Opened the last ${limit} unread notifications`);
 		} else {
 			updateToast(pluralize(urls.length, '$$ notification') + ' opened');
-			// Update the UI too. Optional because the UI is often out of date
-			$optional('.AppHeader-button--hasIndicator')?.classList.remove('AppHeader-button--hasIndicator');
+			// Update the UI too
+			removeNotificationIndicator($(buttonWithNotificationsSelector));
 		}
 	}, {
 		message: 'Loading notifications…',
@@ -59,38 +71,43 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 	});
 }
 
-function addButton(nativeLink: HTMLAnchorElement): void {
+async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 	const classes = getClasses(nativeLink);
-	classes.delete('AppHeader-button--hasIndicator');
-	// Reverse order so that the new button is painted below the "unread indicator"
-	nativeLink.parentElement!.classList.add('d-flex', 'flex-row-reverse');
-	nativeLink.classList.add('AppHeader-buttonLeft');
 	const button = (
 		<button
 			type="button"
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
-			style={{width: 10, cursor: 'pointer'}}
+			style={{width: 14, cursor: 'pointer'}}
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
 			<ArrowUpRightIcon className="mb-2" />
 		</button>
 	);
+
+	// Reverse order so that the new button is painted below the "unread indicator"
+	// Also has an rgh- class so that it can be targeted via CSS and deduplicated
+	wrap(nativeLink, <div className="d-flex flex-row-reverse rgh-unread-anywhere-wrapper" />);
+
 	nativeLink.before(button);
+	button.setAttribute('data-variant', 'invisible'); // Enables hover style
 	button.classList.add(
 		...classes,
-		'AppHeader-buttonRight',
 		'tooltipped',
 		'tooltipped-sw',
+		'rounded-left-0',
+		'border-left-0',
 	);
+
+	removeNotificationIndicator(button);
 }
 
 // No signal, created once per load
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe('a#AppHeader-notifications-button.AppHeader-button--hasIndicator', addButton);
+	observe(buttonWithNotificationsSelector + ':not(.rgh-unread-anywhere-wrapper *)', addButton);
 }
 
 void features.add(import.meta.url, {

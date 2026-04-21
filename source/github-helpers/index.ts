@@ -6,7 +6,7 @@ import {$, $optional} from 'select-dom/strict.js';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
-import {is} from '../helpers/dom-utils.js';
+import {is} from '../helpers/css-selectors.js';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
@@ -132,7 +132,8 @@ export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-si
 
 const navigationBarSelector = is(
 	'.GlobalNav',
-	'.js-repo-nav', // Remove after June 2026
+	// Remove after June 2026
+	'.js-repo-nav',
 );
 
 export function areIssuesEnabled(): boolean {

@@ -7,6 +7,7 @@ import {$} from 'select-dom/strict.js';
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
 import clickAll from '../helpers/click-all.js';
+import {is} from '../helpers/css-selectors.js';
 import getItemsBetween from '../helpers/get-items-between.js';
 
 export const viewedToggleSelector = [
@@ -20,7 +21,10 @@ const fileSelector = [
 	'.js-file',
 ] as const;
 // New view, Old view
-const checkedSelector = ':is(:has(.octicon-checkbox-fill), [checked])';
+const checkedSelector = is(
+	':has(.octicon-checkbox-fill)',
+	'[checked]',
+);
 
 let previousFile: HTMLElement | undefined;
 
@@ -64,12 +68,10 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
 }
 
 function markAsViewedSelector(file: HTMLElement): string {
-	const fileElement = fileSelector.join(',');
-	const viewedToggle = viewedToggleSelector.join(',');
 	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
-	return `:is(${fileElement}):not([hidden]) :is(${viewedToggle})${checkedState}`;
+	return is(fileSelector) + ':not([hidden]) ' + is(viewedToggleSelector) + checkedState;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);

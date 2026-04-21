@@ -1,18 +1,41 @@
 {
-	"typescript": {
-		"indentWidth": 1,
-		"useTabs": true,
-		"quoteStyle": "preferSingle",
-		"jsx.quoteStyle": "preferDouble",
-		"trailingCommas": "onlyMultiLine",
-		"semiColons": "always",
-		"lineWidth": 120,
-		"jsx.multiLineParens": "never",
-		"spaceSurroundingProperties": false,
-		"importDeclaration.spaceSurroundingNamedImports": false,
-		"exportDeclaration.spaceSurroundingNamedExports": false
-	},
-	"includes": ["source/**/*.ts", "source/**/*.tsx"],
-	"excludes": ["**/*-lock.json"],
-	"plugins": ["node_modules/@dprint/typescript/plugin.wasm"]
+"$schema": "https://dprint.dev/schemas/v0.json",
+"plugins": [
+"./node_modules/dprint-plugin-markup/plugin.wasm",
+"./node_modules/dprint-plugin-malva/plugin.wasm",
+"./node_modules/dprint-plugin-graphql/plugin.wasm",
+"node_modules/@dprint/typescript/plugin.wasm"
+],
+"includes": [
+"**/*.svelte",
+"**/*.css",
+"**/*.gql",
+"source/**/*.ts",
+"source/**/*.tsx"
+],
+"excludes": ["**/*-lock.json"],
+"useTabs": true,
+"markup": {
+"whitespaceSensitivity": "strict",
+"scriptIndent": true,
+"styleIndent": true
+},
+"malva": {
+"linebreakInPseudoParens": true,
+"quotes": "alwaysSingle"
+},
+"graphql": {},
+"typescript": {
+"indentWidth": 1,
+"useTabs": true,
+"quoteStyle": "preferSingle",
+"jsx.quoteStyle": "preferDouble",
+"trailingCommas": "onlyMultiLine",
+"semiColons": "always",
+"lineWidth": 120,
+"jsx.multiLineParens": "never",
+"spaceSurroundingProperties": false,
+"importDeclaration.spaceSurroundingNamedImports": false,
+"exportDeclaration.spaceSurroundingNamedExports": false
+}
 }

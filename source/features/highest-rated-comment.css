@@ -13,7 +13,8 @@
 
 a.rgh-highest-rated-comment {
 	border: 2px solid
-		var(--borderColor-success-emphasis, var(--color-success-emphasis, fuchsia)) !important;
+		var(--borderColor-success-emphasis, var(--color-success-emphasis, fuchsia))
+		!important;
 }
 
 a.rgh-highest-rated-comment .avatar {

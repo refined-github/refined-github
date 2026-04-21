@@ -19,7 +19,7 @@ import {$, $$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
-import {is} from '../helpers/dom-utils.js';
+import {is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 

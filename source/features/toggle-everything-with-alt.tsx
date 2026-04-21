@@ -3,7 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';
-import {is} from '../helpers/dom-utils.js';
+import {is} from '../helpers/css-selectors.js';
 
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 	const open = (clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])';
