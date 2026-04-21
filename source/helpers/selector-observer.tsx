@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {css} from 'code-tag';
-import type {ParseSelector} from 'typed-query-selector/parser.js';
-import domLoaded from 'dom-loaded';
 import {signalFromPromise} from 'abort-utils';
+import {css} from 'code-tag';
+import React from 'dom-chef';
+import domLoaded from 'dom-loaded';
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';

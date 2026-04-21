@@ -1,28 +1,29 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import HistoryIcon from 'octicons-plain-react/History';
+import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import addNotice from '../github-widgets/notice-bar.js';
 import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
-import {saveOriginalHref} from './sort-conversations-by-update-time.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {saveOriginalHref} from './sort-conversations-by-update-time.js';
 
-const commentSelector = [
+const commentSelector = is(
 	'.loaded .react-issue-body', // Issue description
 	'.react-issue-comment', // Issue comment
 	'[data-testid="review-thread"] > div', // Review thread comment
 	'.js-comment', // PR description or comment
-].join(',');
+);
 
 async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
@@ -167,10 +168,10 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	// [data-component="IconButton"] includes only React buttons
 	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
-	delegate(`:is(${commentSelector}) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
+	delegate(`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
 
 	observe(
-		`:is(${commentSelector}) a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,
+		`${commentSelector} a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,
 		addDateParameterToLink,
 		{signal},
 	);

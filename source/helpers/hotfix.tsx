@@ -1,8 +1,8 @@
+import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import {isEnterprise} from 'github-url-detection';
 import compareVersions from 'tiny-version-compare';
-import {any as concatenateTemplateLiteralTag} from 'code-tag';
+import {CachedFunction} from 'webext-storage-cache';
 
 import type {RghOptions} from '../options-storage.js';
 import isDevelopmentVersion from './is-development-version.js';

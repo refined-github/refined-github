@@ -1,16 +1,16 @@
 import './reactions-avatars.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import {onAbort} from 'abort-utils';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {getLoggedInUser} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
+import {getLoggedInUser} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars

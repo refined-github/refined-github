@@ -1,9 +1,9 @@
-import {$$} from 'select-dom';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import {$$} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
+import onetime from '../helpers/onetime.js';
 
 const visible = new Set();
 const observer = new IntersectionObserver(entries => {

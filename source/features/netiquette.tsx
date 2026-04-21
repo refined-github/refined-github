@@ -1,16 +1,17 @@
-import React from 'dom-chef';
-import FlameIcon from 'octicons-plain-react/Flame';
-import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$optional} from 'select-dom/strict.js';
-import {countElements, elementExists} from 'select-dom';
-import twas from 'twas';
-import InfoIcon from 'octicons-plain-react/Info';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
+import InfoIcon from 'octicons-plain-react/Info';
+import {countElements, elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
+import twas from 'twas';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
+import createBanner from '../github-helpers/banner.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {
 	areDiscussionsEnabled,
 	areIssuesEnabled,
@@ -20,9 +21,8 @@ import {
 	isOwnConversation,
 } from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
-import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
 
 export async function getCloseDate(): Promise<Date | undefined> {
 	if (pageDetect.isOpenConversation()) {

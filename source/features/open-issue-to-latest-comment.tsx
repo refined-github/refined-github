@@ -1,5 +1,5 @@
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {openIssueToLastComment} from '../github-helpers/selectors.js';

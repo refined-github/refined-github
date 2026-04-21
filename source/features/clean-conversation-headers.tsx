@@ -1,17 +1,17 @@
 import './clean-conversation-headers.css';
 
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
-import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';
+import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
+import {$, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';

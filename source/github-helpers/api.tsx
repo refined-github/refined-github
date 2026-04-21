@@ -26,16 +26,16 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
-import mem from 'memoize';
 import * as pageDetect from 'github-url-detection';
-import type {JsonObject, AsyncReturnType} from 'type-fest';
+import mem from 'memoize';
+import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
 
-import onetime from '../helpers/onetime.js';
-import {getRepo, getLoggedInUser} from './index.js';
-import {getToken} from '../options-storage.js';
 import {log} from '../helpers/feature-helpers.js';
+import onetime from '../helpers/onetime.js';
+import {getToken} from '../options-storage.js';
 import {tokenUser} from './github-token.js';
+import {getLoggedInUser, getRepo} from './index.js';
 
 type JsonError = {
 	message: string;

@@ -1,20 +1,20 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 import {$, $optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import showToast from '../github-helpers/toast.js';
-import {getRepo} from '../github-helpers/index.js';
-import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getRepo} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 // TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
 const nativeRepos = new CachedFunction('native-update-button', {

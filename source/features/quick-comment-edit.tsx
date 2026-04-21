@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import PencilIcon from 'octicons-plain-react/Pencil';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
+import PencilIcon from 'octicons-plain-react/Pencil';
+import {elementExists} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isIssueIneditable = memoize(

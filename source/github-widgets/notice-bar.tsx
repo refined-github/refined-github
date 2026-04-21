@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import XIcon from 'octicons-plain-react/X';
 import elementReady from 'element-ready';
+import XIcon from 'octicons-plain-react/X';
 
 type Options = {
 	action?: Element | false;

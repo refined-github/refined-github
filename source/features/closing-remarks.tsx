@@ -1,21 +1,21 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import {$$} from 'select-dom';
 import {$} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getReleases} from './releases-tab.js';
+import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import {getReleases} from './releases-tab.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206

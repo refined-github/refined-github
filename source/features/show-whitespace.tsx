@@ -1,12 +1,13 @@
 import './show-whitespace.css';
 
-import * as pageDetect from 'github-url-detection';
 import {onAbort} from 'abort-utils';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
-import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
+import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const {target: line, isIntersecting} of changes) {
@@ -23,7 +24,7 @@ function showWhitespaceWhenInViewport(line: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${codeElementsSelector.join(',')}):not(.blob-code-hunk)`, showWhitespaceWhenInViewport, {signal});
+	observe(is(codeElementsSelector) + ':not(.blob-code-hunk)', showWhitespaceWhenInViewport, {signal});
 	onAbort(signal, viewportObserver);
 }
 

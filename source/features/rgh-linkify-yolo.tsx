@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyIssue(issueCell: HTMLElement): void {
 	// Linkify with hovercards

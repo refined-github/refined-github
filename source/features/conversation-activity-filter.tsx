@@ -1,20 +1,20 @@
 import './conversation-activity-filter.css';
 
+import delegate from 'delegate-it';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import domLoaded from 'dom-loaded';
-import delegate from 'delegate-it';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
-import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import delay from '../helpers/delay.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const states = {
