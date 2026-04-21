@@ -15,7 +15,12 @@ a[class*='PinnedIssue-module__Link'] code {
 
 /* Fix spacing of repo header button icons #5620 */
 .pagehead-actions
-	:is(.btn, .Button--secondary, [class^='prc-Button-ButtonBase'], summary)
+	:is(
+		.btn,
+		.Button--secondary,
+		[class^='prc-Button-ButtonBase'],
+		summary
+	)
 	.octicon:not(.octicon-triangle-down) {
 	margin-right: 4px !important;
 }

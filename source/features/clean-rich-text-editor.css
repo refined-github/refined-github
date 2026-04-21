@@ -11,7 +11,11 @@
 			[data-md-button='italic'],
 			/* React fields */
 			[data-component='IconButton']:has(
-				> .octicon-heading, > .octicon-bold, > .octicon-italic, > .octicon-cross-reference, > .octicon-mention
+				> .octicon-heading,
+				> .octicon-bold,
+				> .octicon-italic,
+				> .octicon-cross-reference,
+				> .octicon-mention
 			)
 		):not(:focus) {
 		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
