@@ -1,12 +1,13 @@
-import {$optional, $} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
-import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
+import compareVersions from 'tiny-version-compare';
+import type {RequireAtLeastOne} from 'type-fest';
 
 import {branchSelector} from './selectors.js';
+import {is} from '../helpers/css-selectors.js';
 
 // Re-export for convenience
 export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
@@ -127,11 +128,11 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
-const navigationBarSelector = `:is(${[
+const navigationBarSelector = is(
 	'.GlobalNav',
 	// Remove after June 2026
 	'.js-repo-nav',
-].join(',')})`;
+);
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;

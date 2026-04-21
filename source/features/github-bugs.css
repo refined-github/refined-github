@@ -1,7 +1,7 @@
 /* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
 li[data-testid='commit-row-item'] code /* `isCommitList` commit message */,
-div[class^='CommitHeader-module__commitMessageContainer']
-	code /* `isCommit` commit message */,
+/* `isCommit` commit message */
+div[class^='CommitHeader-module__commitMessageContainer'] code,
 a[class*='PinnedIssue-module__Link'] code {
 	padding: 2px 4px;
 	background-color: var(
@@ -14,7 +14,8 @@ a[class*='PinnedIssue-module__Link'] code {
 }
 
 /* Fix spacing of repo header button icons #5620 */
-.pagehead-actions :is(
+.pagehead-actions
+	:is(
 		.btn,
 		.Button--secondary,
 		[class^='prc-Button-ButtonBase'],
@@ -72,9 +73,9 @@ div.markdown-body {
 @media (width >= 768px) {
 	/* Pulls the alert container to the right when empty */
 	.gap-4.pl-3:not(:has(a.h6)):has(
-			> .d-md-block
-				> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
-		) {
+		> .d-md-block
+			> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
+	) {
 		/* Subtract 16px spacing from both .gap-3 and .ml-3 */
 		margin-right: -32px;
 	}
@@ -122,7 +123,7 @@ div.markdown-body {
 /* Info: https://github.com/refined-github/refined-github/pull/9116/ */
 /* Test: https://github.com/refined-github/sandbox/pull/61 */
 div[class^='prc-PageHeader-Description']
-> .flex-column.flex-sm-row.flex-items-start {
+	> .flex-column.flex-sm-row.flex-items-start {
 	/* flex-sm-items-center */
 	@media (min-width: 544px) {
 		align-items: center !important;
@@ -157,7 +158,8 @@ react-app[app-name='pull-requests'] {
 /* Fix checks state icon alignment in file tree sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/9198 */
 /* Test: https://github.com/refined-github/refined-github/pull/8958/changes */
-div[class^='PRIVATE_TreeView-item-visual'] > .flex-items-center.flex-row
+div[class^='PRIVATE_TreeView-item-visual']
+	> .flex-items-center.flex-row
 	> div:has(> svg) {
 	line-height: 0;
 

@@ -1,6 +1,6 @@
-import {StorageItem} from 'webext-storage';
 import webextAlert from 'webext-alert';
 import {isScriptableUrl} from 'webext-content-scripts';
+import {StorageItem} from 'webext-storage';
 import {createContextMenu} from 'webext-tools';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel

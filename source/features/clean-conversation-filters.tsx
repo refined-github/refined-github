@@ -1,15 +1,15 @@
-import {CachedFunction} from 'webext-storage-cache';
-import {$optional} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
+import {$optional} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import HasAnyProjects from './clean-conversation-filters.gql';
 import api from '../github-helpers/api.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import HasAnyProjects from './clean-conversation-filters.gql';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {

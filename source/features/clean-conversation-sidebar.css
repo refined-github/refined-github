@@ -6,8 +6,8 @@ html:not([rgh-OFF-clean-conversation-sidebar]) {
 			}
 
 			span:is([class*='emptyText'], [class*='developmentHelpText']):not(
-					:has(> button)
-				) {
+				:has(> button)
+			) {
 				display: none;
 			}
 		}

@@ -1,24 +1,24 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import delegate, {type DelegateEvent} from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import {$$, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
-import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
-import {perDomainOptions} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
+import clearCacheHandler from './helpers/clear-cache-handler.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
+import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
-import initTokenValidation from './options/token-validation.js';
 import initToggleAllButtons from './options/toggle-all.js';
+import initTokenValidation from './options/token-validation.js';
 
 const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 

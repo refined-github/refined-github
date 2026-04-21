@@ -1,17 +1,17 @@
-import {CachedFunction} from 'webext-storage-cache';
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import PlayIcon from 'octicons-plain-react/Play';
 import {parseCron} from '@fregante/mi-cron';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import PlayIcon from 'octicons-plain-react/Play';
+import {$} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
 import GetWorkflows from './github-actions-indicators.gql';
-import {expectToken} from '../github-helpers/github-token.js';
-import removeHashFromUrlBar from '../helpers/history.js';
 
 type Workflow = {
 	name: string;

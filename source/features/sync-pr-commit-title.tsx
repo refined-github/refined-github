@@ -1,17 +1,17 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $optional} from 'select-dom/strict.js';
 
-import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
-import observe from '../helpers/selector-observer.js';
-import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
-import {confirmMergeButton} from '../github-helpers/selectors.js';
+import api from '../github-helpers/api.js';
+import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
+import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
+import observe from '../helpers/selector-observer.js';
+import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
 

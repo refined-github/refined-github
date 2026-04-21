@@ -5,12 +5,12 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
+import waitForPrMerge from '../github-events/on-pr-merge.js';
 import getNextConversationNumber from '../github-helpers/get-next-conversation-number.js';
 import {getConversationNumber} from '../github-helpers/index.js';
-import {formatPrCommitTitle} from './sync-pr-commit-title.js';
-import waitForPrMerge from '../github-events/on-pr-merge.js';
 import abortableClassName from '../helpers/abortable-classname.js';
 import observe from '../helpers/selector-observer.js';
+import {formatPrCommitTitle} from './sync-pr-commit-title.js';
 
 // https://github.com/refined-github/refined-github/issues/2178#issuecomment-505940703
 const limit = 72;

@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import parseCompareUrl from '../github-helpers/parse-compare-url.js';
 import {defaultBranchOfRepo} from '../github-helpers/get-default-branch.js';
+import parseCompareUrl from '../github-helpers/parse-compare-url.js';
+import observe from '../helpers/selector-observer.js';
 
 async function addWarning(anchor: HTMLElement): Promise<void> {
 	anchor.before(

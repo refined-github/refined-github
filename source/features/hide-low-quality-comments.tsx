@@ -1,13 +1,13 @@
 import './hide-low-quality-comments.css';
 
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, countElements, elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {$$, countElements, elementExists} from 'select-dom';
+import {$, $optional} from 'select-dom/strict.js';
 
-import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
+import delay from '../helpers/delay.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';

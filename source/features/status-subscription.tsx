@@ -2,14 +2,14 @@ import './status-subscription.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 

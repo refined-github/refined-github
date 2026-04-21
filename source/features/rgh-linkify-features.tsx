@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
-import features from '../feature-manager.js';
-import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getNewFeatureName} from '../feature-data.js';
+import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;

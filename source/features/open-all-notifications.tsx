@@ -1,18 +1,18 @@
 import './open-all-notifications.css';
 
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import {$$, elementExists} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import openTabs from '../helpers/open-tabs.js';
-import {appendBefore} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import openTabs from '../helpers/open-tabs.js';
+import observe from '../helpers/selector-observer.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)

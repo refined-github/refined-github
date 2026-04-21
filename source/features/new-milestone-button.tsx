@@ -2,8 +2,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function addButton(editButton: Element): void {
 	editButton.before(

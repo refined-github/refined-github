@@ -1,19 +1,19 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import {$, $optional} from 'select-dom/strict.js';
+import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
 import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
-import addNotice from '../github-widgets/notice-bar.js';
-import api from '../github-helpers/api.js';
+import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import observe from '../helpers/selector-observer.js';
 
 const tooltip = 'Instant deletion: shift-alt-click';
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';

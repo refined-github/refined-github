@@ -1,9 +1,9 @@
 import './mark-private-orgs.css';
 
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import * as pageDetect from 'github-url-detection';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

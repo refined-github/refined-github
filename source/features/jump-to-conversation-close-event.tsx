@@ -1,13 +1,13 @@
-import React from 'dom-chef';
-import {$, $$, lastElement} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 import debounce from 'debounce-fn';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {$, $$, lastElement} from 'select-dom/strict.js';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 import './jump-to-conversation-close-event.css';
 
 export const statusBadgeSelector = [

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
-import CheckIcon from 'octicons-plain-react/Check';
 import * as pageDetect from 'github-url-detection';
+import CheckIcon from 'octicons-plain-react/Check';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';

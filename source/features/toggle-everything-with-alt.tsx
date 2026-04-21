@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';
+import {is} from '../helpers/css-selectors.js';
 
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 	const open = (clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])';
@@ -21,7 +22,10 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = 'button[data-testid="commit-row-show-description-button"]';
 
-const addSuggestionToBatchSelector = ':is(.js-apply-changes button[data-variant="primary"], .js-batched-suggested-changes-add)';
+const addSuggestionToBatchSelector = is(
+	'.js-apply-changes button[data-variant="primary"]',
+	'.js-batched-suggested-changes-add',
+);
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
 	const {id} = clickedItem.closest('.TimelineItem-body[id]')!;

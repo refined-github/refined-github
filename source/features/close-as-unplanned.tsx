@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 
 const id = getFeatureId(import.meta.url);
 

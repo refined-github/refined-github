@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import {assertError} from 'ts-extras';
 import CheckIcon from 'octicons-plain-react/Check';
 import StopIcon from 'octicons-plain-react/Stop';
 import oneEvent from 'one-event';
+import {assertError} from 'ts-extras';
 
 import delay from '../helpers/delay.js';
 import {frame} from '../helpers/dom-utils.js';

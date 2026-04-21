@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import InfoIcon from 'octicons-plain-react/Info';
 import * as pageDetect from 'github-url-detection';
+import InfoIcon from 'octicons-plain-react/Info';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import createBanner from '../github-helpers/banner.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
+import observe from '../helpers/selector-observer.js';
+import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
