@@ -1,16 +1,24 @@
 {
 	"$schema": "https://dprint.dev/schemas/v0.json",
 	"plugins": [
+		"./node_modules/dprint-plugin-markup/plugin.wasm",
 		"./node_modules/dprint-plugin-malva/plugin.wasm",
 		"./node_modules/dprint-plugin-graphql/plugin.wasm"
 	],
-	"includes": ["source/**/*.css", "source/**/*.gql"],
+	"includes": [
+		"**/*.svelte",
+		"**/*.css",
+		"**/*.gql"
+	],
+	"useTabs": true,
+	"markup": {
+		"whitespaceSensitivity": "strict",
+		"scriptIndent": true,
+		"styleIndent": true
+	},
 	"malva": {
 		"linebreakInPseudoParens": true,
-		"quotes": "alwaysSingle",
-		"useTabs": true
+		"quotes": "alwaysSingle"
 	},
-	"graphql": {
-		"useTabs": true
-	}
+	"graphql": {}
 }

@@ -1,6 +1,7 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 
@@ -39,7 +40,6 @@ const refinedGithubPlugin = {
 };
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-
 export default [
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
@@ -316,6 +316,7 @@ export default [
 				location: 'readonly',
 			},
 		},
+		rules: eslintConfigPrettier.rules,
 	},
 	{
 		files: ['source/features/**'],

@@ -8,7 +8,7 @@
 	}}
 />
 
-<!-- prettier-ignore -->
+<!-- markup-fmt-ignore -->
 <script lang="ts">
 	import prettyBytes from 'pretty-bytes';
 
@@ -52,7 +52,9 @@
 </script>
 
 <output>
-	{available < 100_000
+	{
+		available < 100_000
 		? `Only ${prettyBytes(available)} available`
-		: `${prettyBytes(used)} used`}
+		: `${prettyBytes(used)} used`
+	}
 </output>
