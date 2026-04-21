@@ -21,6 +21,8 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 	}
 }
 
+export const hideAuthorClass = 'rgh-hide-author';
+
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
@@ -44,7 +46,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
-		summaryRow.classList.add('rgh-hide-author');
+		summaryRow.classList.add(hideAuthorClass);
 	}
 
 	const base = $([
@@ -77,16 +79,17 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	);
 }
 
+export const prSummarySelector = [
+	'span[class*="PullRequestHeaderSummary"]',
+	// Old views. TODO: Remove after July 2026
+	'.gh-header-meta > .flex-auto', // Real
+	'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+	'[class^="StateLabel"] + div > span:first-child',
+];
+
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-
-	observe([
-		'span[class*="PullRequestHeaderSummary"]',
-		// Old views. TODO: Remove after July 2026
-		'.gh-header-meta > .flex-auto', // Real
-		'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
-		'[class^="StateLabel"] + div > span:first-child',
-	], cleanPrHeader, {signal});
+	observe(prSummarySelector, cleanPrHeader, {signal});
 }
 
 void features.add(import.meta.url, {
