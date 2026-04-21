@@ -2,7 +2,7 @@
 :root .dropdown-menu-reactions {
 	display: grid !important;
 	/* Keep two lines whether there are 6 or 8 reactions */
-	grid-template-rows: 1fr 1fr; 
+	grid-template-rows: 1fr 1fr;
 	grid-auto-flow: column;
 
 	/* Move the popups */
