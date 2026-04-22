@@ -92,7 +92,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 		if (assignYourself) {
 			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
 			$('[aria-label="Select assignees"] summary').append(
-				<span style={{fontWeight: 'normal'}}>{' – '}{assignYourself}</span>,
+				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);
 			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
 		}
@@ -121,7 +121,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	if (createBranchLink && !openWorkspaceButton) {
 		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary').append(
-			<span style={{fontWeight: 'normal'}}>{' – '}{createBranchLink}</span>,
+			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
 		);
 	}
 
