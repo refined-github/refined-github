@@ -50,7 +50,9 @@ function init(signal: AbortSignal): void {
 	delegate(commitMessageSelector, 'click', clickAll(commitMessageSelector), {signal});
 
 	// <details> elements in issue/PR comment Markdown content
-	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {signal});
+	delegate('.TimelineItem-body[id] .markdown-body details > summary', 'click', clickAll(markdownCommentSelector), {
+		signal,
+	});
 
 	// "Add suggestion to batch" buttons in PR files
 	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal, capture: true});

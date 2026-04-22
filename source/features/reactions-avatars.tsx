@@ -85,7 +85,14 @@ function showAvatarsOn(commentReactions: Element): void {
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 flex-self-center">
-				<img src={imageUrl} className="d-block" width={avatarSize} height={avatarSize} alt={`@${username}`} loading="lazy" />
+				<img
+					src={imageUrl}
+					className="d-block"
+					width={avatarSize}
+					height={avatarSize}
+					alt={`@${username}`}
+					loading="lazy"
+				/>
 			</span>,
 		);
 	}
@@ -96,11 +103,15 @@ function observeCommentReactions(commentReactions: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// `batch-deferred-content` means the participant list hasn't loaded yet
-		'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
-		'[aria-label="Reactions"]',
-	], observeCommentReactions, {signal});
+	observe(
+		[
+			// `batch-deferred-content` means the participant list hasn't loaded yet
+			'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
+			'[aria-label="Reactions"]',
+		],
+		observeCommentReactions,
+		{signal},
+	);
 	onAbort(signal, viewportObserver);
 }
 

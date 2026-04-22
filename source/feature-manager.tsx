@@ -1,34 +1,30 @@
 /* eslint-disable no-await-in-loop -- Event loops */
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
 import domLoaded from 'dom-loaded';
+import * as pageDetect from 'github-url-detection';
+import oneEvent from 'one-event';
+import {elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
 import type {Promisable} from 'type-fest';
-import * as pageDetect from 'github-url-detection';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
-import oneEvent from 'one-event';
 
-import waitFor from './helpers/wait-for.js';
-import ArrayMap from './helpers/map-of-arrays.js';
-import bisectFeatures from './helpers/bisect.js';
-import {
-	shouldFeatureRun,
-	isFeaturePrivate,
-	type RunConditions,
-} from './helpers/feature-utils.js';
-import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
-import {
-	applyStyleHotfixes,
-	getLocalHotfixesAsOptions,
-	preloadSyncLocalStrings,
-	brokenFeatures,
-} from './helpers/hotfix.js';
 import asyncForEach from './helpers/async-for-each.js';
+import bisectFeatures from './helpers/bisect.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {
 	getFeatureId, listenToAjaxedLoad, log, shortcutMap,
 } from './helpers/feature-helpers.js';
+import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/feature-utils.js';
+import {
+	applyStyleHotfixes,
+	brokenFeatures,
+	getLocalHotfixesAsOptions,
+	preloadSyncLocalStrings,
+} from './helpers/hotfix.js';
+import ArrayMap from './helpers/map-of-arrays.js';
+import waitFor from './helpers/wait-for.js';
+import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
 import {contentScriptToggle} from './options/reload-without.js';
 
 type FeatureInitResult = void | false;

@@ -12,7 +12,12 @@ declare var navigation: typeof window.navigation;
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit = {disconnect: VoidFunction} | {clear: VoidFunction} | {destroy: VoidFunction} | {abort: VoidFunction} | VoidFunction;
+type Deinit =
+	| {disconnect: VoidFunction}
+	| {clear: VoidFunction}
+	| {destroy: VoidFunction}
+	| {abort: VoidFunction}
+	| VoidFunction;
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {

@@ -13,7 +13,8 @@ import observe from '../helpers/selector-observer.js';
 
 function isHidingWhitespace(): boolean {
 	// The selector is the native button
-	return new URL(location.href).searchParams.get('w') === '1' || elementExists('button[name="w"][value="0"]:not([hidden])');
+	return new URL(location.href).searchParams.get('w') === '1'
+		|| elementExists('button[name="w"][value="0"]:not([hidden])');
 }
 
 function createWhitespaceButton(): HTMLElement {

@@ -27,16 +27,15 @@ function runShortcuts(event: KeyboardEvent): void {
 		return;
 	}
 
-	const items
-		= $$([
-			'div[class*="targetable" i][id^="diff-"]', // Files in diffs
-			'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
-		])
-			.filter(element =>
-				element.classList.contains('js-minimizable-comment-group')
-					? !isCommentGroupMinimized(element)
-					: true,
-			);
+	const items = $$([
+		'div[class*="targetable" i][id^="diff-"]', // Files in diffs
+		'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
+	])
+		.filter(element =>
+			element.classList.contains('js-minimizable-comment-group')
+				? !isCommentGroupMinimized(element)
+				: true,
+		);
 
 	// `j` goes to the next item, `k` goes back an item
 	const direction = event.key === 'j' ? 1 : -1;

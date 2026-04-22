@@ -62,7 +62,9 @@ function updateRateLink(): void {
 		return;
 	}
 
-	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link').href = isFirefox()
+		? 'https://addons.mozilla.org/firefox/addon/refined-github-'
+		: 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -80,10 +82,9 @@ function getExclusions(): string | void {
 }
 
 async function showStoredCssHotfixes(): Promise<void> {
-	$('#hotfixes-field').textContent
-		= getExclusions()
-			?? await styleHotfixes.getCached(version)
-			?? 'No CSS found in cache.';
+	$('#hotfixes-field').textContent = getExclusions()
+		?? await styleHotfixes.getCached(version)
+		?? 'No CSS found in cache.';
 }
 
 async function fetchHotfixes(event: MouseEvent): Promise<void> {
@@ -91,10 +92,9 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	button.disabled = true;
 	try {
 		// Style
-		$('#hotfixes-field').textContent
-			= getExclusions()
-				?? await styleHotfixes.getFresh(version)
-				?? 'No hotfixes needed for this version! 🎉';
+		$('#hotfixes-field').textContent = getExclusions()
+			?? await styleHotfixes.getFresh(version)
+			?? 'No hotfixes needed for this version! 🎉';
 
 		// Broken features
 		const storage = await brokenFeatures.getFresh();

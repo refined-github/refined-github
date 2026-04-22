@@ -55,7 +55,9 @@ export default class GitHubFileUrl {
 
 		for (const [index, section] of currentBranchSections.entries()) {
 			if (ambiguousReference[index] !== section) {
-				console.warn(`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`);
+				console.warn(
+					`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`,
+				);
 				return {branch, filePath};
 			}
 		}
@@ -67,7 +69,10 @@ export default class GitHubFileUrl {
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/(?:(?:undefined)?\/)+$/g, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(
+			/(?:(?:undefined)?\/)+$/g,
+			'',
+		);
 	}
 
 	set pathname(pathname: string) {

@@ -22,10 +22,12 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		return;
 	}
 
-	if (elementExists([
-		'button[data-hotkey="Mod+Enter"]:disabled',
-		'button[type="submit"]:disabled',
-	], form)) {
+	if (
+		elementExists([
+			'button[data-hotkey="Mod+Enter"]:disabled',
+			'button[type="submit"]:disabled',
+		], form)
+	) {
 		return;
 	}
 
@@ -37,7 +39,9 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd><kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use{' '}
+			<kbd>{moduleKey}</kbd>
+			<kbd>enter</kbd>.
 		</p>
 	);
 

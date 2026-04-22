@@ -41,10 +41,14 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		{signal},
 	);
 	// Old PR view - TODO: Drop after July 2026
-	observe([
-		'.gh-header-meta > :first-child',
-		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
-	], addLockLegacy, {signal});
+	observe(
+		[
+			'.gh-header-meta > :first-child',
+			':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+		],
+		addLockLegacy,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

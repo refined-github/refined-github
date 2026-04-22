@@ -9,11 +9,16 @@ function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'a[href$="/issues/new/choose"]', // New issue button
-		'a[class*="SubIssueTitle"]', // Sub-issue links
-		'a[data-testid="issue-pr-title-link"]', // Global issue list links
-	], 'click', fix, {signal, capture: true});
+	delegate(
+		[
+			'a[href$="/issues/new/choose"]', // New issue button
+			'a[class*="SubIssueTitle"]', // Sub-issue links
+			'a[data-testid="issue-pr-title-link"]', // Global issue list links
+		],
+		'click',
+		fix,
+		{signal, capture: true},
+	);
 }
 
 void features.add(import.meta.url, {

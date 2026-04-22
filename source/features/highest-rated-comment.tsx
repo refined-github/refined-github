@@ -31,7 +31,6 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	if (
 		// It needs to be upvoted enough times
 		count >= 10
-
 		// It can't be a controversial comment
 		&& selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
@@ -78,11 +77,15 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = $('img.avatar', bestComment).cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center">
+		<a
+			href={hash}
+			className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center"
+		>
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
-				<span className="Label mr-2">Highest-rated</span>{text}
+				<span className="Label mr-2">Highest-rated</span>
+				{text}
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">

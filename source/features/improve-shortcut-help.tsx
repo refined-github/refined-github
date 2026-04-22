@@ -11,8 +11,11 @@ import {shortcutMap} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
+function splitKeys(keys: string): Array<string | JSX.Element> {
+	return keys.split(' ').flatMap(key => [
+		' ',
+		<kbd>{key}</kbd>,
+	]);
 }
 
 function improveShortcutHelpLegacy(dialog: Element): void {

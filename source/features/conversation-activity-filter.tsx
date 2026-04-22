@@ -148,7 +148,8 @@ function applyState(targetState: State): void {
 function createMenuItems(currentState: State): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button data-state={itemState}
+			<button
+				data-state={itemState}
 				id={`item-${crypto.randomUUID()}`}
 				type="button"
 				role="menuitemradio"
@@ -180,8 +181,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
-			data-select-variant="single">
+			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+				position.offsetWidth > 0 ? 'ml-2' : ''
+			}`}
+			data-select-variant="single"
+		>
 			<focus-group direction="vertical" mnemonics retain>
 				<button
 					id={`${baseId}-button`}
@@ -261,16 +265,20 @@ async function init(signal: AbortSignal): Promise<void> {
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
-	observe([
-		// Issue view
-		'[class^="HeaderMetadata-module__metadataContent"]',
-		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR view
-		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR view - TODO: Remove after July 2026
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-	], addWidget.bind(undefined, initialState), {signal});
+	observe(
+		[
+			// Issue view
+			'[class^="HeaderMetadata-module__metadataContent"]',
+			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			// PR view
+			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			// Old PR view - TODO: Remove after July 2026
+			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+			'#partial-discussion-header .sticky-header-container .meta:last-child',
+		],
+		addWidget.bind(undefined, initialState),
+		{signal},
+	);
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});

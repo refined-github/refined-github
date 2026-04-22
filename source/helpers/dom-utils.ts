@@ -52,13 +52,15 @@ export const wrapAll = <Wrapper extends Element>(wrapper: Wrapper, ...targets: A
 	return wrapper;
 };
 
-export const isEditable = (node: unknown): boolean => node instanceof HTMLTextAreaElement
+export const isEditable = (node: unknown): boolean =>
+	node instanceof HTMLTextAreaElement
 	|| node instanceof HTMLInputElement
 	|| (node instanceof HTMLElement && node.isContentEditable);
 
-export const frame = async (): Promise<number> => new Promise(resolve => {
-	requestAnimationFrame(resolve);
-});
+export const frame = async (): Promise<number> =>
+	new Promise(resolve => {
+		requestAnimationFrame(resolve);
+	});
 
 export const highlightTab = (tabElement: Element): void => {
 	tabElement.classList.add('selected');

@@ -16,7 +16,7 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	const link = <a className="Link--primary" href={mapLink} />;
 
 	if (userLocation.parentElement!.closest('.Popover')) {
-	// Match the style of other links in the hovercard
+		// Match the style of other links in the hovercard
 		link.classList.add('text-underline');
 	}
 

@@ -35,7 +35,8 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 					behavior: 'smooth',
 				});
 			}}
-		>comment
+		>
+			comment
 		</button>
 	);
 
@@ -44,7 +45,10 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 			{createBanner({
 				classes: ['rgh-bg-none'],
 				icon: <InfoIcon className="mr-1" />,
-				text: <>{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}. <strong>Do not</strong> report issues here.</>,
+				text: <>
+					{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
+					<strong>Do not</strong> report issues here.
+				</>,
 			})}
 		</TimelineItem>
 	);
@@ -53,10 +57,14 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 }
 
 function init(signal: AbortSignal): void | false {
-	observe([
-		'#issuecomment-new:has(file-attachment)',
-		'[data-testid="comment-composer"]',
-	], addConversationBanner, {signal});
+	observe(
+		[
+			'#issuecomment-new:has(file-attachment)',
+			'[data-testid="comment-composer"]',
+		],
+		addConversationBanner,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

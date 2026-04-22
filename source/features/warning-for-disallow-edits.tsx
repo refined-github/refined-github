@@ -9,7 +9,8 @@ import attachElement from '../helpers/attach-element.js';
 
 const getWarning = (): React.JSX.Element => (
 	<div className="flash flex-auto flash-error my-3 rgh-warning-for-disallow-edits">
-		<strong>Note:</strong> Maintainers may require changes. It&apos;s easier and faster to allow them to make direct changes before merging.
+		<strong>Note:</strong>{' '}
+		Maintainers may require changes. It&apos;s easier and faster to allow them to make direct changes before merging.
 	</div>
 );
 

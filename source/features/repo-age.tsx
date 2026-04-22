@@ -45,7 +45,10 @@ function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): strin
 	return buildRepoUrl('commits', `?after=${commitSha}+${offset}`);
 }
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+async function getRepoAge(
+	commitSha: string,
+	commitsCount: number,
+): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -97,7 +100,9 @@ async function init(): Promise<void> {
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
 		? randomArrayItem(fresh)
-		: <><strong>{value}</strong> {unit} old</>;
+		: <>
+			<strong>{value}</strong> {unit} old
+		</>;
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
 	sidebarForksLinkIcon!.closest('.mt-2')!.after(

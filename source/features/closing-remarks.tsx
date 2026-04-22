@@ -47,7 +47,8 @@ function createReleaseUrl(): string {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
+	const mergeCommit
+		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
@@ -57,9 +58,15 @@ async function init(signal: AbortSignal): Promise<void> {
 		addExistingTagLinkFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {signal});
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+			signal,
+		});
 	} else {
-		void addReleaseBanner(<>This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.</>);
+		void addReleaseBanner(
+			<>
+				This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.
+			</>,
+		);
 	}
 }
 
@@ -85,7 +92,9 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
-					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
+					text: <>
+						This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
+					</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>

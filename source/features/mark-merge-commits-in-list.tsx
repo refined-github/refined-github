@@ -17,15 +17,17 @@ import observe from '../helpers/selector-observer.js';
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository() {
-			${commits.map((commit: string) => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
-				... on Commit {
-						parents {
-							totalCount
+			${
+				commits.map((commit: string) => `
+					${api.escapeKey(commit)}: object(expression: "${commit}") {
+					... on Commit {
+							parents {
+								totalCount
+							}
 						}
 					}
-				}
-			`).join('\n')}
+				`).join('\n')
+			}
 		}
 	`);
 
@@ -67,12 +69,16 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe([
-		'[data-testid="commit-row-item"]',
+	observe(
+		[
+			'[data-testid="commit-row-item"]',
 
-		'.js-commits-list-item', // `isPRCommitList`
-		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
-	], batchedFunction(markCommits, {delay: 100}), {signal});
+			'.js-commits-list-item', // `isPRCommitList`
+			'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
+		],
+		batchedFunction(markCommits, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

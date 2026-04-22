@@ -45,9 +45,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	commitMeta.classList.remove('no-wrap'); // #5987
 	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
-			{createLink('patch')}
-			{' '}
-			{createLink('diff')}
+			{createLink('patch')} {createLink('diff')}
 			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
 		</span>,
 	);
@@ -58,7 +56,7 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 		<li className="Box-row p-3 tmp-p-3 mt-0 tmp-mt-0 d-flex flex-items-center">
 			<DiffIcon className="mr-2 tmp-mr-2" />
 			<div data-turbo="false">
-				<span className="text-bold">Git URLs: </span>
+				<span className="text-bold">{'Git URLs: '}</span>
 				<a href={getPrUrl('patch')}>patch</a>
 				{' · '}
 				<a href={getPrUrl('diff')}>diff</a>
@@ -68,15 +66,23 @@ async function addPrPatchDiffLinks(prHeader: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([
-		'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
-		'[class*="commit-header-actions"] + div pre',
-	], addPatchDiffLinks, {signal});
+	observe(
+		[
+			'.commit-meta > :is(span, div):last-child', // `isPRCommit` + old `isSingleCommit`
+			'[class*="commit-header-actions"] + div pre',
+		],
+		addPatchDiffLinks,
+		{signal},
+	);
 
-	observe([
-		'.react-overview-code-button-action-list > ul',
-		'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
-	], addPrPatchDiffLinks, {signal});
+	observe(
+		[
+			'.react-overview-code-button-action-list > ul',
+			'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
+		],
+		addPrPatchDiffLinks,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

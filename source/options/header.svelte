@@ -7,7 +7,6 @@
 	}}
 />
 
-<!-- markup-fmt-ignore -->
 <script lang="ts">
 	const {title}: {title: string} = $props();
 	const {version} = chrome.runtime.getManifest();

@@ -1,30 +1,27 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
 import {elementExists} from 'select-dom';
 import {$optional} from 'select-dom/strict.js';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
+import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import {expectToken} from '../github-helpers/github-token.js';
+import {groupButtons} from '../github-helpers/group-buttons.js';
 import {
-	buildRepoUrl,
-	cacheByRepo,
-	getLatestVersionTag,
-	getRepo,
+	buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo,
 } from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import pluralize from '../helpers/pluralize.js';
 import {branchSelector} from '../github-helpers/selectors.js';
-import getPublishRepoState from './unreleased-commits.gql';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {groupButtons} from '../github-helpers/group-buttons.js';
-import {expectToken} from '../github-helpers/github-token.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
+import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -63,7 +60,9 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		// https://github.com/refined-github/refined-github/issues/6094
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
-		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) => node.oid === latestTagOid);
+		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
+			node.oid === latestTagOid,
+		);
 
 		return {
 			latestTag,
@@ -79,10 +78,9 @@ async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount
-		= aheadBy === undeterminableAheadBy
-			? 'More than 20 unreleased commits'
-			: pluralize(aheadBy, '$$ unreleased commit');
+	const commitCount = aheadBy === undeterminableAheadBy
+		? 'More than 20 unreleased commits'
+		: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
 	return (
@@ -92,7 +90,8 @@ async function createLink(
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2"> +{aheadBy}</sup>}
+			{' '}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }

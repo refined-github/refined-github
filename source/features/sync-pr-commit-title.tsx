@@ -41,11 +41,13 @@ function createCommitTitle(): string {
 function needsSubmission(): boolean {
 	const mergeButton = $optional(confirmMergeButton);
 	const textContent = mergeButton?.textContent?.trim();
-	if (!textContent || ![
-		'Confirm squash and merge',
-		'Confirm auto-merge (squash)',
-		'Confirm bypass rules and merge (squash)',
-	].includes(textContent)) {
+	if (
+		!textContent || ![
+			'Confirm squash and merge',
+			'Confirm auto-merge (squash)',
+			'Confirm bypass rules and merge (squash)',
+		].includes(textContent)
+	) {
 		return false;
 	}
 
@@ -54,7 +56,9 @@ function needsSubmission(): boolean {
 }
 
 function getUi(): HTMLElement {
-	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
+	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">
+		Cancel
+	</button>;
 	return $optional('.rgh-sync-pr-commit-title-note') ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. {cancelButton}
@@ -101,10 +105,14 @@ function disableSubmission(): void {
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
 	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe([
-		'h1[class^="prc-PageHeader-Title"]',
-		'.gh-header-title', // Old view - TODO: Remove after July 2026
-	], updateCommitTitle, {signal}); // On PR title change
+	observe(
+		[
+			'h1[class^="prc-PageHeader-Title"]',
+			'.gh-header-title', // Old view - TODO: Remove after July 2026
+		],
+		updateCommitTitle,
+		{signal},
+	); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUi, signal);

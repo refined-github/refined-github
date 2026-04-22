@@ -44,7 +44,12 @@ async function getFile(filePath: string): Promise<string | undefined> {
 	return httpStatus === 404 ? undefined : content;
 }
 
-async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
+async function discardChanges(
+	progress: (message: string) => void,
+	originalFileName: string,
+	newFileName: string,
+	headline: string,
+): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
 		getFile(originalFileName),
@@ -65,7 +70,8 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`
+	await api.v4(
+		`
 		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
 				commit {
@@ -73,21 +79,23 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				}
 			}
 		}
-	`, {
-		variables: {
-			input: {
-				branch: {
-					repositoryNameWithOwner: nameWithOwner,
-					branchName: prBranch,
-				},
-				expectedHeadOid: headReference,
-				fileChanges,
-				message: {
-					headline,
+	`,
+		{
+			variables: {
+				input: {
+					branch: {
+						repositoryNameWithOwner: nameWithOwner,
+						branchName: prBranch,
+					},
+					expectedHeadOid: headReference,
+					fileChanges,
+					message: {
+						headline,
+					},
 				},
 			},
 		},
-	});
+	);
 }
 
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {

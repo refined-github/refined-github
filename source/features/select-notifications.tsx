@@ -19,11 +19,17 @@ import {$, $$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
-const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
+const prIcons = is(
+	'.octicon-git-pull-request',
+	'.octicon-git-pull-request-closed',
+	'.octicon-git-pull-request-draft',
+	'.octicon-git-merge',
+);
+const issueIcons = is('.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip');
 const filters = {
 	'Pull requests': prIcons,
 	Issues: issueIcons,
@@ -166,7 +172,12 @@ function init(signal: AbortSignal): void {
 	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
+	delegate(
+		['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'],
+		'click',
+		closeDropdown,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

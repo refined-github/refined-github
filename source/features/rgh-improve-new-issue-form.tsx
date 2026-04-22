@@ -30,8 +30,8 @@ function addTokenNotice(adjective: string): void {
 		'error',
 		<>
 			<p>
-				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
+				Your token is {adjective}. Many Refined GitHub features don't work without it. You can update it{' '}
+				<OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</>,
@@ -42,7 +42,8 @@ function addVersionNotice(releaseAgeInDays: number): void {
 	addNotice(
 		'warn',
 		<p>
-			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			Your Refined GitHub version is {releaseAgeInDays} days old.{' '}
+			<a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
 		</p>,
 	);
 }
