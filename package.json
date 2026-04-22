@@ -7,11 +7,10 @@
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
 		"fix": "run-p \"lint:biome -- --write\" \"lint:js -- --fix\" format \"vitest -- --update\" --continue-on-error",
-		"format": "prettier . --write && biome format --fix && dprint fmt",
+		"format": "dprint fmt",
 		"lint": "run-p lint:* --continue-on-error",
 		"lint:js": "eslint .",
-		"lint:biome": "biome check",
-		"lint:prettier": "prettier . --check",
+		"lint:biome": "biome lint",
 		"lint:dprint": "dprint check",
 		"new": "bash build/new-feature.sh",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
@@ -21,21 +20,6 @@
 		"watch": "run-p watch:* --continue-on-error",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:bundle": "rollup -c --watch"
-	},
-	"prettier": {
-		"bracketSpacing": false,
-		"plugins": [
-			"prettier-plugin-svelte"
-		],
-		"singleQuote": true,
-		"overrides": [
-			{
-				"files": "*.svelte",
-				"options": {
-					"parser": "svelte"
-				}
-			}
-		]
 	},
 	"dependencies": {
 		"@fregante/mi-cron": "^2.0.1",
@@ -89,7 +73,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.12",
-		"@dprint/typescript": "^0.95.15",
 		"@eslint-react/eslint-plugin": "^2.7.2",
 		"@eslint/compat": "^2.0.1",
 		"@rollup/plugin-alias": "^6.0.0",
@@ -111,6 +94,7 @@
 		"dprint-plugin-malva": "^0.15.3",
 		"dprint-plugin-markup": "^0.27.0",
 		"eslint": "^9.39.2",
+		"eslint-config-prettier": "^10.1.8",
 		"eslint-formatter-unix": "^9.0.1",
 		"eslint-import-resolver-typescript": "^4.4.4",
 		"eslint-plugin-import-x": "^4.16.1",
@@ -122,8 +106,6 @@
 		"linkedom": "^0.18.12",
 		"npm-run-all2": "^8.0.4",
 		"p-memoize": "^8.0.0",
-		"prettier": "^3.8.1",
-		"prettier-plugin-svelte": "^3.4.1",
 		"rollup": "^4.56.0",
 		"rollup-plugin-cleanup": "^3.2.1",
 		"rollup-plugin-copy": "^3.5.0",
