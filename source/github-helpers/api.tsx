@@ -174,7 +174,7 @@ const v3 = mem(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function*(
+const v3paginated = async function * (
 	query: string,
 	options?: GhRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -244,8 +244,8 @@ const v4uncached = async (
 	const fullQuery = /^\s*(?:query|mutation)/.test(query)
 		? query
 		: parameters.length === 0
-		? `query {${query}}`
-		: `query (${parameters.join(',')}) {${query}}`;
+			? `query {${query}}`
+			: `query (${parameters.join(',')}) {${query}}`;
 
 	log.http(fullQuery);
 

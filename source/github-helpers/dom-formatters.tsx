@@ -67,7 +67,7 @@ export function repositionAnchors(element: HTMLElement): void {
 }
 
 export function linkifyIssues(
-	currentRepo: {owner?: string; name?: string;},
+	currentRepo: {owner?: string; name?: string},
 	element: HTMLElement,
 	options: Partial<LinkifyIssuesOptions> = {},
 ): void {

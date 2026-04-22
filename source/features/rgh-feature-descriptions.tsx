@@ -23,8 +23,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			isFeaturePrivate(id)
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 				: isCss
-				? 'This feature is CSS-only and cannot be disabled.'
-				: undefined // The heck!?
+					? 'This feature is CSS-only and cannot be disabled.'
+					: undefined // The heck!?
 		);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
@@ -79,13 +79,13 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 								</a>
 							</>
 							: meta?.css
-							? <>
-								•{' '}
-								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>
-									See .css file
-								</a>
-							</>
-							: undefined}
+								? <>
+									•{' '}
+									<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>
+										See .css file
+									</a>
+								</>
+								: undefined}
 					</div>
 				</div>
 				{meta?.screenshot && (

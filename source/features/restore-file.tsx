@@ -64,8 +64,8 @@ async function discardChanges(
 	const fileChanges = isRenamed
 		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
 		: isNewFile
-		? deleteNewFile // New
-		: restoreOldFile; // Changes
+			? deleteNewFile // New
+			: restoreOldFile; // Changes
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
@@ -98,7 +98,7 @@ async function discardChanges(
 	);
 }
 
-function getFilenames(menuItem: HTMLElement): {original: string; new: string;} {
+function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
 	if (menuItem.tagName === 'BUTTON') {
 		const [originalFileName, newFileName = originalFileName] = menuItem

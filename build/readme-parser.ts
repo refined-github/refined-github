@@ -6,8 +6,8 @@ import parseMarkdown from 'snarkdown';
 
 // Group names must be unique because they will be merged
 const simpleFeatureRegex = /^- \[\]\(# "(?<simpleId>[^"]+)"\)(?: 🔥)? (?<simpleDescription>.+)$/gm;
-const highlightedFeatureRegex =
-	/<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
+const highlightedFeatureRegex
+	= /<p><a title="(?<highlightedId>[^"]+)"><\/a> (?<highlightedDescripion>.+)\n\t+<p><img src="(?<highlightedImage>.+?)">/g;
 const featureRegex = regexJoinWithSeparator('|', [simpleFeatureRegex, highlightedFeatureRegex]);
 const imageRegex = /\.\w{3}$/; // 3 since .png and .gif have 3 letters
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;

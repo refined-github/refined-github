@@ -1,6 +1,8 @@
 import {assert, test} from 'vitest';
 
-import {getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag} from './index.js';
+import {
+	getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag,
+} from './index.js';
 
 test('getConversationNumber', () => {
 	const pairs = new Map<string, number | undefined>([

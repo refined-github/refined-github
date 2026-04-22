@@ -13,7 +13,7 @@ import GetReleases from './releases-dropdown.gql';
 const getReleases = new CachedFunction('releases', {
 	async updater(): Promise<string[]> {
 		const {repository} = await api.v4(GetReleases);
-		return repository.releases.nodes.map(({tagName}: {tagName: string;}) => tagName);
+		return repository.releases.nodes.map(({tagName}: {tagName: string}) => tagName);
 	},
 	maxAge: {hours: 1},
 	staleWhileRevalidate: {days: 4},

@@ -19,7 +19,7 @@ test('getGitRef', () => {
 		getGitRef(
 			'https://github.com',
 			'github.com',
-		)
+		),
 	);
 
 	// Root

@@ -73,7 +73,7 @@ async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> 
 
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
-	const {method} = button.dataset as {method: UpdateMethod;};
+	const {method} = button.dataset as {method: UpdateMethod};
 
 	await showToast(async () => {
 		const {base} = getBranches();
@@ -139,8 +139,8 @@ function createButton(): JSX.Element {
 	);
 }
 
-const nativeUpdateButtonSelector =
-	'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
+const nativeUpdateButtonSelector
+	= '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
 
 function canNativelyUpdate(): boolean {
 	const nativeButton = $optional(nativeUpdateButtonSelector);

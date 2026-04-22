@@ -22,7 +22,7 @@ function onButtonClick(): void {
 		link.closest([
 			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
 			'[aria-label^="Selected"]',
-		])
+		]),
 	);
 
 	const linksToOpen = selectedLinks.length > 0
@@ -51,8 +51,8 @@ function add(anchor: HTMLElement): void {
 	const classes = isLegacy
 		? 'btn-link px-2'
 		: isSelected
-		? 'btn'
-		: 'btn btn-sm';
+			? 'btn'
+			: 'btn btn-sm';
 	anchor.prepend(
 		<button
 			type="button"

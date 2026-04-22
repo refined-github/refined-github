@@ -4,19 +4,13 @@
 		"./node_modules/dprint-plugin-markup/plugin.wasm",
 		"./node_modules/dprint-plugin-malva/plugin.wasm",
 		"./node_modules/dprint-plugin-graphql/plugin.wasm",
-		"./node_modules/@dprint/json/plugin.wasm",
-		"./node_modules/@dprint/typescript/plugin.wasm"
+		"./node_modules/@dprint/json/plugin.wasm"
 	],
 	"includes": [
 		"**/*.svelte",
 		"**/*.css",
 		"**/*.gql",
-		"**/*.ts",
-		"**/*.tsx",
 		"dprint.json"
-	],
-	"excludes": [
-		"**/*-lock.json"
 	],
 	"useTabs": true,
 	"markup": {
@@ -28,17 +22,5 @@
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle"
 	},
-	"graphql": {},
-	"typescript": {
-		"indentWidth": 1,
-		"quoteStyle": "preferSingle",
-		"jsx.quoteStyle": "preferDouble",
-		"trailingCommas": "onlyMultiLine",
-		"semiColons": "always",
-		"lineWidth": 120,
-		"jsx.multiLineParens": "never",
-		"spaceSurroundingProperties": false,
-		"importDeclaration.spaceSurroundingNamedImports": false,
-		"exportDeclaration.spaceSurroundingNamedExports": false
-	}
+	"graphql": {}
 }

@@ -11,10 +11,10 @@ export function disableErrorLogging(): void {
 
 const {version} = chrome.runtime.getManifest();
 
-const fineGrainedTokenSuggestion =
-	'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
-const preferredMessage =
-	'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
+const fineGrainedTokenSuggestion
+	= 'Please use a GitHub App, OAuth App, or a personal access token with fine-grained permissions.';
+const preferredMessage
+	= 'Refined GitHub does not support per-organization fine-grained tokens. https://github.com/refined-github/refined-github/wiki/Security';
 
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {

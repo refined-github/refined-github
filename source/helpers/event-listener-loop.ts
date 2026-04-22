@@ -1,4 +1,4 @@
-async function* createEventIterator<T extends Event>(
+async function * createEventIterator<T extends Event>(
 	element: EventTarget,
 	eventName: string,
 	{signal, once}: {

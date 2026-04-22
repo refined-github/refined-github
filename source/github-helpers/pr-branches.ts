@@ -60,7 +60,7 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
 }
 
-export function getBranches(): {base: PrReference; head: PrReference;} {
+export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([

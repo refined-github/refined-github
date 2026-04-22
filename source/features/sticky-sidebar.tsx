@@ -54,7 +54,7 @@ function updateStickiness(): void {
 	sidebar.classList.toggle(
 		'rgh-sticky-sidebar',
 		window.innerWidth >= minimumViewportWidthForSidebar
-			&& sidebar.offsetHeight + offset <= window.innerHeight,
+		&& sidebar.offsetHeight + offset <= window.innerHeight,
 	);
 }
 

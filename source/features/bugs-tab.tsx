@@ -36,7 +36,7 @@ type Bugs = {
 };
 
 async function countBugs(): Promise<Bugs> {
-	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse;};
+	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
 	const bugTypeCount = repository.issues.totalCount;
 
 	let label = repository.labels.nodes.find(label => label.name === 'bug');

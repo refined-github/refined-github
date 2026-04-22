@@ -25,7 +25,7 @@ const gistCount = new CachedFunction('gist-count', {
 	staleWhileRevalidate: {days: 3},
 });
 
-function getUser(): {url: string; name: string;} {
+function getUser(): {url: string; name: string} {
 	const name = getCleanPathname();
 	const url = pageDetect.isEnterprise()
 		? `/gist/${name}`

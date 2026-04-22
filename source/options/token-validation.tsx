@@ -28,8 +28,8 @@ function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 		scope.dataset.validation = scopes.includes(scope.dataset.scope!)
 			? 'valid'
 			: scopes.includes('unknown')
-			? ''
-			: 'invalid';
+				? ''
+				: 'invalid';
 	}
 }
 

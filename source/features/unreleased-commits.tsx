@@ -12,7 +12,9 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
-import {buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
+import {
+	buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo,
+} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
@@ -59,7 +61,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
 		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
-			node.oid === latestTagOid
+			node.oid === latestTagOid,
 		);
 
 		return {

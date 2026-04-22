@@ -15,7 +15,7 @@ function getLinkCopy(count: number): string {
 }
 
 const countPrs = new CachedFunction('prs-on-forked-repo', {
-	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number;}> {
+	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
 				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,

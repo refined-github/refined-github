@@ -8,7 +8,7 @@ import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
-function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined;} {
+function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
 	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
@@ -62,8 +62,8 @@ function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
-			// Remove after August 2026
-			?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+		// Remove after August 2026
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
 	);
 }
 
