@@ -12,11 +12,7 @@ import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function splitKeys(keys: string): DocumentFragment[] {
-	return keys.split(' ').map(key =>
-		<>
-			<kbd>{key}</kbd>
-		</>
-	);
+	return keys.split(' ').map(key => <> <kbd>{key}</kbd></>);
 }
 
 function improveShortcutHelpLegacy(dialog: Element): void {
