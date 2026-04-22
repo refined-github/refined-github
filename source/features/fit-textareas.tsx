@@ -1,9 +1,6 @@
 import './fit-textareas.css';
 
-import fitTextarea from 'fit-textarea';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
-import {isSafari} from 'webext-detect';
 
 import features from '../feature-manager.js';
 import {not} from '../helpers/css-selectors.js';
@@ -11,30 +8,10 @@ import observe from '../helpers/selector-observer.js';
 
 const nativeFit = CSS.supports('field-sizing', 'content');
 
-function resetListener({target}: Event): void {
-	const field = $('textarea', target as HTMLFormElement);
-	// Delay because the field is still filled while the `reset` event is firing
-	setTimeout(fitTextarea, 0, field);
-}
-
-function inputListener({target}: Event): void {
-	fitTextarea(target as HTMLTextAreaElement);
-}
-
-function watchTextarea(textarea: HTMLTextAreaElement, {signal}: SignalAsOptions): void {
+function watchTextarea(textarea: HTMLTextAreaElement): void {
 	// Disable constrained GitHub feature
 	textarea.classList.remove('size-to-fit', 'js-size-to-fit', 'issue-form-textarea'); // Remove !important height and min-height
 	textarea.classList.add('rgh-fit-textareas');
-
-	if (nativeFit) {
-		return;
-	}
-
-	textarea.addEventListener('input', inputListener, {signal}); // The user triggers `input` event
-	textarea.addEventListener('focus', inputListener, {signal}); // The user triggers `focus` event
-	textarea.addEventListener('change', inputListener, {signal}); // File uploads trigger `change` events
-	textarea.form?.addEventListener('reset', resetListener, {signal});
-	fitTextarea(textarea);
 }
 
 function init(signal: AbortSignal): void {
@@ -57,8 +34,7 @@ void features.add(import.meta.url, {
 		pageDetect.hasRichTextEditor,
 	],
 	exclude: [
-		// Allow Safari only if it supports the native version
-		() => isSafari() && !nativeFit,
+		() => !nativeFit,
 	],
 	init,
 });
