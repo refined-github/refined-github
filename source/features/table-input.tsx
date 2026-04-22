@@ -23,7 +23,6 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const row = columns === 1
 		// One HTML line per row
 		? '<tr><td>\n'
-
 		// <tr> on its own line
 		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
 		: '<tr>\n' + ' <td>\n'.repeat(columns);

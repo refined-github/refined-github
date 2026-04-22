@@ -35,10 +35,14 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
-		'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
-	], add, {signal});
+	observe(
+		[
+			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
+			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

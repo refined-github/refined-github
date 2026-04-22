@@ -322,7 +322,17 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
-		error.richMessage = <>Your organization requires a specific type of token. <a href="https://github.com/refined-github/refined-github/wiki/Security#token" target="_blank" rel="noreferrer" style={{color: 'inherit', textDecoration: 'underline'}}>Fix…</a></>;
+		error.richMessage = <>
+			Your organization requires a specific type of token.{' '}
+			<a
+				href="https://github.com/refined-github/refined-github/wiki/Security#token"
+				target="_blank"
+				rel="noreferrer"
+				style={{color: 'inherit', textDecoration: 'underline'}}
+			>
+				Fix…
+			</a>
+		</>;
 		return error;
 	}
 

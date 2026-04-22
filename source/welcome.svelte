@@ -1,6 +1,5 @@
 <svelte:options customElement="rgh-welcome" />
 
-<!-- markup-fmt-ignore -->
 <script lang="ts">
 	import {onMount} from 'svelte';
 	import 'webext-bugs/target-blank';

@@ -39,7 +39,10 @@ async function add(anchor: HTMLElement): Promise<void> {
 	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
-		<span className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center" title="CI status of latest commit">
+		<span
+			className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center"
+			title="CI status of latest commit"
+		>
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
@@ -57,15 +60,19 @@ async function add(anchor: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe([
-		'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-		// TODO: Remove after July 2026
-		// Desktop
-		'.AppHeader-context-item:not([data-hovercard-type])',
+	observe(
+		[
+			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+			// TODO: Remove after July 2026
+			// Desktop
+			'.AppHeader-context-item:not([data-hovercard-type])',
 
-		// Mobile. `> *:first-child` avoids finding our own element
-		'.AppHeader-context-compact-mainItem > span:first-child',
-	], add, {signal});
+			// Mobile. `> *:first-child` avoids finding our own element
+			'.AppHeader-context-compact-mainItem > span:first-child',
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

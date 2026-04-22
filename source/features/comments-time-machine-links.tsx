@@ -78,7 +78,9 @@ async function showTimeMachineBar(): Promise<void | false> {
 		</a>
 	);
 	await addNotice(
-		<>You can also {link} (<relative-time datetime={date} />)</>,
+		<>
+			You can also {link} (<relative-time datetime={date} />)
+		</>,
 	);
 }
 
@@ -119,7 +121,8 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
-	const timestamp = delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
+	const timestamp
+		= delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
@@ -168,7 +171,12 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	// [data-component="IconButton"] includes only React buttons
 	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
-	delegate(`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`, 'click', addDropdownLinkReact, {signal});
+	delegate(
+		`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`,
+		'click',
+		addDropdownLinkReact,
+		{signal},
+	);
 
 	observe(
 		`${commentSelector} a[href^="${location.origin}"]:not(.${linkifiedUrlClass})`,

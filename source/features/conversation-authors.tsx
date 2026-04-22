@@ -36,7 +36,9 @@ function highlightSelf(signal: AbortSignal): void {
 	observe([
 		// PRs - TODO: Drop in 2026
 		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
+			CSS.escape(getLoggedInUser()!)
+		}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});

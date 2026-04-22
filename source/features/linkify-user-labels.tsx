@@ -44,11 +44,15 @@ const ariaLabelSelector = is(
 );
 
 function init(signal: AbortSignal): void {
-	observe([
-		'span[data-testid="comment-author-association"]' + ariaLabelSelector,
-		// PRs
-		'.tooltipped' + ariaLabelSelector,
-	], linkify, {signal});
+	observe(
+		[
+			'span[data-testid="comment-author-association"]' + ariaLabelSelector,
+			// PRs
+			'.tooltipped' + ariaLabelSelector,
+		],
+		linkify,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

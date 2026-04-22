@@ -8,7 +8,6 @@
 	}}
 />
 
-<!-- markup-fmt-ignore -->
 <script lang="ts">
 	import prettyBytes from 'pretty-bytes';
 

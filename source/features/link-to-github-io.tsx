@@ -34,15 +34,23 @@ function initRepo(signal: AbortSignal): void {
 }
 
 function initRepoList(signal: AbortSignal): void {
-	observe([
-		// Earlier GitHub Pages were hosted on github.com #6228
-		'a[itemprop="name codeRepository"][href$=".github.com"]',
-		'a[itemprop="name codeRepository"][href$=".github.io"]',
-	], addRepoListLink, {signal});
-	observe([
-		'a[data-testid="listitem-title-link"][href$=".github.com"]',
-		'a[data-testid="listitem-title-link"][href$=".github.io"]',
-	], addOrgRepoListLink, {signal});
+	observe(
+		[
+			// Earlier GitHub Pages were hosted on github.com #6228
+			'a[itemprop="name codeRepository"][href$=".github.com"]',
+			'a[itemprop="name codeRepository"][href$=".github.io"]',
+		],
+		addRepoListLink,
+		{signal},
+	);
+	observe(
+		[
+			'a[data-testid="listitem-title-link"][href$=".github.com"]',
+			'a[data-testid="listitem-title-link"][href$=".github.io"]',
+		],
+		addOrgRepoListLink,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

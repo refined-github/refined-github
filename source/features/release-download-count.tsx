@@ -29,7 +29,7 @@ type Asset = {
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
-	return Object.fromEntries(assets.map(({name, downloadCount}) => ([name, downloadCount])));
+	return Object.fromEntries(assets.map(({name, downloadCount}) => [name, downloadCount]));
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {

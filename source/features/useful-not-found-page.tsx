@@ -200,14 +200,16 @@ async function initPrCommitOnce(): Promise<void | false> {
 
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
+		<p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
 	);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {

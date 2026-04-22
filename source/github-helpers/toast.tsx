@@ -29,7 +29,9 @@ export default async function showToast(
 		doneMessage?: ToastMessage | false;
 	} = {},
 ): Promise<void> {
-	const iconWrapper = <span className="Toast-icon"><ToastSpinner /></span>;
+	const iconWrapper = <span className="Toast-icon">
+		<ToastSpinner />
+	</span>;
 	const messageWrapper = <span>{message}</span>;
 	const toast = (
 		<div

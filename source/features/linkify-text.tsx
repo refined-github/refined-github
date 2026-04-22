@@ -18,11 +18,15 @@ function linkifyIssue(paragraph: HTMLParagraphElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.js-issue-title', // TODO: Drop in 2026
-		'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
-		'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
-	], linkifyIssue, {signal});
+	observe(
+		[
+			'.js-issue-title', // TODO: Drop in 2026
+			'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
+			'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
+		],
+		linkifyIssue,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

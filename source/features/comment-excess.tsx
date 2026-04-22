@@ -45,8 +45,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 		</a>
 	);
 	headerCommentCount.append(spacer);
-	headerCommentCount.after(link,
-	);
+	headerCommentCount.after(link);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

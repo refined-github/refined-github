@@ -11,13 +11,15 @@ import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	if (elementExists([
-		// If the branch picker is open, do nothing #7491
-		'#selectPanel',
+	if (
+		elementExists([
+			// If the branch picker is open, do nothing #7491
+			'#selectPanel',
 
-		// React view deduplication https://github.com/refined-github/refined-github/issues/7601
-		'.rgh-visit-tag',
-	])) {
+			// React view deduplication https://github.com/refined-github/refined-github/issues/7601
+			'.rgh-visit-tag',
+		])
+	) {
 		return;
 	}
 

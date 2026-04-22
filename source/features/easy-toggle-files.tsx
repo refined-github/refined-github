@@ -28,11 +28,16 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'.file-header',
-		// React
-		'[class^="Diff-module__diffHeaderWrapper"]',
-	], 'click', toggleFile, {signal});
+	delegate(
+		[
+			'.file-header',
+			// React
+			'[class^="Diff-module__diffHeaderWrapper"]',
+		],
+		'click',
+		toggleFile,
+		{signal},
+	);
 }
 
 function initSearchPage(signal: AbortSignal): void {

@@ -1,15 +1,12 @@
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
 import {
-	codeElementsSelector,
-	linkifiedUrlClass,
-	linkifyUrls,
-	linkifyIssues,
+	codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls,
 } from '../github-helpers/dom-formatters.js';
+import {getRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyContent(wrapper: HTMLElement): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code

@@ -65,8 +65,15 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	// `capture: true` required to be fired before GitHub's handlers
-	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleLegacyMenuOpening, {capture: true, signal});
-	delegate('[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpening);
+	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleLegacyMenuOpening, {
+		capture: true,
+		signal,
+	});
+	delegate(
+		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+	);
 }
 
 void features.add(import.meta.url, {

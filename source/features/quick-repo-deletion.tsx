@@ -45,7 +45,8 @@ async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 		<>
 			<TrashIcon />
 			<span>
-				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
+				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>,{' '}
+				<a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
 			</span>
 		</>,
 		{action: false},

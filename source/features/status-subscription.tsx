@@ -91,7 +91,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				<IssueReopenedIcon /> Status
 			</SubButton>
 		</div>,
-
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
 		<input type="hidden" name="events[]" value="merged" />,
@@ -112,7 +111,8 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	'x-github-client-version': 'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
+	'x-github-client-version':
+		'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
 	credentials: 'include',
 });
 
@@ -157,13 +157,11 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		},
 	};
 
-	const response = await fetch('/_graphql',
-		{
-			headers: githubApiBaseHeaders,
-			method: 'POST',
-			body: JSON.stringify(body),
-		},
-	);
+	const response = await fetch('/_graphql', {
+		headers: githubApiBaseHeaders,
+		method: 'POST',
+		body: JSON.stringify(body),
+	});
 	if (!response.ok) {
 		throw new Error('Failed to update the issue subscription status');
 	}

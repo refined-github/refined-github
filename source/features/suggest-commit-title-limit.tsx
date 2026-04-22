@@ -38,11 +38,16 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	onCommitTitleUpdate(validateCommitTitle, signal);
 
-	delegate([
-		...currentPrTitleSelectors,
-		'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-		'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
-	], 'input', async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement), {signal, passive: true});
+	delegate(
+		[
+			...currentPrTitleSelectors,
+			'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
+			'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
+		],
+		'input',
+		async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement),
+		{signal, passive: true},
+	);
 	// `isPR` - input is added to the DOM when user enters editing mode and removed when they exit it
 	// `isCompare` - input is re-rendered when previously entered title is restored
 	observe(currentPrTitleSelectors, validatePrTitle, {signal});

@@ -59,7 +59,7 @@ test('parseConventionalCommit', () => {
 		  "type": "Feature",
 		}
 	`);
-	expect(parseConventionalCommit(('feat: Commit (message)'))).toMatchInlineSnapshot(`
+	expect(parseConventionalCommit('feat: Commit (message)')).toMatchInlineSnapshot(`
 		{
 		  "raw": "feat: ",
 		  "rawType": "feat",
@@ -139,7 +139,7 @@ test('parseConventionalCommit support upper case types', () => {
 		  "type": "Feature",
 		}
 	`);
-	expect(parseConventionalCommit(('Feat: Commit (message)'))).toMatchInlineSnapshot(`
+	expect(parseConventionalCommit('Feat: Commit (message)')).toMatchInlineSnapshot(`
 		{
 		  "raw": "Feat: ",
 		  "rawType": "Feat",

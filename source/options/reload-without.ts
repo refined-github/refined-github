@@ -13,9 +13,11 @@ export const contentScriptToggle = new StorageItem('contentScript', {
 });
 
 async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
-	if (tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
-		origins: [tab.url],
-	})) {
+	if (
+		tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
+			origins: [tab.url],
+		})
+	) {
 		await contentScriptToggle.set(false);
 		await chrome.tabs.reload(tab.id!);
 	} else {
