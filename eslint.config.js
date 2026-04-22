@@ -1,7 +1,7 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
-import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 
@@ -316,7 +316,6 @@ export default [
 				location: 'readonly',
 			},
 		},
-		rules: eslintConfigPrettier.rules,
 	},
 	{
 		files: ['source/features/**'],
@@ -327,4 +326,5 @@ export default [
 			'refined-github/no-optional-chaining': 'error',
 		},
 	},
+	eslintConfigPrettier
 ];
