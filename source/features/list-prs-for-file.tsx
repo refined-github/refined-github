@@ -44,7 +44,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				popovertarget={buttonId + 'popover-' + count}
 			>
 				{icon}
-				<span className="color-fg-default">{' '}{prs.length}{' '}</span>
+				<span className="color-fg-default"> {prs.length} </span>
 				<div className="dropdown-caret" />
 			</button>
 
@@ -136,15 +136,11 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe(
-		[
-			'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
-			'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
-			'[data-hotkey="Mod+s"]', // `isEditingFile`
-		],
-		add,
-		{signal},
-	);
+	observe([
+		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
+		'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
+		'[data-hotkey="Mod+s"]', // `isEditingFile`
+	], add, {signal});
 }
 
 void features.add(import.meta.url, {
