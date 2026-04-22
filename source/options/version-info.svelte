@@ -4,7 +4,6 @@
 	}}
 />
 
-<!-- markup-fmt-ignore -->
 <script lang="ts">
 	import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
 

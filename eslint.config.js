@@ -1,6 +1,7 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
 import svelteParser from 'svelte-eslint-parser';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 
@@ -315,6 +316,9 @@ export default [
 				location: 'readonly',
 			},
 		},
+
+		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
+		rules: eslintConfigPrettier.rules,
 	},
 	{
 		files: ['source/features/**'],
