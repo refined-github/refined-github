@@ -11,8 +11,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-const documentation
-	= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
+const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
 async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -87,12 +86,10 @@ function addOld(submitButton: HTMLElement): void {
 						checked
 						type="checkbox"
 						id="rgh-disable-project"
-					/>{' '}
-					Disable Projects and Wikis
+					/> Disable Projects and Wikis
 				</label>
 				<span className="note mb-2">
-					After creating the repository disable the projects and wiki.{' '}
-					<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
 		</div>,
