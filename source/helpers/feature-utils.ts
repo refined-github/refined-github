@@ -19,7 +19,8 @@ export function isFeaturePrivate(id: string): boolean {
 }
 
 // Safari iOS 17.6 has the key, but it does nothing
-export const doesBrowserActionOpenOptions = !globalThis.chrome?.contextMenus || navigator.platform === 'iPhone'
+export const doesBrowserActionOpenOptions = !globalThis.chrome?.contextMenus
+	|| navigator.platform === 'iPhone'
 	|| navigator.platform === 'iPad';
 
 export async function shouldFeatureRun({
