@@ -10,8 +10,9 @@
 "**/*.svelte",
 "**/*.css",
 "**/*.gql",
-"source/**/*.ts",
-"source/**/*.tsx"
+"**/*.ts",
+"**/*.tsx",
+"dprint.json"
 ],
 "excludes": ["**/*-lock.json"],
 "useTabs": true,
@@ -27,7 +28,6 @@
 "graphql": {},
 "typescript": {
 "indentWidth": 1,
-"useTabs": true,
 "quoteStyle": "preferSingle",
 "jsx.quoteStyle": "preferDouble",
 "trailingCommas": "onlyMultiLine",

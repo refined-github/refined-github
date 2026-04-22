@@ -37,15 +37,14 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		if (fileCount > 1) {
 			info.textContent = ` (${fileCount} files)`;
 		} else {
-			const gistCss = `
-				.gist .gist-data {
-					max-height: 16em;
-					overflow-y: auto;
-				}
-			`;
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>{gistCss}</style>,
+				<style textContent={`
+					.gist .gist-data {
+						max-height: 16em;
+						overflow-y: auto;
+					}
+				`} />,
 				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);

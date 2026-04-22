@@ -29,7 +29,7 @@ async function markLocalHotfixes(): Promise<void> {
 			input.disabled = true;
 			input.removeAttribute('name');
 			$(`.feature-name[for="${feature}"]`).after(
-				<span className="hotfix-notice">(Disabled due to {createRghIssueLink(relatedIssue)})</span>,
+				<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
 	}
