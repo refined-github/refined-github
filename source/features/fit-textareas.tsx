@@ -33,8 +33,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
 	],
-	exclude: [
-		() => !nativeFit,
+	asLongAs: [
+		() => nativeFit,
 	],
 	init,
 });
