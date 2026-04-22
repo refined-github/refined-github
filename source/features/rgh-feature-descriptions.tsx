@@ -57,7 +57,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					</h3>
 					{oldNames.length > 0 && (
 						<div className="color-fg-muted mt-n3">
-							<span className="text-small">previously named{' '}</span>
+							<span className="text-small">previously named </span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
 									{index > 0 && ', '}
@@ -71,21 +71,13 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
-						{meta && isCss
-							? <>
-								•{' '}
-								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>
-									See .tsx file
-								</a>
-							</>
-							: meta?.css
-								? <>
-									•{' '}
-									<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>
-										See .css file
-									</a>
-								</>
-								: undefined}
+						{
+							meta && isCss
+								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
+								: meta?.css
+									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
+									: undefined
+						}
 					</div>
 				</div>
 				{meta?.screenshot && (
