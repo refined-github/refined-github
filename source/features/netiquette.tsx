@@ -59,7 +59,7 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
 	const newDiscussion = <a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>;
 	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled()
-		? <>{newIssue} or a {newDiscussion}</>
+		? <> {newIssue} or a {newDiscussion} </>
 		: areIssuesEnabled()
 		? newIssue
 		: newDiscussion;

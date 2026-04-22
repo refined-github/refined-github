@@ -18,16 +18,16 @@ const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository() {
 			${
-		commits.map((commit: string) => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
-				... on Commit {
-						parents {
-							totalCount
+				commits.map((commit: string) => `
+					${api.escapeKey(commit)}: object(expression: "${commit}") {
+					... on Commit {
+							parents {
+								totalCount
+							}
 						}
 					}
-				}
-			`).join('\n')
-	}
+				`).join('\n')
+			}
 		}
 	`);
 

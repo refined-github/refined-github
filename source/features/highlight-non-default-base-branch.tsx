@@ -40,17 +40,16 @@ function isClosed(prLink: HTMLElement): boolean {
 function buildQuery(prsByRepo: Map<string, Pr[]>): string {
 	return [...prsByRepo.values()].map(prs => {
 		const {owner, repo} = prs[0];
-		const prFields = prs.map(pr => `
-				${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
-					ref: baseRef {id}
-					refName: baseRefName
-				}
-			`).join('\n');
 		return `
 			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
 				nameWithOwner
 				defaultBranchRef {name}
-				${prFields}
+					${prs.map(pr => `
+						${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
+							ref: baseRef {id}
+							refName: baseRefName
+						}
+					`).join('\n')}
 			}
 		`;
 	}).join('\n');
