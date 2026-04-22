@@ -94,7 +94,7 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run lint:dprint
+      - run: npm run format:check
 
   Build:
     strategy:
