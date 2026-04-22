@@ -42,6 +42,7 @@ function init(signal: AbortSignal): void {
 		'textarea' + not(
 			// `anchored-position`: Exclude PR review box because it's in a `position:fixed` container; The scroll HAS to appear within the fixed element.
 			'anchored-position #pull_request_review_body',
+
 			// `#pull_request_body_ghost`: Special textarea that GitHub just matches to the visible textarea
 			'#pull_request_body_ghost',
 			'#pull_request_body_ghost_ruler',
