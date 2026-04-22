@@ -64,7 +64,8 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run lint
+      - run: npm run lint:js
+      - run: npm run lint:biome
       - uses: codespell-project/actions-codespell@v2
         with:
           ignore_words_list: eror,usera
@@ -81,6 +82,17 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:typescript
+
+  Format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+          cache: npm
+      - run: npm ci
+      - run: npm run lint:dprint
 
   Build:
     strategy:
