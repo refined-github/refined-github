@@ -1,41 +1,44 @@
 {
-"$schema": "https://dprint.dev/schemas/v0.json",
-"plugins": [
-"./node_modules/dprint-plugin-markup/plugin.wasm",
-"./node_modules/dprint-plugin-malva/plugin.wasm",
-"./node_modules/dprint-plugin-graphql/plugin.wasm",
-"node_modules/@dprint/typescript/plugin.wasm"
-],
-"includes": [
-"**/*.svelte",
-"**/*.css",
-"**/*.gql",
-"**/*.ts",
-"**/*.tsx",
-"dprint.json"
-],
-"excludes": ["**/*-lock.json"],
-"useTabs": true,
-"markup": {
-"whitespaceSensitivity": "strict",
-"scriptIndent": true,
-"styleIndent": true
-},
-"malva": {
-"linebreakInPseudoParens": true,
-"quotes": "alwaysSingle"
-},
-"graphql": {},
-"typescript": {
-"indentWidth": 1,
-"quoteStyle": "preferSingle",
-"jsx.quoteStyle": "preferDouble",
-"trailingCommas": "onlyMultiLine",
-"semiColons": "always",
-"lineWidth": 120,
-"jsx.multiLineParens": "never",
-"spaceSurroundingProperties": false,
-"importDeclaration.spaceSurroundingNamedImports": false,
-"exportDeclaration.spaceSurroundingNamedExports": false
-}
+	"$schema": "https://dprint.dev/schemas/v0.json",
+	"plugins": [
+		"./node_modules/dprint-plugin-markup/plugin.wasm",
+		"./node_modules/dprint-plugin-malva/plugin.wasm",
+		"./node_modules/dprint-plugin-graphql/plugin.wasm",
+		"./node_modules/@dprint/json/plugin.wasm",
+		"./node_modules/@dprint/typescript/plugin.wasm"
+	],
+	"includes": [
+		"**/*.svelte",
+		"**/*.css",
+		"**/*.gql",
+		"**/*.ts",
+		"**/*.tsx",
+		"dprint.json"
+	],
+	"excludes": [
+		"**/*-lock.json"
+	],
+	"useTabs": true,
+	"markup": {
+		"whitespaceSensitivity": "strict",
+		"scriptIndent": true,
+		"styleIndent": true
+	},
+	"malva": {
+		"linebreakInPseudoParens": true,
+		"quotes": "alwaysSingle"
+	},
+	"graphql": {},
+	"typescript": {
+		"indentWidth": 1,
+		"quoteStyle": "preferSingle",
+		"jsx.quoteStyle": "preferDouble",
+		"trailingCommas": "onlyMultiLine",
+		"semiColons": "always",
+		"lineWidth": 120,
+		"jsx.multiLineParens": "never",
+		"spaceSurroundingProperties": false,
+		"importDeclaration.spaceSurroundingNamedImports": false,
+		"exportDeclaration.spaceSurroundingNamedExports": false
+	}
 }

@@ -39,14 +39,14 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		} else {
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style
-					textContent={`
+				<style>
+					{`
 					.gist .gist-data {
 						max-height: 16em;
 						overflow-y: auto;
 					}
 				`}
-				/>,
+				</style>,
 				<link rel="stylesheet" href={gistData.stylesheet} />,
 				domify.one(gistData.div)!,
 			);
