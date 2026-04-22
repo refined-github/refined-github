@@ -15,7 +15,8 @@ function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: st
 
 	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
 		// Exclude expand body button
-		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT);
+		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+	);
 
 	return {title, body};
 }
