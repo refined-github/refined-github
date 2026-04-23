@@ -3,9 +3,9 @@ import './hide-low-quality-comments.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import {countElements, elementExists} from 'select-dom';
 import {
-	$, $$, $optional, countElements,
+	$, $$, $optional,
 } from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
