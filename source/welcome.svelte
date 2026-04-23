@@ -4,8 +4,8 @@
 	import {onMount} from 'svelte';
 	import 'webext-bugs/target-blank';
 
-	import optionsStorage from './options-storage.js';
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
+	import optionsStorage from './options-storage.js';
 
 	let stepVisible = $state(1);
 	let stepValid = $state(0);

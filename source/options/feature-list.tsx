@@ -1,8 +1,8 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import {$$, $} from 'select-dom/strict.js';
 import {countElements} from 'select-dom';
+import {$, $$} from 'select-dom/strict.js';
 
 import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';

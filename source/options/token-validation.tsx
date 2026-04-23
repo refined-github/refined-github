@@ -1,4 +1,4 @@
-import {$$, $} from 'select-dom/strict.js';
+import {$, $$} from 'select-dom/strict.js';
 
 import {assertError} from 'ts-extras';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
@@ -27,8 +27,8 @@ function reportStatus({error, text, scopes = ['unknown']}: Status = {}): void {
 		scope.dataset.validation = scopes.includes(scope.dataset.scope!)
 			? 'valid'
 			: scopes.includes('unknown')
-				? ''
-				: 'invalid';
+			? ''
+			: 'invalid';
 	}
 }
 

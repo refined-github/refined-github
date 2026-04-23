@@ -4,8 +4,8 @@ import * as pageDetect from 'github-url-detection';
 import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
-import {countElements, $optional} from 'select-dom/strict.js';
 import {elementExists} from 'select-dom';
+import {$optional, countElements} from 'select-dom/strict.js';
 import twas from 'twas';
 
 import features from '../feature-manager.js';
@@ -61,8 +61,8 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled()
 		? <>{' '}{newIssue} or a {newDiscussion}{' '}</>
 		: areIssuesEnabled()
-			? newIssue
-			: newDiscussion;
+		? newIssue
+		: newDiscussion;
 	return (
 		<>
 			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen}{' '}
