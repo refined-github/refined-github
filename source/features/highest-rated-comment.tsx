@@ -5,8 +5,9 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {
+	$, $optional, $$, $$optional,
+} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
@@ -40,7 +41,8 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of $$(positiveReactionsSelector)) {
+	// $$optional because there might not be any positive reactions at all
+	for (const reaction of $$optional(positiveReactionsSelector)) {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {

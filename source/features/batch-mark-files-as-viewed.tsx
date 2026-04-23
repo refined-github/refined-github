@@ -1,8 +1,8 @@
 import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$$, elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$$, $} from 'select-dom/strict.js';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';

@@ -1,12 +1,12 @@
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
+import {optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 
 const authorLinkSelector = 'a[aria-label^="commits by"]';
 
 function init(): void {
-	for (const author of $$(authorLinkSelector)) {
+	for (const author of optional(authorLinkSelector)) {
 		author.pathname = location.pathname;
 	}
 }

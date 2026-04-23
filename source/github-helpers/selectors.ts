@@ -86,14 +86,14 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
-export const openIssueToLastComment = `
+export const commentsCountInLists = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
 	.Link--muted:is(
 		a[aria-label$="comment"],
 		a[aria-label$="comments"]
 	)
 `;
-export const openIssueToLastComment_ = [
+export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
 

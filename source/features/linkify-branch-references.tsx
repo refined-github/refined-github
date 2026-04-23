@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$$, $, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';

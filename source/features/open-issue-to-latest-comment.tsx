@@ -1,11 +1,11 @@
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {openIssueToLastComment} from '../github-helpers/selectors.js';
+import {commentsCountInLists} from '../github-helpers/selectors.js';
 
 function init(): void {
-	for (const link of $$(openIssueToLastComment)) {
+	for (const link of $$(commentsCountInLists)) {
 		link.hash = '#issue-comment-box';
 	}
 }

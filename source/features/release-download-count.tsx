@@ -10,8 +10,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
 import DownloadIcon from 'octicons-plain-react/Download';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {$$, $, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
