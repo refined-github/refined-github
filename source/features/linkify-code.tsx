@@ -2,7 +2,9 @@ import * as pageDetect from 'github-url-detection';
 import {$$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
-import {codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls} from '../github-helpers/dom-formatters.js';
+import {
+	codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls,
+} from '../github-helpers/dom-formatters.js';
 import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 

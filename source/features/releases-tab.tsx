@@ -10,7 +10,9 @@ import api from '../github-helpers/api.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {
+	buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow,
+} from '../github-helpers/index.js';
 import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
