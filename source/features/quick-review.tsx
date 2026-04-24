@@ -117,7 +117,7 @@ async function openReviewDialogWhenAvailable(): Promise<void> {
 	reviewMenuButton!.click();
 }
 
-function suggestHowToNameMe(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
+function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
 	if (isNewFilesChangedExperienceEnabled()) {
 		void openReviewDialogWhenAvailable();
 		return;
@@ -130,7 +130,7 @@ function suggestHowToNameMe(event: DelegateEvent<PointerEvent, HTMLAnchorElement
 function initReviewRequestedButton(signal: AbortSignal): void {
 	delegate('section[aria-label="Review Request Banner"] a[type="button"]',
 		'click',
-		suggestHowToNameMe,
+		onReviewRequestedButtonClick,
 		{capture: true, signal},
 	);
 }
