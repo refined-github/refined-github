@@ -1,16 +1,19 @@
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import {$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		$('.js-cancel-issue-edit').click();
-
-		event.stopImmediatePropagation();
-		event.preventDefault();
+		const cancelButton = $optional('.js-cancel-issue-edit');
+		if (cancelButton) {
+			cancelButton.click();
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		}
+		// New React PR view: let the event propagate so React handles cancellation natively
 	}
 }
 
