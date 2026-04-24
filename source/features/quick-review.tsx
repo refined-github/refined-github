@@ -57,15 +57,13 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
-			<a
-				href={reviewFormUrl.href}
-				className="btn-link Link--muted Link--inTextBlock"
+			<button
+				className="btn-link Link--muted Link--inTextBlock rgh-quick-review tooltipped tooltipped-nw"
 				data-hotkey="v"
-				data-turbo-frame="repo-content-turbo-frame"
-				title="Hotkey: V"
+				aria-label="Hotkey: V"
 			>
 				review now
-			</a>
+			</button>
 		</span>
 	);
 
@@ -93,20 +91,32 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	);
 }
 
+function openReviewMenu(signal: AbortSignal): void {
+	const prChangedFilesTab = $('a#prs-files-anchor-tab');
+
+	if (prChangedFilesTab.href.endsWith('/changes')) {
+		observe(reviewMenuButtonSelector, openReviewDialog, {signal, once: true});
+	} else {
+		// Old view -- TODO: Drop in the fall of 2026
+		// Cannot target the [popover] itself because observe() can't see hidden elements
+		observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal, once: true});
+	}
+
+	prChangedFilesTab.click();
+}
+
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButton, {signal});
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
+	delegate('.rgh-quick-review', 'click', openReviewMenu.bind(undefined, signal), {signal});
 }
 
-function initNativeReviewButton(signal: AbortSignal): void {
-	observe('section[aria-label="Review Request Banner"] a[type="button"]', enhanceNativeReviewButton, {signal});
-}
-
-function enhanceNativeReviewButton(button: HTMLAnchorElement): void {
-	// Clone button to remove GitHub's event listeners, which interfere with ours
-	const clonedButton = button.cloneNode(true);
-	clonedButton.hash = openReviewMenuDeepLink;
-	button.replaceWith(clonedButton);
+function enhanceNativeReviewButton(signal: AbortSignal): void {
+	delegate('section[aria-label="Review Request Banner"] a[type="button"]',
+		'click',
+		openReviewMenu.bind(undefined, signal),
+		{capture: true, signal},
+	);
 }
 
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
@@ -136,13 +146,6 @@ function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
 	reviewMenuButton.click();
 }
 
-function initNativeDeepLinking(signal: AbortSignal): void {
-	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
-	// Old view -- TODO: Drop in the fall of 2026
-	// Cannot target the [popover] itself because observe() can't see hidden elements
-	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
-}
-
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
@@ -152,7 +155,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	init: initNativeReviewButton,
+	init: enhanceNativeReviewButton,
 }, {
 	shortcuts: {
 		v: 'Open PR review popup',
@@ -161,12 +164,6 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	init: initReviewButtonEnhancements,
-}, {
-	asLongAs: [
-		() => location.hash === openReviewMenuDeepLinkSelector,
-		pageDetect.isPRFiles,
-	],
-	init: initNativeDeepLinking,
 });
 
 /*
