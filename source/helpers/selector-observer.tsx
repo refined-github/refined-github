@@ -47,6 +47,12 @@ export default function observe<
 		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
 	}
 
+	let onceController: AbortController | undefined;
+	if (once) {
+		onceController = new AbortController();
+		signal = signal ? AbortSignal.any([signal, onceController.signal]) : onceController.signal;
+	}
+
 	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
 	const seenMark = 'rgh-seen-' + getCallerId(ancestor);
 
@@ -86,6 +92,10 @@ export default function observe<
 	})();
 
 	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
+		if (event.animationName !== animation) {
+			return;
+		}
+
 		const target = event.target as ExpectedElement;
 		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 		if (target.classList.contains(seenMark) || !target.matches(selector)) {
@@ -98,7 +108,8 @@ export default function observe<
 		target.classList.add(seenMark);
 
 		listener(target, {signal});
-	}, {once, signal});
+		onceController?.abort();
+	}, {signal});
 }
 
 // Untested, likely breaks due to wrong `ancestor` level
