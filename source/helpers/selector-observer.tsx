@@ -1,4 +1,4 @@
-import {signalFromPromise} from 'abort-utils';
+import {mergeSignals, signalFromPromise} from 'abort-utils';
 import {css} from 'code-tag';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
@@ -44,13 +44,13 @@ export default function observe<
 			await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
 		})());
 
-		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
+		signal = mergeSignals(signal, delayedDomReady);
 	}
 
 	let onceController: AbortController | undefined;
 	if (once) {
 		onceController = new AbortController();
-		signal = signal ? AbortSignal.any([signal, onceController.signal]) : onceController.signal;
+		signal = mergeSignals(signal, onceController.signal);
 	}
 
 	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
