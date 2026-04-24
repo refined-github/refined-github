@@ -5,7 +5,7 @@ import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import DiffIcon from 'octicons-plain-react/Diff';
 import {
-	elementExists, $, $$, $optional,
+	$, $$, $optional, elementExists,
 } from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
 

@@ -9,7 +9,7 @@ import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import {
-	elementExists, $, $$, $optional,
+	$, $$, $optional, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';

@@ -2,7 +2,7 @@ import './clean-repo-sidebar.css';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {elementExists, $, $optional} from 'select-dom';
+import {$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';

@@ -14,7 +14,7 @@ import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
-import {elementExists, $, $$} from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';

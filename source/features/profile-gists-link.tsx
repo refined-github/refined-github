@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CodeSquareIcon from 'octicons-plain-react/CodeSquare';
-import {elementExists, $} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';

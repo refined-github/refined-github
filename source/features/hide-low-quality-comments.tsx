@@ -4,8 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {
-	countElements, elementExists,
-	$, $$, $optional,
+	$, $$, $optional, countElements, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';

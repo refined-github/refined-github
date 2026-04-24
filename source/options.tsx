@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
 import {
-	elementExists, $, $$, $optional,
+	$, $$, $optional, elementExists,
 } from 'select-dom';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';

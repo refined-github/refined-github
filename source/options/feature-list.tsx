@@ -1,7 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import {countElements, $, $$} from 'select-dom';
+import {$, $$, countElements} from 'select-dom';
 
 import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';

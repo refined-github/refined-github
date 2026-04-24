@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import XIcon from 'octicons-plain-react/X';
-import {elementExists, $} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';

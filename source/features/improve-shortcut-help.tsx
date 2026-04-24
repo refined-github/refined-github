@@ -2,7 +2,7 @@ import './improve-shortcut-help.css';
 
 import React from 'dom-chef';
 import memoize from 'memoize';
-import {elementExists, $, $optional} from 'select-dom';
+import {$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';

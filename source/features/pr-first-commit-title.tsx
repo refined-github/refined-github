@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {elementExists, $, $optional} from 'select-dom';
+import {$, $optional, elementExists} from 'select-dom';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';

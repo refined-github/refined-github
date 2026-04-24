@@ -1,6 +1,6 @@
 import './no-unnecessary-split-diff-view.css';
 import * as pageDetect from 'github-url-detection';
-import {elementExists, $} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

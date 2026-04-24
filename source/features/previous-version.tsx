@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {elementExists, $} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';

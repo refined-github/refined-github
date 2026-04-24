@@ -1,4 +1,4 @@
-import {$$, $, countElements} from 'select-dom';
+import {$, $$, countElements} from 'select-dom';
 
 function enableToggleAll(this: HTMLButtonElement): void {
 	const section = $('details#toggle-all');
