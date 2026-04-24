@@ -26,6 +26,10 @@ const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__Review
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 
+const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
+
+const isNewFilesChangedExperienceEnabled = (): boolean => $(prFilesChangedTabSelector).href.endsWith('changes');
+
 async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
@@ -47,26 +51,37 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	triggerConversationUpdate();
 }
 
-async function addSidebarReviewButton(reviewersSection: Element): Promise<void> {
-	const reviewFormUrl = new URL(location.href);
-	reviewFormUrl.pathname += '/files';
-	reviewFormUrl.hash = openReviewMenuDeepLink;
-
+async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
+
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
-			<button
-				className="btn-link Link--muted Link--inTextBlock rgh-quick-review tooltipped tooltipped-nw"
-				data-hotkey="v"
-				aria-label="Hotkey: V"
-			>
-				review now
-			</button>
+			{isNewFilesChangedExperienceEnabled()
+				? <button
+					className="btn-link Link--muted Link--inTextBlock tooltipped tooltipped-nw"
+					data-hotkey="v"
+					aria-label="Hotkey: V"
+					onClick={() => {
+						openReviewDialogWhenAvailable();
+						$(prFilesChangedTabSelector).click();
+					}}
+				>
+					review now
+				</button>
+				// TODO: Drop after legacy PR files view is removed
+				: <a
+					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
+					className="btn-link Link--muted Link--inTextBlock"
+					data-turbo-frame="repo-content-turbo-frame"
+					data-hotkey="v"
+					title="Hotkey: V"
+				>
+					review now
+				</a>}
 		</span>
 	);
-
 	reviewersSection.append(quickReview);
 
 	// Can't approve own PRs and closed PRs
@@ -91,32 +106,34 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	);
 }
 
-function openReviewMenu(): void {
-	const tenSecondsMs = 10_000;
-	const signal = AbortSignal.timeout(tenSecondsMs);
+async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
+	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButtons, {signal});
+	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
+}
 
-	const prChangedFilesTab = $('a#prs-files-anchor-tab');
-	if (prChangedFilesTab.href.endsWith('/changes')) {
-		observe(reviewMenuButtonSelector, openReviewDialog, {signal, once: true});
-	} else {
-		// Old view -- TODO: Drop in the fall of 2026
-		// Cannot target the [popover] itself because observe() can't see hidden elements
-		observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal, once: true});
+function openReviewDialogWhenAvailable(): void {
+	const signal = AbortSignal.timeout(10_000);
+	observe(reviewMenuButtonSelector,
+		button => {
+			button.click();
+		},
+		{signal, once: true});
+}
+
+function suggestHowToNameMe(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
+	if (isNewFilesChangedExperienceEnabled()) {
+		openReviewDialogWhenAvailable();
+		return;
 	}
 
-	prChangedFilesTab.click();
+	// TODO: Drop after legacy PR files view is removed
+	event.delegateTarget.hash = openReviewMenuDeepLink;
 }
 
-async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
-	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButton, {signal});
-	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
-	delegate('.rgh-quick-review', 'click', openReviewMenu, {signal});
-}
-
-function enhanceNativeReviewButton(signal: AbortSignal): void {
+function initReviewRequestedButton(signal: AbortSignal): void {
 	delegate('section[aria-label="Review Request Banner"] a[type="button"]',
 		'click',
-		openReviewMenu,
+		suggestHowToNameMe,
 		{capture: true, signal},
 	);
 }
@@ -144,8 +161,10 @@ async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 	(button.popoverTargetElement as HTMLElement).showPopover();
 }
 
-function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
-	reviewMenuButton.click();
+function initNativeDeepLinking(signal: AbortSignal): void {
+	// Legacy PR files view -- TODO: Drop it is removed
+	// Cannot target the [popover] itself because observe() can't see hidden elements
+	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -157,7 +176,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRConversation,
 	],
-	init: enhanceNativeReviewButton,
+	init: initReviewRequestedButton,
 }, {
 	shortcuts: {
 		v: 'Open PR review popup',
@@ -166,6 +185,12 @@ void features.add(import.meta.url, {
 		pageDetect.isPRFiles,
 	],
 	init: initReviewButtonEnhancements,
+}, {
+	asLongAs: [
+		() => location.hash === openReviewMenuDeepLinkSelector,
+		pageDetect.isPRFiles,
+	],
+	init: initNativeDeepLinking,
 });
 
 /*
