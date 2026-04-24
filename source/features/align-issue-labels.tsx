@@ -1,6 +1,7 @@
 import './align-issue-labels.css';
 
 import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 import {$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
@@ -10,6 +11,11 @@ import observe from '../helpers/selector-observer.js';
 void features.addCssFeature(import.meta.url);
 
 function alignBadges(badgesContainer: HTMLElement): void {
+	if (elementExists('react-app[app-name="dashboard-surface"]')) {
+		features.unload(import.meta.url);
+		return;
+	}
+
 	// Move badges to the last line
 	const conversation = badgesContainer.closest('li')!;
 	$('[class^="MainContent-module__inner"]', conversation).append(badgesContainer);
