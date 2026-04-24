@@ -64,7 +64,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					data-hotkey="v"
 					aria-label="Hotkey: V"
 					onClick={event => {
-						event.preventDefault();
+						event.preventDefault(); // Fix our buttons being removed
 						void openReviewDialogWhenAvailable();
 						$(prFilesChangedTabSelector).click();
 					}}
