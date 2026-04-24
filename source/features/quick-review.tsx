@@ -145,11 +145,12 @@ function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 }
 
 async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> {
+	// Legacy PR files view -- TODO: Drop after it is removed
 	delegate(openReviewMenuDeepLinkSelector, 'toggle', focusReviewTextarea, {capture: true, signal});
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
-		'.js-reviews-toggle', // Old view -- TODO: Drop in the fall of 2026
+		'.js-reviews-toggle', // Legacy PR files view -- TODO: Drop after it is removed
 	]);
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
@@ -162,7 +163,7 @@ async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 }
 
 function initNativeDeepLinking(signal: AbortSignal): void {
-	// Legacy PR files view -- TODO: Drop it is removed
+	// Legacy PR files view -- TODO: Drop after it is removed
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
 }
