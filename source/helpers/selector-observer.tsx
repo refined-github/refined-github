@@ -112,7 +112,6 @@ export default function observe<
 	}, {signal});
 }
 
-// Untested, likely breaks due to wrong `ancestor` level
 export async function waitForElement<
 	Selector extends string,
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
@@ -120,16 +119,12 @@ export async function waitForElement<
 	selectors: Selector | readonly Selector[],
 	{signal, stopOnDomReady}: Options = {},
 ): Promise<ExpectedElement | void> {
-	const local = new AbortController();
-	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
-
 	return new Promise<ExpectedElement | void>(resolve => {
 		observe<Selector, ExpectedElement>(selectors, element => {
 			resolve(element);
-			local.abort();
 		}, {signal, stopOnDomReady, once: true});
 
-		signal.addEventListener('abort', () => {
+		signal?.addEventListener('abort', () => {
 			resolve();
 		});
 	});
