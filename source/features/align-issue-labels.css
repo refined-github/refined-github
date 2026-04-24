@@ -2,14 +2,14 @@ div[class^='IssueRow-module__row'] {
 	div[class^='Title-module__container'] {
 		display: contents;
 
-		& > [class^='Title-module__heading'] {
+		& > [class*='heading'] {
 			grid-area: primary;
 			padding-top: 8px;
 		}
-		& > span[class^='Title-module__trailingBadgesSpacer'] {
+		& > span[class*='trailingBadgesSpacer'] {
 			display: none;
 		}
-		& > span[class^='Title-module__trailingBadgesContainer'] {
+		& > span[class*='trailingBadgesContainer'] {
 			grid-area: 3 / main-content;
 			padding-bottom: 10px;
 			&:empty {
