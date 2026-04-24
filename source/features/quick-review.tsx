@@ -91,9 +91,11 @@ async function addSidebarReviewButton(reviewersSection: Element): Promise<void> 
 	);
 }
 
-function openReviewMenu(signal: AbortSignal): void {
-	const prChangedFilesTab = $('a#prs-files-anchor-tab');
+function openReviewMenu(): void {
+	const tenSecondsMs = 10_000;
+	const signal = AbortSignal.timeout(tenSecondsMs);
 
+	const prChangedFilesTab = $('a#prs-files-anchor-tab');
 	if (prChangedFilesTab.href.endsWith('/changes')) {
 		observe(reviewMenuButtonSelector, openReviewDialog, {signal, once: true});
 	} else {
@@ -108,13 +110,13 @@ function openReviewMenu(signal: AbortSignal): void {
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButton, {signal});
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
-	delegate('.rgh-quick-review', 'click', openReviewMenu.bind(undefined, signal), {signal});
+	delegate('.rgh-quick-review', 'click', openReviewMenu, {signal});
 }
 
 function enhanceNativeReviewButton(signal: AbortSignal): void {
 	delegate('section[aria-label="Review Request Banner"] a[type="button"]',
 		'click',
-		openReviewMenu.bind(undefined, signal),
+		openReviewMenu,
 		{capture: true, signal},
 	);
 }
