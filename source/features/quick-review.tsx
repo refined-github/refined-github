@@ -114,7 +114,7 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 async function openReviewDialogWhenAvailable(): Promise<void> {
 	const signal = AbortSignal.timeout(10_000);
 	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
-	reviewMenuButton.click();
+	reviewMenuButton!.click();
 }
 
 function suggestHowToNameMe(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
@@ -159,7 +159,7 @@ async function initNativeDeepLinking(signal: AbortSignal): Promise<void> {
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	const reviewButton = await waitForElement(`[popovertarget="${openReviewMenuDeepLink}"]`, {signal});
 	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
-	(reviewButton.popoverTargetElement as HTMLElement).showPopover();
+	(reviewButton!.popoverTargetElement as HTMLElement).showPopover();
 }
 
 void features.add(import.meta.url, {
