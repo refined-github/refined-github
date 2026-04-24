@@ -15,7 +15,7 @@ import {
 import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
-import observe from '../helpers/selector-observer.js';
+import observe, {waitForElement} from '../helpers/selector-observer.js';
 import {getToken} from '../options-storage.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
@@ -64,7 +64,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					data-hotkey="v"
 					aria-label="Hotkey: V"
 					onClick={() => {
-						openReviewDialogWhenAvailable();
+						void openReviewDialogWhenAvailable();
 						$(prFilesChangedTabSelector).click();
 					}}
 				>
@@ -111,18 +111,15 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 }
 
-function openReviewDialogWhenAvailable(): void {
+async function openReviewDialogWhenAvailable(): Promise<void> {
 	const signal = AbortSignal.timeout(10_000);
-	observe(reviewMenuButtonSelector,
-		button => {
-			button.click();
-		},
-		{signal, once: true});
+	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
+	reviewMenuButton.click();
 }
 
 function suggestHowToNameMe(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
 	if (isNewFilesChangedExperienceEnabled()) {
-		openReviewDialogWhenAvailable();
+		void openReviewDialogWhenAvailable();
 		return;
 	}
 
@@ -157,15 +154,12 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 	}
 }
 
-async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
-	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
-	(button.popoverTargetElement as HTMLElement).showPopover();
-}
-
-function initNativeDeepLinking(signal: AbortSignal): void {
+async function initNativeDeepLinking(signal: AbortSignal): Promise<void> {
 	// Legacy PR files view -- TODO: Drop after it is removed
 	// Cannot target the [popover] itself because observe() can't see hidden elements
-	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
+	const reviewButton = await waitForElement(`[popovertarget="${openReviewMenuDeepLink}"]`, {signal});
+	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
+	(reviewButton.popoverTargetElement as HTMLElement).showPopover();
 }
 
 void features.add(import.meta.url, {
