@@ -68,6 +68,10 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 						void openReviewDialogWhenAvailable();
 						$(prFilesChangedTabSelector).click();
 					}}
+					onMouseEnter={() =>
+						// Trigger data preloading
+						$(prFilesChangedTabSelector).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))
+					}
 				>
 					review now
 				</button>
