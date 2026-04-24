@@ -1,63 +1,65 @@
-div[class^='IssueRow-module__row'] {
-	div[class^='Title-module__container'] {
-		display: contents;
+html:not([rgh-OFF-align-issue-labels]) {
+	div[class^='IssueRow-module__row'] {
+		div[class^='Title-module__container'] {
+			display: contents;
 
-		& > [class*='heading'] {
-			grid-area: primary;
-			padding-top: 8px;
-		}
-		& > span[class*='trailingBadgesSpacer'] {
-			display: none;
-		}
-		& > span[class*='trailingBadgesContainer'] {
-			grid-area: 3 / main-content;
-			padding-bottom: 10px;
-			&:empty {
-				/* Grid gap adds additional 4px */
-				padding-bottom: 6px;
+			& > [class*='heading'] {
+				grid-area: primary;
+				padding-top: 8px;
+			}
+			& > span[class*='trailingBadgesSpacer'] {
+				display: none;
+			}
+			& > span[class*='trailingBadgesContainer'] {
+				grid-area: 3 / main-content;
+				padding-bottom: 10px;
+				&:empty {
+					/* Grid gap adds additional 4px */
+					padding-bottom: 6px;
+				}
 			}
 		}
+
+		div[class^='MainContent-module__inner'] {
+			padding-bottom: 0;
+		}
 	}
 
-	div[class^='MainContent-module__inner'] {
-		padding-bottom: 0;
-	}
-}
+	/* Old view - TODO: Drop after legacy PR lists are removed */
+	.js-issue-row {
+		/* Move labels in the Issue/PR list below the title */
+		.min-width-0 {
+			display: flex;
+			flex-wrap: wrap;
+		}
 
-/* TODO: Remove the old styles in 2026 */
-html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
-	/* Move labels in the Issue/PR list below the title */
-	.min-width-0 {
-		display: flex;
-		flex-wrap: wrap;
-	}
+		/* Labels */
+		.min-width-0 > .lh-default {
+			order: 1;
+		}
 
-	/* Labels */
-	.min-width-0 > .lh-default {
-		order: 1;
-	}
+		.min-width-0 .text-small {
+			flex-basis: 100%; /* #4949 */
+		}
 
-	.min-width-0 .text-small {
-		flex-basis: 100%; /* #4949 */
-	}
+		/* Build status */
+		.commit-build-statuses {
+			margin-left: 4px;
+		}
 
-	/* Build status */
-	.commit-build-statuses {
-		margin-left: 4px;
-	}
+		/* Issue details line */
+		.mt-1.text-small.color-fg-muted {
+			flex-basis: 100%;
+		}
 
-	/* Issue details line */
-	.mt-1.text-small.color-fg-muted {
-		flex-basis: 100%;
-	}
+		/* Title */
+		.h4 {
+			max-width: 100%; /* #1518 */
+		}
 
-	/* Title */
-	.h4 {
-		max-width: 100%; /* #1518 */
-	}
-
-	.IssueLabel {
-		margin-top: 4px;
-		font-size: 11px !important;
+		.IssueLabel {
+			margin-top: 4px;
+			font-size: 11px !important;
+		}
 	}
 }
