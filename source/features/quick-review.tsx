@@ -63,7 +63,8 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					className="btn-link Link--muted Link--inTextBlock tooltipped tooltipped-nw"
 					data-hotkey="v"
 					aria-label="Hotkey: V"
-					onClick={() => {
+					onClick={event => {
+						event.preventDefault();
 						void openReviewDialogWhenAvailable();
 						$(prFilesChangedTabSelector).click();
 					}}
