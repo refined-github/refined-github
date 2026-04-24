@@ -25,7 +25,7 @@ jobs:
         if: steps.check.outputs.result == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          message: 'To maintainers: Please add labels to this PR'
+          message: "To maintainers: Please add labels to this PR"
 
   Sync:
     if: github.event.pull_request.state == 'open'

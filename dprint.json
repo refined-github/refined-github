@@ -4,12 +4,14 @@
 		"./node_modules/dprint-plugin-markup/plugin.wasm",
 		"./node_modules/dprint-plugin-malva/plugin.wasm",
 		"./node_modules/dprint-plugin-graphql/plugin.wasm",
-		"./node_modules/@dprint/json/plugin.wasm"
+		"./node_modules/@dprint/json/plugin.wasm",
+		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
 	"includes": [
 		"**/*.svelte",
 		"**/*.css",
 		"**/*.gql",
+		"**/*.yml",
 		"dprint.json"
 	],
 	"useTabs": true,
