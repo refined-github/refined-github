@@ -122,7 +122,12 @@ export async function waitForElement<
 	return new Promise<ExpectedElement | void>(resolve => {
 		observe<Selector, ExpectedElement>(selectors, element => {
 			resolve(element);
-		}, {signal, stopOnDomReady, once: true});
+		}, {
+			signal,
+			stopOnDomReady,
+			once: true,
+			ancestor: 4,
+		});
 
 		signal?.addEventListener('abort', () => {
 			resolve();
