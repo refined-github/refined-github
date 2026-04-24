@@ -2,8 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {elementExists} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
+import {elementExists, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';

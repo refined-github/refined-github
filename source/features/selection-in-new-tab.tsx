@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';

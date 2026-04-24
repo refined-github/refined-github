@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';

@@ -2,7 +2,7 @@ import './warning-for-disallow-edits.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import attachElement from '../helpers/attach-element.js';

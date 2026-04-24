@@ -4,8 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import {elementExists} from 'select-dom';
-import {$, $$} from 'select-dom/strict.js';
+import {elementExists, $, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';

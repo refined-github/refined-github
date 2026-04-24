@@ -48,7 +48,7 @@
 		"one-mutation": "^3.0.1",
 		"pretty-bytes": "^7.1.0",
 		"regex-join": "^2.1.0",
-		"select-dom": "^9.5.0",
+		"select-dom": "^10.0.0-0",
 		"shorten-repo-url": "^6.0.0",
 		"strip-indent": "^4.0.0",
 		"text-field-edit": "^4.1.1",

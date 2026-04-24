@@ -103,19 +103,6 @@ export default [
 					],
 				}],
 
-				'no-restricted-imports': [
-					'error',
-					{
-						paths: [
-							{
-								name: 'select-dom',
-								importNames: ['$', 'expectElement'],
-								message: 'Import $ or $optional from `select-dom/strict.js` instead',
-							},
-						],
-					},
-
-				],
 				'no-restricted-syntax': [
 					'error',
 					{

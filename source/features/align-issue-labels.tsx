@@ -1,7 +1,7 @@
 import './align-issue-labels.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

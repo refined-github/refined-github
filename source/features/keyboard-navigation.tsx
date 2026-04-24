@@ -1,6 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
-import {$$, $optional} from 'select-dom/strict.js';
+import {elementExists, $$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';

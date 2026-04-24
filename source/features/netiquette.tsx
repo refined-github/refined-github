@@ -4,8 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
-import {countElements, elementExists} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
+import {countElements, elementExists, $optional} from 'select-dom';
 import twas from 'twas';
 
 import features from '../feature-manager.js';

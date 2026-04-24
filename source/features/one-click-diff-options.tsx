@@ -4,8 +4,7 @@ import BookIcon from 'octicons-plain-react/Book';
 import CheckIcon from 'octicons-plain-react/Check';
 import DiffIcon from 'octicons-plain-react/Diff';
 import DiffModifiedIcon from 'octicons-plain-react/DiffModified';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {elementExists, $, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';

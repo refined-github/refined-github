@@ -1,8 +1,7 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {countElements} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {countElements, $, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';

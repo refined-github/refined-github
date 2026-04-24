@@ -1,7 +1,7 @@
 import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, lastElement} from 'select-dom/strict.js';
+import {$, $$, lastElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';

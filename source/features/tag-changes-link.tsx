@@ -4,8 +4,9 @@ import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import DiffIcon from 'octicons-plain-react/Diff';
-import {elementExists} from 'select-dom';
-import {$, $$, $optional} from 'select-dom/strict.js';
+import {
+	elementExists, $, $$, $optional,
+} from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '../feature-manager.js';

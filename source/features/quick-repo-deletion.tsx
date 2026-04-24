@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import TrashIcon from 'octicons-plain-react/Trash';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';

@@ -4,7 +4,7 @@ import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager.js';

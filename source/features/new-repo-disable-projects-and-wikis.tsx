@@ -2,8 +2,7 @@ import delegate from 'delegate-it';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
+import {elementExists, $, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

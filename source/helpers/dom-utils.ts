@@ -1,5 +1,6 @@
-import {ElementNotFoundError} from 'select-dom';
-import {$, $$, $optional} from 'select-dom/strict.js';
+import {
+	ElementNotFoundError, $, $$, $optional,
+} from 'select-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-types -- Nodes may be exactly `null`
 type Nullable<T> = T | null;
