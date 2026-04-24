@@ -8,10 +8,7 @@
 		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
 	"includes": [
-		"**/*.svelte",
-		"**/*.css",
-		"**/*.gql",
-		"**/*.yml",
+		"**/*.{svelte,css,gql,yml}",
 		"dprint.json"
 	],
 	"useTabs": true,
@@ -24,5 +21,8 @@
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle"
 	},
-	"graphql": {}
+	"graphql": {},
+	"yaml": {
+		"quotes": "preferSingle"
+	}
 }

@@ -4,7 +4,7 @@ changelog:
     - title: Bugfixes
       labels: [bug]
     - title: Improvements
-      labels: ["*"]
+      labels: ['*']
       exclude:
         labels: [meta] # Only needed because Meta must be last
     - title: Meta

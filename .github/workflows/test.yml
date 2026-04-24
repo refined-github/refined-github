@@ -3,11 +3,11 @@ name: Test
 on:
   pull_request:
     branches:
-      - "*"
+      - '*'
   push:
     branches:
       - main
-      - "test/*"
+      - 'test/*'
 
 jobs:
   Security:
@@ -70,7 +70,7 @@ jobs:
         with:
           ignore_words_list: eror,usera
           exclude_file: ${{ github.workspace }}/package-lock.json
-          skip: "*.json"
+          skip: '*.json'
 
   Types:
     runs-on: ubuntu-latest
