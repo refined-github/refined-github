@@ -1,3 +1,29 @@
+div[class^='IssueRow-module__row'] {
+	div[class^='Title-module__container'] {
+		display: contents;
+
+		& > [class^='Title-module__heading'] {
+			grid-area: primary;
+			padding-top: 8px;
+		}
+		& > span[class^='Title-module__trailingBadgesSpacer'] {
+			display: none;
+		}
+		& > span[class^='Title-module__trailingBadgesContainer'] {
+			grid-area: 3 / main-content;
+			padding-bottom: 10px;
+			&:empty {
+				/* Grid gap adds additional 4px */
+				padding-bottom: 6px;
+			}
+		}
+	}
+
+	div[class^='MainContent-module__inner'] {
+		padding-bottom: 0;
+	}
+}
+
 /* TODO: Remove the old styles in 2026 */
 html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
 	/* Move labels in the Issue/PR list below the title */
