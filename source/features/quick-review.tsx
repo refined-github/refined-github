@@ -157,7 +157,7 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 async function initNativeDeepLinking(signal: AbortSignal): Promise<void> {
 	// Legacy PR files view -- TODO: Drop after it is removed
 	// Cannot target the [popover] itself because observe() can't see hidden elements
-	const reviewButton = await waitForElement(`[popovertarget="${openReviewMenuDeepLink}"]`, {signal});
+	const reviewButton = await waitForElement(`button[popovertarget="${openReviewMenuDeepLink}"]`, {signal});
 	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
 	(reviewButton!.popoverTargetElement as HTMLElement).showPopover();
 }
