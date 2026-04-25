@@ -213,6 +213,7 @@ div.js-toggle-outdated-comments {
 		margin-left: 36px;
 
 		> a {
+			overflow-wrap: anywhere;
 			word-break: normal !important;
 		}
 	}
