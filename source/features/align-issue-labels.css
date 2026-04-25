@@ -1,6 +1,6 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class^='IssueRow-module__row'],
-	li[class*='PullsListItem-module__listItem']:not([class*='compact']) {
+	li[class*='PullsListItem']:not([class*='compact']) {
 		div[class^='Title-module__container'] {
 			display: contents;
 
@@ -18,7 +18,7 @@ html:not([rgh-OFF-align-issue-labels]) {
 					/* Grid gap adds additional 4px */
 					padding-bottom: 6px;
 				}
-				&:is(li[class*='PullsListItem-module__listItem'] *) {
+				&:is(li[class*='PullsListItem'] *) {
 					/* Height of the main content row provides more than enough spacing */
 					/* 4px added by grid gap are extra */
 					margin-top: -4px;
@@ -27,7 +27,7 @@ html:not([rgh-OFF-align-issue-labels]) {
 		}
 
 		div[class^='MetadataContainer-module__container']:is(
-			li[class*='PullsListItem-module__listItem'] *
+			li[class*='PullsListItem'] *
 		) {
 			padding-top: 8px;
 		}
