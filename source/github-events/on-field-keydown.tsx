@@ -13,7 +13,7 @@ function onFieldKeydown(selector: string | readonly string[], callback: Delegate
 			// New autocomplete dropdown
 			|| field.hasAttribute('aria-autocomplete')
 			// Classic autocomplete dropdown
-			|| elementExists('.suggester', field.form ?? undefined)
+			|| elementExists('.suggester', field.form!)
 		) {
 			return;
 		}

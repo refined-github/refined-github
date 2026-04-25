@@ -1,6 +1,6 @@
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
@@ -16,21 +16,11 @@ const titleContainerSelectors = [
 	'.gh-header-title', // Old issue/PR header
 ];
 
-function findCancelButton(field: HTMLInputElement): HTMLButtonElement | HTMLAnchorElement | undefined {
-	for (const titleContainerSelector of titleContainerSelectors) {
-		const titleContainer = field.closest(titleContainerSelector);
-		if (!titleContainer) {
-			continue;
-		}
-
-		const localCancelButton = [...titleContainer.querySelectorAll<HTMLButtonElement>('button:not([disabled])')]
-			.find(button => normalizeText(button.textContent ?? '') === 'Cancel');
-		if (localCancelButton) {
-			return localCancelButton;
-		}
-	}
-
-	return $optional<HTMLButtonElement | HTMLAnchorElement>('.js-cancel-issue-edit');
+function findCancelButton(field: HTMLInputElement): HTMLButtonElement | HTMLAnchorElement {
+	const titleContainer = field.closest(titleContainerSelectors.join(','))!;
+	return $$('button:not([disabled])', titleContainer)
+		.find(button => normalizeText(button.textContent) === 'Cancel')
+		?? $('.js-cancel-issue-edit');
 }
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent, HTMLInputElement | HTMLTextAreaElement>): void {
@@ -39,12 +29,7 @@ function handleEscPress(event: DelegateEvent<KeyboardEvent, HTMLInputElement | H
 			return;
 		}
 
-		const cancelButton = findCancelButton(event.delegateTarget);
-		if (!cancelButton) {
-			return;
-		}
-
-		cancelButton.click();
+		findCancelButton(event.delegateTarget).click();
 		event.stopImmediatePropagation();
 		event.preventDefault();
 	}
