@@ -1,10 +1,11 @@
 import delegate, {type DelegateEventHandler} from 'delegate-it';
 import {elementExists} from 'select-dom';
 
-type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, HTMLTextAreaElement>;
+type DelegateField = HTMLTextAreaElement | HTMLInputElement;
+type DelegateFieldEvent = DelegateEventHandler<KeyboardEvent, DelegateField>;
 
-function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: AbortSignal): void {
-	delegate(selector as 'textarea', 'keydown', event => {
+function onFieldKeydown(selector: string | readonly string[], callback: DelegateFieldEvent, signal: AbortSignal): void {
+	delegate<DelegateField, 'keydown'>(selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
 		if (
@@ -12,7 +13,7 @@ function onFieldKeydown(selector: string, callback: DelegateFieldEvent, signal: 
 			// New autocomplete dropdown
 			|| field.hasAttribute('aria-autocomplete')
 			// Classic autocomplete dropdown
-			|| elementExists('.suggester', field.form!)
+			|| elementExists('.suggester', field.form ?? undefined)
 		) {
 			return;
 		}
@@ -30,7 +31,12 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: Abor
 }
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
-	onFieldKeydown('input[placeholder="Title"], #issue_title, #pull_request_title', callback, signal);
+	onFieldKeydown([
+		'[class^="prc-PageLayout-Header"] input',
+		'input[placeholder="Title"]',
+		'#issue_title', // Old issue/PR view - TODO: Remove after July 2026
+		'#pull_request_title', // Old compare view - TODO: Remove after August 2026
+	], callback, signal);
 }
 
 export function onCommitTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
