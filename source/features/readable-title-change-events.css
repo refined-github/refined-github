@@ -13,7 +13,7 @@ span[class^='RenamedTitleEvent'],
 	order: 99;
 
 	/* TODO: Drop when adding support for the new issue view */
-	word-break: break-word !important;
+	overflow-wrap: break-word;
 }
 
 /* GitHub bug */

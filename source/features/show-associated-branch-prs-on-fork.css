@@ -24,7 +24,9 @@
 	text-decoration: none !important;
 	border-radius: 999px;
 	display: inline-flex;
-	font: 600 12px / 1 inherit;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 1;
 	white-space: nowrap;
 	height: 20px;
 	padding: 0 7px;

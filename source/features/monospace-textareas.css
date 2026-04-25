@@ -13,7 +13,9 @@
 #gpg_key_public_key,
 /* Test URL: https://github.com/settings/ssh/new */
 #ssh_key_key {
+	/* eslint-disable css/use-baseline -- macOS system font with cross-platform fallbacks */
 	font-family:
 		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
 		monospace !important;
+	/* eslint-enable css/use-baseline */
 }

@@ -290,7 +290,11 @@ export default [
 		ignores: ['**/*.md'],
 	},
 	// Svelte support
-	...sveltePlugin.configs['flat/recommended'],
+	// Restrict global (no file pattern) Svelte rules to Svelte files only,
+	// to avoid conflicts with the CSS language parser on *.css files
+	...sveltePlugin.configs['flat/recommended'].map(config =>
+		config.files ? config : {...config, files: ['**/*.svelte', '**/*.svelte.js', '**/*.svelte.ts']},
+	),
 	{
 		files: ['**/*.svelte'],
 		languageOptions: {
@@ -321,5 +325,15 @@ export default [
 	{
 		...css.configs.recommended,
 		files: ['**/*.css'],
+		language: 'css/css',
+		languageOptions: {
+			tolerant: true,
+		},
+		rules: {
+			...css.configs.recommended.rules,
+			'css/no-important': 'off', // Intentionally used to override GitHub styles
+			'css/use-baseline': ['error', {available: 'newly'}],
+			'css/no-invalid-properties': ['error', {allowUnknownVariables: true}],
+		},
 	},
 ];
