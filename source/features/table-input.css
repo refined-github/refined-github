@@ -13,7 +13,8 @@
 	margin: auto;
 }
 
-.ActionBar-item-container:has(.rgh-table-input) {
+.ActionBar-item-container:has(.rgh-table-input),
+[class^="Toolbar-module__toolbar"]:has(.rgh-table-input) {
 	overflow: visible;
 }
 
