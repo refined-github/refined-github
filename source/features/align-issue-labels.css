@@ -19,6 +19,8 @@ html:not([rgh-OFF-align-issue-labels]) {
 					padding-bottom: 6px;
 				}
 				&:is(li[class*='PullsListItem-module__listItem'] *) {
+					/* Height of the main content row provides more than enough spacing */
+					/* 4px added by grid gap are extra */
 					margin-top: -4px;
 				}
 			}
