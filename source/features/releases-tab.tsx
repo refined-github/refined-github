@@ -1,25 +1,23 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import TagIcon from 'octicons-plain-react/Tag';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
+import TagIcon from 'octicons-plain-react/Tag';
+import {$optional} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {
-	buildRepoUrl,
-	cacheByRepo,
-	getRepo,
-	triggerRepoNavOverflow,
-} from '../github-helpers/index.js';
-import {appendBefore} from '../helpers/dom-utils.js';
-import {repoUnderlineNavUl, repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
-import GetReleasesCount from './releases-tab.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
+import {
+	buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow,
+} from '../github-helpers/index.js';
+import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
+import {appendBefore} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
+import GetReleasesCount from './releases-tab.gql';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
@@ -112,6 +110,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
 	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
+	// Workaround for #8867
+	// TODO: remove once the issue is resolved
+	registerHotkey('g r', buildRepoUrl('releases'), {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,16 +1,17 @@
 import './highest-rated-comment.css';
 
-import mem from 'memoize';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import mem from 'memoize';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
+import {
+	$, $$, $$optional, $optional,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -31,7 +32,6 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	if (
 		// It needs to be upvoted enough times
 		count >= 10
-
 		// It can't be a controversial comment
 		&& selectSum(negativeReactionsSelector, comment) < count / 2
 	) {
@@ -41,7 +41,8 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 
 function getBestComment(): HTMLElement | undefined {
 	let highest;
-	for (const reaction of $$(positiveReactionsSelector)) {
+	// $$optional because there might not be any positive reactions at all
+	for (const reaction of $$optional(positiveReactionsSelector)) {
 		const comment = reaction.closest(commentSelector)!;
 		const positiveReactions = getPositiveReactions(comment);
 		if (positiveReactions && (!highest || positiveReactions > highest.count)) {
@@ -78,11 +79,15 @@ function linkBestComment(bestComment: HTMLElement): void {
 	const avatar = $('img.avatar', bestComment).cloneNode();
 
 	bestComment.parentElement!.firstElementChild!.after(
-		<a href={hash} className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center">
+		<a
+			href={hash}
+			className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center"
+		>
 			{avatar}
 
 			<h3 className="timeline-comment-header-text f5 color-fg-muted text-normal text-italic css-truncate css-truncate-overflow mr-2">
-				<span className="Label mr-2">Highest-rated</span>{text}
+				<span className="Label mr-2">Highest-rated</span>
+				{text}
 			</h3>
 
 			<div className="color-fg-muted f6 no-wrap">

@@ -1,6 +1,6 @@
-import {StorageItem} from 'webext-storage';
 import webextAlert from 'webext-alert';
 import {isScriptableUrl} from 'webext-content-scripts';
+import {StorageItem} from 'webext-storage';
 import {createContextMenu} from 'webext-tools';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
@@ -13,9 +13,11 @@ export const contentScriptToggle = new StorageItem('contentScript', {
 });
 
 async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
-	if (tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
-		origins: [tab.url],
-	})) {
+	if (
+		tab.url && isScriptableUrl(tab.url) && await chrome.permissions.contains({
+			origins: [tab.url],
+		})
+	) {
 		await contentScriptToggle.set(false);
 		await chrome.tabs.reload(tab.id!);
 	} else {

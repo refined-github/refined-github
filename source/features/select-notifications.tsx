@@ -1,29 +1,34 @@
 import './select-notifications.css';
 
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$, $$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
 import CheckIcon from 'octicons-plain-react/Check';
-import DotFillIcon from 'octicons-plain-react/DotFill';
+import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
 import DotIcon from 'octicons-plain-react/Dot';
+import DotFillIcon from 'octicons-plain-react/DotFill';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
-import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
+import {$, $$, elementExists} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 
-const prIcons = ':is(.octicon-git-pull-request, .octicon-git-pull-request-closed, .octicon-git-pull-request-draft, .octicon-git-merge)';
-const issueIcons = ':is(.octicon-issue-opened, .octicon-issue-closed, .octicon-skip)';
+const prIcons = is(
+	'.octicon-git-pull-request',
+	'.octicon-git-pull-request-closed',
+	'.octicon-git-pull-request-draft',
+	'.octicon-git-merge',
+);
+const issueIcons = is('.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip');
 const filters = {
 	'Pull requests': prIcons,
 	Issues: issueIcons,
@@ -166,7 +171,12 @@ function init(signal: AbortSignal): void {
 	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
 
 	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'], 'click', closeDropdown, {signal});
+	delegate(
+		['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'],
+		'click',
+		closeDropdown,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

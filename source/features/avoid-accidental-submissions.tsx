@@ -1,7 +1,7 @@
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';
@@ -22,10 +22,12 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		return;
 	}
 
-	if (elementExists([
-		'button[data-hotkey="Mod+Enter"]:disabled',
-		'button[type="submit"]:disabled',
-	], form)) {
+	if (
+		elementExists([
+			'button[data-hotkey="Mod+Enter"]:disabled',
+			'button[type="submit"]:disabled',
+		], form)
+	) {
 		return;
 	}
 
@@ -37,7 +39,9 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 
 	const message = (
 		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
-			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use <kbd>{moduleKey}</kbd><kbd>enter</kbd>.
+			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use{' '}
+			<kbd>{moduleKey}</kbd>
+			<kbd>enter</kbd>.
 		</p>
 	);
 

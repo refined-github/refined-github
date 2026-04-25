@@ -37,45 +37,37 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 }
 
 :is(
-		.js-notifications-mark-selected-actions,
-		.js-notifications-mark-all-actions
-	):not([hidden]) {
+	.js-notifications-mark-selected-actions,
+	.js-notifications-mark-all-actions
+):not([hidden]) {
 	display: contents !important;
 }
 
+/* Test: https://github.com/refined-github/refined-github/404 */
 [alt='404 “This is not the web page you are looking for”'] {
 	animation: fade-in 2s ease-out;
 }
 
 /* Lighten deletions in Markdown */
+/* Info: https://github.com/refined-github/refined-github/pull/958 */
 .markdown-body del {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
 
-/* Make <details> visibly clickable */
-.markdown-body summary /* Summary elements are always clickable when present */,
-.markdown-body details:not([open]) {
-	/* Summary-less details have unselectable clickable elements */
-	cursor: pointer;
-}
-
-/* Remove the "New repository" button in the dashboard sidebar */
-.dashboard-sidebar a.Button[href='/new'] {
-	display: none;
-}
-
 /* Expand empty diffs in PRs */
+/* Info: https://github.com/refined-github/refined-github/issues/1630 */
+/* Test: https://github.com/webpack/webpack/pull/6446/changes */
 :root .file .data.empty {
 	padding: 54px;
 	text-align: center;
 }
-
 :root .file .data table {
 	text-align: left;
 }
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
+/* Info: https://github.com/refined-github/refined-github/pull/1715 */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
@@ -94,16 +86,7 @@ pr-branches
 	vertical-align: middle;
 }
 
-/* Hide duplicate "You can also open this in GitHub Desktop" in PRs’ mergeability box */
-#partial-pull-merging .js-remove-unless-platform {
-	display: none;
-}
-
-/* Increase scrollable area in GitHub Actions #3591 */
-.WorkflowRunLogsScroll {
-	height: auto !important;
-}
-
+/* TODO: Drop after legacy PR files view is removed */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
 .select-menu-item-text .diffstat {
 	display: inline !important;
@@ -123,42 +106,20 @@ pr-branches
 	z-index: 2147483647;
 }
 
+/* TODO: Drop after July 2026 */
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
 
-/* Remove the underline on PR filename copy button hover #4871 */
-.file-header .file-info clipboard-copy {
-	display: inline-block;
-}
-
-/* Ensure all buttons in the repo file navigation header are aligned in the center rather than to the top */
-.file-navigation.flex-items-start {
-	align-items: center !important;
-}
-
 /* Bold username in conversation lists #4899 */
-:is(.js-issue-row, .js-pinned-issue-list-item) [data-hovercard-type='user'] {
+/* Test: https://github.com/refined-github/refined-github/pulls */
+/* Test: https://github.com/refined-github/refined-github/issues */
+:is(.js-issue-row, span[class^='PinnedIssue-module__issueMetadata'])
+	a[data-hovercard-type='user'],
+a[class^='IssueItem-module__authorCreatedLink'] {
 	font-weight: 600;
-}
-
-/* Fit large images in the window when viewing single files */
-div[data-target='readme-toc.content'] div.blob-wrapper img {
-	max-width: 100%;
-}
-
-/* Hide label on Milestones link if there are zero milestones #5120 */
-/* TODO: Drop in March 2025 if they don't add it to https://github.com/tc39/ecma402/issues */
-[data-selected-links^='repo_milestones ']:has([title='0']) {
-	width: 36px; /* Size it so only the icon is visible */
-	overflow: hidden; /* Crop the text out */
-	padding-left: 10px;
-}
-
-[data-selected-links^='repo_milestones ']:has([title='0']) svg {
-	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
 
 .rgh-bg-none {
@@ -177,14 +138,11 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 	height: 72px;
 }
 
+/* Make the gray "Star" icon in the feed yellow */
+/* Info: https://github.com/refined-github/refined-github/pull/8407 */
+/* Test: https://github.com/feed */
 .octicon-star-fill {
 	color: var(--button-star-iconColor);
-}
-
-/* Untruncate long job name #8372 */
-/* Test: https://github.com/valkey-io/valkey-glide/actions/runs/14163355151/job/39672349767 */
-.ActionListItem .ActionListItem-label--truncate {
-	white-space: unset !important;
 }
 
 /* Add hover effect to attachment row on the release page #8339 */
@@ -228,5 +186,15 @@ div[data-target='readme-toc.content'] div.blob-wrapper img {
 				margin-left: 0 !important;
 			}
 		}
+	}
+}
+
+/* Untruncate long asset name */
+/* Info: https://github.com/refined-github/refined-github/issues/9184 */
+/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
+.col-12.col-lg-6:has(.octicon-package + a[href*='/releases/download/']) {
+	width: 100%;
+	.Truncate-text.text-bold {
+		white-space: wrap;
 	}
 }

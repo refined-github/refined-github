@@ -1,31 +1,33 @@
 import './mark-merge-commits-in-list.css';
 
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
-import {objectEntries} from 'ts-extras';
-import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import batchedFunction from 'batched-function';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import GitMergeIcon from 'octicons-plain-react/GitMerge';
+import {$} from 'select-dom';
+import {objectEntries} from 'ts-extras';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
-import {assertCommitHash} from '../github-helpers/index.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {assertCommitHash} from '../github-helpers/index.js';
+import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
 	const {repository} = await api.v4(`
 		repository() {
-			${commits.map((commit: string) => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
-				... on Commit {
-						parents {
-							totalCount
+			${
+				commits.map((commit: string) => `
+					${api.escapeKey(commit)}: object(expression: "${commit}") {
+					... on Commit {
+							parents {
+								totalCount
+							}
 						}
 					}
-				}
-			`).join('\n')}
+				`).join('\n')
+			}
 		}
 	`);
 
@@ -67,12 +69,16 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe([
-		'[data-testid="commit-row-item"]',
+	observe(
+		[
+			'[data-testid="commit-row-item"]',
 
-		'.js-commits-list-item', // `isPRCommitList`
-		'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
-	], batchedFunction(markCommits, {delay: 100}), {signal});
+			'.js-commits-list-item', // `isPRCommitList`
+			'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
+		],
+		batchedFunction(markCommits, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

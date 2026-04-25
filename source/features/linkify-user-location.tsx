@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {wrap} from '../helpers/dom-utils.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
@@ -16,7 +16,7 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	const link = <a className="Link--primary" href={mapLink} />;
 
 	if (userLocation.parentElement!.closest('.Popover')) {
-	// Match the style of other links in the hovercard
+		// Match the style of other links in the hovercard
 		link.classList.add('text-underline');
 	}
 

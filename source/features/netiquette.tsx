@@ -1,16 +1,16 @@
-import React from 'dom-chef';
-import FlameIcon from 'octicons-plain-react/Flame';
-import * as pageDetect from 'github-url-detection';
 import toMilliseconds from '@sindresorhus/to-milliseconds';
-import {$optional} from 'select-dom/strict.js';
-import {countElements, elementExists} from 'select-dom';
-import twas from 'twas';
-import InfoIcon from 'octicons-plain-react/Info';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
+import InfoIcon from 'octicons-plain-react/Info';
+import {$optional, countElements, elementExists} from 'select-dom';
+import twas from 'twas';
 
-import createBanner from '../github-helpers/banner.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
+import createBanner from '../github-helpers/banner.js';
+import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {
 	areDiscussionsEnabled,
 	areIssuesEnabled,
@@ -20,9 +20,8 @@ import {
 	isOwnConversation,
 } from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
-import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import api from '../github-helpers/api.js';
+import observe from '../helpers/selector-observer.js';
 
 export async function getCloseDate(): Promise<Date | undefined> {
 	if (pageDetect.isOpenConversation()) {
@@ -58,10 +57,15 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	const ago = <strong>{twas(closingDate.getTime())}</strong>;
 	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
 	const newDiscussion = <a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>;
-	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled() ? <> {newIssue} or a {newDiscussion} </> : areIssuesEnabled() ? newIssue : newDiscussion;
+	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled()
+		? <>{' '}{newIssue} or a {newDiscussion}{' '}</>
+		: areIssuesEnabled()
+			? newIssue
+			: newDiscussion;
 	return (
 		<>
-			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen} instead of leaving a comment here.
+			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen}{' '}
+			instead of leaving a comment here.
 		</>
 	);
 }
@@ -95,7 +99,8 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 	const banner = createBanner({
 		icon: <FlameIcon className="m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
-		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
+		text:
+			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
 
 	if (reactWrapper) {
@@ -111,7 +116,9 @@ function addDraftBanner(newCommentField: HTMLElement): void {
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
+			text: <>
+				This is a <strong>draft PR</strong>, it might not be ready for review.
+			</>,
 		}),
 	);
 }
@@ -152,10 +159,14 @@ function makeReactFieldKinder(field: HTMLTextAreaElement): void {
 
 function initKindness(signal: AbortSignal): void {
 	observe('p.CommentBox-placeholder', makeFieldKinder, {signal});
-	observe([
-		'textarea[placeholder="Use Markdown to format your comment"]', // On issues
-		'textarea[placeholder="Leave a comment"]', // On single commits
-	], makeReactFieldKinder, {signal});
+	observe(
+		[
+			'textarea[placeholder="Use Markdown to format your comment"]', // On issues
+			'textarea[placeholder="Leave a comment"]', // On single commits
+		],
+		makeReactFieldKinder,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

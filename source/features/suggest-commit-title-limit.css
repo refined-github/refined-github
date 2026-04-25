@@ -4,12 +4,12 @@
 
 /* Limit width of commit title to 72 characters */
 .rgh-suggest-commit-title-limit
-:is(
-	[data-testid='mergebox-partial'] input[type='text'],
-	#commit-message-input,
-	/* TODO: Remove after July 2026 */
+	:is(
+		[data-testid='mergebox-partial'] input[type='text'],
+		#commit-message-input,
+		/* TODO: Remove after July 2026 */
 		#commit-summary-input
-) {
+	) {
 	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 	width: 72ch;
 
@@ -22,7 +22,7 @@
 /* TODO: Remove after August 2026 */
 #pull_request_title,
 /* TODO: Remove after July 2026 */
-	#commit-summary-input,
+#commit-summary-input,
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);

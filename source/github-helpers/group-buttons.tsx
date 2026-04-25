@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 
 import {wrapAll} from '../helpers/dom-utils.js';
 

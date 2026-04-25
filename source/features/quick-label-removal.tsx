@@ -1,19 +1,18 @@
 import './quick-label-removal.css';
 
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
-import XIcon from 'octicons-plain-react/X';
-import {assertError} from 'ts-extras';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import XIcon from 'octicons-plain-react/X';
+import {$, elementExists} from 'select-dom';
+import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {

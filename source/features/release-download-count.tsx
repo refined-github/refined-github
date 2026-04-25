@@ -7,19 +7,18 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 import './release-download-count.css';
 
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
-import DownloadIcon from 'octicons-plain-react/Download';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
+import DownloadIcon from 'octicons-plain-react/Download';
+import {$, $$, $optional} from 'select-dom';
 
-import getReleaseDownloadCount from './release-download-count.gql';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
-import {createHeatIndexFunction} from '../helpers/math.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
+import {createHeatIndexFunction} from '../helpers/math.js';
+import observe from '../helpers/selector-observer.js';
+import getReleaseDownloadCount from './release-download-count.gql';
 
 type Asset = {
 	name: string;
@@ -29,7 +28,7 @@ type Asset = {
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
-	return Object.fromEntries(assets.map(({name, downloadCount}) => ([name, downloadCount])));
+	return Object.fromEntries(assets.map(({name, downloadCount}) => [name, downloadCount]));
 }
 
 async function addCounts(assetsList: HTMLElement): Promise<void> {

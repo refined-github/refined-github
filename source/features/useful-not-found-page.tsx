@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import GetLatestCommitToFile from './useful-not-found-page.gql';
-import {expectToken} from '../github-helpers/github-token.js';
 
 type File = {
 	previous_filename?: string;
@@ -200,14 +200,16 @@ async function initPrCommitOnce(): Promise<void | false> {
 
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
+		<p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
 	);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {

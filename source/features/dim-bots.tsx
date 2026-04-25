@@ -1,14 +1,14 @@
 import './dim-bots.css';
 
-import {$$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import preserveScroll from '../helpers/preserve-scroll.js';
-import observe from '../helpers/selector-observer.js';
 import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import preserveScroll from '../helpers/preserve-scroll.js';
+import observe from '../helpers/selector-observer.js';
 
 const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
 	selector => `${selector}:not([href*="copilot"])`,

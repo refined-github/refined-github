@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {$$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
@@ -66,11 +66,15 @@ function add(anchor: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe([
-		'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
-		'[aria-label="Bulk actions"] > :first-child',
-		'[aria-label="Actions"] > :first-child',
-	], add, {signal});
+	observe(
+		[
+			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			'[aria-label="Bulk actions"] > :first-child',
+			'[aria-label="Actions"] > :first-child',
+		],
+		add,
+		{signal},
+	);
 	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 

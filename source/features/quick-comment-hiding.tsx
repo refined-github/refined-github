@@ -1,6 +1,5 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$, $$} from 'select-dom';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -28,10 +27,18 @@ function generateSubmenu(hideButton: Element): void {
 	const newForm = hideCommentForm.cloneNode();
 	const fields = [...hideCommentForm.elements].map(field => field.cloneNode());
 	newForm.append(<i hidden>{fields}</i>); // Add existing fields (comment ID, token)
-	newForm.setAttribute('novalidate', 'true');	// Ignore the form's required attributes
+	newForm.setAttribute('novalidate', 'true'); // Ignore the form's required attributes
 
 	// Imitate existing menu, reset classes
-	newForm.className = ['js-comment-minimize', 'dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
+	newForm.className = '';
+	newForm.classList.add(
+		'js-comment-minimize',
+		'dropdown-menu',
+		'dropdown-menu-sw',
+		'color-fg-default',
+		'show-more-popover',
+		'anim-scale-in',
+	);
 
 	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(

@@ -3,10 +3,10 @@ import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {getRepo} from '../github-helpers/index.js';
 import {linkifyIssues} from '../github-helpers/dom-formatters.js';
+import {getRepo} from '../github-helpers/index.js';
 import {logError} from '../helpers/errors.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyIssue(paragraph: HTMLParagraphElement): void {
 	// Already linkified
@@ -18,11 +18,15 @@ function linkifyIssue(paragraph: HTMLParagraphElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.js-issue-title', // TODO: Drop in 2026
-		'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
-		'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
-	], linkifyIssue, {signal});
+	observe(
+		[
+			'.js-issue-title', // TODO: Drop in 2026
+			'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
+			'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
+		],
+		linkifyIssue,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

@@ -1,7 +1,7 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -27,8 +27,7 @@ async function init(): Promise<void> {
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
 		<span className="ml-2 diffstat tooltipped tooltipped-s" aria-label={tooltip}>
-			<span className="color-fg-success">+{additions}</span>{' '}
-			<span className="color-fg-danger">−{deletions}</span>{' '}
+			<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span>{' '}
 			<span className="diffstat-block-neutral" />
 			<span className="diffstat-block-neutral" />
 			<span className="diffstat-block-neutral" />

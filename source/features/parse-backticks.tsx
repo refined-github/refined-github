@@ -1,9 +1,9 @@
 import './parse-backticks.css';
 
-import onetime from '../helpers/onetime.js';
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import {parseBackticks} from '../github-helpers/dom-formatters.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 
 const selectors = [
 	// `isRepoHome` repository description

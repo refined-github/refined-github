@@ -1,12 +1,12 @@
 import './hidden-review-comments-indicator.css';
 
-import mem from 'memoize';
-import React from 'dom-chef';
-import {$$, countElements} from 'select-dom';
-import CommentIcon from 'octicons-plain-react/Comment';
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import {onAbort} from 'abort-utils';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import mem from 'memoize';
+import CommentIcon from 'octicons-plain-react/Comment';
+import {countElements, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';

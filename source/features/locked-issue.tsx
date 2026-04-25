@@ -1,11 +1,11 @@
-import React from 'react';
-import LockIcon from 'octicons-plain-react/Lock';
 import * as pageDetect from 'github-url-detection';
+import LockIcon from 'octicons-plain-react/Lock';
+import React from 'react';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 import {featureClass as jumpToCloseEventClass} from './jump-to-conversation-close-event.js';
 
 export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
@@ -41,10 +41,14 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		{signal},
 	);
 	// Old PR view - TODO: Drop after July 2026
-	observe([
-		'.gh-header-meta > :first-child',
-		':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
-	], addLockLegacy, {signal});
+	observe(
+		[
+			'.gh-header-meta > :first-child',
+			':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
+		],
+		addLockLegacy,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

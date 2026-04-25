@@ -1,18 +1,18 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {OptionsLink} from '../helpers/open-options.js';
-import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
-import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
+import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
-import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {getToken} from '../options-storage.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -30,8 +30,8 @@ function addTokenNotice(adjective: string): void {
 		'error',
 		<>
 			<p>
-				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
+				Your token is {adjective}. Many Refined GitHub features don't work without it. You can update it{' '}
+				<OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</>,
@@ -42,7 +42,8 @@ function addVersionNotice(releaseAgeInDays: number): void {
 	addNotice(
 		'warn',
 		<p>
-			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			Your Refined GitHub version is {releaseAgeInDays} days old.{' '}
+			<a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
 		</p>,
 	);
 }
