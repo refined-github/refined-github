@@ -171,7 +171,6 @@ div[class^='PRIVATE_TreeView-item-visual']
 /* Make user badges (mostly in review threads) correctly wrap */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
-/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
 	flex-wrap: wrap;
@@ -194,6 +193,15 @@ div[class*='ActivityHeaderGridLayout'] {
 			justify-content: flex-start;
 			margin-left: 0;
 		}
+	}
+}
+/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
+.js-toggle-outdated-comments {
+	flex-wrap: wrap !important;
+
+	& > .review-thread-show-text,
+	& > .review-thread-hide-text {
+		margin-inline: auto !important;
 	}
 }
 
