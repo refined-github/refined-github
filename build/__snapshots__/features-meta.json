@@ -460,12 +460,6 @@
 		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
-		"id": "mobile-tabs",
-		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
-	},
-	{
 		"id": "more-dropdown-links",
 		"description": "Adds useful links to the repository navigation dropdown",
 		"css": true,
