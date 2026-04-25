@@ -199,6 +199,11 @@ div[class*='ActivityHeaderGridLayout'] {
 .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
 
+	/* File name + badge */
+	& > span {
+		flex-wrap: wrap !important;
+	}
+
 	& > .review-thread-show-text,
 	& > .review-thread-hide-text {
 		margin-inline: auto !important;
