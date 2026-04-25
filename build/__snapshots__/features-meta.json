@@ -966,8 +966,8 @@
 	},
 	{
 		"id": "view-last-pr-deployment",
-		"description": "Adds a link to open the latest deployment from the header of a PR.",
-		"screenshot": "https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png"
+		"description": "Adds a link to open the latest deployment to the PR header.",
+		"screenshot": "https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61"
 	},
 	{
 		"id": "visit-tag",
