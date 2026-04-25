@@ -12,14 +12,15 @@ function addLink(header: HTMLElement): void {
 		return;
 	}
 
-	header.before(
+	// Use "parentElement" because open PRs have a "PR status" button before the "Code" button
+	header.parentElement!.prepend(
 		<a
-			className="rgh-last-deployment btn d-none d-md-block mr-1"
+			className="rgh-last-deployment btn d-none d-md-block"
 			target="_blank" // Matches GitHub’s own behavior
 			rel="noopener noreferrer"
 			href={lastDeployment.href}
 		>
-			<RocketIcon className="mr-1 v-align-text-top" />
+			<RocketIcon className="mr-2" />
 			View deployment
 		</a>,
 	);
