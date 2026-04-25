@@ -22,9 +22,9 @@ export default function getUserAvatar(username: string, size: number): string | 
 		cleanName = 'in/1143301';
 	}
 
-	// Bots and special paths (like Copilot's `in/…`) need the old-style URL
-	const needsOldUrl = !pageDetect.isEnterprise() && (username.endsWith('[bot]') || cleanName.startsWith('in/'));
-	const url = needsOldUrl
+	// Bots and Copilot (remapped to `in/1143301`) can't use the `.png` URL
+	const canSkipRedirect = !pageDetect.isEnterprise() && (username.endsWith('[bot]') || cleanName.includes('/'));
+	const url = canSkipRedirect
 		? `https://avatars.githubusercontent.com/${cleanName}`
 		: `/${cleanName}.png`;
 	// Why use a 2x size: https://github.com/refined-github/refined-github/pull/4973#discussion_r735133613
