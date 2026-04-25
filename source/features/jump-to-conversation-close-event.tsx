@@ -11,6 +11,8 @@ import observe from '../helpers/selector-observer.js';
 import './jump-to-conversation-close-event.css';
 
 export const statusBadgeSelector = [
+	'span[class*="StateLabel"]',
+	// TOdO: Drop both in September 2026
 	'#partial-discussion-header .State:not(.rgh-locked-issue)',
 	'[data-testid="header-state"]',
 ] as const;

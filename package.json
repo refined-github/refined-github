@@ -93,6 +93,7 @@
 		"dprint-plugin-graphql": "^0.2.3",
 		"dprint-plugin-malva": "^0.15.3",
 		"dprint-plugin-markup": "^0.27.0",
+		"dprint-plugin-yaml": "^0.6.0",
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-formatter-unix": "^9.0.1",
