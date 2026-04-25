@@ -1,0 +1,99 @@
+name: Close AI-written PRs
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  detect-ai:
+    name: Detect AI-generated description
+    # Only check external contributors, not maintainers
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const body = (context.payload.pull_request.body ?? '').toLowerCase();
+            const title = (context.payload.pull_request.title ?? '').toLowerCase();
+            const text = `${title}\n${body}`;
+
+            // Phrases that are characteristic of AI-generated PR descriptions.
+            // These are almost never written by humans describing their own work.
+            const aiPhrases = [
+              // Structural AI openers
+              /\bthis pr (introduces|adds|implements|provides|updates|improves|fixes|resolves|addresses|enhances|extends|refactors|includes|contains|makes)\b/,
+              /\bthis pull request (introduces|adds|implements|provides|updates|improves|fixes|resolves|addresses|enhances|extends|refactors|includes|contains|makes)\b/,
+              /\bin this (pr|pull request)\b/,
+
+              // AI summary section headers
+              /\b(key|notable|main|major|primary|core) (changes|updates|improvements|features|modifications)\b/,
+              /\bchanges? (include|includes|made in this|introduced in this)\b/,
+              /\bsummary of changes\b/,
+              /\boverview of (changes|this pr|this pull request)\b/,
+
+              // AI sign-off phrases
+              /\bfeel free to (reach out|ask|let me know|provide|give)\b/,
+              /\bplease (let me know|don.t hesitate|feel free)\b/,
+              /\bdon.t hesitate to\b/,
+              /\bif (you have any|there are any) (questions|concerns|feedback|suggestions)\b/,
+              /\blooking forward to (your|the|any) (feedback|review|thoughts|comments)\b/,
+
+              // AI adjective overuse
+              /\bseamlessly\b/,
+              /\brobust (solution|implementation|approach|handling|support)\b/,
+              /\bcomprehensive (solution|implementation|approach|handling|support|update|test|coverage)\b/,
+              /\bleverage[sd]?\b/,
+              /\bensure[sd]? (that )?(the )?(code|implementation|solution|feature|functionality)\b/,
+
+              // AI boilerplate transitions
+              /\badditionally,\b/,
+              /\bfurthermore,\b/,
+              /\bmoreover,\b/,
+              /\bin (addition|summary|conclusion),\b/,
+              /\bnotably,\b/,
+
+              // Verbose "I have" constructions typical of AI
+              /\bi have (implemented|added|updated|fixed|resolved|addressed|refactored|introduced|created|modified|improved)\b/,
+              /\bhas been (implemented|added|updated|fixed|resolved|addressed|refactored|introduced|created|modified|improved)\b/,
+            ];
+
+            const matched = aiPhrases.filter(re => re.test(text));
+
+            // Require at least 2 matches to reduce false positives
+            if (matched.length < 2) {
+              console.log(`No AI patterns detected (${matched.length} ${matched.length === 1 ? 'match' : 'matches'}).`);
+              return;
+            }
+
+            console.log(`Detected ${matched.length} AI pattern(s): ${matched.map(r => r.toString()).join(', ')}`);
+
+            const { owner, repo } = context.repo;
+            const prNumber = context.payload.pull_request.number;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: [
+                "👋 Hi! Thank you for your contribution.",
+                "",
+                "This PR's description appears to be AI-generated. We don't accept AI-written PR descriptions because they typically indicate the change hasn't been manually tested or thought through.",
+                "",
+                "Code written by AI is fine, but please **rewrite the description in your own words** and include:",
+                "- A plain explanation of *what* changed and *why*",
+                "- Real URLs where you tested the feature",
+                "- Screenshots or GIFs if applicable",
+                "",
+                "You may reopen once the description has been updated. Check out the [Contributing guide](https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines) for more details.",
+              ].join('\n'),
+            });
+
+            await github.rest.pulls.update({
+              owner,
+              repo,
+              pull_number: prNumber,
+              state: 'closed',
+            });
