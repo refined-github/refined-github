@@ -4,6 +4,7 @@ import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
+import css from '@eslint/css';
 
 const refinedGithubPlugin = {
 	rules: {
@@ -315,5 +316,10 @@ export default [
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
 		},
+	},
+	// CSS support
+	{
+		...css.configs.recommended,
+		files: ['**/*.css'],
 	},
 ];
