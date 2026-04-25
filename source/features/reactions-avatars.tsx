@@ -3,7 +3,7 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom/strict.js';
+import {$$} from 'select-dom';
 
 import {onAbort} from 'abort-utils';
 

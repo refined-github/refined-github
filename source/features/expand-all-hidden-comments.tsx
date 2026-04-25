@@ -1,7 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';

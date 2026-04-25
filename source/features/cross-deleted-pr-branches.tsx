@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {
 	$, $$, $optional, lastElementOptional,
-} from 'select-dom/strict.js';
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {wrap} from '../helpers/dom-utils.js';

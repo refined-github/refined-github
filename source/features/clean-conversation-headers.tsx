@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';

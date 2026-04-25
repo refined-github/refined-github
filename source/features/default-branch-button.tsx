@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import ChevronLeftIcon from 'octicons-plain-react/ChevronLeft';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';

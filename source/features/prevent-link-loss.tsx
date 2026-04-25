@@ -3,7 +3,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';

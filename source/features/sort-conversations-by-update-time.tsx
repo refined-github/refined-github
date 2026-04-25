@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';

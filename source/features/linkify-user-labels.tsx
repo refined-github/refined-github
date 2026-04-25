@@ -2,7 +2,7 @@ import './linkify-user-labels.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';

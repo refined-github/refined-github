@@ -7,7 +7,7 @@ import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
 import {
 	$, $$, $$optional, $optional,
-} from 'select-dom/strict.js';
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
