@@ -1,7 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import fitTextarea from 'fit-textarea';
 import {enableTabToIndent} from 'indent-textarea';
 import {elementExists} from 'select-dom';
 import {$, $$, $optional} from 'select-dom/strict.js';
@@ -19,8 +18,6 @@ import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 import initTokenValidation from './options/token-validation.js';
-
-const supportsFieldSizing = CSS.supports('field-sizing', 'content');
 
 let syncedForm: SyncedForm | undefined;
 
@@ -56,10 +53,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 		const field = $optional('input, textarea', section);
 		if (field) {
 			field.focus({preventScroll: true});
-			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
-				// #6404
-				fitTextarea(field);
-			}
 		}
 	}
 }
@@ -165,9 +158,6 @@ function addEventListeners(): void {
 
 	// Improve textareas editing
 	enableTabToIndent('textarea');
-	if (!supportsFieldSizing) {
-		fitTextarea.watch('textarea');
-	}
 
 	// Bring section into view when opened
 	delegate('details', 'toggle', focusSection, {capture: true});
