@@ -237,7 +237,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "closing-remarks") 🔥 [Shows the first Git tag a merged PR was included in or suggests creating a release if not yet released.](https://user-images.githubusercontent.com/1402241/169497171-85d4a97f-413a-41b4-84ba-885dca2b51cf.png)
 - [](# "pr-jump-to-first-non-viewed-file") [Jumps to first non-viewed file in a PR when clicking on the progress bar.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif)
 - [](# "jump-to-change-requested-comment") [Adds a link to jump to the latest changed requested comment.](https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif)
-- [](# "view-last-pr-deployment") [Adds a link to open the latest deployment from the header of a PR.](https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png)
+- [](# "view-last-pr-deployment") [Adds a link to open the latest deployment to the PR header.](https://github.com/user-attachments/assets/4e282ad6-deb8-4032-8668-9ce3e9f69381)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 
