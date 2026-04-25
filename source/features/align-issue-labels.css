@@ -1,5 +1,6 @@
 html:not([rgh-OFF-align-issue-labels]) {
-	div[class^='IssueRow-module__row'] {
+	div[class^='IssueRow-module__row'],
+	li[class*='PullsListItem-module__listItem']:not([class*='compact']) {
 		div[class^='Title-module__container'] {
 			display: contents;
 
@@ -11,13 +12,22 @@ html:not([rgh-OFF-align-issue-labels]) {
 				display: none;
 			}
 			& > span[class*='trailingBadgesContainer'] {
-				grid-area: 3 / main-content;
+				grid-area: -1 / main-content;
 				padding-bottom: 10px;
 				&:empty {
 					/* Grid gap adds additional 4px */
 					padding-bottom: 6px;
 				}
+				&:is(li[class*='PullsListItem-module__listItem'] *) {
+					margin-top: -4px;
+				}
 			}
+		}
+
+		div[class^='MetadataContainer-module__container']:is(
+			li[class*='PullsListItem-module__listItem'] *
+		) {
+			padding-top: 8px;
 		}
 
 		div[class^='MainContent-module__inner'] {
