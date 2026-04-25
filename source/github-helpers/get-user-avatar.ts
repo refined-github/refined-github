@@ -22,9 +22,11 @@ export default function getUserAvatar(username: string, size: number): string | 
 		cleanName = 'in/1143301';
 	}
 
-	const url = pageDetect.isEnterprise()
-		? `/${cleanName}.png`
-		: `https://avatars.githubusercontent.com/${cleanName}`;
+	// Bots and special paths (like Copilot's `in/…`) need the old-style URL
+	const needsOldUrl = !pageDetect.isEnterprise() && (username.endsWith('[bot]') || cleanName.startsWith('in/'));
+	const url = needsOldUrl
+		? `https://avatars.githubusercontent.com/${cleanName}`
+		: `/${cleanName}.png`;
 	// Why use a 2x size: https://github.com/refined-github/refined-github/pull/4973#discussion_r735133613
 	return url + `?size=${size * 2}`;
 }
