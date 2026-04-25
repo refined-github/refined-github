@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';

@@ -2,8 +2,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {$, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';

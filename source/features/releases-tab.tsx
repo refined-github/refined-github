@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';

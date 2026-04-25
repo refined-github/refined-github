@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
 import TrashIcon from 'octicons-plain-react/Trash';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

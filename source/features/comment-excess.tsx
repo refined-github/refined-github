@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import React from 'react';
-import {$, $optional} from 'select-dom/strict.js';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isMac, scrollIntoViewIfNeeded} from '../github-helpers/index.js';

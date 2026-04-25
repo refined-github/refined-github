@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';

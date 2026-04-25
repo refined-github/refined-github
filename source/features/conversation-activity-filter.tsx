@@ -8,8 +8,9 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import {elementExists} from 'select-dom';
-import {$, $$, $optional} from 'select-dom/strict.js';
+import {
+	$, $$, $optional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';

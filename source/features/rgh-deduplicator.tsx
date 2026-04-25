@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {_} from '../helpers/hotfix.js';
