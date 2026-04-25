@@ -2,7 +2,7 @@ import './vertical-front-matter.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -12,8 +12,8 @@ const hasFrontMatter = (): boolean =>
 	pageDetect.isSingleFile() && /\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee)$/.test(location.pathname);
 
 function transpose(table: HTMLElement): void {
-	const rows = $$(':scope > tbody > tr', table);
-	const headers = $$(':scope > thead th', table);
+	const rows = $$optional(':scope > tbody > tr', table);
+	const headers = $$optional(':scope > thead th', table);
 	if (headers.length <= 4 || rows.length !== 1 || headers.length !== rows[0].childElementCount) {
 		return;
 	}

@@ -1,5 +1,6 @@
 import * as pageDetect from 'github-url-detection';
-import {$$, elementExists} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 

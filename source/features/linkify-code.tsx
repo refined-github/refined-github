@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {
@@ -24,7 +24,8 @@ function linkifyContent(wrapper: HTMLElement): void {
 		return;
 	}
 
-	for (const element of $$('.pl-c', wrapper)) {
+	// $$optional because the content might not have any comments
+	for (const element of $$optional('.pl-c', wrapper)) {
 		linkifyIssues(currentRepo, element);
 	}
 }

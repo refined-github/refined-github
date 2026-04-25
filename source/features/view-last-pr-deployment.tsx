@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import RocketIcon from 'octicons-plain-react/Rocket';
-import {lastElement} from 'select-dom';
+import {lastElementOptional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLink(header: HTMLElement): void {
-	const lastDeployment = lastElement('.js-timeline-item a[title="Deployment has completed"]');
+	const lastDeployment = lastElementOptional('.js-timeline-item a[title="Deployment has completed"]');
 	if (!lastDeployment) {
 		return;
 	}

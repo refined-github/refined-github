@@ -1,5 +1,5 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$$} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
