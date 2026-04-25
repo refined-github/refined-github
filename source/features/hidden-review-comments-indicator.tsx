@@ -6,7 +6,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import CommentIcon from 'octicons-plain-react/Comment';
-import {$$, countElements} from 'select-dom';
+import {countElements} from 'select-dom';
+import {$$} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';

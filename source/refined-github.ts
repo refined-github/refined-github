@@ -21,7 +21,6 @@ import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
 import './features/mark-private-repos.css';
-import './features/mobile-tabs.css';
 import './features/mobile-tabs-pr.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
