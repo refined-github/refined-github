@@ -196,7 +196,7 @@ div[class*='ActivityHeaderGridLayout'] {
 	}
 }
 /* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
-div.js-toggle-outdated-comments {
+review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
 	/* Keep original height after making chevron's position absolute */
 	padding: 12px !important;
