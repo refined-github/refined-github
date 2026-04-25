@@ -17,7 +17,7 @@ html:not([rgh-OFF-clean-repo-filelist-actions]) div[class^='OverviewContent'] {
 	}
 
 	/* Reduce file search field */
-	span[class*="FileResultsList"]:not(:focus-within) {
+	span[class*='FileResultsList']:not(:focus-within) {
 		width: 130px;
 		min-width: 130px; /* GitHub's default: 160px */
 	}
