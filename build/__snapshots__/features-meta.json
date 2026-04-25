@@ -513,8 +513,8 @@
 	},
 	{
 		"id": "one-click-diff-options",
-		"description": "Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.",
-		"screenshot": "https://user-images.githubusercontent.com/46634000/156766044-18c9ff50-aead-4c40-ba16-7428b3742b6c.png"
+		"description": "Adds \"Hide whitespace\" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd> <kbd>w</kbd>.",
+		"screenshot": "https://github.com/user-attachments/assets/0b92992a-69a4-4de1-ab2a-cb6508870b4a"
 	},
 	{
 		"id": "one-click-pr-or-gist",
