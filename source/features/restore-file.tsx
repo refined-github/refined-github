@@ -153,7 +153,7 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
+			className="pl-5 tmp-pl-5 dropdown-item btn-link rgh-restore-file"
 			role="menuitem"
 			type="button"
 		>
