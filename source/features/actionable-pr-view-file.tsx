@@ -94,5 +94,5 @@ Test URLs
 - PR: https://github.com/refined-github/sandbox/pull/4/changes
 - deleted head repository: https://github.com/refined-github/refined-github/pull/271/changes
 - File with brackets in the path: https://github.com/refined-github/sandbox/pull/114/changes
-
+- Renamed file: https://github.com/refined-github/sandbox/pull/132/changes
 */
