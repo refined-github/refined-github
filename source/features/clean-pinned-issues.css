@@ -37,7 +37,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 								justify-content: space-between;
 								align-items: center;
 
-								&	> [class*='titleOptionsContainer'] {
+								& > [class*='titleOptionsContainer'] {
 									display: contents;
 
 									/* Move options button to the end */
