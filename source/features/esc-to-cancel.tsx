@@ -44,8 +44,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-1. Visit https://github.com/issues?q=+archived%3Afalse+author%3A%40me
-2. Open any issue/PR
+1. Visit https://github.com/issues?q=archived%3Afalse%20author%3A%40me%20type%3Apr
+2. Open any PR
 3. Try to edit the title
 4. Press Esc
 
