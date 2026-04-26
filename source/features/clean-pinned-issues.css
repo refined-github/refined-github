@@ -53,6 +53,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 
 		div[class^='PinnedIssue-module__metadataContainer'] {
 			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
+			text-align: end;
 			margin-left: 8px;
 		}
 	}
