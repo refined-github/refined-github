@@ -25,6 +25,7 @@ interface FeatureMeta {
 	description: string;
 	screenshot: string | null; // eslint-disable-line @typescript-eslint/no-restricted-types -- We use `null` in the JSON file
 	css?: true;
+	cssOnly?: true;
 }
 
 // These types are unnecessarily loose

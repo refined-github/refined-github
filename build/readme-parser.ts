@@ -37,11 +37,15 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 	}
 
 	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)\]\((.+?)\)/g, urlExtracter);
+	const hasCss = existsSync(`source/features/${simpleId}.css`);
+	const hasTsx = existsSync(`source/features/${simpleId}.tsx`);
 	return {
 		id: simpleId as FeatureId,
 		description: parseMarkdown(linkLessMarkdownDescription),
 		// `undefined` hides the key when CSS is missing
-		css: existsSync(`source/features/${simpleId}.css`) || undefined,
+		css: hasCss || undefined,
+		// `undefined` hides the key for features that have a .tsx file
+		cssOnly: (hasCss && !hasTsx) || undefined,
 		// `null` makes the keys visible in the JSON file
 		screenshot: urls.find(url => screenshotRegex.test(url)) ?? null,
 	};

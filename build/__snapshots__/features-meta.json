@@ -47,10 +47,24 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
 	},
 	{
+		"id": "center-reactions-popup",
+		"description": "Centers the reactions popup by restoring the two-column grid layout.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
 		"id": "ci-link",
 		"description": "Adds a build/CI status icon next to the repo’s name.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png"
+	},
+	{
+		"id": "clean-checks-list",
+		"description": "Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "clean-conversation-filters",
@@ -68,6 +82,27 @@
 		"description": "Hides empty sections (or just their \"empty\" label) in the issue/PR sidebar.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253054419-48c38c01-b1dc-42ca-9ff6-fd63392b5921.png"
+	},
+	{
+		"id": "clean-conversations",
+		"description": "Hides the commenter's avatar in the reply form to reduce visual noise.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
+		"id": "clean-footer",
+		"description": "Dims the site footer so it's less prominent.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
+		"id": "clean-notifications",
+		"description": "Shows the notification number before the conversation title in notification lists.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "clean-pinned-issues",
@@ -293,6 +328,13 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png"
 	},
 	{
+		"id": "github-bugs",
+		"description": "Applies various CSS fixes to GitHub's interface.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
 		"id": "global-conversation-list-filters",
 		"description": "Adds filters for PRs <em>in your repos</em> and <em>commented on by you</em> in the global PR search.",
 		"css": true,
@@ -460,6 +502,27 @@
 		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
+		"id": "mark-private-repos",
+		"description": "Highlights private repositories in the repository list with a distinct color.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
+		"id": "mobile-tabs-pr",
+		"description": "Wraps PR navigation tabs to multiple lines on small screens.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
+		"id": "monospace-textareas",
+		"description": "Uses a monospace font in commit message, description, release body, and SSH/GPG key fields.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
 		"id": "more-dropdown-links",
 		"description": "Adds useful links to the repository navigation dropdown",
 		"css": true,
@@ -489,6 +552,13 @@
 		"id": "new-repo-disable-projects-and-wikis",
 		"description": "Automatically disables projects and wikis when creating a repository.",
 		"screenshot": "https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e"
+	},
+	{
+		"id": "night-not-found",
+		"description": "Dims the GitHub mascot on 404 pages in dark mode.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "no-duplicate-list-update-time",
@@ -568,6 +638,7 @@
 		"id": "pr-approvals-count",
 		"description": "Shows color-coded review counts in PR lists.",
 		"css": true,
+		"cssOnly": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png"
 	},
 	{
@@ -704,6 +775,13 @@
 		"description": "Adds reaction avatars showing <em>who</em> reacted to a comment.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/236628453-8b646178-b838-44a3-9541-0a9b5f54a84a.png"
+	},
+	{
+		"id": "readable-title-change-events",
+		"description": "Stacks the old and new titles in title change timeline events for better readability.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "refined-github.css",
@@ -854,12 +932,28 @@
 		"id": "sticky-conversation-list-toolbar",
 		"description": "Makes the issue/PR list’s filters toolbar sticky.",
 		"css": true,
+		"cssOnly": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif"
+	},
+	{
+		"id": "sticky-csv-header",
+		"description": "Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
+	},
+	{
+		"id": "sticky-file-header",
+		"description": "Makes the file header sticky when scrolling through code diffs.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "sticky-notifications-actions",
 		"description": "Make the notifications action bar sticky.",
 		"css": true,
+		"cssOnly": true,
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f"
 	},
 	{
@@ -888,6 +982,13 @@
 		"id": "sync-pr-commit-title",
 		"description": "Uses the PR’s title as the default squash commit title and updates the PR’s title to match the commit title, if changed.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011579-25332762-b25f-407b-b6d2-bbfc13de2be7.png"
+	},
+	{
+		"id": "tab-size",
+		"description": "Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow the user's preferences.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "tab-to-indent",

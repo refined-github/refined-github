@@ -72,9 +72,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
-							meta && isCss
+							meta && isCss && !meta.cssOnly
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css
+								: meta?.css && !isCss
 									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
 									: undefined
 						}
