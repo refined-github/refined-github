@@ -4,7 +4,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			container-type: inline-size;
 
 			/* Element whose width is tracked */
-			& > :first-child {
+			> :first-child {
 				max-width: 767px; /* Enable native vertical sorting */
 			}
 		}
@@ -28,10 +28,10 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			display: table-row !important;
 			border-color: var(--rgh-border-color, fuchsia) !important;
 
-			& > :first-child {
+			> :first-child {
 				padding-right: var(--base-size-12, 12px);
 
-				& > div[class^='DragAndDropTrigger-module__trigger'] {
+				> div[class^='DragAndDropTrigger-module__trigger'] {
 					align-self: center;
 				}
 			}
@@ -46,7 +46,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		/* Move options button to the end */
 		div[class^='PinnedIssue-module__titleOptionsContainer'] {
 			display: contents;
-			& > button {
+			> button {
 				order: 1;
 			}
 		}
