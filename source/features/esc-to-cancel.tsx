@@ -5,10 +5,6 @@ import {$, $$optional} from 'select-dom';
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
-function normalizeText(text: string): string {
-	return text.replaceAll(/\s+/g, ' ').trim();
-}
-
 const titleContainerSelectors = [
 	'[class^="prc-PageLayout-Header"]', // New PR header
 	'.gh-header-title', // Old issue/PR header
@@ -17,7 +13,7 @@ const titleContainerSelectors = [
 function findCancelButton(field: HTMLInputElement): HTMLButtonElement | HTMLAnchorElement {
 	const titleContainer = field.closest(titleContainerSelectors);
 	return $$optional('button:not([disabled])', titleContainer ?? undefined)
-		.find(button => normalizeText(button.textContent) === 'Cancel')
+		.find(button => button.textContent === 'Cancel')
 		?? $('.js-cancel-issue-edit');
 }
 
