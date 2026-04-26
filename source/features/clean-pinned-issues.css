@@ -22,10 +22,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			}
 		}
 
-		/* Drag and drop pinned issue container */
-		div[class^='DragAndDropContainer-module__container']:has(
-			> [class*='PinnedIssues-module__container']
-		) {
+		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
 			display: table;
 		}
 
