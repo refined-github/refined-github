@@ -1,7 +1,11 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
-import {$, $$optional, $optional} from 'select-dom/strict.js';
+import {
+	$,
+	$$optional,
+	$optional,
+	elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
@@ -39,6 +43,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	const fileNameElement = $('[class*="file-name"] code', fileHeader);
 	const renamedTooltip = $optional('span.sr-only', fileNameElement);
 	const filePath = (
+		// Tooltip doesn't exist if the file wasn't renamed
 		renamedTooltip?.textContent.split(' renamed to ')[1]
 		?? fileNameElement.textContent
 	).replaceAll(/\u200E|\u200F/g, '').trim();
