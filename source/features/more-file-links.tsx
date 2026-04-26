@@ -70,7 +70,6 @@ function init(signal: AbortSignal): void {
 		handleMenuOpening,
 		{signal},
 	);
-	// Old view -- TODO: Drop in the fall of 2026
 	delegate(
 		'.file-header .js-file-header-dropdown:not(.rgh-more-file-links)',
 		'toggle',
