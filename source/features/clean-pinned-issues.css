@@ -6,7 +6,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			margin: 0;
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-			box-shadow: 0 0 0 2px var(--rgh-border-color, fuchsia);
+			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
 			border-collapse: collapse;
 			border-radius: 6px;
 			border-style: hidden;
