@@ -33,7 +33,7 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 }
 
 function initOnce(): void {
-	observe('[aria-label="User navigation"][role="heading"]', verify);
+	observe('div[aria-labelledby="global-nav-user-menu-header"] > [role="heading"]', verify);
 }
 
 void features.add(import.meta.url, {
