@@ -3,10 +3,11 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		div[class^='IssueIndexPage-module__middlePaneGrid'] {
 			container-type: inline-size;
 
+			/* Element whose width is tracked */
 			& > :first-child {
-				/* Enable native vertical sorting */
-				max-width: 767px;
+				max-width: 767px; /* Enable native vertical sorting */
 
+				/* Pinned issues container */
 				& > ul {
 					display: table !important;
 					width: 100cqw; /* Restore original width */
@@ -18,10 +19,12 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 					border-radius: 6px;
 					border-style: hidden;
 
+					/* Issue */
 					& > li {
 						display: table-row !important;
 						border-color: var(--rgh-border-color, fuchsia) !important;
 
+						/* Container */
 						& > :first-child {
 							padding-right: var(--base-size-12, 12px);
 
