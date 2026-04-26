@@ -14,19 +14,29 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			li {
 				display: table-row !important;
 				border-color: var(--rgh-border-color, fuchsia) !important;
-				& > div {
+
+				& > :first-child {
 					padding-right: var(--base-size-12, 12px);
+
+					& > [class^='DragAndDropTrigger-module__trigger'] {
+						align-self: center;
+					}
+
+					div[class^='PinnedIssue-module__contentContainer'] {
+						flex-direction: row;
+						justify-content: space-between;
+						align-items: center;
+
+						&	> [class*='titleOptionsContainer'] {
+							display: contents;
+
+							/* Move options button to the end */
+							& > button {
+								order: 1;
+							}
+						}
+					}
 				}
-			}
-
-			[class^='PinnedIssue-module__titleOptionsContainer'] {
-				flex: 1;
-			}
-
-			[class^='PinnedIssue-module__contentContainer'] {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
 			}
 		}
 	}
