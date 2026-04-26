@@ -29,7 +29,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-color: var(--rgh-border-color, fuchsia) !important;
 
 			> :first-child {
-				padding-right: var(--base-size-12, 12px);
+				padding-inline: 0 8px !important;
 
 				> div[class^='DragAndDropTrigger-module__trigger'] {
 					align-self: center;
