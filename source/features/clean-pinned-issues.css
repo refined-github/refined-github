@@ -1,38 +1,47 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
-		ul[aria-label='Drag and drop pinned issues list.'] {
-			display: table !important;
-			width: 100%;
-			margin: 0;
+		div[class^='IssueIndexPage-module__middlePaneGrid'] {
+			container-type: inline-size;
 
-			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
-			border-collapse: collapse;
-			border-radius: 6px;
-			border-style: hidden;
+			& > :first-child {
+				/* Enable native vertical sorting */
+				max-width: 767px;
 
-			li {
-				display: table-row !important;
-				border-color: var(--rgh-border-color, fuchsia) !important;
+				& > ul {
+					display: table !important;
+					width: 100cqw; /* Restore original width */
+					margin: 0;
 
-				& > :first-child {
-					padding-right: var(--base-size-12, 12px);
+					/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
+					box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
+					border-collapse: collapse;
+					border-radius: 6px;
+					border-style: hidden;
 
-					& > [class^='DragAndDropTrigger-module__trigger'] {
-						align-self: center;
-					}
+					& > li {
+						display: table-row !important;
+						border-color: var(--rgh-border-color, fuchsia) !important;
 
-					div[class^='PinnedIssue-module__contentContainer'] {
-						flex-direction: row;
-						justify-content: space-between;
-						align-items: center;
+						& > :first-child {
+							padding-right: var(--base-size-12, 12px);
 
-						&	> [class*='titleOptionsContainer'] {
-							display: contents;
+							& > [class^='DragAndDropTrigger-module__trigger'] {
+								align-self: center;
+							}
 
-							/* Move options button to the end */
-							& > button {
-								order: 1;
+							div[class^='PinnedIssue-module__contentContainer'] {
+								flex-direction: row;
+								justify-content: space-between;
+								align-items: center;
+
+								&	> [class*='titleOptionsContainer'] {
+									display: contents;
+
+									/* Move options button to the end */
+									& > button {
+										order: 1;
+									}
+								}
 							}
 						}
 					}
