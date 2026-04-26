@@ -1,29 +1,26 @@
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $$optional} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
-const titleContainerSelectors = [
-	'[class^="prc-PageLayout-Header"]', // New PR header
-	'.gh-header-title', // Old issue/PR header
-];
-
-function findCancelButton(field: HTMLInputElement): HTMLButtonElement | HTMLAnchorElement {
-	const titleContainer = field.closest(titleContainerSelectors);
-	return $$optional('button:not([disabled])', titleContainer ?? undefined)
-		.find(button => button.textContent === 'Cancel')
-		?? $('.js-cancel-issue-edit');
-}
-
-function handleEscPress(event: DelegateEvent<KeyboardEvent, HTMLInputElement | HTMLTextAreaElement>): void {
+function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
 		if (!(event.delegateTarget instanceof HTMLInputElement)) {
 			return;
 		}
 
-		findCancelButton(event.delegateTarget).click();
+		const cancelButton = $([
+			'div[class^="prc-PageLayout-HeaderContent"] > form button[data-variant="invisible"]',
+			// Old view -- TODO: Remove after legacy PR files view is removed
+			'.js-cancel-issue-edit',
+		]);
+		if (cancelButton.textContent.trim() !== 'Cancel') {
+			throw new Error('Expected to find a cancel button');
+		}
+
+		cancelButton.click();
 		event.stopImmediatePropagation();
 		event.preventDefault();
 	}
