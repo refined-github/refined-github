@@ -18,34 +18,40 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 					border-collapse: collapse;
 					border-radius: 6px;
 					border-style: hidden;
+				}
+			}
+		}
 
-					/* Issue */
-					& > li {
-						display: table-row !important;
-						border-color: var(--rgh-border-color, fuchsia) !important;
+		/* Drag and drop pinned issue container */
+		div[class^='DragAndDropContainer-module__container']:has(
+			> [class*='PinnedIssues-module__container']
+		) {
+			display: table;
+		}
 
-						/* Container */
-						& > :first-child {
-							padding-right: var(--base-size-12, 12px);
+		[class*='PinnedIssues-module__container'] {
+			display: table-row !important;
+			border-color: var(--rgh-border-color, fuchsia) !important;
 
-							& > [class^='DragAndDropTrigger-module__trigger'] {
-								align-self: center;
-							}
+			/* Container */
+			& > :first-child {
+				padding-right: var(--base-size-12, 12px);
 
-							div[class^='PinnedIssue-module__contentContainer'] {
-								flex-direction: row;
-								justify-content: space-between;
-								align-items: center;
+				& > [class^='DragAndDropTrigger-module__trigger'] {
+					align-self: center;
+				}
 
-								& > [class*='titleOptionsContainer'] {
-									display: contents;
+				div[class^='PinnedIssue-module__contentContainer'] {
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
 
-									/* Move options button to the end */
-									& > button {
-										order: 1;
-									}
-								}
-							}
+					& > [class*='titleOptionsContainer'] {
+						display: contents;
+
+						/* Move options button to the end */
+						& > button {
+							order: 1;
 						}
 					}
 				}
