@@ -51,6 +51,11 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 							order: 1;
 						}
 					}
+
+					& > [class*='metadataContainer'] {
+						align-items: center; /* Fix comments alignment when metadata takes multiple lines */
+						margin-left: 8px;
+					}
 				}
 			}
 		}
