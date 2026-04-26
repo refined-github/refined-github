@@ -42,7 +42,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		[
 			...currentPrTitleSelectors,
 			'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-			'input#issue_title', // Old `isPR` view - TODO: Remove after July 2026
+			'input#issue_title', // Old `isPR` view - TODO: Remove after legacy PR files view is removed
 		],
 		'input',
 		async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement),

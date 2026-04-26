@@ -23,6 +23,7 @@
 #pull_request_title,
 /* TODO: Remove after July 2026 */
 #commit-summary-input,
+/* TODO: Remove after legacy PR files view is removed */
 #issue_title {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);

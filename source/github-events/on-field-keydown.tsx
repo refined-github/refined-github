@@ -32,9 +32,9 @@ export function onCommentFieldKeydown(callback: DelegateFieldEvent, signal: Abor
 
 export function onConversationTitleFieldKeydown(callback: DelegateFieldEvent, signal: AbortSignal): void {
 	onFieldKeydown([
-		'[class^="prc-PageLayout-Header"] input',
-		'input[placeholder="Title"]',
-		'#issue_title', // Old issue/PR view - TODO: Remove after July 2026
+		'[class^="prc-PageLayout-Header"] input', // PR
+		'input[placeholder="Title"]', // Issue
+		'#issue_title', // Old PR view - TODO: Remove after legacy PR files view is removed
 		'#pull_request_title', // Old compare view - TODO: Remove after August 2026
 	], callback, signal);
 }
