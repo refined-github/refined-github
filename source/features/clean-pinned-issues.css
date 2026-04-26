@@ -30,7 +30,6 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			display: table-row !important;
 			border-color: var(--rgh-border-color, fuchsia) !important;
 
-			/* Container */
 			& > :first-child {
 				padding-right: var(--base-size-12, 12px);
 
