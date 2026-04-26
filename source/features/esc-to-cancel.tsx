@@ -1,6 +1,6 @@
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
@@ -10,15 +10,13 @@ function normalizeText(text: string): string {
 }
 
 const titleContainerSelectors = [
-	'form', // Title edit form
-	'[class^="prc-PageHeader-Title"]', // New PR title wrapper
 	'[class^="prc-PageLayout-Header"]', // New PR header
 	'.gh-header-title', // Old issue/PR header
 ];
 
 function findCancelButton(field: HTMLInputElement): HTMLButtonElement | HTMLAnchorElement {
-	const titleContainer = field.closest(titleContainerSelectors.join(','))!;
-	return $$('button:not([disabled])', titleContainer)
+	const titleContainer = field.closest(titleContainerSelectors);
+	return $$optional('button:not([disabled])', titleContainer ?? undefined)
 		.find(button => normalizeText(button.textContent) === 'Cancel')
 		?? $('.js-cancel-issue-edit');
 }
@@ -39,7 +37,7 @@ function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
 }
 
-// GitHub implemented this on some views, but PR title editing still needs it
+// TODO: Drop in March 2025, implemented by GitHub
 // https://github.com/refined-github/refined-github/pull/7892
 void features.add(import.meta.url, {
 	shortcuts: {
