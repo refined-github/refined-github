@@ -208,7 +208,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-label-removal") [Adds one-click buttons to remove labels in issues/PRs.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/220607557-f8ea0863-f05b-48c8-a447-1fec42af0afd.gif)
-- [](# "esc-to-cancel") [Adds a shortcut to cancel editing a issue/PR title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
+- [](# "esc-to-cancel") [Adds a shortcut to cancel editing a PR title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of issues/PRs in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
 - [](# "linkify-user-labels") [Links the "Contributor", "Member" and "Collaborator" labels on comments and PRs to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a issue/PR.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)

@@ -33,14 +33,11 @@ function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
 }
 
-// TODO: Drop in March 2025, implemented by GitHub
-// https://github.com/refined-github/refined-github/pull/7892
 void features.add(import.meta.url, {
 	shortcuts: {
 		esc: 'Cancel editing a conversation title',
 	},
 	include: [
-		pageDetect.isIssue,
 		pageDetect.isPR,
 	],
 	init,
