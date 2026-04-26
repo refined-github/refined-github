@@ -175,7 +175,7 @@ div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
 	flex-wrap: wrap;
 
-	& > div[data-testid='comment-header-left-side-items'] {
+	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
 		flex-basis: min-content;
 
@@ -185,7 +185,7 @@ div[class*='ActivityHeaderGridLayout'] {
 		}
 	}
 
-	& > div[data-testid='comment-header-right-side-items'] {
+	> div[data-testid='comment-header-right-side-items'] {
 		flex-grow: 0;
 
 		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
@@ -209,19 +209,19 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 
 	/* File name + badge */
-	& > span {
+	> .flex-auto {
 		flex-wrap: wrap !important;
 		/* button width (28px) + margin (8px) */
 		margin-left: 36px;
 
-		> a {
+		> .Link--primary {
 			overflow-wrap: anywhere;
 			word-break: normal !important;
 		}
 	}
 
-	& > .review-thread-show-text,
-	& > .review-thread-hide-text {
+	.review-thread-show-text,
+	.review-thread-hide-text {
 		margin-inline: auto !important;
 	}
 }
