@@ -30,10 +30,6 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 
 			> :first-child {
 				padding-inline: 0 8px !important;
-
-				> div[class^='DragAndDropTrigger-module__trigger'] {
-					align-self: center;
-				}
 			}
 		}
 
@@ -54,7 +50,6 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		div[class^='PinnedIssue-module__metadataContainer'] {
 			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
 			text-align: end;
-			margin-left: 8px;
 		}
 	}
 }
