@@ -1,5 +1,5 @@
-import {assert, test} from 'vitest';
 import hl from 'highlight.js';
+import {assert, test} from 'vitest';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
 

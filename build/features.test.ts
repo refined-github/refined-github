@@ -1,11 +1,11 @@
+import fastIgnore from 'fast-ignore';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
-import {test, describe, assert} from 'vitest';
 import {regexJoinWithSeparator} from 'regex-join';
-import fastIgnore from 'fast-ignore';
+import {assert, describe, test} from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob([
@@ -156,7 +156,10 @@ function validateTsx(file: FeatureFile): void {
 
 	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents())) && /observe\(|delegate\(/.test(String(file.contents()))) {
+	if (
+		/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents()))
+		&& /observe\(|delegate\(/.test(String(file.contents()))
+	) {
 		assert(
 			/await expectToken|hasToken/.test(String(file.contents())),
 			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
@@ -216,6 +219,8 @@ describe('features', () => {
 			return;
 		}
 
-		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
+		assert.fail(
+			`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``,
+		);
 	});
 });

@@ -1,7 +1,7 @@
-import {elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
-import {$, $$optional, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import {elementExists} from 'select-dom';
+import {$, $$optional, $optional} from 'select-dom/strict.js';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';

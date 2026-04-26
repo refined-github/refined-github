@@ -1,13 +1,13 @@
 import './conversation-authors.css';
 
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo, getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import GetCollaborators from './conversation-authors.gql';
 
 const collaborators = new CachedFunction('repo-collaborators', {
@@ -36,7 +36,9 @@ function highlightSelf(signal: AbortSignal): void {
 	observe([
 		// PRs - TODO: Drop in 2026
 		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
+			CSS.escape(getLoggedInUser()!)
+		}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});

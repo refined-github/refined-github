@@ -2,10 +2,10 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import observe from '../helpers/selector-observer.js';
+import {getRepo} from '../github-helpers/index.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	// TODO: Drop after June 2026
@@ -35,10 +35,14 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
-		'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
-	], add, {signal});
+	observe(
+		[
+			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
+			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

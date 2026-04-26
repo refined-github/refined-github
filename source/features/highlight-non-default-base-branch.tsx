@@ -1,14 +1,14 @@
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import batchedFunction from 'batched-function';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
+import observe from '../helpers/selector-observer.js';
 
 type BaseBranch = {
 	ref: string | undefined;
@@ -44,12 +44,14 @@ function buildQuery(prsByRepo: Map<string, Pr[]>): string {
 			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
 				nameWithOwner
 				defaultBranchRef {name}
-				${prs.map(pr => `
-					${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
-						ref: baseRef {id}
-						refName: baseRefName
+					${
+						prs.map(pr => `
+						${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
+							ref: baseRef {id}
+							refName: baseRefName
+						}
+					`).join('\n')
 					}
-				`).join('\n')}
 			}
 		`;
 	}).join('\n');
@@ -90,7 +92,10 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	for (const link of prLinks) {
 		const [, owner, repo, , number] = link.pathname.split('/');
 		prs.add({
-			link, owner, repo, number: Number(number),
+			link,
+			owner,
+			repo,
+			number: Number(number),
 		});
 	}
 
@@ -120,11 +125,15 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	observe([
-		'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
-		'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
-		'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
-	], batchedFunction(add, {delay: 100}), {signal});
+	observe(
+		[
+			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
+			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
+			'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
+		],
+		batchedFunction(add, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

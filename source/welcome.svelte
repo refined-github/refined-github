@@ -1,12 +1,11 @@
 <svelte:options customElement="rgh-welcome" />
 
-<!-- prettier-ignore -->
 <script lang="ts">
 	import {onMount} from 'svelte';
 	import 'webext-bugs/target-blank';
 
-	import optionsStorage from './options-storage.js';
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
+	import optionsStorage from './options-storage.js';
 
 	let stepVisible = $state(1);
 	let stepValid = $state(0);
@@ -140,8 +139,8 @@
 			<a
 				class="hidden-link"
 				href="https://github.com/refined-github/refined-github/wiki"
-				target="_self">GitHub</a
-			>…
+				target="_self"
+			>GitHub</a>…
 		</h2>
 	</footer>
 </main>

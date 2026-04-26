@@ -2,14 +2,14 @@ import './status-subscription.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom/strict.js';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 
@@ -91,7 +91,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				<IssueReopenedIcon /> Status
 			</SubButton>
 		</div>,
-
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
 		<input type="hidden" name="events[]" value="merged" />,
@@ -112,7 +111,8 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 const githubApiBaseHeaders = new Headers({
 	accept: 'application/json',
 	'github-verified-fetch': 'true',
-	'x-github-client-version': 'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
+	'x-github-client-version':
+		'Refined GitHub. Please address https://github.com/orgs/community/discussions/132506#discussioncomment-11294985',
 	credentials: 'include',
 });
 
@@ -157,13 +157,11 @@ async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, i
 		},
 	};
 
-	const response = await fetch('/_graphql',
-		{
-			headers: githubApiBaseHeaders,
-			method: 'POST',
-			body: JSON.stringify(body),
-		},
-	);
+	const response = await fetch('/_graphql', {
+		headers: githubApiBaseHeaders,
+		method: 'POST',
+		body: JSON.stringify(body),
+	});
 	if (!response.ok) {
 		throw new Error('Failed to update the issue subscription status');
 	}

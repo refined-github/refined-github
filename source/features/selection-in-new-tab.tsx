@@ -1,9 +1,9 @@
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import onetime from '../helpers/onetime.js';
 
 function openInNewTab(): void {
 	const selected = $optional([

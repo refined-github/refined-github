@@ -1,10 +1,10 @@
 import elementReady from 'element-ready';
 
+import api from '../github-helpers/api.js';
+import {getConversationNumber} from '../github-helpers/index.js';
 import {isInitialLoad} from '../helpers/feature-helpers.js';
 import {hasToken} from '../options-storage.js';
-import api from '../github-helpers/api.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
-import {getConversationNumber} from '../github-helpers/index.js';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
 	if (!await hasToken()) {
@@ -35,7 +35,9 @@ async function isConversationLockedViaReactData(): Promise<boolean | undefined> 
 	}
 
 	const data = await elementReady('[data-target="react-app.embeddedData"]');
-	return data ? JSON.parse(data.textContent).payload?.preloadedQueries?.[0].result.data.repository?.issue?.locked : undefined;
+	return data
+		? JSON.parse(data.textContent).payload?.preloadedQueries?.[0].result.data.repository?.issue?.locked
+		: undefined;
 }
 
 export default async function isConversationLocked(): Promise<boolean | undefined> {

@@ -1,16 +1,16 @@
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
-import {removeTextNodeContaining} from '../helpers/dom-utils.js';
-import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import attachElement from '../helpers/attach-element.js';
+import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
+import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import abortableClassName from '../helpers/abortable-classname.js';
+import attachElement from '../helpers/attach-element.js';
+import {removeTextNodeContaining} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
@@ -29,18 +29,20 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 		</span>
 	);
 
-	if (element.matches([
-		'[data-testid="avatar-link"]', // Commment on React-based views
-		'[data-testid="issue-body-header-author"]',
-		'.feed-item-content *',
-		// PR event:
-		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
-		//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
-		// `readable-title-change-events` adds gap to rename events
-		'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
-		// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
-		'.TimelineItem-body > div > *',
-	])) {
+	if (
+		element.matches([
+			'[data-testid="avatar-link"]', // Commment on React-based views
+			'[data-testid="issue-body-header-author"]',
+			'.feed-item-content *',
+			// PR event:
+			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
+			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
+			// `readable-title-change-events` adds gap to rename events
+			'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
+			// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
+			'.TimelineItem-body > div > *',
+		])
+	) {
 		nameElement.classList.add('ml-1');
 	} else if (
 		element.matches(
@@ -92,9 +94,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	}
 
 	const names = await api.v4(
-		[...users.keys()].map(username =>
-			api.escapeKey(username) + `: user(login: "${username}") {name}`,
-		).join(','),
+		[...users.keys()].map(username => api.escapeKey(username) + `: user(login: "${username}") {name}`).join(','),
 	);
 
 	for (const [username, elements] of users) {

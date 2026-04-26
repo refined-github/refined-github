@@ -1,20 +1,21 @@
 import './conversation-activity-filter.css';
 
+import delegate from 'delegate-it';
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, elementExists} from 'select-dom';
+import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import EyeIcon from 'octicons-plain-react/Eye';
+import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import domLoaded from 'dom-loaded';
-import delegate from 'delegate-it';
+import {
+	$, $$, $optional, elementExists,
+} from 'select-dom';
 
-import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import delay from '../helpers/delay.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const states = {
@@ -148,7 +149,8 @@ function applyState(targetState: State): void {
 function createMenuItems(currentState: State): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button data-state={itemState}
+			<button
+				data-state={itemState}
 				id={`item-${crypto.randomUUID()}`}
 				type="button"
 				role="menuitemradio"
@@ -180,8 +182,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${position.offsetWidth > 0 ? 'ml-2' : ''}`}
-			data-select-variant="single">
+			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+				position.offsetWidth > 0 ? 'ml-2' : ''
+			}`}
+			data-select-variant="single"
+		>
 			<focus-group direction="vertical" mnemonics retain>
 				<button
 					id={`${baseId}-button`}
@@ -261,16 +266,20 @@ async function init(signal: AbortSignal): Promise<void> {
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
-	observe([
-		// Issue view
-		'[class^="HeaderMetadata-module__metadataContent"]',
-		'[class*="HeaderMetadata-module__smallMetadataRow"]',
-		// PR view
-		'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-		// Old PR view - TODO: Remove after July 2026
-		'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
-		'#partial-discussion-header .sticky-header-container .meta:last-child',
-	], addWidget.bind(undefined, initialState), {signal});
+	observe(
+		[
+			// Issue view
+			'[class^="HeaderMetadata-module__metadataContent"]',
+			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			// PR view
+			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			// Old PR view - TODO: Remove after July 2026
+			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
+			'#partial-discussion-header .sticky-header-container .meta:last-child',
+		],
+		addWidget.bind(undefined, initialState),
+		{signal},
+	);
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});

@@ -1,0 +1,5 @@
+/* Done in CSS because React removes classes when updating the unread status */
+.rgh-unread-anywhere-wrapper a {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+}

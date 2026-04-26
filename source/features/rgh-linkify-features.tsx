@@ -1,13 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
-import {wrap} from '../helpers/dom-utils.js';
-import features from '../feature-manager.js';
-import {getFeatureUrl} from '../helpers/rgh-links.js';
 import {getNewFeatureName} from '../feature-data.js';
+import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;
@@ -47,16 +47,20 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.js-issue-title code', // `isPRConversation`, Old view `isIssue`
-		'h1[class^="prc-PageHeader-Title"] code', // `isPRFiles`,
-		'[data-testid="issue-title"] code', // `isIssue`
-		'.js-comment-body code', // Old view `hasComments`
-		'.markdown-body code', // `hasComments`, `isReleasesOrTags`
-		'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
-		`${commitTitleInLists} code`, // `isCommitList`,
-		'.react-directory-commit-message code', // `isRepoTree`
-	], linkifyFeature, {signal});
+	observe(
+		[
+			'.js-issue-title code', // `isPRConversation`, Old view `isIssue`
+			'h1[class^="prc-PageHeader-Title"] code', // `isPRFiles`,
+			'[data-testid="issue-title"] code', // `isIssue`
+			'.js-comment-body code', // Old view `hasComments`
+			'.markdown-body code', // `hasComments`, `isReleasesOrTags`
+			'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
+			`${commitTitleInLists} code`, // `isCommitList`,
+			'.react-directory-commit-message code', // `isRepoTree`
+		],
+		linkifyFeature,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

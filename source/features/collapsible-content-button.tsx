@@ -1,15 +1,15 @@
-import React from 'dom-chef';
-import FoldDownIcon from 'octicons-plain-react/FoldDown';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import FoldDownIcon from 'octicons-plain-react/FoldDown';
+import {$} from 'select-dom';
+import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import observe from '../helpers/selector-observer.js';
 import {triggerActionBarOverflow} from '../github-helpers/index.js';
 import {actionBarSelectors} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = delegateTarget.closest([

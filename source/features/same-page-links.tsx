@@ -8,14 +8,18 @@ function fix(button: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`a[target="_blank"]:is(${[
-		'[class^="ClosedEvent-module__closerLink"]', // "Closing issue" link
-		'[class^="LinkedPullRequest-module__pullRequestLink"]', // Linked PR links in issue headers
-		'[class^="prc-ActionList-ActionListContent"][aria-keyshortcuts="#"]', // Linked PR links in issue header menu
-		'ul[data-testid="issue-viewer-linked-pr-container"] *', // Linked PR and release links on issue sidebar
-		'[class^="ReferencedEventInner-module__commitHashLink"]', // Commit linkbacks on issue timeline
-		'div[data-testid="list-row-linked-pull-requests"] > *', // Linked PRs on issue list
-	].join(',')})`, fix, {signal});
+	observe(
+		[
+			'a[target="_blank"][class^="ClosedEvent-module__closerLink"]', // "Closing issue" link
+			'a[target="_blank"][class^="LinkedPullRequest-module__pullRequestLink"]', // Linked PR links in issue headers
+			'a[target="_blank"][class^="prc-ActionList-ActionListContent"][aria-keyshortcuts="#"]', // Linked PR links in issue header menu
+			'ul[data-testid="issue-viewer-linked-pr-container"] a[target="_blank"]', // Linked PR and release links on issue sidebar
+			'a[target="_blank"][class^="ReferencedEventInner-module__commitHashLink"]', // Commit linkbacks on issue timeline
+			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]', // Linked PRs on issue list
+		],
+		fix,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

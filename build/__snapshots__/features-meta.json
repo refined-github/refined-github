@@ -460,12 +460,6 @@
 		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
-		"id": "mobile-tabs",
-		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
-	},
-	{
 		"id": "more-dropdown-links",
 		"description": "Adds useful links to the repository navigation dropdown",
 		"css": true,
@@ -519,8 +513,8 @@
 	},
 	{
 		"id": "one-click-diff-options",
-		"description": "Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.",
-		"screenshot": "https://user-images.githubusercontent.com/46634000/156766044-18c9ff50-aead-4c40-ba16-7428b3742b6c.png"
+		"description": "Adds \"Hide whitespace\" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd> <kbd>w</kbd>.",
+		"screenshot": "https://github.com/user-attachments/assets/0b92992a-69a4-4de1-ab2a-cb6508870b4a"
 	},
 	{
 		"id": "one-click-pr-or-gist",
@@ -936,6 +930,7 @@
 	{
 		"id": "unread-anywhere",
 		"description": "Adds a button to the global header to open your unread notifications from any page.",
+		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/978ac1fe-db98-40f9-9b56-7d289849aa2f"
 	},
 	{
@@ -971,8 +966,8 @@
 	},
 	{
 		"id": "view-last-pr-deployment",
-		"description": "Adds a link to open the latest deployment from the header of a PR.",
-		"screenshot": "https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png"
+		"description": "Adds a link to open the latest deployment to the PR header.",
+		"screenshot": "https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61"
 	},
 	{
 		"id": "visit-tag",

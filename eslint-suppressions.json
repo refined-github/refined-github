@@ -49,11 +49,6 @@
       "count": 1
     }
   },
-  "source/features/fit-textareas.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/github-actions-indicators.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1

@@ -1,11 +1,11 @@
-import {$optional} from 'select-dom/strict.js';
-import oneEvent from 'one-event';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import oneEvent from 'one-event';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import showToast from '../github-helpers/toast.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';
+import showToast from '../github-helpers/toast.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 async function expandHidden(paginationButton: HTMLButtonElement | undefined) {

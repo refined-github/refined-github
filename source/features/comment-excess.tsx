@@ -1,13 +1,13 @@
-import React from 'react';
-import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
-import {$, $optional} from 'select-dom/strict.js';
+import * as pageDetect from 'github-url-detection';
+import React from 'react';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
-import {paginationButtonSelector} from '../github-helpers/selectors.js';
 import {isMac, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
+import {paginationButtonSelector} from '../github-helpers/selectors.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 
@@ -45,8 +45,7 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 		</a>
 	);
 	headerCommentCount.append(spacer);
-	headerCommentCount.after(link,
-	);
+	headerCommentCount.after(link);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

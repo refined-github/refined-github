@@ -1,12 +1,11 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
-import {$$, countElements} from 'select-dom';
+import {$, $$, countElements} from 'select-dom';
 
+import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
-import {importedFeatures, featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
@@ -29,7 +28,7 @@ async function markLocalHotfixes(): Promise<void> {
 			input.disabled = true;
 			input.removeAttribute('name');
 			$(`.feature-name[for="${feature}"]`).after(
-				<span className="hotfix-notice"> (Disabled due to {createRghIssueLink(relatedIssue)})</span>,
+				<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue)})</span>,
 			);
 		}
 	}
@@ -40,8 +39,7 @@ function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLE
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
 			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
 			<div className="info">
-				<label className="feature-name" htmlFor={id}>{id}</label>
-				{' '}
+				<label className="feature-name" htmlFor={id}>{id}</label>{' '}
 				<a href={getFeatureUrl(id)} className="feature-link">
 					source
 				</a>
@@ -114,9 +112,10 @@ function updateOffCount(): void {
 
 export default async function initFeatureList(): Promise<void> {
 	// Generate list
-	$('.js-features').append(...featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => buildFeatureCheckbox(feature)),
+	$('.js-features').append(
+		...featuresMeta
+			.filter(feature => importedFeatures.includes(feature.id))
+			.map(feature => buildFeatureCheckbox(feature)),
 	);
 
 	// Add notice for features disabled via hotfix

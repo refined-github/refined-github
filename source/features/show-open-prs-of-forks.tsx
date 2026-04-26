@@ -1,13 +1,13 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import pluralize from '../helpers/pluralize.js';
 import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
+import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
 function getLinkCopy(count: number): string {
@@ -65,7 +65,9 @@ async function initHeadHint(): Promise<void | false> {
 
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		// The class is used by `quick-fork-deletion`
-		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
+		<>
+			with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>
+		</>,
 	);
 }
 
@@ -77,7 +79,8 @@ async function initDeleteHint(): Promise<void | false> {
 
 	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
 		<p className="flash flash-warn">
-			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
+			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
 		</p>,
 	);
 }
