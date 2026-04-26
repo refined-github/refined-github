@@ -200,6 +200,8 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
 	/* Keep original height after making chevron's position absolute */
 	padding: 12px !important;
+	/* Keep chevron inside */
+	position: relative;
 
 	.review-thread-chevron {
 		position: absolute;
