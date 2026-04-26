@@ -11,7 +11,6 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 				& > ul {
 					display: table !important;
 					width: 100cqw; /* Restore original width */
-					margin: 0;
 
 					/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 					box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
