@@ -6,19 +6,18 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			/* Element whose width is tracked */
 			& > :first-child {
 				max-width: 767px; /* Enable native vertical sorting */
-
-				/* Pinned issues container */
-				& > ul {
-					display: table !important;
-					width: 100cqw; /* Restore original width */
-
-					/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-					box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
-					border-collapse: collapse;
-					border-radius: 6px;
-					border-style: hidden;
-				}
 			}
+		}
+
+		ul[aria-label='Drag and drop pinned issues list.'] {
+			display: table !important;
+			width: 100cqw; /* Restore original width */
+
+			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
+			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
+			border-collapse: collapse;
+			border-radius: 6px;
+			border-style: hidden;
 		}
 
 		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
@@ -32,30 +31,30 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			& > :first-child {
 				padding-right: var(--base-size-12, 12px);
 
-				& > [class^='DragAndDropTrigger-module__trigger'] {
+				& > div[class^='DragAndDropTrigger-module__trigger'] {
 					align-self: center;
 				}
-
-				div[class^='PinnedIssue-module__contentContainer'] {
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: center;
-
-					& > [class*='titleOptionsContainer'] {
-						display: contents;
-
-						/* Move options button to the end */
-						& > button {
-							order: 1;
-						}
-					}
-
-					& > [class*='metadataContainer'] {
-						align-items: center; /* Fix comments alignment when metadata takes multiple lines */
-						margin-left: 8px;
-					}
-				}
 			}
+		}
+
+		div[class^='PinnedIssue-module__contentContainer'] {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		div[class^='PinnedIssue-module__titleOptionsContainer'] {
+			display: contents;
+
+			/* Move options button to the end */
+			& > button {
+				order: 1;
+			}
+		}
+
+		div[class^='PinnedIssue-module__metadataContainer'] {
+			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
+			margin-left: 8px;
 		}
 	}
 }
