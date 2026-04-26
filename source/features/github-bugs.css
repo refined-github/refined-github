@@ -168,7 +168,7 @@ div[class^='PRIVATE_TreeView-item-visual']
 	}
 }
 
-/* Make user badges (mostly in review threads) correctly wrap */
+/* Fix review thread header wrapping */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'] {
