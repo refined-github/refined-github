@@ -10,7 +10,7 @@ import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import {getToken} from '../options-storage.js';
 
-async function verify(header: HTMLButtonElement): Promise<void> {
+async function verify(header: HTMLElement): Promise<void> {
 	const token = await getToken();
 	if (!token) {
 		return;
@@ -33,7 +33,7 @@ async function verify(header: HTMLButtonElement): Promise<void> {
 }
 
 function initOnce(): void {
-	observe('div[aria-labelledby="global-nav-user-menu-header"] > [role="heading"]', verify);
+	observe('div[aria-labelledby="global-nav-user-menu-header"] > div[role="heading"]', verify);
 }
 
 void features.add(import.meta.url, {
