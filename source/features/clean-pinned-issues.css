@@ -43,10 +43,9 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			align-items: center;
 		}
 
+		/* Move options button to the end */
 		div[class^='PinnedIssue-module__titleOptionsContainer'] {
 			display: contents;
-
-			/* Move options button to the end */
 			& > button {
 				order: 1;
 			}
