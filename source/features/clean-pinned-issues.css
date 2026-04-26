@@ -35,7 +35,6 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 
 		div[class^='PinnedIssue-module__contentContainer'] {
 			flex-direction: row;
-			justify-content: space-between;
 			align-items: center;
 		}
 
