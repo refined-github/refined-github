@@ -63,7 +63,7 @@ function init(signal: AbortSignal): void {
 		// `capture: true` to run before `more-file-links`
 		{capture: true, signal},
 	);
-	// Old view -- TODO: Drop in the fall of 2026
+	// Legacy PR files view -- TODO: Drop after it is removed
 	observe(
 		'.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]',
 		alter,
@@ -80,7 +80,7 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedConversation,
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => pageDetect.isPRCommit() && !elementExists('[aria-label="No next commit"]'),
-		// Old view -- TODO: Drop in the fall of 2026
+		// Legacy PR files view -- TODO: Drop after it is removed
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened
