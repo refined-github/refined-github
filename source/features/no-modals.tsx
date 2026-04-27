@@ -13,6 +13,9 @@ function init(signal: AbortSignal): void {
 		[
 			'a[href$="/issues/new/choose"]', // New issue button
 			'a[class*="SubIssueTitle"]', // Sub-issue links
+			'a[class*="IssueLink-module__issueLinkAnchor"]', // Timeline issue dependency/sub-issue links
+			'a[data-hovercard-type="issue"]', // Markdown issue links
+			'a[data-hovercard-type="pull_request"]', // Markdown PR links
 			'a[data-testid="issue-pr-title-link"]', // Global issue list links
 		],
 		'click',
