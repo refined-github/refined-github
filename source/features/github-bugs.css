@@ -168,6 +168,66 @@ div[class^='PRIVATE_TreeView-item-visual']
 	}
 }
 
+/* Fix review thread header wrapping */
+/* Info: https://github.com/refined-github/refined-github/issues/9186 */
+/* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
+div[class*='ActivityHeaderGridLayout'] {
+	display: flex;
+	flex-wrap: wrap;
+
+	> div[data-testid='comment-header-left-side-items'] {
+		flex-grow: 1;
+		flex-basis: min-content;
+
+		a[class^='ActivityHeader-module__AuthorName'] {
+			overflow-wrap: break-word;
+			max-width: 100%;
+		}
+	}
+
+	> div[data-testid='comment-header-right-side-items'] {
+		flex-grow: 0;
+
+		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			margin-left: 0;
+		}
+	}
+}
+/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
+review-thread-collapsible > .js-toggle-outdated-comments {
+	flex-wrap: wrap !important;
+	row-gap: 8px;
+	/* Keep original height after making chevron's position absolute */
+	padding: 8px !important;
+	min-height: 38px;
+	/* Keep chevron inside */
+	position: relative;
+
+	.review-thread-chevron {
+		position: absolute;
+		top: 5px;
+	}
+
+	/* File name + badge */
+	> .flex-auto {
+		flex-wrap: wrap !important;
+		/* button width (28px) + margin (8px) */
+		margin-left: 36px;
+
+		> .Link--primary {
+			overflow-wrap: anywhere;
+			word-break: normal !important;
+		}
+	}
+
+	.review-thread-show-text,
+	.review-thread-hide-text {
+		margin-inline: auto !important;
+	}
+}
+
 /*
 
 Test URLs:
