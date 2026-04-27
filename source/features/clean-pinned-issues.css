@@ -4,7 +4,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			container-type: inline-size;
 
 			/* Element whose width is tracked */
-			> :first-child {
+			> div:not([class]) {
 				max-width: 767px; /* Enable native vertical sorting */
 			}
 		}
