@@ -13,6 +13,7 @@ import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 import {getToken} from '../options-storage.js';
+import delay from '../helpers/delay.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -73,9 +74,12 @@ async function checkToken(): Promise<void> {
 async function setVersion(): Promise<void> {
 	const {version} = chrome.runtime.getManifest();
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
-		'[class^="IssueCreatePage"] [class^="Box-sc"] input',
+		'span[class^="TextInputElement-module__issueFormTextField"] > input',
 		'Extension version*',
 	);
+
+	// Wait for GitHub listener to be registered
+	await delay(2000);
 
 	setReactInputValue(field, version);
 	if (!await getToken()) {
