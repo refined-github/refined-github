@@ -228,6 +228,17 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Reduce starred repos list row width */
+/* Info: https://github.com/refined-github/refined-github/pull/9296 */
+/* Test: https://github.com/xuhdev?tab=stars */
+#profile-lists-container .Box-row {
+	padding: 16px !important;
+
+	> .flex-row {
+		padding: 0 !important;
+	}
+}
+
 /*
 
 Test URLs:
