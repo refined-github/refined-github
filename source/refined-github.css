@@ -210,7 +210,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	container-type: inline-size;
 }
 @container (width < 500px) {
-  .flex-items-center:has(> .bg-discussions-row-emoji-box) {
+	.flex-items-center:has(> .bg-discussions-row-emoji-box) {
 		flex-direction: column-reverse;
 		row-gap: 12px;
 
