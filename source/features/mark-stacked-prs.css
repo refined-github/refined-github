@@ -1,0 +1,74 @@
+.rgh-stack {
+	position: relative !important;
+}
+
+.rgh-stack::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	background: var(--rgh-stack-color, fuchsia);
+	z-index: 5;
+	pointer-events: none;
+}
+
+/* Flat indent for all non-root members */
+.rgh-stack-child > * {
+	padding-left: 24px !important;
+}
+
+.rgh-stack-child.js-issue-row {
+	padding-left: 24px !important;
+}
+
+.rgh-stack-hidden {
+	display: none !important;
+}
+
+/* Hide the verbose "To branch" badge from highlight-non-default-base-branch on stacked rows */
+.rgh-stack span.ml-2:has(> .commit-ref.user-select-contain.mb-n1) {
+	display: none !important;
+}
+
+.rgh-stack-chevron {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	background: transparent;
+	border: 0;
+	padding: 0 5px;
+	margin-right: 4px;
+	cursor: pointer;
+	color: var(--rgh-stack-color, fuchsia);
+	border-radius: 4px;
+	vertical-align: middle;
+	font: inherit;
+	line-height: 1;
+}
+
+.rgh-stack-chevron:hover {
+	background: var(--rgh-stack-color, fuchsia);
+	color: var(--fgColor-onEmphasis, #ffffff);
+}
+
+.rgh-stack-chevron:focus {
+	outline: none;
+}
+
+.rgh-stack-chevron:focus-visible {
+	outline: 2px solid var(--rgh-stack-color, fuchsia);
+	outline-offset: 1px;
+}
+
+.rgh-stack-chevron .octicon {
+	width: 14px;
+	height: 14px;
+	flex: none;
+}
+
+.rgh-stack-count {
+	font-size: 11px;
+	font-weight: 600;
+}

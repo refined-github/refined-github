@@ -460,6 +460,12 @@
 		"screenshot": "https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea"
 	},
 	{
+		"id": "mark-stacked-prs",
+		"description": "Groups stacked PRs in lists with a colored connector, indenting children under the root and adding a chevron on the root to collapse or expand the stack.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/fc350109-7330-46ff-a11c-4faa0f4c54c8"
+	},
+	{
 		"id": "more-dropdown-links",
 		"description": "Adds useful links to the repository navigation dropdown",
 		"css": true,
