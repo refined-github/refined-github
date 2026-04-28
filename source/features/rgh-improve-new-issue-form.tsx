@@ -72,16 +72,17 @@ async function checkToken(): Promise<void> {
 }
 
 async function setVersion(): Promise<void> {
-	const {version} = chrome.runtime.getManifest();
+	// Wait for GitHub's listener to be attached #9293
+	await delay(1000);
+
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
 		'span[class^="TextInputElement-module__issueFormTextField"] > input',
 		'Extension version*',
 	);
 
-	// Wait for GitHub's listener to be attached #9293
-	await delay(1000);
-
+	const {version} = chrome.runtime.getManifest();
 	setReactInputValue(field, version);
+
 	if (!await getToken()) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
