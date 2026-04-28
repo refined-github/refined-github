@@ -78,7 +78,7 @@ async function setVersion(): Promise<void> {
 		'Extension version*',
 	);
 
-	// Wait for GitHub listener to be registered
+	// Wait for GitHub's listener to be attached #9293
 	await delay(2000);
 
 	setReactInputValue(field, version);
