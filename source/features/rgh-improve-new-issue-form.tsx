@@ -79,7 +79,7 @@ async function setVersion(): Promise<void> {
 	);
 
 	// Wait for GitHub's listener to be attached #9293
-	await delay(2000);
+	await delay(1000);
 
 	setReactInputValue(field, version);
 	if (!await getToken()) {
