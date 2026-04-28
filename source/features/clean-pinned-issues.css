@@ -41,6 +41,10 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			align-items: center;
 		}
 
+		span[class^='PinnedIssue-module__Octicon'] {
+			vertical-align: text-bottom;
+		}
+
 		/* Move options button to the end */
 		div[class^='PinnedIssue-module__titleOptionsContainer'] {
 			display: contents;
