@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 
-export default function getUserAvatar(username: string, size: number): string | void {
+export default function getUserAvatar(username: string, size: number): string {
 	let cleanName = username.replace('[bot]', '');
 
 	if (/[^\w-]/.test(cleanName)) {
@@ -9,7 +9,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 	}
 
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = $optional(`[href="/${cleanName}" i] img`);
+	const existingAvatar = $optional(`a[href="/${cleanName}" i] img`);
 	if (existingAvatar) {
 		return existingAvatar.src;
 	}
