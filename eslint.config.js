@@ -7,6 +7,48 @@ import {fileURLToPath} from 'node:url';
 
 const refinedGithubPlugin = {
 	rules: {
+		'prefer-select-dom': {
+			meta: {
+				type: 'suggestion',
+				fixable: 'code',
+				messages: {
+					useSelectDom: 'Use select-dom\'s {{replacement}}() instead of .{{method}}()',
+				},
+				schema: [],
+			},
+			create(context) {
+				const {sourceCode} = context;
+				return {
+					'CallExpression[callee.type=MemberExpression]:matches([callee.property.name=querySelector], [callee.property.name=querySelectorAll])'(node) {
+						const {object} = node.callee;
+						// Only flag simple cases: bare variable or `this`
+						// Allow traversals: x.firstChild.querySelector, x.closest().querySelector, x!.querySelector, etc.
+						if (object.type !== 'Identifier' && object.type !== 'ThisExpression') {
+							return;
+						}
+
+						const methodName = node.callee.property.name;
+						const isQueryAll = methodName === 'querySelectorAll';
+						const replacement = isQueryAll ? '$$' : '$';
+
+						context.report({
+							node,
+							messageId: 'useSelectDom',
+							data: {replacement, method: methodName},
+							fix(fixer) {
+								const args = node.arguments.map(arg => sourceCode.getText(arg));
+								const isDocument = object.type === 'Identifier' && object.name === 'document';
+								if (!isDocument) {
+									args.push(sourceCode.getText(object));
+								}
+
+								return fixer.replaceText(node, `${replacement}(${args.join(', ')})`);
+							},
+						});
+					},
+				};
+			},
+		},
 		'no-optional-chaining': {
 			create(context) {
 				const {sourceCode} = context;
@@ -306,6 +348,15 @@ export default [
 
 		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
 		rules: eslintConfigPrettier.rules,
+	},
+	{
+		files: ['source/**'],
+		plugins: {
+			'refined-github': refinedGithubPlugin,
+		},
+		rules: {
+			'refined-github/prefer-select-dom': 'error',
+		},
 	},
 	{
 		files: ['source/features/**'],
