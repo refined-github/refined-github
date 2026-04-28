@@ -57,6 +57,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
 			text-align: end;
 			margin-left: 8px;
+			flex-shrink: 0.5;
 		}
 	}
 }
