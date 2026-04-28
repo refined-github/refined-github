@@ -323,10 +323,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- Stable demo with a 4-PR stack: https://github.com/giovaborgogno/stacked-prs-demo/pulls
-- Repo PR list (any repo with a stack): https://github.com/refined-github/sandbox/pulls
-- Global PR list: https://github.com/pulls
+- https://github.com/giovaborgogno/stacked-prs-demo/pulls
 
-The demo repo has four PRs forming a linear stack (#1 ← #2 ← #3 ← #4), where each PR's base branch is the previous PR's head branch.
+A stable 4-PR linear stack (#1 ← #2 ← #3 ← #4) where each PR's base branch is the previous PR's head branch.
 
 */
