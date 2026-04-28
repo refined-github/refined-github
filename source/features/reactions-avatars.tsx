@@ -11,7 +11,6 @@ import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
 import {getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {resolveRedirect} from '../helpers/resolve-redirect.js';
 
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
@@ -54,7 +53,9 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 		}
 
 		const imageUrl = getUserAvatar(username, avatarSize);
-		participants.push({button, username, imageUrl});
+		if (imageUrl) {
+			participants.push({button, username, imageUrl});
+		}
 	}
 
 	return participants;
@@ -63,7 +64,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const change of changes) {
 		if (change.isIntersecting) {
-			void showAvatarsOn(change.target);
+			showAvatarsOn(change.target);
 			viewportObserver.unobserve(change.target);
 		}
 	}
@@ -72,20 +73,14 @@ const viewportObserver = new IntersectionObserver(changes => {
 	rootMargin: '500px',
 });
 
-async function showAvatarsOn(commentReactions: Element): Promise<void> {
+function showAvatarsOn(commentReactions: Element): void {
 	const reactions = $$([
 		'button[aria-pressed]', // Discussions, releases, PRs, old issues
 		'button[aria-checked]', // React issues
 	], commentReactions)
 		.map(button => getParticipants(button)); // Get all participants for each reaction
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
-	const flatParticipants = await Promise.all(
-		flatZip(reactions, avatarLimit).map(async ({button, username, imageUrl}) => ({
-			button,
-			username,
-			imageUrl: await resolveRedirect(imageUrl),
-		})),
-	);
+	const flatParticipants = flatZip(reactions, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
 		button.append(

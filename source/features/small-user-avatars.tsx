@@ -6,18 +6,16 @@ import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
-import {resolveRedirect} from '../helpers/resolve-redirect.js';
 
-async function addAvatar(link: HTMLElement): Promise<void> {
+function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
-	const url = await resolveRedirect(getUserAvatarURL(username, size));
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
 		<img
 			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={url}
+			src={getUserAvatarURL(username, size)!}
 			width={size}
 			height={size}
 			loading="lazy"
@@ -25,10 +23,10 @@ async function addAvatar(link: HTMLElement): Promise<void> {
 	);
 }
 
-async function addMentionAvatar(link: HTMLAnchorElement): Promise<void> {
+function addMentionAvatar(link: HTMLAnchorElement): void {
 	// Don't use textContent #8389
 	const username = link.href.split('/').pop()!;
-	const avatarUrl = await resolveRedirect(getUserAvatarURL(username, 16));
+	const avatarUrl = getUserAvatarURL(username, 16)!;
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
 	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);

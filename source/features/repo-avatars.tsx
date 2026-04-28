@@ -6,7 +6,6 @@ import getUserAvatar from '../github-helpers/get-user-avatar.js';
 import {getRepo} from '../github-helpers/index.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {resolveRedirect} from '../helpers/resolve-redirect.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
 	// TODO: Drop after June 2026
@@ -14,7 +13,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 
 	const username = getRepo()!.owner;
 	const size = 16;
-	const source = await resolveRedirect(getUserAvatar(username, size));
+	const source = getUserAvatar(username, size)!;
 
 	const avatar = (
 		<img
