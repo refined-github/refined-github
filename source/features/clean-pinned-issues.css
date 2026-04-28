@@ -29,7 +29,10 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-color: var(--rgh-border-color, fuchsia) !important;
 
 			> :first-child {
-				padding-inline: 0 8px !important;
+				padding-inline: 8px !important;
+				&:has(> div[class^='DragAndDropTrigger']) {
+					padding-left: 0 !important;
+				}
 			}
 		}
 
