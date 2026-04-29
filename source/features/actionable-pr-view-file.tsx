@@ -20,6 +20,13 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 		.join('/');
 }
 
+function isDeletedFile(fileHeader: HTMLElement): boolean {
+	const file = fileHeader.closest('div[id^="diff-"]')!;
+	const hidingReason = $optional('div[class^="HiddenDiffPatch"] .fgColor-muted', file);
+	// Hiding reason is only shown for hidden diffs
+	return hidingReason?.textContent.trim() === 'This file was deleted.';
+}
+
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	// Don't run if the menu has been closed
 	// Check inverted value because `capture: true` makes this run before handler that toggle state
@@ -29,8 +36,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 
 	const fileHeader = menuButton.closest('[class*="diff-file-header"]')!;
 
-	const isDeletedFile = $$optional('[data-testid="deletion diffstat"]', fileHeader).length === 5;
-	if (isDeletedFile) {
+	if (isDeletedFile(fileHeader)) {
 		return;
 	}
 
@@ -80,5 +86,5 @@ Test URLs
 - PR: https://github.com/refined-github/sandbox/pull/4/changes
 - deleted head repository: https://github.com/refined-github/refined-github/pull/271/changes
 - File with brackets in the path: https://github.com/refined-github/sandbox/pull/114/changes
-- Renamed file: https://github.com/refined-github/sandbox/pull/132/changes
+- Renamed and deleted files: https://github.com/refined-github/sandbox/pull/132/changes
 */
