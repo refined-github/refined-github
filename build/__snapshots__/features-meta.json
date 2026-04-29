@@ -945,8 +945,8 @@
 	},
 	{
 		"id": "update-pr-from-base-branch",
-		"description": "Adds an \"Update branch\" button to every PR. GitHub has the same feature, but it must be manually configured with protected branches.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/234483592-4867cb2e-21cb-436d-9ea0-aedadf834f19.png"
+		"description": "Adds an \"Update branch | Rebase\" button to every PR. GitHub has the same feature, but it must be manually configured with protected branches.",
+		"screenshot": "https://github.com/user-attachments/assets/8a9d752f-a521-48f1-b12b-afaa3cf0a388"
 	},
 	{
 		"id": "useful-not-found-page",
