@@ -6,6 +6,6 @@ html:not([rgh-OFF-hide-diff-signs])
 		.blob-code-marker-cell /* Commit page */
 	)::before,
 /* React commit page */
-.diff-text-marker {
+html:not([rgh-OFF-hide-diff-signs]) .diff-text-marker {
 	visibility: hidden;
 }
