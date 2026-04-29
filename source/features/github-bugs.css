@@ -228,6 +228,13 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Reduce starred repos list row height */
+/* Info: https://github.com/refined-github/refined-github/pull/9296 */
+/* Test: https://github.com/xuhdev?tab=stars */
+#profile-lists-container .Box-row {
+	padding-block: 0;
+}
+
 /* Wrap discussion category emoji and upvotes row */
 /* Info: https://github.com/refined-github/refined-github/pull/9295 */
 /* Test: https://github.com/orgs/community/discussions */
@@ -243,7 +250,6 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 			margin: 0 !important;
 		}
 	}
-}
 
 /*
 
