@@ -1,11 +1,6 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {
-	$,
-	$$optional,
-	$optional,
-	elementExists,
-} from 'select-dom';
+import {$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
