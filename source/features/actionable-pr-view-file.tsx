@@ -31,6 +31,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 		renamedTooltip?.textContent.split(' renamed to ')[1]
 		?? fileNameElement.textContent
 	).replaceAll(/\u200E|\u200F/g, '').trim();
+}
 
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	// Don't run if the menu has been closed
