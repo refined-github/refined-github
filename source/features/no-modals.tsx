@@ -26,19 +26,23 @@ function initNewIssueInNewTabOnce(): void {
 		handleAlteredClick,
 		{capture: true},
 	);
+	delegate(
+		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
+		'auxclick',
+		handleAlteredClick,
+		{capture: true},
+	);
 }
 
+const noModalSelectors = [
+	'a[href$="/issues/new/choose"]', // New issue button
+	'a[class*="SubIssueTitle"]', // Sub-issue links
+	'a[data-testid="issue-pr-title-link"]', // Global issue list links
+];
+
 function init(signal: AbortSignal): void {
-	delegate(
-		[
-			'a[href$="/issues/new/choose"]', // New issue button
-			'a[class*="SubIssueTitle"]', // Sub-issue links
-			'a[data-testid="issue-pr-title-link"]', // Global issue list links
-		],
-		'click',
-		fix,
-		{signal, capture: true},
-	);
+	delegate(noModalSelectors, 'click', fix, {signal, capture: true});
+	delegate(noModalSelectors, 'auxclick', fix, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {

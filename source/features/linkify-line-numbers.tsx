@@ -22,6 +22,7 @@ function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>):
 
 function init(signal: AbortSignal): void {
 	delegate('td[data-line-number]:empty', 'click', openLinkToLine, {signal});
+	delegate('td[data-line-number]:empty', 'auxclick', openLinkToLine, {signal});
 }
 
 void features.add(import.meta.url, {
