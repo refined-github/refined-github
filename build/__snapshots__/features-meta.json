@@ -945,7 +945,7 @@
 	},
 	{
 		"id": "update-pr-from-base-branch",
-		"description": "Adds an \"Update branch | Rebase\" button to every PR. GitHub has the same feature, but it must be manually configured with protected branches.",
+		"description": "Adds an \"Update branch | Rebase\" button to every PR. GitHub has the same feature, but it must be manually configured for each repo.",
 		"screenshot": "https://github.com/user-attachments/assets/8a9d752f-a521-48f1-b12b-afaa3cf0a388"
 	},
 	{
