@@ -18,7 +18,7 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 
 function resolveConversationsSelector(clickedItem: HTMLElement): string {
 	const isUnresolving = clickedItem.textContent.includes('Unresolve');
-	return `form[action$="/${isUnresolving ? 'unresolve': 'resolve'}"] button[type="submit"]`;
+	return `form[action$="/${isUnresolving ? 'unresolve' : 'resolve'}"] button[type="submit"]`;
 }
 
 const expandSelector = '.js-file .js-expand-full';
