@@ -83,7 +83,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			padding-top: 11px;
 
 			/* Hide "opened" */
-			[data-hovercard-type="user"] + span {
+			[data-hovercard-type='user'] + span {
 				display: none;
 			}
 		}
