@@ -4,6 +4,7 @@ import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import onetime from '../helpers/onetime.js';
 
 function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	event.stopImmediatePropagation();
@@ -18,12 +19,12 @@ function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): vo
 	}
 }
 
-function initNewIssueInNewTab(signal: AbortSignal): void {
+function initNewIssueInNewTab(): void {
 	delegate(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
 		'click',
 		handleAlteredClick,
-		{signal, capture: true},
+		{capture: true},
 	);
 }
 
@@ -51,7 +52,8 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	init: initNewIssueInNewTab
+	// No need to continuously register and unregister the handler
+	init: onetime(initNewIssueInNewTab)
 });
 
 /*
