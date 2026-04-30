@@ -56,7 +56,6 @@ export function repositionAnchors(element: HTMLElement): void {
 		const anchor = `--rgh-${codeLine.id}-${index}`;
 		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
 		link.className = 'react-code-text rgh-anchored-link';
-		// @ts-expect-error -- Not widely available yet
 		link.style.positionAnchor = anchor;
 		container.prepend(link);
 	}
