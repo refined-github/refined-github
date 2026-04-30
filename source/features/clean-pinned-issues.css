@@ -50,6 +50,8 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		span[class^='PinnedIssue-module__Octicon'] {
 			vertical-align: text-bottom;
 			margin-left: -1.5em;
+			/* Pull icon a bit lower to align with the title */
+			line-height: 1.3;
 		}
 
 		/* Prevent title from wrapping below the octicon */
