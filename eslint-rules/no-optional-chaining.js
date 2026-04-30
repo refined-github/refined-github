@@ -1,5 +1,5 @@
 /** @type {import('eslint').Rule.RuleModule} */
-export default {
+const noOptionalChaining = {
 	create(context) {
 		const {sourceCode} = context;
 		return {
@@ -28,3 +28,5 @@ export default {
 		};
 	},
 };
+
+export default noOptionalChaining;

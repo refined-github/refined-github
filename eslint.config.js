@@ -5,6 +5,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 import css from '@eslint/css';
+
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 const refinedGithubPlugin = {
