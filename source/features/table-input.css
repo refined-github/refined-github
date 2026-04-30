@@ -13,7 +13,8 @@
 	margin: auto;
 }
 
-.ActionBar-item-container:has(.rgh-table-input) {
+.ActionBar-item-container:has(.rgh-table-input),
+[class*='ActionBar-Nav']:has(.rgh-table-input) {
 	overflow: visible;
 }
 

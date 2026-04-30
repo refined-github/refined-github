@@ -1,33 +1,63 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
+		div[class^='IssueIndexPage-module__middlePaneGrid'] {
+			container-type: inline-size;
+
+			/* Element whose width is tracked */
+			> div:not([class]) {
+				max-width: 767px; /* Enable native vertical sorting */
+			}
+		}
+
 		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
-			width: 100%;
-			margin: 0;
+			width: 100cqw; /* Restore original width */
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-			box-shadow: 0 0 0 2px var(--rgh-border-color, fuchsia);
+			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
 			border-collapse: collapse;
 			border-radius: 6px;
 			border-style: hidden;
+		}
 
-			li {
-				display: table-row !important;
-				border-color: var(--rgh-border-color, fuchsia) !important;
-				& > div {
-					padding-right: var(--base-size-12, 12px);
+		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
+			display: table;
+		}
+
+		[class*='PinnedIssues-module__container'] {
+			display: table-row !important;
+			border-color: var(--rgh-border-color, fuchsia) !important;
+
+			> :first-child {
+				padding-inline: 8px !important;
+				&:has(> div[class^='DragAndDropTrigger']) {
+					padding-left: 0 !important;
 				}
 			}
+		}
 
-			[class^='PinnedIssue-module__titleOptionsContainer'] {
-				flex: 1;
-			}
+		div[class^='PinnedIssue-module__contentContainer'] {
+			flex-direction: row;
+			align-items: center;
+		}
 
-			[class^='PinnedIssue-module__contentContainer'] {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
+		span[class^='PinnedIssue-module__Octicon'] {
+			vertical-align: text-bottom;
+		}
+
+		/* Move options button to the end */
+		div[class^='PinnedIssue-module__titleOptionsContainer'] {
+			display: contents;
+			> button {
+				order: 1;
 			}
+		}
+
+		div[class^='PinnedIssue-module__metadataContainer'] {
+			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
+			text-align: end;
+			margin-left: 8px;
+			flex-shrink: 0.5;
 		}
 	}
 }

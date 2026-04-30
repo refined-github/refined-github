@@ -64,8 +64,8 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
-      - run: npm run lint:js
-      - run: npm run lint:css
+      - run: npm run lint:eslint
+      - run: npm run lint:biome
       - uses: codespell-project/actions-codespell@v2
         with:
           ignore_words_list: eror,usera
