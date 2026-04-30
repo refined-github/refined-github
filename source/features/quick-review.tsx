@@ -142,7 +142,7 @@ function initReviewRequestedButton(signal: AbortSignal): void {
 
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if ('newState' in event && event.newState === 'open') {
-		$('textarea', event.delegateTarget).focus();
+		event.delegateTarget.querySelector('textarea')!.focus();
 	}
 }
 

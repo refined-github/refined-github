@@ -41,7 +41,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
 		const labelElement = (
-			parent.querySelector('label')
+			$('label', parent)
 			?? radio.nextSibling! // TODO: Remove after April 2025
 		);
 		const tooltip = $([

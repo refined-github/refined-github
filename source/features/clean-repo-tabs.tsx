@@ -56,7 +56,7 @@ function onlyShowInDropdown(id: string): void {
 const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
 		const dom = await fetchDom(buildRepoUrl('wiki'));
-		const counter = dom.querySelector('#wiki-pages-box .Counter');
+		const counter = $('#wiki-pages-box .Counter', dom);
 
 		if (counter) {
 			return looseParseInt(counter);

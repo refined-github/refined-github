@@ -1,4 +1,5 @@
 import hl from 'highlight.js';
+import {$$} from 'select-dom';
 import {assert, test} from 'vitest';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
@@ -9,7 +10,7 @@ function highlight(html: string): string {
 }
 
 function serializeDom(element: Element): string {
-	for (const replacement of element.querySelectorAll('[data-rgh-whitespace]')) {
+	for (const replacement of $$('[data-rgh-whitespace]', element)) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
 			case 'space': {
 				replacement.replaceWith(replacement.innerHTML.replaceAll(' ', '•'));
@@ -25,7 +26,7 @@ function serializeDom(element: Element): string {
 		}
 	}
 
-	for (const highlighting of element.querySelectorAll('[class^="hljs"]')) {
+	for (const highlighting of $$('[class^="hljs"]', element)) {
 		highlighting.replaceWith(highlighting.innerHTML);
 	}
 
