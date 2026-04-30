@@ -235,6 +235,23 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	padding-block: 0;
 }
 
+/* Wrap discussion category emoji and upvotes row */
+/* Info: https://github.com/refined-github/refined-github/pull/9295 */
+/* Test: https://github.com/orgs/community/discussions */
+.flex-items-start:has(> .d-flex > .bg-discussions-row-emoji-box) {
+	container-type: inline-size;
+}
+@container (width < 500px) {
+	.flex-items-center:has(> .bg-discussions-row-emoji-box) {
+		flex-direction: column-reverse;
+		row-gap: 12px;
+
+		> * {
+			margin: 0 !important;
+		}
+	}
+}
+
 /*
 
 Test URLs:
