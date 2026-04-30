@@ -1,6 +1,5 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-
 import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
@@ -19,13 +18,16 @@ function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): vo
 	}
 }
 
-function init(signal: AbortSignal): void {
+function initNewIssueInNewTab(signal: AbortSignal): void {
 	delegate(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
 		'click',
 		handleAlteredClick,
 		{signal, capture: true},
 	);
+}
+
+function init(signal: AbortSignal): void {
 	delegate(
 		[
 			'a[href$="/issues/new/choose"]', // New issue button
@@ -45,6 +47,11 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
+}, {
+	include: [
+		pageDetect.isRepo,
+	],
+	init: initNewIssueInNewTab
 });
 
 /*
