@@ -99,11 +99,6 @@
       "count": 2
     }
   },
-  "source/features/quick-new-issue.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/reactions-avatars.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1

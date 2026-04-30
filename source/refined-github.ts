@@ -184,7 +184,6 @@ import './features/repo-avatars.js';
 import './features/jump-to-conversation-close-event.js';
 import './features/last-notification-page-button.js';
 import './features/rgh-linkify-yolo.js';
-import './features/quick-new-issue.js';
 import './features/scrollable-areas.js';
 import './features/emphasize-draft-pr-label.js';
 import './features/file-age-color.js';
