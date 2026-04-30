@@ -28,6 +28,9 @@ const noScreenshotExceptions = new Set([
 	'selection-in-new-tab',
 	'click-outside-modal',
 	'same-page-links',
+	'github-bugs',
+	'tab-size',
+	'monospace-textareas',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
@@ -40,15 +43,12 @@ const noScreenshotExceptions = new Set([
 	'clean-conversations',
 	'clean-footer',
 	'clean-notifications',
-	'github-bugs',
 	'mark-private-repos',
 	'mobile-tabs-pr',
-	'monospace-textareas',
 	'night-not-found',
 	'readable-title-change-events',
 	'sticky-csv-header',
 	'sticky-file-header',
-	'tab-size',
 ]);
 
 const entryPoint = 'source/refined-github.ts';
