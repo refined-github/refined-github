@@ -16,6 +16,18 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')!}"]:not(.d-none)`;
 }
 
+const resolveConversationFormSelector = 'form[action$="/resolve"]';
+const unresolveConversationFormSelector = 'form[action$="/unresolve"]';
+
+function resolveConversationsSelector(clickedItem: HTMLElement): string {
+	// The delegate selector below guarantees the clicked button is inside a `form`
+	// whose action ends in `/resolve` or `/unresolve`, so the closest form is never null.
+	const form = clickedItem.closest('form')!;
+	const isUnresolving = (form.getAttribute('action') ?? '').endsWith('/unresolve');
+	const formSelector = isUnresolving ? unresolveConversationFormSelector : resolveConversationFormSelector;
+	return `${formSelector} button[type="submit"]`;
+}
+
 const expandSelector = '.js-file .js-expand-full';
 
 const collapseSelector = '.js-file .js-collapse-diff';
@@ -41,6 +53,14 @@ function init(signal: AbortSignal): void {
 
 	// Review comments in PR
 	delegate('.js-file .js-resolvable-thread-toggler', 'click', clickAll(resolvedCommentsSelector), {signal});
+
+	// "Resolve conversation" / "Unresolve conversation" buttons in PR conversations
+	delegate(
+		`${resolveConversationFormSelector} button[type="submit"], ${unresolveConversationFormSelector} button[type="submit"]`,
+		'click',
+		clickAll(resolveConversationsSelector),
+		{signal},
+	);
 
 	// "Expand all" and "Collapse expanded lines" buttons in commit files
 	delegate(expandSelector, 'click', clickAll(expandSelector), {signal});
@@ -90,4 +110,6 @@ Commit messages:
 - PR comment: https://github.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
 
 Add suggestion to batch: https://github.com/refined-github/sandbox/pull/121/changes
+
+Resolve conversation in PR: https://github.com/refined-github/yolo/pull/8
 */
