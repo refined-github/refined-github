@@ -12,7 +12,7 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
 	viewFileLink.pathname = [owner, name, 'blob', branch, ...filePath.split('/')]
-		.map(element => encodeURIComponent(element))
+		.map(part => encodeURIComponent(part)) // Path can contain special chars: #8473
 		.join('/');
 }
 
