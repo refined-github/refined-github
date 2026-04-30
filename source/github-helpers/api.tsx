@@ -277,7 +277,7 @@ const v4uncached = async (
 		return data;
 	}
 
-	throw await getError(apiResponse as JsonObject);
+	throw await getError(apiResponse);
 };
 
 const v4 = mem(v4uncached, {
