@@ -16,10 +16,10 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 }
 
 function isDeletedFile(fileHeader: HTMLElement): boolean {
-	const file = fileHeader.closest('div[id^="diff-"]')!;
-	const hidingReason = $optional('div[class^="HiddenDiffPatch"] .fgColor-muted', file);
-	// Hiding reason is only shown for hidden diffs
-	return hidingReason?.textContent.trim() === 'This file was deleted.';
+	const fileTree = $('ul[aria-label="File Tree"]');
+	const diffLink = $('a', fileHeader);
+	const diffInList = $(`li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`, fileTree);
+	return elementExists('.octicon-file-removed', diffInList)
 }
 
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
