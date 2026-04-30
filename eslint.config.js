@@ -321,20 +321,15 @@ export default [
 			'refined-github/no-optional-chaining': 'error',
 		},
 	},
-	// CSS support
 	{
 		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
-		languageOptions: {
-			tolerant: true, // Required to parse modern CSS features (nesting, :has(), etc.) without errors
-		},
 		rules: {
 			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
-			'css/use-baseline': 'off',
-			'css/no-invalid-properties': 'off', // GitHub/RGH custom properties are not visible to the linter
-			'css/font-family-fallbacks': 'off', // GitHub-defined font stacks may not have generic fallbacks
+			'css/use-baseline': 'off', // We support the latest browsers only
+			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
 	},
 ];
