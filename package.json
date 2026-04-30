@@ -42,7 +42,7 @@
 		"js-abbreviation-number": "^1.4.0",
 		"linkify-issues": "^4.2.0",
 		"linkify-urls": "^5.2.0",
-		"memoize": "^10.2.0",
+		"memoize": "^11.0.0",
 		"octicons-plain-react": "^19.25.0",
 		"one-event": "^4.4.0",
 		"one-mutation": "^3.0.1",
@@ -74,7 +74,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.13",
 		"@dprint/json": "^0.21.3",
-		"@eslint-react/eslint-plugin": "^2.13.0",
+		"@eslint-react/eslint-plugin": "^5.6.4",
 		"@eslint/compat": "^2.0.5",
 		"@eslint/css": "^1.1.0",
 		"@rollup/plugin-alias": "^6.0.0",
