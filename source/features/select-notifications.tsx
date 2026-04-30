@@ -58,7 +58,6 @@ function getFiltersSelector(formData: FormData, category: Category): string[] {
 }
 
 function handleSelection(): void {
-	// @ts-expect-error TS bug
 	const formData = new FormData($('form#rgh-select-notifications-form'));
 	const types = getFiltersSelector(formData, 'Type');
 	const statuses = getFiltersSelector(formData, 'Status');
