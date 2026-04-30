@@ -320,15 +320,11 @@ export default [
 		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
-		languageOptions: {
-			tolerant: true, // Required to parse modern CSS features (@container range syntax, nesting, etc.)
-		},
 		rules: {
 			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
-			'css/font-family-fallbacks': 'off', // GitHub-defined font stacks may not have generic fallbacks
 		},
 	},
 	// Svelte rules require the Svelte parser and crash on CSS files
