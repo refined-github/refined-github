@@ -4,7 +4,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			container-type: inline-size;
 
 			/* Element whose width is tracked */
-			> :first-child {
+			> div:not([class]) {
 				max-width: 767px; /* Enable native vertical sorting */
 			}
 		}
@@ -29,13 +29,20 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-color: var(--rgh-border-color, fuchsia) !important;
 
 			> :first-child {
-				padding-inline: 0 8px !important;
+				padding-inline: 8px !important;
+				&:has(> div[class^='DragAndDropTrigger']) {
+					padding-left: 0 !important;
+				}
 			}
 		}
 
 		div[class^='PinnedIssue-module__contentContainer'] {
 			flex-direction: row;
 			align-items: center;
+		}
+
+		span[class^='PinnedIssue-module__Octicon'] {
+			vertical-align: text-bottom;
 		}
 
 		/* Move options button to the end */
@@ -50,6 +57,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
 			text-align: end;
 			margin-left: 8px;
+			flex-shrink: 0.5;
 		}
 	}
 }
