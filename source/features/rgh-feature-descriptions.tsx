@@ -176,5 +176,5 @@ Test URLs:
 - Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
-- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/center-reactions-popup.css
+- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
 */

@@ -35,7 +35,7 @@ const noScreenshotExceptions = new Set([
 	'scrollable-areas', // TODO: Add side-by-side png
 
 	// CSS-only features without screenshots yet
-	'center-reactions-popup',
+	'reactions-popup',
 	'clean-checks-list',
 	'clean-conversations',
 	'clean-footer',

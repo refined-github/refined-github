@@ -110,7 +110,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
-- [](# "mark-private-repos") Highlights private repositories in the repository list with a distinct color.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -142,9 +141,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/refined-github/refined-github/issues/1590)
 - [](# "vertical-front-matter") [Shows Markdown front matter as vertical table.](https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png)
 - [](# "list-prs-for-branch") [On branch commit lists, shows the PR that touches the current branch.](https://user-images.githubusercontent.com/16872793/119760295-b8751a80-be77-11eb-87da-91d0c403bb49.png)
-- [](# "tab-size") Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow [the user's preferences.](https://github.com/settings/appearance)
-- [](# "sticky-file-header") Makes the file header sticky when scrolling through code diffs.
-- [](# "sticky-csv-header") Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -165,7 +161,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
 - [](# "no-self-reference") [Warns against self-reference links, helping you avoid mistakes.](https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd)
-- [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and SSH/GPG key fields.
 - [](# "clean-conversations") Hides the commenter's avatar in the reply form to reduce visual noise.
 
 <!--
@@ -189,7 +184,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png)
 - [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
 - [](# "comment-excess") [Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.](https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31)
-- [](# "center-reactions-popup") Centers the reactions popup by restoring the two-column grid layout.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -221,7 +215,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a issue/PR.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
 - [](# "close-as-unplanned") [Lets you "close issue as unplanned" in one click instead of three.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png)
 - [](# "locked-issue") [Show a label on locked issues and PRs.](https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png)
-- [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -249,7 +242,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 - [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
-- [](# "mobile-tabs-pr") Wraps PR navigation tabs to multiple lines on small screens.
+- [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -337,7 +330,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
-- [](# "clean-notifications") Shows the notification number before the conversation title in notification lists.
+- [](# "clean-notifications") Makes the notifications list more compact when grouped by repo.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -353,7 +346,8 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258552390-7d2cd013-c167-4fe5-9731-33622b8607e9.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
 - [](# "clean-footer") Dims the site footer so it's less prominent.
-- [](# "night-not-found") Dims the GitHub mascot on 404 pages in dark mode.
+- [](# "night-not-found") Adds dark mode to the global 404 page.
+- [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -392,6 +386,12 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
 - [](# "linkify-text") [Makes certain text clickable, like issue references in the issue title and discussion sidebar.](https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90)
 - [](# "new-milestone-button") [Adds a 'New Milestone' button to the milestone page.](https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987)
+- [](# "mark-private-repos") Highlights private repositories in the repository list with a distinct color.
+- [](# "tab-size") Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow [the user's preferences.](https://github.com/settings/appearance)
+- [](# "sticky-file-header") Makes the file header sticky when scrolling through code diffs.
+- [](# "sticky-csv-header") Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.
+- [](# "reactions-popup") Improves the usability of the comment reactions popup by making it smaller.
+- [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
 - [](# "github-bugs") Applies various CSS fixes to GitHub's interface.
 
 <!--

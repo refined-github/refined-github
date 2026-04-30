@@ -47,13 +47,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
 	},
 	{
-		"id": "center-reactions-popup",
-		"description": "Centers the reactions popup by restoring the two-column grid layout.",
-		"css": true,
-		"cssOnly": true,
-		"screenshot": null
-	},
-	{
 		"id": "ci-link",
 		"description": "Adds a build/CI status icon next to the repo’s name.",
 		"css": true,
@@ -99,7 +92,7 @@
 	},
 	{
 		"id": "clean-notifications",
-		"description": "Shows the notification number before the conversation title in notification lists.",
+		"description": "Makes the notifications list more compact when grouped by repo.",
 		"css": true,
 		"cssOnly": true,
 		"screenshot": null
@@ -510,14 +503,14 @@
 	},
 	{
 		"id": "mobile-tabs-pr",
-		"description": "Wraps PR navigation tabs to multiple lines on small screens.",
+		"description": "Makes the PR tabs smaller so they fit in the screen without scrolling.",
 		"css": true,
 		"cssOnly": true,
 		"screenshot": null
 	},
 	{
 		"id": "monospace-textareas",
-		"description": "Uses a monospace font in commit message, description, release body, and SSH/GPG key fields.",
+		"description": "Uses a monospace font in commit message, description, release body, and other fields that benefit from it.",
 		"css": true,
 		"cssOnly": true,
 		"screenshot": null
@@ -555,7 +548,7 @@
 	},
 	{
 		"id": "night-not-found",
-		"description": "Dims the GitHub mascot on 404 pages in dark mode.",
+		"description": "Adds dark mode to the global 404 page.",
 		"css": true,
 		"cssOnly": true,
 		"screenshot": null
@@ -775,6 +768,13 @@
 		"description": "Adds reaction avatars showing <em>who</em> reacted to a comment.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/236628453-8b646178-b838-44a3-9541-0a9b5f54a84a.png"
+	},
+	{
+		"id": "reactions-popup",
+		"description": "Improves the usability of the comment reactions popup by making it smaller.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": null
 	},
 	{
 		"id": "readable-title-change-events",
