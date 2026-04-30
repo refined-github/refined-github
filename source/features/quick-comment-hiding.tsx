@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom';
+import {$, $$} from 'select-dom';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -40,7 +40,7 @@ function generateSubmenu(hideButton: Element): void {
 		'anim-scale-in',
 	);
 
-	for (const reason of hideCommentForm.elements.classifier.querySelectorAll('option:not([value=""])')) {
+	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
 			<button
 				type="submit"
