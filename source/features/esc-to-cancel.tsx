@@ -7,8 +7,20 @@ import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key === 'Escape') {
-		$('.js-cancel-issue-edit').click();
+		if (!(event.delegateTarget instanceof HTMLInputElement)) {
+			return;
+		}
 
+		const cancelButton = $([
+			'div[class^="prc-PageLayout-HeaderContent"] > form button[data-variant="invisible"]',
+			// Old view -- TODO: Remove after legacy PR files view is removed
+			'.js-cancel-issue-edit',
+		]);
+		if (cancelButton.textContent.trim() !== 'Cancel') {
+			throw new Error('Expected to find a cancel button');
+		}
+
+		cancelButton.click();
 		event.stopImmediatePropagation();
 		event.preventDefault();
 	}
@@ -18,14 +30,11 @@ function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
 }
 
-// TODO: Drop in March 2025, implemented by GitHub
-// https://github.com/refined-github/refined-github/pull/7892
 void features.add(import.meta.url, {
 	shortcuts: {
 		esc: 'Cancel editing a conversation title',
 	},
 	include: [
-		pageDetect.isIssue,
 		pageDetect.isPR,
 	],
 	init,
@@ -35,8 +44,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-1. Visit https://github.com/issues?q=+archived%3Afalse+author%3A%40me
-2. Open any issue/PR
+1. Visit https://github.com/pulls
+2. Open any PR
 3. Try to edit the title
 4. Press Esc
 
