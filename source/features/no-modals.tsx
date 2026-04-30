@@ -19,7 +19,7 @@ function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): vo
 	}
 }
 
-function initNewIssueInNewTab(): void {
+function initNewIssueInNewTabOnce(): void {
 	delegate(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
 		'click',
@@ -53,7 +53,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	// No need to continuously register and unregister the handler
-	init: onetime(initNewIssueInNewTab)
+	init: onetime(initNewIssueInNewTabOnce),
 });
 
 /*
