@@ -5,6 +5,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
 import css from '@eslint/css';
+import pluginPromise from 'eslint-plugin-promise';
 
 const refinedGithubPlugin = {
 	rules: {
@@ -47,6 +48,9 @@ export default [
 		{
 			semicolon: true,
 			prettier: false,
+			plugins: {
+				promise: pluginPromise,
+			},
 			languageOptions: {
 				globals: {
 					browser: 'readonly',
@@ -73,6 +77,8 @@ export default [
 						},
 					},
 				],
+
+				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 
 				// Restore errors
 				'no-await-in-loop': 'error',
@@ -149,6 +155,7 @@ export default [
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
+				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
 
 				// Import-x rules customization
 				'import-x/consistent-type-specifier-style': 'off',
@@ -205,6 +212,8 @@ export default [
 				'@typescript-eslint/no-unsafe-member-access': 'off',
 				'@typescript-eslint/no-unsafe-return': 'off',
 				'@typescript-eslint/no-unsafe-call': 'off',
+				'@typescript-eslint/no-unsafe-type-assertion': 'off',
+				'@typescript-eslint/strict-void-return': 'off', // Too many violations to fix at once
 				'@typescript-eslint/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'@typescript-eslint/consistent-type-definitions': 'off', // Review later
 				'@typescript-eslint/consistent-type-imports': [
@@ -289,6 +298,17 @@ export default [
 		// Disable on markdown files, which are somehow being read as JS files
 		ignores: ['**/*.md'],
 	},
+	{
+		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
+		ignores: ['**/*.json', '!**/package.json'],
+	},
+	{
+		// Allow empty blocks like `catch {}` or `function noop() {}`
+		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,cts,mts,vue,svelte,astro}'],
+		rules: {
+			'@stylistic/curly-newline': ['error', {minElements: 1}],
+		},
+	},
 	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
@@ -330,9 +350,9 @@ export default [
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
 	},
-	// Svelte rules require the Svelte parser and crash on CSS files
+	// Svelte rules require the Svelte parser and crash on non-JS files
 	{
-		files: ['**/*.css'],
+		files: ['**/*.css', '**/*.json'],
 		rules: Object.fromEntries(
 			Object.keys(sveltePlugin.rules).map(rule => [`svelte/${rule}`, 'off']),
 		),
