@@ -34,6 +34,24 @@ exports[`avoid shortening link in embedded file preview inside comment 1`] = `
 		</div>"
 `;
 
+exports[`avoid shortening links in suggestion inside review comment 1`] = `
+"<div class="comment-body markdown-body js-comment-body soft-wrap user-select-contain d-block">
+			<div class="my-2 border rounded-2 js-suggested-changes-blob diff-view">
+				<div itemprop="text" class="blob-wrapper data file" style="margin: 0; border: none; overflow-y: visible; overflow-x: auto;">
+					<table class="d-table tab-size mb-0 width-full" data-paste-markdown-skip="">
+						<tbody>
+							<tr class="border-0">
+								<td class="border-0 px-2 py-1 blob-code-inner blob-code-addition js-blob-code-addition blob-code-marker-addition">
+									https:<span class="pl-c">//github.com/refined-github/refined-github</span><span class="pl-kos"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>"
+`;
+
 exports[`shorten link in comment text 1`] = `
 "<td class="d-block comment-body markdown-body js-comment-body">
 			<p dir="auto">
