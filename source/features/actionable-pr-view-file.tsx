@@ -19,7 +19,17 @@ function isDeletedFile(fileHeader: HTMLElement): boolean {
 	const fileTree = $('ul[aria-label="File Tree"]');
 	const diffLink = $('a', fileHeader);
 	const diffInList = $(`li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`, fileTree);
-	return elementExists('.octicon-file-removed', diffInList)
+	return elementExists('.octicon-file-removed', diffInList);
+}
+
+function getFilePath(fileHeader: HTMLElement): string {
+	const fileNameElement = $('[class*="file-name"] code', fileHeader);
+	const renamedTooltip = $optional('span.sr-only', fileNameElement);
+	return (
+		// Tooltip doesn't exist if the file wasn't renamed
+		renamedTooltip?.textContent.split(' renamed to ')[1]
+		?? fileNameElement.textContent
+	).replaceAll(/\u200E|\u200F/g, '').trim();
 }
 
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
@@ -35,13 +45,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 		return;
 	}
 
-	const fileNameElement = $('[class*="file-name"] code', fileHeader);
-	const renamedTooltip = $optional('span.sr-only', fileNameElement);
-	const filePath = (
-		// Tooltip doesn't exist if the file wasn't renamed
-		renamedTooltip?.textContent.split(' renamed to ')[1]
-		?? fileNameElement.textContent
-	).replaceAll(/\u200E|\u200F/g, '').trim();
+	const filePath = getFilePath(fileHeader);
 
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {
