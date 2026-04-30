@@ -7,11 +7,10 @@ import './github-helpers/heat-map.css';
 // CSS-only features
 import './features/github-bugs.css';
 import './features/tab-size.css';
-import './features/center-reactions-popup.css';
+import './features/reactions-popup.css';
 import './features/monospace-textareas.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
-import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';

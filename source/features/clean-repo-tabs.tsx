@@ -29,7 +29,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tabCounter = <span className="Counter" />;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 

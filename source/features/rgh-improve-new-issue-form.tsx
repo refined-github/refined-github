@@ -13,6 +13,7 @@ import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
 import {getToken} from '../options-storage.js';
+import delay from '../helpers/delay.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -71,13 +72,17 @@ async function checkToken(): Promise<void> {
 }
 
 async function setVersion(): Promise<void> {
-	const {version} = chrome.runtime.getManifest();
+	// Wait for GitHub's listener to be attached #9293
+	await delay(1000);
+
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
-		'[class^="IssueCreatePage"] [class^="Box-sc"] input',
+		'span[class^="TextInputElement-module__issueFormTextField"] > input',
 		'Extension version*',
 	);
 
+	const {version} = chrome.runtime.getManifest();
 	setReactInputValue(field, version);
+
 	if (!await getToken()) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
