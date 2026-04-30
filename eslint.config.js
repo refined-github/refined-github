@@ -9,8 +9,11 @@ import pluginPromise from 'eslint-plugin-promise';
 
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
+import selectDomRule from './eslint-rules/select-dom.js';
+
 const refinedGithubPlugin = {
 	rules: {
+		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
 	},
 };
@@ -302,10 +305,15 @@ export default [
 		rules: eslintConfigPrettier.rules,
 	},
 	{
-		files: ['source/features/**'],
 		plugins: {
 			'refined-github': refinedGithubPlugin,
 		},
+		rules: {
+			'refined-github/select-dom': 'error',
+		},
+	},
+	{
+		files: ['source/features/**'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
 		},
