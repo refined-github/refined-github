@@ -6,6 +6,10 @@
 		--borderColor-muted,
 		var(--color-border-muted, #d8dee4)
 	);
+	--rgh-border-outer-color: var(
+		--borderColor-default,
+		var(--color-border-default, #d1d9e0)
+	);
 	--rgh-background: var(--bgColor-default, var(--color-canvas-default, #fff));
 }
 
