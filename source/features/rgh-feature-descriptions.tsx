@@ -72,9 +72,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
-							meta && isCss
+							meta && isCss && !meta.cssOnly
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css
+								: meta?.css && !isCss
 									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
 									: undefined
 						}
@@ -176,5 +176,5 @@ Test URLs:
 - Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
-- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/center-reactions-popup.css
+- CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
 */

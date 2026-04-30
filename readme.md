@@ -240,6 +240,8 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "view-last-pr-deployment") [Adds a link to open the latest deployment to the PR header.](https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
+- [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
+- [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -327,6 +329,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
+- [](# "clean-notifications") Makes the notifications list more compact when grouped by repo.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -341,6 +344,9 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "parse-backticks") [GitHub renders `` `text in backticks` `` in some places but not others; this features fills in where forgotten.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262555091-df31aa17-e7a2-4c16-91ca-fb077ba6134a.png)
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258552390-7d2cd013-c167-4fe5-9731-33622b8607e9.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
+- [](# "clean-footer") Dims the site footer so it's less prominent.
+- [](# "night-not-found") Adds dark mode to the global 404 page.
+- [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -379,6 +385,13 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
 - [](# "linkify-text") [Makes certain text clickable, like issue references in the issue title and discussion sidebar.](https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90)
 - [](# "new-milestone-button") [Adds a 'New Milestone' button to the milestone page.](https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987)
+- [](# "mark-private-repos") Highlights private repositories in the repository list with a distinct color.
+- [](# "tab-size") Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow [the user's preferences.](https://github.com/settings/appearance)
+- [](# "sticky-file-header") Makes the file header sticky when scrolling through code diffs.
+- [](# "sticky-csv-header") Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.
+- [](# "reactions-popup") Improves the usability of the comment reactions popup by making it smaller.
+- [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
+- [](# "github-bugs") Applies various CSS fixes to GitHub's interface.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
