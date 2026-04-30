@@ -16,16 +16,9 @@ function resolvedCommentsSelector(clickedItem: HTMLElement): string {
 	return `.js-resolvable-thread-toggler[aria-expanded="${clickedItem.getAttribute('aria-expanded')!}"]:not(.d-none)`;
 }
 
-const resolveConversationFormSelector = 'form[action$="/resolve"]';
-const unresolveConversationFormSelector = 'form[action$="/unresolve"]';
-
 function resolveConversationsSelector(clickedItem: HTMLElement): string {
-	// The delegate selector below guarantees the clicked button is inside a `form`
-	// whose action ends in `/resolve` or `/unresolve`, so the closest form is never null.
-	const form = clickedItem.closest('form')!;
-	const isUnresolving = (form.getAttribute('action') ?? '').endsWith('/unresolve');
-	const formSelector = isUnresolving ? unresolveConversationFormSelector : resolveConversationFormSelector;
-	return `${formSelector} button[type="submit"]`;
+	const isUnresolving = clickedItem.textContent.includes('Unresolve');
+	return `form[action$="/${isUnresolving ? 'unresolve': 'resolve'}"] button[type="submit"]`;
 }
 
 const expandSelector = '.js-file .js-expand-full';
@@ -56,7 +49,7 @@ function init(signal: AbortSignal): void {
 
 	// "Resolve conversation" / "Unresolve conversation" buttons in PR conversations
 	delegate(
-		`${resolveConversationFormSelector} button[type="submit"], ${unresolveConversationFormSelector} button[type="submit"]`,
+		'.js-resolvable-timeline-thread-form button[type="submit"]',
 		'click',
 		clickAll(resolveConversationsSelector),
 		{signal},
