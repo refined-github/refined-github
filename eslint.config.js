@@ -320,6 +320,9 @@ export default [
 		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
+		languageOptions: {
+			tolerant: true, // Required for @container
+		},
 		rules: {
 			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
