@@ -35,11 +35,9 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	.timeline-comment.current-user .timeline-comment-header,
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		/* Draw a possibly semi-transparent accent color over the opaque background */
-		/* eslint-disable css/no-invalid-properties -- linear-gradient() with var() inside confuses the CSS linter */
 		background:
 			linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)),
 			var(--rgh-background);
-		/* eslint-enable css/no-invalid-properties */
 	}
 
 	/* Prevent header of the next comment from overlapping context menu of the sticky header */

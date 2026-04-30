@@ -332,7 +332,7 @@ export default [
 		rules: {
 			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
-			'css/use-baseline': ['error', {available: 'newly'}],
+			'css/use-baseline': 'off',
 			'css/no-invalid-properties': ['error', {allowUnknownVariables: true}],
 		},
 	},

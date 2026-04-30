@@ -1,7 +1,6 @@
 .rgh-fit-textareas {
 	min-height: 4.5lh;
 	max-height: none !important;
-	/* eslint-disable-next-line css/use-baseline -- Progressive enhancement, not yet widely available */
 	field-sizing: content;
 }
 

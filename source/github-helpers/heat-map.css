@@ -1,7 +1,6 @@
 :root {
 	--rgh-heat-color: #c24e00;
 
-	/* eslint-disable css/no-invalid-properties -- color-mix() with nested var() fallbacks confuses the CSS linter */
 	[data-rgh-heat='1'] {
 		color: color-mix(
 			in srgb,
@@ -81,5 +80,4 @@
 			var(--fgColor-muted, var(--color-fg-muted))
 		) !important;
 	}
-	/* eslint-enable css/no-invalid-properties */
 }
