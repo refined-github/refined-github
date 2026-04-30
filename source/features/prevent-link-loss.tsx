@@ -68,7 +68,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
-			field.form.querySelector('file-attachment .js-write-bucket')!.append(getUi(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
 		} else {
 			// React view
 			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
