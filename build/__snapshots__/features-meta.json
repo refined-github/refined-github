@@ -77,13 +77,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253054419-48c38c01-b1dc-42ca-9ff6-fd63392b5921.png"
 	},
 	{
-		"id": "clean-conversations",
-		"description": "Hides the commenter's avatar in the reply form to reduce visual noise.",
-		"css": true,
-		"cssOnly": true,
-		"screenshot": null
-	},
-	{
 		"id": "clean-footer",
 		"description": "Dims the site footer so it's less prominent.",
 		"css": true,

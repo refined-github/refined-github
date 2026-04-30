@@ -40,7 +40,6 @@ const noScreenshotExceptions = new Set([
 	// CSS-only features without screenshots yet
 	'reactions-popup',
 	'clean-checks-list',
-	'clean-conversations',
 	'clean-footer',
 	'clean-notifications',
 	'mark-private-repos',
