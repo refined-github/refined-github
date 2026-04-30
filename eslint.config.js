@@ -289,12 +289,7 @@ export default [
 		// Disable on markdown files, which are somehow being read as JS files
 		ignores: ['**/*.md'],
 	},
-	// Svelte support
-	// Restrict global (no file pattern) Svelte rules to Svelte files only,
-	// to avoid conflicts with the CSS language parser on *.css files
-	...sveltePlugin.configs['flat/recommended'].map(config =>
-		config.files ? config : {...config, files: ['**/*.svelte', '**/*.svelte.js', '**/*.svelte.ts']},
-	),
+	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
 		languageOptions: {
