@@ -4,7 +4,7 @@ import {
 	access, mkdir, readFile, unlink, writeFile,
 } from 'node:fs/promises';
 import pMemoize from 'p-memoize';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom';
 import {assert, describe, test} from 'vitest';
 
 import * as exports from './selectors.js';
@@ -66,7 +66,7 @@ describe.concurrent('selectors', () => {
 			const html = await fetchDocument(url);
 			const {document} = parseHTML(html);
 			// TODO: ? Use snapshot with outerHTML[]
-			const matches = $$(selector, document);
+			const matches = $$optional(selector, document);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));
 	});

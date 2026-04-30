@@ -1,6 +1,6 @@
 import domify from 'doma';
 import mem from 'memoize';
-import {$} from 'select-dom';
+import {$optional} from 'select-dom';
 import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import {log} from './feature-helpers.js';
@@ -16,7 +16,7 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 	const response = await fetch(absoluteUrl);
 	const dom = domify(await response.text());
 	if (selector) {
-		return $(selector, dom) ?? undefined;
+		return $optional(selector, dom);
 	}
 
 	return dom;
