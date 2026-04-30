@@ -4,6 +4,7 @@ import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {fileURLToPath} from 'node:url';
+import css from '@eslint/css';
 
 const refinedGithubPlugin = {
 	rules: {
@@ -288,7 +289,6 @@ export default [
 		// Disable on markdown files, which are somehow being read as JS files
 		ignores: ['**/*.md'],
 	},
-	// Svelte support
 	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
@@ -315,5 +315,26 @@ export default [
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
 		},
+	},
+	{
+		...css.configs.recommended,
+		files: ['**/*.css'],
+		language: 'css/css',
+		languageOptions: {
+			tolerant: true, // Required for @container
+		},
+		rules: {
+			...css.configs.recommended.rules,
+			'css/no-important': 'off', // Intentionally used to override GitHub styles
+			'css/use-baseline': 'off', // We support the latest browsers only
+			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+		},
+	},
+	// Svelte rules require the Svelte parser and crash on CSS files
+	{
+		files: ['**/*.css'],
+		rules: Object.fromEntries(
+			Object.keys(sveltePlugin.rules).map(rule => [`svelte/${rule}`, 'off']),
+		),
 	},
 ];

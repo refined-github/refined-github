@@ -75,6 +75,7 @@
 		"@dprint/json": "^0.21.3",
 		"@eslint-react/eslint-plugin": "^2.7.2",
 		"@eslint/compat": "^2.0.1",
+		"@eslint/css": "^1.1.0",
 		"@rollup/plugin-alias": "^6.0.0",
 		"@rollup/plugin-commonjs": "^29.0.0",
 		"@rollup/plugin-json": "^6.1.0",
