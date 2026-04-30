@@ -38,7 +38,9 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 
 		div[class^='PinnedIssue-module__contentContainer'] {
 			flex-direction: row;
-			align-items: center;
+
+			/* Align content to the top when the title wraps */
+			align-items: flex-start;
 		}
 
 		span[class^='PinnedIssue-module__Octicon'] {
@@ -50,14 +52,28 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			display: contents;
 			> button {
 				order: 1;
+
+				/* Optically align the button to the title so it's not too near the border */
+				margin-block: 6px;
 			}
 		}
 
 		div[class^='PinnedIssue-module__metadataContainer'] {
-			align-items: center; /* Fix comments alignment when metadata takes multiple lines */
 			text-align: end;
 			margin-left: 8px;
-			flex-shrink: 0.5;
+
+			/* This makes the metadata shrink earlier than the title */
+			flex-basis: 200px;
+			flex-grow: 1;
+
+			/* Since it grows, the contentn should still be aligned right */
+			justify-content: flex-end;
+
+			/* Align content to the top when the title wraps */
+			align-items: flex-start;
+
+			/* Optically align the metadata to the title so it's not too near the border */
+			padding-top: 10px;
 		}
 	}
 }
