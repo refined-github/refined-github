@@ -1,7 +1,7 @@
 import webextAlert from 'webext-alert';
 import {isScriptableUrl} from 'webext-content-scripts';
 import {StorageItem} from 'webext-storage';
-import {createContextMenu} from 'webext-tools';
+import createContextMenu from 'webext-tools/create-context-menu.js';
 
 // Always Firefox… https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/setAccessLevel
 // Don't use `isFirefox` - #9065
@@ -32,7 +32,7 @@ export default function addReloadWithoutContentScripts(): void {
 	void createContextMenu({
 		id: 'reload-without-content-scripts',
 		title: 'Reload without Refined GitHub',
-		contexts: ['action'],
+		contexts: [chrome.contextMenus.ContextType.ACTION],
 		onclick: reload,
 	});
 }

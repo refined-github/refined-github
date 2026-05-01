@@ -1,51 +1,33 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
+import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
+import css from '@eslint/css';
+import pluginPromise from 'eslint-plugin-promise';
+
+import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
+
+import selectDomRule from './eslint-rules/select-dom.js';
 
 const refinedGithubPlugin = {
 	rules: {
-		'no-optional-chaining': {
-			create(context) {
-				const {sourceCode} = context;
-				return {
-					'MemberExpression[optional=true]'(node) {
-						// Exception: usage is on a line with an inline comment, or preceded by a comment explaining why
-						const currentLine = (sourceCode.lines[node.loc.start.line - 1] ?? '');
-						const hasInlineComment = /\/\//.test(currentLine.slice(currentLine.indexOf('?.') + 2));
-						const previousLine = (sourceCode.lines[node.loc.start.line - 2] ?? '').trim();
-						if (hasInlineComment || previousLine.startsWith('//') || previousLine.endsWith('*/')) {
-							return;
-						}
-
-						if (node.object.type === 'CallExpression' && node.object.callee.name === '$') {
-							context.report({
-								node,
-								message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
-							});
-							return;
-						}
-
-						context.report({
-							node,
-							message: 'Use `!.` instead of `?.`. Add a comment on the same or preceding line describing in which scenario the value can CURRENTLY be null. If you cannot find such a scenario, use `!.` instead.',
-						});
-					},
-				};
-			},
-		},
+		'select-dom': selectDomRule,
+		'no-optional-chaining': noOptionalChaining,
 	},
 };
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-export default [
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
 		{
 			semicolon: true,
 			prettier: false,
+			plugins: {
+				promise: pluginPromise,
+			},
 			languageOptions: {
 				globals: {
 					browser: 'readonly',
@@ -72,6 +54,8 @@ export default [
 						},
 					},
 				],
+
+				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 
 				// Restore errors
 				'no-await-in-loop': 'error',
@@ -148,6 +132,7 @@ export default [
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
+				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
 
 				// Import-x rules customization
 				'import-x/consistent-type-specifier-style': 'off',
@@ -204,6 +189,8 @@ export default [
 				'@typescript-eslint/no-unsafe-member-access': 'off',
 				'@typescript-eslint/no-unsafe-return': 'off',
 				'@typescript-eslint/no-unsafe-call': 'off',
+				'@typescript-eslint/no-unsafe-type-assertion': 'off',
+				'@typescript-eslint/strict-void-return': 'off', // Too many violations to fix at once
 				'@typescript-eslint/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'@typescript-eslint/consistent-type-definitions': 'off', // Review later
 				'@typescript-eslint/consistent-type-imports': [
@@ -286,14 +273,21 @@ export default [
 	]),
 	{
 		// Disable on markdown files, which are somehow being read as JS files
-		ignores: ['**/*.md'],
+		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
+		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
-	// Svelte support
-	...sveltePlugin.configs['flat/recommended'],
+	{
+		// Allow empty blocks like `catch {}` or `function noop() {}`
+		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,cts,mts,vue,svelte,astro}'],
+		rules: {
+			'@stylistic/curly-newline': ['error', {minElements: 1}],
+		},
+	},
 	{
 		files: ['**/*.svelte'],
+		plugins: {svelte: sveltePlugin},
+		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
-			parser: svelteParser,
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -308,12 +302,31 @@ export default [
 		rules: eslintConfigPrettier.rules,
 	},
 	{
-		files: ['source/features/**'],
 		plugins: {
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
+			'refined-github/select-dom': 'error',
+		},
+	},
+	{
+		files: ['source/features/**'],
+		rules: {
 			'refined-github/no-optional-chaining': 'error',
 		},
 	},
-];
+	{
+		files: ['**/*.css'],
+		language: 'css/css',
+		plugins: {css},
+		extends: ['css/recommended'],
+		languageOptions: {
+			tolerant: true, // Required for @container
+		},
+		rules: {
+			'css/no-important': 'off', // Intentionally used to override GitHub styles
+			'css/use-baseline': 'off', // We support the latest browsers only
+			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+		},
+	},
+]);

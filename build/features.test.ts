@@ -28,11 +28,26 @@ const noScreenshotExceptions = new Set([
 	'selection-in-new-tab',
 	'click-outside-modal',
 	'same-page-links',
+	'github-bugs',
+	'tab-size',
+	'monospace-textareas',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay
 	'scrollable-areas', // TODO: Add side-by-side png
+
+	// CSS-only features without screenshots yet
+	'reactions-popup',
+	'clean-checks-list',
+	'clean-footer',
+	'clean-notifications',
+	'mark-private-repos',
+	'mobile-tabs-pr',
+	'night-not-found',
+	'readable-title-change-events',
+	'sticky-csv-header',
+	'sticky-file-header',
 ]);
 
 const entryPoint = 'source/refined-github.ts';
@@ -102,6 +117,11 @@ function validateCss(file: FeatureFile): void {
 		);
 
 		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+
+		if (!isFeaturePrivate(file.name)) {
+			validateReadme(file.id);
+		}
+
 		return;
 	}
 

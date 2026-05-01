@@ -12,12 +12,12 @@ declare var navigation: typeof window.navigation;
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit =
-	| {disconnect: VoidFunction}
-	| {clear: VoidFunction}
-	| {destroy: VoidFunction}
-	| {abort: VoidFunction}
-	| VoidFunction;
+type Deinit
+	= | {disconnect: VoidFunction}
+		| {clear: VoidFunction}
+		| {destroy: VoidFunction}
+		| {abort: VoidFunction}
+		| VoidFunction;
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {
@@ -25,6 +25,7 @@ interface FeatureMeta {
 	description: string;
 	screenshot: string | null; // eslint-disable-line @typescript-eslint/no-restricted-types -- We use `null` in the JSON file
 	css?: true;
+	cssOnly?: true;
 }
 
 // These types are unnecessarily loose

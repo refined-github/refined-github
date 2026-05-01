@@ -63,7 +63,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	} else {
 		void addReleaseBanner(
 			<>
-				This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.
+				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
 			</>,
 		);
 	}

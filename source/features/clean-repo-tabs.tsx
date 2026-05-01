@@ -29,7 +29,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tabCounter = <span className="Counter" />;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 
@@ -56,7 +56,7 @@ function onlyShowInDropdown(id: string): void {
 const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
 		const dom = await fetchDom(buildRepoUrl('wiki'));
-		const counter = dom.querySelector('#wiki-pages-box .Counter');
+		const counter = $optional('#wiki-pages-box .Counter', dom);
 
 		if (counter) {
 			return looseParseInt(counter);
