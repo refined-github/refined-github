@@ -35,7 +35,16 @@ const noModalSelectors = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate(noModalSelectors, ['click', 'auxclick'], fix, {signal, capture: true});
+	delegate(
+		[
+			'a[href$="/issues/new/choose"]', // New issue button
+			'a[class*="SubIssueTitle"]', // Sub-issue links
+			'a[data-testid="issue-pr-title-link"]', // Global issue list links
+		],
+		['click', 'auxclick'],
+		fix,
+		{signal, capture: true},
+	);
 }
 
 void features.add(import.meta.url, {
