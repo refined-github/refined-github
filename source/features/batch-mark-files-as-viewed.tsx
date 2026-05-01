@@ -92,9 +92,11 @@ function onAltClick(event: DelegateEvent<MouseEvent>): void {
 }
 
 function handleClick(event: DelegateEvent<MouseEvent>): void {
-	remember(event);
-	batchToggle(event);
 	onAltClick(event);
+	batchToggle(event);
+	if (!event.shiftKey) {
+		remember(event);
+	}
 }
 
 function init(signal: AbortSignal): void {
