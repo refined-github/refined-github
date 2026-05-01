@@ -19,9 +19,7 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 
 function isDeletedFile(fileHeader: HTMLElement): boolean {
 	const diffLink = $('a', fileHeader);
-	const diffInFileTree = $(
-		`ul[aria-label="File Tree"] li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`,
-	);
+	const diffInFileTree = $(`li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`);
 	return elementExists('.octicon-file-removed', diffInFileTree);
 }
 
