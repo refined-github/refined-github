@@ -1,6 +1,5 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
 import {defineConfig} from 'eslint/config';
@@ -274,11 +273,8 @@ export default defineConfig([
 	]),
 	{
 		// Disable on markdown files, which are somehow being read as JS files
-		ignores: ['**/*.md'],
-	},
-	{
 		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
-		ignores: ['**/*.json', '!**/package.json'],
+		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
 	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
@@ -292,7 +288,6 @@ export default defineConfig([
 		plugins: {svelte: sveltePlugin},
 		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
-			parser: svelteParser,
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -333,12 +328,5 @@ export default defineConfig([
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
-	},
-	// Svelte rules require the Svelte parser and crash on non-JS files
-	{
-		files: ['**/*.css', '**/*.json'],
-		rules: Object.fromEntries(
-			Object.keys(sveltePlugin.rules).map(rule => [`svelte/${rule}`, 'off']),
-		),
 	},
 ]);
