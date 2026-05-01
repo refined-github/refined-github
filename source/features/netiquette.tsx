@@ -16,7 +16,7 @@ import {
 	areIssuesEnabled,
 	buildRepoUrl,
 	getConversationNumber,
-	isAnyRefinedGitHubRepo,
+	isRefinedGitHubRepo,
 	isOwnConversation,
 } from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
@@ -171,7 +171,7 @@ function initKindness(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	exclude: [
-		isAnyRefinedGitHubRepo,
+		isRefinedGitHubRepo,
 	],
 	include: [
 		pageDetect.isConversation,
