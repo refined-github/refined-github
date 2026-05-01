@@ -28,7 +28,10 @@ const documentation
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		$closest(['form', '[data-testid="markdown-editor-comment-composer"]'], fixButton),
+		$closest([
+			'form',
+			'[data-testid="markdown-editor-comment-composer"]',
+		], fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);

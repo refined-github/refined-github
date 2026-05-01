@@ -83,8 +83,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			actionsRow.prepend(button);
 		} else {
 			// TODO: For GHE. Remove after June 2025
-			const legacyActionsRow = $closest('.form-actions', originalSubmitButton);
-			legacyActionsRow.append(button);
+			$closest('.form-actions', originalSubmitButton).append(button);
 		}
 	}
 
