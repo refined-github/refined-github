@@ -35,6 +35,10 @@ export function shortenLink(link: HTMLAnchorElement): void {
 			link.textContent === `#${getConversationNumber()} (comment)`
 		) {
 			link.textContent = '(earlier comment)';
+		} else if (
+			link.textContent === `#${getConversationNumber()} (review)`
+		) {
+			link.textContent = '(earlier review)';
 		}
 	}
 }
