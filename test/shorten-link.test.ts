@@ -1,5 +1,7 @@
 import {parseHTML} from 'linkedom';
-import {expect, test} from 'vitest';
+import {
+	afterEach, beforeEach, expect, test,
+} from 'vitest';
 import {$$optional} from 'select-dom';
 
 import {shortenLink} from '../source/github-helpers/dom-formatters.js';
@@ -14,6 +16,16 @@ function shortenLinksInFragment(html: string): string {
 
 	return document.documentElement.outerHTML;
 }
+
+const originalPathname = location.pathname;
+
+beforeEach(() => {
+	location.pathname = originalPathname;
+});
+
+afterEach(() => {
+	location.pathname = originalPathname;
+});
 
 test('shorten link in comment text', () => {
 	// https://github.com/refined-github/refined-github/issues/4565#issue-943802539
@@ -97,3 +109,42 @@ test('avoid shortening links in suggestion inside review comment', () => {
 		</div>
 	`)).toMatchSnapshot();
 });
+
+test('mark same-thread comment link with GitHub-native text as earlier comment', () => {
+	// https://github.com/refined-github/refined-github/issues/6057
+	location.pathname = '/refined-github/refined-github/issues/6057';
+	expect(shortenLinksInFragment(`
+		<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/issues/6057#issue-1402752533">#6057 (comment)</a>
+			</p>
+		</div>
+	`)).toMatchSnapshot();
+});
+
+test('mark same-thread raw URL comment link as earlier comment', () => {
+	// https://github.com/refined-github/refined-github/issues/6057
+	// Raw URLs are shortened by applyToLink but not treated as "(earlier comment)"
+	// Only GitHub-native shortened text like "#6057 (comment)" is replaced
+	location.pathname = '/refined-github/refined-github/issues/6057';
+	expect(shortenLinksInFragment(`
+		<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/issues/6057#issuecomment-1234567">https://github.com/refined-github/refined-github/issues/6057#issuecomment-1234567</a>
+			</p>
+		</div>
+	`)).toMatchSnapshot();
+});
+
+test('do not mark different-thread comment link as earlier comment', () => {
+	// https://github.com/refined-github/refined-github/issues/6057
+	location.pathname = '/refined-github/refined-github/issues/6057';
+	expect(shortenLinksInFragment(`
+		<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/pull/6020#issue-1385055095">https://github.com/refined-github/refined-github/pull/6020#issue-1385055095</a>
+			</p>
+		</div>
+	`)).toMatchSnapshot();
+});
+

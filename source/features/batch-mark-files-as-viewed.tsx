@@ -2,7 +2,7 @@ import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {
-	$, $$, $closest, elementExists,
+$, $$, $closest, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -12,105 +12,107 @@ import {is} from '../helpers/css-selectors.js';
 import getItemsBetween from '../helpers/get-items-between.js';
 
 export const viewedToggleSelector = [
-	'button[class*="MarkAsViewedButton"]',
-	// Old view
-	'input.js-reviewed-checkbox',
+'button[class*="MarkAsViewedButton"]',
+// Old view
+'input.js-reviewed-checkbox',
 ] as const;
 const fileSelector = [
-	'[class^="Diff-module__diffTargetable"]',
-	// Old view
-	'.js-file',
+'[class^="Diff-module__diffTargetable"]',
+// Old view
+'.js-file',
 ] as const;
 // New view, Old view
 const checkedSelector = is(
-	':has(.octicon-checkbox-fill)',
-	'[checked]',
+':has(.octicon-checkbox-fill)',
+'[checked]',
 );
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: DelegateEvent): void {
-	if (event.isTrusted) {
-		previousFile = $closest(fileSelector, event.delegateTarget);
-	}
+function remember(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+previousFile = $closest(fileSelector, event.delegateTarget);
 }
 
 function isChecked(file: HTMLElement): boolean {
-	const viewedToggle = $(viewedToggleSelector, file);
+const viewedToggle = $(viewedToggleSelector, file);
 
-	return viewedToggle instanceof HTMLInputElement
-		? viewedToggle.checked
-		: elementExists('.octicon-checkbox-fill', viewedToggle);
+return viewedToggle instanceof HTMLInputElement
+? viewedToggle.checked
+: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
-	if (!event.shiftKey) {
-		return;
-	}
+function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+event.stopImmediatePropagation();
 
-	event.stopImmediatePropagation();
+const files = $$(fileSelector);
+const thisFile = $closest(fileSelector, event.delegateTarget);
+const isThisBeingFileChecked = isChecked(thisFile);
 
-	const files = $$(fileSelector);
-	const thisFile = $closest(fileSelector, event.delegateTarget);
-	const isThisBeingFileChecked = isChecked(thisFile);
-
-	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
-	for (const file of selectedFiles) {
-		if (
-			file !== thisFile
-			// `checkVisibility` excludes filtered-out files
-			// https://github.com/refined-github/refined-github/issues/7819
-			&& file.checkVisibility()
-			&& isChecked(file) !== isThisBeingFileChecked
-		) {
-			$(viewedToggleSelector, file).click();
-		}
-	}
+const selectedFiles = getItemsBetween(files, previousFile, thisFile);
+for (const file of selectedFiles) {
+if (
+file !== thisFile
+// `checkVisibility` excludes filtered-out files
+// https://github.com/refined-github/refined-github/issues/7819
+&& file.checkVisibility()
+&& isChecked(file) !== isThisBeingFileChecked
+) {
+$(viewedToggleSelector, file).click();
+}
+}
 }
 
 function markAsViewedSelector(file: HTMLElement): string {
-	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
-	// The `hidden` attribute excludes filtered-out files
-	// https://github.com/refined-github/refined-github/issues/7819
-	return is(fileSelector) + ':not([hidden]) ' + is(viewedToggleSelector) + checkedState;
+const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
+// The `hidden` attribute excludes filtered-out files
+// https://github.com/refined-github/refined-github/issues/7819
+return is(fileSelector) + ':not([hidden]) ' + is(viewedToggleSelector) + checkedState;
 }
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
-	if (!event.altKey || !event.isTrusted) {
-		return;
-	}
+function onAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+const file = $closest(fileSelector, event.delegateTarget);
+const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
-	const file = $closest(fileSelector, event.delegateTarget);
-	const newState = isChecked(file) ? 'viewed' : 'unviewed';
+void showToast(async () => {
+markAsViewed(event);
+}, {
+message: `Marking visible files as ${newState}`,
+doneMessage: `Files marked as ${newState}`,
+});
+}
 
-	void showToast(async () => {
-		markAsViewed(event);
-	}, {
-		message: `Marking visible files as ${newState}`,
-		doneMessage: `Files marked as ${newState}`,
-	});
-};
+function handleClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+if (!event.isTrusted) {
+return;
+}
+
+if (event.altKey) {
+onAltClick(event);
+} else if (event.shiftKey) {
+batchToggle(event);
+}
+
+remember(event);
+}
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
-	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
-	delegate(viewedToggleSelector, 'click', remember, {signal});
-	onAbort(signal, () => {
-		previousFile = undefined;
-	});
+delegate(viewedToggleSelector, 'click', handleClick, {signal});
+onAbort(signal, () => {
+previousFile = undefined;
+});
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isPRFiles,
-	],
-	exclude: [
-		pageDetect.isPRFile404,
-		pageDetect.isPRCommit,
-	],
-	init,
+include: [
+pageDetect.isPRFiles,
+],
+exclude: [
+pageDetect.isPRFile404,
+pageDetect.isPRCommit,
+],
+init,
 });
 
 /*

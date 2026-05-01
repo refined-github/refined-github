@@ -4,7 +4,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
-import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import observe from '../helpers/selector-observer.js';
 import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
@@ -69,7 +69,7 @@ function init(signal: AbortSignal): void | false {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		isAnyRefinedGitHubRepo,
+		isRefinedGitHubRepo,
 	],
 	include: [
 		pageDetect.isConversation,

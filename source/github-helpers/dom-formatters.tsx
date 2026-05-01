@@ -8,7 +8,7 @@ import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
-import {buildRepoUrl} from './index.js';
+import {buildRepoUrl, getConversationNumber} from './index.js';
 import parseBackticksCore from './parse-backticks.js';
 
 // Shared class necessary to avoid also shortening the links
@@ -30,6 +30,18 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
 	if ($closestOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
+
+		// Customize same-thread links. Already handled by GitHub, but badly
+		// https://github.com/refined-github/refined-github/issues/6057
+		if (
+			link.textContent === `#${getConversationNumber()} (comment)`
+		) {
+			link.textContent = '(earlier comment)';
+		} else if (
+			link.textContent === `#${getConversationNumber()} (review)`
+		) {
+			link.textContent = '(earlier review)';
+		}
 	}
 }
 
