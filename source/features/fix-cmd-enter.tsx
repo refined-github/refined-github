@@ -20,6 +20,7 @@ function handleKeyDown(event: DelegateEvent<KeyboardEvent>): void {
 	}
 
 	$('.btn-primary[type="submit"]', form)?.click();
+	event.preventDefault();
 }
 
 function init(signal: AbortSignal): void {
