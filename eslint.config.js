@@ -1,8 +1,8 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
+import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import css from '@eslint/css';
 import pluginPromise from 'eslint-plugin-promise';
@@ -19,7 +19,7 @@ const refinedGithubPlugin = {
 };
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-export default [
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
 		{
@@ -273,11 +273,8 @@ export default [
 	]),
 	{
 		// Disable on markdown files, which are somehow being read as JS files
-		ignores: ['**/*.md'],
-	},
-	{
 		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
-		ignores: ['**/*.json', '!**/package.json'],
+		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
 	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
@@ -286,11 +283,11 @@ export default [
 			'@stylistic/curly-newline': ['error', {minElements: 1}],
 		},
 	},
-	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
+		plugins: {svelte: sveltePlugin},
+		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
-			parser: svelteParser,
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -319,24 +316,17 @@ export default [
 		},
 	},
 	{
-		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
+		plugins: {css},
+		extends: ['css/recommended'],
 		languageOptions: {
 			tolerant: true, // Required for @container
 		},
 		rules: {
-			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
 	},
-	// Svelte rules require the Svelte parser and crash on non-JS files
-	{
-		files: ['**/*.css', '**/*.json'],
-		rules: Object.fromEntries(
-			Object.keys(sveltePlugin.rules).map(rule => [`svelte/${rule}`, 'off']),
-		),
-	},
-];
+]);
