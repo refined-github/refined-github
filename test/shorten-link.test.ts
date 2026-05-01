@@ -1,5 +1,7 @@
 import {parseHTML} from 'linkedom';
-import {afterEach, beforeEach, expect, test} from 'vitest';
+import {
+	afterEach, beforeEach, expect, test,
+} from 'vitest';
 import {$$optional} from 'select-dom';
 
 import {shortenLink} from '../source/github-helpers/dom-formatters.js';
