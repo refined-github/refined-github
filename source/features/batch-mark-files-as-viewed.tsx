@@ -27,10 +27,8 @@ const checkedSelector = is(
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: DelegateEvent): void {
-	if (event.isTrusted) {
-		previousFile = event.delegateTarget.closest(fileSelector)!;
-	}
+function remember(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	previousFile = event.delegateTarget.closest(fileSelector)!;
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -41,11 +39,7 @@ function isChecked(file: HTMLElement): boolean {
 		: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
-	if (!event.shiftKey) {
-		return;
-	}
-
+function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 
 	const files = $$(fileSelector);
@@ -75,11 +69,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
-	if (!event.altKey || !event.isTrusted) {
-		return;
-	}
-
+function onAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	const file = event.delegateTarget.closest(fileSelector)!;
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
@@ -89,12 +79,24 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 		message: `Marking visible files as ${newState}`,
 		doneMessage: `Files marked as ${newState}`,
 	});
-};
+}
+
+function handleClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	if (!event.isTrusted) {
+		return;
+	}
+
+	if (event.altKey) {
+		onAltClick(event);
+	} else if (event.shiftKey) {
+		batchToggle(event);
+	}
+
+	remember(event);
+}
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
-	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
-	delegate(viewedToggleSelector, 'click', remember, {signal});
+	delegate(viewedToggleSelector, 'click', handleClick, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});

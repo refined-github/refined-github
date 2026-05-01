@@ -12,6 +12,7 @@ import {getRepo} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
@@ -95,7 +96,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 	button.closest('.ButtonGroup')!.remove();
 }
 
-const updateButtonClass = 'rgh-update-pr-from-base-branch';
+const feature = getIdentifiers(import.meta.url);
 
 function createButton(): JSX.Element {
 	return (
@@ -107,7 +108,7 @@ function createButton(): JSX.Element {
 					<div>
 						<button
 							id={buttonId}
-							className={`Button--secondary Button--medium Button ${updateButtonClass}`}
+							className={`Button--secondary Button--medium Button ${feature.class}`}
 							data-method={method}
 							aria-labelledby={tooltipId}
 							type="button"
@@ -176,7 +177,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	delegate(`.${updateButtonClass}`, 'click', handler, {signal});
+	delegate(feature.selector, 'click', handler, {signal});
 	observe(prMergeabilityBoxHeader, addButton, {signal});
 	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
