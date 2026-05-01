@@ -319,14 +319,14 @@ export default [
 		},
 	},
 	{
-		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
+		plugins: {css},
+		extends: ['css/recommended'],
 		languageOptions: {
 			tolerant: true, // Required for @container
 		},
 		rules: {
-			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
