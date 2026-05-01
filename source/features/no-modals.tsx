@@ -28,12 +28,6 @@ function initNewIssueInNewTabOnce(): void {
 	);
 }
 
-const noModalSelectors = [
-	'a[href$="/issues/new/choose"]', // New issue button
-	'a[class*="SubIssueTitle"]', // Sub-issue links
-	'a[data-testid="issue-pr-title-link"]', // Global issue list links
-];
-
 function init(signal: AbortSignal): void {
 	delegate(
 		[
