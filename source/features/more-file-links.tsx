@@ -8,6 +8,7 @@ import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {frame} from '../helpers/dom-utils.js';
 
 function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
 	const {href} = new GitHubFileUrl(viewFile.href).assign({route});
@@ -42,25 +43,26 @@ function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: R
 	return menuItem;
 }
 
-function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): Promise<void> {
 	// Don't run if the menu has been closed
 	if (menuButton.ariaExpanded === 'false') {
 		return;
 	}
 
 	// Wait for the menu DOM to be created, but not rendered
-	requestAnimationFrame(() => {
-		const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
-		const {nextElementSibling} = viewFile;
-		viewFile.after(
-			getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
-			getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
-			getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
-			!nextElementSibling || nextElementSibling.getAttribute('data-component') === 'ActionList.Divider'
-				? ''
-				: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
-		);
-	});
+	await frame();
+
+	const viewFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-eye)');
+	const {nextElementSibling} = viewFile;
+
+	viewFile.after(
+		getMenuItem(viewFile, 'raw', 'raw', <FileCodeIcon />),
+		getMenuItem(viewFile, 'blame', 'blame', <VersionsIcon />),
+		getMenuItem(viewFile, 'history', 'commits', <HistoryIcon />),
+		!nextElementSibling || nextElementSibling.getAttribute('data-component') === 'ActionList.Divider'
+			? ''
+			: <li className="dropdown-divider" aria-hidden="true" data-component="ActionList.Divider" />,
+	);
 }
 
 function init(signal: AbortSignal): void {

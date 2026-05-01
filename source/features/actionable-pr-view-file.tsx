@@ -5,6 +5,7 @@ import {$, $optional, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import observe from '../helpers/selector-observer.js';
+import {frame} from '../helpers/dom-utils.js';
 
 /** Rebuilds the "View file" link to point to the head repo and its branch instead of the base repo and the commit */
 function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): void {
@@ -17,10 +18,11 @@ function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): voi
 }
 
 function isDeletedFile(fileHeader: HTMLElement): boolean {
-	const fileTree = $('ul[aria-label="File Tree"]');
 	const diffLink = $('a', fileHeader);
-	const diffInList = $(`li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`, fileTree);
-	return elementExists('.octicon-file-removed', diffInList);
+	const diffInFileTree = $(
+		`ul[aria-label="File Tree"] li[class*="file-tree-row"]:has([href="${diffLink.hash}"])`
+	);
+	return elementExists('.octicon-file-removed', diffInFileTree);
 }
 
 function getFilePath(fileHeader: HTMLElement): string {
@@ -33,7 +35,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 	).replaceAll(/\u200E|\u200F/g, '').trim();
 }
 
-function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
+async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): Promise<void> {
 	// Don't run if the menu has been closed
 	// Check inverted value because `capture: true` makes this run before handler that toggle state
 	if (menuButton.ariaExpanded === 'true') {
@@ -41,7 +43,6 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	}
 
 	const fileHeader = menuButton.closest('[class*="diff-file-header"]')!;
-
 	if (isDeletedFile(fileHeader)) {
 		return;
 	}
@@ -49,10 +50,10 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	const filePath = getFilePath(fileHeader);
 
 	// Wait for the menu DOM to be created, but not rendered
-	requestAnimationFrame(() => {
-		const viewFile = $('a[class^="prc-ActionList-ActionListContent"]:has(.octicon-eye)');
-		rebuildFileLink(viewFile, filePath);
-	});
+	await frame();
+
+	const viewFile = $('a[class^="prc-ActionList-ActionListContent"]:has(.octicon-eye)');
+	rebuildFileLink(viewFile, filePath);
 }
 
 // Legacy PR files view -- TODO: Drop after it is removed
