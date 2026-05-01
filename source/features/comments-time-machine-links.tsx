@@ -3,7 +3,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import HistoryIcon from 'octicons-plain-react/History';
-import {$} from 'select-dom';
+import {$, $closest, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -95,7 +95,7 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 		return;
 	}
 
-	const comment = link.closest(commentSelector)!;
+	const comment = $closest(commentSelector, link);
 	const relativeTime = $('relative-time', comment);
 	const timestamp = relativeTime.attributes.datetime.value;
 
@@ -122,7 +122,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const timestamp
-		= delegate.closest('[class^="Box"]')!.querySelector('relative-time[datetime]')!.attributes.datetime.value;
+		= $closest('[class^="Box"]', delegate).querySelector('relative-time[datetime]')!.attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
@@ -154,13 +154,12 @@ async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
 	observe('.timeline-comment-actions > details:last-child', menu => {
-		if (menu.closest('.js-pending-review-comment')) {
+		if ($closestOptional('.js-pending-review-comment', menu)) {
 			return;
 		}
 
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = menu
-			.closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'])!
+		const timestamp = $closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'], menu)
 			.querySelector('relative-time')!
 			.attributes
 			.datetime

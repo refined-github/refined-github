@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, $optional} from 'select-dom';
+import {$, $closestOptional, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -33,12 +33,12 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor = pageDetect.isPRConversation()
 		// #7802
-		&& !summaryRow.closest([
+		&& !$closestOptional([
 			'div[class*="stickyHeader"]',
 			// TODO: Remove after July 2026
 			'.sticky-content',
 			'.gh-header-sticky',
-		])
+		], summaryRow)
 		// First link in the summary row is always the author
 		&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
 

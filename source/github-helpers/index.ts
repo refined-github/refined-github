@@ -1,7 +1,9 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import {$, $optional, elementExists} from 'select-dom';
+import {
+	$, $closest, $closestOptional, $optional, elementExists,
+} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
@@ -164,7 +166,7 @@ export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement):
 }
 
 export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
-	const row = branchSelectorParent.closest('.position-relative')!;
+	const row = $closest('.position-relative', branchSelectorParent);
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
 }
@@ -184,7 +186,7 @@ export function triggerConversationUpdate(): void {
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
 	// In the sidebar the container is not present and this fix is not needed
-	child.closest('.container')?.classList.add('rgh-z-index-5');
+	$closestOptional('.container', child)?.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
@@ -193,7 +195,7 @@ export function triggerRepoNavOverflow(): void {
 }
 
 export function triggerActionBarOverflow(child: Element): void {
-	const parent = child.closest('action-bar')!;
+	const parent = $closest('action-bar', child);
 	const placeholder = document.createElement('div');
 	parent.replaceWith(placeholder);
 	placeholder.replaceWith(parent);

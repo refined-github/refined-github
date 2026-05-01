@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 /** Rebuilds the "View file" link because it points to the base repo and to the commit, instead of the head repo and its branch */
 function alter(viewFileLink: HTMLAnchorElement): void {
 	const {owner, name, branch} = getBranches().head;
-	const filePath = viewFileLink.closest('[data-path]')!.getAttribute('data-path')!;
+	const filePath = $closest('[data-path]', viewFileLink).getAttribute('data-path')!;
 
 	// Do not replace with `GitHubFileURL` #3152 #3111 #2595
 	viewFileLink.pathname = [owner, name, 'blob', branch, filePath]

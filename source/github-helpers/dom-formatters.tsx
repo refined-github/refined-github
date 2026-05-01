@@ -1,7 +1,9 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {$$, elementExists} from 'select-dom';
+import {
+	$$, $closest, $closestOptional, elementExists,
+} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
@@ -26,7 +28,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
+	if ($closestOptional(String([...codeElementsSelector, '.markdown-body']), link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 	}
 }
@@ -44,9 +46,9 @@ export function repositionAnchors(element: HTMLElement): void {
 		return;
 	}
 
-	const container = element.closest('.react-code-file-contents')!.parentElement!;
+	const container = $closest('.react-code-file-contents', element).parentElement!;
 
-	const codeLine = element.closest('[id]');
+	const codeLine = $closestOptional('[id]', element);
 	if (!codeLine) {
 		throw new Error('Could not find parent code line');
 	}

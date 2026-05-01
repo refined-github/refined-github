@@ -3,7 +3,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import {$, $optional} from 'select-dom';
+import {$, $closest, $optional} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -28,13 +28,13 @@ const documentation
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
+		$closest(['form', '[data-testid="markdown-editor-comment-composer"]'], fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.closest('.flash')!.remove();
+	$closest('.flash', fixButton).remove();
 }
 
 function getUi(container: HTMLElement): HTMLElement {
@@ -71,7 +71,7 @@ function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
 		} else {
 			// React view
-			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
+			const container = $closest('[data-testid="markdown-editor-comment-composer"]', field);
 			container.append(getUi(container));
 		}
 	} else {

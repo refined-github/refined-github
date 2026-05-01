@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {countElements} from 'select-dom';
+import {$closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -27,7 +27,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	// Trigger `fit-textareas` if enabled
 	messageField.dispatchEvent(new Event('input', {bubbles: true}));
 
-	const anchor = messageField.closest('div[data-has-label]')!;
+	const anchor = $closest('div[data-has-label]', messageField);
 
 	attachElement(anchor, {
 		after: () => (
