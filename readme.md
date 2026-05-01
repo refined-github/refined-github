@@ -159,6 +159,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
 - [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
+- [](# "fix-cmd-enter") [Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs.](https://github.com/user-attachments/assets/20a9af73-5ad4-4121-b86a-fc2fefab3b17)
 - [](# "no-self-reference") [Warns against self-reference links, helping you avoid mistakes.](https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd)
 
 <!--
