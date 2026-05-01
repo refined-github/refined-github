@@ -25,10 +25,9 @@ export const codeElementsSelector = [
 const commentAnchorRegex = /^#(issue|issuecomment|commitcomment|pullrequestreview)-\d+|^#discussion_r\d+/;
 
 function isSameThreadCommentLink(link: HTMLAnchorElement): boolean {
-	const linkUrl = new URL(link.href);
-	return linkUrl.hostname === location.hostname
-		&& linkUrl.pathname === location.pathname
-		&& commentAnchorRegex.test(linkUrl.hash);
+	return link.hostname === location.hostname
+		&& link.pathname === location.pathname
+		&& commentAnchorRegex.test(link.hash);
 }
 
 export function shortenLink(link: HTMLAnchorElement): void {
@@ -36,8 +35,8 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
 	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
-		// Links already customized by GitHub (e.g. #6057 (comment)) will be a no-op for applyToLink,
-		// so we must detect same-thread comment links first
+		// Customize same-thread links. Already handled by GitHub, but badly
+		// https://github.com/refined-github/refined-github/issues/6057
 		if (isSameThreadCommentLink(link)) {
 			link.textContent = '(earlier comment)';
 			return;
