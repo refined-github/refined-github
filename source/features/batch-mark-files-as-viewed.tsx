@@ -27,7 +27,7 @@ const checkedSelector = is(
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: DelegateEvent): void {
+function remember(event: DelegateEvent<MouseEvent>): void {
 	if (event.isTrusted) {
 		previousFile = event.delegateTarget.closest(fileSelector)!;
 	}
@@ -41,7 +41,7 @@ function isChecked(file: HTMLElement): boolean {
 		: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
+function batchToggle(event: DelegateEvent<MouseEvent>): void {
 	if (!event.shiftKey) {
 		return;
 	}
@@ -75,7 +75,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
+function onAltClick(event: DelegateEvent<MouseEvent>): void {
 	if (!event.altKey || !event.isTrusted) {
 		return;
 	}
@@ -89,12 +89,16 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 		message: `Marking visible files as ${newState}`,
 		doneMessage: `Files marked as ${newState}`,
 	});
-};
+}
+
+function handleClick(event: DelegateEvent<MouseEvent>): void {
+	remember(event);
+	batchToggle(event);
+	onAltClick(event);
+}
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
-	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
-	delegate(viewedToggleSelector, 'click', remember, {signal});
+	delegate(viewedToggleSelector, 'click', handleClick, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});
