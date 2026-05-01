@@ -32,7 +32,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 		// Customize same-thread links. Already handled by GitHub, but badly
 		// https://github.com/refined-github/refined-github/issues/6057
 		if (
-			link.textContent === (`#${getConversationNumber()} (comment)`)
+			link.textContent === `#${getConversationNumber()} (comment)`
 		) {
 			link.textContent = '(earlier comment)';
 		}
