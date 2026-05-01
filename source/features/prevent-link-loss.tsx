@@ -3,7 +3,8 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import {$, $optional} from 'select-dom';
+import memoize from 'memoize';
+import {$} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -16,7 +17,10 @@ import {
 	preventPrCommitLinkLoss,
 	preventPrCompareLinkLoss,
 } from '../github-helpers/prevent-link-loss.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 
+const feature = getIdentifiers(import.meta.url);
+const containerSelector = '[class*="MarkdownEditor-module__inputWrapper"]';
 const fieldSelector = [
 	'textarea.js-comment-field',
 	'textarea[aria-labelledby="comment-composer-heading"]', // React view
@@ -28,7 +32,7 @@ const documentation
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
+		fixButton.closest(['form', 'fieldset'])!,
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -37,26 +41,25 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	fixButton.closest('.flash')!.remove();
 }
 
-function getUi(container: HTMLElement): HTMLElement {
-	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
-		icon: <AlertIcon className="m-0" />,
-		text: <>
-			{' Your link may be '}
-			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-				misinterpreted
-			</a>
-			{' by GitHub.'}
-		</>,
-		classes: [
-			'rgh-prevent-link-loss-container',
-			'flash-warn',
-			'my-2',
-			container.tagName === 'FORM' ? 'mx-2' : '',
-		],
-		action: handleButtonClick,
-		buttonLabel: 'Fix link',
-	}));
-}
+const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement => createBanner({
+	icon: <AlertIcon className="m-0" />,
+	text: <>
+		{' Your link may be '}
+		<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+			misinterpreted
+		</a>
+		{' by GitHub.'}
+	</>,
+	classes: [
+		feature.class,
+		'flash-warn',
+		'my-2',
+	],
+	action: handleButtonClick,
+	buttonLabel: 'Fix link',
+}), {
+	cache: new WeakMap(),
+});
 
 function isVulnerableToLinkLoss(value: string): boolean {
 	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
@@ -67,12 +70,12 @@ function isVulnerableToLinkLoss(value: string): boolean {
 
 function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
+		console.log('vulnerable');
 		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(getUi(field));
 		} else {
 			// React view
-			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
-			container.append(getUi(container));
+			field.closest(containerSelector)!.after(getUi(field));
 		}
 	} else {
 		getUi(field).remove();
