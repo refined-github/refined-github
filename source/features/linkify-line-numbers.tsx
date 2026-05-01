@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function openLinkToLine(event: DelegateEvent<MouseEvent, HTMLTableCellElement>): void {
+	event.preventDefault(); // Prevent middle-click default
 	const cell = event.delegateTarget;
 	const fileLink = cell
 		.closest(['.Box', '.review-thread-component'])!
