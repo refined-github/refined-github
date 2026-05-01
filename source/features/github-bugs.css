@@ -256,7 +256,8 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 /* Info: https://github.com/refined-github/refined-github/issues/9319 */
 /* Test: https://github.com/refined-github/refined-github/issues/9319 */
 .markdown-body {
-	p ~ a > img {
+	p ~ a > img,
+	p ~ animated-image > a > img {
 		margin-bottom: var(--base-size-16);
 	}
 	p > a > img {
