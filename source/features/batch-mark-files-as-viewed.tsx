@@ -82,15 +82,17 @@ function onAltClick(event: DelegateEvent<MouseEvent>): void {
 }
 
 function handleClick(event: DelegateEvent<MouseEvent>): void {
-	if (event.altKey && event.isTrusted) {
+	if (!event.isTrusted) {
+		return;
+	}
+	
+	if (event.altKey) {
 		onAltClick(event);
 	} else if (event.shiftKey) {
 		batchToggle(event);
 	}
 
-	if (event.isTrusted) {
-		remember(event);
-	}
+	remember(event);
 }
 
 function init(signal: AbortSignal): void {
