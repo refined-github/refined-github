@@ -252,6 +252,18 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Add missing line spacing in comment images */
+/* Info: https://github.com/refined-github/refined-github/issues/9319 */
+/* Test: https://github.com/refined-github/refined-github/issues/9319 */
+.markdown-body {
+	p ~ a > img {
+		margin-bottom: var(--base-size-16);
+	}
+	p > a > img {
+		margin-block: var(--base-size-16);
+	}
+}
+
 /*
 
 Test URLs:
