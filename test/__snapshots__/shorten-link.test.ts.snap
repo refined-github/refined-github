@@ -71,7 +71,7 @@ exports[`mark same-thread comment link with GitHub-native text as earlier commen
 exports[`mark same-thread raw URL comment link as earlier comment 1`] = `
 "<div class="comment-body markdown-body js-comment-body">
 			<p dir="auto">
-				<a href="https://github.com/refined-github/refined-github/issues/6057#issuecomment-1234567">(earlier comment)</a>
+				<a href="https://github.com/refined-github/refined-github/issues/6057#issuecomment-1234567">refined-github/refined-github/issues/6057#issuecomment-1234567</a>
 			</p>
 		</div>"
 `;

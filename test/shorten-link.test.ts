@@ -122,6 +122,8 @@ test('mark same-thread comment link with GitHub-native text as earlier comment',
 
 test('mark same-thread raw URL comment link as earlier comment', () => {
 	// https://github.com/refined-github/refined-github/issues/6057
+	// Raw URLs are shortened by applyToLink but not treated as "(earlier comment)"
+	// Only GitHub-native shortened text like "#6057 (comment)" is replaced
 	location.pathname = '/refined-github/refined-github/issues/6057';
 	expect(shortenLinksInFragment(`
 		<div class="comment-body markdown-body js-comment-body">

@@ -33,19 +33,6 @@ export function navigateToCommits(branch, pathname) {
 	location.pathname = pathname;
 }
 
-// No native URL property support in linkedom https://github.com/WebReflection/linkedom/issues/156
-for (const prop of ['hostname', 'pathname', 'hash']) {
-	Object.defineProperty(window.HTMLAnchorElement.prototype, prop, {
-		get() {
-			try {
-				return new URL(this.href)[prop];
-			} catch {
-				return '';
-			}
-		},
-	});
-}
-
 // No native support https://github.com/WebReflection/linkedom/issues/156
 window.Text.prototype.splitText = function (offset) {
 	const [start, end] = (() => {

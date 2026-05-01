@@ -22,27 +22,18 @@ export const codeElementsSelector = [
 	'.react-file-line',
 ];
 
-const commentAnchorRegex = /^#(issue|issuecomment|commitcomment|pullrequestreview)-\d+|^#discussion_r\d+/;
-
-function isSameThreadCommentLink(link: HTMLAnchorElement): boolean {
-	return link.hostname === location.hostname
-		&& link.pathname === location.pathname
-		&& commentAnchorRegex.test(link.hash);
-}
-
 export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
 	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
+		applyToLink(link, location.href);
+
 		// Customize same-thread links. Already handled by GitHub, but badly
 		// https://github.com/refined-github/refined-github/issues/6057
-		if (isSameThreadCommentLink(link)) {
+		if (/^#\d+ \((comment|review)\)$/.test(link.textContent ?? '')) {
 			link.textContent = '(earlier comment)';
-			return;
 		}
-
-		applyToLink(link, location.href);
 	}
 }
 
