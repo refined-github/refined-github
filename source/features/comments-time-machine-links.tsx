@@ -122,7 +122,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 
 function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const timestamp
-		= $closest('[class^="Box"]', delegate).querySelector('relative-time[datetime]')!.attributes.datetime.value;
+		= $('relative-time[datetime]', $closest('[class^="Box"]', delegate)).attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
@@ -159,8 +159,10 @@ async function init(signal: AbortSignal): Promise<void> {
 		}
 
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = $closest(['.js-comment:not([id^="pullrequestreview-"])', '.js-timeline-item'], menu)
-			.querySelector('relative-time')!
+		const timestamp = $('relative-time', $closest([
+			'.js-comment:not([id^="pullrequestreview-"])',
+			'.js-timeline-item',
+		], menu))
 			.attributes
 			.datetime
 			.value;

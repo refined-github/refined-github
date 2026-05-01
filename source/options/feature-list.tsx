@@ -71,9 +71,7 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 			toggle.checked = !toggle.checked;
 		}
 	} else {
-		const toggle = $closest('.feature', event
-			.delegateTarget)
-			.querySelector('input.screenshot-toggle')!;
+		const toggle = $('input.screenshot-toggle', $closest('.feature', event.delegateTarget));
 		toggle.checked = !toggle.checked;
 	}
 }

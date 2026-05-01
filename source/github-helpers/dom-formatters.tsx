@@ -28,7 +28,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if ($closestOptional(String([...codeElementsSelector, '.markdown-body']), link)?.classList.contains('markdown-body')) {
+	if ($closestOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 	}
 }

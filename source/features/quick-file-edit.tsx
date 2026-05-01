@@ -3,7 +3,7 @@ import './quick-file-edit.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {$closest} from 'select-dom';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
@@ -13,8 +13,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
-	const fileLink = $closest('.react-directory-filename-column', fileIcon)
-		.querySelector('a.Link--primary')!;
+	const fileLink = $('a.Link--primary', $closest('.react-directory-filename-column', fileIcon));
 
 	const url = new GitHubFileUrl(fileLink.href).assign({
 		route: 'edit',

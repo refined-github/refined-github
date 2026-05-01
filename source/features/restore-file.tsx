@@ -101,8 +101,7 @@ async function discardChanges(
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
 	if (menuItem.tagName === 'BUTTON') {
-		const [originalFileName, newFileName = originalFileName] = $closest('[data-path]', menuItem)
-			.querySelector('.Link--primary')!
+		const [originalFileName, newFileName = originalFileName] = $('.Link--primary', $closest('[data-path]', menuItem))
 			.textContent
 			.split(' → ');
 

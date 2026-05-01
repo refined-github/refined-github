@@ -51,8 +51,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
 		// Place next to asset sha
-		const assetSize = $closest('.Box-row', assetLink)
-			.querySelector(':scope > .flex-justify-end > span')!;
+		const assetSize = $(':scope > .flex-justify-end > span', $closest('.Box-row', assetLink));
 		assertNodeContent(assetSize.firstChild, /^\d+(\.\d+)? \w{2,5}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');
