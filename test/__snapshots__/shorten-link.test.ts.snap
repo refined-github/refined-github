@@ -52,6 +52,30 @@ exports[`avoid shortening links in suggestion inside review comment 1`] = `
 		</div>"
 `;
 
+exports[`do not mark different-thread comment link as earlier comment 1`] = `
+"<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/pull/6020#issue-1385055095">refined-github/refined-github/pull/6020#issue-1385055095</a>
+			</p>
+		</div>"
+`;
+
+exports[`mark same-thread comment link with GitHub-native text as earlier comment 1`] = `
+"<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/issues/6057#issue-1402752533">(earlier comment)</a>
+			</p>
+		</div>"
+`;
+
+exports[`mark same-thread raw URL comment link as earlier comment 1`] = `
+"<div class="comment-body markdown-body js-comment-body">
+			<p dir="auto">
+				<a href="https://github.com/refined-github/refined-github/issues/6057#issuecomment-1234567">(earlier comment)</a>
+			</p>
+		</div>"
+`;
+
 exports[`shorten link in comment text 1`] = `
 "<td class="d-block comment-body markdown-body js-comment-body">
 			<p dir="auto">
