@@ -40,6 +40,8 @@ function isChecked(file: HTMLElement): boolean {
 }
 
 function batchToggle(event: DelegateEvent<MouseEvent>): void {
+	event.stopImmediatePropagation();
+
 	const files = $$(fileSelector);
 	const thisFile = event.delegateTarget.closest(fileSelector)!;
 	const isThisBeingFileChecked = isChecked(thisFile);
