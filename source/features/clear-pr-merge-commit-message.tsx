@@ -30,20 +30,37 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const anchor = messageField.closest('div[data-has-label]')!;
 
 	attachElement(anchor, {
-		after: () => (
-			<div className="flex-self-stretch">
-				<p className="note">
-					The description field was cleared by{' '}
-					<a
-						target="_blank"
-						href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
-						rel="noreferrer"
-					>
-						Refined GitHub
-					</a>.
-				</p>
-			</div>
-		),
+		after() {
+			let isUndone = false;
+			const toggleLink = (
+				<a
+					href="#"
+					onClick={event => {
+						event.preventDefault();
+						isUndone = !isUndone;
+						// Do not use `text-field-edit` #6348
+						messageField.value = isUndone ? originalMessage : (cleanedMessage ? cleanedMessage + '\n' : '');
+						messageField.dispatchEvent(new Event('input', {bubbles: true}));
+						toggleLink.textContent = isUndone ? 'Redo' : 'Undo';
+					}}
+				>Undo</a>
+			);
+			return (
+				<div className="flex-self-stretch">
+					<p className="note">
+						The description field was cleared by{' '}
+						<a
+							target="_blank"
+							href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
+							rel="noreferrer"
+						>
+							Refined GitHub
+						</a>
+						. {toggleLink}
+					</p>
+				</div>
+			);
+		},
 	});
 }
 
