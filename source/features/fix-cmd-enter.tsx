@@ -14,12 +14,7 @@ function handleKeyDown(event: DelegateEvent<KeyboardEvent>): void {
 		return;
 	}
 
-	const {form} = reopenButton;
-	if (!form) {
-		return;
-	}
-
-	$('.btn-primary[type="submit"]', form)?.click();
+	$('.btn-primary[type="submit"]', reopenButton.form!).click();
 	event.preventDefault();
 }
 
