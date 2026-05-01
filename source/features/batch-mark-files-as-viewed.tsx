@@ -28,9 +28,7 @@ const checkedSelector = is(
 let previousFile: HTMLElement | undefined;
 
 function remember(event: DelegateEvent<MouseEvent>): void {
-	if (event.isTrusted) {
-		previousFile = event.delegateTarget.closest(fileSelector)!;
-	}
+	previousFile = event.delegateTarget.closest(fileSelector)!;
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -42,12 +40,6 @@ function isChecked(file: HTMLElement): boolean {
 }
 
 function batchToggle(event: DelegateEvent<MouseEvent>): void {
-	if (!event.shiftKey) {
-		return;
-	}
-
-	event.stopImmediatePropagation();
-
 	const files = $$(fileSelector);
 	const thisFile = event.delegateTarget.closest(fileSelector)!;
 	const isThisBeingFileChecked = isChecked(thisFile);
@@ -76,10 +68,6 @@ function markAsViewedSelector(file: HTMLElement): string {
 const markAsViewed = clickAll(markAsViewedSelector);
 
 function onAltClick(event: DelegateEvent<MouseEvent>): void {
-	if (!event.altKey || !event.isTrusted) {
-		return;
-	}
-
 	const file = event.delegateTarget.closest(fileSelector)!;
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
@@ -92,9 +80,11 @@ function onAltClick(event: DelegateEvent<MouseEvent>): void {
 }
 
 function handleClick(event: DelegateEvent<MouseEvent>): void {
-	onAltClick(event);
-	batchToggle(event);
-	if (!event.shiftKey) {
+	if (event.altKey && event.isTrusted) {
+		onAltClick(event);
+	} else if (event.shiftKey) {
+		batchToggle(event);
+	} else if (event.isTrusted) {
 		remember(event);
 	}
 }
