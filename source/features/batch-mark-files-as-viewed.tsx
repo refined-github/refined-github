@@ -27,7 +27,7 @@ const checkedSelector = is(
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: DelegateEvent<MouseEvent>): void {
+function remember(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	previousFile = event.delegateTarget.closest(fileSelector)!;
 }
 
@@ -39,7 +39,7 @@ function isChecked(file: HTMLElement): boolean {
 		: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent>): void {
+function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 
 	const files = $$(fileSelector);
@@ -69,7 +69,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-function onAltClick(event: DelegateEvent<MouseEvent>): void {
+function onAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	const file = event.delegateTarget.closest(fileSelector)!;
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
@@ -81,11 +81,11 @@ function onAltClick(event: DelegateEvent<MouseEvent>): void {
 	});
 }
 
-function handleClick(event: DelegateEvent<MouseEvent>): void {
+function handleClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	if (!event.isTrusted) {
 		return;
 	}
-	
+
 	if (event.altKey) {
 		onAltClick(event);
 	} else if (event.shiftKey) {
