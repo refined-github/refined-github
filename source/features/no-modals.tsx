@@ -22,13 +22,7 @@ function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): vo
 function initNewIssueInNewTabOnce(): void {
 	delegate(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-		'click',
-		handleAlteredClick,
-		{capture: true},
-	);
-	delegate(
-		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-		'auxclick',
+		['click', 'auxclick'],
 		handleAlteredClick,
 		{capture: true},
 	);
@@ -41,8 +35,7 @@ const noModalSelectors = [
 ];
 
 function init(signal: AbortSignal): void {
-	delegate(noModalSelectors, 'click', fix, {signal, capture: true});
-	delegate(noModalSelectors, 'auxclick', fix, {signal, capture: true});
+	delegate(noModalSelectors, ['click', 'auxclick'], fix, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
