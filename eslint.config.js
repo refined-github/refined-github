@@ -286,9 +286,10 @@ export default [
 			'@stylistic/curly-newline': ['error', {minElements: 1}],
 		},
 	},
-	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
+		plugins: {svelte: sveltePlugin},
+		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
 			parser: svelteParser,
 			parserOptions: {
