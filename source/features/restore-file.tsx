@@ -11,7 +11,6 @@ import {expectToken} from '../github-helpers/github-token.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
-import {frame} from '../helpers/dom-utils.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
@@ -163,7 +162,7 @@ function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	);
 }
 
-async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): Promise<void> {
+function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	// Don't run if the menu has been closed
 	if (menuButton.ariaExpanded === 'false') {
 		return;
@@ -173,21 +172,19 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 	focusedFileContainer = menuButton.closest('div[id^="diff-"]')!;
 
 	// Wait for the menu DOM to be created, but not rendered
-	await frame();
+	requestAnimationFrame(() => {
+		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
+		const discardItem = editFile.cloneNode(true);
+		discardItem.classList.add('rgh-restore-file');
+		const link = $('a', discardItem);
+		link.ariaKeyShortcuts = 'd';
+		link.removeAttribute('href');
+		link.removeAttribute('aria-labelledby');
+		$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
+		$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
 
-	const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
-	const discardItem = editFile.cloneNode(true);
-	discardItem.classList.add('rgh-restore-file');
-
-	const link = $('a', discardItem);
-	link.ariaKeyShortcuts = 'd';
-	link.removeAttribute('href');
-	link.removeAttribute('aria-labelledby');
-
-	$('[class^="prc-ActionList-ItemLabel"]', discardItem).textContent = 'Discard changes';
-	$('[class^="prc-ActionList-LeadingVisual"]', discardItem).replaceChildren(<UndoIcon />);
-
-	editFile.after(discardItem);
+		editFile.after(discardItem);
+	});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
