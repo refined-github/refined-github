@@ -86,7 +86,9 @@ function handleClick(event: DelegateEvent<MouseEvent>): void {
 		onAltClick(event);
 	} else if (event.shiftKey) {
 		batchToggle(event);
-	} else if (event.isTrusted) {
+	}
+
+	if (event.isTrusted) {
 		remember(event);
 	}
 }
