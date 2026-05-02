@@ -25,6 +25,14 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	// Do not use `text-field-edit` #6348
 	messageField.value = cleanedMessage;
 
+	let isUndoing = false;
+	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
+		isUndoing = !isUndoing;
+		// Do not use `text-field-edit` #6348
+		messageField.value = isUndoing ? originalMessage : cleanedMessage;
+		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
+	}
+
 	const anchor = $closest('div[data-has-label]', messageField);
 	attachElement(anchor, {
 		after: () => (
@@ -43,14 +51,6 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 			</div>
 		),
 	});
-
-	let isUndoing = false;
-	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
-		isUndoing = !isUndoing;
-		// Do not use `text-field-edit` #6348
-		messageField.value = isUndoing ? originalMessage : cleanedMessage;
-		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
-	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
