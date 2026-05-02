@@ -210,11 +210,20 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-function getConversationAuthor(): string | undefined {
-	return $optional([
-		'.js-command-palette-pull-body .author', // PR conversation
-		'[data-testid="issue-body-header-author"]', // Issue conversation
-	])?.textContent;
+// Note: `a.author` only exists on PR pages, and issue pages have no equivalent selector.
+export function getConversationAuthor(): string | undefined {
+	const element = $optional('a.author');
+	if (!element) {
+		return undefined;
+	}
+
+	const name = (element.textContent ?? '').trim();
+	// Bots linked via apps don't seem to include [bot] in their link text
+	if (!name.endsWith('[bot]') && element.getAttribute('href')?.startsWith('/apps/')) {
+		return name + '[bot]';
+	}
+
+	return name;
 }
 
 export function isOwnConversation(): boolean {
