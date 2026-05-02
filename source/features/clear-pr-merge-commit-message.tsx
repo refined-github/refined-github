@@ -28,7 +28,6 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	let isUndoing = false;
 	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
 		isUndoing = !isUndoing;
-		// Do not use `text-field-edit` #6348
 		messageField.value = isUndoing ? originalMessage : cleanedMessage;
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
 	}
