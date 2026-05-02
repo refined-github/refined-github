@@ -79,6 +79,70 @@ test('cleanCommitMessage', () => {
 	);
 
 	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			'dependabot[bot]',
+		),
+		'Should drop co-author whose privacy email matches the PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+		${coauthors[2]}
+	`,
+			false,
+			'dependabot[bot]',
+		),
+		coauthors[2],
+		'Should drop only the matching co-author, and keep others',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			'someone-else',
+		),
+		'Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>',
+		'Should keep co-author when privacy email username does not match PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		${coauthors[0]}
+	`,
+			false,
+			'Me',
+		),
+		coauthors[0],
+		'Should keep co-author when email is not a GitHub privacy email, even if the name matches PR author',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: someuser <someuser@users.noreply.github.com>
+	`,
+			false,
+			'someuser',
+		),
+		'Should drop co-author with legacy privacy email without numeric prefix prior to July 18, 2017',
+	);
+
+	assert.isEmpty(
 		cleanCommitMessage(`
 		Fixes #1345
 	`),
