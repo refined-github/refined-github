@@ -13,31 +13,25 @@ import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
+function setFieldValue(field: HTMLTextAreaElement, value: string): void {
+	// Do not use `text-field-edit` #6348
+	field.value = value;
+	// Trigger `fit-textareas` if enabled
+	field.dispatchEvent(new Event('input', {bubbles: true}));
+}
+
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
-	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
+	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return;
 	}
 
-	// Do not use `text-field-edit` #6348
-	messageField.value = cleanedMessage ? cleanedMessage + '\n' : '';
-
-	// Trigger `fit-textareas` if enabled
-	messageField.dispatchEvent(new Event('input', {bubbles: true}));
+	cleanedMessage = cleanedMessage ? cleanedMessage + '\n' : '';
+	setFieldValue(messageField, cleanedMessage);
 
 	const anchor = messageField.closest('div[data-has-label]')!;
-
-	let isUndone = false;
-	function onToggleClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
-		isUndone = !isUndone;
-		// Do not use `text-field-edit` #6348
-		messageField.value = isUndone ? originalMessage : (cleanedMessage ? cleanedMessage + '\n' : '');
-		messageField.dispatchEvent(new Event('input', {bubbles: true}));
-		currentTarget.textContent = isUndone ? 'Redo' : 'Undo';
-	}
-
 	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">
@@ -50,11 +44,18 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 					>
 						cleared
 					</a>
-					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={onToggleClick}>Undo</button>
+					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={onClick}>Undo</button>
 				</p>
 			</div>
 		),
 	});
+
+	let isUndoing = false;
+	function onClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
+		isUndoing = !isUndoing;
+		setFieldValue(messageField, isUndoing ? originalMessage : cleanedMessage);
+		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
+	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
