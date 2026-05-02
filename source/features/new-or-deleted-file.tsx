@@ -4,6 +4,7 @@ import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
 
 function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 	const list = $optional('ul[aria-label="File Tree"]');
@@ -27,17 +28,19 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 }
 
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
-	const list = $('ul[aria-label="File Tree"]');
 	const fileLink = $('a', fileHeader);
-	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
+	const fileInFileTree = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`);
 
-	const icon = $optional([
-		'.octicon-file-removed',
-		'.octicon-file-added',
-		'.octicon-file-moved',
-	], fileInList)
-		?.cloneNode(true);
+	const icon = $optional(
+		is(
+			'.octicon-file-removed',
+			'.octicon-file-added',
+			'.octicon-file-moved',
+		) + ':not([data-material-icons-extension])',
+		fileInFileTree
+	)?.cloneNode(true);
 	if (icon) {
+		icon.style.display = '';
 		fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 	}
 }
