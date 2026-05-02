@@ -29,38 +29,31 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 
 	const anchor = messageField.closest('div[data-has-label]')!;
 
+	let isUndone = false;
+	function onToggleClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
+		isUndone = !isUndone;
+		// Do not use `text-field-edit` #6348
+		messageField.value = isUndone ? originalMessage : (cleanedMessage ? cleanedMessage + '\n' : '');
+		messageField.dispatchEvent(new Event('input', {bubbles: true}));
+		currentTarget.textContent = isUndone ? 'Redo' : 'Undo';
+	}
+
 	attachElement(anchor, {
-		after() {
-			let isUndone = false;
-			const toggleLink = (
-				<a
-					href="#"
-					onClick={event => {
-						event.preventDefault();
-						isUndone = !isUndone;
-						// Do not use `text-field-edit` #6348
-						messageField.value = isUndone ? originalMessage : (cleanedMessage ? cleanedMessage + '\n' : '');
-						messageField.dispatchEvent(new Event('input', {bubbles: true}));
-						toggleLink.textContent = isUndone ? 'Redo' : 'Undo';
-					}}
-				>Undo</a>
-			);
-			return (
-				<div className="flex-self-stretch">
-					<p className="note">
-						The description field was cleared by{' '}
-						<a
-							target="_blank"
-							href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
-							rel="noreferrer"
-						>
-							Refined GitHub
-						</a>
-						. {toggleLink}
-					</p>
-				</div>
-			);
-		},
+		after: () => (
+			<div className="flex-self-stretch">
+				<p className="note">
+					The description field was{' '}
+					<a
+						target="_blank"
+						href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
+						rel="noreferrer"
+					>
+						cleared
+					</a>
+					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={onToggleClick}>Undo</button>
+				</p>
+			</div>
+		),
 	});
 }
 
