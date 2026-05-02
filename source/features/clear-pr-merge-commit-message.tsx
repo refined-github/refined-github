@@ -13,13 +13,6 @@ import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
-function setFieldValue(field: HTMLTextAreaElement, value: string): void {
-	// Do not use `text-field-edit` #6348
-	field.value = value;
-	// Trigger `fit-textareas` if enabled
-	field.dispatchEvent(new Event('input', {bubbles: true}));
-}
-
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
 	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
@@ -29,7 +22,8 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	}
 
 	cleanedMessage = cleanedMessage ? cleanedMessage + '\n' : '';
-	setFieldValue(messageField, cleanedMessage);
+	// Do not use `text-field-edit` #6348
+	messageField.value = cleanedMessage;
 
 	const anchor = $closest('div[data-has-label]', messageField);
 	attachElement(anchor, {
@@ -53,7 +47,8 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	let isUndoing = false;
 	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
 		isUndoing = !isUndoing;
-		setFieldValue(messageField, isUndoing ? originalMessage : cleanedMessage);
+		// Do not use `text-field-edit` #6348
+		messageField.value = isUndoing ? originalMessage : cleanedMessage;
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
 	}
 }
