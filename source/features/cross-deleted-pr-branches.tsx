@@ -1,22 +1,23 @@
 import './cross-deleted-pr-branches.css';
 
 import React from 'dom-chef';
-import {$$, lastElement} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {
+	$, $$, $closest, $optional, lastElementOptional,
+} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
+import {wrap} from '../helpers/dom-utils.js';
 
 function init(): void | false {
-	const lastBranchAction = lastElement('.TimelineItem-body .user-select-contain.commit-ref');
+	const lastBranchAction = lastElementOptional('.TimelineItem-body .user-select-contain.commit-ref');
 
 	const headReferenceLink = $optional('.head-ref a');
 	if (!headReferenceLink && !lastBranchAction) {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
 
-	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent.includes(' deleted ')) {
+	if (!lastBranchAction || !$closest('.TimelineItem-body', lastBranchAction).textContent.includes(' deleted ')) {
 		return false;
 	}
 

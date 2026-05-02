@@ -1,15 +1,14 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import {$, $optional, elementExists} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -19,7 +18,9 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 	await api.v3('', {
 		method: 'PATCH',
 		body: {
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			has_projects: false,
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
 			has_wiki: false,
 		},
 	});

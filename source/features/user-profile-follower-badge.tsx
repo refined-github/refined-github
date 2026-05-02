@@ -1,18 +1,18 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getLoggedInUser, getCleanPathname} from '../github-helpers/index.js';
+import {getCleanPathname, getLoggedInUser} from '../github-helpers/index.js';
 import attachElement from '../helpers/attach-element.js';
 
 const doesUserFollow = new CachedFunction('user-follows', {
 	async updater(userA: string, userB: string): Promise<boolean> {
 		const {httpStatus} = await api.v3(`/users/${userA}/following/${userB}`, {
-			json: false,
-			ignoreHTTPStatus: true,
+			responseFormat: 'text',
+			ignoreHttpStatus: true,
 		});
 
 		return httpStatus === 204;

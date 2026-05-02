@@ -1,21 +1,22 @@
 import './show-associated-branch-prs-on-fork.css';
 
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import memoize from 'memoize';
 import GitMergeIcon from 'octicons-plain-react/GitMerge';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
-import memoize from 'memoize';
+import {CachedFunction} from 'webext-storage-cache';
+import {$closest} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
-import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {cacheByRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
+import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {
 	timelineItems: {
@@ -50,9 +51,13 @@ export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBr
 });
 
 export const stateIcon = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	OPEN: GitPullRequestIcon,
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	CLOSED: GitPullRequestClosedIcon,
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	MERGED: GitMergeIcon,
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	DRAFT: GitPullRequestDraftIcon,
 };
 
@@ -67,8 +72,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 	const StateIcon = stateIcon[prInfo.state] ?? (() => {/* empty */});
 	const stateClassName = prInfo.state.toLowerCase();
 
-	const cell = branch
-		.closest('tr.TableRow')!
+	const cell = $closest('tr.TableRow', branch)
 		.children
 		.item(4)!;
 

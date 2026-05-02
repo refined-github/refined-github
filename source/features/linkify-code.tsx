@@ -1,21 +1,18 @@
-import {$$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$$optional} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
 import {
-	codeElementsSelector,
-	linkifiedURLClass,
-	linkifyURLs,
-	linkifyIssues,
+	codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls,
 } from '../github-helpers/dom-formatters.js';
+import {getRepo} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyContent(wrapper: HTMLElement): void {
 	// Mark code block as touched to avoid `shorten-links` from acting on these new links in code
-	wrapper.classList.add(linkifiedURLClass);
+	wrapper.classList.add(linkifiedUrlClass);
 
-	linkifyURLs(wrapper);
+	linkifyUrls(wrapper);
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number
@@ -27,7 +24,8 @@ function linkifyContent(wrapper: HTMLElement): void {
 		return;
 	}
 
-	for (const element of $$('.pl-c', wrapper)) {
+	// $$optional because the content might not have any comments
+	for (const element of $$optional('.pl-c', wrapper)) {
 		linkifyIssues(currentRepo, element);
 	}
 }

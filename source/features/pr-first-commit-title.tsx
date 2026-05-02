@@ -1,12 +1,11 @@
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$, $optional, elementExists} from 'select-dom';
 import {insertTextIntoField, setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
+import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
-import parseRenderedText from '../github-helpers/parse-rendered-text.js';
 
 function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
 	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
@@ -59,7 +58,7 @@ function init(signal: AbortSignal): void {
 
 // The user already altered the PR title/body in a previous load, don't overwrite it
 // https://github.com/refined-github/refined-github/issues/7191
-function hasUserAlteredThePR(): boolean {
+function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
@@ -74,7 +73,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		() => new URLSearchParams(location.search).has('title'),
-		hasUserAlteredThePR,
+		hasUserAlteredThePr,
 	],
 	init,
 });

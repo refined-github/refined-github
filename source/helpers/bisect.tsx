@@ -1,14 +1,13 @@
 import React from 'dom-chef';
-import {CachedValue} from 'webext-storage-cache';
-import {$$} from 'select-dom';
-import {$optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
+import {$$, $optional} from 'select-dom';
+import {CachedValue} from 'webext-storage-cache';
 
+import {importedFeatures} from '../feature-data.js';
 import pluralize from './pluralize.js';
 import {getFeatureUrl} from './rgh-links.js';
-import {importedFeatures} from '../feature-data.js';
 
-export const state = new CachedValue<FeatureID[]>('bisect', {maxAge: {minutes: 15}});
+export const state = new CachedValue<FeatureId[]>('bisect', {maxAge: {minutes: 15}});
 
 function enableButtons(): void {
 	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
@@ -28,9 +27,10 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	const bisectedFeatures = (await state.get())!;
 
 	if (bisectedFeatures.length > 1) {
-		await state.set(answer === 'yes'
-			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
-			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
+		await state.set(
+			answer === 'yes'
+				? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
+				: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
 		);
 
 		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
@@ -42,7 +42,12 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	if (answer === 'yes') {
 		createMessageBox(
 			<>
-				<p>Unable to identify feature. It might be a CSS-only feature, a <a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">meta-feature</a>, or unrelated to Refined GitHub.</p>
+				<p>
+					Unable to identify feature. It might be a CSS-only feature, a{' '}
+					<a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">
+						meta-feature
+					</a>, or unrelated to Refined GitHub.
+				</p>
 				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
 			</>,
 		);
@@ -98,8 +103,12 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
-			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>No</button>
-			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>Yes</button>
+			<button type="button" className="btn btn-danger mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>
+				No
+			</button>
+			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>
+				Yes
+			</button>
 		</div>,
 	);
 

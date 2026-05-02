@@ -1,16 +1,17 @@
-import twas from 'twas';
-import {CachedFunction} from 'webext-storage-cache';
 import React from 'dom-chef';
-import RepoIcon from 'octicons-plain-react/Repo';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import RepoIcon from 'octicons-plain-react/Repo';
+import twas from 'twas';
+import {CachedFunction} from 'webext-storage-cache';
+import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
-import GetRepoAge from './repo-age.gql';
-import GetFirstCommit from './repo-age-first-commit.gql';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
+import GetFirstCommit from './repo-age-first-commit.gql';
+import GetRepoAge from './repo-age.gql';
 
 type CommitTarget = {
 	oid: string;
@@ -38,14 +39,17 @@ const fresh = [
 
 function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): string {
 	if (commitsCount <= 2) {
-		return buildRepoURL('commits');
+		return buildRepoUrl('commits');
 	}
 
 	const offset = commitsCount - 2;
-	return buildRepoURL('commits', `?after=${commitSha}+${offset}`);
+	return buildRepoUrl('commits', `?after=${commitSha}+${offset}`);
 }
 
-async function getRepoAge(commitSha: string, commitsCount: number): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+async function getRepoAge(
+	commitSha: string,
+	commitsCount: number,
+): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -97,10 +101,12 @@ async function init(): Promise<void> {
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
 		? randomArrayItem(fresh)
-		: <><strong>{value}</strong> {unit} old</>;
+		: <>
+			<strong>{value}</strong> {unit} old
+		</>;
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
-	sidebarForksLinkIcon!.closest('.mt-2')!.after(
+	$closest('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>

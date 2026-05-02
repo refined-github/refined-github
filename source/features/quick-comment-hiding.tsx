@@ -1,6 +1,7 @@
 import React from 'dom-chef';
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
+import {
+	$, $$, $closest, $closestOptional,
+} from 'select-dom';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -13,25 +14,33 @@ const formSelector = [
 ] as const;
 
 function generateSubmenu(hideButton: Element): void {
-	if (hideButton.closest('.rgh-quick-comment-hiding-details')) {
+	if ($closestOptional('.rgh-quick-comment-hiding-details', hideButton)) {
 		// Already generated
 		return;
 	}
 
-	const detailsElement = hideButton.closest('details')!;
+	const detailsElement = $closest('details', hideButton);
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
-	const comment = hideButton.closest('.unminimized-comment')!;
+	const comment = $closest('.unminimized-comment', hideButton);
 	const hideCommentForm = $(formSelector, comment);
 
 	// Generate dropdown
 	const newForm = hideCommentForm.cloneNode();
 	const fields = [...hideCommentForm.elements].map(field => field.cloneNode());
 	newForm.append(<i hidden>{fields}</i>); // Add existing fields (comment ID, token)
-	newForm.setAttribute('novalidate', 'true');	// Ignore the form's required attributes
+	newForm.setAttribute('novalidate', 'true'); // Ignore the form's required attributes
 
 	// Imitate existing menu, reset classes
-	newForm.className = ['js-comment-minimize', 'dropdown-menu', 'dropdown-menu-sw', 'color-fg-default', 'show-more-popover', 'anim-scale-in'].join(' ');
+	newForm.className = '';
+	newForm.classList.add(
+		'js-comment-minimize',
+		'dropdown-menu',
+		'dropdown-menu-sw',
+		'color-fg-default',
+		'show-more-popover',
+		'anim-scale-in',
+	);
 
 	for (const reason of $$('option:not([value=""])', hideCommentForm.elements.classifier)) {
 		newForm.append(
@@ -59,7 +68,7 @@ function generateSubmenu(hideButton: Element): void {
 // Hide it when dropdown closes.
 // Uses `v-hidden` to avoid conflicts with `close-out-of-view-modals`
 function toggleSubMenu(hideButton: Element, show: boolean): void {
-	const dropdown = hideButton.closest('details')!;
+	const dropdown = $closest('details', hideButton);
 
 	// Native dropdown
 	$('details-menu', dropdown).classList.toggle('v-hidden', show);

@@ -5,7 +5,7 @@ import observe from '../helpers/selector-observer.js';
 
 const regex = /\/files\/[\da-f]{40}..[\da-f]{40}$/;
 
-export function removeLinkToPRFilesTab(link: HTMLAnchorElement): void {
+export function removeLinkToPrFilesTab(link: HTMLAnchorElement): void {
 	if (regex.test(link.pathname)) {
 		link.pathname = link.pathname.replace(regex, '');
 		link.hash = '#issue-comment-box';
@@ -14,7 +14,7 @@ export function removeLinkToPRFilesTab(link: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	// It's ok if it's not 100% safe because trimLink's regex is super specific
-	observe('[href*="/pull/"][href*="/files/"][href*=".."]', removeLinkToPRFilesTab, {signal});
+	observe('[href*="/pull/"][href*="/files/"][href*=".."]', removeLinkToPrFilesTab, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -1,19 +1,19 @@
 import './clean-conversation-headers.css';
 
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
-import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
 import * as pageDetect from 'github-url-detection';
+import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
+import {$, $closestOptional, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
-async function highlightNonDefaultBranchPRs(base: HTMLElement, baseBranch: string): Promise<void> {
+async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
 	const wasDefaultBranch = pageDetect.isClosedConversation() && baseBranch === 'master';
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
@@ -31,17 +31,16 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	// Extra author name is only shown on `isPRConversation`
 	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor
-		= pageDetect.isPRConversation()
-			// #7802
-			&& !summaryRow.closest([
-				'div[class*="stickyHeader"]',
-				// TODO: Remove after July 2026
-				'.sticky-content',
-				'.gh-header-sticky',
-			])
-			// First link in the summary row is always the author
-			&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
+	const shouldHideAuthor = pageDetect.isPRConversation()
+		// #7802
+		&& !$closestOptional([
+			'div[class*="stickyHeader"]',
+			// TODO: Remove after July 2026
+			'.sticky-content',
+			'.gh-header-sticky',
+		], summaryRow)
+		// First link in the summary row is always the author
+		&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
 
 	if (shouldHideAuthor) {
 		summaryRow.classList.add('rgh-hide-author');
@@ -62,16 +61,15 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	}
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
-	void highlightNonDefaultBranchPRs(base, baseBranch);
+	void highlightNonDefaultBranchPrs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	const anchor
-		= $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: remove after July 2026
-			?? base.nextSibling!.nextSibling!;
+	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: remove after July 2026
+		?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
 	anchor.after(
-		<span className='rgh-arrow'>
+		<span className="rgh-arrow">
 			<ArrowLeftIcon className="v-align-middle mx-1" />
 		</span>,
 	);
@@ -80,13 +78,17 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
 
-	observe([
-		'span[class*="PullRequestHeaderSummary"]',
-		// Old views. TODO: Remove after July 2026
-		'.gh-header-meta > .flex-auto', // Real
-		'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
-		'[class^="StateLabel"] + div > span:first-child',
-	], cleanPrHeader, {signal});
+	observe(
+		[
+			'span[class*="PullRequestHeaderSummary"]',
+			// Old views. TODO: Remove after July 2026
+			'.gh-header-meta > .flex-auto', // Real
+			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
+			'[class^="StateLabel"] + div > span:first-child',
+		],
+		cleanPrHeader,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

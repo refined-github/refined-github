@@ -1,18 +1,18 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 import FileCodeIcon from 'octicons-plain-react/FileCode';
-import VersionsIcon from 'octicons-plain-react/Versions';
 import HistoryIcon from 'octicons-plain-react/History';
+import VersionsIcon from 'octicons-plain-react/Versions';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 
 function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
-	const {href} = new GitHubFileURL(viewFile.href).assign({route});
+	const {href} = new GitHubFileUrl(viewFile.href).assign({route});
 	return (
-		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 dropdown-item btn-link" role="menuitem">
+		<a href={href} data-turbo={String(route !== 'raw')} className="pl-5 tmp-pl-5 dropdown-item btn-link" role="menuitem">
 			View {name}
 		</a>
 	);
@@ -34,7 +34,7 @@ function getMenuItem(viewFile: HTMLElement, name: string, route: string, icon: R
 	const menuItem = viewFile.cloneNode(true);
 	const fileLink = $('a', viewFile).href;
 	const link = $('a', menuItem);
-	link.href = new GitHubFileURL(fileLink).assign({route}).href;
+	link.href = new GitHubFileUrl(fileLink).assign({route}).href;
 	link.dataset.turbo = String(route !== 'raw');
 	link.removeAttribute('aria-labelledby');
 	$('[class^="prc-ActionList-ItemLabel"]', menuItem).textContent = `View ${name}`;
@@ -64,9 +64,19 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 }
 
 function init(signal: AbortSignal): void {
-	// `capture: true` required to be fired before GitHub's handlers
-	delegate('.file-header .js-file-header-dropdown:not(.rgh-more-file-links)', 'toggle', handleLegacyMenuOpening, {capture: true, signal});
-	delegate('[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)', 'click', handleMenuOpening);
+	delegate(
+		'div[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'click',
+		handleMenuOpening,
+		{signal},
+	);
+	delegate(
+		'.file-header .js-file-header-dropdown:not(.rgh-more-file-links)',
+		'toggle',
+		handleLegacyMenuOpening,
+		// `capture: true` required to be fired before GitHub's handlers
+		{capture: true, signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -79,7 +89,7 @@ void features.add(import.meta.url, {
 /*
 
 Test URLs:
-https://github.com/refined-github/sandbox/pull/55/files
+https://github.com/refined-github/sandbox/pull/55/changes
 https://github.com/refined-github/sandbox/compare/41c25160f0f574b302d72652ac83f4b2dab47e19...770d2ad5f086371da8a5f078f4267e6847e649f5
 https://github.com/refined-github/sandbox/commit/0504e7dccb40374c24c1217f37d3579993d6071e
 

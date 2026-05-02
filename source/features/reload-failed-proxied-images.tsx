@@ -1,8 +1,8 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 
+import features from '../feature-manager.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
-import features from '../feature-manager.js';
 
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
 	console.log('Refined GitHub: image failed loading, will retry', delegateTarget.src);

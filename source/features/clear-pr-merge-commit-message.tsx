@@ -1,39 +1,51 @@
 import React from 'dom-chef';
-import {countElements} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import {$closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 import attachElement from '../helpers/attach-element.js';
+import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
-	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
+	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return;
 	}
 
+	cleanedMessage = cleanedMessage ? cleanedMessage + '\n' : '';
 	// Do not use `text-field-edit` #6348
-	messageField.value = cleanedMessage ? cleanedMessage + '\n' : '';
+	messageField.value = cleanedMessage;
 
-	// Trigger `fit-textareas` if enabled
-	messageField.dispatchEvent(new Event('input', {bubbles: true}));
+	let isUndoing = false;
+	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
+		isUndoing = !isUndoing;
+		messageField.value = isUndoing ? originalMessage : cleanedMessage;
+		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
+	}
 
-	const anchor = messageField.closest('div[data-has-label]')!;
-
+	const anchor = $closest('div[data-has-label]', messageField);
 	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">
 				<p className="note">
-					The description field was cleared by <a target="_blank" href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message" rel="noreferrer">Refined GitHub</a>.
+					The description field was{' '}
+					<a
+						target="_blank"
+						href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#clear-pr-merge-commit-message"
+						rel="noreferrer"
+					>
+						cleared
+					</a>
+					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={toggleUndoRedo}>Undo</button>
 				</p>
 			</div>
 		),

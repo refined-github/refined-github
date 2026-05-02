@@ -2,15 +2,29 @@ import './linkify-user-labels.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $closestOptional} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
-function linkify(label: Element): void {
-	if (label.closest('a')) {
+function getAuthor(label: HTMLElement): string {
+	const prMetadataRow = $closestOptional('.opened-by', label);
+	if (!prMetadataRow) {
+		return getCommentAuthor(label);
+	}
+
+	const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
+	// The link always ends with author
+	const username = userPrsLink.href.split('author%3A')[1];
+	return username;
+}
+
+function linkify(label: HTMLElement): void {
+	if ($closestOptional('a', label)) {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
 
@@ -18,23 +32,27 @@ function linkify(label: Element): void {
 	// https://github.com/refined-github/refined-github/issues/8478
 	label.parentElement!.querySelector('.rgh-linkify-user-labels')?.remove();
 
-	const url = new URL(buildRepoURL('commits'));
-	url.searchParams.set('author', getCommentAuthor(label));
+	const url = new URL(buildRepoUrl('commits'));
+	url.searchParams.set('author', getAuthor(label));
 	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
-const ariaLabelSelector = [
+const ariaLabelSelector = is(
 	'[aria-label^="This user is a member"]',
 	'[aria-label^="This user has previously committed"]',
 	'[aria-label^="This user has been invited to collaborate"]',
-].join(',');
+);
 
 function init(signal: AbortSignal): void {
-	observe([
-		`span[data-testid="comment-author-association"]:is(${ariaLabelSelector})`,
-		// PRs
-		`.tooltipped:is(${ariaLabelSelector})`,
-	], linkify, {signal});
+	observe(
+		[
+			'span[data-testid="comment-author-association"]' + ariaLabelSelector,
+			// PRs
+			'.tooltipped' + ariaLabelSelector,
+		],
+		linkify,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -42,6 +60,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	include: [
+		pageDetect.isPRList,
 		pageDetect.hasComments,
 	],
 	init,
@@ -77,5 +96,8 @@ https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
 
 Collaborator review comment
 https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
+
+Pull requests from a contributor
+https://github.com/refined-github/refined-github/pulls?q=is%3Apr+author%3Anotlmn
 
 */

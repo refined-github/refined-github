@@ -1,12 +1,12 @@
 import './hidden-review-comments-indicator.css';
 
-import mem from 'memoize';
-import React from 'dom-chef';
-import {$$, countElements} from 'select-dom';
-import CommentIcon from 'octicons-plain-react/Comment';
-import * as pageDetect from 'github-url-detection';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import {onAbort} from 'abort-utils';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import mem from 'memoize';
+import CommentIcon from 'octicons-plain-react/Comment';
+import {$$, $closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
@@ -14,10 +14,9 @@ import observe from '../helpers/selector-observer.js';
 
 // When an indicator is clicked, this will show comments on the current file
 function handleIndicatorClick({delegateTarget}: DelegateEvent): void {
-	const commentedLine = delegateTarget.closest('tr')!.previousElementSibling!;
+	const commentedLine = $closest('tr', delegateTarget).previousElementSibling!;
 	const resetScroll = preserveScroll(commentedLine);
-	delegateTarget
-		.closest('.file.js-file')!
+	$closest('.file.js-file', delegateTarget)
 		.querySelector('input.js-toggle-file-notes')!
 		.click();
 

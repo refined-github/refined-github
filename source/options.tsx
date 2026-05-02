@@ -1,26 +1,24 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$} from 'select-dom';
-import fitTextarea from 'fit-textarea';
-import {enableTabToIndent} from 'indent-textarea';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import {enableTabToIndent} from 'indent-textarea';
+import {
+	$, $$, $closestOptional, $optional, elementExists,
+} from 'select-dom';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
-import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
 import {importedFeatures} from './feature-data.js';
-import {perDomainOptions} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {state as bisectState} from './helpers/bisect.js';
+import clearCacheHandler from './helpers/clear-cache-handler.js';
+import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
+import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
+import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
-import initTokenValidation from './options/token-validation.js';
 import initToggleAllButtons from './options/toggle-all.js';
-
-const supportsFieldSizing = CSS.supports('field-sizing', 'content');
+import initTokenValidation from './options/token-validation.js';
 
 let syncedForm: SyncedForm | undefined;
 
@@ -40,7 +38,13 @@ async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	$('#find-feature-message').hidden = false;
 }
 
+let hasScrolledToTarget = false;
+
 function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
+	if (!hasScrolledToTarget && elementExists(':target')) {
+		return;
+	}
+
 	const rect = section.getBoundingClientRect();
 	if (rect.bottom > window.innerHeight || rect.top < 0) {
 		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
@@ -50,10 +54,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 		const field = $optional('input, textarea', section);
 		if (field) {
 			field.focus({preventScroll: true});
-			if (!supportsFieldSizing && field instanceof HTMLTextAreaElement) {
-				// #6404
-				fitTextarea(field);
-			}
 		}
 	}
 }
@@ -63,7 +63,9 @@ function updateRateLink(): void {
 		return;
 	}
 
-	$('a#rate-link').href = isFirefox() ? 'https://addons.mozilla.org/firefox/addon/refined-github-' : 'https://apps.apple.com/app/id1519867270?action=write-review';
+	$('a#rate-link').href = isFirefox()
+		? 'https://addons.mozilla.org/firefox/addon/refined-github-'
+		: 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -81,10 +83,9 @@ function getExclusions(): string | void {
 }
 
 async function showStoredCssHotfixes(): Promise<void> {
-	$('#hotfixes-field').textContent
-		= getExclusions()
-			?? await styleHotfixes.getCached(version)
-			?? 'No CSS found in cache.';
+	$('#hotfixes-field').textContent = getExclusions()
+		?? await styleHotfixes.getCached(version)
+		?? 'No CSS found in cache.';
 }
 
 async function fetchHotfixes(event: MouseEvent): Promise<void> {
@@ -92,10 +93,9 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	button.disabled = true;
 	try {
 		// Style
-		$('#hotfixes-field').textContent
-			= getExclusions()
-				?? await styleHotfixes.getFresh(version)
-				?? 'No hotfixes needed for this version! 🎉';
+		$('#hotfixes-field').textContent = getExclusions()
+			?? await styleHotfixes.getFresh(version)
+			?? 'No hotfixes needed for this version! 🎉';
 
 		// Broken features
 		const storage = await brokenFeatures.getFresh();
@@ -159,9 +159,6 @@ function addEventListeners(): void {
 
 	// Improve textareas editing
 	enableTabToIndent('textarea');
-	if (!supportsFieldSizing) {
-		fitTextarea.watch('textarea');
-	}
 
 	// Bring section into view when opened
 	delegate('details', 'toggle', focusSection, {capture: true});
@@ -176,9 +173,33 @@ function addEventListeners(): void {
 	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
+function scrollTargetIntoView(): void {
+	const {hash} = location;
+	if (!hash) {
+		return;
+	}
+
+	const element = $optional(hash);
+	if (!element) {
+		return;
+	}
+
+	const details = $closestOptional('details', element);
+	if (details) {
+		details.open = true;
+	}
+
+	element.scrollIntoView({
+		block: 'start',
+	});
+
+	hasScrolledToTarget = true;
+}
+
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
+	scrollTargetIntoView();
 }
 
 void init();

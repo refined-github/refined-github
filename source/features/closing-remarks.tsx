@@ -1,21 +1,20 @@
 import React from 'dom-chef';
+import {$, $$} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
-import {$$} from 'select-dom';
-import {$} from 'select-dom/strict.js';
 
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
+import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
-import {buildRepoURL, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {getReleases} from './releases-tab.js';
+import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+import {getReleases} from './releases-tab.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -30,7 +29,7 @@ function ExplanationLink(): JSX.Element {
 
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
-		const tagsAndBranches = await fetchDom(buildRepoURL('branch_commits', commit));
+		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
@@ -43,23 +42,30 @@ function createReleaseUrl(): string {
 		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
 	}
 
-	return buildRepoURL('releases/new');
+	return buildRepoUrl('releases/new');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
+	const mergeCommit
+		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
-		const tagUrl = buildRepoURL('releases/tag', tagName);
+		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
 		addExistingTagLinkFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {signal});
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+			signal,
+		});
 	} else {
-		void addReleaseBanner(<>This PR seems to be <ExplanationLink>not yet released</ExplanationLink>.</>);
+		void addReleaseBanner(
+			<>
+				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
+			</>,
+		);
 	}
 }
 
@@ -85,7 +91,9 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
-					text: <>This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}</>,
+					text: <>
+						This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
+					</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
 			</TimelineItem>

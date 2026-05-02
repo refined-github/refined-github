@@ -1,19 +1,18 @@
 import './quick-label-removal.css';
 
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$} from 'select-dom/strict.js';
-import XIcon from 'octicons-plain-react/X';
-import {assertError} from 'ts-extras';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import XIcon from 'octicons-plain-react/X';
+import {$, $closest, elementExists} from 'select-dom';
+import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getConversationNumber} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getConversationNumber} from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 // Don't cache: https://github.com/refined-github/refined-github/issues/7283
 function canEditLabels(): boolean {
@@ -26,14 +25,14 @@ function getLabelList(): HTMLElement {
 
 function removeLabelList(): void {
 	const list = getLabelList();
-	list.closest('details')!.addEventListener('toggle', restoreLabelList, {once: true});
+	$closest('details', list).addEventListener('toggle', restoreLabelList, {once: true});
 	list.replaceChildren();
 }
 
 function restoreLabelList(): void {
 	const list = getLabelList();
 	list.replaceChildren(
-		<include-fragment src={list.closest('[src]')!.getAttribute('src')!} />,
+		<include-fragment src={$closest('[src]', list).getAttribute('src')!} />,
 	);
 }
 
@@ -41,7 +40,7 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
-	const label = removeLabelButton.closest('a')!;
+	const label = $closest('a', removeLabelButton);
 
 	try {
 		label.hidden = true;

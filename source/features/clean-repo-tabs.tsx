@@ -1,17 +1,18 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {countElements} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {
+	$, $closest, $optional, countElements,
+} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import api from '../github-helpers/api.js';
 import getTabCount from '../github-helpers/get-tab-count.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
+import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {buildRepoURL, cacheByRepo, getRepo} from '../github-helpers/index.js';
+import fetchDom from '../helpers/fetch-dom.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import {unhideOverflowDropdown} from './more-dropdown-links.js';
 
 async function canUserEditOrganization(): Promise<boolean> {
@@ -30,7 +31,7 @@ function mustKeepTab(tab: HTMLElement): boolean {
 function setTabCounter(tab: HTMLElement, count: number): void {
 	let tabCounter = $optional('.Counter, .num', tab);
 	if (!tabCounter) {
-		tabCounter = <span className="Counter" /> as HTMLSpanElement;
+		tabCounter = <span className="Counter" />;
 		tab.append(<span data-component="counter">{tabCounter}</span>);
 	}
 
@@ -45,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	tabItem.closest('li')!.hidden = true;
+	$closest('li', tabItem).hidden = true;
 
 	const menuItem = $(`[data-menu-item$="${id}"]`);
 	menuItem.removeAttribute('data-menu-item');
@@ -56,8 +57,8 @@ function onlyShowInDropdown(id: string): void {
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
-		const dom = await fetchDom(buildRepoURL('wiki'));
-		const counter = dom.querySelector('#wiki-pages-box .Counter');
+		const dom = await fetchDom(buildRepoUrl('wiki'));
+		const counter = $optional('#wiki-pages-box .Counter', dom);
 
 		if (counter) {
 			return looseParseInt(counter);

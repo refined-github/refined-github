@@ -1,14 +1,14 @@
 import './dim-bots.css';
 
-import {$$} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import * as pageDetect from 'github-url-detection';
+import {$$, $closest, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import preserveScroll from '../helpers/preserve-scroll.js';
-import observe from '../helpers/selector-observer.js';
 import {botLinksCommitSelectors, botLinksPrSelectors} from '../github-helpers/selectors.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import preserveScroll from '../helpers/preserve-scroll.js';
+import observe from '../helpers/selector-observer.js';
 
 const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
 	selector => `${selector}:not([href*="copilot"])`,
@@ -21,7 +21,7 @@ const interactiveElementsSelector = 'a, button, input, [tabindex]';
 function undimBots(event: DelegateEvent): void {
 	const target = event.target as HTMLElement;
 	// Only undim when clicking on empty areas
-	if (target.closest(interactiveElementsSelector)) {
+	if ($closestOptional(interactiveElementsSelector, target)) {
 		return;
 	}
 
@@ -34,11 +34,11 @@ function undimBots(event: DelegateEvent): void {
 }
 
 function dim(commit: HTMLElement): void {
-	commit.closest([
+	$closest([
 		'[data-testid="commit-row-item"]',
 
 		'.Box-row', // PRs
-	])!.classList.add(dimBots.class);
+	], commit).classList.add(dimBots.class);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

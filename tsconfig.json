@@ -17,6 +17,9 @@
 			"ESNext.Collection",
 			"ESNext.Object",
 			"ES2024"
+		],
+		"types": [
+			"chrome"
 		]
 	},
 	"include": [

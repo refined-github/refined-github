@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
+import {$, $closestOptional} from 'select-dom';
 
 import {wrapAll} from '../helpers/dom-utils.js';
 
@@ -16,7 +16,7 @@ export function groupButtons(buttons: Element[], ...classes: string[]): HTMLElem
 	}
 
 	// They may already be part of a group
-	let group = buttons[0].closest('.BtnGroup');
+	let group = $closestOptional('.BtnGroup', buttons[0]);
 
 	// If it doesn't exist, wrap them in a new group
 	if (!group) {

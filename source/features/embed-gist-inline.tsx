@@ -5,8 +5,8 @@ import mem from 'memoize';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {standaloneGistLinkInMarkdown} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 type GistData = {
 	div: string;
@@ -17,7 +17,7 @@ type GistData = {
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
 const fetchGist = mem(
 	async (url: string): Promise<GistData> =>
-		messageRuntime({fetchJSON: `${url}.json`}),
+		messageRuntime({fetchJson: `${url}.json`}),
 );
 
 const isOnlyChild = (link: HTMLAnchorElement): boolean => link.textContent.trim() === link.parentElement!.textContent.trim();

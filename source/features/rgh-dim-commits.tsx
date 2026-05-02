@@ -1,16 +1,17 @@
 import * as pageDetect from 'github-url-detection';
+import {$closest} from 'select-dom';
 
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 // Source: https://github.com/fregante/release-with-changelog/blob/779fd5e658f82e5b11b1c0a352a6838d3bd8f67f/generate-release-notes.js#L6
 const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencies|^v?\d+\.\d+\.\d+/i;
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		commitTitle.closest('[data-testid="commit-row-item"]')!.style.opacity = '50%';
+		$closest('[data-testid="commit-row-item"]', commitTitle).style.opacity = '50%';
 	}
 }
 

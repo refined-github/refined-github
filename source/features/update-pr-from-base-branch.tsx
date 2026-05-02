@@ -1,21 +1,22 @@
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import CheckIcon from 'octicons-plain-react/Check';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {
+	$, $closest, $optional, elementExists,
+} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import api from '../github-helpers/api.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import showToast from '../github-helpers/toast.js';
-import {getConversationNumber, getRepo} from '../github-helpers/index.js';
-import createMergeabilityRow from '../github-widgets/mergeability-row.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getRepo} from '../github-helpers/index.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
+import showToast from '../github-helpers/toast.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 // TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
 const nativeRepos = new CachedFunction('native-update-button', {
@@ -30,15 +31,6 @@ const nativeRepos = new CachedFunction('native-update-button', {
 	},
 });
 
-function canNativelyUpdate(): boolean {
-	if (elementExists('.js-update-branch-form')) {
-		return true;
-	}
-
-	const nativeButton = $optional('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]');
-	return nativeButton?.textContent === 'Update branch';
-}
-
 async function disableFeatureOnRepo(): Promise<void> {
 	const repo = getRepo()!.nameWithOwner;
 	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
@@ -46,44 +38,124 @@ async function disableFeatureOnRepo(): Promise<void> {
 	await nativeRepos.applyOverride([repo], true);
 }
 
-async function mergeBranches(expectedHeadSha: string): Promise<AnyObject> {
-	return api.v3uncached(`pulls/${getConversationNumber()!}/update-branch`, {
-		method: 'PUT',
-		// eslint-disable-next-line @typescript-eslint/naming-convention -- External API
-		body: {expected_head_sha: expectedHeadSha},
-		ignoreHTTPStatus: true, // eslint-disable-line @typescript-eslint/naming-convention -- Pre-existing
+const updateMethods = {
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
+	MERGE: {
+		buttonLabel: 'Update branch',
+		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
+	},
+	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
+	REBASE: {
+		buttonLabel: 'Rebase',
+		tooltipLabel: 'Update branch with rebase using Refined GitHub',
+	},
+};
+
+/**
+ * https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod
+ */
+type UpdateMethod = keyof typeof updateMethods;
+
+/**
+ * https://docs.github.com/en/graphql/reference/input-objects#updatepullrequestbranchinput
+ */
+type MergeBranchesOptions = {
+	expectedHeadOid: string;
+	pullRequestId: string;
+	updateMethod: UpdateMethod;
+};
+
+async function mergeBranches(options: MergeBranchesOptions): Promise<AnyObject> {
+	return api.v4uncached(updatePullRequestBranch, {
+		variables: {
+			input: {...options},
+		},
 	});
 }
 
 async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	button.disabled = true;
+	const {method} = button.dataset as {method: UpdateMethod};
+
 	await showToast(async () => {
 		const {base} = getBranches();
-		const {headRefOid} = await getPrInfo(base.relative);
-		// Reads Error#message or GitHub's "message" response
+		const {id, headRefOid} = await getPrInfo(base.relative);
+		const options = {
+			expectedHeadOid: headRefOid,
+			pullRequestId: id,
+			updateMethod: method,
+		};
 		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
-		const response = await mergeBranches(headRefOid).catch(error => error);
-		if (response instanceof Error || !response.ok) {
-			throw new Error(`Error updating the branch: ${response.message as string}`, {cause: response});
+		const response = await mergeBranches(options).catch(error => error);
+		if (response instanceof Error) {
+			throw new Error(`Error updating the branch: ${response.message}`, {cause: response});
 		}
 	}, {
 		message: 'Updating branch…',
 		doneMessage: 'Branch updated',
 	});
 
-	button.remove();
+	$closest('.ButtonGroup', button).remove();
 }
+
+const feature = getIdentifiers(import.meta.url);
 
 function createButton(): JSX.Element {
 	return (
-		<button
-			type="button"
-			className="btn btn-sm rgh-update-pr-from-base-branch tooltipped tooltipped-w"
-			aria-label="Use Refined GitHub to update the PR from the base branch"
-		>
-			Update branch
-		</button>
+		<div className="ButtonGroup">
+			{Object.entries(updateMethods).map(([method, label]) => {
+				const buttonId = crypto.randomUUID();
+				const tooltipId = crypto.randomUUID();
+				return (
+					<div>
+						<button
+							id={buttonId}
+							className={`Button--secondary Button--medium Button ${feature.class}`}
+							data-method={method}
+							aria-labelledby={tooltipId}
+							type="button"
+						>
+							<span className="Button-content">
+								<span className="Button-label">
+									{label.buttonLabel}
+								</span>
+							</span>
+						</button>
+						<tool-tip
+							id={tooltipId}
+							className="sr-only position-absolute"
+							for={buttonId}
+							popover="manual"
+							data-direction="s"
+							data-type="label"
+							aria-hidden="true"
+							role="tooltip"
+						>
+							{label.tooltipLabel}
+						</tool-tip>
+					</div>
+				);
+			})}
+		</div>
 	);
+}
+
+const nativeUpdateButtonSelector
+	= '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
+
+function canNativelyUpdate(): boolean {
+	const nativeButton = $optional(nativeUpdateButtonSelector);
+	return nativeButton?.textContent === 'Update branch';
+}
+
+async function shouldShowButton(): Promise<boolean> {
+	const {base} = getBranches();
+	const prInfo = await getPrInfo(base.relative);
+
+	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
+	const canUpdateBranch = prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles || hasBranchAccess;
+
+	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
 }
 
 async function addButton(): Promise<void> {
@@ -93,58 +165,12 @@ async function addButton(): Promise<void> {
 		return;
 	}
 
-	const mergeBar = $([
-		'.mergeability-details > *:last-child',
-		'[class^="MergeBox-module__mergePartialContainer"]',
-	]);
-
-	const {base} = getBranches();
-	const prInfo = await getPrInfo(base.relative);
-	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
-	if (
-		!prInfo.needsUpdate
-		|| prInfo.mergeable === 'CONFLICTING'
-		|| !(
-			prInfo.viewerCanUpdate
-			|| prInfo.viewerCanEditFiles
-			|| hasBranchAccess
-		)
-	) {
+	if (!await shouldShowButton()) {
 		return;
 	}
 
-	const mergeabilityRow = $optional([
-		'.branch-action-item:has(.merging-body)', // TODO: Drop after June 2025
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]',
-	]);
-
-	if (mergeabilityRow) {
-		const isOldView = mergeBar.parentElement?.classList.contains('mergeability-details');
-		const positionClass = isOldView
-			? 'float-right'
-			: 'flex-order-2 flex-self-center';
-
-		mergeabilityRow.prepend(
-			<div
-				className={['branch-action-btn js-immediate-updates js-needs-timeline-marker-header', positionClass].join(' ')}
-			>
-				{createButton()}
-			</div>,
-		);
-	} else {
-		// We need to create a new row when `Checks` is present
-		const checkFailed = $optional('[aria-label="Checks"]');
-		// Old view draft PRs require a new row to display the button
-		// https://github.com/refined-github/refined-github/pull/8193#discussion_r1908581612
-		(checkFailed ?? mergeBar).before(createMergeabilityRow({
-			className: 'rgh-update-pr-from-base-branch-row',
-			action: createButton(),
-			icon: <CheckIcon />,
-			iconClass: 'completeness-indicator-success',
-			heading: 'This branch has no conflicts with the base branch',
-			meta: 'Merging can be performed automatically.',
-		}));
-	}
+	const mergeabilityRow = $('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__contentLayout"]');
+	mergeabilityRow.append(createButton());
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
@@ -153,15 +179,9 @@ async function init(signal: AbortSignal): Promise<false | void> {
 		return false;
 	}
 
-	delegate('.rgh-update-pr-from-base-branch', 'click', handler, {signal});
-	observe([
-		'.mergeability-details > *:last-child', // Old view - TODO: Drop after June 2025
-		prMergeabilityBoxHeader,
-	], addButton, {signal});
-	observe([
-		'.js-update-branch-form', // Old view - TODO: Remove in July 2025
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]',
-	], disableFeatureOnRepo, {signal});
+	delegate(feature.selector, 'click', handler, {signal});
+	observe(prMergeabilityBoxHeader, addButton, {signal});
+	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {

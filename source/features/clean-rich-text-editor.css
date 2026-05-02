@@ -2,7 +2,6 @@
 /* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
 @media (hover: hover) and (pointer: fine) {
 	html:not([rgh-OFF-clean-rich-text-editor])
-		/* biome-ignore format: bug */
 		button:is(
 			/* Classic fields */
 			[data-md-button='mention'],
@@ -25,6 +24,6 @@
 		height: 1px;
 		margin: 0;
 		overflow: hidden;
-		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
 	}
 }

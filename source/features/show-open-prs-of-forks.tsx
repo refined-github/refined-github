@@ -1,20 +1,20 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import pluralize from '../helpers/pluralize.js';
 import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
+import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
 function getLinkCopy(count: number): string {
 	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
 }
 
-const countPRs = new CachedFunction('prs-on-forked-repo', {
+const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
@@ -38,7 +38,7 @@ const countPRs = new CachedFunction('prs-on-forked-repo', {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-types
-async function getPRs(): Promise<[prCount: number, url: string] | []> {
+async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
 	// Maybe replace with https://github.com/refined-github/github-url-detection/issues/85
 	await elementReady('.UnderlineNav-body');
@@ -47,7 +47,7 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const forkedRepo = getForkedRepo()!;
-	const {count, firstPr} = await countPRs.get(forkedRepo);
+	const {count, firstPr} = await countPrs.get(forkedRepo);
 	if (count === 1) {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
 	}
@@ -58,26 +58,29 @@ async function getPRs(): Promise<[prCount: number, url: string] | []> {
 }
 
 async function initHeadHint(): Promise<void | false> {
-	const [count, url] = await getPRs();
+	const [count, url] = await getPrs();
 	if (!count) {
 		return false;
 	}
 
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		// The class is used by `quick-fork-deletion`
-		<> with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a></>,
+		<>
+			with <a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>
+		</>,
 	);
 }
 
 async function initDeleteHint(): Promise<void | false> {
-	const [count, url] = await getPRs();
+	const [count, url] = await getPrs();
 	if (!count) {
 		return false;
 	}
 
 	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
 		<p className="flash flash-warn">
-			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong> and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
+			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
 		</p>,
 	);
 }

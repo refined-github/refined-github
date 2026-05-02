@@ -1,8 +1,9 @@
 import React from 'dom-chef';
+import {$closestOptional} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {wrap} from '../helpers/dom-utils.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
@@ -15,8 +16,8 @@ function addLocation({nextElementSibling, nextSibling}: SVGElement): Element {
 	userLocation.before(' '); // Keeps the link’s underline from extending out to the icon
 	const link = <a className="Link--primary" href={mapLink} />;
 
-	if (userLocation.parentElement!.closest('.Popover')) {
-	// Match the style of other links in the hovercard
+	if ($closestOptional('.Popover', userLocation.parentElement!)) {
+		// Match the style of other links in the hovercard
 		link.classList.add('text-underline');
 	}
 

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';

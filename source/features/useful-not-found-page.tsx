@@ -1,17 +1,17 @@
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import GetLatestCommitToFile from './useful-not-found-page.gql';
-import {expectToken} from '../github-helpers/github-token.js';
 
 type File = {
 	previous_filename?: string;
@@ -43,7 +43,7 @@ async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 	}
 }
 
-function parseCurrentURL(): string[] {
+function parseCurrentUrl(): string[] {
 	const parts = getCleanPathname().split('/');
 	if (parts[2] === 'blob') { // Blob URLs are never useful
 		parts[2] = 'tree';
@@ -81,7 +81,7 @@ async function getChangesToFileInCommit(sha: string, filePath: string): Promise<
 }
 
 async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
-	const parsedUrl = new GitHubFileURL(location.href);
+	const parsedUrl = new GitHubFileUrl(location.href);
 	if (!parsedUrl.branch) {
 		return;
 	}
@@ -94,7 +94,7 @@ async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
 }
 
 async function showMissingPartOnce(): Promise<void> {
-	const pathParts = parseCurrentURL();
+	const pathParts = parseCurrentUrl();
 	const breadcrumbs = [...pathParts.entries()]
 		.toReversed() // Checks the anchors right to left
 		.map(([index, part]) => {
@@ -134,7 +134,7 @@ async function showDefaultBranchLink(): Promise<void> {
 }
 
 async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
-	const url = new GitHubFileURL(location.href);
+	const url = new GitHubFileUrl(location.href);
 	if (!url.branch || !url.filePath) {
 		return;
 	}
@@ -192,7 +192,7 @@ async function initOnce(): Promise<void> {
 	void showGitObjectHistory();
 }
 
-async function initPRCommitOnce(): Promise<void | false> {
+async function initPrCommitOnce(): Promise<void | false> {
 	const commitUrl = location.href.replace(/pull\/\d+\/(commits|changes)/, 'commit');
 	if (!(await isUrlReachable(commitUrl))) {
 		return false;
@@ -200,20 +200,22 @@ async function initPRCommitOnce(): Promise<void | false> {
 
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
-		<p>You can also try to <a href={commitUrl}>view the detached standalone commit</a>.</p>,
+		<p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
 	);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {
 	await expectToken();
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal});	// "eror" as misspelled by GitHub
+	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
 }
 
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.is404,
-		() => parseCurrentURL().length > 1,
+		() => parseCurrentUrl().length > 1,
 	],
 	awaitDomReady: true, // Small page
 	init: onetime(showMissingPartOnce),
@@ -232,7 +234,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
-	init: onetime(initPRCommitOnce),
+	init: onetime(initPrCommitOnce),
 }, {
 	include: [
 		pageDetect.isRepoFile404,

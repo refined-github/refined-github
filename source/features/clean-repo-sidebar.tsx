@@ -1,12 +1,13 @@
 import './clean-repo-sidebar.css';
-import {elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {
+	$, $closest, $optional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // TODO: It's broken
@@ -17,7 +18,7 @@ async function cleanReleases(): Promise<void> {
 		return;
 	}
 
-	const releasesSection = sidebarReleases.closest('.BorderGrid-cell')!;
+	const releasesSection = $closest('.BorderGrid-cell', sidebarReleases);
 	if (!elementExists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
@@ -26,7 +27,7 @@ async function cleanReleases(): Promise<void> {
 
 	// Collapse "Releases" section into previous section
 	releasesSection.classList.add('border-0', 'pt-md-0');
-	sidebarReleases.closest('.BorderGrid-row')!
+	$closest('.BorderGrid-row', sidebarReleases)
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList
@@ -35,7 +36,7 @@ async function cleanReleases(): Promise<void> {
 	// Point to releases page; the user sees the same content, but there's more below
 	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
 		// The link is missing on tagged-but-no-releases repos
-		?.setAttribute('href', buildRepoURL('releases'));
+		?.setAttribute('href', buildRepoUrl('releases'));
 }
 
 async function hideLanguageHeader(): Promise<void> {

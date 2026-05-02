@@ -1,17 +1,17 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $optional} from 'select-dom';
 
-import api from '../github-helpers/api.js';
 import features from '../feature-manager.js';
-import {getConversationNumber, userCanLikelyMergePR} from '../github-helpers/index.js';
 import onCommitTitleUpdate from '../github-events/on-commit-title-update.js';
-import observe from '../helpers/selector-observer.js';
-import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
-import {confirmMergeButton} from '../github-helpers/selectors.js';
+import api from '../github-helpers/api.js';
+import {getConversationNumber, userCanLikelyMergePr} from '../github-helpers/index.js';
 import parseRenderedText from '../github-helpers/parse-rendered-text.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
+import cleanPrCommitTitle from '../helpers/pr-commit-cleaner.js';
+import observe from '../helpers/selector-observer.js';
+import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
 
@@ -41,11 +41,13 @@ function createCommitTitle(): string {
 function needsSubmission(): boolean {
 	const mergeButton = $optional(confirmMergeButton);
 	const textContent = mergeButton?.textContent?.trim();
-	if (!textContent || ![
-		'Confirm squash and merge',
-		'Confirm auto-merge (squash)',
-		'Confirm bypass rules and merge (squash)',
-	].includes(textContent)) {
+	if (
+		!textContent || ![
+			'Confirm squash and merge',
+			'Confirm auto-merge (squash)',
+			'Confirm bypass rules and merge (squash)',
+		].includes(textContent)
+	) {
 		return false;
 	}
 
@@ -53,8 +55,10 @@ function needsSubmission(): boolean {
 	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
-function getUI(): HTMLElement {
-	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">Cancel</button>;
+function getUi(): HTMLElement {
+	const cancelButton = <button type="button" className="btn-link Link--muted text-underline rgh-sync-pr-commit-title">
+		Cancel
+	</button>;
 	return $optional('.rgh-sync-pr-commit-title-note') ?? (
 		<p className="note rgh-sync-pr-commit-title-note">
 			The title of this PR will be updated to match this title. {cancelButton}
@@ -62,15 +66,15 @@ function getUI(): HTMLElement {
 	);
 }
 
-function updateUI(): void {
+function updateUi(): void {
 	if (needsSubmission()) {
-		getCurrentCommitTitleField()!.parentElement!.after(getUI());
+		getCurrentCommitTitleField()!.parentElement!.after(getUi());
 	} else {
-		getUI().remove();
+		getUi().remove();
 	}
 }
 
-async function updatePRTitle(): Promise<void> {
+async function updatePrTitle(): Promise<void> {
 	if (!needsSubmission()) {
 		return;
 	}
@@ -95,22 +99,26 @@ async function updateCommitTitle(): Promise<void> {
 
 function disableSubmission(): void {
 	features.unload(import.meta.url);
-	getUI().remove();
+	getUi().remove();
 }
 
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
 	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
-	observe([
-		'h1[class^="prc-PageHeader-Title"]',
-		'.gh-header-title', // Old view - TODO: Remove after July 2026
-	], updateCommitTitle, {signal}); // On PR title change
+	observe(
+		[
+			'h1[class^="prc-PageHeader-Title"]',
+			'.gh-header-title', // Old view - TODO: Remove after July 2026
+		],
+		updateCommitTitle,
+		{signal},
+	); // On PR title change
 
 	// Commit title field -> toggle checkbox visibility
-	onCommitTitleUpdate(updateUI, signal);
+	onCommitTitleUpdate(updateUi, signal);
 
 	// On submission, update PR
-	delegate(confirmMergeButton, 'click', updatePRTitle, {signal});
+	delegate(confirmMergeButton, 'click', updatePrTitle, {signal});
 
 	// On "Cancel", disable the feature
 	delegate('.rgh-sync-pr-commit-title', 'click', disableSubmission, {signal});
@@ -118,7 +126,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		userCanLikelyMergePR,
+		userCanLikelyMergePr,
 	],
 	include: [
 		pageDetect.isPRConversation,

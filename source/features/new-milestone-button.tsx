@@ -2,13 +2,13 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {buildRepoURL} from '../github-helpers/index.js';
 
 function addButton(editButton: Element): void {
 	editButton.before(
 		<a
-			href={buildRepoURL('milestones/new')}
+			href={buildRepoUrl('milestones/new')}
 			className="btn"
 		>
 			New Milestone
@@ -17,7 +17,7 @@ function addButton(editButton: Element): void {
 }
 
 function init(signal: AbortSignal): void {
-	const repoBase = buildRepoURL('milestones');
+	const repoBase = buildRepoUrl('milestones');
 
 	observe(`a[href*="${repoBase}/"][href$="/edit"]`, addButton, {signal});
 }

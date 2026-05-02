@@ -1,18 +1,19 @@
 import './open-all-notifications.css';
 
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
+import {
+	$, $$, $closest, $closestOptional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
-import openTabs from '../helpers/open-tabs.js';
-import {appendBefore} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import openTabs from '../helpers/open-tabs.js';
+import observe from '../helpers/selector-observer.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -27,14 +28,14 @@ function getUnreadNotifications(container: ParentNode = document): HTMLElement[]
 	return $$('.notification-unread', container);
 }
 
-async function openNotifications(notifications: Element[], markAsDone = false): Promise<void> {
+async function openNotifications(notifications: Element[], markAsDone = false): Promise<boolean> {
 	const urls = notifications
 		.toReversed() // Open oldest first #6755
 		.map(notification => $('a', notification).href);
 
-	const openingTabs = openTabs(urls);
-	if (!await openingTabs) {
-		return;
+	const didOpenTabs = await openTabs(urls);
+	if (!didOpenTabs) {
+		return false;
 	}
 
 	for (const notification of notifications) {
@@ -45,19 +46,23 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 			notification.classList.replace('notification-unread', 'notification-read');
 		}
 	}
+
+	return true;
 }
 
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
-	await openNotifications(getUnreadNotifications(container), altKey);
-
-	// Remove all now-unnecessary buttons
-	removeOpenUnreadButtons(container);
+	const container = $closestOptional('.js-notifications-group', delegateTarget) ?? document;
+	const unreadNotifications = getUnreadNotifications(container);
+	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
+	if (didOpenNotifications) {
+		// Remove all now-unnecessary buttons
+		removeOpenUnreadButtons(container);
+	}
 }
 
 async function openSelectedNotifications(): Promise<void> {
 	const selectedNotifications = $$('.notifications-list-item :checked')
-		.map(checkbox => checkbox.closest('.notifications-list-item')!);
+		.map(checkbox => $closest('.notifications-list-item', checkbox));
 	await openNotifications(selectedNotifications);
 
 	if (!elementExists('.notification-unread')) {
@@ -93,7 +98,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
-	const repository = markReadButton.closest('.js-notifications-group')!;
+	const repository = $closest('.js-notifications-group', markReadButton);
 	if (getUnreadNotifications(repository).length === 0) {
 		return;
 	}

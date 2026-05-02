@@ -1,53 +1,55 @@
-import React from 'dom-chef';
-import {$optional, $} from 'select-dom/strict.js';
-import AlertIcon from 'octicons-plain-react/Alert';
 import debounceFn from 'debounce-fn';
-import * as pageDetect from 'github-url-detection';
-import {replaceFieldText} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import AlertIcon from 'octicons-plain-react/Alert';
+import {$, $closest, $optional} from 'select-dom';
+import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {
-	prCommitUrlRegex,
-	preventPrCommitLinkLoss,
-	prCompareUrlRegex,
-	preventPrCompareLinkLoss,
-	discussionUrlRegex,
-	preventDiscussionLinkLoss,
-} from '../github-helpers/prevent-link-loss.js';
 import createBanner from '../github-helpers/banner.js';
+import {
+	discussionUrlRegex,
+	prCommitUrlRegex,
+	prCompareUrlRegex,
+	preventDiscussionLinkLoss,
+	preventPrCommitLinkLoss,
+	preventPrCompareLinkLoss,
+} from '../github-helpers/prevent-link-loss.js';
 
 const fieldSelector = [
 	'textarea.js-comment-field',
 	'textarea[aria-labelledby="comment-composer-heading"]', // React view
 ] as const;
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
+const documentation
+	= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		fixButton.closest(['form', '[data-testid="markdown-editor-comment-composer"]'])!,
+		$closest([
+			'form',
+			'[data-testid="markdown-editor-comment-composer"]',
+		], fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.closest('.flash')!.remove();
+	$closest('.flash', fixButton).remove();
 }
 
-function getUI(container: HTMLElement): HTMLElement {
+function getUi(container: HTMLElement): HTMLElement {
 	return $optional('.rgh-prevent-link-loss-container', container) ?? (createBanner({
 		icon: <AlertIcon className="m-0" />,
-		text: (
-			<>
-				{' Your link may be '}
-				<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-					misinterpreted
-				</a>
-				{' by GitHub.'}
-			</>
-		),
+		text: <>
+			{' Your link may be '}
+			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+				misinterpreted
+			</a>
+			{' by GitHub.'}
+		</>,
 		classes: [
 			'rgh-prevent-link-loss-container',
 			'flash-warn',
@@ -66,27 +68,27 @@ function isVulnerableToLinkLoss(value: string): boolean {
 		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
 }
 
-function updateUI({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
+function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
 		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form).append(getUI(field.form));
+			$('file-attachment .js-write-bucket', field.form).append(getUi(field.form));
 		} else {
 			// React view
-			const container = field.closest('[data-testid="markdown-editor-comment-composer"]')!;
-			container.append(getUI(container));
+			const container = $closest('[data-testid="markdown-editor-comment-composer"]', field);
+			container.append(getUi(container));
 		}
 	} else {
-		getUI(field).remove();
+		getUi(field).remove();
 	}
 }
 
-const updateUIDebounced = debounceFn(updateUI, {
+const updateUiDebounced = debounceFn(updateUi, {
 	wait: 300,
 });
 
 function init(signal: AbortSignal): void {
-	delegate(fieldSelector, 'input', updateUIDebounced, {signal});
-	delegate(fieldSelector, 'focusin', updateUI, {signal});
+	delegate(fieldSelector, 'input', updateUiDebounced, {signal});
+	delegate(fieldSelector, 'focusin', updateUi, {signal});
 }
 
 void features.add(import.meta.url, {

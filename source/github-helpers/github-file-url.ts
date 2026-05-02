@@ -2,7 +2,7 @@ import {isRepoRoot} from 'github-url-detection';
 
 import getCurrentGitRef from './get-current-git-ref.js';
 
-export default class GitHubFileURL {
+export default class GitHubFileUrl {
 	user = '';
 	repository = '';
 	route = '';
@@ -21,7 +21,7 @@ export default class GitHubFileURL {
 		return this.href;
 	}
 
-	assign(...replacements: Array<Partial<GitHubFileURL>>): this {
+	assign(...replacements: Array<Partial<GitHubFileUrl>>): this {
 		Object.assign(this, ...replacements);
 		return this;
 	}
@@ -55,7 +55,9 @@ export default class GitHubFileURL {
 
 		for (const [index, section] of currentBranchSections.entries()) {
 			if (ambiguousReference[index] !== section) {
-				console.warn(`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`);
+				console.warn(
+					`The supplied path (${ambiguousReference.join('/')}) is ambiguous (current reference is \`${currentBranch}\`)`,
+				);
 				return {branch, filePath};
 			}
 		}
@@ -67,7 +69,10 @@ export default class GitHubFileURL {
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(/(?:(?:undefined)?\/)+$/g, '');
+		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(
+			/(?:(?:undefined)?\/)+$/g,
+			'',
+		);
 	}
 
 	set pathname(pathname: string) {

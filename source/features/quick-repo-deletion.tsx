@@ -1,19 +1,19 @@
+import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
-import {setFieldText} from 'text-field-edit';
 import TrashIcon from 'octicons-plain-react/Trash';
-import delegate, {type DelegateEvent} from 'delegate-it';
+import {$, $optional} from 'select-dom';
+import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {buildRepoURL, getForkedRepo, getRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import api from '../github-helpers/api.js';
 import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
-import addNotice from '../github-widgets/notice-bar.js';
-import api from '../github-helpers/api.js';
+import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
+import addNotice from '../github-widgets/notice-bar.js';
+import observe from '../helpers/selector-observer.js';
 
 const tooltip = 'Instant deletion: shift-alt-click';
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
@@ -29,23 +29,24 @@ async function deleteRepository(): Promise<void> {
 	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
 		method: 'DELETE',
-		json: false,
+		responseFormat: 'text',
 	});
 }
 
-async function modifyUIAfterSuccessfulDeletion(): Promise<void> {
+async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 	const {nameWithOwner, owner} = getRepo()!;
 	const forkSource = '/' + getForkedRepo()!;
-	const restoreURL = pageDetect.isOrganizationRepo()
+	const restoreUrl = pageDetect.isOrganizationRepo()
 		? `/organizations/${owner}/settings/deleted_repositories`
 		: '/settings/deleted_repositories';
-	const otherForksURL = `/${owner}?tab=repositories&type=fork`;
+	const otherForksUrl = `/${owner}?tab=repositories&type=fork`;
 
 	await addNotice(
 		<>
 			<TrashIcon />
 			<span>
-				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreURL}>Restore it</a>, <a href={forkSource}>visit the source repo</a>, or see <a href={otherForksURL}>your other forks.</a>
+				Repository <strong>{nameWithOwner}</strong> deleted. <a href={restoreUrl}>Restore it</a>,{' '}
+				<a href={forkSource}>visit the source repo</a>, or see <a href={otherForksUrl}>your other forks.</a>
 			</span>
 		</>,
 		{action: false},
@@ -70,7 +71,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 			doneMessage: 'Repo deleted',
 		});
 
-		await modifyUIAfterSuccessfulDeletion();
+		await modifyUiAfterSuccessfulDeletion();
 	}
 }
 
@@ -82,7 +83,7 @@ function addButton(header: HTMLElement): void {
 	header.prepend(
 		<li>
 			<a
-				href={buildRepoURL('settings', buttonHashSelector)}
+				href={buildRepoUrl('settings', buttonHashSelector)}
 				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
 				title={tooltip}
 			>

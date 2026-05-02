@@ -1,5 +1,6 @@
-import {assert, test} from 'vitest';
 import hl from 'highlight.js';
+import {$$optional} from 'select-dom';
+import {assert, test} from 'vitest';
 
 import showWhiteSpacesOnLine from './show-whitespace-on-line.js';
 
@@ -8,8 +9,8 @@ function highlight(html: string): string {
 	return hl.highlight(html, {language: 'js'}).value;
 }
 
-function serializeDOM(element: Element): string {
-	for (const replacement of element.querySelectorAll('[data-rgh-whitespace]')) {
+function serializeDom(element: Element): string {
+	for (const replacement of $$optional('[data-rgh-whitespace]', element)) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
 			case 'space': {
 				replacement.replaceWith(replacement.innerHTML.replaceAll(' ', '•'));
@@ -25,7 +26,7 @@ function serializeDOM(element: Element): string {
 		}
 	}
 
-	for (const highlighting of element.querySelectorAll('[class^="hljs"]')) {
+	for (const highlighting of $$optional('[class^="hljs"]', element)) {
 		highlighting.replaceWith(highlighting.innerHTML);
 	}
 
@@ -36,7 +37,7 @@ function serializeDOM(element: Element): string {
 function process(html: string): string {
 	const element = document.createElement('div');
 	element.innerHTML = html;
-	return serializeDOM(showWhiteSpacesOnLine(element));
+	return serializeDom(showWhiteSpacesOnLine(element));
 }
 
 function assertProcess(actual: string, expected: string): void {

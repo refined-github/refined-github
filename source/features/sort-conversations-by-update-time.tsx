@@ -1,12 +1,12 @@
-import {$optional} from 'select-dom/strict.js';
-import * as pageDetect from 'github-url-detection';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import observe from '../helpers/selector-observer.js';
 import {linksToConversationLists} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
@@ -14,9 +14,9 @@ export function saveOriginalHref(link: HTMLAnchorElement): void {
 }
 
 async function selectCurrentConversationFilter(): Promise<void> {
-	const currentSearchURL = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
+	const currentSearchUrl = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
 	const menu = await elementReady('#filters-select-menu');
-	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchURL}"]`, menu);
+	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchUrl}"]`, menu);
 	if (currentFilter) {
 		$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
 		currentFilter.setAttribute('aria-checked', 'true');

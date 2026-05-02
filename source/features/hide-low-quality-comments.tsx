@@ -1,13 +1,14 @@
 import './hide-low-quality-comments.css';
 
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
-import {$$, countElements, elementExists} from 'select-dom';
-import * as pageDetect from 'github-url-detection';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import {
+	$, $$, $closest, $closestOptional, $optional, countElements, elementExists,
+} from 'select-dom';
 
-import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
+import delay from '../helpers/delay.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 
 export const singleParagraphCommentSelector = '.comment-body > p:only-child';
@@ -59,7 +60,7 @@ function init(): void {
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		const comment = commentText.closest('.js-timeline-item')!;
+		const comment = $closest('.js-timeline-item', commentText);
 		if (elementExists('.Label', comment)) {
 			continue;
 		}
@@ -69,7 +70,7 @@ function init(): void {
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
-		if (previousComment?.closest('.js-timeline-item') !== comment) {
+		if ($closestOptional('.js-timeline-item', previousComment) !== comment) {
 			continue;
 		}
 

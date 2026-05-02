@@ -1,19 +1,19 @@
 import './table-input.css';
 
-import React from 'dom-chef';
-import TableIcon from 'octicons-plain-react/Table';
-import * as pageDetect from 'github-url-detection';
-import {insertTextIntoField} from 'text-field-edit';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$} from 'select-dom/strict.js';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import TableIcon from 'octicons-plain-react/Table';
+import {$, $closestOptional} from 'select-dom';
+import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import observe from '../helpers/selector-observer.js';
 import {actionBarSelectors} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
+import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = square.closest('fieldset') // Issue
+	const container = $closestOptional('fieldset', square) // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;
@@ -23,7 +23,6 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	const row = columns === 1
 		// One HTML line per row
 		? '<tr><td>\n'
-
 		// <tr> on its own line
 		// "1 space" indents without causing unwanted Markdown code blocks that 4 spaces would cause
 		: '<tr>\n' + ' <td>\n'.repeat(columns);

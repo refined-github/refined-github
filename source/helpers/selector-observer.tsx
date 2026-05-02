@@ -1,13 +1,13 @@
-import React from 'dom-chef';
+import {mergeSignals, signalFromPromise} from 'abort-utils';
 import {css} from 'code-tag';
-import type {ParseSelector} from 'typed-query-selector/parser.js';
+import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
-import {signalFromPromise} from 'abort-utils';
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import optionsStorage from '../options-storage.js';
-import getCallerID from './caller-id.js';
+import getCallerId from './caller-id.js';
 import {parseFeatureNameFromStack} from './errors.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
@@ -44,11 +44,17 @@ export default function observe<
 			await delay(100); // Allow the animation and events to complete; Also adds support for ajaxed pages
 		})());
 
-		signal = signal ? AbortSignal.any([signal, delayedDomReady]) : delayedDomReady;
+		signal = mergeSignals(signal, delayedDomReady);
+	}
+
+	let onceController: AbortController | undefined;
+	if (once) {
+		onceController = new AbortController();
+		signal = mergeSignals(signal, onceController.signal);
 	}
 
 	const selector = typeof selectors === 'string' ? selectors : selectors.join(',\n');
-	const seenMark = 'rgh-seen-' + getCallerID(ancestor);
+	const seenMark = 'rgh-seen-' + getCallerId(ancestor);
 
 	registerAnimation();
 
@@ -86,6 +92,10 @@ export default function observe<
 	})();
 
 	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
+		if (event.animationName !== animation) {
+			return;
+		}
+
 		const target = event.target as ExpectedElement;
 		// The target can match a selector even if the animation actually happened on a ::before pseudo-element, so it needs an explicit exclusion here
 		if (target.classList.contains(seenMark) || !target.matches(selector)) {
@@ -98,10 +108,10 @@ export default function observe<
 		target.classList.add(seenMark);
 
 		listener(target, {signal});
-	}, {once, signal});
+		onceController?.abort();
+	}, {signal});
 }
 
-// Untested, likely breaks due to wrong `ancestor` level
 export async function waitForElement<
 	Selector extends string,
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
@@ -109,16 +119,17 @@ export async function waitForElement<
 	selectors: Selector | readonly Selector[],
 	{signal, stopOnDomReady}: Options = {},
 ): Promise<ExpectedElement | void> {
-	const local = new AbortController();
-	signal = signal ? AbortSignal.any([signal, local.signal]) : local.signal;
-
 	return new Promise<ExpectedElement | void>(resolve => {
 		observe<Selector, ExpectedElement>(selectors, element => {
 			resolve(element);
-			local.abort();
-		}, {signal, stopOnDomReady, once: true});
+		}, {
+			signal,
+			stopOnDomReady,
+			once: true,
+			ancestor: 4,
+		});
 
-		signal.addEventListener('abort', () => {
+		signal?.addEventListener('abort', () => {
 			resolve();
 		});
 	});

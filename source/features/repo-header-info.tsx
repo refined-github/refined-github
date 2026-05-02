@@ -1,20 +1,20 @@
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
-import React from 'dom-chef';
-import {elementExists} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import GetRepositoryInfo from './repo-header-info.gql';
-import {buildRepoURL, cacheByRepo} from '../github-helpers/index.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
+import GetRepositoryInfo from './repo-header-info.gql';
 
 type RepositoryInfo = {
 	isFork: boolean;
@@ -57,12 +57,12 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		}
 
 		if (!repoLink.classList.contains('AppHeader-context-item')) {
-			repoLink.closest('li')!.classList.add('d-flex');
+			$closest('li', repoLink).classList.add('d-flex');
 		}
 
 		repoLink.after(
 			<a
-				href={buildRepoURL('stargazers')}
+				href={buildRepoUrl('stargazers')}
 				title={tooltip}
 				// Hide in small viewports, matches `ci-link`
 				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"

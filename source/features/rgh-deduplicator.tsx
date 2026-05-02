@@ -1,8 +1,8 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
+import {$optional} from 'select-dom';
 
-import {_} from '../helpers/hotfix.js';
 import features from '../feature-manager.js';
+import {_} from '../helpers/hotfix.js';
 
 /*
 When navigating back and forth in history, GitHub will preserve the DOM changes;
@@ -10,7 +10,7 @@ This means that the old features will still be on the page and don't need to re-
 
 This marks each as "processed"
 */
-void features.add('rgh-deduplicator' as FeatureID, {
+void features.add('rgh-deduplicator', {
 	awaitDomReady: true,
 	async init() {
 		// `await` kicks it to the next tick, after the other features have checked for 'has-rgh', so they can run once.

@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubYoloRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkifyIssue(issueCell: HTMLElement): void {
 	// Linkify with hovercards
@@ -12,7 +12,7 @@ function linkifyIssue(issueCell: HTMLElement): void {
 }
 
 function linkifyFeature(issueCell: HTMLElement): void {
-	const url = getFeatureUrl(issueCell.textContent as FeatureID);
+	const url = getFeatureUrl(issueCell.textContent as FeatureId);
 	issueCell.replaceChildren(
 		<code>
 			<a className="d-inline-block" href={url}>

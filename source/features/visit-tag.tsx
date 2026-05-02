@@ -1,23 +1,25 @@
-import React from 'react';
-import {elementExists} from 'select-dom';
+import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
-import * as pageDetect from 'github-url-detection';
+import React from 'react';
+import {elementExists} from 'select-dom';
 
-import {branchSelector} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import {branchSelector} from '../github-helpers/selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
-import {buildRepoURL} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
-	if (elementExists([
-		// If the branch picker is open, do nothing #7491
-		'#selectPanel',
+	if (
+		elementExists([
+			// If the branch picker is open, do nothing #7491
+			'#selectPanel',
 
-		// React view deduplication https://github.com/refined-github/refined-github/issues/7601
-		'.rgh-visit-tag',
-	])) {
+			// React view deduplication https://github.com/refined-github/refined-github/issues/7601
+			'.rgh-visit-tag',
+		])
+	) {
 		return;
 	}
 
@@ -31,7 +33,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		branchSelector,
 		<a
 			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
-			href={buildRepoURL('releases/tag', tag)}
+			href={buildRepoUrl('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
 			<ArrowUpRightIcon />

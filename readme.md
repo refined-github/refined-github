@@ -103,10 +103,8 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "archive-forks-link") [Helps you find forks on archived repos.](https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png)
 - [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
-- [](# "quick-new-issue") [Adds a link to create issues from anywhere in a repository.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/274816033-820ec518-049d-4248-9f8a-27b9423e350b.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
-- [](# "mobile-tabs") [Makes the tabs more compact on mobile so more of them can be seen.](https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png)
 - [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
@@ -159,7 +157,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-mention") [Adds a button to `@mention` a user in issues and PRs.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261158402-5a79cc3e-4331-475f-8063-5ed81fefcf10.gif)
 - [](# "table-input") [Adds a button in the text editor to quickly insert a simplified HTML table.](https://user-images.githubusercontent.com/46634000/94559114-09892c00-0261-11eb-8fb0-c5a85ea76b6f.gif)
 - [](# "unfinished-comments") [Notifies the user of unfinished comments in hidden tabs.](https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif)
-- [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://user-images.githubusercontent.com/46634000/115445792-9fdd6900-a216-11eb-9ba3-6dab4d2f9d32.png)
+- [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
 - [](# "no-self-reference") [Warns against self-reference links, helping you avoid mistakes.](https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd)
 
@@ -182,7 +180,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-comment-hiding") [Simplifies the UI to hide comments.](https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif)
 - [](# "open-issue-to-latest-comment") [Makes the "comment" icon in issue lists link to the latest comment of the issue.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png)
 - [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png)
-- [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
+- [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
 - [](# "comment-excess") [Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.](https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31)
 
 <!--
@@ -209,9 +207,9 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-label-removal") [Adds one-click buttons to remove labels in issues/PRs.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)
 - [](# "dim-bots") [Dims commits and PRs by bots to reduce noise.](https://user-images.githubusercontent.com/1402241/220607557-f8ea0863-f05b-48c8-a447-1fec42af0afd.gif)
-- [](# "esc-to-cancel") [Adds a shortcut to cancel editing a issue/PR title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
+- [](# "esc-to-cancel") [Adds a shortcut to cancel editing a PR title: <kbd>esc</kbd>.](https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif)
 - [](# "no-duplicate-list-update-time") [Hides the update time of issues/PRs in lists when it matches the open/closed/merged time.](https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png)
-- [](# "linkify-user-labels") [Links the "Contributor", "Member" and "Collaborator" labels on comments to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
+- [](# "linkify-user-labels") [Links the "Contributor", "Member" and "Collaborator" labels on comments and PRs to the author’s commits on the repo.](https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png)
 - [](# "jump-to-conversation-close-event") [Adds a link to jump to the latest close event of a issue/PR.](https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif)
 - [](# "close-as-unplanned") [Lets you "close issue as unplanned" in one click instead of three.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png)
 - [](# "locked-issue") [Show a label on locked issues and PRs.](https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png)
@@ -238,9 +236,11 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "closing-remarks") 🔥 [Shows the first Git tag a merged PR was included in or suggests creating a release if not yet released.](https://user-images.githubusercontent.com/1402241/169497171-85d4a97f-413a-41b4-84ba-885dca2b51cf.png)
 - [](# "pr-jump-to-first-non-viewed-file") [Jumps to first non-viewed file in a PR when clicking on the progress bar.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif)
 - [](# "jump-to-change-requested-comment") [Adds a link to jump to the latest changed requested comment.](https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif)
-- [](# "view-last-pr-deployment") [Adds a link to open the latest deployment from the header of a PR.](https://user-images.githubusercontent.com/44045911/232313171-b54ac9cc-ebb1-43ef-bd41-5d81ec9f9588.png)
+- [](# "view-last-pr-deployment") [Adds a link to open the latest deployment to the PR header.](https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61)
 - [](# "no-unnecessary-split-diff-view") [Always uses unified diffs on files where split diffs aren’t useful.](https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png)
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
+- [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
+- [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -250,7 +250,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Editing pull requests
 
 - [](# "sync-pr-commit-title") 🔥 [Uses the PR’s title as the default squash commit title](https://github.com/refined-github/refined-github/issues/276) and [updates the PR’s title to match the commit title, if changed.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011579-25332762-b25f-407b-b6d2-bbfc13de2be7.png)
-- [](# "update-pr-from-base-branch") [Adds an "Update branch" button to every PR.](https://user-images.githubusercontent.com/1402241/234483592-4867cb2e-21cb-436d-9ea0-aedadf834f19.png) GitHub has the same feature, but it must be manually configured with protected branches.
+- [](# "update-pr-from-base-branch") [Adds an "Update branch | Rebase" button to every PR.](https://github.com/user-attachments/assets/7bd2745b-c57c-4c26-bbb8-b05e9cf089db) GitHub has the same feature, but it must be manually configured for each repo.
 - [](# "one-click-review-submission") [Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.](https://user-images.githubusercontent.com/1402241/236627732-df341ff7-cd98-4cd0-a579-722d1fffa5cf.png)
 - [](# "pull-request-hotkeys") [Adds keyboard shortcuts to cycle through PR tabs: <kbd>g</kbd> <kbd>←</kbd> and <kbd>g</kbd> <kbd>→</kbd>, or <kbd>g</kbd> <kbd>1</kbd>, <kbd>g</kbd> <kbd>2</kbd>, <kbd>g</kbd> <kbd>3</kbd>, and <kbd>g</kbd> <kbd>4</kbd>](https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png).
 - [](# "pr-branch-auto-delete") [Automatically deletes the branch right after merging a PR, if possible.](https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png) Common branch names known to be long-lived are excluded (`develop`, `release/*`, etc)
@@ -268,7 +268,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "patch-diff-links") [Adds links to `.patch` and `.diff` files in commits.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011950-51712338-ffba-4b71-ad8f-9a0f142afb85.png)
 - [](# "more-file-links") [Adds links to view the raw version, the blame, and the history of files in PRs and commits.](https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png)
-- [](# "one-click-diff-options") [Adds one-click buttons to change diff style and to ignore the whitespace and a keyboard shortcut to ignore the whitespace: <kbd>d</kbd> <kbd>w</kbd>.](https://user-images.githubusercontent.com/46634000/156766044-18c9ff50-aead-4c40-ba16-7428b3742b6c.png)
+- [](# "one-click-diff-options") [Adds "Hide whitespace" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd> <kbd>w</kbd>.](https://github.com/user-attachments/assets/0b92992a-69a4-4de1-ab2a-cb6508870b4a)
 - [](# "extend-diff-expander") [Widens the `Expand diff` button to be clickable across the screen.](https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif)
 - [](# "hide-diff-signs") [Hides diff signs since diffs are color coded already.](https://user-images.githubusercontent.com/1402241/54807718-149cec80-4cb9-11e9-869c-e265863211e3.png)
 - [](# "suggest-commit-title-limit") [Suggests limiting commit and PR titles to 72 characters.](https://github.com/user-attachments/assets/e0392989-9c60-4f5c-9052-27a3bb51d4e4)
@@ -328,6 +328,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
+- [](# "clean-notifications") Makes the notifications list more compact when grouped by repo.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -342,6 +343,9 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "parse-backticks") [GitHub renders `` `text in backticks` `` in some places but not others; this features fills in where forgotten.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262555091-df31aa17-e7a2-4c16-91ca-fb077ba6134a.png)
 - [](# "action-used-by-link") [Lets you see how others are using the current Action in the Marketplace.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258552390-7d2cd013-c167-4fe5-9731-33622b8607e9.png)
 - [](# "improve-shortcut-help") [Shows all of Refined GitHub’s new keyboard shortcuts in the help modal (<kbd>?</kbd> hotkey).](https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png)
+- [](# "clean-footer") Dims the site footer so it's less prominent.
+- [](# "night-not-found") Adds dark mode to the global 404 page.
+- [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -361,6 +365,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Fixes for GitHub shortcomings
 
+- [](# "github-bugs") Applies various CSS fixes to GitHub's interface.
 - [](# "hide-navigation-hover-highlight") Removes the file hover effect in the repo file browser.
 - [](# "clean-repo-sidebar") [Removes unnecessary or redundant information from the repository sidebar.](https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png)
 - [](# "linkify-branch-references") [Linkifies branch references in "Quick PR" pages.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258553554-e1711be0-d5ce-4edc-aaf8-72d659c881bc.png)
@@ -368,9 +373,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "reload-failed-proxied-images") [Retries downloading images that failed downloading due to GitHub limited proxying.](https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png)
 - [](# "unwrap-unnecessary-dropdowns") [Makes some dropdowns 1-click instead of unnecessarily 2-click.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258554504-97d4079a-2aae-4aea-a870-653a267494a8.png)
 - [](# "prevent-link-loss") [Suggests fixing links that are wrongly shortened by GitHub.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260087535-a0f19995-5f4a-44e9-87d8-cf742b9bfeed.gif)
-- [](# "linkify-user-edit-history-popup") [Linkifies the username in the edit history popup.](https://user-images.githubusercontent.com/1402241/88917988-9ebb7480-d260-11ea-8690-0a3440f1ebbc.png)
 - [](# "prevent-duplicate-pr-submission") [Avoids creating duplicate PRs when mistakenly clicking "Create pull request" more than once.](https://user-images.githubusercontent.com/16872793/89589967-e029c200-d814-11ea-962b-3ff1f6236781.gif)
-- [](# "prevent-pr-merge-panel-opening") Prevents the merge panel from automatically opening on every page load after it’s been opened once.
 - [](# "command-palette-navigation-shortcuts") Adds keyboard shortcuts to select items in command palette using <kbd>ctrl</kbd> <kbd>n</kbd> and <kbd>ctrl</kbd> <kbd>p</kbd> (macOS only).
 - [](# "prevent-comment-loss") [While writing/editing comments, open the preview links in new tab instead of navigating away from the page.](https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif)
 - [](# "fix-no-pr-search") [Redirect to repo issue list when the search doesn‘t include `is:pr`.](https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif)
@@ -382,6 +385,13 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "same-page-links") Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
 - [](# "linkify-text") [Makes certain text clickable, like issue references in the issue title and discussion sidebar.](https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90)
 - [](# "new-milestone-button") [Adds a 'New Milestone' button to the milestone page.](https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987)
+- [](# "mark-private-repos") Highlights private repositories in the repository list with a distinct color.
+- [](# "tab-size") Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow [the user's preferences.](https://github.com/settings/appearance)
+- [](# "sticky-file-header") Makes the file header sticky when scrolling through code diffs.
+- [](# "sticky-csv-header") Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.
+- [](# "reactions-popup") Improves the usability of the comment reactions popup by making it smaller.
+- [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
+- [](# "cmd-enter") [Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs, which is broken.](https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -396,7 +406,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 Most features can be disabled if they are JavaScript-based and you can override our CSS with your own in the extension options.
 
-We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/wiki/New-Feature-Request) Users will always disagree with something. That being said, we're open to discussing things.
+We're happy to receive suggestions and contributions, but be aware this is a highly opinionated project. There's [a high bar for adding features.](https://github.com/refined-github/refined-github/wiki/%22Can-you-add-this-feature%3F%22) Users will always disagree with something. That being said, we're open to discussing things.
 
 ## Links
 

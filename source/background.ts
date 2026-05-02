@@ -1,17 +1,17 @@
 import 'webext-dynamic-content-scripts';
 import 'webext-bugs/options-menu-item';
 import {customizeNoAllUrlsErrorMessage} from 'webext-bugs/no-all-urls';
-import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
+import {isSafari} from 'webext-detect';
+import {handleMessages} from 'webext-msg';
 import addPermissionToggle from 'webext-permission-toggle';
 import {StorageItem} from 'webext-storage';
-import {handleMessages} from 'webext-msg';
-import {isSafari} from 'webext-detect';
+import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 
-import optionsStorage, {hasToken} from './options-storage.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
+import optionsStorage, {hasToken} from './options-storage.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
 
 const {version, permissions} = chrome.runtime.getManifest();
@@ -27,7 +27,9 @@ if (!isSafari()) {
 addReloadWithoutContentScripts();
 
 // Extend the error message for the "No All URLs" bugfix
-customizeNoAllUrlsErrorMessage('Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.');
+customizeNoAllUrlsErrorMessage(
+	'Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.',
+);
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
@@ -51,12 +53,14 @@ handleMessages({
 		void chrome.tabs.remove(tab!.id!);
 	},
 	fetchText,
-	async fetchJSON(url: string) {
+	async fetchJson(url: string) {
 		const response = await fetch(url);
 		return response.json();
 	},
-	async openOptionsPage() {
-		return chrome.runtime.openOptionsPage();
+	async openOptionsPage(hash: string) {
+		return chrome.tabs.create({
+			url: chrome.runtime.getURL(`assets/options.html${hash && `#${hash}`}`),
+		});
 	},
 	async getStyleHotfixes() {
 		return styleHotfixes.get(version);

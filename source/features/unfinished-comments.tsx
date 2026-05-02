@@ -1,6 +1,6 @@
-import {$$} from 'select-dom';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {$$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -9,14 +9,14 @@ let submitting: ReturnType<typeof setTimeout> | undefined;
 const prefix = '✏️ Comment - ';
 
 function isFieldDirty(field: HTMLTextAreaElement): boolean {
-	return field.matches('[class*="Textarea__StyledTextarea"]')
+	return field.matches('[class*="Textarea"]')
 		? field.value.length > 0 // React fields update both value and textContent, so default to "filled === dirty"
 		: field.value !== field.textContent;
 }
 
 function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return $$('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
+	return $$optional('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
 }
 
 function disableOnSubmit(): void {
@@ -58,5 +58,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/sandbox/pull/4
+https://github.com/refined-github/sandbox/pull/4/changes
+https://github.com/refined-github/sandbox/issues/3
 
 */

@@ -1,7 +1,7 @@
 import {execSync} from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {test, expect} from 'vitest';
+import {expect, test} from 'vitest';
 
 import featureRenames from './feature-renames.json';
 

@@ -1,15 +1,15 @@
 import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+import {$, $closest, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
-	const repository = repositoryLink.closest('li')!;
+	const repository = $closest('li', repositoryLink);
 
 	// Remove the "X issues need help" link
 	$optional('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
@@ -45,8 +45,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	}
 
 	// Place before the update date ·
-	repositoryLink
-		.closest('[data-testid="results-list"] > div')!
+	$closest('[data-testid="results-list"] > div', repositoryLink)
 		.querySelector('ul > span:last-of-type')!
 		.before(
 			<>

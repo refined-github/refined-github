@@ -1,19 +1,18 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
+import {$, $closestOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import api from '../github-helpers/api.js';
-import GitHubFileURL from '../github-helpers/github-file-url.js';
-import previousVersionQuery from './previous-version.gql';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
+import api from '../github-helpers/api.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import observe from '../helpers/selector-observer.js';
+import previousVersionQuery from './previous-version.gql';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
-	const {user, repository, branch, filePath} = new GitHubFileURL(pathname);
+	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
 	const {resource} = await api.v4(previousVersionQuery, {
 		variables: {
 			filePath,
@@ -31,7 +30,7 @@ async function getPreviousFileUrl(): Promise<string | void> {
 		return;
 	}
 
-	return new GitHubFileURL(location.href)
+	return new GitHubFileUrl(location.href)
 		.assign({branch: previousCommit})
 		.href;
 }
@@ -61,7 +60,7 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 
 	// The button might be labeled or inside a role="tooltip" element.
 	// If it has a tooltip, we need to clone the tooltip element itself, not the button.
-	const wrappedHistoryButton = historyButton.closest('[role="tooltip"]');
+	const wrappedHistoryButton = $closestOptional('[role="tooltip"]', historyButton);
 
 	if (elementExists(wrappedHistoryButton ? '.rgh-previous-version-mobile' : '.rgh-previous-version-desktop')) {
 		return;

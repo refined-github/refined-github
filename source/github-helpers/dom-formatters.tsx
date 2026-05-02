@@ -1,18 +1,19 @@
 import React from 'dom-chef';
-import {elementExists} from 'select-dom';
-import {$$} from 'select-dom/strict.js';
-import zipTextNodes from 'zip-text-nodes';
-import {applyToLink} from 'shorten-repo-url';
-import {linkifyUrlsToDom} from 'linkify-urls';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
+import {linkifyUrlsToDom} from 'linkify-urls';
+import {
+	$$, $closest, $closestOptional, elementExists,
+} from 'select-dom';
+import {applyToLink} from 'shorten-repo-url';
+import zipTextNodes from 'zip-text-nodes';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
+import {buildRepoUrl, getConversationNumber} from './index.js';
 import parseBackticksCore from './parse-backticks.js';
-import {buildRepoURL} from './index.js';
 
 // Shared class necessary to avoid also shortening the links
-export const linkifiedURLClass = 'rgh-linkified-code';
-const linkifiedURLSelector = '.rgh-linkified-code';
+export const linkifiedUrlClass = 'rgh-linkified-code';
+const linkifiedUrlSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
@@ -27,8 +28,20 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
+	if ($closestOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
+
+		// Customize same-thread links. Already handled by GitHub, but badly
+		// https://github.com/refined-github/refined-github/issues/6057
+		if (
+			link.textContent === `#${getConversationNumber()} (comment)`
+		) {
+			link.textContent = '(earlier comment)';
+		} else if (
+			link.textContent === `#${getConversationNumber()} (review)`
+		) {
+			link.textContent = '(earlier review)';
+		}
 	}
 }
 
@@ -45,9 +58,9 @@ export function repositionAnchors(element: HTMLElement): void {
 		return;
 	}
 
-	const container = element.closest('.react-code-file-contents')!.parentElement!;
+	const container = $closest('.react-code-file-contents', element).parentElement!;
 
-	const codeLine = element.closest('[id]');
+	const codeLine = $closestOptional('[id]', element);
 	if (!codeLine) {
 		throw new Error('Could not find parent code line');
 	}
@@ -57,7 +70,6 @@ export function repositionAnchors(element: HTMLElement): void {
 		const anchor = `--rgh-${codeLine.id}-${index}`;
 		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
 		link.className = 'react-code-text rgh-anchored-link';
-		// @ts-expect-error -- Not widely available yet
 		link.style.positionAnchor = anchor;
 		container.prepend(link);
 	}
@@ -77,7 +89,7 @@ export function linkifyIssues(
 		baseUrl: '',
 		...options,
 		attributes: {
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+			class: linkifiedUrlClass, // Necessary to avoid also shortening the links
 			...options.attributes,
 		},
 	});
@@ -101,12 +113,12 @@ export function linkifyIssues(
 	repositionAnchors(element);
 }
 
-export function linkifyURLs(element: HTMLElement): void {
+export function linkifyUrls(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
 	}
 
-	if (elementExists(linkifiedURLSelector, element)) {
+	if (elementExists(linkifiedUrlSelector, element)) {
 		console.warn('Links already exist', element);
 		throw new Error('Links already exist');
 	}
@@ -114,7 +126,7 @@ export function linkifyURLs(element: HTMLElement): void {
 	const linkified = linkifyUrlsToDom(element.textContent, {
 		attributes: {
 			rel: 'noreferrer noopener',
-			class: linkifiedURLClass, // Necessary to avoid also shortening the links
+			class: linkifiedUrlClass, // Necessary to avoid also shortening the links
 		},
 	});
 
@@ -142,9 +154,9 @@ export function linkifyCommit(sha: string): JSX.Element {
 		<code>
 			<a
 				className="Link--secondary"
-				href={buildRepoURL('commit', sha)}
+				href={buildRepoUrl('commit', sha)}
 				data-hovercard-type="commit"
-				data-hovercard-url={buildRepoURL('commit', sha, 'hovercard')}
+				data-hovercard-url={buildRepoUrl('commit', sha, 'hovercard')}
 			>
 				{sha.slice(0, 7)}
 			</a>

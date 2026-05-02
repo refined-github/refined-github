@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoURL, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
@@ -13,7 +13,8 @@ type FileType = {
 	type: string;
 };
 
-const changelogFiles = /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
+const changelogFiles
+	= /^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {
 	return files.find(name => changelogFiles.test(name)) ?? false;
 }
@@ -52,7 +53,7 @@ async function init(): Promise<void | false> {
 		<a
 			className="subnav-item tooltipped tooltipped-n"
 			aria-label={`View the ${changelog} file`}
-			href={buildRepoURL('blob', 'HEAD', changelog)}
+			href={buildRepoUrl('blob', 'HEAD', changelog)}
 		>
 			<span>Changelog</span>
 		</a>,

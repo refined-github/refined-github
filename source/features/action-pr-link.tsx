@@ -1,8 +1,9 @@
 import * as pageDetect from 'github-url-detection';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getConversationNumber} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);
@@ -13,11 +14,11 @@ function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, valu
 async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent.slice(1);
 
-	const runLink = prLink.closest('.Box-row')!.querySelector('a:has(.Link--primary)')!;
+	const runLink = $('a:has(.Link--primary)', $closest('.Box-row', prLink));
 	setSearchParameter(runLink, 'pr', prNumber);
 }
 
-async function addForPR(actionLink: HTMLAnchorElement): Promise<void> {
+async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
 	setSearchParameter(actionLink, 'pr', String(getConversationNumber()));
 }
 
@@ -25,12 +26,16 @@ async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> 
 	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, {signal});
 }
 
-async function initForPRPage(signal: AbortSignal): Promise<void> {
+async function initForPrPage(signal: AbortSignal): Promise<void> {
 	// Exclude rgh-link, include isPRCommits
-	observe([
-		'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
-		'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
-	], addForPR, {signal});
+	observe(
+		[
+			'main [href="/apps/github-actions"] ~ div a.status-actions', // Legacy
+			'[data-testid="check-run-item"] a[href*="/actions/runs/"]', // React component on isPRCommits
+		],
+		addForPr,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -42,7 +47,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
-	init: initForPRPage,
+	init: initForPrPage,
 });
 
 /*
