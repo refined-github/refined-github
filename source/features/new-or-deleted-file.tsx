@@ -32,11 +32,11 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileInFileTree = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`);
 
 	const icon = $optional(
-		is(
+		'svg' + is(
 			'.octicon-file-removed',
 			'.octicon-file-added',
 			'.octicon-file-moved',
-		) + ':not([data-material-icons-extension])',
+		),
 		fileInFileTree
 	)?.cloneNode(true);
 	if (icon) {
