@@ -44,14 +44,14 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 					>
 						cleared
 					</a>
-					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={onClick}>Undo</button>
+					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={toggleUndoRedo}>Undo</button>
 				</p>
 			</div>
 		),
 	});
 
 	let isUndoing = false;
-	function onClick({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
+	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
 		isUndoing = !isUndoing;
 		setFieldValue(messageField, isUndoing ? originalMessage : cleanedMessage);
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
