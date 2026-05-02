@@ -2,7 +2,7 @@ import './extend-diff-expander.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
+import {$, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -18,7 +18,7 @@ const nativeButtonSelector = [
 
 function expandDiff(event: DelegateEvent): void {
 	// Skip if the user clicked directly on the icon
-	if (!(event.target as Element).closest(nativeButtonSelector)) {
+	if (!$closestOptional(nativeButtonSelector, event.target as Node)) {
 		$(nativeButtonSelector, event.delegateTarget).click();
 	}
 }

@@ -2,7 +2,7 @@ import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {elementExists} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -23,10 +23,10 @@ type Pr = {
 };
 
 function isClosed(prLink: HTMLElement): boolean {
-	const row = prLink.closest([
+	const row = $closest([
 		'.js-issue-row', // Legacy DOM
 		'li',
-	])!;
+	], prLink);
 	return elementExists([
 		// Legacy DOM
 		'.octicon.merged',
@@ -80,7 +80,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		// Legacy DOM
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
 		// React DOM
-		: pr.link.closest('li')!.querySelector([
+		: $closest('li', pr.link).querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
 			'div[class^="Description"]', // Preview global PR list
 		])!;

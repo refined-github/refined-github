@@ -3,7 +3,7 @@ import './cross-deleted-pr-branches.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {
-	$, $$, $optional, lastElementOptional,
+	$, $$, $closest, $optional, lastElementOptional,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -17,7 +17,7 @@ function init(): void | false {
 		return; // Don't return false, This feature’s CSS already takes care of this
 	}
 
-	if (!lastBranchAction?.closest('.TimelineItem-body')!.textContent.includes(' deleted ')) {
+	if (!lastBranchAction || !$closest('.TimelineItem-body', lastBranchAction).textContent.includes(' deleted ')) {
 		return false;
 	}
 
