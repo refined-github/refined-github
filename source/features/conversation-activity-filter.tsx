@@ -9,7 +9,7 @@ import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import {
-	$, $$, $optional, elementExists,
+	$, $$, $closest, $closestOptional, $optional, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -77,8 +77,7 @@ function processDissmissedReviewEvent(item: HTMLElement): void {
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$(staleReviewId)
-			.closest(timelineItem)!
+		$closest(timelineItem, $(staleReviewId))
 			.classList
 			.add(collapsedClassName);
 	}
@@ -169,7 +168,7 @@ function createMenuItems(currentState: State): JSX.Element[] {
 }
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
-	const position = anchor.closest('div')!;
+	const position = $closest('div', anchor);
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
@@ -243,8 +242,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$optional(`.${collapsedClassName} ${location.hash}`)
-			?.closest(timelineItem)
+		$closestOptional(timelineItem, $optional(`.${collapsedClassName} ${location.hash}`))
 			?.classList
 			.remove(collapsedClassName);
 	}

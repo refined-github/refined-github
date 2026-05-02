@@ -1,7 +1,9 @@
 import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, $closest, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
@@ -28,7 +30,7 @@ const checkedSelector = is(
 let previousFile: HTMLElement | undefined;
 
 function remember(event: DelegateEvent<MouseEvent, HTMLElement>): void {
-	previousFile = event.delegateTarget.closest(fileSelector)!;
+	previousFile = $closest(fileSelector, event.delegateTarget);
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -43,7 +45,7 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 
 	const files = $$(fileSelector);
-	const thisFile = event.delegateTarget.closest(fileSelector)!;
+	const thisFile = $closest(fileSelector, event.delegateTarget);
 	const isThisBeingFileChecked = isChecked(thisFile);
 
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
@@ -70,7 +72,7 @@ function markAsViewedSelector(file: HTMLElement): string {
 const markAsViewed = clickAll(markAsViewedSelector);
 
 function onAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
-	const file = event.delegateTarget.closest(fileSelector)!;
+	const file = $closest(fileSelector, event.delegateTarget);
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
 	void showToast(async () => {

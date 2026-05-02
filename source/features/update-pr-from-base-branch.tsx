@@ -1,7 +1,9 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, elementExists} from 'select-dom';
+import {
+	$, $closest, $optional, elementExists,
+} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -93,7 +95,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		doneMessage: 'Branch updated',
 	});
 
-	button.closest('.ButtonGroup')!.remove();
+	$closest('.ButtonGroup', button).remove();
 }
 
 const feature = getIdentifiers(import.meta.url);

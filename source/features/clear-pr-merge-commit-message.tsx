@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {countElements} from 'select-dom';
+import {$closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -31,7 +31,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	cleanedMessage = cleanedMessage ? cleanedMessage + '\n' : '';
 	setFieldValue(messageField, cleanedMessage);
 
-	const anchor = messageField.closest('div[data-has-label]')!;
+	const anchor = $closest('div[data-has-label]', messageField);
 	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">

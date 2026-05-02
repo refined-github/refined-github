@@ -21,12 +21,12 @@
   },
   "source/features/conversation-activity-filter.tsx": {
     "refined-github/no-optional-chaining": {
-      "count": 2
+      "count": 1
     }
   },
   "source/features/cross-deleted-pr-branches.tsx": {
     "refined-github/no-optional-chaining": {
-      "count": 2
+      "count": 1
     }
   },
   "source/features/easy-toggle-commit-messages.tsx": {
@@ -45,11 +45,6 @@
     }
   },
   "source/features/github-actions-indicators.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/hide-low-quality-comments.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
     }

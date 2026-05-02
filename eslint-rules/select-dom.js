@@ -11,6 +11,31 @@ const rule = {
 	create(context) {
 		const {sourceCode} = context;
 		return {
+			// X.closest(sel) → $closest(sel, x) or $closestOptional(sel, x)
+			'CallExpression[callee.type=MemberExpression][callee.property.name=closest]'(node) {
+				const {object} = node.callee;
+
+				// Determine parent, skipping over ChainExpression wrappers
+				const parent = node.parent?.type === 'ChainExpression' ? node.parent.parent : node.parent;
+
+				const isNonNull = parent?.type === 'TSNonNullExpression';
+				const replacement = isNonNull ? '$closest' : '$closestOptional';
+
+				// The node to replace: for non-null, replace the whole `x.closest(sel)!`; otherwise just the call
+				const nodeToReplace = isNonNull ? parent : node;
+
+				context.report({
+					node,
+					messageId: 'useSelectDom',
+					data: {replacement, method: 'closest'},
+					fix(fixer) {
+						const selector = sourceCode.getText(node.arguments[0]);
+						const objectText = sourceCode.getText(object);
+						return fixer.replaceText(nodeToReplace, `${replacement}(${selector}, ${objectText})`);
+					},
+				});
+			},
+
 			// X.querySelector(sel) with a simple receiver → $(sel, x)
 			'CallExpression[callee.type=MemberExpression]:matches([callee.property.name=querySelector], [callee.property.name=querySelectorAll])'(node) {
 				const {object} = node.callee;

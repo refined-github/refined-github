@@ -3,7 +3,7 @@ import './options.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {enableTabToIndent} from 'indent-textarea';
 import {
-	$, $$, $optional, elementExists,
+	$, $$, $closestOptional, $optional, elementExists,
 } from 'select-dom';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
@@ -184,7 +184,7 @@ function scrollTargetIntoView(): void {
 		return;
 	}
 
-	const details = element.closest('details');
+	const details = $closestOptional('details', element);
 	if (details) {
 		details.open = true;
 	}

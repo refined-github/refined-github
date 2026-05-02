@@ -8,6 +8,10 @@ test('cleanCommitMessage', () => {
 		'co-authored-by: Me <me@example.com>',
 		'Co-authored-by: You <you@example.com>',
 	];
+	const signoffs = [
+		'Signed-off-by: Me <me@example.com>',
+		'signed-off-by: Me <me@example.com>',
+	];
 	assert.isEmpty(cleanCommitMessage(''));
 	assert.isEmpty(cleanCommitMessage('clean me'));
 	assert.isEmpty(cleanCommitMessage(`
@@ -43,6 +47,35 @@ test('cleanCommitMessage', () => {
 	`),
 		coauthors[0],
 		'Should de-duplicate inconsistent co-authored-by casing',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+	`),
+		signoffs[0],
+		'Should preserve signed-off-by',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+		${signoffs[1]}
+	`),
+		signoffs[0],
+		'Should de-duplicate inconsistent signed-off-by casing',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${coauthors[0]}
+		${signoffs[0]}
+	`),
+		coauthors[0] + '\n' + signoffs[0],
+		'Should preserve both co-authored-by and signed-off-by',
 	);
 
 	assert.isEmpty(

@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, elementExists} from 'select-dom';
+import {$, $closest, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -63,13 +63,13 @@ function add(avatar: HTMLElement): void {
 		avatar.style.border = 'solid 5px black';
 	}
 
-	const timelineItem = avatar.closest([
+	const timelineItem = $closest([
 		// Regular comments
 		'.js-comment-container',
 
 		// Reviews
 		'.js-comment',
-	])!;
+	], avatar);
 
 	const isOldView = Boolean(timelineItem);
 

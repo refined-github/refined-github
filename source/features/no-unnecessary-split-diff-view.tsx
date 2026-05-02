@@ -1,6 +1,6 @@
 import './no-unnecessary-split-diff-view.css';
 import * as pageDetect from 'github-url-detection';
-import {$, elementExists} from 'select-dom';
+import {$, $closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 void features.addCssFeature(import.meta.url);
 
 function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
-	const table = tableBody.closest('table')!;
+	const table = $closest('table', tableBody);
 	const columnsGroup = $('colgroup', table);
 	// Diff view is unified
 	if (columnsGroup.childElementCount !== 4) {
