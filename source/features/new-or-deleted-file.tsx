@@ -37,7 +37,7 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 			'.octicon-file-added',
 			'.octicon-file-moved',
 		),
-		fileInFileTree
+		fileInFileTree,
 	)?.cloneNode(true);
 	if (icon) {
 		icon.style.display = '';
