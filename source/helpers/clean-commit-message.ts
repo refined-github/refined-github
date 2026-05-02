@@ -6,6 +6,12 @@ export default function cleanCommitMessage(message: string, closingKeywords = fa
 		preservedContent.add('Co-authored-by: ' + author);
 	}
 
+	// Preserve "Signed-off-by" lines (DCO signoffs)
+	// https://github.com/refined-github/refined-github/issues/9330#issuecomment-4361024401
+	for (const [, signer] of message.matchAll(/signed-off-by: ([^\n]+)/gi)) {
+		preservedContent.add('Signed-off-by: ' + signer);
+	}
+
 	if (!closingKeywords) {
 		return [...preservedContent].join('\n');
 	}
