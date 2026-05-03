@@ -7,10 +7,7 @@ import {
 } from 'select-dom';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
 
-// The h2 is to avoid hiding website links that include '/releases' #4424
-// TODO: It's broken
 const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
 async function cleanReleases(): Promise<void> {
 	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
@@ -22,21 +19,7 @@ async function cleanReleases(): Promise<void> {
 	if (!elementExists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
-		return;
 	}
-
-	// Collapse "Releases" section into previous section
-	releasesSection.classList.add('border-0', 'pt-md-0');
-	$closest('.BorderGrid-row', sidebarReleases)
-		.previousElementSibling! // About’s .BorderGrid-row
-		.firstElementChild! // About’s .BorderGrid-cell
-		.classList
-		.add('border-0', 'pb-0');
-
-	// Point to releases page; the user sees the same content, but there's more below
-	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
-		// The link is missing on tagged-but-no-releases repos
-		?.setAttribute('href', buildRepoUrl('releases'));
 }
 
 async function hideLanguageHeader(): Promise<void> {
@@ -48,7 +31,7 @@ async function hideLanguageHeader(): Promise<void> {
 	}
 }
 
-// Hide empty meta if it’s not editable by the current user
+// Hide empty meta if it's not editable by the current user
 async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 

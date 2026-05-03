@@ -15,11 +15,6 @@
 	}
 
 	@media (width >= 768px) {
-		/* Hide "Releases" header */
-		.Layout-sidebar h2 [href$='/releases'] {
-			display: none;
-		}
-
 		/* Align data section with latest tag/release link #5428 */
 		.Layout-sidebar .Link--muted .octicon {
 			margin-right: 4px !important;
