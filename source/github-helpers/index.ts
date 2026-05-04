@@ -214,7 +214,6 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 export function getFirstComment(): Element | undefined {
 	return $optional([
 		'.react-issue-body', // Issues
-		'.react-issue-comment', // Issues (React view)
 		'.TimelineItem:has(a.author)', // PRs
 	]);
 }
