@@ -211,16 +211,15 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-export function getFirstComment(): Element | undefined {
-	return $optional([
+export function getFirstComment(): Element {
+	return $([
 		'.react-issue-body', // Issues
 		'.js-command-palette-pull-body', // PRs
 	]);
 }
 
-export function getConversationAuthor(): string | undefined {
-	const firstComment = getFirstComment();
-	return firstComment ? getCommentAuthor(firstComment) : undefined;
+export function getConversationAuthor(): string {
+	return getCommentAuthor(getFirstComment());
 }
 
 export function isOwnConversation(): boolean {
