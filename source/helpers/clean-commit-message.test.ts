@@ -85,7 +85,7 @@ test('cleanCommitMessage', () => {
 		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
 	`,
 			false,
-			'dependabot[bot]',
+			['dependabot[bot]'],
 		),
 		'Should drop co-author whose privacy email matches the PR author',
 	);
@@ -98,7 +98,7 @@ test('cleanCommitMessage', () => {
 		${coauthors[2]}
 	`,
 			false,
-			'dependabot[bot]',
+			['dependabot[bot]'],
 		),
 		coauthors[2],
 		'Should drop only the matching co-author, and keep others',
@@ -111,7 +111,7 @@ test('cleanCommitMessage', () => {
 		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
 	`,
 			false,
-			'someone-else',
+			['someone-else'],
 		),
 		'Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>',
 		'Should keep co-author when privacy email username does not match PR author',
@@ -124,7 +124,7 @@ test('cleanCommitMessage', () => {
 		${coauthors[0]}
 	`,
 			false,
-			'Me',
+			['Me'],
 		),
 		coauthors[0],
 		'Should keep co-author when email is not a GitHub privacy email, even if the name matches PR author',
@@ -137,7 +137,7 @@ test('cleanCommitMessage', () => {
 		Co-authored-by: someuser <someuser@users.noreply.github.com>
 	`,
 			false,
-			'someuser',
+			['someuser'],
 		),
 		'Should drop co-author with legacy privacy email without numeric prefix prior to July 18, 2017',
 	);
