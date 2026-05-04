@@ -8,6 +8,7 @@ import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
 import {is} from '../helpers/css-selectors.js';
+import getCommentAuthor from './get-comment-author.js';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
@@ -210,20 +211,17 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-// Note: `a.author` only exists on PR pages, and issue pages have no equivalent selector.
+export function getFirstComment(): Element | undefined {
+	return $optional([
+		'.react-issue-body', // Issues
+		'.react-issue-comment', // Issues (React view)
+		'.TimelineItem:has(a.author)', // PRs
+	]);
+}
+
 export function getConversationAuthor(): string | undefined {
-	const element = $optional('a.author');
-	if (!element) {
-		return undefined;
-	}
-
-	const name = (element.textContent ?? '').trim();
-	// Bots linked via apps don't seem to include [bot] in their link text
-	if (!name.endsWith('[bot]') && element.getAttribute('href')?.startsWith('/apps/')) {
-		return name + '[bot]';
-	}
-
-	return name;
+	const firstComment = getFirstComment();
+	return firstComment ? getCommentAuthor(firstComment) : undefined;
 }
 
 export function isOwnConversation(): boolean {

@@ -16,7 +16,8 @@ const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().bas
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
-	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch(), getConversationAuthor());
+	const author = getConversationAuthor();
+	const cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch(), author ? [author] : []);
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return;
