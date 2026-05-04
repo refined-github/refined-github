@@ -214,7 +214,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 export function getFirstComment(): Element | undefined {
 	return $optional([
 		'.react-issue-body', // Issues
-		'.TimelineItem:has(a.author)', // PRs
+		'.js-command-palette-pull-body', // PRs
 	]);
 }
 
