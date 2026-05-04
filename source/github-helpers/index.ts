@@ -211,7 +211,7 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-export function getFirstComment(): Element {
+export function getConversationBody(): Element {
 	return $([
 		'.react-issue-body', // Issues
 		'.js-command-palette-pull-body', // PRs
@@ -219,7 +219,7 @@ export function getFirstComment(): Element {
 }
 
 export function getConversationAuthor(): string {
-	return getCommentAuthor(getFirstComment());
+	return getCommentAuthor(getConversationBody());
 }
 
 export function isOwnConversation(): boolean {
