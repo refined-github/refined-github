@@ -40,11 +40,10 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	const appLink = $closestOptional(`a${is(
+	const appLink = $closestOptional('a' + is(
 		'[href^="/apps/"]',
-		// TODO: Drop after October 2026
 		'[href^="https://github.com/apps/"]',
-	)}`, avatar);
+	), avatar);
 
 	if (!name.endsWith('[bot]') && appLink) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
