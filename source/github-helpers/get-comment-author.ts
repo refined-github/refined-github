@@ -1,6 +1,7 @@
 import {$closest, $closestOptional} from 'select-dom';
 
 import {is} from '../helpers/css-selectors.js';
+
 /**
 Given any element in a comment, returns the comment’s author
 
