@@ -1,11 +1,15 @@
-export default function cleanCommitMessage(message: string, closingKeywords = false, prAuthor?: string): string {
+function parseUserFromEmail(author: string): string | undefined {
+	return /<(?:\d+\+)?([^@>]+)@users\.noreply\.github\.com>/i.exec(author)?.[1];
+}
+
+export default function cleanCommitMessage(message: string, closingKeywords = false, excludeUsers: string[] = []): string {
 	const preservedContent = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication.
-	// Also, drop co-authors whose username (extracted from their GitHub privacy email) matches the PR author.
+	// Also drops co-authors whose GitHub privacy email username is in `excludeUsers`.
 	for (const [, author] of message.matchAll(/co-authored-by: ([^\n]+)/gi)) {
-		const privacyEmailUsername = (/<(?:\d+\+)?([^@>]+)@users\.noreply\.github\.com>/i.exec(author))?.[1];
-		if (prAuthor && privacyEmailUsername === prAuthor) {
+		const username = parseUserFromEmail(author);
+		if (username && excludeUsers.includes(username)) {
 			continue;
 		}
 
