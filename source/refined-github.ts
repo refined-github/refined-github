@@ -31,6 +31,7 @@ import './features/clean-pinned-issues.js';
 import './features/hide-diff-signs.js';
 import './features/clean-rich-text-editor.js';
 import './features/sticky-comment-header.js';
+import './features/sticky-comment-box-header.js';
 
 // Disableable features
 import './features/useful-not-found-page.js';

@@ -1,0 +1,15 @@
+div.tabnav.CommentBox-header {
+	position: sticky !important;
+	z-index: 4;
+	top: calc(
+		var(--base-sticky-header-height, 0px) + 38px +
+			var(--rgh-issue-or-pr-sticky-header-height, 0px)
+	);
+}
+
+/*
+Test URLs:
+
+- https://github.com/refined-github/sandbox/issues/117 (edit a comment in a long thread)
+- https://github.com/refined-github/sandbox/pull/118 (edit a comment in a long PR)
+*/
