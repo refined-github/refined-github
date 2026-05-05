@@ -1,4 +1,5 @@
 import {$closest, $closestOptional} from 'select-dom';
+
 /**
 Given any element in a comment, returns the comment’s author
 
@@ -37,7 +38,12 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	if (!name.endsWith('[bot]') && $closestOptional('[href^="https://github.com/apps/"]', avatar)) {
+	const appLink = $closestOptional([
+		'a[href^="/apps/"]',
+		'a[href^="https://github.com/apps/"]',
+	], avatar);
+
+	if (!name.endsWith('[bot]') && appLink) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
 		return name + '[bot]';
 	}

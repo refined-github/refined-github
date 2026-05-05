@@ -6,6 +6,7 @@ import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import attachElement from '../helpers/attach-element.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
@@ -15,7 +16,8 @@ const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().bas
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
-	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch());
+	const author = getConversationAuthor();
+	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch(), [author]);
 
 	if (cleanedMessage === originalMessage.trim()) {
 		return;

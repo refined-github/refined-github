@@ -8,6 +8,7 @@ import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
 import {is} from '../helpers/css-selectors.js';
+import getCommentAuthor from './get-comment-author.js';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
@@ -210,11 +211,15 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-function getConversationAuthor(): string | undefined {
-	return $optional([
-		'.js-command-palette-pull-body .author', // PR conversation
-		'[data-testid="issue-body-header-author"]', // Issue conversation
-	])?.textContent;
+export function getConversationBody(): Element {
+	return $([
+		'.react-issue-body', // Issues
+		'.js-command-palette-pull-body', // PRs
+	]);
+}
+
+export function getConversationAuthor(): string {
+	return getCommentAuthor(getConversationBody());
 }
 
 export function isOwnConversation(): boolean {
