@@ -146,7 +146,7 @@ function applyState(targetState: State): void {
 }
 
 function createMenuItems(currentState: State): JSX.Element[] {
-	return Object.entries(states).map(([itemState, label]) => (
+	const items = Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
 			<button
 				data-state={itemState}
@@ -165,6 +165,18 @@ function createMenuItems(currentState: State): JSX.Element[] {
 			</button>
 		</li>
 	));
+
+	items.push(
+		<li role="none" className="ActionListItem rgh-conversation-activity-filter-shortcut">
+			<span className="ActionListContent">
+				<span className="ActionListItem-label color-fg-muted">
+					Press <kbd>h</kbd> to cycle filters
+				</span>
+			</span>
+		</li>,
+	);
+
+	return items;
 }
 
 async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
