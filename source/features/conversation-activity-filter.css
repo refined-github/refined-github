@@ -57,6 +57,14 @@
 	}
 }
 
+.rgh-conversation-activity-filter-shortcut {
+	pointer-events: none;
+
+	kbd {
+		font-size: 11px;
+	}
+}
+
 .rgh-conversation-activity-filter-wrapper {
 	display: flex;
 	align-items: center;
