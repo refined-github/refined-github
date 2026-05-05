@@ -48,6 +48,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		: branchSelector;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
+	const buttonGroup = branchSelector.closest('[class*="ButtonGroup"]') ?? undefined;
+	const nativeButton = $optional('[type="button"]:has(> .octicon-chevron-left)', buttonGroup);
+	if (nativeButton?.ariaDisabled !== 'true') {
+		return;
+	}
+
 	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
@@ -66,7 +72,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		<a
 			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
-			aria-label="See this view on the default branch"
+			aria-label="View on default branch"
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
@@ -81,6 +87,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	selectorWrapper.before(defaultLink);
 	wrapButtons([defaultLink, selectorWrapper]);
+
+	nativeButton?.classList.add('d-none');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
