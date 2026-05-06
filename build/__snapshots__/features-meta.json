@@ -289,7 +289,7 @@
 	{
 		"id": "expand-collapse-files-buttons",
 		"description": "Adds \"Collapse all\" / \"Expand all\" buttons to the PR Files toolbar.",
-		"screenshot": null
+		"screenshot": "https://github.com/user-attachments/assets/73cfc9ac-c603-401e-bf5e-1b073ba0867b"
 	},
 	{
 		"id": "extend-conversation-status-filters",
