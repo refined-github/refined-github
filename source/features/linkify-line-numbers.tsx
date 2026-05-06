@@ -14,7 +14,12 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	lineNumberCell.append(<a href={url} className="no-underline"> {lineNumber} </a>);
+	lineNumberCell.append(
+		<a href={url} className="fgColor-inherit no-underline Link--onHover">
+			{lineNumber}
+		</a>,
+	);
+
 	lineNumberCell.dataset.lineNumber = '';
 }
 
