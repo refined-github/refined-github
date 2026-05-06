@@ -79,12 +79,8 @@ function add(avatar: HTMLElement): void {
 			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 		}
 	} else {
-		// Make sure the comment isn't hidden
-		const contentItem = avatar.parentElement!.querySelector([
-			'[data-testid="comment-header"] + div',
-			'.react-issue-body', // First comment in React issues view
-		]);
-		if (!contentItem) {
+		const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
+		if (isHidden) {
 			return;
 		}
 
