@@ -22,6 +22,7 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import onetime from '../helpers/onetime.js';
 
 const states = {
 	showAll: 'Show all activities',
@@ -131,6 +132,8 @@ async function handleSelection({target}: Event): Promise<void> {
 	applyState(state as State);
 }
 
+let currentState: State;
+
 function applyState(targetState: State): void {
 	const container = $([
 		// Current PR view
@@ -152,6 +155,7 @@ function applyState(targetState: State): void {
 		}
 	}
 
+	currentState = targetState;
 	SessionPageSetting.set(targetState);
 }
 
@@ -164,6 +168,7 @@ function createMenuItems(): JSX.Element[] {
 				type="button"
 				role="menuitemradio"
 				className={'ActionListContent ' + menuItemClass}
+				aria-checked={`${itemState === currentState}`}
 			>
 				<span className="ActionListItem-visual ActionListItem-action--leading">
 					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
@@ -267,8 +272,6 @@ function uncollapseTargetedComment(): void {
 }
 
 function switchToNextFilter(): void {
-	const currentState = $(`.${menuItemClass}[aria-checked="true"]`).dataset.state as State;
-
 	const stateNames = Object.keys(states);
 	const nextIndex = stateNames.indexOf(currentState) + 1;
 	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
@@ -277,10 +280,16 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = SessionPageSetting.get()
+	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
+
+	const initialSetupOnce = onetime(() => {
+		applyState(currentState);
+		registerHotkey('h', switchToNextFilter, {signal});
+		delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+	});
 
 	observe(
 		[
@@ -293,17 +302,16 @@ async function init(signal: AbortSignal): Promise<void> {
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
 		],
+		// This code runs twice - we have 2 widgets on the page
 		async anchor => {
 			await addWidget(anchor);
-			applyState(initialState);
-			registerHotkey('h', switchToNextFilter);
+			initialSetupOnce();
 		},
 		{signal},
 	);
 
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});
-	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 }
 
 void features.add(import.meta.url, {
