@@ -102,14 +102,14 @@ function addButtonIssue(avatar: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const isPr = pageDetect.isPR();
-
-	const field = await waitForElement(isPr ? prFieldSelector : issueFieldSelector, {signal});
+	const field = await waitForElement(fieldSelector, {signal});
 	if (!field) {
 		return;
 	}
 
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
+
+	const isPr = field.matches(prFieldSelector);
 
 	if (isPr) {
 		observe(prAvatarSelector, addButtonPr, {signal});
