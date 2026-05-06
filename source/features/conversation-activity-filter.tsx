@@ -8,7 +8,13 @@ import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import {
-	$, $$, $closest, $closestOptional, $optional, elementExists,
+	$,
+	$$,
+	$$optional,
+	$closest,
+	$closestOptional,
+	$optional,
+	elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -86,8 +92,8 @@ function processReview(review: HTMLElement): void {
 	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const unresolvedThreads = $$('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = $$('.timeline-comment-group:not(.minimized-comment)', review);
+	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
 
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
