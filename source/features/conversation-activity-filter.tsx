@@ -237,7 +237,7 @@ async function addWidget(anchor: Element): Promise<void> {
 						</div>
 						<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
 							<span className="color-fg-muted">
-								Press <kbd>h</kbd> to cycle through filters
+								Press <kbd>h</kbd> to cycle through filters, even when the dropdown is closed
 							</span>
 						</div>
 					</div>
