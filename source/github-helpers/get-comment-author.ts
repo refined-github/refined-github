@@ -1,3 +1,5 @@
+import {$closest, $closestOptional} from 'select-dom';
+
 /**
 Given any element in a comment, returns the comment’s author
 
@@ -18,14 +20,13 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 
 */
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
-	const avatar: HTMLImageElement = anyElementInsideComment
-		.closest([
-			'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
-			'.review-comment', // PR review comments
-			'.react-issue-body', // First issue comment
-			'.react-issue-comment', // Issue comments
-			'[data-testid="comment-header"]', // Commit comments
-		])!
+	const avatar: HTMLImageElement = $closest([
+		'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
+		'.review-comment', // PR review comments
+		'.react-issue-body', // First issue comment
+		'.react-issue-comment', // Issue comments
+		'[data-testid="comment-header"]', // Commit comments
+	], anyElementInsideComment)
 		.querySelector([
 			'.TimelineItem-avatar img', // PR comments (and pre-issue redesign issue comments)
 			'img.avatar', // PR review comments
@@ -37,7 +38,12 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	if (!name.endsWith('[bot]') && avatar.closest('[href^="https://github.com/apps/"]')) {
+	const appLink = $closestOptional([
+		'a[href^="/apps/"]',
+		'a[href^="https://github.com/apps/"]',
+	], avatar);
+
+	if (!name.endsWith('[bot]') && appLink) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
 		return name + '[bot]';
 	}

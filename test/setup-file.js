@@ -3,6 +3,7 @@ import {parseHTML, NodeFilter} from 'linkedom';
 const globals = [
 	'navigator',
 	'document',
+	'Element',
 	'HTMLAnchorElement',
 	'DocumentFragment',
 	'Node',

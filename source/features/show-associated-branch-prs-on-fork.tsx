@@ -9,6 +9,7 @@ import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed'
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import {CachedFunction} from 'webext-storage-cache';
+import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -71,8 +72,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 	const StateIcon = stateIcon[prInfo.state] ?? (() => {/* empty */});
 	const stateClassName = prInfo.state.toLowerCase();
 
-	const cell = branch
-		.closest('tr.TableRow')!
+	const cell = $closest('tr.TableRow', branch)
 		.children
 		.item(4)!;
 

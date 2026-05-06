@@ -1,7 +1,9 @@
 import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, $closest, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
@@ -27,10 +29,8 @@ const checkedSelector = is(
 
 let previousFile: HTMLElement | undefined;
 
-function remember(event: DelegateEvent): void {
-	if (event.isTrusted) {
-		previousFile = event.delegateTarget.closest(fileSelector)!;
-	}
+function remember(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	previousFile = $closest(fileSelector, event.delegateTarget);
 }
 
 function isChecked(file: HTMLElement): boolean {
@@ -41,15 +41,11 @@ function isChecked(file: HTMLElement): boolean {
 		: elementExists('.octicon-checkbox-fill', viewedToggle);
 }
 
-function batchToggle(event: DelegateEvent<MouseEvent, HTMLFormElement>): void {
-	if (!event.shiftKey) {
-		return;
-	}
-
+function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 
 	const files = $$(fileSelector);
-	const thisFile = event.delegateTarget.closest(fileSelector)!;
+	const thisFile = $closest(fileSelector, event.delegateTarget);
 	const isThisBeingFileChecked = isChecked(thisFile);
 
 	const selectedFiles = getItemsBetween(files, previousFile, thisFile);
@@ -75,12 +71,8 @@ function markAsViewedSelector(file: HTMLElement): string {
 
 const markAsViewed = clickAll(markAsViewedSelector);
 
-const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void => {
-	if (!event.altKey || !event.isTrusted) {
-		return;
-	}
-
-	const file = event.delegateTarget.closest(fileSelector)!;
+function onAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	const file = $closest(fileSelector, event.delegateTarget);
 	const newState = isChecked(file) ? 'viewed' : 'unviewed';
 
 	void showToast(async () => {
@@ -89,12 +81,24 @@ const onAltClick = (event: DelegateEvent<MouseEvent, HTMLInputElement>): void =>
 		message: `Marking visible files as ${newState}`,
 		doneMessage: `Files marked as ${newState}`,
 	});
-};
+}
+
+function handleClick(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	if (!event.isTrusted) {
+		return;
+	}
+
+	if (event.altKey) {
+		onAltClick(event);
+	} else if (event.shiftKey) {
+		batchToggle(event);
+	}
+
+	remember(event);
+}
 
 function init(signal: AbortSignal): void {
-	delegate(viewedToggleSelector, 'click', onAltClick, {signal});
-	delegate(viewedToggleSelector, 'click', batchToggle, {signal});
-	delegate(viewedToggleSelector, 'click', remember, {signal});
+	delegate(viewedToggleSelector, 'click', handleClick, {signal});
 	onAbort(signal, () => {
 		previousFile = undefined;
 	});

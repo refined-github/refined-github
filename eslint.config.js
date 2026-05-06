@@ -1,8 +1,8 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import svelteParser from 'svelte-eslint-parser';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
+import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import css from '@eslint/css';
 import pluginPromise from 'eslint-plugin-promise';
@@ -19,7 +19,7 @@ const refinedGithubPlugin = {
 };
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-export default [
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
 		{
@@ -91,12 +91,12 @@ export default [
 					'error',
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
 						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 					},
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 						message: 'If it\'s a single selector, use a single string instead of an array',
 					},
 					{
@@ -106,6 +106,10 @@ export default [
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$]',
 						message: 'Unused null expression: !',
+					},
+					{
+						selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
+						message: 'Unused null expression: ! — $closest() already throws when the element is not found',
 					},
 					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
@@ -273,11 +277,8 @@ export default [
 	]),
 	{
 		// Disable on markdown files, which are somehow being read as JS files
-		ignores: ['**/*.md'],
-	},
-	{
 		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
-		ignores: ['**/*.json', '!**/package.json'],
+		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
 	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
@@ -286,11 +287,11 @@ export default [
 			'@stylistic/curly-newline': ['error', {minElements: 1}],
 		},
 	},
-	...sveltePlugin.configs['flat/recommended'],
 	{
 		files: ['**/*.svelte'],
+		plugins: {svelte: sveltePlugin},
+		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
-			parser: svelteParser,
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -319,24 +320,17 @@ export default [
 		},
 	},
 	{
-		...css.configs.recommended,
 		files: ['**/*.css'],
 		language: 'css/css',
+		plugins: {css},
+		extends: ['css/recommended'],
 		languageOptions: {
 			tolerant: true, // Required for @container
 		},
 		rules: {
-			...css.configs.recommended.rules,
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
 	},
-	// Svelte rules require the Svelte parser and crash on non-JS files
-	{
-		files: ['**/*.css', '**/*.json'],
-		rules: Object.fromEntries(
-			Object.keys(sveltePlugin.rules).map(rule => [`svelte/${rule}`, 'off']),
-		),
-	},
-];
+]);

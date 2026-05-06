@@ -1,12 +1,14 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {$$, elementExists} from 'select-dom';
+import {
+	$$, $closest, $closestOptional, elementExists,
+} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
 import getTextNodes from '../helpers/get-text-nodes.js';
-import {buildRepoUrl} from './index.js';
+import {buildRepoUrl, getConversationNumber} from './index.js';
 import parseBackticksCore from './parse-backticks.js';
 
 // Shared class necessary to avoid also shortening the links
@@ -26,8 +28,20 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (link.closest(String([...codeElementsSelector, '.markdown-body']))?.classList.contains('markdown-body')) {
+	if ($closestOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
+
+		// Customize same-thread links. Already handled by GitHub, but badly
+		// https://github.com/refined-github/refined-github/issues/6057
+		if (
+			link.textContent === `#${getConversationNumber()} (comment)`
+		) {
+			link.textContent = '(earlier comment)';
+		} else if (
+			link.textContent === `#${getConversationNumber()} (review)`
+		) {
+			link.textContent = '(earlier review)';
+		}
 	}
 }
 
@@ -44,9 +58,9 @@ export function repositionAnchors(element: HTMLElement): void {
 		return;
 	}
 
-	const container = element.closest('.react-code-file-contents')!.parentElement!;
+	const container = $closest('.react-code-file-contents', element).parentElement!;
 
-	const codeLine = element.closest('[id]');
+	const codeLine = $closestOptional('[id]', element);
 	if (!codeLine) {
 		throw new Error('Could not find parent code line');
 	}
@@ -56,7 +70,6 @@ export function repositionAnchors(element: HTMLElement): void {
 		const anchor = `--rgh-${codeLine.id}-${index}`;
 		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
 		link.className = 'react-code-text rgh-anchored-link';
-		// @ts-expect-error -- Not widely available yet
 		link.style.positionAnchor = anchor;
 		container.prepend(link);
 	}

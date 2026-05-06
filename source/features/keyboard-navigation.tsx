@@ -1,5 +1,7 @@
 import * as pageDetect from 'github-url-detection';
-import {$$, $optional, elementExists} from 'select-dom';
+import {
+	$$, $closestOptional, $optional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
@@ -7,10 +9,10 @@ import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
-	|| Boolean(comment.closest([
+	|| Boolean($closestOptional([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
-	]));
+	], comment));
 
 function runShortcuts(event: KeyboardEvent): void {
 	if (!'jkx'.includes(event.key) || isEditable(event.target)) {

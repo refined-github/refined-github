@@ -1,6 +1,7 @@
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -15,7 +16,7 @@ import observe from '../helpers/selector-observer.js';
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
 	const commentedNode = link.parentNode!.nextSibling;
-	if (link.closest('.timeline-comment-header') && commentedNode) {
+	if ($closestOptional('.timeline-comment-header', link) && commentedNode) {
 		// "left a comment" appears in the main comment of reviews
 		removeTextNodeContaining(commentedNode, /commented|left a comment/);
 	}
@@ -81,7 +82,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	if (currentUserElements) {
 		for (const currentUserElement of currentUserElements) {
 			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
-			currentUserElement.closest('[data-testid="comment-header"]')?.setAttribute('data-rgh-viewer-did-author', '');
+			$closestOptional('[data-testid="comment-header"]', currentUserElement)?.setAttribute('data-rgh-viewer-did-author', '');
 		}
 
 		users.delete(currentUser);

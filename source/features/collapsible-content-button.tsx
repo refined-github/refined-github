@@ -2,7 +2,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import FoldDownIcon from 'octicons-plain-react/FoldDown';
-import {$} from 'select-dom';
+import {$, $closest} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -12,11 +12,11 @@ import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
 function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = delegateTarget.closest([
+	const container = $closest([
 		'form',
 		'[data-testid="comment-composer"]', // Add comment form
 		'[class^="MarkdownEditor-module__container"]', // Edit comment form
-	])!;
+	], delegateTarget);
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([

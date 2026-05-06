@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$, $$optional} from 'select-dom';
+import {$, $$optional, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -22,7 +22,7 @@ function replaceNotificationsDropdown(): void {
 		throw new Error('GitHub added new view types. This feature is obsolete.');
 	}
 
-	const dropdown = forms[0].closest('action-menu')!;
+	const dropdown = $closest('action-menu', forms[0]);
 	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 

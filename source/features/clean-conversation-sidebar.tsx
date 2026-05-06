@@ -2,7 +2,9 @@ import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, elementExists} from 'select-dom';
+import {
+	$, $closest, $optional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
@@ -64,11 +66,11 @@ function cleanSection(selector: string): boolean {
 		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
 		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
 	], container);
-	if (heading.closest(['form', '.discussion-sidebar-item'])!.querySelector(identifiers)) {
+	if ($closest(['form', '.discussion-sidebar-item'], heading).querySelector(identifiers)) {
 		return false;
 	}
 
-	const section = container.closest('.discussion-sidebar-item')!;
+	const section = $closest('.discussion-sidebar-item', container);
 	if (canEditSidebar()) {
 		getNodesAfter(heading).deleteContents();
 		section.classList.add('rgh-clean-sidebar');
@@ -85,7 +87,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	// Assignees
 	const assignees = $('.js-issue-assignees');
 	if (assignees.children.length === 0) {
-		assignees.closest('.discussion-sidebar-item')!.remove();
+		$closest('.discussion-sidebar-item', assignees).remove();
 	} else {
 		const assignYourself = $optional('.js-issue-assign-self');
 		if (assignYourself) {
@@ -93,7 +95,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 			$('[aria-label="Select assignees"] summary').append(
 				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
 			);
-			assignees.closest('.discussion-sidebar-item')!.classList.add('rgh-clean-sidebar');
+			$closest('.discussion-sidebar-item', assignees).classList.add('rgh-clean-sidebar');
 		}
 	}
 
