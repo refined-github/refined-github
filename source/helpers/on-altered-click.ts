@@ -7,11 +7,6 @@ export default function onAlteredClick<Selector extends string>(
 	callback: DelegateEventHandler<PointerEvent, ParseSelector<Selector>>,
 	options?: DelegateOptions,
 ): void {
-	const finalOptions = {
-		...options,
-		capture: true,
-	} satisfies DelegateOptions;
-
 	const clickListener: typeof callback = event => {
 		if (isAlteredClick(event)) {
 			callback(event);
@@ -30,24 +25,7 @@ export default function onAlteredClick<Selector extends string>(
 		event.preventDefault();
 	};
 
-	delegate(
-		selector,
-		'click',
-		clickListener,
-		finalOptions,
-	);
-
-	delegate(
-		selector,
-		'auxclick',
-		auxClickListener,
-		finalOptions,
-	);
-
-	delegate(
-		selector,
-		'mousedown',
-		mousedownListener,
-		finalOptions,
-	);
+	delegate(selector, 'click', clickListener, options);
+	delegate(selector, 'auxclick', auxClickListener, options);
+	delegate(selector, 'mousedown', mousedownListener, {...options, capture: true});
 }

@@ -18,7 +18,11 @@ function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): vo
 }
 
 function initNewIssueInNewTabOnce(): void {
-	onAlteredClick('li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)', handleAlteredClick);
+	onAlteredClick(
+		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
+		handleAlteredClick,
+		{capture: true},
+	);
 }
 
 function init(signal: AbortSignal): void {
