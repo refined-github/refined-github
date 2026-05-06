@@ -56,13 +56,7 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-const debug = false;
-
 function add(avatar: HTMLElement): void {
-	if (debug) {
-		avatar.style.border = 'solid 5px black';
-	}
-
 	const timelineItem = $closest([
 		// Regular comments
 		'.js-comment-container',
@@ -74,10 +68,6 @@ function add(avatar: HTMLElement): void {
 	const isOldView = Boolean(timelineItem);
 
 	if (isOldView) {
-		if (debug) {
-			timelineItem.style.border = 'solid 5px red';
-		}
-
 		if (
 			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
 			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
@@ -94,10 +84,6 @@ function add(avatar: HTMLElement): void {
 		if (!contentItem) {
 			return;
 		}
-	}
-
-	if (debug) {
-		timelineItem.style.border = 'solid 5px green';
 	}
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
