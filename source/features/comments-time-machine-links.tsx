@@ -95,17 +95,18 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 		return;
 	}
 
+	const searchParameters = new URLSearchParams(link.search);
+	if (searchParameters.has('rgh-link-date')) {
+		return;
+	}
+
 	const comment = $closest(commentSelector, link);
 	const relativeTime = $('relative-time', comment);
 	const timestamp = relativeTime.attributes.datetime.value;
 
 	saveOriginalHref(link);
 
-	const searchParameters = new URLSearchParams(link.search);
-	if (!searchParameters.has('rgh-link-date')) {
-		searchParameters.set('rgh-link-date', timestamp);
-	}
-
+	searchParameters.set('rgh-link-date', timestamp);
 	link.search = String(searchParameters);
 }
 
