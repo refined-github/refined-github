@@ -287,6 +287,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png"
 	},
 	{
+		"id": "expand-collapse-files-buttons",
+		"description": "Adds \"Collapse all\" / \"Expand all\" buttons to the PR Files toolbar.",
+		"screenshot": null
+	},
+	{
 		"id": "extend-conversation-status-filters",
 		"description": "Lets you toggle between is:open/is:closed/is:merged filters in searches.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif"

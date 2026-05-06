@@ -49,6 +49,7 @@
 	"esc-to-cancel",
 	"esc-to-deselect-line",
 	"expand-all-hidden-comments",
+	"expand-collapse-files-buttons",
 	"extend-conversation-status-filters",
 	"extend-diff-expander",
 	"file-age-color",

@@ -219,3 +219,4 @@ import './features/actions-run-removal.js';
 import './features/new-milestone-button.js';
 import './features/no-self-reference.js';
 import './features/cmd-enter.js';
+import './features/expand-collapse-files-buttons.js';
