@@ -24,6 +24,14 @@ import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import onetime from '../helpers/onetime.js';
 
+const minorFixesIssuePages = [
+	'https://github.com/refined-github/refined-github/issues/3686',
+	'https://github.com/refined-github/refined-github/issues/6000',
+	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
+	'https://github.com/refined-github/refined-github/issues/8000',
+];
+
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
@@ -31,13 +39,6 @@ const states = {
 } as const;
 
 type State = keyof typeof states;
-
-const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/3686',
-	'https://github.com/refined-github/refined-github/issues/6000',
-	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
-];
 
 const SessionPageSetting = {
 	get key(): string {
