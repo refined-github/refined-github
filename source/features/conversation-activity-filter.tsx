@@ -14,7 +14,7 @@ import {
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
+import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const states = {
@@ -234,11 +234,15 @@ async function addWidget(anchor: Element): Promise<void> {
 								</ul>
 							</action-list>
 						</div>
-						<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
-							<span className="color-fg-muted">
-								Press <kbd>h</kbd> to cycle through filters, even when the dropdown is closed
-							</span>
-						</div>
+						{!isSmallDevice() && (
+							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
+								<span className="color-fg-muted">
+									Press <kbd>h</kbd> to cycle through filters,
+									<br />
+									even when the dropdown is closed
+								</span>
+							</div>
+						)}
 					</div>
 				</anchored-position>
 			</focus-group>
