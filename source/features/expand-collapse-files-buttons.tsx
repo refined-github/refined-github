@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import FoldIcon from 'octicons-plain-react/Fold';
 import UnfoldIcon from 'octicons-plain-react/Unfold';
-import {$$, $optional} from 'select-dom';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -19,17 +19,17 @@ function expandAll(): void {
 	const filesToExpand = $$(`${fileSelector}:not(.Details--on):not(:has(${loadDiffSelector}))`);
 
 	for (const file of filesToLoad) {
-		$optional(loadDiffSelector, file)?.click();
+		$(loadDiffSelector, file).click();
 	}
 
 	for (const file of filesToExpand) {
-		$optional<HTMLButtonElement>(chevronSelector, file)?.click();
+		$<HTMLButtonElement>(chevronSelector, file).click();
 	}
 }
 
 function collapseAll(): void {
 	for (const file of $$(`${fileSelector}.Details--on`)) {
-		$optional<HTMLButtonElement>(chevronSelector, file)?.click();
+		$<HTMLButtonElement>(chevronSelector, file).click();
 	}
 }
 
