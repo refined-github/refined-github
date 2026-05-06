@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, $closestOptional, elementExists} from 'select-dom';
+import {$, $closest, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -51,49 +51,54 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-function add(avatar: HTMLElement): void {
-	const timelineItem = $closestOptional([
-		// Regular comments
-		'.js-comment-container',
-		// Reviews
-		'.js-comment',
-	], avatar);
-	const isPr = Boolean(timelineItem);
-
-	if (isPr) {
-		if (
-			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-		) {
-			return;
-		}
-
-		// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-		if (avatar.classList.contains('TimelineItem-avatar')) {
-			avatar.classList.remove('TimelineItem-avatar');
-			wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
-		}
-	} else {
-		const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
-		if (isHidden) {
-			return;
-		}
-
-		avatar.style.height = 'auto';
-		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
-	}
-
+function addButton(avatar: HTMLElement): void {
 	const userMention = $('img', avatar).alt;
-
 	avatar.after(
 		<button
 			type="button"
-			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isPr ? '' : 'react-view'].join(' ')}
+			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
 			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
 		>
 			<ReplyIcon />
 		</button>,
 	);
+}
+
+function addButtonPr(avatar: HTMLElement): void {
+	const timelineItem = $closest([
+		// Regular comments
+		'.js-comment-container',
+		// Reviews
+		'.js-comment',
+	], avatar);
+
+	if (
+		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+	) {
+		return;
+	}
+
+	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
+	if (avatar.classList.contains('TimelineItem-avatar')) {
+		avatar.classList.remove('TimelineItem-avatar');
+		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
+	}
+
+	addButton(avatar);
+}
+
+function addButtonIssue(avatar: HTMLElement): void {
+	const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
+	if (isHidden) {
+		return;
+	}
+
+	avatar.style.height = 'auto';
+	avatar.classList.add('react-view');
+	wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
+
+	addButton(avatar);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -107,9 +112,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	const isPr = field.matches(prFieldSelector);
 
 	if (isPr) {
-		observe(prAvatarSelector, add, {signal});
+		observe(prAvatarSelector, addButtonPr, {signal});
 	} else {
-		observe(issueAvatarSelector, add, {signal});
+		observe(issueAvatarSelector, addButtonIssue, {signal});
 	}
 }
 

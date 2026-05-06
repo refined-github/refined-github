@@ -14,7 +14,7 @@
 	padding: 4px 12px !important;
 }
 
-.rgh-quick-mention.react-view {
+.react-view + .rgh-quick-mention {
 	position: static !important;
 	translate: none;
 
