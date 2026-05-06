@@ -102,7 +102,10 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 	saveOriginalHref(link);
 
 	const searchParameters = new URLSearchParams(link.search);
-	searchParameters.set('rgh-link-date', timestamp);
+	if (!searchParameters.has('rgh-link-date')) {
+		searchParameters.set('rgh-link-date', timestamp);
+	}
+
 	link.search = String(searchParameters);
 }
 
