@@ -236,9 +236,9 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 								</ul>
 							</action-list>
 						</div>
-						<div className="Overlay-footer Overlay-footer--divided pl-3 tmp-pl-3 py-2 tmp-py2">
-							<span className="d-inline-flex flex-items-center color-fg-muted">
-								Press <kbd className="mx-1 tmp-mx-1">h</kbd> to cycle through filters
+						<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
+							<span className="color-fg-muted">
+								Press <kbd>h</kbd> to cycle through filters
 							</span>
 						</div>
 					</div>
