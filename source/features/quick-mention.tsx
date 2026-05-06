@@ -11,7 +11,7 @@ import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
+import observe, {waitForElement} from '../helpers/selector-observer.js';
 
 const fieldSelector = [
 	'textarea#new_comment_field',
@@ -125,26 +125,16 @@ function add(avatar: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	if (await isArchivedRepoAsync()) {
+	const field = await waitForElement(fieldSelector, {signal});
+	if (!field) {
 		return;
 	}
 
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	const controller = new AbortController();
-	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
-		observe(fieldSelector, field => {
-			resolve(field);
-			controller.abort();
-		}, {signal: AbortSignal.any([signal, controller.signal])});
-	});
+	const isPr = field.id === 'new_comment_field';
 
-	if (!field) {
-		return;
-	}
-
-	const isPrOrOldView = field.id === 'new_comment_field';
-	if (isPrOrOldView) {
+	if (isPr) {
 		observe(prCommentSelector, add, {signal});
 	} else {
 		observe(issueCommentSelector, add, {signal});
@@ -154,6 +144,9 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
+	],
+	exclude: [
+		isArchivedRepoAsync,
 	],
 	init,
 });
