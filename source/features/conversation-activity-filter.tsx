@@ -150,7 +150,7 @@ function applyState(targetState: State): void {
 	SessionPageSetting.set(targetState);
 }
 
-function createMenuItems(currentState: State): JSX.Element[] {
+function createMenuItems(): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
 			<button
@@ -159,7 +159,6 @@ function createMenuItems(currentState: State): JSX.Element[] {
 				type="button"
 				role="menuitemradio"
 				className={'ActionListContent ' + menuItemClass}
-				aria-checked={`${itemState === currentState}`}
 			>
 				<span className="ActionListItem-visual ActionListItem-action--leading">
 					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
@@ -172,7 +171,7 @@ function createMenuItems(currentState: State): JSX.Element[] {
 	));
 }
 
-async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
+async function addWidget(anchor: Element): Promise<void> {
 	const position = $closest('div', anchor);
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -232,7 +231,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 									role="menu"
 									className="ActionListWrap--inset ActionListWrap"
 								>
-									{createMenuItems(state)}
+									{createMenuItems()}
 								</ul>
 							</action-list>
 						</div>
@@ -285,22 +284,17 @@ async function init(signal: AbortSignal): Promise<void> {
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
 		],
-		addWidget.bind(undefined, initialState),
+		async anchor => {
+			await addWidget(anchor);
+			applyState(initialState);
+			registerHotkey('h', switchToNextFilter);
+		},
 		{signal},
 	);
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});
 	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
-
-	if (initialState !== 'showAll') {
-		// Wait for the DOM to be ready before applying the initial state
-		// https://github.com/refined-github/refined-github/issues/7086
-		await domLoaded;
-		applyState(initialState);
-	}
-
-	registerHotkey('h', switchToNextFilter, {signal});
 }
 
 void features.add(import.meta.url, {
