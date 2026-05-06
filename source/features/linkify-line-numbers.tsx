@@ -1,9 +1,9 @@
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 
 function linkify(lineNumberCell: HTMLTableCellElement): void {
 	const {lineNumber} = lineNumberCell.dataset;
@@ -14,13 +14,10 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	lineNumberCell.append(
-		<a href={url} className="fgColor-inherit no-underline Link--onHover">
-			{lineNumber}
-		</a>,
-	);
-
-	lineNumberCell.dataset.lineNumber = '';
+	const linkified = replaceElementTypeInPlace(lineNumberCell, 'a');
+	linkified.href = url;
+	linkified.style.display = 'table-cell';
+	linkified.classList.add('no-underline', 'Link--onHover');
 }
 
 function init(signal: AbortSignal): void {
