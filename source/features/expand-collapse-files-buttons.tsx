@@ -35,7 +35,9 @@ function collapseAll(): void {
 
 function addButtons(toolbar: HTMLElement): void {
 	toolbar.append(
-		<div className="BtnGroup ml-2 rgh-expand-collapse-files-buttons">
+		// `flex-self-center` aligns the group with the rest of the diffbar
+		// items, which sit on the baseline of the toolbar row.
+		<div className="BtnGroup ml-2 flex-self-center rgh-expand-collapse-files-buttons">
 			<button
 				type="button"
 				className="btn btn-sm BtnGroup-item"
