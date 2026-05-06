@@ -140,7 +140,12 @@ function applyState(targetState: State): void {
 
 	// Sync menu items state between two widgets
 	for (const menuItem of $$(`.${menuItemClass}`)) {
-		menuItem.ariaChecked = `${menuItem.dataset.state === targetState}`;
+		if (menuItem.dataset.state === targetState) {
+			menuItem.ariaChecked = 'true';
+			menuItem.focus();
+		} else {
+			menuItem.ariaChecked = 'false';
+		}
 	}
 
 	SessionPageSetting.set(targetState);
@@ -231,6 +236,11 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 									{createMenuItems(state)}
 								</ul>
 							</action-list>
+						</div>
+						<div className="Overlay-footer Overlay-footer--divided pl-3 tmp-pl-3 py-2 tmp-py2">
+							<span className="d-inline-flex flex-items-center color-fg-muted">
+								Press <kbd className="mx-1 tmp-mx-1">h</kbd> to cycle through filters
+							</span>
 						</div>
 					</div>
 				</anchored-position>
