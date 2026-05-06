@@ -13,27 +13,22 @@ import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
-const fieldSelector = [
-	'textarea#new_comment_field',
-	'#react-issue-comment-composer textarea',
-] as const;
+const prFieldSelector = 'textarea#new_comment_field';
+const issueFieldSelector = '#react-issue-comment-composer textarea';
+const fieldSelector = [prFieldSelector, issueFieldSelector] as const;
 
-// Old Issue View and PR View
-// `:first-child` avoids app badges #2630
-// Avatars next to review events aren't wrapped in a <div> #4844
-const prCommentSelector = '.js-quote-selection-container '
+const loggedInUser = getLoggedInUser()!;
+
+const prAvatarSelector = '.js-quote-selection-container '
 	+ is(
-		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child',
-		'a.TimelineItem-avatar',
+		// `:first-child` avoids app badges #2630
+		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child', // Comment
+		'a.TimelineItem-avatar', // Review or PR body
 	)
-	+ `:not([href="/${getLoggedInUser()!}"])`;
+	+ `:not([href="/${loggedInUser}"])`;
 
-const issueCommentSelector = [
-	// React Issue View
-	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getLoggedInUser()!}"])`,
-	// React Issue View (first comment)
-	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getLoggedInUser()!}"])`,
-];
+const issueAvatarSelector
+	= `a[class^="Avatar-module__avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -109,12 +104,12 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	const isPr = field.id === 'new_comment_field';
+	const isPr = field.matches(prFieldSelector);
 
 	if (isPr) {
-		observe(prCommentSelector, add, {signal});
+		observe(prAvatarSelector, add, {signal});
 	} else {
-		observe(issueCommentSelector, add, {signal});
+		observe(issueAvatarSelector, add, {signal});
 	}
 }
 
