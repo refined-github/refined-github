@@ -97,12 +97,12 @@
 			{/if}
 			<div class="no-wrap">
 				<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
-				{' • '}
+				 • 
 				<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 				{#if meta && isCss && !meta.cssOnly}
-					{' • '}<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>
+					 • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>
 				{:else if meta?.css && !isCss}
-					{' • '}<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>
+					 • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>
 				{/if}
 			</div>
 		</div>
@@ -110,7 +110,7 @@
 			<a href={meta.screenshot} class="flex-self-center">
 				<img
 					src={meta.screenshot}
-					alt="Feature screenshot"
+					alt="Screenshot of {id} feature"
 					class="d-block border"
 					style="max-height: 100px; max-width: 150px;"
 				/>
