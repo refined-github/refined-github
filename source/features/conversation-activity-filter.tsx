@@ -2,7 +2,6 @@ import './conversation-activity-filter.css';
 
 import delegate from 'delegate-it';
 import React from 'dom-chef';
-import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeIcon from 'octicons-plain-react/Eye';
