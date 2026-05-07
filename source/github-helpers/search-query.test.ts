@@ -219,3 +219,30 @@ test('queries with URL-encoded characters', () => {
 	const query = SearchQuery.from({q: 'label:bug%20fix author:user%2Dname'});
 	assert.deepEqual(query.getQueryParts(), ['label:bug%20fix', 'author:user%2Dname']);
 });
+
+test('href always has a trailing space', () => {
+	// GitHub issue list search boxes need a trailing space so users can immediately type a new term
+	const query = SearchQuery.from({q: 'is:issue is:open'});
+	assert.isTrue(query.href.endsWith('+'));
+});
+
+test('href always has a trailing space after prepend', () => {
+	const query = SearchQuery.from({q: 'cool is:issue is:open'});
+	query.prepend('sort:updated-desc');
+	assert.isTrue(query.href.endsWith('+'));
+});
+
+test('multiple leading spaces are dropped from get()', () => {
+	const query = SearchQuery.from({q: '   is:issue is:open'});
+	assert.equal(query.get(), 'is:issue is:open');
+});
+
+test('multiple trailing spaces are dropped from get()', () => {
+	const query = SearchQuery.from({q: 'is:issue is:open   '});
+	assert.equal(query.get(), 'is:issue is:open');
+});
+
+test('multiple spaces between terms are collapsed in get()', () => {
+	const query = SearchQuery.from({q: 'is:issue   label:bug    author:user'});
+	assert.equal(query.get(), 'is:issue label:bug author:user');
+});
