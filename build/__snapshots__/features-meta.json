@@ -849,7 +849,7 @@
 		"screenshot": null
 	},
 	{
-		"id": "search-results-in-new-tab",
+		"id": "search-results-new-tab",
 		"description": "Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.",
 		"screenshot": null
 	},
