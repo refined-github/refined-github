@@ -173,6 +173,7 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 
 	if (elementExists('.octicon-alert-fill', stateIcon)) {
 		// Button group won't exist if it wasn't previously added
+		// For example, if a PR already had conflicts when its page was opened
 		existingButtonGroup?.remove();
 		return;
 	}
