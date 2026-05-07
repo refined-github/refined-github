@@ -141,7 +141,7 @@ async function isBranchUpdatable(): Promise<boolean> {
 	return prInfo.needsUpdate && canUpdateBranch;
 }
 
-async function addButton(stateIcon: Element): Promise<void> {
+async function manageButtonGroup(stateIcon: Element): Promise<void> {
 	const existingButtonGroup = $optional(`.ButtonGroup:has(.${feature.class})`);
 
 	if (elementExists('.octicon-check', stateIcon)) {
@@ -170,7 +170,7 @@ async function addButton(stateIcon: Element): Promise<void> {
 	}
 
 	if (elementExists('.octicon-alert-fill', stateIcon)) {
-		// Button won't exist if it wasn't previously added
+		// Button group won't exist if it wasn't previously added
 		existingButtonGroup?.remove();
 		return;
 	}
@@ -183,9 +183,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(
-		// State icon
 		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',
-		addButton,
+		manageButtonGroup,
 		{signal},
 	);
 }
