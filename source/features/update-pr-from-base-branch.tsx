@@ -3,7 +3,13 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, elementExists} from 'select-dom';
+import {
+	$,
+	$$,
+	$closest,
+	$optional,
+	elementExists,
+} from 'select-dom';
 
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 import api from '../github-helpers/api.js';
@@ -119,22 +125,57 @@ function createButtonGroup(): JSX.Element {
 	);
 }
 
-async function shouldShowButton(): Promise<boolean> {
+function setButtonsDisabledState(base: Element, disabled: boolean): void {
+	for (const button of $$('button', base)) {
+		button.disabled = disabled;
+	}
+}
+
+async function isBranchUpdatable(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
 	const canUpdateBranch = prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles || hasBranchAccess;
 
-	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
+	return prInfo.needsUpdate && canUpdateBranch;
 }
 
-async function addButton(mergeabilityRow: Element): Promise<void> {
-	if (!await shouldShowButton()) {
+async function addButton(stateIcon: Element): Promise<void> {
+	const existingButtonGroup = $optional(`.ButtonGroup:has(.${feature.class})`);
+
+	if (elementExists('.octicon-check', stateIcon)) {
+		if (!await isBranchUpdatable()) {
+			return;
+		}
+
+		if (existingButtonGroup) {
+			setButtonsDisabledState(existingButtonGroup, false);
+			return;
+		}
+
+		const mergeabilityRow
+			= $('section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]');
+		mergeabilityRow.append(createButtonGroup());
+
 		return;
 	}
 
-	mergeabilityRow.append(createButtonGroup());
+	if (stateIcon.className.includes('Spinner')) {
+		if (existingButtonGroup) {
+			setButtonsDisabledState(existingButtonGroup, true);
+		}
+
+		return;
+	}
+
+	if (elementExists('.octicon-alert-fill', stateIcon)) {
+		// Button won't exist if it wasn't previously added
+		existingButtonGroup?.remove();
+		return;
+	}
+
+	throw new TypeError('Unexpected state icon', {cause: stateIcon});
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
@@ -142,7 +183,8 @@ async function init(signal: AbortSignal): Promise<false | void> {
 
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(
-		'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]',
+		// State icon
+		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',
 		addButton,
 		{signal},
 	);
