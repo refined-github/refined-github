@@ -168,7 +168,7 @@ export const commitTitleInLists_ = [
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
 ];
 
-const botNames = [
+export const knownBots = [
 	'actions-user',
 	'bors',
 	'ImgBotApp',
@@ -180,7 +180,7 @@ const botNames = [
 	'github-apps', // GHE apps
 ] as const;
 
-const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+const botAttributes = knownBots.map(bot => `[href^="/${bot}"]`).join(', ');
 
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 // ^= is needed to match /apps/* URLs
@@ -197,7 +197,7 @@ export const botLinksCommitSelectors_ = [
 ];
 
 export const botLinksPrSelectors = [
-	...botNames.flatMap(bot => [
+	...knownBots.flatMap(bot => [
 		`.opened-by [title$="pull requests created by ${bot}"]`,
 		`.opened-by [title$="pull requests opened by ${bot}"]`,
 	]),

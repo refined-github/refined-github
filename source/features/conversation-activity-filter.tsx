@@ -17,11 +17,12 @@ import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {isBotComment} from './conversation-activity-filter-helpers.js';
 
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsAndCollapsedComments: 'Hide events and collapsed comments',
+	hideEventsAndCollapsedComments: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -50,6 +51,7 @@ const SessionPageSetting = {
 const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
+const botClassName = 'rgh-conversation-activity-bot-comment';
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
@@ -69,6 +71,10 @@ function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
 	if (elementExists('.octicon-unfold', item)) {
 		item.classList.add(collapsedClassName);
+	}
+
+	if (isBotComment(item)) {
+		item.classList.add(botClassName);
 	}
 }
 
