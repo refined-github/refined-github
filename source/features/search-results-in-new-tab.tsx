@@ -1,12 +1,31 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
+import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import getSearchResultUrl from '../helpers/get-search-result-url.js';
 import onetime from '../helpers/onetime.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 
 const searchResultSelector = 'li[id^="query-builder-test-result"]';
+
+function getSearchResultUrl(item: ParentNode): string | undefined {
+	const actionListItem = $optional('.ActionListItem[data-href]', item);
+	if (!actionListItem) {
+		return;
+	}
+
+	const {href} = actionListItem.dataset;
+	if (!href) {
+		return;
+	}
+
+	const url = new URL(href, location.origin);
+	if (url.origin !== location.origin) {
+		return;
+	}
+
+	return url.href;
+}
 
 function openSearchResultInNewTab(item: ParentNode): boolean {
 	const url = getSearchResultUrl(item);
