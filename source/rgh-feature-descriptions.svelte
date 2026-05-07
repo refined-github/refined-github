@@ -3,13 +3,17 @@
 	import AlertIcon from 'octicons-plain-react/Alert';
 	import CopyIcon from 'octicons-plain-react/Copy';
 	import InfoIcon from 'octicons-plain-react/Info';
+	import {createElement} from 'dom-chef';
 	import {messageRuntime} from 'webext-msg';
 
+	import createBanner from './github-helpers/banner.js';
 	import {featuresMeta, getNewFeatureName, getOldFeatureNames} from './feature-data.js';
 	import {isFeaturePrivate} from './helpers/feature-utils.js';
 	import {brokenFeatures} from './helpers/hotfix.js';
-	import optionsStorage, {isFeatureDisabled} from './options-storage.js';
+	import Dom from './helpers/dom.svelte';
 	import React from './helpers/react.svelte';
+	import {createRghIssueLink} from './helpers/rgh-links.js';
+	import optionsStorage, {isFeatureDisabled} from './options-storage.js';
 
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 
@@ -65,6 +69,35 @@
 	async function openOptions(event: Event): Promise<void> {
 		event.preventDefault();
 		await messageRuntime({openOptionsPage: id});
+	}
+
+	const bannerClasses = ['mb-3', 'd-inline-block', 'width-full'];
+
+	function getBannerElement(banner: DisabledBanner) {
+		if (banner.type === 'hotfixed-old') {
+			return createBanner({
+				icon: createElement(InfoIcon, {className: 'mr-0'}),
+				classes: bannerClasses,
+				text: ['This feature was disabled until version ', banner.version, ' due to ', createRghIssueLink(banner.issue), '.'],
+			});
+		}
+
+		if (banner.type === 'hotfixed') {
+			return createBanner({
+				icon: createElement(AlertIcon, {className: 'mr-0'}),
+				classes: [...bannerClasses, 'flash-warn'],
+				text: ['This feature is disabled due to ', createRghIssueLink(banner.issue), '.'],
+			});
+		}
+
+		// User disabled this feature
+		return createBanner({
+			icon: createElement(AlertIcon, {className: 'mr-0'}),
+			classes: [...bannerClasses, 'flash-warn'],
+			text: 'You disabled this feature on GitHub.com.',
+			action: openOptions,
+			buttonLabel: 'Refined GitHub Options',
+		});
 	}
 </script>
 
@@ -123,30 +156,5 @@
 
 {#if disabledBanner}
 	<!-- Block and width classes required to avoid margin collapse -->
-	<div
-		class="flash mb-3 d-inline-block width-full"
-		class:flash-warn={disabledBanner.type !== 'hotfixed-old'}
-	>
-		<div class="d-sm-flex flex-items-center gap-2">
-			<div class="d-flex flex-auto flex-self-center flex-items-center gap-2">
-				{#if disabledBanner.type === 'hotfixed-old'}
-					<React use={InfoIcon} props={{className: 'mr-0'}} />
-					<span>This feature was disabled until version {disabledBanner.version} due to <a target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" data-hovercard-url="https://github.com/refined-github/refined-github/issues/{disabledBanner.issue}/hovercard" href="https://github.com/refined-github/refined-github/issues/{disabledBanner.issue}">#{disabledBanner.issue}</a>.</span>
-				{:else if disabledBanner.type === 'hotfixed'}
-					<React use={AlertIcon} props={{className: 'mr-0'}} />
-					<span>This feature is disabled due to <a target="_blank" rel="noopener noreferrer" data-hovercard-type="issue" data-hovercard-url="https://github.com/refined-github/refined-github/issues/{disabledBanner.issue}/hovercard" href="https://github.com/refined-github/refined-github/issues/{disabledBanner.issue}">#{disabledBanner.issue}</a>.</span>
-				{:else}
-					<React use={AlertIcon} props={{className: 'mr-0'}} />
-					<span>You disabled this feature on GitHub.com.</span>
-				{/if}
-			</div>
-			{#if disabledBanner.type === 'disabled'}
-				<button
-					type="button"
-					class="flex-shrink-0 btn btn-sm ml-sm-3 mt-2 mt-sm-n2 mb-sm-n2 mr-sm-n1 flex-self-center"
-					onclick={openOptions}
-				>Refined GitHub Options</button>
-			{/if}
-		</div>
-	</div>
+	<Dom element={getBannerElement(disabledBanner)} />
 {/if}
