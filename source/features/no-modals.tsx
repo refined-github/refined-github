@@ -17,7 +17,7 @@ function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
-	window.open(buildRepoUrl('issues/new/choose'), '_blank');
+	window.open(buildRepoUrl('issues/new/choose'), '_blank', 'noopener,noreferrer');
 }
 
 function openSearchResultInNewTab(item: ParentNode): boolean {
@@ -26,7 +26,7 @@ function openSearchResultInNewTab(item: ParentNode): boolean {
 		return false;
 	}
 
-	window.open(url, '_blank');
+	window.open(url, '_blank', 'noopener,noreferrer');
 	return true;
 }
 
