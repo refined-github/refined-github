@@ -1,18 +1,16 @@
-import './rgh-related-issues-count.svelte'; // eslint-disable-line import-x/no-unassigned-import
+import {mount} from 'svelte';
 
-export default function createRelatedIssuesCountElement(
+import RelatedIssuesCount from './rgh-related-issues-count.svelte';
+
+export default function mountRelatedIssuesCount(
 	featureId: FeatureId,
-	{includeLink = false, emptyLabel}: {includeLink?: boolean; emptyLabel?: string} = {},
-): HTMLElement {
-	const element = document.createElement('rgh-related-issues-count');
-	element.setAttribute('feature-id', featureId);
-	if (includeLink) {
-		element.setAttribute('include-link', '');
-	}
-
-	if (emptyLabel) {
-		element.setAttribute('empty-label', emptyLabel);
-	}
-
-	return element;
+	afterElement: Element,
+	{linkify = false, emptyLabel}: {linkify?: boolean; emptyLabel?: string} = {},
+): void {
+	const container = document.createElement('span');
+	afterElement.after(container);
+	mount(RelatedIssuesCount, {
+		target: container,
+		props: {featureId, linkify, emptyLabel},
+	});
 }

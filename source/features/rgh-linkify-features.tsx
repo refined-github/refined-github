@@ -7,18 +7,9 @@ import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import createRelatedIssuesCountElement from '../helpers/rgh-related-issues-count-element.js';
+import mountRelatedIssuesCount from '../helpers/rgh-related-issues-count-element.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
-
-function mountRelatedIssuesCount(id: FeatureId, element: HTMLElement): void {
-	const existingCount = element.nextElementSibling;
-	if (existingCount instanceof HTMLElement && existingCount.matches('rgh-related-issues-count')) {
-		return;
-	}
-
-	element.after(createRelatedIssuesCountElement(id, {includeLink: true}));
-}
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;
@@ -61,7 +52,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (willAddIssueCount) {
-		mountRelatedIssuesCount(id, possibleFeature);
+		mountRelatedIssuesCount(id, possibleFeature, {linkify: true});
 	}
 }
 
