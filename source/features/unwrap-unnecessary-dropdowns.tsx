@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$optional, $closest} from 'select-dom';
+import {$, $$optional, $closest, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
@@ -97,6 +97,11 @@ function createButtonGroup(): JSX.Element {
 
 function replaceResolveConflictsDropdown(button: HTMLButtonElement): void {
 	if (button.textContent.trim() !== 'Resolve conflicts') {
+		return;
+	}
+
+	// Check if it's a dropdown
+	if (!elementExists('.octicon-triangle-down', button)) {
 		return;
 	}
 
