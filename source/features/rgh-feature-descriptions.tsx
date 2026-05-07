@@ -28,7 +28,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		);
 
 	const oldNames = getOldFeatureNames(id);
-	const conversationsUrl = getFeatureRelatedIssuesUrl(id);
+	const conversationsUrl = getFeatureRelatedIssuesUrl(id as FeatureId);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');

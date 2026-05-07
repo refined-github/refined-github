@@ -21,13 +21,13 @@ export function getFeatureUrl(id: FeatureId): string {
 	return `https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`;
 }
 
-export function getFeatureRelatedIssuesQuery(id: string): string {
+export function getFeatureRelatedIssuesQuery(id: FeatureId): string {
 	const oldNames = getOldFeatureNames(id);
 	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
 	return `is:open (${searchTerms})`;
 }
 
-export function getFeatureRelatedIssuesUrl(id: string): URL {
+export function getFeatureRelatedIssuesUrl(id: FeatureId): URL {
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	conversationsUrl.searchParams.set('q', `sort:updated-desc ${getFeatureRelatedIssuesQuery(id)}`);
 	return conversationsUrl;
