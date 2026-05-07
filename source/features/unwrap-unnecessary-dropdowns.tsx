@@ -46,7 +46,6 @@ function initNotifications(signal: AbortSignal): void {
 function insertCopilotInstruction(): void {
 	const textarea = $(legacyCommentField);
 	setFieldText(textarea, '@copilot resolve the merge conflicts in this pull request');
-	textarea.focus();
 }
 
 function createButtonGroup(): JSX.Element {
