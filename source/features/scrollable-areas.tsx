@@ -4,14 +4,24 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import {is, not} from '../helpers/css-selectors.js';
 
 // These selectors must be kept in sync with the selectors in scrollable-areas.css
-const scrollableSelector = [
-	'.comment-body blockquote',
-	'.comment-body pre',
-	'[data-testid="markdown-body"] blockquote',
-	'[data-testid="markdown-body"] pre',
-];
+const scrollableSelector = is(
+	'.comment-body',
+	'[data-testid="markdown-body"]',
+)
++ ' '
++ is(
+	'blockquote',
+	'pre',
+) + not(
+	/* Exclude clicked areas */
+	'.rgh-scrollable-expanded',
+	/* Exclude nested scrollable areas */
+	'blockquote *',
+	'pre *',
+);
 
 function disableScroll(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	const area = event.delegateTarget;
