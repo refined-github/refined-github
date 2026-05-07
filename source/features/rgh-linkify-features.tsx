@@ -92,9 +92,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			try {
 				await addOpenRelatedIssuesCount(id, possibleFeature);
 			} catch (error) {
-				if (error instanceof Error) {
-					logError(error);
-				}
+				logError(error instanceof Error ? error : new Error(String(error)));
 			}
 		})();
 	}
