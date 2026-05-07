@@ -11,7 +11,7 @@ import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
-import {createRghIssueLink} from '../helpers/rgh-links.js';
+import {createRghIssueLink, getFeatureRelatedIssuesUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
@@ -27,10 +27,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					: undefined // The heck!?
 		);
 
-	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	const oldNames = getOldFeatureNames(id);
-	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open (${searchTerms})`);
+	const conversationsUrl = getFeatureRelatedIssuesUrl(id);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
