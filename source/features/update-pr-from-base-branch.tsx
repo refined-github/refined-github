@@ -1,18 +1,19 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 
-import features from '../feature-manager.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
+import {deletedHeadRepository} from '../github-helpers/selectors.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import updatePullRequestBranch from './update-pr-from-base-branch.gql';
+import features from '../feature-manager.js';
 
 const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
@@ -76,7 +77,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 
 const feature = getIdentifiers(import.meta.url);
 
-function createButton(): JSX.Element {
+function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => {
@@ -126,20 +127,23 @@ async function shouldShowButton(): Promise<boolean> {
 	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
 }
 
-async function addButton(): Promise<void> {
+async function addButton(mergeabilityRow: Element): Promise<void> {
 	if (!await shouldShowButton()) {
 		return;
 	}
 
-	const mergeabilityRow = $('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__contentLayout"]');
-	mergeabilityRow.append(createButton());
+	mergeabilityRow.append(createButtonGroup());
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
 
 	delegate(feature.selector, 'click', handler, {signal});
-	observe(prMergeabilityBoxHeader, addButton, {signal});
+	observe(
+		'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]',
+		addButton,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -147,8 +151,11 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedConversation,
+		pageDetect.isMergedPR,
+		() => elementExists(deletedHeadRepository),
+		isArchivedRepoAsync,
 	],
+	awaitDomReady: true, // DOM-based exclusions
 	init,
 });
 

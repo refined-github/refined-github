@@ -256,12 +256,13 @@ export const actionBarSelectors = [
 ];
 export const actionBarSelectors_ = requiresLogin;
 
-export const prMergeabilityBoxCaption
-	= '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
-export const prMergeabilityBoxCaption_ = requiresLogin;
-
-export const prMergeabilityBoxHeader = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader
+	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
+
+export const prMergeabilityBoxCaption
+	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = [
 	'span[title="This repository has been deleted"]',
