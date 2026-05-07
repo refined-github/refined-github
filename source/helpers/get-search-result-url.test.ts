@@ -7,7 +7,7 @@ describe('getSearchResultUrl', () => {
 		const item = document.createElement('li');
 		item.innerHTML = '<button class="ActionListItem" data-href="/refined-github/refined-github/blob/main/source/features/no-modals.tsx"></button>';
 
-		expect(getSearchResultUrl(item)).toBe('https://github.com/refined-github/refined-github/blob/main/source/features/no-modals.tsx');
+		expect(getSearchResultUrl(item)).toBe(`${location.origin}/refined-github/refined-github/blob/main/source/features/no-modals.tsx`);
 	});
 
 	it('ignores missing links', () => {
