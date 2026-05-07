@@ -19,12 +19,12 @@ function handleAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): vo
 	openSearchResultInNewTab(event.delegateTarget);
 }
 
-function initSearchResultsInNewTabOnce(): void {
+function initOnce(): void {
 	onAlteredClick('li.ActionListItem[data-type="url-result"]', handleAlteredClick, {capture: true});
 }
 
 void features.add(import.meta.url, {
-	init: onetime(initSearchResultsInNewTabOnce),
+	init: onetime(initOnce),
 });
 
 /*
