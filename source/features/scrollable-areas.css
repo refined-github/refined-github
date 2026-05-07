@@ -2,8 +2,8 @@ html:not([rgh-OFF-scrollable-areas]) {
 	/* Note: Don't add support for commit view dropdown comments #8100 */
 	.comment-body,
 	[data-testid='markdown-body'] {
-		blockquote,
-		pre {
+		blockquote:not(.rgh-scrollable-expanded),
+		pre:not(.rgh-scrollable-expanded) {
 			position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 			max-height: 30.5em;
 			overflow-y: auto;
