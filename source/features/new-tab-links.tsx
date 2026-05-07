@@ -68,5 +68,6 @@ Test URLs:
 
 - https://github.com/refined-github/refined-github
 - https://github.com
+- https://github.com/refined-github/refined-github/issues/new?template=2_feature_request.yml
 
 */
