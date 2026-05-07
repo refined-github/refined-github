@@ -1,5 +1,4 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
-import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -65,9 +64,6 @@ function initSearchResultsInNewTabOnce(): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isRepo,
-	],
 	// No need to continuously register and unregister the handler
 	init: onetime(initSearchResultsInNewTabOnce),
 });
