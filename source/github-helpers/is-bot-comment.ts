@@ -6,7 +6,7 @@ import {
 
 import {knownBots} from './selectors.js';
 
-const knownBotSelector = knownBots.map(bot => `a[href^="/${bot}"]`);
+const knownBotSelector = knownBots.map(bot => `a[href^="/${bot}"]`).join(', ');
 const botLabelTexts = new Set(['AI', 'Bot']);
 
 export default function isBotComment(item: Element): boolean {
