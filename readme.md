@@ -346,7 +346,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "clean-footer") Dims the site footer so it's less prominent.
 - [](# "night-not-found") Adds dark mode to the global 404 page.
 - [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
-- [](# "new-tab-links") Allows to open pseudo-links in a new tab/window with altered clicks.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -393,6 +392,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "reactions-popup") Improves the usability of the comment reactions popup by making it smaller.
 - [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
 - [](# "cmd-enter") [Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs, which is broken.](https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f)
+- [](# "new-tab-links") Allows to open pseudo-links in a new tab/window with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
