@@ -164,6 +164,7 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 	// Loading icon, GitHub is determining the mergeability status
 	if (stateIcon.className.includes('Spinner')) {
 		if (existingButtonGroup) {
+			// Disable buttons until the status is determined
 			setButtonsDisabledState(existingButtonGroup, true);
 		}
 
