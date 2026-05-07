@@ -287,7 +287,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});
-	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection, {signal});
 
 	if (initialState !== 'showAll') {
 		// Wait for the DOM to be ready before applying the initial state
