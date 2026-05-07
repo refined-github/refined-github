@@ -18,6 +18,7 @@ import {
 } from 'select-dom';
 
 import features from '../feature-manager.js';
+import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
@@ -35,7 +36,7 @@ const minorFixesIssuePages = [
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsAndCollapsedComments: 'Hide events and collapsed comments',
+	hideEventsAndCollapsedComments: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -58,6 +59,7 @@ const menuClass = 'rgh-conversation-activity-filter-menu';
 const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
+const botClassName = 'rgh-conversation-activity-bot-comment';
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
@@ -77,6 +79,10 @@ function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
 	if (elementExists('.octicon-unfold', item)) {
 		item.classList.add(collapsedClassName);
+	}
+
+	if (getCommentAuthor(item.firstElementChild!).endsWith('[bot]')) {
+		item.classList.add(botClassName);
 	}
 }
 
