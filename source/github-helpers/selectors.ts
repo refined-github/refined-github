@@ -145,6 +145,9 @@ export const newCommentField = [
 
 export const newCommentField_ = requiresLogin;
 
+export const prCommentField = 'textarea#new_comment_field';
+export const prCommentField_ = requiresLogin;
+
 export const commitHashLinkInLists = [
 	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
 	'a[id^="commit-details-"]', // `isPRCommitList`
