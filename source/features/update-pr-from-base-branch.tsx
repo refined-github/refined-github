@@ -154,9 +154,9 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 			return;
 		}
 
-		const mergeabilityRow
-			= $('section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]');
-		mergeabilityRow.append(createButtonGroup());
+		// The same container as the native button uses
+		$('section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]')
+			.append(createButtonGroup());
 
 		return;
 	}
