@@ -6,8 +6,11 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
-function openSearchResultInNewTab(item: HTMLElement): void {
-	const {href} = item.dataset;
+function openSearchResultInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+
+	const {href} = event.delegateTarget.dataset;
 	if (!href) {
 		throw new Error('Expected the search result item to have the `data-href` attribute');
 	}
@@ -15,21 +18,15 @@ function openSearchResultInNewTab(item: HTMLElement): void {
 	window.open(href, '_blank');
 }
 
-function handleSearchResultAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): void {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	openSearchResultInNewTab(event.delegateTarget);
-}
-
 function initSearchResultsOnce(): void {
 	onAlteredClick(
 		'li.ActionListItem[data-type="url-result"]',
-		handleSearchResultAlteredClick,
+		openSearchResultInNewTab,
 		{capture: true},
 	);
 }
 
-function handleNewIssueAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): void {
+function openNewIssuePageInNewTabe(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	window.open(buildRepoUrl('issues/new/choose'), '_blank');
@@ -38,7 +35,15 @@ function handleNewIssueAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIEleme
 function initNewIssueOnce(): void {
 	onAlteredClick(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-		handleNewIssueAlteredClick,
+		openNewIssuePageInNewTabe,
+		{capture: true},
+	);
+}
+
+function initIssueTemplate(): void {
+	onAlteredClick(
+		'a[class^="IssueCreatePage-module__chooseTemplateLink"]',
+		openNewIssuePageInNewTabe,
 		{capture: true},
 	);
 }
@@ -49,8 +54,12 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepo,
 	],
-	// No need to continuously register and unregister the handler
 	init: onetime(initNewIssueOnce),
+}, {
+	include: [
+		pageDetect.isNewIssue,
+	],
+	init: initIssueTemplate,
 });
 
 /*
