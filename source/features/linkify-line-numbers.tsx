@@ -7,6 +7,10 @@ import features from '../feature-manager.js';
 
 function linkify(lineNumberCell: HTMLTableCellElement): void {
 	const {lineNumber} = lineNumberCell.dataset;
+	if (!lineNumber) {
+		throw new Error('Expected the cell to have the `data-line-number` attribute');
+	}
+
 	const fileLink = $closest(['.Box', '.review-thread-component'], lineNumberCell)
 		.querySelector(['a[href*="#L"]', 'a[href*="#diff-"]'])!;
 
