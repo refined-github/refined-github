@@ -14,8 +14,10 @@ import {legacyCommentField} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
-const issueFieldSelector = '#react-issue-comment-composer textarea';
-const fieldSelector = [legacyCommentField, issueFieldSelector] as const;
+const fieldSelector = [
+	legacyCommentField,
+	'#react-issue-comment-composer textarea',
+] as const;
 
 const loggedInUser = getLoggedInUser()!;
 
