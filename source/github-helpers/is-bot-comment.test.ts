@@ -1,11 +1,15 @@
 import {parseHTML} from 'linkedom';
+import {$} from 'select-dom';
 import {assert, describe, test} from 'vitest';
 
-import {isBotComment} from './conversation-activity-filter-helpers.js';
+import isBotComment from './is-bot-comment.js';
 
 function parseComment(markup: string): HTMLElement {
-	const {document} = parseHTML(markup);
-	return document.body.firstElementChild as HTMLElement;
+	const {document} = parseHTML(`<body>${markup}</body>`);
+	return $([
+		'.timeline-comment',
+		'.react-issue-comment',
+	], document);
 }
 
 describe('isBotComment', () => {

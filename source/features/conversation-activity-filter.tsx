@@ -13,11 +13,11 @@ import {
 } from 'select-dom';
 
 import features from '../feature-manager.js';
+import isBotComment from '../github-helpers/is-bot-comment.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {isBotComment} from './conversation-activity-filter-helpers.js';
 
 const states = {
 	showAll: 'Show all activities',
