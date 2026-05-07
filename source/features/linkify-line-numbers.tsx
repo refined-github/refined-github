@@ -14,12 +14,12 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 	const fileLink = $closest(['.Box', '.review-thread-component'], lineNumberCell)
 		.querySelector(['a[href*="#L"]', 'a[href*="#diff-"]'])!;
 
-	const url = fileLink.hash.startsWith('#diff-')
+	const lineUrl = fileLink.hash.startsWith('#diff-')
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
 	const linkified = replaceElementTypeInPlace(lineNumberCell, 'a');
-	linkified.href = url;
+	linkified.href = lineUrl;
 	linkified.classList.add('d-table-cell', 'no-underline', 'Link--onHover');
 }
 
