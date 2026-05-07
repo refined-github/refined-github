@@ -4,17 +4,13 @@ import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 
-function getSearchResultUrl(item: HTMLElement): string {
+function openSearchResultInNewTab(item: HTMLElement): void {
 	const {href} = item.dataset;
 	if (!href) {
 		throw new Error('Expected the search result item to have the `data-href` attribute');
 	}
 
-	return href;
-}
-
-function openSearchResultInNewTab(item: HTMLElement): void {
-	window.open(getSearchResultUrl(item), '_blank');
+	window.open(href, '_blank');
 }
 
 function handleAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): void {
