@@ -81,7 +81,7 @@ function processSimpleComment(item: HTMLElement): void {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (getCommentAuthor(item).endsWith('[bot]')) {
+	if (getCommentAuthor(item.firstElementChild!).endsWith('[bot]')) {
 		item.classList.add(botClassName);
 	}
 }

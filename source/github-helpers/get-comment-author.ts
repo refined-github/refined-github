@@ -32,7 +32,12 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 			'img.avatar', // PR review comments
 			'img[data-testid="github-avatar"]', // Issue comments
 			'img[data-component="Avatar"]', // Commit comments
+			'.octicon-copilot',
 		])!;
+
+	if (avatar.matches('.octicon-copilot')) {
+		return 'Copilot[bot]';
+	}
 
 	const name = avatar
 		.alt // Occasionally ends with `[bot]`
