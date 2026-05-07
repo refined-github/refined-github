@@ -9,7 +9,8 @@ html:not([rgh-OFF-scrollable-areas]) {
 				/* Exclude clicked areas */
 				.rgh-scrollable-expanded,
 				/* Exclude nested scrollable areas */
-				:is(blockquote, pre) :is(blockquote, pre)
+				blockquote *,
+				pre *
 			) {
 				position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
 				max-height: 30.5em;
