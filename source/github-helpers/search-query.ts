@@ -50,6 +50,7 @@ export default class SearchQuery {
 
 	private readonly url: URL;
 	private queryParts: string[];
+	private trailingSpace = false;
 
 	constructor(url: string | URL, base?: string) {
 		this.url = typeof url === 'string' ? new URL(url, base) : url;
@@ -58,6 +59,7 @@ export default class SearchQuery {
 		const currentQuery = this.url.searchParams.get('q');
 		if (typeof currentQuery === 'string') {
 			this.queryParts = splitQueryString(currentQuery);
+			this.trailingSpace = currentQuery.endsWith(' ');
 			return;
 		}
 
@@ -104,7 +106,8 @@ export default class SearchQuery {
 	}
 
 	get href(): string {
-		this.url.searchParams.set('q', this.get());
+		const query = this.get();
+		this.url.searchParams.set('q', this.trailingSpace && query ? query + ' ' : query);
 		if (labelLinkRegex.test(this.url.pathname)) {
 			// Avoid a redirection to the conversation list that would drop the search query #5176
 			this.url.pathname = this.url.pathname.replace(/\/labels\/.+$/, '/issues');

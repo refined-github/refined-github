@@ -219,3 +219,23 @@ test('queries with URL-encoded characters', () => {
 	const query = SearchQuery.from({q: 'label:bug%20fix author:user%2Dname'});
 	assert.deepEqual(query.getQueryParts(), ['label:bug%20fix', 'author:user%2Dname']);
 });
+
+test('href preserves trailing space from original query', () => {
+	// GitHub issue list URLs include a trailing + (space) in ?q=, which acts as a UX hint
+	// so users can immediately type a new search term. SearchQuery must preserve this.
+	const query = SearchQuery.from({q: 'is:issue is:open '});
+	assert.isTrue(query.href.endsWith('+'));
+});
+
+test('href preserves trailing space after prepend', () => {
+	// Trailing space must survive prepend, as seen in sort-conversations-by-update-time
+	const query = SearchQuery.from({q: 'cool is:issue is:open '});
+	query.prepend('sort:updated-desc');
+	assert.isTrue(query.href.endsWith('+'));
+});
+
+test('href does not add trailing space when original had none', () => {
+	const query = SearchQuery.from({q: 'is:issue is:open'});
+	query.prepend('sort:updated-desc');
+	assert.isFalse(query.href.endsWith('+'));
+});
