@@ -7,7 +7,7 @@ import ReplyIcon from 'octicons-plain-react/Reply';
 import {$, $closest, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
-import {prCommentField} from '../github-helpers/selectors.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {is} from '../helpers/css-selectors.js';
@@ -15,7 +15,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 const fieldSelector = [
-	prCommentField,
+	legacyCommentField,
 	'#react-issue-comment-composer textarea',
 ] as const;
 

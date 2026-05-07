@@ -145,7 +145,8 @@ export const newCommentField = [
 
 export const newCommentField_ = requiresLogin;
 
-export const prCommentField = 'textarea#new_comment_field';
+export const legacyCommentField = 'textarea#new_comment_field';
+// Used on: PR conversations, gists and discussions
 export const prCommentField_ = requiresLogin;
 
 export const commitHashLinkInLists = [

@@ -4,7 +4,7 @@ import {$, $$optional, $closest} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
-import {prCommentField} from '../github-helpers/selectors.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
@@ -44,7 +44,7 @@ function initNotifications(signal: AbortSignal): void {
 }
 
 function insertCopilotInstruction(): void {
-	const textarea = $(prCommentField);
+	const textarea = $(legacyCommentField);
 	setFieldText(textarea, '@copilot resolve the merge conflicts in this pull request');
 	textarea.focus();
 }

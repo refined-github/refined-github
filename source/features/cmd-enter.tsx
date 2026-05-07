@@ -2,7 +2,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';
 
-import {prCommentField} from '../github-helpers/selectors.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
 
 function handleKeyDown(event: DelegateEvent<KeyboardEvent>): void {
@@ -20,7 +20,7 @@ function handleKeyDown(event: DelegateEvent<KeyboardEvent>): void {
 }
 
 function init(signal: AbortSignal): void {
-	delegate(prCommentField, 'keydown', handleKeyDown, {signal});
+	delegate(legacyCommentField, 'keydown', handleKeyDown, {signal});
 }
 
 void features.add(import.meta.url, {
