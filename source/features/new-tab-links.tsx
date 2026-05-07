@@ -22,7 +22,6 @@ function initSearchResultsOnce(): void {
 	onAlteredClick(
 		'li.ActionListItem[data-type="url-result"]',
 		openSearchResultInNewTab,
-		{capture: true},
 	);
 }
 
@@ -36,7 +35,6 @@ function initNewIssueOnce(): void {
 	onAlteredClick(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
 		openNewIssuePageInNewTabe,
-		{capture: true},
 	);
 }
 
@@ -44,7 +42,6 @@ function initIssueTemplate(): void {
 	onAlteredClick(
 		'a[class^="IssueCreatePage-module__chooseTemplateLink"]',
 		openNewIssuePageInNewTabe,
-		{capture: true},
 	);
 }
 
