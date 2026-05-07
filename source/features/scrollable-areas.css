@@ -1,22 +1,25 @@
 html:not([rgh-OFF-scrollable-areas]) {
 	/* Note: Don't add support for commit view dropdown comments #8100 */
-	/* Note: The parent selectors here must be kept in sync with scrollableSelector in scrollable-areas.tsx */
+	/* Note: The selectors here must be kept in sync with scrollableSelector in scrollable-areas.tsx */
 	.comment-body,
 	[data-testid='markdown-body'] {
-		blockquote:not(.rgh-scrollable-expanded),
-		pre:not(.rgh-scrollable-expanded) {
-			position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
-			max-height: 30.5em;
-			overflow-y: auto;
+		blockquote,
+		pre {
+			&:not(
+				/* Exclude clicked areas */
+				.rgh-scrollable-expanded,
+				/* Exclude nested scrollable areas */
+				:is(blockquote, pre) :is(blockquote, pre)
+			) {
+				position: relative; /* OctoLinker compat: attach the purple balls to the scroll */
+				max-height: 30.5em;
+				overflow-y: auto;
+			}
 		}
 
 		/* A tiny scroll bar appears when the last paragraph contains a `code` or `g-emoji` tag #3012 #4597 */
 		blockquote {
 			padding-bottom: 0.2em; /* Do not add to `pre` #5540 */
-		}
-
-		:is(details, blockquote) :is(blockquote, pre) {
-			max-height: none;
 		}
 	}
 }
