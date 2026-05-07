@@ -1,10 +1,10 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
+import onAlteredClick from '../helpers/on-altered-click.js';
 
 function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	event.stopImmediatePropagation();
@@ -12,17 +12,14 @@ function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 }
 
 function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): void {
-	if (isAlteredClick(event)) {
-		event.stopImmediatePropagation();
-		event.preventDefault();
-		window.open(buildRepoUrl('issues/new/choose'), '_blank');
-	}
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	window.open(buildRepoUrl('issues/new/choose'), '_blank');
 }
 
 function initNewIssueInNewTabOnce(): void {
-	delegate(
+	onAlteredClick(
 		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-		'click',
 		handleAlteredClick,
 		{capture: true},
 	);

@@ -262,9 +262,13 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	p ~ animated-image > a > img {
 		margin-bottom: var(--base-size-8);
 	}
-	p > a > img {
-		margin-block: var(--base-size-16);
-	}
+}
+
+/* Fix checkmark on a deselected item disappearing with a noticeable delay */
+/* Info: https://github.com/refined-github/refined-github/issues/9348 */
+/* Test: https://github.com/refined-github/refined-github/issues/9348 */
+.ActionListItem-singleSelectCheckmark {
+	transition: none !important;
 }
 
 /*
