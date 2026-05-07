@@ -16,8 +16,7 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 
 	const linkified = replaceElementTypeInPlace(lineNumberCell, 'a');
 	linkified.href = url;
-	linkified.style.display = 'table-cell';
-	linkified.classList.add('no-underline', 'Link--onHover');
+	linkified.classList.add('d-table-cell', 'no-underline', 'Link--onHover');
 }
 
 function init(signal: AbortSignal): void {
