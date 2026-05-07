@@ -1,48 +1,26 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$optional} from 'select-dom';
 
-import features from '../feature-manager.js';
-import onetime from '../helpers/onetime.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
+import onetime from '../helpers/onetime.js';
+import features from '../feature-manager.js';
 
-const searchResultSelector = 'li[id^="query-builder-test-result"]';
-
-function getSearchResultUrl(item: ParentNode): string | undefined {
-	const actionListItem = $optional('.ActionListItem[data-href]', item);
-	if (!actionListItem) {
-		return;
-	}
-
-	const {href} = actionListItem.dataset;
+function getSearchResultUrl(item: HTMLElement): string {
+	const {href} = item.dataset;
 	if (!href) {
-		return;
+		throw new Error('Expected the search result item to have the `data-href` attribute');
 	}
 
-	const url = new URL(href, location.origin);
-	if (url.origin !== location.origin) {
-		return;
-	}
-
-	return url.href;
+	return href;
 }
 
-function openSearchResultInNewTab(item: ParentNode): boolean {
-	const url = getSearchResultUrl(item);
-	if (!url) {
-		return false;
-	}
-
-	window.open(url, '_blank', 'noopener,noreferrer');
-	return true;
+function openSearchResultInNewTab(item: HTMLElement): void {
+	window.open(getSearchResultUrl(item), '_blank');
 }
 
-function handleSearchResultAlteredClick(event: DelegateEvent<PointerEvent, HTMLLIElement>): void {
-	if (!openSearchResultInNewTab(event.delegateTarget)) {
-		return;
-	}
-
+function handleAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
+	openSearchResultInNewTab(event.delegateTarget);
 }
 
 function handleSearchResultKeyDown(event: DelegateEvent<KeyboardEvent, HTMLLIElement>): void {
@@ -50,21 +28,20 @@ function handleSearchResultKeyDown(event: DelegateEvent<KeyboardEvent, HTMLLIEle
 		return;
 	}
 
-	if (!openSearchResultInNewTab(event.delegateTarget)) {
-		return;
-	}
-
 	event.stopImmediatePropagation();
 	event.preventDefault();
+
+	openSearchResultInNewTab(event.delegateTarget);
 }
 
+const searchResultSelector = 'li[data-type="url-result"][id^="query-builder-test-result"]';
+
 function initSearchResultsInNewTabOnce(): void {
-	onAlteredClick(searchResultSelector, handleSearchResultAlteredClick, {capture: true});
+	onAlteredClick(searchResultSelector, handleAlteredClick, {capture: true});
 	delegate(searchResultSelector, 'keydown', handleSearchResultKeyDown, {capture: true});
 }
 
 void features.add(import.meta.url, {
-	// No need to continuously register and unregister the handler
 	init: onetime(initSearchResultsInNewTabOnce),
 });
 
@@ -73,5 +50,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/refined-github/refined-github
+
+https://github.com
 
 */
