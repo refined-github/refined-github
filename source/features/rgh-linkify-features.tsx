@@ -14,13 +14,13 @@ import observe from '../helpers/selector-observer.js';
 
 const relatedIssuesCountByFeature = new Map<FeatureId, Promise<number>>();
 
-async function getOpenRelatedIssuesCount(id: FeatureId): Promise<number> {
+async function fetchOpenRelatedIssuesCount(id: FeatureId): Promise<number> {
 	let countPromise = relatedIssuesCountByFeature.get(id);
 	if (!countPromise) {
 		const query = `${getFeatureRelatedIssuesQuery(id)} repo:refined-github/refined-github`;
 		countPromise = (async () => {
 			const response = await api.v3(`/search/issues?q=${encodeURIComponent(query)}`);
-			return (response as unknown as {total_count: number}).total_count;
+			return Number(response.total_count);
 		})();
 		relatedIssuesCountByFeature.set(id, countPromise);
 	}
@@ -29,7 +29,7 @@ async function getOpenRelatedIssuesCount(id: FeatureId): Promise<number> {
 }
 
 async function addOpenRelatedIssuesCount(id: FeatureId, element: HTMLElement): Promise<void> {
-	const count = await getOpenRelatedIssuesCount(id);
+	const count = await fetchOpenRelatedIssuesCount(id);
 	const nextElement = element.nextElementSibling;
 	if (
 		count === 0
@@ -58,7 +58,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	// If the original text is different from the resolved ID, it's an old name
 	const isOldName = originalText !== id;
 	const title = isOldName ? `Now called ${id}` : undefined;
-	let wasLinked = false;
+	let shouldAddIssueCount = false;
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -71,7 +71,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			possibleLink.title = title;
 		}
 
-		wasLinked = true;
+		shouldAddIssueCount = true;
 	} else if (!$closestOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
@@ -84,10 +84,10 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				title={title}
 			/>,
 		);
-		wasLinked = true;
+		shouldAddIssueCount = true;
 	}
 
-	if (wasLinked) {
+	if (shouldAddIssueCount) {
 		void (async () => {
 			try {
 				await addOpenRelatedIssuesCount(id, possibleFeature);
