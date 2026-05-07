@@ -5,14 +5,12 @@ import {mount} from 'svelte';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-import FeatureDescriptions from './rgh-feature-descriptions.svelte';
+import FeatureDescriptions from '../rgh-feature-descriptions.svelte';
 
 function add(infoBanner: HTMLElement): void {
-	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	mount(FeatureDescriptions, {
 		target: infoBanner.parentElement!,
 		anchor: infoBanner,
-		props: {filename},
 	});
 }
 
