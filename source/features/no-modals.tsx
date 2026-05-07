@@ -14,7 +14,7 @@ function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 function handleAlteredClick(event: DelegateEvent<MouseEvent, HTMLLIElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
-	window.open(buildRepoUrl('issues/new/choose'), '_blank', 'noopener,noreferrer');
+	window.open(buildRepoUrl('issues/new/choose'), '_blank');
 }
 
 function initNewIssueInNewTabOnce(): void {
