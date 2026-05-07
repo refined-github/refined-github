@@ -89,8 +89,9 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 		return;
 	}
 
-	// Skip links that already have a date parameter
-	if (new URLSearchParams(link.search).has('rgh-link-date')) {
+	// Skip links that already have a date parameter #9177
+	const searchParameters = new URLSearchParams(link.search);
+	if (searchParameters.has('rgh-link-date')) {
 		return;
 	}
 
@@ -106,7 +107,6 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 
 	saveOriginalHref(link);
 
-	const searchParameters = new URLSearchParams(link.search);
 	searchParameters.set('rgh-link-date', timestamp);
 	link.search = String(searchParameters);
 }
