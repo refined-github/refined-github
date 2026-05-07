@@ -1,5 +1,6 @@
 import './rgh-feature-descriptions.css';
 
+import * as pageDetect from 'github-url-detection';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -18,11 +19,10 @@ function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
-const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
-
 void features.add(import.meta.url, {
 	include: [
-		() => featureUrlRegex.test(location.pathname),
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
 	],
 	init,
 });
@@ -35,4 +35,5 @@ Test URLs:
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
+- Non-feature file (renders nothing): https://github.com/refined-github/refined-github/blob/main/readme.md
 */
