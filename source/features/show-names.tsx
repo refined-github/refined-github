@@ -137,7 +137,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isDashboard,
+		pageDetect.isFeed,
 		pageDetect.hasComments,
 	],
 	init,
