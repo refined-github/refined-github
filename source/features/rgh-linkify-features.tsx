@@ -58,7 +58,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	// If the original text is different from the resolved ID, it's an old name
 	const isOldName = originalText !== id;
 	const title = isOldName ? `Now called ${id}` : undefined;
-	let shouldAddIssueCount = false;
+	let willAddIssueCount = false;
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -71,7 +71,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			possibleLink.title = title;
 		}
 
-		shouldAddIssueCount = true;
+		willAddIssueCount = true;
 	} else if (!$closestOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
@@ -84,10 +84,10 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				title={title}
 			/>,
 		);
-		shouldAddIssueCount = true;
+		willAddIssueCount = true;
 	}
 
-	if (shouldAddIssueCount) {
+	if (willAddIssueCount) {
 		void (async () => {
 			try {
 				await addOpenRelatedIssuesCount(id, possibleFeature);
