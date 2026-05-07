@@ -1,42 +1,18 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {
-	$, $closest, $optional, elementExists,
-} from 'select-dom';
-import {CachedFunction} from 'webext-storage-cache';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {getRepo} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
+import {prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
-
-// TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
-const nativeRepos = new CachedFunction('native-update-button', {
-	maxAge: {
-		days: 10,
-	},
-	staleWhileRevalidate: {
-		days: 1,
-	},
-	async updater(_nameWithOwner: string): Promise<boolean> {
-		throw new TypeError('bad usage');
-	},
-});
-
-async function disableFeatureOnRepo(): Promise<void> {
-	const repo = getRepo()!.nameWithOwner;
-	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
-	features.unload(import.meta.url);
-	await nativeRepos.applyOverride([repo], true);
-}
 
 const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
@@ -140,14 +116,6 @@ function createButton(): JSX.Element {
 	);
 }
 
-const nativeUpdateButtonSelector
-	= '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
-
-function canNativelyUpdate(): boolean {
-	const nativeButton = $optional(nativeUpdateButtonSelector);
-	return nativeButton?.textContent === 'Update branch';
-}
-
 async function shouldShowButton(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
@@ -159,12 +127,6 @@ async function shouldShowButton(): Promise<boolean> {
 }
 
 async function addButton(): Promise<void> {
-	if (canNativelyUpdate()) {
-		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
-		await disableFeatureOnRepo();
-		return;
-	}
-
 	if (!await shouldShowButton()) {
 		return;
 	}
@@ -175,13 +137,9 @@ async function addButton(): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	if (await nativeRepos.getCached(getRepo()!.nameWithOwner)) {
-		return false;
-	}
 
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(prMergeabilityBoxHeader, addButton, {signal});
-	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -190,9 +148,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => elementExists(deletedHeadRepository),
 	],
-	awaitDomReady: true, // DOM-based exclusions
 	init,
 });
 
