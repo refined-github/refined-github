@@ -89,6 +89,11 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 		return;
 	}
 
+	// Skip links that already have a date parameter
+	if (new URLSearchParams(link.search).has('rgh-link-date')) {
+		return;
+	}
+
 	// Skip permalinks
 	const linkParts = link.pathname.split('/');
 	if (/^[\da-f]{40}$/.test(linkParts[4])) {
