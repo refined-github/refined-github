@@ -1,5 +1,3 @@
-import './update-pr-from-base-branch.css';
-
 import * as pageDetect from 'github-url-detection';
 import {$, $$optional, $closest} from 'select-dom';
 
