@@ -102,16 +102,9 @@ function addButtonIssue(avatar: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const field = await waitForElement(fieldSelector, {signal});
-	if (!field) {
-		return;
-	}
-
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	const isPr = field.matches(prFieldSelector);
-
-	if (isPr) {
+	if (pageDetect.isPR()) {
 		observe(prAvatarSelector, addButtonPr, {signal});
 	} else {
 		observe(issueAvatarSelector, addButtonIssue, {signal});
@@ -123,6 +116,7 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	exclude: [
+		async () => !await waitForElement(fieldSelector),
 		isArchivedRepoAsync,
 	],
 	init,
