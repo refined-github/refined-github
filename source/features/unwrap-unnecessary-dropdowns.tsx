@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import AgentIcon from 'octicons-plain-react/Agent';
+import CopilotIcon from 'octicons-plain-react/Copilot';
 import {$, $$optional, $closest} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
@@ -76,7 +76,7 @@ function createButtonGroup(): JSX.Element {
 					type="button"
 					onClick={insertCopilotInstruction}
 				>
-					<AgentIcon/>
+					<CopilotIcon/>
 				</button>
 				<tool-tip
 					id={agentTooltipId}
