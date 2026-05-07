@@ -138,7 +138,7 @@ async function isBranchUpdatable(): Promise<boolean> {
 	const hasBranchAccess = ['ADMIN', 'WRITE'].includes(prInfo.headRepoPerm); // #8555
 	const canUpdateBranch = prInfo.viewerCanUpdate || prInfo.viewerCanEditFiles || hasBranchAccess;
 
-	return prInfo.needsUpdate && canUpdateBranch;
+	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
 }
 
 async function manageButtonGroup(stateIcon: Element): Promise<void> {
@@ -161,6 +161,7 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 		return;
 	}
 
+	// Loading icon, GitHub is determining the mergeability status
 	if (stateIcon.className.includes('Spinner')) {
 		if (existingButtonGroup) {
 			setButtonsDisabledState(existingButtonGroup, true);
