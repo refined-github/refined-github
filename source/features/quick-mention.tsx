@@ -10,12 +10,12 @@ import {insertTextIntoField} from 'text-field-edit';
 import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {is} from '../helpers/css-selectors.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
-const prFieldSelector = 'textarea#new_comment_field';
 const issueFieldSelector = '#react-issue-comment-composer textarea';
-const fieldSelector = [prFieldSelector, issueFieldSelector] as const;
+const fieldSelector = [legacyCommentField, issueFieldSelector] as const;
 
 const loggedInUser = getLoggedInUser()!;
 
