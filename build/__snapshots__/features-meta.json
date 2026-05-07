@@ -545,6 +545,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e"
 	},
 	{
+		"id": "new-tab-links",
+		"description": "Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.",
+		"screenshot": null
+	},
+	{
 		"id": "night-not-found",
 		"description": "Adds dark mode to the global 404 page.",
 		"css": true,
@@ -846,11 +851,6 @@
 		"id": "scrollable-areas",
 		"description": "Limits the height of tall code blocks and quotes.",
 		"css": true,
-		"screenshot": null
-	},
-	{
-		"id": "search-results-new-tab",
-		"description": "Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.",
 		"screenshot": null
 	},
 	{

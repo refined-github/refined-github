@@ -120,7 +120,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "download-folder-button") [Adds a button to download entire folders](https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png), via https://download-directory.github.io.
 - [](# "quick-file-edit") [Adds a button to edit files from the repo file list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png)
 - [](# "repo-wide-file-finder") Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
-- [](# "search-results-new-tab") Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.
 - [](# "show-associated-branch-prs-on-fork") [Shows the associated PRs on branches for forked repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png)
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
@@ -347,6 +346,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "clean-footer") Dims the site footer so it's less prominent.
 - [](# "night-not-found") Adds dark mode to the global 404 page.
 - [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
+- [](# "new-tab-links") Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

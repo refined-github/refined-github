@@ -213,7 +213,7 @@ import './features/sidebar-focus-file.js';
 import './features/rgh-token-user.js';
 import './features/unread-anywhere.js';
 import './features/no-modals.js';
-import './features/search-results-new-tab.js';
+import './features/new-tab-links.js';
 import './features/same-page-links.js';
 import './features/linkify-text.js';
 import './features/actions-run-removal.js';
