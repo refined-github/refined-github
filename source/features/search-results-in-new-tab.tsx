@@ -1,4 +1,4 @@
-import delegate, {type DelegateEvent} from 'delegate-it';
+import type {DelegateEvent} from 'delegate-it';
 
 import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
@@ -23,22 +23,10 @@ function handleAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): vo
 	openSearchResultInNewTab(event.delegateTarget);
 }
 
-function handleSearchResultKeyDown(event: DelegateEvent<KeyboardEvent, HTMLLIElement>): void {
-	if (event.isComposing || event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)) {
-		return;
-	}
-
-	event.stopImmediatePropagation();
-	event.preventDefault();
-
-	openSearchResultInNewTab(event.delegateTarget);
-}
-
 const searchResultSelector = 'li[data-type="url-result"][id^="query-builder-test-result"]';
 
 function initSearchResultsInNewTabOnce(): void {
 	onAlteredClick(searchResultSelector, handleAlteredClick, {capture: true});
-	delegate(searchResultSelector, 'keydown', handleSearchResultKeyDown, {capture: true});
 }
 
 void features.add(import.meta.url, {
