@@ -1,11 +1,6 @@
 import React from 'dom-chef';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {
-	$,
-	$$optional,
-	$closest,
-	elementExists,
-} from 'select-dom';
+import {$, $$optional, $closest, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
