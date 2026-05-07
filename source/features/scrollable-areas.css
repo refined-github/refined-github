@@ -1,5 +1,6 @@
 html:not([rgh-OFF-scrollable-areas]) {
 	/* Note: Don't add support for commit view dropdown comments #8100 */
+	/* Note: The parent selectors here must be kept in sync with scrollableSelector in scrollable-areas.tsx */
 	.comment-body,
 	[data-testid='markdown-body'] {
 		blockquote:not(.rgh-scrollable-expanded),

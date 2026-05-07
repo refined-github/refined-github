@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
+// These selectors must be kept in sync with the parent selectors in scrollable-areas.css
 const scrollableSelector = [
 	'.comment-body blockquote',
 	'.comment-body pre',
