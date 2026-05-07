@@ -39,7 +39,7 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		return 'Copilot[bot]';
 	}
 
-	const name = avatar
+	const name = (avatar as HTMLImageElement)
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
