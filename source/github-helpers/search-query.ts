@@ -107,7 +107,7 @@ export default class SearchQuery {
 
 	get href(): string {
 		const query = this.get();
-		this.url.searchParams.set('q', this.trailingSpace && query ? query + ' ' : query);
+		this.url.searchParams.set('q', this.trailingSpace ? query + ' ' : query);
 		if (labelLinkRegex.test(this.url.pathname)) {
 			// Avoid a redirection to the conversation list that would drop the search query #5176
 			this.url.pathname = this.url.pathname.replace(/\/labels\/.+$/, '/issues');
