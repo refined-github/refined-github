@@ -4,11 +4,10 @@ import PinIcon from 'octicons-plain-react/Pin';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import stripLeadingPinEmoji from '../helpers/strip-leading-pin-emoji.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 
-const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
+const {class: featureClass} = getIdentifiers(import.meta.url);
 
 function getPinnedIssueSelector(issueLink: HTMLAnchorElement): string {
 	const href = issueLink.getAttribute('href')!;
@@ -16,16 +15,16 @@ function getPinnedIssueSelector(issueLink: HTMLAnchorElement): string {
 }
 
 function mark(issueLink: HTMLAnchorElement): void {
-	if (elementExists(featureSelector, issueLink)) {
-		return;
-	}
-
 	if (!elementExists(getPinnedIssueSelector(issueLink))) {
 		return;
 	}
 
-	if (issueLink.firstChild instanceof Text) {
-		issueLink.firstChild.textContent = stripLeadingPinEmoji(issueLink.firstChild.textContent ?? '');
+	const {firstChild} = issueLink;
+	if (
+		firstChild instanceof Text
+		&& firstChild.data.startsWith('📌')
+	) {
+		firstChild.splitText(1).previousSibling!.remove();
 	}
 
 	issueLink.prepend(<PinIcon className={`${featureClass} color-fg-muted mr-1 v-align-text-bottom`} />);
