@@ -16,6 +16,7 @@ function init(signal: AbortSignal): void {
 			'ul[data-testid="issue-viewer-linked-pr-container"] a[target="_blank"]', // Linked PR and release links on issue sidebar
 			'a[target="_blank"][class^="ReferencedEventInner-module__commitHashLink"]', // Commit linkbacks on issue timeline
 			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]', // Linked PRs on issue list
+			'react-app[app-name="repos-branches"] a[target="_blank"][href*="/pull/"]', // PR links on branches page
 		],
 		fix,
 		{signal},
@@ -26,6 +27,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueList,
 		pageDetect.isIssue,
+		pageDetect.isBranches,
 	],
 	init,
 });
@@ -39,4 +41,5 @@ Test URLs
 - Linked PR links in issue header menu: https://github.com/refined-github/sandbox/issues/130
 - Commit linkbacks: https://github.com/sindresorhus/np/issues/82#event-22200037448, https://github.com/cli/cli/issues/10238
 - Linked PRs on issue list: https://github.com/refined-github/refined-github/issues?q=is%3Aissue%20has%3Alinked%20reason%3Acompleted
+- PR links on branches page: https://github.com/bfred-it-org/github-sandbox/branches
 */
