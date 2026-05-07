@@ -23,10 +23,8 @@ function handleAlteredClick(event: DelegateEvent<PointerEvent, HTMLElement>): vo
 	openSearchResultInNewTab(event.delegateTarget);
 }
 
-const searchResultSelector = 'li[data-type="url-result"][id^="query-builder-test-result"]';
-
 function initSearchResultsInNewTabOnce(): void {
-	onAlteredClick(searchResultSelector, handleAlteredClick, {capture: true});
+	onAlteredClick('li.ActionListItem[data-type="url-result"]', handleAlteredClick, {capture: true});
 }
 
 void features.add(import.meta.url, {
