@@ -346,7 +346,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "clean-footer") Dims the site footer so it's less prominent.
 - [](# "night-not-found") Adds dark mode to the global 404 page.
 - [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
-- [](# "new-tab-links") Makes search dialog results open in a new tab via middle click, and keeps the dropdown open when opening a result in a new tab.
+- [](# "new-tab-links") Allows to open pseudo-links in a new tab/window with altered clicks.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
