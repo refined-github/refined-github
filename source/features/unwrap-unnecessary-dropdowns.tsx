@@ -1,42 +1,56 @@
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$optional, $closest} from 'select-dom';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-// Replace dropdown while keeping its sizing/positioning classes
-function replaceDropdownInPlace(dropdown: Element, form: Element): void {
-	dropdown.replaceWith(form);
-	form.classList.add(...dropdown.classList);
-	form.classList.remove('dropdown', 'details-reset', 'details-overlay');
-}
+function replaceNotificationsDropdown(dropdown: Element): void {
+	const label = $('.Button-label .color-fg-muted', dropdown).textContent.trim();
+	const buttons = $$('button.ActionListContent', dropdown);
 
-function replaceNotificationsDropdown(): void {
-	const forms = $$optional('[action="/notifications/beta/update_view_preference"]');
+	const segmentedControl = (
+		<segmented-control>
+			<ul
+				className="SegmentedControl--medium SegmentedControl"
+				role="list"
+				aria-label={label}
+			>
+				{buttons.map(button => {
+					const buttonLabel = button.textContent.trim().split(' ')[0];
+					const clonedForm = button.form!.cloneNode(true);
+					$('button', clonedForm).replaceWith(
+						<button
+							className="Button--invisible Button--medium Button Button--invisible-noVisuals"
+							type="submit"
+						>
+							<span className="Button-content">
+								<span className="Button-label" data-content={buttonLabel}>
+									{buttonLabel}
+								</span>
+							</span>
+						</button>,
+					);
 
-	if (forms.length === 0) {
-		return;
-	}
+					return (
+						<li
+							className={`SegmentedControl-item ${button.ariaChecked === 'true' ? 'SegmentedControl-item--selected' : ''}`}
+							role="listitem"
+							data-targets="segmented-control.items"
+						>
+							{clonedForm}
+						</li>
+					);
+				})}
+			</ul>
+		</segmented-control>
+	);
 
-	if (forms.length > 2) {
-		throw new Error('GitHub added new view types. This feature is obsolete.');
-	}
-
-	const dropdown = $closest('action-menu', forms[0]);
-	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
-	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
-
-	// Replace dropdown
-	replaceDropdownInPlace(dropdown, desiredForm);
-
-	// Fix button's style
-	const button = $('[type="submit"]', desiredForm);
-	button.className = 'btn';
-	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
+	dropdown.firstElementChild!.replaceWith(segmentedControl);
 }
 
 function init(signal: AbortSignal): void {
-	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
+	observe(['.notification-sort-by', '.notification-group-by'], replaceNotificationsDropdown, {signal});
 }
 
 void features.add(import.meta.url, {
