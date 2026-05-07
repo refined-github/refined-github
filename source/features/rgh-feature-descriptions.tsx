@@ -11,6 +11,7 @@ import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
+import createRelatedIssuesCountElement from '../helpers/rgh-related-issues-count-element.js';
 import {createRghIssueLink, getFeatureRelatedIssuesUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
@@ -67,6 +68,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
+						{createRelatedIssuesCountElement(id as FeatureId, {emptyLabel: 'none open'})}
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{

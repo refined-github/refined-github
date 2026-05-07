@@ -46,6 +46,8 @@ declare module '*.gql' {
 	export = string;
 }
 
+declare module '*.svelte';
+
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
 	'details:toggled': CustomEvent;

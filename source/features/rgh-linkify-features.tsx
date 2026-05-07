@@ -4,47 +4,20 @@ import {$closestOptional} from 'select-dom';
 
 import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import {logError} from '../helpers/errors.js';
-import {getFeatureRelatedIssuesQuery, getFeatureRelatedIssuesUrl, getFeatureUrl} from '../helpers/rgh-links.js';
+import createRelatedIssuesCountElement from '../helpers/rgh-related-issues-count-element.js';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
-const relatedIssuesCountByFeature = new Map<FeatureId, Promise<number>>();
-
-async function fetchOpenRelatedIssuesCount(id: FeatureId): Promise<number> {
-	let countPromise = relatedIssuesCountByFeature.get(id);
-	if (!countPromise) {
-		const query = `${getFeatureRelatedIssuesQuery(id)} repo:refined-github/refined-github`;
-		countPromise = (async () => {
-			const response = await api.v3(`/search/issues?q=${encodeURIComponent(query)}`);
-			return Number(response.total_count);
-		})();
-		relatedIssuesCountByFeature.set(id, countPromise);
-	}
-
-	return countPromise;
-}
-
-async function addOpenRelatedIssuesCount(id: FeatureId, element: HTMLElement): Promise<void> {
-	const count = await fetchOpenRelatedIssuesCount(id);
-	const nextElement = element.nextElementSibling;
-	if (
-		count === 0
-		|| !element.isConnected
-		|| (nextElement instanceof HTMLElement && nextElement.matches('sup[data-rgh-feature-related-count]'))
-	) {
+function mountRelatedIssuesCount(id: FeatureId, element: HTMLElement): void {
+	const existingCount = element.nextElementSibling;
+	if (existingCount instanceof HTMLElement && existingCount.matches('rgh-related-issues-count')) {
 		return;
 	}
 
-	const relatedIssuesUrl = getFeatureRelatedIssuesUrl(id);
-	element.after(
-		<sup data-rgh-feature-related-count="">
-			<a className="Link--muted" href={relatedIssuesUrl.href} data-turbo-frame="repo-content-turbo-frame">{count}</a>
-		</sup>,
-	);
+	element.after(createRelatedIssuesCountElement(id, {includeLink: true}));
 }
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
@@ -88,13 +61,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (willAddIssueCount) {
-		void (async () => {
-			try {
-				await addOpenRelatedIssuesCount(id, possibleFeature);
-			} catch (error) {
-				logError(error instanceof Error ? error : new Error(String(error)));
-			}
-		})();
+		mountRelatedIssuesCount(id, possibleFeature);
 	}
 }
 
