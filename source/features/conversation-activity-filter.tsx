@@ -2,22 +2,36 @@ import './conversation-activity-filter.css';
 
 import delegate from 'delegate-it';
 import React from 'dom-chef';
-import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 import {
-	$, $$, $closest, $closestOptional, $optional, elementExists,
+	$,
+	$$,
+	$$optional,
+	$closest,
+	$closestOptional,
+	$optional,
+	elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
-import {wrap} from '../helpers/dom-utils.js';
+import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import onetime from '../helpers/onetime.js';
+
+const minorFixesIssuePages = [
+	'https://github.com/refined-github/refined-github/issues/3686',
+	'https://github.com/refined-github/refined-github/issues/6000',
+	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
+	'https://github.com/refined-github/refined-github/issues/8000',
+];
 
 const states = {
 	showAll: 'Show all activities',
@@ -26,13 +40,6 @@ const states = {
 } as const;
 
 type State = keyof typeof states;
-
-const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/3686',
-	'https://github.com/refined-github/refined-github/issues/6000',
-	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
-];
 
 const SessionPageSetting = {
 	get key(): string {
@@ -48,6 +55,7 @@ const SessionPageSetting = {
 	},
 };
 
+const menuClass = 'rgh-conversation-activity-filter-menu';
 const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
@@ -93,8 +101,8 @@ function processReview(review: HTMLElement): void {
 	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
-	const unresolvedThreads = $$('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = $$('.timeline-comment-group:not(.minimized-comment)', review);
+	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
+	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
 
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
@@ -132,6 +140,8 @@ async function handleSelection({target}: Event): Promise<void> {
 	applyState(state as State);
 }
 
+let currentState: State;
+
 function applyState(targetState: State): void {
 	const container = $([
 		// Current PR view
@@ -145,13 +155,19 @@ function applyState(targetState: State): void {
 
 	// Sync menu items state between two widgets
 	for (const menuItem of $$(`.${menuItemClass}`)) {
-		menuItem.ariaChecked = `${menuItem.dataset.state === targetState}`;
+		if (menuItem.dataset.state === targetState) {
+			menuItem.ariaChecked = 'true';
+			menuItem.focus();
+		} else {
+			menuItem.ariaChecked = 'false';
+		}
 	}
 
+	currentState = targetState;
 	SessionPageSetting.set(targetState);
 }
 
-function createMenuItems(currentState: State): JSX.Element[] {
+function createMenuItems(): JSX.Element[] {
 	return Object.entries(states).map(([itemState, label]) => (
 		<li data-targets="action-list.items" role="none" className="ActionListItem">
 			<button
@@ -173,7 +189,7 @@ function createMenuItems(currentState: State): JSX.Element[] {
 	));
 }
 
-async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
+async function addWidget(anchor: Element): Promise<void> {
 	const position = $closest('div', anchor);
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
@@ -187,7 +203,7 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+			className={`${menuClass} d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 				position.offsetWidth > 0 ? 'ml-2' : ''
 			}`}
 			data-select-variant="single"
@@ -233,10 +249,19 @@ async function addWidget(state: State, anchor: HTMLElement): Promise<void> {
 									role="menu"
 									className="ActionListWrap--inset ActionListWrap"
 								>
-									{createMenuItems(state)}
+									{createMenuItems()}
 								</ul>
 							</action-list>
 						</div>
+						{!isSmallDevice() && (
+							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
+								<span className="color-fg-muted">
+									Press <kbd>h</kbd> to cycle through filters,
+									<br />
+									even when the dropdown is closed
+								</span>
+							</div>
+						)}
 					</div>
 				</anchored-position>
 			</focus-group>
@@ -255,8 +280,6 @@ function uncollapseTargetedComment(): void {
 }
 
 function switchToNextFilter(): void {
-	const currentState = $(`.${menuItemClass}[aria-checked="true"]`).dataset.state as State;
-
 	const stateNames = Object.keys(states);
 	const nextIndex = stateNames.indexOf(currentState) + 1;
 	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
@@ -265,10 +288,16 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = SessionPageSetting.get()
+	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
+
+	const initialSetupOnce = onetime(() => {
+		applyState(currentState);
+		registerHotkey('h', switchToNextFilter, {signal});
+		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
+	});
 
 	observe(
 		[
@@ -281,22 +310,16 @@ async function init(signal: AbortSignal): Promise<void> {
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
 		],
-		addWidget.bind(undefined, initialState),
+		// This code runs twice - we have 2 widgets on the page
+		async anchor => {
+			await addWidget(anchor);
+			initialSetupOnce();
+		},
 		{signal},
 	);
 
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});
-	delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection, {signal});
-
-	if (initialState !== 'showAll') {
-		// Wait for the DOM to be ready before applying the initial state
-		// https://github.com/refined-github/refined-github/issues/7086
-		await domLoaded;
-		applyState(initialState);
-	}
-
-	registerHotkey('h', switchToNextFilter, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 }
 
 void features.add(import.meta.url, {
