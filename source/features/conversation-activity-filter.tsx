@@ -54,6 +54,7 @@ const SessionPageSetting = {
 	},
 };
 
+const menuClass = 'rgh-conversation-activity-filter-menu';
 const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
@@ -196,7 +197,7 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+			className={`${menuClass} d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 				position.offsetWidth > 0 ? 'ml-2' : ''
 			}`}
 			data-select-variant="single"
@@ -289,7 +290,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	const initialSetupOnce = onetime(() => {
 		applyState(currentState);
 		registerHotkey('h', switchToNextFilter, {signal});
-		delegate('.rgh-conversation-activity-filter-menu', 'itemActivated', handleSelection);
+		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
 	});
 
 	observe(
