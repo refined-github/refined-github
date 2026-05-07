@@ -47,6 +47,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/eslint/eslint/issues/?q=is%3Aissue%20state%3Aopen%20dashboard
-https://github.com/yaotingwangofficial/Awesome-MCoT/issues/1
+https://github.com/yaotingwangofficial/Awesome-MCoT/issues
 
 */
