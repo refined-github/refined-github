@@ -13,7 +13,7 @@ import {
 } from 'select-dom';
 
 import features from '../feature-manager.js';
-import isBotComment from '../github-helpers/is-bot-comment.js';
+import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {wrap} from '../helpers/dom-utils.js';
@@ -73,7 +73,7 @@ function processSimpleComment(item: HTMLElement): void {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (isBotComment(item)) {
+	if (getCommentAuthor(item).endsWith('[bot]')) {
 		item.classList.add(botClassName);
 	}
 }
