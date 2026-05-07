@@ -50,7 +50,7 @@ export default class SearchQuery {
 
 	private readonly url: URL;
 	private queryParts: string[];
-	private trailingSpace = false;
+	private readonly trailingSpace: boolean = false;
 
 	constructor(url: string | URL, base?: string) {
 		this.url = typeof url === 'string' ? new URL(url, base) : url;
