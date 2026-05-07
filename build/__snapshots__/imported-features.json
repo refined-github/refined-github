@@ -85,6 +85,7 @@
 	"list-prs-for-file",
 	"locked-issue",
 	"mark-merge-commits-in-list",
+	"mark-pinned",
 	"mark-private-orgs",
 	"more-dropdown-links",
 	"more-file-links",

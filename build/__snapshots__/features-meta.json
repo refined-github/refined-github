@@ -487,6 +487,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285106996-9bdbc938-69c4-4692-8d47-11e30676de62.png"
 	},
 	{
+		"id": "mark-pinned",
+		"description": "Marks pinned issues in the issues list so duplicate rows are immediately recognizable.",
+		"screenshot": "https://github.com/user-attachments/assets/d0c91540-483b-44e5-b724-2aeba6a52286"
+	},
+	{
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,

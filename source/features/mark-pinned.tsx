@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PinIcon from 'octicons-plain-react/Pin';
-import {elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -10,24 +10,23 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 const {class: featureClass} = getIdentifiers(import.meta.url);
 
 function getPinnedIssueSelector(issueLink: HTMLAnchorElement): string {
-	const href = issueLink.getAttribute('href')!;
-	return `.js-pinned-issues-reorder-container a[href="${CSS.escape(href)}"]`;
+	const relativeUrl = issueLink.getAttribute('href')!;
+	// The href attribute in the pinned issue list contains the absolute URL
+	return `[class*='PinnedIssues-module__container'] a[href$="${CSS.escape(relativeUrl)}"]`;
 }
 
 function mark(issueLink: HTMLAnchorElement): void {
-	if (!elementExists(getPinnedIssueSelector(issueLink))) {
-		return;
-	}
-
-	const {firstChild} = issueLink;
 	if (
-		firstChild instanceof Text
-		&& firstChild.data.startsWith('📌')
-	) {
-		firstChild.splitText(1).previousSibling!.remove();
-	}
+		// Is pinned
+		elementExists(getPinnedIssueSelector(issueLink))
 
-	issueLink.prepend(<PinIcon className={`${featureClass} color-fg-muted mr-1 v-align-text-bottom`} />);
+		// Is not already titled with the pin emoji
+		&& !issueLink.textContent.startsWith('📌')
+	) {
+		issueLink.prepend(
+			<PinIcon className={`${featureClass} color-fg-muted mr-1 v-align-text-bottom`} />,
+		);
+	}
 }
 
 function init(signal: AbortSignal): void {
@@ -45,7 +44,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/eslint/eslint/issues/?q=is%3Aissue%20state%3Aopen%20dashboard
-https://github.com/yaotingwangofficial/Awesome-MCoT/issues
+- Prepend to pinned issues: https://github.com/gulpjs/gulp/issues?q=in%3Atitle%20update%20docs%20for
+- Don't alter issues that already have an emoji: https://github.com/yaotingwangofficial/Awesome-MCoT/issues
 
 */
