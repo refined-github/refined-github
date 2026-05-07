@@ -1,4 +1,4 @@
-import {$optional} from 'select-dom';
+import {$closestOptional, $optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
@@ -20,7 +20,7 @@ function openInNewTab(): void {
 	});
 
 	// Get the list element that contains the unread class and mark it as read.
-	selected.closest('.unread')?.classList.replace('unread', 'read');
+	$closestOptional('.unread', selected)?.classList.replace('unread', 'read');
 }
 
 function initOnce(): void {

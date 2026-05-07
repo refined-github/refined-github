@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {elementExists} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
@@ -26,7 +26,7 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 		return;
 	}
 
-	const commentBody = commentDropdown.closest('.js-comment')!;
+	const commentBody = $closest('.js-comment', commentDropdown);
 
 	// TODO: Potentially move to :has selector
 	// The comment is definitely not editable

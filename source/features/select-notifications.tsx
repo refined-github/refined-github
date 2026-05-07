@@ -14,7 +14,9 @@ import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, $closest, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
@@ -159,7 +161,7 @@ function closeDropdown(): void {
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
-	selectAllCheckbox.closest('label')!.after(
+	$closest('label', selectAllCheckbox).after(
 		// `h6` matches "Select all" style
 		<span className="mx-2 h6">·</span>,
 		createDropdown(),

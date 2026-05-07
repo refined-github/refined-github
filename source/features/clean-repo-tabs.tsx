@@ -1,7 +1,9 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, countElements} from 'select-dom';
+import {
+	$, $closest, $optional, countElements,
+} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -44,7 +46,7 @@ function onlyShowInDropdown(id: string): void {
 		return;
 	}
 
-	tabItem.closest('li')!.hidden = true;
+	$closest('li', tabItem).hidden = true;
 
 	const menuItem = $(`[data-menu-item$="${id}"]`);
 	menuItem.removeAttribute('data-menu-item');

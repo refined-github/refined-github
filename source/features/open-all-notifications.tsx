@@ -4,7 +4,9 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import {$, $$, elementExists} from 'select-dom';
+import {
+	$, $$, $closest, $closestOptional, elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
@@ -49,7 +51,7 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 }
 
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
-	const container = delegateTarget.closest('.js-notifications-group') ?? document;
+	const container = $closestOptional('.js-notifications-group', delegateTarget) ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
 	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
 	if (didOpenNotifications) {
@@ -60,7 +62,7 @@ async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<M
 
 async function openSelectedNotifications(): Promise<void> {
 	const selectedNotifications = $$('.notifications-list-item :checked')
-		.map(checkbox => checkbox.closest('.notifications-list-item')!);
+		.map(checkbox => $closest('.notifications-list-item', checkbox));
 	await openNotifications(selectedNotifications);
 
 	if (!elementExists('.notification-unread')) {
@@ -96,7 +98,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
-	const repository = markReadButton.closest('.js-notifications-group')!;
+	const repository = $closest('.js-notifications-group', markReadButton);
 	if (getUnreadNotifications(repository).length === 0) {
 		return;
 	}

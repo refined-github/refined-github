@@ -2,7 +2,7 @@ import './warning-for-disallow-edits.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom';
+import {$closest, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import attachElement from '../helpers/attach-element.js';
@@ -22,11 +22,11 @@ function init(): void | false {
 
 	if (pageDetect.isPRConversation()) {
 		attachElement(
-			checkbox.closest('.discussion-sidebar-item')!,
+			$closest('.discussion-sidebar-item', checkbox),
 			{after: getWarning},
 		);
 	} else {
-		const option = checkbox.closest('.js-collab-option')!;
+		const option = $closest('.js-collab-option', checkbox);
 
 		// Prevent layout shifting when warning appears
 		option.classList.remove('flex-auto');

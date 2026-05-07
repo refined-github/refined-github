@@ -1,7 +1,9 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import domify from 'doma';
-import {$, $$, countElements} from 'select-dom';
+import {
+	$, $$, $closest, countElements,
+} from 'select-dom';
 
 import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';
@@ -69,10 +71,7 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 			toggle.checked = !toggle.checked;
 		}
 	} else {
-		const toggle = event
-			.delegateTarget
-			.closest('.feature')!
-			.querySelector('input.screenshot-toggle')!;
+		const toggle = $('input.screenshot-toggle', $closest('.feature', event.delegateTarget));
 		toggle.checked = !toggle.checked;
 	}
 }

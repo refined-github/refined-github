@@ -91,12 +91,12 @@ export default defineConfig([
 					'error',
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
 						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 					},
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 						message: 'If it\'s a single selector, use a single string instead of an array',
 					},
 					{
@@ -106,6 +106,10 @@ export default defineConfig([
 					{
 						selector: 'TSNonNullExpression > CallExpression > [name=$]',
 						message: 'Unused null expression: !',
+					},
+					{
+						selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
+						message: 'Unused null expression: ! — $closest() already throws when the element is not found',
 					},
 					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',

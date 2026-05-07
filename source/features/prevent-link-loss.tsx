@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import memoize from 'memoize';
-import {$} from 'select-dom';
+import {$, $closest} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -20,7 +20,6 @@ import {
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 
 const feature = getIdentifiers(import.meta.url);
-const containerSelector = '[class*="MarkdownEditor-module__inputWrapper"]';
 const fieldSelector = [
 	'textarea.js-comment-field',
 	'textarea[aria-labelledby="comment-composer-heading"]', // React view
@@ -32,13 +31,16 @@ const documentation
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		fixButton.closest(['form', 'fieldset'])!,
+		$closest([
+			'form',
+			'fieldset',
+		], fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	fixButton.closest('.flash')!.remove();
+	$closest('.flash', fixButton).remove();
 }
 
 const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement => createBanner({
@@ -75,7 +77,8 @@ function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 			$('file-attachment .js-write-bucket', field.form).append(getUi(field));
 		} else {
 			// React view
-			field.closest(containerSelector)!.after(getUi(field));
+			const container = $closest('[data-testid="markdown-editor-comment-composer"]', field);
+			container.after(getUi(container));
 		}
 	} else {
 		getUi(field).remove();

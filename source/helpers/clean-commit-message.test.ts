@@ -8,6 +8,10 @@ test('cleanCommitMessage', () => {
 		'co-authored-by: Me <me@example.com>',
 		'Co-authored-by: You <you@example.com>',
 	];
+	const signoffs = [
+		'Signed-off-by: Me <me@example.com>',
+		'signed-off-by: Me <me@example.com>',
+	];
 	assert.isEmpty(cleanCommitMessage(''));
 	assert.isEmpty(cleanCommitMessage('clean me'));
 	assert.isEmpty(cleanCommitMessage(`
@@ -43,6 +47,99 @@ test('cleanCommitMessage', () => {
 	`),
 		coauthors[0],
 		'Should de-duplicate inconsistent co-authored-by casing',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+	`),
+		signoffs[0],
+		'Should preserve signed-off-by',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+		${signoffs[1]}
+	`),
+		signoffs[0],
+		'Should de-duplicate inconsistent signed-off-by casing',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${coauthors[0]}
+		${signoffs[0]}
+	`),
+		coauthors[0] + '\n' + signoffs[0],
+		'Should preserve both co-authored-by and signed-off-by',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			['dependabot[bot]'],
+		),
+		'Should drop co-author whose privacy email matches the PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+		${coauthors[2]}
+	`,
+			false,
+			['dependabot[bot]'],
+		),
+		coauthors[2],
+		'Should drop only the matching co-author, and keep others',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			['someone-else'],
+		),
+		'Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>',
+		'Should keep co-author when privacy email username does not match PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		${coauthors[0]}
+	`,
+			false,
+			['Me'],
+		),
+		coauthors[0],
+		'Should keep co-author when email is not a GitHub privacy email, even if the name matches PR author',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: someuser <someuser@users.noreply.github.com>
+	`,
+			false,
+			['someuser'],
+		),
+		'Should drop co-author with legacy privacy email without numeric prefix prior to July 18, 2017',
 	);
 
 	assert.isEmpty(

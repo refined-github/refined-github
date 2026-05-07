@@ -2,7 +2,7 @@ import './linkify-user-labels.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
+import {$, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
@@ -12,7 +12,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function getAuthor(label: HTMLElement): string {
-	const prMetadataRow = label.closest('.opened-by');
+	const prMetadataRow = $closestOptional('.opened-by', label);
 	if (!prMetadataRow) {
 		return getCommentAuthor(label);
 	}
@@ -24,7 +24,7 @@ function getAuthor(label: HTMLElement): string {
 }
 
 function linkify(label: HTMLElement): void {
-	if (label.closest('a')) {
+	if ($closestOptional('a', label)) {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
 

@@ -4,7 +4,7 @@ import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
-import {elementExists} from 'select-dom';
+import {$closest, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -57,7 +57,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		}
 
 		if (!repoLink.classList.contains('AppHeader-context-item')) {
-			repoLink.closest('li')!.classList.add('d-flex');
+			$closest('li', repoLink).classList.add('d-flex');
 		}
 
 		repoLink.after(

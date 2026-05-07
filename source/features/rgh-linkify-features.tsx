@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$closestOptional} from 'select-dom';
 
 import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
@@ -31,7 +32,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		if (title) {
 			possibleLink.title = title;
 		}
-	} else if (!possibleFeature.closest('a')) {
+	} else if (!$closestOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
 		wrap(

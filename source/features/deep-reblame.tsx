@@ -5,7 +5,9 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {$, $$, $optional} from 'select-dom';
+import {
+	$, $$, $closest, $optional,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -55,7 +57,7 @@ async function redirectToBlameCommit(
 	event.preventDefault();
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const blameHunk = blameElement.closest('.react-blame-segment-wrapper')!;
+	const blameHunk = $closest('.react-blame-segment-wrapper', blameElement);
 	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
 	const commitInfo = $('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
 	const prCommit = extractCommitFromHoverCardUrl(commitInfo);

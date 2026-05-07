@@ -1,7 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
@@ -120,7 +120,7 @@ function Lies(): JSX.Element {
 
 async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
-		delegateTarget.closest('fieldset')!.append(<Lies />);
+		$closest('fieldset', delegateTarget).append(<Lies />);
 	}
 }
 

@@ -150,6 +150,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/169497171-85d4a97f-413a-41b4-84ba-885dca2b51cf.png"
 	},
 	{
+		"id": "cmd-enter",
+		"description": "Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs, which is broken.",
+		"screenshot": "https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f"
+	},
+	{
 		"id": "collapsible-content-button",
 		"description": "Adds a button in the text editor to insert collapsible content (via <code>&lt;details&gt;</code>).",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260875648-bd495d27-4cd1-4190-bcc5-b8b476f07d39.png"
@@ -1035,6 +1040,7 @@
 	{
 		"id": "update-pr-from-base-branch",
 		"description": "Adds an \"Update branch | Rebase\" button to every PR. GitHub has the same feature, but it must be manually configured for each repo.",
+		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/7bd2745b-c57c-4c26-bbb8-b05e9cf089db"
 	},
 	{
