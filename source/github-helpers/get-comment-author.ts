@@ -20,7 +20,7 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 
 */
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
-	const avatar: HTMLImageElement = $closest([
+	const avatar: HTMLImageElement | HTMLElement = $closest([
 		'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
 		'.review-comment', // PR review comments
 		'.react-issue-body', // First issue comment
@@ -32,9 +32,14 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 			'img.avatar', // PR review comments
 			'img[data-testid="github-avatar"]', // Issue comments
 			'img[data-component="Avatar"]', // Commit comments
+			'.octicon-copilot',
 		])!;
 
-	const name = avatar
+	if (avatar.matches('.octicon-copilot')) {
+		return 'Copilot[bot]';
+	}
+
+	const name = (avatar as HTMLImageElement)
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 

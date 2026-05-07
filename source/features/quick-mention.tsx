@@ -11,29 +11,24 @@ import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
+import observe, {waitForElement} from '../helpers/selector-observer.js';
 
-const fieldSelector = [
-	'textarea#new_comment_field',
-	'#react-issue-comment-composer textarea',
-] as const;
+const prFieldSelector = 'textarea#new_comment_field';
+const issueFieldSelector = '#react-issue-comment-composer textarea';
+const fieldSelector = [prFieldSelector, issueFieldSelector] as const;
 
-// Old Issue View and PR View
-// `:first-child` avoids app badges #2630
-// Avatars next to review events aren't wrapped in a <div> #4844
-const prCommentSelector = '.js-quote-selection-container '
+const loggedInUser = getLoggedInUser()!;
+
+const prAvatarSelector = '.js-quote-selection-container '
 	+ is(
-		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child',
-		'a.TimelineItem-avatar',
+		// `:first-child` avoids app badges #2630
+		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child', // Comment
+		'a.TimelineItem-avatar', // Review or PR body
 	)
-	+ `:not([href="/${getLoggedInUser()!}"])`;
+	+ `:not([href="/${loggedInUser}"])`;
 
-const issueCommentSelector = [
-	// React Issue View
-	`[data-testid="issue-viewer-comments-container"] [class^="LayoutHelpers-module__timelineElement"] a:not([href="/${getLoggedInUser()!}"])`,
-	// React Issue View (first comment)
-	`[data-testid="issue-viewer-issue-container"] a[class^="Avatar-module__avatarLink"]:not([href="/${getLoggedInUser()!}"])`,
-];
+const issueAvatarSelector
+	= `a[class^="Avatar-module__avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -56,48 +51,32 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
 }
 
-const debug = false;
+function addButton(avatar: HTMLElement): void {
+	const userMention = $('img', avatar).alt;
+	avatar.after(
+		<button
+			type="button"
+			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
+			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
+		>
+			<ReplyIcon />
+		</button>,
+	);
+}
 
-function add(avatar: HTMLElement): void {
-	if (debug) {
-		avatar.style.border = 'solid 5px black';
-	}
-
+function addButtonPr(avatar: HTMLElement): void {
 	const timelineItem = $closest([
 		// Regular comments
 		'.js-comment-container',
-
 		// Reviews
 		'.js-comment',
 	], avatar);
 
-	const isOldView = Boolean(timelineItem);
-
-	if (isOldView) {
-		if (debug) {
-			timelineItem.style.border = 'solid 5px red';
-		}
-
-		if (
-			// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-			!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
-		) {
-			return;
-		}
-	} else {
-		// Make sure the comment isn't hidden
-		const contentItem = avatar.parentElement!.querySelector([
-			'[data-testid="comment-header"] + div',
-			'.react-issue-body', // First comment in React issues view
-		])!;
-
-		if (!contentItem) {
-			return;
-		}
-	}
-
-	if (debug) {
-		timelineItem.style.border = 'solid 5px green';
+	if (
+		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
+		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+	) {
+		return;
 	}
 
 	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
@@ -106,54 +85,39 @@ function add(avatar: HTMLElement): void {
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
-	if (!isOldView) {
-		avatar.style.height = 'auto';
-		wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
+	addButton(avatar);
+}
+
+function addButtonIssue(avatar: HTMLElement): void {
+	const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
+	if (isHidden) {
+		return;
 	}
 
-	const userMention = $('img', avatar).alt;
+	avatar.style.height = 'auto';
+	avatar.classList.add('react-view');
+	wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
 
-	avatar.after(
-		<button
-			type="button"
-			className={['rgh-quick-mention tooltipped tooltipped-e btn-link', isOldView ? '' : 'react-view'].join(' ')}
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-		>
-			<ReplyIcon />
-		</button>,
-	);
+	addButton(avatar);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	if (await isArchivedRepoAsync()) {
-		return;
-	}
-
 	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
 
-	const controller = new AbortController();
-	const field: HTMLTextAreaElement | undefined = await new Promise(resolve => {
-		observe(fieldSelector, field => {
-			resolve(field);
-			controller.abort();
-		}, {signal: AbortSignal.any([signal, controller.signal])});
-	});
-
-	if (!field) {
-		return;
-	}
-
-	const isPrOrOldView = field.id === 'new_comment_field';
-	if (isPrOrOldView) {
-		observe(prCommentSelector, add, {signal});
+	if (pageDetect.isPR()) {
+		observe(prAvatarSelector, addButtonPr, {signal});
 	} else {
-		observe(issueCommentSelector, add, {signal});
+		observe(issueAvatarSelector, addButtonIssue, {signal});
 	}
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
+	],
+	exclude: [
+		async () => !await waitForElement(fieldSelector),
+		isArchivedRepoAsync,
 	],
 	init,
 });

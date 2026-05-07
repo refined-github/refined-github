@@ -1,42 +1,27 @@
+import './update-pr-from-base-branch.css';
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {
-	$, $closest, $optional, elementExists,
+	$,
+	$$,
+	$closest,
+	$optional,
+	elementExists,
 } from 'select-dom';
-import {CachedFunction} from 'webext-storage-cache';
 
-import features from '../feature-manager.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {getRepo} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {deletedHeadRepository, prMergeabilityBoxHeader} from '../github-helpers/selectors.js';
+import {deletedHeadRepository} from '../github-helpers/selectors.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import updatePullRequestBranch from './update-pr-from-base-branch.gql';
-
-// TODO: Use CachedMap after https://github.com/fregante/webext-storage-cache/issues/51
-const nativeRepos = new CachedFunction('native-update-button', {
-	maxAge: {
-		days: 10,
-	},
-	staleWhileRevalidate: {
-		days: 1,
-	},
-	async updater(_nameWithOwner: string): Promise<boolean> {
-		throw new TypeError('bad usage');
-	},
-});
-
-async function disableFeatureOnRepo(): Promise<void> {
-	const repo = getRepo()!.nameWithOwner;
-	console.trace('Refined GitHub: Disabling `update-pr-from-base-branch` on', repo);
-	features.unload(import.meta.url);
-	await nativeRepos.applyOverride([repo], true);
-}
+import features from '../feature-manager.js';
 
 const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
@@ -100,7 +85,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 
 const feature = getIdentifiers(import.meta.url);
 
-function createButton(): JSX.Element {
+function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => {
@@ -140,15 +125,13 @@ function createButton(): JSX.Element {
 	);
 }
 
-const nativeUpdateButtonSelector
-	= '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] [data-component="buttonContent"]';
-
-function canNativelyUpdate(): boolean {
-	const nativeButton = $optional(nativeUpdateButtonSelector);
-	return nativeButton?.textContent === 'Update branch';
+function setButtonsDisabledState(base: Element, disabled: boolean): void {
+	for (const button of $$('button', base)) {
+		button.disabled = disabled;
+	}
 }
 
-async function shouldShowButton(): Promise<boolean> {
+async function isBranchUpdatable(): Promise<boolean> {
 	const {base} = getBranches();
 	const prInfo = await getPrInfo(base.relative);
 
@@ -158,30 +141,55 @@ async function shouldShowButton(): Promise<boolean> {
 	return prInfo.needsUpdate && canUpdateBranch && prInfo.mergeable !== 'CONFLICTING';
 }
 
-async function addButton(): Promise<void> {
-	if (canNativelyUpdate()) {
-		// Ideally the "canNativelyUpdate" observer is fired first and this listener isn't reached, but that is not guaranteed.
-		await disableFeatureOnRepo();
+async function manageButtonGroup(stateIcon: Element): Promise<void> {
+	const existingButtonGroup = $optional(`.ButtonGroup:has(.${feature.class})`);
+
+	if (elementExists('.octicon-check', stateIcon)) {
+		if (!await isBranchUpdatable()) {
+			return;
+		}
+
+		if (existingButtonGroup) {
+			setButtonsDisabledState(existingButtonGroup, false);
+			return;
+		}
+
+		// The same container as the native button uses
+		$('section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]')
+			.append(createButtonGroup());
+
 		return;
 	}
 
-	if (!await shouldShowButton()) {
+	// Loading icon, GitHub is determining the mergeability status
+	if (stateIcon.className.includes('Spinner')) {
+		if (existingButtonGroup) {
+			// Disable buttons until the status is determined
+			setButtonsDisabledState(existingButtonGroup, true);
+		}
+
 		return;
 	}
 
-	const mergeabilityRow = $('[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__contentLayout"]');
-	mergeabilityRow.append(createButton());
+	if (elementExists('.octicon-alert-fill', stateIcon)) {
+		// Button group won't exist if it wasn't previously added
+		// For example, if a PR already had conflicts when its page was opened
+		existingButtonGroup?.remove();
+		return;
+	}
+
+	throw new TypeError('Unexpected state icon', {cause: stateIcon});
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
 	await expectToken();
-	if (await nativeRepos.getCached(getRepo()!.nameWithOwner)) {
-		return false;
-	}
 
 	delegate(feature.selector, 'click', handler, {signal});
-	observe(prMergeabilityBoxHeader, addButton, {signal});
-	observe(nativeUpdateButtonSelector, disableFeatureOnRepo, {signal});
+	observe(
+		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',
+		manageButtonGroup,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -189,8 +197,9 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 	],
 	exclude: [
-		pageDetect.isClosedConversation,
+		pageDetect.isMergedPR,
 		() => elementExists(deletedHeadRepository),
+		isArchivedRepoAsync,
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	init,
