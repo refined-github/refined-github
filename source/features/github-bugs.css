@@ -267,6 +267,13 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Fix checkmark on a deselected item disappearing with a noticeable delay */
+/* Info: https://github.com/refined-github/refined-github/issues/9348 */
+/* Test: https://github.com/refined-github/refined-github/issues/9348 */
+.ActionListItem-singleSelectCheckmark {
+	transition: none !important;
+}
+
 /*
 
 Test URLs:
