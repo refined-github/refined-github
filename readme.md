@@ -393,6 +393,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "reactions-popup") Improves the usability of the comment reactions popup by making it smaller.
 - [](# "readable-title-change-events") Stacks the old and new titles in title change timeline events for better readability.
 - [](# "cmd-enter") [Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs, which is broken.](https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f)
+- [](# "new-tab-links") Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

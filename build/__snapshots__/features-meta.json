@@ -550,6 +550,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e"
 	},
 	{
+		"id": "new-tab-links",
+		"description": "Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.",
+		"screenshot": null
+	},
+	{
 		"id": "night-not-found",
 		"description": "Adds dark mode to the global 404 page.",
 		"css": true,
