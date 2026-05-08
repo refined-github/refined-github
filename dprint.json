@@ -19,7 +19,16 @@
 		"styleIndent": true
 	},
 	"typescript": {
-		"quoteStyle": "alwaysSingle"
+		"indentWidth": 1,
+		"quoteStyle": "preferSingle",
+		"jsx.quoteStyle": "preferDouble",
+		"trailingCommas": "onlyMultiLine",
+		"semiColons": "always",
+		"lineWidth": 120,
+		"jsx.multiLineParens": "never",
+		"spaceSurroundingProperties": false,
+		"importDeclaration.spaceSurroundingNamedImports": false,
+		"exportDeclaration.spaceSurroundingNamedExports": false
 	},
 	"malva": {
 		"linebreakInPseudoParens": true,

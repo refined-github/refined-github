@@ -2,14 +2,14 @@
 	customElement={{
 		tag: 'rgh-header',
 		props: {
-			title: { type: 'String', attribute: 'title' },
+			title: {type: 'String', attribute: 'title'},
 		},
 	}}
 />
 
 <script lang="ts">
-	const { title }: { title: string } = $props();
-	const { version } = chrome.runtime.getManifest();
+	const {title}: {title: string;} = $props();
+	const {version} = chrome.runtime.getManifest();
 </script>
 
 <header>

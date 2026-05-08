@@ -2,8 +2,8 @@
 	customElement={{
 		tag: 'storage-usage',
 		props: {
-			area: { type: 'String', attribute: 'area' },
-			item: { type: 'String', attribute: 'item' },
+			area: {type: 'String', attribute: 'area'},
+			item: {type: 'String', attribute: 'item'},
 		},
 	}}
 />
@@ -11,7 +11,7 @@
 <script lang="ts">
 	import prettyBytes from 'pretty-bytes';
 
-	import { onMount } from 'svelte';
+	import {onMount} from 'svelte';
 
 	import {
 		getStorageBytesInUse,
@@ -19,7 +19,7 @@
 		getTrueSizeOfObject,
 	} from '../helpers/used-storage.js';
 
-	const { area, item }: {
+	const {area, item}: {
 		area: 'sync' | 'local';
 		item?: string;
 	} = $props();
@@ -39,7 +39,7 @@
 	}
 
 	const handleStorageChange = (
-		changes: { [key: string]: chrome.storage.StorageChange },
+		changes: {[key: string]: chrome.storage.StorageChange;},
 		areaName: chrome.storage.AreaName,
 	) => {
 		if (item && changes[item]) {
