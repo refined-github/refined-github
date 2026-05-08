@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, countElements} from 'select-dom';
+import {$closest, $optional, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -8,11 +8,14 @@ import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
+import isSquashMergeButtonText from '../helpers/is-squash-merge-button-text.js';
 import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
+const mergeMessageFieldSelector = 'textarea[placeholder="Add an optional extended description…"]';
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	const originalMessage = messageField.value;
@@ -54,9 +57,26 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	});
 }
 
+async function clearIfSquashing(messageField: HTMLTextAreaElement): Promise<void> {
+	const mergeButton = $optional(confirmMergeButton);
+	if (!mergeButton || !isSquashMergeButtonText(mergeButton.textContent ?? undefined)) {
+		return;
+	}
+
+	await clear(messageField);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe('textarea[placeholder="Add an optional extended description…"]', clear, {signal});
+	observe(mergeMessageFieldSelector, clearIfSquashing, {signal});
+	observe(confirmMergeButton, async () => {
+		const messageField = $optional(mergeMessageFieldSelector);
+		if (!messageField) {
+			return;
+		}
+
+		await clearIfSquashing(messageField);
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
