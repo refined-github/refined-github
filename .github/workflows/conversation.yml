@@ -16,7 +16,7 @@ jobs:
       - uses: fregante/title-to-labels-action@v1
         with:
           token: ${{ github.token }}
-      - if: github.event_name == 'pull_request_target' && startsWith(github.event.pull_request.title, 'Meta:')
+      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-'))
         uses: actions/github-script@v8
         with:
           script: |
