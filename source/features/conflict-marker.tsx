@@ -44,7 +44,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 				<a
 					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
 					aria-label="This PR has conflicts that must be resolved"
-					href={`${pr.link.pathname}#partial-pull-merging`}
+					href={`${pr.link.pathname}#issue-comment-box`}
 				>
 					<AlertIcon className="v-align-middle" />
 				</a>,

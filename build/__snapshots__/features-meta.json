@@ -487,6 +487,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285106996-9bdbc938-69c4-4692-8d47-11e30676de62.png"
 	},
 	{
+		"id": "mark-pinned",
+		"description": "Marks pinned issues in the issues list so duplicate rows are immediately recognizable.",
+		"screenshot": "https://github.com/user-attachments/assets/a4fcc92e-8524-4d57-a510-ad04c8c58a23"
+	},
+	{
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,
@@ -543,6 +548,11 @@
 		"id": "new-repo-disable-projects-and-wikis",
 		"description": "Automatically disables projects and wikis when creating a repository.",
 		"screenshot": "https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e"
+	},
+	{
+		"id": "new-tab-links",
+		"description": "Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.",
+		"screenshot": null
 	},
 	{
 		"id": "night-not-found",

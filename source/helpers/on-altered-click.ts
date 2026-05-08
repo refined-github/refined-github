@@ -24,7 +24,7 @@ export default function onAlteredClick<Selector extends string>(
 		event.preventDefault();
 	};
 
-	delegate(selector, 'click', clickListener, options);
-	delegate(selector, 'auxclick', auxClickListener, options);
+	delegate(selector, 'click', clickListener, {capture: true, ...options});
+	delegate(selector, 'auxclick', auxClickListener, {capture: true, ...options});
 	delegate(selector, 'mousedown', preventAutoScrolling, {...options, capture: true});
 }
