@@ -1,8 +1,28 @@
-.rgh-clean-repo-filelist-actions .TextInput-wrapper {
-	/* Override the value that GitHub sets */
-	min-width: unset !important;
+html:not([rgh-OFF-clean-repo-filelist-actions]) div[class^='OverviewContent'] {
+	/* Hide "Code" label */
+	button[data-variant='primary'] {
+		padding-inline: 0.5em 0.4em; /* Reduce and balance padding */
+		span[data-component='leadingVisual'] {
+			margin-right: 0.2em;
 
-	input:not(:focus) {
-		width: 0;
+			> .octicon-code {
+				display: inline-block !important;
+			}
+		}
+
+		span[data-component='text'] {
+			display: none;
+		}
+	}
+
+	/* Hide agent */
+	button:has(> .octicon-agent) {
+		display: none;
+	}
+
+	/* Reduce file search field */
+	span[class*='FileResultsList']:not(:focus-within) {
+		width: 130px;
+		min-width: 130px; /* GitHub's default: 160px */
 	}
 }

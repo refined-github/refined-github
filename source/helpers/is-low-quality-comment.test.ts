@@ -1,4 +1,4 @@
-import {describe, test, assert} from 'vitest';
+import {assert, describe, test} from 'vitest';
 
 import isLowQualityComment from './is-low-quality-comment.js';
 

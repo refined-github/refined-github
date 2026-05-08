@@ -1,6 +1,6 @@
 // Run `npm run vitest` to update these files
-import importedFeaturesRaw from '../build/__snapshots__/imported-features.json' with {type: 'json'};
 import featuresMetasRaw from '../build/__snapshots__/features-meta.json' with {type: 'json'};
+import importedFeaturesRaw from '../build/__snapshots__/imported-features.json' with {type: 'json'};
 import renamedFeatures from './feature-renames.json' with {type: 'json'};
 
 export const importedFeatures = importedFeaturesRaw as FeatureId[];

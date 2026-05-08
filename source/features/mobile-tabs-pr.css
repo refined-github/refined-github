@@ -1,0 +1,58 @@
+/* Info: https://github.com/refined-github/refined-github/issues/7725 */
+@media (width <= 767px) {
+	a[class*='PullRequestHeaderNavigation'] {
+		display: inline-flex;
+		flex-wrap: wrap;
+		white-space: nowrap;
+		place-content: center center;
+		align-items: center;
+		padding: 0.7em 0;
+		font-size: 13px;
+		gap: 0 5px;
+
+		svg {
+			order: -2;
+			display: block !important;
+			margin: 0 !important;
+		}
+
+		[data-variant='secondary'] {
+			order: -1;
+			margin: 0 !important;
+		}
+
+		&:first-child {
+			width: 13ch;
+		}
+
+		&[href$='/commits'],
+		&[href$='/checks'] {
+			width: 12ch;
+		}
+
+		&[href$='/changes'] {
+			width: 15ch;
+		}
+	}
+}
+
+@media (width <= 500px) {
+	a[class*='PullRequestHeaderNavigation'] {
+		font-size: 10px;
+
+		[data-variant='secondary'] {
+			background: none;
+			padding: 0;
+			margin: 0;
+			min-width: 0;
+		}
+	}
+}
+
+/*
+
+Test URLs:
+
+- https://github.com/refined-github/sandbox/pull/1
+
+*/

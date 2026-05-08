@@ -7,11 +7,10 @@ import './github-helpers/heat-map.css';
 // CSS-only features
 import './features/github-bugs.css';
 import './features/tab-size.css';
-import './features/center-reactions-popup.css';
+import './features/reactions-popup.css';
 import './features/monospace-textareas.css';
 import './features/clean-footer.css';
 import './features/pr-approvals-count.css';
-import './features/clean-conversations.css';
 import './features/sticky-conversation-list-toolbar.css';
 import './features/clean-notifications.css';
 import './features/night-not-found.css';
@@ -21,7 +20,7 @@ import './features/readable-title-change-events.css';
 import './features/clean-checks-list.css';
 import './features/sticky-csv-header.css';
 import './features/mark-private-repos.css';
-import './features/mobile-tabs.css';
+import './features/mobile-tabs-pr.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
@@ -57,6 +56,7 @@ import './features/conversation-links-on-repo-lists.js';
 import './features/global-conversation-list-filters.js';
 import './features/sort-conversations-by-update-time.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time.js';
+import './features/mark-pinned.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
 import './features/ci-link.js';
@@ -185,7 +185,6 @@ import './features/repo-avatars.js';
 import './features/jump-to-conversation-close-event.js';
 import './features/last-notification-page-button.js';
 import './features/rgh-linkify-yolo.js';
-import './features/quick-new-issue.js';
 import './features/scrollable-areas.js';
 import './features/emphasize-draft-pr-label.js';
 import './features/file-age-color.js';
@@ -215,9 +214,11 @@ import './features/sidebar-focus-file.js';
 import './features/rgh-token-user.js';
 import './features/unread-anywhere.js';
 import './features/no-modals.js';
+import './features/new-tab-links.js';
 import './features/same-page-links.js';
 import './features/linkify-text.js';
 import './features/actions-run-removal.js';
 import './features/new-milestone-button.js';
 import './features/no-self-reference.js';
 import './features/mobile-conversation-headers.js';
+import './features/cmd-enter.js';

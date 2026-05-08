@@ -1,17 +1,17 @@
 import React from 'dom-chef';
+import {$, $$, $$optional} from 'select-dom';
 import cache from 'webext-storage-cache/legacy.js';
-import {$, $$, $$optional} from 'select-dom/strict.js';
 
-import TagIcon from 'octicons-plain-react/Tag';
 import * as pageDetect from 'github-url-detection';
+import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCommitHash} from './mark-merge-commits-in-list.js';
-import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import GetTagsOnCommit from './tags-on-commits-list.gql';
 import {expectToken} from '../github-helpers/github-token.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
+import {getCommitHash} from './mark-merge-commits-in-list.js';
+import GetTagsOnCommit from './tags-on-commits-list.gql';
 
 type CommitTags = Record<string, string[]>;
 
@@ -79,7 +79,8 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	}
 
 	const lastTag = nodes.at(-1)!.target;
-	const lastTagIsYounger = new Date(repository.object.committedDate) < new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
+	const lastTagIsYounger = new Date(repository.object.committedDate)
+		< new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
 	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {

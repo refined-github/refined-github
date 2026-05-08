@@ -1,4 +1,4 @@
-import {test, assert} from 'vitest';
+import {assert, test} from 'vitest';
 
 import cleanCommitMessage from './clean-commit-message.js';
 
@@ -8,45 +8,171 @@ test('cleanCommitMessage', () => {
 		'co-authored-by: Me <me@example.com>',
 		'Co-authored-by: You <you@example.com>',
 	];
+	const signoffs = [
+		'Signed-off-by: Me <me@example.com>',
+		'signed-off-by: Me <me@example.com>',
+	];
 	assert.isEmpty(cleanCommitMessage(''));
 	assert.isEmpty(cleanCommitMessage('clean me'));
 	assert.isEmpty(cleanCommitMessage(`
 		multi-line
 	`));
 
-	assert.equal(cleanCommitMessage(`
+	assert.equal(
+		cleanCommitMessage(`
 		Some stuff happened
 		${coauthors[0]}
-	`), coauthors[0], 'Should preserve just the co-authors');
+	`),
+		coauthors[0],
+		'Should preserve just the co-authors',
+	);
 
-	assert.equal(cleanCommitMessage(`
+	assert.equal(
+		cleanCommitMessage(`
 		Some stuff happened
 		${coauthors[0]}
 		Fixes #112345
 		${coauthors[2]}
-	`), coauthors[0] + '\n' + coauthors[2], 'Should preserve multiple co-authors');
+	`),
+		coauthors[0] + '\n' + coauthors[2],
+		'Should preserve multiple co-authors',
+	);
 
-	assert.equal(cleanCommitMessage(`
+	assert.equal(
+		cleanCommitMessage(`
 		Some stuff happened
 		${coauthors[0]}
 		More stuff
 		${coauthors[1]}
-	`), coauthors[0], 'Should de-duplicate inconsistent co-authored-by casing');
+	`),
+		coauthors[0],
+		'Should de-duplicate inconsistent co-authored-by casing',
+	);
 
-	assert.isEmpty(cleanCommitMessage(`
-		Fixes #1345
-	`), 'Should drop closing keywords');
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+	`),
+		signoffs[0],
+		'Should preserve signed-off-by',
+	);
 
-	assert.equal(cleanCommitMessage(`
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${signoffs[0]}
+		${signoffs[1]}
+	`),
+		signoffs[0],
+		'Should de-duplicate inconsistent signed-off-by casing',
+	);
+
+	assert.equal(
+		cleanCommitMessage(`
+		Some stuff happened
+		${coauthors[0]}
+		${signoffs[0]}
+	`),
+		coauthors[0] + '\n' + signoffs[0],
+		'Should preserve both co-authored-by and signed-off-by',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			['dependabot[bot]'],
+		),
+		'Should drop co-author whose privacy email matches the PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+		${coauthors[2]}
+	`,
+			false,
+			['dependabot[bot]'],
+		),
+		coauthors[2],
+		'Should drop only the matching co-author, and keep others',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+	`,
+			false,
+			['someone-else'],
+		),
+		'Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>',
+		'Should keep co-author when privacy email username does not match PR author',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		${coauthors[0]}
+	`,
+			false,
+			['Me'],
+		),
+		coauthors[0],
+		'Should keep co-author when email is not a GitHub privacy email, even if the name matches PR author',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(
+			`
+		Some stuff happened
+		Co-authored-by: someuser <someuser@users.noreply.github.com>
+	`,
+			false,
+			['someuser'],
+		),
+		'Should drop co-author with legacy privacy email without numeric prefix prior to July 18, 2017',
+	);
+
+	assert.isEmpty(
+		cleanCommitMessage(`
 		Fixes #1345
-	`, true), 'Fixes #1345', 'Should keep closing keywords when asked');
-	assert.equal(cleanCommitMessage(`
+	`),
+		'Should drop closing keywords',
+	);
+
+	assert.equal(
+		cleanCommitMessage(
+			`
+		Fixes #1345
+	`,
+			true,
+		),
+		'Fixes #1345',
+		'Should keep closing keywords when asked',
+	);
+	assert.equal(
+		cleanCommitMessage(
+			`
 		Fixes #1
 		${coauthors[0]}
 		closes https://github.com/refined-github/refined-github/pull/6328
-	`, true), [
-		coauthors[0],
-		'Fixes #1',
-		'closes https://github.com/refined-github/refined-github/pull/6328',
-	].join('\n'), 'Should keep multiple closing keywords');
+	`,
+			true,
+		),
+		[
+			coauthors[0],
+			'Fixes #1',
+			'closes https://github.com/refined-github/refined-github/pull/6328',
+		].join('\n'),
+		'Should keep multiple closing keywords',
+	);
 });

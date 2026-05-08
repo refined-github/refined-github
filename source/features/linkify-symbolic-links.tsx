@@ -1,11 +1,11 @@
 import React from 'dom-chef';
-import {$optional} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$optional} from 'select-dom';
 
-import {wrap} from '../helpers/dom-utils.js';
-import {repositionAnchors} from '../github-helpers/dom-formatters.js';
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
+import {repositionAnchors} from '../github-helpers/dom-formatters.js';
+import {wrap} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 function linkify(line: HTMLElement): void {
 	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {

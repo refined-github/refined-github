@@ -1,4 +1,4 @@
-import {$} from 'select-dom/strict.js';
+import {$} from 'select-dom';
 
 type PrReference = {
 	/** @example fregante/mem:main */

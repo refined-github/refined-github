@@ -1,17 +1,33 @@
 import xo from 'xo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import svelteParser from 'svelte-eslint-parser';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
+import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
+import css from '@eslint/css';
+import pluginPromise from 'eslint-plugin-promise';
+
+import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
+
+import selectDomRule from './eslint-rules/select-dom.js';
+
+const refinedGithubPlugin = {
+	rules: {
+		'select-dom': selectDomRule,
+		'no-optional-chaining': noOptionalChaining,
+	},
+};
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
-
-export default [
+export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig([
 		{
 			semicolon: true,
 			prettier: false,
+			plugins: {
+				promise: pluginPromise,
+			},
 			languageOptions: {
 				globals: {
 					browser: 'readonly',
@@ -38,6 +54,8 @@ export default [
 						},
 					},
 				],
+
+				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 
 				// Restore errors
 				'no-await-in-loop': 'error',
@@ -69,29 +87,16 @@ export default [
 					],
 				}],
 
-				'no-restricted-imports': [
-					'error',
-					{
-						paths: [
-							{
-								name: 'select-dom',
-								importNames: ['$', 'expectElement'],
-								message: 'Import $ or $optional from `select-dom/strict.js` instead',
-							},
-						],
-					},
-
-				],
 				'no-restricted-syntax': [
 					'error',
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
 						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 					},
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 						message: 'If it\'s a single selector, use a single string instead of an array',
 					},
 					{
@@ -103,8 +108,8 @@ export default [
 						message: 'Unused null expression: !',
 					},
 					{
-						selector: 'MemberExpression[optional=true][object.callee.name=$]',
-						message: 'Either use $optional() with `?.` or $() without. $() will throw when the element is not found.',
+						selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
+						message: 'Unused null expression: ! — $closest() already throws when the element is not found',
 					},
 					{
 						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
@@ -131,6 +136,7 @@ export default [
 				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
+				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
 
 				// Import-x rules customization
 				'import-x/consistent-type-specifier-style': 'off',
@@ -187,6 +193,8 @@ export default [
 				'@typescript-eslint/no-unsafe-member-access': 'off',
 				'@typescript-eslint/no-unsafe-return': 'off',
 				'@typescript-eslint/no-unsafe-call': 'off',
+				'@typescript-eslint/no-unsafe-type-assertion': 'off',
+				'@typescript-eslint/strict-void-return': 'off', // Too many violations to fix at once
 				'@typescript-eslint/method-signature-style': 'off', // Disagree and it breaks types https://github.com/typescript-eslint/typescript-eslint/issues/1991
 				'@typescript-eslint/consistent-type-definitions': 'off', // Review later
 				'@typescript-eslint/consistent-type-imports': [
@@ -269,14 +277,21 @@ export default [
 	]),
 	{
 		// Disable on markdown files, which are somehow being read as JS files
-		ignores: ['**/*.md'],
+		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
+		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
-	// Svelte support
-	...sveltePlugin.configs['flat/recommended'],
+	{
+		// Allow empty blocks like `catch {}` or `function noop() {}`
+		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,cts,mts,vue,svelte,astro}'],
+		rules: {
+			'@stylistic/curly-newline': ['error', {minElements: 1}],
+		},
+	},
 	{
 		files: ['**/*.svelte'],
+		plugins: {svelte: sveltePlugin},
+		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
-			parser: svelteParser,
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
@@ -286,5 +301,36 @@ export default [
 				location: 'readonly',
 			},
 		},
+
+		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
+		rules: eslintConfigPrettier.rules,
 	},
-];
+	{
+		plugins: {
+			'refined-github': refinedGithubPlugin,
+		},
+		rules: {
+			'refined-github/select-dom': 'error',
+		},
+	},
+	{
+		files: ['source/features/**'],
+		rules: {
+			'refined-github/no-optional-chaining': 'error',
+		},
+	},
+	{
+		files: ['**/*.css'],
+		language: 'css/css',
+		plugins: {css},
+		extends: ['css/recommended'],
+		languageOptions: {
+			tolerant: true, // Required for @container
+		},
+		rules: {
+			'css/no-important': 'off', // Intentionally used to override GitHub styles
+			'css/use-baseline': 'off', // We support the latest browsers only
+			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+		},
+	},
+]);

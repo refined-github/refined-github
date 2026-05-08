@@ -1,7 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 
-import {isMac} from '../github-helpers/index.js';
 import features from '../feature-manager.js';
+import {isMac} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 
 function commandPaletteKeydown(event: DelegateEvent<KeyboardEvent>): void {

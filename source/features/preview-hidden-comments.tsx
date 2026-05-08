@@ -1,15 +1,15 @@
 import './preview-hidden-comments.css';
 
 import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import * as pageDetect from 'github-url-detection';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function preview(hiddenCommentHeader: HTMLElement): void {
-	const details = hiddenCommentHeader.closest('details')!;
+	const details = $closest('details', hiddenCommentHeader);
 	details.classList.add('rgh-preview-hidden-comments'); // Used in CSS
 
 	const comment = $('.comment-body', details);
@@ -29,7 +29,8 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	hiddenCommentHeader.append(
 		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
 		<span className="Details-content--closed">
-			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}{commentText.slice(0, 100)}
+			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}
+			{commentText.slice(0, 100)}
 		</span>,
 	);
 }

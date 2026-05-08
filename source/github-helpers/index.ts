@@ -1,11 +1,14 @@
-import {$optional, $} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
 import elementReady from 'element-ready';
-import compareVersions from 'tiny-version-compare';
-import type {RequireAtLeastOne} from 'type-fest';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
+import {
+	$, $closest, $closestOptional, $optional, elementExists,
+} from 'select-dom';
+import compareVersions from 'tiny-version-compare';
+import type {RequireAtLeastOne} from 'type-fest';
 
+import {is} from '../helpers/css-selectors.js';
+import getCommentAuthor from './get-comment-author.js';
 import {branchSelector} from './selectors.js';
 
 // Re-export for convenience
@@ -21,7 +24,9 @@ export const isMac = navigator.userAgent.includes('Macintosh');
 type Not<Yes, Not> = Yes extends Not ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
-export function buildRepoUrl<S extends string>(...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>): string {
+export function buildRepoUrl<S extends string>(
+	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
+): string {
 	for (const part of pathParts) {
 		if (typeof part === 'string' && /^\/|\/$/.test(part)) {
 			throw new TypeError('The path parts shouldn’t start or end with a slash: ' + part);
@@ -127,11 +132,11 @@ export async function isArchivedRepoAsync(): Promise<boolean> {
 
 export const userCanLikelyMergePr = (): boolean => elementExists('.discussion-sidebar-item .octicon-lock');
 
-const navigationBarSelector = `:is(${[
+const navigationBarSelector = is(
 	'.GlobalNav',
 	// Remove after June 2026
 	'.js-repo-nav',
-].join(',')})`;
+);
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
@@ -146,7 +151,8 @@ export function areDiscussionsEnabled(): boolean {
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 
 // Commit lists for files and folders lack a branch selector
-export const isRepoCommitListRoot = (): boolean => pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
+export const isRepoCommitListRoot = (): boolean =>
+	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
 	const {ok} = await fetch(url, {method: 'head'});
@@ -161,7 +167,7 @@ export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement):
 }
 
 export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
-	const row = branchSelectorParent.closest('.position-relative')!;
+	const row = $closest('.position-relative', branchSelectorParent);
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);
 }
@@ -170,16 +176,18 @@ export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement,
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
 	const marker = $('.js-timeline-marker');
-	marker.dispatchEvent(new CustomEvent('socket:message', {
-		bubbles: true,
-		detail: {data: {gid: marker.dataset.gid}},
-	}));
+	marker.dispatchEvent(
+		new CustomEvent('socket:message', {
+			bubbles: true,
+			detail: {data: {gid: marker.dataset.gid}},
+		}),
+	);
 }
 
 // Fix z-index issue https://github.com/refined-github/refined-github/pull/7430
 export function fixFileHeaderOverlap(child: Element): void {
 	// In the sidebar the container is not present and this fix is not needed
-	child.closest('.container')?.classList.add('rgh-z-index-5');
+	$closestOptional('.container', child)?.classList.add('rgh-z-index-5');
 }
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
@@ -188,7 +196,7 @@ export function triggerRepoNavOverflow(): void {
 }
 
 export function triggerActionBarOverflow(child: Element): void {
-	const parent = child.closest('action-bar')!;
+	const parent = $closest('action-bar', child);
 	const placeholder = document.createElement('div');
 	parent.replaceWith(placeholder);
 	placeholder.replaceWith(parent);
@@ -203,11 +211,15 @@ export function scrollIntoViewIfNeeded(element: Element): void {
 	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
 }
 
-function getConversationAuthor(): string | undefined {
-	return $optional([
-		'.js-command-palette-pull-body .author', // PR conversation
-		'[data-testid="issue-body-header-author"]', // Issue conversation
-	])?.textContent;
+export function getConversationBody(): Element {
+	return $([
+		'.react-issue-body', // Issues
+		'.js-command-palette-pull-body', // PRs
+	]);
+}
+
+export function getConversationAuthor(): string {
+	return getCommentAuthor(getConversationBody());
 }
 
 export function isOwnConversation(): boolean {

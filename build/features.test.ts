@@ -1,11 +1,11 @@
+import fastIgnore from 'fast-ignore';
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
-import {test, describe, assert} from 'vitest';
 import {regexJoinWithSeparator} from 'regex-join';
-import fastIgnore from 'fast-ignore';
+import {assert, describe, test} from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getImportedFeatures, getFeaturesMeta} from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob([
@@ -28,11 +28,27 @@ const noScreenshotExceptions = new Set([
 	'selection-in-new-tab',
 	'click-outside-modal',
 	'same-page-links',
+	'github-bugs',
+	'tab-size',
+	'monospace-textareas',
+	'new-tab-links',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay
 	'scrollable-areas', // TODO: Add side-by-side png
+
+	// CSS-only features without screenshots yet
+	'reactions-popup',
+	'clean-checks-list',
+	'clean-footer',
+	'clean-notifications',
+	'mark-private-repos',
+	'mobile-tabs-pr',
+	'night-not-found',
+	'readable-title-change-events',
+	'sticky-csv-header',
+	'sticky-file-header',
 ]);
 
 const entryPoint = 'source/refined-github.ts';
@@ -102,6 +118,11 @@ function validateCss(file: FeatureFile): void {
 		);
 
 		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+
+		if (!isFeaturePrivate(file.name)) {
+			validateReadme(file.id);
+		}
+
 		return;
 	}
 
@@ -156,7 +177,10 @@ function validateTsx(file: FeatureFile): void {
 
 	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 
-	if (/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents())) && /observe\(|delegate\(/.test(String(file.contents()))) {
+	if (
+		/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents()))
+		&& /observe\(|delegate\(/.test(String(file.contents()))
+	) {
 		assert(
 			/await expectToken|hasToken/.test(String(file.contents())),
 			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
@@ -216,6 +240,8 @@ describe('features', () => {
 			return;
 		}
 
-		assert.fail(`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``);
+		assert.fail(
+			`The \`/source/features\` folder should only contain .css, .tsx and .gql files. Found \`source/features/${filename}\``,
+		);
 	});
 });

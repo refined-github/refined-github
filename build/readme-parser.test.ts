@@ -1,9 +1,6 @@
-import {test, expect} from 'vitest';
+import {expect, test} from 'vitest';
 
-import {
-	getFeaturesMeta,
-	getImportedFeatures,
-} from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob([

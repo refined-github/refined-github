@@ -86,14 +86,14 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
-export const openIssueToLastComment = `
+export const commentsCountInLists = `
 	:is(.js-issue-row, .js-pinned-issue-list-item)
 	.Link--muted:is(
 		a[aria-label$="comment"],
 		a[aria-label$="comments"]
 	)
 `;
-export const openIssueToLastComment_ = [
+export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
 
@@ -145,20 +145,30 @@ export const newCommentField = [
 
 export const newCommentField_ = requiresLogin;
 
+export const legacyCommentField = 'textarea#new_comment_field';
+// Used on: PR conversations, gists and discussions
+export const legacyCommentField_ = requiresLogin;
+
 export const commitHashLinkInLists = [
 	'[data-testid="commit-row-browse-repo"]', // `isCommitList`
 	'a[id^="commit-details-"]', // `isPRCommitList`
 	'.js-details-container .text-right code a.Link--secondary', // `isPRConversation`
 ] as unknown as Array<'a'>;
 export const commitHashLinkInLists_ = [
-	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[
+		35,
+		'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174',
+	],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
 	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = '[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
 export const commitTitleInLists_ = [
-	[35, 'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174'],
+	[
+		35,
+		'https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174',
+	],
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
 ];
 
@@ -250,11 +260,13 @@ export const actionBarSelectors = [
 ];
 export const actionBarSelectors_ = requiresLogin;
 
-export const prMergeabilityBoxCaption = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
-export const prMergeabilityBoxCaption_ = requiresLogin;
-
-export const prMergeabilityBoxHeader = '[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader
+	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
+
+export const prMergeabilityBoxCaption
+	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = [
 	'span[title="This repository has been deleted"]',

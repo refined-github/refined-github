@@ -1,9 +1,9 @@
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import {CachedFunction} from 'webext-storage-cache';
 
 // Avoid importing api.js here, there's too much logic/caching we don't need
-import {getToken} from '../options-storage.js';
 import hashString from '../helpers/hash-string.js';
+import {getToken} from '../options-storage.js';
 
 type BaseApiFetchOptions = {
 	apiBase: string;
@@ -121,6 +121,10 @@ export async function expectTokenScope(scope: string): Promise<void> {
 
 	const {scopes: tokenScopes} = await getTokenInfo(api, token);
 	if (!tokenScopes.includes(scope)) {
-		throw new Error('The token you provided does not have ' + (tokenScopes.length > 0 ? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.` : 'any scope. You can change the scope of your token at https://github.com/settings/tokens'));
+		throw new Error(
+			'The token you provided does not have ' + (tokenScopes.length > 0
+				? `the \`${scope}\` scope. It only includes \`${tokenScopes.join(', ')}\`.`
+				: 'any scope. You can change the scope of your token at https://github.com/settings/tokens'),
+		);
 	}
 }

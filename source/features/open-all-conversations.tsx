@@ -1,8 +1,8 @@
-import React from 'dom-chef';
-import {$$} from 'select-dom/strict.js';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$$, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
@@ -19,10 +19,10 @@ function onButtonClick(): void {
 	}
 
 	const selectedLinks = links.filter(link =>
-		link.closest([
+		$closestOptional([
 			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
 			'[aria-label^="Selected"]',
-		]),
+		], link),
 	);
 
 	const linksToOpen = selectedLinks.length > 0
@@ -43,11 +43,11 @@ async function hasMoreThanOneConversation(): Promise<boolean> {
 }
 
 function add(anchor: HTMLElement): void {
-	const isLegacy = anchor.closest('.table-list-header-toggle');
-	const isSelected = anchor.closest([
+	const isLegacy = $closestOptional('.table-list-header-toggle', anchor);
+	const isSelected = $closestOptional([
 		'.table-list-triage', // TODO: Pre-React selector; Drop in 2026
 		'[aria-label="Bulk actions"]',
-	]);
+	], anchor);
 	const classes = isLegacy
 		? 'btn-link px-2'
 		: isSelected
@@ -66,11 +66,15 @@ function add(anchor: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe([
-		'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
-		'[aria-label="Bulk actions"] > :first-child',
-		'[aria-label="Actions"] > :first-child',
-	], add, {signal});
+	observe(
+		[
+			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			'[aria-label="Bulk actions"] > :first-child',
+			'[aria-label="Actions"] > :first-child',
+		],
+		add,
+		{signal},
+	);
 	delegate('button.rgh-open-all-conversations', 'click', onButtonClick, {signal});
 }
 

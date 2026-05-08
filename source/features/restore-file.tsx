@@ -1,16 +1,16 @@
-import React from 'dom-chef';
-import {$, $optional} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import UndoIcon from 'octicons-plain-react/Undo';
+import {$, $closest, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import showToast from '../github-helpers/toast.js';
-import {getBranches} from '../github-helpers/pr-branches.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import observe from '../helpers/selector-observer.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {getBranches} from '../github-helpers/pr-branches.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 // Track the currently focused file container for removal after discard
 let focusedFileContainer: HTMLElement | undefined;
@@ -44,7 +44,12 @@ async function getFile(filePath: string): Promise<string | undefined> {
 	return httpStatus === 404 ? undefined : content;
 }
 
-async function discardChanges(progress: (message: string) => void, originalFileName: string, newFileName: string, headline: string): Promise<void> {
+async function discardChanges(
+	progress: (message: string) => void,
+	originalFileName: string,
+	newFileName: string,
+	headline: string,
+): Promise<void> {
 	const [headReference, file] = await Promise.all([
 		getHeadReference(),
 		getFile(originalFileName),
@@ -65,7 +70,8 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');
 
-	await api.v4(`
+	await api.v4(
+		`
 		mutation discardChanges ($input: CreateCommitOnBranchInput!) {
 			createCommitOnBranch(input: $input) {
 				commit {
@@ -73,29 +79,29 @@ async function discardChanges(progress: (message: string) => void, originalFileN
 				}
 			}
 		}
-	`, {
-		variables: {
-			input: {
-				branch: {
-					repositoryNameWithOwner: nameWithOwner,
-					branchName: prBranch,
-				},
-				expectedHeadOid: headReference,
-				fileChanges,
-				message: {
-					headline,
+	`,
+		{
+			variables: {
+				input: {
+					branch: {
+						repositoryNameWithOwner: nameWithOwner,
+						branchName: prBranch,
+					},
+					expectedHeadOid: headReference,
+					fileChanges,
+					message: {
+						headline,
+					},
 				},
 			},
 		},
-	});
+	);
 }
 
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
 	if (menuItem.tagName === 'BUTTON') {
-		const [originalFileName, newFileName = originalFileName] = menuItem
-			.closest('[data-path]')!
-			.querySelector('.Link--primary')!
+		const [originalFileName, newFileName = originalFileName] = $('.Link--primary', $closest('[data-path]', menuItem))
 			.textContent
 			.split(' → ');
 
@@ -132,20 +138,20 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	// Hide file from view
 	if (menuItem.tagName === 'BUTTON') {
-		menuItem.closest('.file')!.remove();
+		$closest('.file', menuItem).remove();
 		return;
 	}
 
 	// New React view: remove the tracked file container and close the menu
 	focusedFileContainer!.remove();
-	menuItem.closest('div[data-focus-trap="active"]')!.remove();
+	$closest('div[data-focus-trap="active"]', menuItem).remove();
 }
 
 // Legacy view handler
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
 	editFile.after(
 		<button
-			className="pl-5 dropdown-item btn-link rgh-restore-file"
+			className="pl-5 tmp-pl-5 dropdown-item btn-link rgh-restore-file"
 			role="menuitem"
 			type="button"
 		>
@@ -161,7 +167,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	}
 
 	// Track the file container for later removal
-	focusedFileContainer = menuButton.closest('div[id^="diff-"]')!;
+	focusedFileContainer = $closest('div[id^="diff-"]', menuButton);
 
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {

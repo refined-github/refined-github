@@ -139,6 +139,11 @@ summary:hover {
 	-webkit-text-security: circle;
 }
 
+/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
+#validation {
+	display: inline-block;
+}
+
 .feature:not([hidden]) {
 	display: flex;
 	align-items: baseline;

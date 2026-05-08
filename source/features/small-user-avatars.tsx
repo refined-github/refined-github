@@ -1,9 +1,10 @@
 import React from 'dom-chef';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import {is, not} from '../helpers/css-selectors.js';
+import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
 
 function addAvatar(link: HTMLElement): void {
@@ -36,15 +37,18 @@ function initOnce(): void {
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		`:is(
-			[data-testid="created-at"],
-			[data-testid="closed-at"]
-		) a[data-hovercard-url*="/users"]`, // `isIssueList`
+		is(
+			'[data-testid="created-at"]',
+			'[data-testid="closed-at"]',
+		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 	], addAvatar);
-	observe(`.user-mention:not(${[
-		'.opened-by > *', // Merge queue
-		'.commit-author',
-	].join(',')})`, addMentionAvatar);
+	observe(
+		'.user-mention' + not(
+			'.opened-by > *', // Merge queue
+			'.commit-author',
+		),
+		addMentionAvatar,
+	);
 }
 
 void features.add(import.meta.url, {

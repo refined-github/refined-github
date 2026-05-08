@@ -1,37 +1,77 @@
-/* TODO: Remove the old styles in 2026 */
-html:not([rgh-OFF-align-issue-labels]) .js-issue-row {
-	/* Move labels in the Issue/PR list below the title */
-	.min-width-0 {
-		display: flex;
-		flex-wrap: wrap;
+html:not([rgh-OFF-align-issue-labels]) {
+	div[class^='IssueRow-module__row'],
+	li[class*='PullsListItem']:not([class*='compact']) {
+		div[class^='Title-module__container'] {
+			display: contents;
+
+			& > [class*='heading'] {
+				grid-area: primary;
+				padding-top: 8px;
+			}
+			& > span[class*='trailingBadgesSpacer'] {
+				display: none;
+			}
+			& > span[class*='trailingBadgesContainer'] {
+				grid-area: -1 / main-content;
+				padding-bottom: 10px;
+				&:empty {
+					/* Grid gap adds additional 4px */
+					padding-bottom: 6px;
+				}
+				&:is(li[class*='PullsListItem'] *) {
+					/* Height of the main content row provides more than enough spacing */
+					/* 4px added by grid gap are extra */
+					margin-top: -4px;
+				}
+			}
+		}
+
+		div[class^='MetadataContainer-module__container']:is(
+			li[class*='PullsListItem'] *
+		) {
+			padding-top: 8px;
+		}
+
+		div[class^='MainContent-module__inner'] {
+			padding-bottom: 0;
+		}
 	}
 
-	/* Labels */
-	.min-width-0 > .lh-default {
-		order: 1;
-	}
+	/* Old view - TODO: Drop after legacy PR lists are removed */
+	.js-issue-row {
+		/* Move labels in the Issue/PR list below the title */
+		.min-width-0 {
+			display: flex;
+			flex-wrap: wrap;
+		}
 
-	.min-width-0 .text-small {
-		flex-basis: 100%; /* #4949 */
-	}
+		/* Labels */
+		.min-width-0 > .lh-default {
+			order: 1;
+		}
 
-	/* Build status */
-	.commit-build-statuses {
-		margin-left: 4px;
-	}
+		.min-width-0 .text-small {
+			flex-basis: 100%; /* #4949 */
+		}
 
-	/* Issue details line */
-	.mt-1.text-small.color-fg-muted {
-		flex-basis: 100%;
-	}
+		/* Build status */
+		.commit-build-statuses {
+			margin-left: 4px;
+		}
 
-	/* Title */
-	.h4 {
-		max-width: 100%; /* #1518 */
-	}
+		/* Issue details line */
+		.mt-1.text-small.color-fg-muted {
+			flex-basis: 100%;
+		}
 
-	.IssueLabel {
-		margin-top: 4px;
-		font-size: 11px !important;
+		/* Title */
+		.h4 {
+			max-width: 100%; /* #1518 */
+		}
+
+		.IssueLabel {
+			margin-top: 4px;
+			font-size: 11px !important;
+		}
 	}
 }

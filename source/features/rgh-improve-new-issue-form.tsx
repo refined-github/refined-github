@@ -1,18 +1,19 @@
-import React from 'dom-chef';
-import {$} from 'select-dom/strict.js';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {OptionsLink} from '../helpers/open-options.js';
-import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
-import {getToken} from '../options-storage.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
+import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import setReactInputValue from '../helpers/set-react-input-value.js';
-import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {getToken} from '../options-storage.js';
+import delay from '../helpers/delay.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -30,8 +31,8 @@ function addTokenNotice(adjective: string): void {
 		'error',
 		<>
 			<p>
-				Your token is {adjective}. Many Refined GitHub features don't work without it.
-				You can update it <OptionsLink className="btn-link">in the options</OptionsLink>.
+				Your token is {adjective}. Many Refined GitHub features don't work without it. You can update it{' '}
+				<OptionsLink className="btn-link">in the options</OptionsLink>.
 			</p>
 			<p>Before creating this issue, add a valid token and confirm the problem still occurs.</p>
 		</>,
@@ -42,7 +43,8 @@ function addVersionNotice(releaseAgeInDays: number): void {
 	addNotice(
 		'warn',
 		<p>
-			Your Refined GitHub version is {releaseAgeInDays} days old. <a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
+			Your Refined GitHub version is {releaseAgeInDays} days old.{' '}
+			<a href="https://github.com/refined-github/refined-github#install">A newer version may be available.</a>
 		</p>,
 	);
 }
@@ -70,13 +72,17 @@ async function checkToken(): Promise<void> {
 }
 
 async function setVersion(): Promise<void> {
-	const {version} = chrome.runtime.getManifest();
+	// Wait for GitHub's listener to be attached #9293
+	await delay(1000);
+
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
-		'[class^="IssueCreatePage"] [class^="Box-sc"] input',
+		'span[class^="TextInputElement-module__issueFormTextField"] > input',
 		'Extension version*',
 	);
 
+	const {version} = chrome.runtime.getManifest();
 	setReactInputValue(field, version);
+
 	if (!await getToken()) {
 		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
 		setReactInputValue(field, '(' + version + ')');
@@ -114,7 +120,7 @@ function Lies(): JSX.Element {
 
 async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
-		delegateTarget.closest('fieldset')!.append(<Lies />);
+		$closest('fieldset', delegateTarget).append(<Lies />);
 	}
 }
 

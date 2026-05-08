@@ -8,4 +8,8 @@
 	font-size: 85%;
 	margin: 0;
 	padding: 0.2em 0.4em;
+
+	&:is(span[class^='LinkedPullRequests'] > *) {
+		font-size: 95%;
+	}
 }

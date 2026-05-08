@@ -1,11 +1,12 @@
-html:not([rgh-OFF-hide-diff-signs])
+html:not([rgh-OFF-hide-diff-signs]) {
 	:is(
-		.diff-text-cell
-			.diff-text /* Edit page, probably upcoming DOM everywhere */,
+		/* Edit page, probably upcoming DOM everywhere */
+		.diff-text-cell .diff-text,
 		.blob-code-inner /* Inline review blocks in PRs */,
 		.blob-code-marker-cell /* Commit page */
 	)::before,
-/* React commit page */
+	/* React commit page */
 	.diff-text-marker {
-	visibility: hidden;
+		visibility: hidden;
+	}
 }

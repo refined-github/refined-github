@@ -1,17 +1,19 @@
-import React from 'dom-chef';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$} from 'select-dom/strict.js';
+import {
+	$, $closest, $closestOptional, $optional,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = originalSubmitButton.closest('.Overlay-footer');
+	const actionsRow = $closestOptional('.Overlay-footer', originalSubmitButton);
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
@@ -41,7 +43,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
 		const labelElement = (
-			parent.querySelector('label')
+			$optional('label', parent)
 			?? radio.nextSibling! // TODO: Remove after April 2025
 		);
 		const tooltip = $([
@@ -81,20 +83,19 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			actionsRow.prepend(button);
 		} else {
 			// TODO: For GHE. Remove after June 2025
-			const legacyActionsRow = originalSubmitButton.closest('.form-actions')!;
-			legacyActionsRow.append(button);
+			$closest('.form-actions', originalSubmitButton).append(button);
 		}
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	const fieldset = radios[0].closest('fieldset');
+	const fieldset = $closestOptional('fieldset', radios[0]);
 
 	if (fieldset) {
 		fieldset.remove();
 	} else {
 		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
 		for (const radio of radios) {
-			radio.closest('.form-checkbox')!.remove();
+			$closest('.form-checkbox', radio).remove();
 		}
 	}
 

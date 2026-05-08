@@ -1,16 +1,17 @@
 import './tag-changes-link.css';
 
 import React from 'dom-chef';
-import {$$, elementExists} from 'select-dom';
-import {$, $optional} from 'select-dom/strict.js';
 import domLoaded from 'dom-loaded';
-import DiffIcon from 'octicons-plain-react/Diff';
 import * as pageDetect from 'github-url-detection';
+import DiffIcon from 'octicons-plain-react/Diff';
+import {
+	$, $$, $optional, elementExists,
+} from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '../feature-manager.js';
-import fetchDom from '../helpers/fetch-dom.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
+import fetchDom from '../helpers/fetch-dom.js';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -115,7 +116,11 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
+			if (
+				pageDetect.isEnterprise()
+				|| pageDetect.isTags()
+				|| (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
+			) {
 				lastLink.after(
 					<li className={lastLink.className + ' rgh-changelog-link'}>
 						{compareLink}

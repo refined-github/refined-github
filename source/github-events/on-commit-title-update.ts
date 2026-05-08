@@ -9,7 +9,10 @@ const fieldSelector = [
 	'#commit-summary-input',
 ];
 
-export default function onCommitTitleUpdate(callback: DelegateEventHandler<Event, HTMLInputElement>, signal: AbortSignal): void {
+export default function onCommitTitleUpdate(
+	callback: DelegateEventHandler<Event, HTMLInputElement>,
+	signal: AbortSignal,
+): void {
 	// For immediate user input
 	delegate(fieldSelector, 'input', callback, {signal});
 }

@@ -1,32 +1,92 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
+		div[class^='IssueIndexPage-module__middlePaneGrid'] {
+			container-type: inline-size;
+
+			/* Element whose width is tracked */
+			> div:not([class]) {
+				max-width: 767px; /* Enable native vertical sorting */
+			}
+		}
+
 		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
-			width: 100%;
-			margin: 0;
+			width: 100cqw; /* Restore original width */
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
-			box-shadow: 0 0 0 2px var(--rgh-border-color, fuchsia);
+			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
 			border-collapse: collapse;
 			border-radius: 6px;
 			border-style: hidden;
+		}
 
-			li {
-				display: table-row !important;
-				border-color: var(--rgh-border-color, fuchsia) !important;
-				& > div {
-					padding-right: var(--base-size-12, 12px);
+		div [class*='PinnedIssueContainer'] {
+			padding-top: 4px !important;
+		}
+
+		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
+			display: table;
+		}
+
+		[class*='PinnedIssues-module__container'] {
+			display: table-row !important;
+			border-color: var(--rgh-border-color, fuchsia) !important;
+
+			> :first-child {
+				padding-inline: 8px !important;
+				&:has(> div[class^='DragAndDropTrigger']) {
+					padding-left: 0 !important;
 				}
 			}
+		}
 
-			[class^='PinnedIssue-module__titleOptionsContainer'] {
-				flex: 1;
+		div[class^='PinnedIssue-module__contentContainer'] {
+			flex-direction: row;
+
+			/* Align content to the top when the title wraps */
+			align-items: flex-start;
+		}
+
+		span[class^='PinnedIssue-module__Octicon'] {
+			vertical-align: text-bottom;
+			margin-left: -1.5em;
+			/* Pull icon a bit lower to align with the title */
+			line-height: 1.3;
+		}
+
+		/* Prevent title from wrapping below the octicon */
+		a[class*='PinnedIssue-module__Link'] {
+			padding-left: 1.5em;
+		}
+
+		/* Move options button to the end */
+		div[class^='PinnedIssue-module__titleOptionsContainer'] {
+			display: contents;
+			> button {
+				order: 1;
+
+				/* Optically align the button to the title so it's not too near the border */
+				margin-top: 6px;
 			}
+		}
 
-			[class^='PinnedIssue-module__contentContainer'] {
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
+		div[class^='PinnedIssue-module__metadataContainer'] {
+			text-align: end;
+			margin-left: 8px;
+			line-height: 1.2;
+
+			/* Since it grows, the content should still be aligned right */
+			justify-content: flex-end;
+
+			/* Align content to the top when the title wraps */
+			align-items: flex-start;
+
+			/* Optically align the metadata to the title so it's not too near the border */
+			padding-top: 11px;
+
+			/* Hide "opened" */
+			[data-hovercard-type='user'] + span {
+				display: none;
 			}
 		}
 	}

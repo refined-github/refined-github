@@ -23,7 +23,9 @@ function underlineSelfReference(link: HTMLAnchorElement): void {
 function init(signal: AbortSignal): void {
 	// TODO: Revert #9086 once #6554 is resolved
 	// Exclude reference to a comment on the same page
-	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {signal});
+	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {
+		signal,
+	});
 }
 
 void features.add(import.meta.url, {

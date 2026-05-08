@@ -1,30 +1,29 @@
 import React from 'dom-chef';
-import {CachedFunction} from 'webext-storage-cache';
-import {$} from 'select-dom/strict.js';
-import {elementExists} from 'select-dom';
-import BugIcon from 'octicons-plain-react/Bug';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import BugIcon from 'octicons-plain-react/Bug';
+import {$, elementExists} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import isBugLabel from '../github-helpers/bugs-label.js';
+import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
-import isBugLabel from '../github-helpers/bugs-label.js';
 import CountBugs from './bugs-tab.gql';
-import {expectToken} from '../github-helpers/github-token.js';
 
 type ApiResponse = {
-	issues?: {
-		totalCount?: number;
+	issues: {
+		totalCount: number;
 	};
-	labels?: {
-		nodes?: Array<{
+	labels: {
+		nodes: Array<{
 			name: string;
 			issues: {
-				totalCount?: number;
+				totalCount: number;
 			};
 		}>;
 	};
@@ -37,14 +36,16 @@ type Bugs = {
 
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
-	const bugTypeCount = repository?.issues?.totalCount ?? 0;
+	const bugTypeCount = repository.issues.totalCount;
 
-	let label = repository?.labels?.nodes?.find(label => label.name === 'bug');
-	label ??= repository?.labels?.nodes?.find(label => isBugLabel(label.name));
+	let label = repository.labels.nodes.find(label => label.name === 'bug');
+	label ??= repository.labels.nodes.find(label => isBugLabel(label.name));
 
-	const bugLabelCount = label?.issues?.totalCount ?? 0;
+	// Label might not be found if the repo uses a non-standard bug label name
+	const bugLabelCount = label?.issues.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
+	// Label might not be found if the repo uses a non-standard bug label name
 	return {label: label?.name ?? 'bug', count: bugCount};
 }
 

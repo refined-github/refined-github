@@ -1,6 +1,6 @@
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {linkifiedUrlClass, shortenLink} from '../github-helpers/dom-formatters.js';
+import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 /* This feature is currently so broad that it's not de-inited via signal, it's just run once for all pageloads #5889 */

@@ -1,16 +1,16 @@
 import './actions-run-removal.css';
 
 import React from 'dom-chef';
-import TrashIcon from 'octicons-plain-react/Trash';
-import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom/strict.js';
+import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
+import TrashIcon from 'octicons-plain-react/Trash';
+import {$, $closest, $optional} from 'select-dom';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
-	const contextMenuDetails = contextMenuIcon.closest('details')!;
+	const contextMenuDetails = $closest('details', contextMenuIcon);
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- Wrong
 	const menuItem = $optional<HTMLElement>([

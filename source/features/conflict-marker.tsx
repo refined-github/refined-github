@@ -1,15 +1,15 @@
 import './conflict-marker.css';
 
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import batchedFunction from 'batched-function';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
-import {openPrsListLink} from '../github-helpers/selectors.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {openPrsListLink} from '../github-helpers/selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
@@ -44,7 +44,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 				<a
 					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
 					aria-label="This PR has conflicts that must be resolved"
-					href={`${pr.link.pathname}#partial-pull-merging`}
+					href={`${pr.link.pathname}#issue-comment-box`}
 				>
 					<AlertIcon className="v-align-middle" />
 				</a>,

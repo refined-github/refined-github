@@ -1,9 +1,9 @@
-import {$optional} from 'select-dom/strict.js';
+import {$closestOptional, $optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import onetime from '../helpers/onetime.js';
 
 function openInNewTab(): void {
 	const selected = $optional([
@@ -20,7 +20,7 @@ function openInNewTab(): void {
 	});
 
 	// Get the list element that contains the unread class and mark it as read.
-	selected.closest('.unread')?.classList.replace('unread', 'read');
+	$closestOptional('.unread', selected)?.classList.replace('unread', 'read');
 }
 
 function initOnce(): void {
