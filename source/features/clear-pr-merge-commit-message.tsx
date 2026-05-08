@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, $optional, countElements} from 'select-dom';
+import {$, $closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -11,13 +11,15 @@ import {getBranches} from '../github-helpers/pr-branches.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
-import isSquashMergeButtonText from '../helpers/is-squash-merge-button-text.js';
 import observe from '../helpers/selector-observer.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
-const mergeMessageFieldSelector = 'textarea[placeholder="Add an optional extended description…"]';
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
+	if (!/squash/i.test($(confirmMergeButton).textContent)) {
+		return;
+	}
+
 	const originalMessage = messageField.value;
 	const author = getConversationAuthor();
 	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch(), [author]);
@@ -57,26 +59,9 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 	});
 }
 
-async function clearIfSquashing(messageField: HTMLTextAreaElement): Promise<void> {
-	const mergeButton = $optional(confirmMergeButton);
-	if (!mergeButton || !isSquashMergeButtonText(mergeButton.textContent ?? '')) {
-		return;
-	}
-
-	await clear(messageField);
-}
-
 async function init(signal: AbortSignal): Promise<void> {
 	await expectToken();
-	observe(mergeMessageFieldSelector, clearIfSquashing, {signal});
-	observe(confirmMergeButton, async () => {
-		const messageField = $optional(mergeMessageFieldSelector);
-		if (!messageField) {
-			return;
-		}
-
-		await clearIfSquashing(messageField);
-	}, {signal});
+	observe('textarea[placeholder="Add an optional extended description…"]', clear, {signal});
 }
 
 void features.add(import.meta.url, {
