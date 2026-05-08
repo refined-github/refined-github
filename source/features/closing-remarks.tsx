@@ -15,6 +15,7 @@ import attachElement from '../helpers/attach-element.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import {getReleases} from './releases-tab.js';
+import {commentBoxHashPr} from '../github-helpers/selectors.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -86,7 +87,7 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-	attachElement($('#issue-comment-box'), {
+	attachElement($(commentBoxHashPr), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -121,7 +122,7 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 		});
 	}
 
-	attachElement($('#issue-comment-box'), {
+	attachElement($(commentBoxHashPr), {
 		before: () => (
 			<TimelineItem>
 				{createBanner(bannerContent)}

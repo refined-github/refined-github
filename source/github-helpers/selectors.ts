@@ -301,3 +301,11 @@ export const conversationCloseEvent_ = [
 
 export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
 export const confirmMergeButton_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashPr = '#issue-comment-box';
+export const commentBoxHashPr_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashIssue = '#react-issue-comment-composer';
+export const commentBoxHashIssue_ = requiresLogin;
