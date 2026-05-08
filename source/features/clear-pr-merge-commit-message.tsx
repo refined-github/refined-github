@@ -59,7 +59,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 
 async function clearIfSquashing(messageField: HTMLTextAreaElement): Promise<void> {
 	const mergeButton = $optional(confirmMergeButton);
-	if (!mergeButton || !isSquashMergeButtonText(mergeButton.textContent ?? undefined)) {
+	if (!mergeButton || !isSquashMergeButtonText(mergeButton.textContent || undefined)) {
 		return;
 	}
 

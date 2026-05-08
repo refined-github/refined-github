@@ -5,5 +5,9 @@ const squashMergeButtonLabels = new Set([
 ]);
 
 export default function isSquashMergeButtonText(text: string | undefined): boolean {
-	return squashMergeButtonLabels.has(text?.trim() ?? '');
+	if (!text) {
+		return false;
+	}
+
+	return squashMergeButtonLabels.has(text.trim());
 }
