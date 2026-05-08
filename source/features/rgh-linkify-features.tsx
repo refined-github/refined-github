@@ -22,7 +22,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	// If the original text is different from the resolved ID, it's an old name
 	const isOldName = originalText !== id;
 	const title = isOldName ? `Now called ${id}` : undefined;
-	let willAddIssueCount = false;
+	let anchorElement: Element | undefined;
 
 	const possibleLink = possibleFeature.firstElementChild ?? possibleFeature;
 	if (possibleLink instanceof HTMLAnchorElement) {
@@ -35,7 +35,8 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			possibleLink.title = title;
 		}
 
-		willAddIssueCount = true;
+		// <sup> goes after the <code> element (outside the inner link)
+		anchorElement = possibleFeature;
 	} else if (!$closestOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
@@ -48,11 +49,13 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 				title={title}
 			/>,
 		);
-		willAddIssueCount = true;
+		// After wrap(), possibleFeature.parentElement is the new <a>
+		// Mount after the <a> so <sup> is outside the link
+		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (willAddIssueCount) {
-		mountRelatedIssuesCount(id, possibleFeature, {linkify: true, single: '$$', plural: '$$'});
+	if (anchorElement) {
+		mountRelatedIssuesCount(id, anchorElement, {linkify: true, single: '$$', plural: '$$'});
 	}
 }
 

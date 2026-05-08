@@ -37,7 +37,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
 	const relatedIssuesLink = (
-		<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
+		<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame"></a>
 	) as HTMLAnchorElement;
 
 	infoBanner.before(
@@ -99,7 +99,13 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		</div>,
 	);
 
-	mountRelatedIssuesCount(id, relatedIssuesLink, {single: '$$', plural: '$$', zero: 'none open'});
+	mountRelatedIssuesCount(id, relatedIssuesLink, {
+		inside: true,
+		loading: 'Related issues',
+		single: '1 related issue',
+		plural: '$$ related issues',
+		zero: 'Related issues',
+	});
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
