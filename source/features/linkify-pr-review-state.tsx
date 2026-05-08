@@ -12,7 +12,7 @@ const reviewStateFilters = new Map([
 ]);
 
 function linkify(link: HTMLAnchorElement): void {
-	const text = link.textContent.trim();
+	const text = link.textContent?.trim() ?? '';
 	for (const [pattern, query] of reviewStateFilters) {
 		if (pattern.test(text)) {
 			link.href = SearchQuery.from(location).append(query).href;
