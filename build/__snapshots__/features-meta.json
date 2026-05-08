@@ -446,8 +446,8 @@
 	},
 	{
 		"id": "linkify-pr-review-state",
-		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", \"N review approvals\", \"Awaiting review by you\") in PR lists to filter by that state.",
-		"screenshot": "https://github.com/user-attachments/assets/442d4fb7-82f0-4412-bc59-97097b6eddbd"
+		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", etc) in PR lists to filter by that state.",
+		"screenshot": "https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428"
 	},
 	{
 		"id": "linkify-symbolic-links",

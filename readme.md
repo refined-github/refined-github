@@ -223,7 +223,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
-- [](# "linkify-pr-review-state") [Linkifies the PR review state labels ("Draft", "Changes requested", etc) in PR lists to filter by that state.](https://github.com/user-attachments/assets/442d4fb7-82f0-4412-bc59-97097b6eddbd)
 - [](# "unclip-checks") [Automatically shows all checks without scrolling when expanding the checks panel.](https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
@@ -242,6 +241,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 - [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
 - [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
+- [](# "linkify-pr-review-state") [Linkifies the PR review state labels ("Draft", "Changes requested", etc) in PR lists to filter by that state.](https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

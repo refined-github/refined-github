@@ -1,9 +1,13 @@
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import {wrap} from '../helpers/dom-utils.js';
 
 const reviewStateFilters = new Map([
 	['Draft', 'draft:true'],
@@ -15,24 +19,34 @@ const reviewStateFilters = new Map([
 	// [/^Awaiting review by you$/, 'review-requested:@me'],
 ]);
 
-function alterLink(link: HTMLAnchorElement): void {
+function alterLink(label: HTMLElement): void {
 	for (const [text, filter] of reviewStateFilters) {
 		// Use .textContent because "Draft" lacks any unique attributes
-		if (link.textContent.trim() === text) {
-			link.href = new SearchQuery(buildRepoUrl('pulls')).append(filter).href;
-			return;
+		if (label.textContent.trim() === text) {
+			const url = new SearchQuery(buildRepoUrl('pulls')).append(filter).href;
+			if (label instanceof HTMLAnchorElement) {
+				label.href = url;
+			} else {
+				wrap(label, <a href={url} className="Link--muted" />);
+				$('[class*="statusText"]', label).classList.add('Link--onHover');
+			}
 		}
 	}
 }
 
 function init(signal: AbortSignal): void {
-	// Note: This feature alters the `href` so this selector cannot be used by any other features
-	observe('.js-issue-row .text-small a[href$="#partial-pull-merging"]', alterLink, {signal});
+	observe([
+		'span[class^="ReviewDecision-module__reviewDecisionContent"]',
+
+		// Note: This feature alters the `href` so this selector cannot be used by any other features
+		// TODO: Drop selector when the old PR list is removed
+		'.js-issue-row .text-small a[href$="#partial-pull-merging"]',
+	], alterLink, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoPRList,
+		pageDetect.isIssueOrPRList,
 	],
 	init,
 });
