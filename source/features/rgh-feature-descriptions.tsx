@@ -146,7 +146,9 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(filename);
+	const currentFeatureName = filename
+		? (getNewFeatureName(filename) ?? filename)
+		: undefined;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
