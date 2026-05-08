@@ -445,6 +445,11 @@
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
+		"id": "linkify-pr-review-state",
+		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", \"N review approvals\", \"Awaiting review by you\") in PR lists to filter by that state.",
+		"screenshot": "https://github.com/user-attachments/assets/442d4fb7-82f0-4412-bc59-97097b6eddbd"
+	},
+	{
 		"id": "linkify-symbolic-links",
 		"description": "Linkifies symbolic links files.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
