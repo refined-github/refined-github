@@ -22,7 +22,7 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 const feature = getIdentifiers(import.meta.url);
 const fieldSelector = [
 	'textarea.js-comment-field',
-	'textarea[aria-labelledby="comment-composer-heading"]', // React view
+	'[class*="MarkdownInput-module__textArea"] textarea',
 ] as const;
 
 const documentation
@@ -77,8 +77,7 @@ function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElem
 			$('file-attachment .js-write-bucket', field.form).append(getUi(field));
 		} else {
 			// React view
-			const container = $closest('[data-testid="markdown-editor-comment-composer"]', field);
-			container.after(getUi(container));
+			$closest('fieldset', field).append(getUi(field));
 		}
 	} else {
 		getUi(field).remove();
@@ -103,9 +102,13 @@ void features.add(import.meta.url, {
 
 /*
 
-Test URLs:
+Test content:
 
-Test link: `https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85`
+```
+https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85
+```
+
+Test URLs:
 
 New issue form: https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
 New comment form: https://github.com/refined-github/sandbox/issues/3
