@@ -18,13 +18,12 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
 
-	const description = meta?.description // Regular feature?
-		?? (
+	const description = meta
+		? `${meta.description}${meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : ''}`
+		: (
 			isFeaturePrivate(id)
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-				: isCss
-					? 'This feature is CSS-only and cannot be disabled.'
-					: undefined // The heck!?
+				: undefined // The heck!?
 		);
 
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
