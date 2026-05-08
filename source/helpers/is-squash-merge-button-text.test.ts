@@ -9,5 +9,5 @@ test('isSquashMergeButtonText', () => {
 
 	assert.isFalse(isSquashMergeButtonText('Confirm merge'));
 	assert.isFalse(isSquashMergeButtonText('Confirm rebase and merge'));
-	assert.isFalse(isSquashMergeButtonText(undefined));
+	assert.isFalse(isSquashMergeButtonText(''));
 });

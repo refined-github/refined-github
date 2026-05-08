@@ -4,7 +4,7 @@ const squashMergeButtonLabels = new Set([
 	'Confirm bypass rules and merge (squash)',
 ]);
 
-export default function isSquashMergeButtonText(text: string | undefined): boolean {
+export default function isSquashMergeButtonText(text: string): boolean {
 	if (!text) {
 		return false;
 	}
