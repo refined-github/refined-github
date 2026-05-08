@@ -5,7 +5,11 @@
 />
 
 <script lang="ts">
-	import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+	import {
+		getExtensionReleaseDate,
+		toDaysAgo,
+		wasReleasedLongAgo,
+	} from '../helpers/extension-release-age.js';
 
 	const {version} = chrome.runtime.getManifest();
 
