@@ -10,10 +10,12 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import {wrap} from '../helpers/dom-utils.js';
 
 const reviewStateFilters = new Map([
-	['Draft', 'draft:true'],
 	['Changes requested', 'review:changes-requested'],
 	['Approved', 'review:approved'],
 	['Review required', 'review:required'],
+
+	// Missing from new view
+	['Draft', 'draft:true'],
 
 	// Not shown currently
 	// [/^Awaiting review by you$/, 'review-requested:@me'],
@@ -27,7 +29,7 @@ function alterLink(label: HTMLElement): void {
 			if (label instanceof HTMLAnchorElement) {
 				label.href = url;
 			} else {
-				wrap(label, <a href={url} className="Link--muted" />);
+				wrap(label, <a href={url} />);
 				$('[class*="statusText"]', label).classList.add('Link--onHover');
 			}
 		}
