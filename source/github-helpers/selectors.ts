@@ -1,7 +1,5 @@
 import {css} from 'code-tag';
 
-import {is} from '../helpers/css-selectors';
-
 const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
