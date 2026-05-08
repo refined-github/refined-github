@@ -11,8 +11,9 @@ import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
-import mountRelatedIssuesCount from '../helpers/rgh-related-issues-count-element.js';
-import {createRghIssueLink, getFeatureRelatedIssuesUrl} from '../helpers/rgh-links.js';
+import mountSvelteComponent from '../helpers/mount-svelte-component.js';
+import {createRghIssueLink} from '../helpers/rgh-links.js';
+import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
@@ -29,14 +30,13 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		);
 
 	const oldNames = getOldFeatureNames(id);
-	const conversationsUrl = getFeatureRelatedIssuesUrl(id);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
-	const relatedIssuesLink = <a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame"/>;
+	const relatedIssuesContainer = <span/> as HTMLSpanElement;
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
@@ -69,7 +69,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
-						{relatedIssuesLink}
+						{relatedIssuesContainer}
 						{' • '}
 						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
@@ -97,8 +97,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		</div>,
 	);
 
-	mountRelatedIssuesCount(id, relatedIssuesLink, {
-		inside: true,
+	mountSvelteComponent(RelatedIssuesCount, relatedIssuesContainer, {
+		featureId: id,
+		linkify: true,
 		loading: 'Related issues',
 		single: '1 related issue',
 		plural: '$$ related issues',

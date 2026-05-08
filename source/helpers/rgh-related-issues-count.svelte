@@ -21,6 +21,9 @@
 
 	let count = $state<number | undefined>(undefined);
 	const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
+	const label = $derived(
+		count === undefined ? loading : count === 0 ? zero : pluralize(count, single, plural),
+	);
 
 	$effect(() => {
 		(async () => {
@@ -29,16 +32,14 @@
 	});
 </script>
 
-{#if count === undefined}
-	{#if loading !== undefined}{loading}{/if}
-{:else if count === 0}
-	{#if zero !== undefined}{zero}{/if}
-{:else if linkify}
-	<a
-		class="Link--muted"
-		href={relatedIssuesHref}
-		data-turbo-frame="repo-content-turbo-frame"
-	>{pluralize(count, single, plural)}</a>
-{:else}
-	{pluralize(count, single, plural)}
+{#if label !== undefined}
+	{#if linkify}
+		<a
+			class="Link--muted"
+			href={relatedIssuesHref}
+			data-turbo-frame="repo-content-turbo-frame"
+		>{label}</a>
+	{:else}
+		{label}
+	{/if}
 {/if}

@@ -7,8 +7,9 @@ import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import mountRelatedIssuesCount from '../helpers/rgh-related-issues-count-element.js';
+import mountSvelteComponent from '../helpers/mount-svelte-component.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
+import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
@@ -55,7 +56,11 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (anchorElement) {
-		mountRelatedIssuesCount(id, anchorElement, {linkify: true, single: '$$', plural: '$$'});
+		const sup = document.createElement('sup');
+		anchorElement.after(sup);
+		mountSvelteComponent(RelatedIssuesCount, sup, {
+			featureId: id, linkify: true, single: '$$', plural: '$$',
+		});
 	}
 }
 

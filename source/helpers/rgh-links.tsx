@@ -29,6 +29,6 @@ export function getFeatureRelatedIssuesQuery(id: string): string {
 
 export function getFeatureRelatedIssuesUrl(id: string): URL {
 	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc ${getFeatureRelatedIssuesQuery(id)}`);
+	conversationsUrl.searchParams.set('q', getFeatureRelatedIssuesQuery(id));
 	return conversationsUrl;
 }
