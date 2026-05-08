@@ -25,7 +25,7 @@ const fieldSelector = [
 	'[class*="MarkdownInput-module__textArea"] textarea',
 ] as const;
 
-// Where to place the banner
+// Where to append the banner
 const bannerParent = [
 	// Almost everywhere
 	'fieldset',
