@@ -1,10 +1,10 @@
 <svelte:options customElement="rgh-welcome" />
 
 <script lang="ts">
-	import {onMount} from 'svelte';
+	import { onMount } from 'svelte';
 	import 'webext-bugs/target-blank';
 
-	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
+	import { hasValidGitHubComToken } from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
 
 	let stepVisible = $state(1);
@@ -17,7 +17,9 @@
 			setTimeout(showThirdStep, 2000);
 		} else if (stepValid === 3) {
 			setTimeout(() => {
-				location.replace('https://github.com/refined-github/refined-github/wiki');
+				location.replace(
+					'https://github.com/refined-github/refined-github/wiki',
+				);
 			}, 2000);
 		}
 	});
@@ -27,14 +29,14 @@
 			verifyToken();
 
 			// @ts-expect-error TS and its index signatures...
-			optionsStorage.set({personalToken: tokenInput});
+			optionsStorage.set({ personalToken: tokenInput });
 		}
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
 	async function grantPermissions() {
-		const granted = await chrome.permissions.request({origins});
+		const granted = await chrome.permissions.request({ origins });
 		if (granted) {
 			stepVisible = 2;
 			stepValid = 1;
@@ -62,7 +64,7 @@
 	}
 
 	onMount(async () => {
-		if (await chrome.permissions.contains({origins})) {
+		if (await chrome.permissions.contains({ origins })) {
 			stepValid = 1;
 			setTimeout(() => {
 				stepVisible = 2;

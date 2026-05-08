@@ -18,6 +18,9 @@
 		"scriptIndent": true,
 		"styleIndent": true
 	},
+	"typescript": {
+		"quoteStyle": "alwaysSingle"
+	},
 	"malva": {
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle"
