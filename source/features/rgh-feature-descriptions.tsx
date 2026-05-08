@@ -29,7 +29,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		);
 
 	const oldNames = getOldFeatureNames(id);
-	const conversationsUrl = getFeatureRelatedIssuesUrl(id as FeatureId);
+	const conversationsUrl = getFeatureRelatedIssuesUrl(id);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
@@ -99,7 +99,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		</div>,
 	);
 
-	mountRelatedIssuesCount(id as FeatureId, relatedIssuesLink, {emptyLabel: 'none open'});
+	mountRelatedIssuesCount(id as FeatureId, relatedIssuesLink, {single: '$$', plural: '$$', zero: 'none open'});
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {

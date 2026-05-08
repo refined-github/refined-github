@@ -52,7 +52,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (willAddIssueCount) {
-		mountRelatedIssuesCount(id, possibleFeature, {linkify: true});
+		mountRelatedIssuesCount(id, possibleFeature, {linkify: true, single: '$$', plural: '$$'});
 	}
 }
 
