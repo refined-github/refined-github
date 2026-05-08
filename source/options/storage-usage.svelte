@@ -39,7 +39,7 @@
 	}
 
 	const handleStorageChange = (
-		changes: {[key: string]: chrome.storage.StorageChange;},
+		changes: {[key: string]: chrome.storage.StorageChange},
 		areaName: chrome.storage.AreaName,
 	) => {
 		if (item && changes[item]) {

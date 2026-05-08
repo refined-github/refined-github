@@ -8,7 +8,7 @@
 />
 
 <script lang="ts">
-	const {title}: {title: string;} = $props();
+	const {title}: {title: string} = $props();
 	const {version} = chrome.runtime.getManifest();
 </script>
 

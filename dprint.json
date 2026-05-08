@@ -23,7 +23,7 @@
 		"quoteStyle": "preferSingle",
 		"jsx.quoteStyle": "preferDouble",
 		"trailingCommas": "onlyMultiLine",
-		"semiColons": "always",
+		"semiColons": "prefer",
 		"lineWidth": 120,
 		"jsx.multiLineParens": "never",
 		"spaceSurroundingProperties": false,
