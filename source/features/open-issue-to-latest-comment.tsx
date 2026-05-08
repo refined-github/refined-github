@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $closest} from 'select-dom';
+import {$, $closest, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {commentBoxHashIssue, commentBoxHashPr, commentsCountInLists} from '../github-helpers/selectors.js';
-import {wrap} from '../helpers/dom-utils.js';
+import {wrap, wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function getHash(type: 'issue' | 'pr'): string {
@@ -25,7 +25,7 @@ function linkify(item: HTMLElement): void {
 		const url = new URL(conversationLink.href);
 		const type = pageDetect.isIssue(url) ? 'issue' : 'pr';
 		url.hash = getHash(type);
-		wrap(item, <a href={url.href} className="Link--muted"/>);
+		wrapAll(<a href={url.href} className="Link--muted d-flex gap-1"/>, ...item.childNodes);
 	}
 }
 
@@ -44,8 +44,9 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- issues https://github.com/refined-github/sandbox/issues?q=is%3Aissue%20testing
-- pulls https://github.com/refined-github/sandbox/pulls?q=is%3Apr+an+
+- issues https://github.com/refined-github/sandbox/issues?q=is%3Aissue%20%22open-issue-to-latest-comment%22
+- pulls https://github.com/refined-github/sandbox/pulls?q=is%3Apr%20%22open-issue-to-latest-comment%22
+- mixed https://github.com/refined-github/sandbox/issues?q=%22open-issue-to-latest-comment%22%202%20comments
 
 Test 0, 1, 2+ comments
 
