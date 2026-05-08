@@ -546,7 +546,7 @@
 	},
 	{
 		"id": "new-tab-links",
-		"description": "Allows to open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.",
+		"description": "Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.",
 		"screenshot": null
 	},
 	{
