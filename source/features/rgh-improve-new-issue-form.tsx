@@ -68,9 +68,9 @@ async function checkToken(): Promise<void> {
 	}
 
 	// Thank you for following the instructions. I'll save you a click.
-	const input = $(isSetTheTokenSelector);
-	if (!input.checked) {
-		input.click();
+	const checkbox = $(isSetTheTokenSelector);
+	if (!checkbox.checked) {
+		checkbox.click();
 	}
 }
 
