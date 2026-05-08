@@ -3,7 +3,7 @@ import {mount} from 'svelte';
 import RelatedIssuesCount from './rgh-related-issues-count.svelte';
 
 export default function mountRelatedIssuesCount(
-	featureId: FeatureId,
+	featureId: string,
 	afterElement: Element,
 	{linkify = false, single, plural, zero}: {linkify?: boolean; single: string; plural?: string; zero?: string},
 ): void {

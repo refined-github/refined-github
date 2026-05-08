@@ -99,7 +99,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		</div>,
 	);
 
-	mountRelatedIssuesCount(id as FeatureId, relatedIssuesLink, {single: '$$', plural: '$$', zero: 'none open'});
+	mountRelatedIssuesCount(id, relatedIssuesLink, {single: '$$', plural: '$$', zero: 'none open'});
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
