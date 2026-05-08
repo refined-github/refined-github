@@ -153,7 +153,6 @@ import './features/table-input.js';
 import './features/link-to-github-io.js';
 import './features/github-actions-indicators.js';
 import './features/unfinished-comments.js';
-import './features/jump-to-change-requested-comment.js';
 import './features/esc-to-cancel.js';
 import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';
