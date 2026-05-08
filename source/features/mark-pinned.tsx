@@ -10,9 +10,8 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 const {class: featureClass} = getIdentifiers(import.meta.url);
 
 function getPinnedIssueSelector(issueLink: HTMLAnchorElement): string {
-	const relativeUrl = issueLink.getAttribute('href')!;
 	// The href attribute in the pinned issue list contains the absolute URL
-	return `[class*='PinnedIssues-module__container'] a[href$="${CSS.escape(relativeUrl)}"]`;
+	return `[class*='PinnedIssues-module__container'] a[href="${issueLink.href}"]`;
 }
 
 function mark(issueLink: HTMLAnchorElement): void {
