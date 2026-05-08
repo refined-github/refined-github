@@ -149,11 +149,6 @@
       "count": 1
     }
   },
-  "source/features/update-pr-from-base-branch.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/useful-not-found-page.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2

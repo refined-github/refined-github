@@ -56,6 +56,7 @@ import './features/conversation-links-on-repo-lists.js';
 import './features/global-conversation-list-filters.js';
 import './features/sort-conversations-by-update-time.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time.js';
+import './features/mark-pinned.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
 import './features/ci-link.js';
@@ -213,6 +214,7 @@ import './features/sidebar-focus-file.js';
 import './features/rgh-token-user.js';
 import './features/unread-anywhere.js';
 import './features/no-modals.js';
+import './features/new-tab-links.js';
 import './features/same-page-links.js';
 import './features/linkify-text.js';
 import './features/actions-run-removal.js';

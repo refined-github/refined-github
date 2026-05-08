@@ -31,6 +31,7 @@ const noScreenshotExceptions = new Set([
 	'github-bugs',
 	'tab-size',
 	'monospace-textareas',
+	'new-tab-links',
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
