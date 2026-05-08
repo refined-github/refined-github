@@ -1,10 +1,10 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, $closestOptional} from 'select-dom';
+import {$, $closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {commentBoxHashIssue, commentBoxHashPr, commentsCountInLists} from '../github-helpers/selectors.js';
-import {wrap, wrapAll} from '../helpers/dom-utils.js';
+import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function getHash(type: 'issue' | 'pr'): string {
