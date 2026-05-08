@@ -26,5 +26,5 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 
-https://github.com/ipaddress-gem/ipaddress/pull/22#partial-pull-merging
+https://github.com/ipaddress-gem/ipaddress/pull/22#issue-comment-box
 */
