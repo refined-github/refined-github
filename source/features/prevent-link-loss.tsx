@@ -25,16 +25,22 @@ const fieldSelector = [
 	'[class*="MarkdownInput-module__textArea"] textarea',
 ] as const;
 
+// Where to place the banner
+const bannerParent = [
+	// Almost everywhere
+	'fieldset',
+
+	// Editing PR body
+	'.CommentBox',
+] as const;
+
 const documentation
 	= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		$closest([
-			'form',
-			'fieldset',
-		], fixButton),
+		$closest(bannerParent, fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
@@ -72,13 +78,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 
 function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
-		console.log('vulnerable');
-		if (field.form) {
-			$('file-attachment .js-write-bucket', field.form).append(getUi(field));
-		} else {
-			// React view
-			$closest('fieldset', field).append(getUi(field));
-		}
+		$closest(bannerParent, field).append(getUi(field));
 	} else {
 		getUi(field).remove();
 	}
