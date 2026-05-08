@@ -210,7 +210,6 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	overflow: hidden; /* Crop the text out */
 	padding-left: 10px;
 }
-
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
