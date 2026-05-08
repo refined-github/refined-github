@@ -68,7 +68,10 @@ async function checkToken(): Promise<void> {
 	}
 
 	// Thank you for following the instructions. I'll save you a click.
-	$(isSetTheTokenSelector).checked = true;
+	const input = $(isSetTheTokenSelector);
+	if (!input.checked) {
+		input.click();
+	}
 }
 
 async function setVersion(): Promise<void> {
