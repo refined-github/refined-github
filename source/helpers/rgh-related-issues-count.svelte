@@ -1,5 +1,5 @@
 <script lang="ts">
-import pluralize from './pluralize.js';
+	import pluralize from './pluralize.js';
 import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
 import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
 
@@ -29,13 +29,13 @@ count = await getOpenRelatedIssuesCount(featureId);
 </script>
 
 {#if count !== undefined && (count > 0 || zero !== undefined)}
-{#if linkify && count > 0}
-<a
-class="Link--muted"
-href={relatedIssuesHref}
-data-turbo-frame="repo-content-turbo-frame"
->{label}</a>
-{:else}
-{label}
-{/if}
+	{#if linkify && count > 0}
+		<a
+			class="Link--muted"
+			href={relatedIssuesHref}
+			data-turbo-frame="repo-content-turbo-frame"
+		>{label}</a>
+	{:else}
+		{label}
+	{/if}
 {/if}
