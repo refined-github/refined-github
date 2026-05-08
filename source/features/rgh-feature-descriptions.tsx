@@ -19,7 +19,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const isCss = location.pathname.endsWith('.css');
 
 	const description = meta
-		? `${meta.description}${meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : ''}`
+		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
 			isFeaturePrivate(id)
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
