@@ -1,31 +1,33 @@
 <script lang="ts">
-	import pluralize from './pluralize.js';
-import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
-import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
+  import pluralize from "./pluralize.js";
+  import { getFeatureRelatedIssuesUrl } from "./rgh-links.js";
+  import getOpenRelatedIssuesCount from "./rgh-related-issues-count.js";
 
-const {
-featureId,
-linkify = false,
-single,
-plural,
-zero,
-}: {
-featureId: string;
-linkify?: boolean;
-single: string;
-plural?: string;
-zero?: string;
-} = $props();
+  const {
+    featureId,
+    linkify = false,
+    single,
+    plural,
+    zero,
+  }: {
+    featureId: string;
+    linkify?: boolean;
+    single: string;
+    plural?: string;
+    zero?: string;
+  } = $props();
 
-let count = $state<number | undefined>(undefined);
-const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
-const label = $derived(count === undefined ? '' : pluralize(count, single, plural, zero));
+  let count = $state<number | undefined>(undefined);
+  const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
+  const label = $derived(
+    count === undefined ? "" : pluralize(count, single, plural, zero),
+  );
 
-$effect(() => {
-(async () => {
-count = await getOpenRelatedIssuesCount(featureId);
-})();
-});
+  $effect(() => {
+    (async () => {
+      count = await getOpenRelatedIssuesCount(featureId);
+    })();
+  });
 </script>
 
 {#if count !== undefined && (count > 0 || zero !== undefined)}
