@@ -95,6 +95,8 @@ void features.add(import.meta.url, {
 		pageDetect.hasRichTextEditor,
 	],
 	exclude: [
+		// TODO: Fix feature https://github.com/refined-github/refined-github/issues/9358
+		// Temporary workaround just for mobile
 		isSmallDevice,
 	],
 	init,
