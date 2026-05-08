@@ -36,9 +36,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
-	const relatedIssuesLink = (
-		<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame"></a>
-	) as HTMLAnchorElement;
+	const relatedIssuesLink = <a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame"/>;
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
