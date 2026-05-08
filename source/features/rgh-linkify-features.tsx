@@ -2,12 +2,13 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$closestOptional} from 'select-dom';
 
+import {mount} from 'svelte';
+
 import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import mountSvelteComponent from '../helpers/mount-svelte-component.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
@@ -58,8 +59,10 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	if (anchorElement) {
 		const sup = document.createElement('sup');
 		anchorElement.after(sup);
-		mountSvelteComponent(RelatedIssuesCount, sup, {
-			featureId: id, linkify: true, single: '$$', plural: '$$',
+		mount(RelatedIssuesCount, {
+			target: sup, props: {
+				featureId: id, linkify: true, single: '$$', plural: '$$',
+			},
 		});
 	}
 }

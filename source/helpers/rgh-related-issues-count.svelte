@@ -19,20 +19,11 @@
 		loading?: string;
 	} = $props();
 
-	let count = $state<number | undefined>(undefined);
 	const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
-	const label = $derived(
-		count === undefined ? loading : count === 0 ? zero : pluralize(count, single, plural),
-	);
-
-	$effect(() => {
-		(async () => {
-			count = await getOpenRelatedIssuesCount(featureId);
-		})();
-	});
+	const countPromise = $derived(getOpenRelatedIssuesCount(featureId));
 </script>
 
-{#if label !== undefined}
+{#snippet renderLabel(label: string)}
 	{#if linkify}
 		<a
 			class="Link--muted"
@@ -42,4 +33,16 @@
 	{:else}
 		{label}
 	{/if}
-{/if}
+{/snippet}
+
+{#await countPromise}
+	{#if loading !== undefined}{loading}{/if}
+{:then count}
+	{#if count > 0 || zero !== undefined}
+		{@render renderLabel(pluralize(count, single, plural, zero))}
+	{/if}
+{:catch}
+	{#if zero !== undefined}
+		{@render renderLabel(pluralize(0, single, plural, zero))}
+	{/if}
+{/await}

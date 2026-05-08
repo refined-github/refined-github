@@ -5,13 +5,14 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 
+import {mount} from 'svelte';
+
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
-import mountSvelteComponent from '../helpers/mount-svelte-component.js';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
@@ -97,13 +98,16 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		</div>,
 	);
 
-	mountSvelteComponent(RelatedIssuesCount, relatedIssuesContainer, {
-		featureId: id,
-		linkify: true,
-		loading: 'Related issues',
-		single: '1 related issue',
-		plural: '$$ related issues',
-		zero: 'Related issues',
+	mount(RelatedIssuesCount, {
+		target: relatedIssuesContainer,
+		props: {
+			featureId: id,
+			linkify: true,
+			loading: 'Related issues',
+			single: '1 related issue',
+			plural: '$$ related issues',
+			zero: 'Related issues',
+		},
 	});
 }
 
