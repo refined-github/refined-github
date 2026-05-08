@@ -1,32 +1,32 @@
 <script lang="ts">
 	import pluralize from './pluralize.js';
-  import { getFeatureRelatedIssuesUrl } from "./rgh-links.js";
-  import getOpenRelatedIssuesCount from "./rgh-related-issues-count.js";
+	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
+	import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
 
-  const {
-    featureId,
-    linkify = false,
-    single,
-    plural,
-    zero,
-    loading,
-  }: {
-    featureId: string;
-    linkify?: boolean;
-    single: string;
-    plural?: string;
-    zero?: string;
-    loading?: string;
-  } = $props();
+	const {
+		featureId,
+		linkify = false,
+		single,
+		plural,
+		zero,
+		loading,
+	}: {
+		featureId: string;
+		linkify?: boolean;
+		single: string;
+		plural?: string;
+		zero?: string;
+		loading?: string;
+	} = $props();
 
-  let count = $state<number | undefined>(undefined);
-  const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
+	let count = $state<number | undefined>(undefined);
+	const relatedIssuesHref = $derived(getFeatureRelatedIssuesUrl(featureId).href);
 
-  $effect(() => {
-    (async () => {
-      count = await getOpenRelatedIssuesCount(featureId);
-    })();
-  });
+	$effect(() => {
+		(async () => {
+			count = await getOpenRelatedIssuesCount(featureId);
+		})();
+	});
 </script>
 
 {#if count === undefined}
