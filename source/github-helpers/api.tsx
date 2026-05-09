@@ -31,12 +31,13 @@ import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
 
+import {isWebPage} from 'webext-detect';
+
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 import {getToken} from '../options-storage.js';
 import {tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
-import {isWebPage} from 'webext-detect';
 
 type JsonError = {
 	message: string;
