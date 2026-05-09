@@ -64,11 +64,6 @@
       "count": 1
     }
   },
-  "source/features/linkify-symbolic-links.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/list-prs-for-file.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
