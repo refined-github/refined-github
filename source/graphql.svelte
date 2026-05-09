@@ -3,10 +3,8 @@
 <script lang="ts">
 	import api from './github-helpers/api.js';
 
-	let query = $state(`{
-	viewer {
-		login
-	}
+	let query = $state(`viewer {
+	login
 }`);
 	let variablesJson = $state('');
 	let responseJson = $state('');
@@ -24,7 +22,9 @@
 			const data = await api.v4uncached(query, {variables});
 			responseJson = JSON.stringify(data, undefined, 2);
 		} catch (caughtError) {
-			error = caughtError instanceof Error ? caughtError.message : String(caughtError);
+			error = caughtError instanceof Error
+				? caughtError.message
+				: String(caughtError);
 		} finally {
 			loading = false;
 		}
@@ -47,7 +47,8 @@
 
 <main>
 	<rgh-header title="GraphQL tester">
-		<p>Run GraphQL queries through Refined GitHub’s authenticated `api.v4uncached` helper.</p>
+		<p>Run GraphQL queries through Refined GitHub’s authenticated
+			`api.v4uncached` helper.</p>
 	</rgh-header>
 
 	<form onsubmit={runQuery}>
@@ -116,7 +117,8 @@
 	textarea {
 		width: 100%;
 		resize: vertical;
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 		background: light-dark(#f6f8fa, #151b23);
 		border: solid 1px light-dark(#d0d9e0, #3d444d);
 		border-radius: 6px;
