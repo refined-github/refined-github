@@ -5,7 +5,7 @@ import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
 import {
-	$, $closestOptional, countElements, elementExists,
+	$, $closestOptional, $optional, countElements, elementExists,
 } from 'select-dom';
 import twas from 'twas';
 
@@ -47,7 +47,8 @@ export function wasLongAgo(date: Date): boolean {
 function isPopular(): boolean {
 	return (
 		countElements('[data-testid="comment-header"]') > 30
-		|| looseParseInt($('[aria-label*="other participants"]').ariaLabel) > 30
+		// This element only appears after 6 participants
+		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 		// TODO: Drop in 2026; old conversation style
 		|| countElements('.timeline-comment') > 30
