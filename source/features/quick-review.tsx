@@ -120,7 +120,7 @@ async function openReviewDialogWhenAvailable(): Promise<void> {
 }
 
 function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
-	if (isNewFilesChangedExperienceEnabled() && !isAlteredClick(event)) {
+	if (isNewFilesChangedExperienceEnabled()) {
 		void openReviewDialogWhenAvailable();
 		return;
 	}
