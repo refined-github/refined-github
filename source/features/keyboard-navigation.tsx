@@ -23,7 +23,8 @@ function runShortcuts(event: KeyboardEvent): void {
 	const targetElement = $optional(':target');
 
 	if (event.key === 'x') {
-		$(viewedToggleSelector, targetElement).click();
+		// The event handler is quite broad, there's no guaranteed that the intention is to toggle "Viewed"
+		$optional(viewedToggleSelector, targetElement)?.click();
 		return;
 	}
 
