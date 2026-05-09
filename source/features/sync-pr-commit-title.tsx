@@ -35,7 +35,8 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	if (!/squash/i.test($(confirmMergeButton).textContent)) {
+	// `needsSubmission` is also called when the PR title is changed, in order to update the open merge box in real time
+	if (!/squash/i.test($optional(confirmMergeButton)?.textContent ?? '')) {
 		return false;
 	}
 
@@ -92,7 +93,10 @@ function disableSubmission(): void {
 
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
-	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
+	// On panel open
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal});
+
+	// On PR title change
 	observe(
 		[
 			'h1[class^="prc-PageHeader-Title"]',
@@ -100,7 +104,7 @@ function init(signal: AbortSignal): void {
 		],
 		updateCommitTitle,
 		{signal},
-	); // On PR title change
+	);
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUi, signal);
