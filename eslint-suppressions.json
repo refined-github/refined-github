@@ -134,11 +134,6 @@
       "count": 1
     }
   },
-  "source/features/sync-pr-commit-title.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
-    }
-  },
   "source/features/unread-anywhere.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
