@@ -1,6 +1,8 @@
 <svelte:options customElement="rgh-graphql" />
 
 <script lang="ts">
+	import 'webext-base-css/webext-base.css';
+
 	import api from './github-helpers/api.js';
 
 	let query = $state(`viewer {
@@ -47,15 +49,15 @@
 
 <main>
 	<rgh-header title="GraphQL tester">
-		<p>Run GraphQL queries through Refined GitHub’s authenticated
-			`api.v4uncached` helper.</p>
+		<p>Run GraphQL queries through Refined GitHub’s authenticated API
+			manager.</p>
 	</rgh-header>
 
 	<form onsubmit={runQuery}>
 		<label for="query">Query</label>
 		<textarea
 			id="query"
-			rows="12"
+			rows="6"
 			spellcheck="false"
 			autocomplete="off"
 			autocapitalize="off"
@@ -65,7 +67,7 @@
 		<label for="variables">Variables (JSON, optional)</label>
 		<textarea
 			id="variables"
-			rows="6"
+			rows="3"
 			spellcheck="false"
 			autocomplete="off"
 			autocapitalize="off"
@@ -78,7 +80,7 @@
 		<label for="response">Response</label>
 		<textarea
 			id="response"
-			rows="14"
+			rows="8"
 			readonly
 			spellcheck="false"
 			value={responseJson}
@@ -91,57 +93,7 @@
 </main>
 
 <style>
-	:host {
-		font-size: 2em;
-		display: block;
-	}
-
-	main {
-		--content-width: 60rem;
-		--viewport-margin: 30px;
-	}
-
-	form {
-		display: grid;
-		gap: 0.75em;
-		padding-inline: var(--viewport-margin);
-		padding-block: 1.5rem;
-		max-width: var(--content-width);
-		margin: auto;
-	}
-
-	label {
-		font-weight: 600;
-	}
-
 	textarea {
-		width: 100%;
-		resize: vertical;
-		font-family:
-			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-		background: light-dark(#f6f8fa, #151b23);
-		border: solid 1px light-dark(#d0d9e0, #3d444d);
-		border-radius: 6px;
-		padding: 10px 12px;
-		font-size: 0.8em;
-		line-height: 1.4;
-	}
-
-	textarea:focus {
-		background: light-dark(#fff, #0d1117);
-		border-color: #1f6feb;
-		box-shadow: inset 0 0 0 1px #1f6feb;
-		outline: none;
-	}
-
-	button {
-		justify-self: start;
-		font-size: 0.9em;
-		padding: 0.45em 0.9em;
-	}
-
-	.error {
-		color: #cf222e;
-		margin: 0;
+		field-sizing: content;
 	}
 </style>
