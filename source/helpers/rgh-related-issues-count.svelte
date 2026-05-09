@@ -29,7 +29,6 @@
 	{#if count > 0 || zero !== undefined}
 		{#if linkify}
 			<a
-				class="Link--muted"
 				href={relatedIssuesHref}
 				data-turbo-frame="repo-content-turbo-frame"
 			>{pluralize(count, single, plural, zero)}</a>
