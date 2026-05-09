@@ -52,6 +52,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 
 		const tags = new Map<string, string>();
 		for (const node of repository.refs.nodes as Tags[]) {
+			// TODO: Review or drop optional chaining, there shouldn't be any case where this happens. The types are wrong
 			tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 		}
 

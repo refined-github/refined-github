@@ -59,7 +59,7 @@ async function checkToken(): Promise<void> {
 	try {
 		await baseApiFetch({apiBase: 'https://api.github.com/', path: 'user', token});
 	} catch (error) {
-		if (!navigator.onLine || (error as any)?.message === 'Failed to fetch') {
+		if (!navigator.onLine || (error as any)!.message === 'Failed to fetch') {
 			return;
 		}
 

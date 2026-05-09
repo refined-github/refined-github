@@ -1,7 +1,5 @@
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
-import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -11,16 +9,6 @@ import observe from '../helpers/selector-observer.js';
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
 	link.dataset.originalHref ??= link.href;
-}
-
-async function selectCurrentConversationFilter(): Promise<void> {
-	const currentSearchUrl = location.href.replace('/pulls?', '/issues?'); // Replacement needed to make up for the redirection of "Your pull requests" link
-	const menu = await elementReady('#filters-select-menu');
-	const currentFilter = $optional(`a.SelectMenu-item[href="${currentSearchUrl}"]`, menu);
-	if (currentFilter) {
-		$optional('[aria-checked="true"]', menu)?.setAttribute('aria-checked', 'false');
-		currentFilter.setAttribute('aria-checked', 'true');
-	}
 }
 
 async function updateLink(link: HTMLAnchorElement): Promise<void> {
@@ -70,11 +58,6 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	init,
-}, {
-	include: [
-		pageDetect.isRepoIssueOrPRList,
-	],
-	init: selectCurrentConversationFilter,
 });
 
 /*

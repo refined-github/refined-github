@@ -225,6 +225,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 		</div>,
 	);
 
+	// Would be missing on the first run
 	previousRghButton?.remove();
 	subscriptionButton.hidden = true;
 }

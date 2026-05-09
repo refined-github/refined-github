@@ -102,9 +102,8 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		const userKey = api.escapeKey(username);
 		const {name: fullName} = names[userKey];
 
-		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
-
 		// Could be `null` if not set or empty string if consisting only of emojis
+		const fullNameWithoutEmoji = fullName?.replaceAll(/\p{RGI_Emoji}/gv, '').trim();
 		if (!fullNameWithoutEmoji) {
 			continue;
 		}
