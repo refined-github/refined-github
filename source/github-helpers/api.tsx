@@ -36,6 +36,7 @@ import onetime from '../helpers/onetime.js';
 import {getToken} from '../options-storage.js';
 import {tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
+import {isWebPage} from 'webext-detect';
 
 type JsonError = {
 	message: string;
@@ -67,7 +68,7 @@ export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
 	: 'https://api.github.com/';
 
-const api4 = pageDetect.isEnterprise()
+const api4 = pageDetect.isEnterprise() && isWebPage() // It can also run in graphql.html
 	? `${location.origin}/api/graphql`
 	: 'https://api.github.com/graphql';
 
