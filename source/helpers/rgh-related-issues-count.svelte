@@ -18,8 +18,10 @@
 
 	const {featureId, linkify = true, labels}: Props = $props();
 
-	const relatedIssuesHref = getFeatureRelatedIssuesUrl(featureId).href;
-	const countPromise = $derived(getOpenRelatedIssuesCount(featureId));
+	const relatedIssuesHref = $derived.by(() =>
+		getFeatureRelatedIssuesUrl(featureId).href
+	);
+	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 </script>
 
 {#await countPromise}
