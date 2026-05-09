@@ -57,7 +57,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (anchorElement) {
-		const sup = document.createElement('sup');
+		const sup = <sup/>;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
 			target: sup, props: {
