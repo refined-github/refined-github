@@ -25,8 +25,14 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	$('li:has([data-content="Wiki"]').remove();
-	$('li:has([data-content="Projects"])').remove();
+	$([
+		'li:has([data-content="Wiki"]',
+		'[data-menu-item$="wiki-tab"]', // TODO: Drop in October 2026
+	]).remove();
+	$([
+		'li:has([data-content="Projects"])',
+		'[data-menu-item$="projects-tab"]', // TODO: Drop in October 2026
+	]).remove();
 }
 
 function setStorage(): void {
