@@ -61,7 +61,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
 			target: sup, props: {
-				featureId: id, linkify: true, single: '$$', plural: '$$',
+				featureId: id, labels: {single: '$$', plural: '$$'},
 			},
 		});
 	}
