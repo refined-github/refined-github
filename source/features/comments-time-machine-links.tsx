@@ -50,7 +50,10 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		const lastCommitDate = await elementReady('div[data-testid="latest-commit-details"] relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady(
+			'div[data-testid="latest-commit-details"] relative-time',
+			{waitForChildren: false},
+		);
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
