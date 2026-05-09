@@ -16,6 +16,6 @@ test('getFeatureRelatedIssuesUrl', () => {
 	assert.equal(url.pathname, '/refined-github/refined-github/issues');
 	assert.equal(
 		url.searchParams.get('q'),
-		'sort:updated-desc is:open ("closing-remarks" OR "first-published-tag-for-merged-pr")',
+		'is:open ("closing-remarks" OR "first-published-tag-for-merged-pr")',
 	);
 });

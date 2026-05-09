@@ -53,7 +53,7 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const url = new URL(`/${forkedRepo}/pulls`, location.origin);
-	url.searchParams.set('q', 'is:pr is:open sort:updated-desc author:@me');
+	url.searchParams.set('q', 'is:pr is:open author:@me');
 	return [count, url.href];
 }
 
