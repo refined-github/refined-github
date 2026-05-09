@@ -36,7 +36,7 @@ const minorFixesIssuePages = [
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsAndCollapsedComments: 'Hide events, bots, collapsed comments',
+	hideEventsBotsCollapsedComments: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -290,7 +290,7 @@ function switchToNextFilter(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
-			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			? 'hideEventsBotsCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
 	const initialSetupOnce = onetime(() => {
