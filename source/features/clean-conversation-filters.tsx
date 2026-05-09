@@ -31,7 +31,9 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 
 		return Boolean(repository.projects.totalCount)
 			|| Boolean(repository.projectsV2.totalCount)
+			// Joint query, both org and projects are optional
 			|| Boolean(organization?.projects?.totalCount)
+			// Joint query, both org and projects are optional
 			|| Boolean(organization?.projectsV2?.totalCount);
 	},
 	maxAge: {days: 1},

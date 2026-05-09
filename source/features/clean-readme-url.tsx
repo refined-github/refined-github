@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function maybeCleanUrl(event?: NavigateEvent): void {
+	// TODO: Drop setInterval and optional chaining in 2027, it's only needed to support Safari <26.2
 	const parsed = new URL(event?.destination.url ?? location.href);
 	if (parsed.searchParams.get('tab') === 'readme-ov-file') {
 		parsed.searchParams.delete('tab');

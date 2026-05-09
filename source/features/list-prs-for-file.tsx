@@ -114,6 +114,7 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 		return;
 	}
 
+	// Only appears when editing files from PRs
 	const editingPrNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
 	if (editingPrNumber) {
 		prs = prs.filter(pr => pr !== Number(editingPrNumber));

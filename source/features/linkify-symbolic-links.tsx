@@ -8,6 +8,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(line: HTMLElement): void {
+	// The feature runs on all filetypes, this element will be missing in most of them
 	if ($optional('a[class*="CodeSizeDetails-module__PrimerLink"]')?.textContent === 'Symbolic Link') {
 		wrap(line.firstChild!, <a href={line.textContent} data-turbo-frame="repo-content-turbo-frame" />);
 		repositionAnchors(line);

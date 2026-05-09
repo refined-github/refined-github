@@ -74,11 +74,6 @@
       "count": 1
     }
   },
-  "source/features/netiquette.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/new-or-deleted-file.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
