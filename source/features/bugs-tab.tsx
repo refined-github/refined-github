@@ -140,6 +140,7 @@ function highlightBugsTab(): void {
 
 async function removePinnedIssues(): Promise<void> {
 	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	// The repo might not have any pinned issues
 	pinnedIssues?.remove();
 }
 

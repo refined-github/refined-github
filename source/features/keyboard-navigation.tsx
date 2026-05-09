@@ -1,6 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 import {
-	$$, $closestOptional, $optional, elementExists,
+	$, $$, $closestOptional, $optional, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -23,8 +23,7 @@ function runShortcuts(event: KeyboardEvent): void {
 	const targetElement = $optional(':target');
 
 	if (event.key === 'x') {
-		const toggle = targetElement && $optional(viewedToggleSelector, targetElement);
-		toggle?.click();
+		$(viewedToggleSelector, targetElement).click();
 		return;
 	}
 

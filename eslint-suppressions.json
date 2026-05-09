@@ -1,9 +1,4 @@
 {
-  "source/features/bugs-tab.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/clean-repo-sidebar.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 3
@@ -14,34 +9,14 @@
       "count": 1
     }
   },
-  "source/features/github-actions-indicators.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/highest-rated-comment.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
     }
   },
-  "source/features/keyboard-navigation.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/link-to-github-io.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/new-or-deleted-file.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
-    }
-  },
-  "source/features/new-repo-disable-projects-and-wikis.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 4
     }
   },
   "source/features/pr-first-commit-title.tsx": {
