@@ -40,10 +40,8 @@ async function getWorkflows(): Promise<Workflow[]> {
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
 	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
 
-	const workflows: any[] = workflowFiles?.entries ?? [];
-
 	const result: Record<string, string> = {};
-	for (const workflow of workflows) {
+	for (const workflow of workflowFiles.entries) {
 		result[workflow.name] = workflow.object.text;
 	}
 

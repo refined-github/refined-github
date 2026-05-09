@@ -12,8 +12,6 @@ import {
 	$$,
 	$$optional,
 	$closest,
-	$closestOptional,
-	$optional,
 	elementExists,
 } from 'select-dom';
 
@@ -273,8 +271,8 @@ async function addWidget(anchor: Element): Promise<void> {
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$closestOptional(timelineItem, $optional(`.${collapsedClassName} ${location.hash}`))
-			?.classList
+		$closest(timelineItem, $(`.${collapsedClassName} ${location.hash}`))
+			.classList
 			.remove(collapsedClassName);
 	}
 }
