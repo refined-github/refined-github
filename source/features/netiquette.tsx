@@ -5,7 +5,7 @@ import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
 import {
-	$, $closestOptional, $optional, countElements, elementExists,
+	$closestOptional, $optional, countElements, elementExists,
 } from 'select-dom';
 import twas from 'twas';
 
