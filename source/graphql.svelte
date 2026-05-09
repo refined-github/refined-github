@@ -13,7 +13,7 @@
 	let error = $state('');
 	let loading = $state(false);
 
-	async function runQuery(event: SubmitEvent): Promise<void> {
+	async function runQuery(event: Event): Promise<void> {
 		event.preventDefault();
 		error = '';
 		responseJson = '';
@@ -68,7 +68,7 @@
 			spellcheck="false"
 			autocomplete="off"
 			autocapitalize="off"
-			placeholder='{"owner":"refined-github","name":"refined-github"}'
+			placeholder={JSON.stringify({owner: 'refined-github', name: 'refined-github'})}
 			bind:value={variablesJson}
 		></textarea>
 
