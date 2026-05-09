@@ -4,7 +4,7 @@ import {isMac} from './index.js';
 
 export function registerHotkey(
 	hotkey: string,
-	functionOrUrl: VoidFunction | string,
+	functionOrUrl: React.MouseEventHandler<HTMLButtonElement> | string,
 	{signal}: SignalAsOptions = {},
 ): void {
 	const element = typeof functionOrUrl === 'string'

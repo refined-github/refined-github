@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, countElements} from 'select-dom';
+import {$, $closest, countElements} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -8,6 +8,7 @@ import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
+import {confirmMergeButton} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
@@ -15,6 +16,10 @@ import observe from '../helpers/selector-observer.js';
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
 async function clear(messageField: HTMLTextAreaElement): Promise<void> {
+	if (!/squash/i.test($(confirmMergeButton).textContent)) {
+		return;
+	}
+
 	const originalMessage = messageField.value;
 	const author = getConversationAuthor();
 	let cleanedMessage = cleanCommitMessage(originalMessage, !await isPrAgainstDefaultBranch(), [author]);

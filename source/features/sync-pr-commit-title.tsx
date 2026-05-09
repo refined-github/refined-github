@@ -15,12 +15,8 @@ import setReactInputValue from '../helpers/set-react-input-value.js';
 
 const commitTitleFieldSelector = '[data-testid="mergebox-partial"] input[type="text"]';
 
-function getCurrentCommitTitleField(): HTMLInputElement | undefined {
-	return $optional(commitTitleFieldSelector);
-}
-
-function getCurrentCommitTitle(): string | undefined {
-	return getCurrentCommitTitleField()?.value.trim();
+function getCurrentCommitTitle(): string {
+	return $(commitTitleFieldSelector).value.trim();
 }
 
 export function formatPrCommitTitle(title: string, prNumber = getConversationNumber()!): string {
@@ -39,19 +35,12 @@ function createCommitTitle(): string {
 }
 
 function needsSubmission(): boolean {
-	const mergeButton = $optional(confirmMergeButton);
-	const textContent = mergeButton?.textContent?.trim();
-	if (
-		!textContent || ![
-			'Confirm squash and merge',
-			'Confirm auto-merge (squash)',
-			'Confirm bypass rules and merge (squash)',
-		].includes(textContent)
-	) {
+	// `needsSubmission` is also called when the PR title is changed, in order to update the open merge box in real time
+	if (!/squash/i.test($optional(confirmMergeButton)?.textContent ?? '')) {
 		return false;
 	}
 
-	const currentCommitTitle = getCurrentCommitTitle()!;
+	const currentCommitTitle = getCurrentCommitTitle();
 	return Boolean(currentCommitTitle) && (createCommitTitle() !== currentCommitTitle);
 }
 
@@ -68,7 +57,7 @@ function getUi(): HTMLElement {
 
 function updateUi(): void {
 	if (needsSubmission()) {
-		getCurrentCommitTitleField()!.parentElement!.after(getUi());
+		$(commitTitleFieldSelector).parentElement!.after(getUi());
 	} else {
 		getUi().remove();
 	}
@@ -80,7 +69,7 @@ async function updatePrTitle(): Promise<void> {
 	}
 
 	// Remove PR number from commit title
-	const title = cleanPrCommitTitle(getCurrentCommitTitle()!, getConversationNumber()!);
+	const title = cleanPrCommitTitle(getCurrentCommitTitle(), getConversationNumber()!);
 
 	await api.v3(`pulls/${getConversationNumber()!}`, {
 		method: 'PATCH',
@@ -93,7 +82,7 @@ async function updateCommitTitle(): Promise<void> {
 		return;
 	}
 
-	const field = getCurrentCommitTitleField()!;
+	const field = $(commitTitleFieldSelector);
 	setReactInputValue(field, createCommitTitle());
 }
 
@@ -104,7 +93,10 @@ function disableSubmission(): void {
 
 function init(signal: AbortSignal): void {
 	// PR title -> Commit title field
-	observe(commitTitleFieldSelector, updateCommitTitle, {signal}); // On panel open
+	// On panel open
+	observe(commitTitleFieldSelector, updateCommitTitle, {signal});
+
+	// On PR title change
 	observe(
 		[
 			'h1[class^="prc-PageHeader-Title"]',
@@ -112,7 +104,7 @@ function init(signal: AbortSignal): void {
 		],
 		updateCommitTitle,
 		{signal},
-	); // On PR title change
+	);
 
 	// Commit title field -> toggle checkbox visibility
 	onCommitTitleUpdate(updateUi, signal);

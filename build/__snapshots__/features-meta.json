@@ -388,11 +388,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
 	},
 	{
-		"id": "jump-to-change-requested-comment",
-		"description": "Adds a link to jump to the latest changed requested comment.",
-		"screenshot": "https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif"
-	},
-	{
 		"id": "jump-to-conversation-close-event",
 		"description": "Adds a link to jump to the latest close event of a issue/PR.",
 		"css": true,
@@ -443,6 +438,11 @@
 		"id": "linkify-line-numbers",
 		"description": "Linkifies the line numbers where GitHub forgot to add links.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
+	},
+	{
+		"id": "linkify-pr-review-state",
+		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", etc) in PR lists to filter by that state.",
+		"screenshot": "https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428"
 	},
 	{
 		"id": "linkify-symbolic-links",

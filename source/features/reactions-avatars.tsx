@@ -33,6 +33,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
 			.split(', ');
+		// Uses optional chaining to throw an error manually later
 	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling

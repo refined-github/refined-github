@@ -94,17 +94,7 @@
       "count": 2
     }
   },
-  "source/features/reactions-avatars.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/releases-tab.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/rgh-deduplicator.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 1
     }
@@ -112,51 +102,6 @@
   "source/features/rgh-feature-descriptions.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
-    }
-  },
-  "source/features/rgh-improve-new-issue-form.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/show-names.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/sort-conversations-by-update-time.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/status-subscription.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/sync-pr-commit-title.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
-    }
-  },
-  "source/features/unread-anywhere.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/features/unreleased-commits.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
-  "source/features/useful-not-found-page.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/features/visit-tag.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
     }
   }
 }

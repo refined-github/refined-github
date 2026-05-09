@@ -21,13 +21,12 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
 
-	const description = meta?.description // Regular feature?
-		?? (
+	const description = meta
+		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
+		: (
 			isFeaturePrivate(id)
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-				: isCss
-					? 'This feature is CSS-only and cannot be disabled.'
-					: undefined // The heck!?
+				: undefined // The heck!?
 		);
 
 	const oldNames = getOldFeatureNames(id);
@@ -160,7 +159,9 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(filename);
+	const currentFeatureName = filename
+		? (getNewFeatureName(filename) ?? filename)
+		: undefined;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not

@@ -91,6 +91,7 @@ import './features/collapsible-content-button.js';
 import './features/actionable-pr-view-file.js'; // Must be before more-file-links
 import './features/more-file-links.js';
 import './features/pr-filters.js';
+import './features/linkify-pr-review-state.js';
 import './features/quick-file-edit.js';
 import './features/update-pr-from-base-branch.js';
 import './features/tag-changes-link.js';
@@ -154,7 +155,6 @@ import './features/table-input.js';
 import './features/link-to-github-io.js';
 import './features/github-actions-indicators.js';
 import './features/unfinished-comments.js';
-import './features/jump-to-change-requested-comment.js';
 import './features/esc-to-cancel.js';
 import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';

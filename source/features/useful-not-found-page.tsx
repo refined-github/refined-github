@@ -52,15 +52,14 @@ function parseCurrentUrl(): string[] {
 	return parts;
 }
 
-async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
+async function getLatestCommitToFile(branch: string, filePath: string): Promise<string> {
 	const {repository} = await api.v4(GetLatestCommitToFile, {
 		variables: {
 			branch,
 			filePath,
 		},
 	});
-	const commit = repository.object?.history.nodes[0];
-	return commit?.oid;
+	return repository.object.history.nodes[0].oid;
 }
 
 async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
@@ -140,10 +139,6 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 	}
 
 	const commitSha = await getLatestCommitToFile(url.branch, url.filePath);
-	if (!commitSha) {
-		return;
-	}
-
 	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
 	if (!fileChanges) {
 		return;
