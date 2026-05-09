@@ -63,7 +63,10 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 				data-hotkey="v"
 				title="Hotkey: V"
 				onClick={event => {
-					if (isAlteredClick(event as unknown as MouseEvent)) {
+					if (
+						isAlteredClick(event as unknown as MouseEvent)
+						|| !isNewFilesChangedExperienceEnabled()
+					) {
 						return;
 					}
 
