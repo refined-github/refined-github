@@ -34,7 +34,7 @@ function linkify(label: HTMLElement): void {
 
 	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getAuthor(label));
-	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
+	wrap(label, <a className="Link--onHover no-underline color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
 const ariaLabelSelector = is(

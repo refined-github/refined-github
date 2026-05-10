@@ -8,8 +8,7 @@ import {$, $closestOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
+import {actionBar} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
@@ -35,11 +34,11 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function append(container: HTMLElement): void {
+function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	container.append(
-		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
+	container.parentElement!.append(
+		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			<summary
 				id="rgh-table-input-button"
 				className="Button Button--iconOnly Button--invisible Button--medium"
@@ -78,18 +77,13 @@ function append(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
+	observe(actionBar, add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
-	],
-	exclude: [
-		// TODO: Fix feature https://github.com/refined-github/refined-github/issues/9358
-		// Temporary workaround just for mobile
-		isSmallDevice,
 	],
 	init,
 });

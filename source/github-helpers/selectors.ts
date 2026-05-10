@@ -30,7 +30,11 @@ export const repoUnderlineNavDropdownUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const branchSelector = '[data-hotkey="w"]';
+export const branchSelector = [
+	'#ref-picker-repos-header-ref-selector-wide', // `isSingleFile` with sidebar closed
+	'#ref-picker-repos-header-ref-selector', // `isSingleFile` with sidebar open; `isRepoRoot`
+	'[data-hotkey="w"]', // TODO: Drop in 2027
+];
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	// Added via JS :(
@@ -46,11 +50,7 @@ export const branchSelector_ = [
 export const branchSelectorParent = 'details#branch-select-menu';
 export const branchSelectorParent_ = branchSelector_;
 
-export const directoryListingFileIcon = [
-	// .color-fg-muted selects only files; some icon extensions use `img` tags
-	'.react-directory-filename-column > :is(svg, img).color-fg-muted',
-	'.js-navigation-container .octicon-file',
-];
+export const directoryListingFileIcon = '.react-directory-filename-column > .octicon-file';
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
@@ -86,13 +86,16 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
-export const commentsCountInLists = `
-	:is(.js-issue-row, .js-pinned-issue-list-item)
-	.Link--muted:is(
-		a[aria-label$="comment"],
-		a[aria-label$="comments"]
-	)
-`;
+export const commentsCountInLists = [
+	// Issue list:
+	'div[data-testid="list-row-comments"]',
+	'div[class^="PinnedIssue-module__commentCountContainer"]',
+
+	// PR list
+	// aria-label="1 comment"
+	// aria-label="2 comments"
+	'.js-issue-row a.Link--muted[aria-label*=" comment"]',
+];
 export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
@@ -254,11 +257,11 @@ export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
 ];
 
-export const actionBarSelectors = [
-	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
-	'[aria-label="Formatting tools"]',
+export const actionBar = [
+	'[data-component="ActionBar"]', // React component
+	'action-bar', // Still used in gists, PRs, etc
 ];
-export const actionBarSelectors_ = requiresLogin;
+export const actionBar_ = requiresLogin;
 
 export const prMergeabilityBoxHeader
 	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
@@ -296,3 +299,11 @@ export const conversationCloseEvent_ = [
 
 export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
 export const confirmMergeButton_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashPr = '#issue-comment-box';
+export const commentBoxHashPr_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashIssue = '#react-issue-comment-composer';
+export const commentBoxHashIssue_ = requiresLogin;

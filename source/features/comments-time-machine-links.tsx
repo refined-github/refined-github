@@ -50,8 +50,10 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		// Selector note: isRepoFile and isRepoTree have different DOM for this element
-		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady(
+			'div[data-testid="latest-commit-details"] relative-time',
+			{waitForChildren: false},
+		);
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}

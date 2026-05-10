@@ -8,7 +8,7 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {expectToken} from '../github-helpers/github-token.js';
-import {openPrsListLink} from '../github-helpers/selectors.js';
+import {commentBoxHashPr, openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
@@ -44,7 +44,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 				<a
 					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
 					aria-label="This PR has conflicts that must be resolved"
-					href={`${pr.link.pathname}#issue-comment-box`}
+					href={pr.link.pathname + commentBoxHashPr}
 				>
 					<AlertIcon className="v-align-middle" />
 				</a>,

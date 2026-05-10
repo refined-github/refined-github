@@ -195,13 +195,6 @@ export function triggerRepoNavOverflow(): void {
 	globalThis.dispatchEvent(new Event('resize'));
 }
 
-export function triggerActionBarOverflow(child: Element): void {
-	const parent = $closest('action-bar', child);
-	const placeholder = document.createElement('div');
-	parent.replaceWith(placeholder);
-	placeholder.replaceWith(parent);
-}
-
 export function multilineAriaLabel(...lines: string[]): string {
 	return lines.join('\n');
 }

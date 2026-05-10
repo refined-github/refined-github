@@ -27,7 +27,7 @@
 
 		&[href$='/commits'],
 		&[href$='/checks'] {
-			width: 12ch;
+			width: 11ch;
 		}
 
 		&[href$='/changes'] {

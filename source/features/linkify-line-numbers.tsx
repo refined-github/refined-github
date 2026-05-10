@@ -24,7 +24,7 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.blob-num:empty:not(.blob-num-hunk)', linkify, {signal});
+	observe('.blob-num:not(.blob-num-hunk, .empty-cell)', linkify, {signal});
 }
 
 void features.add(import.meta.url, {

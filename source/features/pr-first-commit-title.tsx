@@ -12,10 +12,7 @@ function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: st
 		?.textContent
 		.trim() ?? undefined;
 
-	const title = parseRenderedText(firstCommitTitle, ({nodeName}) =>
-		// Exclude expand body button
-		nodeName === 'BUTTON' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
-	);
+	const title = parseRenderedText(firstCommitTitle);
 
 	return {title, body};
 }

@@ -107,7 +107,6 @@ import './features/tags-on-commits-list.js';
 import './features/conventional-commits.js';
 import './features/list-prs-for-file.js';
 import './features/pr-branch-auto-delete.js';
-import './features/linkify-symbolic-links.js'; // Must be before show-whitespace
 import './features/show-whitespace.js';
 import './features/restore-file.js';
 import './features/hidden-review-comments-indicator.js';

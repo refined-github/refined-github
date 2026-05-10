@@ -6,9 +6,7 @@ import {$, $closest} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {triggerActionBarOverflow} from '../github-helpers/index.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
+import {actionBar} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
@@ -57,14 +55,29 @@ function append(container: HTMLElement): void {
 		'tooltipped',
 		'tooltipped-sw',
 		'rgh-collapsible-content-btn',
+
+		// Old view only
+		'my-auto',
+		'flex-shrink-0',
 	];
 
+	// TODO: ensure it's added only once before both `table-input` and `collapsible-content-button`
 	const divider = $([
-		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
-		'[class^="Toolbar-module__divider"]',
+		'[data-component="ActionBar.VerticalDivider"]', // React component
+		'.ActionBar-divider',	// Still used in gists, PRs, etc
 	], container).cloneNode(true);
 
-	container.append(
+	Object.assign(divider.style, {
+		// Sizing copied from GitHub, except the excessive 2em (see `fuchsia` docs)
+		margin: 'auto var(--base-size-8, 2em)',
+
+		// Old style only
+		top: 'initial',
+		bottom: 'initial',
+		transform: 'initial',
+	});
+
+	container.parentElement!.append(
 		divider,
 		<button
 			type="button"
@@ -75,29 +88,16 @@ function append(container: HTMLElement): void {
 			<FoldDownIcon />
 		</button>,
 	);
-
-	if (container.getAttribute('aria-label') === 'Formatting tools') {
-		return;
-	}
-
-	// Only needed on the old version
-	// TODO: remove after March 2025
-	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
+	observe(actionBar, append, {signal});
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRichTextEditor,
-	],
-	exclude: [
-		// TODO: Fix feature https://github.com/refined-github/refined-github/issues/9358
-		// Temporary workaround just for mobile
-		isSmallDevice,
 	],
 	init,
 });

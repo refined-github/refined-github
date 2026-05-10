@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import * as pageDetect from 'github-url-detection';
@@ -15,6 +15,7 @@ import attachElement from '../helpers/attach-element.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import {getReleases} from './releases-tab.js';
+import {commentBoxHashPr} from '../github-helpers/selectors.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -30,7 +31,7 @@ function ExplanationLink(): JSX.Element {
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
-		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
@@ -86,7 +87,7 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 
 function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-	attachElement($('#issue-comment-box'), {
+	attachElement($(commentBoxHashPr), {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
@@ -121,7 +122,7 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 		});
 	}
 
-	attachElement($('#issue-comment-box'), {
+	attachElement($(commentBoxHashPr), {
 		before: () => (
 			<TimelineItem>
 				{createBanner(bannerContent)}

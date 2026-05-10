@@ -77,7 +77,6 @@
 	"linkify-commit-sha",
 	"linkify-line-numbers",
 	"linkify-pr-review-state",
-	"linkify-symbolic-links",
 	"linkify-text",
 	"linkify-user-labels",
 	"linkify-user-location",
