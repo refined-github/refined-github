@@ -10,14 +10,14 @@ import {
 } from 'select-dom';
 import delegate from 'delegate-it';
 import {setFieldText} from 'text-field-edit';
+import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import {frame} from '../helpers/dom-utils.js';
+import onAlteredClick from '../helpers/on-altered-click.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
-import onAlteredClick from '../helpers/on-altered-click.js';
-import { isAlteredClick } from 'filter-altered-clicks';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {
