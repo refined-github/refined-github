@@ -185,6 +185,7 @@ export default defineConfig([
 				'@typescript-eslint/switch-exhaustiveness-check': ['error', {
 					considerDefaultExhaustiveForUnions: true,
 				}],
+				'@typescript-eslint/no-use-before-define': 'error',
 
 				'@typescript-eslint/parameter-properties': 'off', // Conflicts with erasable sintax
 				'@typescript-eslint/no-deprecated': 'off', // Too noisy for now
