@@ -10,12 +10,11 @@ import {
 } from 'select-dom';
 import delegate from 'delegate-it';
 import {setFieldText} from 'text-field-edit';
-import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 
-import {legacyCommentField} from '../github-helpers/selectors.js';
+import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import {frame} from '../helpers/dom-utils.js';
-import onAlteredClick from '../helpers/on-altered-click.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
@@ -59,10 +58,6 @@ function insertCopilotInstruction(): void {
 	setFieldText(textarea, '@copilot resolve the merge conflicts in this pull request');
 }
 
-function openConflictsWebEditor(event: MouseEvent): void {
-	window.open(`${location.pathname}/conflicts`, isAlteredClick(event) ? '_blank' : '_self');
-}
-
 function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 	return (
 		<div className="ButtonGroup">
@@ -81,45 +76,50 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const buttonId = crypto.randomUUID();
 				const tooltipId = crypto.randomUUID();
 
-				return (
-					<div>
-						<button
-							id={buttonId}
-							className={[
-								'Button',
-								'Button--medium',
-								'Button--secondary',
-								isCopilotItem ? 'rgh-resolve-conflicts-copilot Button--iconOnly' : 'rgh-resolve-conflicts-web-editor',
-							].join(' ')}
-							aria-labelledby={tooltipId}
-							type="button"
-							disabled={isDisabled}
-						>
-							{isCopilotItem
-								? <CopilotIcon/>
-								: (
-									<span className="Button-content">
-										<span className="Button-label">
-											Resolve conflicts
-										</span>
+				let button: JSX.Element | HTMLAnchorElement
+					= <button
+						id={buttonId}
+						className={[
+							'Button',
+							'Button--medium',
+							'Button--secondary',
+							isCopilotItem ? 'rgh-resolve-conflicts-copilot Button--iconOnly' : '',
+						].join(' ')}
+						aria-labelledby={tooltipId}
+						type="button"
+						disabled={isDisabled}
+					>
+						{isCopilotItem
+							? <CopilotIcon/>
+							: (
+								<span className="Button-content">
+									<span className="Button-label">
+										Resolve conflicts
 									</span>
-								)}
-						</button>
-						{(isCopilotItem || isDisabled)
-							&& <tool-tip
-								id={tooltipId}
-								className="sr-only position-absolute"
-								for={buttonId}
-								popover="manual"
-								data-direction="s"
-								data-type="label"
-								aria-hidden="true"
-								role="tooltip"
-							>
-								{disabledText ?? 'Ask Copilot to resolve conflicts'}
-							</tool-tip>}
-					</div>
+								</span>
+							)}
+					</button>;
+				if (isWebEditorItem && !isDisabled) {
+					button = replaceElementTypeInPlace(button, 'a');
+					button.href = `${location.pathname}/conflicts`;
+				}
+
+				const tooltip = (isCopilotItem || isDisabled) && (
+					<tool-tip
+						id={tooltipId}
+						className="sr-only position-absolute"
+						for={buttonId}
+						popover="manual"
+						data-direction="s"
+						data-type="label"
+						aria-hidden="true"
+						role="tooltip"
+					>
+						{disabledText ?? 'Ask Copilot to resolve conflicts'}
+					</tool-tip>
 				);
+
+				return <div> {button} {tooltip} </div>;
 			})}
 		</div>
 	);
@@ -138,8 +138,6 @@ async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promi
 
 	const buttonGroup = createResolveConflictsButtons(menuItems);
 	delegate('.rgh-resolve-conflicts-copilot', 'click', insertCopilotInstruction);
-	delegate('.rgh-resolve-conflicts-web-editor', 'click', openConflictsWebEditor);
-	onAlteredClick('.rgh-resolve-conflicts-web-editor', openConflictsWebEditor);
 	button.replaceWith(buttonGroup);
 }
 
