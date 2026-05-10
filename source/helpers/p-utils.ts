@@ -1,5 +1,27 @@
 import type {IterableElement, Promisable} from 'type-fest';
 
+async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
+	// eslint-disable-next-line no-async-promise-executor -- It's fine, resolve is at the end
+	return new Promise(async resolve => {
+		for (const promise of iterable) {
+			(async () => {
+				if (await promise) {
+					resolve(true);
+				}
+			})();
+		}
+
+		await Promise.allSettled(iterable);
+
+		resolve(false);
+	});
+}
+
+async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
+	const results = await Promise.all(iterable);
+	return results.every(Boolean);
+}
+
 export function pSomeFunction<
 	List extends Iterable<unknown>,
 	Element extends IterableElement<List>,
@@ -29,23 +51,6 @@ export function pSomeFunction<
 	return pSome(promises);
 }
 
-async function pSome(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
-	// eslint-disable-next-line no-async-promise-executor -- It's fine, resolve is at the end
-	return new Promise(async resolve => {
-		for (const promise of iterable) {
-			(async () => {
-				if (await promise) {
-					resolve(true);
-				}
-			})();
-		}
-
-		await Promise.allSettled(iterable);
-
-		resolve(false);
-	});
-}
-
 export function pEveryFunction<
 	List extends Iterable<unknown>,
 	Element extends IterableElement<List>,
@@ -73,9 +78,4 @@ export function pEveryFunction<
 	}
 
 	return pEvery(promises);
-}
-
-async function pEvery(iterable: Iterable<PromiseLike<unknown>>): Promise<boolean> {
-	const results = await Promise.all(iterable);
-	return results.every(Boolean);
 }

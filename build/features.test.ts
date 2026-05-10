@@ -101,6 +101,24 @@ class FeatureFile {
 	}
 }
 
+function validateReadme(featureId: FeatureId): void {
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	assert(featureMeta, 'Should be described in the readme');
+
+	assert(
+		featureMeta.description.length >= 20,
+		'Should be described better in the readme (at least 20 characters)',
+	);
+
+	assert(
+		screenshotRegex.test(featureMeta.screenshot!)
+		|| noScreenshotExceptions.has(featureId),
+		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
+	);
+
+	assert(!duplicate, 'Should be described only once in the readme');
+}
+
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
 
@@ -149,24 +167,6 @@ function validateGql(file: FeatureFile): void {
 		file.tsx.contents().includes(`from './${file.name}';`),
 		`Should be imported by \`${file.tsx.name}\``,
 	);
-}
-
-function validateReadme(featureId: FeatureId): void {
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	assert(featureMeta, 'Should be described in the readme');
-
-	assert(
-		featureMeta.description.length >= 20,
-		'Should be described better in the readme (at least 20 characters)',
-	);
-
-	assert(
-		screenshotRegex.test(featureMeta.screenshot!)
-		|| noScreenshotExceptions.has(featureId),
-		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
-	);
-
-	assert(!duplicate, 'Should be described only once in the readme');
 }
 
 function validateTsx(file: FeatureFile): void {

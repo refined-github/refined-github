@@ -22,6 +22,30 @@ function enableButtons(): void {
 // Bisecting 1 feature: enable 0 // This is the last step, if the user says Yes, it's not caused by a JS feature
 const getMiddleStep = (list: any[]): number => Math.floor(list.length / 2);
 
+async function onEndButtonClick(): Promise<void> {
+	await state.delete();
+	location.reload();
+}
+
+function createMessageBox(message: Element | string, extraButtons?: Element): void {
+	$optional('#rgh-bisect-dialog')?.remove();
+	document.body.append(
+		<div id="rgh-bisect-dialog" className="Box p-3">
+			<p>{message}</p>
+			<div className="d-flex flex-justify-between">
+				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+				{extraButtons}
+			</div>
+		</div>,
+	);
+}
+
+async function hideMessage(): Promise<void> {
+	if (!(await state.get())) {
+		createMessageBox('Process completed in another tab');
+	}
+}
+
 async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	const answer = button.value;
 	const bisectedFeatures = (await state.get())!;
@@ -63,30 +87,6 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 
 	await state.delete();
 	globalThis.removeEventListener('visibilitychange', hideMessage);
-}
-
-async function onEndButtonClick(): Promise<void> {
-	await state.delete();
-	location.reload();
-}
-
-function createMessageBox(message: Element | string, extraButtons?: Element): void {
-	$optional('#rgh-bisect-dialog')?.remove();
-	document.body.append(
-		<div id="rgh-bisect-dialog" className="Box p-3">
-			<p>{message}</p>
-			<div className="d-flex flex-justify-between">
-				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
-				{extraButtons}
-			</div>
-		</div>,
-	);
-}
-
-async function hideMessage(): Promise<void> {
-	if (!(await state.get())) {
-		createMessageBox('Process completed in another tab');
-	}
 }
 
 export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {

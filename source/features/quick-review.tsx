@@ -51,6 +51,12 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	triggerConversationUpdate();
 }
 
+async function openReviewDialogWhenAvailable(): Promise<void> {
+	const signal = AbortSignal.timeout(10_000);
+	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
+	reviewMenuButton!.click();
+}
+
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
@@ -114,12 +120,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButtons, {signal});
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
-}
-
-async function openReviewDialogWhenAvailable(): Promise<void> {
-	const signal = AbortSignal.timeout(10_000);
-	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
-	reviewMenuButton!.click();
 }
 
 function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {

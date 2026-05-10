@@ -27,6 +27,10 @@ const negativeReactionsSelector = `
 	${commentSelector} [aria-label="react with thumbs down"]
 `;
 
+function selectSum(selector: string, container: HTMLElement): number {
+	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
+}
+
 const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 	const count = selectSum(positiveReactionsSelector, comment);
 	if (
@@ -95,10 +99,6 @@ function linkBestComment(bestComment: HTMLElement): void {
 			</div>
 		</a>,
 	);
-}
-
-function selectSum(selector: string, container: HTMLElement): number {
-	return $$(selector, container).reduce((sum, element) => sum + looseParseInt(element), 0);
 }
 
 function init(): false | void {

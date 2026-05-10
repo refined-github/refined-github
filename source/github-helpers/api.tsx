@@ -119,6 +119,59 @@ const v4defaults: GhGraphQlApiOptions = {
 	allowErrors: false,
 };
 
+async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
+	const personalToken = await getToken();
+
+	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
+		return new RefinedGitHubApiError(
+			'Rate limit exceeded.',
+			personalToken
+				? 'It may be time for a walk! 🍃 🌞'
+				: 'Set your token in the options or take a walk! 🍃 🌞',
+		);
+	}
+
+	if (apiResponse.message === 'Bad credentials') {
+		return new RefinedGitHubApiError(
+			'The token seems to be incorrect or expired. Update it in the options.',
+		);
+	}
+
+	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
+		return new RefinedGitHubApiError(
+			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
+		);
+	}
+
+	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
+		const error = new RefinedGitHubApiError(
+			'Your organization requires a specific type of token.',
+		);
+		error.richMessage = <>
+			Your organization requires a specific type of token.{' '}
+			<a
+				href="https://github.com/refined-github/refined-github/wiki/Security#token"
+				target="_blank"
+				rel="noreferrer"
+				style={{color: 'inherit', textDecoration: 'underline'}}
+			>
+				Fix…
+			</a>
+		</>;
+		return error;
+	}
+
+	const error = new RefinedGitHubApiError(
+		'Unable to fetch.',
+		personalToken
+			? 'Ensure that your token has access to this repo.'
+			: 'Maybe adding a token in the options will fix this issue.',
+		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
+	);
+	error.response = apiResponse;
+	return error;
+}
+
 const v3uncached = async (
 	query: string,
 	options: GhRestApiOptions = v3defaults,
@@ -295,59 +348,6 @@ const v4 = mem(v4uncached, {
 		return JSON.stringify(key);
 	},
 });
-
-async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
-	const personalToken = await getToken();
-
-	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
-		return new RefinedGitHubApiError(
-			'Rate limit exceeded.',
-			personalToken
-				? 'It may be time for a walk! 🍃 🌞'
-				: 'Set your token in the options or take a walk! 🍃 🌞',
-		);
-	}
-
-	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGitHubApiError(
-			'The token seems to be incorrect or expired. Update it in the options.',
-		);
-	}
-
-	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
-		return new RefinedGitHubApiError(
-			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
-		);
-	}
-
-	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
-		const error = new RefinedGitHubApiError(
-			'Your organization requires a specific type of token.',
-		);
-		error.richMessage = <>
-			Your organization requires a specific type of token.{' '}
-			<a
-				href="https://github.com/refined-github/refined-github/wiki/Security#token"
-				target="_blank"
-				rel="noreferrer"
-				style={{color: 'inherit', textDecoration: 'underline'}}
-			>
-				Fix…
-			</a>
-		</>;
-		return error;
-	}
-
-	const error = new RefinedGitHubApiError(
-		'Unable to fetch.',
-		personalToken
-			? 'Ensure that your token has access to this repo.'
-			: 'Maybe adding a token in the options will fix this issue.',
-		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
-	);
-	error.response = apiResponse;
-	return error;
-}
 
 const api = {
 	v3,

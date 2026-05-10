@@ -10,6 +10,10 @@ import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 
+function getCount(element: HTMLElement): number {
+	return Number(element.textContent.trim());
+}
+
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
@@ -38,10 +42,6 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 	staleWhileRevalidate: {days: 20},
 	cacheKey: cacheByRepo,
 });
-
-function getCount(element: HTMLElement): number {
-	return Number(element.textContent.trim());
-}
 
 async function hideProjects(container: HTMLElement): Promise<void> {
 	const filter = $optional('[data-testid="projects-anchor-button"]', container);

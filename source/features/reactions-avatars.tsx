@@ -62,18 +62,6 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
-		}
-	}
-}, {
-	// Start loading a little before they become visible
-	rootMargin: '500px',
-});
-
 function showAvatarsOn(commentReactions: Element): void {
 	const reactions = $$([
 		'button[aria-pressed]', // Discussions, releases, PRs, old issues
@@ -98,6 +86,18 @@ function showAvatarsOn(commentReactions: Element): void {
 		);
 	}
 }
+
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
+		}
+	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px',
+});
 
 function observeCommentReactions(commentReactions: Element): void {
 	viewportObserver.observe(commentReactions);

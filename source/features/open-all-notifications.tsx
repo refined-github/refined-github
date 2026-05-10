@@ -50,6 +50,12 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	return true;
 }
 
+function removeOpenUnreadButtons(container: ParentNode = document): void {
+	for (const button of $$(openUnread.selector, container)) {
+		button.remove();
+	}
+}
+
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
 	const container = $closestOptional('.js-notifications-group', delegateTarget) ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
@@ -67,12 +73,6 @@ async function openSelectedNotifications(): Promise<void> {
 
 	if (!elementExists('.notification-unread')) {
 		removeOpenUnreadButtons();
-	}
-}
-
-function removeOpenUnreadButtons(container: ParentNode = document): void {
-	for (const button of $$(openUnread.selector, container)) {
-		button.remove();
 	}
 }
 

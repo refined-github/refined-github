@@ -134,12 +134,6 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-async function handleSelection({target}: Event): Promise<void> {
-	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
-	applyState(state as State);
-}
-
 let currentState: State;
 
 function applyState(targetState: State): void {
@@ -165,6 +159,12 @@ function applyState(targetState: State): void {
 
 	currentState = targetState;
 	SessionPageSetting.set(targetState);
+}
+
+async function handleSelection({target}: Event): Promise<void> {
+	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
+	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
+	applyState(state as State);
 }
 
 function createMenuItems(): JSX.Element[] {

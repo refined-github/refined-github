@@ -23,19 +23,6 @@ function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
 }
 
-const releasesCount = new CachedFunction('releases-count', {
-	updater: fetchCounts,
-	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 3},
-	cacheKey: cacheByRepo,
-});
-
-export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
-	const repo = getRepo()!.nameWithOwner;
-	return releasesCount.get(repo);
-}
-
 async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const [owner, name] = nameWithOwner.split('/');
 	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
@@ -51,6 +38,19 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	}
 
 	return [0];
+}
+
+const releasesCount = new CachedFunction('releases-count', {
+	updater: fetchCounts,
+	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 3},
+	cacheKey: cacheByRepo,
+});
+
+export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+	const repo = getRepo()!.nameWithOwner;
+	return releasesCount.get(repo);
 }
 
 async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
