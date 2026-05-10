@@ -24,26 +24,23 @@
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 </script>
 
+{#snippet linked(text: string)}
+	{#if linkify}
+		<a
+			href={relatedIssuesHref}
+			data-turbo-frame="repo-content-turbo-frame"
+		>{text}</a>
+	{:else}
+		{text}
+	{/if}
+{/snippet}
+
 {#await countPromise}
 	{#if labels.loading}
-		{#if linkify}
-			<a
-				href={relatedIssuesHref}
-				data-turbo-frame="repo-content-turbo-frame"
-			>{labels.loading}</a>
-		{:else}
-			{labels.loading}
-		{/if}
+		{@render linked(labels.loading)}
 	{/if}
 {:then count}
 	{#if count > 0 || labels.zero !== undefined}
-		{#if linkify}
-			<a
-				href={relatedIssuesHref}
-				data-turbo-frame="repo-content-turbo-frame"
-			>{pluralize(count, labels.single, labels.plural, labels.zero)}</a>
-		{:else}
-			{pluralize(count, labels.single, labels.plural, labels.zero)}
-		{/if}
+		{@render linked(pluralize(count, labels.single, labels.plural, labels.zero))}
 	{/if}
 {/await}
