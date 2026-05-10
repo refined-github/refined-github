@@ -66,7 +66,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		<a
 			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
-			aria-label="See this view on the default branch"
+			aria-label="View on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
@@ -78,6 +78,10 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 			<ChevronLeftIcon />
 		</a>
 	);
+
+	// Remove bad native link https://github.com/refined-github/refined-github/issues/8662#issuecomment-4126171014
+	// It only appears in the sidebar
+	$optional('[class*="prc"][aria-label="View file on default branch"]')?.remove();
 
 	selectorWrapper.before(defaultLink);
 	wrapButtons([defaultLink, selectorWrapper]);

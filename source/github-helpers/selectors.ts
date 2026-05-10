@@ -31,7 +31,8 @@ export const repoUnderlineNavDropdownUl_ = [
 ] satisfies UrlMatch[];
 
 export const branchSelector = [
-	'#ref-picker-repos-header-ref-selector',
+	'#ref-picker-repos-header-ref-selector-wide', // `isSingleFile` with sidebar closed
+	'#ref-picker-repos-header-ref-selector', // `isSingleFile` with sidebar open; `isRepoRoot`
 	'[data-hotkey="w"]', // TODO: Drop in 2027
 ];
 export const branchSelector_ = [
