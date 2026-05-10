@@ -215,3 +215,13 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 [data-selected-links^='repo_milestones ']:has([title='0']) svg {
 	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
 }
+
+/* Make the "Symbolic link" more noticeable */
+/* Info:  */
+/* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
+a[class^="CodeSizeDetails-module__PrimerLink"] {
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
+	&:hover {
+		text-decoration: underline;
+	}
+}
