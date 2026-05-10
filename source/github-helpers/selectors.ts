@@ -257,11 +257,8 @@ export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
 ];
 
-export const actionBarSelectors = [
-	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
-	'[aria-label="Formatting tools"]',
-];
-export const actionBarSelectors_ = requiresLogin;
+export const actionBar = '[data-component="ActionBar"]';
+export const actionBar_ = requiresLogin;
 
 export const prMergeabilityBoxHeader
 	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';

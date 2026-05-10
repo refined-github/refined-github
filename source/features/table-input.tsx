@@ -8,7 +8,7 @@ import {$, $closestOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
+import {actionBar} from '../github-helpers/selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -35,10 +35,10 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function append(container: HTMLElement): void {
+function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	container.append(
+	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
 			<summary
 				id="rgh-table-input-button"
@@ -78,7 +78,7 @@ function append(container: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
+	observe(actionBar, add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 

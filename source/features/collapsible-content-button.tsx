@@ -2,12 +2,11 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import FoldDownIcon from 'octicons-plain-react/FoldDown';
-import {$, $closest} from 'select-dom';
+import {$, $closest, $optional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {triggerActionBarOverflow} from '../github-helpers/index.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
+import {actionBar} from '../github-helpers/selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
@@ -59,13 +58,13 @@ function append(container: HTMLElement): void {
 		'rgh-collapsible-content-btn',
 	];
 
-	const divider = $([
-		'hr[data-targets="action-bar.items"]', // TODO: remove after March 2025
-		'[class^="Toolbar-module__divider"]',
-	], container).cloneNode(true);
+	// TODO: ensure it's added only once before both `table-input` and `collapsible-content-button`
+	const divider = $('[data-component="ActionBar.VerticalDivider"]', container).cloneNode(true);
+	// Sizing copied from GitHub, except the excessive 2em (see `fuchsia` docs)
+	divider.style.padding = '0 var(--base-size-8, 2em)';
 
-	container.append(
-		divider,
+	container.parentElement!.append(
+		divider ?? '',
 		<button
 			type="button"
 			className={classes.join(' ')}
@@ -75,18 +74,10 @@ function append(container: HTMLElement): void {
 			<FoldDownIcon />
 		</button>,
 	);
-
-	if (container.getAttribute('aria-label') === 'Formatting tools') {
-		return;
-	}
-
-	// Only needed on the old version
-	// TODO: remove after March 2025
-	triggerActionBarOverflow(container);
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
+	observe(actionBar, append, {signal});
 	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
 }
 
