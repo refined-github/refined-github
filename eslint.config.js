@@ -324,7 +324,7 @@ export default defineConfig([
 	{
 		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
 		rules: {
-			'refined-github/css-top-level-selector-comments': 'warn',
+			'refined-github/css-top-level-selector-comments': ['warn', {minComments: 3}],
 		},
 	},
 	{

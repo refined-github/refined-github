@@ -2,11 +2,21 @@
 const cssTopLevelSelectorComments = {
 	meta: {
 		type: 'suggestion',
-		schema: [],
+		schema: [{
+			type: 'object',
+			properties: {
+				minComments: {
+					type: 'integer',
+					minimum: 1,
+				},
+			},
+			additionalProperties: false,
+		}],
 	},
 	create(context) {
 		const {sourceCode} = context;
 		const comments = sourceCode.comments ?? [];
+		const [{minComments = 3} = {}] = context.options;
 
 		return {
 			StyleSheet(node) {
@@ -36,10 +46,10 @@ const cssTopLevelSelectorComments = {
 						line = comment.loc.start.line - 1;
 					}
 
-					if (leadingCommentCount < 3) {
+					if (leadingCommentCount < minComments) {
 						context.report({
 							node: child,
-							message: 'Top-level selectors in this file must be preceded by 3 comments.',
+							message: `Top-level selectors in this file must be preceded by ${minComments} comments.`,
 						});
 					}
 				}
