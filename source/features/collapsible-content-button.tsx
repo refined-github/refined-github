@@ -72,7 +72,7 @@ function append(container: HTMLElement): void {
 	divider.style.transform = 'initial';
 
 	container.parentElement!.append(
-		divider ?? '',
+		divider,
 		<button
 			type="button"
 			className={classes.join(' ')}
