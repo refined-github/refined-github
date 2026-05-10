@@ -18,7 +18,7 @@ import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined, removedFeature: boolean): void {
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const isCss = location.pathname.endsWith('.css');
 
 	const description = meta
@@ -44,7 +44,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
-						{removedFeature && <span className="color-fg-muted">Feature removed: </span>}
 						<code>{id}</code>
 						<clipboard-copy
 							aria-label="Copy"
@@ -71,12 +70,8 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						{relatedIssuesContainer}
-						{!removedFeature && (
-							<>
-								{' • '}
-								<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
-							</>
-						)}
+						{' • '}
+						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 						{
 							meta && isCss && !meta.cssOnly
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
@@ -164,15 +159,16 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
-	const resolvedFeatureName = filename && getNewFeatureName(filename);
-	const currentFeatureName = resolvedFeatureName ?? filename;
+	// Enable link even on past commits
+	const currentFeatureName = filename
+		? (getNewFeatureName(filename) ?? filename)
+		: undefined;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
-	const removedFeature = Boolean(filename) && !resolvedFeatureName && !meta;
 
 	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? currentFeatureName ?? filename;
+	const id = meta?.id ?? filename;
 
-	addDescription(infoBanner, id, meta, removedFeature);
+	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
 }
 
