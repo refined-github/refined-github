@@ -23,6 +23,7 @@ const rollup = {
 	input: {
 		options: './source/options.tsx',
 		welcome: './source/welcome.svelte',
+		graphql: './source/graphql.svelte',
 		header: './source/options/header.svelte',
 		'storage-usage': './source/options/storage-usage.svelte',
 		'version-info': './source/options/version-info.svelte',

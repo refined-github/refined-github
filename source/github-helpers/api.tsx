@@ -31,6 +31,8 @@ import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
 
+import {isWebPage} from 'webext-detect';
+
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 import {getToken} from '../options-storage.js';
@@ -67,7 +69,7 @@ export const api3 = pageDetect.isEnterprise()
 	? `${location.origin}/api/v3/`
 	: 'https://api.github.com/';
 
-const api4 = pageDetect.isEnterprise()
+const api4 = pageDetect.isEnterprise() && isWebPage() // It can also run in graphql.html
 	? `${location.origin}/api/graphql`
 	: 'https://api.github.com/graphql';
 
