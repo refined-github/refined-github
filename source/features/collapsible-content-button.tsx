@@ -59,9 +59,17 @@ function append(container: HTMLElement): void {
 	];
 
 	// TODO: ensure it's added only once before both `table-input` and `collapsible-content-button`
-	const divider = $('[data-component="ActionBar.VerticalDivider"]', container).cloneNode(true);
+	const divider = $([
+		'[data-component="ActionBar.VerticalDivider"]', // React component
+		'.ActionBar-divider',	// Still used in gists, PRs, etc
+	], container).cloneNode(true);
 	// Sizing copied from GitHub, except the excessive 2em (see `fuchsia` docs)
-	divider.style.padding = '0 var(--base-size-8, 2em)';
+	divider.style.margin = 'auto var(--base-size-8, 2em)';
+
+	// Old style only
+	divider.style.top = 'initial';
+	divider.style.bottom = 'initial';
+	divider.style.transform = 'initial';
 
 	container.parentElement!.append(
 		divider ?? '',

@@ -257,7 +257,10 @@ export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
 ];
 
-export const actionBar = '[data-component="ActionBar"]';
+export const actionBar = [
+	'[data-component="ActionBar"]', // React component
+	'[data-target="action-bar.itemContainer"]', // Still used in gists, PRs, etc
+];
 export const actionBar_ = requiresLogin;
 
 export const prMergeabilityBoxHeader
