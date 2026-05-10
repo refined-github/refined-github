@@ -7,7 +7,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import {mount} from 'svelte';
 
-import {featuresMeta, getNewFeatureName, getOldFeatureNames, importedFeatures} from '../feature-data.js';
+import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
@@ -167,7 +167,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	const resolvedFeatureName = filename && getNewFeatureName(filename);
 	const currentFeatureName = resolvedFeatureName ?? filename;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
-	const removedFeature = Boolean(currentFeatureName) && !importedFeatures.some(feature => feature === currentFeatureName);
+	const removedFeature = Boolean(filename) && !resolvedFeatureName && !meta;
 
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? currentFeatureName ?? filename;
