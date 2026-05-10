@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
+import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
@@ -21,7 +22,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<button
 			type="button"
 			className="btn-link"
-			onClick={() => {
+			onClick={event => {
 				newCommentBox.hidden = false;
 
 				// Unlink this button
@@ -29,7 +30,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 
 				// Keep the banner, make it visible
 
-				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
+				$closest('.TimelineItem', event.currentTarget).firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
 
 				newCommentBox.scrollIntoView({
 					behavior: 'smooth',
