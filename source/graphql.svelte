@@ -7,7 +7,11 @@
 	login
 }`);
 	let variablesJson = $state(
-		JSON.stringify({owner: 'refined-github', name: 'refined-github'}, undefined, '\t')
+		JSON.stringify(
+			{owner: 'refined-github', name: 'refined-github'},
+			undefined,
+			'\t',
+		),
 	);
 	let responseJson = $state('');
 	let error = $state('');
