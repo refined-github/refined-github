@@ -31,7 +31,7 @@ const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
 
 const isNewFilesChangedExperienceEnabled = (): boolean => $(prFilesChangedTabSelector).href.endsWith('changes');
 
-async function quickApprove(event: React.MouseEvent): Promise<void> {
+async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
 		return;
@@ -52,28 +52,26 @@ async function quickApprove(event: React.MouseEvent): Promise<void> {
 	triggerConversationUpdate();
 }
 
+function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
+	if (isAlteredClick(event) || !isNewFilesChangedExperienceEnabled()) {
+		return;
+	}
+
+	event.preventDefault();
+	void openReviewDialogWhenAvailable();
+	$(prFilesChangedTabSelector).click();
+}
+
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
 			<a
 				href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
-				className="btn-link Link--muted Link--inTextBlock"
+				className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 				data-turbo-frame="repo-content-turbo-frame"
 				data-hotkey="v"
 				title="Hotkey: V"
-				onClick={event => {
-					if (
-						isAlteredClick(event as unknown as MouseEvent)
-						|| !isNewFilesChangedExperienceEnabled()
-					) {
-						return;
-					}
-
-					event.preventDefault();
-					void openReviewDialogWhenAvailable();
-					$(prFilesChangedTabSelector).click();
-				}}
 				onMouseEnter={() =>
 					// Trigger data preloading
 					// TODO: Change `$optional` to `$()` once legacy PR files view is removed
@@ -105,7 +103,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 			type="button"
 			className="btn-link Link--muted Link--inTextBlock rgh-quick-approve tooltipped tooltipped-nw"
 			aria-label="Hold alt to approve without confirmation"
-			onClick={quickApprove}
 		>
 			approve now
 		</button>,
@@ -114,6 +111,8 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButtons, {signal});
+	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
+	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
 }
 
 async function openReviewDialogWhenAvailable(): Promise<void> {
