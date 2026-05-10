@@ -1,8 +1,6 @@
 <svelte:options customElement="rgh-graphql" />
 
 <script lang="ts">
-	import 'webext-base-css/webext-base.css';
-
 	import api from './github-helpers/api.js';
 
 	let query = $state(`viewer {
@@ -93,7 +91,58 @@
 </main>
 
 <style>
+	:host {
+		font-size: 2em;
+		display: block;
+	}
+
+	main {
+		--content-width: 60rem;
+		--viewport-margin: 30px;
+	}
+
+	form {
+		display: grid;
+		gap: 0.75em;
+		padding-inline: var(--viewport-margin);
+		padding-block: 1.5rem;
+		max-width: var(--content-width);
+		margin: auto;
+	}
+
+	label {
+		font-weight: 600;
+	}
+
 	textarea {
 		field-sizing: content;
+		width: 100%;
+		resize: vertical;
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		background: light-dark(#f6f8fa, #151b23);
+		border: solid 1px light-dark(#d0d9e0, #3d444d);
+		border-radius: 6px;
+		padding: 10px 12px;
+		font-size: 0.8em;
+		line-height: 1.4;
+	}
+
+	textarea:focus {
+		background: light-dark(#fff, #0d1117);
+		border-color: #1f6feb;
+		box-shadow: inset 0 0 0 1px #1f6feb;
+		outline: none;
+	}
+
+	button {
+		justify-self: start;
+		font-size: 0.9em;
+		padding: 0.45em 0.9em;
+	}
+
+	.error {
+		color: #cf222e;
+		margin: 0;
 	}
 </style>
