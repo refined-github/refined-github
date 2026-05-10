@@ -28,6 +28,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 				: undefined // The heck!?
 		);
+	const removedFeature = !description;
 
 	const oldNames = getOldFeatureNames(id);
 
@@ -44,6 +45,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
+						{removedFeature && <span className="color-fg-muted">Feature removed: </span>}
 						<code>{id}</code>
 						<clipboard-copy
 							aria-label="Copy"
@@ -70,8 +72,12 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
 					<div className="no-wrap">
 						{relatedIssuesContainer}
-						{' • '}
-						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
+						{!removedFeature && (
+							<>
+								{' • '}
+								<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
+							</>
+						)}
 						{
 							meta && isCss && !meta.cssOnly
 								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
