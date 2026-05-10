@@ -67,10 +67,10 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					throw new TypeError('Unknown dropdown item');
 				}
 
-				const disabledWarning = $optional('[class*="InactiveWarning"]', item);
+				const inactiveWarning = $optional('[class*="InactiveWarning"]', item);
 				// Doesn't exist if the item is enabled
-				const disablementReason = disabledWarning?.textContent.trim();
-				const isDisabled = Boolean(disablementReason);
+				const inactiveReason = inactiveWarning?.textContent.trim();
+				const isDisabled = Boolean(inactiveReason);
 				const shouldHaveTooltip = isCopilotItem || isDisabled;
 
 				const buttonId = crypto.randomUUID();
@@ -111,7 +111,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 						aria-hidden="true"
 						role="tooltip"
 					>
-						{disablementReason ?? 'Ask Copilot to resolve conflicts'}
+						{inactiveReason ?? 'Ask Copilot to resolve conflicts'}
 					</tool-tip>
 				);
 
