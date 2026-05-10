@@ -7,7 +7,7 @@ import InfoIcon from 'octicons-plain-react/Info';
 
 import {mount} from 'svelte';
 
-import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
+import {featuresMeta, getNewFeatureName, getOldFeatureNames, importedFeatures} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
@@ -164,10 +164,10 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
-	const activeFeatureName = filename && getNewFeatureName(filename);
-	const currentFeatureName = activeFeatureName ?? filename;
+	const latestFeatureName = filename && getNewFeatureName(filename);
+	const currentFeatureName = latestFeatureName ?? filename;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
-	const removedFeature = Boolean(filename) && !activeFeatureName;
+	const removedFeature = Boolean(currentFeatureName) && !importedFeatures.includes(currentFeatureName as FeatureId);
 
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? currentFeatureName ?? filename;
