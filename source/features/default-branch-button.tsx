@@ -42,6 +42,15 @@ function wrapButtons(buttons: HTMLElement[]): void {
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
+	// Apply here instead of `excludes` due to React loading:
+	// 1. Visit branch
+	// 2. Click "Code" repo tab
+	// 3. You're on `main` but the button is wrapped
+	// TODO: Move to excludes after https://github.com/refined-github/refined-github/issues/6554
+	if (await isDefaultBranch()) {
+		return;
+	}
+
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
@@ -97,9 +106,6 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
 		isRepoCommitListRoot,
-	],
-	exclude: [
-		isDefaultBranch,
 	],
 	init,
 });
