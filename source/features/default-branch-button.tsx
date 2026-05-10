@@ -88,10 +88,6 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	// Remove bad native link https://github.com/refined-github/refined-github/issues/8662#issuecomment-4126171014
-	// It only appears in the sidebar
-	$optional('[class*="prc"][aria-label="View file on default branch"]')?.remove();
-
 	selectorWrapper.before(defaultLink);
 	wrapButtons([defaultLink, selectorWrapper]);
 }
