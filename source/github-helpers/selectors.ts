@@ -30,7 +30,10 @@ export const repoUnderlineNavDropdownUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const branchSelector = '[data-hotkey="w"]';
+export const branchSelector = [
+	'#ref-picker-repos-header-ref-selector',
+	'[data-hotkey="w"]', // TODO: Drop in 2027
+];
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	// Added via JS :(
