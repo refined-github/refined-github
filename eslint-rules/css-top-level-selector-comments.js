@@ -37,6 +37,7 @@ const cssTopLevelSelectorComments = {
 					let line = child.loc.start.line - 1;
 					let leadingCommentCount = 0;
 					while (line >= 1) {
+						// `line` is 1-based from source locations; sourceCode.lines is 0-based.
 						const lineText = (sourceCode.lines[line - 1] ?? '').trim();
 						if (lineText === '') {
 							line--;
@@ -55,7 +56,7 @@ const cssTopLevelSelectorComments = {
 					if (leadingCommentCount < minComments) {
 						context.report({
 							node: child,
-							message: `Top-level selectors in this file must be preceded by ${minComments} comment blocks.`,
+							message: `Top-level selectors in this file must be preceded by ${minComments} separate comment blocks.`,
 						});
 					}
 				}
