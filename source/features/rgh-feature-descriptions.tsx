@@ -166,7 +166,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? filename;
+	const id = meta?.id ?? currentFeatureName ?? filename;
 
 	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
