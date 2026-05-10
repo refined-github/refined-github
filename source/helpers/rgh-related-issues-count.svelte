@@ -25,7 +25,16 @@
 </script>
 
 {#await countPromise}
-	{#if labels.loading !== undefined}{labels.loading}{/if}
+	{#if labels.loading}
+		{#if linkify}
+			<a
+				href={relatedIssuesHref}
+				data-turbo-frame="repo-content-turbo-frame"
+			>{labels.loading}</a>
+		{:else}
+			{labels.loading}
+		{/if}
+	{/if}
 {:then count}
 	{#if count > 0 || labels.zero !== undefined}
 		{#if linkify}
