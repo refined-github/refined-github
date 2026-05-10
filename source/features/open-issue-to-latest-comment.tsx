@@ -12,7 +12,6 @@ function getHash(type: 'issue' | 'pr'): string {
 }
 
 function linkify(item: HTMLElement): void {
-	console.log(item);
 	if (item instanceof HTMLAnchorElement) {
 		// Only PR lists are already linked
 		item.hash = getHash('pr');

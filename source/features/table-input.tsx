@@ -39,7 +39,7 @@ function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
 	container.parentElement!.append(
-		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
+		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			<summary
 				id="rgh-table-input-button"
 				className="Button Button--iconOnly Button--invisible Button--medium"

@@ -56,6 +56,10 @@ function append(container: HTMLElement): void {
 		'tooltipped',
 		'tooltipped-sw',
 		'rgh-collapsible-content-btn',
+
+		// Old view only
+		'my-auto',
+		'flex-shrink-0',
 	];
 
 	// TODO: ensure it's added only once before both `table-input` and `collapsible-content-button`

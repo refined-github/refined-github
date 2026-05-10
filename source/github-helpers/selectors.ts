@@ -259,7 +259,7 @@ export const usernameLinksSelector_ = [
 
 export const actionBar = [
 	'[data-component="ActionBar"]', // React component
-	'[data-target="action-bar.itemContainer"]', // Still used in gists, PRs, etc
+	'action-bar', // Still used in gists, PRs, etc
 ];
 export const actionBar_ = requiresLogin;
 
