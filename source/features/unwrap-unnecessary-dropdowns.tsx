@@ -8,7 +8,6 @@ import {
 	$optional,
 	elementExists,
 } from 'select-dom';
-import delegate from 'delegate-it';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
@@ -69,9 +68,10 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				}
 
 				const disabledWarning = $optional('[class*="InactiveWarning"]', item);
-				// Won't exist if the item is enabled
-				const disabledText = disabledWarning?.textContent.trim();
-				const isDisabled = Boolean(disabledText);
+				// Doesn't exist if the item is enabled
+				const disablementReason = disabledWarning?.textContent.trim();
+				const isDisabled = Boolean(disablementReason);
+				const shouldHaveTooltip = isCopilotItem || isDisabled;
 
 				const buttonId = crypto.randomUUID();
 				const tooltipId = crypto.randomUUID();
@@ -79,15 +79,11 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				let button: JSX.Element | HTMLAnchorElement
 					= <button
 						id={buttonId}
-						className={[
-							'Button',
-							'Button--medium',
-							'Button--secondary',
-							isCopilotItem ? 'rgh-resolve-conflicts-copilot Button--iconOnly' : '',
-						].join(' ')}
-						aria-labelledby={tooltipId}
+						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+						aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
 						type="button"
 						disabled={isDisabled}
+						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
 					>
 						{isCopilotItem
 							? <CopilotIcon/>
@@ -104,7 +100,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					button.href = `${location.pathname}/conflicts`;
 				}
 
-				const tooltip = (isCopilotItem || isDisabled) && (
+				const tooltip = shouldHaveTooltip && (
 					<tool-tip
 						id={tooltipId}
 						className="sr-only position-absolute"
@@ -115,7 +111,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 						aria-hidden="true"
 						role="tooltip"
 					>
-						{disabledText ?? 'Ask Copilot to resolve conflicts'}
+						{disablementReason ?? 'Ask Copilot to resolve conflicts'}
 					</tool-tip>
 				);
 
@@ -137,7 +133,6 @@ async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promi
 	button.click();
 
 	const buttonGroup = createResolveConflictsButtons(menuItems);
-	delegate('.rgh-resolve-conflicts-copilot', 'click', insertCopilotInstruction);
 	button.replaceWith(buttonGroup);
 }
 
