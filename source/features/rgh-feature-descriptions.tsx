@@ -164,10 +164,10 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
-	const latestFeatureName = filename && getNewFeatureName(filename);
-	const currentFeatureName = latestFeatureName ?? filename;
+	const resolvedFeatureName = filename && getNewFeatureName(filename);
+	const currentFeatureName = resolvedFeatureName ?? filename;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
-	const removedFeature = Boolean(currentFeatureName) && !importedFeatures.includes(currentFeatureName as FeatureId);
+	const removedFeature = Boolean(currentFeatureName) && !importedFeatures.some(feature => feature === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? currentFeatureName ?? filename;
