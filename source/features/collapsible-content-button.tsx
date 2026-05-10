@@ -63,13 +63,16 @@ function append(container: HTMLElement): void {
 		'[data-component="ActionBar.VerticalDivider"]', // React component
 		'.ActionBar-divider',	// Still used in gists, PRs, etc
 	], container).cloneNode(true);
-	// Sizing copied from GitHub, except the excessive 2em (see `fuchsia` docs)
-	divider.style.margin = 'auto var(--base-size-8, 2em)';
 
-	// Old style only
-	divider.style.top = 'initial';
-	divider.style.bottom = 'initial';
-	divider.style.transform = 'initial';
+	Object.assign(divider.style, {
+		// Sizing copied from GitHub, except the excessive 2em (see `fuchsia` docs)
+		margin: 'auto var(--base-size-8, 2em)',
+
+		// Old style only
+		top: 'initial',
+		bottom: 'initial',
+		transform: 'initial',
+	});
 
 	container.parentElement!.append(
 		divider,
