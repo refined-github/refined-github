@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {excludeFromDomTextExtraction} from '../github-helpers/parse-rendered-text.js';
 	import pluralize from './pluralize.js';
 	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
 	import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
@@ -29,6 +30,7 @@
 		<a
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
+			class={excludeFromDomTextExtraction}
 		>{text}</a>
 	{:else}
 		{text}
