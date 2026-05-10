@@ -25,7 +25,7 @@ const cssTopLevelSelectorComments = {
 		}
 
 		const [{minComments = 3} = {}] = context.options;
-		const isMetadataLine = comment => comment.startsWith('info:') || comment.startsWith('test:') || comment.startsWith('todo:');
+		const isNonDescriptionMetadataLine = comment => comment.startsWith('info:') || comment.startsWith('test:') || comment.startsWith('todo:');
 
 		return {
 			StyleSheet(node) {
@@ -53,10 +53,16 @@ const cssTopLevelSelectorComments = {
 						line = comment.loc.start.line - 1;
 					}
 
-					const commentValues = leadingComments.map(comment => comment.value.trim().toLowerCase());
-					const hasInfo = commentValues.some(comment => comment.startsWith('info:'));
-					const hasTest = commentValues.some(comment => comment.startsWith('test:'));
-					const hasDescription = commentValues.some(comment => !isMetadataLine(comment));
+					let hasInfo = false;
+					let hasTest = false;
+					let hasDescription = false;
+					for (const comment of leadingComments) {
+						const commentValue = comment.value.trim().toLowerCase();
+						hasInfo ||= commentValue.startsWith('info:');
+						hasTest ||= commentValue.startsWith('test:');
+						hasDescription ||= !isNonDescriptionMetadataLine(commentValue);
+					}
+
 					const missingRequirements = [
 						...(hasDescription ? [] : ['Description']),
 						...(hasInfo ? [] : ['Info']),
