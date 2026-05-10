@@ -67,6 +67,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 		<span className="text-normal color-fg-muted">
 			{'– '}
 			<a
+				// TODO: Change path to "changes" once Legacy PR files view is removed
 				href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
 				className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 				data-turbo-frame="repo-content-turbo-frame"
