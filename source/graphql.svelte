@@ -6,7 +6,9 @@
 	let query = $state(`viewer {
 	login
 }`);
-	let variablesJson = $state('');
+	let variablesJson = $state(
+		JSON.stringify({owner: 'refined-github', name: 'refined-github'}),
+	);
 	let responseJson = $state('');
 	let error = $state('');
 	let loading = $state(false);
@@ -46,16 +48,12 @@
 </script>
 
 <main>
-	<rgh-header title="GraphQL tester">
-		<p>Run GraphQL queries through Refined GitHub’s authenticated API
-			manager.</p>
-	</rgh-header>
+	<rgh-header title="GraphQL tester"></rgh-header>
 
 	<form onsubmit={runQuery}>
 		<label for="query">Query</label>
 		<textarea
 			id="query"
-			rows="6"
 			spellcheck="false"
 			autocomplete="off"
 			autocapitalize="off"
@@ -65,11 +63,9 @@
 		<label for="variables">Variables (JSON, optional)</label>
 		<textarea
 			id="variables"
-			rows="3"
 			spellcheck="false"
 			autocomplete="off"
 			autocapitalize="off"
-			placeholder={JSON.stringify({owner: 'refined-github', name: 'refined-github'})}
 			bind:value={variablesJson}
 		></textarea>
 
@@ -78,7 +74,6 @@
 		<label for="response">Response</label>
 		<textarea
 			id="response"
-			rows="8"
 			readonly
 			spellcheck="false"
 			value={responseJson}
@@ -103,7 +98,7 @@
 
 	form {
 		display: grid;
-		gap: 0.75em;
+		gap: 1em;
 		padding-inline: var(--viewport-margin);
 		padding-block: 1.5rem;
 		max-width: var(--content-width);
@@ -116,8 +111,7 @@
 
 	textarea {
 		field-sizing: content;
-		width: 100%;
-		resize: vertical;
+		min-height: 3em;
 		font-family:
 			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 		background: light-dark(#f6f8fa, #151b23);
