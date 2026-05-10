@@ -25,7 +25,10 @@ const cssTopLevelSelectorComments = {
 		}
 
 		const [{minComments = 3} = {}] = context.options;
-		const isNonDescriptionMetadataLine = comment => comment.startsWith('info:') || comment.startsWith('test:');
+		const isNonDescriptionMetadataLine = comment => {
+			const normalizedComment = comment.toLowerCase();
+			return normalizedComment.startsWith('info:') || normalizedComment.startsWith('test:');
+		};
 
 		return {
 			StyleSheet(node) {
@@ -63,11 +66,18 @@ const cssTopLevelSelectorComments = {
 						hasDescription ||= commentValue.length > 0 && !isNonDescriptionMetadataLine(commentValue);
 					}
 
-					const missingRequirements = [
-						...(hasDescription ? [] : ['Description']),
-						...(hasInfo ? [] : ['Info']),
-						...(hasTest ? [] : ['Test']),
-					];
+					const missingRequirements = [];
+					if (!hasDescription) {
+						missingRequirements.push('Description');
+					}
+
+					if (!hasInfo) {
+						missingRequirements.push('Info');
+					}
+
+					if (!hasTest) {
+						missingRequirements.push('Test');
+					}
 
 					if (leadingComments.length < minComments || missingRequirements.length > 0) {
 						context.report({
