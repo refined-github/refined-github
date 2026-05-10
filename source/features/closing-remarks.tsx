@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, $$optional} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import * as pageDetect from 'github-url-detection';
