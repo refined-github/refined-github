@@ -15,7 +15,16 @@ const cssTopLevelSelectorComments = {
 	},
 	create(context) {
 		const {sourceCode} = context;
-		const comments = sourceCode.comments ?? [];
+		const commentsByLine = new Map();
+		for (const comment of sourceCode.comments ?? []) {
+			const {start, end} = comment.loc;
+			const {line: startLine} = start;
+			const {line: endLine} = end;
+			for (let line = startLine; line <= endLine; line++) {
+				commentsByLine.set(line, comment);
+			}
+		}
+
 		const [{minComments = 3} = {}] = context.options;
 
 		return {
@@ -34,10 +43,7 @@ const cssTopLevelSelectorComments = {
 							continue;
 						}
 
-						const comment = comments.findLast(comment =>
-							comment.loc.start.line <= line
-							&& comment.loc.end.line >= line,
-						);
+						const comment = commentsByLine.get(line);
 						if (!comment) {
 							break;
 						}
@@ -49,7 +55,7 @@ const cssTopLevelSelectorComments = {
 					if (leadingCommentCount < minComments) {
 						context.report({
 							node: child,
-							message: `Top-level selectors in this file must be preceded by ${minComments} comments.`,
+							message: `Top-level selectors in this file must be preceded by ${minComments} comment blocks.`,
 						});
 					}
 				}
