@@ -1,12 +1,23 @@
 import React from 'dom-chef';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$optional, $closest} from 'select-dom';
+import {
+	$,
+	$$,
+	$$optional,
+	$closest,
+	$optional,
+	elementExists,
+} from 'select-dom';
+import delegate from 'delegate-it';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
 import {legacyCommentField} from '../github-helpers/selectors.js';
+import {frame} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
+import onAlteredClick from '../helpers/on-altered-click.js';
+import { isAlteredClick } from 'filter-altered-clicks';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {
@@ -48,58 +59,87 @@ function insertCopilotInstruction(): void {
 	setFieldText(textarea, '@copilot resolve the merge conflicts in this pull request');
 }
 
-function createButtonGroup(): JSX.Element {
-	const agentButtonId = crypto.randomUUID();
-	const agentTooltipId = crypto.randomUUID();
+function openConflictsWebEditor(event: MouseEvent): void {
+	window.open(`${location.pathname}/conflicts`, isAlteredClick(event) ? '_blank' : '_self');
+}
 
+function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 	return (
 		<div className="ButtonGroup">
-			<div>
-				<a
-					className="Button--secondary Button--medium Button"
-					href={`${location.pathname}/conflicts`}
-					type="button"
-				>
-					<span className="Button-content">
-						<span className="Button-label">
-							Resolve conflicts
-						</span>
-					</span>
-				</a>
-			</div>
-			<div>
-				<button
-					id={agentButtonId}
-					className="Button--iconOnly Button--secondary Button--medium Button"
-					aria-labelledby={agentTooltipId}
-					type="button"
-					onClick={insertCopilotInstruction}
-				>
-					<CopilotIcon/>
-				</button>
-				<tool-tip
-					id={agentTooltipId}
-					className="sr-only position-absolute"
-					for={agentButtonId}
-					popover="manual"
-					data-direction="s"
-					data-type="label"
-					aria-hidden="true"
-					role="tooltip"
-				>
-					Ask Copilot to resolve conflicts
-				</tool-tip>
-			</div>
+			{menuItems.map(item => {
+				const isCopilotItem = elementExists('.octicon-agent', item);
+				const isWebEditorItem = elementExists('.octicon-pencil', item);
+				if (!isCopilotItem && !isWebEditorItem) {
+					throw new TypeError('Unknown dropdown item');
+				}
+
+				const disabledWarning = $optional('[class*="InactiveWarning"]', item);
+				// Won't exist if the item is enabled
+				const disabledText = disabledWarning?.textContent.trim();
+				const isDisabled = Boolean(disabledText);
+
+				const buttonId = crypto.randomUUID();
+				const tooltipId = crypto.randomUUID();
+
+				return (
+					<div>
+						<button
+							id={buttonId}
+							className={[
+								'Button',
+								'Button--medium',
+								'Button--secondary',
+								isCopilotItem ? 'rgh-resolve-conflicts-copilot Button--iconOnly' : 'rgh-resolve-conflicts-web-editor',
+							].join(' ')}
+							aria-labelledby={tooltipId}
+							type="button"
+							disabled={isDisabled}
+						>
+							{isCopilotItem
+								? <CopilotIcon/>
+								: (
+									<span className="Button-content">
+										<span className="Button-label">
+											Resolve conflicts
+										</span>
+									</span>
+								)}
+						</button>
+						{(isCopilotItem || isDisabled)
+							&& <tool-tip
+								id={tooltipId}
+								className="sr-only position-absolute"
+								for={buttonId}
+								popover="manual"
+								data-direction="s"
+								data-type="label"
+								aria-hidden="true"
+								role="tooltip"
+							>
+								{disabledText ?? 'Ask Copilot to resolve conflicts'}
+							</tool-tip>}
+					</div>
+				);
+			})}
 		</div>
 	);
 }
 
-function replaceResolveConflictsDropdown(button: HTMLButtonElement): void {
+async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promise<void> {
 	if (button.textContent.trim() !== 'Resolve conflicts') {
 		return;
 	}
 
-	const buttonGroup = createButtonGroup();
+	button.click();
+	// Wait for the menu DOM to be created, but not rendered
+	await frame();
+	const menuItems = $$('div[data-component="AnchoredOverlay"] li[data-component="ActionList.Item"]');
+	button.click();
+
+	const buttonGroup = createResolveConflictsButtons(menuItems);
+	delegate('.rgh-resolve-conflicts-copilot', 'click', insertCopilotInstruction);
+	delegate('.rgh-resolve-conflicts-web-editor', 'click', openConflictsWebEditor);
+	onAlteredClick('.rgh-resolve-conflicts-web-editor', openConflictsWebEditor);
 	button.replaceWith(buttonGroup);
 }
 
