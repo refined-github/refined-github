@@ -12,6 +12,10 @@ const cssTopLevelSelectorComments = {
 			},
 			additionalProperties: false,
 		}],
+		messages: {
+			invalidComments:
+				'Top-level selectors in this file must be preceded by at least {{minComments}} comment blocks including a description line, an `Info:` line, and a `Test:` line.{{missing}}',
+		},
 	},
 	create(context) {
 		const {sourceCode} = context;
@@ -30,7 +34,7 @@ const cssTopLevelSelectorComments = {
 					}
 
 					let line = child.loc.start.line - 1;
-					let leadingCommentCount = 0;
+					const leadingComments = [];
 					while (line >= 1) {
 						// `line` is 1-based from source locations; sourceCode.lines is 0-based.
 						const lineText = (sourceCode.lines[line - 1] ?? '').trim();
@@ -44,14 +48,30 @@ const cssTopLevelSelectorComments = {
 							break;
 						}
 
-						leadingCommentCount++;
+						leadingComments.unshift(comment);
 						line = comment.loc.start.line - 1;
 					}
 
-					if (leadingCommentCount < minComments) {
+					const commentTypes = leadingComments.map(comment => comment.value.trim().toLowerCase());
+					const hasInfo = commentTypes.some(comment => comment.startsWith('info:'));
+					const hasTest = commentTypes.some(comment => comment.startsWith('test:'));
+					const hasDescription = commentTypes.some(comment => !comment.startsWith('info:') && !comment.startsWith('test:') && !comment.startsWith('todo:'));
+					const missingRequirements = [
+						...(hasDescription ? [] : ['description']),
+						...(hasInfo ? [] : ['Info']),
+						...(hasTest ? [] : ['Test']),
+					];
+
+					if (leadingComments.length < minComments || missingRequirements.length > 0) {
 						context.report({
 							node: child,
-							message: `Top-level selectors in this file must be preceded by ${minComments} separate comment blocks.`,
+							messageId: 'invalidComments',
+							data: {
+								minComments: String(minComments),
+								missing: missingRequirements.length === 0
+									? ''
+									: ` Missing: ${missingRequirements.join(', ')}.`,
+							},
 						});
 					}
 				}
