@@ -169,7 +169,7 @@ function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
 	reviewMenuButton.click();
 }
 
-async function initNativeDeepLinking(signal: AbortSignal): Promise<void> {
+async function initDeepLinking(signal: AbortSignal): Promise<void> {
 	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
@@ -198,7 +198,7 @@ void features.add(import.meta.url, {
 		() => location.hash === openReviewMenuDeepLinkSelector,
 		pageDetect.isPRFiles,
 	],
-	init: initNativeDeepLinking,
+	init: initDeepLinking,
 });
 
 /*
