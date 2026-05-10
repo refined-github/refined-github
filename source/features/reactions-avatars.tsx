@@ -3,7 +3,7 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
-import {$$, $$optional} from 'select-dom';
+import {$$optional} from 'select-dom';
 
 import {onAbort} from 'abort-utils';
 
@@ -76,7 +76,7 @@ const viewportObserver = new IntersectionObserver(changes => {
 function showAvatarsOn(reactionsContainer: Element): void {
 	const reactions = $$optional([
 		'button[aria-pressed]', // Discussions, releases, PRs
-		'button[aria-checked]', // React issues
+		'button[aria-checked]', // Issues
 	], reactionsContainer)
 		.map(button => getParticipants(button)); // Get all participants for each reaction type
 	if (reactions.length === 0) {
