@@ -203,8 +203,10 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	}
 }
 
-/* Hide label on Milestones link if there are zero milestones #5120 */
 /* TODO: Drop after repo PR list becomes exclusively React-based */
+/* Hide label on Milestones link if there are zero milestones */
+/* Info: https://github.com/refined-github/refined-github/issues/5120 */
+/* Test: https://github.com/refined-github/refined-github/pulls */
 [data-selected-links^='repo_milestones ']:has([title='0']) {
 	width: 36px; /* Size it so only the icon is visible */
 	overflow: hidden; /* Crop the text out */
