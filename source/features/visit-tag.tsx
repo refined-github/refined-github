@@ -9,6 +9,7 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	if (
@@ -52,7 +53,7 @@ function clarifyIcon(signal: AbortSignal): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
+	observe(is(branchSelector) + ':has(.octicon-tag)', addLink, {signal});
 }
 
 void features.add(import.meta.url, {
