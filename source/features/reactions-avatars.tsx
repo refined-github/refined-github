@@ -78,7 +78,7 @@ function showAvatarsOn(reactionsContainer: Element): void {
 		'button[aria-pressed]', // Discussions, releases, PRs
 		'button[aria-checked]', // Issues
 	], reactionsContainer)
-		.map(button => getParticipants(button)); // Get all participants for each reaction type
+		.map(button => getParticipants(button)); // Get all participants for each reaction
 	if (reactions.length === 0) {
 		return;
 	}
