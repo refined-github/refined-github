@@ -15,14 +15,9 @@ const cssTopLevelSelectorComments = {
 	},
 	create(context) {
 		const {sourceCode} = context;
-		const commentsByLine = new Map();
+		const commentsByEndLine = new Map();
 		for (const comment of sourceCode.comments ?? []) {
-			const {start, end} = comment.loc;
-			const {line: startLine} = start;
-			const {line: endLine} = end;
-			for (let line = startLine; line <= endLine; line++) {
-				commentsByLine.set(line, comment);
-			}
+			commentsByEndLine.set(comment.loc.end.line, comment);
 		}
 
 		const [{minComments = 3} = {}] = context.options;
@@ -44,7 +39,7 @@ const cssTopLevelSelectorComments = {
 							continue;
 						}
 
-						const comment = commentsByLine.get(line);
+						const comment = commentsByEndLine.get(line);
 						if (!comment) {
 							break;
 						}
