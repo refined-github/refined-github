@@ -219,7 +219,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 /* Make the "Symbolic link" more noticeable */
 /* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
 /* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
-a[class^="CodeSizeDetails-module__PrimerLink"] {
+a[class^='CodeSizeDetails-module__PrimerLink'] {
 	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
 	&:hover {
 		text-decoration: underline;
