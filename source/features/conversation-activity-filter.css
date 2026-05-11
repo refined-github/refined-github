@@ -33,7 +33,7 @@
 		display: none;
 	}
 
-	&:is([data-rgh-conversation-activity-filter='hideEvents'] *) {
+	[data-rgh-conversation-activity-filter='hideEvents'] & {
 		.octicon-eye {
 			display: none;
 		}
@@ -46,9 +46,7 @@
 		}
 	}
 
-	&:is(
-		[data-rgh-conversation-activity-filter='hideAllNoise'] *
-	) {
+	[data-rgh-conversation-activity-filter='hideAllNoise'] & {
 		.octicon-eye {
 			display: none;
 		}
