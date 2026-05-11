@@ -25,11 +25,11 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 			onClick={event => {
 				newCommentBox.hidden = false;
 
-				// Unlink this button
-				button.replaceWith(button.firstChild!);
-
 				// Keep the banner, make it visible
 				$closest('.rgh-bg-none', event.currentTarget).classList.replace('rgh-bg-none', 'flash-error');
+
+				// Unlink this button
+				button.replaceWith(button.firstChild!);
 
 				newCommentBox.scrollIntoView({
 					behavior: 'smooth',
