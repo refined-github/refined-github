@@ -1,5 +1,5 @@
-import {RuleTester} from 'eslint';
 import cssPlugin from '@eslint/css';
+import {RuleTester} from 'eslint';
 import {test} from 'vitest';
 
 import rule from './css-documentation.js';

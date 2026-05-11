@@ -9,7 +9,7 @@
 		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
 	"includes": [
-		"**/*.{svelte,css,gql,yml,ts}",
+		"**/*.{svelte,css,gql,yml,ts,js}",
 		"dprint.json"
 	],
 	"useTabs": true,

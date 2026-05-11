@@ -1,22 +1,34 @@
-import sucrase from '@rollup/plugin-sucrase';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import cleanup from 'rollup-plugin-cleanup';
-import styles from 'rollup-plugin-styles';
-import {string} from 'rollup-plugin-string';
 import alias from '@rollup/plugin-alias';
+import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import sucrase from '@rollup/plugin-sucrase';
+import browserslist from 'browserslist';
+import {browserslistToTargets, Features} from 'lightningcss';
+import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
-import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
+import {string} from 'rollup-plugin-string';
+import styles from 'rollup-plugin-styles';
 import svelte from 'rollup-plugin-svelte';
+import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import lightning from 'unplugin-lightningcss/rollup';
-import {Features, browserslistToTargets} from 'lightningcss';
-import browserslist from 'browserslist';
 
 import svelteConfig from './svelte.config.js';
 
-const noise = new Set(['index', 'dist', 'src', 'source', 'distribution', 'node_modules', 'main', 'esm', 'cjs', 'build', 'built']);
+const noise = new Set([
+	'index',
+	'dist',
+	'src',
+	'source',
+	'distribution',
+	'node_modules',
+	'main',
+	'esm',
+	'cjs',
+	'build',
+	'built',
+]);
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {

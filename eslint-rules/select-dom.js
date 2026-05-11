@@ -4,7 +4,7 @@ const rule = {
 		type: 'suggestion',
 		fixable: 'code',
 		messages: {
-			useSelectDom: 'Use select-dom\'s {{replacement}}() instead of .{{method}}()',
+			useSelectDom: "Use select-dom's {{replacement}}() instead of .{{method}}()",
 		},
 		schema: [],
 	},
@@ -37,7 +37,9 @@ const rule = {
 			},
 
 			// X.querySelector(sel) with a simple receiver → $(sel, x)
-			'CallExpression[callee.type=MemberExpression]:matches([callee.property.name=querySelector], [callee.property.name=querySelectorAll])'(node) {
+			'CallExpression[callee.type=MemberExpression]:matches([callee.property.name=querySelector], [callee.property.name=querySelectorAll])'(
+				node,
+			) {
 				const {object} = node.callee;
 				// Only flag simple cases: bare variable or `this`
 				// Allow traversals: x.firstChild.querySelector, x.closest().querySelector, x!.querySelector, etc.
