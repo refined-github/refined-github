@@ -47,6 +47,7 @@ export function wasLongAgo(date: Date): boolean {
 function isPopular(): boolean {
 	return (
 		countElements('[data-testid="comment-header"]') > 30
+		// This element only appears after 6 participants
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 		// TODO: Drop in 2026; old conversation style

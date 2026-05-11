@@ -55,10 +55,8 @@ function initRepoList(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	asLongAs: [
-		() => /\.github\.(?:io|com)$/.test(getRepo()?.name ?? 'shush eslint'),
-	],
-	include: [
 		pageDetect.isRepoHome,
+		() => /\.github\.(?:io|com)$/.test(getRepo()!.name ?? 'shush eslint'),
 	],
 	exclude: [
 		pageDetect.isEnterprise,

@@ -76,7 +76,7 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			type="button"
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
-			style={{width: 14, cursor: 'pointer'}}
+			style={{width: 15, cursor: 'pointer'}}
 			// JSX swallows \n if you skip {''}
 			aria-label={'Open unread notifications\nHotkey: g u'}
 		>

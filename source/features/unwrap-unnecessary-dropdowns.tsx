@@ -1,9 +1,18 @@
 import React from 'dom-chef';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$optional, $closest} from 'select-dom';
+import {
+	$,
+	$$,
+	$$optional,
+	$closest,
+	$optional,
+	elementExists,
+} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
 
+import replaceElementTypeInPlace from '../helpers/recreate-element.js';
+import {frame} from '../helpers/dom-utils.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
@@ -48,58 +57,82 @@ function insertCopilotInstruction(): void {
 	setFieldText(textarea, '@copilot resolve the merge conflicts in this pull request');
 }
 
-function createButtonGroup(): JSX.Element {
-	const agentButtonId = crypto.randomUUID();
-	const agentTooltipId = crypto.randomUUID();
-
+function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 	return (
 		<div className="ButtonGroup">
-			<div>
-				<a
-					className="Button--secondary Button--medium Button"
-					href={`${location.pathname}/conflicts`}
-					type="button"
-				>
-					<span className="Button-content">
-						<span className="Button-label">
-							Resolve conflicts
-						</span>
-					</span>
-				</a>
-			</div>
-			<div>
-				<button
-					id={agentButtonId}
-					className="Button--iconOnly Button--secondary Button--medium Button"
-					aria-labelledby={agentTooltipId}
-					type="button"
-					onClick={insertCopilotInstruction}
-				>
-					<CopilotIcon/>
-				</button>
-				<tool-tip
-					id={agentTooltipId}
-					className="sr-only position-absolute"
-					for={agentButtonId}
-					popover="manual"
-					data-direction="s"
-					data-type="label"
-					aria-hidden="true"
-					role="tooltip"
-				>
-					Ask Copilot to resolve conflicts
-				</tool-tip>
-			</div>
+			{menuItems.map(item => {
+				const isCopilotItem = elementExists('.octicon-agent', item);
+				const isWebEditorItem = elementExists('.octicon-pencil', item);
+				if (!isCopilotItem && !isWebEditorItem) {
+					throw new TypeError('Unknown dropdown item');
+				}
+
+				const inactiveWarning = $optional('[class*="InactiveWarning"]', item);
+				// Doesn't exist if the item is enabled
+				const inactiveReason = inactiveWarning?.textContent.trim();
+				const isDisabled = Boolean(inactiveReason);
+				const shouldHaveTooltip = isCopilotItem || isDisabled;
+
+				const buttonId = crypto.randomUUID();
+				const tooltipId = crypto.randomUUID();
+
+				let button: JSX.Element | HTMLAnchorElement
+					= <button
+						id={buttonId}
+						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+						aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
+						type="button"
+						disabled={isDisabled}
+						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
+					>
+						{isCopilotItem
+							? <CopilotIcon/>
+							: (
+								<span className="Button-content">
+									<span className="Button-label">
+										Resolve conflicts
+									</span>
+								</span>
+							)}
+					</button>;
+				if (isWebEditorItem && !isDisabled) {
+					button = replaceElementTypeInPlace(button, 'a');
+					button.href = `${location.pathname}/conflicts`;
+				}
+
+				const tooltip = shouldHaveTooltip && (
+					<tool-tip
+						id={tooltipId}
+						className="sr-only position-absolute"
+						for={buttonId}
+						popover="manual"
+						data-direction="s"
+						data-type="label"
+						aria-hidden="true"
+						role="tooltip"
+					>
+						{inactiveReason ?? 'Ask Copilot to resolve conflicts'}
+					</tool-tip>
+				);
+
+				return <div> {button} {tooltip} </div>;
+			})}
 		</div>
 	);
 }
 
-function replaceResolveConflictsDropdown(button: HTMLButtonElement): void {
+async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promise<void> {
 	if (button.textContent.trim() !== 'Resolve conflicts') {
 		return;
 	}
 
-	const buttonGroup = createButtonGroup();
+	button.click();
+	// Wait for the menu DOM to be created, but not rendered
+	await frame();
+	const menuItems = $$('div[data-component="AnchoredOverlay"] li[data-component="ActionList.Item"]');
+	button.click();
+
+	const buttonGroup = createResolveConflictsButtons(menuItems);
 	button.replaceWith(buttonGroup);
 }
 

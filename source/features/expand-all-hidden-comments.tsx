@@ -21,6 +21,8 @@ async function expandHidden(paginationButton: HTMLButtonElement | undefined) {
 		}
 
 		paginationButton = $optional(`:scope > ${paginationButtonSelector}`, wrapper);
+
+		// Missing if we reached the end
 		paginationButton?.click();
 	}
 }

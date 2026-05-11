@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import * as pageDetect from 'github-url-detection';
@@ -31,7 +31,7 @@ function ExplanationLink(): JSX.Element {
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
-		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},

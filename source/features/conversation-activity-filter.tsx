@@ -12,8 +12,6 @@ import {
 	$$,
 	$$optional,
 	$closest,
-	$closestOptional,
-	$optional,
 	elementExists,
 } from 'select-dom';
 
@@ -36,7 +34,7 @@ const minorFixesIssuePages = [
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsAndCollapsedComments: 'Hide events, bots, collapsed comments',
+	hideEventsBotsCollapsedComments: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -273,8 +271,8 @@ async function addWidget(anchor: Element): Promise<void> {
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$closestOptional(timelineItem, $optional(`.${collapsedClassName} ${location.hash}`))
-			?.classList
+		$closest(timelineItem, $(`.${collapsedClassName} ${location.hash}`))
+			.classList
 			.remove(collapsedClassName);
 	}
 }
@@ -290,7 +288,7 @@ function switchToNextFilter(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
-			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			? 'hideEventsBotsCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
 	const initialSetupOnce = onetime(() => {

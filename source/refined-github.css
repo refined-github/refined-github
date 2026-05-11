@@ -202,3 +202,26 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 		white-space: wrap;
 	}
 }
+
+/* TODO: Drop after repo PR list becomes exclusively React-based */
+/* Hide label on Milestones link if there are zero milestones */
+/* Info: https://github.com/refined-github/refined-github/issues/5120 */
+/* Test: https://github.com/refined-github/refined-github/pulls */
+[data-selected-links^='repo_milestones ']:has([title='0']) {
+	width: 36px; /* Size it so only the icon is visible */
+	overflow: hidden; /* Crop the text out */
+	padding-left: 10px;
+}
+[data-selected-links^='repo_milestones ']:has([title='0']) svg {
+	margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
+}
+
+/* Make the "Symbolic link" more noticeable */
+/* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
+/* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
+a[class^='CodeSizeDetails-module__PrimerLink'] {
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
+	&:hover {
+		text-decoration: underline;
+	}
+}
