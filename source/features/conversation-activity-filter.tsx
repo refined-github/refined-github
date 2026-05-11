@@ -33,6 +33,7 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/8000',
 ];
 
+// Keys are used as CSS selectors
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
