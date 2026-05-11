@@ -9,7 +9,7 @@
 		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
 	"includes": [
-		"**/*.{svelte,css,gql,yml}",
+		"**/*.{svelte,css,gql,yml,ts}",
 		"dprint.json"
 	],
 	"useTabs": true,
@@ -27,6 +27,7 @@
 		"lineWidth": 120,
 		"jsx.multiLineParens": "never",
 		"spaceSurroundingProperties": false,
+		"operatorPosition": "nextLine",
 		"importDeclaration.spaceSurroundingNamedImports": false,
 		"exportDeclaration.spaceSurroundingNamedExports": false
 	},

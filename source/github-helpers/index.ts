@@ -1,9 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import {
-	$, $closest, $closestOptional, $optional, elementExists,
-} from 'select-dom';
+import {$, $closest, $closestOptional, $optional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 

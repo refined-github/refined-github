@@ -112,7 +112,7 @@ function validateReadme(featureId: FeatureId): void {
 
 	assert(
 		screenshotRegex.test(featureMeta.screenshot!)
-		|| noScreenshotExceptions.has(featureId),
+			|| noScreenshotExceptions.has(featureId),
 		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 

@@ -11,7 +11,8 @@ export default function parseRenderedText(element: Element): string {
 
 			if (
 				node.parentElement?.tagName === 'BUTTON'
-				|| node.parentElement?.classList.contains(excludeFromDomTextExtraction)) {
+				|| node.parentElement?.classList.contains(excludeFromDomTextExtraction)
+			) {
 				return '';
 			}
 

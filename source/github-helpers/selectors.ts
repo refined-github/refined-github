@@ -263,12 +263,12 @@ export const actionBar = [
 ];
 export const actionBar_ = requiresLogin;
 
-export const prMergeabilityBoxHeader
-	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader =
+	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
-export const prMergeabilityBoxCaption
-	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption =
+	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = [

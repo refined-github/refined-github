@@ -1,8 +1,6 @@
 import filenamify from 'filenamify';
 import {parseHTML} from 'linkedom';
-import {
-	access, mkdir, readFile, unlink, writeFile,
-} from 'node:fs/promises';
+import {access, mkdir, readFile, unlink, writeFile} from 'node:fs/promises';
 import pMemoize from 'p-memoize';
 import {$$optional} from 'select-dom';
 import {assert, describe, test} from 'vitest';

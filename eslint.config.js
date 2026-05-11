@@ -342,4 +342,9 @@ export default defineConfig([
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 		},
 	},
+	{
+		files: ['**/*.ts'],
+		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
+		rules: eslintConfigPrettier.rules,
+	}
 ]);
