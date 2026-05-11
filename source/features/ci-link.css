@@ -12,3 +12,9 @@
 .AppHeader-globalBar-start {
 	overflow: visible !important;
 }
+
+/* Prevent header features from overlapping the search bar #9433 */
+.AppHeader-context-full {
+	min-width: 0;
+	overflow: hidden;
+}
