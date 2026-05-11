@@ -324,7 +324,7 @@ export default defineConfig([
 	{
 		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
 		rules: {
-			'refined-github/css-documentation': 'warn',
+			'refined-github/css-documentation': 'error',
 		},
 	},
 	{

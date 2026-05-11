@@ -31,8 +31,9 @@
 	}
 }
 
-/* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705
-
+/* For `open-all-notifications` and `select-notifications`: allow header wrapping */
+/* Info: https://github.com/refined-github/sandbox/issues/5705 */
+/*
 Selector works on:
 https://github.com/notifications (Grouped by date)
 https://github.com/notifications (Grouped by repo)
@@ -65,12 +66,15 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 /* Expand empty diffs in PRs */
 /* Info: https://github.com/refined-github/refined-github/issues/1630 */
 /* Test: https://github.com/webpack/webpack/pull/6446/changes */
-:root .file .data.empty {
-	padding: 54px;
-	text-align: center;
-}
-:root .file .data table {
-	text-align: left;
+:root .file .data {
+	&.empty {
+		padding: 54px;
+		text-align: center;
+	}
+
+	table {
+		text-align: left;
+	}
 }
 
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
@@ -87,15 +91,16 @@ pr-branches
 */
 .js-issue-row .text-small.color-fg-muted {
 	line-height: 1.8;
-}
 
-/* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.color-fg-muted .octicon {
-	vertical-align: middle;
+	/* Reset `vertical-align` for .octicons to work with above increased line-height */
+	.octicon {
+		vertical-align: middle;
+	}
 }
 
 /* TODO: Drop after legacy PR files view is removed */
-/* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
+/* Keep diff stats in "Jump to" dropdown when the header is fixed */
+/* Info: https://github.com/refined-github/sandbox/issues/3925 */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
@@ -115,13 +120,15 @@ pr-branches
 }
 
 /* TODO: Drop after July 2026 */
-/* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
+/* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` */
+/* Info: https://github.com/refined-github/sandbox/issues/4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
 
-/* Bold username in conversation lists #4899 */
+/* Bold username in conversation lists */
+/* Info: https://github.com/refined-github/sandbox/issues/4899 */
 /* Test: https://github.com/refined-github/refined-github/pulls */
 /* Test: https://github.com/refined-github/refined-github/issues */
 :is(.js-issue-row, span[class^='PinnedIssue-module__issueMetadata'])
@@ -139,7 +146,8 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	z-index: 5;
 }
 
-/* Increase size of profile picture in user hovercard by 1.5x (default is 48px) #7695 */
+/* Increase size of profile picture in user hovercard by 1.5x (default is 48px) */
+/* Info: https://github.com/refined-github/sandbox/issues/7695 */
 /* Test: https://github.com/refined-github/refined-github */
 .user-hovercard-avatar > img.d-block.avatar-user {
 	width: 72px;
@@ -153,7 +161,8 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	color: var(--button-star-iconColor);
 }
 
-/* Add hover effect to attachment row on the release page #8339 */
+/* Add hover effect to attachment row on the release page */
+/* Info: https://github.com/refined-github/sandbox/issues/8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
 @media (min-width: 800px) {
 	.Box-footer

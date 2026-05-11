@@ -49,6 +49,11 @@
       "count": 1
     }
   },
+  "source/features/github-bugs.css": {
+    "refined-github/css-documentation": {
+      "count": 5
+    }
+  },
   "source/features/highest-rated-comment.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
@@ -97,6 +102,11 @@
   "source/features/rgh-feature-descriptions.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
+    }
+  },
+  "source/refined-github.css": {
+    "refined-github/css-documentation": {
+      "count": 14
     }
   }
 }
