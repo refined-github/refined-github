@@ -1,10 +1,10 @@
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
-import onAlteredClick from '../helpers/on-altered-click.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
-import onetime from '../helpers/onetime.js';
 import features from '../feature-manager.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import onAlteredClick from '../helpers/on-altered-click.js';
+import onetime from '../helpers/onetime.js';
 
 function openSearchResultInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();

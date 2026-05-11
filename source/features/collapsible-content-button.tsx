@@ -64,7 +64,7 @@ function append(container: HTMLElement): void {
 	// TODO: ensure it's added only once before both `table-input` and `collapsible-content-button`
 	const divider = $([
 		'[data-component="ActionBar.VerticalDivider"]', // React component
-		'.ActionBar-divider',	// Still used in gists, PRs, etc
+		'.ActionBar-divider', // Still used in gists, PRs, etc
 	], container).cloneNode(true);
 
 	Object.assign(divider.style, {

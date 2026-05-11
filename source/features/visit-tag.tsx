@@ -7,9 +7,9 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {branchSelector} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {is} from '../helpers/css-selectors.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	if (

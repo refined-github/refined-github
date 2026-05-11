@@ -1,7 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {
-	$$, $closestOptional, $optional, elementExists,
-} from 'select-dom';
+import {$$, $closestOptional, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
@@ -35,7 +33,7 @@ function runShortcuts(event: KeyboardEvent): void {
 		.filter(element =>
 			element.classList.contains('js-minimizable-comment-group')
 				? !isCommentGroupMinimized(element)
-				: true,
+				: true
 		);
 
 	// `j` goes to the next item, `k` goes back an item

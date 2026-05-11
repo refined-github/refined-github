@@ -51,8 +51,8 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 						rel="noreferrer"
 					>
 						cleared
-					</a>
-					{' '}by Refined GitHub. <button type="button" className="btn-link" onClick={toggleUndoRedo}>Undo</button>
+					</a>{' '}
+					by Refined GitHub. <button type="button" className="btn-link" onClick={toggleUndoRedo}>Undo</button>
 				</p>
 			</div>
 		),

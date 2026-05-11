@@ -2,9 +2,9 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import RepoIcon from 'octicons-plain-react/Repo';
+import {$closest} from 'select-dom';
 import twas from 'twas';
 import {CachedFunction} from 'webext-storage-cache';
-import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

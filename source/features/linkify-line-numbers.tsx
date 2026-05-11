@@ -1,9 +1,9 @@
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
 
+import features from '../feature-manager.js';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
 
 function linkify(lineNumberCell: HTMLTableCellElement): void {
 	const {lineNumber} = lineNumberCell.dataset;

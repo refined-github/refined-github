@@ -1,7 +1,5 @@
 import React from 'dom-chef';
-import {
-	$, $$, $closest, $closestOptional,
-} from 'select-dom';
+import {$, $$, $closest, $closestOptional} from 'select-dom';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';

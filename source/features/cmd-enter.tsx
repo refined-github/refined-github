@@ -2,8 +2,8 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';
 
-import {legacyCommentField} from '../github-helpers/selectors.js';
 import features from '../feature-manager.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
 
 function handleKeyDown(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)) {

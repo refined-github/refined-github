@@ -3,9 +3,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {
-	$, $closest, $closestOptional, $optional,
-} from 'select-dom';
+import {$, $closest, $closestOptional, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -44,7 +42,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const parent = radio.parentElement!;
 		const labelElement = (
 			$optional('label', parent)
-			?? radio.nextSibling! // TODO: Remove after April 2025
+				?? radio.nextSibling! // TODO: Remove after April 2025
 		);
 		const tooltip = $([
 			'p', // TODO: Remove after April 2025

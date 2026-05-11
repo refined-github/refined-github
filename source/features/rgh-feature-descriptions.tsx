@@ -37,7 +37,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
-	const relatedIssuesContainer = <span/>;
+	const relatedIssuesContainer = <span />;
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
@@ -45,7 +45,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
-						{removedFeature && <span className="color-fg-muted">Feature removed: </span>}
+						{removedFeature && <span className="color-fg-muted">Feature removed:</span>}
 						<code>{id}</code>
 						<clipboard-copy
 							aria-label="Copy"
@@ -60,7 +60,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 					</h3>
 					{oldNames.length > 0 && (
 						<div className="color-fg-muted mt-n3">
-							<span className="text-small">previously named </span>
+							<span className="text-small">previously named</span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
 									{index > 0 && ', '}
@@ -78,13 +78,21 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 								<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
 							</>
 						)}
-						{
-							meta && isCss && !meta.cssOnly
-								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css && !isCss
-									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
-									: undefined
-						}
+						{meta && isCss && !meta.cssOnly
+							? <>
+								•{' '}
+								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>
+									See .tsx file
+								</a>
+							</>
+							: meta?.css && !isCss
+							? <>
+								•{' '}
+								<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>
+									See .css file
+								</a>
+							</>
+							: undefined}
 					</div>
 				</div>
 				{meta?.screenshot && (

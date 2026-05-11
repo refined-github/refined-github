@@ -303,7 +303,7 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts'],
+		files: ['**/*.js', '**/*.ts', '**/*.tsx'],
 		// TODO: Use global `/flat` config
 		rules: eslintConfigPrettier.rules,
 	},

@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import observe from '../helpers/selector-observer.js';
 
 function isHidingWhitespace(): boolean {
 	return new URL(location.href).searchParams.get('w') === '1';
@@ -31,7 +31,8 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 		<a
 			href={getAlternateUrl()}
 			data-hotkey="d w"
-			className={'float-right mr-3 tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
+			className={'float-right mr-3 tooltipped tooltipped-s btn btn-sm tooltipped '
+				+ (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 		>
 			{isHidingWhitespace() && <CheckIcon />} No Whitespace

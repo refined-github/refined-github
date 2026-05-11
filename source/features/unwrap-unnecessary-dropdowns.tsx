@@ -1,21 +1,14 @@
 import React from 'dom-chef';
-import CopilotIcon from 'octicons-plain-react/Copilot';
-import {
-	$,
-	$$,
-	$$optional,
-	$closest,
-	$optional,
-	elementExists,
-} from 'select-dom';
-import {setFieldText} from 'text-field-edit';
 import * as pageDetect from 'github-url-detection';
+import CopilotIcon from 'octicons-plain-react/Copilot';
+import {$, $$, $$optional, $closest, $optional, elementExists} from 'select-dom';
+import {setFieldText} from 'text-field-edit';
 
-import replaceElementTypeInPlace from '../helpers/recreate-element.js';
-import {frame} from '../helpers/dom-utils.js';
-import {legacyCommentField} from '../github-helpers/selectors.js';
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
+import {legacyCommentField} from '../github-helpers/selectors.js';
+import {frame} from '../helpers/dom-utils.js';
+import replaceElementTypeInPlace from '../helpers/recreate-element.js';
+import observe from '../helpers/selector-observer.js';
 
 // Replace dropdown while keeping its sizing/positioning classes
 function replaceDropdownInPlace(dropdown: Element, form: Element): void {
@@ -76,25 +69,24 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const buttonId = crypto.randomUUID();
 				const tooltipId = crypto.randomUUID();
 
-				let button: JSX.Element | HTMLAnchorElement
-					= <button
-						id={buttonId}
-						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
-						aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
-						type="button"
-						disabled={isDisabled}
-						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
-					>
-						{isCopilotItem
-							? <CopilotIcon/>
-							: (
-								<span className="Button-content">
-									<span className="Button-label">
-										Resolve conflicts
-									</span>
+				let button: JSX.Element | HTMLAnchorElement = <button
+					id={buttonId}
+					className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+					aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
+					type="button"
+					disabled={isDisabled}
+					onClick={isCopilotItem ? insertCopilotInstruction : undefined}
+				>
+					{isCopilotItem
+						? <CopilotIcon />
+						: (
+							<span className="Button-content">
+								<span className="Button-label">
+									Resolve conflicts
 								</span>
-							)}
-					</button>;
+							</span>
+						)}
+				</button>;
 				if (isWebEditorItem && !isDisabled) {
 					button = replaceElementTypeInPlace(button, 'a');
 					button.href = `${location.pathname}/conflicts`;
@@ -115,7 +107,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					</tool-tip>
 				);
 
-				return <div> {button} {tooltip} </div>;
+				return <div>{button} {tooltip}</div>;
 			})}
 		</div>
 	);

@@ -2,9 +2,7 @@ import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {
-	$, $closest, $optional, elementExists,
-} from 'select-dom';
+import {$, $closest, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
@@ -93,7 +91,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 		if (assignYourself) {
 			removeTextNodeContaining(assignYourself.previousSibling!, 'No one—');
 			$('[aria-label="Select assignees"] summary').append(
-				<span style={{fontWeight: 'normal'}}> – {assignYourself}</span>,
+				<span style={{fontWeight: 'normal'}}>– {assignYourself}</span>,
 			);
 			$closest('.discussion-sidebar-item', assignees).classList.add('rgh-clean-sidebar');
 		}
@@ -122,7 +120,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	if (createBranchLink && !openWorkspaceButton) {
 		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary').append(
-			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+			<span style={{fontWeight: 'normal'}}>– {createBranchLink}</span>,
 		);
 	}
 
