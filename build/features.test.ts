@@ -33,6 +33,7 @@ const noScreenshotExceptions = new Set([
 	'monospace-textareas',
 	'new-tab-links',
 
+	'auto-load-notifications', // TODO: Add gif showing notifications loading across pages
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay

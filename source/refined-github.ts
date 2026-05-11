@@ -42,6 +42,7 @@ import './features/hide-navigation-hover-highlight.js';
 import './features/selection-in-new-tab.js';
 import './features/quick-comment-hiding.js';
 import './features/quick-comment-edit.js';
+import './features/auto-load-notifications.js';
 import './features/open-all-notifications.js';
 import './features/copy-on-y.js';
 import './features/profile-hotkey.js';

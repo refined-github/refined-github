@@ -321,6 +321,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Notifications
 
+- [](# "auto-load-notifications") Automatically loads all pages of notifications when a search filter is active, appending them to the list with a loading indicator.
 - [](# "open-all-notifications") [Adds a button to the notification page to open all your unread notifications at once.](https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png)
 - [](# "unread-anywhere") 🔥 [Adds a button to the global header to open your unread notifications from any page.](https://github.com/user-attachments/assets/978ac1fe-db98-40f9-9b56-7d289849aa2f)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
