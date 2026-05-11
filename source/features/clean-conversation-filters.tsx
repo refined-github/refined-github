@@ -7,17 +7,14 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
-
-function getCount(element: HTMLElement): number {
-	return Number(element.textContent.trim());
-}
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
-		if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
+		if (looseParseInt(activeProjectsCounter) > 0) {
 			return true;
 		}
 

@@ -1,10 +1,5 @@
 import hashString from './hash-string.js';
 
-/**
-Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
-
-@param ancestor Which call in the stack should be used as key. 0 means the exact line where getCallerID is called. Defaults to 1 because it's usually used inside a helper.
-*/
 function warn(stack: string, line: number): string {
 	console.warn('The stack doesn’t have the line', {line, stack});
 	return Math.random().toString(16);
@@ -18,6 +13,11 @@ export function getStackLine(stack: string, line: number): string {
 		.at(line) ?? warn(stack, line);
 }
 
+/**
+Get unique ID by using the line:column of the call (or its parents) as seed. Every call from the same place will return the same ID, as long as the index is set to the parents that matters to you.
+
+@param ancestor Which call in the stack should be used as key. 0 means the exact line where getCallerID is called. Defaults to 1 because it's usually used inside a helper.
+*/
 export default function getCallerId(ancestor = 1): string {
 	/* +1 because the first line comes from this function */
 	return hashString(getStackLine(new Error('Get stack').stack!, ancestor + 1));
