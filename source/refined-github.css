@@ -14,8 +14,8 @@
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */
-/* Info: https://github.com/refined-github/sandbox/issues/1830 */
-/* Info: https://github.com/refined-github/sandbox/issues/1904 */
+/* Info: https://github.com/refined-github/refined-github/issues/1830 */
+/* Info: https://github.com/refined-github/refined-github/issues/1904 */
 #js-issues-toolbar .table-list-header-toggle {
 	details {
 		padding: 0 !important;
@@ -32,7 +32,7 @@
 }
 
 /* For `open-all-notifications` and `select-notifications`: allow header wrapping */
-/* Info: https://github.com/refined-github/sandbox/issues/5705 */
+/* Info: https://github.com/refined-github/refined-github/issues/5705 */
 /* Selector works on: */
 /* https://github.com/notifications (Grouped by date) */
 /* https://github.com/notifications (Grouped by repo) */
@@ -98,7 +98,7 @@ pr-branches
 
 /* TODO: Drop after legacy PR files view is removed */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed */
-/* Info: https://github.com/refined-github/sandbox/issues/3925 */
+/* Info: https://github.com/refined-github/refined-github/issues/3925 */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
@@ -119,14 +119,14 @@ pr-branches
 
 /* TODO: Drop after July 2026 */
 /* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` */
-/* Info: https://github.com/refined-github/sandbox/issues/4281 */
+/* Info: https://github.com/refined-github/refined-github/issues/4281 */
 .gh-header-actions [aria-label='Edit Pull Request title'] {
 	margin-left: 4px !important;
 	margin-right: 4px !important;
 }
 
 /* Bold username in conversation lists */
-/* Info: https://github.com/refined-github/sandbox/issues/4899 */
+/* Info: https://github.com/refined-github/refined-github/issues/4899 */
 /* Test: https://github.com/refined-github/refined-github/pulls */
 /* Test: https://github.com/refined-github/refined-github/issues */
 :is(.js-issue-row, span[class^='PinnedIssue-module__issueMetadata'])
@@ -145,7 +145,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 }
 
 /* Increase size of profile picture in user hovercard by 1.5x (default is 48px) */
-/* Info: https://github.com/refined-github/sandbox/issues/7695 */
+/* Info: https://github.com/refined-github/refined-github/issues/7695 */
 /* Test: https://github.com/refined-github/refined-github */
 .user-hovercard-avatar > img.d-block.avatar-user {
 	width: 72px;
@@ -160,7 +160,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 }
 
 /* Add hover effect to attachment row on the release page */
-/* Info: https://github.com/refined-github/sandbox/issues/8339 */
+/* Info: https://github.com/refined-github/refined-github/issues/8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
 @media (min-width: 800px) {
 	.Box-footer
