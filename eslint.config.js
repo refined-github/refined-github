@@ -10,8 +10,8 @@ import xo from 'xo';
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
-import selectDomRule from './eslint-rules/select-dom.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
+import selectDomRule from './eslint-rules/select-dom.js';
 
 const refinedGithubPlugin = {
 	rules: {
