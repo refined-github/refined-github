@@ -304,7 +304,7 @@ export default defineConfig([
 	},
 	{
 		files: ['**/*.js', '**/*.ts'],
-		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
+		// TODO: Use global `/flat` config
 		rules: eslintConfigPrettier.rules,
 	},
 ]);
