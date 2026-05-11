@@ -35,21 +35,23 @@ a[class*='PinnedIssue-module__Link'] code {
 }
 
 /* TODO: Drop after React PR conversations */
-/* Mute unclickable reaction buttons, disable hover #6795 */
+/* Mute unclickable reaction buttons, disable hover */
+/* Info: https://github.com/refined-github/sandbox/issues/6795 */
 /* Test: https://github.com/facebook/react/pull/20646 */
 :root .social-reaction-summary-item:disabled {
 	filter: grayscale(0.5);
 	background-color: transparent;
-}
-:root .social-reaction-summary-item.user-has-reacted:disabled {
-	color: var(
-		--reactionButton-selected-fgColor-rest,
-		var(--color-accent-fg, fuchsia)
-	);
-	background-color: var(
-		--reactionButton-selected-bgColor-rest,
-		var(--color-accent-subtle, fuchsia)
-	) !important;
+
+	&.user-has-reacted {
+		color: var(
+			--reactionButton-selected-fgColor-rest,
+			var(--color-accent-fg, fuchsia)
+		);
+		background-color: var(
+			--reactionButton-selected-bgColor-rest,
+			var(--color-accent-subtle, fuchsia)
+		) !important;
+	}
 }
 
 /* TODO: Drop after React PR conversations */
