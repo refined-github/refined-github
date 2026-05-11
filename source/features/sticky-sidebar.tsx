@@ -17,6 +17,20 @@ const sidebarSelector = [
 ];
 
 let sidebar: HTMLElement | undefined;
+
+function updateStickiness(): void {
+	if (!sidebar) {
+		return;
+	}
+
+	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
+	sidebar.classList.toggle(
+		'rgh-sticky-sidebar',
+		window.innerWidth >= minimumViewportWidthForSidebar
+		&& sidebar.offsetHeight + offset <= window.innerHeight,
+	);
+}
+
 const onResize = debounce(updateStickiness, {wait: 100});
 const sidebarObserver = new ResizeObserver(onResize);
 
@@ -43,19 +57,6 @@ function trackSidebar(signal: AbortSignal, foundSidebar: HTMLElement): void {
 
 	sidebar.addEventListener('mouseenter', toggleHoverState, {signal});
 	sidebar.addEventListener('mouseleave', toggleHoverState, {signal});
-}
-
-function updateStickiness(): void {
-	if (!sidebar) {
-		return;
-	}
-
-	const offset = calculateCssCalcString(getComputedStyle(sidebar).getPropertyValue('--rgh-sticky-sidebar-offset'));
-	sidebar.classList.toggle(
-		'rgh-sticky-sidebar',
-		window.innerWidth >= minimumViewportWidthForSidebar
-		&& sidebar.offsetHeight + offset <= window.innerHeight,
-	);
 }
 
 function init(signal: AbortSignal): void {

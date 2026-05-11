@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import {$optional} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -45,7 +45,7 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 		addMergeLink(link);
 	}
 
-	$optional('.octicon', link)?.remove();
+	$('.octicon', link).remove();
 	if (link.classList.contains('selected')) {
 		link.prepend(<CheckIcon />);
 		link.href = SearchQuery

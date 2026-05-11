@@ -8,24 +8,6 @@ const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'com
 const titleWithGitRef = / at (?<branch>[.\w/-]+)(?: · [\w-]+\/[\w-]+)?$/i;
 
 /** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
-export default function getCurrentGitRef(): string | undefined {
-	// Note: This is not in the <head> so it's only available on AJAXed loads.
-	// It appears on every Code page except `commits` on folders/files
-	const picker = $optional(branchSelector);
-	const refViaPicker = picker && extractCurrentBranchFromBranchPicker(picker);
-	if (refViaPicker) {
-		return refViaPicker;
-	}
-
-	// Slashed branches on `commits`, including pages without a branch picker
-	const branchFromFeed = getCurrentBranchFromFeed();
-	if (branchFromFeed) {
-		return branchFromFeed;
-	}
-
-	return getGitRef(location.pathname, document.title);
-}
-
 export function getGitRef(pathname: string, title: string): string | undefined {
 	if (!pathname.startsWith('/')) {
 		throw new TypeError(`Expected pathname starting with /, got "${pathname}"`);
@@ -61,4 +43,23 @@ function getCurrentBranchFromFeed(): string | undefined {
 		.slice(4) // Drops the initial /user/repo/route/ part
 		.join('/')
 		.replace(/\.atom$/, '');
+}
+
+/** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
+export default function getCurrentGitRef(): string | undefined {
+	// Note: This is not in the <head> so it's only available on AJAXed loads.
+	// It appears on every Code page except `commits` on folders/files
+	const picker = $optional(branchSelector);
+	const refViaPicker = picker && extractCurrentBranchFromBranchPicker(picker);
+	if (refViaPicker) {
+		return refViaPicker;
+	}
+
+	// Slashed branches on `commits`, including pages without a branch picker
+	const branchFromFeed = getCurrentBranchFromFeed();
+	if (branchFromFeed) {
+		return branchFromFeed;
+	}
+
+	return getGitRef(location.pathname, document.title);
 }

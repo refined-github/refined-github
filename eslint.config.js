@@ -93,7 +93,7 @@ export default defineConfig([
 					'error',
 					{
 						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
+								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',
 						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 					},
 					{
@@ -187,6 +187,7 @@ export default defineConfig([
 				'@typescript-eslint/switch-exhaustiveness-check': ['error', {
 					considerDefaultExhaustiveForUnions: true,
 				}],
+				'@typescript-eslint/no-use-before-define': 'error',
 
 				'@typescript-eslint/parameter-properties': 'off', // Conflicts with erasable sintax
 				'@typescript-eslint/no-deprecated': 'off', // Too noisy for now

@@ -1,6 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
+import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
@@ -21,15 +22,14 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<button
 			type="button"
 			className="btn-link"
-			onClick={() => {
+			onClick={event => {
 				newCommentBox.hidden = false;
+
+				// Keep the banner, make it visible
+				$closest('.rgh-bg-none', event.currentTarget).classList.replace('rgh-bg-none', 'flash-error');
 
 				// Unlink this button
 				button.replaceWith(button.firstChild!);
-
-				// Keep the banner, make it visible
-
-				banner.firstElementChild!.classList.replace('rgh-bg-none', 'flash-error');
 
 				newCommentBox.scrollIntoView({
 					behavior: 'smooth',

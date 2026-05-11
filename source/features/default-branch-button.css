@@ -17,3 +17,13 @@ button.rgh-highlight-non-default-branch svg,
 details.rgh-highlight-non-default-branch > summary svg {
 	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 }
+
+/* Remove bad native link https://github.com/refined-github/refined-github/issues/8662#issuecomment-4126171014 */
+/* It only appears in the sidebar */
+div[class^='ReposFileTreePane-module__FullWidthButtonGroup']:has(
+	.rgh-default-branch-button
+) {
+	> div:first-child {
+		display: none;
+	}
+}

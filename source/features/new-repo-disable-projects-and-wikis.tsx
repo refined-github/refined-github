@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -25,10 +25,14 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 		},
 	});
 	await domLoaded;
-	$optional('[data-menu-item$="wiki-tab"]')?.remove();
-	$optional('[data-menu-item$="projects-tab"]')?.remove();
-	$optional('li:has([data-content="Wiki"]')?.remove();
-	$optional('li:has([data-content="Projects"])')?.remove();
+	$([
+		'li:has([data-content="Wiki"]',
+		'[data-menu-item$="wiki-tab"]', // TODO: Drop in October 2026
+	]).remove();
+	$([
+		'li:has([data-content="Projects"])',
+		'[data-menu-item$="projects-tab"]', // TODO: Drop in October 2026
+	]).remove();
 }
 
 function setStorage(): void {

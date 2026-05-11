@@ -183,6 +183,7 @@ div[class^='PRIVATE_TreeView-item-visual']
 div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
 	flex-wrap: wrap;
+	row-gap: 2px;
 
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
@@ -270,6 +271,9 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 	p ~ animated-image > a > img {
 		margin-bottom: var(--base-size-8);
+	}
+	p > a > img[style*='display: block'] {
+		margin-block: var(--base-size-16);
 	}
 }
 

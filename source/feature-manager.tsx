@@ -49,6 +49,16 @@ type FeatureLoader = RunConditions & {
 
 const currentFeatureControllers = new ArrayMap<FeatureId, AbortController>();
 
+function unloadAll(): void {
+	for (const feature of currentFeatureControllers.values()) {
+		for (const controller of feature) {
+			controller.abort();
+		}
+	}
+
+	currentFeatureControllers.clear();
+}
+
 // eslint-disable-next-line no-async-promise-executor -- Rule assumes we don't want to leave it pending
 const globalReady = new Promise<RghOptions>(async resolve => {
 	if (!isWebPage()) {
@@ -225,16 +235,6 @@ function unload(featureUrl: string): void {
 	for (const controller of currentFeatureControllers.get(id) ?? []) {
 		controller.abort();
 	}
-}
-
-function unloadAll(): void {
-	for (const feature of currentFeatureControllers.values()) {
-		for (const controller of feature) {
-			controller.abort();
-		}
-	}
-
-	currentFeatureControllers.clear();
 }
 
 const features = {

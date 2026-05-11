@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import * as pageDetect from 'github-url-detection';
@@ -31,7 +31,7 @@ function ExplanationLink(): JSX.Element {
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
-		const tags = $$('ul.branches-tag-list a', tagsAndBranches);
+		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
 		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
 	},
@@ -44,30 +44,6 @@ function createReleaseUrl(): string {
 	}
 
 	return buildRepoUrl('releases/new');
-}
-
-async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit
-		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
-	const tagName = await firstTag.get(mergeCommit);
-
-	if (tagName) {
-		const tagUrl = buildRepoUrl('releases/tag', tagName);
-
-		// Add static box at the bottom
-		addExistingTagLinkFooter(tagName, tagUrl);
-
-		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
-			signal,
-		});
-	} else {
-		void addReleaseBanner(
-			<>
-				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
-			</>,
-		);
-	}
 }
 
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
@@ -129,6 +105,30 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 			</TimelineItem>
 		),
 	});
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	const mergeCommit
+		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
+	const tagName = await firstTag.get(mergeCommit);
+
+	if (tagName) {
+		const tagUrl = buildRepoUrl('releases/tag', tagName);
+
+		// Add static box at the bottom
+		addExistingTagLinkFooter(tagName, tagUrl);
+
+		// PRs have a regular and a sticky header
+		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+			signal,
+		});
+	} else {
+		void addReleaseBanner(
+			<>
+				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
+			</>,
+		);
+	}
 }
 
 void features.add(import.meta.url, {

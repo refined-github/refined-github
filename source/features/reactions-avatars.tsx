@@ -3,7 +3,7 @@ import './reactions-avatars.css';
 import React from 'dom-chef';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
-import {$$} from 'select-dom';
+import {$$optional} from 'select-dom';
 
 import {onAbort} from 'abort-utils';
 
@@ -62,24 +62,16 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-const viewportObserver = new IntersectionObserver(changes => {
-	for (const change of changes) {
-		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
-		}
-	}
-}, {
-	// Start loading a little before they become visible
-	rootMargin: '500px',
-});
-
-function showAvatarsOn(commentReactions: Element): void {
-	const reactions = $$([
+function showAvatarsOn(reactionsContainer: Element): void {
+	const reactions = $$optional([
 		'button[aria-pressed]', // Discussions, releases, PRs, old issues
 		'button[aria-checked]', // React issues
-	], commentReactions)
+	], reactionsContainer)
 		.map(button => getParticipants(button)); // Get all participants for each reaction
+	if (reactions.length === 0) {
+		return;
+	}
+
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
@@ -99,6 +91,18 @@ function showAvatarsOn(commentReactions: Element): void {
 	}
 }
 
+const viewportObserver = new IntersectionObserver(changes => {
+	for (const change of changes) {
+		if (change.isIntersecting) {
+			showAvatarsOn(change.target);
+			viewportObserver.unobserve(change.target);
+		}
+	}
+}, {
+	// Start loading a little before they become visible
+	rootMargin: '500px',
+});
+
 function observeCommentReactions(commentReactions: Element): void {
 	viewportObserver.observe(commentReactions);
 }
@@ -108,7 +112,7 @@ function init(signal: AbortSignal): void {
 		[
 			// `batch-deferred-content` means the participant list hasn't loaded yet
 			'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
-			'[aria-label="Reactions"]',
+			'div[aria-label="Reactions"]',
 		],
 		observeCommentReactions,
 		{signal},

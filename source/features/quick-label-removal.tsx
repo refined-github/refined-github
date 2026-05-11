@@ -23,17 +23,17 @@ function getLabelList(): HTMLElement {
 	return $('.label-select-menu [src] .hx_rsm-content');
 }
 
-function removeLabelList(): void {
-	const list = getLabelList();
-	$closest('details', list).addEventListener('toggle', restoreLabelList, {once: true});
-	list.replaceChildren();
-}
-
 function restoreLabelList(): void {
 	const list = getLabelList();
 	list.replaceChildren(
 		<include-fragment src={$closest('[src]', list).getAttribute('src')!} />,
 	);
+}
+
+function removeLabelList(): void {
+	const list = getLabelList();
+	$closest('details', list).addEventListener('toggle', restoreLabelList, {once: true});
+	list.replaceChildren();
 }
 
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {

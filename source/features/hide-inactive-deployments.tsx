@@ -1,12 +1,12 @@
 import * as pageDetect from 'github-url-detection';
-import {elementExists, $$} from 'select-dom';
+import {elementExists, $$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
 // This feature doesn't need an active observer
 function init(): void {
 	// Selects all the deployments first so that we can leave the last one on the page
-	const deployments = $$('.js-socket-channel[data-gid^="PR"]:has(.octicon-rocket)');
+	const deployments = $$optional('.js-socket-channel[data-gid^="PR"]:has(.octicon-rocket)');
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {

@@ -38,9 +38,10 @@ async function getWorkflows(): Promise<Workflow[]> {
 }
 
 async function getFilesInWorkflowPath(): Promise<Record<string, string>> {
-	const {repository: {workflowFiles}} = await api.v4(GetWorkflows);
+	const {repository} = await api.v4(GetWorkflows);
 
-	const workflows: any[] = workflowFiles?.entries ?? [];
+	// `workflowFiles` is null on empty repos like https://github.com/fregante/empty
+	const workflows: any[] = repository.workflowFiles?.entries ?? [];
 
 	const result: Record<string, string> = {};
 	for (const workflow of workflows) {

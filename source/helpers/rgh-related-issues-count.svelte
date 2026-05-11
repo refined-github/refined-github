@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {excludeFromDomTextExtraction} from '../github-helpers/parse-rendered-text.js';
 	import pluralize from './pluralize.js';
 	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
 	import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
@@ -24,17 +25,24 @@
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 </script>
 
+{#snippet linked(text: string)}
+	{#if linkify}
+		<a
+			href={relatedIssuesHref}
+			data-turbo-frame="repo-content-turbo-frame"
+			class={excludeFromDomTextExtraction}
+		>{text}</a>
+	{:else}
+		{text}
+	{/if}
+{/snippet}
+
 {#await countPromise}
-	{#if labels.loading !== undefined}{labels.loading}{/if}
+	{#if labels.loading}
+		{@render linked(labels.loading)}
+	{/if}
 {:then count}
 	{#if count > 0 || labels.zero !== undefined}
-		{#if linkify}
-			<a
-				href={relatedIssuesHref}
-				data-turbo-frame="repo-content-turbo-frame"
-			>{pluralize(count, labels.single, labels.plural, labels.zero)}</a>
-		{:else}
-			{pluralize(count, labels.single, labels.plural, labels.zero)}
-		{/if}
+		{@render linked(pluralize(count, labels.single, labels.plural, labels.zero))}
 	{/if}
 {/await}

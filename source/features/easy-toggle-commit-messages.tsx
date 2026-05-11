@@ -18,6 +18,7 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		return;
 	}
 
+	// We might reach this point even if there's no toggle button, so use $optional
 	$optional([
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder

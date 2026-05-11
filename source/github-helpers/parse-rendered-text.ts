@@ -1,37 +1,22 @@
-export default function parseRenderedText(element: Element, filter?: NodeFilter): string {
-	const walker = document.createTreeWalker(element, NodeFilter.SHOW_ALL, filter);
+import getTextNodes from '../helpers/get-text-nodes.js';
 
-	// eslint-disable-next-line @typescript-eslint/no-restricted-types
-	let currentNode = walker.currentNode as Node | null;
-	let parsedText = '';
+export const excludeFromDomTextExtraction = 'rgh-exclude-from-dom-text-extraction';
 
-	while (currentNode) {
-		if (currentNode.nodeName === 'CODE') {
-			const {textContent} = currentNode;
-			// Restore backticks that GitHub loses when rendering them
-			parsedText += `\`${textContent?.trim()}\``;
-
-			// Skip the children
-			currentNode = walker.nextSibling();
-			while (!currentNode) {
-				currentNode = walker.parentNode();
-
-				if (currentNode === walker.root) {
-					return parsedText.trim();
-				}
-
-				currentNode = walker.nextSibling();
+export default function parseRenderedText(element: Element): string {
+	return getTextNodes(element)
+		.map(node => {
+			if (node.parentElement?.tagName === 'CODE') {
+				return `\`${node.nodeValue?.trim()}\``;
 			}
 
-			continue;
-		}
+			if (
+				node.parentElement?.tagName === 'BUTTON'
+				|| node.parentElement?.classList.contains(excludeFromDomTextExtraction)) {
+				return '';
+			}
 
-		if (currentNode.nodeType === Node.TEXT_NODE) {
-			parsedText += currentNode.nodeValue;
-		}
-
-		currentNode = walker.nextNode();
-	}
-
-	return parsedText.trim();
+			return node.nodeValue;
+		})
+		.join('')
+		.trim();
 }

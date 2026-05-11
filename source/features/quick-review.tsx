@@ -52,6 +52,12 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 	triggerConversationUpdate();
 }
 
+async function openReviewDialogWhenAvailable(): Promise<void> {
+	const signal = AbortSignal.timeout(10_000);
+	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
+	reviewMenuButton!.click();
+}
+
 function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
 	if (isAlteredClick(event) || !isNewFilesChangedExperienceEnabled()) {
 		return;
@@ -114,12 +120,6 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButtons, {signal});
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
-}
-
-async function openReviewDialogWhenAvailable(): Promise<void> {
-	const signal = AbortSignal.timeout(10_000);
-	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
-	reviewMenuButton!.click();
 }
 
 function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
