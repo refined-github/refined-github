@@ -2,15 +2,15 @@ import {RuleTester} from 'eslint';
 import cssPlugin from '@eslint/css';
 import {test} from 'vitest';
 
-import rule from './css-top-level-selector-comments.js';
+import rule from './css-documentation.js';
 
-test('css-top-level-selector-comments', () => {
+test('css-documentation', () => {
 	const ruleTester = new RuleTester({
 		plugins: {css: cssPlugin},
 		language: 'css/css',
 	});
 
-	ruleTester.run('css-top-level-selector-comments', rule, {
+	ruleTester.run('css-documentation', rule, {
 		valid: [
 			{
 				code: `/* Description */

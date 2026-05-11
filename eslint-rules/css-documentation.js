@@ -1,20 +1,16 @@
 /** @type {import('eslint').Rule.RuleModule} */
-const cssTopLevelSelectorComments = {
+const cssDocumentation = {
 	meta: {
 		type: 'suggestion',
-		schema: [{
-			type: 'object',
-			properties: {
-				minComments: {
-					type: 'integer',
-					minimum: 1,
-				},
-			},
-			additionalProperties: false,
-		}],
+		schema: [],
 		messages: {
-			invalidComments:
-				'Top-level selectors in this file must be preceded by at least {{minComments}} comment blocks including a description line, an `Info:` line, and a `Test:` line.{{missing}}',
+			invalidComments: [
+				'Each rule must be documented. Use `:root` with nested selectors if your fix involves multiple rules.',
+				'The documentation must follow this format:',
+				'/* A description of the issue */',
+				'/* Info: <URL to more info> */',
+				'/* Test: <URL where this issue can be seen> */{{missing}}',
+			].join('\n'),
 		},
 	},
 	create(context) {
@@ -24,7 +20,6 @@ const cssTopLevelSelectorComments = {
 			commentsByEndLine.set(comment.loc.end.line, comment);
 		}
 
-		const [{minComments = 3} = {}] = context.options;
 		const isNonDescriptionMetadataLine = comment => {
 			const normalizedComment = comment.toLowerCase();
 			return normalizedComment.startsWith('info:') || normalizedComment.startsWith('test:');
@@ -79,15 +74,12 @@ const cssTopLevelSelectorComments = {
 						missingRequirements.push('Test');
 					}
 
-					if (leadingComments.length < minComments || missingRequirements.length > 0) {
+					if (missingRequirements.length > 0) {
 						context.report({
 							node: child,
 							messageId: 'invalidComments',
 							data: {
-								minComments: String(minComments),
-								missing: missingRequirements.length === 0
-									? ''
-									: ` Missing: ${missingRequirements.join(', ')}.`,
+								missing: ` Missing: ${missingRequirements.join(', ')}.`,
 							},
 						});
 					}
@@ -97,4 +89,4 @@ const cssTopLevelSelectorComments = {
 	},
 };
 
-export default cssTopLevelSelectorComments;
+export default cssDocumentation;

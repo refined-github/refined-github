@@ -8,7 +8,7 @@ import css from '@eslint/css';
 import pluginPromise from 'eslint-plugin-promise';
 
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
-import cssTopLevelSelectorComments from './eslint-rules/css-top-level-selector-comments.js';
+import cssDocumentation from './eslint-rules/css-documentation.js';
 
 import selectDomRule from './eslint-rules/select-dom.js';
 
@@ -16,7 +16,7 @@ const refinedGithubPlugin = {
 	rules: {
 		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
-		'css-top-level-selector-comments': cssTopLevelSelectorComments,
+		'css-documentation': cssDocumentation,
 	},
 };
 
@@ -324,7 +324,7 @@ export default defineConfig([
 	{
 		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
 		rules: {
-			'refined-github/css-top-level-selector-comments': ['warn', {minComments: 3}],
+			'refined-github/css-documentation': 'warn',
 		},
 	},
 	{
