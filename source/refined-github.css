@@ -33,12 +33,10 @@
 
 /* For `open-all-notifications` and `select-notifications`: allow header wrapping */
 /* Info: https://github.com/refined-github/sandbox/issues/5705 */
-/*
-Selector works on:
-https://github.com/notifications (Grouped by date)
-https://github.com/notifications (Grouped by repo)
-https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-*/
+/* Selector works on: */
+/* https://github.com/notifications (Grouped by date) */
+/* https://github.com/notifications (Grouped by repo) */
+/* https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter) */
 .js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
 	flex-wrap: wrap;
 	height: auto !important; /* Unset the default height to allow wrapping */
