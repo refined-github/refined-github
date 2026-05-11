@@ -7,7 +7,7 @@
 	}
 }
 
-[data-rgh-conversation-activity-filter='hideEventsBotsCollapsedComments'] {
+[data-rgh-conversation-activity-filter='hideAllNoise'] {
 	.rgh-conversation-activity-filtered-event,
 	.rgh-conversation-activity-bot-comment,
 	.rgh-conversation-activity-collapsed-comment,
@@ -47,7 +47,7 @@
 	}
 
 	&:is(
-		[data-rgh-conversation-activity-filter='hideEventsBotsCollapsedComments'] *
+		[data-rgh-conversation-activity-filter='hideAllNoise'] *
 	) {
 		.octicon-eye {
 			display: none;
