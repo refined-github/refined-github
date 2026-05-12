@@ -31,10 +31,11 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/8000',
 ];
 
+// Keys are used as CSS selectors
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsBotsCollapsedComments: 'Hide events, bots, collapsed comments',
+	hideAllNoise: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -63,6 +64,7 @@ const timelineItem = [
 	// React issue pages
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
+const comment = ['.comment-body', '.react-issue-comment'];
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -79,7 +81,7 @@ function processSimpleComment(item: HTMLElement): void {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (getCommentAuthor(item.firstElementChild!).endsWith('[bot]')) {
+	if (getCommentAuthor($(comment, item)).endsWith('[bot]')) {
 		item.classList.add(botClassName);
 	}
 }
@@ -125,7 +127,7 @@ function processItem(item: HTMLElement): void {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if (elementExists(['.comment-body', '.react-issue-comment'], item)) {
+	} else if (elementExists(comment, item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
@@ -288,11 +290,14 @@ function switchToNextFilter(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
-			? 'hideEventsBotsCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
 	const initialSetupOnce = onetime(() => {
-		applyState(currentState);
+		if (currentState !== 'showAll') {
+			applyState(currentState);
+		}
+
 		registerHotkey('h', switchToNextFilter, {signal});
 		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
 	});
