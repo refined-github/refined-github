@@ -52,8 +52,10 @@
 	}
 
 	[class^='PullRequestBranchName'],
-	/* TODO: Remove after July 2026 */
+	/* Old views */
+	/* TODO: Drop after legacy PR files view is removed */
 	.commit-ref,
+	/* TODO: Drop after July 2026 */
 	[class^='BranchName'] {
 		font-size: 12px !important;
 	}
@@ -67,7 +69,7 @@
 		margin-left: var(--margin);
 	}
 
-	/* TODO: Remove after July 2026 */
+	/* TODO: Drop after legacy PR files view is removed */
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;
