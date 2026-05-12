@@ -1,4 +1,4 @@
-import {$, $$optional, $optional} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 
 type PrReference = {
 	/** @example fregante/mem:main */
