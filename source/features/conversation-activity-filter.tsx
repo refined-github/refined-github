@@ -65,6 +65,7 @@ const timelineItem = [
 	// React issue pages
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
+const comment = ['.comment-body', '.react-issue-comment'];
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -81,7 +82,7 @@ function processSimpleComment(item: HTMLElement): void {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (getCommentAuthor(item.firstElementChild!).endsWith('[bot]')) {
+	if (getCommentAuthor($(comment, item)).endsWith('[bot]')) {
 		item.classList.add(botClassName);
 	}
 }
@@ -127,7 +128,7 @@ function processItem(item: HTMLElement): void {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
 		processDissmissedReviewEvent(item);
-	} else if (elementExists(['.comment-body', '.react-issue-comment'], item)) {
+	} else if (elementExists(comment, item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
