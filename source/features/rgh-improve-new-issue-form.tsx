@@ -11,7 +11,7 @@ import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
 import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
+import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
 import {getToken} from '../options-storage.js';
 import delay from '../helpers/delay.js';
 
