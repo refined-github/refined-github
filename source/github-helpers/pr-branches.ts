@@ -71,7 +71,7 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 		},
 		get head() {
 			return parseReference(
-				// Doesn't exist on old views
+				// Doesn't exist in old views
 				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
 					?? $([
 						'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
