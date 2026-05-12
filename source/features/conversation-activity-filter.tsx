@@ -295,7 +295,10 @@ async function init(signal: AbortSignal): Promise<void> {
 			: 'showAll');
 
 	const initialSetupOnce = onetime(() => {
-		applyState(currentState);
+		if (currentState !== 'showAll') {
+			applyState(currentState);
+		}
+
 		registerHotkey('h', switchToNextFilter, {signal});
 		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
 	});
