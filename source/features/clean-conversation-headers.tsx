@@ -48,7 +48,6 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	const base = $([
 		'[class^="PullRequestBranchName"]',
-		// Old views
 		// TODO: Drop after legacy PR files view is removed
 		'.commit-ref',
 		// TODO: Drop after July 2026
@@ -83,7 +82,6 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'.d-flex[class*="PullRequestHeaderSummary"]',
-			// Old views
 			// TODO: Drop after legacy PR files view is removed
 			'.gh-header-meta > .flex-auto', // Real
 			// TODO: Drop after July 2026

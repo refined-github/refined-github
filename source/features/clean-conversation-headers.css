@@ -52,7 +52,7 @@
 	}
 
 	[class^='PullRequestBranchName'],
-	/* Old views */ /* TODO: Drop after legacy PR files view is removed */
+	/* TODO: Drop after legacy PR files view is removed */
 	.commit-ref,
 	/* TODO: Drop after July 2026 */
 	[class^='BranchName'] {
