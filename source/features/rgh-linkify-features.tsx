@@ -13,7 +13,7 @@ import {getFeatureUrl} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 
-function linkifyFeature(possibleFeature: HTMLElement, showRelatedIssuesCount: boolean): void {
+function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;
 	const id = getNewFeatureName(originalText);
 	if (!id) {
@@ -56,7 +56,7 @@ function linkifyFeature(possibleFeature: HTMLElement, showRelatedIssuesCount: bo
 		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (anchorElement && showRelatedIssuesCount) {
+	if (anchorElement && !pageDetect.isReleasesOrTags()) {
 		const sup = <sup/>;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
@@ -68,8 +68,6 @@ function linkifyFeature(possibleFeature: HTMLElement, showRelatedIssuesCount: bo
 }
 
 function init(signal: AbortSignal): void {
-	const showRelatedIssuesCount = !pageDetect.isReleasesOrTags() && !pageDetect.isSingleReleaseOrTag();
-
 	observe(
 		[
 			'.js-issue-title code', // `isPRConversation`, Old view `isIssue`
@@ -81,9 +79,7 @@ function init(signal: AbortSignal): void {
 			`${commitTitleInLists} code`, // `isCommitList`,
 			'.react-directory-commit-message code', // `isRepoTree`
 		],
-		possibleFeature => {
-			linkifyFeature(possibleFeature, showRelatedIssuesCount);
-		},
+		linkifyFeature,
 		{signal},
 	);
 }
