@@ -17,15 +17,18 @@ function renderShortcut(shortcut: string): Array<string | JSX.Element> {
 /**
 Creates and links a `tool-tip` element to the given element.
 
-If `element` is already in the DOM, the tooltip is automatically inserted after it.
-Otherwise, the tooltip is returned for manual insertion alongside the element.
+If `element` is already connected to the document, the tooltip is automatically
+inserted after it. Otherwise, the tooltip is returned for manual insertion alongside
+the element.
+
+Sets `aria-labelledby` on the element pointing to the tooltip.
 
 @example
 // Element already in DOM:
 addToolTip(button, 'Does something');
 
 // Building a JSX tree:
-const button = <button type="button">…</button> as HTMLButtonElement;
+const button = <button type="button">…</button> as HTMLElement;
 return <div>{button}{addToolTip(button, 'Does something')}</div>;
 
 // With options:
@@ -60,8 +63,10 @@ export default function addToolTip(
 		</tool-tip>
 	) as HTMLElement;
 
-	// If element has a parent, insert tooltip after it (works for connected or unconnected subtrees)
-	element.after(tooltip);
+	// If element is already in the document, insert the tooltip automatically after it
+	if (element.isConnected) {
+		element.after(tooltip);
+	}
 
 	element.setAttribute('aria-labelledby', tooltipId);
 
