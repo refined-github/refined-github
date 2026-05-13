@@ -28,6 +28,11 @@ type RepoPublishState = {
 	aheadBy: number;
 };
 
+type TooltippedElement = {
+	element: HTMLElement;
+	tooltip: HTMLElement;
+};
+
 type Tags = {
 	name: string;
 	tag: {
@@ -78,7 +83,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 async function createLink(
 	latestTag: string,
 	aheadBy: number,
-): Promise<[HTMLAnchorElement, HTMLElement]> {
+): Promise<TooltippedElement> {
 	const commitCount = aheadBy === undeterminableAheadBy
 		? 'More than 20 unreleased commits'
 		: pluralize(aheadBy, '$$ unreleased commit');
@@ -98,13 +103,21 @@ async function createLink(
 		{label, direction: 'se'},
 		link,
 	);
-	return [tooltippedLink as HTMLAnchorElement, tooltip];
+	return {
+		element: tooltippedLink as HTMLAnchorElement,
+		tooltip,
+	};
 }
 
-async function createLinkGroup(latestTag: string, aheadBy: number): Promise<[HTMLElement, ...HTMLElement[]]> {
-	const [link, linkTooltip] = await createLink(latestTag, aheadBy);
+type TooltippedElementGroup = {
+	element: HTMLElement;
+	tooltips: HTMLElement[];
+};
+
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<TooltippedElementGroup> {
+	const {element: link, tooltip: linkTooltip} = await createLink(latestTag, aheadBy);
 	if (!(await userHasPushAccess())) {
-		return [link, linkTooltip];
+		return {element: link, tooltips: [linkTooltip]};
 	}
 
 	const [newReleaseButton, newReleaseButtonTooltip] = tooltipped(
@@ -118,14 +131,16 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<[HTM
 		</a>,
 	);
 
-	return [
-		groupButtons([
+	return {
+		element: groupButtons([
 			link,
 			newReleaseButton,
 		]),
-		linkTooltip,
-		newReleaseButtonTooltip,
-	];
+		tooltips: [
+			linkTooltip,
+			newReleaseButtonTooltip,
+		],
+	};
 }
 
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
@@ -142,7 +157,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const [linkGroup, ...tooltips] = await createLinkGroup(latestTag, aheadBy);
+	const {element: linkGroup, tooltips} = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
@@ -161,7 +176,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 		return;
 	}
 
-	const [widget, widgetTooltip] = await createLink(latestTag, aheadBy);
+	const {element: widget, tooltip: widgetTooltip} = await createLink(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
 	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');

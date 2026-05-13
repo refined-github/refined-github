@@ -37,7 +37,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 			<a
 				href={getAlternateUrl()}
 				data-hotkey="d w"
-				aria-label="Hotkey: d w"
+				aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 				className={'float-right mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			>
 				{isHidingWhitespace() && <CheckIcon />} No Whitespace

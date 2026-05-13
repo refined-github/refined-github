@@ -5,11 +5,10 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {
-	$, $$, $closest, $closestOptional, elementExists,
+	$, $$, $closest, $closestOptional, $optional, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
-import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
@@ -82,7 +81,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 			type="button"
 			className={'btn btn-sm mr-2 ' + openSelected.class}
 			data-hotkey="p"
-			aria-label="Hotkey: p"
+			aria-label="Open selected notifications"
 		>
 			<LinkExternalIcon className="mr-1" />Open
 		</button>
@@ -91,16 +90,12 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 		label: 'Open selected notifications',
 		shortcut: 'p',
 	}, button);
-	appendBefore(
-		selectedActionsGroup,
-		'details',
-		buttonWithTooltip,
-	);
-	appendBefore(
-		selectedActionsGroup,
-		'details',
-		tooltip,
-	);
+	const beforeElement = $optional(':scope > details', selectedActionsGroup);
+	if (beforeElement) {
+		beforeElement.before(buttonWithTooltip, tooltip);
+	} else {
+		selectedActionsGroup.append(buttonWithTooltip, tooltip);
+	}
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
