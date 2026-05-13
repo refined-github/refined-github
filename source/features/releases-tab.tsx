@@ -17,8 +17,6 @@ import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-// eslint-disable-next-line import-x/no-unassigned-import
-import '../helpers/tooltip.js';
 import GetReleasesCount from './releases-tab.gql';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
