@@ -83,6 +83,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 			type="button"
 			className={'btn btn-sm mr-2 ' + openSelected.class}
 			data-hotkey="p"
+			title="Hotkey: p"
 		>
 			<LinkExternalIcon className="mr-1" />Open
 		</button>

@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$optional, elementExists} from 'select-dom';
+import {$$, $optional, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -41,7 +41,11 @@ type Tags = {
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
 function applyTooltips(container: ParentNode): void {
-	for (const element of container.querySelectorAll<HTMLElement>('[data-rgh-tooltip]')) {
+	for (const element of $$('[data-rgh-tooltip]', container)) {
+		if (!(element instanceof HTMLElement)) {
+			continue;
+		}
+
 		addToolTip({
 			label: element.dataset.rghTooltip!,
 			direction: (element.dataset.rghTooltipDirection as 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw' | undefined),
