@@ -10,6 +10,7 @@ const cssRequireFuchsiaFallback = {
 	create(context) {
 		const {sourceCode} = context;
 		const colorVariableRegex = /^--(?:[a-z]+Color-|color-)/;
+		const allowedFallbackRegex = /fuchsia|cyan/;
 
 		return {
 			Function(node) {
@@ -22,7 +23,7 @@ const cssRequireFuchsiaFallback = {
 					return;
 				}
 
-				if (!sourceCode.getText(node).toLowerCase().includes('fuchsia')) {
+				if (!allowedFallbackRegex.test(sourceCode.getText(node).toLowerCase())) {
 					context.report({
 						node,
 						messageId: 'missingFuchsiaFallback',

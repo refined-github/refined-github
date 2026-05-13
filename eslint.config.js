@@ -302,11 +302,6 @@ export default defineConfig([
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
-		},
-	},
-	{
-		files: ['source/features/*.css'],
-		rules: {
 			'refined-github/css-require-fuchsia-fallback': 'error',
 		},
 	},

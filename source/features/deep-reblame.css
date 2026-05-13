@@ -1,4 +1,4 @@
-/* Uses cyan instead of fuchsia because the link is natively purple */
+/* Keep a visible fallback in case GitHub color variables are unavailable. */
 button.rgh-deep-reblame .octicon-versions {
 	color: var(--color-prettylights-syntax-entity, cyan);
 	opacity: 70%;
