@@ -91,6 +91,7 @@ function createButtonGroup(): JSX.Element {
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => (
 				<div>{tooltipped(
+					label.tooltipLabel,
 					<button
 						className={`Button--secondary Button--medium Button ${feature.class}`}
 						data-method={method}
@@ -102,7 +103,6 @@ function createButtonGroup(): JSX.Element {
 							</span>
 						</span>
 					</button>,
-					label.tooltipLabel,
 				)}</div>
 			))}
 		</div>

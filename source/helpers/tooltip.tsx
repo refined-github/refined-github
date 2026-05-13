@@ -46,14 +46,14 @@ Creates a `tool-tip` linked to `element` and returns both for embedding in a JSX
 
 @example
 const button = <button type="button">…</button> as HTMLElement;
-return <div>{tooltipped(button, 'Does something')}</div>;
+return <div>{tooltipped('Does something', button)}</div>;
 
 // With options:
-return <div>{tooltipped(button, {label: 'Does something', shortcut: 'g b', direction: 'n'})}</div>;
+return <div>{tooltipped({label: 'Does something', shortcut: 'g b', direction: 'n'}, button)}</div>;
 */
 export function tooltipped(
-	element: Element,
 	content: string | TooltipOptions,
+	element: Element,
 ): [Element, HTMLElement] {
 	return [element, createTooltipFor(element, content)];
 }
@@ -64,12 +64,12 @@ Creates a `tool-tip` element and inserts it immediately after `element` in the D
 `element` must have a parent node. Use `tooltipped` instead for elements not yet attached to a parent.
 
 @example
-addToolTip(button, 'Does something');
-addToolTip(button, {label: 'Does something', shortcut: 'g b', direction: 'n'});
+addToolTip('Does something', button);
+addToolTip({label: 'Does something', shortcut: 'g b', direction: 'n'}, button);
 */
 export default function addToolTip(
-	element: Element,
 	content: string | TooltipOptions,
+	element: Element,
 ): void {
 	if (!element.parentNode) {
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');

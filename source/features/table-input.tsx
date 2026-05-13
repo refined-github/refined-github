@@ -41,6 +41,7 @@ function add(container: HTMLElement): void {
 	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			{tooltipped(
+				'Add a table',
 				<summary
 					className="Button Button--iconOnly Button--invisible Button--medium"
 					role="button"
@@ -48,7 +49,6 @@ function add(container: HTMLElement): void {
 				>
 					<TableIcon />
 				</summary>,
-				'Add a table',
 			)}
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"

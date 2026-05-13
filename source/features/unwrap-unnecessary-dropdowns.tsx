@@ -98,7 +98,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 
 				return <div>{
 					shouldHaveTooltip
-						? tooltipped(button as Element, inactiveReason ?? 'Ask Copilot to resolve conflicts')
+						? tooltipped(inactiveReason ?? 'Ask Copilot to resolve conflicts', button as Element)
 						: button
 				}</div>;
 			})}
