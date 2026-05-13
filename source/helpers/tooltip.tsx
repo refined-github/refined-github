@@ -42,14 +42,9 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 }
 
 /**
-Creates a `tool-tip` linked to `element` and returns both for embedding in a JSX tree.
+Generates a tooltip for the received element. You should use this when generating elements via JSX
 
-@example
-const button = <button type="button">…</button> as HTMLElement;
-return <div>{tooltipped('Does something', button)}</div>;
-
-// With options:
-return <div>{tooltipped({label: 'Does something', shortcut: 'g b', direction: 'n'}, button)}</div>;
+@example return <div>{tooltipped('Does something', <button type="button">...</button>)}</div>;
 */
 export function tooltipped(
 	content: string | TooltipOptions,
@@ -59,13 +54,9 @@ export function tooltipped(
 }
 
 /**
-Creates a `tool-tip` element and inserts it immediately after `element` in the DOM.
+Attaches a tooltip to an existing element. Don't use this with JSX.
 
-`element` must have a parent node. Use `tooltipped` instead for elements not yet attached to a parent.
-
-@example
-addToolTip('Does something', button);
-addToolTip({label: 'Does something', shortcut: 'g b', direction: 'n'}, button);
+@example addToolTip('Does something', $('.some-existing-button'))
 */
 export default function addToolTip(
 	content: string | TooltipOptions,
