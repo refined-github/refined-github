@@ -89,8 +89,8 @@ const feature = getIdentifiers(import.meta.url);
 function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
-			{Object.entries(updateMethods).map(([method, label]) => {
-				const button = (
+			{Object.entries(updateMethods).map(([method, label]) => (
+				<div>{tooltipped(
 					<button
 						className={`Button--secondary Button--medium Button ${feature.class}`}
 						data-method={method}
@@ -101,10 +101,10 @@ function createButtonGroup(): JSX.Element {
 								{label.buttonLabel}
 							</span>
 						</span>
-					</button>
-				) as HTMLElement;
-				return <div>{tooltipped(button, label.tooltipLabel)}</div>;
-			})}
+					</button>,
+					label.tooltipLabel,
+				)}</div>
+			))}
 		</div>
 	);
 }

@@ -38,21 +38,18 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	const summary = (
-		<summary
-			className="Button Button--iconOnly Button--invisible Button--medium"
-			role="button"
-			aria-haspopup="menu"
-		>
-			<TableIcon />
-		</summary>
-	) as HTMLElement;
-
-	const [, summaryTooltip] = tooltipped(summary, 'Add a table');
-
 	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
-			{summary}
+			{tooltipped(
+				<summary
+					className="Button Button--iconOnly Button--invisible Button--medium"
+					role="button"
+					aria-haspopup="menu"
+				>
+					<TableIcon />
+				</summary>,
+				'Add a table',
+			)}
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
@@ -68,7 +65,6 @@ function add(container: HTMLElement): void {
 				))}
 			</details-menu>
 		</details>,
-		summaryTooltip,
 	);
 }
 
