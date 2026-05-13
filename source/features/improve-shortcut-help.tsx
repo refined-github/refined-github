@@ -7,6 +7,7 @@ import {$, $optional, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
+import {upperCaseFirst} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -84,7 +85,7 @@ const getRghShortcutsContainer = memoize(
 								<>
 									{index > 0 && ' '}
 									<span className={chord.className}>
-										{key.charAt(0).toUpperCase() + key.slice(1)}
+										{upperCaseFirst(key)}
 									</span>
 								</>
 							))}

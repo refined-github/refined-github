@@ -1,5 +1,7 @@
 import React from 'dom-chef';
 
+import {upperCaseFirst} from '../github-helpers/index.js';
+
 export type TooltipOptions = {
 	label: string;
 	shortcut?: string;
@@ -7,9 +9,18 @@ export type TooltipOptions = {
 	type?: 'label' | 'description';
 };
 
-function renderShortcut(shortcut: string): Array<string | JSX.Element> {
-	return shortcut.split(' ').flatMap((key, index) =>
-		index === 0 ? [<kbd>{key}</kbd>] : [' ', <kbd>{key}</kbd>],
+function renderShortcut(shortcut: string): JSX.Element {
+	return (
+		<kbd className='rgh-shortcut'>
+			{shortcut.split(' ').map((key, index) => (
+				<>
+					{index > 0 && ' '}
+					<span className='rgh-shortcut-chord' data-kbd-chord='true'>
+						{upperCaseFirst(key)}
+					</span>
+				</>
+			))}
+		</kbd>
 	);
 }
 
@@ -36,7 +47,7 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 			role="tooltip"
 		>
 			{options.label}
-			{options.shortcut && [' ', ...renderShortcut(options.shortcut)]}
+			{options.shortcut && renderShortcut(options.shortcut)}
 		</tool-tip>
 	);
 }
