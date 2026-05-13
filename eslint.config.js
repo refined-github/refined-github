@@ -333,4 +333,4 @@ export default defineConfig([
 		// TODO: Use global `/flat` config
 		rules: eslintConfigPrettier.rules,
 	},
-};
+]);
