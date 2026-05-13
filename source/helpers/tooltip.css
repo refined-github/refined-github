@@ -1,0 +1,37 @@
+/* Copied from: https://github.com/primer/react/blob/dfed7ca73532922ec0526dd85afcf7ae471c566e/packages/react/src/KeybindingHint/KeybindingHint.module.css */
+.rgh-shortcut {
+	position: relative;
+	padding: 0;
+	margin-left: var(--base-size-6, 0.375rem);
+	overflow: visible;
+	/* eslint-disable-next-line css/font-family-fallbacks */
+	font-family: inherit;
+	font-size: inherit;
+	line-height: unset;
+	color: inherit;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+/* Adapted from: https://github.com/primer/react/blob/dfed7ca73532922ec0526dd85afcf7ae471c566e/packages/react/src/KeybindingHint/components/Chord.module.css */
+.rgh-shortcut-chord {
+	display: inline-flex;
+	border: var(--borderWidth-thin, 0.0625rem) solid;
+	border-radius: var(--borderRadius-small, 0.1875rem);
+	border-color: #0000;
+	font-weight: var(--base-text-weight-normal, 400);
+	font-size: 11px;
+	gap: 0.5ch;
+	box-shadow: none;
+	vertical-align: baseline;
+	overflow: hidden;
+	justify-content: center;
+	padding: var(--base-size-2, 0.125rem);
+	line-height: var(--base-size-8, 0.5rem);
+	min-width: var(--base-size-16, 1rem);
+	color: var(--fgColor-onEmphasis, fuchsia);
+	background: var(--counter-bgColor-emphasis, fuchsia);
+}

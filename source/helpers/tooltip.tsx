@@ -1,3 +1,5 @@
+import './tooltip.css';
+
 import React from 'dom-chef';
 
 import {upperCaseFirst} from '../github-helpers/index.js';
