@@ -9,6 +9,7 @@ import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
+import addToolTip from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
@@ -37,17 +38,19 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
+	const summary = (
+		<summary
+			className="Button Button--iconOnly Button--invisible Button--medium"
+			role="button"
+			aria-haspopup="menu"
+		>
+			<TableIcon />
+		</summary>
+	) as HTMLElement;
+
 	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
-			<summary
-				id="rgh-table-input-button"
-				className="Button Button--iconOnly Button--invisible Button--medium"
-				role="button"
-				aria-labelledby="rgh-table-input-tooltip"
-				aria-haspopup="menu"
-			>
-				<TableIcon />
-			</summary>
+			{summary}
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
@@ -63,16 +66,7 @@ function add(container: HTMLElement): void {
 				))}
 			</details-menu>
 		</details>,
-		<tool-tip
-			id="rgh-table-input-tooltip"
-			for="rgh-table-input-button"
-			className="sr-only position-absolute"
-			popover="manual"
-			data-direction="s"
-			data-type="label"
-		>
-			Add a table
-		</tool-tip>,
+		addToolTip(summary, 'Add a table'),
 	);
 }
 

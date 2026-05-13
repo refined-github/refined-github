@@ -20,6 +20,7 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import addToolTip from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
@@ -89,37 +90,20 @@ function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => {
-				const buttonId = crypto.randomUUID();
-				const tooltipId = crypto.randomUUID();
-				return (
-					<div>
-						<button
-							id={buttonId}
-							className={`Button--secondary Button--medium Button ${feature.class}`}
-							data-method={method}
-							aria-labelledby={tooltipId}
-							type="button"
-						>
-							<span className="Button-content">
-								<span className="Button-label">
-									{label.buttonLabel}
-								</span>
+				const button = (
+					<button
+						className={`Button--secondary Button--medium Button ${feature.class}`}
+						data-method={method}
+						type="button"
+					>
+						<span className="Button-content">
+							<span className="Button-label">
+								{label.buttonLabel}
 							</span>
-						</button>
-						<tool-tip
-							id={tooltipId}
-							className="sr-only position-absolute"
-							for={buttonId}
-							popover="manual"
-							data-direction="s"
-							data-type="label"
-							aria-hidden="true"
-							role="tooltip"
-						>
-							{label.tooltipLabel}
-						</tool-tip>
-					</div>
-				);
+						</span>
+					</button>
+				) as HTMLElement;
+				return <div>{button}{addToolTip(button, label.tooltipLabel)}</div>;
 			})}
 		</div>
 	);
