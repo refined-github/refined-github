@@ -19,9 +19,10 @@ Creates and links a `tool-tip` element to the given element.
 
 If `element` is already connected to the document, the tooltip is automatically
 inserted after it. Otherwise, the tooltip is returned for manual insertion alongside
-the element.
+the element — the caller is responsible for inserting both into the DOM together.
 
-Sets `aria-labelledby` on the element pointing to the tooltip.
+Sets `aria-labelledby` on the element unconditionally, so the link takes effect
+as soon as the element and tooltip are both present in the document.
 
 @example
 // Element already in DOM:

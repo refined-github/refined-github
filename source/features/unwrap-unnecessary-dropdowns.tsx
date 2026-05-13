@@ -101,7 +101,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					inactiveReason ?? 'Ask Copilot to resolve conflicts',
 				);
 
-				return <div> {button} {tooltip} </div>;
+				return <div>{button}{tooltip}</div>;
 			})}
 		</div>
 	);
