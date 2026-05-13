@@ -62,6 +62,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// Mount after the <a> so <sup> is outside the link
 		anchorElement = possibleFeature.parentElement!;
 	}
+
 	if (anchorElement && !shouldHideCount()) {
 		const sup = <sup/>;
 		anchorElement.after(sup);
