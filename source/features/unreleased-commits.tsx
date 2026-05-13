@@ -87,7 +87,9 @@ async function createLink(
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon className="v-align-middle" /> {aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
+			<TagIcon className="v-align-middle" />
+			{' '}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }

@@ -7,7 +7,13 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import {$, $$, $$optional, $closest, elementExists} from 'select-dom';
+import {
+	$,
+	$$,
+	$$optional,
+	$closest,
+	elementExists,
+} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';

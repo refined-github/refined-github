@@ -69,24 +69,25 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const buttonId = crypto.randomUUID();
 				const tooltipId = crypto.randomUUID();
 
-				let button: JSX.Element | HTMLAnchorElement = <button
-					id={buttonId}
-					className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
-					aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
-					type="button"
-					disabled={isDisabled}
-					onClick={isCopilotItem ? insertCopilotInstruction : undefined}
-				>
-					{isCopilotItem
-						? <CopilotIcon />
-						: (
-							<span className="Button-content">
-								<span className="Button-label">
-									Resolve conflicts
+				let button: JSX.Element | HTMLAnchorElement
+					= <button
+						id={buttonId}
+						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+						aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
+						type="button"
+						disabled={isDisabled}
+						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
+					>
+						{isCopilotItem
+							? <CopilotIcon/>
+							: (
+								<span className="Button-content">
+									<span className="Button-label">
+										Resolve conflicts
+									</span>
 								</span>
-							</span>
-						)}
-				</button>;
+							)}
+					</button>;
 				if (isWebEditorItem && !isDisabled) {
 					button = replaceElementTypeInPlace(button, 'a');
 					button.href = `${location.pathname}/conflicts`;
@@ -107,7 +108,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					</tool-tip>
 				);
 
-				return <div>{button} {tooltip}</div>;
+				return <div> {button} {tooltip} </div>;
 			})}
 		</div>
 	);

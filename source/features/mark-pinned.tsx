@@ -18,6 +18,7 @@ function mark(issueLink: HTMLAnchorElement): void {
 	if (
 		// Is pinned
 		elementExists(getPinnedIssueSelector(issueLink))
+
 		// Is not already titled with the pin emoji
 		&& !issueLink.textContent.startsWith('📌')
 	) {

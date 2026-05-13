@@ -23,7 +23,7 @@ const isOnlyChild = (link: HTMLAnchorElement): boolean =>
 	link.textContent.trim() === link.parentElement!.textContent.trim();
 
 async function embedGist(link: HTMLAnchorElement): Promise<void> {
-	const info = <em>(loading)</em>;
+	const info = <em> (loading)</em>;
 	link.after(info);
 
 	try {
@@ -39,8 +39,7 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		} else {
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>
-					{`
+				<style>{`
 					.gist .gist-data {
 						max-height: 16em;
 						overflow-y: auto;
