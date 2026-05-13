@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $closest, countElements} from 'select-dom';
 
-import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
@@ -10,8 +9,10 @@ import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
+import {setReactTextareaValue} from '../helpers/set-react-text-field-value.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
+import features from '../feature-manager.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
@@ -30,12 +31,12 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 
 	cleanedMessage = cleanedMessage ? cleanedMessage + '\n' : '';
 	// Do not use `text-field-edit` #6348
-	messageField.value = cleanedMessage;
+	setReactTextareaValue(messageField, cleanedMessage);
 
 	let isUndoing = false;
 	function toggleUndoRedo({currentTarget}: React.MouseEvent<HTMLButtonElement>): void {
 		isUndoing = !isUndoing;
-		messageField.value = isUndoing ? originalMessage : cleanedMessage;
+		setReactTextareaValue(messageField, isUndoing ? originalMessage : cleanedMessage);
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
 	}
 

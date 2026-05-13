@@ -308,7 +308,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class^="HeaderMetadata-module__metadataContent"]',
 			'[class*="HeaderMetadata-module__smallMetadataRow"]',
 			// PR view
-			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
 			// Old PR view - TODO: Remove after July 2026
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
