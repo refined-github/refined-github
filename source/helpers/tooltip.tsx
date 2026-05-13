@@ -13,31 +13,7 @@ function renderShortcut(shortcut: string): Array<string | JSX.Element> {
 	);
 }
 
-/**
-Creates and links a `tool-tip` element to the given element.
-
-If `element` is already connected to the document, the tooltip is automatically
-inserted after it. Otherwise, the tooltip is returned for manual insertion alongside
-the element — the caller is responsible for inserting both into the DOM together.
-
-Sets `aria-labelledby` on the element unconditionally, so the link takes effect
-as soon as the element and tooltip are both present in the document.
-
-@example
-// Element already in DOM:
-addToolTip(button, 'Does something');
-
-// Building a JSX tree:
-const button = <button type="button">…</button> as HTMLElement;
-return <div>{button}{addToolTip(button, 'Does something')}</div>;
-
-// With options:
-addToolTip(button, {label: 'Does something', shortcut: 'g b', direction: 'n'});
-*/
-export default function addToolTip(
-	element: Element,
-	content: string | TooltipOptions,
-): HTMLElement {
+function createTooltipFor(element: Element, content: string | TooltipOptions): HTMLElement {
 	const options: TooltipOptions = typeof content === 'string'
 		? {label: content}
 		: content;
@@ -46,8 +22,9 @@ export default function addToolTip(
 	element.id ||= crypto.randomUUID();
 
 	const tooltipId = crypto.randomUUID();
+	element.setAttribute('aria-labelledby', tooltipId);
 
-	const tooltip = (
+	return (
 		<tool-tip
 			id={tooltipId}
 			className="sr-only position-absolute"
@@ -61,14 +38,42 @@ export default function addToolTip(
 			{options.label}
 			{options.shortcut && [' ', ...renderShortcut(options.shortcut)]}
 		</tool-tip>
-	) as HTMLElement;
+	);
+}
 
-	// If element is already in the document, insert the tooltip automatically after it
-	if (element.isConnected) {
-		element.after(tooltip);
+/**
+Creates a `tool-tip` linked to `element` and returns both for embedding in a JSX tree.
+
+@example
+const button = <button type="button">…</button> as HTMLElement;
+return <div>{tooltipped(button, 'Does something')}</div>;
+
+// With options:
+return <div>{tooltipped(button, {label: 'Does something', shortcut: 'g b', direction: 'n'})}</div>;
+*/
+export function tooltipped(
+	element: Element,
+	content: string | TooltipOptions,
+): [Element, HTMLElement] {
+	return [element, createTooltipFor(element, content)];
+}
+
+/**
+Creates a `tool-tip` element and inserts it immediately after `element` in the DOM.
+
+`element` must have a parent node. Use `tooltipped` instead for elements not yet attached to a parent.
+
+@example
+addToolTip(button, 'Does something');
+addToolTip(button, {label: 'Does something', shortcut: 'g b', direction: 'n'});
+*/
+export default function addToolTip(
+	element: Element,
+	content: string | TooltipOptions,
+): void {
+	if (!element.parentNode) {
+		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	element.setAttribute('aria-labelledby', tooltipId);
-
-	return tooltip;
+	element.after(createTooltipFor(element, content));
 }

@@ -9,7 +9,7 @@ import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
-import addToolTip from '../helpers/tooltip.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
@@ -48,6 +48,8 @@ function add(container: HTMLElement): void {
 		</summary>
 	) as HTMLElement;
 
+	const [, summaryTooltip] = tooltipped(summary, 'Add a table');
+
 	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			{summary}
@@ -66,7 +68,7 @@ function add(container: HTMLElement): void {
 				))}
 			</details-menu>
 		</details>,
-		addToolTip(summary, 'Add a table'),
+		summaryTooltip,
 	);
 }
 

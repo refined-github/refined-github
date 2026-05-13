@@ -14,7 +14,7 @@ import * as pageDetect from 'github-url-detection';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import {frame} from '../helpers/dom-utils.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
-import addToolTip from '../helpers/tooltip.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
@@ -96,10 +96,10 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					button.href = `${location.pathname}/conflicts`;
 				}
 
-				const tooltip = shouldHaveTooltip && addToolTip(
+				const tooltip = shouldHaveTooltip && tooltipped(
 					button as Element,
 					inactiveReason ?? 'Ask Copilot to resolve conflicts',
-				);
+				)[1];
 
 				return <div>{button}{tooltip}</div>;
 			})}

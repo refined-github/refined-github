@@ -20,7 +20,7 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
-import addToolTip from '../helpers/tooltip.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
@@ -103,7 +103,7 @@ function createButtonGroup(): JSX.Element {
 						</span>
 					</button>
 				) as HTMLElement;
-				return <div>{button}{addToolTip(button, label.tooltipLabel)}</div>;
+				return <div>{tooltipped(button, label.tooltipLabel)}</div>;
 			})}
 		</div>
 	);
