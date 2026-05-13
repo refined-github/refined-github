@@ -27,7 +27,7 @@ async function init(): Promise<void> {
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
 	diffstat!.replaceWith(
-		...tooltipped(
+		tooltipped(
 			tooltip,
 			<span className="ml-2 diffstat">
 				<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span>{' '}

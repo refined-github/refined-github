@@ -34,7 +34,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	wrapAll(
 		<div className="d-flex gap-2" />,
 		branchSelector,
-		...tooltipped(
+		tooltipped(
 			{label: 'Visit tag', direction: 'se'},
 			<a
 				className="btn px-2 rgh-visit-tag"

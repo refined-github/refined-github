@@ -95,7 +95,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
-				...tooltipped(
+				tooltipped(
 					{label: 'Trigger manually', direction: 'sw'},
 					<a
 						href={url.href}
@@ -111,7 +111,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
 			workflowLink.after(
-				...tooltipped(
+				tooltipped(
 					{label: 'This workflow can be triggered manually', direction: 'sw'},
 					<div className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent">
 						<PlayIcon />

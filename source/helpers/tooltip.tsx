@@ -62,8 +62,13 @@ Generates a tooltip for the received element. You should use this when generatin
 export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
-): [Element, HTMLElement] {
-	return [element, createTooltipFor(element, content)];
+): JSX.Element {
+	return (
+		<>
+			{element}
+			{createTooltipFor(element, content)}
+		</>
+	);
 }
 
 /**

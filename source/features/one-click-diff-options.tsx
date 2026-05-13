@@ -29,7 +29,7 @@ function addShortcut(signal: AbortSignal): void {
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
 	nativeDiffButtons.parentElement!.after(
-		...tooltipped(
+		tooltipped(
 			{
 				label: `${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`,
 				shortcut: 'd w',
@@ -37,7 +37,6 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 			<a
 				href={getAlternateUrl()}
 				data-hotkey="d w"
-				aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
 				className={'float-right mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			>
 				{isHidingWhitespace() && <CheckIcon />} No Whitespace

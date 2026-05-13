@@ -31,7 +31,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		initialGroupedButtons.after(...tooltipped(
+		initialGroupedButtons.after(tooltipped(
 			description,
 			<button
 				data-disable-invalid

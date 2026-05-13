@@ -84,7 +84,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 					data-turbo-frame="repo-content-turbo-frame"
 					data-hotkey="v"
-					aria-label="Review now"
 					onMouseEnter={() =>
 						// Trigger data preloading
 						// TODO: Change `$optional` to `$()` once legacy PR files view is removed
@@ -113,7 +112,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 
 	quickReview.append(
 		' – ',
-		...tooltipped(
+		tooltipped(
 			{label: 'Hold alt to approve without confirmation', direction: 'nw'},
 			<button
 				type="button"

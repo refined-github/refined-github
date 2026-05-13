@@ -15,7 +15,7 @@ function addLink(header: HTMLElement): void {
 
 	// Use "parentElement" because open PRs have a "PR status" button before the "Code" button
 	header.parentElement!.prepend(
-		...tooltipped(
+		tooltipped(
 			'View last deployment',
 			<a
 				className="rgh-last-deployment btn d-none d-md-block"

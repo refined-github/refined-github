@@ -51,7 +51,7 @@ async function init(): Promise<void | false> {
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
 	navbar!.append(
-		...tooltipped(
+		tooltipped(
 			{label: `View the ${changelog} file`, direction: 'n'},
 			<a
 				className="subnav-item"

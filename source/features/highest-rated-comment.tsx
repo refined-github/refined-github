@@ -61,7 +61,7 @@ function getBestComment(): HTMLElement | undefined {
 function highlightBestComment(bestComment: Element): void {
 	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
 	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
-		...tooltipped(
+		tooltipped(
 			'This comment has the most positive reactions on this issue.',
 			<span className="color-fg-success">
 				<CheckCircleFillIcon />

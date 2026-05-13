@@ -75,13 +75,13 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 		if (actionsRow) {
 			if (tooltip) {
-				actionsRow.prepend(...tooltipped({label: tooltip, direction: 'nw'}, button));
+				actionsRow.prepend(tooltipped({label: tooltip, direction: 'nw'}, button));
 			} else {
 				actionsRow.prepend(button);
 			}
 		} else if (tooltip) {
 			// TODO: For GHE. Remove after June 2025
-			$closest('.form-actions', originalSubmitButton).append(...tooltipped({label: tooltip, direction: 'nw'}, button));
+			$closest('.form-actions', originalSubmitButton).append(tooltipped({label: tooltip, direction: 'nw'}, button));
 		} else {
 			// TODO: For GHE. Remove after June 2025
 			$closest('.form-actions', originalSubmitButton).append(button);

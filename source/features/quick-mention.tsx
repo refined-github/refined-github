@@ -57,7 +57,7 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 function addButton(avatar: HTMLElement): void {
 	const userMention = $('img', avatar).alt;
 	avatar.after(
-		...tooltipped(
+		tooltipped(
 			{
 				label: `Mention ${prefixUserMention(userMention)} in a new comment`,
 				direction: 'e',

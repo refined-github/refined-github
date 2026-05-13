@@ -81,20 +81,21 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 			type="button"
 			className={'btn btn-sm mr-2 ' + openSelected.class}
 			data-hotkey="p"
-			aria-label="Open selected notifications"
 		>
 			<LinkExternalIcon className="mr-1" />Open
 		</button>
 	);
-	const [buttonWithTooltip, tooltip] = tooltipped({
-		label: 'Open selected notifications',
-		shortcut: 'p',
-	}, button);
 	const beforeElement = $optional(':scope > details', selectedActionsGroup);
 	if (beforeElement) {
-		beforeElement.before(buttonWithTooltip, tooltip);
+		beforeElement.before(tooltipped({
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		}, button));
 	} else {
-		selectedActionsGroup.append(buttonWithTooltip, tooltip);
+		selectedActionsGroup.append(tooltipped({
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		}, button));
 	}
 }
 
@@ -112,7 +113,7 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 			<LinkExternalIcon width={16} /> Open unread
 		</button>
 	);
-	markReadButton.before(...tooltipped({label: 'Open all unread notifications from this repo', direction: 'w'}, button));
+	markReadButton.before(tooltipped({label: 'Open all unread notifications from this repo', direction: 'w'}, button));
 }
 
 function addToMainHeader(notificationHeader: HTMLElement): void {
