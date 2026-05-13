@@ -8,10 +8,9 @@ export type TooltipOptions = {
 };
 
 function renderShortcut(shortcut: string): Array<string | JSX.Element> {
-	return shortcut.split(' ').flatMap(key => [
-		' ',
-		<kbd>{key}</kbd>,
-	]);
+	return shortcut.split(' ').flatMap((key, index) =>
+		index === 0 ? [<kbd>{key}</kbd>] : [' ', <kbd>{key}</kbd>],
+	);
 }
 
 /**
@@ -60,7 +59,7 @@ export default function addToolTip(
 			role="tooltip"
 		>
 			{options.label}
-			{options.shortcut && renderShortcut(options.shortcut)}
+			{options.shortcut && [' ', ...renderShortcut(options.shortcut)]}
 		</tool-tip>
 	) as HTMLElement;
 
