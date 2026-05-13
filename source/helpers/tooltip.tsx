@@ -5,7 +5,7 @@ import {upperCaseFirst} from '../github-helpers/index.js';
 export type TooltipOptions = {
 	label: string;
 	shortcut?: string;
-	direction?: string;
+	direction?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 	type?: 'label' | 'description';
 };
 
