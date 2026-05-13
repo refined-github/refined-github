@@ -25,7 +25,7 @@ type Nullable<T> = T | null;
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
+export const appendBefore = (parent: string | Element, before: string, child: Node): void => {
 	if (typeof parent === 'string') {
 		parent = $(parent);
 	}

@@ -5,11 +5,12 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {
-	$, $$, $closest, $closestOptional, $optional, elementExists,
+	$, $$, $closest, $closestOptional, elementExists,
 } from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
@@ -76,27 +77,22 @@ async function openSelectedNotifications(): Promise<void> {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	const button = (
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 ' + openSelected.class}
-			data-hotkey="p"
-		>
-			<LinkExternalIcon className="mr-1" />Open
-		</button>
+	appendBefore(
+		selectedActionsGroup,
+		'details',
+		tooltipped({
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		}, (
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 ' + openSelected.class}
+				data-hotkey="p"
+			>
+				<LinkExternalIcon className="mr-1" />Open
+			</button>
+		)),
 	);
-	const beforeElement = $optional(':scope > details', selectedActionsGroup);
-	if (beforeElement) {
-		beforeElement.before(tooltipped({
-			label: 'Open selected notifications',
-			shortcut: 'p',
-		}, button));
-	} else {
-		selectedActionsGroup.append(tooltipped({
-			label: 'Open selected notifications',
-			shortcut: 'p',
-		}, button));
-	}
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
@@ -105,15 +101,17 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 		return;
 	}
 
-	const button = (
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 ' + openUnread.class}
-		>
-			<LinkExternalIcon width={16} /> Open unread
-		</button>
+	markReadButton.before(
+		tooltipped(
+			{label: 'Open all unread notifications from this repo', direction: 'w'},
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 ' + openUnread.class}
+			>
+				<LinkExternalIcon width={16} /> Open unread
+			</button>,
+		),
 	);
-	markReadButton.before(tooltipped({label: 'Open all unread notifications from this repo', direction: 'w'}, button));
 }
 
 function addToMainHeader(notificationHeader: HTMLElement): void {
