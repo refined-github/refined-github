@@ -4,6 +4,7 @@ import CopilotIcon from 'octicons-plain-react/Copilot';
 import {$, $$, $$optional, $closest, $optional, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
+import {tooltipped} from '../helpers/tooltip.js';
 import features from '../feature-manager.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import {frame} from '../helpers/dom-utils.js';
@@ -66,14 +67,9 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const isDisabled = Boolean(inactiveReason);
 				const shouldHaveTooltip = isCopilotItem || isDisabled;
 
-				const buttonId = crypto.randomUUID();
-				const tooltipId = crypto.randomUUID();
-
 				let button: JSX.Element | HTMLAnchorElement
 					= <button
-						id={buttonId}
 						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
-						aria-labelledby={shouldHaveTooltip ? tooltipId : undefined}
 						type="button"
 						disabled={isDisabled}
 						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
@@ -93,22 +89,11 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					button.href = `${location.pathname}/conflicts`;
 				}
 
-				const tooltip = shouldHaveTooltip && (
-					<tool-tip
-						id={tooltipId}
-						className="sr-only position-absolute"
-						for={buttonId}
-						popover="manual"
-						data-direction="s"
-						data-type="label"
-						aria-hidden="true"
-						role="tooltip"
-					>
-						{inactiveReason ?? 'Ask Copilot to resolve conflicts'}
-					</tool-tip>
-				);
-
-				return <div> {button} {tooltip} </div>;
+				return <div>{
+					shouldHaveTooltip
+						? tooltipped(inactiveReason ?? 'Ask Copilot to resolve conflicts', button)
+						: button
+				}</div>;
 			})}
 		</div>
 	);
