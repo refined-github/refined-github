@@ -1,6 +1,8 @@
 import React from 'dom-chef';
 
 import {isMac} from './index.js';
+// eslint-disable-next-line import-x/no-unassigned-import
+import '../helpers/tooltip.js';
 
 export function registerHotkey(
 	hotkey: string,

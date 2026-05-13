@@ -69,6 +69,12 @@ function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
 	$(prFilesChangedTabSelector).click();
 }
 
+function preloadPrFilesTab(): void {
+	// Trigger data preloading
+	// TODO: Change `$optional` to `$()` once legacy PR files view is removed
+	$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+}
+
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
@@ -84,11 +90,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 					data-turbo-frame="repo-content-turbo-frame"
 					data-hotkey="v"
-					onMouseEnter={() =>
-						// Trigger data preloading
-						// TODO: Change `$optional` to `$()` once legacy PR files view is removed
-						$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))
-					}
+					onMouseEnter={preloadPrFilesTab}
 				>
 					review now
 				</a>,

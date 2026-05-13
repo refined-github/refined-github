@@ -36,6 +36,11 @@ const restrictedSyntax = [
 		selector: '*[test.type="CallExpression"][test.callee.name="$optional"],'
 			+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
 	},
+	{
+		message: 'JSX elements with `data-hotkey` must import `tooltip.js`',
+		selector: String.raw`Program:has(JSXAttribute[name.name="data-hotkey"])
+			:not(:has(ImportDeclaration[source.value=/\/helpers\/tooltip\.js$/]))`,
+	},
 ];
 
 export default restrictedSyntax;

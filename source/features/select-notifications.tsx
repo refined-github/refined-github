@@ -23,6 +23,8 @@ import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+// eslint-disable-next-line import-x/no-unassigned-import
+import '../helpers/tooltip.js';
 
 const prIcons = is(
 	'.octicon-git-pull-request',
