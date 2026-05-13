@@ -30,7 +30,10 @@ async function init(): Promise<void> {
 		tooltipped(
 			tooltip,
 			<span className="ml-2 diffstat">
-				<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span>{' '}
+				<span className="color-fg-success">+{additions}</span>
+				{' '}
+				<span className="color-fg-danger">−{deletions}</span>
+				{' '}
 				<span className="diffstat-block-neutral" />
 				<span className="diffstat-block-neutral" />
 				<span className="diffstat-block-neutral" />
