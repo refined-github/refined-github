@@ -106,21 +106,17 @@ async function init(): Promise<void> {
 		], container.element);
 		for (const lastLink of lastLinks) {
 			const currentTag = allTags[index].tag;
-			const compareLink = (
-				<>
-					{tooltipped(
-						{
-							label: `See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`,
-							direction: 'n',
-						},
-						<a
-							className="Link--muted"
-							href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
-						>
-							<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
-						</a>,
-					)}
-				</>
+			const compareLink = tooltipped(
+				{
+					label: `See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`,
+					direction: 'n',
+				},
+				<a
+					className="Link--muted"
+					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
+				>
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
+				</a>,
 			);
 
 			// The page of a tag without a release still uses the old layout #5037

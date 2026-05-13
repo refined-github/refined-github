@@ -38,7 +38,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 			{label: 'Visit tag', direction: 'se'},
 			<a
 				className="btn px-2 rgh-visit-tag"
-				href={buildRepoUrl('releases/tag', tag)}
+				href={buildRepoUrl('releases/tag', encodeURIComponent(tag))}
 			>
 				<ArrowUpRightIcon />
 			</a>,
