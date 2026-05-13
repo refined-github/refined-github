@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$$, $optional, elementExists} from 'select-dom';
+import {$optional, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -20,7 +20,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import addToolTip, {type TooltipOptions} from '../helpers/tooltip.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
@@ -39,21 +39,6 @@ type Tags = {
 };
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
-
-function applyTooltips(container: ParentNode): void {
-	for (const element of $$('[data-rgh-tooltip]', container)) {
-		if (!(element instanceof HTMLElement)) {
-			continue;
-		}
-
-		addToolTip({
-			label: element.dataset.rghTooltip!,
-			direction: element.dataset.rghTooltipDirection as TooltipOptions['direction'],
-		}, element);
-		delete element.dataset.rghTooltip;
-		delete element.dataset.rghTooltipDirection;
-	}
-}
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
@@ -93,45 +78,54 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 async function createLink(
 	latestTag: string,
 	aheadBy: number,
-): Promise<HTMLElement> {
+): Promise<[HTMLAnchorElement, HTMLElement]> {
 	const commitCount = aheadBy === undeterminableAheadBy
 		? 'More than 20 unreleased commits'
 		: pluralize(aheadBy, '$$ unreleased commit');
 	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
 
-	return (
+	const link = (
 		<a
 			className="btn px-2"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			data-rgh-tooltip={label}
-			data-rgh-tooltip-direction="se"
 		>
 			<TagIcon className="v-align-middle" />
 			{' '}
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
 		</a>
+	) as unknown as HTMLAnchorElement;
+	const [tooltippedLink, tooltip] = tooltipped(
+		{label, direction: 'se'},
+		link,
 	);
+	return [tooltippedLink as HTMLAnchorElement, tooltip];
 }
 
-async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
-	const link = await createLink(latestTag, aheadBy);
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<[HTMLElement, ...HTMLElement[]]> {
+	const [link, linkTooltip] = await createLink(latestTag, aheadBy);
 	if (!(await userHasPushAccess())) {
-		return link;
+		return [link, linkTooltip];
 	}
 
-	return groupButtons([
-		link,
-		// `aria-label` wording taken from $user/$repo/releases page
+	const [newReleaseButton, newReleaseButtonTooltip] = tooltipped(
+		{label: 'Draft a new release', direction: 'se'},
 		<a
 			href={buildRepoUrl('releases/new')}
 			className="btn px-2"
-			data-rgh-tooltip="Draft a new release"
-			data-rgh-tooltip-direction="se"
 			data-turbo-frame="repo-content-turbo-frame"
 		>
 			<PlusIcon className="v-align-middle" />
 		</a>,
-	]);
+	);
+
+	return [
+		groupButtons([
+			link,
+			newReleaseButton,
+		]),
+		linkTooltip,
+		newReleaseButtonTooltip,
+	];
 }
 
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
@@ -148,15 +142,15 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const linkGroup = await createLinkGroup(latestTag, aheadBy);
+	const [linkGroup, ...tooltips] = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
-	const wrapper = wrapAll(
+	wrapAll(
 		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
 		branchSelector,
 		linkGroup,
+		...tooltips,
 	);
-	applyTooltips(wrapper);
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
@@ -167,7 +161,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 		return;
 	}
 
-	const widget = await createLink(latestTag, aheadBy);
+	const [widget, widgetTooltip] = await createLink(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
 	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
@@ -177,7 +171,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 			widget,
 			newReleaseButton,
 		]);
-		applyTooltips(newReleaseButton.parentElement!);
+		widget.after(widgetTooltip);
 		return;
 	}
 
@@ -186,7 +180,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
 	// The form has .ml-md-2, this restores it on `sm`
 	widget.classList.add('mr-md-0', 'mr-2');
-	applyTooltips(releasesFilter.form!.parentElement!);
+	widget.after(widgetTooltip);
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {

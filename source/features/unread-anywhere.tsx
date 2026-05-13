@@ -95,8 +95,8 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 		'border-left-0',
 	);
 	addToolTip({
-		// JSX swallows \n if you skip {''}
-		label: 'Open unread notifications\nHotkey: g u',
+		label: 'Open unread notifications',
+		shortcut: 'g u',
 		direction: 'sw',
 	}, button);
 

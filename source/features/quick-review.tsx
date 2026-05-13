@@ -73,21 +73,27 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
-			<a
-				// TODO: Change path to "changes" once Legacy PR files view is removed
-				href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
-				className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
-				data-turbo-frame="repo-content-turbo-frame"
-				data-hotkey="v"
-				title="Hotkey: V"
-				onMouseEnter={() =>
-					// Trigger data preloading
-					// TODO: Change `$optional` to `$()` once legacy PR files view is removed
-					$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))
-				}
-			>
-				review now
-			</a>
+			{tooltipped(
+				{
+					label: 'Review now',
+					shortcut: 'v',
+				},
+				<a
+					// TODO: Change path to "changes" once Legacy PR files view is removed
+					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
+					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
+					data-turbo-frame="repo-content-turbo-frame"
+					data-hotkey="v"
+					aria-label="Hotkey: v"
+					onMouseEnter={() =>
+						// Trigger data preloading
+						// TODO: Change `$optional` to `$()` once legacy PR files view is removed
+						$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))
+					}
+				>
+					review now
+				</a>,
+			)}
 		</span>
 	);
 
