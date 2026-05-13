@@ -28,11 +28,11 @@ test('css-require-fuchsia-fallback', () => {
 		invalid: [
 			{
 				code: '.selector { color: var(--color-fg-muted); }',
-				errors: [{messageId: 'missingFuchsiaFallback'}],
+				errors: [{messageId: 'missingColorFallback'}],
 			},
 			{
 				code: '.selector { color: var(--fgColor-muted, var(--color-fg-muted)); }',
-				errors: [{messageId: 'missingFuchsiaFallback'}],
+				errors: [{messageId: 'missingColorFallback'}],
 			},
 		],
 	});

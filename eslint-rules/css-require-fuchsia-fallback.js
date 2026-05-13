@@ -4,7 +4,7 @@ const cssRequireFuchsiaFallback = {
 		type: 'problem',
 		schema: [],
 		messages: {
-			missingFuchsiaFallback: 'Color var() should include `fuchsia` as a fallback.',
+			missingColorFallback: 'Color var() should include `fuchsia` as a fallback.',
 		},
 	},
 	create(context) {
@@ -26,7 +26,7 @@ const cssRequireFuchsiaFallback = {
 				if (!allowedFallbackRegex.test(sourceCode.getText(node).toLowerCase())) {
 					context.report({
 						node,
-						messageId: 'missingFuchsiaFallback',
+						messageId: 'missingColorFallback',
 					});
 				}
 			},
