@@ -9,7 +9,7 @@ const cssRequireFuchsiaFallback = {
 	},
 	create(context) {
 		const {sourceCode} = context;
-		const colorVariableRegex = /^--(?:[a-z]+Color-|color-)/i;
+		const colorVariableRegex = /^--(?:[a-z]+Color-|color-)/;
 
 		return {
 			Function(node) {

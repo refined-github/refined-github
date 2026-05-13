@@ -1,4 +1,4 @@
-/* Use `fuchsia` fallbacks so missing GitHub color variables are immediately visible. */
+/* Uses `fuchsia` fallbacks so missing GitHub color variables are immediately visible. */
 button.rgh-deep-reblame .octicon-versions {
 	color: var(--color-prettylights-syntax-entity, fuchsia);
 	opacity: 70%;
