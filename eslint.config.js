@@ -333,4 +333,28 @@ export default defineConfig([
 		// TODO: Use global `/flat` config
 		rules: eslintConfigPrettier.rules,
 	},
+	{
+		files: ['**/*.tsx'],
+		rules: {
+			'import-x/order': [
+				'error',
+				{
+					groups: [
+						['builtin', 'external'],
+					],
+					'newlines-between': 'always-and-inside-groups',
+					alphabetize: {
+						order: 'asc',
+						caseInsensitive: true,
+					},
+				},
+			],
+			'sort-imports': [
+				'error',
+				{
+					ignoreDeclarationSort: true,
+				},
+			],
+		},
+	},
 ]);
