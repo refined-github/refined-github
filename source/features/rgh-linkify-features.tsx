@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
 import {$closestOptional} from 'select-dom';
 
@@ -10,8 +11,14 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
-import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
+import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
+
+const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
+	wait: 100,
+	before: true,
+	after: false,
+});
 
 function linkifyFeature(possibleFeature: HTMLElement): void {
 	const originalText = possibleFeature.textContent;
@@ -56,7 +63,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (anchorElement) {
+	if (anchorElement && !shouldHideCount()) {
 		const sup = <sup/>;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
