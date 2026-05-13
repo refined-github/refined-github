@@ -59,8 +59,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		stopOnDomReady: false,
 		signal,
 	});
-	const url =
-		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
+	const url
+		= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>
 			via Refined GitHub <InfoIcon />

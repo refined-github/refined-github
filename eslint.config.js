@@ -119,6 +119,32 @@ export default defineConfig([
 		{
 			files: ['**/*.{ts,tsx,cts,mts}'],
 			rules: {
+				// TODO: Drop after moving to dprint
+				// Copied from here, except ImportDeclaration
+				// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
+				'@stylistic/object-curly-newline': ['error', {
+					ObjectExpression: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+					ObjectPattern: {
+						multiline: true,
+						consistent: true,
+					},
+
+					ImportDeclaration: {
+						multiline: true,
+						minProperties: 10,
+						consistent: true,
+					},
+					ExportDeclaration: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+				}],
+
 				'@typescript-eslint/no-restricted-types': [
 					'error',
 					{

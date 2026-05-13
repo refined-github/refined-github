@@ -59,8 +59,8 @@ function hasUserAlteredThePr(): boolean {
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
-			// Remove after August 2026
-			?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
+		// Remove after August 2026
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
 	);
 }
 

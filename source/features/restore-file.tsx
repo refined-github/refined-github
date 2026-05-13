@@ -64,8 +64,8 @@ async function discardChanges(
 	const fileChanges = isRenamed
 		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
 		: isNewFile
-		? deleteNewFile // New
-		: restoreOldFile; // Changes
+			? deleteNewFile // New
+			: restoreOldFile; // Changes
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;
 	progress('Committing…');

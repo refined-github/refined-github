@@ -61,8 +61,8 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled()
 		? <>{' '}{newIssue} or a {newDiscussion}{' '}</>
 		: areIssuesEnabled()
-		? newIssue
-		: newDiscussion;
+			? newIssue
+			: newDiscussion;
 	return (
 		<>
 			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen}{' '}

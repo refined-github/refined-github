@@ -59,7 +59,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
 		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
-			node.oid === latestTagOid
+			node.oid === latestTagOid,
 		);
 
 		return {
