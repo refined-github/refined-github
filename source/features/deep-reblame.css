@@ -1,3 +1,4 @@
+/* Keep `fuchsia` as the fallback for consistency with CSS linting. */
 button.rgh-deep-reblame .octicon-versions {
 	color: var(--color-prettylights-syntax-entity, fuchsia);
 	opacity: 70%;
