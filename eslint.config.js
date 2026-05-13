@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
+import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
@@ -18,6 +19,7 @@ const refinedGithubPlugin = {
 		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
 		'css-documentation': cssDocumentation,
+		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
 	},
 };
 
@@ -300,6 +302,12 @@ export default defineConfig([
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+		},
+	},
+	{
+		files: ['source/features/*.css'],
+		rules: {
+			'refined-github/css-require-fuchsia-fallback': 'error',
 		},
 	},
 	{
