@@ -20,7 +20,6 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import addToolTip from '../helpers/tooltip.js';
 import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
@@ -39,13 +38,6 @@ type Tags = {
 };
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
-
-function getUnreleasedCommitsLabel(latestTag: string, aheadBy: number): string {
-	const commitCount = aheadBy === undeterminableAheadBy
-		? 'More than 20 unreleased commits'
-		: pluralize(aheadBy, '$$ unreleased commit');
-	return `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
-}
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
@@ -85,17 +77,43 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 async function createLink(
 	latestTag: string,
 	aheadBy: number,
-): Promise<HTMLAnchorElement> {
+): Promise<HTMLElement> {
+	const commitCount = aheadBy === undeterminableAheadBy
+		? 'More than 20 unreleased commits'
+		: pluralize(aheadBy, '$$ unreleased commit');
+	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
+
 	return (
 		<a
-			className="btn px-2"
+			className="btn px-2 tooltipped tooltipped-se"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
+			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
 			{' '}
 			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
 		</a>
-	) as unknown as HTMLAnchorElement;
+	);
+}
+
+async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTMLElement> {
+	const link = await createLink(latestTag, aheadBy);
+	if (!(await userHasPushAccess())) {
+		return link;
+	}
+
+	return groupButtons([
+		link,
+		// `aria-label` wording taken from $user/$repo/releases page
+		<a
+			href={buildRepoUrl('releases/new')}
+			className="btn px-2 tooltipped tooltipped-se"
+			aria-label="Draft a new release"
+			data-turbo-frame="repo-content-turbo-frame"
+		>
+			<PlusIcon className="v-align-middle" />
+		</a>,
+	]);
 }
 
 async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
@@ -112,27 +130,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
-	const link = await createLink(latestTag, aheadBy);
-	let linkGroup: HTMLElement = link;
-	const linkTooltipLabel = getUnreleasedCommitsLabel(latestTag, aheadBy);
-	let newReleaseButton: Element | undefined;
-
-	if (await userHasPushAccess()) {
-		newReleaseButton = (
-			<a
-				href={buildRepoUrl('releases/new')}
-				className="btn px-2"
-				data-turbo-frame="repo-content-turbo-frame"
-			>
-				<PlusIcon className="v-align-middle" />
-			</a>
-		);
-		linkGroup = groupButtons([
-			link,
-			newReleaseButton,
-		]);
-	}
-
+	const linkGroup = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
 	wrapAll(
@@ -140,10 +138,6 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 		branchSelector,
 		linkGroup,
 	);
-	addToolTip({label: linkTooltipLabel, direction: 'se'}, link);
-	if (newReleaseButton) {
-		addToolTip({label: 'Draft a new release', direction: 'se'}, newReleaseButton);
-	}
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
@@ -155,7 +149,6 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	}
 
 	const widget = await createLink(latestTag, aheadBy);
-	const widgetTooltipLabel = getUnreleasedCommitsLabel(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
 	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
@@ -165,7 +158,6 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 			widget,
 			newReleaseButton,
 		]);
-		addToolTip({label: widgetTooltipLabel, direction: 'se'}, widget);
 		return;
 	}
 
@@ -174,7 +166,6 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
 	// The form has .ml-md-2, this restores it on `sm`
 	widget.classList.add('mr-md-0', 'mr-2');
-	addToolTip({label: widgetTooltipLabel, direction: 'se'}, widget);
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {
