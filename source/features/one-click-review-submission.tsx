@@ -10,6 +10,7 @@ import {
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
@@ -52,12 +53,6 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		], parent).textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
 
-		const classes = ['btn btn-sm'];
-
-		if (tooltip) {
-			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
-		}
-
 		const button = (
 			<button
 				type="submit"
@@ -65,8 +60,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
 				form={formAttribute}
 				value={radio.value}
-				className={classes.join(' ')}
-				aria-label={tooltip}
+				className="btn btn-sm"
 				disabled={radio.disabled}
 			>
 				{labelElement.textContent}
@@ -80,10 +74,18 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		}
 
 		if (actionsRow) {
-			actionsRow.prepend(button);
+			if (tooltip) {
+				actionsRow.prepend(...tooltipped({label: tooltip, direction: 'nw'}, button));
+			} else {
+				actionsRow.prepend(button);
+			}
 		} else {
 			// TODO: For GHE. Remove after June 2025
-			$closest('.form-actions', originalSubmitButton).append(button);
+			if (tooltip) {
+				$closest('.form-actions', originalSubmitButton).append(...tooltipped({label: tooltip, direction: 'nw'}, button));
+			} else {
+				$closest('.form-actions', originalSubmitButton).append(button);
+			}
 		}
 	}
 

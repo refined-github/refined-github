@@ -20,6 +20,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
@@ -38,6 +39,17 @@ type Tags = {
 };
 
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
+
+function applyTooltips(container: ParentNode): void {
+	for (const element of container.querySelectorAll<HTMLElement>('[data-rgh-tooltip]')) {
+		addToolTip({
+			label: element.dataset.rghTooltip!,
+			direction: (element.dataset.rghTooltipDirection as 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw' | undefined),
+		}, element);
+		delete element.dataset.rghTooltip;
+		delete element.dataset.rghTooltipDirection;
+	}
+}
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
@@ -85,9 +97,10 @@ async function createLink(
 
 	return (
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
-			aria-label={label}
+			data-rgh-tooltip={label}
+			data-rgh-tooltip-direction="se"
 		>
 			<TagIcon className="v-align-middle" />
 			{' '}
@@ -107,8 +120,9 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
 			href={buildRepoUrl('releases/new')}
-			className="btn px-2 tooltipped tooltipped-se"
-			aria-label="Draft a new release"
+			className="btn px-2"
+			data-rgh-tooltip="Draft a new release"
+			data-rgh-tooltip-direction="se"
 			data-turbo-frame="repo-content-turbo-frame"
 		>
 			<PlusIcon className="v-align-middle" />
@@ -133,11 +147,12 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 	const linkGroup = await createLinkGroup(latestTag, aheadBy);
 	linkGroup.style.flexShrink = '0';
 
-	wrapAll(
+	const wrapper = wrapAll(
 		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
 		branchSelector,
 		linkGroup,
 	);
+	applyTooltips(wrapper);
 }
 
 async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
@@ -158,6 +173,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 			widget,
 			newReleaseButton,
 		]);
+		applyTooltips(newReleaseButton.parentElement!);
 		return;
 	}
 
@@ -166,6 +182,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	releasesFilter.form!.parentElement!.classList.add('d-flex', 'flex-items-start');
 	// The form has .ml-md-2, this restores it on `sm`
 	widget.classList.add('mr-md-0', 'mr-2');
+	applyTooltips(releasesFilter.form!.parentElement!);
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {

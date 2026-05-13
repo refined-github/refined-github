@@ -5,6 +5,7 @@ import {$, $closest} from 'select-dom';
 import features from '../feature-manager.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 
 const id = getFeatureId(import.meta.url);
 
@@ -20,18 +21,20 @@ function update(dropdown: HTMLElement): void {
 	checkbox.hidden = true;
 	checkbox.type = 'checkbox';
 
-	mainButton.classList.add('tooltipped', 'tooltipped-nw');
-	mainButton.setAttribute('aria-label', 'Done, closed, fixed, resolved');
+	addToolTip({label: 'Done, closed, fixed, resolved', direction: 'nw'}, mainButton);
 
 	const unplannedButton = mainButton.cloneNode();
 	unplannedButton.append(icon);
 	unplannedButton.id = id;
-	unplannedButton.classList.add('btn', 'tooltipped', 'tooltipped-nw', 'mr-0');
+	unplannedButton.classList.add('btn', 'mr-0');
 	// Prevent content from being changed #7024
 	unplannedButton.classList.remove('js-comment-and-button');
-	unplannedButton.setAttribute('aria-label', 'Close as not planned.\nWon’t fix, can’t repro, duplicate, stale');
 
 	dropdown.replaceWith(unplannedButton);
+	addToolTip({
+		label: 'Close as not planned.\nWon’t fix, can’t repro, duplicate, stale',
+		direction: 'nw',
+	}, unplannedButton);
 	form.append(checkbox);
 }
 

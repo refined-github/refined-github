@@ -17,6 +17,7 @@ import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import {getToken} from '../options-storage.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
@@ -106,13 +107,15 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 
 	quickReview.append(
 		' – ',
-		<button
-			type="button"
-			className="btn-link Link--muted Link--inTextBlock rgh-quick-approve tooltipped tooltipped-nw"
-			aria-label="Hold alt to approve without confirmation"
-		>
-			approve now
-		</button>,
+		...tooltipped(
+			{label: 'Hold alt to approve without confirmation', direction: 'nw'},
+			<button
+				type="button"
+				className="btn-link Link--muted Link--inTextBlock rgh-quick-approve"
+			>
+				approve now
+			</button>,
+		),
 	);
 }
 

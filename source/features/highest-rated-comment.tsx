@@ -12,6 +12,7 @@ import {
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
@@ -60,12 +61,12 @@ function getBestComment(): HTMLElement | undefined {
 function highlightBestComment(bestComment: Element): void {
 	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
 	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
-		<span
-			className="color-fg-success tooltipped tooltipped-s"
-			aria-label="This comment has the most positive reactions on this issue."
-		>
-			<CheckCircleFillIcon />
-		</span>,
+		...tooltipped(
+			'This comment has the most positive reactions on this issue.',
+			<span className="color-fg-success">
+				<CheckCircleFillIcon />
+			</span>,
+		),
 	);
 }
 

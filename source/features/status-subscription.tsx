@@ -10,6 +10,7 @@ import {$, $closest, $optional} from 'select-dom';
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 
@@ -27,7 +28,7 @@ function SubButton(): JSX.Element {
 			data-disable-with
 			name="id"
 			type="submit"
-			className="btn btn-sm flex-1 BtnGroup-item tooltipped tooltipped-sw"
+			className="btn btn-sm flex-1 BtnGroup-item"
 		/>
 	);
 }
@@ -59,35 +60,35 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
-			<SubButton
+			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="unsubscribe"
-				aria-label="Unsubscribe"
 				{...(status === 'none' && disableAttributes)}
 			>
 				<BellSlashIcon /> None
-			</SubButton>
+			</SubButton>)}
 
-			<SubButton
+			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
 				// @ts-expect-error I don't remember how to fix this
 				value="subscribe"
-				aria-label="Subscribe to all events"
 				{...(status === 'all' && disableAttributes)}
 			>
 				<BellIcon /> All
-			</SubButton>
+			</SubButton>)}
 
-			<SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="subscribe_to_custom_notifications"
-				aria-label={multilineAriaLabel(
+			{tooltipped({
+				label: multilineAriaLabel(
 					'Subscribe just to status changes',
 					'(closing, reopening, merging)',
-				)}
+				),
+				direction: 'sw',
+			}, <SubButton
+				// @ts-expect-error I don't remember how to fix this
+				value="subscribe_to_custom_notifications"
 				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon /> Status
-			</SubButton>
+			</SubButton>)}
 		</div>,
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
@@ -187,8 +188,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
-			<SubButton
-				aria-label="Unsubscribe"
+			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
 				onClick={async () => {
 					await updateIssueSubscriptionStatus('none', issue);
 					void addButtonIssue(subscriptionButton);
@@ -196,10 +196,9 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 				{...(status === 'none' && disableAttributes)}
 			>
 				<BellSlashIcon /> None
-			</SubButton>
+			</SubButton>)}
 
-			<SubButton
-				aria-label="Subscribe to all events"
+			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
 				onClick={async () => {
 					await updateIssueSubscriptionStatus('all', issue);
 					void addButtonIssue(subscriptionButton);
@@ -207,13 +206,15 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 				{...(status === 'all' && disableAttributes)}
 			>
 				<BellIcon /> All
-			</SubButton>
+			</SubButton>)}
 
-			<SubButton
-				aria-label={multilineAriaLabel(
+			{tooltipped({
+				label: multilineAriaLabel(
 					'Subscribe just to status changes',
 					'(closing, reopening, merging)',
-				)}
+				),
+				direction: 'sw',
+			}, <SubButton
 				onClick={async () => {
 					await updateIssueSubscriptionStatus('status', issue);
 					void addButtonIssue(subscriptionButton);
@@ -221,7 +222,7 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon /> Status
-			</SubButton>
+			</SubButton>)}
 		</div>,
 	);
 

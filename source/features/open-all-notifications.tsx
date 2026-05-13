@@ -14,6 +14,7 @@ import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -80,12 +81,8 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	const button = (
 		<button
 			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
+			className={'btn btn-sm mr-2 ' + openSelected.class}
 			data-hotkey="p"
-			aria-label={multilineAriaLabel(
-				'Open selected notifications',
-				'Hotkey: P',
-			)}
 		>
 			<LinkExternalIcon className="mr-1" />Open
 		</button>
@@ -95,6 +92,10 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 		'details',
 		button,
 	);
+	addToolTip(multilineAriaLabel(
+		'Open selected notifications',
+		'Hotkey: P',
+	), button);
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
@@ -103,15 +104,16 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 		return;
 	}
 
-	markReadButton.before(
+	const button = (
 		<button
 			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
-			aria-label="Open all unread notifications from this repo"
+			className={'btn btn-sm mr-2 ' + openUnread.class}
 		>
 			<LinkExternalIcon width={16} /> Open unread
-		</button>,
+		</button>
 	);
+	markReadButton.before(button);
+	addToolTip({label: 'Open all unread notifications from this repo', direction: 'w'}, button);
 }
 
 function addToMainHeader(notificationHeader: HTMLElement): void {

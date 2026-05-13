@@ -8,6 +8,7 @@ import {conversationCloseEvent} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 import './jump-to-conversation-close-event.css';
 
 export const statusBadgeSelector = [
@@ -32,14 +33,17 @@ function updateStatusBadges(): void {
 		} else {
 			// Avoid native `title` by disabling pointer events, we have our own `aria-label`. We can't drop the `title` attribute because some features depend on it.
 			statusBadge.style.pointerEvents = 'none';
+			const wrapper = (
+				<a
+					className={featureClass}
+					href={eventAnchor.href}
+				/>
+			);
 			wrap(
 				statusBadge,
-				<a
-					aria-label="Scroll to most recent close event"
-					className={`tooltipped tooltipped-e ${featureClass}`}
-					href={eventAnchor.href}
-				/>,
+				wrapper,
 			);
+			addToolTip({label: 'Scroll to most recent close event', direction: 'e'}, wrapper);
 		}
 	}
 }

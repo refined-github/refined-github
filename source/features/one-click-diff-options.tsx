@@ -5,6 +5,7 @@ import CheckIcon from 'octicons-plain-react/Check';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function isHidingWhitespace(): boolean {
 	return new URL(location.href).searchParams.get('w') === '1';
@@ -28,14 +29,16 @@ function addShortcut(signal: AbortSignal): void {
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
 	nativeDiffButtons.parentElement!.after(
-		<a
-			href={getAlternateUrl()}
-			data-hotkey="d w"
-			className={'float-right mr-3 tooltipped tooltipped-s btn btn-sm tooltipped ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
-			aria-label={`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`}
-		>
-			{isHidingWhitespace() && <CheckIcon />} No Whitespace
-		</a>,
+		...tooltipped(
+			`${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`,
+			<a
+				href={getAlternateUrl()}
+				data-hotkey="d w"
+				className={'float-right mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
+			>
+				{isHidingWhitespace() && <CheckIcon />} No Whitespace
+			</a>,
+		),
 	);
 }
 
