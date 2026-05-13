@@ -67,33 +67,32 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const isDisabled = Boolean(inactiveReason);
 				const shouldHaveTooltip = isCopilotItem || isDisabled;
 
-				let button: JSX.Element | HTMLAnchorElement
-					= <button
-						className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
-						type="button"
-						disabled={isDisabled}
-						onClick={isCopilotItem ? insertCopilotInstruction : undefined}
-					>
-						{isCopilotItem
-							? <CopilotIcon/>
-							: (
-								<span className="Button-content">
-									<span className="Button-label">
-										Resolve conflicts
-									</span>
+				let button: JSX.Element | HTMLAnchorElement = <button
+					className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+					type="button"
+					disabled={isDisabled}
+					onClick={isCopilotItem ? insertCopilotInstruction : undefined}
+				>
+					{isCopilotItem
+						? <CopilotIcon />
+						: (
+							<span className="Button-content">
+								<span className="Button-label">
+									Resolve conflicts
 								</span>
-							)}
-					</button>;
+							</span>
+						)}
+				</button>;
 				if (isWebEditorItem && !isDisabled) {
 					button = replaceElementTypeInPlace(button, 'a');
 					button.href = `${location.pathname}/conflicts`;
 				}
 
-				return <div>{
-					shouldHaveTooltip
+				return <div>
+					{shouldHaveTooltip
 						? tooltipped(inactiveReason ?? 'Ask Copilot to resolve conflicts', button)
-						: button
-				}</div>;
+						: button}
+				</div>;
 			})}
 		</div>
 	);
