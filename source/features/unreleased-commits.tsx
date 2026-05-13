@@ -20,7 +20,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import addToolTip from '../helpers/tooltip.js';
+import addToolTip, {type TooltipOptions} from '../helpers/tooltip.js';
 import getPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
@@ -48,7 +48,7 @@ function applyTooltips(container: ParentNode): void {
 
 		addToolTip({
 			label: element.dataset.rghTooltip!,
-			direction: (element.dataset.rghTooltipDirection as 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw' | undefined),
+			direction: element.dataset.rghTooltipDirection as TooltipOptions['direction'],
 		}, element);
 		delete element.dataset.rghTooltip;
 		delete element.dataset.rghTooltipDirection;
