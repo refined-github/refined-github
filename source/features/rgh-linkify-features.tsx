@@ -14,7 +14,7 @@ import {getFeatureUrl} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 
-const isReleasesOrTags = debounce(pageDetect.isReleasesOrTags, {
+const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
 	wait: 100,
 	before: true,
 	after: false,
@@ -62,8 +62,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// Mount after the <a> so <sup> is outside the link
 		anchorElement = possibleFeature.parentElement!;
 	}
-
-	if (anchorElement && !isReleasesOrTags()) {
+	if (anchorElement && !shouldHideCount()) {
 		const sup = <sup/>;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
