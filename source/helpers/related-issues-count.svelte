@@ -2,7 +2,7 @@
 	import {excludeFromDomTextExtraction} from '../github-helpers/parse-rendered-text.js';
 	import pluralize from './pluralize.js';
 	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
-	import getOpenRelatedIssuesCount from './rgh-related-issues-count.js';
+	import getOpenRelatedIssuesCount from './related-issues-count.js';
 
 	type Labels = {
 		single: string;

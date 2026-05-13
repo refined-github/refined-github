@@ -11,7 +11,7 @@ import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
-import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
+import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 
 const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
