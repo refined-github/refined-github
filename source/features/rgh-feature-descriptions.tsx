@@ -14,7 +14,7 @@ import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import openOptions from '../helpers/open-options.js';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
-import RelatedIssuesCount from '../helpers/rgh-related-issues-count.svelte';
+import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
