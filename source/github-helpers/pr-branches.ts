@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 
 type PrReference = {
 	/** @example fregante/mem:main */
@@ -64,17 +64,20 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > a[class^="PullRequestBranchName"]',
+				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
 				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.base-ref', // TODO: Remove in June 2026
+				'.base-ref', // TODO: Drop after legacy PR files view is removed
 			]));
 		},
 		get head() {
-			return parseReference($([
-				'span[class*="PullRequestHeaderSummary"] > div a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.head-ref', // TODO: Remove in June 2026
-			]));
+			return parseReference(
+				// Doesn't exist in old views
+				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
+					?? $([
+						'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
+						'.head-ref', // TODO: Drop after legacy PR files view is removed
+					]),
+			);
 		},
 	};
 }

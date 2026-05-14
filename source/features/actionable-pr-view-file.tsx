@@ -1,13 +1,11 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {
-	$, $closest, $optional, elementExists,
-} from 'select-dom';
+import {$, $closest, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import observe from '../helpers/selector-observer.js';
 import {frame} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 /** Rebuilds the "View file" link to point to the head repo and its branch instead of the base repo and the commit */
 function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): void {

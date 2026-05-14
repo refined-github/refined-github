@@ -4,10 +4,10 @@ import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import SearchQuery from '../github-helpers/search-query.js';
-import observe from '../helpers/selector-observer.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import SearchQuery from '../github-helpers/search-query.js';
 import {wrap} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 const reviewStateFilters = new Map([
 	['Changes requested', 'review:changes-requested'],
@@ -16,7 +16,6 @@ const reviewStateFilters = new Map([
 
 	// Missing from new view
 	['Draft', 'draft:true'],
-
 	// Not shown currently
 	// [/^Awaiting review by you$/, 'review-requested:@me'],
 ]);
@@ -37,13 +36,17 @@ function alterLink(label: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'span[class^="ReviewDecision-module__reviewDecisionContent"]',
+	observe(
+		[
+			'span[class^="ReviewDecision-module__reviewDecisionContent"]',
 
-		// Note: This feature alters the `href` so this selector cannot be used by any other features
-		// TODO: Drop selector when the old PR list is removed
-		'.js-issue-row .text-small a[href$="#partial-pull-merging"]',
-	], alterLink, {signal});
+			// Note: This feature alters the `href` so this selector cannot be used by any other features
+			// TODO: Drop selector when the old PR list is removed
+			'.js-issue-row .text-small a[href$="#partial-pull-merging"]',
+		],
+		alterLink,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

@@ -5,9 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import ArrowDownIcon from 'octicons-plain-react/ArrowDown';
 import CheckCircleFillIcon from 'octicons-plain-react/CheckCircleFill';
-import {
-	$, $$, $$optional, $closest, $optional,
-} from 'select-dom';
+import {$, $$, $$optional, $closest, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';

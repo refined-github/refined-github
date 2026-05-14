@@ -10,12 +10,12 @@ import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import attachElement from '../helpers/attach-element.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import {getReleases} from './releases-tab.js';
-import {commentBoxHashPr} from '../github-helpers/selectors.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206

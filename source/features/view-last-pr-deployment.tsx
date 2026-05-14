@@ -30,10 +30,14 @@ function addLink(header: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'button[class*="PullRequestCodeButton"]',
-		'.gh-header-actions > :first-child', // TODO: Drop in September 2026
-	], addLink, {signal});
+	observe(
+		[
+			'button[class*="PullRequestCodeButton"]',
+			'.gh-header-actions > :first-child', // TODO: Drop in September 2026
+		],
+		addLink,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

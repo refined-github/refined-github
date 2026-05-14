@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {linkifyUrlsToDom} from 'linkify-urls';
+import {$closest} from 'select-dom';
 import shortenRepoUrl from 'shorten-repo-url';
 import {replaceFieldText} from 'text-field-edit';
-import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';

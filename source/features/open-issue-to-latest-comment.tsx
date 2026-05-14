@@ -24,7 +24,7 @@ function linkify(item: HTMLElement): void {
 		const url = new URL(conversationLink.href);
 		const type = pageDetect.isIssue(url) ? 'issue' : 'pr';
 		url.hash = getHash(type);
-		wrapAll(<a href={url.href} className="Link--muted d-flex gap-1"/>, ...item.childNodes);
+		wrapAll(<a href={url.href} className="Link--muted d-flex gap-1" />, ...item.childNodes);
 	}
 }
 

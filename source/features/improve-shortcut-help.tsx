@@ -5,9 +5,9 @@ import memoize from 'memoize';
 import {$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {upperCaseFirst} from '../github-helpers/index.js';
 import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
-import {upperCaseFirst} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 

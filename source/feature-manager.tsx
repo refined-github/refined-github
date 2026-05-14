@@ -12,9 +12,7 @@ import {messageRuntime} from 'webext-msg';
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
-import {
-	getFeatureId, listenToAjaxedLoad, log, shortcutMap,
-} from './helpers/feature-helpers.js';
+import {getFeatureId, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/feature-utils.js';
 import {
 	applyStyleHotfixes,

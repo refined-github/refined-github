@@ -9,9 +9,9 @@ import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
-import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = $closestOptional('fieldset', square) // Issue

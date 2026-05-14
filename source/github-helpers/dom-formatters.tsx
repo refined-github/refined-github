@@ -1,9 +1,7 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {
-	$$, $closest, $closestOptional, elementExists,
-} from 'select-dom';
+import {$$, $closest, $closestOptional, elementExists} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 

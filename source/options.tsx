@@ -2,9 +2,7 @@ import 'webext-base-css/webext-base.css';
 import './options.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {enableTabToIndent} from 'indent-textarea';
-import {
-	$, $$, $closestOptional, $optional, elementExists,
-} from 'select-dom';
+import {$, $$, $closestOptional, $optional, elementExists} from 'select-dom';
 import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';

@@ -1,9 +1,7 @@
 import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {
-	$, $$, $closest, elementExists,
-} from 'select-dom';
+import {$, $$, $closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';

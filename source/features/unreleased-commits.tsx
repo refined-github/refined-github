@@ -11,9 +11,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
-import {
-	buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo,
-} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import abbreviateString from '../helpers/abbreviate-string.js';

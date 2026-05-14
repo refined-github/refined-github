@@ -13,11 +13,11 @@ export type TooltipOptions = {
 
 function renderShortcut(shortcut: string): JSX.Element {
 	return (
-		<kbd className='rgh-shortcut'>
+		<kbd className="rgh-shortcut">
 			{shortcut.split(' ').map((key, index) => (
 				<>
 					{index > 0 && ' '}
-					<span className='rgh-shortcut-chord' data-kbd-chord='true'>
+					<span className="rgh-shortcut-chord" data-kbd-chord="true">
 						{upperCaseFirst(key)}
 					</span>
 				</>

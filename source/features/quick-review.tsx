@@ -1,5 +1,5 @@
-import React from 'dom-chef';
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import elementReady from 'element-ready';
 import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
@@ -143,11 +143,10 @@ function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnc
 }
 
 function initReviewRequestedButton(signal: AbortSignal): void {
-	delegate('section[aria-label="Review Request Banner"] a[type="button"]',
-		'click',
-		onReviewRequestedButtonClick,
-		{capture: true, signal},
-	);
+	delegate('section[aria-label="Review Request Banner"] a[type="button"]', 'click', onReviewRequestedButtonClick, {
+		capture: true,
+		signal,
+	});
 }
 
 // Legacy PR files view -- TODO: Drop after it is removed

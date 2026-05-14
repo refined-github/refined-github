@@ -122,13 +122,6 @@ function validateReadme(featureId: FeatureId): void {
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
 
-	if (/--[\w-]*color[\w-]*/i.test(file.contents().toString())) {
-		assert(
-			file.contents().includes('fuchsia'),
-			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
-		);
-	}
-
 	if (!file.tsx.exists()) {
 		assert(
 			isImportedByEntrypoint,

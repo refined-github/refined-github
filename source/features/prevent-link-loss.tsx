@@ -2,8 +2,8 @@ import debounceFn from 'debounce-fn';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import AlertIcon from 'octicons-plain-react/Alert';
 import memoize from 'memoize';
+import AlertIcon from 'octicons-plain-react/Alert';
 import {$, $closest} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
@@ -49,23 +49,24 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 	$closest('.flash', fixButton).remove();
 }
 
-const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement => createBanner({
-	icon: <AlertIcon className="m-0" />,
-	text: <>
-		{' Your link may be '}
-		<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
-			misinterpreted
-		</a>
-		{' by GitHub.'}
-	</>,
-	classes: [
-		feature.class,
-		'flash-warn',
-		'my-2',
-	],
-	action: handleButtonClick,
-	buttonLabel: 'Fix link',
-}), {
+const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement =>
+	createBanner({
+		icon: <AlertIcon className="m-0" />,
+		text: <>
+			{' Your link may be '}
+			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">
+				misinterpreted
+			</a>
+			{' by GitHub.'}
+		</>,
+		classes: [
+			feature.class,
+			'flash-warn',
+			'my-2',
+		],
+		action: handleButtonClick,
+		buttonLabel: 'Fix link',
+	}), {
 	cache: new WeakMap(),
 });
 

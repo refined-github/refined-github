@@ -37,7 +37,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
 	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
-	const relatedIssuesContainer = <span/>;
+	const relatedIssuesContainer = <span />;
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse

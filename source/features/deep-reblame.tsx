@@ -5,9 +5,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {
-	$, $$, $closest, $optional,
-} from 'select-dom';
+import {$, $$, $closest, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

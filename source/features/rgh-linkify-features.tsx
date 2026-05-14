@@ -64,11 +64,13 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 	}
 
 	if (anchorElement && !shouldHideCount()) {
-		const sup = <sup/>;
+		const sup = <sup />;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
-			target: sup, props: {
-				featureId: id, labels: {single: '$$', plural: '$$'},
+			target: sup,
+			props: {
+				featureId: id,
+				labels: {single: '$$', plural: '$$'},
 			},
 		});
 	}

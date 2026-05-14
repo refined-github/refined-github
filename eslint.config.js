@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
+import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
@@ -18,6 +19,7 @@ const refinedGithubPlugin = {
 		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
 		'css-documentation': cssDocumentation,
+		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
 	},
 };
 
@@ -119,6 +121,32 @@ export default defineConfig([
 		{
 			files: ['**/*.{ts,tsx,cts,mts}'],
 			rules: {
+				// TODO: Drop after moving to dprint
+				// Copied from here, except ImportDeclaration
+				// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
+				'@stylistic/object-curly-newline': ['error', {
+					ObjectExpression: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+					ObjectPattern: {
+						multiline: true,
+						consistent: true,
+					},
+
+					ImportDeclaration: {
+						multiline: true,
+						minProperties: 10,
+						consistent: true,
+					},
+					ExportDeclaration: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+				}],
+
 				'@typescript-eslint/no-restricted-types': [
 					'error',
 					{
@@ -300,6 +328,7 @@ export default defineConfig([
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+			'refined-github/css-require-fuchsia-fallback': 'error',
 		},
 	},
 	{

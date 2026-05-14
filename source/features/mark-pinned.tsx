@@ -4,8 +4,8 @@ import PinIcon from 'octicons-plain-react/Pin';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import observe from '../helpers/selector-observer.js';
 
 const {class: featureClass} = getIdentifiers(import.meta.url);
 

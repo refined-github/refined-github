@@ -3,26 +3,20 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {
-	$,
-	$$,
-	$closest,
-	$optional,
-	elementExists,
-} from 'select-dom';
+import {$, $$, $closest, $optional, elementExists} from 'select-dom';
 
-import updatePullRequestBranch from './update-pr-from-base-branch.gql';
+import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {expectToken} from '../github-helpers/github-token.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository} from '../github-helpers/selectors.js';
-import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
-import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
+import {tooltipped} from '../helpers/tooltip.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
@@ -90,20 +84,22 @@ function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => (
-				<div>{tooltipped(
-					label.tooltipLabel,
-					<button
-						className={`Button--secondary Button--medium Button ${feature.class}`}
-						data-method={method}
-						type="button"
-					>
-						<span className="Button-content">
-							<span className="Button-label">
-								{label.buttonLabel}
+				<div>
+					{tooltipped(
+						label.tooltipLabel,
+						<button
+							className={`Button--secondary Button--medium Button ${feature.class}`}
+							data-method={method}
+							type="button"
+						>
+							<span className="Button-content">
+								<span className="Button-label">
+									{label.buttonLabel}
+								</span>
 							</span>
-						</span>
-					</button>,
-				)}</div>
+						</button>,
+					)}
+				</div>
 			))}
 		</div>
 	);
