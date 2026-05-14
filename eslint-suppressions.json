@@ -14,11 +14,6 @@
       "count": 5
     }
   },
-  "source/features/highest-rated-comment.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
   "source/features/new-or-deleted-file.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2

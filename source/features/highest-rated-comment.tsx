@@ -13,16 +13,24 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import {singleParagraphCommentSelector} from './hide-low-quality-comments.js';
 
 // `.js-timeline-item` gets the nearest comment excluding the very first comment (OP post)
-const commentSelector = '.js-timeline-item';
+const commentSelector = '.js-timeline-item, .react-issue-comment';
+const commentBodySelector = '.comment-body, [data-testid="markdown-body"]';
+const commentHeaderSelector = '.unminimized-comment .timeline-comment-header > h3, [data-testid="comment-header"] [data-testid="avatar-link"]';
+const commentLinkSelector = 'a.js-timestamp, [data-testid="comment-header"] a[href*="#issuecomment-"]';
+const commentAvatarSelector = 'img.avatar, img[data-testid="github-avatar"]';
 
 const positiveReactionsSelector = `
 	${commentSelector} [aria-label="react with thumbs up"],
 	${commentSelector} [aria-label="react with hooray"],
-	${commentSelector} [aria-label="react with heart"]
+	${commentSelector} [aria-label="react with heart"],
+	${commentSelector} [aria-label^="👍 "],
+	${commentSelector} [aria-label^="🎉 "],
+	${commentSelector} [aria-label^="❤️ "]
 `;
 
 const negativeReactionsSelector = `
-	${commentSelector} [aria-label="react with thumbs down"]
+	${commentSelector} [aria-label="react with thumbs down"],
+	${commentSelector} [aria-label^="👎 "]
 `;
 
 function selectSum(selector: string, container: HTMLElement): number {
@@ -42,7 +50,7 @@ const getPositiveReactions = mem((comment: HTMLElement): number | void => {
 });
 
 function getBestComment(): HTMLElement | undefined {
-	let highest;
+	let highest: {comment: HTMLElement; count: number} | undefined;
 	// $$optional because there might not be any positive reactions at all
 	for (const reaction of $$optional(positiveReactionsSelector)) {
 		const comment = $closest(commentSelector, reaction);
@@ -52,12 +60,17 @@ function getBestComment(): HTMLElement | undefined {
 		}
 	}
 
-	return highest?.comment;
+	return highest === undefined ? undefined : highest.comment;
 }
 
 function highlightBestComment(bestComment: Element): void {
-	$('.unminimized-comment', bestComment).classList.add('rgh-highest-rated-comment');
-	$('.unminimized-comment .timeline-comment-header > h3', bestComment).before(
+	const oldComment = $optional('.unminimized-comment', bestComment);
+	if (oldComment) {
+		oldComment.classList.add('rgh-highest-rated-comment');
+	}
+
+	bestComment.classList.toggle('rgh-highest-rated-comment', bestComment.matches('.react-issue-comment'));
+	$(commentHeaderSelector, bestComment).before(
 		<span
 			className="color-fg-success tooltipped tooltipped-s"
 			aria-label="This comment has the most positive reactions on this issue."
@@ -76,11 +89,10 @@ function linkBestComment(bestComment: HTMLElement): void {
 		return;
 	}
 
-	const text = $('.comment-body', bestComment).textContent.slice(0, 100);
-	const {hash} = $('a.js-timestamp', bestComment);
-	const avatar = $('img.avatar', bestComment).cloneNode();
-
-	bestComment.parentElement!.firstElementChild!.after(
+	const text = $(commentBodySelector, bestComment).textContent.slice(0, 100);
+	const {hash} = $(commentLinkSelector, bestComment);
+	const avatar = $(commentAvatarSelector, bestComment).cloneNode();
+	const anchor = (
 		<a
 			href={hash}
 			className="no-underline rounded-1 rgh-highest-rated-comment timeline-comment color-bg-subtle px-2 d-flex flex-items-center"
@@ -95,8 +107,14 @@ function linkBestComment(bestComment: HTMLElement): void {
 			<div className="color-fg-muted f6 no-wrap">
 				<ArrowDownIcon className="mr-1" />Jump to comment
 			</div>
-		</a>,
+		</a>
 	);
+
+	if (bestComment.matches('.react-issue-comment')) {
+		$('[data-testid="issue-body"]').after(anchor);
+	} else {
+		bestComment.parentElement!.firstElementChild!.after(anchor);
+	}
 }
 
 function init(): false | void {
@@ -105,7 +123,8 @@ function init(): false | void {
 		return false;
 	}
 
-	const commentText = $optional(singleParagraphCommentSelector, bestComment)?.textContent;
+	const firstParagraph = $optional(`${singleParagraphCommentSelector}, [data-testid="markdown-body"] > p:only-child`, bestComment);
+	const commentText = firstParagraph === undefined ? undefined : firstParagraph.textContent;
 	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;
 	}
