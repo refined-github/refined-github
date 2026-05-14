@@ -13,7 +13,7 @@
 
 	type Props = {
 		content: string | TooltipOptions;
-		children: Snippet<[string, string]>;
+		children: Snippet<[targetId: string, tooltipId: string]>;
 	};
 
 	const {content, children}: Props = $props();
