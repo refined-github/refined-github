@@ -1,24 +1,17 @@
-import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import expandHidden from '../github-helpers/expand-hidden-comments.js';
 import {paginationButtonSelector} from '../github-helpers/selectors.js';
-import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
-async function handleAltClick({altKey, delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
-	if (!altKey) {
-		return;
-	}
-
-	await showToast(expandHidden(delegateTarget), {
-		message: 'Expanding…',
-		doneMessage: 'Expanded',
-	});
+function autoExpand(paginationButton: HTMLButtonElement): void {
+	paginationButton.click();
+	void expandHidden(paginationButton);
 }
 
 function init(signal: AbortSignal): void {
-	delegate(paginationButtonSelector, 'click', handleAltClick, {signal});
+	observe(paginationButtonSelector, autoExpand, {signal});
 }
 
 void features.add(import.meta.url, {
