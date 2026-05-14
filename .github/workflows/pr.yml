@@ -29,7 +29,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: "You're allowed to open PRs only if you post a screenshot of your working PR",
+              body: "You're allowed to open PRs only if you post a screenshot of your working PR. Untested AI PRs are NOT welcome here and you will get blocked.",
             });
 
 
