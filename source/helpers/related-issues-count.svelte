@@ -26,17 +26,17 @@
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 </script>
 
-{#snippet linked(text: string, id: string, labelledBy: string)}
+{#snippet linked(text: string, id: string, tooltipId: string)}
 	{#if linkify}
 		<a
 			id={id}
-			aria-labelledby={labelledBy}
+			aria-labelledby={tooltipId}
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
 			class={excludeFromDomTextExtraction}
 		>{text}</a>
 	{:else}
-		<span id={id} aria-labelledby={labelledBy}>{text}</span>
+		<span id={id} aria-labelledby={tooltipId}>{text}</span>
 	{/if}
 {/snippet}
 
@@ -60,8 +60,8 @@
 	{#if count > 0 || labels.zero !== undefined}
 		{@const label = pluralize(count, labels.single, labels.plural, labels.zero)}
 		<Tooltipped content={pluralize(count, '1 open issue', '$$ open issues', 'No open issues')}>
-			{#snippet children(id: string, labelledBy: string)}
-				{@render linked(label, id, labelledBy)}
+			{#snippet children(id: string, tooltipId: string)}
+				{@render linked(label, id, tooltipId)}
 			{/snippet}
 		</Tooltipped>
 	{/if}
