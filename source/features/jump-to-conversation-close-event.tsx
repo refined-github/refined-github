@@ -1,7 +1,7 @@
 import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, lastElement} from 'select-dom';
+import {$optional, $$, lastElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
@@ -19,10 +19,19 @@ export const statusBadgeSelector = [
 
 export const {class: featureClass, selector: featureSelector} = getIdentifiers(import.meta.url);
 
+const conversationCloseEventLoaded = [
+	...conversationCloseEvent,
+	'[data-testid="state-reason-link"]',
+] as const;
+
 function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
-	const lastCloseEvent = lastElement(conversationCloseEvent);
-	const eventAnchor = $('a[href*="#event-"]', lastCloseEvent);
+	const lastCloseEvent = lastElementOptional(conversationCloseEvent);
+	const eventAnchor = $optional('a[href*="#event-"]', lastCloseEvent);
+	if (!eventAnchor) {
+		return;
+	}
+
 	const statusBadges = $$(statusBadgeSelector);
 
 	for (const statusBadge of statusBadges) {
@@ -46,7 +55,7 @@ function updateStatusBadges(): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		conversationCloseEvent,
+		conversationCloseEventLoaded,
 		// Avoid calling `updateStatusBadges` for every close event on initial load
 		debounce(updateStatusBadges, {wait: 100}),
 		{signal},
