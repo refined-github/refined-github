@@ -2,12 +2,12 @@ name: PR
 
 on:
   pull_request_target:
-    types: [opened, reopened, edited, closed]
+    types: [opened, closed]
 
 jobs:
   screenshot-enforcement:
     name: Screenshot Enforcement
-    if: github.event.pull_request.state == 'open'
+    if: github.event.action == 'opened' && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -16,8 +16,7 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body ?? '';
-            const lower = body.toLowerCase();
-            if (!lower.includes('npm ci') && !lower.includes('verification')) return;
+            if (!body.includes('build:typescript') && !body.includes('Verification')) return;
 
             await github.rest.pulls.update({
               owner: context.repo.owner,
