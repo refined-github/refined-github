@@ -5,6 +5,7 @@
 	"actions-run-removal",
 	"align-issue-labels",
 	"archive-forks-link",
+	"auto-expand-all-comments",
 	"avoid-accidental-submissions",
 	"batch-mark-files-as-viewed",
 	"bugs-tab",
