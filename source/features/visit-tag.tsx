@@ -10,6 +10,7 @@ import {branchSelector} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	if (
@@ -33,13 +34,15 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 	wrapAll(
 		<div className="d-flex gap-2" />,
 		branchSelector,
-		<a
-			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
-			href={buildRepoUrl('releases/tag', tag)}
-			aria-label="Visit tag"
-		>
-			<ArrowUpRightIcon />
-		</a>,
+		tooltipped(
+			{label: 'Visit tag', direction: 'se'},
+			<a
+				className="btn px-2 rgh-visit-tag"
+				href={buildRepoUrl('releases/tag', encodeURIComponent(tag))}
+			>
+				<ArrowUpRightIcon />
+			</a>,
+		),
 	);
 }
 

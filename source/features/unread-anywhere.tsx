@@ -14,6 +14,7 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
@@ -77,8 +78,6 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 15, cursor: 'pointer'}}
-			// JSX swallows \n if you skip {''}
-			aria-label={'Open unread notifications\nHotkey: g u'}
 		>
 			<ArrowUpRightIcon className="mb-2" />
 		</button>
@@ -92,11 +91,14 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 	button.setAttribute('data-variant', 'invisible'); // Enables hover style
 	button.classList.add(
 		...classes,
-		'tooltipped',
-		'tooltipped-sw',
 		'rounded-left-0',
 		'border-left-0',
 	);
+	addToolTip({
+		label: 'Open unread notifications',
+		shortcut: 'g u',
+		direction: 'sw',
+	}, button);
 
 	removeNotificationIndicator(button);
 }

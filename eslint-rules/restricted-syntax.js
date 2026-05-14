@@ -32,16 +32,14 @@ const restrictedSyntax = [
 		selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
 	},
 	{
-		message: 'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
-		selector: 'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])'
-			+ ':not(:has(JSXAttribute[name.name="title"]))'
-			+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
-			+ ':not(:has(JSXAttribute[name.name="hidden"]))',
-	},
-	{
 		message: 'Use `elementExists` for checking if an element exists',
 		selector: '*[test.type="CallExpression"][test.callee.name="$optional"],'
 			+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
+	},
+	{
+		message: 'JSX elements with `data-hotkey` must import `tooltip.js`',
+		selector: String.raw`Program:has(JSXAttribute[name.name="data-hotkey"])
+			:not(:has(ImportDeclaration[source.value=/\/helpers\/tooltip\.js$/]))`,
 	},
 ];
 

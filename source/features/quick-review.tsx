@@ -17,6 +17,7 @@ import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import {getToken} from '../options-storage.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
@@ -68,24 +69,32 @@ function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
 	$(prFilesChangedTabSelector).click();
 }
 
+function preloadPrFilesTab(): void {
+	// Trigger data preloading
+	// TODO: Change `$optional` to `$()` once legacy PR files view is removed
+	$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+}
+
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
-			<a
-				// TODO: Change path to "changes" once Legacy PR files view is removed
-				href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
-				className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
-				data-turbo-frame="repo-content-turbo-frame"
-				data-hotkey="v"
-				title="Hotkey: V"
-				onMouseEnter={() =>
-					// Trigger data preloading
-					// TODO: Change `$optional` to `$()` once legacy PR files view is removed
-					$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}))}
-			>
-				review now
-			</a>
+			{tooltipped(
+				{
+					label: 'Review now',
+					shortcut: 'v',
+				},
+				<a
+					// TODO: Change path to "changes" once Legacy PR files view is removed
+					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
+					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
+					data-turbo-frame="repo-content-turbo-frame"
+					data-hotkey="v"
+					onMouseEnter={preloadPrFilesTab}
+				>
+					review now
+				</a>,
+			)}
 		</span>
 	);
 
@@ -105,13 +114,15 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 
 	quickReview.append(
 		' – ',
-		<button
-			type="button"
-			className="btn-link Link--muted Link--inTextBlock rgh-quick-approve tooltipped tooltipped-nw"
-			aria-label="Hold alt to approve without confirmation"
-		>
-			approve now
-		</button>,
+		tooltipped(
+			{label: 'Hold alt to approve without confirmation', direction: 'nw'},
+			<button
+				type="button"
+				className="btn-link Link--muted Link--inTextBlock rgh-quick-approve"
+			>
+				approve now
+			</button>,
+		),
 	);
 }
 

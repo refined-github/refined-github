@@ -5,6 +5,7 @@ import {lastElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function addLink(header: HTMLElement): void {
 	const lastDeployment = lastElementOptional('.js-timeline-item a[title="Deployment has completed"]');
@@ -14,15 +15,17 @@ function addLink(header: HTMLElement): void {
 
 	// Use "parentElement" because open PRs have a "PR status" button before the "Code" button
 	header.parentElement!.prepend(
-		<a
-			className="rgh-last-deployment btn d-none d-md-block tooltipped tooltipped-s"
-			aria-label="View last deployment"
-			target="_blank" // Matches GitHub’s own behavior
-			rel="noopener noreferrer"
-			href={lastDeployment.href}
-		>
-			<RocketIcon />
-		</a>,
+		tooltipped(
+			'View last deployment',
+			<a
+				className="rgh-last-deployment btn d-none d-md-block"
+				target="_blank" // Matches GitHub’s own behavior
+				rel="noopener noreferrer"
+				href={lastDeployment.href}
+			>
+				<RocketIcon/>
+			</a>,
+		),
 	);
 }
 

@@ -7,11 +7,11 @@ import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {$, $$, $closest, $closestOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {multilineAriaLabel} from '../github-helpers/index.js';
-import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -75,23 +75,21 @@ async function openSelectedNotifications(): Promise<void> {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	const button = (
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
-			data-hotkey="p"
-			aria-label={multilineAriaLabel(
-				'Open selected notifications',
-				'Hotkey: P',
-			)}
-		>
-			<LinkExternalIcon className="mr-1" />Open
-		</button>
-	);
 	appendBefore(
 		selectedActionsGroup,
 		'details',
-		button,
+		tooltipped({
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		}, (
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 ' + openSelected.class}
+				data-hotkey="p"
+			>
+				<LinkExternalIcon className="mr-1" />Open
+			</button>
+		)),
 	);
 }
 
@@ -102,13 +100,15 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 	}
 
 	markReadButton.before(
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
-			aria-label="Open all unread notifications from this repo"
-		>
-			<LinkExternalIcon width={16} /> Open unread
-		</button>,
+		tooltipped(
+			{label: 'Open all unread notifications from this repo', direction: 'w'},
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 ' + openUnread.class}
+			>
+				<LinkExternalIcon width={16} /> Open unread
+			</button>,
+		),
 	);
 }
 

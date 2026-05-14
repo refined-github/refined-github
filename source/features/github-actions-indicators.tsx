@@ -11,6 +11,7 @@ import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {
@@ -94,26 +95,28 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
-				<a
-					href={url.href}
-					data-turbo-frame={workflowLink.dataset.turboFrame}
-					// `actions-unpin-button` provides the hover style
-					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
-					aria-label="Trigger manually"
-				>
-					<PlayIcon />
-				</a>,
+				tooltipped(
+					{label: 'Trigger manually', direction: 'sw'},
+					<a
+						href={url.href}
+						data-turbo-frame={workflowLink.dataset.turboFrame}
+						// `actions-unpin-button` provides the hover style
+						className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					>
+						<PlayIcon />
+					</a>,
+				),
 			);
 		} else {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
 			workflowLink.after(
-				<div
-					className="tooltipped tooltipped-sw Button Button--iconOnly Button--invisible Button--medium color-bg-transparent"
-					aria-label="This workflow can be triggered manually"
-				>
-					<PlayIcon />
-				</div>,
+				tooltipped(
+					{label: 'This workflow can be triggered manually', direction: 'sw'},
+					<div className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent">
+						<PlayIcon />
+					</div>,
+				),
 			);
 		}
 	}
