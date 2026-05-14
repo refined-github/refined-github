@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type {Snippet} from 'svelte';
+
 	import {upperCaseFirst} from '../github-helpers/index.js';
 	import './tooltip.css';
 
@@ -39,9 +41,9 @@
 	{options.label}
 	{#if options.shortcut}
 		<kbd class="rgh-shortcut">
-			{#each options.shortcut.split(' ') as key, index}
+			{#each options.shortcut.split(' ') as key, index (index)}
 				{#if index > 0}
-					{' '}
+				 
 				{/if}
 				<span class="rgh-shortcut-chord" data-kbd-chord="true">
 					{upperCaseFirst(key)}
