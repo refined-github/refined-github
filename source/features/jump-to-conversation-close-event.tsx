@@ -9,7 +9,6 @@ import {wrap} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 import addToolTip from '../helpers/tooltip.js';
-import './jump-to-conversation-close-event.css';
 
 export const statusBadgeSelector = [
 	'span[class*="StateLabel"]',
