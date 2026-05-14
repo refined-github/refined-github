@@ -32,7 +32,6 @@ jobs:
               body: "You're allowed to open PRs only if you post a screenshot of your working PR. Untested AI PRs are NOT welcome here and you will get blocked.",
             });
 
-
   reminder:
     name: Label Reminder
     if: github.event.pull_request.merged == true
