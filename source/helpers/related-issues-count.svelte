@@ -40,9 +40,21 @@
 	{/if}
 {/snippet}
 
+{#snippet linkedWithoutTooltip(text: string)}
+	{#if linkify}
+		<a
+			href={relatedIssuesHref}
+			data-turbo-frame="repo-content-turbo-frame"
+			class={excludeFromDomTextExtraction}
+		>{text}</a>
+	{:else}
+		{text}
+	{/if}
+{/snippet}
+
 {#await countPromise}
 	{#if labels.loading}
-		{labels.loading}
+		{@render linkedWithoutTooltip(labels.loading)}
 	{/if}
 {:then count}
 	{#if count > 0 || labels.zero !== undefined}
