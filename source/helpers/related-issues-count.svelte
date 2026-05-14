@@ -3,7 +3,7 @@
 	import pluralize from './pluralize.js';
 	import getOpenRelatedIssuesCount from './related-issues-count.js';
 	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
-	import Tooltipped from './tooltipped.svelte';
+	import addToolTip from './tooltip.js';
 
 	type Labels = {
 		single: string;
@@ -24,45 +24,35 @@
 		getFeatureRelatedIssuesUrl(featureId).href
 	);
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
+
+	function setTooltip(node: globalThis.HTMLElement, content?: string): void {
+		if (content) {
+			addToolTip(content, node);
+		}
+	}
 </script>
 
-{#snippet linked(text: string, id: string, tooltipId: string)}
-	{#if linkify}
-		<a
-			id={id}
-			aria-labelledby={tooltipId}
-			href={relatedIssuesHref}
-			data-turbo-frame="repo-content-turbo-frame"
-			class={excludeFromDomTextExtraction}
-		>{text}</a>
-	{:else}
-		<span id={id} aria-labelledby={tooltipId}>{text}</span>
-	{/if}
-{/snippet}
-
-{#snippet linkedWithoutTooltip(text: string)}
+{#snippet linked(text: string, openIssuesTooltip?: string)}
 	{#if linkify}
 		<a
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
 			class={excludeFromDomTextExtraction}
+			use:setTooltip={openIssuesTooltip}
 		>{text}</a>
 	{:else}
-		{text}
+		<span use:setTooltip={openIssuesTooltip}>{text}</span>
 	{/if}
 {/snippet}
 
 {#await countPromise}
 	{#if labels.loading}
-		{@render linkedWithoutTooltip(labels.loading)}
+		{@render linked(labels.loading)}
 	{/if}
 {:then count}
 	{#if count > 0 || labels.zero !== undefined}
 		{@const label = pluralize(count, labels.single, labels.plural, labels.zero)}
-		<Tooltipped content={pluralize(count, '1 open issue', '$$ open issues', 'No open issues')}>
-			{#snippet children(id: string, tooltipId: string)}
-				{@render linked(label, id, tooltipId)}
-			{/snippet}
-		</Tooltipped>
+		{@const openIssuesTooltip = pluralize(count, '1 open issue', '$$ open issues', 'No open issues')}
+		{@render linked(label, openIssuesTooltip)}
 	{/if}
 {/await}
