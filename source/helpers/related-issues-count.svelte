@@ -25,10 +25,32 @@
 	);
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 
-	function setTooltip(node: globalThis.HTMLElement, content?: string): void {
-		if (content) {
-			addToolTip(content, node);
-		}
+	function tooltipAction(node: globalThis.HTMLElement, content?: string) {
+		let tooltip: globalThis.HTMLElement | undefined;
+
+		const apply = (value?: string): void => {
+			tooltip?.remove();
+			tooltip = undefined;
+			if (!value) {
+				return;
+			}
+
+			addToolTip(value, node);
+			const tooltipId = node.getAttribute('aria-labelledby');
+			const potentialTooltip = tooltipId && globalThis.document.querySelector<globalThis.HTMLElement>(`#${tooltipId}`);
+			if (potentialTooltip?.matches('tool-tip')) {
+				tooltip = potentialTooltip;
+			}
+		};
+
+		apply(content);
+
+		return {
+			update: apply,
+			destroy() {
+				tooltip?.remove();
+			},
+		};
 	}
 </script>
 
@@ -38,10 +60,10 @@
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
 			class={excludeFromDomTextExtraction}
-			use:setTooltip={openIssuesTooltip}
+			use:tooltipAction={openIssuesTooltip}
 		>{text}</a>
 	{:else}
-		<span use:setTooltip={openIssuesTooltip}>{text}</span>
+		<span use:tooltipAction={openIssuesTooltip}>{text}</span>
 	{/if}
 {/snippet}
 
