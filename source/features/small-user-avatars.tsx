@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
@@ -62,10 +63,6 @@ function initOnce(): void {
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 	], addAvatar);
 	observe(
-		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // `isNotifications` repos list
-		addRepoAvatar,
-	);
-	observe(
 		'.user-mention' + not(
 			'.opened-by > *', // Merge queue
 			'.commit-author',
@@ -74,8 +71,21 @@ function initOnce(): void {
 	);
 }
 
+function initNotifications(signal: AbortSignal): void {
+	observe(
+		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // `isNotifications` repos list
+		addRepoAvatar,
+		{signal},
+	);
+}
+
 void features.add(import.meta.url, {
 	init: onetime(initOnce),
+}, {
+	include: [
+		pageDetect.isNotifications,
+	],
+	init: initNotifications,
 });
 
 /*
