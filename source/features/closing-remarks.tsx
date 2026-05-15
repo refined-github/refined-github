@@ -46,6 +46,10 @@ function createReleaseUrl(): string {
 	return buildRepoUrl('releases/new');
 }
 
+function getCommitHashFromLink(commitLink: HTMLAnchorElement): string {
+	return commitLink.pathname.split('/commit/').at(1) ?? commitLink.textContent;
+}
+
 function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
 	discussionHeader.parentElement!.append(
 		<span>
@@ -108,8 +112,10 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit
-		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i] > code`).textContent;
+	const mergeCommitLink = $<HTMLAnchorElement>(
+		`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`,
+	);
+	const mergeCommit = getCommitHashFromLink(mergeCommitLink);
 	const tagName = await firstTag.get(mergeCommit);
 
 	if (tagName) {
