@@ -242,6 +242,7 @@
 	{
 		"id": "diff-stats-by-extension",
 		"description": "Lets you click the PR diff line counter to open a breakdown of additions and deletions grouped by file extension (from PR file metadata).",
+		"css": true,
 		"screenshot": null
 	},
 	{

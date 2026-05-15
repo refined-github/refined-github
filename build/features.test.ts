@@ -33,6 +33,9 @@ const noScreenshotExceptions = new Set([
 	'monospace-textareas',
 	'new-tab-links',
 
+	// Demonstrated in `media/` for issue/PR bodies (raw.githubusercontent.com)
+	'diff-stats-by-extension',
+
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
 	'esc-to-deselect-line', // TODO Add gif with key overlay
