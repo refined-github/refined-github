@@ -7,19 +7,38 @@ import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import './small-user-avatars.css';
 
+function createAvatar(username: string, size: number): JSX.Element {
+	return (
+		<img
+			className="avatar avatar-user rgh-small-user-avatars"
+			src={getUserAvatarURL(username, size)!}
+			width={size}
+			height={size}
+			loading="lazy"
+		/>
+	);
+}
+
+function addRepoAvatar(link: HTMLAnchorElement): void {
+	const [owner] = link.textContent.trim().split('/');
+	const size = 14;
+
+	link.firstElementChild!.prepend(
+		<span className="ActionListItem-visual ActionListItem-visual--leading">
+			{createAvatar(owner, size)}
+		</span>,
+	);
+}
+
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		<img
-			className="avatar avatar-user v-align-text-bottom mr-1 rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>,
+		<span className='v-align-text-bottom mr-1'>
+			{createAvatar(username, size)}
+		</span>,
 	);
 }
 
@@ -42,6 +61,10 @@ function initOnce(): void {
 			'[data-testid="closed-at"]',
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 	], addAvatar);
+	observe(
+		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // `isNotifications` repos list
+		addRepoAvatar,
+	);
 	observe(
 		'.user-mention' + not(
 			'.opened-by > *', // Merge queue
