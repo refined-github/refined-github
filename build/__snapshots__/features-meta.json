@@ -240,6 +240,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png"
 	},
 	{
+		"id": "diff-stats-by-extension",
+		"description": "Lets you click the PR diff line counter to open a breakdown of additions and deletions grouped by file extension (from PR file metadata).",
+		"screenshot": null
+	},
+	{
 		"id": "dim-bots",
 		"description": "Dims commits and PRs by bots to reduce noise.",
 		"css": true,
