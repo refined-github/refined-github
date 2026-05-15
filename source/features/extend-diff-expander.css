@@ -36,7 +36,7 @@
 		var(--bgColor-accent-emphasis, fuchsia)
 	);
 	cursor: pointer;
-	transition: var(--duration-fast, 2.22em) var(--easing-easeInOut, 2.22em);
+	transition: var(--duration-fast, 0.2s) var(--easing-easeInOut, ease-in-out);
 	transition-property: color, fill, background-color, border-color;
 
 	& button[data-direction] {

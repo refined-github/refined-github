@@ -11,12 +11,23 @@ const cssRequireEmFallback = {
 	create(context) {
 		const {sourceCode} = context;
 		const allowedFallbackPatternRegex = /\b(?:2|22)\.22em\b/;
+		const excludedPropertyRegex = /^(?:transition|animation)(?:-.+)?$/;
 		const isExcludedVariable = variableName =>
 			variableName.startsWith('--rgh-')
 			|| variableName.startsWith('--color-')
 			|| variableName.includes('Color-')
 			|| /--[a-z-]+-(?:r|g|b|h|s|l)$/.test(variableName);
 		const stripCssComments = text => text.replaceAll(/\/\*[\s\S]*?\*\//g, '');
+		const getPropertyName = node => {
+			for (const ancestor of sourceCode.getAncestors(node).toReversed()) {
+				if (ancestor.type === 'Declaration' && typeof ancestor.property === 'string') {
+					return ancestor.property.toLowerCase();
+				}
+			}
+
+			return undefined;
+		};
+
 		const localVariables = new Set();
 		const pendingChecks = [];
 
@@ -31,8 +42,13 @@ const cssRequireEmFallback = {
 					return;
 				}
 
-				const variable = node.children[0];
+				const [variable] = node.children;
 				if (variable?.type !== 'Identifier') {
+					return;
+				}
+
+				const propertyName = getPropertyName(node);
+				if (propertyName && excludedPropertyRegex.test(propertyName)) {
 					return;
 				}
 

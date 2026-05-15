@@ -36,6 +36,12 @@ test('css-require-em-fallback', () => {
 			{
 				code: '.selector { margin-left: var(--local-size); --local-size: 1px; }',
 			},
+			{
+				code: '.selector { transition: var(--duration-fast, 0.2s) var(--easing-easeInOut, ease-in-out); }',
+			},
+			{
+				code: '.selector { animation-duration: var(--duration-fast, 200ms); }',
+			},
 		],
 		invalid: [
 			{
