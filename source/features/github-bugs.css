@@ -49,11 +49,11 @@ a[class*='PinnedIssue-module__Link'] code {
 		&.user-has-reacted {
 			color: var(
 				--reactionButton-selected-fgColor-rest,
-				var(--color-accent-fg, fuchsia) /* 2.22em */
+				var(--color-accent-fg, fuchsia)
 			);
 			background-color: var(
 				--reactionButton-selected-bgColor-rest,
-				var(--color-accent-subtle, fuchsia) /* 2.22em */
+				var(--color-accent-subtle, fuchsia)
 			) !important;
 		}
 	}

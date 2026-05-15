@@ -2,7 +2,7 @@
 :root .rgh-non-default-branch {
 	background-color: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia)) /* 2.22em */
+		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
 	);
 
 	&,
@@ -12,7 +12,7 @@
 			var(
 				--color-state-hover-primary-text,
 				var(--color-fg-on-emphasis, fuchsia)
-			) /* 2.22em */
+			)
 		);
 	}
 }

@@ -25,6 +25,12 @@ test('css-require-em-fallback', () => {
 				code: '.selector { color: var(--fgColor-muted); }',
 			},
 			{
+				code: '.selector { color: var(--control-checked-bgColor-hover); }',
+			},
+			{
+				code: '.selector { color: rgb(var(--label-r) var(--label-g) var(--label-b)); }',
+			},
+			{
 				code: '.selector { color: var(--rgh-limit-color); }',
 			},
 			{
@@ -42,6 +48,10 @@ test('css-require-em-fallback', () => {
 			},
 			{
 				code: '.selector { margin-left: var(--base-size-16, var(--base-size-8)); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { margin-left: var(--base-size-16 /* 2.22em */); }',
 				errors: [{messageId: 'missingFallback'}],
 			},
 		],

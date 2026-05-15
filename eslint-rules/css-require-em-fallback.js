@@ -10,8 +10,13 @@ const cssRequireEmFallback = {
 	},
 	create(context) {
 		const {sourceCode} = context;
-		const colorVariableRegex = /^--(?:[a-z]+Color-|color-)/;
-		const allowedFallbackPatternRegex = /22\.22em|2\.22em/;
+		const allowedFallbackPatternRegex = /\b(?:2|22)\.22em\b/;
+		const isExcludedVariable = variableName =>
+			variableName.startsWith('--rgh-')
+			|| variableName.startsWith('--color-')
+			|| variableName.includes('Color-')
+			|| /--[a-z-]+-(?:r|g|b|h|s|l)$/.test(variableName);
+		const stripCssComments = text => text.replaceAll(/\/\*[\s\S]*?\*\//g, '');
 		const localVariables = new Set();
 		const pendingChecks = [];
 
@@ -31,14 +36,16 @@ const cssRequireEmFallback = {
 					return;
 				}
 
-				if (colorVariableRegex.test(variable.name) || variable.name.startsWith('--rgh-')) {
+				if (isExcludedVariable(variable.name)) {
 					return;
 				}
+
+				const textWithoutComments = stripCssComments(sourceCode.getText(node)).toLowerCase();
 
 				pendingChecks.push({
 					node,
 					variable: variable.name,
-					hasAllowedFallback: allowedFallbackPatternRegex.test(sourceCode.getText(node).toLowerCase()),
+					hasAllowedFallback: allowedFallbackPatternRegex.test(textWithoutComments),
 				});
 			},
 			'StyleSheet:exit'() {

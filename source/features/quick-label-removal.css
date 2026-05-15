@@ -16,9 +16,7 @@
 	&:is(:focus, :hover) svg {
 		background-color: currentcolor;
 		fill: rgb(
-			var(--label-r, 0 /* 2.22em */)
-			var(--label-g, 0 /* 2.22em */)
-			var(--label-b, 0 /* 2.22em */)
+			var(--label-r) var(--label-g) var(--label-b)
 		);
 
 		[data-color-mode='dark'][data-dark-theme*='dark'] & {
