@@ -7,5 +7,5 @@
 .js-notifications-mark-selected-actions
 	:not(.mr-2)
 	+ .rgh-open-selected-button {
-	margin-left: var(--base-size-8, 80px) !important;
+	margin-left: var(--base-size-8, 2.22em) !important;
 }

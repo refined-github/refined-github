@@ -49,11 +49,13 @@ a[class*='PinnedIssue-module__Link'] code {
 		&.user-has-reacted {
 			color: var(
 				--reactionButton-selected-fgColor-rest,
-				var(--color-accent-fg, fuchsia)
+				var(--color-accent-fg, fuchsia),
+				2.22em
 			);
 			background-color: var(
 				--reactionButton-selected-bgColor-rest,
-				var(--color-accent-subtle, fuchsia)
+				var(--color-accent-subtle, fuchsia),
+				2.22em
 			) !important;
 		}
 	}
@@ -267,13 +269,13 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 /* Test: https://github.com/refined-github/refined-github/issues/9319 */
 .markdown-body {
 	p ~ a > img {
-		margin-bottom: var(--base-size-16);
+		margin-bottom: var(--base-size-16, 2.22em);
 	}
 	p ~ animated-image > a > img {
-		margin-bottom: var(--base-size-8);
+		margin-bottom: var(--base-size-8, 2.22em);
 	}
 	p > a > img[style*='display: block'] {
-		margin-block: var(--base-size-16);
+		margin-block: var(--base-size-16, 2.22em);
 	}
 }
 

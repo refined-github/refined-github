@@ -8,18 +8,21 @@
 	) {
 	color: var(
 		--control-checked-fgColor-rest,
-		var(--color-state-hover-primary-text, var(--color-fg-on-emphasis, fuchsia))
+		var(--color-state-hover-primary-text, var(--color-fg-on-emphasis, fuchsia)),
+		2.22em
 	);
 	background: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
+		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia)),
+		2.22em
 	);
 	border-color: var(
 		--control-checked-borderColor-hover,
 		var(
 			--color-state-hover-primary-border,
 			var(--color-accent-emphasis, fuchsia)
-		)
+		),
+		2.22em
 	);
 	cursor: pointer;
 }
@@ -29,24 +32,28 @@
 	/* Color variables and fallbacks are copy-pasted from GitHub */
 	color: var(
 		--diffBlob-hunkNum-fgColor-hover,
-		var(--fgColor-onEmphasis, fuchsia)
+		var(--fgColor-onEmphasis, fuchsia),
+		2.22em
 	);
 	background: var(
 		--diffBlob-hunkNum-bgColor-hover,
-		var(--bgColor-accent-emphasis, fuchsia)
+		var(--bgColor-accent-emphasis, fuchsia),
+		2.22em
 	);
 	cursor: pointer;
-	transition: var(--duration-fast) var(--easing-easeInOut);
+	transition: var(--duration-fast, 2.22em) var(--easing-easeInOut, 2.22em);
 	transition-property: color, fill, background-color, border-color;
 
 	& button[data-direction] {
 		color: var(
 			--diffBlob-hunkNum-fgColor-hover,
-			var(--fgColor-onEmphasis, fuchsia)
+			var(--fgColor-onEmphasis, fuchsia),
+			2.22em
 		);
 		background: var(
 			--diffBlob-hunkNum-bgColor-hover,
-			var(--bgColor-accent-emphasis, fuchsia)
+			var(--bgColor-accent-emphasis, fuchsia),
+			2.22em
 		);
 	}
 }

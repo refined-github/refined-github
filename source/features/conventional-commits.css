@@ -1,5 +1,5 @@
 :root [rgh-conventional-commits] {
-	font-size: var(--body-font-size, 1px);
+	font-size: var(--body-font-size, 2.22em);
 	line-height: 1.5;
 }
 

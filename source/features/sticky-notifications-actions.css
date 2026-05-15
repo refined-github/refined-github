@@ -12,7 +12,7 @@
 
 				/* Cover up the content seen through the rounded corners above */
 				box-shadow: 0
-					calc((var(--sticky-padding) + var(--borderRadius-medium)) * -1) 0 0
+					calc((var(--sticky-padding) + var(--borderRadius-medium, 2.22em)) * -1) 0 0
 					var(--rgh-background);
 			}
 

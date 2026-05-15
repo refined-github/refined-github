@@ -7,7 +7,8 @@
 	&.selected {
 		border-color: var(
 			--control-borderColor-emphasis,
-			var(--color-accent-emphasis, fuchsia)
+			var(--color-accent-emphasis, fuchsia),
+			2.22em
 		);
 
 		.octicon {
