@@ -73,7 +73,7 @@ function initOnce(): void {
 
 function initNotifications(signal: AbortSignal): void {
 	observe(
-		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // `isNotifications` repos list
+		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // Repos list in the left sidebar
 		addRepoAvatar,
 		{signal},
 	);
