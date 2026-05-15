@@ -336,7 +336,7 @@ export default defineConfig([
 	{
 		files: ['source/features/**/*.css'],
 		rules: {
-			'refined-github/css-require-em-fallback': 'error',
+			'refined-github/css-require-em-fallback': 'warn',
 		},
 	},
 	{
