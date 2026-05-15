@@ -1,0 +1,5 @@
+/* PR diffstat opens the per-extension breakdown popover */
+[data-rgh-diffstat-extension='1'],
+[data-rgh-diffstat-extension='1'] * {
+	cursor: pointer;
+}
