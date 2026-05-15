@@ -54,8 +54,6 @@ export default async function showToast(
 	};
 
 	const finalUpdateToast = async (message: ToastMessage): Promise<void> => {
-		updateToast(message);
-
 		// Without rAF the toast might be removed before the first page paint
 		// rAF also allows showToast to resolve as soon as task is done
 		await frame();
@@ -95,6 +93,8 @@ export default async function showToast(
 		throw error;
 	} finally {
 		// Use the last message if `false` was passed
-		void finalUpdateToast(finalToastMessage || lastRawMessage);
+		const toastMessage = finalToastMessage || lastRawMessage;
+		updateToast(toastMessage);
+		void finalUpdateToast(toastMessage);
 	}
 }
