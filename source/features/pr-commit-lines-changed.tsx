@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
@@ -8,6 +7,7 @@ import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
+import observe from '../helpers/selector-observer.js';
 
 const commitChanges = new CachedFunction('commit-changes', {
 	async updater(commit: string): Promise<[additions: number, deletions: number]> {
@@ -21,12 +21,17 @@ const commitChanges = new CachedFunction('commit-changes', {
 	},
 });
 
-async function init(): Promise<void> {
+function repeatItems(count: number, Item: () => React.JSX.Element): React.JSX.Element[] {
+	return Array.from({length: count}).map(() => <Item style={{borderRadius: '2px'}}/>);
+}
+
+async function add(commitHash: HTMLElement): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await commitChanges.get(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
-	const diffstat = await elementReady('.diffstat', {waitForChildren: false});
-	diffstat!.replaceWith(
+	const additionBlocks = Math.round(additions / (additions + deletions) * 4);
+	const deletionBlocks = Math.round(deletions / (additions + deletions) * 4);
+	commitHash.prepend(
 		tooltipped(
 			tooltip,
 			<span className="ml-2 diffstat">
@@ -34,21 +39,22 @@ async function init(): Promise<void> {
 				{' '}
 				<span className="color-fg-danger">−{deletions}</span>
 				{' '}
-				<span className="diffstat-block-neutral" />
-				<span className="diffstat-block-neutral" />
-				<span className="diffstat-block-neutral" />
-				<span className="diffstat-block-neutral" />
-				<span className="diffstat-block-neutral" />
+				{repeatItems(additionBlocks, () => <span className="diffstat-block-added addition diffstat" />)}
+				{repeatItems(deletionBlocks, () => <span className="diffstat-block-deleted deletion diffstat" />)}
+				{repeatItems(5 - additionBlocks - deletionBlocks, () => <span className="diffstat-block-neutral diffstat" />)}
 			</span>,
 		),
 	);
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	observe('[class*="__CommitAttributionContainer"] + .text-mono', add, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRCommit,
 	],
-	deduplicate: 'has-rgh-inner',
 	init,
 });
 
