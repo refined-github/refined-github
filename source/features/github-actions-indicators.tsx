@@ -13,7 +13,6 @@ import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
-import {appendBefore} from '../helpers/dom-utils.js';
 
 type Workflow = {
 	name: string;
@@ -125,7 +124,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 				// Enable tooltip
 				pinIcon.style.pointerEvents = 'auto';
 				// Add spacing between the icons
-				pinIcon.classList.add('gap-1');
+				pinIcon.classList.add('gap-2');
 				pinIcon.prepend(indicator);
 			} else {
 				workflowLink.append(indicator);
