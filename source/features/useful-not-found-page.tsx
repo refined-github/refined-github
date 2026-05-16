@@ -120,6 +120,11 @@ async function showMissingPartOnce(): Promise<void> {
 }
 
 async function showDefaultBranchLink(): Promise<void> {
+	if (pageDetect.isRepoRoot()) {
+		// https://github.com/refined-github/refined-github/issues/9423
+		return;
+	}
+
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (!urlToFileOnDefaultBranch) {
 		return;
