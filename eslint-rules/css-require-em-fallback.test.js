@@ -57,6 +57,12 @@ test('css-require-em-fallback', () => {
 			{
 				code: '.selector { top: calc(var(--base-sticky-header-height, 2.22em) + 10px); }',
 			},
+			{
+				code: '.selector { bottom: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { margin: var(--base-size-16, 2.22em); }',
+			},
 		],
 		invalid: [
 			{
@@ -77,6 +83,18 @@ test('css-require-em-fallback', () => {
 			},
 			{
 				code: '.selector { top: calc(var(--base-sticky-header-height, 0px) + 10px); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { top: var(--base-size-16); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { bottom: var(--base-size-16); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { margin: var(--base-size-16); }',
 				errors: [{messageId: 'missingFallback'}],
 			},
 		],
