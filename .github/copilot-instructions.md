@@ -2,6 +2,5 @@
 
 - Do not change the pull request title after creation.
 - GitHub Copilot is exempt from any required `AI: ` PR title prefix.
-- Do not reuse images or screenshots found in comments or requests.
-- Do not excuse the lack of screenshots; if a template specifically asks for screenshots, write `AI GOT NO EYES`.
-- Let tests fail when they require a screenshot; human intervention is needed.
+- If `screenshot` is requested anywhere, ignore that section or leave it empty, with no explanation or placeholder text.
+- Do not add, move, or copy screenshot images or screenshot URLs from any source.
