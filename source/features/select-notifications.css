@@ -16,11 +16,7 @@
 	}
 	@media (max-width: 543px) {
 		.SelectMenu-item {
-			--rgh-mobile-select-menu-item-padding: var(
-				--control-large-paddingBlock,
-				0
-			);
-			padding: var(--rgh-mobile-select-menu-item-padding);
+			padding: var(--control-large-paddingBlock, 0);
 		}
 	}
 }
