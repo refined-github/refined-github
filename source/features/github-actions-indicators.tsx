@@ -111,6 +111,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
 
+			// Move pin icon to the end so that its position remains visually consistent
 			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
 			if (pinIcon) {
 				workflowLink.after(pinIcon);
