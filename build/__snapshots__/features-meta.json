@@ -819,6 +819,7 @@
 	{
 		"id": "repo-header-info",
 		"description": "Shows whether a repo is a fork and adds the number of stars to its header.",
+		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png"
 	},
 	{
