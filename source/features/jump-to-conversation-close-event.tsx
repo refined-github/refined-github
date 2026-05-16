@@ -23,10 +23,9 @@ function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
 	const lastCloseEvent = lastElement(conversationCloseEvent);
 
-	// `lastCloseEvent` is a wrapper element in old views, but a direct `<a>` link in the new React Issues UI
-	const eventAnchor = lastCloseEvent?.tagName === 'A'
-		? lastCloseEvent as HTMLAnchorElement
-		: $('a[href*="#event-"]', lastCloseEvent);
+	// `lastCloseEvent` is a wrapper element in old views, but a direct `<a>` link in the new React Issues UI.
+	// `closest('a')` returns itself when it is an `<a>`, or finds the first `<a>` ancestor in the old view.
+	const eventAnchor = lastCloseEvent?.closest('a') ?? $('a[href*="#event-"]', lastCloseEvent);
 	const statusBadges = $$(statusBadgeSelector);
 
 	for (const statusBadge of statusBadges) {
