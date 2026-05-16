@@ -5,8 +5,7 @@ on:
     types: [opened, reopened, edited, closed]
 
 jobs:
-  no-untested-ai-pr:
-    name: no-untested-ai-pr
+  block-ai:
     if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     permissions:
@@ -27,7 +26,8 @@ jobs:
             if (authorAssociation !== 'FIRST_TIME_CONTRIBUTOR') return;
 
             const body = pullRequest.body ?? '';
-            if (!body.includes('build:typescript') && !body.includes('Verification')) return;
+            const isAi = /build:typescript|Verification|Validation/.test(body);
+            if (!isAi) return;
 
             await github.rest.pulls.update({
               owner: context.repo.owner,
