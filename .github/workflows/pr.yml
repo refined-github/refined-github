@@ -25,8 +25,7 @@ jobs:
 
             if (authorAssociation !== 'FIRST_TIME_CONTRIBUTOR') return;
 
-            const title = pullRequest.title ?? '';
-            const isAi = /^AI: /.test(title);
+            const isAi = title.startsWith('AI:') || /build:typescript|Verification|Validation|Summary|Changes/.test(pullRequest.body);
             if (!isAi) return;
 
             await github.rest.pulls.update({
