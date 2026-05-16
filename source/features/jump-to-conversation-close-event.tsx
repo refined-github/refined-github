@@ -1,7 +1,7 @@
 import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, lastElement} from 'select-dom';
+import {$, $$, $closestOptional, lastElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {conversationCloseEvent} from '../github-helpers/selectors.js';
@@ -24,8 +24,8 @@ function updateStatusBadges(): void {
 	const lastCloseEvent = lastElement(conversationCloseEvent);
 
 	// `lastCloseEvent` is a wrapper element in old views, but a direct `<a>` link in the new React Issues UI.
-	// `closest('a')` returns itself when it is an `<a>`, or finds the first `<a>` ancestor in the old view.
-	const eventAnchor = lastCloseEvent?.closest('a') ?? $('a[href*="#event-"]', lastCloseEvent);
+	// `$closestOptional('a')` returns itself when it is an `<a>`, or finds the first `<a>` ancestor.
+	const eventAnchor = $closestOptional('a', lastCloseEvent) ?? $('a[href*="#event-"]', lastCloseEvent);
 	const statusBadges = $$(statusBadgeSelector);
 
 	for (const statusBadge of statusBadges) {
