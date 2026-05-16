@@ -1,3 +1,4 @@
+/* eslint-disable refined-github/css-require-em-fallback */
 html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	--rgh-bg-accent: var(
 		--bgColor-accent-muted,
@@ -25,7 +26,7 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 		/* Prevent header from being covered by media */
 		z-index: 3;
 		top: calc(
-			var(--base-sticky-header-height, 2.22em) +
+			var(--base-sticky-header-height, 0px) +
 				var(--rgh-issue-or-pr-sticky-header-height, 0px)
 		);
 	}

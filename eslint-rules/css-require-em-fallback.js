@@ -8,8 +8,8 @@ const cssRequireEmFallback = {
 		},
 	},
 	create(context) {
-		const {sourceCode} = context;
 		const allowedFallbackPatternRegex = /\b(?:2\.22|4\.44|22\.22)em\b/;
+		const variableFunctionRegex = /var\(\s*(--[\w-]+)\s*(?:,\s*([^)]*))?\)/gi;
 		const lengthPropertyFragments = [
 			'margin',
 			'padding',
@@ -31,23 +31,18 @@ const cssRequireEmFallback = {
 			'grid-template',
 			'grid-auto',
 		];
-		const colorChannelSuffixes = ['-r', '-g', '-b', '-h', '-s', '-l'];
 		const isExcludedVariable = variableName =>
 			variableName.startsWith('--rgh-')
 			|| variableName.startsWith('--color-')
 			|| variableName.includes('Color-')
-			|| colorChannelSuffixes.some(channel => variableName.endsWith(channel));
+			|| variableName.endsWith('-r')
+			|| variableName.endsWith('-g')
+			|| variableName.endsWith('-b')
+			|| variableName.endsWith('-h')
+			|| variableName.endsWith('-s')
+			|| variableName.endsWith('-l');
 		const stripCssComments = text => text.replaceAll(/\/\*[\s\S]*?\*\//g, '');
 		const isLengthProperty = propertyName => lengthPropertyFragments.some(fragment => propertyName.includes(fragment));
-		const getPropertyName = node => {
-			for (const ancestor of sourceCode.getAncestors(node).toReversed()) {
-				if (ancestor.type === 'Declaration' && typeof ancestor.property === 'string') {
-					return ancestor.property.toLowerCase();
-				}
-			}
-
-			return undefined;
-		};
 
 		const localVariables = new Set();
 		const pendingChecks = [];
@@ -56,34 +51,25 @@ const cssRequireEmFallback = {
 			Declaration(node) {
 				if (typeof node.property === 'string' && node.property.startsWith('--')) {
 					localVariables.add(node.property);
-				}
-			},
-			Function(node) {
-				if (node.name.toLowerCase() !== 'var') {
 					return;
 				}
 
-				const [variable] = node.children;
-				if (variable?.type !== 'Identifier') {
+				if (!isLengthProperty(node.property.toLowerCase())) {
 					return;
 				}
 
-				const propertyName = getPropertyName(node);
-				if (!propertyName || !isLengthProperty(propertyName)) {
-					return;
+				const declarationText = stripCssComments(context.sourceCode.getText(node));
+				for (const [, variableName, fallback] of declarationText.matchAll(variableFunctionRegex)) {
+					if (isExcludedVariable(variableName)) {
+						continue;
+					}
+
+					pendingChecks.push({
+						node,
+						variable: variableName,
+						hasAllowedFallback: allowedFallbackPatternRegex.test(fallback ?? ''),
+					});
 				}
-
-				if (isExcludedVariable(variable.name)) {
-					return;
-				}
-
-				const textWithoutComments = stripCssComments(sourceCode.getText(node)).toLowerCase();
-
-				pendingChecks.push({
-					node,
-					variable: variable.name,
-					hasAllowedFallback: allowedFallbackPatternRegex.test(textWithoutComments),
-				});
 			},
 			'StyleSheet:exit'() {
 				for (const check of pendingChecks) {

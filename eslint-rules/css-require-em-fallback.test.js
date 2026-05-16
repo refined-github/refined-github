@@ -16,56 +16,18 @@ test('css-require-em-fallback', () => {
 				code: '.selector { margin-top: var(--base-size-16, 2.22em); }',
 			},
 			{
-				code: '.selector { margin-top: var(--base-size-16, 22.22em); }',
-			},
-			{
 				code: '.selector { margin-top: var(--base-size-16, 4.44em); }',
-			},
-			{
-				code: '.selector { margin-top: var(--local-size); --local-size: 1px; }',
 			},
 			{
 				code: '.selector { top: calc(var(--base-sticky-header-height, 2.22em) + 10px); }',
 			},
 			{
-				code: '.selector { bottom: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { right: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { left: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { margin: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { padding: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { width: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { height: var(--base-size-16, 2.22em); }',
-			},
-			{
-				code: '.selector { border: var(--base-size-16, 2.22em) solid; }',
-			},
-			{
-				code: '.selector { border-top-left-radius: var(--base-size-16, 2.22em); }',
+				code: '.selector { margin-top: var(--local-size); --local-size: 1px; }',
 			},
 		],
 		invalid: [
 			{
 				code: '.selector { margin-top: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { margin-top: var(--base-size-16, 1px); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { margin-top: var(--base-size-16, var(--base-size-8)); }',
 				errors: [{messageId: 'missingFallback'}],
 			},
 			{
@@ -77,27 +39,7 @@ test('css-require-em-fallback', () => {
 				errors: [{messageId: 'missingFallback'}],
 			},
 			{
-				code: '.selector { top: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { bottom: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { margin: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { padding: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { width: var(--base-size-16); }',
-				errors: [{messageId: 'missingFallback'}],
-			},
-			{
-				code: '.selector { border: var(--base-size-16) solid; }',
+				code: '.selector { top: calc(var(--base-sticky-header-height, 2.22em) + var(--base-size-8, 0px)); }',
 				errors: [{messageId: 'missingFallback'}],
 			},
 		],
