@@ -88,7 +88,7 @@ export const openPrsListLink_ = [
 
 export const commentsCountInLists = [
 	// Issue list:
-	'div[data-testid="list-row-comments"]',
+	'div[data-testid="list-row-comments"]:not(:empty)',
 	'div[class^="PinnedIssue-module__commentCountContainer"]',
 
 	// PR list
