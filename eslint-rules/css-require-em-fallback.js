@@ -4,57 +4,32 @@ const cssRequireEmFallback = {
 		type: 'problem',
 		schema: [],
 		messages: {
-			missingFallback: 'var() should include `2.22em` or `22.22em` as a fallback.',
+			missingFallback: 'var() should include `2.22em`, `4.44em`, or `22.22em` as a fallback.',
 		},
 	},
 	create(context) {
 		const {sourceCode} = context;
-		const allowedFallbackPatternRegex = /\b(?:2|22)\.22em\b/;
-		const exactLengthProperties = new Set([
-			'font-size',
-			'line-height',
-			'border',
-			'outline',
-			'min-width',
-			'max-width',
-			'min-height',
-			'max-height',
-			'inline-size',
-			'block-size',
-			'min-inline-size',
-			'max-inline-size',
-			'min-block-size',
-			'max-block-size',
-			'flex-basis',
-			'grid-template-columns',
-			'grid-template-rows',
-			'grid-auto-columns',
-			'grid-auto-rows',
-			'text-indent',
-			'letter-spacing',
-			'word-spacing',
-			'column-gap',
-			'row-gap',
-			'gap',
-			'column-width',
-			'border-spacing',
-			'outline-width',
-			'outline-offset',
-			'top',
-			'right',
-			'bottom',
-			'left',
-		]);
+		const allowedFallbackPatternRegex = /\b(?:2\.22|4\.44|22\.22)em\b/;
 		const lengthPropertyFragments = [
 			'margin',
 			'padding',
 			'inset',
 			'width',
 			'height',
+			'size',
 			'radius',
-			'border-width',
-			'border-image-width',
-			'border-image-outset',
+			'border',
+			'outline',
+			'gap',
+			'top',
+			'right',
+			'bottom',
+			'left',
+			'indent',
+			'spacing',
+			'basis',
+			'grid-template',
+			'grid-auto',
 		];
 		const colorChannelSuffixes = ['-r', '-g', '-b', '-h', '-s', '-l'];
 		const isExcludedVariable = variableName =>
@@ -63,9 +38,7 @@ const cssRequireEmFallback = {
 			|| variableName.includes('Color-')
 			|| colorChannelSuffixes.some(channel => variableName.endsWith(channel));
 		const stripCssComments = text => text.replaceAll(/\/\*[\s\S]*?\*\//g, '');
-		const isLengthProperty = propertyName =>
-			exactLengthProperties.has(propertyName)
-			|| lengthPropertyFragments.some(fragment => propertyName.includes(fragment));
+		const isLengthProperty = propertyName => lengthPropertyFragments.some(fragment => propertyName.includes(fragment));
 		const getPropertyName = node => {
 			for (const ancestor of sourceCode.getAncestors(node).toReversed()) {
 				if (ancestor.type === 'Declaration' && typeof ancestor.property === 'string') {

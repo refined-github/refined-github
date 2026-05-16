@@ -19,6 +19,9 @@ test('css-require-em-fallback', () => {
 				code: '.selector { margin-top: var(--base-size-16, 22.22em); }',
 			},
 			{
+				code: '.selector { margin-top: var(--base-size-16, 4.44em); }',
+			},
+			{
 				code: '.selector { margin-top: var(--local-size); --local-size: 1px; }',
 			},
 			{
