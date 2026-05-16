@@ -8,11 +8,10 @@ jobs:
   block:
     if: github.event.review.state == 'approved' && github.event.pull_request.state == 'closed'
     runs-on: ubuntu-latest
-    permissions:
-      members: write
     steps:
       - uses: actions/github-script@v8
         with:
+          github-token: ${{ secrets.ORG_ADMIN_TOKEN }}
           script: |
             await github.rest.orgs.blockUser({
               org: context.repo.owner,
