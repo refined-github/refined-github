@@ -2,7 +2,7 @@ import {parseCron} from '@fregante/mi-cron';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -110,6 +110,13 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		} else {
 			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
 			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
+
+			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
+			if (pinIcon) {
+				workflowLink.after(pinIcon);
+				pinIcon.classList.add('Button--iconOnly', 'flex-shrink-0');
+			}
+
 			workflowLink.after(
 				tooltipped(
 					{label: 'This workflow can be triggered manually', direction: 'sw'},
