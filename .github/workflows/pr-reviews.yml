@@ -1,4 +1,4 @@
-name: Block approval on closed PR
+name: PR Reviews
 
 on:
   pull_request_review:
