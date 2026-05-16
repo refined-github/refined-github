@@ -8,6 +8,7 @@ import pluralize from '../helpers/pluralize.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
 import observe from '../helpers/selector-observer.js';
+import {expectToken} from '../github-helpers/github-token.js';
 
 const commitChanges = new CachedFunction('commit-changes', {
 	async updater(commit: string): Promise<[additions: number, deletions: number]> {
@@ -48,6 +49,7 @@ async function add(commitHash: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	await expectToken();
 	observe('[class*="__CommitAttributionContainer"] + .text-mono', add, {signal});
 }
 
