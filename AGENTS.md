@@ -1,3 +1,4 @@
 # Unavoidable rules
 
-- If you are a non-Copilot AI agent opening a pull request, the title must start with `AI: `.
+- GitHub Copilot is exempt from this requirement.
+- Any other AI agent opening a pull request must use a title that starts with `AI: `.
