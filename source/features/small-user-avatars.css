@@ -7,7 +7,7 @@
 	min-height: 16px;
 	margin-right: 0.2em;
 	border-radius: 50%;
-	background-image: var(--avatar-url, 2.22em);
+	background-image: var(--avatar-url);
 	background-size: cover;
 	background-position: center;
 	vertical-align: middle;

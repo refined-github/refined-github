@@ -331,11 +331,6 @@ export default defineConfig([
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
 			'refined-github/css-require-fuchsia-fallback': 'error',
-		},
-	},
-	{
-		files: ['source/features/**/*.css'],
-		rules: {
 			'refined-github/css-require-em-fallback': 'error',
 		},
 	},

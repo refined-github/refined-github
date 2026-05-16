@@ -4,20 +4,30 @@ const cssRequireEmFallback = {
 		type: 'problem',
 		schema: [],
 		messages: {
-			missingFallback:
-				'var() should include `2.22em` or `22.22em` as a fallback.',
+			missingFallback: 'var() should include `2.22em` or `22.22em` as a fallback.',
 		},
 	},
 	create(context) {
 		const {sourceCode} = context;
 		const allowedFallbackPatternRegex = /\b(?:2|22)\.22em\b/;
-		const excludedPropertyRegex = /^(?:transition|animation)(?:-.+)?$/;
+		const simpleLengthProperties = new Set([
+			'font-size',
+			'top',
+			'bottom',
+			'margin',
+			'margin-top',
+			'margin-bottom',
+			'margin-block',
+			'margin-block-start',
+			'margin-block-end',
+		]);
 		const isExcludedVariable = variableName =>
 			variableName.startsWith('--rgh-')
 			|| variableName.startsWith('--color-')
 			|| variableName.includes('Color-')
 			|| /--[a-z-]+-(?:r|g|b|h|s|l)$/.test(variableName);
 		const stripCssComments = text => text.replaceAll(/\/\*[\s\S]*?\*\//g, '');
+		const isLengthProperty = propertyName => simpleLengthProperties.has(propertyName);
 		const getPropertyName = node => {
 			for (const ancestor of sourceCode.getAncestors(node).toReversed()) {
 				if (ancestor.type === 'Declaration' && typeof ancestor.property === 'string') {
@@ -48,7 +58,7 @@ const cssRequireEmFallback = {
 				}
 
 				const propertyName = getPropertyName(node);
-				if (propertyName && excludedPropertyRegex.test(propertyName)) {
+				if (!propertyName || !isLengthProperty(propertyName)) {
 					return;
 				}
 
