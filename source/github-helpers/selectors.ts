@@ -289,8 +289,10 @@ export const conversationCloseEvent = [
 		.octicon-git-pull-request-closed,
 		.octicon-skip
 	))`,
-	// React view (Issues)
+	// React view (Issues, older)
 	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
+	// New React view (Issues — 2026 CSS modules)
+	'a[class^="ClosedEvent-module__closerLink"]',
 ];
 export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues/123'],

@@ -22,7 +22,11 @@ export const {class: featureClass, selector: featureSelector} = getIdentifiers(i
 function updateStatusBadges(): void {
 	// Not processing the element that has been observed because past events may load in the middle of the page
 	const lastCloseEvent = lastElement(conversationCloseEvent);
-	const eventAnchor = $('a[href*="#event-"]', lastCloseEvent);
+
+	// `lastCloseEvent` is a wrapper element in old views, but a direct `<a>` link in the new React Issues UI
+	const eventAnchor = lastCloseEvent?.tagName === 'A'
+		? lastCloseEvent as HTMLAnchorElement
+		: $('a[href*="#event-"]', lastCloseEvent);
 	const statusBadges = $$(statusBadgeSelector);
 
 	for (const statusBadge of statusBadges) {
