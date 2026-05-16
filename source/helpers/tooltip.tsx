@@ -1,8 +1,13 @@
 import './tooltip.css';
 
 import React from 'dom-chef';
+import {lastElementOptional} from 'select-dom';
 
 import {upperCaseFirst} from '../github-helpers/index.js';
+
+function getAjaxContainer(): Element | undefined {
+	return lastElementOptional('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
+}
 
 export type TooltipOptions = {
 	label: string;
@@ -61,12 +66,19 @@ Generates a tooltip for the received element. You should use this when generatin
 */
 export function tooltipped(
 	content: string | TooltipOptions,
-	element: Element,
-): JSX.Element {
+	element: Element | JSX.Element,
+): Element {
+	const ajaxContainer = getAjaxContainer();
+	const tooltip = createTooltipFor(element, content);
+	if (ajaxContainer) {
+		ajaxContainer.append(tooltip);
+		return element;
+	}
+
 	return (
 		<>
 			{element}
-			{createTooltipFor(element, content)}
+			{tooltip}
 		</>
 	);
 }
