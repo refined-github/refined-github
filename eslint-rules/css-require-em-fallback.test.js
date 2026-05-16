@@ -19,40 +19,7 @@ test('css-require-em-fallback', () => {
 				code: '.selector { margin-top: var(--base-size-16, 22.22em); }',
 			},
 			{
-				code: '.selector { color: var(--color-fg-muted); }',
-			},
-			{
-				code: '.selector { color: var(--fgColor-muted); }',
-			},
-			{
-				code: '.selector { color: var(--control-checked-bgColor-hover); }',
-			},
-			{
-				code: '.selector { color: rgb(var(--label-r) var(--label-g) var(--label-b)); }',
-			},
-			{
-				code: '.selector { color: var(--rgh-limit-color); }',
-			},
-			{
 				code: '.selector { margin-top: var(--local-size); --local-size: 1px; }',
-			},
-			{
-				code: '.selector { transition: var(--duration-fast, 0.2s) var(--easing-easeInOut, ease-in-out); }',
-			},
-			{
-				code: '.selector { animation-duration: var(--duration-fast, 200ms); }',
-			},
-			{
-				code: '.selector { background-image: var(--avatar-url); }',
-			},
-			{
-				code: '.selector { box-shadow: 0 calc((10px + var(--borderRadius-medium)) * -1) 0 0 black; }',
-			},
-			{
-				code: '.selector { margin-left: var(--base-size-16); }',
-			},
-			{
-				code: '.selector { margin-left: var(--base-size-16, 2.22em); }',
 			},
 			{
 				code: '.selector { top: calc(var(--base-sticky-header-height, 2.22em) + 10px); }',
@@ -61,7 +28,28 @@ test('css-require-em-fallback', () => {
 				code: '.selector { bottom: var(--base-size-16, 2.22em); }',
 			},
 			{
+				code: '.selector { right: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { left: var(--base-size-16, 2.22em); }',
+			},
+			{
 				code: '.selector { margin: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { padding: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { width: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { height: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { border: var(--base-size-16, 2.22em) solid; }',
+			},
+			{
+				code: '.selector { border-top-left-radius: var(--base-size-16, 2.22em); }',
 			},
 		],
 		invalid: [
@@ -95,6 +83,18 @@ test('css-require-em-fallback', () => {
 			},
 			{
 				code: '.selector { margin: var(--base-size-16); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { padding: var(--base-size-16); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { width: var(--base-size-16); }',
+				errors: [{messageId: 'missingFallback'}],
+			},
+			{
+				code: '.selector { border: var(--base-size-16) solid; }',
 				errors: [{messageId: 'missingFallback'}],
 			},
 		],

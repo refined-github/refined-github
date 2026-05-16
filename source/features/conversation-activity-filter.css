@@ -42,7 +42,7 @@
 			display: inline-block;
 		}
 		.Button-leadingVisual {
-			margin-right: var(--control-small-gap) !important;
+			margin-right: var(--control-small-gap, 2.22em) !important;
 		}
 	}
 
