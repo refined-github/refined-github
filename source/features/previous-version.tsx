@@ -101,7 +101,7 @@ void features.add(import.meta.url, {
 		pageDetect.isBlame,
 	],
 	exclude: [
-		pageDetect.isRepoHome,
+		pageDetect.isRepoRoot,
 	],
 	init,
 });
