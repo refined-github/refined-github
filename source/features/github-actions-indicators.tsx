@@ -13,6 +13,7 @@ import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
+import {appendBefore} from '../helpers/dom-utils.js';
 
 type Workflow = {
 	name: string;
@@ -92,6 +93,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
 		if (workflowLink.nextElementSibling) {
+			// User can trigger the workflow
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
@@ -108,24 +110,26 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 				),
 			);
 		} else {
-			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
-			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
-
-			// Move pin icon to the end so that its position remains visually consistent
+			// User cannot trigger the workflow
+			const indicator = tooltipped(
+				{label: 'This workflow can be triggered manually', direction: 'sw'},
+				<div
+					className='ActionListItem-visual ActionListItem-visual--trailing'
+					style={{pointerEvents: 'initial'}}
+				>
+					<PlayIcon />
+				</div>,
+			);
 			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
 			if (pinIcon) {
-				workflowLink.after(pinIcon);
-				pinIcon.classList.add('Button--iconOnly', 'flex-shrink-0');
+				// Enable tooltip
+				pinIcon.style.pointerEvents = 'auto';
+				// Add spacing between the icons
+				pinIcon.classList.add('gap-1');
+				pinIcon.prepend(indicator);
+			} else {
+				workflowLink.append(indicator);
 			}
-
-			workflowLink.after(
-				tooltipped(
-					{label: 'This workflow can be triggered manually', direction: 'sw'},
-					<div className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent">
-						<PlayIcon />
-					</div>,
-				),
-			);
 		}
 	}
 
