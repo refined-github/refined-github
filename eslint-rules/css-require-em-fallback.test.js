@@ -51,6 +51,12 @@ test('css-require-em-fallback', () => {
 			{
 				code: '.selector { margin-left: var(--base-size-16); }',
 			},
+			{
+				code: '.selector { margin-left: var(--base-size-16, 2.22em); }',
+			},
+			{
+				code: '.selector { top: calc(var(--base-sticky-header-height, 2.22em) + 10px); }',
+			},
 		],
 		invalid: [
 			{
