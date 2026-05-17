@@ -45,7 +45,7 @@ function createReleaseUrl(): string {
 	return buildRepoUrl('releases/new');
 }
 
-function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
+function addTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
 	discussionHeader.parentElement!.append(
 		<span>
 			<TagIcon className="ml-2 mr-1 color-fg-muted" />
@@ -60,7 +60,7 @@ function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionH
 	);
 }
 
-function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
+function addTagLinkFooter(tagName: string, tagUrl: string, signal: AbortSignal): void {
 	// Use observer because GitHub might remove the box
 	// https://github.com/refined-github/refined-github/issues/9460
 	observe(commentBoxHashPr, anchor => {
@@ -76,7 +76,7 @@ function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
 				})}
 			</TimelineItem>,
 		);
-	});
+	}, {signal});
 }
 
 async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal): Promise<void> {
@@ -119,10 +119,10 @@ async function init(signal: AbortSignal): Promise<void> {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
-		addExistingTagLinkFooter(tagName, tagUrl);
+		addTagLinkFooter(tagName, tagUrl, signal);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+		observe('#partial-discussion-header relative-time', addTagLinkToHeader.bind(undefined, tagName, tagUrl), {
 			signal,
 		});
 	} else {
