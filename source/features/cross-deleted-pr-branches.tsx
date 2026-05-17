@@ -21,7 +21,7 @@ function parseBranchName(element: HTMLElement): string {
 }
 
 function init(): void {
-	// There's a mobile and desktop headers
+	// There's static and sticky headers
 	const [header1, header2] = $$('a:has(~ [aria-label="Copy head branch name to clipboard"])');
 	markDeletedBranch(header1);
 	markDeletedBranch(header2);
