@@ -54,9 +54,9 @@ async function add(commitHash: HTMLElement): Promise<void> {
 				{' '}
 				<span className="color-fg-danger">−{deletions}</span>
 				{' '}
-				{repeatItems(green, () => <span className="diffstat-block-added addition diffstat" />)}
-				{repeatItems(red, () => <span className="diffstat-block-deleted deletion diffstat" />)}
-				{repeatItems(gray, () => <span className="diffstat-block-neutral diffstat" />)}
+				{repeatItems(green, () => <span className="diffstat-block-added" />)}
+				{repeatItems(red, () => <span className="diffstat-block-deleted" />)}
+				{repeatItems(gray, () => <span className="diffstat-block-neutral" />)}
 			</span>,
 		),
 	);
