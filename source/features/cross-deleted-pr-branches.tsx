@@ -49,10 +49,10 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- deleted branch: https://github.com/sindresorhus/refined-github/pull/576
-- deleted branch (from fork): https://github.com/sindresorhus/refined-github/pull/872
-- restored branch (on fork): https://github.com/sindresorhus/refined-github/pull/909
-- deleted: https://github.com/refined-github/sandbox/pull/146
-- deleted and restored: https://github.com/refined-github/sandbox/pull/147
+- 🔗 never deleted: https://github.com/refined-github/sandbox/pull/148
+- ✏️ deleted: https://github.com/refined-github/sandbox/pull/146
+- ✏️ deleted (from fork): https://github.com/refined-github/sandbox/pull/149
+- 🔗 deleted and restored: https://github.com/refined-github/sandbox/pull/147
+- 🔗 deleted and restored (on fork): https://github.com/refined-github/sandbox/pull/150
 
 */
