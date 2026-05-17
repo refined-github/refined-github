@@ -79,7 +79,7 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			// Show pointer cursor even when disabled
 			style={{width: 15, cursor: 'pointer'}}
 		>
-			<ArrowUpRightIcon className="mb-2" />
+			<ArrowUpRightIcon />
 		</button>
 	);
 
