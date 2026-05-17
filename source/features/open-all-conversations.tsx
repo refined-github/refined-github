@@ -33,13 +33,15 @@ function onButtonClick(): void {
 	void openTabs(urls);
 }
 
-const multipleConversationsSelector = [
-	'.js-issue-row + .js-issue-row', // TODO: Pre-React selector; Drop in 2026
-	'[role="list"] > div:nth-child(2) > [class^="IssueRow"]',
+const conversationCounterSelector = [
+	'a[data-ga-click="Pull Requests, Table state, Open"]', // TODO: Pre-React selector; Drop in 2026
+	'ul[class*="ListItems-module__tabsContainer"] > li:first-child span[class^="SectionFilterLink-module__count"]',
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector.join(', '), {waitForChildren: false}));
+	const counter = await elementReady(conversationCounterSelector, {stopOnDomReady: false});
+	const count = Number.parseInt(counter!.textContent, 10);
+	return count > 1;
 }
 
 function add(anchor: HTMLElement): void {
