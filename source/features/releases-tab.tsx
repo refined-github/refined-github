@@ -46,13 +46,13 @@ const releasesCount = new CachedFunction('releases-count', {
 	cacheKey: cacheByRepo,
 });
 
-export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+export async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
 }
 
 async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
-	const [count, type] = await getReleases();
+	const [count, type] = await getReleasesCount();
 	if (!type) {
 		return false;
 	}
@@ -82,7 +82,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 }
 
 async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
-	const [, type] = await getReleases();
+	const [, type] = await getReleasesCount();
 
 	if (!type) {
 		$optional('.dropdown-divider', dropdownMenu)?.remove();

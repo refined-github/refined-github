@@ -19,7 +19,7 @@ export default function attachElement<NewElement extends Element>(
 		after,
 	}: Attachment<NewElement>,
 ): void {
-	const className = 'rgh-' + getCallerId();
+	const className = 'rgh-attached-' + getCallerId();
 	if (!anchor) {
 		throw new Error('Element not found');
 	}
