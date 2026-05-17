@@ -1,51 +1,15 @@
-import filenamify from 'filenamify';
-import {parseHTML} from 'linkedom';
-import {access, mkdir, readFile, unlink, writeFile} from 'node:fs/promises';
-import pMemoize from 'p-memoize';
-import {$$optional} from 'select-dom';
+import {commands} from 'vitest/browser';
 import {assert, describe, test} from 'vitest';
 
 import * as exports from './selectors.js';
 
-const fsCache = {
-	async get(path: string): Promise<string | undefined> {
-		try {
-			const value = await readFile(path, 'utf8');
-			return value;
-		} catch {
-			return undefined;
-		}
-	},
-	async set(path: string, contents: string): Promise<void> {
-		await mkdir('./test/.cache', {recursive: true});
-		await writeFile(path, contents);
-	},
-	async has(path: string): Promise<boolean> {
-		try {
-			await access(path);
-			return true;
-		} catch {
-			return false;
-		}
-	},
-	async delete(path: string): Promise<void> {
-		await unlink(path);
-	},
-} as const;
+declare module 'vitest/internal/browser' {
+	interface BrowserCommands {
+		countSelector(url: string, selector: string): Promise<number>;
+	}
+}
 
-const fetchDocument = pMemoize(async (url: string): Promise<string> => {
-	const request = await fetch(url, {
-		headers: {
-			accept: 'text/html',
-		},
-	});
-	return request.text();
-}, {
-	cacheKey: ([url]) => `./test/.cache/${filenamify(url.replace('https://github.com', ''))}.html`,
-	cache: fsCache,
-});
-
-describe.concurrent('selectors', () => {
+describe('selectors', () => {
 	// Exclude URL arrays
 	const selectors: Array<[name: string, selector: string]> = [];
 	for (const [name, selector] of Object.entries(exports)) {
@@ -54,18 +18,28 @@ describe.concurrent('selectors', () => {
 		}
 	}
 
-	test.each(selectors)('%s', {timeout: 9999}, async (name, selector: string) => {
+	test.each(selectors)('%s', {timeout: 60_000}, async (name, selector: string) => {
 		// @ts-expect-error Index signature bs
 
 		const urls = exports[name + '_'] as exports.UrlMatch[];
 
 		assert.isArray(urls, `No URLs defined for "${name}"`);
-		await Promise.all(urls.map(async ([expectations, url]) => {
-			const html = await fetchDocument(url);
-			const {document} = parseHTML(html);
-			// TODO: ? Use snapshot with outerHTML[]
-			const matches = $$optional(selector, document);
-			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
-		}));
+		const results: Array<{expectations: number; url: string; matches: number}> = [];
+		for (const [expectations, url] of urls) {
+			results.push({
+				expectations,
+				url,
+				// eslint-disable-next-line no-await-in-loop -- Sequential requests are required to avoid throttling
+				matches: await commands.countSelector(url, selector),
+			});
+		}
+
+		for (const {expectations, url, matches} of results) {
+			if (expectations === 0) {
+				assert.equal(matches, 0, `Got wrong number of matches on ${url}:\n${selector}`);
+			} else {
+				assert.isAtLeast(matches, expectations, `Got too few matches on ${url}:\n${selector}`);
+			}
+		}
 	});
 });

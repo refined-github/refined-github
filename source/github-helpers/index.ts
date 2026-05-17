@@ -164,7 +164,7 @@ export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement):
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 
-export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
+export function addAfterBranchSelector(branchSelectorParent: HTMLElement, sibling: HTMLElement): void {
 	const row = $closest('.position-relative', branchSelectorParent);
 	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
 	row.append(sibling);

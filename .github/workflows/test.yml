@@ -27,13 +27,8 @@ jobs:
       - run: sudo apt-get install ripgrep
       - run: npm ci
       - run: npm run vitest -- --exclude 'build/features*' --exclude '**/selectors*'
-
-      # TODO: Restore
-      # For some reason it fails on CI, but not locally
-      # Mentioned in https://github.com/refined-github/refined-github/issues/7747
-      # - run: npm run vitest -- selectors
-      #   if: false
-      #   continue-on-error: true
+      - run: npx playwright install --with-deps chromium
+      - run: npm run vitest -- --config vite.selectors.config.js
 
   Verify:
     runs-on: ubuntu-latest

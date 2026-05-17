@@ -21,7 +21,7 @@ const stateColorMap = {
 	DRAFT: '',
 };
 
-async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
+async function add(branchSelectorParent: HTMLElement): Promise<void | false> {
 	const getPr = await pullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = getPr[currentBranch];

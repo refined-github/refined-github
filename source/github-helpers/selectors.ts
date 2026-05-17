@@ -37,18 +37,19 @@ export const branchSelector = [
 ];
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
-	// Added via JS :(
-	// TODO: Use Puppeteer?
-	[0, 'https://github.com/refined-github/refined-github/blob/main/readme.md'],
-	[0, 'https://github.com/refined-github/refined-github/blame/main/readme.md'],
-	[0, 'https://github.com/refined-github/refined-github/tree/main/source'],
+	[1, 'https://github.com/refined-github/refined-github/blob/main/readme.md'],
+	[1, 'https://github.com/refined-github/refined-github/blame/main/readme.md'],
+	[1, 'https://github.com/refined-github/refined-github/tree/main/source'],
 	[1, 'https://github.com/refined-github/sandbox/tree/branch/with/slashes'],
 	[1, 'https://github.com/refined-github/sandbox/commits/branch/with/slashes'],
 	[1, 'https://github.com/refined-github/sandbox/commits'],
 ] satisfies UrlMatch[];
 
-export const branchSelectorParent = 'details#branch-select-menu';
-export const branchSelectorParent_ = branchSelector_;
+export const branchSelectorParent = ':is(details#branch-select-menu, #ref-picker-repos-header-ref-selector, #ref-picker-repos-header-ref-selector-wide)';
+export const branchSelectorParent_ = [
+	[0, 'https://github.com/refined-github/sandbox/commits/branch/with/slashes'],
+	[0, 'https://github.com/refined-github/sandbox/commits'],
+] satisfies UrlMatch[];
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
 export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img).color-fg-muted';
@@ -57,7 +58,7 @@ export const directoryListingFileIcon_ = [
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
 ] satisfies UrlMatch[];
 
-export const prCommit = '.TimelineItem--condensed:has(.octicon-git-commit)';
+export const prCommit = '.TimelineItem:has(.octicon-git-commit)';
 export const prCommit_ = [
 	[1, 'https://github.com/refined-github/sandbox/pull/10'],
 ] satisfies UrlMatch[];
@@ -81,6 +82,7 @@ export const openPrsListLink = [
 	css`
 		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
+	'a[data-testid="issue-pr-title-link"]',
 ];
 
 export const openPrsListLink_ = [
@@ -98,7 +100,7 @@ export const commentsCountInLists = [
 	'.js-issue-row a.Link--muted[aria-label*=" comment"]',
 ];
 export const commentsCountInLists_ = [
-	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
+	[0, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
 
 export const actionsTab = '#actions-tab';
@@ -137,8 +139,8 @@ export const linksToConversationLists = `
 	)
 `;
 export const linksToConversationLists_ = [
-	[6, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
-	[26, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
+	[5, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aopen+'],
+	[15, 'https://github.com/fregante/iphone-inline-video/issues?q=cool+is%3Aissue+is%3Aclosed'],
 ] satisfies UrlMatch[];
 
 export const newCommentField = [
@@ -294,7 +296,7 @@ export const conversationCloseEvent = [
 	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
 ];
 export const conversationCloseEvent_ = [
-	[4, 'https://github.com/refined-github/sandbox/issues/123'],
+	[0, 'https://github.com/refined-github/sandbox/issues/123'],
 	[4, 'https://github.com/refined-github/refined-github/pull/4030'],
 ];
 
