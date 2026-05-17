@@ -54,5 +54,6 @@ Test URLs:
 - ✏️ deleted (from fork): https://github.com/refined-github/sandbox/pull/149
 - 🔗 deleted and restored: https://github.com/refined-github/sandbox/pull/147
 - 🔗 deleted and restored (on fork): https://github.com/refined-github/sandbox/pull/150
+- 🔗 forks that are deleted before deleting the branch are not detectable
 
 */
