@@ -31,7 +31,7 @@
 	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
 	> [class]:not(.js-updating-pull-request-commits-count),
 	> relative-time {
-			font-size: 14px;
+		font-size: 14px;
 	}
 
 	--margin: 4px;
