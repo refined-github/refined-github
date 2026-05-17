@@ -49,7 +49,7 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 
 	const icon = listIcon.cloneNode(true);
 	// Undo `display: none` that might be added by extensions like "Material Icons for GitHub"
-	icon.style.display = 'block';
+	icon.style.display = '';
 	fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 }
 
