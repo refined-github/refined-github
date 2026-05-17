@@ -4,6 +4,7 @@ import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
 
 // Use specific classes to avoid selecting unrelated icons.
 // Include `svg` to exclude extensions like "Material Icons for GitHub".
@@ -39,8 +40,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileLink = $('a', fileHeader);
-	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`);
-	const listIcon = $(iconSelectors, fileInList);
+	const listIcon = $(`li[class*="file-tree-row"] a[href="${fileLink.hash}"] ` + is(iconSelectors));
 	if (listIcon.classList.contains('octicon-file-diff')) {
 		// We only select the icon to avoid $optional
 		return;
