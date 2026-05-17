@@ -121,6 +121,7 @@ async function showMissingPartOnce(): Promise<void> {
 
 async function showDefaultBranchLink(): Promise<void> {
 	if (pageDetect.isRepoRoot()) {
+		// The root is not a "file" and the link to it already appears in the breadcrumbs
 		// https://github.com/refined-github/refined-github/issues/9423
 		return;
 	}
