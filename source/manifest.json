@@ -53,11 +53,17 @@
 			"exclude_matches": [
 				"https://*/login/*"
 			],
-			"css": [
-				"assets/refined-github.css"
-			],
 			"js": [
 				"assets/content-script.js"
+			]
+		},
+		{
+			"matches": [
+				"https://github.com/*",
+				"https://gist.github.com/*"
+			],
+			"css": [
+				"assets/refined-github.css"
 			]
 		}
 	],
