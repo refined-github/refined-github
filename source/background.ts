@@ -37,7 +37,7 @@ async function createTab(url: string, tab: chrome.tabs.Tab, index: number): Prom
 		// Doing it via .create is a PITA: https://github.com/refined-github/refined-github/pull/8786#pullrequestreview-3491531965
 		const duplicatedTab = await chrome.tabs.duplicate(tab.id!, {
 			// @ts-expect-error - Firefox only https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/duplicate#active
-			active: false
+			active: false,
 		}) as unknown as chrome.tabs.Tab;
 		await chrome.tabs.update(duplicatedTab.id, {url});
 		return;
