@@ -46,22 +46,20 @@ function createReleaseUrl(): string {
 	return buildRepoUrl('releases/new');
 }
 
-function addExistingTagLinkToHeader(tagName: string, tagUrl: string, discussionHeader: HTMLElement): void {
-	discussionHeader.parentElement!.append(
-		<span>
+function addTagToHeader(tagName: string, tagUrl: string, relativeTime: HTMLElement): void {
+	relativeTime.parentElement!.append(
+		<a
+			href={tagUrl}
+			className="text-bold Link--primary no-underline"
+			title={`${tagName} was the first Git tag to include this pull request`}
+		>
 			<TagIcon className="ml-2 mr-1 color-fg-muted" />
-			<a
-				href={tagUrl}
-				className="commit-ref"
-				title={`${tagName} was the first Git tag to include this pull request`}
-			>
-				{tagName}
-			</a>
-		</span>,
+			{tagName}
+		</a>,
 	);
 }
 
-function addExistingTagLinkFooter(tagName: string, tagUrl: string): void {
+function addTagToFooter(tagName: string, tagUrl: string): void {
 	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
 	attachElement($(commentBoxHashPr), {
 		before: () => (
@@ -117,10 +115,10 @@ async function init(signal: AbortSignal): Promise<void> {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
-		addExistingTagLinkFooter(tagName, tagUrl);
+		addTagToFooter(tagName, tagUrl);
 
 		// PRs have a regular and a sticky header
-		observe('#partial-discussion-header relative-time', addExistingTagLinkToHeader.bind(undefined, tagName, tagUrl), {
+		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
 			signal,
 		});
 	} else {
