@@ -33,19 +33,11 @@ customizeNoAllUrlsErrorMessage(
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
-		// Reuse container
-		// TODO: https://github.com/refined-github/refined-github/issues/8657
-		// Soft-disabled via `cookies` permission check: https://github.com/refined-github/refined-github/pull/8786#pullrequestreview-3491531965
-		const firefoxOnlyProps = tab && 'cookieStoreId' in tab && permissions!.includes('cookies')
-			? {cookieStoreId: tab.cookieStoreId}
-			: {};
-
-		for (const [index, url] of urls.entries()) {
+		for (const url of urls) {
 			void chrome.tabs.create({
 				url,
-				index: tab!.index + index + 1,
+				openerTabId: tab!.id,
 				active: false,
-				...firefoxOnlyProps,
 			});
 		}
 	},
