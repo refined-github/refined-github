@@ -33,8 +33,15 @@ a[class*='PinnedIssue-module__Link'] code {
 /* Align icons in the release search field */
 /* Info: https://github.com/refined-github/refined-github/issues/6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
-[action$='/releases'] .subnav-search-icon {
-	margin-top: -1px;
+:root {
+	[action$='/releases'] .subnav-search-icon {
+		margin-top: -1px;
+	}
+
+	/* Chrome only, on focus */
+	#release-filter::-webkit-calendar-picker-indicator {
+		margin-top: -4px;
+	}
 }
 
 /* TODO: Drop after React PR conversations */
