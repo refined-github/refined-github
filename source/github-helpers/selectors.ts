@@ -50,7 +50,8 @@ export const branchSelector_ = [
 export const branchSelectorParent = 'details#branch-select-menu';
 export const branchSelectorParent_ = branchSelector_;
 
-export const directoryListingFileIcon = '.react-directory-filename-column > .octicon-file';
+// .color-fg-muted selects only files; some icon extensions use `img` tags
+export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img).color-fg-muted';
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
@@ -88,7 +89,7 @@ export const openPrsListLink_ = [
 
 export const commentsCountInLists = [
 	// Issue list:
-	'div[data-testid="list-row-comments"]',
+	'div[data-testid="list-row-comments"]:not(:empty)',
 	'div[class^="PinnedIssue-module__commentCountContainer"]',
 
 	// PR list
