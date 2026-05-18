@@ -28,10 +28,5 @@
     "refined-github/no-optional-chaining": {
       "count": 2
     }
-  },
-  "source/refined-github.css": {
-    "refined-github/css-documentation": {
-      "count": 6
-    }
   }
 }
