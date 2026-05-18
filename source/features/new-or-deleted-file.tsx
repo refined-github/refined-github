@@ -40,7 +40,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileLink = $('a', fileHeader);
-	const listIcon = $(`li[class*="file-tree-row"] a[href="${fileLink.hash}"] ` + is(iconSelectors));
+	const listIcon = $(`li[class*="file-tree-row"]:has(a[href="${fileLink.hash}"]) ` + is(iconSelectors));
 	if (listIcon.classList.contains('octicon-file-diff')) {
 		// We only select the icon to avoid $optional
 		return;
