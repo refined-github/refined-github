@@ -14,7 +14,7 @@ import {fetchText} from './helpers/isomorphic-fetch.js';
 import optionsStorage, {hasToken} from './options-storage.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
 
-const {version, permissions} = chrome.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
