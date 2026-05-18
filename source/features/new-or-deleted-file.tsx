@@ -4,6 +4,17 @@ import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
+
+// Use specific classes to avoid selecting unrelated icons.
+// Include `svg` to exclude extensions like "Material Icons for GitHub".
+// Include the unused "diff" icon to keep the list exhaustive and avoid $optional.
+const iconSelectors = [
+	'svg.octicon-file-removed',
+	'svg.octicon-file-added',
+	'svg.octicon-file-moved',
+	'svg.octicon-file-diff',
+] as const;
 
 function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 	const list = $optional('ul[aria-label="File Tree"]');
@@ -18,33 +29,32 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 		throw new Error('Could not find file in sidebar, is the sidebar loaded?');
 	}
 
-	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList)
-		?.cloneNode(true);
+	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList);
 	if (icon) {
 		// `span` needed for native vertical alignment
-		filename.parentElement!.append(<span className="ml-1">{icon}</span>);
+		filename.parentElement!.append(
+			<span className="ml-1">{icon.cloneNode(true)}</span>,
+		);
 	}
 }
 
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
-	const list = $('ul[aria-label="File Tree"]');
 	const fileLink = $('a', fileHeader);
-	const fileInList = $(`li[class*="file-tree-row"]:has([href="${fileLink.hash}"])`, list);
-
-	const icon = $optional([
-		'.octicon-file-removed',
-		'.octicon-file-added',
-		'.octicon-file-moved',
-	], fileInList)
-		?.cloneNode(true);
-	if (icon) {
-		fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
+	const listIcon = $(`li[class*="file-tree-row"]:has(a[href="${fileLink.hash}"]) ` + is(iconSelectors));
+	if (listIcon.classList.contains('octicon-file-diff')) {
+		// We only select the icon to avoid $optional
+		return;
 	}
+
+	const icon = listIcon.cloneNode(true);
+	// Undo `display: none` that might be added by extensions like "Material Icons for GitHub"
+	icon.style.display = '';
+	fileHeader.append(<div className="d-flex ml-1">{icon}</div>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('div[class*="file-path-section"]', maybeAddIcon, {signal});
-	// TODO: Old PR Files view, drop in 2026
+	// TODO: Old PR Files view, drop in 2027
 	// Link--primary excludes CODEOWNERS icon #5565
 	observe('.file-info a.Link--primary', maybeAddIconLegacy, {signal});
 }

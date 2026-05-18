@@ -1,3 +1,5 @@
+import './repo-header-info.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
@@ -35,6 +37,8 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
+
+	repoLink.classList.add('rgh-repo-header-info-updated');
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
@@ -89,6 +93,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,

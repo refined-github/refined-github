@@ -20,12 +20,12 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]']),
-		// TODO: Detect empty repos differently or fail gracefully
-		pageDetect.isEmptyRepoRoot,
+		// TODO: Drop first two selectors in October 2026
+		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]', '[aria-label="Go to file"]']),
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,
 	],
+	awaitDomReady: true, // DOM-based filters
 	init,
 });
 
