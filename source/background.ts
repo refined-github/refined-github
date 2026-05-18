@@ -32,25 +32,30 @@ customizeNoAllUrlsErrorMessage(
 );
 
 async function createInactiveTab(url: string, tab: chrome.tabs.Tab, index: number): Promise<chrome.tabs.Tab | void> {
-	if (isFirefox()) {
-		if (tab.id === undefined) {
-			return;
+	try {
+		if (isFirefox()) {
+			if (tab.id === undefined) {
+				return;
+			}
+
+			const duplicatedTab = await chrome.tabs.duplicate(tab.id);
+			if (duplicatedTab?.id === undefined) {
+				return;
+			}
+
+			await chrome.tabs.move(duplicatedTab.id, {index: tab.index + index + 1});
+			await chrome.tabs.update(duplicatedTab.id, {url, active: false});
+			return duplicatedTab;
 		}
 
-		const duplicatedTab = await chrome.tabs.duplicate(tab.id);
-		if (duplicatedTab?.id === undefined) {
-			return;
-		}
-
-		await chrome.tabs.move(duplicatedTab.id, {index: tab.index + index + 1});
-		return chrome.tabs.update(duplicatedTab.id, {url, active: false});
+		return await chrome.tabs.create({
+			url,
+			index: tab.index + index + 1,
+			active: false,
+		});
+	} catch {
+		return undefined;
 	}
-
-	return chrome.tabs.create({
-		url,
-		index: tab.index + index + 1,
-		active: false,
-	});
 }
 
 handleMessages({
