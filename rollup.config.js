@@ -66,6 +66,16 @@ const rollup = {
 
 	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
 	context: 'globalThis',
+	onwarn(warning, defaultHandler) {
+		if (
+			warning.code === 'CIRCULAR_DEPENDENCY'
+			&& warning.ids?.every(id => id.includes('/node_modules/svelte/'))
+		) {
+			return;
+		}
+
+		defaultHandler(warning);
+	},
 
 	plugins: [
 		del({
