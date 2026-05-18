@@ -117,7 +117,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
-		addTagToFooter(tagName, tagUrl);
+		addTagToFooter(tagName, tagUrl, signal);
 
 		// PRs have a regular and a sticky header
 		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
