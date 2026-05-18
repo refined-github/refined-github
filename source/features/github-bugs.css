@@ -277,6 +277,15 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Restores "Symbolic link" link in the gap between GitHub's media queries (1012 -> 1280) */
+/* Info: https://github.com/refined-github/refined-github/issues/9480 */
+/* Test: https://github.com/refined-github/refined-github/blob/55b7ce0fddd/CLAUDE.md */
+@media (max-width: 1280px) {
+	:root .react-code-size-details-banner {
+		display: flex !important;
+	}
+}
+
 /* Fix checkmark on a deselected item disappearing with a noticeable delay */
 /* Info: https://github.com/refined-github/refined-github/issues/9348 */
 /* Test: https://github.com/refined-github/refined-github/issues/9348 */
