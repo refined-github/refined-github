@@ -1,5 +1,7 @@
 import {css} from 'code-tag';
 
+import {is, not} from '../helpers/css-selectors.js';
+
 const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
@@ -233,7 +235,7 @@ const authorLinks = [
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
 	'a[class^="row-module__eventActorLink"]',
-];
+] as const;
 
 const authorLinksException = [
 	// # targets mannequins #6504
@@ -243,10 +245,10 @@ const authorLinksException = [
 	'[data-hovercard-type="organization"]',
 	// For GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 	'[show_full_name="true"]',
-];
+] as const;
 
 export const usernameLinksSelector = [
-	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
+	is(authorLinks) + not(authorLinksException),
 
 	// On dashboard
 	// `.Link--primary` excludes avatars

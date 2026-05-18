@@ -18,23 +18,23 @@ import {$, $$, $closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
-import {is} from '../helpers/css-selectors.js';
+import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-const prIcons = is(
+const prIcons = [
 	'.octicon-git-pull-request',
 	'.octicon-git-pull-request-closed',
 	'.octicon-git-pull-request-draft',
 	'.octicon-git-merge',
-);
-const issueIcons = is('.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip');
+] as const;
+const issueIcons = ['.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip'] as const;
 const filters = {
-	'Pull requests': prIcons,
-	Issues: issueIcons,
+	'Pull requests': is(prIcons),
+	Issues: is(issueIcons),
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
-	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
-	Bots: botLinksNotificationSelectors.join(', '),
+	Others: '.notification-list-item-link .octicon' + not(...prIcons, ...issueIcons, '.octicon-bookmark'),
+	Bots: is(botLinksNotificationSelectors),
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
