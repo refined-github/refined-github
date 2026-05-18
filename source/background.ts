@@ -31,41 +31,25 @@ customizeNoAllUrlsErrorMessage(
 	'Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.',
 );
 
-async function createInactiveTab(url: string, tab: chrome.tabs.Tab, index: number): Promise<chrome.tabs.Tab | void> {
-	try {
-		if (isFirefox()) {
-			if (tab.id === undefined) {
-				return;
-			}
-
-			const duplicatedTab = await chrome.tabs.duplicate(tab.id);
-			if (duplicatedTab?.id === undefined) {
-				return;
-			}
-
-			await chrome.tabs.move(duplicatedTab.id, {index: tab.index + index + 1});
-			await chrome.tabs.update(duplicatedTab.id, {url, active: false});
-			return duplicatedTab;
-		}
-
-		return await chrome.tabs.create({
-			url,
-			index: tab.index + index + 1,
-			active: false,
-		});
-	} catch {
-		return undefined;
+async function createTab(url: string, tab: chrome.tabs.Tab, index: number): Promise<void> {
+	if (isFirefox()) {
+		// Duplicate tab so that the container is preserved.
+		// Doing it via .create is a PITA: https://github.com/refined-github/refined-github/pull/8786#pullrequestreview-3491531965
+		const duplicatedTab = await chrome.tabs.duplicate(tab.id!);
+		await chrome.tabs.update(duplicatedTab.id!, {url, active: false});
 	}
+
+	await chrome.tabs.create({
+		url,
+		index: tab.index + index + 1,
+		active: false,
+	});
 }
 
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
-		if (!tab) {
-			return;
-		}
-
 		for (const [index, url] of urls.entries()) {
-			void createInactiveTab(url, tab, index);
+			void createTab(url, tab!, index);
 		}
 	},
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
