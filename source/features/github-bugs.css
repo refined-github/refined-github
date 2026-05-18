@@ -108,15 +108,6 @@ div.markdown-body {
 	background-color: var(--bgColor-danger-emphasis, fuchsia);
 }
 
-/* TODO: Remove after July 2026 */
-/* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
-/* Info: https://github.com/refined-github/refined-github/issues/8975 */
-/* Test: None, private repo */
-.sticky-header-wrapper.is-stuck .pr-alerts-banner {
-	position: absolute;
-	visibility: hidden;
-}
-
 /* Hide the 'Markdown is supported' label from the comment box footer, as it can overflow the viewport and isn't very useful */
 /* Info: https://github.com/refined-github/refined-github/issues/9075 */
 /* Test: https://github.com/refined-github/refined-github/pull/9115 */
