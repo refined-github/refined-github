@@ -29,7 +29,6 @@ const noise = new Set([
 	'build',
 	'built',
 ]);
-const sveltePackagePath = /(?:^|[/\\])node_modules[/\\]svelte[/\\]/;
 
 /** @type {import('rollup').RollupOptions} */
 const rollup = {
@@ -70,7 +69,7 @@ const rollup = {
 	onwarn(warning, defaultHandler) {
 		if (
 			warning.code === 'CIRCULAR_DEPENDENCY'
-			&& warning.ids?.every(id => sveltePackagePath.test(id))
+			&& warning.ids?.every(id => id.includes('/svelte/'))
 		) {
 			return;
 		}
