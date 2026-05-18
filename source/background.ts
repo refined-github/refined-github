@@ -1,7 +1,7 @@
 import 'webext-dynamic-content-scripts';
 import 'webext-bugs/options-menu-item';
 import {customizeNoAllUrlsErrorMessage} from 'webext-bugs/no-all-urls';
-import {isSafari} from 'webext-detect';
+import {isFirefox, isSafari} from 'webext-detect';
 import {handleMessages} from 'webext-msg';
 import addPermissionToggle from 'webext-permission-toggle';
 import {StorageItem} from 'webext-storage';
@@ -14,7 +14,7 @@ import {fetchText} from './helpers/isomorphic-fetch.js';
 import optionsStorage, {hasToken} from './options-storage.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
 
-const {version, permissions} = chrome.runtime.getManifest();
+const {version} = chrome.runtime.getManifest();
 
 const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
@@ -31,22 +31,36 @@ customizeNoAllUrlsErrorMessage(
 	'Refined GitHub is not meant to run on every website. If you’re looking to enable it on GitHub Enterprise, follow the instructions in the Options page.',
 );
 
+async function createInactiveTab(url: string, tab: chrome.tabs.Tab, index: number): Promise<chrome.tabs.Tab | void> {
+	if (isFirefox()) {
+		if (tab.id === undefined) {
+			return;
+		}
+
+		const duplicatedTab = await chrome.tabs.duplicate(tab.id);
+		if (duplicatedTab?.id === undefined) {
+			return;
+		}
+
+		await chrome.tabs.move(duplicatedTab.id, {index: tab.index + index + 1});
+		return chrome.tabs.update(duplicatedTab.id, {url, active: false});
+	}
+
+	return chrome.tabs.create({
+		url,
+		index: tab.index + index + 1,
+		active: false,
+	});
+}
+
 handleMessages({
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
-		// Reuse container
-		// TODO: https://github.com/refined-github/refined-github/issues/8657
-		// Soft-disabled via `cookies` permission check: https://github.com/refined-github/refined-github/pull/8786#pullrequestreview-3491531965
-		const firefoxOnlyProps = tab && 'cookieStoreId' in tab && permissions!.includes('cookies')
-			? {cookieStoreId: tab.cookieStoreId}
-			: {};
+		if (!tab) {
+			return;
+		}
 
 		for (const [index, url] of urls.entries()) {
-			void chrome.tabs.create({
-				url,
-				index: tab!.index + index + 1,
-				active: false,
-				...firefoxOnlyProps,
-			});
+			void createInactiveTab(url, tab, index);
 		}
 	},
 	async closeTab(_: any, {tab}: chrome.runtime.MessageSender) {
