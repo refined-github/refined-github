@@ -128,7 +128,10 @@ function validateCss(file: FeatureFile): void {
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
 
-		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		// `github-bugs` has its own eslint rule for test URLs
+		if (file.id !== 'github-bugs') {
+			assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		}
 
 		if (!isFeaturePrivate(file.name)) {
 			validateReadme(file.id);

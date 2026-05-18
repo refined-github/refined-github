@@ -9,11 +9,6 @@
       "count": 1
     }
   },
-  "source/features/github-bugs.css": {
-    "refined-github/css-documentation": {
-      "count": 5
-    }
-  },
   "source/features/highest-rated-comment.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
