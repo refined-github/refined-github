@@ -190,17 +190,17 @@ const botNames = [
 	'github-apps', // GHE apps
 ] as const;
 
-const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+const botAttributes = botNames.map(bot => `[href^="/${bot}"]`);
 
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 // ^= is needed to match /apps/* URLs
 export const botLinksCommitSelectors = [
 	// Co-authored commits are excluded because their avatars are not linked
-	`a[data-testid="avatar-icon-link"]:is(${botAttributes})`,
+	'a[data-testid="avatar-icon-link"]' + is(botAttributes),
 
 	// Legacy view, still used by PR commits
 	// :only-child excludes co-authored commits
-	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
+	'a[data-test-selector="commits-avatar-stack-avatar-link"]' + is(botAttributes) + ':only-child',
 ];
 export const botLinksCommitSelectors_ = [
 	[1, 'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03'],
@@ -220,7 +220,7 @@ export const botLinksPrSelectors_ = [
 
 export const botLinksNotificationSelectors = [
 	// Only select if the bot is the primary author (last in DOM, first in avatar list)
-	`.AvatarStack-body a.avatar:last-child:is(${botAttributes})`,
+	'.AvatarStack-body a.avatar:last-child' + is(botAttributes),
 ];
 export const botLinksNotificationSelectors_ = [
 	[0, 'https://github.com/notifications'],
