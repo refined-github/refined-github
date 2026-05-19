@@ -46,7 +46,7 @@ void features.add(import.meta.url, {
 	init,
 });
 
-void features.addCssFeature(import.meta.url)
+void features.addCssFeature(import.meta.url);
 
 /*
 

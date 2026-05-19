@@ -4,6 +4,6 @@ html:not([rgh-OFF-linkify-line-numbers]) {
 		cursor: pointer;
 		-webkit-text-decoration: underline;
 		text-decoration: underline;
-		color: var(--fgColor-accent) !important;
+		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 	}
 }
