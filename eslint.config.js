@@ -7,9 +7,9 @@ import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
+import byoPlugin from './eslint-rules/byo.js';
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
-import byoPlugin from './eslint-rules/byo.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
