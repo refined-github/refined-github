@@ -30,7 +30,9 @@
 		<a
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
-			class={`${excludeFromDomTextExtraction}${openIssuesTooltip ? ' tooltipped tooltipped-s' : ''}`}
+			class={openIssuesTooltip
+				? `${excludeFromDomTextExtraction} tooltipped tooltipped-s`
+				: excludeFromDomTextExtraction}
 			aria-label={openIssuesTooltip}
 		>{text}</a>
 	{:else}
