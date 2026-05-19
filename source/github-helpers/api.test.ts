@@ -7,7 +7,7 @@ describe('api.getError', () => {
 			getToken: vi.fn().mockResolvedValue('token'),
 		}));
 		const {default: api} = await import('./api.js');
-		const error = await api.getError({
+		const apiError = await api.getError({
 			message: 'Validation Failed',
 			errors: [
 				{
@@ -16,7 +16,7 @@ describe('api.getError', () => {
 			],
 		});
 
-		expect(error.message).toBe(
+		expect(apiError.message).toBe(
 			'You already have a pending review on this pull request.\nSubmit or discard your pending review before using "approve now".',
 		);
 	});
@@ -35,9 +35,9 @@ describe('api.getError', () => {
 				},
 			],
 		};
-		const error = await api.getError(response);
+		const apiError = await api.getError(response);
 
-		expect(error.message).toBe('A pull request review already exists');
-		expect(error.response).toEqual(response);
+		expect(apiError.message).toBe('A pull request review already exists');
+		expect(apiError.response).toEqual(response);
 	});
 });
