@@ -107,12 +107,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 		target: relatedIssuesContainer,
 		props: {
 			featureId: id,
-			labels: {
-				loading: 'Related issues',
-				single: '1 related issue',
-				plural: '$$ related issues',
-				zero: 'Related issues',
-			},
 		},
 	});
 }

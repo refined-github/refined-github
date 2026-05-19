@@ -70,7 +70,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			target: sup,
 			props: {
 				featureId: id,
-				labels: {single: '$$', plural: '$$'},
+				mini: true,
 			},
 		});
 	}
