@@ -96,7 +96,6 @@ export default async function showToast(
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		console.log('Error in toast task:', error);
 		void finalUpdateToast(error);
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
