@@ -17,7 +17,7 @@ import {
 import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
-import normalizeQuickApproveError from '../helpers/quick-review-errors.js';
+import normalizeQuickReviewError from '../helpers/quick-review-errors.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import {getToken} from '../options-storage.js';
@@ -48,7 +48,7 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 			});
 		} catch (error) {
 			assertError(error);
-			throw normalizeQuickApproveError(error);
+			throw normalizeQuickReviewError(error);
 		}
 	})();
 
