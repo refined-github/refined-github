@@ -170,7 +170,7 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		return error;
 	}
 
-	if (errorMessages.includes('Review comments is pending')) {
+	if (errorMessages.some(message => /Review comments (?:is|are) pending/.test(message))) {
 		return new RefinedGitHubApiError(
 			'You already have a pending review on this pull request.',
 			'Submit or discard your pending review before using "approve now".',
