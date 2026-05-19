@@ -21,12 +21,11 @@ const restrictedSyntax = {
 		selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
 		message: 'Unused null expression: ! — $closest() already throws when the element is not found',
 	}],
-	'byo/onetime-init-requires-once-name': ['error', {
+	'byo/init-once': ['error', {
 		message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
 		selector:
 			'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
-	}],
-	'byo/once-function-no-signal': ['error', {
+	}, {
 		message:
 			'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
 		selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',

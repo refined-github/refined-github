@@ -2,8 +2,10 @@
 const rule = {
 	meta: {
 		type: 'problem',
-		schema: [
-			{
+		schema: {
+			type: 'array',
+			minItems: 1,
+			items: {
 				type: 'object',
 				properties: {
 					selector: {type: 'string'},
@@ -12,23 +14,35 @@ const rule = {
 				required: ['selector', 'message'],
 				additionalProperties: false,
 			},
-		],
+		},
 	},
 	create(context) {
-		const [options] = context.options;
-		const {selector, message} = options ?? {};
-		if (typeof selector !== 'string' || typeof message !== 'string') {
-			return {};
+		/** @type {Map<string, string[]>} */
+		const messagesBySelector = new Map();
+		for (const option of context.options) {
+			const {selector, message} = option ?? {};
+			if (typeof selector !== 'string' || typeof message !== 'string') {
+				continue;
+			}
+
+			const messages = messagesBySelector.get(selector) ?? [];
+			messages.push(message);
+			messagesBySelector.set(selector, messages);
 		}
 
-		return {
-			[selector](node) {
-				context.report({
-					node,
-					message,
-				});
-			},
-		};
+		return Object.fromEntries(
+			[...messagesBySelector.entries()].map(([selector, messages]) => [
+				selector,
+				(node) => {
+					for (const message of messages) {
+						context.report({
+							node,
+							message,
+						});
+					}
+				},
+			]),
+		);
 	},
 };
 
