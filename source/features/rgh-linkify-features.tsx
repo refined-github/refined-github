@@ -107,6 +107,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPR,
 		pageDetect.isIssue,
 		pageDetect.isRepoTree,
+		pageDetect.isEditingRelease,
 	],
 	init,
 });

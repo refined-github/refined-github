@@ -78,8 +78,9 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 15, cursor: 'pointer'}}
+			className='rounded-left-0 border-left-0 d-block p-0'
 		>
-			<ArrowUpRightIcon className="mb-2" />
+			<ArrowUpRightIcon className="mb-2" style={{marginLeft: -1}} />
 		</button>
 	);
 
@@ -88,12 +89,9 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 	wrap(nativeLink, <div className="d-flex flex-row-reverse rgh-unread-anywhere-wrapper" />);
 
 	nativeLink.before(button);
+	nativeLink.style.width = '30px'; // Reduce width of native button
 	button.setAttribute('data-variant', 'invisible'); // Enables hover style
-	button.classList.add(
-		...classes,
-		'rounded-left-0',
-		'border-left-0',
-	);
+	button.classList.add(...classes);
 	addToolTip({
 		label: 'Open unread notifications',
 		shortcut: 'g u',

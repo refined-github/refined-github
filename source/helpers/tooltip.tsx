@@ -62,13 +62,10 @@ Generates a tooltip for the received element. You should use this when generatin
 export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
-): JSX.Element {
-	return (
-		<>
-			{element}
-			{createTooltipFor(element, content)}
-		</>
-	);
+): Element {
+	const tooltip = createTooltipFor(element, content);
+	element.append(tooltip);
+	return element;
 }
 
 /**
@@ -80,9 +77,9 @@ export default function addToolTip(
 	content: string | TooltipOptions,
 	element: Element,
 ): void {
-	if (!element.parentNode) {
+	if (!element.parentElement) {
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	element.after(createTooltipFor(element, content));
+	element.append(createTooltipFor(element, content));
 }

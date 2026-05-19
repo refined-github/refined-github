@@ -63,9 +63,11 @@
 	}
 }
 
+/* 404 page animation on load */
+/* Info: None, self-explanatory */
 /* Test: https://github.com/refined-github/refined-github/404 */
 [alt='404 “This is not the web page you are looking for”'] {
-	animation: fade-in 2s ease-out;
+	animation: fade-in 3s ease-out;
 }
 
 /* Lighten deletions in Markdown */
@@ -98,28 +100,17 @@
 	transform-origin: 90% top;
 }
 
-/* Improve spacing in conversation lists meta, made feel crowded by:
-conversation-authors
-parse-backticks
-pr-branches
-*/
-.js-issue-row .text-small.color-fg-muted {
-	line-height: 1.8;
-
-	/* Reset `vertical-align` for .octicons to work with above increased line-height */
-	.octicon {
-		vertical-align: middle;
-	}
-}
-
 /* TODO: Drop after legacy PR files view is removed */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed */
 /* Info: https://github.com/refined-github/refined-github/issues/3925 */
+/* Test: https://github.com/refined-github/refined-github/pull/3922/files */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
 
 /* Style the "Find feature" dialog that appears on top of the page */
+/* Info: https://github.com/refined-github/refined-github/pull/4119 */
+/* Test: start the "Identify feature" wizard from the options */
 #rgh-bisect-dialog {
 	position: fixed;
 	bottom: 50%;
@@ -131,14 +122,6 @@ pr-branches
 		var(--color-shadow-large, var(--color-toast-shadow))
 	);
 	z-index: 2147483647;
-}
-
-/* TODO: Drop after July 2026 */
-/* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` */
-/* Info: https://github.com/refined-github/refined-github/pull/4281 */
-.gh-header-actions [aria-label='Edit Pull Request title'] {
-	margin-left: 4px !important;
-	margin-right: 4px !important;
 }
 
 /* Bold username in conversation lists */
@@ -180,6 +163,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	}
 }
 
+/* eslint-disable-next-line refined-github/css-documentation -- Refer to `dom-formatters` */
 .rgh-anchored-link {
 	position: absolute !important;
 	position-area: center;
