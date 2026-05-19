@@ -27,25 +27,26 @@
 
 {#snippet linked(text: string, openIssuesTooltip?: string)}
 	{#if linkify}
-		{@const linkAttributes = openIssuesTooltip
-			? {
-				class: `${excludeFromDomTextExtraction} tooltipped tooltipped-s`,
-				'aria-label': openIssuesTooltip,
-			}
-			: {class: excludeFromDomTextExtraction}}
-		<a
-			href={relatedIssuesHref}
-			data-turbo-frame="repo-content-turbo-frame"
-			{...linkAttributes}
-		>{text}</a>
+		{#if openIssuesTooltip}
+			<a
+				href={relatedIssuesHref}
+				data-turbo-frame="repo-content-turbo-frame"
+				class={excludeFromDomTextExtraction + ' tooltipped tooltipped-s'}
+				aria-label={openIssuesTooltip}
+			>{text}</a>
+		{:else}
+			<a
+				href={relatedIssuesHref}
+				data-turbo-frame="repo-content-turbo-frame"
+				class={excludeFromDomTextExtraction}
+			>{text}</a>
+		{/if}
 	{:else}
-		{@const spanAttributes = openIssuesTooltip
-			? {
-				class: 'tooltipped tooltipped-s',
-				'aria-label': openIssuesTooltip,
-			}
-			: {}}
-		<span {...spanAttributes}>{text}</span>
+		{#if openIssuesTooltip}
+			<span class="tooltipped tooltipped-s" aria-label={openIssuesTooltip}>{text}</span>
+		{:else}
+			<span>{text}</span>
+		{/if}
 	{/if}
 {/snippet}
 
