@@ -6,6 +6,11 @@ export function isMiddleClick(event: MouseEvent): boolean {
 	return event.button === 1;
 }
 
+// `isAlteredClick` returns `true` for non-primary button clicks
+export function isAlteredPrimaryClick(event: MouseEvent): boolean {
+	return event.type === 'click' && isAlteredClick(event);
+}
+
 export default function onAlteredClick<Selector extends string>(
 	selector: Selector | readonly Selector[],
 	callback: DelegateEventHandler<PointerEvent, ParseSelector<Selector>>,

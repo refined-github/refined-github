@@ -1,10 +1,9 @@
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
-import {isMiddleClick} from '../helpers/on-altered-click.js';
+import {isMiddleClick, isAlteredPrimaryClick} from '../helpers/on-altered-click.js';
 import observe from '../helpers/selector-observer.js';
 
 function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
@@ -21,7 +20,7 @@ function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	if (isMiddleClick(event) || (event.type === 'click' && isAlteredClick(event))) {
+	if (isMiddleClick(event) || isAlteredPrimaryClick(event)) {
 		window.open(lineUrl, '_blank');
 	} else {
 		location.href = lineUrl;
