@@ -54,7 +54,6 @@ export default async function showToast(
 	};
 
 	const finalUpdateToast = async (message: ToastMessage | Error): Promise<void> => {
-		debugger;
 		if (message instanceof Error && 'richMessage' in message && message.richMessage) {
 			message = message.richMessage as ToastMessage;
 		} else if (message instanceof Error) {
