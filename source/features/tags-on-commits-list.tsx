@@ -138,7 +138,6 @@ async function init(): Promise<void | false> {
 							>
 								<code>{tag}</code>
 							</a>,
-
 						])}
 					</span>
 				</div>,
