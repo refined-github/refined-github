@@ -1,9 +1,6 @@
 html:not([rgh-OFF-linkify-line-numbers]) {
-	/* Copied from GitHub's `Link--onHover` */
 	.blob-num:not(.blob-num-hunk, .empty-cell):hover {
 		cursor: pointer;
-		-webkit-text-decoration: underline;
 		text-decoration: underline;
-		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 	}
 }
