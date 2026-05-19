@@ -6,10 +6,12 @@ const cssDocumentation = {
 		messages: {
 			invalidComments: [
 				'Each rule must be documented. Use `:root` with nested selectors if your fix involves multiple rules.',
+				'Missing: {{missing}}',
+				'',
 				'The documentation must follow this format:',
 				'/* A description of the issue */',
 				'/* Info: <URL to more info> */',
-				'/* Test: <URL where this issue can be seen> */{{missing}}',
+				'/* Test: <URL where this issue can be seen> */',
 			].join('\n'),
 		},
 	},
@@ -79,7 +81,7 @@ const cssDocumentation = {
 							node: child,
 							messageId: 'invalidComments',
 							data: {
-								missing: ` Missing: ${missingRequirements.join(', ')}.`,
+								missing: missingRequirements.join(', '),
 							},
 						});
 					}

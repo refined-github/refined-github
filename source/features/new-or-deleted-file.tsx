@@ -54,7 +54,7 @@ function maybeAddIcon(fileHeader: HTMLDivElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('div[class*="file-path-section"]', maybeAddIcon, {signal});
-	// TODO: Old PR Files view, drop in 2027
+	// TODO: Drop after legacy PR files view is removed
 	// Link--primary excludes CODEOWNERS icon #5565
 	observe('.file-info a.Link--primary', maybeAddIconLegacy, {signal});
 }
