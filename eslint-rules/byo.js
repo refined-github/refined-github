@@ -9,6 +9,10 @@ const rule = {
 	},
 	create(context) {
 		const [selector, message] = context.options;
+		if (typeof selector !== 'string' || typeof message !== 'string') {
+			return {};
+		}
+
 		return {
 			[selector](node) {
 				context.report({
@@ -26,6 +30,8 @@ const byo = {
 			if (typeof property === 'string') {
 				return rule;
 			}
+
+			return undefined;
 		},
 		has(_target, property) {
 			return typeof property === 'string';
