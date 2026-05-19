@@ -18,20 +18,16 @@
 </script>
 
 {#snippet linked(text: string, tooltip?: string)}
-	{#if tooltip}
-		<a
-			href={relatedIssuesHref}
-			data-turbo-frame="repo-content-turbo-frame"
-			class={`${excludeFromDomTextExtraction} tooltipped tooltipped-n`}
-			aria-label={tooltip}
-		>{text}</a>
-	{:else}
-		<a
-			href={relatedIssuesHref}
-			data-turbo-frame="repo-content-turbo-frame"
-			class={excludeFromDomTextExtraction}
-		>{text}</a>
-	{/if}
+	<a
+		href={relatedIssuesHref}
+		data-turbo-frame="repo-content-turbo-frame"
+		class={excludeFromDomTextExtraction}
+		class:tooltipped={tooltip}
+		class:tooltipped-n={tooltip}
+		aria-label={tooltip || undefined}
+	>
+		{text}
+	</a>
 {/snippet}
 
 {#await countPromise}
