@@ -4,7 +4,6 @@ import elementReady from 'element-ready';
 import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';
-import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -17,7 +16,6 @@ import {
 import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
-import normalizeQuickReviewError from '../helpers/quick-review-errors.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import {getToken} from '../options-storage.js';
@@ -40,17 +38,10 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 		return;
 	}
 
-	const call = (async () => {
-		try {
-			await api.v3uncached(`pulls/${getConversationNumber()!}/reviews`, {
-				method: 'POST',
-				body: {event: 'APPROVE', body: approval},
-			});
-		} catch (error) {
-			assertError(error);
-			throw normalizeQuickReviewError(error);
-		}
-	})();
+	const call = api.v3uncached(`pulls/${getConversationNumber()!}/reviews`, {
+		method: 'POST',
+		body: {event: 'APPROVE', body: approval},
+	});
 
 	await showToast(call, {
 		message: 'Approving…',
