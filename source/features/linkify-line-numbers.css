@@ -1,3 +1,9 @@
-.rgh-linkify-line-numbers::before {
-	content: none !important;
+.rgh-linkify-line-numbers {
+	/* The <td> cursor is natively `pointer` for some reason */
+	cursor: auto !important;
+
+	&::before {
+		/* The number is extracted from the `data-line-number` attributes normally */
+		content: none !important;
+	}
 }
