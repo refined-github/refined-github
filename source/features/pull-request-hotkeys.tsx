@@ -9,7 +9,7 @@ async function init(): Promise<void> {
 	const tabnav = await elementReady([
 		'[aria-label="Pull request tabs"]',
 		'[aria-label="Pull request navigation tabs"]', // Commits list tab
-	].join(', '));
+	]);
 	const tabs = $$([
 		'a.tabnav-tab',
 		'a[role="tab"]', // Commits list tab
