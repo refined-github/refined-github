@@ -22,7 +22,7 @@
 		<a
 			href={relatedIssuesHref}
 			data-turbo-frame="repo-content-turbo-frame"
-			class={`${excludeFromDomTextExtraction} tooltipped tooltipped-s`}
+			class={`${excludeFromDomTextExtraction} tooltipped tooltipped-n`}
 			aria-label={tooltip}
 		>{text}</a>
 	{:else}
