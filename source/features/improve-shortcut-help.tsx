@@ -81,14 +81,12 @@ const getRghShortcutsContainer = memoize(
 					currentItem.firstElementChild!.textContent = description;
 					currentItem.lastElementChild!.replaceChildren(
 						<kbd className={keybindingHint.className}>
-							{hotkey.split(' ').map((key, index) => (
-								<>
-									{index > 0 && ' '}
-									<span className={chord.className}>
-										{upperCaseFirst(key)}
-									</span>
-								</>
-							))}
+							{hotkey.split(' ').flatMap((key, index) => [
+								index > 0 && ' ',
+								<span className={chord.className}>
+									{upperCaseFirst(key)}
+								</span>,
+							])}
 						</kbd>,
 					);
 					return currentItem;

@@ -129,18 +129,17 @@ async function init(): Promise<void | false> {
 				<div className="ml-1 d-flex flex-items-center gap-1">
 					<TagIcon />
 					<span className="d-flex flex-wrap gap-1">
-						{...targetTags.map(tag => (
-							<>
-								{' '}
-								{/* .markdown-title enables the background color */}
-								<a
-									className="Link--muted markdown-title"
-									href={buildRepoUrl('releases/tag', tag)}
-								>
-									<code>{tag}</code>
-								</a>
-							</>
-						))}
+						{...targetTags.map(tag => [
+							' ',
+							// .markdown-title enables the background color
+							<a
+								className="Link--muted markdown-title"
+								href={buildRepoUrl('releases/tag', tag)}
+							>
+								<code>{tag}</code>
+							</a>,
+
+						])}
 					</span>
 				</div>,
 			);

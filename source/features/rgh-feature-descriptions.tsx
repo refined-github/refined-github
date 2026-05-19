@@ -18,9 +18,55 @@ import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function getLinks(meta: FeatureMeta, featureRemoved: boolean): Array<JSX.Element | string> {
 	const isCss = location.pathname.endsWith('.css');
 
+	const links = [];
+
+	if (meta.id) {
+		const relatedIssuesContainer = <span />;
+		mount(RelatedIssuesCount, {
+			target: relatedIssuesContainer,
+			props: {
+				featureId: meta.id,
+				labels: {
+					loading: 'Related issues',
+					single: '1 related issue',
+					plural: '$$ related issues',
+					zero: 'Related issues',
+				},
+			},
+		});
+		links.push(relatedIssuesContainer);
+	}
+
+	if (!featureRemoved && meta.id) {
+		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
+		newIssueUrl.searchParams.set('title', `\`${meta.id}\`: `);
+		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
+		links.push(
+			' • ',
+			<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>,
+		);
+	}
+
+	if (isCss && !meta.cssOnly) {
+		links.push(
+			' • ',
+			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
+		);
+	} else if (meta.css && !isCss) {
+		links.push(
+			' • ',
+			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+		);
+	}
+
+	return links;
+}
+
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const description = meta
 		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
@@ -31,13 +77,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 	const removedFeature = !description;
 
 	const oldNames = getOldFeatureNames(id);
-
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
-	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
-
-	const relatedIssuesContainer = <span />;
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
@@ -70,22 +109,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					<div className="no-wrap">
-						{relatedIssuesContainer}
-						{!removedFeature && (
-							<>
-								{' • '}
-								<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
-							</>
-						)}
-						{
-							meta && isCss && !meta.cssOnly
-								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css && !isCss
-									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
-									: undefined
-						}
-					</div>
+					<div className="no-wrap">{meta && getLinks(meta, removedFeature)}</div>
 				</div>
 				{meta?.screenshot && (
 					<a href={meta.screenshot} className="flex-self-center">
@@ -102,19 +126,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			</div>
 		</div>,
 	);
-
-	mount(RelatedIssuesCount, {
-		target: relatedIssuesContainer,
-		props: {
-			featureId: id,
-			labels: {
-				loading: 'Related issues',
-				single: '1 related issue',
-				plural: '$$ related issues',
-				zero: 'Related issues',
-			},
-		},
-	});
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
