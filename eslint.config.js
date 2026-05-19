@@ -7,6 +7,7 @@ import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
+import byoPlugin from './eslint-rules/byo.js';
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
@@ -92,10 +93,6 @@ export default defineConfig([
 					],
 				}],
 
-				'no-restricted-syntax': [
-					'error',
-					...restrictedSyntax,
-				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
 				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
@@ -298,9 +295,11 @@ export default defineConfig([
 	},
 	{
 		plugins: {
+			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
+			...restrictedSyntax,
 			'refined-github/select-dom': 'error',
 		},
 	},
