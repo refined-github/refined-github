@@ -303,3 +303,10 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 .ActionListItem-singleSelectCheckmark {
 	transition: none !important;
 }
+
+/* Prevent empty diff cells from looking clickable */
+/* Info: */
+/* Test: https://github.com/refined-github/sandbox/pull/81 */
+.empty-cell {
+	cursor: default !important;
+}
