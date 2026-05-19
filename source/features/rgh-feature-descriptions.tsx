@@ -29,12 +29,6 @@ function getLinks(meta: FeatureMeta, featureRemoved: boolean): Array<JSX.Element
 			target: relatedIssuesContainer,
 			props: {
 				featureId: meta.id,
-				labels: {
-					loading: 'Related issues',
-					single: '1 related issue',
-					plural: '$$ related issues',
-					zero: 'Related issues',
-				},
 			},
 		});
 		links.push(relatedIssuesContainer);
