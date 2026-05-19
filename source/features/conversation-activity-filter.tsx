@@ -80,7 +80,7 @@ function processSimpleComment(item: HTMLElement): void {
 	}
 }
 
-function processDissmissedReviewEvent(item: HTMLElement): void {
+function processDismissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
@@ -95,6 +95,7 @@ function processReview(review: HTMLElement): void {
 	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	// Resolved thread are handled by the CSS thanks to [data-resolved="true"]
 	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
 	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
 
@@ -120,7 +121,7 @@ function processItem(item: HTMLElement): void {
 	if (elementExists('.js-comment[id^=pullrequestreview]', item)) {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
-		processDissmissedReviewEvent(item);
+		processDismissedReviewEvent(item);
 	} else if (elementExists(comment, item)) {
 		processSimpleComment(item);
 	} else {
@@ -132,9 +133,9 @@ let currentState: State;
 
 function applyState(targetState: State): void {
 	const container = $([
-		// Current PR view
+		// PR
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Current issue view
+		// Issue
 		'[class*="IssueViewer-module__mainContainer"]',
 		// Old PR view - TODO: Drop after July 2026
 		'.js-issues-results',
