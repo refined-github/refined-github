@@ -7,7 +7,7 @@ import {$, $$optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
-import {registerHotkey} from '../github-helpers/hotkey.js';
+import {registerHotkeyManually} from '../github-helpers/hotkey.js';
 import showToast from '../github-helpers/toast.js';
 import {getClasses, isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
@@ -103,7 +103,7 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 
 // No signal, created once per load
 function initOnce(): void {
-	registerHotkey('g u', openUnreadNotifications);
+	registerHotkeyManually('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
 	observe(buttonWithNotificationsSelector + ':not(.rgh-unread-anywhere-wrapper *)', addButton);
 }

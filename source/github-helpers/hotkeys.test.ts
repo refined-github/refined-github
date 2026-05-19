@@ -1,6 +1,6 @@
-import {assert, test} from 'vitest';
+import {assert, test, vi} from 'vitest';
 
-import {addHotkey} from './hotkey.js';
+import {addHotkey, registerHotkeyManually} from './hotkey.js';
 
 function testAddHotkey(existing: string | undefined, added: string, final: string): void {
 	const link = document.createElement('a');
@@ -39,3 +39,43 @@ test(
 		'CHICKEN',
 	),
 );
+
+function keyDownEvent(key: string): KeyboardEvent {
+	const event = new document.defaultView!.Event('keydown', {bubbles: true, cancelable: true});
+	Object.defineProperties(event, {
+		key: {value: key},
+		altKey: {value: false},
+		ctrlKey: {value: false},
+		metaKey: {value: false},
+	});
+	return event as KeyboardEvent;
+}
+
+test('registerHotkeyManually triggers on sequence', () => {
+	const controller = new AbortController();
+	const callback = vi.fn();
+	registerHotkeyManually('g u', callback, {signal: controller.signal});
+
+	document.dispatchEvent(keyDownEvent('g'));
+	const keydownU = keyDownEvent('u');
+	document.dispatchEvent(keydownU);
+
+	assert.equal(callback.mock.calls.length, 1);
+	assert.isTrue(keydownU.defaultPrevented);
+	controller.abort();
+});
+
+test('registerHotkeyManually does not trigger in editable elements', () => {
+	const controller = new AbortController();
+	const callback = vi.fn();
+	registerHotkeyManually('g u', callback, {signal: controller.signal});
+
+	const input = document.createElement('input');
+	document.body.append(input);
+	input.dispatchEvent(keyDownEvent('g'));
+	input.dispatchEvent(keyDownEvent('u'));
+
+	assert.equal(callback.mock.calls.length, 0);
+	controller.abort();
+	input.remove();
+});
