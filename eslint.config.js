@@ -9,6 +9,7 @@ import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
+import byoPlugin from './eslint-rules/byo.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
@@ -298,9 +299,12 @@ export default defineConfig([
 	},
 	{
 		plugins: {
+			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
+			'byo/unused-null-expression': ['error', 'TSNonNullExpression > CallExpression > [name=$]', 'Unused null expression: !'],
+			'byo/unused-null-expression-closest': ['error', 'TSNonNullExpression > CallExpression > [name=$closest]', 'Unused null expression: ! — $closest() already throws when the element is not found'],
 			'refined-github/select-dom': 'error',
 		},
 	},
