@@ -1,5 +1,3 @@
-import './linkify-line-numbers.css';
-
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
@@ -20,11 +18,11 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	lineNumberCell.classList.add('rgh-linkify-line-numbers');
+	lineNumberCell.dataset.lineNumber = '';
 	lineNumberCell.append(
-		<a href={lineUrl} className="d-table-cell Link Link--primary">
+		<a href={lineUrl} className="color-fg-inherit no-underline Link--onHover" >
 			{lineNumber}
-		</a>,
+		</a>
 	);
 }
 
