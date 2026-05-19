@@ -53,7 +53,14 @@ export default async function showToast(
 		messageWrapper.append(message);
 	};
 
-	const finalUpdateToast = async (message: ToastMessage): Promise<void> => {
+	const finalUpdateToast = async (message: ToastMessage | Error): Promise<void> => {
+		debugger;
+		if (message instanceof Error && 'richMessage' in message && message.richMessage) {
+			message = message.richMessage as ToastMessage;
+		} else if (message instanceof Error) {
+			message = message.message;
+		}
+
 		updateToast(message);
 
 		// Without rAF the toast might be removed before the first page paint
@@ -72,7 +79,6 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
-	let finalToastMessage: ToastMessage | false = 'Unknown error';
 	try {
 		if (task instanceof Error) {
 			throw task;
@@ -85,16 +91,15 @@ export default async function showToast(
 		}
 
 		toast.classList.replace('Toast--loading', 'Toast--success');
-		finalToastMessage = doneMessage;
+		// Use the last message if `false` was passed
+		void finalUpdateToast(doneMessage || lastRawMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon />);
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		finalToastMessage = 'richMessage' in error ? error.richMessage as JSX.Element : error.message;
+		console.log('Error in toast task:', error);
+		void finalUpdateToast(error);
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
-	} finally {
-		// Use the last message if `false` was passed
-		void finalUpdateToast(finalToastMessage || lastRawMessage);
 	}
 }

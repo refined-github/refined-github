@@ -166,7 +166,10 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		personalToken
 			? 'Ensure that your token has access to this repo.'
 			: 'Maybe adding a token in the options will fix this issue.',
-		JSON.stringify(apiResponse, undefined, '\t'), // Beautify
+			//https://github.com/refined-github/refined-github/pull/9525
+		Array.isArray(apiResponse.errors)
+		? apiResponse.errors.join('.\n')
+		: JSON.stringify(apiResponse, undefined, '\t'), // Beautify
 	);
 	error.response = apiResponse;
 	return error;
