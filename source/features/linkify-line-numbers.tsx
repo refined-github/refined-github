@@ -1,3 +1,5 @@
+import './linkify-line-numbers.css';
+
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
 import delegate, {type DelegateEvent} from 'delegate-it';
@@ -5,7 +7,6 @@ import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
-import observe from '../helpers/selector-observer.js';
 
 function getLinkToLine(lineNumberCell: HTMLElement): string {
 	const {lineNumber} = lineNumberCell.dataset;
@@ -31,14 +32,9 @@ function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>)
 	window.open(getLinkToLine(event.delegateTarget), '_blank');
 }
 
-function visuallyLinkify(lineNumberCell: HTMLElement): void {
-	lineNumberCell.classList.add('Link--onHover');
-}
-
 const lineNumberCellSelector = 'td.blob-num:not(.blob-num-hunk, .empty-cell)';
 
 function init(signal: AbortSignal): void {
-	observe(lineNumberCellSelector, visuallyLinkify, {signal});
 	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});
 	onAlteredClick(lineNumberCellSelector, openLinkToLineInNewTab, {signal});
 }
@@ -49,6 +45,8 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+void features.addCssFeature(import.meta.url)
 
 /*
 
