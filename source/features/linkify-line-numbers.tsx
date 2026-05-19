@@ -22,7 +22,7 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 	lineNumberCell.append(
 		<a href={lineUrl} className="color-fg-inherit no-underline Link--onHover" >
 			{lineNumber}
-		</a>
+		</a>,
 	);
 }
 
