@@ -39,12 +39,12 @@
 		{@render linked('Related issues')}
 	{/if}
 {:then count}
-	{@const label = pluralize(count, '1 open issue', '$$ open issues', 'No open issues')}
+	{@const openIssuesLabel = pluralize(count, '1 open issue', '$$ open issues', 'No open issues')}
 	{#if mini}
 		{#if count > 0}
-			{@render linked(String(count), label)}
+			{@render linked(String(count), openIssuesLabel)}
 		{/if}
 	{:else}
-		{@render linked(label)}
+		{@render linked(openIssuesLabel)}
 	{/if}
 {/await}
