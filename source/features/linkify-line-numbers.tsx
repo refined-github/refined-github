@@ -1,11 +1,14 @@
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
+import delegate, {type DelegateEvent} from 'delegate-it';
+import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
-import replaceElementTypeInPlace from '../helpers/recreate-element.js';
+import onAlteredClick from '../helpers/on-altered-click.js';
 import observe from '../helpers/selector-observer.js';
 
-function linkify(lineNumberCell: HTMLTableCellElement): void {
+function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
+	const lineNumberCell = event.delegateTarget;
 	const {lineNumber} = lineNumberCell.dataset;
 	if (!lineNumber) {
 		throw new Error('Expected the cell to have the `data-line-number` attribute');
@@ -18,13 +21,23 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	const linkified = replaceElementTypeInPlace(lineNumberCell, 'a');
-	linkified.href = lineUrl;
-	linkified.classList.add('d-table-cell', 'no-underline', 'Link--onHover');
+	if (isAlteredClick(event)) {
+		window.open(lineUrl, '_blank');
+	} else {
+		location.href = lineUrl;
+	}
 }
 
+function visuallyLinkify(lineNumberCell: HTMLElement): void {
+	lineNumberCell.classList.add('Link--onHover');
+}
+
+const lineNumberCellSelector = 'td.blob-num:not(.blob-num-hunk, .empty-cell)';
+
 function init(signal: AbortSignal): void {
-	observe('.blob-num:not(.blob-num-hunk, .empty-cell)', linkify, {signal});
+	observe(lineNumberCellSelector, visuallyLinkify, {signal});
+	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});
+	onAlteredClick(lineNumberCellSelector, openLinkToLine, {signal});
 }
 
 void features.add(import.meta.url, {
