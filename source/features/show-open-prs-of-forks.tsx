@@ -64,7 +64,7 @@ async function initHeadHint(): Promise<void | false> {
 	}
 
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
-		'with ',
+		' with ',
 		// The class is used by `quick-fork-deletion`
 		<a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>,
 	);
