@@ -39,14 +39,13 @@ function init(signal: AbortSignal): void {
 	onAlteredClick(lineNumberCellSelector, openLinkToLineInNewTab, {signal});
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
 	init,
 });
-
-void features.addCssFeature(import.meta.url);
 
 /*
 
