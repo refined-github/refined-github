@@ -15,6 +15,10 @@ export function registerHotkey(
 	functionOrUrl: React.MouseEventHandler<HTMLButtonElement> | string,
 	{signal}: SignalAsOptions = {},
 ): void {
+	if (signal?.aborted) {
+		return;
+	}
+
 	const element = typeof functionOrUrl === 'string'
 		? <a hidden href={functionOrUrl} data-hotkey={hotkey} />
 		: <button hidden type="button" data-hotkey={hotkey} onClick={functionOrUrl} />;
@@ -23,7 +27,7 @@ export function registerHotkey(
 
 	signal?.addEventListener('abort', () => {
 		element.remove();
-	});
+	}, {once: true});
 }
 
 const hotkeySequenceTimeout = 1000;
@@ -33,6 +37,10 @@ export function registerHotkeyManually(
 	functionOrUrl: React.MouseEventHandler<HTMLButtonElement> | string,
 	{signal}: SignalAsOptions = {},
 ): void {
+	if (signal?.aborted) {
+		return;
+	}
+
 	const keys = hotkey.toLowerCase().trim().split(/\s+/).filter(Boolean);
 	if (keys.length === 0) {
 		throw new TypeError('Expected at least one key in hotkey sequence');
@@ -43,9 +51,6 @@ export function registerHotkeyManually(
 		: <button hidden type="button" onClick={functionOrUrl} />;
 
 	document.body.prepend(element);
-	signal?.addEventListener('abort', () => {
-		element.remove();
-	});
 
 	let currentKey = 0;
 	let sequenceTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -53,6 +58,11 @@ export function registerHotkeyManually(
 		currentKey = 0;
 		clearTimeout(sequenceTimeout);
 	};
+
+	signal?.addEventListener('abort', () => {
+		element.remove();
+		resetSequence();
+	}, {once: true});
 
 	document.addEventListener('keydown', event => {
 		if (isEditable(event.target) || event.altKey || event.ctrlKey || event.metaKey) {
