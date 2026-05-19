@@ -1,0 +1,3 @@
+.rgh-linkify-line-numbers::before {
+	content: none !important;
+}

@@ -1,8 +1,10 @@
+import './linkify-line-numbers.css';
+
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$closest} from 'select-dom';
 
 import features from '../feature-manager.js';
-import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import observe from '../helpers/selector-observer.js';
 
 function linkify(lineNumberCell: HTMLTableCellElement): void {
@@ -18,9 +20,12 @@ function linkify(lineNumberCell: HTMLTableCellElement): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	const linkified = replaceElementTypeInPlace(lineNumberCell, 'a');
-	linkified.href = lineUrl;
-	linkified.classList.add('d-table-cell', 'no-underline', 'Link--onHover');
+	lineNumberCell.classList.add('rgh-linkify-line-numbers');
+	lineNumberCell.append(
+		<a href={lineUrl} className="d-table-cell Link Link--primary">
+			{lineNumber}
+		</a>,
+	);
 }
 
 function init(signal: AbortSignal): void {
