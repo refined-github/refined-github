@@ -93,10 +93,6 @@ export default defineConfig([
 					],
 				}],
 
-				'no-restricted-syntax': [
-					'error',
-					...restrictedSyntax,
-				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
 				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
@@ -303,14 +299,7 @@ export default defineConfig([
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
-			'byo/unused-null-expression': ['error', {
-				selector: 'TSNonNullExpression > CallExpression > [name=$]',
-				message: 'Unused null expression: !',
-			}],
-			'byo/unused-null-expression-closest': ['error', {
-				selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
-				message: 'Unused null expression: ! — $closest() already throws when the element is not found',
-			}],
+			...restrictedSyntax,
 			'refined-github/select-dom': 'error',
 		},
 	},
