@@ -74,7 +74,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn px-2 rgh-default-branch-button flex-self-start"
+			className="btn px-2 tmp-px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554

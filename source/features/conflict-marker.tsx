@@ -45,7 +45,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 				tooltipped(
 					{label: 'This PR has conflicts that must be resolved', direction: 'e'},
 					<a
-						className="rgh-conflict-marker color-fg-muted ml-2"
+						className="rgh-conflict-marker color-fg-muted ml-2 tmp-ml-2"
 						href={pr.link.pathname + commentBoxHashPr}
 					>
 						<AlertIcon className="v-align-middle" />

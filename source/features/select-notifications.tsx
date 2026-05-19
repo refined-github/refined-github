@@ -104,7 +104,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
+					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2 tmp-mr-2" aria-hidden="true" />
 					<div className="SelectMenu-item-text">
 						<input
 							hidden
@@ -113,7 +113,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 							value={filter}
 						/>
 						{icons[filter]}
-						<span className="ml-2">{filter}</span>
+						<span className="ml-2 tmp-ml-2">{filter}</span>
 					</div>
 				</label>
 			))}
@@ -123,7 +123,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mr-2 tmp-mr-2"
 		onToggle={resetFilters}
 	>
 		<summary
@@ -134,7 +134,7 @@ const createDropdown = onetime(() => (
 			title="Hotkey: Shift+S"
 			role="button"
 		>
-			Select by <span className="dropdown-caret ml-1" />
+			Select by <span className="dropdown-caret ml-1 tmp-ml-1" />
 		</summary>
 		<details-menu
 			className="SelectMenu left-0"
@@ -161,7 +161,7 @@ function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
 	$closest('label', selectAllCheckbox).after(
 		// `h6` matches "Select all" style
-		<span className="mx-2 h6">·</span>,
+		<span className="mx-2 tmp-mx-2 h6">·</span>,
 		createDropdown(),
 	);
 }

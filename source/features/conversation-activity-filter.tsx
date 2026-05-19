@@ -210,7 +210,7 @@ async function addWidget(anchor: Element): Promise<void> {
 					aria-controls={`${baseId}-list`}
 					aria-haspopup="true"
 					type="button"
-					className="Button--small Button color-fg-muted p-0"
+					className="Button--small Button color-fg-muted p-0 tmp-p-0"
 				>
 					<span className="Button-content">
 						<span className="Button-visual Button-leadingVisual">
@@ -248,7 +248,7 @@ async function addWidget(anchor: Element): Promise<void> {
 							</action-list>
 						</div>
 						{!isSmallDevice() && (
-							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
+							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 tmp-py2">
 								<span className="color-fg-muted">
 									Press <kbd>h</kbd> to cycle through filters,
 									<br />

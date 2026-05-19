@@ -53,7 +53,7 @@ function addTagToHeader(tagName: string, tagUrl: string, relativeTime: HTMLEleme
 			className="text-bold Link--primary no-underline"
 			title={`${tagName} was the first Git tag to include this pull request`}
 		>
-			<TagIcon className="ml-2 mr-1 color-fg-muted" />
+			<TagIcon className="ml-2 tmp-ml-2 mr-1 tmp-mr-1 color-fg-muted" />
 			{tagName}
 		</a>,
 	);
@@ -65,7 +65,7 @@ function addTagToFooter(tagName: string, tagUrl: string): void {
 		before: () => (
 			<TimelineItem>
 				{createBanner({
-					icon: <TagIcon className="m-0" />,
+					icon: <TagIcon className="m-0 tmp-m-0" />,
 					text: <>
 						This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
 					</>,
@@ -85,7 +85,7 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 	const url = createReleaseUrl();
 	const bannerContent = {
 		text,
-		icon: <TagIcon className="m-0" />,
+		icon: <TagIcon className="m-0 tmp-m-0" />,
 		classes: ['rgh-bg-none'],
 	} satisfies BannerProps;
 

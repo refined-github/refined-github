@@ -62,11 +62,11 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
-		<span className="ml-2">
+		<span className="ml-2 tmp-ml-2">
 			<GitPullRequestIcon />
 			{' To '}
 			<span
-				className="commit-ref user-select-contain mb-n1"
+				className="commit-ref user-select-contain mb-n1 tmp-mb-n1"
 				style={branch ? {} : {textDecoration: 'line-through'}}
 			>
 				<a title={branch ? baseBranch.refName : 'Deleted'} href={branch}>

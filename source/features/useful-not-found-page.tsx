@@ -115,7 +115,7 @@ async function showMissingPartOnce(): Promise<void> {
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
 	$(['main > :first-child', '#parallax_illustration']).after(
-		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
+		<h2 className="container mt-4 tmp-mt-3 text-center">{breadcrumbs}</h2>,
 	);
 }
 
@@ -132,7 +132,7 @@ async function showDefaultBranchLink(): Promise<void> {
 	}
 
 	$('main > .container-lg').before(
-		<p className="container mt-4 text-center">
+		<p className="container mt-4 tmp-mt-3 text-center">
 			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 		</p>,
 	);
@@ -165,7 +165,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
 	return (
-		<p className="container mt-4 text-center">
+		<p className="container mt-4 tmp-mt-3 text-center">
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>
 	);

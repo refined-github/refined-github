@@ -14,7 +14,7 @@ export const {class: featureClass, selector: featureSelector} = getIdentifiers(i
 function LockedIndicator(): JSX.Element {
 	return (
 		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
-			<LockIcon className="flex-items-center mr-1" />
+			<LockIcon className="flex-items-center mr-1 tmp-mr-1" />
 			Locked
 		</span>
 	);
@@ -23,7 +23,7 @@ function LockedIndicator(): JSX.Element {
 function addLockLegacy(element: HTMLElement): void {
 	const closestSticky = $closestOptional(['.sticky-content', '.gh-header-sticky'], element);
 	element.after(
-		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
+		<LockedIndicator className={`mb-2 tmp-mb-2 ${closestSticky ? 'mr-2 tmp-mr-2 ' : ''}`} />,
 	);
 }
 

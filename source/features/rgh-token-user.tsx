@@ -21,8 +21,8 @@ async function verify(header: HTMLElement): Promise<void> {
 	if (currentWebUser !== currentTokenUser) {
 		header.after(
 			// Use raw "flash" classes to blend in better with the dropdown menu
-			<div className="flash flash-error px-3 mt-3 mb-0 py-2 d-flex flex-items-center border-0 rounded-0">
-				<AlertIcon className="mr-2" />
+			<div className="flash flash-error px-3 tmp-px-3 mt-3 tmp-mt-3 mb-0 tmp-mb-0 py-2 tmp-py-2 d-flex flex-items-center border-0 rounded-0">
+				<AlertIcon className="mr-2 tmp-mr-2" />
 				<span>
 					Write API calls are blocked because your <OptionsLink className="btn-link">Refined GitHub token</OptionsLink>{' '}
 					belongs to <code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.

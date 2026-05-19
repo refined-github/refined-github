@@ -83,13 +83,13 @@ async function createLink(
 
 	return (
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
 			{' '}
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }
@@ -105,7 +105,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
 			href={buildRepoUrl('releases/new')}
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"
 		>

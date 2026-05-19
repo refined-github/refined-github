@@ -46,7 +46,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
 			{createLink('patch')} {createLink('diff')}
-			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
+			{commitMeta.tagName !== 'DIV' && <span className="px-2 tmp-px-2">·</span>}
 		</span>,
 	);
 }

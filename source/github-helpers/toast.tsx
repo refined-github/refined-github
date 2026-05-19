@@ -37,10 +37,10 @@ export default async function showToast(
 		<div
 			role="log"
 			style={{zIndex: 101}}
-			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
+			className="rgh-toast position-fixed bottom-0 right-0 ml-5 tmp-ml-5 mb-5 tmp-mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
-			<span className="Toast-content py-2">
+			<span className="Toast-content py-2 tmp-py-2">
 				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Refined GitHub</div>
 				{messageWrapper}
 			</span>

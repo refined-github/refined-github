@@ -51,7 +51,7 @@ function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButt
 
 const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement =>
 	createBanner({
-		icon: <AlertIcon className="m-0" />,
+		icon: <AlertIcon className="m-0 tmp-m-0" />,
 		text: <>
 			{' Your link may be '}
 			<a href={documentation} target="_blank" rel="noopener noreferrer" data-hovercard-type="issue">

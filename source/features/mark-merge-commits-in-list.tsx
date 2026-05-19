@@ -52,7 +52,7 @@ function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 		// Align icon to the line; rem used to match the native units
 		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon style={{marginLeft: '0.5rem'}} />);
 	} else {
-		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1" />);
+		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1 tmp-mr-1" />);
 	}
 }
 
