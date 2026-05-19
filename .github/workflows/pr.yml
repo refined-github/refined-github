@@ -5,9 +5,8 @@ on:
     types: [opened, reopened, edited, closed]
 
 jobs:
-  screenshot-enforcement:
-    name: Screenshot Enforcement
-    if: github.event.action == 'opened' && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+  block-ai:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -15,20 +14,31 @@ jobs:
       - uses: actions/github-script@v8
         with:
           script: |
-            const body = context.payload.pull_request.body ?? '';
-            if (!body.includes('build:typescript') && !body.includes('Verification')) return;
+            const pullRequest = context.payload.pull_request;
+            const authorAssociation = pullRequest.author_association ?? (
+              await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pullRequest.number,
+              })
+            ).data.author_association;
+
+            if (authorAssociation !== 'FIRST_TIME_CONTRIBUTOR') return;
+
+            const isAi = title.startsWith('AI:') || /build:typescript|Verification|Validation|Summary|Changes/.test(pullRequest.body);
+            if (!isAi) return;
 
             await github.rest.pulls.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
+              pull_number: pullRequest.number,
               state: 'closed',
             });
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
+              issue_number: pullRequest.number,
               body: "You're allowed to open PRs only if you post a screenshot of your working PR. Untested AI PRs are NOT welcome here and you will get blocked.",
             });
 

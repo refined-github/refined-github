@@ -1,8 +1,10 @@
 /* Style backticked code in links, matches GitHub’s `.markdown-title code` rule */
 /* Info: https://github.com/refined-github/refined-github/issues/4817 */
-li[data-testid='commit-row-item'] code /* `isCommitList` commit message */,
-/* `isCommit` commit message */
+/* Test: https://github.com/sindresorhus/refined-github/commits/main?after=37fa4677f1ecf26d7176c8d9d43f8a4db6d5d902+104&branch=main */
+li[data-testid='commit-row-item'] code,
+/* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
 div[class^='CommitHeader-module__commitMessageContainer'] code,
+/* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
 a[class*='PinnedIssue-module__Link'] code {
 	padding: 2px 4px;
 	background-color: var(
@@ -16,6 +18,7 @@ a[class*='PinnedIssue-module__Link'] code {
 
 /* Fix spacing of repo header button icons */
 /* Info: https://github.com/refined-github/refined-github/issues/5620 */
+/* Test: https://github.com/refined-github/refined-github */
 .pagehead-actions
 	:is(
 		.btn,
@@ -30,11 +33,15 @@ a[class*='PinnedIssue-module__Link'] code {
 /* Align icons in the release search field */
 /* Info: https://github.com/refined-github/refined-github/issues/6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
-[action$='/releases'] .subnav-search-icon {
-	margin-top: -1px;
-}
-#release-filter::-webkit-calendar-picker-indicator {
-	margin-top: -4px;
+:root {
+	[action$='/releases'] .subnav-search-icon {
+		margin-top: -1px;
+	}
+
+	/* Chrome only, on focus */
+	#release-filter::-webkit-calendar-picker-indicator {
+		margin-top: -4px;
+	}
 }
 
 /* TODO: Drop after React PR conversations */
@@ -111,6 +118,7 @@ div.markdown-body {
 /* TODO: Remove after July 2026 */
 /* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/8975 */
+/* Test: GHE only, find a PR on /pulls?q=is%3Aopen+is%3Apr+user%3A@me+author%3Aapp%2Fdependabot */
 .sticky-header-wrapper.is-stuck .pr-alerts-banner {
 	position: absolute;
 	visibility: hidden;
@@ -205,6 +213,9 @@ div[class*='ActivityHeaderGridLayout'] {
 		}
 	}
 }
+
+/* Bug: Usernames in review threads become vertical on small screens */
+/* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
@@ -277,17 +288,18 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Restores "Symbolic link" link in the gap between GitHub's media queries (1012 -> 1280) */
+/* Info: https://github.com/refined-github/refined-github/issues/9480 */
+/* Test: https://github.com/refined-github/refined-github/blob/55b7ce0fddd/CLAUDE.md */
+@media (max-width: 1280px) {
+	:root .react-code-size-details-banner {
+		display: flex !important;
+	}
+}
+
 /* Fix checkmark on a deselected item disappearing with a noticeable delay */
 /* Info: https://github.com/refined-github/refined-github/issues/9348 */
 /* Test: https://github.com/refined-github/refined-github/issues/9348 */
 .ActionListItem-singleSelectCheckmark {
 	transition: none !important;
 }
-
-/*
-
-Test URLs:
-
-MAKE SURE TO ADD A ISSUE REFERENCE + TEST URL FOR EACH NEW RULE
-
-*/
