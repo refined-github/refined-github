@@ -35,7 +35,7 @@
 		>{text}</a>
 	{:else}
 		<span
-			class={openIssuesTooltip ? 'tooltipped tooltipped-s' : undefined}
+			class={openIssuesTooltip ? 'tooltipped tooltipped-s' : ''}
 			aria-label={openIssuesTooltip}
 		>{text}</span>
 	{/if}
