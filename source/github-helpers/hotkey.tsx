@@ -33,6 +33,11 @@ export function registerHotkeyManually(
 	functionOrUrl: React.MouseEventHandler<HTMLButtonElement> | string,
 	{signal}: SignalAsOptions = {},
 ): void {
+	const keys = hotkey.toLowerCase().trim().split(/\s+/).filter(Boolean);
+	if (keys.length === 0) {
+		throw new TypeError('Expected at least one key in hotkey sequence');
+	}
+
 	const element = typeof functionOrUrl === 'string'
 		? <a hidden href={functionOrUrl} />
 		: <button hidden type="button" onClick={functionOrUrl} />;
@@ -42,7 +47,6 @@ export function registerHotkeyManually(
 		element.remove();
 	});
 
-	const keys = hotkey.toLowerCase().split(' ');
 	let currentKey = 0;
 	let sequenceTimeout: ReturnType<typeof setTimeout> | undefined;
 	const resetSequence = (): void => {
@@ -72,7 +76,14 @@ export function registerHotkeyManually(
 			return;
 		}
 
-		currentKey = key === keys[0] ? 1 : 0;
+		if (key === keys[0]) {
+			currentKey = 1;
+			clearTimeout(sequenceTimeout);
+			sequenceTimeout = setTimeout(resetSequence, hotkeySequenceTimeout);
+			return;
+		}
+
+		resetSequence();
 	}, {capture: true, signal});
 }
 

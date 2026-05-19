@@ -79,3 +79,25 @@ test('registerHotkeyManually does not trigger in editable elements', () => {
 	controller.abort();
 	input.remove();
 });
+
+test('registerHotkeyManually restarts the sequence when the first key is pressed again', () => {
+	const controller = new AbortController();
+	const callback = vi.fn();
+	registerHotkeyManually('g u', callback, {signal: controller.signal});
+
+	document.dispatchEvent(keyDownEvent('g'));
+	document.dispatchEvent(keyDownEvent('g'));
+	document.dispatchEvent(keyDownEvent('u'));
+
+	assert.equal(callback.mock.calls.length, 1);
+	controller.abort();
+});
+
+test('registerHotkeyManually rejects empty sequences', () => {
+	assert.throws(
+		() => {
+			registerHotkeyManually('   ', () => undefined);
+		},
+		TypeError,
+	);
+});
