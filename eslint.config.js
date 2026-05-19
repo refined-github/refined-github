@@ -42,6 +42,10 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
+				// TOOD: Too many. Too noisy. Re-enable after using expiring-todo-comments
+				// https://github.com/refined-github/refined-github/issues/9496
+				'no-warning-comments': 'off',
+
 				// Disable some unicorn rules
 				'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
 				'unicorn/no-nested-ternary': 'off',
