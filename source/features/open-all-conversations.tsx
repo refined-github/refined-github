@@ -39,7 +39,7 @@ const multipleConversationsSelector = [
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector.join(', '), {waitForChildren: false}));
+	return Boolean(await elementReady(multipleConversationsSelector, {waitForChildren: false}));
 }
 
 function add(anchor: HTMLElement): void {
