@@ -248,7 +248,7 @@ async function addWidget(anchor: Element): Promise<void> {
 							</action-list>
 						</div>
 						{!isSmallDevice() && (
-							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 tmp-py2">
+							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py-2">
 								<span className="color-fg-muted">
 									Press <kbd>h</kbd> to cycle through filters,
 									<br />
