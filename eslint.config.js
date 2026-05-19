@@ -42,7 +42,7 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
-				// TOOD: Too many. Too noisy. Re-enable after using expiring-todo-comments
+				// TODO: Too many. Too noisy. Re-enable after using expiring-todo-comments
 				// https://github.com/refined-github/refined-github/issues/9496
 				'no-warning-comments': 'off',
 
