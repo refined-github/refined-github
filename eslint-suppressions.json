@@ -4,11 +4,6 @@
       "count": 3
     }
   },
-  "source/features/cross-deleted-pr-branches.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
-  },
   "source/features/highest-rated-comment.tsx": {
     "refined-github/no-optional-chaining": {
       "count": 2
