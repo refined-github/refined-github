@@ -7,7 +7,7 @@ export function isMiddleClick(event: MouseEvent): boolean {
 }
 
 // `isAlteredClick` returns `true` for non-primary button clicks
-export function isAlteredPrimaryClick(event: MouseEvent): boolean {
+export function isAlteredPrimaryClick(event: PointerEvent): boolean {
 	return event.type === 'click' && isAlteredClick(event);
 }
 
