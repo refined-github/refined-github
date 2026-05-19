@@ -16,8 +16,9 @@ describe('api.getError', () => {
 			],
 		});
 
-		expect(error.message).toContain('pending review');
-		expect(error.message).toContain('approve now');
+		expect(error.message).toBe(
+			'You already have a pending review on this pull request.\nSubmit or discard your pending review before using "approve now".',
+		);
 	});
 
 	it('surfaces validation details', async () => {
