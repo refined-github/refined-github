@@ -303,8 +303,14 @@ export default defineConfig([
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
-			'byo/unused-null-expression': ['error', 'TSNonNullExpression > CallExpression > [name=$]', 'Unused null expression: !'],
-			'byo/unused-null-expression-closest': ['error', 'TSNonNullExpression > CallExpression > [name=$closest]', 'Unused null expression: ! — $closest() already throws when the element is not found'],
+			'byo/unused-null-expression': ['error', {
+				selector: 'TSNonNullExpression > CallExpression > [name=$]',
+				message: 'Unused null expression: !',
+			}],
+			'byo/unused-null-expression-closest': ['error', {
+				selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
+				message: 'Unused null expression: ! — $closest() already throws when the element is not found',
+			}],
 			'refined-github/select-dom': 'error',
 		},
 	},

@@ -3,12 +3,20 @@ const rule = {
 	meta: {
 		type: 'problem',
 		schema: [
-			{type: 'string'},
-			{type: 'string'},
+			{
+				type: 'object',
+				properties: {
+					selector: {type: 'string'},
+					message: {type: 'string'},
+				},
+				required: ['selector', 'message'],
+				additionalProperties: false,
+			},
 		],
 	},
 	create(context) {
-		const [selector, message] = context.options;
+		const [options] = context.options;
+		const {selector, message} = options ?? {};
 		if (typeof selector !== 'string' || typeof message !== 'string') {
 			return {};
 		}
