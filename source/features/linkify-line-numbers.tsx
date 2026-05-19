@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import {isAlteredClick} from 'filter-altered-clicks';
 
 import features from '../feature-manager.js';
-import onAlteredClick from '../helpers/on-altered-click.js';
+import {isMiddleClick} from '../helpers/on-altered-click.js';
 import observe from '../helpers/selector-observer.js';
 
 function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
@@ -21,7 +21,7 @@ function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 		? fileLink.pathname + fileLink.hash + `R${lineNumber}`
 		: fileLink.pathname + `#L${lineNumber}`;
 
-	if (isAlteredClick(event)) {
+	if (isMiddleClick(event) || (event.type === 'click' && isAlteredClick(event))) {
 		window.open(lineUrl, '_blank');
 	} else {
 		location.href = lineUrl;
@@ -36,8 +36,7 @@ const lineNumberCellSelector = 'td.blob-num:not(.blob-num-hunk, .empty-cell)';
 
 function init(signal: AbortSignal): void {
 	observe(lineNumberCellSelector, visuallyLinkify, {signal});
-	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});
-	onAlteredClick(lineNumberCellSelector, openLinkToLine, {signal});
+	delegate(lineNumberCellSelector, ['click', 'auxclick'], openLinkToLine, {signal});
 }
 
 void features.add(import.meta.url, {

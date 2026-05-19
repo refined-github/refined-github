@@ -2,7 +2,7 @@ import delegate, {type DelegateEventHandler, type DelegateOptions} from 'delegat
 import {isAlteredClick} from 'filter-altered-clicks';
 import type {ParseSelector} from 'typed-query-selector/parser.d.js';
 
-function isMiddleClick(event: MouseEvent): boolean {
+export function isMiddleClick(event: MouseEvent): boolean {
 	return event.button === 1;
 }
 
