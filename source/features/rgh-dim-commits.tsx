@@ -13,9 +13,9 @@ function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
 		$closest([
 			// `isCommitList`
-			'[data-testid="commit-row-item"]'
+			'[data-testid="commit-row-item"]',
 			// `isCompare`
-			, '.js-commits-list-item',
+			'.js-commits-list-item',
 		], commitTitle).style.opacity = '50%';
 	}
 }

@@ -13,6 +13,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
 
 const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
 	wait: 100,
@@ -85,7 +86,7 @@ function init(signal: AbortSignal): void {
 			'.js-comment-body code', // Old view `hasComments`
 			'.markdown-body code', // `hasComments`, `isReleasesOrTags`
 			'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
-			`${commitTitleInLists} code`, // `isCommitList`,
+			`${is(commitTitleInLists)} code`, // `isCommitList`, `isCompare`
 			'.react-directory-commit-message code', // `isRepoTree`
 		],
 		linkifyFeature,
