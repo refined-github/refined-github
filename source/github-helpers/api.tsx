@@ -121,15 +121,6 @@ const v4defaults: GhGraphQlApiOptions = {
 
 async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError> {
 	const personalToken = await getToken();
-	const errorMessages = Array.isArray(apiResponse.errors)
-		? apiResponse.errors.flatMap(error =>
-			typeof error === 'object'
-			&& error
-			&& 'message' in error
-			&& typeof error.message === 'string'
-				? [error.message]
-				: [])
-		: [];
 
 	if ((apiResponse.message as string)?.includes('API rate limit exceeded')) {
 		return new RefinedGitHubApiError(
@@ -167,19 +158,6 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 				Fix…
 			</a>
 		</>;
-		return error;
-	}
-
-	if (errorMessages.some(message => /Review comments (?:is|are) pending/.test(message))) {
-		return new RefinedGitHubApiError(
-			'You already have a pending review on this pull request.',
-			'Submit or discard your pending review before using "approve now".',
-		);
-	}
-
-	if (apiResponse.message === 'Validation Failed' && errorMessages.length > 0) {
-		const error = new RefinedGitHubApiError(...errorMessages);
-		error.response = apiResponse;
 		return error;
 	}
 
