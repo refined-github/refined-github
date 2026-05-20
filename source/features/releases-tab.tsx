@@ -8,7 +8,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
@@ -104,11 +103,10 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
 	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
-	// Workaround for #8867
+	// Workaround for https://github.com/refined-github/refined-github/issues/8867
 	// TODO: remove once the issue is resolved
 	registerHotkey('g r', buildRepoUrl('releases'), {signal});
 }
@@ -120,6 +118,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	requiresToken: true,
 	init,
 });
 

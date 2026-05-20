@@ -8,7 +8,6 @@ import pluralize from '../helpers/pluralize.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
 import observe from '../helpers/selector-observer.js';
-import {expectToken} from '../github-helpers/github-token.js';
 
 // Adapted from GitHub https://github.com/refined-github/refined-github/pull/9486#discussion_r3252807259
 const totalSquares = 5;
@@ -63,7 +62,6 @@ async function add(commitHash: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('[class*="__CommitAttributionContainer"] + .text-mono', add, {signal});
 }
 
@@ -71,6 +69,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRCommit,
 	],
+	requiresToken: true,
 	init,
 });
 

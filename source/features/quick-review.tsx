@@ -138,7 +138,7 @@ function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnc
 		return;
 	}
 
-	// TODO: Drop after legacy PR files view is removed
+	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	event.delegateTarget.hash = openReviewMenuDeepLink;
 }
 
@@ -149,7 +149,7 @@ function initReviewRequestedButton(signal: AbortSignal): void {
 	});
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after the legacy PR files view is removed
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if ('newState' in event && event.newState === 'open') {
 		$('textarea', event.delegateTarget).focus();
@@ -161,14 +161,15 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
-		'.js-reviews-toggle', // Legacy PR files view -- TODO: Drop after it is removed
+		// TODO [2027-01-01]: Drop after the legacy PR files view is removed
+		'.js-reviews-toggle',
 	]);
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
 	}
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after legacy PR files view is removed
 async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
 	(button.popoverTargetElement as HTMLElement).showPopover();

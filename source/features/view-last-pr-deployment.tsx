@@ -33,7 +33,8 @@ function init(signal: AbortSignal): void {
 	observe(
 		[
 			'button[class*="PullRequestCodeButton"]',
-			'.gh-header-actions > :first-child', // TODO: Drop in September 2026
+			// TODO [2026-09-01]: Drop
+			'.gh-header-actions > :first-child',
 		],
 		addLink,
 		{signal},

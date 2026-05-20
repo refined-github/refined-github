@@ -5,7 +5,6 @@ import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
@@ -59,8 +58,6 @@ function attachButton(editButton: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	await expectToken();
-
 	observe(getReleaseEditLinkSelector(), attachButton, {signal});
 	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});
 }
@@ -69,6 +66,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isSingleReleaseOrTag,
 	],
+	requiresToken: true,
 	init,
 });
 

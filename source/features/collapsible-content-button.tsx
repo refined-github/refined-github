@@ -19,7 +19,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
-		'textarea.js-comment-field', // TODO: remove after March 2025
+		'textarea.js-comment-field', // TODO [2025-04-01]: remove
 		'textarea[aria-labelledby="comment-composer-heading"]', // Add comment textarea
 		'[class^="MarkdownInput-module__textArea"] textarea', // Edit comment textarea
 	], container);

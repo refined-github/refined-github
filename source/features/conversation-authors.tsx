@@ -5,7 +5,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo, getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetCollaborators from './conversation-authors.gql';
@@ -21,7 +20,6 @@ const collaborators = new CachedFunction('repo-collaborators', {
 });
 
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	const list = await collaborators.get();
 	observe('a[class^="IssueItem-module__authorCreatedLink"]', author => {
 		const name = author.textContent.trim();
@@ -34,7 +32,8 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	observe([
-		// PRs - TODO: Drop in 2026
+		// PRs
+		// TODO [2026-01-01]: Drop
 		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
 			CSS.escape(getLoggedInUser()!)
@@ -48,6 +47,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],
+	requiresToken: true,
 	init: highlightCollaborators,
 }, {
 	include: [

@@ -7,7 +7,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
@@ -152,7 +151,6 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 
@@ -168,6 +166,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepositoryActions,
 		async () => Boolean(await workflowDetails.get()),
 	],
+	requiresToken: true,
 	init,
 }, {
 	include: [

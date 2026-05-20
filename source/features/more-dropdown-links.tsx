@@ -13,7 +13,6 @@ import features from '../feature-manager.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -65,7 +64,6 @@ async function addDropdownItems(repoNavigationDropdown: HTMLElement): Promise<vo
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	await unhideOverflowDropdown();
 
 	observe('.UnderlineNav-actions ul', addDropdownItems, {signal});
@@ -75,6 +73,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	requiresToken: true,
 	init,
 });
 

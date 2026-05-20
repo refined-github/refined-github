@@ -64,7 +64,7 @@ function initOnce(): void {
 	document.body.addEventListener('keypress', observeShortcutModal);
 }
 
-// TODO: Remove everything above in 2026
+// TODO [2026-01-01]: Remove everything above
 const getRghShortcutsContainer = memoize(
 	(baseShortcutsContainer: Element): Element => {
 		const rghShortcutsContainer = baseShortcutsContainer.cloneNode(true);

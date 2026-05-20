@@ -11,7 +11,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
@@ -82,11 +81,11 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+			// TODO [2026-06-01]: Drop
+			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item',
 		],
 		add,
 		{signal},
@@ -102,6 +101,7 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
+	requiresToken: true,
 	init,
 });
 

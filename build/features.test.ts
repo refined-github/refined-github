@@ -178,8 +178,8 @@ function validateTsx(file: FeatureFile): void {
 		&& /observe\(|delegate\(/.test(String(file.contents()))
 	) {
 		assert(
-			/await expectToken|hasToken/.test(String(file.contents())),
-			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
+			/requiresToken:\s*true|hasToken/.test(String(file.contents())),
+			`${file.id} uses the v4 API, so it should include \`requiresToken: true\`, or if the token is optional, \`hasToken\` anywhere`,
 		);
 	}
 

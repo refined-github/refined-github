@@ -9,7 +9,6 @@ import {objectEntries} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {assertCommitHash} from '../github-helpers/index.js';
 import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
@@ -68,7 +67,6 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(
 		[
 			'[data-testid="commit-row-item"]',
@@ -87,6 +85,7 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		pageDetect.isCompare,
 	],
+	requiresToken: true,
 	init,
 });
 

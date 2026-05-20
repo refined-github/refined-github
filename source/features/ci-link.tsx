@@ -6,7 +6,6 @@ import {$closest, $closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -59,12 +58,10 @@ async function add(anchor: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			// TODO: Remove after July 2026
+			// TODO [2026-08-01]: Remove
 			// Desktop
 			'.AppHeader-context-item:not([data-hovercard-type])',
 
@@ -84,6 +81,7 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
+	requiresToken: true,
 	init,
 });
 

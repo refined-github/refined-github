@@ -14,31 +14,24 @@ jobs:
       - uses: actions/github-script@v8
         with:
           script: |
-            const pullRequest = context.payload.pull_request;
-            const authorAssociation = pullRequest.author_association ?? (
-              await github.rest.pulls.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pullRequest.number,
-              })
-            ).data.author_association;
+            const pr = context.payload.pull_request;
+            const {owner, repo} = context.repo;
 
-            if (authorAssociation !== 'FIRST_TIME_CONTRIBUTOR') return;
-
-            const isAi = title.startsWith('AI:') || /build:typescript|Verification|Validation|Summary|Changes/.test(pullRequest.body);
+            const isAi = pr.title.startsWith('AI:')
+              || /build:typescript|Verification|Validation|Summary|Changes/.test(pr.body);
             if (!isAi) return;
 
             await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pullRequest.number,
+              owner,
+              repo,
+              pull_number: pr.number,
               state: 'closed',
             });
 
             await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pullRequest.number,
+              owner,
+              repo,
+              issue_number: pr.number,
               body: "You're allowed to open PRs only if you post a screenshot of your working PR. Untested AI PRs are NOT welcome here and you will get blocked.",
             });
 

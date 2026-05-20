@@ -7,7 +7,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getCleanPathname, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import {repoUnderlineNavDropdownUl} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
@@ -71,7 +70,6 @@ async function appendTab(navigationBar: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('nav[aria-label="User"] > ul', appendTab, {signal});
 }
 
@@ -79,6 +77,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isUserProfile,
 	],
+	requiresToken: true,
 	init,
 });
 

@@ -54,7 +54,7 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 	rebuildFileLink(viewFile, filePath);
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after legacy PR files view is removed
 function alter(viewFileLink: HTMLAnchorElement): void {
 	const filePath = $closest('[data-path]', viewFileLink).getAttribute('data-path')!;
 	rebuildFileLink(viewFileLink, filePath);
@@ -68,7 +68,8 @@ function init(signal: AbortSignal): void {
 		// `capture: true` to run before `more-file-links`
 		{capture: true, signal},
 	);
-	// Legacy PR files view -- TODO: Drop after it is removed
+
+	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	observe(
 		'.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]',
 		alter,
@@ -85,7 +86,7 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedConversation,
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => pageDetect.isPRCommit() && !elementExists('[aria-label="No next commit"]'),
-		// Legacy PR files view -- TODO: Drop after it is removed
+		// TODO [2027-01-01]: Drop after legacy PR files view is removed
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened

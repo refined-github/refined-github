@@ -1,13 +1,13 @@
 import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
-import byoPlugin from './eslint-rules/byo.js';
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
@@ -42,12 +42,11 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
-				// TODO: Too many. Too noisy. Re-enable after using expiring-todo-comments
-				// https://github.com/refined-github/refined-github/issues/9496
+				// TODO: Too many. Too noisy. Re-enable after resolving some.
 				'no-warning-comments': 'off',
+				'unicorn/expiring-todo-comments': 'warn',
 
 				// Disable some unicorn rules
-				'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
 				'unicorn/no-nested-ternary': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
@@ -271,6 +270,12 @@ export default defineConfig([
 		// Disable on markdown files, which are somehow being read as JS files
 		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
 		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
+	},
+	{
+		files: ['**/*.css', '**/package.json'],
+		rules: {
+			'unicorn/expiring-todo-comments': 'off',
+		},
 	},
 	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`

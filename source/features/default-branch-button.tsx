@@ -9,7 +9,6 @@ import {$optional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
@@ -95,7 +94,6 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(branchSelector, add, {signal});
 }
 
@@ -105,6 +103,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		isRepoCommitListRoot,
 	],
+	requiresToken: true,
 	init,
 });
 

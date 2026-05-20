@@ -81,7 +81,7 @@ div.markdown-body {
 	min-height: 2em !important;
 }
 
-/* TODO: drop in October 2026 */
+/* TODO [2026-10-01]: drop */
 /* Notifications "Group by" button unnecessary space */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
@@ -115,7 +115,7 @@ div.markdown-body {
 	background-color: var(--bgColor-danger-emphasis, fuchsia);
 }
 
-/* TODO: Remove after July 2026 */
+/* TODO [2026-08-01]: Remove */
 /* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/8975 */
 /* Test: GHE only, find a PR on /pulls?q=is%3Aopen+is%3Apr+user%3A@me+author%3Aapp%2Fdependabot */
@@ -147,7 +147,7 @@ div[class^='prc-PageHeader-Description']
 	}
 }
 
-/* TODO: Drop in October 2026 */
+/* TODO [2026-10-01]: Drop */
 /* Fix Watch/Unwatch button height on mobile */
 /* Info: https://github.com/refined-github/refined-github/issues/9183 */
 /* Test: https://github.com/refined-github/refined-github */

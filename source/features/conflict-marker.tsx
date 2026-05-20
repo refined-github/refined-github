@@ -7,7 +7,6 @@ import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {commentBoxHashPr, openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
@@ -57,7 +56,6 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(openPrsListLink, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
@@ -65,6 +63,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

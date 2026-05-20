@@ -6,9 +6,12 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
+// TODO [2026-09-01]: Remove
 const legacyInputElements = [
-	'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
+	// Old `isCompare`
+	'input#pull_request_title',
+	// Old `isEditingFile`, `isNewFile`
+	'input#commit-summary-input',
 ];
 
 const inputElements = [

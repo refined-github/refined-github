@@ -6,7 +6,6 @@ import {$closest, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -124,7 +123,6 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
 	observe(
 		[
 			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
@@ -140,6 +138,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 
