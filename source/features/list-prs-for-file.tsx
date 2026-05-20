@@ -134,7 +134,6 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	observe(
 		[
 			'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`

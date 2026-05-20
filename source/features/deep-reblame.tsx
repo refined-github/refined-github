@@ -95,7 +95,6 @@ function addButton(hunk: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
 }

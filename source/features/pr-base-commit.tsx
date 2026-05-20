@@ -42,7 +42,6 @@ async function addInfo(statusMeta: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-
 	observe(
 		prMergeabilityBoxCaption,
 		addInfo,

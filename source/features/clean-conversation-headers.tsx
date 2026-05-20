@@ -76,7 +76,6 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	observe(
 		[
 			'.d-flex[class*="PullRequestHeaderSummary"]',

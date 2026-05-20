@@ -185,7 +185,6 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	// Legacy view
 	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
 

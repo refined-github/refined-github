@@ -58,7 +58,6 @@ async function add(anchor: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',

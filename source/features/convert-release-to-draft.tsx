@@ -58,7 +58,6 @@ function attachButton(editButton: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-
 	observe(getReleaseEditLinkSelector(), attachButton, {signal});
 	delegate('.rgh-convert-draft', 'click', onConvertClick, {signal});
 }

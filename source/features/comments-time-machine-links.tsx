@@ -156,7 +156,6 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	observe('.timeline-comment-actions > details:last-child', menu => {
 		if ($closestOptional('.js-pending-review-comment', menu)) {
 			return;

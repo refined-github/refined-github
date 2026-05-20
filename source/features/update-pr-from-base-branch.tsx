@@ -161,7 +161,6 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(
 		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',

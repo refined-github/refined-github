@@ -87,7 +87,6 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-
 	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 

@@ -167,7 +167,6 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-
 	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}

@@ -46,7 +46,6 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-
 	observe(branchSelectorParent, add, {signal});
 }
 

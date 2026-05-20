@@ -186,7 +186,6 @@ async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<
 }
 
 async function initOnce(): Promise<void> {
-
 	void showDefaultBranchLink();
 	void showGitObjectHistory();
 }
