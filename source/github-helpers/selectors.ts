@@ -13,12 +13,12 @@ export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const standaloneGistLinkInMarkdown = css`
+export const standaloneGistLinkInMarkdown = `
 	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],
 		[href^="${location.origin}/gist/"]
 	)
-` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+` as 'a'; // `typed-query-selector` bug
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
 ] satisfies UrlMatch[];

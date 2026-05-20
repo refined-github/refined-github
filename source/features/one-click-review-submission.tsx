@@ -1,3 +1,7 @@
+// Note: This feature only works on the legacy PR Files view.
+// We will drop the feature once that view has been gone for 6 months.
+// https://github.com/refined-github/refined-github/issues/8711
+// https://github.com/refined-github/refined-github/issues/9447
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -42,11 +46,9 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const parent = radio.parentElement!;
 		const labelElement = (
 			$optional('label', parent)
-			// TODO [2025-05-01]: Remove
 			?? radio.nextSibling!
 		);
 		const tooltip = $([
-			// TODO [2025-05-01]: Remove
 			'p',
 			'.FormControl-caption',
 		], parent).textContent.trim().replace(/\.$/, '');
@@ -82,7 +84,6 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		if (actionsRow) {
 			actionsRow.prepend(button);
 		} else {
-			// TODO [2025-07-01]: For GHE. Remove
 			$closest('.form-actions', originalSubmitButton).append(button);
 		}
 	}

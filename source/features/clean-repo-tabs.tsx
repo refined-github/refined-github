@@ -38,7 +38,6 @@ function setTabCounter(tab: HTMLElement, count: number): void {
 }
 
 function onlyShowInDropdown(id: string): void {
-	// TODO: Use selector observer
 	const tabItem = $optional(`li:not([hidden]) > [data-tab-item$="${id}"]`);
 	if (!tabItem) { // #3962 #7140
 		return;
