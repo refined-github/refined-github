@@ -35,7 +35,7 @@ function onButtonClick(): void {
 
 const conversationCounterSelector = [
 	'a[data-ga-click="Pull Requests, Table state, Open"]', // PR list
-	'ul[class*="ListItems-module__tabsContainer"] > li:first-child span[class^="SectionFilterLink-module__count"]', // Issue list
+	'a[aria-current="true"] > span[class^="SectionFilterLink-module__count"]', // Issue list
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
