@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
-import {$, $closest, $optional} from 'select-dom';
+import {$, $closest, $optional, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
@@ -22,13 +22,14 @@ const disableAttributes = {
 	style: {pointerEvents: 'none'},
 } as const satisfies React.HTMLAttributes<HTMLButtonElement>;
 
-function SubButton(): JSX.Element {
+function SubButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
 	return (
 		<button
 			data-disable-with
 			name="id"
 			type="submit"
 			className="btn btn-sm flex-1 BtnGroup-item"
+			{...props}
 		/>
 	);
 }
@@ -61,7 +62,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
 			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
 				value="unsubscribe"
 				{...(status === 'none' && disableAttributes)}
 			>
@@ -69,7 +69,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 			</SubButton>)}
 
 			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
 				value="subscribe"
 				{...(status === 'all' && disableAttributes)}
 			>
@@ -83,7 +82,6 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 				),
 				direction: 'sw',
 			}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
 				value="subscribe_to_custom_notifications"
 				{...(status === 'status' && disableAttributes)}
 			>
@@ -186,12 +184,26 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 	const status = await getCurrentStatusIssue(issue);
 	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
 
+	const setButtonsLoading = (container: HTMLElement, loading: boolean): void => {
+		for (const button of $$('button', container)) {
+			button.disabled = loading;
+			button.style.opacity = loading ? '0.5' : '';
+			button.style.pointerEvents = loading ? 'none' : '';
+		}
+	};
+
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
 			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('none', issue);
-					void addButtonIssue(subscriptionButton);
+				onClick={async event => {
+					const container = (event.currentTarget as HTMLButtonElement).parentElement!;
+					setButtonsLoading(container, true);
+					try {
+						await updateIssueSubscriptionStatus('none', issue);
+						void addButtonIssue(subscriptionButton);
+					} catch {
+						setButtonsLoading(container, false);
+					}
 				}}
 				{...(status === 'none' && disableAttributes)}
 			>
@@ -199,9 +211,15 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 			</SubButton>)}
 
 			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('all', issue);
-					void addButtonIssue(subscriptionButton);
+				onClick={async event => {
+					const container = (event.currentTarget as HTMLButtonElement).parentElement!;
+					setButtonsLoading(container, true);
+					try {
+						await updateIssueSubscriptionStatus('all', issue);
+						void addButtonIssue(subscriptionButton);
+					} catch {
+						setButtonsLoading(container, false);
+					}
 				}}
 				{...(status === 'all' && disableAttributes)}
 			>
@@ -215,9 +233,15 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 				),
 				direction: 'sw',
 			}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('status', issue);
-					void addButtonIssue(subscriptionButton);
+				onClick={async event => {
+					const container = (event.currentTarget as HTMLButtonElement).parentElement!;
+					setButtonsLoading(container, true);
+					try {
+						await updateIssueSubscriptionStatus('status', issue);
+						void addButtonIssue(subscriptionButton);
+					} catch {
+						setButtonsLoading(container, false);
+					}
 				}}
 				{...(status === 'status' && disableAttributes)}
 			>
