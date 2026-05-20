@@ -121,7 +121,6 @@ import './features/repo-age.js';
 import './features/quick-mention.js';
 import './features/extend-conversation-status-filters.js';
 import './features/expand-all-hidden-comments.js';
-import './features/bugs-tab.js';
 import './features/cross-deleted-pr-branches.js';
 import './features/repo-wide-file-finder.js';
 import './features/pr-commit-lines-changed.js';

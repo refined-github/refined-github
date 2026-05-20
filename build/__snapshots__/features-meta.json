@@ -42,11 +42,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257009611-17249bee-d2e2-42ac-bdf0-ebc90029544e.gif"
 	},
 	{
-		"id": "bugs-tab",
-		"description": "Adds a \"Bugs\" tab to repos, if there are any open issues with the \"bug\" label.",
-		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
-	},
-	{
 		"id": "ci-link",
 		"description": "Adds a build/CI status icon next to the repo’s name.",
 		"css": true,
