@@ -39,7 +39,7 @@
 		count,
 		'1 open issue',
 		'$$ open issues',
-		'No open issues',
+		'Related issues',
 	)}
 	{#if mini}
 		{#if count > 0}
