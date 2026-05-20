@@ -20,9 +20,8 @@ function linkifyIssue(paragraph: HTMLParagraphElement): void {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'.js-issue-title', // TODO [2026-01-01]: Drop
 			'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
-			'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
+			'.js-issue-title', // Discussions and legacy PR Files title
 		],
 		linkifyIssue,
 		{signal},
@@ -42,8 +41,9 @@ void features.add(import.meta.url, {
 
 Test URLs
 
+- https://github.com/refined-github/sandbox/issues/108
+- https://github.com/refined-github/sandbox/pull/70
 - https://github.com/refined-github/sandbox/pull/70/files
-- Discussions (title): https://github.com/File-New-Project/EarTrumpet/discussions/877
-- Discussions (sidebar item): https://github.com/renovatebot/renovate/discussions/24775
+- https://github.com/File-New-Project/EarTrumpet/discussions/877
 
 */

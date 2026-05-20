@@ -12,13 +12,6 @@ import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import joinJsx from '../helpers/join-jsx.js';
 
-function splitKeys(keys: string): Array<string | JSX.Element> {
-	return keys.split(' ').flatMap(key => [
-		' ',
-		<kbd>{key}</kbd>,
-	]);
-}
-
 function improveShortcutHelpLegacy(dialog: Element): void {
 	$('.Box-body .col-5 .Box:first-child', dialog).after(
 		<div className="Box Box--condensed m-4">
@@ -33,7 +26,7 @@ function improveShortcutHelpLegacy(dialog: Element): void {
 						<li className="Box-row d-flex flex-row">
 							<div className="flex-auto">{description}</div>
 							<div className="ml-2 no-wrap">
-								{splitKeys(hotkey)}
+								{joinJsx(' ', hotkey.split(' ').map(key => <kbd>{key}</kbd>))}
 							</div>
 						</li>
 					))}

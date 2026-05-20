@@ -131,7 +131,6 @@ async function addBugsTab(): Promise<void | false> {
 	}
 }
 
-// TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
 	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
