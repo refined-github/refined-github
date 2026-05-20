@@ -20,45 +20,51 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import joinJsx from '../helpers/join-jsx.js';
 
 function getLinks(id: string, meta: FeatureMeta | undefined): JSX.Element[] {
-	// `meta` only exists for documented features.
-	// In this case, the file exists (on older commits) but the feature has since been deleted
-	if (!meta?.description) {
-		return [
-			// This adds the full commit history
-			<a data-turbo-frame="repo-content-turbo-frame" href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}>Commit history</a>,
-		];
-	}
-
+	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
 	const isCss = location.pathname.endsWith('.css');
 
 	const links = [];
 
-	if (meta.id) {
-		const relatedIssuesContainer = <span />;
-		mount(RelatedIssuesCount, {
-			target: relatedIssuesContainer,
-			props: {
-				featureId: meta.id,
-			},
-		});
-		links.push(relatedIssuesContainer);
+	const relatedIssuesContainer = <span />;
+	mount(RelatedIssuesCount, {
+		target: relatedIssuesContainer,
+		props: {
+			featureId: id,
+		},
+	});
+	links.push(relatedIssuesContainer);
 
+	if (!wasFeatureRemoved) {
 		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-		newIssueUrl.searchParams.set('title', `\`${meta.id}\` `);
+		newIssueUrl.searchParams.set('title', `\`${id}\` `);
 		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 		links.push(
-			<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>,
+			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href} >Report bug</a>,
 		);
 	}
 
-	if (isCss && !meta.cssOnly) {
+	if (meta) {
+		if (isCss && !meta.cssOnly) {
+			links.push(
+				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
+			);
+		} else if (meta.css && !isCss) {
+			links.push(
+				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+			);
+		}
+	}
+
+	if (wasFeatureRemoved) {
 		links.push(
-			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
-		);
-	} else if (meta.css && !isCss) {
-		links.push(
-			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+			// This adds the full commit history
+			<a
+				data-turbo-frame="repo-content-turbo-frame"
+				href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}
+			>
+				Commit history
+			</a>,
 		);
 	}
 
