@@ -41,7 +41,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		addLock,
 		{signal},
 	);
-	// Old PR view - TODO: Drop after July 2026
+	// Old PR view - TODO [2026-08-01]: Drop after July 2026
 	observe(
 		[
 			'.gh-header-meta > :first-child',

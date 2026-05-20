@@ -35,7 +35,7 @@ export const repoUnderlineNavDropdownUl_ = [
 export const branchSelector = [
 	'#ref-picker-repos-header-ref-selector-wide', // `isSingleFile` with sidebar closed
 	'#ref-picker-repos-header-ref-selector', // `isSingleFile` with sidebar open; `isRepoRoot`
-	'[data-hotkey="w"]', // TODO: Drop in 2027
+	'[data-hotkey="w"]', // TODO [2027-01-01]: Drop in 2027
 ];
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
@@ -279,7 +279,7 @@ export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = [
 	'span[title="This repository has been deleted"]',
-	'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+	'.head-ref[title="This repository has been deleted"]', // TODO [2026-06-01]: Remove in June 2026
 ];
 
 export const deletedHeadRepository_ = [

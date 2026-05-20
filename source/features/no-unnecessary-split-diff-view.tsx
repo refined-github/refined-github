@@ -5,7 +5,7 @@ import {$, $closest, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-/* TODO: remove in late 2026 */
+/* TODO [2026-10-01]: remove in late 2026 */
 void features.addCssFeature(import.meta.url);
 
 function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {

@@ -42,10 +42,10 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const parent = radio.parentElement!;
 		const labelElement = (
 			$optional('label', parent)
-			?? radio.nextSibling! // TODO: Remove after April 2025
+			?? radio.nextSibling! // TODO [2025-05-01]: Remove after April 2025
 		);
 		const tooltip = $([
-			'p', // TODO: Remove after April 2025
+			'p', // TODO [2025-05-01]: Remove after April 2025
 			'.FormControl-caption',
 		], parent).textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
@@ -80,7 +80,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		if (actionsRow) {
 			actionsRow.prepend(button);
 		} else {
-			// TODO: For GHE. Remove after June 2025
+			// TODO [2025-07-01]: For GHE. Remove after June 2025
 			$closest('.form-actions', originalSubmitButton).append(button);
 		}
 	}

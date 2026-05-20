@@ -12,7 +12,7 @@ import addToolTip from '../helpers/tooltip.js';
 
 export const statusBadgeSelector = [
 	'span[class*="StateLabel"]',
-	// TOdO: Drop both in September 2026
+	// TODO [2026-09-01]: Drop both in September 2026
 	'#partial-discussion-header .State:not(.rgh-locked-issue)',
 	'[data-testid="header-state"]',
 ] as const;

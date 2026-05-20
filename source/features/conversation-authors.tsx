@@ -34,7 +34,7 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	observe([
-		// PRs - TODO: Drop in 2026
+		// PRs - TODO [2026-01-01]: Drop in 2026
 		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
 			CSS.escape(getLoggedInUser()!)

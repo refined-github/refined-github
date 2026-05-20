@@ -36,7 +36,7 @@ function transpose(table: HTMLElement): void {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'.markdown-body > table:first-child', // TODO: remove in march 2026
+			'.markdown-body > table:first-child', // TODO [2026-03-01]: remove in march 2026
 			'.markdown-body > markdown-accessiblity-table > table:first-child',
 		],
 		transpose,

@@ -27,11 +27,11 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 	await domLoaded;
 	$([
 		'li:has([data-content="Wiki"]',
-		'[data-menu-item$="wiki-tab"]', // TODO: Drop in October 2026
+		'[data-menu-item$="wiki-tab"]', // TODO [2026-10-01]: Drop in October 2026
 	]).remove();
 	$([
 		'li:has([data-content="Projects"])',
-		'[data-menu-item$="projects-tab"]', // TODO: Drop in October 2026
+		'[data-menu-item$="projects-tab"]', // TODO [2026-10-01]: Drop in October 2026
 	]).remove();
 }
 

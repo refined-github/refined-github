@@ -41,7 +41,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	delegate(
 		[
 			...currentPrTitleSelectors,
-			'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
+			'input#pull_request_title', // Old `isCompare` - TODO [2026-09-01]: Remove after August 2026
 			'input#issue_title', // Old `isPR` view - TODO: Remove after legacy PR files view is removed
 		],
 		'input',

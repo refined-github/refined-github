@@ -50,7 +50,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		'[class^="PullRequestBranchName"]',
 		// TODO: Drop after legacy PR files view is removed
 		'.commit-ref',
-		// TODO: Drop after July 2026
+		// TODO [2026-08-01]: Drop after July 2026
 		'[class^="BranchName"]',
 	], summaryRow);
 
@@ -84,7 +84,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'.d-flex[class*="PullRequestHeaderSummary"]',
 			// TODO: Drop after legacy PR files view is removed
 			'.gh-header-meta > .flex-auto', // Real
-			// TODO: Drop after July 2026
+			// TODO [2026-08-01]: Drop after July 2026
 			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
 			'[class^="StateLabel"] + div > span:first-child',
 		],

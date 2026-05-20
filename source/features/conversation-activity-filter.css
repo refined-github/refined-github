@@ -61,7 +61,7 @@
 	align-items: center;
 }
 
-/* TODO: Remove after July 2026 */
+/* TODO [2026-08-01]: Remove after July 2026 */
 .gh-header-meta {
 	.rgh-conversation-activity-filter-wrapper {
 		display: block;

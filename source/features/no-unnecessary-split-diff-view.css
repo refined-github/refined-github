@@ -52,7 +52,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	}
 }
 
-/* TODO: remove everything above in late 2026 */
+/* TODO [2026-10-01]: remove everything above in late 2026 */
 .rgh-no-split-diff {
 	table-layout: auto !important;
 

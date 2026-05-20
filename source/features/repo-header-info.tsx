@@ -86,7 +86,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO [2026-06-01]: Drop after May 2026
 		],
 		add,
 		{signal},

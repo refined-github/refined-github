@@ -7,8 +7,8 @@ import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
 const legacyInputElements = [
-	'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
+	'input#pull_request_title', // Old `isCompare` - TODO [2026-09-01]: Remove after August 2026
+	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO [2026-08-01]: Remove after July 2026
 ];
 
 const inputElements = [

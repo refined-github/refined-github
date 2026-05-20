@@ -7,7 +7,7 @@ import onetime from '../helpers/onetime.js';
 
 function openInNewTab(): void {
 	const selected = $optional([
-		'.navigation-focus a.js-navigation-open[href]', // Old view - TODO: Drop after June 2025
+		'.navigation-focus a.js-navigation-open[href]', // Old view - TODO [2025-07-01]: Drop after June 2025
 		'[data-focus-visible-added] .markdown-title a',
 	]);
 
