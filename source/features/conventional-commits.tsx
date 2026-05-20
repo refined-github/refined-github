@@ -14,6 +14,7 @@ import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {conventionalCommitRegex, parseConventionalCommit} from '../helpers/conventional-commits.js';
 import {removeTextInTextNode} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import {is} from '../helpers/css-selectors.js';
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const textNode = commitTitleElement.firstChild!;
@@ -47,7 +48,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`${commitTitleInLists} > span > a:first-child`, renderLabelInCommitTitle, {signal});
+	observe(`${is(commitTitleInLists)} > span > a:first-child`, renderLabelInCommitTitle, {signal});
 }
 
 void features.add(import.meta.url, {

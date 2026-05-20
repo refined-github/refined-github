@@ -1,3 +1,4 @@
+/* eslint-disable max-params -- These match the native `String#replace` signature */
 import type {RepositoryInfo} from 'github-url-detection';
 
 import {getConversationNumber, getRepo} from './index.js';

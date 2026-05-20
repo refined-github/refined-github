@@ -12,6 +12,7 @@ import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
+import joinJsx from '../helpers/join-jsx.js';
 
 type CommitTags = Record<string, string[]>;
 
@@ -125,22 +126,21 @@ async function init(): Promise<void | false> {
 				'[class^="Description-module__container"]',
 			], commit);
 
+			const tags = targetTags.map(tag =>
+			// .markdown-title enables the background color
+				<a
+					className="Link--muted markdown-title"
+					href={buildRepoUrl('releases/tag', tag)}
+				>
+					<code>{tag}</code>
+				</a>,
+			);
+
 			commitMeta.append(
 				<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 					<TagIcon />
 					<span className="d-flex flex-wrap gap-1">
-						{...targetTags.map(tag => (
-							<>
-								{' '}
-								{/* .markdown-title enables the background color */}
-								<a
-									className="Link--muted markdown-title"
-									href={buildRepoUrl('releases/tag', tag)}
-								>
-									<code>{tag}</code>
-								</a>
-							</>
-						))}
+						{joinJsx(' ', tags)}
 					</span>
 				</div>,
 			);

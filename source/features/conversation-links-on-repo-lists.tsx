@@ -19,20 +19,18 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		$('relative-time', repository).previousSibling,
 		'Updated',
 	).before(
-		<>
-			<a
-				className="Link--muted mr-3 tmp-mr-3"
-				href={repositoryLink.href + '/issues'}
-			>
-				<IssueOpenedIcon />
-			</a>
-			<a
-				className="Link--muted mr-3 tmp-mr-3"
-				href={repositoryLink.href + '/pulls'}
-			>
-				<GitPullRequestIcon />
-			</a>
-		</>,
+		<a
+			className="Link--muted mr-3 tmp-mr-3"
+			href={repositoryLink.href + '/issues'}
+		>
+			<IssueOpenedIcon />
+		</a>,
+		<a
+			className="Link--muted mr-3 tmp-mr-3"
+			href={repositoryLink.href + '/pulls'}
+		>
+			<GitPullRequestIcon />
+		</a>,
 	);
 }
 
@@ -48,30 +46,28 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	$closest('[data-testid="results-list"] > div', repositoryLink)
 		.querySelector('ul > span:last-of-type')!
 		.before(
-			<>
-				<span
-					aria-hidden="true"
-					className="color-fg-muted mx-2 tmp-mx-2"
+			<span
+				aria-hidden="true"
+				className="color-fg-muted mx-2 tmp-mx-2"
+			>
+				·
+			</span>,
+			<li className="d-flex text-small">
+				<a
+					className="Link--muted"
+					href={repositoryLink.href + '/issues'}
 				>
-					·
-				</span>
-				<li className="d-flex text-small">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/issues'}
-					>
-						<IssueOpenedIcon />
-					</a>
-				</li>
-				<li className="d-flex text-small ml-2 tmp-ml-2">
-					<a
-						className="Link--muted"
-						href={repositoryLink.href + '/pulls'}
-					>
-						<GitPullRequestIcon />
-					</a>
-				</li>
-			</>,
+					<IssueOpenedIcon />
+				</a>
+			</li>,
+			<li className="d-flex text-small ml-2 tmp-ml-2">
+				<a
+					className="Link--muted"
+					href={repositoryLink.href + '/pulls'}
+				>
+					<GitPullRequestIcon />
+				</a>
+			</li>,
 		);
 }
 
