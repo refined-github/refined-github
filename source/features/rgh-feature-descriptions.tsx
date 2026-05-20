@@ -17,8 +17,18 @@ import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
+import joinJsx from '../helpers/join-jsx.js';
 
-function getLinks(meta: FeatureMeta, featureRemoved: boolean): Array<JSX.Element | string> {
+function getLinks(meta: FeatureMeta | undefined): JSX.Element[] {
+	// `meta` only exists for documented features.
+	// In this case, the file exists (on older commits) but the feature has since been deleted
+	if (!meta?.description) {
+		return [
+			// This adds the full commit history
+			<a data-turbo-frame="repo-content-turbo-frame" href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}>Commit history</a>,
+		];
+	}
+
 	const isCss = location.pathname.endsWith('.css');
 
 	const links = [];
@@ -32,32 +42,31 @@ function getLinks(meta: FeatureMeta, featureRemoved: boolean): Array<JSX.Element
 			},
 		});
 		links.push(relatedIssuesContainer);
-	}
 
-	if (!featureRemoved && meta.id) {
 		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-		newIssueUrl.searchParams.set('title', `\`${meta.id}\`: `);
+		newIssueUrl.searchParams.set('title', `\`${meta.id}\` `);
 		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 		links.push(
-			' • ',
 			<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>,
 		);
 	}
 
 	if (isCss && !meta.cssOnly) {
 		links.push(
-			' • ',
 			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
 		);
 	} else if (meta.css && !isCss) {
 		links.push(
-			' • ',
 			<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
 		);
 	}
 
 	return links;
+}
+
+function getLinksElement(meta: FeatureMeta | undefined): JSX.Element {
+	return <div className="no-wrap">{joinJsx(getLinks(meta), ' • ')}</div>;
 }
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
@@ -68,7 +77,6 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 				: undefined // The heck!?
 		);
-	const removedFeature = !description;
 
 	const oldNames = getOldFeatureNames(id);
 
@@ -78,18 +86,25 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
-						{removedFeature && <span className="color-fg-muted">Feature removed: </span>}
-						<code>{id}</code>
-						<clipboard-copy
-							aria-label="Copy"
-							data-copy-feedback="Copied!"
-							value={id}
-							class="Link--onHover color-fg-muted d-inline-block ml-2"
-							tabindex="0"
-							role="button"
-						>
-							<CopyIcon className="v-align-baseline" />
-						</clipboard-copy>
+						{
+							description
+								? <>
+									<code>{id}</code>
+									<clipboard-copy
+										aria-label="Copy"
+										data-copy-feedback="Copied!"
+										value={id}
+										class="Link--onHover color-fg-muted d-inline-block ml-2"
+										tabindex="0"
+										role="button"
+									>
+										<CopyIcon className="v-align-baseline" />
+									</clipboard-copy>
+								</>
+								: <span className="color-fg-muted">
+									This feature is no longer part of Refined GitHub.
+								</span>
+						}
 					</h3>
 					{oldNames.length > 0 && (
 						<div className="color-fg-muted mt-n3">
@@ -103,8 +118,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					<div className="no-wrap">{meta && getLinks(meta, removedFeature)}</div>
+					{getLinksElement(meta)}
 				</div>
+				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
 				{meta?.screenshot && (
 					<a href={meta.screenshot} className="flex-self-center">
 						<img
@@ -200,8 +216,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
-- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
+- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.tsx
+- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
 - Removed feature https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx

@@ -3,6 +3,7 @@ import './tooltip.css';
 import React from 'dom-chef';
 
 import {upperCaseFirst} from '../github-helpers/index.js';
+import joinJsx from './join-jsx.js';
 
 export type TooltipOptions = {
 	label: string;
@@ -12,16 +13,14 @@ export type TooltipOptions = {
 };
 
 function renderShortcut(shortcut: string): JSX.Element {
+	const keys = shortcut.split(' ').map(key => (
+		<span className="rgh-shortcut-chord" data-kbd-chord="true">
+			{upperCaseFirst(key)}
+		</span>
+	));
 	return (
 		<kbd className="rgh-shortcut">
-			{shortcut.split(' ').map((key, index) => (
-				<>
-					{index > 0 && ' '}
-					<span className="rgh-shortcut-chord" data-kbd-chord="true">
-						{upperCaseFirst(key)}
-					</span>
-				</>
-			))}
+			{joinJsx(keys, ' ')}
 		</kbd>
 	);
 }

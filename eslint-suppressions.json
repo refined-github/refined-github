@@ -18,10 +18,5 @@
     "refined-github/no-optional-chaining": {
       "count": 1
     }
-  },
-  "source/features/rgh-feature-descriptions.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
   }
 }
