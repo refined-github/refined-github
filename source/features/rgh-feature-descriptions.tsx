@@ -19,7 +19,7 @@ import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import joinJsx from '../helpers/join-jsx.js';
 
-function getLinks(meta: FeatureMeta | undefined): JSX.Element[] {
+function getLinks(id: string, meta: FeatureMeta | undefined): JSX.Element[] {
 	// `meta` only exists for documented features.
 	// In this case, the file exists (on older commits) but the feature has since been deleted
 	if (!meta?.description) {
@@ -65,8 +65,8 @@ function getLinks(meta: FeatureMeta | undefined): JSX.Element[] {
 	return links;
 }
 
-function getLinksElement(meta: FeatureMeta | undefined): JSX.Element {
-	return <div className="no-wrap">{joinJsx(getLinks(meta), ' • ')}</div>;
+function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
+	return <div className="no-wrap">{joinJsx(getLinks(id, meta), ' • ')}</div>;
 }
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
@@ -118,7 +118,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					{getLinksElement(meta)}
+					{getLinksElement(id, meta)}
 				</div>
 				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
 				{meta?.screenshot && (
