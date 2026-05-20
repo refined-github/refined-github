@@ -7,7 +7,6 @@ import {$} from 'select-dom';
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
-import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import joinJsx from '../helpers/join-jsx.js';
 
