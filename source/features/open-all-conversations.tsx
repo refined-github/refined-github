@@ -37,17 +37,18 @@ function onButtonClick(): void {
 	void openTabs(urls);
 }
 
-const conversationCounterSelector = [
+const multipleConversationsSelector = [
 	// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
-	'.table-list-header-toggle.states > a.selected',
+	'.js-issue-row + .js-issue-row',
 	// Issue list
-	'a[aria-current="true"] > span[class^="SectionFilterLink-module__count"]',
+	'[role="list"] > div:nth-child(2) > [class*="Row-module__row"]', // Can be either PR or issue
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	const counter = await elementReady(conversationCounterSelector, {stopOnDomReady: false});
-	const count = Number.parseInt(counter!.textContent, 10);
-	return count > 1;
+	return Boolean(await elementReady(
+		multipleConversationsSelector,
+		{stopOnDomReady: false, waitForChildren: false},
+	));
 }
 
 function add(anchor: HTMLElement): void {
