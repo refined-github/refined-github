@@ -1,5 +1,7 @@
 /* Simulates fixed columns */
 .rgh-release-download-count {
+	gap: 8px;
+
 	& > span:not(:last-child) {
 		flex-basis: 0 !important;
 		min-width: 5em;
@@ -10,6 +12,15 @@
 		width: 7em;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	/* SHA / clipboard-copy column */
+	& > div:has(clipboard-copy) {
+		max-width: 8em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 12px;
+		flex-shrink: 1;
 	}
 
 	/* Right-align on mobile */

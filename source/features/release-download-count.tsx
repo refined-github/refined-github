@@ -79,10 +79,9 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			</span>,
 		);
 
-		// Remove via JS because we can't override utility classes...
+		// Remove margin utility classes; spacing is handled by `gap` in CSS
 		for (const column of assetSize.parentElement!.children) {
-			column.classList.remove('ml-sm-3', 'ml-md-4');
-			column.classList.add('ml-lg-4');
+			column.classList.remove('ml-sm-3', 'ml-md-4', 'ml-lg-4');
 		}
 	}
 }
