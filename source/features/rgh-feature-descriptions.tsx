@@ -220,11 +220,11 @@ void features.add(import.meta.url, {
 
 /*
 
-Test URLs:
+## Test URLs
 
 - Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.tsx
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
-- Removed feature https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
+- Removed feature" https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
 */
