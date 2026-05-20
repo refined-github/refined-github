@@ -1,4 +1,4 @@
-/* TODO: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
+/* TODO [2025-04-01]: Revert https://github.com/refined-github/refined-github/pull/8111 */
 :root .rgh-non-default-branch {
 	background-color: var(
 		--control-checked-bgColor-hover,
@@ -55,9 +55,9 @@
 	}
 
 	[class^='PullRequestBranchName'],
-	/* TODO: Drop after legacy PR files view is removed */
+	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 	.commit-ref,
-	/* TODO: Drop after July 2026 */
+	/* TODO [2026-08-01]: Drop */
 	[class^='BranchName'] {
 		font-size: 12px !important;
 	}
@@ -71,7 +71,7 @@
 		margin-left: var(--margin);
 	}
 
-	/* TODO: Drop after legacy PR files view is removed */
+	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;

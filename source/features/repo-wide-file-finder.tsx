@@ -20,7 +20,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepo,
 	],
 	exclude: [
-		// TODO: Drop first two selectors in October 2026
+		// TODO [2026-10-01]: Drop first two selectors
 		() => elementExists(['[data-hotkey="t"]', '[data-hotkey="t,Shift+T"]', '[aria-label="Go to file"]']),
 		pageDetect.isPRFiles,
 		pageDetect.isFileFinder,

@@ -93,7 +93,7 @@ function init(signal: AbortSignal): void {
 	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
-// TODO: Drop feature in April 2025
+// TODO [2027-01-01]: Drop feature after the legacy PR view is removed
 // https://github.com/refined-github/refined-github/issues/7856#issuecomment-2411492400
 void features.add(import.meta.url, {
 	include: [

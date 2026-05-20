@@ -56,7 +56,8 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 
 	// In the old React version, we have a `title` attribute but it's used to mark deleted repos instead
 	return title && title !== 'This repository has been deleted'
-		? parseReferenceRaw(title, textContent.trim()) // TODO: Remove in June 2026
+		// TODO [2026-06-01]: Remove
+		? parseReferenceRaw(title, textContent.trim())
 		: parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
 }
 
@@ -65,8 +66,9 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 		get base() {
 			return parseReference($([
 				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
-				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-				'.base-ref', // TODO: Drop after legacy PR files view is removed
+				// TODO [2026-08-01]: Remove
+				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]',
+				'.base-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 			]));
 		},
 		get head() {
@@ -74,8 +76,9 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 				// Doesn't exist in old views
 				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
 					?? $([
-						'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]', // TODO: Remove after July 2026
-						'.head-ref', // TODO: Drop after legacy PR files view is removed
+						// TODO [2026-08-01]: Remove
+						'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]',
+						'.head-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 					]),
 			);
 		},

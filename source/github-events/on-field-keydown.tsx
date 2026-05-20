@@ -36,7 +36,9 @@ export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal
 			'[class^="prc-PageLayout-Header"] input', // PR
 			'input[placeholder="Title"]', // Issue
 			'#issue_title', // Old PR view - TODO: Remove after legacy PR files view is removed
-			'#pull_request_title', // Old compare view - TODO: Remove after August 2026
+			// Old compare view
+			// TODO [2026-09-01]: Remove
+			'#pull_request_title',
 		],
 		callback,
 		signal,

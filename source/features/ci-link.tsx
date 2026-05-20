@@ -64,7 +64,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			// TODO: Remove after July 2026
+			// TODO [2026-08-01]: Remove
 			// Desktop
 			'.AppHeader-context-item:not([data-hovercard-type])',
 
