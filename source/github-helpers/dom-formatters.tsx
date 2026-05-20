@@ -45,7 +45,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
 export function repositionAnchors(element: HTMLElement): void {
-	// TODO [2027-01-01]: bump min firefox version to 147 and safari to 26 in 2027
+	// TODO [2027-01-01]: bump min firefox version to 147 and safari to 26
 	if (!CSS.supports('anchor-name: --test')) {
 		return;
 	}

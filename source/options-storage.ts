@@ -28,7 +28,7 @@ const migrations = [
 		}
 	},
 
-	// TODO [2027-01-01]: Drop in 2027
+	// TODO [2027-01-01]: Drop
 	(options: RghOptions): void => {
 		if (options.logHTTP) {
 			options.logHttp = options.logHTTP;

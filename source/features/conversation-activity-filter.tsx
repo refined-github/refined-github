@@ -137,7 +137,8 @@ function applyState(targetState: State): void {
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
 		// Issue
 		'[class*="IssueViewer-module__mainContainer"]',
-		// Old PR view - TODO [2026-08-01]: Drop after July 2026
+		// Old PR view
+		// TODO [2026-08-01]: Drop
 		'.js-issues-results',
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
@@ -304,7 +305,8 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class*="HeaderMetadata-module__smallMetadataRow"]',
 			// PR view
 			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
-			// Old PR view - TODO [2026-08-01]: Remove after July 2026
+			// Old PR view
+			// TODO [2026-08-01]: Remove
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
 		],

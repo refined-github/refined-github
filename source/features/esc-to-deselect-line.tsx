@@ -28,7 +28,7 @@ function listener({key, target}: KeyboardEvent): void {
 			// Un-focus code block
 			(document.activeElement as HTMLElement).blur();
 		} else {
-			// TODO [2025-12-01]: Review in December 2025 if old UI is gone. Currently only applies to PRs
+			// TODO [2025-12-01]: Review if old UI is gone. Currently only applies to PRs
 			location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
 		}
 

@@ -1,4 +1,4 @@
-/* TODO [2025-04-01]: Revert https://github.com/refined-github/refined-github/pull/8111 in April 2025 */
+/* TODO [2025-04-01]: Revert https://github.com/refined-github/refined-github/pull/8111 */
 .rgh-status-subscription .btn {
 	&:not(.selected) {
 		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));

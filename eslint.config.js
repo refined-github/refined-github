@@ -47,7 +47,7 @@ export default defineConfig([
 				'no-warning-comments': 'off',
 
 				// Disable some unicorn rules
-				'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
+				'unicorn/expiring-todo-comments': 'off',
 				'unicorn/no-nested-ternary': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
@@ -119,6 +119,14 @@ export default defineConfig([
 			},
 		},
 		// TypeScript-specific config
+		{
+			files: ['**/*.{js,mjs,cjs,ts,tsx}'],
+			rules: {
+				'unicorn/expiring-todo-comments': ['warn', {
+					ignoreDatesOnPullRequests: false,
+				}],
+			},
+		},
 		{
 			files: ['**/*.{ts,tsx,cts,mts}'],
 			rules: {

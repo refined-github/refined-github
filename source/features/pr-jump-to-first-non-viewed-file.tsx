@@ -7,7 +7,8 @@ import features from '../feature-manager.js';
 
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = $optional([
-		'[id][data-details-container-group="file"]:not([data-file-user-viewed])', // TODO [2026-01-01]: Old PR Files view, drop in 2026
+		// TODO [2026-01-01]: Old PR Files view, drop
+		'[id][data-details-container-group="file"]:not([data-file-user-viewed])',
 		'[id][class^="Diff-module"]:has(button[aria-pressed="false"])',
 	]);
 	if (firstNonViewedFile) {
@@ -20,7 +21,8 @@ function jumpToFirstNonViewed(): void {
 }
 
 const selectors = [
-	'.diffbar-item progress-bar', // TODO [2026-01-01]: Old PR Files view, drop in 2026
+	// TODO [2026-01-01]: Old PR Files view, drop
+	'.diffbar-item progress-bar',
 	'.d-flex:has([class*="ViewedFileProgress"])',
 ];
 async function init(signal: AbortSignal): Promise<void> {
