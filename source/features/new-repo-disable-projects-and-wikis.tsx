@@ -6,7 +6,6 @@ import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -102,7 +101,6 @@ function addOld(submitButton: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal, capture: true});
@@ -114,6 +112,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepoTemplate,
 		pageDetect.isForkingRepo,
 	],
+	requiresToken: true,
 	init,
 }, {
 	include: [

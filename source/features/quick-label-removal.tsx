@@ -9,7 +9,6 @@ import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
@@ -76,8 +75,6 @@ function addRemoveLabelButton(label: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	delegate('.rgh-quick-label-removal:enabled', 'click', removeLabelButtonClickHandler, {signal});
 	observe('.js-issue-labels .IssueLabel', addRemoveLabelButton, {signal});
 }
@@ -91,6 +88,7 @@ void features.add(import.meta.url, {
 		pageDetect.isArchivedRepo,
 	],
 	awaitDomReady: true, // The sidebar is near the end of the page
+	requiresToken: true,
 	init,
 });
 

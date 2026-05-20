@@ -4,7 +4,6 @@ import {$, $closest, countElements} from 'select-dom';
 
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
@@ -61,7 +60,6 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('textarea[placeholder="Add an optional extended description…"]', clear, {signal});
 }
 
@@ -75,6 +73,7 @@ void features.add(import.meta.url, {
 		() => countElements('.TimelineItem.js-commit') === 1,
 	],
 	awaitDomReady: true, // Appears near the end of the page anyway
+	requiresToken: true,
 	init,
 });
 

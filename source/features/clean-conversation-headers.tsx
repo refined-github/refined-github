@@ -8,7 +8,6 @@ import {$, $closestOptional, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -77,8 +76,6 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe(
 		[
 			'.d-flex[class*="PullRequestHeaderSummary"]',
@@ -97,6 +94,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
+	requiresToken: true,
 	init,
 });
 

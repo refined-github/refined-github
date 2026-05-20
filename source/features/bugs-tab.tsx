@@ -8,7 +8,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
@@ -168,8 +167,6 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-	await expectToken();
-
 	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}
@@ -181,6 +178,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	requiresToken: true,
 	init,
 });
 

@@ -14,7 +14,6 @@ import {$, $$, $closest, $closestOptional, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
@@ -88,8 +87,6 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 
@@ -98,6 +95,7 @@ void features.add(import.meta.url, {
 		pageDetect.isReleasesOrTags,
 		pageDetect.isSingleReleaseOrTag,
 	],
+	requiresToken: true,
 	init,
 });
 
