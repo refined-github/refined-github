@@ -38,7 +38,7 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 		return;
 	}
 
-	const call = api.v3(`pulls/${getConversationNumber()!}/reviews`, {
+	const call = api.v3uncached(`pulls/${getConversationNumber()!}/reviews`, {
 		method: 'POST',
 		body: {event: 'APPROVE', body: approval},
 	});
