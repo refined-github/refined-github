@@ -37,18 +37,17 @@ function onButtonClick(): void {
 	void openTabs(urls);
 }
 
-const multipleConversationsSelector = [
-	// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
-	'.js-issue-row + .js-issue-row',
-	// Issue list
-	'[role="list"] > div:nth-child(2) > [class*="Row-module__row"]', // Can be either PR or issue
-] as const;
-
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(
-		multipleConversationsSelector,
+	const list = await elementReady(
+		[
+			// Issue list
+			'ul[data-listview-component="items-list"]',
+			// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+			'#js-issues-toolbar ~ div > div',
+		],
 		{stopOnDomReady: false, waitForChildren: false},
-	));
+	);
+	return !pageDetect.isBlank() && list!.childElementCount > 1;
 }
 
 function add(anchor: HTMLElement): void {
@@ -97,14 +96,6 @@ void features.add(import.meta.url, {
 	],
 	include: [
 		pageDetect.isIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	init,
-}, {
-	include: [
-		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
 });
