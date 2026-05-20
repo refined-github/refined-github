@@ -12,10 +12,9 @@ import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
-import attachElement from '../helpers/attach-element.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {getReleases} from './releases-tab.js';
+import {getReleasesCount} from './releases-tab.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -59,10 +58,12 @@ function addTagToHeader(tagName: string, tagUrl: string, relativeTime: HTMLEleme
 	);
 }
 
-function addTagToFooter(tagName: string, tagUrl: string): void {
-	const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-	attachElement($(commentBoxHashPr), {
-		before: () => (
+function addTagToFooter(tagName: string, tagUrl: string, signal: AbortSignal): void {
+	// Use observer because GitHub might remove the box
+	// https://github.com/refined-github/refined-github/issues/9460
+	observe(commentBoxHashPr, anchor => {
+		const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
+		anchor.before(
 			<TimelineItem>
 				{createBanner({
 					icon: <TagIcon className="m-0" />,
@@ -71,13 +72,13 @@ function addTagToFooter(tagName: string, tagUrl: string): void {
 					</>,
 					classes: ['flash-success', 'rgh-bg-none'],
 				})}
-			</TimelineItem>
-		),
-	});
+			</TimelineItem>,
+		);
+	}, {signal});
 }
 
-async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
-	const [releases] = await getReleases();
+async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal): Promise<void> {
+	const [releases] = await getReleasesCount();
 	if (releases === 0) {
 		return;
 	}
@@ -96,13 +97,14 @@ async function addReleaseBanner(text: string | JSX.Element): Promise<void> {
 		});
 	}
 
-	attachElement($(commentBoxHashPr), {
-		before: () => (
+	// Use observer because GitHub might remove the box
+	// https://github.com/refined-github/refined-github/issues/9460
+	observe(commentBoxHashPr, anchor => {
+		anchor.before(
 			<TimelineItem>
 				{createBanner(bannerContent)}
-			</TimelineItem>
-		),
-	});
+			</TimelineItem>);
+	}, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -115,7 +117,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
-		addTagToFooter(tagName, tagUrl);
+		addTagToFooter(tagName, tagUrl, signal);
 
 		// PRs have a regular and a sticky header
 		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
@@ -126,6 +128,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			<>
 				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
 			</>,
+			signal,
 		);
 	}
 }
@@ -148,7 +151,7 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
-		await addReleaseBanner('Now you can release this change');
+		await addReleaseBanner('Now you can release this change', signal);
 	},
 });
 

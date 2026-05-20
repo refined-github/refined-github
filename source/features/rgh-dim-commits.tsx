@@ -11,7 +11,12 @@ const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencie
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		$closest('[data-testid="commit-row-item"]', commitTitle).style.opacity = '50%';
+		$closest([
+			// `isCommitList`
+			'[data-testid="commit-row-item"]',
+			// `isCompare`
+			'.js-commits-list-item',
+		], commitTitle).style.opacity = '50%';
 	}
 }
 
@@ -24,6 +29,7 @@ void features.add(import.meta.url, {
 		isRefinedGitHubRepo,
 	],
 	include: [
+		pageDetect.isCompare,
 		pageDetect.isCommitList,
 	],
 	init,

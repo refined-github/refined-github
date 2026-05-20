@@ -13,7 +13,7 @@
 	.rgh-conversation-activity-collapsed-comment,
 	.js-resolvable-timeline-thread-container[data-resolved='true'],
 	.minimized-comment {
-		display: none;
+		display: none !important;
 		/* For debugging purposes */
 		/* display: block !important; */
 		/* outline: solid 5px #f00; */
