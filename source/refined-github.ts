@@ -140,7 +140,6 @@ import './features/unclip-checks.js';
 import './features/quick-review.js';
 import './features/pr-jump-to-first-non-viewed-file.js';
 import './features/keyboard-navigation.js';
-import './features/vertical-front-matter.js';
 import './features/pr-first-commit-title.js';
 import './features/clean-repo-filelist-actions.js';
 import './features/prevent-duplicate-pr-submission.js';

@@ -1060,12 +1060,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png"
 	},
 	{
-		"id": "vertical-front-matter",
-		"description": "Shows Markdown front matter as vertical table.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png"
-	},
-	{
 		"id": "view-last-pr-deployment",
 		"description": "Adds a link to open the latest deployment to the PR header.",
 		"screenshot": "https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61"
