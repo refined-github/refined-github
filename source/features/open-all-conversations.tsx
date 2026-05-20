@@ -39,7 +39,7 @@ function onButtonClick(): void {
 
 const conversationCounterSelector = [
 	// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
-	'a[data-ga-click="Pull Requests, Table state, Open"]',
+	'.table-list-header-toggle.states > a.selected',
 	// Issue list
 	'a[aria-current="true"] > span[class^="SectionFilterLink-module__count"]',
 ] as const;
