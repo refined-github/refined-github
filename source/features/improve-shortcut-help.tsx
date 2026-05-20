@@ -10,6 +10,7 @@ import {isEditable} from '../helpers/dom-utils.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import joinJsx from '../helpers/join-jsx.js';
 
 function splitKeys(keys: string): Array<string | JSX.Element> {
 	return keys.split(' ').flatMap(key => [
@@ -81,12 +82,11 @@ const getRghShortcutsContainer = memoize(
 					currentItem.firstElementChild!.textContent = description;
 					currentItem.lastElementChild!.replaceChildren(
 						<kbd className={keybindingHint.className}>
-							{hotkey.split(' ').flatMap((key, index) => [
-								index > 0 && ' ',
+							{joinJsx(' ', hotkey.split(' ').map(key =>
 								<span className={chord.className}>
 									{upperCaseFirst(key)}
 								</span>,
-							])}
+							))}
 						</kbd>,
 					);
 					return currentItem;

@@ -19,7 +19,7 @@ import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import joinJsx from '../helpers/join-jsx.js';
 
-function getLinks(id: string, meta: FeatureMeta | undefined): JSX.Element[] {
+function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
 	const isCss = location.pathname.endsWith('.css');
 
@@ -58,7 +58,7 @@ function getLinks(id: string, meta: FeatureMeta | undefined): JSX.Element[] {
 
 	if (wasFeatureRemoved) {
 		links.push(
-			// This adds the full commit history
+			// This links to the full commit history, which will start with the commit that removed the file
 			<a
 				data-turbo-frame="repo-content-turbo-frame"
 				href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}
@@ -68,11 +68,7 @@ function getLinks(id: string, meta: FeatureMeta | undefined): JSX.Element[] {
 		);
 	}
 
-	return links;
-}
-
-function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
-	return <div className="no-wrap">{joinJsx(getLinks(id, meta), ' • ')}</div>;
+	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
 }
 
 function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {

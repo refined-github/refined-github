@@ -20,7 +20,7 @@ function renderShortcut(shortcut: string): JSX.Element {
 	));
 	return (
 		<kbd className="rgh-shortcut">
-			{joinJsx(keys, ' ')}
+			{joinJsx(' ', keys)}
 		</kbd>
 	);
 }

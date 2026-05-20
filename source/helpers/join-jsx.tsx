@@ -1,8 +1,8 @@
 import React from 'dom-chef';
 
 export default function joinJsx(
-	items: readonly JSX.Element[],
 	separator: React.ReactNode,
+	items: readonly JSX.Element[],
 ): JSX.Element {
 	return (
 		<>
