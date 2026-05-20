@@ -10,7 +10,6 @@ import {$, $$, $closest, $optional} from 'select-dom';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -96,7 +95,6 @@ function addButton(hunk: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
@@ -106,6 +104,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
+	requiresToken: true,
 	init,
 });
 

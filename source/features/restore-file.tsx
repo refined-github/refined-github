@@ -7,7 +7,6 @@ import {$, $closest, $optional} from 'select-dom';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
@@ -186,7 +185,6 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 
 	// Legacy view
 	observe('.js-file-header-dropdown a[aria-label^="Change this"]', addLegacyMenuItem, {signal});
@@ -207,6 +205,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRFiles,
 	],
+	requiresToken: true,
 	init,
 });
 

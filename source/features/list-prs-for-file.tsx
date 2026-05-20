@@ -9,7 +9,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
@@ -135,7 +134,6 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 
 	observe(
 		[
@@ -153,6 +151,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		pageDetect.isEditingFile,
 	],
+	requiresToken: true,
 	init,
 });
 

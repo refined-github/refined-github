@@ -5,7 +5,6 @@ import {$closestOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import abortableClassName from '../helpers/abortable-classname.js';
@@ -131,7 +130,6 @@ function updateDom(link: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	// For `sticky-comment-header`
 	abortableClassName(document.documentElement, signal, 'rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
@@ -142,6 +140,7 @@ void features.add(import.meta.url, {
 		pageDetect.isFeed,
 		pageDetect.hasComments,
 	],
+	requiresToken: true,
 	init,
 });
 

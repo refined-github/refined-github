@@ -7,7 +7,6 @@ import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
@@ -93,7 +92,6 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	await expectToken();
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	let commitsOnPage = $$optional('[data-testid="commit-row-item"]');
@@ -163,6 +161,7 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
+	requiresToken: true,
 	init,
 });
 

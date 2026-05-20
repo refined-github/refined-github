@@ -10,7 +10,6 @@ import api from '../github-helpers/api.js';
 import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import {is} from '../helpers/css-selectors.js';
@@ -157,7 +156,6 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 
 	observe('.timeline-comment-actions > details:last-child', menu => {
 		if ($closestOptional('.js-pending-review-comment', menu)) {
@@ -202,6 +200,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
+	requiresToken: true,
 	init,
 }, {
 	asLongAs: [

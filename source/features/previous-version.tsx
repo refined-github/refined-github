@@ -7,7 +7,6 @@ import features from '../feature-manager.js';
 import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import observe from '../helpers/selector-observer.js';
 import previousVersionQuery from './previous-version.gql';
 
@@ -90,7 +89,6 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('a:has([data-component="leadingVisual"] svg.octicon-history)', add, {signal});
 }
 
@@ -103,6 +101,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isRepoRoot,
 	],
+	requiresToken: true,
 	init,
 });
 

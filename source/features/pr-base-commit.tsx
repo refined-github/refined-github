@@ -6,7 +6,6 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
@@ -43,7 +42,6 @@ async function addInfo(statusMeta: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
 
 	observe(
 		prMergeabilityBoxCaption,
@@ -61,6 +59,7 @@ void features.add(import.meta.url, {
 		() => elementExists(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
+	requiresToken: true,
 	init,
 });
 
