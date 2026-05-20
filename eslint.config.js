@@ -42,9 +42,12 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
-				// TODO: Too many. Too noisy. Re-enable after resolving some.
+				// Prefer unicorn's version
 				'no-warning-comments': 'off',
-				'unicorn/expiring-todo-comments': 'warn',
+				'unicorn/expiring-todo-comments': ['warn', {
+					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
+					allowWarningComments: false,
+				}],
 
 				// Disable some unicorn rules
 				'unicorn/no-nested-ternary': 'off',

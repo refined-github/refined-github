@@ -28,7 +28,6 @@ async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}:
 
 	const commentBody = $closest('.js-comment', commentDropdown);
 
-	// TODO: Potentially move to :has selector
 	// The comment is definitely not editable
 	if (!elementExists('.js-comment-update', commentBody)) {
 		return;
