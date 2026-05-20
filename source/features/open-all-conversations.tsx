@@ -10,8 +10,10 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick(): void {
 	const links = $$([
-		'a[data-testid="issue-pr-title-link"]', // Issue list
-		'a.h4.js-navigation-open', // PR list
+		// Issue list
+		'a[data-testid="issue-pr-title-link"]',
+		// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+		'a.h4.js-navigation-open',
 	]);
 
 	if (links.length > 25) {
@@ -20,8 +22,10 @@ function onButtonClick(): void {
 
 	const selectedLinks = links.filter(link =>
 		$closestOptional([
-			'.js-issue-row.selected', // PR list
-			'[aria-label^="Selected"]', // Issue list
+			// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+			'.js-issue-row.selected',
+			// Issue list
+			'[aria-label^="Selected"]',
 		], link),
 	);
 
@@ -34,8 +38,10 @@ function onButtonClick(): void {
 }
 
 const conversationCounterSelector = [
-	'a[data-ga-click="Pull Requests, Table state, Open"]', // PR list
-	'a[aria-current="true"] > span[class^="SectionFilterLink-module__count"]', // Issue list
+	// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+	'a[data-ga-click="Pull Requests, Table state, Open"]',
+	// Issue list
+	'a[aria-current="true"] > span[class^="SectionFilterLink-module__count"]',
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
@@ -47,8 +53,10 @@ async function hasMoreThanOneConversation(): Promise<boolean> {
 function add(anchor: HTMLElement): void {
 	const isLegacy = $closestOptional('.table-list-header-toggle', anchor);
 	const isSelected = $closestOptional([
-		'.table-list-triage', // PR list
-		'[aria-label="Bulk actions"]', // Issue list
+		// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+		'.table-list-triage',
+		// Issue list
+		'[aria-label="Bulk actions"]',
 	], anchor);
 	const classes = isLegacy
 		? 'btn-link px-2'
@@ -70,7 +78,8 @@ function add(anchor: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		[
-			'.table-list-header-toggle:not(.states)', // PR list
+			// PR list -- TODO: Drop after global and repo PR lists become exclusively React-based
+			'.table-list-header-toggle:not(.states)',
 			// Issue list
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
