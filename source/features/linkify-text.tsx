@@ -20,8 +20,7 @@ function linkifyIssue(paragraph: HTMLParagraphElement): void {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			// TODO [2026-01-01]: Drop
-			'.js-issue-title',
+			'.js-issue-title', // TODO [2026-01-01]: Drop
 			'[data-component="TitleArea"] .markdown-title', // Issue and PR React View Title
 			'.discussion-sidebar-item:has(.octicon-issue-opened) p', // Discussions sidebar item
 		],

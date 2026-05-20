@@ -42,12 +42,15 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
+				'unicorn/expiring-todo-comments': ['warn', {
+					ignoreDatesOnPullRequests: false,
+				}],
+
 				// TODO: Too many. Too noisy. Re-enable after using expiring-todo-comments
 				// https://github.com/refined-github/refined-github/issues/9496
 				'no-warning-comments': 'off',
 
 				// Disable some unicorn rules
-				'unicorn/expiring-todo-comments': 'off',
 				'unicorn/no-nested-ternary': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
@@ -119,14 +122,6 @@ export default defineConfig([
 			},
 		},
 		// TypeScript-specific config
-		{
-			files: ['**/*.{js,mjs,cjs,ts,tsx}'],
-			rules: {
-				'unicorn/expiring-todo-comments': ['warn', {
-					ignoreDatesOnPullRequests: false,
-				}],
-			},
-		},
 		{
 			files: ['**/*.{ts,tsx,cts,mts}'],
 			rules: {
@@ -279,6 +274,12 @@ export default defineConfig([
 		// Disable on markdown files, which are somehow being read as JS files
 		// Other JSON files shouldn't be linted as JS (package.json is handled by xo with json/json language)
 		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
+	},
+	{
+		files: ['**/*.css', '**/package.json'],
+		rules: {
+			'unicorn/expiring-todo-comments': 'off',
+		},
 	},
 	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
