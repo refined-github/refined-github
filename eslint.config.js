@@ -1,13 +1,13 @@
 import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import xo from 'xo';
 
-import byoPlugin from './eslint-rules/byo.js';
 import cssDocumentation from './eslint-rules/css-documentation.js';
 import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
