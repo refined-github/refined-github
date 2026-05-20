@@ -55,7 +55,6 @@ const indicatorToggleObserver = new MutationObserver(mutations => {
 function init(signal: AbortSignal): void {
 	observe('.file.js-file', element => {
 		// #observe won't observe the same element twice
-		// TODO: toggle visibility via :has selector instead
 		indicatorToggleObserver.observe(element, {
 			attributes: true,
 			attributeOldValue: true,
