@@ -71,7 +71,7 @@ function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
 
 function preloadPrFilesTab(): void {
 	// Trigger data preloading
-	// TODO: Change `$optional` to `$()` once legacy PR files view is removed
+	// TODO [2027-01-01]: Change `$optional` to `$()` once legacy PR files view is removed
 	$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
 }
 
@@ -85,7 +85,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					shortcut: 'v',
 				},
 				<a
-					// TODO: Change path to "changes" once Legacy PR files view is removed
+					// TODO [2027-01-01]: Change path to "changes" once Legacy PR files view is removed
 					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
 					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 					data-turbo-frame="repo-content-turbo-frame"
