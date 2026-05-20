@@ -25,7 +25,7 @@ async function isConversationLockedViaDom(): Promise<boolean | undefined> {
 	const lockToggle = await elementReady([
 		'.discussion-sidebar-item svg.octicon-key + strong', // PRs, old issues
 		'[class^="Item__LiBox"]:has(svg.octicon-lock) [data-component="ActionList.Item--DividerContainer"] span', // Issues
-	].join(', '));
+	]);
 	return lockToggle ? lockToggle.textContent === 'Unlock conversation' : undefined;
 }
 
