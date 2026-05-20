@@ -169,7 +169,10 @@ export const commitHashLinkInLists_ = [
 	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
 ] satisfies UrlMatch[];
 
-export const commitTitleInLists = '[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
+export const commitTitleInLists = [
+	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
+	'.js-commits-list-item > .js-details-container > p:first-child', // `isCompare`
+];
 export const commitTitleInLists_ = [
 	[
 		35,
