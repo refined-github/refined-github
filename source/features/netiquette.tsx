@@ -48,7 +48,7 @@ function isPopular(): boolean {
 		// This element only appears after 6 participants
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
-		// TODO [2026-01-01]: Drop; old conversation style
+		// TODO [2027-01-01]: Drop after the legacy PR view is removed
 		|| countElements('.timeline-comment') > 30
 		|| countElements('.participant-avatar') > 10
 	);
