@@ -10,8 +10,8 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick(): void {
 	const links = $$([
-		'a[data-testid="issue-pr-title-link"]',
-		'a.h4.js-navigation-open', // TODO: Pre-React selector; Drop in 2026
+		'a[data-testid="issue-pr-title-link"]', // Issue list
+		'a.h4.js-navigation-open', // PR list
 	]);
 
 	if (links.length > 25) {
@@ -20,8 +20,8 @@ function onButtonClick(): void {
 
 	const selectedLinks = links.filter(link =>
 		$closestOptional([
-			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
-			'[aria-label^="Selected"]',
+			'.js-issue-row.selected', // PR list
+			'[aria-label^="Selected"]', // Issue list
 		], link),
 	);
 
@@ -34,8 +34,8 @@ function onButtonClick(): void {
 }
 
 const conversationCounterSelector = [
-	'a[data-ga-click="Pull Requests, Table state, Open"]', // TODO: Pre-React selector; Drop in 2026
-	'ul[class*="ListItems-module__tabsContainer"] > li:first-child span[class^="SectionFilterLink-module__count"]',
+	'a[data-ga-click="Pull Requests, Table state, Open"]', // PR list
+	'ul[class*="ListItems-module__tabsContainer"] > li:first-child span[class^="SectionFilterLink-module__count"]', // Issue list
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
@@ -47,8 +47,8 @@ async function hasMoreThanOneConversation(): Promise<boolean> {
 function add(anchor: HTMLElement): void {
 	const isLegacy = $closestOptional('.table-list-header-toggle', anchor);
 	const isSelected = $closestOptional([
-		'.table-list-triage', // TODO: Pre-React selector; Drop in 2026
-		'[aria-label="Bulk actions"]',
+		'.table-list-triage', // PR list
+		'[aria-label="Bulk actions"]', // Issue list
 	], anchor);
 	const classes = isLegacy
 		? 'btn-link px-2'
@@ -70,7 +70,8 @@ function add(anchor: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		[
-			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			'.table-list-header-toggle:not(.states)', // PR list
+			// Issue list
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
 		],
