@@ -55,7 +55,7 @@
 	}
 
 	[class^='PullRequestBranchName'],
-	/* TODO: Drop after legacy PR files view is removed */
+	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 	.commit-ref,
 	/* TODO [2026-08-01]: Drop */
 	[class^='BranchName'] {
@@ -71,7 +71,7 @@
 		margin-left: var(--margin);
 	}
 
-	/* TODO: Drop after legacy PR files view is removed */
+	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;

@@ -35,7 +35,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		// #7802
 		&& !$closestOptional([
 			'div[class*="stickyHeader"]',
-			// TODO: Drop after legacy PR files view is removed
+			// TODO [2027-01-01]: Drop after legacy PR files view is removed
 			'.sticky-content',
 			'.gh-header-sticky',
 		], summaryRow)
@@ -48,7 +48,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	const base = $([
 		'[class^="PullRequestBranchName"]',
-		// TODO: Drop after legacy PR files view is removed
+		// TODO [2027-01-01]: Drop after legacy PR files view is removed
 		'.commit-ref',
 		// TODO [2026-08-01]: Drop
 		'[class^="BranchName"]',
@@ -65,7 +65,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	void highlightNonDefaultBranchPrs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: Drop after legacy PR files view is removed
+	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO [2027-01-01]: Drop after legacy PR files view is removed
 		?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
@@ -82,7 +82,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'.d-flex[class*="PullRequestHeaderSummary"]',
-			// TODO: Drop after legacy PR files view is removed
+			// TODO [2027-01-01]: Drop after legacy PR files view is removed
 			'.gh-header-meta > .flex-auto', // Real
 			// TODO [2026-08-01]: Drop
 			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element

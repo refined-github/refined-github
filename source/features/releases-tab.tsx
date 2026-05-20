@@ -108,7 +108,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
 	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
-	// Workaround for #8867
+	// Workaround for https://github.com/refined-github/refined-github/issues/8867
 	// TODO: remove once the issue is resolved
 	registerHotkey('g r', buildRepoUrl('releases'), {signal});
 }

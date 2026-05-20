@@ -13,7 +13,7 @@ function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 
 		const cancelButton = $([
 			'div[class^="prc-PageLayout-HeaderContent"] > form button[data-variant="invisible"]',
-			// Old view -- TODO: Remove after legacy PR files view is removed
+			// TODO [2027-01-01]: Remove after legacy PR files view is removed
 			'.js-cancel-issue-edit',
 		]);
 		if (cancelButton.textContent.trim() !== 'Cancel') {

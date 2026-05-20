@@ -91,7 +91,7 @@
 	}
 }
 
-/* TODO: Drop after legacy PR files view is removed. Currently it only applies to `quick-comment-hiding` */
+/* TODO [2027-01-01]: Drop after legacy PR files view is removed. Currently it only applies to `quick-comment-hiding` */
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
 /* Info: https://github.com/refined-github/refined-github/pull/1715 */
@@ -100,7 +100,7 @@
 	transform-origin: 90% top;
 }
 
-/* TODO: Drop after legacy PR files view is removed */
+/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed */
 /* Info: https://github.com/refined-github/refined-github/issues/3925 */
 /* Test: https://github.com/refined-github/refined-github/pull/3922/files */
