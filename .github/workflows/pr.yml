@@ -15,15 +15,6 @@ jobs:
         with:
           script: |
             const pullRequest = context.payload.pull_request;
-            const authorAssociation = pullRequest.author_association ?? (
-              await github.rest.pulls.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pullRequest.number,
-              })
-            ).data.author_association;
-
-            if (authorAssociation !== 'FIRST_TIME_CONTRIBUTOR') return;
 
             const isAi = title.startsWith('AI:') || /build:typescript|Verification|Validation|Summary|Changes/.test(pullRequest.body);
             if (!isAi) return;
