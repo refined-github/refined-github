@@ -43,6 +43,8 @@ function regenerate(nativeNav: HTMLElement): void {
 			</ul>
 		</nav>,
 	);
+
+	nativeNav.classList.add('sr-only');
 }
 
 function init(signal: AbortSignal): void {
