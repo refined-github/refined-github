@@ -76,7 +76,6 @@ import './features/reactions-avatars.js';
 import './features/show-names.js';
 import './features/previous-next-commit-buttons.js';
 import './features/extend-diff-expander.js';
-import './features/profile-gists-link.js';
 import './features/show-user-top-repositories.js';
 import './features/hide-user-forks.js';
 import './features/user-profile-follower-badge.js';
