@@ -34,7 +34,6 @@ import './features/sticky-comment-header.js';
 
 // Disableable features
 import './features/useful-not-found-page.js';
-import './features/more-dropdown-links.js';
 import './features/releases-tab.js';
 import './features/one-key-formatting.js';
 import './features/tab-to-indent.js';
