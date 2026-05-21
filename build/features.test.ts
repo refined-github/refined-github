@@ -32,6 +32,7 @@ const noScreenshotExceptions = new Set([
 	'tab-size',
 	'monospace-textareas',
 	'new-tab-links',
+	'extensible-nav', // No visual or behavior change
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
