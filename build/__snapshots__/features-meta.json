@@ -114,11 +114,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png"
 	},
 	{
-		"id": "clean-repo-tabs",
-		"description": "Moves the \"Security\" and \"Insights\"  to the repository navigation dropdown. Also moves the \"Projects\", \"Actions\" and \"Wiki\" tabs if they're empty/unused.",
-		"screenshot": "https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png"
-	},
-	{
 		"id": "clean-rich-text-editor",
 		"description": "Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)",
 		"css": true,
