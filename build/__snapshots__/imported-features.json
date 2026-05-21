@@ -51,6 +51,7 @@
 	"expand-all-hidden-comments",
 	"extend-conversation-status-filters",
 	"extend-diff-expander",
+	"extensible-nav",
 	"file-age-color",
 	"fit-textareas",
 	"fix-no-pr-search",
