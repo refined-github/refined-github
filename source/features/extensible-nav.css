@@ -1,0 +1,8 @@
+.rgh-extensible-nav {
+	.UnderlineNav-octicon {
+		@media (max-width: 1100px) {
+			/* Somewhat match the native behavior for now. `mobile-tabs` would be better */
+			display: none !important;
+		}
+	}
+}
