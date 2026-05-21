@@ -58,6 +58,7 @@ import './features/sort-conversations-by-update-time.js'; // Must be after globa
 import './features/pinned-issues-update-time.js';
 import './features/mark-pinned.js';
 import './features/default-branch-button.js';
+import './features/diffshub-button.js';
 import './features/one-click-diff-options.js';
 import './features/ci-link.js';
 import './features/sync-pr-commit-title.js';
