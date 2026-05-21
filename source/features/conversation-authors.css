@@ -16,7 +16,7 @@ a.rgh-own-conversation:hover {
 		--color-user-mention-fg,
 		fuchsia
 	) !important; /* Their :hover	uses !important... */
-	background-color: var(--bgColor-attention-muted, var(--color-attension-subtle, fuchsia));
+	background-color: var(--bgColor-attention-muted, var(--color-attention-subtle, fuchsia));
 }
 
 a.rgh-own-conversation:hover {
