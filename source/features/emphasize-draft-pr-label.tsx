@@ -10,5 +10,7 @@ Test URLs:
 
 - https://github.com/refined-github/refined-github/pulls
 - https://github.com/pulls
+- https://github.com/pulls/authored
+- https://github.com/pulls/inbox
 
 */

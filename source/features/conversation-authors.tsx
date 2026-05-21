@@ -37,6 +37,9 @@ function highlightSelf(signal: AbortSignal): void {
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
 			CSS.escape(getLoggedInUser()!)
 		}/hovercard"]`,
+		`li:has(a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"])
+			div[class^="Description"]
+			a[data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});
@@ -60,6 +63,8 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/issues
+https://github.com/pulls/authored
+https://github.com/pulls/inbox
 https://github.com/refined-github/refined-github/issues
 
 */

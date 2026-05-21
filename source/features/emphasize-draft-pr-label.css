@@ -17,6 +17,12 @@
 		[aria-label*='Status: Draft (not ready)']
 			[data-testid='list-row-state-icon']
 			svg,
+		/* Preview global PR list */
+		li:has(
+			a[data-hovercard-type='pull_request'][data-testid='listitem-title-link']
+		)
+			[aria-label='Draft Pull Request']
+			svg,
 		/* Notification select by */
 		.rgh-select-notifications .octicon-git-pull-request-draft,
 		/* Notification list */
