@@ -42,11 +42,10 @@ function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
 }
 
 async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(
-		pinnedIssuesMetadata.map(issueMetadata => getPinnedIssueNumber(issueMetadata)),
-	);
-	for (const issueMetadata of pinnedIssuesMetadata) {
-		const issueNumber = getPinnedIssueNumber(issueMetadata);
+	const issuesByNumber = new Map(pinnedIssuesMetadata.map(metadata => [getPinnedIssueNumber(metadata), metadata]));
+	const lastUpdated = await getLastUpdated.get([...issuesByNumber.keys()]);
+
+	for (const [issueNumber, issueMetadata] of issuesByNumber) {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		issueMetadata.after(
 			// .rgh class enables tweakers to hide the number
