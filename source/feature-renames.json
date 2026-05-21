@@ -10,7 +10,6 @@
 	"add-time-machine-links-to-comments": "comments-time-machine-links",
 	"add-create-release-shortcut": "create-release-shortcut",
 	"add-patch-diff-links": "patch-diff-links",
-	"add-gists-link-to-profile": "profile-gists-link",
 	"add-swap-branches-on-compare": "swap-branches-on-compare",
 	"show-asset-download-count": "release-download-count",
 	"filter-pr-by-build-status": "pr-filters",
