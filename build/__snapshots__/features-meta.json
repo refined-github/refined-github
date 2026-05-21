@@ -114,11 +114,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png"
 	},
 	{
-		"id": "clean-repo-tabs",
-		"description": "Moves the \"Security\" and \"Insights\"  to the repository navigation dropdown. Also moves the \"Projects\", \"Actions\" and \"Wiki\" tabs if they're empty/unused.",
-		"screenshot": "https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png"
-	},
-	{
 		"id": "clean-rich-text-editor",
 		"description": "Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)",
 		"css": true,
@@ -296,6 +291,12 @@
 		"description": "Widens the <code>Expand diff</code> button to be clickable across the screen.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
+	},
+	{
+		"id": "extensible-nav",
+		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.",
+		"css": true,
+		"screenshot": null
 	},
 	{
 		"id": "file-age-color",
@@ -696,11 +697,6 @@
 		"id": "previous-version",
 		"description": "Lets you see the previous version of a file in one click.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319"
-	},
-	{
-		"id": "profile-gists-link",
-		"description": "Adds a link to the user’s public gists on their profile.",
-		"screenshot": "https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png"
 	},
 	{
 		"id": "profile-hotkey",

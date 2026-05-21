@@ -100,7 +100,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "github-actions-indicators") [In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png)
 - [](# "quick-repo-deletion") [Simplifies the deletion of repositories. Adds "Delete fork" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.](https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5)
 - [](# "archive-forks-link") [Helps you find forks on archived repos.](https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png)
-- [](# "clean-repo-tabs") [Moves the "Security" and "Insights"  to the repository navigation dropdown. Also moves the "Projects", "Actions" and "Wiki" tabs if they're empty/unused.](https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png)
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
@@ -304,7 +303,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Profiles
 
 - [](# "user-profile-follower-badge") [On profiles, it shows whether the user follows you.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png)
-- [](# "profile-gists-link") [Adds a link to the user’s public gists on their profile.](https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png)
 - [](# "mark-private-orgs") [Marks private organizations on your own profile.](https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea)
 - [](# "profile-hotkey") Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
 - [](# "show-user-top-repositories") [Adds a link to the user’s most starred repositories.](https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png)
@@ -395,6 +393,11 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
 https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
+-->
+
+<!--
+Documented but hidden from the readme:
+- [](# "extensible-nav") This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.
 -->
 
 ### Previously part of Refined GitHub
