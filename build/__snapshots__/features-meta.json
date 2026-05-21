@@ -241,7 +241,8 @@
 	},
 	{
 		"id": "diffshub-button",
-		"description": "Adds a button to open PR, compare, and commit diffs on DiffsHub."
+		"description": "Adds a button to open PR, compare, and commit diffs on DiffsHub.",
+		"screenshot": "https://github.com/user-attachments/assets/0a14121a-4f92-42d6-9e1f-34af0076f4dc"
 	},
 	{
 		"id": "dim-bots",
