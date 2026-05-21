@@ -2,7 +2,7 @@ import './extensible-nav.css';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import React from 'react';
-import {$, $$, $optional} from 'select-dom';
+import {$, $$, $optional, elementExists} from 'select-dom';
 import {assertPresent} from 'ts-extras';
 
 import AgentIcon from 'octicons-plain-react/Agent';
@@ -17,6 +17,7 @@ import ShieldIcon from 'octicons-plain-react/Shield';
 
 import features from '../feature-manager.js';
 import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer';
 
 let ready = false;
 
@@ -61,8 +62,12 @@ function generateTab(item: HTMLAnchorElement): JSX.Element {
 	);
 }
 
-async function initOnce(): Promise<void> {
-	const nativeNav = (await elementReady('nav[aria-label="Repository"]'))!;
+function replace(nativeNav: HTMLElement): void {
+	// Final check to avoid duplicates in any scenario.
+	if (elementExists('.rgh-extensible-nav')) {
+		return;
+	}
+
 	const items = $$('a', nativeNav);
 	nativeNav.before(
 		<nav className="UnderlineNav rgh-extensible-nav px-4">
@@ -72,8 +77,16 @@ async function initOnce(): Promise<void> {
 		</nav>,
 	);
 
-	nativeNav.classList.add('sr-only');
+	nativeNav.classList.add('rgh-extensible-nav-removed');
 	ready = true;
+}
+
+async function initOnce(): Promise<void> {
+	// Use `element-ready` to ensure that the native navigation is fully loaded before replacing it for the first time.
+	await elementReady('nav[aria-label="Repository"]');
+
+	// Use `observe` because GitHub occasionally removes and re-adds the entire header.
+	observe('nav[aria-label="Repository"]', replace);
 }
 
 function updateCurrentTab(): void {
