@@ -398,6 +398,11 @@ Refer to style guide in the wiki. Keep this message between sections.
 https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
 -->
 
+<!--
+Documented but hidden from the readme:
+- [](# "extensible-nav") This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.
+-->
+
 ### Previously part of Refined GitHub
 
 [GitHub took inspiration from Refined GitHub](https://github.blog/2018-08-28-announcing-paper-cuts/) and natively implemented dozens of its features, 🎉 so they've been [removed from this extension.](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+label%3A%22implemented+by+github%22) You can also see [all the past features](https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Amerged+-label%3Ameta+in%3Atitle+drop+feature) of Refined GitHub in a single list.

@@ -298,6 +298,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
 	},
 	{
+		"id": "extensible-nav",
+		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.",
+		"screenshot": null
+	},
+	{
 		"id": "file-age-color",
 		"description": "Highlights the most-recently-modified items in file lists.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png"
