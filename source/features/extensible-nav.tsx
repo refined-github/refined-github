@@ -1,13 +1,36 @@
 import './extensible-nav.css';
-import React from 'react';
-import * as pageDetect from 'github-url-detection';
-import {$, $$, $optional} from 'select-dom';
 import elementReady from 'element-ready';
+import * as pageDetect from 'github-url-detection';
+import React from 'react';
+import {$, $$, $optional} from 'select-dom';
+import {assertPresent} from 'ts-extras';
+
+import AgentIcon from 'octicons-plain-react/Agent';
+import BookIcon from 'octicons-plain-react/Book';
+import CodeIcon from 'octicons-plain-react/Code';
+import GearIcon from 'octicons-plain-react/Gear';
+import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
+import GraphIcon from 'octicons-plain-react/Graph';
+import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+import PlayIcon from 'octicons-plain-react/Play';
+import ShieldIcon from 'octicons-plain-react/Shield';
 
 import features from '../feature-manager.js';
-import onetime from '../helpers/onetime';
+import onetime from '../helpers/onetime.js';
 
 let ready = false;
+
+const knownTabsIcons = new Map([
+	['code', CodeIcon],
+	['issues', IssueOpenedIcon],
+	['pull-requests', GitPullRequestIcon],
+	['agents', AgentIcon],
+	['actions', PlayIcon],
+	['wiki', BookIcon],
+	['security-and-quality', ShieldIcon],
+	['insights', GraphIcon],
+	['settings', GearIcon],
+]);
 
 function generateTab(item: HTMLAnchorElement): JSX.Element {
 	const label = ($optional('[data-component="text"]', item) ?? item).textContent;
@@ -15,15 +38,15 @@ function generateTab(item: HTMLAnchorElement): JSX.Element {
 	const counter = $optional('[data-component="counter"] [data-variant="secondary"]', item)?.textContent;
 	const selectedClass = item.hasAttribute('aria-current') ? 'selected' : '';
 
-	// The icon may be missing if the feature runs too late and the link is found in the dropdown
-	let icon = $optional('[data-component="icon"]', item);
-	if (icon) {
-		icon = icon.cloneNode(true);
-		icon.classList.add(
-			// This class comes after d-none utility classes so they can't override it
-			'UnderlineNav-octicon',
-		);
-	}
+	// Hard assertions will make the feature fail before it attempts to replace the native one.
+	// Being the repository's main navigation, we want to avoid breaking.
+	const itemId = item.getAttribute('data-tab-item');
+	assertPresent(itemId);
+	const Icon = knownTabsIcons.get(itemId);
+	assertPresent(Icon);
+
+	// `UnderlineNav-octicon` comes after d-none utility classes so they can't override it
+	const icon = <Icon className="UnderlineNav-octicon" />;
 
 	return (
 		<li key={item.href}>
@@ -31,7 +54,7 @@ function generateTab(item: HTMLAnchorElement): JSX.Element {
 				{icon}
 				{label}
 				{counter && (
-					<span className='Counter'>{counter}</span>
+					<span className="Counter">{counter}</span>
 				)}
 			</a>
 		</li>
@@ -42,14 +65,14 @@ async function initOnce(): Promise<void> {
 	const nativeNav = (await elementReady('nav[aria-label="Repository"]'))!;
 	const items = $$('a', nativeNav);
 	nativeNav.before(
-		<nav className='UnderlineNav rgh-extensible-nav px-4'>
-			<ul className='UnderlineNav-body'>
+		<nav className="UnderlineNav rgh-extensible-nav px-4">
+			<ul className="UnderlineNav-body">
 				{items.map(item => generateTab(item))}
 			</ul>
 		</nav>,
 	);
 
-	// nativeNav.classList.add('sr-only');
+	nativeNav.classList.add('sr-only');
 	ready = true;
 }
 
