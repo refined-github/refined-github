@@ -17,7 +17,7 @@ import ShieldIcon from 'octicons-plain-react/Shield';
 
 import features from '../feature-manager.js';
 import onetime from '../helpers/onetime.js';
-import observe from '../helpers/selector-observer';
+import observe from '../helpers/selector-observer.js';
 
 let ready = false;
 
