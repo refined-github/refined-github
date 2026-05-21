@@ -16,7 +16,6 @@
 	"clean-readme-url",
 	"clean-repo-filelist-actions",
 	"clean-repo-sidebar",
-	"clean-repo-tabs",
 	"clean-rich-text-editor",
 	"clear-pr-merge-commit-message",
 	"click-outside-modal",
