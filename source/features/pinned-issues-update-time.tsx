@@ -1,12 +1,12 @@
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $closest} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
 type IssueInfo = {
@@ -34,7 +34,11 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
-	return looseParseInt(pinnedIssueMetadata.childNodes[2]);
+	const pinnedIssue = $closest('[class*="contentContainer"]', pinnedIssueMetadata);
+	const issueLink = $('a[class*="PinnedIssue-module__Link"]', pinnedIssue);
+	const issueNumber = issueLink.pathname.split('/').pop()!;
+
+	return Number(issueNumber);
 }
 
 async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
