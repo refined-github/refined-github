@@ -798,11 +798,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png"
 	},
 	{
-		"id": "releases-tab",
-		"description": "Adds a <code>Releases</code> tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd>.",
-		"screenshot": "https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png"
-	},
-	{
 		"id": "reload-failed-proxied-images",
 		"description": "Retries downloading images that failed downloading due to GitHub limited proxying.",
 		"screenshot": "https://user-images.githubusercontent.com/14858959/64068746-21991100-cc45-11e9-844e-827f5ac9b51e.png"

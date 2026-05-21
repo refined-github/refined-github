@@ -10,11 +10,11 @@ import waitForPrMerge from '../github-events/on-pr-merge.js';
 import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import getReleasesCount from '../github-helpers/releases-count.js';
 import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {getReleasesCount} from './releases-tab.js';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -103,13 +103,13 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 		anchor.before(
 			<TimelineItem>
 				{createBanner(bannerContent)}
-			</TimelineItem>);
+			</TimelineItem>,
+		);
 	}, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit
-		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
 	const [, hash] = /commit\/([a-f0-9]{40})/.exec(mergeCommit.pathname)!;
 	const tagName = await firstTag.get(hash);
 

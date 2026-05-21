@@ -188,11 +188,6 @@ export function fixFileHeaderOverlap(child: Element): void {
 	$closestOptional('.container', child)?.classList.add('rgh-z-index-5');
 }
 
-/** Trigger a reflow to push the right-most tab into the overflow dropdown */
-export function triggerRepoNavOverflow(): void {
-	globalThis.dispatchEvent(new Event('resize'));
-}
-
 export function multilineAriaLabel(...lines: string[]): string {
 	return lines.join('\n');
 }

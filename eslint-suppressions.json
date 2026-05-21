@@ -13,10 +13,5 @@
     "refined-github/no-optional-chaining": {
       "count": 2
     }
-  },
-  "source/features/releases-tab.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
-    }
   }
 }
