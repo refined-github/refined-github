@@ -7,7 +7,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';

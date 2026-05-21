@@ -514,12 +514,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "more-dropdown-links",
-		"description": "Adds useful links to the repository navigation dropdown",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png"
-	},
-	{
 		"id": "more-file-links",
 		"description": "Adds links to view the raw version, the blame, and the history of files in PRs and commits.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png"
