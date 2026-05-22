@@ -40,7 +40,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 		newIssueUrl.searchParams.set('title', `\`${id}\` `);
 		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 		links.push(
-			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href} >Report bug</a>,
+			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href}>Report bug</a>,
 		);
 	}
 
