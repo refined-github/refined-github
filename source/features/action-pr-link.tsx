@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber} from '../github-helpers/index.js';
@@ -14,7 +14,7 @@ function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, valu
 async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent.slice(1);
 
-	const runLink = $('a:has(.Link--primary)', $closest('.Box-row', prLink));
+	const runLink = $('a:has(.Link--primary)', closestElement('.Box-row', prLink));
 	setSearchParameter(runLink, 'pr', prNumber);
 }
 

@@ -34,7 +34,6 @@ import './features/sticky-comment-header.js';
 
 // Disableable features
 import './features/useful-not-found-page.js';
-import './features/more-dropdown-links.js';
 import './features/releases-tab.js';
 import './features/one-key-formatting.js';
 import './features/tab-to-indent.js';
@@ -76,7 +75,6 @@ import './features/reactions-avatars.js';
 import './features/show-names.js';
 import './features/previous-next-commit-buttons.js';
 import './features/extend-diff-expander.js';
-import './features/profile-gists-link.js';
 import './features/show-user-top-repositories.js';
 import './features/hide-user-forks.js';
 import './features/user-profile-follower-badge.js';
@@ -170,7 +168,6 @@ import './features/quick-review-comment-deletion.js';
 import './features/no-unnecessary-split-diff-view.js';
 import './features/list-prs-for-branch.js';
 import './features/select-notifications.js';
-import './features/clean-repo-tabs.js';
 import './features/rgh-options-link.js';
 import './features/same-branch-author-commits.js';
 import './features/rgh-improve-new-issue-form.js';
@@ -219,3 +216,4 @@ import './features/actions-run-removal.js';
 import './features/new-milestone-button.js';
 import './features/no-self-reference.js';
 import './features/cmd-enter.js';
+import './features/extensible-nav.js';

@@ -6,6 +6,7 @@ import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
+import selectDom from 'select-dom/eslint-plugin';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
@@ -13,11 +14,9 @@ import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallba
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
-import selectDomRule from './eslint-rules/select-dom.js';
 
 const refinedGithubPlugin = {
 	rules: {
-		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
 		'css-documentation': cssDocumentation,
 		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
@@ -33,6 +32,7 @@ export default defineConfig([
 			prettier: false,
 			plugins: {
 				promise: pluginPromise,
+				'select-dom': selectDom,
 			},
 			languageOptions: {
 				globals: {
@@ -312,7 +312,9 @@ export default defineConfig([
 		},
 		rules: {
 			...restrictedSyntax,
-			'refined-github/select-dom': 'error',
+			'select-dom/prefer': ['error', {
+				allowReadabilityExceptions: true,
+			}],
 		},
 	},
 	{

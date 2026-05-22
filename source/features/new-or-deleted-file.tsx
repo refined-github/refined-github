@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {is} from '../helpers/css-selectors.js';
+import observe from '../helpers/selector-observer.js';
 
 // Use specific classes to avoid selecting unrelated icons.
 // Include `svg` to exclude extensions like "Material Icons for GitHub".

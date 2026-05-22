@@ -2,7 +2,7 @@ import './ci-link.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, $closestOptional} from 'select-dom';
+import {closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -33,7 +33,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	}
 
 	if (!anchor.classList.contains('AppHeader-context-item')) {
-		$closest('li', anchor).classList.add('d-flex');
+		closestElement('li', anchor).classList.add('d-flex');
 	}
 
 	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
@@ -54,7 +54,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	);
 
 	// A parent is clipping the popup
-	$closestOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
+	closestElementOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
 }
 
 async function init(signal: AbortSignal): Promise<void> {

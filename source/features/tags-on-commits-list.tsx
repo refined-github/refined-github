@@ -9,9 +9,9 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
+import joinJsx from '../helpers/join-jsx.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
-import joinJsx from '../helpers/join-jsx.js';
 
 type CommitTags = Record<string, string[]>;
 
@@ -125,7 +125,7 @@ async function init(): Promise<void | false> {
 			], commit);
 
 			const tags = targetTags.map(tag =>
-			// .markdown-title enables the background color
+				// .markdown-title enables the background color
 				<a
 					className="Link--muted markdown-title"
 					href={buildRepoUrl('releases/tag', tag)}

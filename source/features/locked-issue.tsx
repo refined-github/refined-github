@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import React from 'react';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
@@ -21,7 +21,7 @@ function LockedIndicator(): JSX.Element {
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = $closestOptional(['.sticky-content', '.gh-header-sticky'], element);
+	const closestSticky = closestElementOptional(['.sticky-content', '.gh-header-sticky'], element);
 	element.after(
 		<LockedIndicator className={`mb-2 tmp-mb-2 ${closestSticky ? 'mr-2 tmp-mr-2 ' : ''}`} />,
 	);

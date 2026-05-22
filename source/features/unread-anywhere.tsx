@@ -78,7 +78,7 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
 			style={{width: 15, cursor: 'pointer'}}
-			className='rounded-left-0 border-left-0 d-block p-0 tmp-p-0'
+			className="rounded-left-0 border-left-0 d-block p-0 tmp-p-0"
 		>
 			<ArrowUpRightIcon className="mb-2 tmp-mb-2" style={{marginLeft: -1}} />
 		</button>

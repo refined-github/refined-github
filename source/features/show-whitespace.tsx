@@ -2,7 +2,7 @@ import './show-whitespace.css';
 
 import {onAbort} from 'abort-utils';
 import * as pageDetect from 'github-url-detection';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector} from '../github-helpers/dom-formatters.js';
@@ -13,7 +13,7 @@ import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const {target: line, isIntersecting} of changes) {
 		if (isIntersecting) {
-			const shouldAvoidSurroundingSpaces = Boolean($closestOptional('.blob-wrapper-embedded', line)); // #2285
+			const shouldAvoidSurroundingSpaces = Boolean(closestElementOptional('.blob-wrapper-embedded', line)); // #2285
 			showWhiteSpacesOnLine(line, shouldAvoidSurroundingSpaces);
 			viewportObserver.unobserve(line);
 		}

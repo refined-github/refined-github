@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, $closest, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -73,7 +73,7 @@ function addButton(avatar: HTMLElement): void {
 }
 
 function addButtonPr(avatar: HTMLElement): void {
-	const timelineItem = $closest([
+	const timelineItem = closestElement([
 		// Regular comments
 		'.js-comment-container',
 		// Reviews

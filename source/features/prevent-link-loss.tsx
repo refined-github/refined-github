@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import AlertIcon from 'octicons-plain-react/Alert';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 import {replaceFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -40,13 +40,13 @@ const documentation
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
 		fieldSelector,
-		$closest(bannerParent, fixButton),
+		closestElement(bannerParent, fixButton),
 	);
 
 	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
 	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
-	$closest('.flash', fixButton).remove();
+	closestElement('.flash', fixButton).remove();
 }
 
 const getUi = memoize((_memoizeKeyOnly: HTMLElement): HTMLElement =>
@@ -79,7 +79,7 @@ function isVulnerableToLinkLoss(value: string): boolean {
 
 function updateUi({delegateTarget: field}: DelegateEvent<Event, HTMLTextAreaElement>): void {
 	if (isVulnerableToLinkLoss(field.value)) {
-		$closest(bannerParent, field).append(getUi(field));
+		closestElement(bannerParent, field).append(getUi(field));
 	} else {
 		getUi(field).remove();
 	}

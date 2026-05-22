@@ -103,13 +103,13 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 		anchor.before(
 			<TimelineItem>
 				{createBanner(bannerContent)}
-			</TimelineItem>);
+			</TimelineItem>,
+		);
 	}, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit
-		= $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
 	const [, hash] = /commit\/([a-f0-9]{40})/.exec(mergeCommit.pathname)!;
 	const tagName = await firstTag.get(hash);
 

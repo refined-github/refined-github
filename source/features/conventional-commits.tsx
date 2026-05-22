@@ -12,9 +12,9 @@ import React from 'react';
 import features from '../feature-manager.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {conventionalCommitRegex, parseConventionalCommit} from '../helpers/conventional-commits.js';
+import {is} from '../helpers/css-selectors.js';
 import {removeTextInTextNode} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {is} from '../helpers/css-selectors.js';
 
 function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const textNode = commitTitleElement.firstChild!;
