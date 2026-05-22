@@ -233,7 +233,7 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
 /* Test: https://github.com/refined-github/refined-github */
 @media (max-width: 600px) {
-	a[class*="appHeaderHome"] {
+	a[class*='appHeaderHome'] {
 		display: none;
 	}
 }
