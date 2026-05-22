@@ -2,15 +2,15 @@ import React from 'dom-chef';
 
 import {getOldFeatureNames} from '../feature-data.js';
 
-export function createRghIssueLink(issueNumber: number | string): Element {
+export function createRghIssueLink(issueNumber: number | string, newTab = false): Element {
 	const issueUrl = `https://github.com/refined-github/refined-github/issues/${issueNumber}`;
 	return (
 		<a
-			target="_blank"
-			rel="noopener noreferrer"
 			data-hovercard-type="issue"
 			data-hovercard-url={issueUrl + '/hovercard'}
 			href={issueUrl}
+			target={newTab ? '_blank' : undefined}
+			rel={newTab ? 'noopener noreferrer' : undefined}
 		>
 			#{issueNumber}
 		</a>
