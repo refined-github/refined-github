@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
-import {$, closestElement, $optional} from 'select-dom';
+import {$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';

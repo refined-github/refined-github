@@ -1,8 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 
+import features from '../feature-manager.js';
 import {getCleanPathname} from '../github-helpers/index.js';
 import {commentBoxHashPr} from '../github-helpers/selectors.js';
-import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 export function removeLinkToPrFilesTab(link: HTMLAnchorElement): void {

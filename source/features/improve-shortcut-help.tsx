@@ -7,8 +7,8 @@ import {$} from 'select-dom';
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
 import {shortcutMap} from '../helpers/feature-helpers.js';
-import observe from '../helpers/selector-observer.js';
 import joinJsx from '../helpers/join-jsx.js';
+import observe from '../helpers/selector-observer.js';
 
 const getRghShortcutsContainer = memoize(
 	(baseShortcutsContainer: Element): Element => {

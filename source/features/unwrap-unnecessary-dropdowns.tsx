@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$, $$optional, closestElement, $optional, elementExists} from 'select-dom';
+import {$, $$, $$optional, $optional, closestElement, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';

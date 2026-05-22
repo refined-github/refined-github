@@ -7,8 +7,8 @@ import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {$, $$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getIdentifiers} from '../helpers/feature-helpers.js';
 import {appendBefore} from '../helpers/dom-utils.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';

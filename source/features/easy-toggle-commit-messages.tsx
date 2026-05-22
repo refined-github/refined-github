@@ -1,6 +1,6 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {closestElementOptional, $optional} from 'select-dom';
+import {$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 

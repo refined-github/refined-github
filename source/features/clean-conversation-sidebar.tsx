@@ -2,7 +2,7 @@ import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, closestElement, $optional, elementExists} from 'select-dom';
+import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';

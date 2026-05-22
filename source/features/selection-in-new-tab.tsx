@@ -1,4 +1,4 @@
-import {closestElementOptional, $optional} from 'select-dom';
+import {$optional, closestElementOptional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';

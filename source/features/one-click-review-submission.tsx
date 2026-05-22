@@ -7,7 +7,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$, closestElement, closestElementOptional, $optional} from 'select-dom';
+import {$, $optional, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -44,10 +44,8 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			$optional('label', parent)
-			?? radio.nextSibling!
-		);
+		const labelElement = $optional('label', parent)
+			?? radio.nextSibling!;
 		const tooltip = $([
 			'p',
 			'.FormControl-caption',

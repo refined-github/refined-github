@@ -3,7 +3,7 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, closestElement, $optional, elementExists} from 'select-dom';
+import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

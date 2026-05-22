@@ -4,8 +4,8 @@ import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function isHidingWhitespace(): boolean {
 	return new URL(location.href).searchParams.get('w') === '1';
