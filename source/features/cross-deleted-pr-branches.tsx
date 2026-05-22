@@ -1,7 +1,7 @@
 import './cross-deleted-pr-branches.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$$, $closest, lastElementOptional} from 'select-dom';
+import {$$, closestElement, lastElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -13,7 +13,7 @@ function markDeletedBranch(element: HTMLElement): void {
 function wasBranchDeleted(): boolean {
 	const lastBranchEvent = lastElementOptional('.TimelineItem-body .user-select-contain.commit-ref');
 	return Boolean(lastBranchEvent) // No branch events at all
-		&& $closest('.TimelineItem-body', lastBranchEvent).textContent.includes(' deleted ');
+		&& closestElement('.TimelineItem-body', lastBranchEvent).textContent.includes(' deleted ');
 }
 
 function parseBranchName(element: HTMLElement): string {

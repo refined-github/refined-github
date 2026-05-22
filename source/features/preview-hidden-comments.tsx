@@ -2,14 +2,14 @@ import './preview-hidden-comments.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function preview(hiddenCommentHeader: HTMLElement): void {
-	const details = $closest('details', hiddenCommentHeader);
+	const details = closestElement('details', hiddenCommentHeader);
 	details.classList.add('rgh-preview-hidden-comments'); // Used in CSS
 
 	const comment = $('.comment-body', details);

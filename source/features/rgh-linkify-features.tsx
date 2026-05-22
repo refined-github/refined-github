@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import debounce from 'debounce-fn';
 import * as pageDetect from 'github-url-detection';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import {mount} from 'svelte';
 
@@ -47,7 +47,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 		// <sup> goes after the <code> element (outside the inner link)
 		anchorElement = possibleFeature;
-	} else if (!$closestOptional('a', possibleFeature)) {
+	} else if (!closestElementOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
 		wrap(

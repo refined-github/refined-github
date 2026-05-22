@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, countElements} from 'select-dom';
+import {$, closestElement, countElements} from 'select-dom';
 
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
@@ -39,7 +39,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
 	}
 
-	const anchor = $closest('div[data-has-label]', messageField);
+	const anchor = closestElement('div[data-has-label]', messageField);
 	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">

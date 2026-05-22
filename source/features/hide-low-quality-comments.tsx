@@ -3,7 +3,7 @@ import './hide-low-quality-comments.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $closest, $closestOptional, $optional, countElements, elementExists} from 'select-dom';
+import {$, $$, closestElement, closestElementOptional, $optional, countElements, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import delay from '../helpers/delay.js';
@@ -58,7 +58,7 @@ function init(): void {
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
-		const comment = $closest('.js-timeline-item', commentText);
+		const comment = closestElement('.js-timeline-item', commentText);
 		if (elementExists('.Label', comment)) {
 			continue;
 		}
@@ -68,7 +68,7 @@ function init(): void {
 		// If the first comment left by the author isn't a low quality comment
 		// (previously hidden or about to be hidden), then leave this one as well
 		const previousComment = $(`.js-timeline-item:not([hidden]) .unminimized-comment .author[href="${author}"]`);
-		if ($closestOptional('.js-timeline-item', previousComment) !== comment) {
+		if (closestElementOptional('.js-timeline-item', previousComment) !== comment) {
 			continue;
 		}
 

@@ -1,6 +1,6 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
@@ -11,7 +11,7 @@ const id = getFeatureId(import.meta.url);
 const unplannedCheckbox = 'input[name="state_reason"][value="not_planned"]';
 
 function update(dropdown: HTMLElement): void {
-	const form = $closest('form', dropdown);
+	const form = closestElement('form', dropdown);
 	const radio = $(unplannedCheckbox, dropdown);
 	const mainButton = $('[name="comment_and_close"]', form);
 	const icon = $('.octicon-skip', dropdown);

@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import XIcon from 'octicons-plain-react/X';
-import {$, $closest, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
@@ -25,13 +25,13 @@ function getLabelList(): HTMLElement {
 function restoreLabelList(): void {
 	const list = getLabelList();
 	list.replaceChildren(
-		<include-fragment src={$closest('[src]', list).getAttribute('src')!} />,
+		<include-fragment src={closestElement('[src]', list).getAttribute('src')!} />,
 	);
 }
 
 function removeLabelList(): void {
 	const list = getLabelList();
-	$closest('details', list).addEventListener('toggle', restoreLabelList, {once: true});
+	closestElement('details', list).addEventListener('toggle', restoreLabelList, {once: true});
 	list.replaceChildren();
 }
 
@@ -39,7 +39,7 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 	event.preventDefault();
 
 	const removeLabelButton = event.delegateTarget;
-	const label = $closest('a', removeLabelButton);
+	const label = closestElement('a', removeLabelButton);
 
 	try {
 		label.hidden = true;

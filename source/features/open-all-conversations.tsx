@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$$, $closestOptional} from 'select-dom';
+import {$$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
@@ -20,7 +20,7 @@ function onButtonClick(): void {
 	}
 
 	const selectedLinks = links.filter(link =>
-		$closestOptional([
+		closestElementOptional([
 			// TODO [2026-01-01]: Pre-React selector; Drop
 			'.js-issue-row.selected',
 			'[aria-label^="Selected"]',
@@ -46,8 +46,8 @@ async function hasMoreThanOneConversation(): Promise<boolean> {
 }
 
 function add(anchor: HTMLElement): void {
-	const isLegacy = $closestOptional('.table-list-header-toggle', anchor);
-	const isSelected = $closestOptional([
+	const isLegacy = closestElementOptional('.table-list-header-toggle', anchor);
+	const isSelected = closestElementOptional([
 		// TODO [2026-01-01]: Pre-React selector; Drop
 		'.table-list-triage',
 		'[aria-label="Bulk actions"]',

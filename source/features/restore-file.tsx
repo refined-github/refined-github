@@ -2,7 +2,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import UndoIcon from 'octicons-plain-react/Undo';
-import {$, $closest, $optional} from 'select-dom';
+import {$, closestElement, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -100,7 +100,7 @@ async function discardChanges(
 function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	// Legacy view: get filenames from the data-path and Link--primary elements
 	if (menuItem.tagName === 'BUTTON') {
-		const [originalFileName, newFileName = originalFileName] = $('.Link--primary', $closest('[data-path]', menuItem))
+		const [originalFileName, newFileName = originalFileName] = $('.Link--primary', closestElement('[data-path]', menuItem))
 			.textContent
 			.split(' → ');
 
@@ -137,13 +137,13 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 	// Hide file from view
 	if (menuItem.tagName === 'BUTTON') {
-		$closest('.file', menuItem).remove();
+		closestElement('.file', menuItem).remove();
 		return;
 	}
 
 	// New React view: remove the tracked file container and close the menu
 	focusedFileContainer!.remove();
-	$closest('div[data-focus-trap="active"]', menuItem).remove();
+	closestElement('div[data-focus-trap="active"]', menuItem).remove();
 }
 
 // Legacy view handler
@@ -166,7 +166,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 	}
 
 	// Track the file container for later removal
-	focusedFileContainer = $closest('div[id^="diff-"]', menuButton);
+	focusedFileContainer = closestElement('div[id^="diff-"]', menuButton);
 
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {

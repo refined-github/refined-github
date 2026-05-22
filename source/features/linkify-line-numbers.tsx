@@ -1,7 +1,7 @@
 import './linkify-line-numbers.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {isAlteredClick} from 'filter-altered-clicks';
 
@@ -14,7 +14,7 @@ function getLinkToLine(lineNumberCell: HTMLElement): string {
 		throw new Error('Expected the cell to have the `data-line-number` attribute');
 	}
 
-	const fileLink = $closest(['.Box', '.review-thread-component'], lineNumberCell)
+	const fileLink = closestElement(['.Box', '.review-thread-component'], lineNumberCell)
 		.querySelector(['a[href*="#L"]', 'a[href*="#diff-"]'])!;
 
 	return fileLink.hash.startsWith('#diff-')

@@ -1,6 +1,6 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, $optional, elementExists} from 'select-dom';
+import {$, closestElement, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
@@ -40,7 +40,7 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 		return;
 	}
 
-	const fileHeader = $closest('[class*="diff-file-header"]', menuButton);
+	const fileHeader = closestElement('[class*="diff-file-header"]', menuButton);
 	if (isDeletedFile(fileHeader)) {
 		return;
 	}
@@ -56,7 +56,7 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 
 // TODO [2027-01-01]: Drop after legacy PR files view is removed
 function alter(viewFileLink: HTMLAnchorElement): void {
-	const filePath = $closest('[data-path]', viewFileLink).getAttribute('data-path')!;
+	const filePath = closestElement('[data-path]', viewFileLink).getAttribute('data-path')!;
 	rebuildFileLink(viewFileLink, filePath);
 }
 

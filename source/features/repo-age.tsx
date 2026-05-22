@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import RepoIcon from 'octicons-plain-react/Repo';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 import twas from 'twas';
 import {CachedFunction} from 'webext-storage-cache';
 
@@ -106,7 +106,7 @@ async function init(): Promise<void> {
 		</>;
 
 	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
-	$closest('.mt-2', sidebarForksLinkIcon).after(
+	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2">
 			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>

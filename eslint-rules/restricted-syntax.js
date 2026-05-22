@@ -1,12 +1,12 @@
 const restrictedSyntax = {
 	'byo/selectors-array-for-complex-strings': ['error', {
 		selector:
-			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',
+			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',
 		message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
 	}],
 	'byo/selectors-string-for-single-array-item': ['error', {
 		selector:
-			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 		message: "If it's a single selector, use a single string instead of an array",
 	}],
 	'byo/no-non-null-optional': ['error', {
@@ -18,8 +18,8 @@ const restrictedSyntax = {
 		message: 'Unused null expression: !',
 	}],
 	'byo/no-non-null-closest': ['error', {
-		selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
-		message: 'Unused null expression: ! — $closest() already throws when the element is not found',
+		selector: 'TSNonNullExpression > CallExpression > [name=closestElement]',
+		message: 'Unused null expression: ! — closestElement() already throws when the element is not found',
 	}],
 	'byo/init-once': ['error', {
 		message: 'Init functions wrapped with onetime() must have a name ending with "Once"',

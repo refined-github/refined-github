@@ -4,7 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
-import {$closestOptional, $optional, countElements, elementExists} from 'select-dom';
+import {closestElementOptional, $optional, countElements, elementExists} from 'select-dom';
 import twas from 'twas';
 
 import features from '../feature-manager.js';
@@ -76,7 +76,7 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 		return;
 	}
 
-	const reactWrapper = $closestOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
 		icon: <InfoIcon className="m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
@@ -96,7 +96,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 		return;
 	}
 
-	const reactWrapper = $closestOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
 		icon: <FlameIcon className="m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
