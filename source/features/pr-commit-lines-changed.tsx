@@ -5,9 +5,9 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
+import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
-import observe from '../helpers/selector-observer.js';
 
 // Adapted from GitHub https://github.com/refined-github/refined-github/pull/9486#discussion_r3252807259
 const totalSquares = 5;
@@ -37,7 +37,7 @@ const commitChanges = new CachedFunction('commit-changes', {
 });
 
 function repeatItems(count: number, Item: () => React.JSX.Element): React.JSX.Element[] {
-	return Array.from({length: count}).map(() => <Item style={{borderRadius: '2px'}}/>);
+	return Array.from({length: count}).map(() => <Item style={{borderRadius: '2px'}} />);
 }
 
 async function add(commitHash: HTMLElement): Promise<void> {

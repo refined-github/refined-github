@@ -1,7 +1,7 @@
-import React from 'dom-chef';
 import debounce from 'debounce-fn';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import {mount} from 'svelte';
 
@@ -9,11 +9,11 @@ import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
-import {wrap} from '../helpers/dom-utils.js';
-import {getFeatureUrl} from '../helpers/rgh-links.js';
-import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
-import observe from '../helpers/selector-observer.js';
 import {is} from '../helpers/css-selectors.js';
+import {wrap} from '../helpers/dom-utils.js';
+import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
+import observe from '../helpers/selector-observer.js';
 
 const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
 	wait: 100,
@@ -47,7 +47,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 		// <sup> goes after the <code> element (outside the inner link)
 		anchorElement = possibleFeature;
-	} else if (!$closestOptional('a', possibleFeature)) {
+	} else if (!closestElementOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
 		wrap(

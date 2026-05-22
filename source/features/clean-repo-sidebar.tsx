@@ -2,7 +2,7 @@ import './clean-repo-sidebar.css';
 import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, $optional, elementExists} from 'select-dom';
+import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
@@ -16,7 +16,7 @@ async function cleanReleases(): Promise<void> {
 		return;
 	}
 
-	const releasesSection = $closest('.BorderGrid-cell', sidebarReleases);
+	const releasesSection = closestElement('.BorderGrid-cell', sidebarReleases);
 	if (!elementExists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
@@ -25,7 +25,7 @@ async function cleanReleases(): Promise<void> {
 
 	// Collapse "Releases" section into previous section
 	releasesSection.classList.add('border-0', 'pt-md-0');
-	$closest('.BorderGrid-row', sidebarReleases)
+	closestElement('.BorderGrid-row', sidebarReleases)
 		.previousElementSibling! // About’s .BorderGrid-row
 		.firstElementChild! // About’s .BorderGrid-cell
 		.classList

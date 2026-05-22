@@ -1,6 +1,6 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$closestOptional, $optional} from 'select-dom';
+import {$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -9,7 +9,7 @@ const activeElementsSelector = 'a, button, clipboard-copy, details';
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	// The clicked element is a button, a link or a popup ("Verified" badge, CI details, etc.)
 	const elementClicked = event.target as HTMLElement;
-	if ($closestOptional(activeElementsSelector, elementClicked)) {
+	if (closestElementOptional(activeElementsSelector, elementClicked)) {
 		return;
 	}
 

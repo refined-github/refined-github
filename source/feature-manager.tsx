@@ -9,6 +9,7 @@ import type {Promisable} from 'type-fest';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
+import {expectToken} from './github-helpers/github-token.js';
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
@@ -22,7 +23,6 @@ import {
 } from './helpers/hotfix.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import waitFor from './helpers/wait-for.js';
-import {expectToken} from './github-helpers/github-token.js';
 import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
 import {contentScriptToggle} from './options/reload-without.js';
 

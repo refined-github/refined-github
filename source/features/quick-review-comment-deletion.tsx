@@ -2,7 +2,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TrashIcon from 'octicons-plain-react/Trash';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';
@@ -12,7 +12,7 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
-		$closest('.js-comment', button)
+		closestElement('.js-comment', button)
 			.querySelector('.show-more-popover .js-comment-delete > button')!
 			.click();
 	} catch (error) {
@@ -22,7 +22,7 @@ function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 }
 
 async function preloadDropdown({delegateTarget: button}: DelegateEvent): Promise<void> {
-	const comment = $closest('.js-comment', button);
+	const comment = closestElement('.js-comment', button);
 	await loadDetailsMenu($('details-menu.show-more-popover', comment));
 }
 

@@ -3,7 +3,7 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $closest, $optional, elementExists} from 'select-dom';
+import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -74,7 +74,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		doneMessage: 'Branch updated',
 	});
 
-	$closest('.ButtonGroup', button).remove();
+	closestElement('.ButtonGroup', button).remove();
 }
 
 const feature = getIdentifiers(import.meta.url);

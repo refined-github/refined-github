@@ -112,7 +112,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const indicator = tooltipped(
 				{label: 'This workflow can be triggered manually', direction: 'sw'},
 				<div
-					className='ActionListItem-visual ActionListItem-visual--trailing'
+					className="ActionListItem-visual ActionListItem-visual--trailing"
 					style={{pointerEvents: 'initial'}}
 				>
 					<PlayIcon />

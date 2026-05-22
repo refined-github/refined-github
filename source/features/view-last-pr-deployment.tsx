@@ -23,7 +23,7 @@ function addLink(header: HTMLElement): void {
 				rel="noopener noreferrer"
 				href={lastDeployment.href}
 			>
-				<RocketIcon/>
+				<RocketIcon />
 			</a>,
 		),
 	);

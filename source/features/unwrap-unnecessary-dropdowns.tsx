@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$, $$optional, $closest, $optional, elementExists} from 'select-dom';
+import {$, $$, $$optional, $optional, closestElement, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -29,7 +29,7 @@ function replaceNotificationsDropdown(): void {
 		throw new Error('GitHub added new view types. This feature is obsolete.');
 	}
 
-	const dropdown = $closest('action-menu', forms[0]);
+	const dropdown = closestElement('action-menu', forms[0]);
 	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
 	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
 
