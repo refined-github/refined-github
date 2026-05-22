@@ -68,7 +68,7 @@
 		"webext-permission-toggle": "^6.0.1",
 		"webext-storage": "^3.1.0",
 		"webext-storage-cache": "^6.0.3",
-		"webext-tools": "^4.0.0",
+		"webext-tools": "^4.0.1",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
