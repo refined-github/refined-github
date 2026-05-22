@@ -10,8 +10,8 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
 
-const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
-	selector => `${selector}:not([href*="copilot"])`,
+const botLinksCommitSelectorsExceptFirstParty = botLinksCommitSelectors.map(
+	selector => `${selector}:not([href*="copilot"]):not([href*="cursor"])`,
 );
 
 const dimBots = getIdentifiers(import.meta.url);
@@ -42,7 +42,7 @@ function dim(commit: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe([...botLinksCommitSelectorsExceptCopilot, ...botLinksPrSelectors], dim, {signal});
+	observe([...botLinksCommitSelectorsExceptFirstParty, ...botLinksPrSelectors], dim, {signal});
 
 	// Undim on mouse focus
 	delegate(dimBots.selector, 'click', undimBots, {signal});
