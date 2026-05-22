@@ -26,7 +26,8 @@ export default function getUserAvatar(username: string, size: number): string | 
 	// Enterprise can only use /$username.png
 	const isBot = username.endsWith('[bot]') || cleanName.includes('/');
 	const url = pageDetect.isEnterprise() || !isBot
-		? `/${cleanName}.png`
+		// Use full URLs: https://github.com/refined-github/refined-github/issues/9571
+		? `${location.origin}/${cleanName}.png`
 		: `https://avatars.githubusercontent.com/${cleanName}`;
 	// Why use a 2x size: https://github.com/refined-github/refined-github/pull/4973#discussion_r735133613
 	return url + `?size=${size * 2}`;
