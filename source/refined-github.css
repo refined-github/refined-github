@@ -205,7 +205,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	}
 }
 
-/* TODO: Drop after repo PR list becomes exclusively React-based */
+/* TODO [2027-01-01]: Drop after repo PR list becomes exclusively React-based */
 /* Hide label on Milestones link if there are zero milestones */
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
 /* Test: https://github.com/refined-github/refined-github/pulls */
