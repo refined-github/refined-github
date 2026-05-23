@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TableIcon from 'octicons-plain-react/Table';
-import {$, $closestOptional} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -14,7 +14,7 @@ import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import {tooltipped} from '../helpers/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = $closestOptional('fieldset', square) // Issue
+	const container = closestElementOptional('fieldset', square) // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;

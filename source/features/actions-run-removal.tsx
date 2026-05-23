@@ -4,13 +4,13 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SquareCircleIcon from 'octicons-plain-react/SquareCircle';
 import TrashIcon from 'octicons-plain-react/Trash';
-import {$, $closest, $optional} from 'select-dom';
+import {$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
-	const contextMenuDetails = $closest('details', contextMenuIcon);
+	const contextMenuDetails = closestElement('details', contextMenuIcon);
 
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- Wrong
 	const menuItem = $optional<HTMLElement>([

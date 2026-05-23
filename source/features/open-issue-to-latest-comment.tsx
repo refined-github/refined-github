@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {commentBoxHashIssue, commentBoxHashPr, commentsCountInLists} from '../github-helpers/selectors.js';
@@ -20,7 +20,7 @@ function linkify(item: HTMLElement): void {
 		const conversationLink = $([
 			'a[href*="/issues/"]',
 			'a[href*="/pull/"]',
-		], $closest('li', item));
+		], closestElement('li', item));
 		const url = new URL(conversationLink.href);
 		const type = pageDetect.isIssue(url) ? 'issue' : 'pr';
 		url.hash = getHash(type);

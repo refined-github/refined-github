@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 
 async function addWarning(anchor: HTMLElement): Promise<void> {
 	anchor.before(
-		<div className="flash flash-error my-3">
+		<div className="flash flash-error my-3 tmp-my-3">
 			<strong>Note:</strong> Creating a PR from the default branch is an{' '}
 			<a
 				href="https://jmeridth.com/posts/do-not-issue-pull-requests-from-your-master-branch/"

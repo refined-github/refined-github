@@ -2,12 +2,11 @@ import {parseCron} from '@fregante/mi-cron';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
@@ -92,6 +91,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
 		if (workflowLink.nextElementSibling) {
+			// User can trigger the workflow
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
@@ -108,16 +108,26 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 				),
 			);
 		} else {
-			// This class keeps the action on a single line. It natively exists if the item can be pinned (if current user has write access)
-			workflowLink.parentElement!.classList.add('ActionListItem--withActions');
-			workflowLink.after(
-				tooltipped(
-					{label: 'This workflow can be triggered manually', direction: 'sw'},
-					<div className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent">
-						<PlayIcon />
-					</div>,
-				),
+			// User cannot trigger the workflow
+			const indicator = tooltipped(
+				{label: 'This workflow can be triggered manually', direction: 'sw'},
+				<div
+					className="ActionListItem-visual ActionListItem-visual--trailing"
+					style={{pointerEvents: 'initial'}}
+				>
+					<PlayIcon />
+				</div>,
 			);
+			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
+			if (pinIcon) {
+				// Enable tooltip
+				pinIcon.style.pointerEvents = 'auto';
+				// Add spacing between the icons
+				pinIcon.classList.add('gap-2');
+				pinIcon.prepend(indicator);
+			} else {
+				workflowLink.append(indicator);
+			}
 		}
 	}
 
@@ -141,7 +151,6 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
 	observe('a.ActionListContent', addIndicators, {signal});
 }
 
@@ -157,6 +166,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepositoryActions,
 		async () => Boolean(await workflowDetails.get()),
 	],
+	requiresToken: true,
 	init,
 }, {
 	include: [

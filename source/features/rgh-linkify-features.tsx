@@ -1,7 +1,7 @@
-import React from 'dom-chef';
 import debounce from 'debounce-fn';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import {mount} from 'svelte';
 
@@ -9,9 +9,10 @@ import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import {getFeatureUrl} from '../helpers/rgh-links.js';
 import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
+import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
 const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
@@ -46,7 +47,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 
 		// <sup> goes after the <code> element (outside the inner link)
 		anchorElement = possibleFeature;
-	} else if (!$closestOptional('a', possibleFeature)) {
+	} else if (!closestElementOptional('a', possibleFeature)) {
 		// Possible DOM structure:
 		// - <code>
 		wrap(
@@ -70,7 +71,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 			target: sup,
 			props: {
 				featureId: id,
-				labels: {single: '$$', plural: '$$'},
+				mini: true,
 			},
 		});
 	}
@@ -85,7 +86,7 @@ function init(signal: AbortSignal): void {
 			'.js-comment-body code', // Old view `hasComments`
 			'.markdown-body code', // `hasComments`, `isReleasesOrTags`
 			'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
-			`${commitTitleInLists} code`, // `isCommitList`,
+			`${is(commitTitleInLists)} code`, // `isCommitList`, `isCompare`
 			'.react-directory-commit-message code', // `isRepoTree`
 		],
 		linkifyFeature,

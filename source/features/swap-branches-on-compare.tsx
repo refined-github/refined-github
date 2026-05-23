@@ -33,7 +33,7 @@ function init(): void {
 
 	const referencePicker = $('.range-editor .d-inline-block + .range-cross-repo-pair');
 	referencePicker.after(
-		<a className="btn btn-sm mx-2" href={buildRepoUrl('compare/' + references.join('...'))}>
+		<a className="btn btn-sm mx-2 tmp-mx-2" href={buildRepoUrl('compare/' + references.join('...'))}>
 			Swap
 		</a>,
 	);

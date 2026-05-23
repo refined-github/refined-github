@@ -1,5 +1,5 @@
 import React from 'dom-chef';
-import {$, $$, $closest, $closestOptional} from 'select-dom';
+import {$, $$, closestElement, closestElementOptional} from 'select-dom';
 
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
@@ -12,15 +12,15 @@ const formSelector = [
 ] as const;
 
 function generateSubmenu(hideButton: Element): void {
-	if ($closestOptional('.rgh-quick-comment-hiding-details', hideButton)) {
+	if (closestElementOptional('.rgh-quick-comment-hiding-details', hideButton)) {
 		// Already generated
 		return;
 	}
 
-	const detailsElement = $closest('details', hideButton);
+	const detailsElement = closestElement('details', hideButton);
 	detailsElement.classList.add('rgh-quick-comment-hiding-details');
 
-	const comment = $closest('.unminimized-comment', hideButton);
+	const comment = closestElement('.unminimized-comment', hideButton);
 	const hideCommentForm = $(formSelector, comment);
 
 	// Generate dropdown
@@ -66,7 +66,7 @@ function generateSubmenu(hideButton: Element): void {
 // Hide it when dropdown closes.
 // Uses `v-hidden` to avoid conflicts with `close-out-of-view-modals`
 function toggleSubMenu(hideButton: Element, show: boolean): void {
-	const dropdown = $closest('details', hideButton);
+	const dropdown = closestElement('details', hideButton);
 
 	// Native dropdown
 	$('details-menu', dropdown).classList.toggle('v-hidden', show);
@@ -93,7 +93,7 @@ function init(signal: AbortSignal): void {
 	delegate('.rgh-quick-comment-hiding-details', 'toggle', resetDropdowns, {capture: true, signal});
 }
 
-// TODO: Drop feature in April 2025
+// TODO [2027-01-01]: Drop feature after the legacy PR view is removed
 // https://github.com/refined-github/refined-github/issues/7856#issuecomment-2411492400
 void features.add(import.meta.url, {
 	include: [

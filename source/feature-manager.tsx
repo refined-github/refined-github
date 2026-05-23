@@ -9,6 +9,7 @@ import type {Promisable} from 'type-fest';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
+import {expectToken} from './github-helpers/github-token.js';
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
 import {catchErrors, disableErrorLogging} from './helpers/errors.js';
@@ -34,6 +35,9 @@ type FeatureLoader = RunConditions & {
 
 	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
 	awaitDomReady?: true;
+
+	/** Whether to require a personal token before running `init`. @default false */
+	requiresToken?: true;
 
 	/**
 	When pressing the back button, DOM changes and listeners are still there. Using a selector here would use the integrated deduplication logic, but it cannot be used with `delegate` and it shouldn't use `has-rgh` and `has-rgh-inner` anymore. #5871
@@ -177,6 +181,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			exclude,
 			init,
 			awaitDomReady = false,
+			requiresToken = false,
 			deduplicate = false,
 		} = loader;
 
@@ -203,6 +208,10 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 			if (!await shouldFeatureRun({asLongAs, include, exclude})) {
 				continue;
+			}
+
+			if (requiresToken) {
+				await expectToken();
 			}
 
 			const featureController = new AbortController();

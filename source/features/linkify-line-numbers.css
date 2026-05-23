@@ -1,0 +1,6 @@
+html:not([rgh-OFF-linkify-line-numbers]) {
+	.blob-num:not(.blob-num-hunk, .empty-cell):hover {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+}

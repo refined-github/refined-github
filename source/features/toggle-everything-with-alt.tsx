@@ -1,6 +1,6 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';
@@ -34,7 +34,7 @@ const addSuggestionToBatchSelector = is(
 );
 
 function markdownCommentSelector(clickedItem: HTMLElement): string {
-	const {id} = $closest('.TimelineItem-body[id]', clickedItem);
+	const {id} = closestElement('.TimelineItem-body[id]', clickedItem);
 	return `#${id} .markdown-body details > summary`;
 }
 

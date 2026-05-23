@@ -1,7 +1,0 @@
-query getGistCount($username: String!) {
-	user(login: $username) {
-		gists(first: 0) {
-			totalCount
-		}
-	}
-}

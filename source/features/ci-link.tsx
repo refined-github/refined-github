@@ -2,11 +2,10 @@ import './ci-link.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$closest, $closestOptional} from 'select-dom';
+import {closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -34,14 +33,14 @@ async function add(anchor: HTMLElement): Promise<void> {
 	}
 
 	if (!anchor.classList.contains('AppHeader-context-item')) {
-		$closest('li', anchor).classList.add('d-flex');
+		closestElement('li', anchor).classList.add('d-flex');
 	}
 
 	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
 		<span
-			className="rgh-ci-link ml-1 d-none d-sm-flex flex-items-center flex-justify-center"
+			className="rgh-ci-link ml-1 tmp-ml-1 d-none d-sm-flex flex-items-center flex-justify-center"
 			title="CI status of latest commit"
 		>
 			<batch-deferred-content hidden data-url={endpoint}>
@@ -55,16 +54,14 @@ async function add(anchor: HTMLElement): Promise<void> {
 	);
 
 	// A parent is clipping the popup
-	$closestOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
+	closestElementOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			// TODO: Remove after July 2026
+			// TODO [2026-08-01]: Remove
 			// Desktop
 			'.AppHeader-context-item:not([data-hovercard-type])',
 
@@ -84,6 +81,7 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
+	requiresToken: true,
 	init,
 });
 

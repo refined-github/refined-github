@@ -6,7 +6,6 @@ import {$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -27,11 +26,13 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 	await domLoaded;
 	$([
 		'li:has([data-content="Wiki"]',
-		'[data-menu-item$="wiki-tab"]', // TODO: Drop in October 2026
+		// TODO [2026-10-01]: Drop
+		'[data-menu-item$="wiki-tab"]',
 	]).remove();
 	$([
 		'li:has([data-content="Projects"])',
-		'[data-menu-item$="projects-tab"]', // TODO: Drop in October 2026
+		// TODO [2026-10-01]: Drop
+		'[data-menu-item$="projects-tab"]',
 	]).remove();
 }
 
@@ -58,7 +59,7 @@ function add(blueprintRow: HTMLElement): void {
 	const control = $('.blockControl', disableProjectsAndWikis);
 	control.replaceChildren(
 		// Padding/margin classes added to increate hit area
-		<label className="d-flex gap-1 flex-items-center p-2 mr-n2">
+		<label className="d-flex gap-1 flex-items-center p-2 tmp-p-2 mr-n2 tmp-mr-n2">
 			Disable
 			<input
 				checked
@@ -82,7 +83,7 @@ function addOld(submitButton: HTMLElement): void {
 
 	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
 	submitButton.parentElement!.before(
-		<div className="flash flash-warn py-0 ml-n3 my-4">
+		<div className="flash flash-warn py-0 tmp-py-0 ml-n3 tmp-ml-n3 my-4 tmp-my-3">
 			<div className="form-checkbox checked">
 				<label>
 					<input
@@ -91,7 +92,7 @@ function addOld(submitButton: HTMLElement): void {
 						id="rgh-disable-project"
 					/> Disable Projects and Wikis
 				</label>
-				<span className="note mb-2">
+				<span className="note mb-2 tmp-mb-2">
 					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
@@ -100,7 +101,6 @@ function addOld(submitButton: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal, capture: true});
@@ -112,6 +112,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNewRepoTemplate,
 		pageDetect.isForkingRepo,
 	],
+	requiresToken: true,
 	init,
 }, {
 	include: [

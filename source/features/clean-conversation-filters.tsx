@@ -5,7 +5,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
@@ -57,7 +57,6 @@ async function hide(container: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
 }
 
@@ -65,6 +64,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

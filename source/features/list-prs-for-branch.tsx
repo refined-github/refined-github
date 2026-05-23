@@ -2,7 +2,6 @@ import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelectorParent} from '../github-helpers/selectors.js';
@@ -47,8 +46,6 @@ async function add(branchSelectorParent: HTMLElement): Promise<void | false> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
-
 	observe(branchSelectorParent, add, {signal});
 }
 
@@ -60,6 +57,7 @@ void features.add(import.meta.url, {
 		isDefaultBranch,
 		isPermalink,
 	],
+	requiresToken: true,
 	init,
 });
 

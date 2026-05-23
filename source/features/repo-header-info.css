@@ -1,0 +1,10 @@
+html:not([rgh-OFF-repo-header-info]) {
+	div[data-testid='top-nav-center']
+		li:last-child
+		> a[class*='prc-Breadcrumbs-Item']:not(.rgh-repo-header-info-updated) {
+		/* Matches the `isSmallDevice` JS check */
+		@media (min-width: 500px) {
+			padding-right: 4em;
+		}
+	}
+}

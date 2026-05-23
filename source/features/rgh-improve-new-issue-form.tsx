@@ -1,7 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
@@ -20,7 +20,7 @@ const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={`flash flash-${type} h3 my-9 tmp-my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
 	);
@@ -123,7 +123,7 @@ function Lies(): JSX.Element {
 
 async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
-		$closest('fieldset', delegateTarget).append(<Lies />);
+		closestElement('fieldset', delegateTarget).append(<Lies />);
 	}
 }
 

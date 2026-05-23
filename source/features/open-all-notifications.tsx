@@ -4,11 +4,11 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import {$, $$, $closest, $closestOptional, elementExists} from 'select-dom';
+import {$, $$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {getIdentifiers} from '../helpers/feature-helpers.js';
 import {appendBefore} from '../helpers/dom-utils.js';
+import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
@@ -55,7 +55,7 @@ function removeOpenUnreadButtons(container: ParentNode = document): void {
 }
 
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
-	const container = $closestOptional('.js-notifications-group', delegateTarget) ?? document;
+	const container = closestElementOptional('.js-notifications-group', delegateTarget) ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
 	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
 	if (didOpenNotifications) {
@@ -66,7 +66,7 @@ async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<M
 
 async function openSelectedNotifications(): Promise<void> {
 	const selectedNotifications = $$('.notifications-list-item :checked')
-		.map(checkbox => $closest('.notifications-list-item', checkbox));
+		.map(checkbox => closestElement('.notifications-list-item', checkbox));
 	await openNotifications(selectedNotifications);
 
 	if (!elementExists('.notification-unread')) {
@@ -84,17 +84,17 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 		}, (
 			<button
 				type="button"
-				className={'btn btn-sm mr-2 ' + openSelected.class}
+				className={'btn btn-sm mr-2 tmp-mr-2 ' + openSelected.class}
 				data-hotkey="p"
 			>
-				<LinkExternalIcon className="mr-1" />Open
+				<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
 			</button>
 		)),
 	);
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
-	const repository = $closest('.js-notifications-group', markReadButton);
+	const repository = closestElement('.js-notifications-group', markReadButton);
 	if (getUnreadNotifications(repository).length === 0) {
 		return;
 	}
@@ -104,7 +104,7 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 			{label: 'Open all unread notifications from this repo', direction: 'w'},
 			<button
 				type="button"
-				className={'btn btn-sm mr-2 ' + openUnread.class}
+				className={'btn btn-sm mr-2 tmp-mr-2 ' + openUnread.class}
 			>
 				<LinkExternalIcon width={16} /> Open unread
 			</button>,
@@ -119,7 +119,7 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 
 	notificationHeader.append(
 		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
-			<LinkExternalIcon className="mr-1" />Open all unread
+			<LinkExternalIcon className="mr-1 tmp-mr-1" />Open all unread
 		</button>,
 	);
 }

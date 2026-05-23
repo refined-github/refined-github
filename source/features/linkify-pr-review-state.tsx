@@ -41,7 +41,7 @@ function init(signal: AbortSignal): void {
 			'span[class^="ReviewDecision-module__reviewDecisionContent"]',
 
 			// Note: This feature alters the `href` so this selector cannot be used by any other features
-			// TODO: Drop selector when the old PR list is removed
+			// TODO [2027-01-01]: Drop selector when the old PR list is removed
 			'.js-issue-row .text-small a[href$="#partial-pull-merging"]',
 		],
 		alterLink,

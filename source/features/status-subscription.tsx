@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import BellIcon from 'octicons-plain-react/Bell';
 import BellSlashIcon from 'octicons-plain-react/BellSlash';
 import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
-import {$, $closest, $optional} from 'select-dom';
+import {$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
@@ -34,7 +34,7 @@ function SubButton(): JSX.Element {
 }
 
 function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
-	return $('p.reason', $closest('.thread-subscription-status', subscriptionButton));
+	return $('p.reason', closestElement('.thread-subscription-status', subscriptionButton));
 }
 
 function getCurrentStatus(subscriptionButton: HTMLButtonElement): SubscriptionStatus {
@@ -242,7 +242,7 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		// Workaround for #6554
+		// Workaround for https://github.com/refined-github/refined-github/issues/6554
 		// TODO: remove once the issue is resolved
 		pageDetect.isRepoIssueOrPRList,
 	],

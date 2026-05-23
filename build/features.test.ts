@@ -32,6 +32,7 @@ const noScreenshotExceptions = new Set([
 	'tab-size',
 	'monospace-textareas',
 	'new-tab-links',
+	'extensible-nav', // No visual or behavior change
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
@@ -128,7 +129,10 @@ function validateCss(file: FeatureFile): void {
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
 
-		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		// `github-bugs` has its own eslint rule for test URLs
+		if (file.id !== 'github-bugs') {
+			assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		}
 
 		if (!isFeaturePrivate(file.name)) {
 			validateReadme(file.id);
@@ -175,8 +179,8 @@ function validateTsx(file: FeatureFile): void {
 		&& /observe\(|delegate\(/.test(String(file.contents()))
 	) {
 		assert(
-			/await expectToken|hasToken/.test(String(file.contents())),
-			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
+			/requiresToken:\s*true|hasToken/.test(String(file.contents())),
+			`${file.id} uses the v4 API, so it should include \`requiresToken: true\`, or if the token is optional, \`hasToken\` anywhere`,
 		);
 	}
 

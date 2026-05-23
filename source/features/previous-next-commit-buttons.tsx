@@ -16,7 +16,7 @@ function init(): false | void {
 		'#files', // Legacy
 		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
 	]).after(
-		<div className="d-flex flex-justify-end mb-3">
+		<div className="d-flex flex-justify-end mb-3 tmp-mb-3">
 			{originalPreviousNext.cloneNode(true)}
 		</div>,
 	);

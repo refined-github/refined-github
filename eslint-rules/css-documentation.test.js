@@ -21,16 +21,16 @@ test('css-documentation', () => {
 		],
 		invalid: [
 			{
-				code: `/* TODO: Remove after July 2026 */
+				code: `/* TODO [2026-08-01]: Remove */
 /* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/8975 */
 .sticky-header-wrapper.is-stuck .pr-alerts-banner {}`,
-				errors: [{message: /Missing: Test\./}],
+				errors: [{message: /Missing: Test/}],
 			},
 			{
 				code: `/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 review-thread-collapsible > .js-toggle-outdated-comments {}`,
-				errors: [{message: /Missing: Description, Info\./}],
+				errors: [{message: /Missing: Description, Info/}],
 			},
 		],
 	});

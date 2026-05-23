@@ -7,9 +7,9 @@ import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
+import joinJsx from '../helpers/join-jsx.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 
@@ -92,7 +92,6 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 }
 
 async function init(): Promise<void | false> {
-	await expectToken();
 	const cacheKey = `tags:${getRepo()!.nameWithOwner}`;
 
 	let commitsOnPage = $$optional('[data-testid="commit-row-item"]');
@@ -125,22 +124,21 @@ async function init(): Promise<void | false> {
 				'[class^="Description-module__container"]',
 			], commit);
 
+			const tags = targetTags.map(tag =>
+				// .markdown-title enables the background color
+				<a
+					className="Link--muted markdown-title"
+					href={buildRepoUrl('releases/tag', tag)}
+				>
+					<code>{tag}</code>
+				</a>,
+			);
+
 			commitMeta.append(
-				<div className="ml-1 d-flex flex-items-center gap-1">
+				<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 					<TagIcon />
 					<span className="d-flex flex-wrap gap-1">
-						{...targetTags.map(tag => (
-							<>
-								{' '}
-								{/* .markdown-title enables the background color */}
-								<a
-									className="Link--muted markdown-title"
-									href={buildRepoUrl('releases/tag', tag)}
-								>
-									<code>{tag}</code>
-								</a>
-							</>
-						))}
+						{joinJsx(' ', tags)}
 					</span>
 				</div>,
 			);
@@ -163,6 +161,7 @@ void features.add(import.meta.url, {
 	],
 	awaitDomReady: true,
 	deduplicate: 'has-rgh-inner',
+	requiresToken: true,
 	init,
 });
 

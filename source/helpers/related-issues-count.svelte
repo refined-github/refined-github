@@ -4,20 +4,12 @@
 	import getOpenRelatedIssuesCount from './related-issues-count.js';
 	import {getFeatureRelatedIssuesUrl} from './rgh-links.js';
 
-	type Labels = {
-		single: string;
-		plural?: string;
-		zero?: string;
-		loading?: string;
-	};
-
 	type Props = {
 		featureId: string;
-		linkify?: boolean;
-		labels: Labels;
+		mini?: boolean;
 	};
 
-	const {featureId, linkify = true, labels}: Props = $props();
+	const {featureId, mini = false}: Props = $props();
 
 	const relatedIssuesHref = $derived.by(() =>
 		getFeatureRelatedIssuesUrl(featureId).href
@@ -25,24 +17,35 @@
 	const countPromise = $derived.by(() => getOpenRelatedIssuesCount(featureId));
 </script>
 
-{#snippet linked(text: string)}
-	{#if linkify}
-		<a
-			href={relatedIssuesHref}
-			data-turbo-frame="repo-content-turbo-frame"
-			class={excludeFromDomTextExtraction}
-		>{text}</a>
-	{:else}
+{#snippet linked(text: string, tooltip?: string)}
+	<a
+		href={relatedIssuesHref}
+		data-turbo-frame="repo-content-turbo-frame"
+		class={excludeFromDomTextExtraction}
+		class:tooltipped={tooltip}
+		class:tooltipped-n={tooltip}
+		aria-label={tooltip || undefined}
+	>
 		{text}
-	{/if}
+	</a>
 {/snippet}
 
 {#await countPromise}
-	{#if labels.loading}
-		{@render linked(labels.loading)}
+	{#if !mini}
+		{@render linked('Related issues')}
 	{/if}
 {:then count}
-	{#if count > 0 || labels.zero !== undefined}
-		{@render linked(pluralize(count, labels.single, labels.plural, labels.zero))}
+	{@const openIssuesLabel = pluralize(
+		count,
+		'1 open issue',
+		'$$ open issues',
+		'Related issues',
+	)}
+	{#if mini}
+		{#if count > 0}
+			{@render linked(String(count), openIssuesLabel)}
+		{/if}
+	{:else}
+		{@render linked(openIssuesLabel)}
 	{/if}
 {/await}
