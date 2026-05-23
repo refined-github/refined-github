@@ -17,7 +17,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 
 	const avatar = (
 		<img
-			className={`avatar ${isOldNavbar ? 'ml-1 tmp-ml-1' : ''} mr-2 tmp-mr-2`}
+			className={`d-none d-md-block avatar ${isOldNavbar ? 'ml-1 tmp-ml-1' : ''} mr-2 tmp-mr-2`}
 			src={source}
 			width={size}
 			height={size}
