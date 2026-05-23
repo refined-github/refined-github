@@ -96,6 +96,7 @@
 	"no-modals",
 	"no-self-reference",
 	"no-unnecessary-split-diff-view",
+	"notifications-ui",
 	"one-click-diff-options",
 	"one-click-pr-or-gist",
 	"one-click-review-submission",
