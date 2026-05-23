@@ -36,11 +36,9 @@ function addAvatar(link: HTMLElement): void {
 	const size = 14;
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
-	link.prepend(
-		<span className='v-align-text-bottom mr-1 tmp-mr-1'>
-			{createAvatar(username, size)}
-		</span>,
-	);
+	const avatar = createAvatar(username, size);
+	avatar.classList.add('mr-1', 'tmp-mr-1');
+	link.prepend(avatar);
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
