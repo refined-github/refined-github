@@ -47,7 +47,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
-		// Place next to asset sha
+		// Re-align the asset size
 		const assetSize = $(':scope > .flex-justify-end > span', closestElement('.Box-row', assetLink));
 		assertNodeContent(assetSize.firstChild, /^\d+(\.\d+)? \w{2,5}$/);
 
@@ -60,12 +60,12 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		}
 
 		// Add class to parent in order to define "columns"
-		assetSize.parentElement!.classList.add('rgh-release-download-count');
+		assetSize.parentElement!.classList.add('rgh-release-download-count', 'gap-4');
 
-		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest...)
+		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest)
 		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
 
-		// Add at the beginning of the line to avoid (clickable) content shift
+		// Add at the beginning of the line to avoid content shift
 		assetSize.parentElement!.prepend(
 			<span className={[...getClasses(assetSize)].join(' ')}>
 				<span
@@ -78,10 +78,10 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			</span>,
 		);
 
-		// Remove via JS because we can't override utility classes...
+		// Unset all margin we added `gap` like sane people.
+		// Unset via JS because we can't override utility classes.
 		for (const column of assetSize.parentElement!.children) {
-			column.classList.remove('ml-sm-3', 'ml-md-4');
-			column.classList.add('ml-lg-4');
+			(column as HTMLElement).style.setProperty('margin', '0', 'important');
 		}
 	}
 }
