@@ -1,7 +1,6 @@
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -34,10 +33,7 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
-	const pinnedIssue = $closest('[class*="contentContainer"]', pinnedIssueMetadata);
-	const issueLink = $('a[class*="PinnedIssue-module__Link"]', pinnedIssue);
-	const issueNumber = issueLink.pathname.split('/').pop()!;
-
+	const issueNumber = /#(\d+)/.exec(pinnedIssueMetadata.textContent)![1];
 	return Number(issueNumber);
 }
 
