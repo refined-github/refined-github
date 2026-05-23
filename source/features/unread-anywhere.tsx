@@ -29,12 +29,12 @@ function removeNotificationIndicator(element: HTMLElement): void {
 	}
 }
 
-async function openUnreadNotifications(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
+async function openUnreadNotifications({currentTarget: button}: React.MouseEvent<HTMLButtonElement>): Promise<void> {
 	// Hide the tooltip
-	event.currentTarget.blur();
+	button.blur();
 
 	// Prevent multiple clicks
-	event.currentTarget.disabled = true;
+	button.disabled = true;
 
 	await showToast(async updateToast => {
 		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
@@ -66,7 +66,7 @@ async function openUnreadNotifications(event: React.MouseEvent<HTMLButtonElement
 		message: 'Loading notifications…',
 		doneMessage: false,
 	}).finally(() => {
-		event.currentTarget.disabled = false;
+		button.disabled = false;
 	});
 }
 

@@ -22,11 +22,11 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<button
 			type="button"
 			className="btn-link"
-			onClick={event => {
+			onClick={() => {
 				newCommentBox.hidden = false;
 
 				// Keep the banner, make it visible
-				closestElement('.rgh-bg-none', event.currentTarget).classList.replace('rgh-bg-none', 'flash-error');
+				closestElement('.rgh-bg-none', button).classList.replace('rgh-bg-none', 'flash-error');
 
 				// Unlink this button
 				button.replaceWith(button.firstChild!);
