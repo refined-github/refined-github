@@ -20,9 +20,8 @@ function getCommitUrl(extension: 'patch' | 'diff'): string {
 }
 
 function updateCommitUrl(
-	event: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
+	{currentTarget: link}: React.FocusEvent<HTMLAnchorElement> | React.MouseEvent<HTMLAnchorElement>,
 ): void {
-	const link = event.currentTarget;
 	link.href = getCommitUrl(link.textContent as 'patch' | 'diff');
 }
 

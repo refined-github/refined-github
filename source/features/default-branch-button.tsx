@@ -29,8 +29,8 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	return defaultUrl.href;
 });
 
-async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
-	event.currentTarget.href = await getUrl(location.href);
+async function updateUrl({currentTarget: link}: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
+	link.href = await getUrl(location.href);
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
