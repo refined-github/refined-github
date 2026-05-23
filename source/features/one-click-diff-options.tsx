@@ -4,8 +4,8 @@ import CheckIcon from 'octicons-plain-react/Check';
 
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {tooltipped} from '../helpers/tooltip.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function isHidingWhitespace(): boolean {
 	return new URL(location.href).searchParams.get('w') === '1';
@@ -37,7 +37,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 			<a
 				href={getAlternateUrl()}
 				data-hotkey="d w"
-				className={'float-right mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
+				className={'float-right mr-3 tmp-mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
 			>
 				{isHidingWhitespace() && <CheckIcon />} No Whitespace
 			</a>,

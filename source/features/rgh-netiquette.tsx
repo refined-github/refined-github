@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import InfoIcon from 'octicons-plain-react/Info';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
@@ -22,11 +22,11 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<button
 			type="button"
 			className="btn-link"
-			onClick={event => {
+			onClick={() => {
 				newCommentBox.hidden = false;
 
 				// Keep the banner, make it visible
-				$closest('.rgh-bg-none', event.currentTarget).classList.replace('rgh-bg-none', 'flash-error');
+				closestElement('.rgh-bg-none', button).classList.replace('rgh-bg-none', 'flash-error');
 
 				// Unlink this button
 				button.replaceWith(button.firstChild!);
@@ -44,7 +44,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1" />,
+				icon: <InfoIcon className="mr-1 tmp-mr-1" />,
 				text: <>
 					{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
 					<strong>Do not</strong> report issues here.

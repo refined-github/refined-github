@@ -1,10 +1,12 @@
 import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
+import selectDom from 'select-dom/eslint-plugin';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
@@ -12,11 +14,9 @@ import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallba
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
-import selectDomRule from './eslint-rules/select-dom.js';
 
 const refinedGithubPlugin = {
 	rules: {
-		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
 		'css-documentation': cssDocumentation,
 		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
@@ -32,6 +32,7 @@ export default defineConfig([
 			prettier: false,
 			plugins: {
 				promise: pluginPromise,
+				'select-dom': selectDom,
 			},
 			languageOptions: {
 				globals: {
@@ -41,8 +42,14 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
+				// Prefer unicorn's version
+				'no-warning-comments': 'off',
+				'unicorn/expiring-todo-comments': ['warn', {
+					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
+					allowWarningComments: false,
+				}],
+
 				// Disable some unicorn rules
-				'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
 				'unicorn/no-nested-ternary': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
@@ -92,10 +99,6 @@ export default defineConfig([
 					],
 				}],
 
-				'no-restricted-syntax': [
-					'error',
-					...restrictedSyntax,
-				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
 				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
@@ -272,6 +275,12 @@ export default defineConfig([
 		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
 	{
+		files: ['**/*.css', '**/package.json'],
+		rules: {
+			'unicorn/expiring-todo-comments': 'off',
+		},
+	},
+	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
 		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,cts,mts,vue,svelte,astro}'],
 		rules: {
@@ -298,10 +307,14 @@ export default defineConfig([
 	},
 	{
 		plugins: {
+			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
-			'refined-github/select-dom': 'error',
+			...restrictedSyntax,
+			'select-dom/prefer': ['error', {
+				allowReadabilityExceptions: true,
+			}],
 		},
 	},
 	{

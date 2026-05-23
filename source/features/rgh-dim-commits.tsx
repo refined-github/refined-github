@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
@@ -11,7 +11,12 @@ const excludePreset = /^bump |^meta|^document|^lint|^refactor|readme|dependencie
 
 function dim(commitTitle: HTMLElement): void {
 	if (excludePreset.test(commitTitle.textContent.trim())) {
-		$closest('[data-testid="commit-row-item"]', commitTitle).style.opacity = '50%';
+		closestElement([
+			// `isCommitList`
+			'[data-testid="commit-row-item"]',
+			// `isCompare`
+			'.js-commits-list-item',
+		], commitTitle).style.opacity = '50%';
 	}
 }
 
@@ -24,6 +29,7 @@ void features.add(import.meta.url, {
 		isRefinedGitHubRepo,
 	],
 	include: [
+		pageDetect.isCompare,
 		pageDetect.isCommitList,
 	],
 	init,

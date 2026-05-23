@@ -14,27 +14,27 @@ import HubotIcon from 'octicons-plain-react/Hubot';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import SquirrelIcon from 'octicons-plain-react/Squirrel';
 import XCircleIcon from 'octicons-plain-react/XCircle';
-import {$, $$, $closest, elementExists} from 'select-dom';
+import {$, $$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
-import {is} from '../helpers/css-selectors.js';
+import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-const prIcons = is(
+const prIcons = [
 	'.octicon-git-pull-request',
 	'.octicon-git-pull-request-closed',
 	'.octicon-git-pull-request-draft',
 	'.octicon-git-merge',
-);
-const issueIcons = is('.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip');
+] as const;
+const issueIcons = ['.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip'] as const;
 const filters = {
-	'Pull requests': prIcons,
-	Issues: issueIcons,
+	'Pull requests': is(prIcons),
+	Issues: is(issueIcons),
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
-	Others: `.notification-list-item-link .octicon:not(${prIcons}, ${issueIcons}, .octicon-bookmark)`,
-	Bots: botLinksNotificationSelectors.join(', '),
+	Others: '.notification-list-item-link .octicon' + not(...prIcons, ...issueIcons, '.octicon-bookmark'),
+	Bots: is(botLinksNotificationSelectors),
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
 	Draft: '.octicon-git-pull-request-draft',
@@ -104,7 +104,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2" aria-hidden="true" />
+					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2 tmp-mr-2" aria-hidden="true" />
 					<div className="SelectMenu-item-text">
 						<input
 							hidden
@@ -113,7 +113,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 							value={filter}
 						/>
 						{icons[filter]}
-						<span className="ml-2">{filter}</span>
+						<span className="ml-2 tmp-ml-2">{filter}</span>
 					</div>
 				</label>
 			))}
@@ -123,7 +123,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 
 const createDropdown = onetime(() => (
 	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mr-2"
+		className="details-reset details-overlay position-relative rgh-select-notifications mr-2 tmp-mr-2"
 		onToggle={resetFilters}
 	>
 		<summary
@@ -134,7 +134,7 @@ const createDropdown = onetime(() => (
 			title="Hotkey: Shift+S"
 			role="button"
 		>
-			Select by <span className="dropdown-caret ml-1" />
+			Select by <span className="dropdown-caret ml-1 tmp-ml-1" />
 		</summary>
 		<details-menu
 			className="SelectMenu left-0"
@@ -159,9 +159,9 @@ function closeDropdown(): void {
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
-	$closest('label', selectAllCheckbox).after(
+	closestElement('label', selectAllCheckbox).after(
 		// `h6` matches "Select all" style
-		<span className="mx-2 h6">·</span>,
+		<span className="mx-2 tmp-mx-2 h6">·</span>,
 		createDropdown(),
 	);
 }

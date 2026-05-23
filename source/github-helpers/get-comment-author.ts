@@ -1,4 +1,4 @@
-import {$closest, $closestOptional} from 'select-dom';
+import {closestElement, closestElementOptional} from 'select-dom';
 
 /**
 Given any element in a comment, returns the comment’s author
@@ -20,7 +20,7 @@ Note: Bots are used as `name[bot]`, `app/name`, or `apps/name` depending on the 
 
 */
 export default function getCommentAuthor(anyElementInsideComment: Element): string {
-	const avatar: HTMLImageElement | HTMLElement = $closest([
+	const avatar: HTMLImageElement | HTMLElement = closestElement([
 		'.TimelineItem', // PR comments (and pre-issue redesign issue comments)
 		'.review-comment', // PR review comments
 		'.react-issue-body', // First issue comment
@@ -43,7 +43,7 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	const appLink = $closestOptional([
+	const appLink = closestElementOptional([
 		'a[href^="/apps/"]',
 		'a[href^="https://github.com/apps/"]',
 	], avatar);

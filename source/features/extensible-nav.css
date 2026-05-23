@@ -1,0 +1,23 @@
+.rgh-extensible-nav {
+	/* TODO: Remove before shipping. Temporary indicator of successful replacement */
+	border-left: 1px solid var(--borderColor-muted, fuchsia);
+	.UnderlineNav-octicon {
+		@media (max-width: 1100px) {
+			/* Somewhat match the native behavior for now. `mobile-tabs` would be better */
+			display: none !important;
+		}
+	}
+}
+
+.rgh-extensible-nav-removed {
+	position: absolute;
+	top: -200px;
+	left: -2000px;
+	opacity: 0.0001;
+	width: 1px;
+	pointer-events: none;
+	> ul {
+		/* If we let the native nav "overflow" into the dropdown, we lose the `aria-current` attribute */
+		width: 2000px;
+	}
+}

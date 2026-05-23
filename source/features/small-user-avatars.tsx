@@ -37,7 +37,7 @@ function addAvatar(link: HTMLElement): void {
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(
-		<span className='v-align-text-bottom mr-1'>
+		<span className='v-align-text-bottom mr-1 tmp-mr-1'>
 			{createAvatar(username, size)}
 		</span>,
 	);

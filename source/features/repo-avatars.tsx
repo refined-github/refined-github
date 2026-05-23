@@ -8,7 +8,7 @@ import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function add(ownerLabel: HTMLElement): Promise<void> {
-	// TODO: Drop after June 2026
+	// TODO [2026-07-01]: Drop
 	const isOldNavbar = ownerLabel.classList.contains('AppHeader-context-item-label');
 
 	const username = getRepo()!.owner;
@@ -17,7 +17,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 
 	const avatar = (
 		<img
-			className={`avatar ${isOldNavbar ? 'ml-1' : ''} mr-2`}
+			className={`d-none d-md-block avatar ${isOldNavbar ? 'ml-1 tmp-ml-1' : ''} mr-2 tmp-mr-2`}
 			src={source}
 			width={size}
 			height={size}
@@ -37,7 +37,8 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label', // TODO: Drop after June 2026
+			// TODO [2026-07-01]: Drop
+			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label',
 			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
 		],
 		add,

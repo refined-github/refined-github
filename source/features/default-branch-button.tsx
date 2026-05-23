@@ -9,7 +9,6 @@ import {$optional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
@@ -30,8 +29,8 @@ const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	return defaultUrl.href;
 });
 
-async function updateUrl(event: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
-	event.currentTarget.href = await getUrl(location.href);
+async function updateUrl({currentTarget: link}: React.MouseEvent<HTMLAnchorElement>): Promise<void> {
+	link.href = await getUrl(location.href);
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
@@ -74,7 +73,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn px-2 rgh-default-branch-button flex-self-start"
+			className="btn px-2 tmp-px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554
@@ -95,7 +94,6 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(branchSelector, add, {signal});
 }
 
@@ -105,6 +103,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		isRepoCommitListRoot,
 	],
+	requiresToken: true,
 	init,
 });
 

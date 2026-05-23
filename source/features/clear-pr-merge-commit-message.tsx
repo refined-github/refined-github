@@ -1,18 +1,17 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, countElements} from 'select-dom';
+import {$, closestElement, countElements} from 'select-dom';
 
+import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getConversationAuthor} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {confirmMergeButton} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
-import {setReactTextareaValue} from '../helpers/set-react-text-field-value.js';
 import cleanCommitMessage from '../helpers/clean-commit-message.js';
 import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
+import {setReactTextareaValue} from '../helpers/set-react-text-field-value.js';
 
 const isPrAgainstDefaultBranch = async (): Promise<boolean> => getBranches().base.branch === await getDefaultBranch();
 
@@ -40,7 +39,7 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 		currentTarget.textContent = isUndoing ? 'Redo' : 'Undo';
 	}
 
-	const anchor = $closest('div[data-has-label]', messageField);
+	const anchor = closestElement('div[data-has-label]', messageField);
 	attachElement(anchor, {
 		after: () => (
 			<div className="flex-self-stretch">
@@ -61,7 +60,6 @@ async function clear(messageField: HTMLTextAreaElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('textarea[placeholder="Add an optional extended description…"]', clear, {signal});
 }
 
@@ -75,6 +73,7 @@ void features.add(import.meta.url, {
 		() => countElements('.TimelineItem.js-commit') === 1,
 	],
 	awaitDomReady: true, // Appears near the end of the page anyway
+	requiresToken: true,
 	init,
 });
 

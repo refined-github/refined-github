@@ -3,12 +3,11 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $closest, $optional, elementExists} from 'select-dom';
+import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository} from '../github-helpers/selectors.js';
@@ -75,7 +74,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		doneMessage: 'Branch updated',
 	});
 
-	$closest('.ButtonGroup', button).remove();
+	closestElement('.ButtonGroup', button).remove();
 }
 
 const feature = getIdentifiers(import.meta.url);
@@ -162,8 +161,6 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
-
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(
 		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',
@@ -182,6 +179,7 @@ void features.add(import.meta.url, {
 		isArchivedRepoAsync,
 	],
 	awaitDomReady: true, // DOM-based exclusions
+	requiresToken: true,
 	init,
 });
 

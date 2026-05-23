@@ -1,5 +1,5 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
-import {$$, $closest} from 'select-dom';
+import {$$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getFeatureId} from '../helpers/feature-helpers.js';
@@ -20,7 +20,7 @@ const observer = new IntersectionObserver(entries => {
 
 	if (visible.size === 0) {
 		observer.disconnect();
-		$closest('details', lastModal!).open = false;
+		closestElement('details', lastModal!).open = false;
 	}
 });
 

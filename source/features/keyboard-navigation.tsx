@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$$, $closestOptional, $optional, elementExists} from 'select-dom';
+import {$$, $optional, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
@@ -7,7 +7,7 @@ import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
-	|| Boolean($closestOptional([
+	|| Boolean(closestElementOptional([
 		'.js-resolvable-thread-contents.d-none', // Regular comments
 		'details.js-resolvable-timeline-thread-container:not([open])', // Review comments
 	], comment));

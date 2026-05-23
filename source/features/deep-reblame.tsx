@@ -5,12 +5,11 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import VersionsIcon from 'octicons-plain-react/Versions';
-import {$, $$, $closest, $optional} from 'select-dom';
+import {$, $$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {multilineAriaLabel} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -55,7 +54,7 @@ async function redirectToBlameCommit(
 	event.preventDefault();
 	blameElement.blur(); // Hide tooltip after click, it’s shown on :focus
 
-	const blameHunk = $closest('.react-blame-segment-wrapper', blameElement);
+	const blameHunk = closestElement('.react-blame-segment-wrapper', blameElement);
 	const prNumbers = $$('.issue-link', blameHunk).map(pr => looseParseInt(pr));
 	const commitInfo = $('span[data-hovercard-url*="/commit/"]', blameHunk).dataset.hovercardUrl!;
 	const prCommit = extractCommitFromHoverCardUrl(commitInfo);
@@ -96,8 +95,6 @@ function addButton(hunk: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
 	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
 }
@@ -106,6 +103,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBlame,
 	],
+	requiresToken: true,
 	init,
 });
 

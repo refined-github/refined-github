@@ -87,7 +87,7 @@ function addButton(header: HTMLElement): void {
 				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
 				title={tooltip}
 			>
-				<TrashIcon className="mr-2" />
+				<TrashIcon className="mr-2 tmp-mr-2" />
 				Delete fork
 			</a>
 		</li>,

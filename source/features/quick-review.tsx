@@ -38,7 +38,7 @@ async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
 		return;
 	}
 
-	const call = api.v3(`pulls/${getConversationNumber()!}/reviews`, {
+	const call = api.v3uncached(`pulls/${getConversationNumber()!}/reviews`, {
 		method: 'POST',
 		body: {event: 'APPROVE', body: approval},
 	});
@@ -71,7 +71,7 @@ function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
 
 function preloadPrFilesTab(): void {
 	// Trigger data preloading
-	// TODO: Change `$optional` to `$()` once legacy PR files view is removed
+	// TODO [2027-01-01]: Change `$optional` to `$()` once legacy PR files view is removed
 	$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
 }
 
@@ -85,7 +85,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 					shortcut: 'v',
 				},
 				<a
-					// TODO: Change path to "changes" once Legacy PR files view is removed
+					// TODO [2027-01-01]: Change path to "changes" once Legacy PR files view is removed
 					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
 					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
 					data-turbo-frame="repo-content-turbo-frame"
@@ -138,7 +138,7 @@ function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnc
 		return;
 	}
 
-	// TODO: Drop after legacy PR files view is removed
+	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	event.delegateTarget.hash = openReviewMenuDeepLink;
 }
 
@@ -149,7 +149,7 @@ function initReviewRequestedButton(signal: AbortSignal): void {
 	});
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after the legacy PR files view is removed
 function focusReviewTextarea(event: DelegateEvent<Event, HTMLElement>): void {
 	if ('newState' in event && event.newState === 'open') {
 		$('textarea', event.delegateTarget).focus();
@@ -161,14 +161,15 @@ async function initReviewButtonEnhancements(signal: AbortSignal): Promise<void> 
 
 	const reviewDropdownButton = await elementReady([
 		reviewMenuButtonSelector,
-		'.js-reviews-toggle', // Legacy PR files view -- TODO: Drop after it is removed
+		// TODO [2027-01-01]: Drop after the legacy PR files view is removed
+		'.js-reviews-toggle',
 	]);
 	if (reviewDropdownButton) {
 		reviewDropdownButton.dataset.hotkey = 'v';
 	}
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after legacy PR files view is removed
 async function openReviewPopup(button: HTMLButtonElement): Promise<void> {
 	await delay(100); // The popover appears immediately afterwards in the HTML, observe() might trigger too soon
 	(button.popoverTargetElement as HTMLElement).showPopover();

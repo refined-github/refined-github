@@ -37,10 +37,10 @@ export default async function showToast(
 		<div
 			role="log"
 			style={{zIndex: 101}}
-			className="rgh-toast position-fixed bottom-0 right-0 ml-5 mb-5 Toast Toast--loading Toast--animateIn"
+			className="rgh-toast position-fixed bottom-0 right-0 ml-5 tmp-ml-5 mb-5 tmp-mb-5 Toast Toast--loading Toast--animateIn"
 		>
 			{iconWrapper}
-			<span className="Toast-content py-2">
+			<span className="Toast-content py-2 tmp-py-2">
 				<div style={{fontSize: '10px', color: 'silver', marginBottom: '-0.3em'}}>Refined GitHub</div>
 				{messageWrapper}
 			</span>
@@ -53,7 +53,13 @@ export default async function showToast(
 		messageWrapper.append(message);
 	};
 
-	const finalUpdateToast = async (message: ToastMessage): Promise<void> => {
+	const finalUpdateToast = async (message: ToastMessage | Error): Promise<void> => {
+		if (message instanceof Error && 'richMessage' in message && message.richMessage) {
+			message = message.richMessage as ToastMessage;
+		} else if (message instanceof Error) {
+			message = message.message;
+		}
+
 		updateToast(message);
 
 		// Without rAF the toast might be removed before the first page paint
@@ -72,7 +78,6 @@ export default async function showToast(
 	document.body.append(toast);
 	await delay(30); // Without this, the Toast doesn't appear in time
 
-	let finalToastMessage: ToastMessage | false = 'Unknown error';
 	try {
 		if (task instanceof Error) {
 			throw task;
@@ -85,16 +90,14 @@ export default async function showToast(
 		}
 
 		toast.classList.replace('Toast--loading', 'Toast--success');
-		finalToastMessage = doneMessage;
+		// Use the last message if `false` was passed
+		void finalUpdateToast(doneMessage || lastRawMessage);
 		iconWrapper.firstChild!.replaceWith(<CheckIcon />);
 	} catch (error) {
 		assertError(error);
 		toast.classList.replace('Toast--loading', 'Toast--error');
-		finalToastMessage = 'richMessage' in error ? error.richMessage as JSX.Element : error.message;
+		void finalUpdateToast(error);
 		iconWrapper.firstChild!.replaceWith(<StopIcon />);
 		throw error;
-	} finally {
-		// Use the last message if `false` was passed
-		void finalUpdateToast(finalToastMessage || lastRawMessage);
 	}
 }

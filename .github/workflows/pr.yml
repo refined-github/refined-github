@@ -2,12 +2,11 @@ name: PR
 
 on:
   pull_request_target:
-    types: [opened, reopened, edited, closed]
+    types: [opened, reopened, edited, closed, synchronize]
 
 jobs:
-  screenshot-enforcement:
-    name: Screenshot Enforcement
-    if: github.event.action == 'opened' && github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
+  block-ai:
+    if: github.event.action == 'opened'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -15,21 +14,26 @@ jobs:
       - uses: actions/github-script@v8
         with:
           script: |
-            const body = context.payload.pull_request.body ?? '';
-            if (!body.includes('build:typescript') && !body.includes('Verification')) return;
+            const pr = context.payload.pull_request;
+            const {owner, repo} = context.repo;
+
+            const isAi = pr.title.startsWith('AI:')
+              || /build:typescript|Verification|Validation|Summary|Changes/.test(pr.body);
+            if (!isAi) return;
 
             await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
+              owner,
+              repo,
+              pull_number: pr.number,
               state: 'closed',
+              title: 'AI SPAM',
             });
 
             await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number,
-              body: "You're allowed to open PRs only if you post a screenshot of your working PR. Untested AI PRs are NOT welcome here and you will get blocked.",
+              owner,
+              repo,
+              issue_number: pr.number,
+              body: "Untested AI PRs are NOT welcome here and you will get blocked. Include a screenshot/video/gif of the working PR to prove you're a human and we can reopen the PR.",
             });
 
   reminder:
@@ -104,3 +108,33 @@ jobs:
                 labels: [...labels]
               })
             }
+
+  no-force-push:
+    if: github.event.action == 'synchronize' && github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check if force push
+        id: check
+        uses: actions/github-script@v8
+        with:
+          result-encoding: string
+          script: |
+            const { data } = await github.rest.repos.compareCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base: context.payload.before,
+              head: context.payload.after,
+            });
+
+            // This intentionally allows "force push to undo commit"
+            return String(data.status === 'diverged');
+
+      - if: steps.check.outputs.result == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
+
+            Just push new commits on top of the branch instead — PRs are squashed on merge, so the commit history doesn't need to be clean.

@@ -6,7 +6,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
@@ -84,7 +83,6 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
 	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
 }
@@ -93,6 +91,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

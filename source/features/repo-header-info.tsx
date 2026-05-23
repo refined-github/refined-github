@@ -1,15 +1,16 @@
+import './repo-header-info.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
-import {$closest, elementExists} from 'select-dom';
+import {closestElement, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
@@ -36,17 +37,19 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
 	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
 
+	repoLink.classList.add('rgh-repo-header-info-updated');
+
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		repoLink.append(
-			<LockIcon className="ml-1" width={12} height={12} />,
+			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
 		repoLink.append(
-			<RepoForkedIcon className="ml-1" width={12} height={12} />,
+			<RepoForkedIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
 
@@ -57,7 +60,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		}
 
 		if (!repoLink.classList.contains('AppHeader-context-item')) {
-			$closest('li', repoLink).classList.add('d-flex');
+			closestElement('li', repoLink).classList.add('d-flex');
 		}
 
 		repoLink.after(
@@ -65,12 +68,12 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				href={buildRepoUrl('stargazers')}
 				title={tooltip}
 				// Hide in small viewports, matches `ci-link`
-				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 gap-1 color-fg-muted"
+				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 gap-1 color-fg-muted"
 			>
 				{viewerHasStarred
 					// Use `color` because `fill` is overridden with `currentColor`
-					? <StarFillIcon className="ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
-					: <StarIcon className="ml-1" width={12} height={12} />}
+					? <StarFillIcon className="ml-1 tmp-ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
+					: <StarIcon className="ml-1 tmp-ml-1" width={12} height={12} />}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
@@ -78,17 +81,18 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item', // TODO: Drop after May 2026
+			// TODO [2026-06-01]: Drop
+			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item',
 		],
 		add,
 		{signal},
 	);
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
@@ -97,6 +101,7 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
+	requiresToken: true,
 	init,
 });
 

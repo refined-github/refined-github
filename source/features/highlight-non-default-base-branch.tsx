@@ -2,11 +2,10 @@ import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {$closest, elementExists} from 'select-dom';
+import {closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -23,7 +22,7 @@ type Pr = {
 };
 
 function isClosed(prLink: HTMLElement): boolean {
-	const row = $closest([
+	const row = closestElement([
 		'.js-issue-row', // Legacy DOM
 		'li',
 	], prLink);
@@ -62,11 +61,11 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
-		<span className="ml-2">
+		<span className="ml-2 tmp-ml-2">
 			<GitPullRequestIcon />
 			{' To '}
 			<span
-				className="commit-ref user-select-contain mb-n1"
+				className="commit-ref user-select-contain mb-n1 tmp-mb-n1"
 				style={branch ? {} : {textDecoration: 'line-through'}}
 			>
 				<a title={branch ? baseBranch.refName : 'Deleted'} href={branch}>
@@ -80,7 +79,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		// Legacy DOM
 		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
 		// React DOM
-		: $closest('li', pr.link).querySelector([
+		: closestElement('li', pr.link).querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
 			'div[class^="Description"]', // Preview global PR list
 		])!;
@@ -124,7 +123,6 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
 	observe(
 		[
 			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
@@ -140,6 +138,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

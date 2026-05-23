@@ -8,12 +8,11 @@ import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GitPullRequestClosedIcon from 'octicons-plain-react/GitPullRequestClosed';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
-import {$closest} from 'select-dom';
+import {closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
@@ -72,7 +71,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 	const StateIcon = stateIcon[prInfo.state] ?? (() => {/* empty */});
 	const stateClassName = prInfo.state.toLowerCase();
 
-	const cell = $closest('tr.TableRow', branch)
+	const cell = closestElement('tr.TableRow', branch)
 		.children
 		.item(4)!;
 
@@ -86,7 +85,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				className="rgh-pr-link"
 			>
 				<StateIcon width={14} height={14} className={stateClassName} />
-				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
+				<RepoForkedIcon width={14} height={14} className={`mr-1 tmp-mr-1 ${stateClassName}`} />
 				#{prInfo.number}
 			</a>
 		</div>,
@@ -94,7 +93,6 @@ async function addLink(branch: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	// Memoize because it's being called twice for each. Ideally this should be part of the selector observer
 	// https://github.com/refined-github/refined-github/pull/7194#issuecomment-1894972091
 	observe('react-app[app-name=repos-branches] a[class*=BranchName] div[title]', memoize(addLink), {signal});
@@ -107,6 +105,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isBranches,
 	],
+	requiresToken: true,
 	init,
 });
 

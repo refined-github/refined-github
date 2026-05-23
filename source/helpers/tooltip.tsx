@@ -3,6 +3,7 @@ import './tooltip.css';
 import React from 'dom-chef';
 
 import {upperCaseFirst} from '../github-helpers/index.js';
+import joinJsx from './join-jsx.js';
 
 export type TooltipOptions = {
 	label: string;
@@ -12,16 +13,14 @@ export type TooltipOptions = {
 };
 
 function renderShortcut(shortcut: string): JSX.Element {
+	const keys = shortcut.split(' ').map(key => (
+		<span className="rgh-shortcut-chord" data-kbd-chord="true">
+			{upperCaseFirst(key)}
+		</span>
+	));
 	return (
 		<kbd className="rgh-shortcut">
-			{shortcut.split(' ').map((key, index) => (
-				<>
-					{index > 0 && ' '}
-					<span className="rgh-shortcut-chord" data-kbd-chord="true">
-						{upperCaseFirst(key)}
-					</span>
-				</>
-			))}
+			{joinJsx(' ', keys)}
 		</kbd>
 	);
 }
@@ -62,13 +61,10 @@ Generates a tooltip for the received element. You should use this when generatin
 export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
-): JSX.Element {
-	return (
-		<>
-			{element}
-			{createTooltipFor(element, content)}
-		</>
-	);
+): Element {
+	const tooltip = createTooltipFor(element, content);
+	element.append(tooltip);
+	return element;
 }
 
 /**
@@ -80,9 +76,9 @@ export default function addToolTip(
 	content: string | TooltipOptions,
 	element: Element,
 ): void {
-	if (!element.parentNode) {
+	if (!element.parentElement) {
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	element.after(createTooltipFor(element, content));
+	element.append(createTooltipFor(element, content));
 }

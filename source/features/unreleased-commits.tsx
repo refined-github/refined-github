@@ -9,7 +9,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
@@ -83,13 +82,13 @@ async function createLink(
 
 	return (
 		<a
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
 			<TagIcon className="v-align-middle" />
 			{' '}
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2">+{aheadBy}</sup>}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }
@@ -105,7 +104,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 		// `aria-label` wording taken from $user/$repo/releases page
 		<a
 			href={buildRepoUrl('releases/new')}
-			className="btn px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
 			aria-label="Draft a new release"
 			data-turbo-frame="repo-content-turbo-frame"
 		>
@@ -167,12 +166,10 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 }
 
 async function initHome(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(branchSelector, addToHome, {signal});
 }
 
 async function initReleases(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('input#release-filter', addToReleases, {signal});
 }
 
@@ -183,12 +180,14 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoHome,
 	],
+	requiresToken: true,
 	init: initHome,
 }, {
 	include: [
 		// Only first page of Releases
 		() => getRepo()?.path === 'releases',
 	],
+	requiresToken: true,
 	init: initReleases,
 });
 
