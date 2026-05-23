@@ -310,3 +310,15 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 .empty-cell {
 	cursor: default !important;
 }
+
+/* Test: https://github.com/refined-github/refined-github (Star lists menu) */
+/* Test: https://github.com/refined-github/refined-github/network/dependencies (Ecosystem) */
+dialog.Overlay:not([open]) {
+	position: absolute !important;
+	visibility: hidden !important;
+	display: block !important;
+	:before,
+	:after {
+		visibility: hidden !important;
+	}
+}
