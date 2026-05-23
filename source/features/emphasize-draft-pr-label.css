@@ -14,7 +14,7 @@
 		/* https://github.com/pulls/inbox */
 		/* https://github.com/pulls/authored?q=is%3Adraft */
 		/* https://github.com/issues?q=is%3Adraft */
-		[role="list"] .octicon-git-pull-request-draft,
+		[role='list'] .octicon-git-pull-request-draft,
 		/* Notification select by */
 		.rgh-select-notifications .octicon-git-pull-request-draft,
 		/* Notification list */
