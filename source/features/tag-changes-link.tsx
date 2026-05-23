@@ -113,7 +113,7 @@ async function init(): Promise<void> {
 					className="Link--muted"
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 tmp-ml-1 wb-break-all">Commits</span>}
 				</a>,
 			);
 
@@ -134,7 +134,7 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-4 tmp-mr-3 mr-md-0' : 'mr-4 mb-2')}>
+				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-4 tmp-mr-3 mr-md-0 tmp-mr-md-0' : 'mr-4 tmp-mr-3 mb-2 tmp-mb-2')}>
 					{compareLink}
 				</div>,
 			);

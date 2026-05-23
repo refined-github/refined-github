@@ -20,7 +20,7 @@ const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={`flash flash-${type} h3 my-9 tmp-my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
 	);

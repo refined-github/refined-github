@@ -70,7 +70,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	anchor.after(
 		<span className="rgh-arrow">
-			<ArrowLeftIcon className="v-align-middle mx-1" />
+			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
 		</span>,
 	);
 }

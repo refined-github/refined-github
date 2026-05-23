@@ -36,7 +36,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	}
 
 	commitTitleElement.prepend(
-		<span className="IssueLabel hx_IssueLabel mr-2" rgh-conventional-commits={commit.rawType}>
+		<span className="IssueLabel hx_IssueLabel mr-2 tmp-mr-2" rgh-conventional-commits={commit.rawType}>
 			{commit.type}
 		</span>,
 

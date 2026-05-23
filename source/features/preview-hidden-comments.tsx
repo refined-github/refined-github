@@ -29,7 +29,7 @@ function preview(hiddenCommentHeader: HTMLElement): void {
 	hiddenCommentHeader.append(
 		<span className="Details-content--open">{hiddenCommentHeader.firstChild}</span>,
 		<span className="Details-content--closed">
-			{reason && <span className="Label mr-2">{upperCaseFirst(reason)}</span>}
+			{reason && <span className="Label mr-2 tmp-mr-2">{upperCaseFirst(reason)}</span>}
 			{commentText.slice(0, 100)}
 		</span>,
 	);

@@ -78,7 +78,7 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
-		icon: <InfoIcon className="m-0" />,
+		icon: <InfoIcon className="m-0 tmp-m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
 		text: getResolvedText(closingDate),
 	});
@@ -98,7 +98,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
-		icon: <FlameIcon className="m-0" />,
+		icon: <FlameIcon className="m-0 tmp-m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
 		text:
 			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
@@ -115,7 +115,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.prepend(
 		createBanner({
-			icon: <GitPullRequestDraftIcon className="m-0" />,
+			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
 			text: <>
 				This is a <strong>draft PR</strong>, it might not be ready for review.

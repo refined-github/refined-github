@@ -20,13 +20,13 @@ function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		'Updated',
 	).before(
 		<a
-			className="Link--muted mr-3"
+			className="Link--muted mr-3 tmp-mr-3"
 			href={repositoryLink.href + '/issues'}
 		>
 			<IssueOpenedIcon />
 		</a>,
 		<a
-			className="Link--muted mr-3"
+			className="Link--muted mr-3 tmp-mr-3"
 			href={repositoryLink.href + '/pulls'}
 		>
 			<GitPullRequestIcon />
@@ -48,7 +48,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 		.before(
 			<span
 				aria-hidden="true"
-				className="color-fg-muted mx-2"
+				className="color-fg-muted mx-2 tmp-mx-2"
 			>
 				·
 			</span>,
@@ -60,7 +60,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 					<IssueOpenedIcon />
 				</a>
 			</li>,
-			<li className="d-flex text-small ml-2">
+			<li className="d-flex text-small ml-2 tmp-ml-2">
 				<a
 					className="Link--muted"
 					href={repositoryLink.href + '/pulls'}

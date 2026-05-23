@@ -44,7 +44,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		<TimelineItem>
 			{createBanner({
 				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1" />,
+				icon: <InfoIcon className="mr-1 tmp-mr-1" />,
 				text: <>
 					{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
 					<strong>Do not</strong> report issues here.

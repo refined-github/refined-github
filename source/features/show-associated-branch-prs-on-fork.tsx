@@ -85,7 +85,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				className="rgh-pr-link"
 			>
 				<StateIcon width={14} height={14} className={stateClassName} />
-				<RepoForkedIcon width={14} height={14} className={`mr-1 ${stateClassName}`} />
+				<RepoForkedIcon width={14} height={14} className={`mr-1 tmp-mr-1 ${stateClassName}`} />
 				#{prInfo.number}
 			</a>
 		</div>,
