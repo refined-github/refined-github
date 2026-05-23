@@ -48,7 +48,8 @@ export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/sandbox/commits'],
 ] satisfies UrlMatch[];
 
-export const branchSelectorParent = ':is(details#branch-select-menu, #ref-picker-repos-header-ref-selector, #ref-picker-repos-header-ref-selector-wide)';
+export const branchSelectorParent =
+	':is(details#branch-select-menu, #ref-picker-repos-header-ref-selector, #ref-picker-repos-header-ref-selector-wide)';
 export const branchSelectorParent_ = [
 	[0, 'https://github.com/refined-github/sandbox/commits/branch/with/slashes'],
 	[0, 'https://github.com/refined-github/sandbox/commits'],

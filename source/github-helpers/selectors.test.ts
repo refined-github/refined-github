@@ -1,5 +1,5 @@
-import {commands} from 'vitest/browser';
 import {assert, describe, test} from 'vitest';
+import {commands} from 'vitest/browser';
 
 import * as exports from './selectors.js';
 
