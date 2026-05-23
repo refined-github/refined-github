@@ -6,7 +6,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getRepo} from '../github-helpers/index.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
 type IssueInfo = {
@@ -34,15 +33,15 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
-	return looseParseInt(pinnedIssueMetadata.childNodes[2]);
+	const issueNumber = /#(\d+)/.exec(pinnedIssueMetadata.textContent)![1];
+	return Number(issueNumber);
 }
 
 async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
-	const lastUpdated: Record<string, IssueInfo> = await getLastUpdated.get(
-		pinnedIssuesMetadata.map(issueMetadata => getPinnedIssueNumber(issueMetadata)),
-	);
-	for (const issueMetadata of pinnedIssuesMetadata) {
-		const issueNumber = getPinnedIssueNumber(issueMetadata);
+	const issuesByNumber = new Map(pinnedIssuesMetadata.map(metadata => [getPinnedIssueNumber(metadata), metadata]));
+	const lastUpdated = await getLastUpdated.get([...issuesByNumber.keys()]);
+
+	for (const [issueNumber, issueMetadata] of issuesByNumber) {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];
 		issueMetadata.after(
 			// .rgh class enables tweakers to hide the number
