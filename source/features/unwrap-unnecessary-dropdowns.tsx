@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CopilotIcon from 'octicons-plain-react/Copilot';
-import {$, $$, $$optional, $optional, closestElement, elementExists} from 'select-dom';
+import {$, $$, $optional, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -10,41 +10,6 @@ import {frame} from '../helpers/dom-utils.js';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
-
-// Replace dropdown while keeping its sizing/positioning classes
-function replaceDropdownInPlace(dropdown: Element, form: Element): void {
-	dropdown.replaceWith(form);
-	form.classList.add(...dropdown.classList);
-	form.classList.remove('dropdown', 'details-reset', 'details-overlay');
-}
-
-function replaceNotificationsDropdown(): void {
-	const forms = $$optional('[action="/notifications/beta/update_view_preference"]');
-
-	if (forms.length === 0) {
-		return;
-	}
-
-	if (forms.length > 2) {
-		throw new Error('GitHub added new view types. This feature is obsolete.');
-	}
-
-	const dropdown = closestElement('action-menu', forms[0]);
-	const currentView = $('.Button-label span:last-child', dropdown).textContent.trim();
-	const desiredForm = currentView === 'Date' ? forms[0] : forms[1];
-
-	// Replace dropdown
-	replaceDropdownInPlace(dropdown, desiredForm);
-
-	// Fix button's style
-	const button = $('[type="submit"]', desiredForm);
-	button.className = 'btn';
-	button.textContent = `Group by ${button.textContent.toLowerCase()}`;
-}
-
-function initNotifications(signal: AbortSignal): void {
-	observe('.js-check-all-container > :first-child', replaceNotificationsDropdown, {signal});
-}
 
 function insertCopilotInstruction(): void {
 	const textarea = $(legacyCommentField);
@@ -122,11 +87,6 @@ function initPrConversation(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
-	init: initNotifications,
-}, {
 	include: [
 		pageDetect.isPRConversation,
 	],
