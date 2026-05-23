@@ -16,7 +16,7 @@
 
 	@media (width >= 768px) {
 		/* Hide redundant "+ 123 releases/deployments/contributors" links */
-		.tmp-mt-3:has(> a[text="small"]) {
+		.tmp-mt-3:has(> a[text='small']) {
 			display: none;
 		}
 
