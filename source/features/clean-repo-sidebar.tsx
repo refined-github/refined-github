@@ -9,7 +9,9 @@ import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // It's broken: https://github.com/refined-github/refined-github/issues/9339
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('[class*="PageLayout"] .BorderGrid-cell h2 a[href$="/releases"]', {waitForChildren: false});
+	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] .BorderGrid-cell h2 a[href$="/releases"]', {
+		waitForChildren: false,
+	});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -24,7 +26,11 @@ async function cleanReleases(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $optional('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = $optional([
+		'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type h2',
+		// TODO [2026-09-01]: Drop old selector
+		'.Layout-sidebar .BorderGrid-row:last-of-type h2',
+	]);
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -35,17 +41,28 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserAdminRepo()) {
-		$optional('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
+		$optional([
+			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
+			// TODO [2026-09-01]: Drop old selector
+			'.Layout-sidebar .BorderGrid-cell > .text-italic',
+		])?.remove();
 	}
 }
 
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	const reportLink = $optional([
+		'[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]',
+		// TODO [2026-09-01]: Drop old selector
+		'.Layout-sidebar a[href^="/contact/report-content"]',
+	])?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
+		$([
+			'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell',
+			'.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell',
+		]).append(reportLink);
 	}
 }
 

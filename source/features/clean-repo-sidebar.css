@@ -1,4 +1,5 @@
-[rgh-clean-repo-sidebar] :is([class*='PageLayout'], .Layout-sidebar) {
+/* TODO: Remove .Layout-sidebar after August 2026 */
+[rgh-clean-repo-sidebar] :is([class*='PageLayout-Pane'], .Layout-sidebar) {
 	/* Hide "About" header */
 	.BorderGrid-row:first-child h2 {
 		display: none;
