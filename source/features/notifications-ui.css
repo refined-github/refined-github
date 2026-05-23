@@ -1,5 +1,0 @@
-html:not([rgh-OFF-notifications-ui]) {
-	dialog#notifications-tabs-nav {
-		max-height: 90%;
-	}
-}

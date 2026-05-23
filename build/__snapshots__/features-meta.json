@@ -574,8 +574,7 @@
 	},
 	{
 		"id": "notifications-ui",
-		"description": "Lets you change notifications sorting and grouping in one click and improves the mobile header layout.",
-		"css": true,
+		"description": "Lets you change notifications sorting and grouping in one click.",
 		"screenshot": "https://github.com/user-attachments/assets/684c237f-65eb-41b7-aebf-3b624b665481"
 	},
 	{
