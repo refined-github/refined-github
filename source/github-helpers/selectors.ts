@@ -26,8 +26,6 @@ export const standaloneGistLinkInMarkdown_ = [
 /** The repo navigation bar’s overflow menu */
 export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
 export const repoUnderlineNavDropdownUl_ = [
-	// Added via JS :(
-	// TODO: Use Puppeteer?
 	[1, 'https://github.com/refined-github/refined-github'],
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
