@@ -24,7 +24,7 @@ type RepoPublishState = {
 	aheadBy: number;
 };
 
-type Tag = {
+type Tags = {
 	name: string;
 	tag: {
 		oid: string;
@@ -48,8 +48,8 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		}
 
 		const tags = new Map<string, string>();
-		for (const node of repository.refs.nodes as Tag[]) {
-			// The commit might be missing on "lightweight" tags, so the code defaults to the tag.oid instead
+		for (const node of repository.refs.nodes as Tags[]) {
+			// TODO: Review or drop optional chaining, there shouldn't be any case where this happens. The types are wrong
 			tags.set(node.name, node.tag.commit?.oid ?? node.tag.oid);
 		}
 
