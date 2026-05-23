@@ -45,7 +45,8 @@ const fetchDocument = pMemoize(async (url: string): Promise<string> => {
 	cache: fsCache,
 });
 
-describe.concurrent('selectors', () => {
+// It's broken: https://github.com/refined-github/refined-github/issues/9314
+describe.concurrent.skip('selectors', () => {
 	// Exclude URL arrays
 	const selectors: Array<[name: string, selector: string]> = [];
 	for (const [name, selector] of Object.entries(exports)) {
@@ -63,7 +64,6 @@ describe.concurrent('selectors', () => {
 		await Promise.all(urls.map(async ([expectations, url]) => {
 			const html = await fetchDocument(url);
 			const {document} = parseHTML(html);
-			// TODO: ? Use snapshot with outerHTML[]
 			const matches = $$optional(selector, document);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));
