@@ -1,12 +1,14 @@
+import './small-user-avatars.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import {is, not} from '../helpers/css-selectors.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import './small-user-avatars.css';
 
 function createAvatar(username: string, size: number): JSX.Element {
 	return (
@@ -23,10 +25,12 @@ function createAvatar(username: string, size: number): JSX.Element {
 function addRepoAvatar(link: HTMLAnchorElement): void {
 	const [owner] = link.textContent.trim().split('/');
 	const size = 14;
+	const avatar = createAvatar(owner, size);
+	avatar.classList.add('d-none', 'd-xl-inline-block');
 
 	link.firstElementChild!.prepend(
 		<span className="ActionListItem-visual ActionListItem-visual--leading">
-			{createAvatar(owner, size)}
+			{avatar}
 		</span>,
 	);
 }
@@ -82,6 +86,9 @@ void features.add(import.meta.url, {
 }, {
 	include: [
 		pageDetect.isNotifications,
+	],
+	exclude: [
+		isSmallDevice,
 	],
 	init: initNotifications,
 });
