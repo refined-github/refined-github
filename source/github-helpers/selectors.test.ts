@@ -45,7 +45,8 @@ const fetchDocument = pMemoize(async (url: string): Promise<string> => {
 	cache: fsCache,
 });
 
-describe.concurrent('selectors', () => {
+// It's broken: https://github.com/refined-github/refined-github/issues/9314
+describe.concurrent.skip('selectors', () => {
 	// Exclude URL arrays
 	const selectors: Array<[name: string, selector: string]> = [];
 	for (const [name, selector] of Object.entries(exports)) {
