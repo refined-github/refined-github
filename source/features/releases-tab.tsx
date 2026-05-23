@@ -8,11 +8,8 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import createDropdownItem from '../github-helpers/create-dropdown-item.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {
-	buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow,
-} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
@@ -21,19 +18,6 @@ import GetReleasesCount from './releases-tab.gql';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
-}
-
-const releasesCount = new CachedFunction('releases-count', {
-	updater: fetchCounts,
-	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 3},
-	cacheKey: cacheByRepo,
-});
-
-export async function getReleases(): Promise<[0] | [number, 'Tags' | 'Releases']> {
-	const repo = getRepo()!.nameWithOwner;
-	return releasesCount.get(repo);
 }
 
 async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
@@ -53,8 +37,21 @@ async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags'
 	return [0];
 }
 
+const releasesCount = new CachedFunction('releases-count', {
+	updater: fetchCounts,
+	shouldRevalidate: cachedValue => typeof cachedValue === 'number',
+	maxAge: {hours: 1},
+	staleWhileRevalidate: {days: 3},
+	cacheKey: cacheByRepo,
+});
+
+export async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+	const repo = getRepo()!.nameWithOwner;
+	return releasesCount.get(repo);
+}
+
 async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
-	const [count, type] = await getReleases();
+	const [count, type] = await getReleasesCount();
 	if (!type) {
 		return false;
 	}
@@ -84,7 +81,7 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 }
 
 async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
-	const [, type] = await getReleases();
+	const [, type] = await getReleasesCount();
 
 	if (!type) {
 		$optional('.dropdown-divider', dropdownMenu)?.remove();
@@ -106,11 +103,10 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(repoUnderlineNavUl, addReleasesTab, {signal});
 	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
 	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
-	// Workaround for #8867
+	// Workaround for https://github.com/refined-github/refined-github/issues/8867
 	// TODO: remove once the issue is resolved
 	registerHotkey('g r', buildRepoUrl('releases'), {signal});
 }
@@ -122,6 +118,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	requiresToken: true,
 	init,
 });
 

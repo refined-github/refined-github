@@ -9,7 +9,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
@@ -54,7 +53,7 @@ function getDropdown(prs: number[]): HTMLElement {
 				popover="auto"
 			>
 				<div className="Overlay Overlay--size-auto">
-					<div className="px-3 pt-3 h6 color-fg-muted">
+					<div className="px-3 tmp-px-3 pt-3 tmp-pt-3 h6 color-fg-muted">
 						File also being edited in
 					</div>
 					<ul className="ActionListWrap ActionListWrap--inset">
@@ -114,6 +113,7 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 		return;
 	}
 
+	// Only appears when editing files from PRs
 	const editingPrNumber = new URLSearchParams(location.search).get('pr')?.split('/').slice(-1);
 	if (editingPrNumber) {
 		prs = prs.filter(pr => pr !== Number(editingPrNumber));
@@ -134,13 +134,15 @@ async function add(anchor: HTMLElement): Promise<false | void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
-	observe([
-		'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
-		'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
-		'[data-hotkey="Mod+s"]', // `isEditingFile`
-	], add, {signal});
+	observe(
+		[
+			'[data-testid="more-file-actions-button-nav-menu-wide"]', // `isSingleFile`
+			'[data-testid="more-file-actions-button-nav-menu-narrow"]', // `isSingleFile`
+			'[data-hotkey="Mod+s"]', // `isEditingFile`
+		],
+		add,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -148,6 +150,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		pageDetect.isEditingFile,
 	],
+	requiresToken: true,
 	init,
 });
 

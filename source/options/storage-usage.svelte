@@ -13,7 +13,11 @@
 
 	import {onMount} from 'svelte';
 
-	import {getStorageBytesInUse, getStoredItemSize, getTrueSizeOfObject} from '../helpers/used-storage.js';
+	import {
+		getStorageBytesInUse,
+		getStoredItemSize,
+		getTrueSizeOfObject,
+	} from '../helpers/used-storage.js';
 
 	const {area, item}: {
 		area: 'sync' | 'local';
@@ -22,14 +26,22 @@
 	let used = $state(0);
 	const available = $derived.by(() => {
 		const storage = chrome.storage[area];
-		return (item ? (storage as chrome.storage.SyncStorageArea).QUOTA_BYTES_PER_ITEM ?? storage.QUOTA_BYTES : storage.QUOTA_BYTES) - used;
+		return (item
+			? (storage as chrome.storage.SyncStorageArea).QUOTA_BYTES_PER_ITEM
+				?? storage.QUOTA_BYTES
+			: storage.QUOTA_BYTES) - used;
 	});
 
 	async function getStorageUsage() {
-		used = item ? await getStoredItemSize(area, item) : await getStorageBytesInUse(area);
+		used = item
+			? await getStoredItemSize(area, item)
+			: await getStorageBytesInUse(area);
 	}
 
-	const handleStorageChange = (changes: {[key: string]: chrome.storage.StorageChange}, areaName: chrome.storage.AreaName) => {
+	const handleStorageChange = (
+		changes: {[key: string]: chrome.storage.StorageChange},
+		areaName: chrome.storage.AreaName,
+	) => {
 		if (item && changes[item]) {
 			used = getTrueSizeOfObject(changes[item].newValue);
 		}

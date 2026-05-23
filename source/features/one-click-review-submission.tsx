@@ -1,11 +1,13 @@
+// Note: This feature only works on the legacy PR Files view.
+// We will drop the feature once that view has been gone for 6 months.
+// https://github.com/refined-github/refined-github/issues/8711
+// https://github.com/refined-github/refined-github/issues/9447
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {
-	$, $closest, $closestOptional, $optional,
-} from 'select-dom';
+import {$, $optional, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -13,7 +15,7 @@ import observe from '../helpers/selector-observer.js';
 
 function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	const form = originalSubmitButton.form!;
-	const actionsRow = $closestOptional('.Overlay-footer', originalSubmitButton);
+	const actionsRow = closestElementOptional('.Overlay-footer', originalSubmitButton);
 	const formAttribute = originalSubmitButton.getAttribute('form')!;
 
 	// Do not use `$$` because elements can be outside `form`
@@ -42,12 +44,10 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 	// Generate the new buttons
 	for (const radio of radios) {
 		const parent = radio.parentElement!;
-		const labelElement = (
-			$optional('label', parent)
-			?? radio.nextSibling! // TODO: Remove after April 2025
-		);
+		const labelElement = $optional('label', parent)
+			?? radio.nextSibling!;
 		const tooltip = $([
-			'p', // TODO: Remove after April 2025
+			'p',
 			'.FormControl-caption',
 		], parent).textContent.trim().replace(/\.$/, '');
 		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
@@ -82,20 +82,19 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		if (actionsRow) {
 			actionsRow.prepend(button);
 		} else {
-			// TODO: For GHE. Remove after June 2025
-			$closest('.form-actions', originalSubmitButton).append(button);
+			closestElement('.form-actions', originalSubmitButton).append(button);
 		}
 	}
 
 	// Remove original fields at last to avoid leaving a broken form
-	const fieldset = $closestOptional('fieldset', radios[0]);
+	const fieldset = closestElementOptional('fieldset', radios[0]);
 
 	if (fieldset) {
 		fieldset.remove();
 	} else {
 		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
 		for (const radio of radios) {
-			$closest('.form-checkbox', radio).remove();
+			closestElement('.form-checkbox', radio).remove();
 		}
 	}
 

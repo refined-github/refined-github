@@ -14,6 +14,7 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
+import addToolTip from '../helpers/tooltip.js';
 import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
@@ -28,12 +29,12 @@ function removeNotificationIndicator(element: HTMLElement): void {
 	}
 }
 
-async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> {
-	if (event?.target instanceof HTMLButtonElement) {
-		// Hide the tooltip
-		event.target.blur();
-		event.target.disabled = true; // Prevent multiple clicks
-	}
+async function openUnreadNotifications(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
+	// Hide the tooltip
+	event.currentTarget.blur();
+
+	// Prevent multiple clicks
+	event.currentTarget.disabled = true;
 
 	await showToast(async updateToast => {
 		const page = await fetchDomUncached('/notifications?query=is%3Aunread');
@@ -65,9 +66,7 @@ async function openUnreadNotifications(event?: React.MouseEvent): Promise<void> 
 		message: 'Loading notifications…',
 		doneMessage: false,
 	}).finally(() => {
-		if (event?.target instanceof HTMLButtonElement) {
-			event.target.disabled = false;
-		}
+		event.currentTarget.disabled = false;
 	});
 }
 
@@ -78,11 +77,10 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 			type="button"
 			onClick={openUnreadNotifications}
 			// Show pointer cursor even when disabled
-			style={{width: 14, cursor: 'pointer'}}
-			// JSX swallows \n if you skip {''}
-			aria-label={'Open unread notifications\nHotkey: g u'}
+			style={{width: 15, cursor: 'pointer'}}
+			className="rounded-left-0 border-left-0 d-block p-0 tmp-p-0"
 		>
-			<ArrowUpRightIcon className="mb-2" />
+			<ArrowUpRightIcon className="mb-2 tmp-mb-2" style={{marginLeft: -1}} />
 		</button>
 	);
 
@@ -91,14 +89,14 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 	wrap(nativeLink, <div className="d-flex flex-row-reverse rgh-unread-anywhere-wrapper" />);
 
 	nativeLink.before(button);
+	nativeLink.style.width = '30px'; // Reduce width of native button
 	button.setAttribute('data-variant', 'invisible'); // Enables hover style
-	button.classList.add(
-		...classes,
-		'tooltipped',
-		'tooltipped-sw',
-		'rounded-left-0',
-		'border-left-0',
-	);
+	button.classList.add(...classes);
+	addToolTip({
+		label: 'Open unread notifications',
+		shortcut: 'g u',
+		direction: 'sw',
+	}, button);
 
 	removeNotificationIndicator(button);
 }

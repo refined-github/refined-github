@@ -4,11 +4,10 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, $closestOptional, $optional} from 'select-dom';
+import {$, $optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -33,9 +32,9 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	// Hide if it's the same as the opener (always) or merger
 	const shouldHideAuthor = pageDetect.isPRConversation()
 		// #7802
-		&& !$closestOptional([
+		&& !closestElementOptional([
 			'div[class*="stickyHeader"]',
-			// TODO: Remove after July 2026
+			// TODO [2027-01-01]: Drop after legacy PR files view is removed
 			'.sticky-content',
 			'.gh-header-sticky',
 		], summaryRow)
@@ -48,8 +47,9 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	const base = $([
 		'[class^="PullRequestBranchName"]',
-		// Old views - TODO: Remove after July 2026
+		// TODO [2027-01-01]: Drop after legacy PR files view is removed
 		'.commit-ref',
+		// TODO [2026-08-01]: Drop
 		'[class^="BranchName"]',
 	], summaryRow);
 
@@ -64,25 +64,24 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	void highlightNonDefaultBranchPrs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO: remove after July 2026
+	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO [2027-01-01]: Drop after legacy PR files view is removed
 		?? base.nextSibling!.nextSibling!;
 	assertNodeContent(anchor, 'from');
 
 	anchor.after(
 		<span className="rgh-arrow">
-			<ArrowLeftIcon className="v-align-middle mx-1" />
+			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
 		</span>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe(
 		[
-			'span[class*="PullRequestHeaderSummary"]',
-			// Old views. TODO: Remove after July 2026
+			'.d-flex[class*="PullRequestHeaderSummary"]',
+			// TODO [2027-01-01]: Drop after legacy PR files view is removed
 			'.gh-header-meta > .flex-auto', // Real
+			// TODO [2026-08-01]: Drop
 			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
 			'[class^="StateLabel"] + div > span:first-child',
 		],
@@ -95,6 +94,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isPR,
 	],
+	requiresToken: true,
 	init,
 });
 

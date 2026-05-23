@@ -1,4 +1,4 @@
-import {parseHTML, NodeFilter} from 'linkedom';
+import {NodeFilter, parseHTML} from 'linkedom';
 
 const globals = [
 	'navigator',
@@ -35,7 +35,7 @@ export function navigateToCommits(branch, pathname) {
 }
 
 // No native support https://github.com/WebReflection/linkedom/issues/156
-window.Text.prototype.splitText = function (offset) {
+window.Text.prototype.splitText = function(offset) {
 	const [start, end] = (() => {
 		if (offset <= 0) {
 			return ['', this.data];

@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import React from 'react';
-import {$closestOptional} from 'select-dom';
+import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
@@ -14,16 +14,16 @@ export const {class: featureClass, selector: featureSelector} = getIdentifiers(i
 function LockedIndicator(): JSX.Element {
 	return (
 		<span title="Locked" className={`State d-flex flex-items-center flex-shrink-0 ${featureClass}`}>
-			<LockIcon className="flex-items-center mr-1" />
+			<LockIcon className="flex-items-center mr-1 tmp-mr-1" />
 			Locked
 		</span>
 	);
 }
 
 function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = $closestOptional(['.sticky-content', '.gh-header-sticky'], element);
+	const closestSticky = closestElementOptional(['.sticky-content', '.gh-header-sticky'], element);
 	element.after(
-		<LockedIndicator className={`mb-2 ${closestSticky ? 'mr-2 ' : ''}`} />,
+		<LockedIndicator className={`mb-2 tmp-mb-2 ${closestSticky ? 'mr-2 tmp-mr-2 ' : ''}`} />,
 	);
 }
 
@@ -41,7 +41,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 		addLock,
 		{signal},
 	);
-	// Old PR view - TODO: Drop after July 2026
+	// Old PR view
+	// TODO [2026-08-01]: Drop
 	observe(
 		[
 			'.gh-header-meta > :first-child',

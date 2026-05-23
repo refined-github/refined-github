@@ -4,9 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import FlameIcon from 'octicons-plain-react/Flame';
 import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
-import {
-	$closestOptional, $optional, countElements, elementExists,
-} from 'select-dom';
+import {$optional, closestElementOptional, countElements, elementExists} from 'select-dom';
 import twas from 'twas';
 
 import features from '../feature-manager.js';
@@ -18,8 +16,8 @@ import {
 	areIssuesEnabled,
 	buildRepoUrl,
 	getConversationNumber,
-	isRefinedGitHubRepo,
 	isOwnConversation,
+	isRefinedGitHubRepo,
 } from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -47,9 +45,10 @@ export function wasLongAgo(date: Date): boolean {
 function isPopular(): boolean {
 	return (
 		countElements('[data-testid="comment-header"]') > 30
+		// This element only appears after 6 participants
 		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
 		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
-		// TODO: Drop in 2026; old conversation style
+		// TODO [2027-01-01]: Drop after the legacy PR view is removed
 		|| countElements('.timeline-comment') > 30
 		|| countElements('.participant-avatar') > 10
 	);
@@ -77,9 +76,9 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 		return;
 	}
 
-	const reactWrapper = $closestOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
-		icon: <InfoIcon className="m-0" />,
+		icon: <InfoIcon className="m-0 tmp-m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
 		text: getResolvedText(closingDate),
 	});
@@ -97,9 +96,9 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 		return;
 	}
 
-	const reactWrapper = $closestOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
 	const banner = createBanner({
-		icon: <FlameIcon className="m-0" />,
+		icon: <FlameIcon className="m-0 tmp-m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
 		text:
 			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
@@ -116,7 +115,7 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 function addDraftBanner(newCommentField: HTMLElement): void {
 	newCommentField.prepend(
 		createBanner({
-			icon: <GitPullRequestDraftIcon className="m-0" />,
+			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
 			text: <>
 				This is a <strong>draft PR</strong>, it might not be ready for review.

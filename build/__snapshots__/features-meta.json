@@ -114,11 +114,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png"
 	},
 	{
-		"id": "clean-repo-tabs",
-		"description": "Moves the \"Security\" and \"Insights\"  to the repository navigation dropdown. Also moves the \"Projects\", \"Actions\" and \"Wiki\" tabs if they're empty/unused.",
-		"screenshot": "https://user-images.githubusercontent.com/16872793/124681343-4a6c3c00-de96-11eb-9055-a8fc551e6eb8.png"
-	},
-	{
 		"id": "clean-rich-text-editor",
 		"description": "Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)",
 		"css": true,
@@ -298,6 +293,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
 	},
 	{
+		"id": "extensible-nav",
+		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.",
+		"css": true,
+		"screenshot": null
+	},
+	{
 		"id": "file-age-color",
 		"description": "Highlights the most-recently-modified items in file lists.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png"
@@ -388,14 +389,8 @@
 		"screenshot": "https://user-images.githubusercontent.com/29176678/36999174-9f07d33e-20bf-11e8-83e3-b3a9908a4b5f.png"
 	},
 	{
-		"id": "jump-to-change-requested-comment",
-		"description": "Adds a link to jump to the latest changed requested comment.",
-		"screenshot": "https://user-images.githubusercontent.com/19198931/98718312-418b9f00-23c9-11eb-8da2-dfb616e95eb6.gif"
-	},
-	{
 		"id": "jump-to-conversation-close-event",
 		"description": "Adds a link to jump to the latest close event of a issue/PR.",
-		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif"
 	},
 	{
@@ -442,12 +437,13 @@
 	{
 		"id": "linkify-line-numbers",
 		"description": "Linkifies the line numbers where GitHub forgot to add links.",
+		"css": true,
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
-		"id": "linkify-symbolic-links",
-		"description": "Linkifies symbolic links files.",
-		"screenshot": "https://user-images.githubusercontent.com/1402241/62036664-6d0e6880-b21c-11e9-9270-4ae30cc10de2.png"
+		"id": "linkify-pr-review-state",
+		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", etc) in PR lists to filter by that state.",
+		"screenshot": "https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428"
 	},
 	{
 		"id": "linkify-text",
@@ -487,6 +483,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285106996-9bdbc938-69c4-4692-8d47-11e30676de62.png"
 	},
 	{
+		"id": "mark-pinned",
+		"description": "Marks pinned issues in the issues list so duplicate rows are immediately recognizable.",
+		"screenshot": "https://github.com/user-attachments/assets/a4fcc92e-8524-4d57-a510-ad04c8c58a23"
+	},
+	{
 		"id": "mark-private-orgs",
 		"description": "Marks private organizations on your own profile.",
 		"css": true,
@@ -514,12 +515,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "more-dropdown-links",
-		"description": "Adds useful links to the repository navigation dropdown",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/16872793/124681432-856e6f80-de96-11eb-89c9-6d78e8ae4329.png"
-	},
-	{
 		"id": "more-file-links",
 		"description": "Adds links to view the raw version, the blame, and the history of files in PRs and commits.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png"
@@ -543,6 +538,11 @@
 		"id": "new-repo-disable-projects-and-wikis",
 		"description": "Automatically disables projects and wikis when creating a repository.",
 		"screenshot": "https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e"
+	},
+	{
+		"id": "new-tab-links",
+		"description": "Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.",
+		"screenshot": null
 	},
 	{
 		"id": "night-not-found",
@@ -645,7 +645,7 @@
 	{
 		"id": "pr-commit-lines-changed",
 		"description": "Adds diff stats on PR commits.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253130044-494cd822-c460-42dc-8f65-44454a9d18e3.png"
+		"screenshot": "https://github.com/user-attachments/assets/eb0f5e6e-9870-4daf-8c00-f1f23f61ef0f"
 	},
 	{
 		"id": "pr-filters",
@@ -697,11 +697,6 @@
 		"id": "previous-version",
 		"description": "Lets you see the previous version of a file in one click.",
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319"
-	},
-	{
-		"id": "profile-gists-link",
-		"description": "Adds a link to the user’s public gists on their profile.",
-		"screenshot": "https://user-images.githubusercontent.com/44045911/87950518-f7a94100-cad9-11ea-8393-609fad70635c.png"
 	},
 	{
 		"id": "profile-hotkey",
@@ -815,6 +810,7 @@
 	{
 		"id": "repo-header-info",
 		"description": "Shows whether a repo is a fork and adds the number of stars to its header.",
+		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png"
 	},
 	{
@@ -1052,12 +1048,6 @@
 		"id": "user-profile-follower-badge",
 		"description": "On profiles, it shows whether the user follows you.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png"
-	},
-	{
-		"id": "vertical-front-matter",
-		"description": "Shows Markdown front matter as vertical table.",
-		"css": true,
-		"screenshot": "https://user-images.githubusercontent.com/44045911/87251695-26069b00-c4a0-11ea-9077-53ce366490ed.png"
 	},
 	{
 		"id": "view-last-pr-deployment",

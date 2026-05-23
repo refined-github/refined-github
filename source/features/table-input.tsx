@@ -4,16 +4,17 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TableIcon from 'octicons-plain-react/Table';
-import {$, $closestOptional} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {actionBarSelectors} from '../github-helpers/selectors.js';
+import {actionBar} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
-	const container = $closestOptional('fieldset', square) // Issue
+	const container = closestElementOptional('fieldset', square) // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
 	const cursorPosition = field.selectionStart;
@@ -34,20 +35,21 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function append(container: HTMLElement): void {
+function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	container.append(
-		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm">
-			<summary
-				id="rgh-table-input-button"
-				className="Button Button--iconOnly Button--invisible Button--medium"
-				role="button"
-				aria-labelledby="rgh-table-input-tooltip"
-				aria-haspopup="menu"
-			>
-				<TableIcon />
-			</summary>
+	container.parentElement!.append(
+		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
+			{tooltipped(
+				'Add a table',
+				<summary
+					className="Button Button--iconOnly Button--invisible Button--medium"
+					role="button"
+					aria-haspopup="menu"
+				>
+					<TableIcon />
+				</summary>,
+			)}
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
@@ -63,21 +65,11 @@ function append(container: HTMLElement): void {
 				))}
 			</details-menu>
 		</details>,
-		<tool-tip
-			id="rgh-table-input-tooltip"
-			for="rgh-table-input-button"
-			className="sr-only position-absolute"
-			popover="manual"
-			data-direction="s"
-			data-type="label"
-		>
-			Add a table
-		</tool-tip>,
 	);
 }
 
 function init(signal: AbortSignal): void {
-	observe(actionBarSelectors, append, {signal});
+	observe(actionBar, add, {signal});
 	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 

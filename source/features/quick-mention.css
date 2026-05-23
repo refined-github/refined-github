@@ -4,8 +4,7 @@
 }
 
 .rgh-quick-mention {
-	/* !important required to override .tooltipped */
-	position: absolute !important;
+	position: absolute;
 	top: 100%;
 	left: 50%;
 	translate: -50%;
@@ -27,9 +26,4 @@
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
 .rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
-}
-
-/* Show tooltip on top of `sticky-comment-header` */
-.TimelineItem-avatar:has(.rgh-quick-mention) {
-	z-index: 4;
 }

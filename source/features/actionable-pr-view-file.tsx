@@ -1,13 +1,11 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {
-	$, $closest, $optional, elementExists,
-} from 'select-dom';
+import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import observe from '../helpers/selector-observer.js';
 import {frame} from '../helpers/dom-utils.js';
+import observe from '../helpers/selector-observer.js';
 
 /** Rebuilds the "View file" link to point to the head repo and its branch instead of the base repo and the commit */
 function rebuildFileLink(viewFileLink: HTMLAnchorElement, filePath: string): void {
@@ -42,7 +40,7 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 		return;
 	}
 
-	const fileHeader = $closest('[class*="diff-file-header"]', menuButton);
+	const fileHeader = closestElement('[class*="diff-file-header"]', menuButton);
 	if (isDeletedFile(fileHeader)) {
 		return;
 	}
@@ -56,9 +54,9 @@ async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): P
 	rebuildFileLink(viewFile, filePath);
 }
 
-// Legacy PR files view -- TODO: Drop after it is removed
+// TODO [2027-01-01]: Drop after legacy PR files view is removed
 function alter(viewFileLink: HTMLAnchorElement): void {
-	const filePath = $closest('[data-path]', viewFileLink).getAttribute('data-path')!;
+	const filePath = closestElement('[data-path]', viewFileLink).getAttribute('data-path')!;
 	rebuildFileLink(viewFileLink, filePath);
 }
 
@@ -70,7 +68,8 @@ function init(signal: AbortSignal): void {
 		// `capture: true` to run before `more-file-links`
 		{capture: true, signal},
 	);
-	// Legacy PR files view -- TODO: Drop after it is removed
+
+	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	observe(
 		'.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]',
 		alter,
@@ -87,7 +86,7 @@ void features.add(import.meta.url, {
 		pageDetect.isClosedConversation,
 		// If you're viewing changes from partial commits, ensure you're on the latest one.
 		() => pageDetect.isPRCommit() && !elementExists('[aria-label="No next commit"]'),
-		// Legacy PR files view -- TODO: Drop after it is removed
+		// TODO [2027-01-01]: Drop after legacy PR files view is removed
 		() => elementExists('.js-commits-filtered') && !elementExists('[aria-label="You are viewing the latest commit"]'),
 	],
 	awaitDomReady: true, // DOM-based filters, feature is invisible and inactive until dropdown is opened

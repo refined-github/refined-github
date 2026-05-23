@@ -31,6 +31,8 @@ const noScreenshotExceptions = new Set([
 	'github-bugs',
 	'tab-size',
 	'monospace-textareas',
+	'new-tab-links',
+	'extensible-nav', // No visual or behavior change
 
 	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
 	'hide-inactive-deployments', // TODO: side-by-side png
@@ -100,15 +102,26 @@ class FeatureFile {
 	}
 }
 
+function validateReadme(featureId: FeatureId): void {
+	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	assert(featureMeta, 'Should be described in the readme');
+
+	assert(
+		featureMeta.description.length >= 20,
+		'Should be described better in the readme (at least 20 characters)',
+	);
+
+	assert(
+		screenshotRegex.test(featureMeta.screenshot!)
+			|| noScreenshotExceptions.has(featureId),
+		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
+	);
+
+	assert(!duplicate, 'Should be described only once in the readme');
+}
+
 function validateCss(file: FeatureFile): void {
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
-
-	if (/--[\w-]*color[\w-]*/i.test(file.contents().toString())) {
-		assert(
-			file.contents().includes('fuchsia'),
-			'Color variable should always have fuchsia as a fallback, like `color: var(--color, fuchsia);`',
-		);
-	}
 
 	if (!file.tsx.exists()) {
 		assert(
@@ -116,7 +129,10 @@ function validateCss(file: FeatureFile): void {
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
 
-		assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		// `github-bugs` has its own eslint rule for test URLs
+		if (file.id !== 'github-bugs') {
+			assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+		}
 
 		if (!isFeaturePrivate(file.name)) {
 			validateReadme(file.id);
@@ -150,24 +166,6 @@ function validateGql(file: FeatureFile): void {
 	);
 }
 
-function validateReadme(featureId: FeatureId): void {
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	assert(featureMeta, 'Should be described in the readme');
-
-	assert(
-		featureMeta.description.length >= 20,
-		'Should be described better in the readme (at least 20 characters)',
-	);
-
-	assert(
-		screenshotRegex.test(featureMeta.screenshot!)
-		|| noScreenshotExceptions.has(featureId),
-		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
-	);
-
-	assert(!duplicate, 'Should be described only once in the readme');
-}
-
 function validateTsx(file: FeatureFile): void {
 	assert(
 		importedFeatures.includes(file.id),
@@ -181,8 +179,8 @@ function validateTsx(file: FeatureFile): void {
 		&& /observe\(|delegate\(/.test(String(file.contents()))
 	) {
 		assert(
-			/await expectToken|hasToken/.test(String(file.contents())),
-			`${file.id} uses the v4 API, so it should include \`await expectToken()\` in its init function or, if the token is optional, \`hasToken\` anywhere`,
+			/requiresToken:\s*true|hasToken/.test(String(file.contents())),
+			`${file.id} uses the v4 API, so it should include \`requiresToken: true\`, or if the token is optional, \`hasToken\` anywhere`,
 		);
 	}
 

@@ -3,25 +3,19 @@ import './update-pr-from-base-branch.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {
-	$,
-	$$,
-	$closest,
-	$optional,
-	elementExists,
-} from 'select-dom';
+import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 
-import updatePullRequestBranch from './update-pr-from-base-branch.gql';
+import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
-import {expectToken} from '../github-helpers/github-token.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import {deletedHeadRepository} from '../github-helpers/selectors.js';
-import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
+import {tooltipped} from '../helpers/tooltip.js';
+import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 const updateMethods = {
 	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
@@ -80,7 +74,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 		doneMessage: 'Branch updated',
 	});
 
-	$closest('.ButtonGroup', button).remove();
+	closestElement('.ButtonGroup', button).remove();
 }
 
 const feature = getIdentifiers(import.meta.url);
@@ -88,16 +82,13 @@ const feature = getIdentifiers(import.meta.url);
 function createButtonGroup(): JSX.Element {
 	return (
 		<div className="ButtonGroup">
-			{Object.entries(updateMethods).map(([method, label]) => {
-				const buttonId = crypto.randomUUID();
-				const tooltipId = crypto.randomUUID();
-				return (
-					<div>
+			{Object.entries(updateMethods).map(([method, label]) => (
+				<div>
+					{tooltipped(
+						label.tooltipLabel,
 						<button
-							id={buttonId}
 							className={`Button--secondary Button--medium Button ${feature.class}`}
 							data-method={method}
-							aria-labelledby={tooltipId}
 							type="button"
 						>
 							<span className="Button-content">
@@ -105,22 +96,10 @@ function createButtonGroup(): JSX.Element {
 									{label.buttonLabel}
 								</span>
 							</span>
-						</button>
-						<tool-tip
-							id={tooltipId}
-							className="sr-only position-absolute"
-							for={buttonId}
-							popover="manual"
-							data-direction="s"
-							data-type="label"
-							aria-hidden="true"
-							role="tooltip"
-						>
-							{label.tooltipLabel}
-						</tool-tip>
-					</div>
-				);
-			})}
+						</button>,
+					)}
+				</div>
+			))}
 		</div>
 	);
 }
@@ -182,8 +161,6 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	await expectToken();
-
 	delegate(feature.selector, 'click', handler, {signal});
 	observe(
 		'section[aria-label="Conflicts"] .flex-shrink-0 > :first-child',
@@ -202,6 +179,7 @@ void features.add(import.meta.url, {
 		isArchivedRepoAsync,
 	],
 	awaitDomReady: true, // DOM-based exclusions
+	requiresToken: true,
 	init,
 });
 

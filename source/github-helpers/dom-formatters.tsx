@@ -1,9 +1,7 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {
-	$$, $closest, $closestOptional, elementExists,
-} from 'select-dom';
+import {$$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
@@ -28,7 +26,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if ($closestOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
+	if (closestElementOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
 		applyToLink(link, location.href);
 
 		// Customize same-thread links. Already handled by GitHub, but badly
@@ -47,7 +45,7 @@ export function shortenLink(link: HTMLAnchorElement): void {
 
 // https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
 export function repositionAnchors(element: HTMLElement): void {
-	// TODO: bump min firefox version to 147 and safari to 26 in 2027
+	// TODO [2027-01-01]: bump min firefox version to 147 and safari to 26
 	if (!CSS.supports('anchor-name: --test')) {
 		return;
 	}
@@ -58,9 +56,9 @@ export function repositionAnchors(element: HTMLElement): void {
 		return;
 	}
 
-	const container = $closest('.react-code-file-contents', element).parentElement!;
+	const container = closestElement('.react-code-file-contents', element).parentElement!;
 
-	const codeLine = $closestOptional('[id]', element);
+	const codeLine = closestElementOptional('[id]', element);
 	if (!codeLine) {
 		throw new Error('Could not find parent code line');
 	}

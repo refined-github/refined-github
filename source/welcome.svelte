@@ -17,7 +17,9 @@
 			setTimeout(showThirdStep, 2000);
 		} else if (stepValid === 3) {
 			setTimeout(() => {
-				location.replace('https://github.com/refined-github/refined-github/wiki');
+				location.replace(
+					'https://github.com/refined-github/refined-github/wiki',
+				);
 			}, 2000);
 		}
 	});

@@ -1,26 +1,26 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
+import delay from '../helpers/delay.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
 import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
 import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
-import setReactInputValue from '../helpers/set-react-input-value.js';
+import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
 import {getToken} from '../options-storage.js';
-import delay from '../helpers/delay.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
-		<div className={`flash flash-${type} h3 my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={`flash flash-${type} h3 my-9 tmp-my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
 	);
@@ -59,7 +59,7 @@ async function checkToken(): Promise<void> {
 	try {
 		await baseApiFetch({apiBase: 'https://api.github.com/', path: 'user', token});
 	} catch (error) {
-		if (!navigator.onLine || (error as any)?.message === 'Failed to fetch') {
+		if (!navigator.onLine || (error as any)!.message === 'Failed to fetch') {
 			return;
 		}
 
@@ -68,7 +68,10 @@ async function checkToken(): Promise<void> {
 	}
 
 	// Thank you for following the instructions. I'll save you a click.
-	$(isSetTheTokenSelector).checked = true;
+	const checkbox = $(isSetTheTokenSelector);
+	if (!checkbox.checked) {
+		checkbox.click();
+	}
 }
 
 async function setVersion(): Promise<void> {
@@ -120,7 +123,7 @@ function Lies(): JSX.Element {
 
 async function lieDetector({delegateTarget}: DelegateEvent<MouseEvent, HTMLInputElement>): Promise<void> {
 	if (delegateTarget.checked) {
-		$closest('fieldset', delegateTarget).append(<Lies />);
+		closestElement('fieldset', delegateTarget).append(<Lies />);
 	}
 }
 

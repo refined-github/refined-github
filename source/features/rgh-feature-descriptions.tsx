@@ -5,58 +5,111 @@ import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 
+import {mount} from 'svelte';
+
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
+import joinJsx from '../helpers/join-jsx.js';
 import openOptions from '../helpers/open-options.js';
+import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
+	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
 	const isCss = location.pathname.endsWith('.css');
 
-	const description = meta?.description // Regular feature?
-		?? (
+	const links = [];
+
+	const relatedIssuesContainer = <span />;
+	mount(RelatedIssuesCount, {
+		target: relatedIssuesContainer,
+		props: {
+			featureId: id,
+		},
+	});
+	links.push(relatedIssuesContainer);
+
+	if (!wasFeatureRemoved) {
+		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
+		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
+		newIssueUrl.searchParams.set('title', `\`${id}\` `);
+		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
+		links.push(
+			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href}>Report bug</a>,
+		);
+	}
+
+	if (meta) {
+		if (isCss && !meta.cssOnly) {
+			links.push(
+				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
+			);
+		} else if (meta.css && !isCss) {
+			links.push(
+				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+			);
+		}
+	}
+
+	if (wasFeatureRemoved) {
+		links.push(
+			// This links to the full commit history, which will start with the commit that removed the file
+			<a
+				data-turbo-frame="repo-content-turbo-frame"
+				href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}
+			>
+				Commit history
+			</a>,
+		);
+	}
+
+	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
+}
+
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+	const description = meta
+		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
+		: (
 			isFeaturePrivate(id)
 				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-				: isCss
-					? 'This feature is CSS-only and cannot be disabled.'
-					: undefined // The heck!?
+				: undefined // The heck!?
 		);
 
-	const conversationsUrl = new URL('https://github.com/refined-github/refined-github/issues');
 	const oldNames = getOldFeatureNames(id);
-	const searchTerms = [id, ...oldNames].map(name => `"${name}"`).join(' OR ');
-	conversationsUrl.searchParams.set('q', `sort:updated-desc is:open (${searchTerms})`);
-
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`: `);
-	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
-		<div className="Box mb-3 d-inline-block width-full">
+		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
-						<code>{id}</code>
-						<clipboard-copy
-							aria-label="Copy"
-							data-copy-feedback="Copied!"
-							value={id}
-							class="Link--onHover color-fg-muted d-inline-block ml-2"
-							tabindex="0"
-							role="button"
-						>
-							<CopyIcon className="v-align-baseline" />
-						</clipboard-copy>
+						{
+							description
+								? <>
+									<code>{id}</code>
+									<clipboard-copy
+										aria-label="Copy"
+										data-copy-feedback="Copied!"
+										value={id}
+										class="Link--onHover color-fg-muted d-inline-block ml-2"
+										tabindex="0"
+										role="button"
+									>
+										<CopyIcon className="v-align-baseline" />
+									</clipboard-copy>
+								</>
+								: <span className="color-fg-muted">
+									This feature is no longer part of Refined GitHub.
+								</span>
+						}
 					</h3>
 					{oldNames.length > 0 && (
-						<div className="color-fg-muted mt-n3">
+						<div className="color-fg-muted mt-n3 tmp-mt-n3">
 							<span className="text-small">previously named </span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
@@ -67,19 +120,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					<div className="no-wrap">
-						<a href={conversationsUrl.href} data-turbo-frame="repo-content-turbo-frame">Related issues</a>
-						{' • '}
-						<a href={newIssueUrl.href} data-turbo-frame="repo-content-turbo-frame">Report bug</a>
-						{
-							meta && isCss && !meta.cssOnly
-								? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a></>
-								: meta?.css && !isCss
-									? <> • <a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a></>
-									: undefined
-						}
-					</div>
+					{getLinksElement(id, meta)}
 				</div>
+				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
 				{meta?.screenshot && (
 					<a href={meta.screenshot} className="flex-self-center">
 						<img
@@ -110,14 +153,14 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			return createBanner({
 				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
 				classes,
-				icon: <InfoIcon className="mr-0" />,
+				icon: <InfoIcon className="mr-0 tmp-mr-0" />,
 			});
 		}
 
 		return createBanner({
 			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0" />,
+			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
 		});
 	}
 
@@ -125,7 +168,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 		return createBanner({
 			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0" />,
+			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
 			action(event) {
 				openOptions(event, id);
 			},
@@ -146,7 +189,9 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(filename);
+	const currentFeatureName = filename
+		? (getNewFeatureName(filename) ?? filename)
+		: undefined;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
@@ -171,10 +216,11 @@ void features.add(import.meta.url, {
 
 /*
 
-Test URLs:
+## Test URLs
 
-- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.tsx
-- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/sync-pr-commit-title.css
+- Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.tsx
+- CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.css
 - RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
+- Removed feature" https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
 */

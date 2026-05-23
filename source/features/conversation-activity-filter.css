@@ -7,13 +7,13 @@
 	}
 }
 
-[data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] {
+[data-rgh-conversation-activity-filter='hideAllNoise'] {
 	.rgh-conversation-activity-filtered-event,
 	.rgh-conversation-activity-bot-comment,
 	.rgh-conversation-activity-collapsed-comment,
 	.js-resolvable-timeline-thread-container[data-resolved='true'],
 	.minimized-comment {
-		display: none;
+		display: none !important;
 		/* For debugging purposes */
 		/* display: block !important; */
 		/* outline: solid 5px #f00; */
@@ -33,7 +33,7 @@
 		display: none;
 	}
 
-	&:is([data-rgh-conversation-activity-filter='hideEvents'] *) {
+	[data-rgh-conversation-activity-filter='hideEvents'] & {
 		.octicon-eye {
 			display: none;
 		}
@@ -46,9 +46,7 @@
 		}
 	}
 
-	&:is(
-		[data-rgh-conversation-activity-filter='hideEventsAndCollapsedComments'] *
-	) {
+	[data-rgh-conversation-activity-filter='hideAllNoise'] & {
 		.octicon-eye {
 			display: none;
 		}
@@ -63,7 +61,7 @@
 	align-items: center;
 }
 
-/* TODO: Remove after July 2026 */
+/* TODO [2026-08-01]: Remove */
 .gh-header-meta {
 	.rgh-conversation-activity-filter-wrapper {
 		display: block;

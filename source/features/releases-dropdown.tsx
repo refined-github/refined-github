@@ -5,7 +5,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleases from './releases-dropdown.gql';
@@ -47,7 +46,6 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 
 const searchFieldSelector = 'input#release-filter';
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(searchFieldSelector, addList, {signal});
 	delegate(searchFieldSelector, 'input', selectionHandler, {signal});
 }
@@ -56,6 +54,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isReleases,
 	],
+	requiresToken: true,
 	init,
 });
 

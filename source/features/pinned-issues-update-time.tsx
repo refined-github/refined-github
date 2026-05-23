@@ -5,7 +5,6 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getRepo} from '../github-helpers/index.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
@@ -57,7 +56,6 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('span[class^="PinnedIssue-module__issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
 }
 
@@ -65,6 +63,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueList,
 	],
+	requiresToken: true,
 	init,
 });
 

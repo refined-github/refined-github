@@ -7,23 +7,15 @@ import CheckIcon from 'octicons-plain-react/Check';
 import EyeIcon from 'octicons-plain-react/Eye';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-import {
-	$,
-	$$,
-	$$optional,
-	$closest,
-	$closestOptional,
-	$optional,
-	elementExists,
-} from 'select-dom';
+import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
 import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
 import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
 
 const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/3686',
@@ -33,10 +25,11 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/8000',
 ];
 
+// Keys are used as CSS selectors
 const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
-	hideEventsAndCollapsedComments: 'Hide events, bots, collapsed comments',
+	hideAllNoise: 'Hide events, bots, collapsed comments',
 } as const;
 
 type State = keyof typeof states;
@@ -65,6 +58,7 @@ const timelineItem = [
 	// React issue pages
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
+const comment = ['.comment-body', '.react-issue-comment'];
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -81,17 +75,17 @@ function processSimpleComment(item: HTMLElement): void {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (getCommentAuthor(item.firstElementChild!).endsWith('[bot]')) {
+	if (getCommentAuthor($(comment, item)).endsWith('[bot]')) {
 		item.classList.add(botClassName);
 	}
 }
 
-function processDissmissedReviewEvent(item: HTMLElement): void {
+function processDismissedReviewEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		$closest(timelineItem, $(staleReviewId))
+		closestElement(timelineItem, $(staleReviewId))
 			.classList
 			.add(collapsedClassName);
 	}
@@ -101,6 +95,7 @@ function processReview(review: HTMLElement): void {
 	const hasMainComment = elementExists('.js-comment[id^=pullrequestreview] .timeline-comment', review);
 
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
+	// Resolved thread are handled by the CSS thanks to [data-resolved="true"]
 	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
 	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
 
@@ -126,29 +121,24 @@ function processItem(item: HTMLElement): void {
 	if (elementExists('.js-comment[id^=pullrequestreview]', item)) {
 		processReview(item);
 	} else if (elementExists('.TimelineItem-badge .octicon-x', item)) {
-		processDissmissedReviewEvent(item);
-	} else if (elementExists(['.comment-body', '.react-issue-comment'], item)) {
+		processDismissedReviewEvent(item);
+	} else if (elementExists(comment, item)) {
 		processSimpleComment(item);
 	} else {
 		processTimelineEvent(item);
 	}
 }
 
-async function handleSelection({target}: Event): Promise<void> {
-	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
-	applyState(state as State);
-}
-
 let currentState: State;
 
 function applyState(targetState: State): void {
 	const container = $([
-		// Current PR view
+		// PR
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Current issue view
+		// Issue
 		'[class*="IssueViewer-module__mainContainer"]',
-		// Old PR view - TODO: Drop after July 2026
+		// Old PR view
+		// TODO [2026-08-01]: Drop
 		'.js-issues-results',
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
@@ -165,6 +155,12 @@ function applyState(targetState: State): void {
 
 	currentState = targetState;
 	SessionPageSetting.set(targetState);
+}
+
+async function handleSelection({target}: Event): Promise<void> {
+	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
+	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
+	applyState(state as State);
 }
 
 function createMenuItems(): JSX.Element[] {
@@ -190,7 +186,7 @@ function createMenuItems(): JSX.Element[] {
 }
 
 async function addWidget(anchor: Element): Promise<void> {
-	const position = $closest('div', anchor);
+	const position = closestElement('div', anchor);
 	if (position.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
@@ -216,7 +212,7 @@ async function addWidget(anchor: Element): Promise<void> {
 					aria-controls={`${baseId}-list`}
 					aria-haspopup="true"
 					type="button"
-					className="Button--small Button color-fg-muted p-0"
+					className="Button--small Button color-fg-muted p-0 tmp-p-0"
 				>
 					<span className="Button-content">
 						<span className="Button-visual Button-leadingVisual">
@@ -254,7 +250,7 @@ async function addWidget(anchor: Element): Promise<void> {
 							</action-list>
 						</div>
 						{!isSmallDevice() && (
-							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py2">
+							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py-2">
 								<span className="color-fg-muted">
 									Press <kbd>h</kbd> to cycle through filters,
 									<br />
@@ -273,8 +269,8 @@ async function addWidget(anchor: Element): Promise<void> {
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		$closestOptional(timelineItem, $optional(`.${collapsedClassName} ${location.hash}`))
-			?.classList
+		closestElement(timelineItem, $(`.${collapsedClassName} ${location.hash}`))
+			.classList
 			.remove(collapsedClassName);
 	}
 }
@@ -290,11 +286,14 @@ function switchToNextFilter(): void {
 async function init(signal: AbortSignal): Promise<void> {
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
-			? 'hideEventsAndCollapsedComments' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
+			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
 
 	const initialSetupOnce = onetime(() => {
-		applyState(currentState);
+		if (currentState !== 'showAll') {
+			applyState(currentState);
+		}
+
 		registerHotkey('h', switchToNextFilter, {signal});
 		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
 	});
@@ -305,8 +304,9 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class^="HeaderMetadata-module__metadataContent"]',
 			'[class*="HeaderMetadata-module__smallMetadataRow"]',
 			// PR view
-			'span[class*="PullRequestHeaderSummary-module"] > .d-flex',
-			// Old PR view - TODO: Remove after July 2026
+			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			// Old PR view
+			// TODO [2026-08-01]: Remove
 			'#partial-discussion-header .gh-header-meta > .flex-auto:last-child',
 			'#partial-discussion-header .sticky-header-container .meta:last-child',
 		],

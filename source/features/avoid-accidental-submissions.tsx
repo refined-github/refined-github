@@ -6,6 +6,19 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {modKey as moduleKey} from '../github-helpers/hotkey.js';
 
+// TODO [2026-09-01]: Remove
+const legacyInputElements = [
+	// Old `isCompare`
+	'input#pull_request_title',
+	// Old `isEditingFile`, `isNewFile`
+	'input#commit-summary-input',
+];
+
+const inputElements = [
+	'input[name="pull_request[title]"]', // `isCompare`
+	'#commit-message-input', // `isEditingFile`, `isNewFile`
+];
+
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
@@ -57,16 +70,6 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 
 	event.preventDefault();
 }
-
-const legacyInputElements = [
-	'input#pull_request_title', // Old `isCompare` - TODO: Remove after August 2026
-	'input#commit-summary-input', // Old `isEditingFile`, `isNewFile` - TODO: Remove after July 2026
-];
-
-const inputElements = [
-	'input[name="pull_request[title]"]', // `isCompare`
-	'#commit-message-input', // `isEditingFile`, `isNewFile`
-];
 
 function init(signal: AbortSignal): void {
 	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {signal, capture: true});

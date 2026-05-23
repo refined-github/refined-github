@@ -4,14 +4,13 @@ import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import DiffIcon from 'octicons-plain-react/Diff';
-import {
-	$, $$, $optional, elementExists,
-} from 'select-dom';
+import {$, $$, $optional, elementExists} from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -105,14 +104,17 @@ async function init(): Promise<void> {
 		], container.element);
 		for (const lastLink of lastLinks) {
 			const currentTag = allTags[index].tag;
-			const compareLink = (
+			const compareLink = tooltipped(
+				{
+					label: `See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`,
+					direction: 'n',
+				},
 				<a
-					className="Link--muted tooltipped tooltipped-n"
-					aria-label={`See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`}
+					className="Link--muted"
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
-					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 wb-break-all">Commits</span>}
-				</a>
+					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 tmp-ml-1 wb-break-all">Commits</span>}
+				</a>,
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
@@ -132,7 +134,7 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'mb-md-2 mr-3 mr-md-0' : 'mr-4 mb-2')}>
+				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-4 tmp-mr-3 mr-md-0 tmp-mr-md-0' : 'mr-4 tmp-mr-3 mb-2 tmp-mb-2')}>
 					{compareLink}
 				</div>,
 			);

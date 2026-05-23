@@ -4,16 +4,14 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import {
-	$, $$, $closest, $closestOptional, elementExists,
-} from 'select-dom';
+import {$, $$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {multilineAriaLabel} from '../github-helpers/index.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -50,8 +48,14 @@ async function openNotifications(notifications: Element[], markAsDone = false): 
 	return true;
 }
 
+function removeOpenUnreadButtons(container: ParentNode = document): void {
+	for (const button of $$(openUnread.selector, container)) {
+		button.remove();
+	}
+}
+
 async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<MouseEvent>): Promise<void> {
-	const container = $closestOptional('.js-notifications-group', delegateTarget) ?? document;
+	const container = closestElementOptional('.js-notifications-group', delegateTarget) ?? document;
 	const unreadNotifications = getUnreadNotifications(container);
 	const didOpenNotifications = await openNotifications(unreadNotifications, altKey);
 	if (didOpenNotifications) {
@@ -62,7 +66,7 @@ async function openUnreadNotifications({delegateTarget, altKey}: DelegateEvent<M
 
 async function openSelectedNotifications(): Promise<void> {
 	const selectedNotifications = $$('.notifications-list-item :checked')
-		.map(checkbox => $closest('.notifications-list-item', checkbox));
+		.map(checkbox => closestElement('.notifications-list-item', checkbox));
 	await openNotifications(selectedNotifications);
 
 	if (!elementExists('.notification-unread')) {
@@ -70,47 +74,41 @@ async function openSelectedNotifications(): Promise<void> {
 	}
 }
 
-function removeOpenUnreadButtons(container: ParentNode = document): void {
-	for (const button of $$(openUnread.selector, container)) {
-		button.remove();
-	}
-}
-
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	const button = (
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-s ' + openSelected.class}
-			data-hotkey="p"
-			aria-label={multilineAriaLabel(
-				'Open selected notifications',
-				'Hotkey: P',
-			)}
-		>
-			<LinkExternalIcon className="mr-1" />Open
-		</button>
-	);
 	appendBefore(
 		selectedActionsGroup,
 		'details',
-		button,
+		tooltipped({
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		}, (
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 tmp-mr-2 ' + openSelected.class}
+				data-hotkey="p"
+			>
+				<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
+			</button>
+		)),
 	);
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
-	const repository = $closest('.js-notifications-group', markReadButton);
+	const repository = closestElement('.js-notifications-group', markReadButton);
 	if (getUnreadNotifications(repository).length === 0) {
 		return;
 	}
 
 	markReadButton.before(
-		<button
-			type="button"
-			className={'btn btn-sm mr-2 tooltipped tooltipped-w ' + openUnread.class}
-			aria-label="Open all unread notifications from this repo"
-		>
-			<LinkExternalIcon width={16} /> Open unread
-		</button>,
+		tooltipped(
+			{label: 'Open all unread notifications from this repo', direction: 'w'},
+			<button
+				type="button"
+				className={'btn btn-sm mr-2 tmp-mr-2 ' + openUnread.class}
+			>
+				<LinkExternalIcon width={16} /> Open unread
+			</button>,
+		),
 	);
 }
 
@@ -121,7 +119,7 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 
 	notificationHeader.append(
 		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
-			<LinkExternalIcon className="mr-1" />Open all unread
+			<LinkExternalIcon className="mr-1 tmp-mr-1" />Open all unread
 		</button>,
 	);
 }

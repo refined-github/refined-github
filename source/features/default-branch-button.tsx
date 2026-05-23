@@ -9,12 +9,12 @@ import {$optional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {groupButtons} from '../github-helpers/group-buttons.js';
 import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);
@@ -42,6 +42,15 @@ function wrapButtons(buttons: HTMLElement[]): void {
 }
 
 async function add(branchSelector: HTMLElement): Promise<void> {
+	// Apply here instead of `excludes` due to React loading:
+	// 1. Visit branch
+	// 2. Click "Code" repo tab
+	// 3. You're on `main` but the button is wrapped
+	// TODO: Move to excludes after https://github.com/refined-github/refined-github/issues/6554
+	if (await isDefaultBranch()) {
+		return;
+	}
+
 	// The DOM varies between details-based DOM and React-based one
 	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
 		? branchSelector.parentElement!
@@ -64,9 +73,8 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
-			className="btn tooltipped tooltipped-se px-2 rgh-default-branch-button flex-self-start"
+			className="btn px-2 tmp-px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
-			aria-label="See this view on the default branch"
 			// Update on hover because the URL may change without a DOM refresh
 			// https://github.com/refined-github/refined-github/issues/6554
 			// Inlined listener because `mouseenter` is too heavy for `delegate`
@@ -79,12 +87,13 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	selectorWrapper.before(defaultLink);
+	selectorWrapper.before(
+		tooltipped({label: 'View on the default branch', direction: 'se'}, defaultLink),
+	);
 	wrapButtons([defaultLink, selectorWrapper]);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(branchSelector, add, {signal});
 }
 
@@ -94,9 +103,7 @@ void features.add(import.meta.url, {
 		pageDetect.isSingleFile,
 		isRepoCommitListRoot,
 	],
-	exclude: [
-		isDefaultBranch,
-	],
+	requiresToken: true,
 	init,
 });
 

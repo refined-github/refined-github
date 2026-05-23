@@ -1,3 +1,4 @@
+/* eslint-disable max-params -- These match the native `String#replace` signature */
 import type {RepositoryInfo} from 'github-url-detection';
 
 import {getConversationNumber, getRepo} from './index.js';
@@ -7,7 +8,8 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 }
 
 const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
-const prCommitPathnameRegex = /[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/]commits[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/;
+const prCommitPathnameRegex =
+	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/;
 export const prCommitUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + prCommitPathnameRegex.source,
 	'gi',

@@ -3,14 +3,13 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import HistoryIcon from 'octicons-plain-react/History';
-import {$, $closest, $closestOptional} from 'select-dom';
+import {$, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-widgets/notice-bar.js';
 import {is} from '../helpers/css-selectors.js';
@@ -50,8 +49,10 @@ async function showTimeMachineBar(): Promise<void | false> {
 			return false;
 		}
 
-		// Selector note: isRepoFile and isRepoTree have different DOM for this element
-		const lastCommitDate = await elementReady('.Box-header relative-time', {waitForChildren: false});
+		const lastCommitDate = await elementReady(
+			'div[data-testid="latest-commit-details"] relative-time',
+			{waitForChildren: false},
+		);
 		if (lastCommitDate && date > lastCommitDate.getAttribute('datetime')!) {
 			return false;
 		}
@@ -101,7 +102,7 @@ function addDateParameterToLink(link: HTMLAnchorElement): void {
 		return;
 	}
 
-	const comment = $closest(commentSelector, link);
+	const comment = closestElement(commentSelector, link);
 	const relativeTime = $('relative-time', comment);
 	const timestamp = relativeTime.attributes.datetime.value;
 
@@ -126,8 +127,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 }
 
 function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
-	const timestamp
-		= $('relative-time[datetime]', $closest('[class^="Box"]', delegate)).attributes.datetime.value;
+	const timestamp = $('relative-time[datetime]', closestElement('[class^="Box"]', delegate)).attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
 
@@ -156,18 +156,19 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
-
 	observe('.timeline-comment-actions > details:last-child', menu => {
-		if ($closestOptional('.js-pending-review-comment', menu)) {
+		if (closestElementOptional('.js-pending-review-comment', menu)) {
 			return;
 		}
 
 		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = $('relative-time', $closest([
-			'.js-comment:not([id^="pullrequestreview-"])',
-			'.js-timeline-item',
-		], menu))
+		const timestamp = $(
+			'relative-time',
+			closestElement([
+				'.js-comment:not([id^="pullrequestreview-"])',
+				'.js-timeline-item',
+			], menu),
+		)
 			.attributes
 			.datetime
 			.value;
@@ -198,6 +199,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isGist,
 	],
+	requiresToken: true,
 	init,
 }, {
 	asLongAs: [

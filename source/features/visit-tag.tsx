@@ -7,6 +7,7 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {branchSelector} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -23,6 +24,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		return;
 	}
 
+	// Uses optional chaining to emit a better error manually
 	const tag = branchSelector.getAttribute('aria-label')?.replace(/ tag$/, '');
 	if (!tag) {
 		throw new Error('Tag not found in DOM. The feature needs to be updated');
@@ -32,7 +34,7 @@ async function addLink(branchSelector: HTMLButtonElement): Promise<void> {
 		<div className="d-flex gap-2" />,
 		branchSelector,
 		<a
-			className="btn px-2 tooltipped tooltipped-se rgh-visit-tag"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-se rgh-visit-tag"
 			href={buildRepoUrl('releases/tag', tag)}
 			aria-label="Visit tag"
 		>
@@ -51,7 +53,7 @@ function clarifyIcon(signal: AbortSignal): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(`:is(${branchSelector}):has(.octicon-tag)`, addLink, {signal});
+	observe(is(branchSelector) + ':has(.octicon-tag)', addLink, {signal});
 }
 
 void features.add(import.meta.url, {

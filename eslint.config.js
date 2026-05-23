@@ -1,20 +1,25 @@
-import xo from 'xo';
-import sveltePlugin from 'eslint-plugin-svelte';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import {includeIgnoreFile} from '@eslint/compat';
+import css from '@eslint/css';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import byoPlugin from 'eslint-plugin-byo';
+import pluginPromise from 'eslint-plugin-promise';
+import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
-import css from '@eslint/css';
-import pluginPromise from 'eslint-plugin-promise';
+import selectDom from 'select-dom/eslint-plugin';
+import xo from 'xo';
 
+import cssDocumentation from './eslint-rules/css-documentation.js';
+import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
 import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
 
-import selectDomRule from './eslint-rules/select-dom.js';
+import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 const refinedGithubPlugin = {
 	rules: {
-		'select-dom': selectDomRule,
 		'no-optional-chaining': noOptionalChaining,
+		'css-documentation': cssDocumentation,
+		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
 	},
 };
 
@@ -27,6 +32,7 @@ export default defineConfig([
 			prettier: false,
 			plugins: {
 				promise: pluginPromise,
+				'select-dom': selectDom,
 			},
 			languageOptions: {
 				globals: {
@@ -36,8 +42,14 @@ export default defineConfig([
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 
+				// Prefer unicorn's version
+				'no-warning-comments': 'off',
+				'unicorn/expiring-todo-comments': ['warn', {
+					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
+					allowWarningComments: false,
+				}],
+
 				// Disable some unicorn rules
-				'unicorn/expiring-todo-comments': 'off', // We just got too many, too much noise
 				'unicorn/no-nested-ternary': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
@@ -87,53 +99,6 @@ export default defineConfig([
 					],
 				}],
 
-				'no-restricted-syntax': [
-					'error',
-					{
-						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is/])',
-						message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
-					},
-					{
-						selector:
-								':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=$closest], [callee.name=$closestOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
-						message: 'If it\'s a single selector, use a single string instead of an array',
-					},
-					{
-						selector: 'TSNonNullExpression > CallExpression > [name=$optional]',
-						message: 'Use `$()` instead of non-null `$optional()`. Use it as `import {expectElement as $}`',
-					},
-					{
-						selector: 'TSNonNullExpression > CallExpression > [name=$]',
-						message: 'Unused null expression: !',
-					},
-					{
-						selector: 'TSNonNullExpression > CallExpression > [name=$closest]',
-						message: 'Unused null expression: ! — $closest() already throws when the element is not found',
-					},
-					{
-						message: 'Init functions wrapped with onetime() must have a name ending with "Once"',
-						selector: 'ObjectExpression > Property[key.name=init] > CallExpression[callee.name=onetime]:not([arguments.0.name=/Once$/])',
-					},
-					{
-						message: 'Init functions that run once, cannot accept a signal: https://github.com/refined-github/refined-github/pull/8072',
-						selector: 'FunctionDeclaration[id.name=/Once$/] > Identifier[name=signal]',
-					},
-					{
-						message: 'Elements with data-hotkey must have a title or aria-label in the format "Hotkey: <key>"',
-						selector:
-								'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"])'
-								+ ':not(:has(JSXAttribute[name.name="title"]))'
-								+ ':not(:has(JSXAttribute[name.name="aria-label"]))'
-								+ ':not(:has(JSXAttribute[name.name="hidden"]))',
-					},
-					{
-						message: 'Use `elementExists` for checking if an element exists',
-						selector:
-								'*[test.type="CallExpression"][test.callee.name="$optional"],'
-								+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
-					},
-				],
 				'no-alert': 'off',
 				'n/prefer-global/process': 'off',
 				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
@@ -159,12 +124,39 @@ export default defineConfig([
 		{
 			files: ['**/*.{ts,tsx,cts,mts}'],
 			rules: {
+				// TODO: Drop after moving to dprint
+				// Copied from here, except ImportDeclaration
+				// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
+				'@stylistic/object-curly-newline': ['error', {
+					ObjectExpression: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+					ObjectPattern: {
+						multiline: true,
+						consistent: true,
+					},
+
+					ImportDeclaration: {
+						multiline: true,
+						minProperties: 10,
+						consistent: true,
+					},
+					ExportDeclaration: {
+						multiline: true,
+						minProperties: 4,
+						consistent: true,
+					},
+				}],
+
 				'@typescript-eslint/no-restricted-types': [
 					'error',
 					{
 						types: {
 							object: {
-								message: 'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
+								message:
+									'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
 								fixWith: 'Record<string, unknown>',
 							},
 							null: {
@@ -177,14 +169,16 @@ export default defineConfig([
 									'Uint8Array',
 								],
 							},
-							'[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
-							'[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
+							'[]': "Don't use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.",
+							'[[]]':
+								"Don't use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.",
 						},
 					},
 				],
 				'@typescript-eslint/switch-exhaustiveness-check': ['error', {
 					considerDefaultExhaustiveForUnions: true,
 				}],
+				'@typescript-eslint/no-use-before-define': 'error',
 
 				'@typescript-eslint/parameter-properties': 'off', // Conflicts with erasable sintax
 				'@typescript-eslint/no-deprecated': 'off', // Too noisy for now
@@ -281,6 +275,12 @@ export default defineConfig([
 		ignores: ['**/*.md', '**/*.json', '!**/package.json'],
 	},
 	{
+		files: ['**/*.css', '**/package.json'],
+		rules: {
+			'unicorn/expiring-todo-comments': 'off',
+		},
+	},
+	{
 		// Allow empty blocks like `catch {}` or `function noop() {}`
 		files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,cts,mts,vue,svelte,astro}'],
 		rules: {
@@ -307,16 +307,26 @@ export default defineConfig([
 	},
 	{
 		plugins: {
+			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
 		},
 		rules: {
-			'refined-github/select-dom': 'error',
+			...restrictedSyntax,
+			'select-dom/prefer': ['error', {
+				allowReadabilityExceptions: true,
+			}],
 		},
 	},
 	{
 		files: ['source/features/**'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
+		},
+	},
+	{
+		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
+		rules: {
+			'refined-github/css-documentation': 'error',
 		},
 	},
 	{
@@ -331,6 +341,12 @@ export default defineConfig([
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
 			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+			'refined-github/css-require-fuchsia-fallback': 'error',
 		},
+	},
+	{
+		files: ['**/*.js', '**/*.ts'],
+		// TODO: Use global `/flat` config
+		rules: eslintConfigPrettier.rules,
 	},
 ]);

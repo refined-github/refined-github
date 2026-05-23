@@ -2,7 +2,11 @@ function parseUserFromEmail(author: string): string | undefined {
 	return /<(?:\d+\+)?([^@>]+)@users\.noreply\.github\.com>/i.exec(author)?.[1];
 }
 
-export default function cleanCommitMessage(message: string, closingKeywords = false, excludeUsers: string[] = []): string {
+export default function cleanCommitMessage(
+	message: string,
+	closingKeywords = false,
+	excludeUsers: string[] = [],
+): string {
 	const preservedContent = new Set();
 
 	// This method ensures that "Co-authored-by" capitalization doesn't affect deduplication.

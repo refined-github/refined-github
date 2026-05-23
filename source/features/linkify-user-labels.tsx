@@ -2,7 +2,7 @@ import './linkify-user-labels.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $closestOptional} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
@@ -12,7 +12,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function getAuthor(label: HTMLElement): string {
-	const prMetadataRow = $closestOptional('.opened-by', label);
+	const prMetadataRow = closestElementOptional('.opened-by', label);
 	if (!prMetadataRow) {
 		return getCommentAuthor(label);
 	}
@@ -24,7 +24,7 @@ function getAuthor(label: HTMLElement): string {
 }
 
 function linkify(label: HTMLElement): void {
-	if ($closestOptional('a', label)) {
+	if (closestElementOptional('a', label)) {
 		throw new Error('Already linkified, feature needs to be updated');
 	}
 
@@ -34,7 +34,7 @@ function linkify(label: HTMLElement): void {
 
 	const url = new URL(buildRepoUrl('commits'));
 	url.searchParams.set('author', getAuthor(label));
-	wrap(label, <a className="Link--onHover color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
+	wrap(label, <a className="Link--onHover no-underline color-fg-inherit rgh-linkify-user-labels" href={url.href} />);
 }
 
 const ariaLabelSelector = is(

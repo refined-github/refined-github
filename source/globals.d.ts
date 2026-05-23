@@ -12,12 +12,12 @@ declare var navigation: typeof window.navigation;
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit
-	= | {disconnect: VoidFunction}
-		| {clear: VoidFunction}
-		| {destroy: VoidFunction}
-		| {abort: VoidFunction}
-		| VoidFunction;
+type Deinit =
+	| {disconnect: VoidFunction}
+	| {clear: VoidFunction}
+	| {destroy: VoidFunction}
+	| {abort: VoidFunction}
+	| VoidFunction;
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {
@@ -45,6 +45,8 @@ declare module 'size-plugin';
 declare module '*.gql' {
 	export = string;
 }
+
+declare module '*.svelte';
 
 // Custom UI events specific to RGH
 interface GlobalEventHandlersEventMap {
@@ -75,8 +77,8 @@ declare namespace JSX {
 		'action-menu': IntrinsicElements.HTMLELement;
 		'focus-group': IntrinsicElements.HTMLELement;
 		'action-list': IntrinsicElements.HTMLELement;
-		'tool-tip': IntrinsicElements.HTMLElement;
 		'segmented-control': IntrinsicElements.HTMLElement;
+		'tool-tip': IntrinsicElements.HTMLElement & {for?: string};
 	}
 
 	type BaseElement = IntrinsicElements['div'];

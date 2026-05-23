@@ -1,7 +1,10 @@
-/* Style backticked code in links #4817, matches GitHub’s `.markdown-title code` rule */
-li[data-testid='commit-row-item'] code /* `isCommitList` commit message */,
-/* `isCommit` commit message */
+/* Style backticked code in links, matches GitHub’s `.markdown-title code` rule */
+/* Info: https://github.com/refined-github/refined-github/issues/4817 */
+/* Test: https://github.com/sindresorhus/refined-github/commits/main?after=37fa4677f1ecf26d7176c8d9d43f8a4db6d5d902+104&branch=main */
+li[data-testid='commit-row-item'] code,
+/* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
 div[class^='CommitHeader-module__commitMessageContainer'] code,
+/* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
 a[class*='PinnedIssue-module__Link'] code {
 	padding: 2px 4px;
 	background-color: var(
@@ -13,7 +16,9 @@ a[class*='PinnedIssue-module__Link'] code {
 	border-radius: 6px;
 }
 
-/* Fix spacing of repo header button icons #5620 */
+/* Fix spacing of repo header button icons */
+/* Info: https://github.com/refined-github/refined-github/issues/5620 */
+/* Test: https://github.com/refined-github/refined-github */
 .pagehead-actions
 	:is(
 		.btn,
@@ -25,47 +30,58 @@ a[class*='PinnedIssue-module__Link'] code {
 	margin-right: 4px !important;
 }
 
-/* Align icons in the release search field #6506 */
+/* Align icons in the release search field */
+/* Info: https://github.com/refined-github/refined-github/issues/6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
-[action$='/releases'] .subnav-search-icon {
-	margin-top: -1px;
-}
-#release-filter::-webkit-calendar-picker-indicator {
-	margin-top: -4px;
+:root {
+	[action$='/releases'] .subnav-search-icon {
+		margin-top: -1px;
+	}
+
+	/* Chrome only, on focus */
+	#release-filter::-webkit-calendar-picker-indicator {
+		margin-top: -4px;
+	}
 }
 
 /* TODO: Drop after React PR conversations */
-/* Mute unclickable reaction buttons, disable hover #6795 */
+/* Mute unclickable reaction buttons, disable hover */
+/* Info: https://github.com/refined-github/refined-github/issues/6795 */
 /* Test: https://github.com/facebook/react/pull/20646 */
-:root .social-reaction-summary-item:disabled {
-	filter: grayscale(0.5);
-	background-color: transparent;
-}
-:root .social-reaction-summary-item.user-has-reacted:disabled {
-	color: var(
-		--reactionButton-selected-fgColor-rest,
-		var(--color-accent-fg, fuchsia)
-	);
-	background-color: var(
-		--reactionButton-selected-bgColor-rest,
-		var(--color-accent-subtle, fuchsia)
-	) !important;
+:root {
+	.social-reaction-summary-item:disabled {
+		filter: grayscale(0.5);
+		background-color: transparent;
+
+		&.user-has-reacted {
+			color: var(
+				--reactionButton-selected-fgColor-rest,
+				var(--color-accent-fg, fuchsia)
+			);
+			background-color: var(
+				--reactionButton-selected-bgColor-rest,
+				var(--color-accent-subtle, fuchsia)
+			) !important;
+		}
+	}
 }
 
 /* TODO: Drop after React PR conversations */
-/* Hide inactive comment box tabs #7108 */
+/* Hide inactive comment box tabs */
+/* Info: https://github.com/refined-github/refined-github/issues/7108 */
 /* Test: https://github.com/refined-github/sandbox/issues/74 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
 
-/* Fit rendered markdown div to its content #7187 */
+/* Fit rendered markdown div to its content */
+/* Info: https://github.com/refined-github/refined-github/issues/7187 */
 /* Test: https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1 */
 div.markdown-body {
 	min-height: 2em !important;
 }
 
-/* TODO: drop in October 2026 */
+/* TODO [2026-10-01]: drop */
 /* Notifications "Group by" button unnecessary space */
 /* Info: https://github.com/refined-github/refined-github/pull/8208 */
 /* Test: https://github.com/notifications */
@@ -99,9 +115,10 @@ div.markdown-body {
 	background-color: var(--bgColor-danger-emphasis, fuchsia);
 }
 
-/* TODO: Remove after July 2026 */
+/* TODO [2026-08-01]: Remove */
 /* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
 /* Info: https://github.com/refined-github/refined-github/issues/8975 */
+/* Test: GHE only, find a PR on /pulls?q=is%3Aopen+is%3Apr+user%3A@me+author%3Aapp%2Fdependabot */
 .sticky-header-wrapper.is-stuck .pr-alerts-banner {
 	position: absolute;
 	visibility: hidden;
@@ -130,7 +147,7 @@ div[class^='prc-PageHeader-Description']
 	}
 }
 
-/* TODO: Drop in October 2026 */
+/* TODO [2026-10-01]: Drop */
 /* Fix Watch/Unwatch button height on mobile */
 /* Info: https://github.com/refined-github/refined-github/issues/9183 */
 /* Test: https://github.com/refined-github/refined-github */
@@ -174,6 +191,7 @@ div[class^='PRIVATE_TreeView-item-visual']
 div[class*='ActivityHeaderGridLayout'] {
 	display: flex;
 	flex-wrap: wrap;
+	row-gap: 2px;
 
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
@@ -195,6 +213,9 @@ div[class*='ActivityHeaderGridLayout'] {
 		}
 	}
 }
+
+/* Bug: Usernames in review threads become vertical on small screens */
+/* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
@@ -262,6 +283,18 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	p ~ animated-image > a > img {
 		margin-bottom: var(--base-size-8);
 	}
+	p > a > img[style*='display: block'] {
+		margin-block: var(--base-size-16);
+	}
+}
+
+/* Restores "Symbolic link" link in the gap between GitHub's media queries (1012 -> 1280) */
+/* Info: https://github.com/refined-github/refined-github/issues/9480 */
+/* Test: https://github.com/refined-github/refined-github/blob/55b7ce0fddd/CLAUDE.md */
+@media (max-width: 1280px) {
+	:root .react-code-size-details-banner {
+		display: flex !important;
+	}
 }
 
 /* Fix checkmark on a deselected item disappearing with a noticeable delay */
@@ -271,10 +304,9 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	transition: none !important;
 }
 
-/*
-
-Test URLs:
-
-MAKE SURE TO ADD A ISSUE REFERENCE + TEST URL FOR EACH NEW RULE
-
-*/
+/* Prevent empty diff cells from looking clickable */
+/* Info: https://github.com/refined-github/refined-github/pull/9532#pullrequestreview-4321433264 */
+/* Test: https://github.com/refined-github/sandbox/pull/81 */
+.empty-cell {
+	cursor: default !important;
+}

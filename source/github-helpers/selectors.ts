@@ -1,5 +1,7 @@
 import {css} from 'code-tag';
 
+import {is, not} from '../helpers/css-selectors.js';
+
 const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
@@ -11,12 +13,12 @@ export const repoUnderlineNavUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const standaloneGistLinkInMarkdown = css`
+export const standaloneGistLinkInMarkdown = `
 	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],
 		[href^="${location.origin}/gist/"]
 	)
-` as 'a'; // TODO: Drop after https://github.com/fregante/code-tag/issues/12
+` as 'a'; // `typed-query-selector` bug
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
 ] satisfies UrlMatch[];
@@ -30,7 +32,12 @@ export const repoUnderlineNavDropdownUl_ = [
 	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
-export const branchSelector = '[data-hotkey="w"]';
+export const branchSelector = [
+	'#ref-picker-repos-header-ref-selector-wide', // `isSingleFile` with sidebar closed
+	'#ref-picker-repos-header-ref-selector', // `isSingleFile` with sidebar open; `isRepoRoot`
+	// TODO [2027-01-01]: Drop
+	'[data-hotkey="w"]',
+];
 export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 	// Added via JS :(
@@ -46,11 +53,8 @@ export const branchSelector_ = [
 export const branchSelectorParent = 'details#branch-select-menu';
 export const branchSelectorParent_ = branchSelector_;
 
-export const directoryListingFileIcon = [
-	// .color-fg-muted selects only files; some icon extensions use `img` tags
-	'.react-directory-filename-column > :is(svg, img).color-fg-muted',
-	'.js-navigation-container .octicon-file',
-];
+// .color-fg-muted selects only files; some icon extensions use `img` tags
+export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img).color-fg-muted';
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
@@ -86,13 +90,16 @@ export const openPrsListLink_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues?q=conflict'],
 ] satisfies UrlMatch[];
 
-export const commentsCountInLists = `
-	:is(.js-issue-row, .js-pinned-issue-list-item)
-	.Link--muted:is(
-		a[aria-label$="comment"],
-		a[aria-label$="comments"]
-	)
-`;
+export const commentsCountInLists = [
+	// Issue list:
+	'div[data-testid="list-row-comments"]:not(:empty)',
+	'div[class^="PinnedIssue-module__commentCountContainer"]',
+
+	// PR list
+	// aria-label="1 comment"
+	// aria-label="2 comments"
+	'.js-issue-row a.Link--muted[aria-label*=" comment"]',
+];
 export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
 ] satisfies UrlMatch[];
@@ -163,7 +170,10 @@ export const commitHashLinkInLists_ = [
 	[5, 'https://github.com/refined-github/refined-github/pull/6194#event-8016526003'],
 ] satisfies UrlMatch[];
 
-export const commitTitleInLists = '[data-testid="commit-row-item"] h4[class^="Title-module"]'; // `isCommitList`
+export const commitTitleInLists = [
+	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
+	'.js-commits-list-item > .js-details-container > p:first-child', // `isCompare`
+];
 export const commitTitleInLists_ = [
 	[
 		35,
@@ -184,17 +194,17 @@ const botNames = [
 	'github-apps', // GHE apps
 ] as const;
 
-const botAttributes = botNames.map(bot => `[href^="/${bot}"]`).join(', ');
+const botAttributes = botNames.map(bot => `[href^="/${bot}"]`);
 
 // All co-authored commits are excluded because it's unlikely that any bot co-authors with another bot, but instead they're co-authored with a human. In that case we don't want to dim the commit.
 // ^= is needed to match /apps/* URLs
 export const botLinksCommitSelectors = [
 	// Co-authored commits are excluded because their avatars are not linked
-	`a[data-testid="avatar-icon-link"]:is(${botAttributes})`,
+	'a[data-testid="avatar-icon-link"]' + is(botAttributes),
 
 	// Legacy view, still used by PR commits
 	// :only-child excludes co-authored commits
-	`a[data-test-selector="commits-avatar-stack-avatar-link"]:is(${botAttributes}):only-child`,
+	'a[data-test-selector="commits-avatar-stack-avatar-link"]' + is(botAttributes) + ':only-child',
 ];
 export const botLinksCommitSelectors_ = [
 	[1, 'https://github.com/ivogabe/gulp-typescript/commits/master/?since=2019-08-04&until=2019-11-03'],
@@ -214,7 +224,7 @@ export const botLinksPrSelectors_ = [
 
 export const botLinksNotificationSelectors = [
 	// Only select if the bot is the primary author (last in DOM, first in avatar list)
-	`.AvatarStack-body a.avatar:last-child:is(${botAttributes})`,
+	'.AvatarStack-body a.avatar:last-child' + is(botAttributes),
 ];
 export const botLinksNotificationSelectors_ = [
 	[0, 'https://github.com/notifications'],
@@ -229,7 +239,7 @@ const authorLinks = [
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
 	'a[class^="row-module__eventActorLink"]',
-];
+] as const;
 
 const authorLinksException = [
 	// # targets mannequins #6504
@@ -239,10 +249,10 @@ const authorLinksException = [
 	'[data-hovercard-type="organization"]',
 	// For GHE: https://github.com/refined-github/refined-github/issues/7232#issuecomment-1910803157
 	'[show_full_name="true"]',
-];
+] as const;
 
 export const usernameLinksSelector = [
-	`:is(${authorLinks.join(', ')}):not(${authorLinksException.join(', ')})`,
+	is(authorLinks) + not(authorLinksException),
 
 	// On dashboard
 	// `.Link--primary` excludes avatars
@@ -254,23 +264,24 @@ export const usernameLinksSelector_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/7747'],
 ];
 
-export const actionBarSelectors = [
-	'[data-target="action-bar.itemContainer"]', // TODO: remove after March 2025
-	'[aria-label="Formatting tools"]',
+export const actionBar = [
+	'[data-component="ActionBar"]', // React component
+	'action-bar', // Still used in gists, PRs, etc
 ];
-export const actionBarSelectors_ = requiresLogin;
+export const actionBar_ = requiresLogin;
 
-export const prMergeabilityBoxHeader
-	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader =
+	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
-export const prMergeabilityBoxCaption
-	= 'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption =
+	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = [
 	'span[title="This repository has been deleted"]',
-	'.head-ref[title="This repository has been deleted"]', // TODO: Remove in June 2026
+	// TODO [2026-06-01]: Remove
+	'.head-ref[title="This repository has been deleted"]',
 ];
 
 export const deletedHeadRepository_ = [
@@ -296,3 +307,11 @@ export const conversationCloseEvent_ = [
 
 export const confirmMergeButton = '[data-testid="mergebox-partial"] [class*="ConfirmMerge"] ~ div button:first-child';
 export const confirmMergeButton_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashPr = '#issue-comment-box';
+export const commentBoxHashPr_ = requiresLogin;
+
+/* NOTE: Must be a hash, not a generic selector */
+export const commentBoxHashIssue = '#react-issue-comment-composer';
+export const commentBoxHashIssue_ = requiresLogin;

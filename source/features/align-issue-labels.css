@@ -1,17 +1,18 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class^='IssueRow-module__row'],
+	div[class^='PullRequestRow-module__row'],
 	li[class*='PullsListItem']:not([class*='compact']) {
 		div[class^='Title-module__container'] {
 			display: contents;
 
-			& > [class*='heading'] {
+			> [class*='heading'] {
 				grid-area: primary;
 				padding-top: 8px;
 			}
-			& > span[class*='trailingBadgesSpacer'] {
+			> span[class*='trailingBadgesSpacer'] {
 				display: none;
 			}
-			& > span[class*='trailingBadgesContainer'] {
+			> span[class*='trailingBadgesContainer'] {
 				grid-area: -1 / main-content;
 				padding-bottom: 10px;
 				&:empty {

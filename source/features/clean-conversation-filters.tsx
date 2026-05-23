@@ -5,15 +5,16 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken, expectTokenScope} from '../github-helpers/github-token.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
 import {cacheByRepo} from '../github-helpers/index.js';
+import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import HasAnyProjects from './clean-conversation-filters.gql';
 
 const hasAnyProjects = new CachedFunction('has-projects', {
 	async updater(): Promise<boolean> {
 		const activeProjectsCounter = await elementReady('[data-hotkey="g b"] .Counter');
-		if (activeProjectsCounter && getCount(activeProjectsCounter) > 0) {
+		if (looseParseInt(activeProjectsCounter) > 0) {
 			return true;
 		}
 
@@ -31,17 +32,15 @@ const hasAnyProjects = new CachedFunction('has-projects', {
 
 		return Boolean(repository.projects.totalCount)
 			|| Boolean(repository.projectsV2.totalCount)
+			// Joint query, both org and projects are optional
 			|| Boolean(organization?.projects?.totalCount)
+			// Joint query, both org and projects are optional
 			|| Boolean(organization?.projectsV2?.totalCount);
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},
 	cacheKey: cacheByRepo,
 });
-
-function getCount(element: HTMLElement): number {
-	return Number(element.textContent.trim());
-}
 
 async function hideProjects(container: HTMLElement): Promise<void> {
 	const filter = $optional('[data-testid="projects-anchor-button"]', container);
@@ -58,7 +57,6 @@ async function hide(container: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
 }
 
@@ -66,6 +64,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

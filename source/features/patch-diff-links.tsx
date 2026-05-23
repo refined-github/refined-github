@@ -46,7 +46,7 @@ async function addPatchDiffLinks(commitMeta: HTMLElement): Promise<void> {
 	commitMeta.prepend(
 		<span className="sha-block" data-turbo="false">
 			{createLink('patch')} {createLink('diff')}
-			{commitMeta.tagName !== 'DIV' && <span className="px-2">·</span>}
+			{commitMeta.tagName !== 'DIV' && <span className="px-2 tmp-px-2">·</span>}
 		</span>,
 	);
 }
@@ -78,7 +78,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'.react-overview-code-button-action-list > ul',
-			'#local-panel > ul', // TODO: Drop after legacy PR files view is removed
+			'#local-panel > ul', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 		],
 		addPrPatchDiffLinks,
 		{signal},

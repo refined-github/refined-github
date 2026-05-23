@@ -1,3 +1,4 @@
+/* eslint-disable-next-line refined-github/css-documentation -- Global, no docs */
 :root {
 	--rgh-green: var(--fgColor-success, var(--color-success-fg, #1a7f37));
 	--rgh-red: var(--fgColor-danger, var(--color-danger-fg, #cf222e));
@@ -11,49 +12,67 @@
 		var(--color-border-default, #d1d9e0)
 	);
 	--rgh-background: var(--bgColor-default, var(--color-canvas-default, #fff));
+
+	.rgh-bg-none {
+		background: none !important;
+	}
+
+	.rgh-z-index-5 {
+		position: relative;
+		z-index: 5;
+	}
 }
 
-/* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons for #1830 and #1904 */
-#js-issues-toolbar .table-list-header-toggle details {
-	padding: 0 !important;
+/* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */
+/* Info: https://github.com/refined-github/refined-github/issues/1830 */
+/* Info: https://github.com/refined-github/refined-github/issues/1904 */
+/* Test: https://github.com/refined-github/sandbox/pulls */
+#js-issues-toolbar .table-list-header-toggle {
+	details {
+		padding: 0 !important;
+	}
+
+	summary {
+		padding-left: 8px !important;
+		padding-right: 8px !important;
+	}
+
+	> :last-child > summary {
+		padding-right: 0 !important;
+	}
 }
 
-#js-issues-toolbar .table-list-header-toggle summary {
-	padding-left: 8px !important;
-	padding-right: 8px !important;
+/* For `open-all-notifications` and `select-notifications`: allow header wrapping */
+/* Info: https://github.com/refined-github/refined-github/issues/5705 */
+/* Test: */
+/* https://github.com/notifications (Grouped by date) */
+/* https://github.com/notifications (Grouped by repo) */
+/* https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter) */
+:root {
+	.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
+		flex-wrap: wrap;
+		height: auto !important; /* Unset the default height to allow wrapping */
+		min-height: 52px; /* Re-set the default height as a minimum height */
+	}
+
+	:is(
+		.js-notifications-mark-selected-actions,
+		.js-notifications-mark-all-actions
+	):not([hidden]) {
+		display: contents !important;
+	}
 }
 
-#js-issues-toolbar .table-list-header-toggle > :last-child > summary {
-	padding-right: 0 !important;
-}
-
-/* For `open-all-notifications` and `select-notifications`: allow header wrapping #5705
-
-Selector works on:
-https://github.com/notifications (Grouped by date)
-https://github.com/notifications (Grouped by repo)
-https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter)
-*/
-.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
-	flex-wrap: wrap;
-	height: auto !important; /* Unset the default height to allow wrapping */
-	min-height: 52px; /* Re-set the default height as a minimum height */
-}
-
-:is(
-	.js-notifications-mark-selected-actions,
-	.js-notifications-mark-all-actions
-):not([hidden]) {
-	display: contents !important;
-}
-
+/* 404 page animation on load */
+/* Info: None, self-explanatory */
 /* Test: https://github.com/refined-github/refined-github/404 */
 [alt='404 “This is not the web page you are looking for”'] {
-	animation: fade-in 2s ease-out;
+	animation: fade-in 3s ease-out;
 }
 
 /* Lighten deletions in Markdown */
 /* Info: https://github.com/refined-github/refined-github/pull/958 */
+/* Test: https://github.com/refined-github/sandbox/issues/3 */
 .markdown-body del {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
@@ -61,42 +80,37 @@ https://github.com/notifications?query=reason%3Acomment (which is an unsaved fil
 /* Expand empty diffs in PRs */
 /* Info: https://github.com/refined-github/refined-github/issues/1630 */
 /* Test: https://github.com/webpack/webpack/pull/6446/changes */
-:root .file .data.empty {
-	padding: 54px;
-	text-align: center;
-}
-:root .file .data table {
-	text-align: left;
+:root .file .data {
+	&.empty {
+		padding: 54px;
+		text-align: center;
+	}
+
+	table {
+		text-align: left;
+	}
 }
 
+/* TODO [2027-01-01]: Drop after legacy PR files view is removed. Currently it only applies to `quick-comment-hiding` */
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
 /* Info: https://github.com/refined-github/refined-github/pull/1715 */
+/* Test: https://github.com/refined-github/sandbox/pull/10#pullrequestreview-832816627 */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
 
-/* Improve spacing in conversation lists meta, made feel crowded by:
-conversation-authors
-parse-backticks
-pr-branches
-*/
-.js-issue-row .text-small.color-fg-muted {
-	line-height: 1.8;
-}
-
-/* Reset `vertical-align` for .octicons to work with above increased line-height */
-.js-issue-row .text-small.color-fg-muted .octicon {
-	vertical-align: middle;
-}
-
-/* TODO: Drop after legacy PR files view is removed */
-/* Keep diff stats in "Jump to" dropdown when the header is fixed #3925 */
+/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
+/* Keep diff stats in "Jump to" dropdown when the header is fixed */
+/* Info: https://github.com/refined-github/refined-github/issues/3925 */
+/* Test: https://github.com/refined-github/refined-github/pull/3922/files */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
 
 /* Style the "Find feature" dialog that appears on top of the page */
+/* Info: https://github.com/refined-github/refined-github/pull/4119 */
+/* Test: start the "Identify feature" wizard from the options */
 #rgh-bisect-dialog {
 	position: fixed;
 	bottom: 50%;
@@ -110,14 +124,8 @@ pr-branches
 	z-index: 2147483647;
 }
 
-/* TODO: Drop after July 2026 */
-/* Space out "Edit" and "Open with" buttons on PR page, also for `view-last-pr-deployment` #4281 */
-.gh-header-actions [aria-label='Edit Pull Request title'] {
-	margin-left: 4px !important;
-	margin-right: 4px !important;
-}
-
-/* Bold username in conversation lists #4899 */
+/* Bold username in conversation lists */
+/* Info: https://github.com/refined-github/refined-github/issues/4899 */
 /* Test: https://github.com/refined-github/refined-github/pulls */
 /* Test: https://github.com/refined-github/refined-github/issues */
 :is(.js-issue-row, span[class^='PinnedIssue-module__issueMetadata'])
@@ -126,16 +134,8 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	font-weight: 600;
 }
 
-.rgh-bg-none {
-	background: none !important;
-}
-
-.rgh-z-index-5 {
-	position: relative;
-	z-index: 5;
-}
-
-/* Increase size of profile picture in user hovercard by 1.5x (default is 48px) #7695 */
+/* Increase size of profile picture in user hovercard by 1.5x (default is 48px) */
+/* Info: https://github.com/refined-github/refined-github/issues/7695 */
 /* Test: https://github.com/refined-github/refined-github */
 .user-hovercard-avatar > img.d-block.avatar-user {
 	width: 72px;
@@ -149,7 +149,8 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	color: var(--button-star-iconColor);
 }
 
-/* Add hover effect to attachment row on the release page #8339 */
+/* Add hover effect to attachment row on the release page */
+/* Info: https://github.com/refined-github/refined-github/issues/8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
 @media (min-width: 800px) {
 	.Box-footer
@@ -162,6 +163,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	}
 }
 
+/* eslint-disable-next-line refined-github/css-documentation -- Refer to `dom-formatters` */
 .rgh-anchored-link {
 	position: absolute !important;
 	position-area: center;
@@ -200,5 +202,38 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	width: 100%;
 	.Truncate-text.text-bold {
 		white-space: wrap;
+	}
+}
+
+/* TODO: Drop after repo PR list becomes exclusively React-based */
+/* Hide label on Milestones link if there are zero milestones */
+/* Info: https://github.com/refined-github/refined-github/issues/5120 */
+/* Test: https://github.com/refined-github/refined-github/pulls */
+[data-selected-links^='repo_milestones ']:has([title='0']) {
+	width: 36px; /* Size it so only the icon is visible */
+	overflow: hidden; /* Crop the text out */
+	padding-left: 10px;
+
+	svg {
+		margin-right: 20px; /* Push the text farther away from the text so it's cropped out */
+	}
+}
+
+/* Make the "Symbolic link" more noticeable */
+/* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
+/* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
+a[class^='CodeSizeDetails-module__PrimerLink'] {
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+/* Hide the header logo on small screens */
+/* Info: https://github.com/refined-github/refined-github/issues/5120 */
+/* Test: https://github.com/refined-github/refined-github */
+@media (max-width: 600px) {
+	a[class*='appHeaderHome'] {
+		display: none;
 	}
 }

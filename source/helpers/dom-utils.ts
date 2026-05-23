@@ -1,6 +1,4 @@
-import {
-	$, $$, $optional, ElementNotFoundError,
-} from 'select-dom';
+import {$, $$, $optional, ElementNotFoundError} from 'select-dom';
 
 // eslint-disable-next-line @typescript-eslint/no-restricted-types -- Nodes may be exactly `null`
 type Nullable<T> = T | null;
@@ -27,7 +25,7 @@ type Nullable<T> = T | null;
  *   <nope/>
  * </parent>
  */
-export const appendBefore = (parent: string | Element, before: string, child: Element): void => {
+export const appendBefore = (parent: string | Element, before: string, child: Node): void => {
 	if (typeof parent === 'string') {
 		parent = $(parent);
 	}

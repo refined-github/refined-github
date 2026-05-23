@@ -1,8 +1,6 @@
 import {parseHTML} from 'linkedom';
-import {
-	afterEach, beforeEach, expect, test,
-} from 'vitest';
 import {$$optional} from 'select-dom';
+import {afterEach, beforeEach, expect, test} from 'vitest';
 
 import {shortenLink} from '../source/github-helpers/dom-formatters.js';
 
@@ -147,4 +145,3 @@ test('do not mark different-thread comment link as earlier comment', () => {
 		</div>
 	`)).toMatchSnapshot();
 });
-

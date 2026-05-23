@@ -1,6 +1,10 @@
-import type {ParseSelector} from 'typed-query-selector/parser.d.js';
 import delegate, {type DelegateEventHandler, type DelegateOptions} from 'delegate-it';
 import {isAlteredClick} from 'filter-altered-clicks';
+import type {ParseSelector} from 'typed-query-selector/parser.d.js';
+
+function isMiddleClick(event: MouseEvent): boolean {
+	return event.button === 1;
+}
 
 export default function onAlteredClick<Selector extends string>(
 	selector: Selector | readonly Selector[],
@@ -14,17 +18,18 @@ export default function onAlteredClick<Selector extends string>(
 	};
 
 	const auxClickListener: typeof callback = event => {
-		// Is middle click
-		if (event.button === 1) {
+		if (isMiddleClick(event)) {
 			callback(event);
 		}
 	};
 
 	const preventAutoScrolling = (event: MouseEvent): void => {
-		event.preventDefault();
+		if (isMiddleClick(event)) {
+			event.preventDefault();
+		}
 	};
 
-	delegate(selector, 'click', clickListener, options);
-	delegate(selector, 'auxclick', auxClickListener, options);
+	delegate(selector, 'click', clickListener, {capture: true, ...options});
+	delegate(selector, 'auxclick', auxClickListener, {capture: true, ...options});
 	delegate(selector, 'mousedown', preventAutoScrolling, {...options, capture: true});
 }

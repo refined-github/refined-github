@@ -1,15 +1,15 @@
 import './no-unnecessary-split-diff-view.css';
 import * as pageDetect from 'github-url-detection';
-import {$, $closest, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-/* TODO: remove in late 2026 */
+/* TODO [2026-10-01]: remove */
 void features.addCssFeature(import.meta.url);
 
 function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
-	const table = $closest('table', tableBody);
+	const table = closestElement('table', tableBody);
 	const columnsGroup = $('colgroup', table);
 	// Diff view is unified
 	if (columnsGroup.childElementCount !== 4) {

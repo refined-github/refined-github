@@ -8,7 +8,6 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
@@ -131,7 +130,6 @@ async function addBugsTab(): Promise<void | false> {
 	}
 }
 
-// TODO: Use native highlighting https://github.com/refined-github/refined-github/pull/6909#discussion_r1322607091
 function highlightBugsTab(): void {
 	// Remove highlighting from "Issues" tab
 	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
@@ -140,6 +138,7 @@ function highlightBugsTab(): void {
 
 async function removePinnedIssues(): Promise<void> {
 	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	// The repo might not have any pinned issues
 	pinnedIssues?.remove();
 }
 
@@ -167,8 +166,6 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-	await expectToken();
-
 	if (!elementExists('.rgh-bugs-tab')) {
 		await addBugsTab();
 	}
@@ -180,6 +177,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	requiresToken: true,
 	init,
 });
 

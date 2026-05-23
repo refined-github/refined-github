@@ -4,15 +4,16 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, $closest, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
+import features from '../feature-manager.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
-import {is} from '../helpers/css-selectors.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
+import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
-import features from '../feature-manager.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 const fieldSelector = [
 	legacyCommentField,
@@ -56,18 +57,23 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 function addButton(avatar: HTMLElement): void {
 	const userMention = $('img', avatar).alt;
 	avatar.after(
-		<button
-			type="button"
-			className="rgh-quick-mention tooltipped tooltipped-e btn-link"
-			aria-label={`Mention ${prefixUserMention(userMention)} in a new comment`}
-		>
-			<ReplyIcon />
-		</button>,
+		tooltipped(
+			{
+				label: `Mention ${prefixUserMention(userMention)} in a new comment`,
+				direction: 'e',
+			},
+			<button
+				type="button"
+				className="rgh-quick-mention btn-link"
+			>
+				<ReplyIcon />
+			</button>,
+		),
 	);
 }
 
 function addButtonPr(avatar: HTMLElement): void {
-	const timelineItem = $closest([
+	const timelineItem = closestElement([
 		// Regular comments
 		'.js-comment-container',
 		// Reviews

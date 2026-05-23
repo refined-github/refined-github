@@ -7,9 +7,9 @@ import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {expectToken} from '../github-helpers/github-token.js';
-import {openPrsListLink} from '../github-helpers/selectors.js';
+import {commentBoxHashPr, openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
@@ -41,20 +41,21 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 		const {mergeable, state, isDraft} = data[pr.key].pullRequest;
 		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
 			pr.link.after(
-				<a
-					className="rgh-conflict-marker tooltipped tooltipped-e color-fg-muted ml-2"
-					aria-label="This PR has conflicts that must be resolved"
-					href={`${pr.link.pathname}#partial-pull-merging`}
-				>
-					<AlertIcon className="v-align-middle" />
-				</a>,
+				tooltipped(
+					{label: 'This PR has conflicts that must be resolved', direction: 'e'},
+					<a
+						className="rgh-conflict-marker color-fg-muted ml-2 tmp-ml-2"
+						href={pr.link.pathname + commentBoxHashPr}
+					>
+						<AlertIcon className="v-align-middle" />
+					</a>,
+				),
 			);
 		}
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe(openPrsListLink, batchedFunction(addIcon, {delay: 100}), {signal});
 }
 
@@ -62,6 +63,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
+	requiresToken: true,
 	init,
 });
 

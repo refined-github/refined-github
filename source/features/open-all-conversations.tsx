@@ -2,7 +2,7 @@ import delegate from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$$, $closestOptional} from 'select-dom';
+import {$$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import openTabs from '../helpers/open-tabs.js';
@@ -11,7 +11,8 @@ import observe from '../helpers/selector-observer.js';
 function onButtonClick(): void {
 	const links = $$([
 		'a[data-testid="issue-pr-title-link"]',
-		'a.h4.js-navigation-open', // TODO: Pre-React selector; Drop in 2026
+		// TODO [2026-01-01]: Pre-React selector; Drop
+		'a.h4.js-navigation-open',
 	]);
 
 	if (links.length > 25) {
@@ -19,8 +20,9 @@ function onButtonClick(): void {
 	}
 
 	const selectedLinks = links.filter(link =>
-		$closestOptional([
-			'.js-issue-row.selected', // TODO: Pre-React selector; Drop in 2026
+		closestElementOptional([
+			// TODO [2026-01-01]: Pre-React selector; Drop
+			'.js-issue-row.selected',
 			'[aria-label^="Selected"]',
 		], link),
 	);
@@ -34,18 +36,20 @@ function onButtonClick(): void {
 }
 
 const multipleConversationsSelector = [
-	'.js-issue-row + .js-issue-row', // TODO: Pre-React selector; Drop in 2026
+	// TODO [2026-01-01]: Pre-React selector; Drop
+	'.js-issue-row + .js-issue-row',
 	'[role="list"] > div:nth-child(2) > [class^="IssueRow"]',
 ] as const;
 
 async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector.join(', '), {waitForChildren: false}));
+	return Boolean(await elementReady(multipleConversationsSelector, {waitForChildren: false}));
 }
 
 function add(anchor: HTMLElement): void {
-	const isLegacy = $closestOptional('.table-list-header-toggle', anchor);
-	const isSelected = $closestOptional([
-		'.table-list-triage', // TODO: Pre-React selector; Drop in 2026
+	const isLegacy = closestElementOptional('.table-list-header-toggle', anchor);
+	const isSelected = closestElementOptional([
+		// TODO [2026-01-01]: Pre-React selector; Drop
+		'.table-list-triage',
 		'[aria-label="Bulk actions"]',
 	], anchor);
 	const classes = isLegacy
@@ -68,7 +72,8 @@ function add(anchor: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		[
-			'.table-list-header-toggle:not(.states)', // TODO: Pre-React selector; Drop in 2026
+			// TODO [2026-01-01]: Pre-React selector; Drop
+			'.table-list-header-toggle:not(.states)',
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
 		],

@@ -1,40 +1,32 @@
-/* TODO: Drop coloring in July 2025. New PR view renders this defunct and redundant. */
+/* TODO: Drop feature when the new PR list is fully rolled out */
 
 /* Show approvals count in PR list */
-.js-issue-row
-	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval'] {
-	font-size: 0;
-	color: transparent !important;
-}
+.js-issue-row .color-fg-muted.text-small {
+	a[aria-label*='approval'] {
+		font-size: 0;
+		color: transparent !important;
+	}
 
-.js-issue-row
-	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval']::before {
-	all: unset;
-	content: attr(aria-label);
-	display: inline-block !important;
-	color: var(--rgh-green);
-	font-size: 12px;
-}
+	a[aria-label*='approval']::before {
+		all: unset;
+		content: attr(aria-label);
+		display: inline-block !important;
+		color: var(--rgh-green);
+		font-size: 12px;
+	}
 
-.js-issue-row
-	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='changes'] {
-	color: var(--rgh-red) !important;
-}
+	a[aria-label*='changes'] {
+		color: var(--rgh-red) !important;
+	}
 
-.js-issue-row
-	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='required'] {
-	color: var(--rgh-yellow) !important;
-}
+	a[aria-label*='required'] {
+		color: var(--rgh-yellow) !important;
+	}
 
-/* Disable now-duplicate tooltip */
-.js-issue-row
-	.color-fg-muted
-	[href$='#partial-pull-merging'][aria-label*='approval']::after {
-	content: none;
+	/* Disable now-duplicate tooltip */
+	a[aria-label*='approval']::after {
+		content: none;
+	}
 }
 
 /*

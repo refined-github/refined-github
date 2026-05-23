@@ -31,12 +31,20 @@ export function onCommentFieldKeydown(callback: KeydownHandler, signal: AbortSig
 }
 
 export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
-	onFieldKeydown([
-		'[class^="prc-PageLayout-Header"] input', // PR
-		'input[placeholder="Title"]', // Issue
-		'#issue_title', // Old PR view - TODO: Remove after legacy PR files view is removed
-		'#pull_request_title', // Old compare view - TODO: Remove after August 2026
-	], callback, signal);
+	onFieldKeydown(
+		[
+			'[class^="prc-PageLayout-Header"] input', // PR
+			'input[placeholder="Title"]', // Issue
+			// Old PR view
+			// TODO [2027-01-01]: Remove
+			'#issue_title',
+			// Old compare view
+			// TODO [2026-09-01]: Remove
+			'#pull_request_title',
+		],
+		callback,
+		signal,
+	);
 }
 
 export function onCommitTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {

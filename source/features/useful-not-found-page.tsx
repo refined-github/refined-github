@@ -7,7 +7,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {expectToken} from '../github-helpers/github-token.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -52,15 +51,14 @@ function parseCurrentUrl(): string[] {
 	return parts;
 }
 
-async function getLatestCommitToFile(branch: string, filePath: string): Promise<string | void> {
+async function getLatestCommitToFile(branch: string, filePath: string): Promise<string> {
 	const {repository} = await api.v4(GetLatestCommitToFile, {
 		variables: {
 			branch,
 			filePath,
 		},
 	});
-	const commit = repository.object?.history.nodes[0];
-	return commit?.oid;
+	return repository.object.history.nodes[0].oid;
 }
 
 async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
@@ -116,18 +114,24 @@ async function showMissingPartOnce(): Promise<void> {
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
 	$(['main > :first-child', '#parallax_illustration']).after(
-		<h2 className="container mt-4 text-center">{breadcrumbs}</h2>,
+		<h2 className="container mt-4 tmp-mt-3 text-center">{breadcrumbs}</h2>,
 	);
 }
 
 async function showDefaultBranchLink(): Promise<void> {
+	if (pageDetect.isRepoRoot()) {
+		// The root is not a "file" and the link to it already appears in the breadcrumbs
+		// https://github.com/refined-github/refined-github/issues/9423
+		return;
+	}
+
 	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
 	if (!urlToFileOnDefaultBranch) {
 		return;
 	}
 
 	$('main > .container-lg').before(
-		<p className="container mt-4 text-center">
+		<p className="container mt-4 tmp-mt-3 text-center">
 			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
 		</p>,
 	);
@@ -140,10 +144,6 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 	}
 
 	const commitSha = await getLatestCommitToFile(url.branch, url.filePath);
-	if (!commitSha) {
-		return;
-	}
-
 	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
 	if (!fileChanges) {
 		return;
@@ -164,7 +164,7 @@ async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
 		: <a href={fileChanges.file.blob_url}>moved</a>;
 
 	return (
-		<p className="container mt-4 text-center">
+		<p className="container mt-4 tmp-mt-3 text-center">
 			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
 		</p>
 	);
@@ -186,8 +186,6 @@ async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<
 }
 
 async function initOnce(): Promise<void> {
-	await expectToken();
-
 	void showDefaultBranchLink();
 	void showGitObjectHistory();
 }
@@ -207,7 +205,6 @@ async function initPrCommitOnce(): Promise<void | false> {
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {
-	await expectToken();
 	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
 	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
 }
@@ -229,6 +226,7 @@ void features.add(import.meta.url, {
 		pageDetect.isEditingFile,
 	],
 	awaitDomReady: true, // Small page
+	requiresToken: true,
 	init: onetime(initOnce),
 }, {
 	include: [
@@ -239,6 +237,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoFile404,
 	],
+	requiresToken: true,
 	init: initRepoFile,
 });
 
