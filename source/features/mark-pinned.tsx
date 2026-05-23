@@ -23,7 +23,7 @@ function mark(issueLink: HTMLAnchorElement): void {
 		&& !issueLink.textContent.startsWith('📌')
 	) {
 		issueLink.prepend(
-			<PinIcon className={`${featureClass} color-fg-muted mr-1 v-align-text-bottom`} />,
+			<PinIcon className={`${featureClass} color-fg-muted mr-1 tmp-mr-1 v-align-text-bottom`} />,
 		);
 	}
 }

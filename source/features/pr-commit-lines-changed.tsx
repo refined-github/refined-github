@@ -48,7 +48,7 @@ async function add(commitHash: HTMLElement): Promise<void> {
 	commitHash.prepend(
 		tooltipped(
 			tooltip,
-			<span className="ml-2 d-md-block d-none diffstat">
+			<span className="ml-2 tmp-ml-2 d-md-block d-none diffstat">
 				<span className="color-fg-success">+{additions}</span>
 				{' '}
 				<span className="color-fg-danger">−{deletions}</span>

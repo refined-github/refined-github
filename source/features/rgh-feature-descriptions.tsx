@@ -84,7 +84,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 
 	infoBanner.before(
 		// Block and width classes required to avoid margin collapse
-		<div className="Box mb-3 d-inline-block width-full">
+		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
@@ -109,7 +109,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						}
 					</h3>
 					{oldNames.length > 0 && (
-						<div className="color-fg-muted mt-n3">
+						<div className="color-fg-muted mt-n3 tmp-mt-n3">
 							<span className="text-small">previously named </span>
 							{oldNames.map((name, index) => (
 								<React.Fragment key={name}>
@@ -153,14 +153,14 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 			return createBanner({
 				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
 				classes,
-				icon: <InfoIcon className="mr-0" />,
+				icon: <InfoIcon className="mr-0 tmp-mr-0" />,
 			});
 		}
 
 		return createBanner({
 			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0" />,
+			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
 		});
 	}
 
@@ -168,7 +168,7 @@ async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
 		return createBanner({
 			text: 'You disabled this feature on GitHub.com.',
 			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0" />,
+			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
 			action(event) {
 				openOptions(event, id);
 			},
