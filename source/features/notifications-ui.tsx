@@ -49,8 +49,10 @@ function replaceNotificationsDropdown(dropdown: Element): void {
 	dropdown.firstElementChild!.replaceWith(segmentedControl);
 }
 
-function init(signal: AbortSignal): void {
-	observe(['.notification-sort-by', '.notification-group-by'], replaceNotificationsDropdown, {signal});
+function init(): void {
+	for (const dropdown of $$(['.notification-sort-by', '.notification-group-by'])) {
+		replaceNotificationsDropdown(dropdown);
+	}
 }
 
 void features.add(import.meta.url, {
@@ -58,6 +60,7 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	init,
+	awaitDomReady: true,
 });
 
 /*
