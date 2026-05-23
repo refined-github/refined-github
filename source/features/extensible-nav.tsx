@@ -8,12 +8,14 @@ import {assertPresent} from 'ts-extras';
 import AgentIcon from 'octicons-plain-react/Agent';
 import BookIcon from 'octicons-plain-react/Book';
 import CodeIcon from 'octicons-plain-react/Code';
+import CommentDiscussionIcon from 'octicons-plain-react/CommentDiscussion';
 import GearIcon from 'octicons-plain-react/Gear';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import GraphIcon from 'octicons-plain-react/Graph';
 import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import PlayIcon from 'octicons-plain-react/Play';
 import ShieldIcon from 'octicons-plain-react/Shield';
+import TableIcon from 'octicons-plain-react/Table';
 
 import features from '../feature-manager.js';
 import onetime from '../helpers/onetime.js';
@@ -31,6 +33,8 @@ const knownTabsIcons = new Map([
 	['security-and-quality', ShieldIcon],
 	['insights', GraphIcon],
 	['settings', GearIcon],
+	['discussions', CommentDiscussionIcon],
+	['projects', TableIcon],
 ]);
 
 function generateTab(item: HTMLAnchorElement): JSX.Element {
