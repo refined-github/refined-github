@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
-import observe from '../helpers/selector-observer.js';
 import features from '../feature-manager.js';
 
 function replaceNotificationsDropdown(dropdown: Element): void {
@@ -47,6 +46,9 @@ function replaceNotificationsDropdown(dropdown: Element): void {
 	);
 
 	dropdown.firstElementChild!.replaceWith(segmentedControl);
+	if (dropdown.classList.contains('manage-notifications-responsive')) {
+		dropdown.classList.add('d-inline-block', 'width-auto');
+	}
 }
 
 function init(): void {
