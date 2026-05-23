@@ -64,7 +64,6 @@ describe.concurrent.skip('selectors', () => {
 		await Promise.all(urls.map(async ([expectations, url]) => {
 			const html = await fetchDocument(url);
 			const {document} = parseHTML(html);
-			// TODO: ? Use snapshot with outerHTML[]
 			const matches = $$optional(selector, document);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));

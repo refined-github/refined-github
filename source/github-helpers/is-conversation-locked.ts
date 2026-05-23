@@ -43,7 +43,6 @@ async function isConversationLockedViaReactData(): Promise<boolean | undefined> 
 export default async function isConversationLocked(): Promise<boolean | undefined> {
 	// Like Promise.race, but it only resolves if the result is not undefined
 	return new Promise(resolve => {
-		// TODO: Add AbortSignal after https://github.com/sindresorhus/element-ready/issues/45
 		const resolveIfDefined = async (check: () => Promise<boolean | undefined>): Promise<void> => {
 			const result = await check();
 			if (result !== undefined) {

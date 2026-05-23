@@ -325,8 +325,7 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		// Workaround for #6554
-		// TODO: remove once the issue is resolved
+		// Workaround for https://github.com/refined-github/refined-github/issues/6554
 		pageDetect.isRepoIssueOrPRList,
 	],
 	shortcuts: {
