@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
-import {$, $$, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {$, $$, $$optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {appendBefore} from '../helpers/dom-utils.js';
@@ -23,7 +23,7 @@ const openUnread = getIdentifiers('open-notifications-button');
 const openSelected = getIdentifiers('open-selected-button');
 
 function getUnreadNotifications(container: ParentNode = document): HTMLElement[] {
-	return $$('.notification-unread', container);
+	return $$optional('.notification-unread', container);
 }
 
 async function openNotifications(notifications: Element[], markAsDone = false): Promise<boolean> {
