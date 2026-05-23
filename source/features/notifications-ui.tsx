@@ -16,7 +16,7 @@ function replaceNotificationsDropdown(dropdown: Element): void {
 				aria-label={label}
 			>
 				{buttons.map(button => {
-					const buttonLabel = button.textContent.trim().split(' ')[0];
+					const [buttonLabel] = button.textContent.trim().split(' ');
 					const clonedForm = button.form!.cloneNode(true);
 					$('button', clonedForm).replaceWith(
 						<button
