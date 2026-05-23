@@ -34,10 +34,10 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
-
-	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	const avatar = createAvatar(username, size);
 	avatar.classList.add('mr-1', 'tmp-mr-1');
+
+	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(avatar);
 }
 
