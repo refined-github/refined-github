@@ -35,7 +35,7 @@ function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
 	const size = 14;
 	const avatar = createAvatar(username, size);
-	avatar.classList.add('mr-1', 'tmp-mr-1');
+	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(avatar);
