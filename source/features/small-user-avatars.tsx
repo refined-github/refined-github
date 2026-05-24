@@ -1,26 +1,48 @@
+import './small-user-avatars.css';
+
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import {is, not} from '../helpers/css-selectors.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import './small-user-avatars.css';
 
-function addAvatar(link: HTMLElement): void {
-	const username = link.textContent;
-	const size = 14;
-
-	link.classList.add('d-inline-block', 'lh-condensed-ultra');
-	link.prepend(
+function createAvatar(username: string, size: number): JSX.Element {
+	return (
 		<img
-			className="avatar avatar-user v-align-text-bottom mr-1 tmp-mr-1 rgh-small-user-avatars"
+			className="avatar avatar-user rgh-small-user-avatars"
 			src={getUserAvatarURL(username, size)!}
 			width={size}
 			height={size}
 			loading="lazy"
-		/>,
+		/>
 	);
+}
+
+function addRepoAvatar(link: HTMLAnchorElement): void {
+	const [owner] = link.textContent.trim().split('/');
+	const size = 14;
+	const avatar = createAvatar(owner, size);
+	avatar.classList.add('d-none', 'd-xl-inline-block');
+
+	link.firstElementChild!.prepend(
+		<span className="ActionListItem-visual ActionListItem-visual--leading">
+			{avatar}
+		</span>,
+	);
+}
+
+function addAvatar(link: HTMLElement): void {
+	const username = link.textContent;
+	const size = 14;
+	const avatar = createAvatar(username, size);
+	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
+
+	link.classList.add('d-inline-block', 'lh-condensed-ultra');
+	link.prepend(avatar);
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
@@ -51,8 +73,24 @@ function initOnce(): void {
 	);
 }
 
+function initNotifications(signal: AbortSignal): void {
+	observe(
+		'nav[aria-label="Repositories"] .ActionListItem[data-targets="nav-list.items"]', // Repos list in the left sidebar
+		addRepoAvatar,
+		{signal},
+	);
+}
+
 void features.add(import.meta.url, {
 	init: onetime(initOnce),
+}, {
+	include: [
+		pageDetect.isNotifications,
+	],
+	exclude: [
+		isSmallDevice,
+	],
+	init: initNotifications,
 });
 
 /*
