@@ -1,11 +1,15 @@
 html:not([rgh-OFF-clean-conversation-sidebar]) {
 	div[class^='IssueSidebar-module__sidebarContent'] {
-		div[class*='SectionContainer'] {
-			&:has(span[class*='emptyText']):not(:has(.octicon-gear)) {
+		div[class^='Section-module__SectionContainer'] {
+			/* Hide read-only empty sections */
+			&:has(span[class*='emptyText' i], [class*='developmentHelpText']):not(
+				:has(.octicon-gear)
+			) {
 				display: none;
 			}
 
-			& span:is([class*='emptyText'], [class*='developmentHelpText']):not(
+			/* Hide empty text in case section is not read-only */
+			& span:is([class*='emptyText' i], [class*='developmentHelpText']):not(
 					:has(> button)
 				) {
 				display: none;
