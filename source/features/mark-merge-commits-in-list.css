@@ -1,7 +1,14 @@
-.rgh-merge-commit > div > * {
-	transition: 100ms opacity; /* Match `dim-bots` */
-}
+.rgh-merge-commit {
+	& > div > * {
+		transition: 100ms opacity; /* Match `dim-bots` */
+	}
 
-.rgh-merge-commit:not(.navigation-focus, :hover) > div > * {
-	opacity: 50%; /* Match `dim-bots` */
+	&:not(.navigation-focus, :hover) > div > * {
+		opacity: 50%; /* Match `dim-bots` */
+	}
+
+	&.TimelineItem--condensed .octicon-git-merge {
+		/* Align icon to the line; rem used to match the native units */
+		margin-left: 0.5rem;
+	}
 }
