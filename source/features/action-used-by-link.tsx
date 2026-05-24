@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SearchIcon from 'octicons-plain-react/Search';
-import {$} from 'select-dom';
+import {$, $$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -22,14 +22,27 @@ function getActionUrl(side: HTMLElement): URL {
 	return actionUrl;
 }
 
-function addUsageLink(side: HTMLElement): void {
-	const actionUrl = getActionUrl(side);
+function addUsageLink(resourcesList: HTMLElement): void {
+	const actionUrl = getActionUrl(resourcesList);
+	const sourceLink = $('a:has(.octicon-repo)', resourcesList);
+	const usageItem = closestElement('[data-component="ActionList.Item"]', sourceLink).cloneNode(true);
+	const usageLink = $('a', usageItem);
+	const label = $('[data-component="ActionList.Item.Label"]', usageItem);
+	const leadingVisual = $('[data-component="ActionList.LeadingVisual"]', usageItem);
+	const trailingVisual = $('[data-component="ActionList.TrailingVisual"]', usageItem);
 
-	side.after(
-		<a href={actionUrl.href} className="d-block mb-2 tmp-mb-2">
-			<SearchIcon width={14} className="color-fg-default mr-2 tmp-mr-2" />Usage examples
-		</a>,
-	);
+	for (const element of $$('[id]', usageItem)) {
+		element.removeAttribute('id');
+	}
+
+	usageLink.removeAttribute('aria-labelledby');
+	usageLink.href = actionUrl.href;
+	usageLink.classList.add('rgh-action-used-by-link');
+	label.textContent = 'Usage examples';
+	leadingVisual.replaceChildren(<SearchIcon width={16} />);
+	trailingVisual.textContent = '';
+
+	resourcesList.append(usageItem);
 }
 
 function init(signal: AbortSignal): void {
