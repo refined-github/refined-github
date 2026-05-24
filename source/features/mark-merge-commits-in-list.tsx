@@ -92,7 +92,7 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-- isPRConversation: https://github.com/refined-github/refined-github/pull/6194#event-8016526003
+- isPRConversation: https://github.com/refined-github/refined-github/pull/9523#commits-pushed-47b8135
 - isPRCommitList: https://github.com/refined-github/refined-github/pull/6194/commits
 - isCommitList: https://github.com/typed-ember/ember-cli-typescript/commits/master?after=5ff0c078a4274aeccaf83382c0d6b46323f57397+174
 - isCompare: https://github.com/refined-github/sandbox/compare/e8b25d3e...b3d0d992
