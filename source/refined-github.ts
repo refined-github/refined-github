@@ -217,3 +217,4 @@ import './features/new-milestone-button.js';
 import './features/no-self-reference.js';
 import './features/cmd-enter.js';
 import './features/extensible-nav.js';
+import './features/notifications-ui.js';

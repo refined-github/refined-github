@@ -37,6 +37,8 @@
 	"tag-changelog-link": "tag-changes-link",
 	"list-pr-for-branch": "list-prs-for-branch",
 	"quick-label-hiding": "quick-label-removal",
+	"unwrap-useless-dropdowns": "notifications-ui",
+	"unwrap-unnecessary-dropdowns": "notifications-ui",
 	"next-scheduled-github-action": "github-actions-indicators",
 	"raw-file-link": "more-file-links",
 	"quick-pr-diff-options": "one-click-diff-options",
