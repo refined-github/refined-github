@@ -11,7 +11,8 @@ const defaults = Object.assign({
 	personalToken: '',
 	logging: false,
 	logHttp: false,
-}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
+	// `extensible-nav` is off by default for now https://github.com/refined-github/refined-github/pull/9594
+}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, id !== 'extensible-nav'])));
 
 export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
