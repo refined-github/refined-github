@@ -1,6 +1,7 @@
-[rgh-clean-repo-sidebar] {
+/* TODO: Remove .Layout-sidebar after August 2026 */
+[rgh-clean-repo-sidebar] :is([class*='PageLayout-Pane'], .Layout-sidebar) {
 	/* Hide "About" header */
-	.Layout-sidebar .BorderGrid-row:first-child h2 {
+	.BorderGrid-row:first-child h2 {
 		display: none;
 	}
 
@@ -10,18 +11,18 @@
 	}
 
 	/* Align the top of the repo root sidebar with the main page content */
-	.Layout-sidebar .BorderGrid-row:first-child h2 + p.f4 {
+	.BorderGrid-row:first-child h2 + p.f4 {
 		margin-top: 0 !important;
 	}
 
 	@media (width >= 768px) {
-		/* Hide "Releases" header */
-		.Layout-sidebar h2 [href$='/releases'] {
+		/* Hide redundant "+ 123 releases/deployments/contributors" links */
+		.tmp-mt-3:has(> a[text='small']) {
 			display: none;
 		}
 
 		/* Align data section with latest tag/release link #5428 */
-		.Layout-sidebar .Link--muted .octicon {
+		.Link--muted .octicon {
 			margin-right: 4px !important;
 		}
 	}
@@ -32,14 +33,12 @@
 	 * Hide "+ 123 contributors" link
 	 * Don't hide "Create new release" link #8442
 	 */
-	.Layout-sidebar
-		.BorderGrid-cell
-		> .mt-3:not(:has(> a[href$='releases/new'])) {
+	.BorderGrid-cell > .mt-3:not(:has(> a[href$='releases/new'])) {
 		display: none;
 	}
 
 	/* Hide Code of conduct links */
-	.Layout-sidebar .Link--muted {
+	.Link--muted {
 		[href$='/code-of-conduct.md' i],
 		[href$='/code_of_conduct.md' i] {
 			display: none;

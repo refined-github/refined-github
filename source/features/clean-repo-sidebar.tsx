@@ -5,13 +5,13 @@ import * as pageDetect from 'github-url-detection';
 import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
-// TODO: It's broken
-const releasesSidebarSelector = '.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]';
+// It's broken: https://github.com/refined-github/refined-github/issues/9339
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady(releasesSidebarSelector, {waitForChildren: false});
+	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] .BorderGrid-cell h2 a[href$="/releases"]', {
+		waitForChildren: false,
+	});
 	if (!sidebarReleases) {
 		return;
 	}
@@ -20,27 +20,17 @@ async function cleanReleases(): Promise<void> {
 	if (!elementExists('.octicon-tag', releasesSection)) {
 		// Hide the whole section if there's no releases
 		releasesSection.hidden = true;
-		return;
 	}
-
-	// Collapse "Releases" section into previous section
-	releasesSection.classList.add('border-0', 'pt-md-0');
-	closestElement('.BorderGrid-row', sidebarReleases)
-		.previousElementSibling! // About’s .BorderGrid-row
-		.firstElementChild! // About’s .BorderGrid-cell
-		.classList
-		.add('border-0', 'pb-0');
-
-	// Point to releases page; the user sees the same content, but there's more below
-	$optional('a.Link--primary[href*="/releases/tag/"]', releasesSection)
-		// The link is missing on tagged-but-no-releases repos
-		?.setAttribute('href', buildRepoUrl('releases'));
 }
 
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $optional('.Layout-sidebar .BorderGrid-row:last-of-type h2');
+	const lastSidebarHeader = $optional([
+		'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type h2',
+		// TODO [2026-09-01]: Drop old selector
+		'.Layout-sidebar .BorderGrid-row:last-of-type h2',
+	]);
 	if (lastSidebarHeader?.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
@@ -51,17 +41,28 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserAdminRepo()) {
-		$optional('.Layout-sidebar .BorderGrid-cell > .text-italic')?.remove();
+		$optional([
+			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
+			// TODO [2026-09-01]: Drop old selector
+			'.Layout-sidebar .BorderGrid-cell > .text-italic',
+		])?.remove();
 	}
 }
 
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
-	const reportLink = $optional('.Layout-sidebar a[href^="/contact/report-content"]')?.parentElement;
+	const reportLink = $optional([
+		'[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]',
+		// TODO [2026-09-01]: Drop old selector
+		'.Layout-sidebar a[href^="/contact/report-content"]',
+	])?.parentElement;
 	if (reportLink) {
 		// Your own repos don't include this link
-		$('.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
+		$([
+			'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell',
+			'.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell',
+		]).append(reportLink);
 	}
 }
 
