@@ -15,16 +15,14 @@
 		margin-top: 0 !important;
 	}
 
-	@media (width >= 768px) {
-		/* Hide redundant "+ 123 releases/deployments/contributors" links */
-		.tmp-mt-3:has(> a[text='small']) {
-			display: none;
-		}
+	/* Hide redundant "+ 123 releases/deployments/contributors" links */
+	.tmp-mt-3:has(> a[text='small']) {
+		display: none;
+	}
 
-		/* Align data section with latest tag/release link #5428 */
-		.Link--muted .octicon {
-			margin-right: 4px !important;
-		}
+	/* Align data section with latest tag/release link #5428 */
+	.Link--muted .octicon {
+		margin-right: 4px !important;
 	}
 
 	/*
