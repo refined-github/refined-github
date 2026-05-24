@@ -294,7 +294,7 @@
 	},
 	{
 		"id": "extensible-nav",
-		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.",
+		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar. Currently opt-in for testing.",
 		"css": true,
 		"screenshot": null
 	},

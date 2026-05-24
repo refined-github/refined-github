@@ -11,7 +11,7 @@ const defaults = Object.assign({
 	personalToken: '',
 	logging: false,
 	logHttp: false,
-}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
+}, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, id !== 'extensible-nav'])));
 
 export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606

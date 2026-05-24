@@ -397,7 +397,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 <!--
 Documented but hidden from the readme:
-- [](# "extensible-nav") This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.
+- [](# "extensible-nav") This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar. Currently opt-in for testing.
 -->
 
 ### Previously part of Refined GitHub
