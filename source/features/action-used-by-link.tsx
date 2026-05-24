@@ -6,10 +6,8 @@ import {$, $$, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function getActionUrl(side: HTMLElement): URL {
-	const actionRepo = $('a:has(.octicon-repo)', side)
-		.pathname
-		.slice(1);
+function getActionUrl(repoLink: HTMLAnchorElement): URL {
+	const actionRepo = repoLink.pathname.slice(1);
 
 	const actionUrl = new URL('search', location.origin);
 	actionUrl.search = new URLSearchParams({
@@ -22,31 +20,26 @@ function getActionUrl(side: HTMLElement): URL {
 	return actionUrl;
 }
 
-function addUsageLink(resourcesList: HTMLElement): void {
-	const actionUrl = getActionUrl(resourcesList);
-	const sourceLink = $('a:has(.octicon-repo)', resourcesList);
-	const usageItem = closestElement('[data-component="ActionList.Item"]', sourceLink).cloneNode(true);
-	const usageLink = $('a', usageItem);
-	const label = $('[data-component="ActionList.Item.Label"]', usageItem);
-	const leadingVisual = $('[data-component="ActionList.LeadingVisual"]', usageItem);
-	const trailingVisual = $('[data-component="ActionList.TrailingVisual"]', usageItem);
-
-	for (const element of $$('[id]', usageItem)) {
-		element.removeAttribute('id');
+function cleanElement(element: HTMLElement): void {
+	for (const child of $$(['[id]', '[aria-labelledby]'], element)) {
+		child.removeAttribute('id');
+		child.removeAttribute('aria-labelledby');
 	}
+}
 
-	usageLink.removeAttribute('aria-labelledby');
-	usageLink.href = actionUrl.href;
-	usageLink.classList.add('rgh-action-used-by-link');
-	label.textContent = 'Usage examples';
-	leadingVisual.replaceChildren(<SearchIcon width={16} />);
-	trailingVisual.textContent = '';
+function addUsageLink(repoItem: HTMLElement): void {
+	const usageItem = repoItem.cloneNode(true);
+	cleanElement(usageItem);
+	const usageLink = $('a', usageItem);
+	usageLink.href = getActionUrl(usageLink).href;
+	$('[data-component="ActionList.Item.Label"]', usageItem).textContent = 'Usage examples';
+	$('[data-component="ActionList.LeadingVisual"]', usageItem).replaceChildren(<SearchIcon />);
 
-	resourcesList.append(usageItem);
+	closestElement('ul', repoItem).append(usageItem);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="resources"] > ul', addUsageLink, {signal});
+	observe('[data-testid="resources"] [data-component="ActionList.Item"]:has(.octicon-repo)', addUsageLink, {signal});
 }
 
 void features.add(import.meta.url, {
