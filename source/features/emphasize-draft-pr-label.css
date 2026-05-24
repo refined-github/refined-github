@@ -1,22 +1,20 @@
 /* Explanation for the feature in https://github.com/refined-github/refined-github/pull/4728#issuecomment-910630727 */
 
 @media (min-resolution: 2x) {
+	/* README: These selectors don't have to be super specific, they just need to limit the feature to lists so that it doesn't affect icons that appear in buttons, for example (if any) */
 	html:not([rgh-OFF-emphasize-draft-pr-label]) {
 		/* Dashboard PR lists */
-		div[class*='DashboardListView-module__ItemLeadingVisual']
-			svg[aria-label='Status: Draft (not ready).'],
-		.js-issue-row
-			:is(
-				/* Repo PR lists */
-				[aria-label='Open draft pull request'],
-				/* Global PR lists */
-				[aria-label='Draft Pull Request']
-			)
-			svg,
-		/* React issue list */
-		[aria-label*='Status: Draft (not ready)']
-			[data-testid='list-row-state-icon']
-			svg,
+		.controlBoxContainer .octicon-git-pull-request-draft,
+		/* Legacy PR list (repo, global) */
+		/* https://github.com/refined-github/sandbox/pulls?q=is%3Apr%20is%3Adraft */
+		/* https://github.com/pulls?q=is%3Apr+is%3Adraft */
+		.Box-row .octicon-git-pull-request-draft,
+		/* Issue list (repo, global) */
+		/* https://github.com/refined-github/sandbox/issues?q=+is%3Adraft */
+		/* https://github.com/pulls/inbox */
+		/* https://github.com/pulls/authored?q=is%3Adraft */
+		/* https://github.com/issues?q=is%3Adraft */
+		[role='list'] .octicon-git-pull-request-draft,
 		/* Notification select by */
 		.rgh-select-notifications .octicon-git-pull-request-draft,
 		/* Notification list */
