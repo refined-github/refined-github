@@ -1,15 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SearchIcon from 'octicons-plain-react/Search';
-import {$} from 'select-dom';
+import {$, $$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-function getActionUrl(side: HTMLElement): URL {
-	const actionRepo = $('a:has(.octicon-repo)', side)
-		.pathname
-		.slice(1);
+function getActionUrl(repoLink: HTMLAnchorElement): URL {
+	const actionRepo = repoLink.pathname.slice(1);
 
 	const actionUrl = new URL('search', location.origin);
 	actionUrl.search = new URLSearchParams({
@@ -22,18 +20,26 @@ function getActionUrl(side: HTMLElement): URL {
 	return actionUrl;
 }
 
-function addUsageLink(side: HTMLElement): void {
-	const actionUrl = getActionUrl(side);
+function cleanElement(element: HTMLElement): void {
+	for (const child of $$(['[id]', '[aria-labelledby]'], element)) {
+		child.removeAttribute('id');
+		child.removeAttribute('aria-labelledby');
+	}
+}
 
-	side.after(
-		<a href={actionUrl.href} className="d-block mb-2 tmp-mb-2">
-			<SearchIcon width={14} className="color-fg-default mr-2 tmp-mr-2" />Usage examples
-		</a>,
-	);
+function addUsageLink(repoItem: HTMLElement): void {
+	const usageItem = repoItem.cloneNode(true);
+	cleanElement(usageItem);
+	const usageLink = $('a', usageItem);
+	usageLink.href = getActionUrl(usageLink).href;
+	$('[data-component="ActionList.Item.Label"]', usageItem).textContent = 'Usage examples';
+	$('[data-component="ActionList.LeadingVisual"]', usageItem).replaceChildren(<SearchIcon />);
+
+	closestElement('ul', repoItem).append(usageItem);
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="resources"] > ul', addUsageLink, {signal});
+	observe('[data-testid="resources"] [data-component="ActionList.Item"]:has(.octicon-repo)', addUsageLink, {signal});
 }
 
 void features.add(import.meta.url, {
