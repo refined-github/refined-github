@@ -1,5 +1,12 @@
 const queryPartsRegExp = /[^\s"()]+:[^"\s()]*(?:"[^"]*")?|\([^)]*\)|"[^"]*"|[^\s"():]+/g;
 const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
+const querylessPathQueries = new Map([
+	['/pulls/assigned', ['is:pr', 'is:open', 'assignee:@me', 'archived:false']],
+	['/pulls/authored', ['is:pr', 'is:open', 'archived:false']],
+	['/pulls/mentioned', ['is:pr', 'is:open', 'mentions:@me', 'archived:false']],
+	['/pulls/review-requested', ['is:pr', 'is:open', 'review-requested:@me', 'archived:false']],
+	['/pulls/reviews', ['is:pr', 'is:open', 'review-requested:@me', 'archived:false']],
+]);
 
 function splitQueryString(query: string): string[] {
 	return query.match(queryPartsRegExp) ?? [];
@@ -22,6 +29,29 @@ function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 
 function cleanQueryParts(parts: string[]): string[] {
 	return deduplicateKeywords(parts, 'is:issue', 'is:pr');
+}
+
+function getQuerylessListQuery(url: URL): string[] {
+	const pathname = url.pathname.replace(/\/$/, '') || '/';
+	const query = querylessPathQueries.get(pathname);
+	if (query) {
+		return [...query];
+	}
+
+	if (pathname === '/issues' || pathname === '/pulls') {
+		return [
+			pathname === '/pulls' ? 'is:pr' : 'is:issue',
+			'is:open',
+			url.searchParams.has('user') ? `user:${url.searchParams.get('user')!}` : 'author:@me',
+			'archived:false',
+		];
+	}
+
+	if (/(?:\/[^/]+){2}\/pulls$/.test(pathname)) {
+		return ['is:pr', 'is:open'];
+	}
+
+	return ['is:issue', 'is:open'];
 }
 
 type Source = Location | HTMLAnchorElement | Record<string, string>;
@@ -71,19 +101,7 @@ export default class SearchQuery {
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 
-		// Repo example: is:issue is:open
-		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'is:open');
-
-		// Header nav example: is:open is:issue author:you archived:false
-		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
-			if (this.url.searchParams.has('user')) { // #1211
-				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
-			} else {
-				this.queryParts.push('author:@me');
-			}
-
-			this.queryParts.push('archived:false');
-		}
+		this.queryParts = getQuerylessListQuery(this.url);
 	}
 
 	getQueryParts(): string[] {

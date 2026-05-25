@@ -99,6 +99,33 @@ test('parse label link', () => {
 	assert.isTrue(query.href.startsWith('https://github.com/owner/repo/issues?'));
 });
 
+test('parse global pull request list shortcuts', () => {
+	assert.equal(new SearchQuery('https://github.com/issues').get(), 'is:issue is:open author:@me archived:false');
+	assert.equal(new SearchQuery('https://github.com/pulls').get(), 'is:pr is:open author:@me archived:false');
+	assert.equal(new SearchQuery('https://github.com/pulls/assigned').get(), 'is:pr is:open assignee:@me archived:false');
+	assert.equal(new SearchQuery('https://github.com/pulls/authored').get(), 'is:pr is:open archived:false');
+	assert.equal(new SearchQuery('https://github.com/pulls/mentioned').get(), 'is:pr is:open mentions:@me archived:false');
+	assert.equal(
+		new SearchQuery('https://github.com/pulls/reviews').get(),
+		'is:pr is:open review-requested:@me archived:false',
+	);
+	assert.equal(
+		new SearchQuery('https://github.com/pulls/review-requested').get(),
+		'is:pr is:open review-requested:@me archived:false',
+	);
+});
+
+test('parse global lists for another user', () => {
+	assert.equal(
+		new SearchQuery('https://github.com/pulls?user=refined-github').get(),
+		'is:pr is:open user:refined-github archived:false',
+	);
+	assert.equal(
+		new SearchQuery('https://github.com/issues?user=refined-github').get(),
+		'is:issue is:open user:refined-github archived:false',
+	);
+});
+
 test('complex queries with multiple conditions', () => {
 	const query = SearchQuery.from({q: 'is:issue is:open label:bug author:user milestone:"Q1 2023"'});
 	assert.deepEqual(query.getQueryParts(), ['is:issue', 'is:open', 'label:bug', 'author:user', 'milestone:"Q1 2023"']);

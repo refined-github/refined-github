@@ -16,6 +16,12 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
+	// The new global PR views are already sorted by update time, and adding
+	// `q=` redirects them back to the old search UI.
+	if (/^\/pulls\/(assigned|authored|inbox|mentioned|review-requested|reviews)\/?$/.test(link.pathname)) {
+		return;
+	}
+
 	// Pick only links to lists, not single issues
 	// + skip pagination links
 	// + skip pr/issue filter dropdowns (some are lazyloaded)
