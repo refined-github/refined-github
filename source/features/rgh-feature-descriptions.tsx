@@ -5,14 +5,12 @@ import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
-import {$} from 'select-dom';
-
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import joinJsx from '../helpers/join-jsx.js';
@@ -22,11 +20,9 @@ import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
-function getLinksElement(id: string, meta: FeatureMeta | undefined, featurePathname: string): JSX.Element {
+function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const isCss = featurePathname.endsWith('.css');
-	const tsxPathname = isCss ? featurePathname.replace('.css', '.tsx') : featurePathname;
-	const cssPathname = isCss ? featurePathname : featurePathname.replace('.tsx', '.css');
+	const isCss = location.pathname.endsWith('.css');
 
 	const links = [];
 
@@ -52,11 +48,11 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined, featurePathn
 	if (meta) {
 		if (isCss && !meta.cssOnly) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={tsxPathname}>See .tsx file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={buildRepoUrl('blob', 'main', 'source', 'features', `${id}.tsx`)}>See .tsx file</a>,
 			);
 		} else if (meta.css && !isCss) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={cssPathname}>See .css file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)}>See .css file</a>,
 			);
 		}
 	}
@@ -76,7 +72,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined, featurePathn
 	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
 }
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined, featurePathname: string): void {
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const description = meta
 		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
@@ -125,7 +121,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					{getLinksElement(id, meta, featurePathname)}
+					{getLinksElement(id, meta)}
 				</div>
 				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
 				{meta?.screenshot && (
@@ -194,7 +190,6 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 async function addFeatureInformationWidget(
 	infoBanner: HTMLElement,
 	featureName: string,
-	featurePathname = `/refined-github/refined-github/blob/main/source/features/${featureName}.tsx`,
 ): Promise<void> {
 	// Enable link even on past commits
 	const currentFeatureName = getNewFeatureName(featureName) ?? featureName;
@@ -203,14 +198,14 @@ async function addFeatureInformationWidget(
 	// This ID exists whether the feature is documented or not
 	const id = meta?.id ?? currentFeatureName;
 
-	addDescription(infoBanner, id, meta, featurePathname);
+	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
 }
 
 async function add(infoBanner: HTMLElement): Promise<void> {
 	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
 	if (filename) {
-		await addFeatureInformationWidget(infoBanner, filename, location.pathname);
+		await addFeatureInformationWidget(infoBanner, filename);
 	}
 }
 
@@ -220,14 +215,9 @@ function getFeatureNameFromIssueTitle(): string | undefined {
 	return match ? match[1] : undefined;
 }
 
-async function addOnIssueForm(mainContent: HTMLElement | SVGElement): Promise<void> {
-	if (!(mainContent instanceof HTMLElement)) {
-		return;
-	}
-
+async function addOnIssueForm(mainContent: HTMLElement): Promise<void> {
 	const featureName = getFeatureNameFromIssueTitle();
-	const formContainer = mainContent.parentElement;
-	if (!featureName || (formContainer && $('.rgh-feature-description', formContainer))) {
+	if (!featureName) {
 		return;
 	}
 
@@ -237,22 +227,27 @@ async function addOnIssueForm(mainContent: HTMLElement | SVGElement): Promise<vo
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
 function init(signal: AbortSignal): void {
-	if (featureUrlRegex.test(location.pathname)) {
-		observe('#repos-sticky-header', add, {signal});
-	}
-
-	if (isRefinedGitHubRepo() && pageDetect.isNewIssue() && new URL(location.href).searchParams.get('template') === '1_bug_report.yml') {
-		observe('[class^="CreateIssueForm-module__mainContentSection"]', addOnIssueForm, {signal});
-	}
+	observe('#repos-sticky-header', add, {signal});
 }
 
-void features.add(import.meta.url, {
-	include: [
-		() => featureUrlRegex.test(location.pathname),
-		() => isRefinedGitHubRepo() && pageDetect.isNewIssue() && new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
-	],
-	init,
-});
+function initIssueForm(signal: AbortSignal): void {
+	observe('[class^="CreateIssueForm-module__mainContentSection"]', addOnIssueForm, {signal});
+}
+
+void features.add(import.meta.url,
+	{
+		include: [
+			() => featureUrlRegex.test(location.pathname),
+		],
+		init,
+	},
+	{
+		include: [
+			() => isRefinedGitHubRepo() && pageDetect.isNewIssue() && Boolean(getFeatureNameFromIssueTitle()),
+		],
+		init: initIssueForm,
+	},
+);
 
 /*
 
