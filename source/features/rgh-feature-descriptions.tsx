@@ -234,20 +234,19 @@ function initIssueForm(signal: AbortSignal): void {
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', addOnIssueForm, {signal});
 }
 
-void features.add(import.meta.url,
-	{
-		include: [
-			() => featureUrlRegex.test(location.pathname),
-		],
-		init,
-	},
-	{
-		include: [
-			() => isRefinedGitHubRepo() && pageDetect.isNewIssue() && Boolean(getFeatureNameFromIssueTitle()),
-		],
-		init: initIssueForm,
-	},
-);
+void features.add(import.meta.url, {
+	include: [
+		() => featureUrlRegex.test(location.pathname),
+	],
+	init,
+},{
+	asLongAs: [
+		isRefinedGitHubRepo(),
+		pageDetect.isNewIssue()
+		() => Boolean(getFeatureNameFromIssueTitle()),
+	],
+	init: initIssueForm,
+});
 
 /*
 
