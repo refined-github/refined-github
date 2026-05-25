@@ -5,7 +5,8 @@
 	padding: 2px 5px;
 
 	.rgh-small-user-avatars {
-		margin-right: 2px !important;
+		margin-right: 4px !important;
+		margin-left: -3px;
 	}
 }
 
