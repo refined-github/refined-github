@@ -22,7 +22,11 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
 function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const isCss = location.pathname.endsWith('.css');
+	const pathname = pageDetect.isNewIssue()
+		// Use .css so that it links to the .tsx file
+		? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
+		: location.pathname;
+	const isCss = pathname.endsWith('.css');
 
 	const links = [];
 
@@ -47,18 +51,12 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 
 	if (meta) {
 		if (isCss && !meta.cssOnly) {
-			const href = pageDetect.isNewIssue()
-				? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.tsx`)
-				: location.pathname.replace('.css', '.tsx');
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={href}>See .tsx file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.css', '.tsx')}>See .tsx file</a>,
 			);
 		} else if (meta.css && !isCss) {
-			const href = pageDetect.isNewIssue()
-				? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-				: location.pathname.replace('.tsx', '.css');
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={href}>See .css file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.tsx', '.css')}>See .css file</a>,
 			);
 		}
 	}
