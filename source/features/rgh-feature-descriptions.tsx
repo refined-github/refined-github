@@ -1,15 +1,18 @@
 import './rgh-feature-descriptions.css';
 
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
+import {$} from 'select-dom';
 
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import joinJsx from '../helpers/join-jsx.js';
@@ -19,9 +22,11 @@ import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
-function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
+function getLinksElement(id: string, meta: FeatureMeta | undefined, featurePathname: string): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const isCss = location.pathname.endsWith('.css');
+	const isCss = featurePathname.endsWith('.css');
+	const tsxPathname = isCss ? featurePathname.replace('.css', '.tsx') : featurePathname;
+	const cssPathname = isCss ? featurePathname : featurePathname.replace('.tsx', '.css');
 
 	const links = [];
 
@@ -47,11 +52,11 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	if (meta) {
 		if (isCss && !meta.cssOnly) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={tsxPathname}>See .tsx file</a>,
 			);
 		} else if (meta.css && !isCss) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={cssPathname}>See .css file</a>,
 			);
 		}
 	}
@@ -71,7 +76,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
 }
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined, featurePathname: string): void {
 	const description = meta
 		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
@@ -120,7 +125,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 						</div>
 					)}
 					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					{getLinksElement(id, meta)}
+					{getLinksElement(id, meta, featurePathname)}
 				</div>
 				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
 				{meta?.screenshot && (
@@ -186,30 +191,65 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 	}
 }
 
-async function add(infoBanner: HTMLElement): Promise<void> {
-	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
+async function addFeatureInformationWidget(
+	infoBanner: HTMLElement,
+	featureName: string,
+	featurePathname = `/refined-github/refined-github/blob/main/source/features/${featureName}.tsx`,
+): Promise<void> {
 	// Enable link even on past commits
-	const currentFeatureName = filename
-		? (getNewFeatureName(filename) ?? filename)
-		: undefined;
+	const currentFeatureName = getNewFeatureName(featureName) ?? featureName;
 	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
 
 	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? filename;
+	const id = meta?.id ?? currentFeatureName;
 
-	addDescription(infoBanner, id, meta);
+	addDescription(infoBanner, id, meta, featurePathname);
 	await addDisabledBanner(infoBanner, id);
 }
 
-function init(signal: AbortSignal): void {
-	observe('#repos-sticky-header', add, {signal});
+async function add(infoBanner: HTMLElement): Promise<void> {
+	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
+	if (filename) {
+		await addFeatureInformationWidget(infoBanner, filename, location.pathname);
+	}
+}
+
+function getFeatureNameFromIssueTitle(): string | undefined {
+	const title = new URL(location.href).searchParams.get('title');
+	const match = /^`([^`]+)`/.exec(title ?? '');
+	return match ? match[1] : undefined;
+}
+
+async function addOnIssueForm(mainContent: HTMLElement | SVGElement): Promise<void> {
+	if (!(mainContent instanceof HTMLElement)) {
+		return;
+	}
+
+	const featureName = getFeatureNameFromIssueTitle();
+	const formContainer = mainContent.parentElement;
+	if (!featureName || (formContainer && $('.rgh-feature-description', formContainer))) {
+		return;
+	}
+
+	await addFeatureInformationWidget(mainContent, featureName);
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
+function init(signal: AbortSignal): void {
+	if (featureUrlRegex.test(location.pathname)) {
+		observe('#repos-sticky-header', add, {signal});
+	}
+
+	if (isRefinedGitHubRepo() && pageDetect.isNewIssue() && new URL(location.href).searchParams.get('template') === '1_bug_report.yml') {
+		observe('[class^="CreateIssueForm-module__mainContentSection"]', addOnIssueForm, {signal});
+	}
+}
+
 void features.add(import.meta.url, {
 	include: [
 		() => featureUrlRegex.test(location.pathname),
+		() => isRefinedGitHubRepo() && pageDetect.isNewIssue() && new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
 	init,
 });
