@@ -223,7 +223,6 @@ async function addOnIssueForm(mainContent: HTMLElement): Promise<void> {
 	await addFeatureInformationWidget(mainContent, getFeatureNameFromIssueTitle()!);
 }
 
-const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
 function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
@@ -232,6 +231,8 @@ function init(signal: AbortSignal): void {
 function initIssueForm(signal: AbortSignal): void {
 	observe('[data-testid="sidebar-assignees-section"]', addOnIssueForm, {signal});
 }
+
+const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
 
 void features.add(import.meta.url, {
 	include: [
