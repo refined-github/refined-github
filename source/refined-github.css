@@ -249,3 +249,25 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 		display: none;
 	}
 }
+
+/* Highligh review type radio labels on hover to improve clickability */
+/* Info: https://github.com/refined-github/refined-github/issues/9447 */
+/* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
+fieldset[class*='ReviewMenu-module__RadioGroup'] {
+	[class*='LabelContainer'] {
+		/* width: auto; */
+		flex-grow: 1;
+	}
+	label[data-component='FormControl.Label']:not([data-control-disabled]) {
+		position: relative;
+		&:hover::before {
+			content: '';
+			background-color: #fff2;
+			position: absolute;
+			inset: -5px;
+			z-index: 0;
+			left: -25px;
+			border-radius: 0.5em;
+		}
+	}
+}
