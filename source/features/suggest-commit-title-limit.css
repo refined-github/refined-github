@@ -3,22 +3,21 @@
 }
 
 /* Limit width of commit title to 72 characters */
-.rgh-suggest-commit-title-limit
-	:is(
-		[data-testid='mergebox-partial'] input[type='text'],
-		#commit-message-input,
-		/* TODO [2026-08-01]: Remove */
-		#commit-summary-input
-	) {
-	box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
-	width: 72ch;
+.rgh-suggest-commit-title-limit {
+	[data-testid='mergebox-partial'] input[type='text'],
+	#commit-message-input,
+	/* TODO [2026-08-01]: Remove */
+	#commit-summary-input {
+		box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
+		width: 72ch;
 
-	/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
-	max-width: -webkit-fill-available;
-	/* TODO [2027-01-01]: Remove if supported */
-	/* biome-ignore lint/suspicious/noDuplicateProperties: Temporary compatibility */
-	max-width: -moz-available;
-	max-width: intrinsic;
+		/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
+		max-width: -webkit-fill-available;
+		/* TODO [2027-01-01]: Remove if supported */
+		/* biome-ignore lint/suspicious/noDuplicateProperties: Temporary compatibility */
+		max-width: -moz-available;
+		max-width: intrinsic;
+	}
 }
 
 /* TODO [2026-09-01]: Remove */

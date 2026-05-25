@@ -1,15 +1,15 @@
 .rgh-private-org {
 	position: relative;
-}
 
-.rgh-private-org svg {
-	pointer-events: none;
-	position: absolute;
-	bottom: 2px;
-	right: 2px;
-	fill: #333;
-	stroke: #fff;
-	stroke-width: 4px;
-	paint-order: stroke;
-	overflow: visible !important;
+	svg {
+		pointer-events: none;
+		position: absolute;
+		bottom: 2px;
+		right: 2px;
+		fill: #333;
+		stroke: #fff;
+		stroke-width: 4px;
+		paint-order: stroke;
+		overflow: visible !important;
+	}
 }
