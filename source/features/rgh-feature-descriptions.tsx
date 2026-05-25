@@ -47,12 +47,18 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 
 	if (meta) {
 		if (isCss && !meta.cssOnly) {
+			const href = pageDetect.isNewIssue()
+				? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.tsx`)
+				: location.pathname.replace('.css', '.tsx');
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={buildRepoUrl('blob', 'main', 'source', 'features', `${id}.tsx`)}>See .tsx file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={href}>See .tsx file</a>,
 			);
 		} else if (meta.css && !isCss) {
+			const href = pageDetect.isNewIssue()
+				? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
+				: location.pathname.replace('.tsx', '.css');
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)}>See .css file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={href}>See .css file</a>,
 			);
 		}
 	}
@@ -210,7 +216,7 @@ async function add(infoBanner: HTMLElement): Promise<void> {
 }
 
 function getFeatureNameFromIssueTitle(): string | undefined {
-	const title = new URL(location.href).searchParams.get('title');
+	const title = new URLSearchParams(location.search).get('title');
 	const match = /^`([^`]+)`/.exec(title ?? '');
 	return match ? match[1] : undefined;
 }
@@ -239,7 +245,7 @@ void features.add(import.meta.url, {
 		() => featureUrlRegex.test(location.pathname),
 	],
 	init,
-},{
+}, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
