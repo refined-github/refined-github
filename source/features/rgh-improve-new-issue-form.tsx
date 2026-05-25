@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {importedFeatures} from '../feature-data.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
@@ -16,6 +17,8 @@ import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
 import {getToken} from '../options-storage.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
+const issueTitleFieldSelector = 'input[aria-label="Add a title"]';
+const featureNameListId = 'rgh-feature-name-list';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
@@ -140,7 +143,21 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
+function addFeatureNameList(field: HTMLInputElement): void {
+	if (field.matches(`[list="${featureNameListId}"]`)) {
+		return;
+	}
+
+	field.setAttribute('list', featureNameListId);
+	field.after(
+		<datalist id={featureNameListId}>
+			{importedFeatures.map(feature => <option value={`\`${feature}\` `} />)}
+		</datalist>,
+	);
+}
+
 function init(signal: AbortSignal): void {
+	observe(issueTitleFieldSelector, addFeatureNameList, {signal});
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
 		void linkifyCacheRefresh();
 		void checkToken();
