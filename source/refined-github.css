@@ -255,7 +255,6 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 /* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
 fieldset[class*='ReviewMenu-module__RadioGroup'] {
 	[class*='LabelContainer'] {
-		/* width: auto; */
 		flex-grow: 1;
 	}
 	label[data-component='FormControl.Label']:not([data-control-disabled]) {
