@@ -241,8 +241,8 @@ void features.add(import.meta.url, {
 	init,
 },{
 	asLongAs: [
-		isRefinedGitHubRepo(),
-		pageDetect.isNewIssue()
+		isRefinedGitHubRepo,
+		pageDetect.isNewIssue,
 		() => Boolean(getFeatureNameFromIssueTitle()),
 	],
 	init: initIssueForm,
