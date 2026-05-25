@@ -222,12 +222,7 @@ function getFeatureNameFromIssueTitle(): string | undefined {
 }
 
 async function addOnIssueForm(mainContent: HTMLElement): Promise<void> {
-	const featureName = getFeatureNameFromIssueTitle();
-	if (!featureName) {
-		return;
-	}
-
-	await addFeatureInformationWidget(mainContent, featureName);
+	await addFeatureInformationWidget(mainContent, getFeatureNameFromIssueTitle()!);
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
@@ -237,7 +232,7 @@ function init(signal: AbortSignal): void {
 }
 
 function initIssueForm(signal: AbortSignal): void {
-	observe('[class^="CreateIssueForm-module__mainContentSection"]', addOnIssueForm, {signal});
+	observe('[data-testid="sidebar-assignees-section"]', addOnIssueForm, {signal});
 }
 
 void features.add(import.meta.url, {
