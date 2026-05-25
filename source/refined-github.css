@@ -264,7 +264,6 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 			background-color: #fff2;
 			position: absolute;
 			inset: -5px;
-			z-index: 0;
 			left: -25px;
 			border-radius: 0.5em;
 		}
