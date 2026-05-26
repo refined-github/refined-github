@@ -1,6 +1,12 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"dom-chef": [
+				"./node_modules/jsx-dom"
+			]
+		},
 		"outDir": "./distribution/assets",
 		"rootDir": "./",
 		"module": "preserve",

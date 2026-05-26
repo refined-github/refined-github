@@ -100,7 +100,8 @@ const rollup = {
 		}),
 		alias({
 			entries: [
-				{find: 'react', replacement: 'dom-chef'},
+				{find: 'react', replacement: 'jsx-dom'},
+				{find: 'dom-chef', replacement: 'jsx-dom'},
 			],
 		}),
 		sucrase({
