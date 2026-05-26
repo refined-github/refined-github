@@ -12,7 +12,8 @@ body:
         Please ensure:
 
         - The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
-        - The bug happens after clearing the extension cache. The ["Clear cache"](#clear-cache) button can be found in the "Debug" tab of the <a name="options-page-link">options page</a>.
+        - The bug happens after clearing the extension cache. [](#clear-cache)
+          You can find it in the "Debug" section of the <a name="options-page-link">options page</a>.
 
         Include in this issue:
 
