@@ -1,15 +1,17 @@
 import './rgh-feature-descriptions.css';
 
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
-
+import delegate from 'delegate-it';
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
+import {buildRepoUrl, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {isFeaturePrivate} from '../helpers/feature-utils.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
 import joinJsx from '../helpers/join-jsx.js';
@@ -18,10 +20,16 @@ import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
+import {openInNewTab} from './prevent-comment-loss.js';
 
 function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const isCss = location.pathname.endsWith('.css');
+	const isReportingBug = pageDetect.isNewIssue();
+	const pathname = isReportingBug
+		// Use .css so that it links to the .tsx file
+		? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
+		: location.pathname;
+	const isCss = pathname.endsWith('.css');
 
 	const links = [];
 
@@ -34,7 +42,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	});
 	links.push(relatedIssuesContainer);
 
-	if (!wasFeatureRemoved) {
+	if (!wasFeatureRemoved && !isReportingBug) {
 		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 		newIssueUrl.searchParams.set('title', `\`${id}\`  `); // Trailing double-space to avoid triggering datalist autocomplete
@@ -47,11 +55,11 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	if (meta) {
 		if (isCss && !meta.cssOnly) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.css', '.tsx')}>See .tsx file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.css', '.tsx')}>See .tsx file</a>,
 			);
 		} else if (meta.css && !isCss) {
 			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={location.pathname.replace('.tsx', '.css')}>See .css file</a>,
+				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.tsx', '.css')}>See .css file</a>,
 			);
 		}
 	}
@@ -71,7 +79,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
 }
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const description = meta
 		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
@@ -82,9 +90,9 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 
 	const oldNames = getOldFeatureNames(id);
 
-	infoBanner.before(
+	anchor.before(
 		// Block and width classes required to avoid margin collapse
-		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full">
+		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
@@ -186,23 +194,45 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 	}
 }
 
-async function add(infoBanner: HTMLElement): Promise<void> {
-	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
+async function addFeatureInformationWidget(
+	infoBanner: HTMLElement,
+	idFromUrl: string,
+): Promise<void> {
 	// Enable link even on past commits
-	const currentFeatureName = filename
-		? (getNewFeatureName(filename) ?? filename)
-		: undefined;
-	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
+	const latestId = getNewFeatureName(idFromUrl) ?? idFromUrl;
+	const meta = featuresMeta.find(feature => feature.id === latestId);
 
 	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? filename;
+	const id = meta?.id ?? latestId;
 
 	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
 }
 
+function getFeatureNameFromIssueTitle(): string | undefined {
+	const title = new URLSearchParams(location.search).get('title') ?? '';
+	// The title might be missing altogether
+	return /^`([^`]+)`/.exec(title)?.[1];
+}
+
+async function add(infoBanner: HTMLElement): Promise<void> {
+	const idFromUrl = /\/([^/]+)\.(?:tsx|css)$/.exec(location.pathname)![1];
+	await addFeatureInformationWidget(infoBanner, idFromUrl);
+}
+
+async function addToIssueForm(mainContent: HTMLElement): Promise<void> {
+	const idFromUrl = getFeatureNameFromIssueTitle()!;
+	await addFeatureInformationWidget(mainContent, idFromUrl);
+}
+
 function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
+}
+
+function initIssueForm(signal: AbortSignal): void {
+	observe('[data-testid="sidebar-assignees-section"]', addToIssueForm, {signal});
+	// Avoid form content loss
+	delegate('.rgh-feature-description a', 'click', openInNewTab);
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
@@ -212,6 +242,13 @@ void features.add(import.meta.url, {
 		() => featureUrlRegex.test(location.pathname),
 	],
 	init,
+}, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+		pageDetect.isNewIssue,
+		() => Boolean(getFeatureNameFromIssueTitle()),
+	],
+	init: initIssueForm,
 });
 
 /*
@@ -220,7 +257,8 @@ void features.add(import.meta.url, {
 
 - Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.tsx
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.css
-- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
-- Removed feature" https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
+- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
+- Removed feature: https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
+- Bug report: https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml&title=%60open-all-conversations%60%3A+Expected+elements
 */

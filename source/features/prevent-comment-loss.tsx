@@ -4,10 +4,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-function openInNewTab(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
+export const openInNewTab = filterAlteredClicks((event: DelegateEvent<MouseEvent, HTMLAnchorElement>) => {
 	event.preventDefault();
 	window.open(event.delegateTarget.href, '_blank');
-}
+});
 
 function init(signal: AbortSignal): void {
 	delegate(
@@ -17,7 +17,7 @@ function init(signal: AbortSignal): void {
 			'.html-blob a', // `isEditingFile`
 		],
 		'click',
-		filterAlteredClicks(openInNewTab),
+		openInNewTab,
 		{signal},
 	);
 }
