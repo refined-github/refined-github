@@ -2,6 +2,15 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
+
+function disableLink(link: HTMLAnchorElement): void {
+	if (link.getAttribute('href') !== location.pathname) {
+		throw new Error('The template chooser bug might have been fixed');
+	}
+
+	link.removeAttribute('href');
+}
 
 function fix(event: DelegateEvent<MouseEvent, HTMLAnchorElement>): void {
 	event.stopImmediatePropagation();
@@ -21,6 +30,11 @@ function init(signal: AbortSignal): void {
 	);
 }
 
+function disableDeadLinks(signal: AbortSignal): void {
+	// Explanation: https://github.com/refined-github/refined-github/issues/9615
+	observe('div[data-testid="repository-and-template-picker-dialog"] a', disableLink, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
@@ -28,6 +42,8 @@ void features.add(import.meta.url, {
 		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
+}, {
+	init: disableDeadLinks,
 });
 
 /*
