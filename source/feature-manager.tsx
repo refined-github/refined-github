@@ -189,11 +189,6 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
 		}
 
-		// 404 pages should only run 404-only features
-		if (pageDetect.is404() && !include?.includes(pageDetect.is404) && !asLongAs?.includes(pageDetect.is404)) {
-			return;
-		}
-
 		let firstLoop = true;
 		do {
 			if (awaitDomReady) {
