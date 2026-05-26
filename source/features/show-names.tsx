@@ -21,6 +21,8 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
+const narrowViewportWrapperSelector = 'div[class*="narrowViewportWrapper"] *';
+
 function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
 		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
@@ -31,8 +33,11 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 
 	if (
 		element.matches([
-			'[data-testid="avatar-link"]', // Commment on React-based views
-			'[data-testid="issue-body-header-author"]',
+			// TODO [2026-11-26]: Drop selectors that have :not(${narrowViewportWrapperSelector})
+			// Narrow viewport wrapper provides spacing by `column-gap`
+			// Test URL: https://github.com/refined-github/sandbox/issues/131#issue-4310063721
+			`[data-testid="avatar-link"]:not(${narrowViewportWrapperSelector})`, // Commment on React-based views
+			`[data-testid="issue-body-header-author"]:not(${narrowViewportWrapperSelector})`,
 			'.feed-item-content *',
 			// PR event:
 			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
@@ -61,9 +66,15 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 }
 
 function appendName(element: HTMLAnchorElement, fullName: string): void {
-	// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
 	const {parentElement} = element;
-	const insertionPoint = parentElement!.tagName === 'STRONG' ? parentElement! : element;
+	const insertionPoint
+		// Place after the title section container for correct wrapping
+		// Info: https://github.com/refined-github/refined-github/issues/9372
+		= element.matches(narrowViewportWrapperSelector)
+			// If it's a regular comment author, add it outside <strong> otherwise it's something like "User added some commits"
+			|| parentElement!.tagName === 'STRONG'
+			? parentElement!
+			: element;
 
 	// React might create a new label without removing the old one
 	// https://github.com/refined-github/refined-github/issues/8478
