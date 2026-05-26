@@ -257,15 +257,16 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 	[class*='LabelContainer'] {
 		flex-grow: 1;
 	}
+
 	label[data-component='FormControl.Label']:not([data-control-disabled]) {
 		position: relative;
 		&:hover::before {
 			content: '';
-			background-color: #fff2;
 			position: absolute;
 			inset: -5px;
 			left: -25px;
-			border-radius: 0.5em;
+			background-color: var(--control-transparent-bgColor-hover, fuchsia);
+			border-radius: var(--borderRadius-medium, 2em);
 		}
 	}
 }
