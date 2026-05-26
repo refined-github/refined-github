@@ -20,7 +20,7 @@ const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
-	$('[class^="IssueFormElements-module__formElementsContainer"]').prepend(
+	$('[class^="CreateIssueForm-module__mainContentSection"]').prepend(
 		<div className={`flash flash-${type} h3 my-9 tmp-my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
