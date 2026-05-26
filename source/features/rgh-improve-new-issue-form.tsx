@@ -17,8 +17,6 @@ import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
 import {getToken} from '../options-storage.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
-const issueTitleFieldSelector = 'input[aria-label="Add a title"]';
-const featureNameListId = 'rgh-feature-name-list';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
@@ -143,11 +141,8 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
-function addFeatureNameList(field: HTMLInputElement): void {
-	if (field.matches(`[list="${featureNameListId}"]`)) {
-		return;
-	}
-
+function addAutocomplete(field: HTMLInputElement): void {
+	const featureNameListId = 'rgh-feature-name-list';
 	field.setAttribute('list', featureNameListId);
 	field.after(
 		<datalist id={featureNameListId}>
@@ -157,7 +152,7 @@ function addFeatureNameList(field: HTMLInputElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(issueTitleFieldSelector, addFeatureNameList, {signal});
+	observe('input[aria-label="Add a title"]', addAutocomplete, {signal});
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
 		void linkifyCacheRefresh();
 		void checkToken();
