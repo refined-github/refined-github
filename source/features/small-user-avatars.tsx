@@ -25,12 +25,10 @@ function createAvatar(username: string, size: number): JSX.Element {
 function addRepoAvatar(link: HTMLAnchorElement): void {
 	const [owner] = link.textContent.trim().split('/');
 	const size = 14;
-	const avatar = createAvatar(owner, size);
-	avatar.classList.add('d-none', 'd-xl-inline-block');
 
 	link.firstElementChild!.prepend(
-		<span className="ActionListItem-visual ActionListItem-visual--leading">
-			{avatar}
+		<span className="ActionListItem-visual ActionListItem-visual--leading d-none d-xl-inline-block">
+			{createAvatar(owner, size)}
 		</span>,
 	);
 }
