@@ -22,7 +22,8 @@ import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 
 function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const pathname = pageDetect.isNewIssue()
+	const isReportingBug = pageDetect.isNewIssue();
+	const pathname = isReportingBug
 		// Use .css so that it links to the .tsx file
 		? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
 		: location.pathname;
@@ -39,7 +40,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	});
 	links.push(relatedIssuesContainer);
 
-	if (!wasFeatureRemoved) {
+	if (!wasFeatureRemoved && !isReportingBug) {
 		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
 		newIssueUrl.searchParams.set('title', `\`${id}\` `);
@@ -76,7 +77,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
 }
 
-function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
+function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
 	const description = meta
 		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
 		: (
@@ -87,7 +88,7 @@ function addDescription(infoBanner: HTMLElement, id: string, meta: FeatureMeta |
 
 	const oldNames = getOldFeatureNames(id);
 
-	infoBanner.before(
+	anchor.before(
 		// Block and width classes required to avoid margin collapse
 		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full">
 			<div className="Box-row d-flex gap-3 flex-wrap">
@@ -193,43 +194,41 @@ async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<v
 
 async function addFeatureInformationWidget(
 	infoBanner: HTMLElement,
-	featureName: string,
+	idFromUrl: string,
 ): Promise<void> {
 	// Enable link even on past commits
-	const currentFeatureName = getNewFeatureName(featureName) ?? featureName;
-	const meta = featuresMeta.find(feature => feature.id === currentFeatureName);
+	const latestId = getNewFeatureName(idFromUrl) ?? idFromUrl;
+	const meta = featuresMeta.find(feature => feature.id === latestId);
 
 	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? currentFeatureName;
+	const id = meta?.id ?? latestId;
 
 	addDescription(infoBanner, id, meta);
 	await addDisabledBanner(infoBanner, id);
 }
 
-async function add(infoBanner: HTMLElement): Promise<void> {
-	const [, filename] = /source\/features\/([^.]+)/.exec(location.pathname) ?? [];
-	if (filename) {
-		await addFeatureInformationWidget(infoBanner, filename);
-	}
-}
-
 function getFeatureNameFromIssueTitle(): string | undefined {
-	const title = new URLSearchParams(location.search).get('title');
-	const match = /^`([^`]+)`/.exec(title ?? '');
-	return match ? match[1] : undefined;
+	const title = new URLSearchParams(location.search).get('title') ?? '';
+	// The title might be missing altogether
+	return /^`([^`]+)`/.exec(title)?.[1];
 }
 
-async function addOnIssueForm(mainContent: HTMLElement): Promise<void> {
-	await addFeatureInformationWidget(mainContent, getFeatureNameFromIssueTitle()!);
+async function add(infoBanner: HTMLElement): Promise<void> {
+	const idFromUrl = /\/([^/]+)\.(?:tsx|css)$/.exec(location.pathname)![1];
+	await addFeatureInformationWidget(infoBanner, idFromUrl);
 }
 
+async function addToIssueForm(mainContent: HTMLElement): Promise<void> {
+	const idFromUrl = getFeatureNameFromIssueTitle()!;
+	await addFeatureInformationWidget(mainContent, idFromUrl);
+}
 
 function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', add, {signal});
 }
 
 function initIssueForm(signal: AbortSignal): void {
-	observe('[data-testid="sidebar-assignees-section"]', addOnIssueForm, {signal});
+	observe('[data-testid="sidebar-assignees-section"]', addToIssueForm, {signal});
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
@@ -254,7 +253,8 @@ void features.add(import.meta.url, {
 
 - Regular feature: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.tsx
 - CSS counterpart: https://github.com/refined-github/refined-github/blob/main/source/features/align-issue-labels.css
-- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
 - CSS-only feature: https://github.com/refined-github/refined-github/blob/main/source/features/reactions-popup.css
-- Removed feature" https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
+- RGH feature: https://github.com/refined-github/refined-github/blob/main/source/features/rgh-feature-descriptions.css
+- Removed feature: https://github.com/refined-github/refined-github/blob/55dfdfd903bd7d36e0c2f3dc46847bddc73544f5/source/features/latest-tag-button.tsx
+- Bug report: https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml&title=%60open-all-conversations%60%3A+Expected+elements
 */
