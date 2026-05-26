@@ -1,6 +1,5 @@
 import delegate from 'delegate-it';
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {$$, closestElementOptional} from 'select-dom';
 
@@ -33,16 +32,6 @@ function onButtonClick(): void {
 
 	const urls = linksToOpen.map(link => link.href);
 	void openTabs(urls);
-}
-
-const multipleConversationsSelector = [
-	// TODO [2026-01-01]: Pre-React selector; Drop
-	'.js-issue-row + .js-issue-row',
-	'[role="list"] > div:nth-child(2) > [class^="IssueRow"]',
-] as const;
-
-async function hasMoreThanOneConversation(): Promise<boolean> {
-	return Boolean(await elementReady(multipleConversationsSelector, {waitForChildren: false}));
 }
 
 function add(anchor: HTMLElement): void {
@@ -84,9 +73,6 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		hasMoreThanOneConversation,
-	],
 	include: [
 		pageDetect.isIssueOrPRList,
 	],
