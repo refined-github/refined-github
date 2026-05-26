@@ -29,7 +29,7 @@
 	 * Don't hide "Create new release" link #8442
 	 */
 	.BorderGrid-cell
-		> :is(.tmp-mt-3, .mt-3):not(:has(> a[href$='releases/new'])) {
+		> div:is(.tmp-mt-3, .mt-3):has(> a:not([href$='releases/new'])) {
 		display: none;
 	}
 
