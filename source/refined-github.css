@@ -256,6 +256,7 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 fieldset[class*='ReviewMenu-module__RadioGroup'] {
 	[class*='LabelContainer'] {
 		flex-grow: 1;
+		z-index: 0;
 	}
 
 	label[data-component='FormControl.Label']:not([data-control-disabled]) {
@@ -263,6 +264,7 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 		&:hover::before {
 			content: '';
 			position: absolute;
+			z-index: -1;
 			inset: -5px;
 			left: -25px;
 			background-color: var(--control-transparent-bgColor-hover, fuchsia);
