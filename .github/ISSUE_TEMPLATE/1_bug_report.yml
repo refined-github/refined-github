@@ -11,7 +11,7 @@ body:
 
         Please ensure:
 
-        - The bug is caused by Refined GitHub. It doesn't happen if I disable the extension.
+        - The bug is caused by Refined GitHub. It doesn't happen if you disable the extension.
         - The bug happens after clearing the extension cache. [](#clear-cache)
           You can find it in the "Debug" section of the <a name="options-page-link">options page</a>.
 
@@ -30,7 +30,8 @@ body:
     type: textarea
     attributes:
       label: How to replicate the issue + URL
-      description: ‼️‼️‼️ Every bug report MUST include A REAL URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
+      description: ‼️‼️‼️ Every bug report MUST include A REAL, CLICKABLE URL where the bug appears. If it happens on a private repo, find an equivalent public URL, even if it doesn't happen there.
+      placeholder: https://github.com/refined-github/refined-github
     validations:
       required: true
   - id: version
