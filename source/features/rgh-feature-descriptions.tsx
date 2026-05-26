@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
+import delegate from 'delegate-it';
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
@@ -19,6 +20,7 @@ import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
+import {openInNewTab} from './prevent-comment-loss.js';
 
 function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
 	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
@@ -90,7 +92,7 @@ function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | und
 
 	anchor.before(
 		// Block and width classes required to avoid margin collapse
-		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full">
+		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description">
 			<div className="Box-row d-flex gap-3 flex-wrap">
 				<div className="rgh-feature-description d-flex flex-column gap-2">
 					<h3>
@@ -229,6 +231,8 @@ function init(signal: AbortSignal): void {
 
 function initIssueForm(signal: AbortSignal): void {
 	observe('[data-testid="sidebar-assignees-section"]', addToIssueForm, {signal});
+	// Avoid form content loss
+	delegate('.rgh-feature-description a', 'click', openInNewTab);
 }
 
 const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]features[/][^.]+[.](?:tsx|css)$/;
