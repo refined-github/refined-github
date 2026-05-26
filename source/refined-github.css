@@ -254,9 +254,12 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 /* Info: https://github.com/refined-github/refined-github/issues/9447 */
 /* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
 fieldset[class*='ReviewMenu-module__RadioGroup'] {
+	[class*='FormControl-ControlHorizontalLayout'] {
+		z-index: 0;
+	}
+
 	[class*='LabelContainer'] {
 		flex-grow: 1;
-		z-index: 0;
 	}
 
 	label[data-component='FormControl.Label']:not([data-control-disabled]) {
