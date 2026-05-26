@@ -24,21 +24,17 @@ function createAvatar(username: string, size: number): JSX.Element {
 
 function addRepoAvatar(link: HTMLAnchorElement): void {
 	const [owner] = link.textContent.trim().split('/');
-	const size = 14;
-	const avatar = createAvatar(owner, size);
-	avatar.classList.add('d-none', 'd-xl-inline-block');
 
 	link.firstElementChild!.prepend(
-		<span className="ActionListItem-visual ActionListItem-visual--leading">
-			{avatar}
+		<span className="ActionListItem-visual ActionListItem-visual--leading d-none d-xl-inline-block">
+			{createAvatar(owner, 14)}
 		</span>,
 	);
 }
 
 function addAvatar(link: HTMLElement): void {
 	const username = link.textContent;
-	const size = 14;
-	const avatar = createAvatar(username, size);
+	const avatar = createAvatar(username, 14);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
