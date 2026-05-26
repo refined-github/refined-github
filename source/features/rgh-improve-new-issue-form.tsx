@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {importedFeatures} from '../feature-data.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
@@ -140,7 +141,18 @@ async function validateTokenCheckbox(): Promise<void> {
 	});
 }
 
+function addAutocomplete(field: HTMLInputElement): void {
+	const featureNameListId = 'rgh-feature-name-list';
+	field.setAttribute('list', featureNameListId);
+	field.after(
+		<datalist id={featureNameListId}>
+			{importedFeatures.map(feature => <option value={`\`${feature}\` `} />)}
+		</datalist>,
+	);
+}
+
 function init(signal: AbortSignal): void {
+	observe('input[aria-label="Add a title"]', addAutocomplete, {signal});
 	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
 		void linkifyCacheRefresh();
 		void checkToken();

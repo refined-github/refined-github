@@ -45,7 +45,7 @@ function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element
 	if (!wasFeatureRemoved && !isReportingBug) {
 		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-		newIssueUrl.searchParams.set('title', `\`${id}\` `);
+		newIssueUrl.searchParams.set('title', `\`${id}\`  `); // Trailing double-space to avoid triggering datalist autocomplete
 		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
 		links.push(
 			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href}>Report bug</a>,
