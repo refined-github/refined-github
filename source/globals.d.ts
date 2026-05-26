@@ -41,6 +41,37 @@ interface Element {
 }
 
 declare module 'size-plugin';
+declare module 'dom-chef' {
+	type Attributes = JSX.IntrinsicElements['div'];
+	type DocumentFragmentConstructor = typeof DocumentFragment;
+	type ElementFunction = ((props?: unknown) => HTMLElement | SVGElement) & {
+		defaultProps?: unknown;
+	};
+
+	interface JsxElementClassDocumentFragment extends DocumentFragment, JSX.ElementClass {}
+	interface Fragment {
+		prototype: JsxElementClassDocumentFragment;
+		new (): JsxElementClassDocumentFragment;
+	}
+
+	const createElement: (
+		type: DocumentFragmentConstructor | ElementFunction | string,
+		attributes?: Attributes,
+		...children: Node[]
+	) => Element | DocumentFragment;
+
+	const react: {
+		createElement: typeof createElement;
+		Fragment: Fragment;
+	};
+
+	const fragment: Fragment;
+
+	export {createElement};
+	export const h: typeof createElement;
+	export {fragment as Fragment};
+	export default react;
+}
 
 declare module '*.gql' {
 	export = string;
@@ -61,6 +92,12 @@ interface GlobalEventHandlersEventMap {
 }
 
 declare namespace JSX {
+	interface Element extends HTMLElement, SVGElement, DocumentFragment {
+		addEventListener: HTMLElement['addEventListener'];
+		removeEventListener: HTMLElement['removeEventListener'];
+		className: HTMLElement['className'];
+	}
+
 	interface IntrinsicElements {
 		'clipboard-copy': IntrinsicElements.button & {for?: string};
 		'details-dialog': IntrinsicElements.div & {tabindex: string};

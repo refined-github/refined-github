@@ -5,11 +5,13 @@ const globals = [
 	'document',
 	'Element',
 	'HTMLAnchorElement',
+	'SVGElement',
 	'DocumentFragment',
 	'Node',
 ];
 
 const {window} = parseHTML('...', 'text/html');
+globalThis.window = window;
 globalThis.location = new URL('https://github.com');
 
 for (const property of globals) {
