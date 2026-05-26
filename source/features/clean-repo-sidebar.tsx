@@ -17,8 +17,12 @@ async function cleanReleases(): Promise<void> {
 	}
 
 	const releasesSection = closestElement('.BorderGrid-cell', sidebarReleases);
-	if (!elementExists('.octicon-tag', releasesSection)) {
+	if (
 		// Hide the whole section if there's no releases
+		!elementExists('.octicon-tag', releasesSection)
+		// Don't hide the section if it has a "Create new release" link
+		&& !elementExists('a[href$="releases/new"]', releasesSection)
+	) {
 		releasesSection.hidden = true;
 	}
 }
