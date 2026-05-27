@@ -1,49 +1,22 @@
-/* TODO [2025-04-01]: Revert https://github.com/refined-github/refined-github/pull/8111 */
 :root .rgh-non-default-branch {
 	background-color: var(
 		--control-checked-bgColor-hover,
-		var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
+		var(--color-state-hover-primary-bg, fuchsia)
 	);
 
 	&,
 	a {
 		color: var(
 			--control-checked-fgColor-rest,
-			var(
-				--color-state-hover-primary-text,
-				var(--color-fg-on-emphasis, fuchsia)
-			)
+			var(--color-state-hover-primary-text,fuchsia)
 		);
 	}
 }
 
 .rgh-clean-conversation-headers {
-	/* Removes: every text (but not icons) */
-	font-size: 0 !important;
-
-	/* Hide "from" */
-	:is(span[data-component='Tooltip'], button[id^='ref-picker'])
-		+ span:not([class]) {
-		font-size: 0;
-	}
-
-	/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
-	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
-	> [class]:not(.js-updating-pull-request-commits-count),
-	> relative-time {
-		font-size: 14px;
-	}
-
-	--margin: 4px;
-
 	/* Shows on PRs: [by ]octocat main ← feature */
 	&:not(.rgh-hide-author)::before {
 		content: 'by ';
-		font-size: 14px;
-	}
-
-	.author {
-		margin-right: var(--margin);
 	}
 
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
@@ -54,21 +27,11 @@
 		}
 	}
 
-	[class^='PullRequestBranchName'],
-	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
-	.commit-ref,
-	/* TODO [2026-08-01]: Drop */
-	[class^='BranchName'] {
-		font-size: 12px !important;
-	}
-
-	span[class^='prc-TooltipV2'] ~ .rgh-arrow {
-		font-size: 0;
-		margin-left: calc(-1 * var(--margin));
-	}
-
-	relative-time {
-		margin-left: var(--margin);
+	/* Hide the default base branch in sticky headers */
+	&.rgh-sticky-pr-header .rgh-base-branch:not(.rgh-non-default-branch) {
+		&, & ~ .rgh-arrow {
+			display: none;
+		}
 	}
 
 	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */

@@ -20,29 +20,48 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 	}
 }
 
+function isStickyHeader(childElement: HTMLElement): boolean {
+	return Boolean(closestElementOptional([
+		'div[class*="stickyHeader"]',
+		// TODO [2027-01-01]: Drop after legacy PR files view is removed
+		'.sticky-content',
+		'.gh-header-sticky',
+	], childElement));
+}
+
+const prCreatorSelector = [
+	'.TimelineItem .author',
+	'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
+] as const;
+async function getPrCreator(): Promise<string> {
+	return (await elementReady(prCreatorSelector))!.textContent;
+}
+
+// Hide if it's the same as the opener (always) or merger
+async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
+	// Extra author name is only shown on `isPRConversation`
+	if (!pageDetect.isPRConversation()) {
+		return;
+	}
+
+	// Keep author in sticky header
+	// https://github.com/refined-github/refined-github/issues/7802
+	if (isStickyHeader(summaryRow)) {
+		return;
+	}
+
+	// First link in the summary row is always the author
+	if ($('a', summaryRow).textContent === await getPrCreator()) {
+		summaryRow.classList.add('rgh-hide-author');
+	}
+}
+
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
-	const prCreatorSelector = [
-		'.TimelineItem .author',
-		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
-	];
-
-	// Extra author name is only shown on `isPRConversation`
-	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation()
-		// #7802
-		&& !closestElementOptional([
-			'div[class*="stickyHeader"]',
-			// TODO [2027-01-01]: Drop after legacy PR files view is removed
-			'.sticky-content',
-			'.gh-header-sticky',
-		], summaryRow)
-		// First link in the summary row is always the author
-		&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
-
-	if (shouldHideAuthor) {
-		summaryRow.classList.add('rgh-hide-author');
+	if (isStickyHeader(summaryRow)) {
+		// Add class here to avoid duplicating the selectors into the CSS file
+		summaryRow.classList.add('rgh-sticky-pr-header');
 	}
 
 	const base = $([
@@ -53,12 +72,18 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		'[class^="BranchName"]',
 	], summaryRow);
 
+	// Add class here to avoid duplicating the selectors into the CSS file
+	base.classList.add('rgh-base-branch');
+
 	let baseBranch;
 	if (base.title) {
 		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
 	} else {
 		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent, base.textContent).branch;
 	}
+
+	// This can be run asynchronously
+	void maybeHideAuthor(summaryRow);
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
 	void highlightNonDefaultBranchPrs(base, baseBranch);
