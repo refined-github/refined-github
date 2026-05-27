@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, $optional, closestElementOptional} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -63,7 +63,7 @@ async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
 async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
 	const infoNode = getHeaderUsername(summaryRow).nextSibling!.nextSibling!;
 	console.log(infoNode);
-	removeTextNodeContaining(infoNode, /^wants to merge/);
+	removeTextNodeContaining(infoNode, /^(wants to merge|^merged) \d+ commit/);
 }
 
 function replaceFromWithArrow(base: HTMLElement): void {
