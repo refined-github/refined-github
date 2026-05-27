@@ -5,6 +5,20 @@ import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
+import observe from '../helpers/selector-observer.js';
+
+function disableLink(link: HTMLAnchorElement): void {
+	if (link.getAttribute('href') !== location.pathname) {
+		throw new Error('The template chooser bug might have been fixed');
+	}
+
+	link.removeAttribute('href');
+}
+
+function initDeadLinksOnce(): void {
+	// Explanation: https://github.com/refined-github/refined-github/issues/9615
+	observe('div[data-testid="repository-and-template-picker-dialog"] a', disableLink);
+}
 
 function openSearchResultInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
@@ -57,6 +71,8 @@ void features.add(import.meta.url, {
 		pageDetect.isNewIssue,
 	],
 	init: initIssueTemplate,
+}, {
+	init: onetime(initDeadLinksOnce),
 });
 
 /*
