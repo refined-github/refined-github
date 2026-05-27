@@ -9,7 +9,7 @@ import {$, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent, removeTextNodeContaining} from '../helpers/dom-utils.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
@@ -21,12 +21,7 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 }
 
 function isStickyHeader(childElement: HTMLElement): boolean {
-	return Boolean(closestElementOptional([
-		'div[class*="stickyHeader"]',
-		// TODO [2027-01-01]: Drop after legacy PR files view is removed
-		'.sticky-content',
-		'.gh-header-sticky',
-	], childElement));
+	return Boolean(closestElementOptional('div[class*="stickyHeader"]', childElement));
 }
 
 /** The PR header username is the creator or the merger */
@@ -61,9 +56,14 @@ async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
 }
 
 async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
-	const infoNode = getHeaderUsername(summaryRow).nextSibling!.nextSibling!;
-	console.log(infoNode);
-	removeTextNodeContaining(infoNode, /^(wants to merge|^merged) \d+ commit/);
+	for (const child of summaryRow.childNodes) {
+		if (child instanceof Text && /^(wants to merge|^merged) \d+ commit/.test(child.textContent)) {
+			child.remove();
+			return;
+		}
+	}
+
+	throw new Error('Unable to find the PR metadata text node');
 }
 
 function replaceFromWithArrow(base: HTMLElement): void {
@@ -97,8 +97,8 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	}
 
 	// This can be run asynchronously
-	void maybeHideAuthor(summaryRow);
 	void hideAuthorMetadata(summaryRow);
+	void maybeHideAuthor(summaryRow);
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
 	void highlightNonDefaultBranchPrs(base, baseBranch);
@@ -109,14 +109,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		[
-			'.d-flex[class*="PullRequestHeaderSummary"]',
-			// TODO [2027-01-01]: Drop after legacy PR files view is removed
-			'.gh-header-meta > .flex-auto', // Real
-			// TODO [2026-08-01]: Drop
-			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
-			'[class^="StateLabel"] + div > span:first-child',
-		],
+		'.d-flex[class*="PullRequestHeaderSummary"]',
 		cleanPrHeader,
 		{signal},
 	);
