@@ -8,7 +8,7 @@
 	a {
 		color: var(
 			--control-checked-fgColor-rest,
-			var(--color-state-hover-primary-text,fuchsia)
+			var(--color-state-hover-primary-text, fuchsia)
 		);
 	}
 }

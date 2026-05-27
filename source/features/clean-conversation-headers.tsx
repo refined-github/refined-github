@@ -9,7 +9,7 @@ import {$, $optional, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import {assertNodeContent, removeTextNodeContaining} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
@@ -27,6 +27,11 @@ function isStickyHeader(childElement: HTMLElement): boolean {
 		'.sticky-content',
 		'.gh-header-sticky',
 	], childElement));
+}
+
+/** The PR header username is the creator or the merger */
+function getHeaderUsername(summaryRow: HTMLElement): HTMLAnchorElement {
+	return $('a', summaryRow);
 }
 
 const prCreatorSelector = [
@@ -50,10 +55,25 @@ async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
 		return;
 	}
 
-	// First link in the summary row is always the author
-	if ($('a', summaryRow).textContent === await getPrCreator()) {
+	if (getHeaderUsername(summaryRow).textContent === await getPrCreator()) {
 		summaryRow.classList.add('rgh-hide-author');
 	}
+}
+
+async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
+	const infoNode = getHeaderUsername(summaryRow).nextSibling!.nextSibling!;
+	console.log(infoNode);
+	removeTextNodeContaining(infoNode, /^wants to merge/);
+}
+
+function replaceFromWithArrow(base: HTMLElement): void {
+	const anchor = base.nextElementSibling!.nextElementSibling!;
+	assertNodeContent(anchor, 'from');
+	anchor.replaceWith(
+		<span className="rgh-arrow">
+			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
+		</span>,
+	);
 }
 
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
@@ -64,13 +84,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		summaryRow.classList.add('rgh-sticky-pr-header');
 	}
 
-	const base = $([
-		'[class^="PullRequestBranchName"]',
-		// TODO [2027-01-01]: Drop after legacy PR files view is removed
-		'.commit-ref',
-		// TODO [2026-08-01]: Drop
-		'[class^="BranchName"]',
-	], summaryRow);
+	const base = $('[class^="PullRequestBranchName"]', summaryRow);
 
 	// Add class here to avoid duplicating the selectors into the CSS file
 	base.classList.add('rgh-base-branch');
@@ -84,20 +98,13 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	// This can be run asynchronously
 	void maybeHideAuthor(summaryRow);
+	void hideAuthorMetadata(summaryRow);
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
 	void highlightNonDefaultBranchPrs(base, baseBranch);
 
 	// Shows on PRs: main [←] feature
-	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO [2027-01-01]: Drop after legacy PR files view is removed
-		?? base.nextSibling!.nextSibling!;
-	assertNodeContent(anchor, 'from');
-
-	anchor.after(
-		<span className="rgh-arrow">
-			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
-		</span>,
-	);
+	replaceFromWithArrow(base);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
