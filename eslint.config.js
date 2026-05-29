@@ -5,6 +5,7 @@ import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
+import globals from 'globals';
 import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
 import xo from 'xo';
@@ -296,7 +297,7 @@ export default defineConfig([
 				parser: '@typescript-eslint/parser',
 			},
 			globals: {
-				browser: 'readonly',
+				...globals.browser,
 				chrome: 'readonly',
 				location: 'readonly',
 			},

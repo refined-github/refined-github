@@ -215,6 +215,18 @@ function validateTsx(file: FeatureFile): void {
 	}
 }
 
+function validateSvelte(file: FeatureFile): void {
+	assert(
+		file.tsx.exists(),
+		'Does not match any existing features. The filename should match the feature that uses it.',
+	);
+
+	assert(
+		file.tsx.contents().includes(`from './${file.name}';`),
+		`Should be imported by \`${file.tsx.name}\``,
+	);
+}
+
 describe('features', () => {
 	const featuresDirectoryContents = readdirSync('source/features/');
 	test.each(featuresDirectoryContents)('%s', (filename: string) => {
@@ -222,18 +234,25 @@ describe('features', () => {
 			return;
 		}
 
+		const file = new FeatureFile(filename);
+
 		if (filename.endsWith('.gql')) {
-			validateGql(new FeatureFile(filename));
+			validateGql(file);
 			return;
 		}
 
 		if (filename.endsWith('.css')) {
-			validateCss(new FeatureFile(filename));
+			validateCss(file);
 			return;
 		}
 
 		if (filename.endsWith('.tsx')) {
-			validateTsx(new FeatureFile(filename));
+			validateTsx(file);
+			return;
+		}
+
+		if (filename.endsWith('.svelte')) {
+			validateSvelte(file);
 			return;
 		}
 
