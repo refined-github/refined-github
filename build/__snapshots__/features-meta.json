@@ -576,7 +576,7 @@
 		"id": "notifications-ui",
 		"description": "Cleans up the Notifications page header, especially on mobile.",
 		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/bb30f72c-1fef-49ca-adc9-7d0a4615eeae"
+		"screenshot": "https://github.com/user-attachments/assets/88b96125-83a1-4550-bf2d-ec1bac264783"
 	},
 	{
 		"id": "one-click-diff-options",

@@ -326,7 +326,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
 - [](# "clean-notifications") Makes the notifications list more compact when grouped by repo.
-- [](# "notifications-ui") [Cleans up the Notifications page header, especially on mobile.](https://github.com/user-attachments/assets/bb30f72c-1fef-49ca-adc9-7d0a4615eeae)
+- [](# "notifications-ui") [Cleans up the Notifications page header, especially on mobile.](https://github.com/user-attachments/assets/88b96125-83a1-4550-bf2d-ec1bac264783)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
