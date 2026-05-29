@@ -110,6 +110,7 @@
 			</div>
 		</div>
 
+		<!-- eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta  -->
 		{#if meta?.screenshot}
 			<a href={meta.screenshot} class="flex-self-center">
 				<img
