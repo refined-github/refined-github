@@ -1,42 +1,54 @@
 <script lang="ts">
-	import CopyIcon from 'octicons-plain-react/Copy';
 	import * as pageDetect from 'github-url-detection';
+	import CopyIcon from 'octicons-plain-react/Copy';
 
 	import {getOldFeatureNames} from '../feature-data.js';
 	import {buildRepoUrl} from '../github-helpers/index.js';
+	import DomChef from '../helpers/dom-chef.svelte';
 	import {isFeaturePrivate} from '../helpers/feature-utils.js';
 	import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
-	import DomChef from '../helpers/dom-chef.svelte';
 
 	// eslint-disable-next-line no-undef -- Global
 	const {id, meta}: {id: string; meta: FeatureMeta | undefined} = $props();
 
-	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
+	const wasFeatureRemoved = $derived(!meta && !isFeaturePrivate(id));
 	const isReportingBug = pageDetect.isNewIssue();
-	const pathname = isReportingBug
-		? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-		: location.pathname;
-	const isCss = pathname.endsWith('.css');
+	const pathname = $derived(
+		isReportingBug
+			? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
+			: location.pathname,
+	);
+	const isCss = $derived(pathname.endsWith('.css'));
 
-	const description = meta
-		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
-		: isFeaturePrivate(id)
+	const description = $derived(
+		meta
+			? meta.description
+				+ (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
+			: isFeaturePrivate(id)
 			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-			: undefined;
+			: undefined,
+	);
 
-	const oldNames = getOldFeatureNames(id);
+	const oldNames = $derived(getOldFeatureNames(id));
 
-	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', `\`${id}\`  `);
-	newIssueUrl.searchParams.set('labels', 'bug, help wanted');
+	const newIssueUrl = $derived.by(() => {
+		const url = new URL(
+			'https://github.com/refined-github/refined-github/issues/new',
+		);
+		url.searchParams.set('template', '1_bug_report.yml');
+		url.searchParams.set('title', `\`${id}\`  `);
+		url.searchParams.set('labels', 'bug, help wanted');
+		return url;
+	});
 </script>
 
 {#snippet featureLink(href: string, label: string)}
 	<a data-turbo-frame="repo-content-turbo-frame" {href}>{label}</a>
 {/snippet}
 
-<div class="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description">
+<div
+	class="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description"
+>
 	<div class="Box-row d-flex gap-3 flex-wrap">
 		<div class="rgh-feature-description d-flex flex-column gap-2">
 			<h3>
@@ -53,7 +65,9 @@
 						<DomChef as={CopyIcon} class="v-align-baseline" />
 					</clipboard-copy>
 				{:else}
-					<span class="color-fg-muted">This feature is no longer part of Refined GitHub.</span>
+					<span class="color-fg-muted">
+						This feature is no longer part of Refined GitHub.
+					</span>
 				{/if}
 			</h3>
 
@@ -74,19 +88,23 @@
 			<div class="no-wrap">
 				<RelatedIssuesCount featureId={id} />
 				{#if !wasFeatureRemoved && !isReportingBug}
+					•
 					{@render featureLink(newIssueUrl.href, 'Report bug')}
 				{/if}
 				{#if meta}
 					{#if isCss && !meta.cssOnly}
+						•
 						{@render featureLink(pathname.replace('.css', '.tsx'), 'See .tsx file')}
 					{:else if meta.css && !isCss}
+						•
 						{@render featureLink(pathname.replace('.tsx', '.css'), 'See .css file')}
 					{/if}
 				{/if}
 				{#if wasFeatureRemoved}
+					•
 					{@render featureLink(
 						`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`,
-						'Commit history'
+						'Commit history',
 					)}
 				{/if}
 			</div>
@@ -97,7 +115,7 @@
 				<img
 					src={meta.screenshot}
 					class="d-block border"
-					style="max-height:100px;max-width:150px"
+					style="max-height: 100px; max-width: 150px"
 					alt=""
 				/>
 			</a>

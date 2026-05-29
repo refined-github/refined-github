@@ -5,9 +5,9 @@ import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
+import globals from 'globals';
 import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
-import globals from 'globals';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
