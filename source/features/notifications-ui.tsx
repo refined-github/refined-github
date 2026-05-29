@@ -58,6 +58,7 @@ function init(): void {
 	}
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,
