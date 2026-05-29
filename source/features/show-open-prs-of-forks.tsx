@@ -9,10 +9,7 @@ import api from '../github-helpers/api.js';
 import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
-
-function getLinkCopy(count: number): string {
-	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
-}
+import observe from '../helpers/selector-observer.js';
 
 const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
@@ -57,17 +54,19 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	return [count, url.href];
 }
 
-async function initHeadHint(): Promise<void | false> {
+async function initHeadHint(signal: AbortSignal): Promise<void | false> {
 	const [count, url] = await getPrs();
 	if (!count) {
 		return false;
 	}
 
-	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
-		' with ',
-		// The class is used by `quick-fork-deletion`
-		<a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>,
-	);
+	// Use the observer because GitHub randomly updates the header and removes the hint after load
+	observe(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`, (repoHeader): void => {
+		repoHeader.after(
+			' with ',
+			<a href={url}>{pluralize(count, 'one open pull request', '$$+ open pull requests')}</a>,
+		);
+	}, {signal});
 }
 
 async function initDeleteHint(): Promise<void | false> {
@@ -76,10 +75,9 @@ async function initDeleteHint(): Promise<void | false> {
 		return false;
 	}
 
-	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
+	$('#repo-delete-proceed-button-container').before(
 		<p className="flash flash-warn">
-			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
-			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+			It will also close your <a href={url}>{pluralize(count, 'open pull request', '$$+ open pull requests')}</a> in <strong>{getForkedRepo()!}</strong>.
 		</p>,
 	);
 }
@@ -88,7 +86,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
 	],
-	deduplicate: 'has-rgh',
+	requiresToken: true,
 	init: initHeadHint,
 }, {
 	asLongAs: [
@@ -97,7 +95,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoMainSettings,
 	],
-	deduplicate: 'has-rgh',
+	requiresToken: true,
 	init: initDeleteHint,
 });
 
