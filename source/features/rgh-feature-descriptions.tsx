@@ -3,149 +3,26 @@ import './rgh-feature-descriptions.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
-import CopyIcon from 'octicons-plain-react/Copy';
 import InfoIcon from 'octicons-plain-react/Info';
 import delegate from 'delegate-it';
 import {mount} from 'svelte';
 
-import {featuresMeta, getNewFeatureName, getOldFeatureNames} from '../feature-data.js';
+import {featuresMeta, getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import createBanner from '../github-helpers/banner.js';
-import {buildRepoUrl, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {isFeaturePrivate} from '../helpers/feature-utils.js';
+import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {brokenFeatures} from '../helpers/hotfix.js';
-import joinJsx from '../helpers/join-jsx.js';
 import openOptions from '../helpers/open-options.js';
-import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {openInNewTab} from './prevent-comment-loss.js';
-
-function getLinksElement(id: string, meta: FeatureMeta | undefined): JSX.Element {
-	const wasFeatureRemoved = !meta && !isFeaturePrivate(id);
-	const isReportingBug = pageDetect.isNewIssue();
-	const pathname = isReportingBug
-		// Use .css so that it links to the .tsx file
-		? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-		: location.pathname;
-	const isCss = pathname.endsWith('.css');
-
-	const links = [];
-
-	const relatedIssuesContainer = <span />;
-	mount(RelatedIssuesCount, {
-		target: relatedIssuesContainer,
-		props: {
-			featureId: id,
-		},
-	});
-	links.push(relatedIssuesContainer);
-
-	if (!wasFeatureRemoved && !isReportingBug) {
-		const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
-		newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-		newIssueUrl.searchParams.set('title', `\`${id}\`  `); // Trailing double-space to avoid triggering datalist autocomplete
-		newIssueUrl.searchParams.set('labels', 'bug, help wanted');
-		links.push(
-			<a data-turbo-frame="repo-content-turbo-frame" href={newIssueUrl.href}>Report bug</a>,
-		);
-	}
-
-	if (meta) {
-		if (isCss && !meta.cssOnly) {
-			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.css', '.tsx')}>See .tsx file</a>,
-			);
-		} else if (meta.css && !isCss) {
-			links.push(
-				<a data-turbo-frame="repo-content-turbo-frame" href={pathname.replace('.tsx', '.css')}>See .css file</a>,
-			);
-		}
-	}
-
-	if (wasFeatureRemoved) {
-		links.push(
-			// This links to the full commit history, which will start with the commit that removed the file
-			<a
-				data-turbo-frame="repo-content-turbo-frame"
-				href={`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`}
-			>
-				Commit history
-			</a>,
-		);
-	}
-
-	return <div className="no-wrap">{joinJsx(' • ', links)}</div>;
-}
+import Description from './rgh-feature-descriptions.svelte';
 
 function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
-	const description = meta
-		? meta.description + (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
-		: (
-			isFeaturePrivate(id)
-				? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
-				: undefined // The heck!?
-		);
-
-	const oldNames = getOldFeatureNames(id);
-
-	anchor.before(
-		// Block and width classes required to avoid margin collapse
-		<div className="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description">
-			<div className="Box-row d-flex gap-3 flex-wrap">
-				<div className="rgh-feature-description d-flex flex-column gap-2">
-					<h3>
-						{
-							description
-								? <>
-									<code>{id}</code>
-									<clipboard-copy
-										aria-label="Copy"
-										data-copy-feedback="Copied!"
-										value={id}
-										class="Link--onHover color-fg-muted d-inline-block ml-2"
-										tabindex="0"
-										role="button"
-									>
-										<CopyIcon className="v-align-baseline" />
-									</clipboard-copy>
-								</>
-								: <span className="color-fg-muted">
-									This feature is no longer part of Refined GitHub.
-								</span>
-						}
-					</h3>
-					{oldNames.length > 0 && (
-						<div className="color-fg-muted mt-n3 tmp-mt-n3">
-							<span className="text-small">previously named </span>
-							{oldNames.map((name, index) => (
-								<React.Fragment key={name}>
-									{index > 0 && ', '}
-									<code>{name}</code>
-								</React.Fragment>
-							))}
-						</div>
-					)}
-					{description && <div dangerouslySetInnerHTML={{__html: description}} className="h3" />}
-					{getLinksElement(id, meta)}
-				</div>
-				{/* eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta */}
-				{meta?.screenshot && (
-					<a href={meta.screenshot} className="flex-self-center">
-						<img
-							src={meta.screenshot}
-							className="d-block border"
-							style={{
-								maxHeight: 100,
-								maxWidth: 150,
-							}}
-						/>
-					</a>
-				)}
-			</div>
-		</div>,
-	);
+	const container = <div />;
+	mount(Description, {target: container, props: {id, meta}});
+	anchor.before(container);
 }
 
 async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {

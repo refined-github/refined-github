@@ -7,6 +7,7 @@ import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig} from 'eslint/config';
 import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
+import globals from 'globals';
 import xo from 'xo';
 
 import cssDocumentation from './eslint-rules/css-documentation.js';
@@ -296,7 +297,7 @@ export default defineConfig([
 				parser: '@typescript-eslint/parser',
 			},
 			globals: {
-				browser: 'readonly',
+				...globals.browser,
 				chrome: 'readonly',
 				location: 'readonly',
 			},

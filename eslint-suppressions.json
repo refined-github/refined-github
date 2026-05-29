@@ -18,5 +18,10 @@
     "refined-github/no-optional-chaining": {
       "count": 1
     }
+  },
+  "source/features/rgh-feature-descriptions.svelte": {
+    "refined-github/no-optional-chaining": {
+      "count": 1
+    }
   }
 }
