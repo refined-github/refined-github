@@ -86,7 +86,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isForkedRepo,
 	],
-	deduplicate: 'has-rgh',
 	requiresToken: true,
 	init: initHeadHint,
 }, {
@@ -96,7 +95,6 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoMainSettings,
 	],
-	deduplicate: 'has-rgh',
 	requiresToken: true,
 	init: initDeleteHint,
 });
