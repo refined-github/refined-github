@@ -10,10 +10,6 @@ import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.j
 import pluralize from '../helpers/pluralize.js';
 import GetPRs from './show-open-prs-of-forks.gql';
 
-function getLinkCopy(count: number): string {
-	return pluralize(count, 'one open pull request', 'at least $$ open pull requests');
-}
-
 const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
@@ -66,7 +62,7 @@ async function initHeadHint(): Promise<void | false> {
 	$(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`).after(
 		' with ',
 		// The class is used by `quick-fork-deletion`
-		<a href={url} className="rgh-open-prs-of-forks">{getLinkCopy(count)}</a>,
+		<a href={url} className="rgh-open-prs-of-forks">{pluralize(count, 'one open pull request', '$$+ open pull requests')}</a>,
 	);
 }
 
@@ -78,8 +74,7 @@ async function initDeleteHint(): Promise<void | false> {
 
 	$('#repo-delete-proceed-button-container').before(
 		<p className="flash flash-warn">
-			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
-			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
+			It will also close your <a href={url}>{pluralize(count, 'open pull request', '$$+ open pull requests')}</a> in <strong>{getForkedRepo()!}</strong>.
 		</p>,
 	);
 }
