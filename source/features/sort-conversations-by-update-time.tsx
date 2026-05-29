@@ -17,7 +17,8 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	}
 
 	// Exclude /pulls/ global pages since they're already sorted by update time #9604
-	if (/^[/]pulls[/]\w+$/.test(link.pathname)) {
+	// This also breaks the feature on the header button regardless of the PR inbox beta status. This is because the feature breaks the inbox, overriding the user's preference.
+	if (/^[/]pulls[/]\w+$/.test(link.pathname) || link.matches('[href="/pulls"][class*="appHeaderButton"]')) {
 		return;
 	}
 
