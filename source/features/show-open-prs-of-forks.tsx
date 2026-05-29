@@ -76,7 +76,7 @@ async function initDeleteHint(): Promise<void | false> {
 		return false;
 	}
 
-	$('details-dialog[aria-label*="Delete"] .Box-body p:first-child').after(
+	$('#repo-delete-proceed-button-container').before(
 		<p className="flash flash-warn">
 			It will also abandon <a href={url}>your {getLinkCopy(count)}</a> in <strong>{getForkedRepo()!}</strong>{' '}
 			and you’ll no longer be able to edit {count === 1 ? 'it' : 'them'}.
