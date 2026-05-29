@@ -1,3 +1,4 @@
+import './notifications-ui.css';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

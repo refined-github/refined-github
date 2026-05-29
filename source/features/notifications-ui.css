@@ -1,0 +1,25 @@
+/* Matches the md query, but inverted */
+@media screen and not (min-width: 768px) {
+	.d-block.d-md-none.py-2.px-2.py-md-0.px-sm-0.p-md-0 {
+		display: flex !important;
+		gap: 12px;
+	}
+	.manage-notifications-responsive.d-flex.my-2 {
+		margin: 0 !important;
+		order: 2;
+	}
+	.d-flex.gap-1 {
+		flex-grow: 1;
+	}
+	.d-block.mt-0.tmp-mb-md-3.mb-0.px-2.px-sm-0.d-md-none {
+		display: flex !important;
+		flex-wrap: wrap;
+		row-gap: 12px;
+	}
+	.BtnGroup.mb-2.col-12 {
+		width: auto;
+	}
+	.notifications-query-builder-wrapper.col-12.width-full.mb-2 {
+		order: 1;
+	}
+}
