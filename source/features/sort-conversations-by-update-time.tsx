@@ -16,6 +16,11 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
+	// Exclude /pulls/ global pages since they're already sorted by update time #9604
+	if (/^[/]pulls[/]\w+$/.test(link.pathname)) {
+		return;
+	}
+
 	// Pick only links to lists, not single issues
 	// + skip pagination links
 	// + skip pr/issue filter dropdowns (some are lazyloaded)
