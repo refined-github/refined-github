@@ -15,9 +15,11 @@ function disableLink(link: HTMLAnchorElement): void {
 	link.removeAttribute('href');
 }
 
+export const newIssueModalDeadLinks = 'div[data-testid="repository-and-template-picker-dialog"] a';
+
 function initDeadLinksOnce(): void {
 	// Explanation: https://github.com/refined-github/refined-github/issues/9615
-	observe('div[data-testid="repository-and-template-picker-dialog"] a', disableLink);
+	observe(newIssueModalDeadLinks, disableLink);
 }
 
 function openSearchResultInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
