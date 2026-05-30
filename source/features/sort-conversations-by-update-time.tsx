@@ -5,6 +5,7 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import {linksToConversationLists} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
+import {newIssueModalDeadLinks} from './new-tab-links.js';
 
 /** Keep the original URL on the element so that `shorten-links` can use it reliably #5890 */
 export function saveOriginalHref(link: HTMLAnchorElement): void {
@@ -13,6 +14,12 @@ export function saveOriginalHref(link: HTMLAnchorElement): void {
 
 async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	if (link.host !== location.host) {
+		return;
+	}
+
+	// Avoid conflict with `new-tab-links` in New Issue modal
+	// https://github.com/refined-github/refined-github/pull/9640/changes#r3328459390
+	if (link.matches(newIssueModalDeadLinks)) {
 		return;
 	}
 

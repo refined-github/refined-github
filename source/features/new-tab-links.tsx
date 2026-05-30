@@ -7,17 +7,23 @@ import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
+// Cache it just like their modal does
+// https://github.com/refined-github/refined-github/issues/9641
+const {pathname} = location;
+
 function disableLink(link: HTMLAnchorElement): void {
-	if (link.getAttribute('href') !== location.pathname) {
+	if (link.getAttribute('href') !== pathname) {
 		throw new Error('The template chooser bug might have been fixed');
 	}
 
 	link.removeAttribute('href');
 }
 
+export const newIssueModalDeadLinks = 'div[data-testid="repository-and-template-picker-dialog"] a';
+
 function initDeadLinksOnce(): void {
 	// Explanation: https://github.com/refined-github/refined-github/issues/9615
-	observe('div[data-testid="repository-and-template-picker-dialog"] a', disableLink);
+	observe(newIssueModalDeadLinks, disableLink);
 }
 
 function openSearchResultInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
