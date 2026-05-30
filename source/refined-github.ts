@@ -107,7 +107,6 @@ import './features/list-prs-for-file.js';
 import './features/pr-branch-auto-delete.js';
 import './features/show-whitespace.js';
 import './features/restore-file.js';
-import './features/hidden-review-comments-indicator.js';
 import './features/reload-failed-proxied-images.js';
 import './features/conversation-authors.js';
 import './features/one-click-pr-or-gist.js';
