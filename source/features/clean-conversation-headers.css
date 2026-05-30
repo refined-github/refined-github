@@ -18,32 +18,20 @@
 }
 
 .rgh-clean-conversation-headers {
-	/* Removes: every text (but not icons) */
-	font-size: 0 !important;
-
-	/* Hide "from" */
-	:is(span[data-component='Tooltip'], button[id^='ref-picker'])
-		+ span:not([class]) {
-		font-size: 0;
-	}
-
-	/* Shows on PRs: [octocat] merged 1 commit into [master] from [feature] on [1 Jan] */
-	/* Doesn't show on PRs: octocat merged [1] commit into master from feature */
-	> [class]:not(.js-updating-pull-request-commits-count),
-	> relative-time {
-		font-size: 14px;
-	}
-
-	--margin: 4px;
-
-	/* Shows on PRs: [by ]octocat main ← feature */
+	/* On merged PRs: merged [by ]user */
 	&:not(.rgh-hide-author)::before {
 		content: 'by ';
-		font-size: 14px;
+		order: -3;
 	}
 
-	.author {
-		margin-right: var(--margin);
+	/* On merged PRs: merged [by user] */
+	a[data-hovercard-type='user'] {
+		order: -2;
+	}
+
+	/* On merged PRs: merged by user [on date] */
+	relative-time {
+		order: -1;
 	}
 
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
@@ -54,21 +42,11 @@
 		}
 	}
 
-	[class^='PullRequestBranchName'],
-	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */
-	.commit-ref,
-	/* TODO [2026-08-01]: Drop */
-	[class^='BranchName'] {
-		font-size: 12px !important;
-	}
-
-	span[class^='prc-TooltipV2'] ~ .rgh-arrow {
-		font-size: 0;
-		margin-left: calc(-1 * var(--margin));
-	}
-
-	relative-time {
-		margin-left: var(--margin);
+	/* Hide the default base branch in sticky headers */
+	&.rgh-sticky-pr-header .rgh-base-branch:not(.rgh-non-default-branch) {
+		&, & ~ .rgh-arrow {
+			display: none;
+		}
 	}
 
 	/* TODO [2027-01-01]: Drop after legacy PR files view is removed */

@@ -56,18 +56,8 @@
 	}
 }
 
-.rgh-conversation-activity-filter-wrapper {
-	display: flex;
-	align-items: center;
-}
-
 /* TODO [2026-08-01]: Remove */
 .gh-header-meta {
-	.rgh-conversation-activity-filter-wrapper {
-		display: block;
-		margin-bottom: 8px; /* Preserve centered vertical alignment with status badge */
-	}
-
 	.rgh-conversation-activity-filter {
 		display: inline;
 	}

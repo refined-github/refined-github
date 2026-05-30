@@ -4,12 +4,12 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, $optional, closestElementOptional} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
@@ -20,38 +20,87 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 	}
 }
 
+async function removeBaseRepo(base: HTMLElement): Promise<void> {
+	const textNode = base.firstChild;
+	if (!(textNode instanceof Text)) {
+		throw new TypeError('Expected a text node');
+	}
+
+	const crossRepoPr = textNode.textContent.indexOf(':');
+	if (crossRepoPr > 0) {
+		textNode.splitText(crossRepoPr + 1);
+		wrap(textNode, <span className="sr-only" />);
+	}
+}
+
+function isStickyHeader(childElement: HTMLElement): boolean {
+	return Boolean(closestElementOptional('div[class*="stickyHeader"]', childElement));
+}
+
+/** The PR header username is the creator or the merger */
+function getHeaderUsername(summaryRow: HTMLElement): HTMLAnchorElement {
+	return $('a', summaryRow);
+}
+
+const prCreatorSelector = [
+	'.TimelineItem .author',
+	'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
+] as const;
+async function getPrCreator(): Promise<string> {
+	return (await elementReady(prCreatorSelector))!.textContent;
+}
+
+// Hide if it's the same as the opener (always) or merger
+async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
+	// Extra author name is only shown on `isPRConversation`
+	if (!pageDetect.isPRConversation()) {
+		return;
+	}
+
+	// Keep author in sticky header
+	// https://github.com/refined-github/refined-github/issues/7802
+	if (isStickyHeader(summaryRow)) {
+		return;
+	}
+
+	if (getHeaderUsername(summaryRow).textContent === await getPrCreator()) {
+		summaryRow.classList.add('rgh-hide-author');
+	}
+}
+
+async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
+	for (const child of summaryRow.childNodes) {
+		if (child instanceof Text && /^(wants to merge|^merged) \d+ commit/.test(child.textContent)) {
+			child.remove();
+			return;
+		}
+	}
+
+	throw new Error('Unable to find the PR metadata text node');
+}
+
+function replaceFromWithArrow(base: HTMLElement): void {
+	const anchor = base.nextElementSibling!.nextElementSibling!;
+	assertNodeContent(anchor, 'from');
+	anchor.replaceWith(
+		<span className="rgh-arrow">
+			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
+		</span>,
+	);
+}
+
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
-	const prCreatorSelector = [
-		'.TimelineItem .author',
-		'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
-	];
-
-	// Extra author name is only shown on `isPRConversation`
-	// Hide if it's the same as the opener (always) or merger
-	const shouldHideAuthor = pageDetect.isPRConversation()
-		// #7802
-		&& !closestElementOptional([
-			'div[class*="stickyHeader"]',
-			// TODO [2027-01-01]: Drop after legacy PR files view is removed
-			'.sticky-content',
-			'.gh-header-sticky',
-		], summaryRow)
-		// First link in the summary row is always the author
-		&& $('a', summaryRow).textContent === (await elementReady(prCreatorSelector))!.textContent;
-
-	if (shouldHideAuthor) {
-		summaryRow.classList.add('rgh-hide-author');
+	if (isStickyHeader(summaryRow)) {
+		// Add class here to avoid duplicating the selectors into the CSS file
+		summaryRow.classList.add('rgh-sticky-pr-header');
 	}
 
-	const base = $([
-		'[class^="PullRequestBranchName"]',
-		// TODO [2027-01-01]: Drop after legacy PR files view is removed
-		'.commit-ref',
-		// TODO [2026-08-01]: Drop
-		'[class^="BranchName"]',
-	], summaryRow);
+	const base = $('[class^="PullRequestBranchName"]', summaryRow);
+
+	// Add class here to avoid duplicating the selectors into the CSS file
+	base.classList.add('rgh-base-branch');
 
 	let baseBranch;
 	if (base.title) {
@@ -60,31 +109,21 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent, base.textContent).branch;
 	}
 
+	// This can be run asynchronously
+	void hideAuthorMetadata(summaryRow);
+	void maybeHideAuthor(summaryRow);
+
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
 	void highlightNonDefaultBranchPrs(base, baseBranch);
+	void removeBaseRepo(base);
 
 	// Shows on PRs: main [←] feature
-	const anchor = $optional('.commit-ref-dropdown', summaryRow)?.nextSibling // TODO [2027-01-01]: Drop after legacy PR files view is removed
-		?? base.nextSibling!.nextSibling!;
-	assertNodeContent(anchor, 'from');
-
-	anchor.after(
-		<span className="rgh-arrow">
-			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
-		</span>,
-	);
+	replaceFromWithArrow(base);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		[
-			'.d-flex[class*="PullRequestHeaderSummary"]',
-			// TODO [2027-01-01]: Drop after legacy PR files view is removed
-			'.gh-header-meta > .flex-auto', // Real
-			// TODO [2026-08-01]: Drop
-			'.js-issues-results .rgh-conversation-activity-filter', // Helper in case it runs first and breaks the `>` selector, because it wraps the .flex-auto element
-			'[class^="StateLabel"] + div > span:first-child',
-		],
+		'.d-flex[class*="PullRequestHeaderSummary"]',
 		cleanPrHeader,
 		{signal},
 	);

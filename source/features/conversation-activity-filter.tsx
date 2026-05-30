@@ -13,7 +13,7 @@ import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
-import {isSmallDevice, wrap} from '../helpers/dom-utils.js';
+import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -192,7 +192,6 @@ async function addWidget(anchor: Element): Promise<void> {
 	}
 
 	await delay(100); // Let `clean-conversation-headers` run first
-	wrap(position, <div className="rgh-conversation-activity-filter-wrapper" />);
 	position.classList.add('rgh-conversation-activity-filter');
 
 	const baseId = crypto.randomUUID();
