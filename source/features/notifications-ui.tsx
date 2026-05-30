@@ -1,3 +1,4 @@
+import './notifications-ui.css';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -57,6 +58,7 @@ function init(): void {
 	}
 }
 
+void features.addCssFeature(import.meta.url);
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isNotifications,

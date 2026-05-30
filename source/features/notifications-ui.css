@@ -1,0 +1,40 @@
+/* Matches the md query, but inverted */
+@media screen and not (min-width: 768px) {
+	html:not([rgh-OFF-notifications-ui]) {
+		/* Place top 3 dropdown buttons in a row */
+		.js-notifications-container > h1.sr-only + .d-md-none {
+			display: flex !important;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		/* Move "Manage notifications" to the right */
+		/* Use .my-2 for extra specificity */
+		.manage-notifications-responsive.my-2 {
+			margin: 0 !important;
+			order: 10;
+		}
+
+		/* Keep the "Inbox" dropdown as wide as possible */
+		.manage-notifications-responsive + .d-flex {
+			flex-grow: 1;
+		}
+
+		/* Allow the filters/sort/search to be ordered */
+		.js-check-all-container > .d-md-none:first-child {
+			display: flex !important;
+			flex-wrap: wrap;
+			column-gap: 12px;
+
+			/* Scale back "All | Unread" selector so it doesn't take the full width */
+			& > .BtnGroup:first-child {
+				width: auto;
+			}
+		}
+
+		/* Move search box to the bottom */
+		.notifications-query-builder-wrapper {
+			order: 10;
+		}
+	}
+}

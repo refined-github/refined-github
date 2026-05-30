@@ -574,8 +574,9 @@
 	},
 	{
 		"id": "notifications-ui",
-		"description": "Lets you change notifications sorting and grouping in one click.",
-		"screenshot": "https://github.com/user-attachments/assets/684c237f-65eb-41b7-aebf-3b624b665481"
+		"description": "Cleans up the Notifications page header, especially on mobile.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/88b96125-83a1-4550-bf2d-ec1bac264783"
 	},
 	{
 		"id": "one-click-diff-options",
