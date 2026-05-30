@@ -172,7 +172,6 @@ import './features/rgh-options-link.js';
 import './features/same-branch-author-commits.js';
 import './features/rgh-improve-new-issue-form.js';
 import './features/easy-toggle-commit-messages.js';
-import './features/command-palette-navigation-shortcuts.js';
 import './features/link-to-compare-diff.js';
 import './features/hide-low-quality-comments.js';
 import './features/linkify-user-labels.js';
