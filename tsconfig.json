@@ -26,6 +26,7 @@
 		"source",
 		"test",
 		"build",
+		"tsdown.config.ts",
 		"vite.config.ts"
 	]
 }

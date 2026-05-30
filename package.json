@@ -24,7 +24,6 @@
 	"dependencies": {
 		"@fregante/mi-cron": "^2.0.1",
 		"@sindresorhus/to-milliseconds": "^2.0.0",
-		"@tsdown/css": "^0.22.1",
 		"abort-utils": "^3.0.0",
 		"batched-function": "^3.0.0",
 		"code-tag": "^1.2.0",
@@ -86,6 +85,7 @@
 		"@rollup/plugin-node-resolve": "^16.0.3",
 		"@rollup/plugin-sucrase": "^5.1.0",
 		"@sindresorhus/tsconfig": "^8.1.0",
+		"@tsdown/css": "^0.22.1",
 		"@types/chrome": "^0.1.42",
 		"@types/codemirror": "^5.60.17",
 		"@types/dom-navigation": "^1.0.7",
