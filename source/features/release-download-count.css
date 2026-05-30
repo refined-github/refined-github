@@ -1,6 +1,6 @@
 /* Simulates fixed columns */
 .rgh-release-download-count {
-	& > span:not(:last-child) {
+	& > span:not(:last-child, [data-view-component]) {
 		flex-basis: 0 !important;
 		min-width: 5em;
 	}
