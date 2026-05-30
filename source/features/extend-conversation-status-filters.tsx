@@ -61,7 +61,9 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.table-list-header-toggle.states a', removeAllFilters, {signal});
+	// PRs page: uses the old .table-list-header-toggle.states a structure
+	// Issues page: uses the new React-based list view with tabsContainer-based links
+	observe('.table-list-header-toggle.states a, [class*="tabsContainer"] a', removeAllFilters, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -77,6 +79,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - Regular: https://github.com/sindresorhus/refined-github/pulls
+- Issues: https://github.com/refined-github/refined-github/issues
 - "Merged" view: https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Amerged
 
 */
