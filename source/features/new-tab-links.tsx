@@ -8,7 +8,7 @@ import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
 function disableLink(link: HTMLAnchorElement): void {
-	if (link.getAttribute('href') !== location.pathname) {
+	if (link.getAttribute('href') !== location.pathname + location.search) {
 		throw new Error('The template chooser bug might have been fixed');
 	}
 
