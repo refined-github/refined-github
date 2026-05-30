@@ -7,8 +7,12 @@ import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
+// Cache it just like their modal
+// https://github.com/refined-github/refined-github/issues/9641
+const {pathname} = location;
+
 function disableLink(link: HTMLAnchorElement): void {
-	if (link.getAttribute('href') !== location.pathname) {
+	if (link.getAttribute('href') !== pathname) {
 		throw new Error('The template chooser bug might have been fixed');
 	}
 
