@@ -7,7 +7,7 @@ import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-// Cache it just like their modal
+// Cache it just like their modal does
 // https://github.com/refined-github/refined-github/issues/9641
 const {pathname} = location;
 
