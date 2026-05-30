@@ -16,6 +16,12 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
+	// Exclude /pulls/ global pages since they're already sorted by update time #9604
+	// This also breaks the feature on the header button regardless of the PR inbox beta status. This is because the feature breaks the inbox, overriding the user's preference.
+	if (/^[/]pulls[/]\w+$/.test(link.pathname) || link.matches('[href="/pulls"][class*="appHeaderButton"]')) {
+		return;
+	}
+
 	// Pick only links to lists, not single issues
 	// + skip pagination links
 	// + skip pr/issue filter dropdowns (some are lazyloaded)
