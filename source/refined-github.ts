@@ -53,7 +53,7 @@ import './features/linkify-branch-references.js';
 import './features/open-all-conversations.js';
 import './features/conversation-links-on-repo-lists.js';
 import './features/global-conversation-list-filters.js';
-import './features/sort-conversations-by-update-time.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
+import './features/last-update-sort.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time.js';
 import './features/mark-pinned.js';
 import './features/default-branch-button.js';
