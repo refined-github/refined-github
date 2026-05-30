@@ -9,7 +9,7 @@ import {$, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: string): Promise<void> {
@@ -17,6 +17,19 @@ async function highlightNonDefaultBranchPrs(base: HTMLElement, baseBranch: strin
 	const isDefaultBranch = baseBranch === await getDefaultBranch();
 	if (!isDefaultBranch && !wasDefaultBranch) {
 		base.classList.add('rgh-non-default-branch');
+	}
+}
+
+async function removeBaseRepo(base: HTMLElement): Promise<void> {
+	const textNode = base.firstChild;
+	if (!(textNode instanceof Text)) {
+		throw new TypeError('Expected a text node');
+	}
+
+	const crossRepoPr = textNode.textContent.indexOf(':');
+	if (crossRepoPr > 0) {
+		textNode.splitText(crossRepoPr + 1);
+		wrap(textNode, <span className="sr-only" />);
 	}
 }
 
@@ -102,6 +115,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 	// Don't await https://github.com/refined-github/refined-github/issues/8331
 	void highlightNonDefaultBranchPrs(base, baseBranch);
+	void removeBaseRepo(base);
 
 	// Shows on PRs: main [←] feature
 	replaceFromWithArrow(base);

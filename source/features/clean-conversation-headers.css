@@ -18,9 +18,20 @@
 }
 
 .rgh-clean-conversation-headers {
-	/* Shows on PRs: [by ]octocat main ← feature */
+	/* On merged PRs: merged [by ]user */
 	&:not(.rgh-hide-author)::before {
 		content: 'by ';
+		order: -3;
+	}
+
+	/* On merged PRs: merged [by user] */
+	a[data-hovercard-type='user'] {
+		order: -2;
+	}
+
+	/* On merged PRs: merged by user [on date] */
+	relative-time {
+		order: -1;
 	}
 
 	/* Removes on PRs: [octocat] merged 1 commit into master from feature */
