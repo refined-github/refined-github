@@ -23,7 +23,7 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 
 function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
-		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names no-wrap">
+		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
 			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
