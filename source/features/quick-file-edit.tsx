@@ -13,7 +13,7 @@ import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 async function linkifyIcon(fileIcon: Element): Promise<void> {
-	const fileLink = $('a.Link--primary', closestElement('.react-directory-filename-column', fileIcon));
+	const fileLink = $('.react-directory-filename-cell a', closestElement('.react-directory-filename-column', fileIcon));
 
 	const url = new GitHubFileUrl(fileLink.href).assign({
 		route: 'edit',
