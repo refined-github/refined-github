@@ -18,7 +18,7 @@ jobs:
             const {owner, repo} = context.repo;
 
             const isAi = pr.title.startsWith('AI:')
-              || /build:typescript|Verification|Validation|Summary|Changes/.test(pr.body);
+              || /build:typescript|Verification|Validation|Summary|Changes|Testing|—/.test(pr.body);
             if (!isAi) return;
 
             await github.rest.pulls.update({
@@ -33,7 +33,7 @@ jobs:
               owner,
               repo,
               issue_number: pr.number,
-              body: "Untested AI PRs are NOT welcome here and you will get blocked. Include a screenshot/video/gif of the working PR to prove you're a human and we can reopen the PR.",
+              body: "Untested AI PRs are not welcome here. Include a screenshot/video/gif of the working PR to prove you're a human and we can reopen the PR.",
             });
 
   reminder:
