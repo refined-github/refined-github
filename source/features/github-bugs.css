@@ -297,6 +297,16 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 }
 
+/* Fix symlink files being colored as regular links in repository file lists */
+/* Info: https://github.com/refined-github/refined-github/issues/9625 */
+/* Test: https://github.com/refined-github/refined-github */
+.react-directory-filename-column:has(
+	:is(.octicon-file-symlink-directory, .octicon-file-symlink-file)
+)
+	a:not(:hover) {
+	color: var(--fgColor-default, var(--color-fg-default, fuchsia));
+}
+
 /* Fix checkmark on a deselected item disappearing with a noticeable delay */
 /* Info: https://github.com/refined-github/refined-github/issues/9348 */
 /* Test: https://github.com/refined-github/refined-github/issues/9348 */
