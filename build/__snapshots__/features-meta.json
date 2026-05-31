@@ -328,12 +328,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
 	},
 	{
-		"id": "hidden-review-comments-indicator",
-		"description": "Adds comment indicators when comments are hidden in PR review.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128043-a10eaf9e-ff81-48db-b67c-ee823804c859.gif"
-	},
-	{
 		"id": "hide-diff-signs",
 		"description": "Hides diff signs since diffs are color coded already.",
 		"css": true,
