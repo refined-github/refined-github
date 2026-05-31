@@ -52,7 +52,8 @@ export const branchSelectorParent = 'details#branch-select-menu';
 export const branchSelectorParent_ = branchSelector_;
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
-export const directoryListingFileIcon = '.react-directory-filename-column > :is(:is(svg, img).color-fg-muted, .octicon-file-symlink-file)';
+export const directoryListingFileIcon =
+	'.react-directory-filename-column > :is(:is(svg, img).color-fg-muted, .octicon-file-symlink-file)';
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
