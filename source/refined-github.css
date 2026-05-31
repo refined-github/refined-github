@@ -275,3 +275,12 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 		}
 	}
 }
+
+/* Allow comment headers to wrap on mobile */
+/* Info: https://github.com/refined-github/refined-github/issues/9623 */
+/* Test: https://github.com/refined-github/sandbox/issues/131 */
+@media (max-width: 768px) {
+	:is([data-testid='comment-header'], .timeline-comment-header) h3 {
+		max-width: 100%;
+	}
+}
