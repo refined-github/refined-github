@@ -54,8 +54,9 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	);
 }
 
-function getTooltipContainer(): Element {
-	return lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
+function attachToDocument(tooltip: HTMLElement): void {
+	lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container')
+		.append(tooltip);
 }
 
 /**
@@ -73,7 +74,7 @@ export function tooltipped(
 	// Align tooltip behavior with native
 	// https://github.com/refined-github/refined-github/pull/9668
 	queueMicrotask(() => {
-		getTooltipContainer().append(tooltip);
+		attachToDocument(tooltip);
 	});
 
 	return element;
@@ -93,7 +94,7 @@ export default function addToolTip(
 	}
 
 	const tooltip = createTooltipFor(element, content);
+	// Attach to element first just in case the global container is missing. This also "activates" the tool-tip element.
 	element.append(tooltip);
-
-	getTooltipContainer().append(tooltip);
+	attachToDocument(tooltip);
 }
