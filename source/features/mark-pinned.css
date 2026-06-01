@@ -4,8 +4,8 @@
 	&::before {
 		content: '';
 		display: block;
-		width: cal(100% + var(--inset) * 2);
-		height: cal(100% + var(--inset) * 2);
+		width: calc(100% + var(--inset) * 2);
+		height: calc(100% + var(--inset) * 2);
 		position: absolute;
 		inset: calc(var(--inset) * -1);
 		background: currentColor;
