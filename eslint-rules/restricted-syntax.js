@@ -6,10 +6,6 @@ const restrictedSyntax = {
 		selector: 'JSXAttribute[name.name="className"] > JSXExpressionContainer > BinaryExpression[operator="+"]',
 		message: 'Use `cx()` from clsx instead of string concatenation in className',
 	}],
-	'byo/clsx-import-as-cx': ['error', {
-		selector: 'ImportDeclaration[source.value="clsx"] > ImportDefaultSpecifier:not([local.name="cx"])',
-		message: "Import clsx as `cx`: `import cx from 'clsx'`",
-	}],
 	'byo/selectors-array-for-complex-strings': ['error', {
 		selector:
 			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',

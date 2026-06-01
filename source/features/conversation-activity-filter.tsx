@@ -199,7 +199,7 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={cx(menuClass, 'd-inline-block position-relative lh-condensed-ultra v-align-middle', position.offsetWidth > 0 && 'ml-2')}
+			className={cx('d-inline-block position-relative lh-condensed-ultra v-align-middle', menuClass, position.offsetWidth > 0 && 'ml-2')}
 			data-select-variant="single"
 		>
 			<focus-group direction="vertical" mnemonics retain>
