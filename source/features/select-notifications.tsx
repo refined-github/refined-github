@@ -28,7 +28,7 @@ const prIcons = [
 	'.octicon-git-pull-request-draft',
 	'.octicon-git-merge',
 ] as const;
-const issueIcons = ['.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip'] as const;
+export const issueIcons = ['.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip'] as const;
 const filters = {
 	'Pull requests': is(prIcons),
 	Issues: is(issueIcons),
