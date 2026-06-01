@@ -15,8 +15,6 @@ function setStatusFilter(link: HTMLAnchorElement, status?: string): string {
 			'is:closed',
 			'state:open',
 			'state:closed',
-			'is:draft',
-			'state:draft',
 			'is:merged',
 			'state:merged',
 			'is:unmerged',
