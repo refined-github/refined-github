@@ -5,7 +5,7 @@ import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import {setStatusFilter} from '../helpers/set-status-filter.js';
+import setStatusFilter from '../helpers/set-status-filter.js';
 import observe from '../helpers/selector-observer.js';
 
 function addMergeLink(lastLink: HTMLAnchorElement): void {

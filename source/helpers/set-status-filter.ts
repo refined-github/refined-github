@@ -1,6 +1,6 @@
 import SearchQuery from '../github-helpers/search-query.js';
 
-export function setStatusFilter(link: HTMLAnchorElement, status?: string): string {
+export default function setStatusFilter(link: HTMLAnchorElement, status?: string): string {
 	const query = SearchQuery
 		.from(link)
 		.remove(
