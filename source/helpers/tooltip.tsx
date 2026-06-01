@@ -1,11 +1,10 @@
 import './tooltip.css';
 
 import React from 'dom-chef';
-import {lastElementOptional} from 'select-dom';
+import {lastElement} from 'select-dom';
 
 import joinJsx from './join-jsx.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 
 export type TooltipOptions = {
 	label: string;
@@ -57,21 +56,6 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	);
 }
 
-let tooltipContainer: HTMLElement | undefined;
-
-function setupTooltipContainer(): void {
-	if (tooltipContainer?.isConnected) {
-		return;
-	}
-
-	tooltipContainer = lastElementOptional('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
-
-	observe('.rgh-tooltip', tooltip => {
-		tooltip.style.display = '';
-		tooltipContainer!.append(tooltip);
-	});
-}
-
 /**
 Generates a tooltip for the received element. You should use this when generating elements via JSX
 
@@ -81,9 +65,13 @@ export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
 ): Element {
-	setupTooltipContainer();
 	const tooltip = createTooltipFor(element, content);
-	element.append(tooltip);
+
+	queueMicrotask(() => {
+		const container = lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
+		container.append(tooltip)
+	});
+
 	return element;
 }
 
