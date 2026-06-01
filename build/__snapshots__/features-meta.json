@@ -479,7 +479,8 @@
 	{
 		"id": "mark-pinned",
 		"description": "Marks pinned issues in the issues list so duplicate rows are immediately recognizable.",
-		"screenshot": "https://github.com/user-attachments/assets/a4fcc92e-8524-4d57-a510-ad04c8c58a23"
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/8ca3eb03-9567-4894-ace3-98de4d453f86"
 	},
 	{
 		"id": "mark-private-orgs",
