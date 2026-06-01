@@ -63,7 +63,7 @@ function createTooltipContainer(): void {
 	if (tooltipContainer?.isConnected) {
 		return;
 	}
-	
+
 	tooltipContainer = lastElementOptional('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
 
 	observe('.rgh-tooltip', tooltip => {
