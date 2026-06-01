@@ -4,7 +4,6 @@
 	padding: 0;
 	margin-left: var(--base-size-6, 0.375rem);
 	overflow: visible;
-	/* eslint-disable-next-line css/font-family-fallbacks */
 	font-family: inherit;
 	font-size: inherit;
 	line-height: unset;

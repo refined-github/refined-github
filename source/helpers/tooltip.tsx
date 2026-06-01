@@ -2,8 +2,9 @@ import './tooltip.css';
 
 import React from 'dom-chef';
 
-import {upperCaseFirst} from '../github-helpers/index.js';
 import joinJsx from './join-jsx.js';
+import {upperCaseFirst} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 export type TooltipOptions = {
 	label: string;
@@ -39,18 +40,36 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	return (
 		<tool-tip
 			id={tooltipId}
-			className="sr-only position-absolute"
+			className="sr-only position-absolute rgh-tooltip"
 			for={element.id}
 			popover="manual"
 			data-direction={options.direction ?? 's'}
 			data-type={options.type ?? 'label'}
 			aria-hidden="true"
 			role="tooltip"
+			// Enable observer to pick it up
+			style={{display: 'inline'}}
 		>
 			{options.label}
 			{options.shortcut && renderShortcut(options.shortcut)}
 		</tool-tip>
 	);
+}
+
+let tooltipContainer: HTMLElement | undefined;
+
+function createTooltipContainer(): void {
+	if (tooltipContainer?.isConnected) {
+		return;
+	}
+	
+	tooltipContainer = document.createElement('div');
+	document.body.append(tooltipContainer);
+
+	observe('.rgh-tooltip', tooltip => {
+		tooltip.style.display = '';
+		tooltipContainer!.append(tooltip);
+	});
 }
 
 /**
@@ -62,6 +81,7 @@ export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
 ): Element {
+	createTooltipContainer();
 	const tooltip = createTooltipFor(element, content);
 	element.append(tooltip);
 	return element;
