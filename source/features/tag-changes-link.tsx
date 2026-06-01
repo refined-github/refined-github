@@ -137,7 +137,9 @@ async function init(): Promise<void> {
 			lastLink.parentElement!.after(
 				<div className={cx(
 					'rgh-changelog-link mr-4 tmp-mr-3',
-					pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0' : 'mb-2 tmp-mb-2',
+					pageDetect.isReleases()
+					? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0' 
+					: 'mb-2 tmp-mb-2',
 				)}>
 					{compareLink}
 				</div>,
