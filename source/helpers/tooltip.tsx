@@ -54,6 +54,10 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	);
 }
 
+/**
+Align tooltip behavior with native
+https://github.com/refined-github/refined-github/pull/9668
+*/
 function attachToDocument(tooltip: HTMLElement): void {
 	lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container')
 		.append(tooltip);
@@ -71,9 +75,8 @@ export function tooltipped(
 	const tooltip = createTooltipFor(element, content);
 	element.append(tooltip);
 
-	// Align tooltip behavior with native
-	// https://github.com/refined-github/refined-github/pull/9668
 	queueMicrotask(() => {
+		console.assert(element.isConnected, 'Element must be attached to the document before the tooltip');
 		attachToDocument(tooltip);
 	});
 
