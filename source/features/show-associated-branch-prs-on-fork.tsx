@@ -1,6 +1,6 @@
 import './show-associated-branch-prs-on-fork.css';
 
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';

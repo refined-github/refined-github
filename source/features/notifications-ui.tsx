@@ -1,5 +1,5 @@
 import './notifications-ui.css';
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';

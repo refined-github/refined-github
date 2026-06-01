@@ -1,6 +1,6 @@
 import './one-click-pr-or-gist.css';
 
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';

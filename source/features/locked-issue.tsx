@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import cx from 'clsx';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import React from 'react';

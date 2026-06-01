@@ -1,6 +1,6 @@
 import './tag-changes-link.css';
 
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';

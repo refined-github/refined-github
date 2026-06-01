@@ -1,4 +1,4 @@
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import XIcon from 'octicons-plain-react/X';

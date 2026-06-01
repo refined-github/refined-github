@@ -1,14 +1,14 @@
 const restrictedSyntax = {
-	'byo/use-classnames-cx': ['error', {
+	'byo/use-clsx-cx': ['error', {
 		selector: 'JSXAttribute[name.name="className"] > JSXExpressionContainer > TemplateLiteral',
-		message: 'Use `cx()` from classnames instead of template literals in className',
+		message: 'Use `cx()` from clsx instead of template literals in className',
 	}, {
 		selector: 'JSXAttribute[name.name="className"] > JSXExpressionContainer > BinaryExpression[operator="+"]',
-		message: 'Use `cx()` from classnames instead of string concatenation in className',
+		message: 'Use `cx()` from clsx instead of string concatenation in className',
 	}],
-	'byo/classnames-import-as-cx': ['error', {
-		selector: 'ImportDeclaration[source.value="classnames"] > ImportDefaultSpecifier:not([local.name="cx"])',
-		message: "Import classnames as `cx`: `import cx from 'classnames'`",
+	'byo/clsx-import-as-cx': ['error', {
+		selector: 'ImportDeclaration[source.value="clsx"] > ImportDefaultSpecifier:not([local.name="cx"])',
+		message: "Import clsx as `cx`: `import cx from 'clsx'`",
 	}],
 	'byo/selectors-array-for-complex-strings': ['error', {
 		selector:

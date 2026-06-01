@@ -1,5 +1,5 @@
 import './extensible-nav.css';
-import cx from 'classnames';
+import cx from 'clsx';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import React from 'react';

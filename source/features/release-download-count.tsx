@@ -6,7 +6,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 
 import './release-download-count.css';
 
-import cx from 'classnames';
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';

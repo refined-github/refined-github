@@ -2,7 +2,7 @@
 // We will drop the feature once that view has been gone for 6 months.
 // https://github.com/refined-github/refined-github/issues/8711
 // https://github.com/refined-github/refined-github/issues/9447
-import cx from 'classnames';
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

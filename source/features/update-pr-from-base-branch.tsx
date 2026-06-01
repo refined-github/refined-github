@@ -1,6 +1,6 @@
 import './update-pr-from-base-branch.css';
 
-import cx from 'classnames';
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
