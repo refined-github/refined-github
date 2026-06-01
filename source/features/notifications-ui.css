@@ -1,6 +1,6 @@
 /* Matches the md query, but inverted */
-@media screen and not (min-width: 768px) {
-	html:not([rgh-OFF-notifications-ui]) {
+html:not([rgh-OFF-notifications-ui]) {
+	@media screen and not (min-width: 768px) {
 		/* Place top 3 dropdown buttons in a row */
 		.js-notifications-container > h1.sr-only + .d-md-none {
 			display: flex !important;
@@ -35,6 +35,19 @@
 		/* Move search box to the bottom */
 		.notifications-query-builder-wrapper {
 			order: 10;
+		}
+	}
+
+	/* Avoid viewport overflow when new notifications are available */
+	/* Info: https://github.com/refined-github/refined-github/issues/9658 */
+	/* Test: https://github.com/notifications */
+	/* Run: wrappers = $$('[data-url^="/notifications/beta/recent_notifications_alert"]');wrappers[0].innerHTML = wrappers[1].innerHTML =`<a class="h6" href="#"><span class="d-inline-block circle color-bg-accent-emphasis" style="width: 8px; height: 8px"></span>1 new notification` */
+	@media (768px <= width < 1012px)  {
+		.notification-sort-by,
+		.notification-group-by {
+			&:has(~ .notification-recent-alerts) {
+				display: none !important;
+			}
 		}
 	}
 }

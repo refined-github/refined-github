@@ -317,16 +317,3 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 .empty-cell {
 	cursor: default !important;
 }
-
-
-/* Avoid viewport overflow when new notifications are available */
-/* Info: https://github.com/refined-github/refined-github/issues/9658 */
-/* Test: Find the HTML in the link above, inject it into https://github.com/notifications */
-@media (768px <= width < 1012px)  {
-	.notification-sort-by,
-	.notification-group-by {
-		&:has(~ .notification-recent-alerts) {
-			display: none !important;
-		}
-	}
-}
