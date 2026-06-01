@@ -64,10 +64,12 @@ export function tooltipped(
 	element: Element,
 ): Element {
 	const tooltip = createTooltipFor(element, content);
+	element.append(tooltip);
 
+	// #9668
 	queueMicrotask(() => {
 		const container = lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
-		container.append(tooltip)
+		container.append(tooltip);
 	});
 
 	return element;
