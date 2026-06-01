@@ -59,7 +59,7 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 
 let tooltipContainer: HTMLElement | undefined;
 
-function createTooltipContainer(): void {
+function setupTooltipContainer(): void {
 	if (tooltipContainer?.isConnected) {
 		return;
 	}
@@ -81,7 +81,7 @@ export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
 ): Element {
-	createTooltipContainer();
+	setupTooltipContainer();
 	const tooltip = createTooltipFor(element, content);
 	element.append(tooltip);
 	return element;
