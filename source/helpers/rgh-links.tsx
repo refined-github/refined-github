@@ -25,7 +25,7 @@ export function getFeatureRelatedIssuesQuery(id: string): string {
 	const oldNames = getOldFeatureNames(id);
 	const searchTerms = [id, ...oldNames].map(name => `"${name}"`);
 	const joinedTerms = searchTerms.length > 1 ? `(${searchTerms.join(' OR ')})` : searchTerms[0];
-	return `is:open ${joinedTerms}`;
+	return `state:open ${joinedTerms}`;
 }
 
 export function getFeatureRelatedIssuesUrl(id: string): URL {

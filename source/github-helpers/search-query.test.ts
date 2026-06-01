@@ -74,7 +74,7 @@ test('defaults', () => {
 	const link = document.createElement('a');
 	link.href = 'https://github.com/owner/repo/issues';
 	const queryFromLink = SearchQuery.from(link);
-	assert.equal(queryFromLink.get(), 'is:issue is:open');
+	assert.equal(queryFromLink.get(), 'is:issue state:open');
 });
 
 test('deduplicate is:pr/issue', () => {
@@ -95,7 +95,7 @@ test('parse label link', () => {
 	link.href = 'https://github.com/owner/repo/labels/bug';
 	const query = SearchQuery.from(link);
 
-	assert.equal(query.get(), 'is:open label:bug');
+	assert.equal(query.get(), 'state:open label:bug');
 	assert.isTrue(query.href.startsWith('https://github.com/owner/repo/issues?'));
 });
 
