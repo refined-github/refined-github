@@ -3,8 +3,8 @@ import './tooltip.css';
 import React from 'dom-chef';
 import {lastElement} from 'select-dom';
 
-import joinJsx from './join-jsx.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
+import joinJsx from './join-jsx.js';
 
 export type TooltipOptions = {
 	label: string;
@@ -40,15 +40,13 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	return (
 		<tool-tip
 			id={tooltipId}
-			className="sr-only position-absolute rgh-tooltip"
+			className="sr-only position-absolute"
 			for={element.id}
 			popover="manual"
 			data-direction={options.direction ?? 's'}
 			data-type={options.type ?? 'label'}
 			aria-hidden="true"
 			role="tooltip"
-			// Enable observer to pick it up
-			style={{display: 'inline'}}
 		>
 			{options.label}
 			{options.shortcut && renderShortcut(options.shortcut)}
