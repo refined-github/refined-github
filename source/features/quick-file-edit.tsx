@@ -3,7 +3,7 @@ import './quick-file-edit.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {$, closestElement} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
