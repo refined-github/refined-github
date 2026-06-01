@@ -62,8 +62,11 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Add class to parent in order to define "columns"
 		assetSize.parentElement!.classList.add('rgh-release-download-count', 'gap-4');
 
+		const hash = $optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!);
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest)
-		$optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!)?.classList.add('d-none');
+		hash?.classList.add('d-none');
+		// Prevent sha from being clipped
+		hash?.style.setProperty('min-width', '100px');
 
 		// Add at the beginning of the line to avoid content shift
 		assetSize.parentElement!.prepend(
