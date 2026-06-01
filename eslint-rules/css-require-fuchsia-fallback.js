@@ -5,7 +5,7 @@ const cssRequireFuchsiaFallback = {
 		schema: [],
 		messages: {
 			missingColorFallback:
-				'Color var() should include `fuchsia` or `cyan` as a fallback. https://github.com/refined-github/refined-github/pull/7804#issuecomment-2357444089',
+				'Color var() should include `fuchsia` or `cyan` as a fallback. https://github.com/refined-github/refined-github/wiki/Loud-failures',
 		},
 	},
 	create(context) {
