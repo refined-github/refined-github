@@ -42,12 +42,12 @@ html:not([rgh-OFF-notifications-ui]) {
 	/* Info: https://github.com/refined-github/refined-github/issues/9658 */
 	/* Test:
 		1. Open https://github.com/notifications
-		2. Run: wrappers = $$('[data-url^="/notifications/beta/recent_notifications_alert"]');wrappers[0].innerHTML = wrappers[1].innerHTML =`<a class="h6" href="#"><span class="d-inline-block circle color-bg-accent-emphasis" style="width: 8px; height: 8px"></span>1 new notification`
+		2. Run: wrappers = $$('[data-url^="/notifications/beta/recent_notifications_alert"]');wrappers[0].innerHTML = wrappers[1].innerHTML = '<a class="h6" href="#"><span class="d-inline-block circle color-bg-accent-emphasis" style="width: 8px; height: 8px"></span> 1 new notification'
 	*/
 	@media (768px <= width < 1012px) {
 		.notification-sort-by,
 		.notification-group-by {
-			&:has(~ .notification-recent-alerts) {
+			&:has(~ .notification-recent-alerts a) {
 				display: none !important;
 			}
 		}
