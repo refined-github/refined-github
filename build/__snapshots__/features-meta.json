@@ -393,6 +393,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png"
 	},
 	{
+		"id": "last-update-sort",
+		"description": "Changes the default sort order of issues/PRs to <code>Recently updated</code>.",
+		"screenshot": null
+	},
+	{
 		"id": "link-to-changelog-file",
 		"description": "Adds a button to view the changelog file from the releases page.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png"
@@ -900,11 +905,6 @@
 		"description": "Shows a small avatar next to the username in issue/PR lists and mentions.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png"
-	},
-	{
-		"id": "sort-conversations-by-update-time",
-		"description": "Changes the default sort order of issues/PRs to <code>Recently updated</code>.",
-		"screenshot": null
 	},
 	{
 		"id": "status-subscription",

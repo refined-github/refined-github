@@ -15,7 +15,7 @@ import addNotice from '../github-widgets/notice-bar.js';
 import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
-import {saveOriginalHref} from './sort-conversations-by-update-time.js';
+import {saveOriginalHref} from './last-update-sort.js';
 
 const commentSelector = is(
 	'.loaded .react-issue-body', // Issue description

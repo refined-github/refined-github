@@ -191,7 +191,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "sticky-comment-header") [Makes the comment header sticky when scrolling through long comments. Requires `show-names` to be enabled.](https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8)
 - [](# "conversation-authors") [Highlights issues/PRs opened by you or the current repo’s collaborators.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png)
 - [](# "align-issue-labels") [In issue/PR lists, aligns the labels to the left, below each title.](https://github.com/user-attachments/assets/dca5dc12-7283-4704-a93f-5bfe5f2b1938)
-- [](# "sort-conversations-by-update-time") 🔥 Changes the default sort order of issues/PRs to `Recently updated`.
+- [](# "last-update-sort") 🔥 Changes the default sort order of issues/PRs to `Recently updated`.
 - [](# "global-conversation-list-filters") [Adds filters for PRs _in your repos_ and _commented on by you_ in the global PR search.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png)
 - [](# "clean-conversation-sidebar") 🔥 [Hides empty sections (or just their "empty" label) in the issue/PR sidebar.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253054419-48c38c01-b1dc-42ca-9ff6-fd63392b5921.png)
 - [](# "clean-conversation-filters") [Hides `Projects` filter in issue/PR lists if it is empty.](https://github.com/user-attachments/assets/b690405f-b138-413d-9779-9467c160e802)
