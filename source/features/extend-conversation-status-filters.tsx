@@ -7,6 +7,29 @@ import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 
+function setStatusFilter(link: HTMLAnchorElement, status?: string): string {
+	const query = SearchQuery
+		.from(link)
+		.remove(
+			'is:open',
+			'is:closed',
+			'state:open',
+			'state:closed',
+			'is:draft',
+			'state:draft',
+			'is:merged',
+			'state:merged',
+			'is:unmerged',
+			'-state:merged',
+		);
+
+	if (status) {
+		query.append(status);
+	}
+
+	return query.href;
+}
+
 function addMergeLink(lastLink: HTMLAnchorElement): void {
 	// It's shouldn't be added in issues list
 	if (!pageDetect.isPRList()) {
@@ -36,7 +59,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.textContent = 'Merged';
 	mergeLink.classList.toggle('selected', isMerged);
-	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
+	mergeLink.href = setStatusFilter(mergeLink, 'state:merged');
 	lastLink.after(' ', mergeLink);
 }
 
@@ -48,19 +71,7 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 	$('.octicon', link).remove();
 	if (link.classList.contains('selected')) {
 		link.prepend(<CheckIcon />);
-		link.href = SearchQuery
-			.from(link)
-			.remove(
-				'is:open',
-				'is:closed',
-				'state:open',
-				'state:closed',
-				'is:merged',
-				'state:merged',
-				'is:unmerged',
-				'-state:merged',
-			)
-			.href;
+		link.href = setStatusFilter(link, '');
 	}
 }
 
