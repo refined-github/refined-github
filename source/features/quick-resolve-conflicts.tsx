@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CopilotIcon from 'octicons-plain-react/Copilot';
@@ -33,7 +34,7 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 				const shouldHaveTooltip = isCopilotItem || isDisabled;
 
 				let button: JSX.Element | HTMLAnchorElement = <button
-					className={`Button Button--medium Button--secondary ${isCopilotItem ? 'Button--iconOnly' : ''}`}
+					className={cx('Button Button--medium Button--secondary', isCopilotItem && 'Button--iconOnly')}
 					type="button"
 					disabled={isDisabled}
 					onClick={isCopilotItem ? insertCopilotInstruction : undefined}

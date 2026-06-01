@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PinIcon from 'octicons-plain-react/Pin';
@@ -23,7 +24,7 @@ function mark(issueLink: HTMLAnchorElement): void {
 		&& !issueLink.textContent.startsWith('📌')
 	) {
 		issueLink.prepend(
-			<PinIcon className={`${featureClass} color-fg-muted mr-1 tmp-mr-1 v-align-text-bottom`} />,
+			<PinIcon className={cx(featureClass, 'color-fg-muted mr-1 tmp-mr-1 v-align-text-bottom')} />,
 		);
 	}
 }

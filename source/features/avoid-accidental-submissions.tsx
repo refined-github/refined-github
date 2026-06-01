@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -51,7 +52,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		: 'mt-2 mb-n1';
 
 	const message = (
-		<p className={'rgh-avoid-accidental-submissions ' + spacingClasses}>
+		<p className={cx('rgh-avoid-accidental-submissions', spacingClasses)}>
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use{' '}
 			<kbd>{moduleKey}</kbd>
 			<kbd>enter</kbd>.

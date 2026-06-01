@@ -1,5 +1,6 @@
 import './tag-changes-link.css';
 
+import cx from 'classnames';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
@@ -124,7 +125,7 @@ async function init(): Promise<void> {
 				|| (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
 			) {
 				lastLink.after(
-					<li className={lastLink.className + ' rgh-changelog-link'}>
+					<li className={cx(lastLink.className, 'rgh-changelog-link')}>
 						{compareLink}
 					</li>,
 				);
@@ -134,7 +135,7 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				<div className={'rgh-changelog-link ' + (pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-4 tmp-mr-3 mr-md-0 tmp-mr-md-0' : 'mr-4 tmp-mr-3 mb-2 tmp-mb-2')}>
+				<div className={cx('rgh-changelog-link', pageDetect.isReleases() ? 'tmp-my-md-2 my-md-2 mr-4 tmp-mr-3 mr-md-0 tmp-mr-md-0' : 'mr-4 tmp-mr-3 mb-2 tmp-mb-2')}>
 					{compareLink}
 				</div>,
 			);

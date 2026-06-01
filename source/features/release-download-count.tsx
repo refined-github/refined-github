@@ -6,6 +6,7 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 
 import './release-download-count.css';
 
+import cx from 'classnames';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {abbreviateNumber} from 'js-abbreviation-number';
@@ -67,7 +68,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Add at the beginning of the line to avoid content shift
 		assetSize.parentElement!.prepend(
-			<span className={[...getClasses(assetSize)].join(' ')}>
+			<span className={cx(getClasses(assetSize))}>
 				<span
 					className="d-inline-block text-right"
 					title={`${downloadCount} downloads`}

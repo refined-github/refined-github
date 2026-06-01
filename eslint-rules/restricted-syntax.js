@@ -1,4 +1,15 @@
 const restrictedSyntax = {
+	'byo/use-classnames-cx': ['error', {
+		selector: 'JSXAttribute[name.name="className"] > JSXExpressionContainer > TemplateLiteral',
+		message: 'Use `cx()` from classnames instead of template literals in className',
+	}, {
+		selector: 'JSXAttribute[name.name="className"] > JSXExpressionContainer > BinaryExpression[operator="+"]',
+		message: 'Use `cx()` from classnames instead of string concatenation in className',
+	}],
+	'byo/classnames-import-as-cx': ['error', {
+		selector: 'ImportDeclaration[source.value="classnames"] > ImportDefaultSpecifier:not([local.name="cx"])',
+		message: "Import classnames as `cx`: `import cx from 'classnames'`",
+	}],
 	'byo/selectors-array-for-complex-strings': ['error', {
 		selector:
 			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',

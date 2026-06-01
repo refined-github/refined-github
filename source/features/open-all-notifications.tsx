@@ -1,5 +1,6 @@
 import './open-all-notifications.css';
 
+import cx from 'classnames';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -84,7 +85,7 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 		}, (
 			<button
 				type="button"
-				className={'btn btn-sm mr-2 tmp-mr-2 ' + openSelected.class}
+				className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
 				data-hotkey="p"
 			>
 				<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
@@ -104,7 +105,7 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 			{label: 'Open all unread notifications from this repo', direction: 'w'},
 			<button
 				type="button"
-				className={'btn btn-sm mr-2 tmp-mr-2 ' + openUnread.class}
+				className={cx('btn btn-sm mr-2 tmp-mr-2', openUnread.class)}
 			>
 				<LinkExternalIcon width={16} /> Open unread
 			</button>,
@@ -118,7 +119,7 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 	}
 
 	notificationHeader.append(
-		<button className={'btn btn-sm ml-auto d-none ' + openUnread.class} type="button">
+		<button className={cx('btn btn-sm ml-auto d-none', openUnread.class)} type="button">
 			<LinkExternalIcon className="mr-1 tmp-mr-1" />Open all unread
 		</button>,
 	);

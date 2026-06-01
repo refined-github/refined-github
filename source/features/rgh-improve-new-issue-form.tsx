@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -21,7 +22,7 @@ const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
 	$('[class^="CreateIssueForm-module__mainContentSection"]').prepend(
-		<div className={`flash flash-${type} h3 my-9 tmp-my-9`} style={{animation: 'pulse-in 0.3s 2'}}>
+		<div className={cx('flash', `flash-${type}`, 'h3 my-9 tmp-my-9')} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
 	);

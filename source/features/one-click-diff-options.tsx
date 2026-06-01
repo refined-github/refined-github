@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
@@ -37,7 +38,7 @@ function attachButtons(nativeDiffButtons: HTMLElement): void {
 			<a
 				href={getAlternateUrl()}
 				data-hotkey="d w"
-				className={'float-right mr-3 tmp-mr-3 btn btn-sm ' + (isHidingWhitespace() ? 'color-fg-subtle' : '')}
+				className={cx('float-right mr-3 tmp-mr-3 btn btn-sm', isHidingWhitespace() && 'color-fg-subtle')}
 			>
 				{isHidingWhitespace() && <CheckIcon />} No Whitespace
 			</a>,

@@ -1,5 +1,6 @@
 import './conversation-activity-filter.css';
 
+import cx from 'classnames';
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -171,7 +172,7 @@ function createMenuItems(): JSX.Element[] {
 				id={`item-${crypto.randomUUID()}`}
 				type="button"
 				role="menuitemradio"
-				className={'ActionListContent ' + menuItemClass}
+				className={cx('ActionListContent', menuItemClass)}
 				aria-checked={`${itemState === currentState}`}
 			>
 				<span className="ActionListItem-visual ActionListItem-action--leading">
@@ -198,9 +199,7 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	const menu = (
 		<action-menu
-			className={`${menuClass} d-inline-block position-relative lh-condensed-ultra v-align-middle ${
-				position.offsetWidth > 0 ? 'ml-2' : ''
-			}`}
+			className={cx(menuClass, 'd-inline-block position-relative lh-condensed-ultra v-align-middle', position.offsetWidth > 0 && 'ml-2')}
 			data-select-variant="single"
 		>
 			<focus-group direction="vertical" mnemonics retain>
