@@ -6,27 +6,7 @@ import {$} from 'select-dom';
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
-
-function setStatusFilter(link: HTMLAnchorElement, status?: string): string {
-	const query = SearchQuery
-		.from(link)
-		.remove(
-			'is:open',
-			'is:closed',
-			'state:open',
-			'state:closed',
-			'is:merged',
-			'state:merged',
-			'is:unmerged',
-			'-state:merged',
-		);
-
-	if (status) {
-		query.append(status);
-	}
-
-	return query.href;
-}
+import {setStatusFilter} from './extend-conversation-status-filters-helpers.js';
 
 function addMergeLink(lastLink: HTMLAnchorElement): void {
 	// It's shouldn't be added in issues list
