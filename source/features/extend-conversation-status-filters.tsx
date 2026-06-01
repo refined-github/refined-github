@@ -55,8 +55,6 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 				'is:closed',
 				'state:open',
 				'state:closed',
-				'is:draft',
-				'state:draft',
 				'is:merged',
 				'state:merged',
 				'is:unmerged',
