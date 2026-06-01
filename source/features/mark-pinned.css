@@ -1,13 +1,9 @@
 .rgh-pinned-issue-icon {
-	--inset: 30%;
 	position: relative;
 	&::before {
 		content: '';
-		display: block;
-		width: calc(100% + var(--inset) * 2);
-		height: calc(100% + var(--inset) * 2);
 		position: absolute;
-		inset: calc(var(--inset) * -1);
+		inset: -30%;
 		background: currentColor;
 		opacity: 0.2;
 		border-radius: 50%;
