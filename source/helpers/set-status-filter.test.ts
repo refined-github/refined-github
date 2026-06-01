@@ -1,6 +1,6 @@
 import {assert, test} from 'vitest';
 
-import {setStatusFilter} from './extend-conversation-status-filters-helpers.js';
+import {setStatusFilter} from './set-status-filter.js';
 
 test('setStatusFilter removes draft filters before switching status', () => {
 	const link = document.createElement('a');
