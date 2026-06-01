@@ -1,6 +1,7 @@
 import './tooltip.css';
 
 import React from 'dom-chef';
+import {lastElementOptional} from 'select-dom';
 
 import joinJsx from './join-jsx.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
@@ -63,8 +64,7 @@ function createTooltipContainer(): void {
 		return;
 	}
 	
-	tooltipContainer = document.createElement('div');
-	document.body.append(tooltipContainer);
+	tooltipContainer = lastElementOptional('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
 
 	observe('.rgh-tooltip', tooltip => {
 		tooltip.style.display = '';
