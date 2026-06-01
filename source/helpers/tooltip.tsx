@@ -54,6 +54,10 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	);
 }
 
+function getTooltipContainer(): Element {
+	return lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
+}
+
 /**
 Generates a tooltip for the received element. You should use this when generating elements via JSX
 
@@ -69,8 +73,7 @@ export function tooltipped(
 	// Align tooltip behavior with native
 	// https://github.com/refined-github/refined-github/pull/9668
 	queueMicrotask(() => {
-		const container = lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container');
-		container.append(tooltip);
+		getTooltipContainer().append(tooltip);
 	});
 
 	return element;
@@ -89,5 +92,8 @@ export default function addToolTip(
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	element.append(createTooltipFor(element, content));
+	const tooltip = createTooltipFor(element, content);
+	element.append(tooltip);
+
+	getTooltipContainer().append(tooltip);
 }
