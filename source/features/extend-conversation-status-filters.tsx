@@ -36,7 +36,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.textContent = 'Merged';
 	mergeLink.classList.toggle('selected', isMerged);
-	mergeLink.href = SearchQuery.from(mergeLink).replace('is:closed', 'is:merged').href;
+	mergeLink.href = SearchQuery.from(mergeLink).replace('state:closed', 'is:merged').href;
 	lastLink.after(' ', mergeLink);
 }
 
@@ -51,8 +51,8 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 		link.href = SearchQuery
 			.from(link)
 			.remove(
-				'is:open',
-				'is:closed',
+				'state:open',
+				'state:closed',
 				'is:merged',
 				'is:unmerged',
 			)
