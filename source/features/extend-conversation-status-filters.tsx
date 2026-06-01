@@ -59,7 +59,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.textContent = 'Merged';
 	mergeLink.classList.toggle('selected', isMerged);
-	mergeLink.href = setStatusFilter(mergeLink, 'state:merged');
+	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
 	lastLink.after(' ', mergeLink);
 }
 
