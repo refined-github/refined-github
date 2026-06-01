@@ -14,20 +14,20 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	}
 
 	const locationQuery = SearchQuery.from(location);
-	const isMerged = locationQuery.includes('is:merged');
-	const isUnmerged = locationQuery.includes('is:unmerged');
+	const isMerged = locationQuery.includes('is:merged', 'state:merged');
+	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
 
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
-	//   1 Total            // Apparently appears with is:merged/is:unmerged
+	//   1 Total            // Apparently appears with merged/unmerged filters
 	if (isMerged) {
-		// It's a "Total" link for "is:merged"
+		// It's a "Total" link for a merged filter
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
 		return;
 	}
 
 	if (isUnmerged) {
-		// It's a "Total" link for "is:unmerged"
+		// It's a "Total" link for an unmerged filter
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
 		return;
 	}
@@ -36,7 +36,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.textContent = 'Merged';
 	mergeLink.classList.toggle('selected', isMerged);
-	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'is:merged').href;
+	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
 	lastLink.after(' ', mergeLink);
 }
 
@@ -55,8 +55,12 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 				'is:closed',
 				'state:open',
 				'state:closed',
+				'is:draft',
+				'state:draft',
 				'is:merged',
+				'state:merged',
 				'is:unmerged',
+				'-state:merged',
 			)
 			.href;
 	}
