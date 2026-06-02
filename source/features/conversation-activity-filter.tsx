@@ -1,21 +1,17 @@
 import './conversation-activity-filter.css';
 
 import delegate from 'delegate-it';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
-import EyeIcon from 'octicons-plain-react/Eye';
-import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
-import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
+import {mount} from 'svelte';
 import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import delay from '../helpers/delay.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import ConversationActivityFilter from './conversation-activity-filter.svelte';
 
 const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/3686',
@@ -33,6 +29,10 @@ const states = {
 } as const;
 
 type State = keyof typeof states;
+type MenuElement = HTMLElement & {
+	onStateChange?: (state: State) => void;
+	updateState?: (state: State) => Promise<void>;
+};
 
 const SessionPageSetting = {
 	get key(): string {
@@ -48,8 +48,7 @@ const SessionPageSetting = {
 	},
 };
 
-const menuClass = 'rgh-conversation-activity-filter-menu';
-const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
+const menuClass = 'caf-menu';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
@@ -144,13 +143,8 @@ function applyState(targetState: State): void {
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
 	// Sync menu items state between two widgets
-	for (const menuItem of $$(`.${menuItemClass}`)) {
-		if (menuItem.dataset.state === targetState) {
-			menuItem.ariaChecked = 'true';
-			menuItem.focus();
-		} else {
-			menuItem.ariaChecked = 'false';
-		}
+	for (const menu of $$<MenuElement>(`.${menuClass}`)) {
+		menu.updateState?.(targetState);
 	}
 
 	currentState = targetState;
@@ -160,29 +154,8 @@ function applyState(targetState: State): void {
 async function handleSelection({target}: Event): Promise<void> {
 	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
 	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
-	applyState(state as State);
-}
-
-function createMenuItems(): JSX.Element[] {
-	return Object.entries(states).map(([itemState, label]) => (
-		<li data-targets="action-list.items" role="none" className="ActionListItem">
-			<button
-				data-state={itemState}
-				id={`item-${crypto.randomUUID()}`}
-				type="button"
-				role="menuitemradio"
-				className={'ActionListContent ' + menuItemClass}
-				aria-checked={`${itemState === currentState}`}
-			>
-				<span className="ActionListItem-visual ActionListItem-action--leading">
-					<CheckIcon className="ActionListItem-singleSelectCheckmark" />
-				</span>
-				<span className="ActionListItem-label">
-					{label}
-				</span>
-			</button>
-		</li>
-	));
+	const menu = target as MenuElement;
+	(menu.onStateChange ?? applyState)(state as State);
 }
 
 async function addWidget(anchor: Element): Promise<void> {
@@ -193,77 +166,16 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	await delay(100); // Let `clean-conversation-headers` run first
 	position.classList.add('rgh-conversation-activity-filter');
-
-	const baseId = crypto.randomUUID();
-
-	const menu = (
-		<action-menu
-			className={`${menuClass} d-inline-block position-relative lh-condensed-ultra v-align-middle ${
-				position.offsetWidth > 0 ? 'ml-2' : ''
-			}`}
-			data-select-variant="single"
-		>
-			<focus-group direction="vertical" mnemonics retain>
-				<button
-					id={`${baseId}-button`}
-					// @ts-expect-error HTML standard
-					popovertarget={`${baseId}-overlay`}
-					aria-controls={`${baseId}-list`}
-					aria-haspopup="true"
-					type="button"
-					className="Button--small Button color-fg-muted p-0 tmp-p-0"
-				>
-					<span className="Button-content">
-						<span className="Button-visual Button-leadingVisual">
-							<EyeIcon />
-							<EyeClosedIcon className="color-fg-danger" />
-						</span>
-						<span className="Button-label lh-condensed-ultra">
-							<span className="rgh-conversation-events-label v-align-text-top color-fg-danger">events</span>
-						</span>
-						<span className="Button-visual Button-trailingVisual">
-							<TriangleDownIcon />
-						</span>
-					</span>
-				</button>
-				<anchored-position
-					id={`${baseId}-overlay`}
-					data-target="action-menu.overlay"
-					anchor={`${baseId}-button`}
-					align="start"
-					side="outside-bottom"
-					anchor-offset="normal"
-					popover="auto"
-				>
-					<div className="Overlay Overlay--size-small-portrait">
-						<div className="Overlay-body Overlay-body--paddingNone">
-							<action-list>
-								<ul
-									id={`${baseId}-list`}
-									aria-labelledby={`${baseId}-button`}
-									role="menu"
-									className="ActionListWrap--inset ActionListWrap"
-								>
-									{createMenuItems()}
-								</ul>
-							</action-list>
-						</div>
-						{!isSmallDevice() && (
-							<div className="Overlay-footer Overlay-footer--divided py-2 tmp-py-2">
-								<span className="color-fg-muted">
-									Press <kbd>h</kbd> to cycle through filters,
-									<br />
-									even when the dropdown is closed
-								</span>
-							</div>
-						)}
-					</div>
-				</anchored-position>
-			</focus-group>
-		</action-menu>
-	);
-
-	position.after(menu);
+	const container = document.createElement('div');
+	mount(ConversationActivityFilter, {
+		target: container,
+		props: {
+			state: currentState,
+			withMargin: position.offsetWidth > 0,
+			onStateChange: applyState,
+		},
+	});
+	position.after(container.firstElementChild!);
 }
 
 function uncollapseTargetedComment(): void {
