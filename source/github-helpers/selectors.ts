@@ -48,9 +48,6 @@ export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/sandbox/commits'],
 ] satisfies UrlMatch[];
 
-export const branchSelectorParent = 'details#branch-select-menu';
-export const branchSelectorParent_ = branchSelector_;
-
 // .color-fg-muted selects only files; some icon extensions use `img` tags
 export const directoryListingFileIcon =
 	'.react-directory-filename-column > :is(svg, img):is(.color-fg-muted, .octicon-file-symlink-file)';

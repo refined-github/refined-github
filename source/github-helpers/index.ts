@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
-import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {$, $optional, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
 
@@ -164,10 +164,15 @@ export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement):
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 
-export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
-	const row = closestElement('.position-relative', branchSelectorParent);
-	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
-	row.append(sibling);
+export function addAfterBranchSelector(branchSelector: HTMLElement, sibling: HTMLElement): void {
+	const row = closestElementOptional('.position-relative', branchSelector);
+	if (row) {
+		row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
+		row.append(sibling);
+		return;
+	}
+
+	branchSelector.after(sibling);
 }
 
 /** Trigger a conversation update if the view is out of date */
