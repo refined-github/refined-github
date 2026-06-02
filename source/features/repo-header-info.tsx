@@ -54,21 +54,6 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		);
 	}
 
-	// GitHub may already show this icon natively, so we match its position
-	if (forked) {
-		prepareForAddition(repoLink);
-		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-		repoLink.after(
-			<a
-				href={forked.url}
-				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 p-1 tmp-p-1 Button Button--invisible"
-			>
-				<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
-			</a>,
-		);
-	}
-
 	if (stargazerCount > 1) {
 		let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
 		if (viewerHasStarred) {
@@ -89,6 +74,21 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 					? <StarFillIcon className="ml-1 tmp-ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
 					: <StarIcon className="ml-1 tmp-ml-1" width={12} height={12} />}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
+			</a>,
+		);
+	}
+
+	// GitHub may already show this icon natively, so we match its position
+	if (forked) {
+		prepareForAddition(repoLink);
+		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
+		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
+		repoLink.after(
+			<a
+				href={forked.url}
+				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 p-1 tmp-p-1 Button Button--invisible"
+			>
+				<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
 			</a>,
 		);
 	}
