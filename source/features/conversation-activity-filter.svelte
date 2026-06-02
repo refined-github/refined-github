@@ -1,12 +1,12 @@
 <script lang="ts">
 	import CheckIcon from 'octicons-plain-react/Check';
-	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import EyeIcon from 'octicons-plain-react/Eye';
+	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 
-	import {states, type State} from '../helpers/conversation-activity-filter.js';
-	import {isSmallDevice} from '../helpers/dom-utils.js';
+	import {type State, states} from '../helpers/conversation-activity-filter.js';
 	import DomChef from '../helpers/dom-chef.svelte';
+	import {isSmallDevice} from '../helpers/dom-utils.js';
 
 	type Props = {
 		state: State;
@@ -56,7 +56,8 @@
 					<DomChef as={EyeClosedIcon} class="color-fg-danger" />
 				</span>
 				<span class="Button-label lh-condensed-ultra">
-					<span class="events-label v-align-text-top color-fg-danger">events</span>
+					<span class="events-label v-align-text-top color-fg-danger"
+					>events</span>
 				</span>
 				<span class="Button-visual Button-trailingVisual">
 					<DomChef as={TriangleDownIcon} />
@@ -82,7 +83,11 @@
 							class="ActionListWrap--inset ActionListWrap"
 						>
 							{#each Object.entries(states) as [itemState, label] (itemState)}
-								<li data-targets="action-list.items" role="none" class="ActionListItem">
+								<li
+									data-targets="action-list.items"
+									role="none"
+									class="ActionListItem"
+								>
 									<button
 										data-state={itemState}
 										id={`item-${crypto.randomUUID()}`}
@@ -94,8 +99,13 @@
 											selectState(itemState as State);
 										}}
 									>
-										<span class="ActionListItem-visual ActionListItem-action--leading">
-											<DomChef as={CheckIcon} class="ActionListItem-singleSelectCheckmark" />
+										<span
+											class="ActionListItem-visual ActionListItem-action--leading"
+										>
+											<DomChef
+												as={CheckIcon}
+												class="ActionListItem-singleSelectCheckmark"
+											/>
 										</span>
 										<span class="ActionListItem-label">
 											{label}
