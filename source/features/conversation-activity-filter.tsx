@@ -44,7 +44,7 @@ const timelineItem = [
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
 type ConversationActivityFilterWidget = {
-	syncState: (state: State) => void;
+	syncStateFromParent: (state: State) => void;
 };
 const widgets = new Set<ConversationActivityFilterWidget>();
 
@@ -133,7 +133,7 @@ function applyState(targetState: State): void {
 
 	// Sync menu items state between two widgets
 	for (const widget of widgets) {
-		widget.syncState(targetState);
+		widget.syncStateFromParent(targetState);
 	}
 
 	currentState = targetState;
@@ -177,7 +177,6 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	widgets.clear();
 	signal.addEventListener('abort', () => {
 		widgets.clear();
 	}, {once: true});
