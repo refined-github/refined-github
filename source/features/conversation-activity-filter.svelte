@@ -22,7 +22,7 @@
 
 	const baseId = crypto.randomUUID();
 
-	export function setState(targetState: State): void {
+	export function syncState(targetState: State): void {
 		state = targetState;
 	}
 

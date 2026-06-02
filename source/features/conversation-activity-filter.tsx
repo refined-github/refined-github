@@ -43,10 +43,10 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
-type Widget = {
-	setState: (state: State) => void;
+type ConversationActivityFilterWidget = {
+	syncState: (state: State) => void;
 };
-const widgets = new Set<Widget>();
+const widgets = new Set<ConversationActivityFilterWidget>();
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -133,7 +133,7 @@ function applyState(targetState: State): void {
 
 	// Sync menu items state between two widgets
 	for (const widget of widgets) {
-		widget.setState(targetState);
+		widget.syncState(targetState);
 	}
 
 	currentState = targetState;
