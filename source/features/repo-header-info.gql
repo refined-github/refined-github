@@ -1,10 +1,10 @@
 query GetRepositoryInfo($owner: String!, $name: String!) {
-  repository(owner: $owner, name: $name) {
-    stargazerCount
-    isPrivate
-    viewerHasStarred
-    forked: parent {
-      url
-    }
-  }
+	repository(owner: $owner, name: $name) {
+		stargazerCount
+		isPrivate
+		viewerHasStarred
+		forked: parent {
+			url
+		}
+	}
 }
