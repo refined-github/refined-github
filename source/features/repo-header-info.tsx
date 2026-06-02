@@ -13,7 +13,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
+import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepositoryInfo from './repo-header-info.gql';
 
@@ -47,7 +47,9 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
-		repoLink.append(
+		appendBefore(
+			repoLink,
+			'.octicon-repo-forked',
 			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
