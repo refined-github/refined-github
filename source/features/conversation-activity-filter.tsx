@@ -53,6 +53,10 @@ const menuItemClass = 'rgh-conversation-activity-filter-menu-item';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
+const issueHeaderMetadataSelector = [
+	'[class^="HeaderMetadata-module__metadataContent"]',
+	'[class*="HeaderMetadata-module__smallMetadataRow"]',
+] as const;
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
@@ -263,7 +267,11 @@ async function addWidget(anchor: Element): Promise<void> {
 		</action-menu>
 	);
 
-	position.after(menu);
+	if (issueHeaderMetadataSelector.some(selector => anchor.matches(selector))) {
+		anchor.append(menu);
+	} else {
+		position.after(menu);
+	}
 }
 
 function uncollapseTargetedComment(): void {
@@ -300,8 +308,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			// Issue view
-			'[class^="HeaderMetadata-module__metadataContent"]',
-			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			...issueHeaderMetadataSelector,
 			// PR view
 			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
 			// Old PR view
