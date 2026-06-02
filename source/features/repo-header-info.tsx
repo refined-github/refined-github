@@ -78,7 +78,6 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		);
 	}
 
-	// GitHub may already show this icon natively, so we match its position
 	if (forked) {
 		prepareForAddition(repoLink);
 		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
