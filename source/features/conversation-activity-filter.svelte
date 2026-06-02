@@ -33,7 +33,7 @@
 </script>
 
 <action-menu
-	class={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	class={`d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	data-select-variant="single"
@@ -135,11 +135,3 @@
 		</anchored-position>
 	</focus-group>
 </action-menu>
-
-<style>
-	.rgh-conversation-activity-filter-menu {
-		:global(.Button) {
-			height: fit-content;
-		}
-	}
-</style>
