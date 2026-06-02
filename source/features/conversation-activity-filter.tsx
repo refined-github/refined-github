@@ -1,6 +1,5 @@
 import './conversation-activity-filter.css';
 
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {mount} from 'svelte';
 import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
@@ -8,31 +7,11 @@ import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {states, type State} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
-
-const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/3686',
-	'https://github.com/refined-github/refined-github/issues/6000',
-	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
-	'https://github.com/refined-github/refined-github/issues/8000',
-];
-
-// Keys are used as CSS selectors
-const states = {
-	showAll: 'Show all activities',
-	hideEvents: 'Hide events',
-	hideAllNoise: 'Hide events, bots, collapsed comments',
-} as const;
-
-type State = keyof typeof states;
-type MenuElement = HTMLElement & {
-	onStateChange?: (state: State) => void;
-	updateState?: (state: State) => Promise<void>;
-};
 
 const SessionPageSetting = {
 	get key(): string {
@@ -48,16 +27,26 @@ const SessionPageSetting = {
 	},
 };
 
-const menuClass = 'conversation-activity-filter-menu';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
+const minorFixesIssuePages = [
+	'https://github.com/refined-github/refined-github/issues/3686',
+	'https://github.com/refined-github/refined-github/issues/6000',
+	'https://github.com/refined-github/refined-github/issues/7000',
+	'https://github.com/refined-github/refined-github/issues/7777',
+	'https://github.com/refined-github/refined-github/issues/8000',
+];
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
+type Widget = {
+	setState: (state: State) => void;
+};
+const widgets = new Set<Widget>();
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -143,19 +132,12 @@ function applyState(targetState: State): void {
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
 	// Sync menu items state between two widgets
-	for (const menu of $$<MenuElement>(`.${menuClass}`)) {
-		void menu.updateState?.(targetState);
+	for (const widget of widgets) {
+		widget.setState(targetState);
 	}
 
 	currentState = targetState;
 	SessionPageSetting.set(targetState);
-}
-
-async function handleSelection({target}: Event): Promise<void> {
-	// Extensions can't access the event’s `detail` where the widget would normally specify which element was selected
-	const {state} = $('[aria-checked="true"]', target as HTMLElement).dataset;
-	const menu = target as MenuElement;
-	(menu.onStateChange ?? applyState)(state as State);
 }
 
 async function addWidget(anchor: Element): Promise<void> {
@@ -167,14 +149,14 @@ async function addWidget(anchor: Element): Promise<void> {
 	await delay(100); // Let `clean-conversation-headers` run first
 	position.classList.add('rgh-conversation-activity-filter');
 	const container = document.createElement('div');
-	mount(ConversationActivityFilter, {
+	widgets.add(mount(ConversationActivityFilter, {
 		target: container,
 		props: {
 			state: currentState,
 			withMargin: position.offsetWidth > 0,
 			onStateChange: applyState,
 		},
-	});
+	}));
 	position.after(container.firstElementChild!);
 }
 
@@ -195,6 +177,11 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	widgets.clear();
+	signal.addEventListener('abort', () => {
+		widgets.clear();
+	}, {once: true});
+
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
@@ -206,7 +193,6 @@ async function init(signal: AbortSignal): Promise<void> {
 		}
 
 		registerHotkey('h', switchToNextFilter, {signal});
-		delegate(`.${menuClass}`, 'itemActivated', handleSelection);
 	});
 
 	observe(

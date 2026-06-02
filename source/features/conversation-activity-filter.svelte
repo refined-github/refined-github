@@ -3,65 +3,41 @@
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import EyeIcon from 'octicons-plain-react/Eye';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-	import {$ as select, $$ as selectAll} from 'select-dom';
-	import {tick} from 'svelte';
 
+	import {states, type State} from '../helpers/conversation-activity-filter.js';
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 	import DomChef from '../helpers/dom-chef.svelte';
 
-	const states = {
-		showAll: 'Show all activities',
-		hideEvents: 'Hide events',
-		hideAllNoise: 'Hide events, bots, collapsed comments',
-	} as const;
-
-	type State = keyof typeof states;
-	type MenuElement = HTMLElement & {
-		onStateChange?: (_value: State) => void;
-		updateState?: (_value: State) => Promise<void>;
-	};
-
-	const {
-		state,
-		onStateChange,
-		withMargin = false,
-	}: {
+	type Props = {
 		state: State;
 		onStateChange: (_value: State) => void;
 		withMargin?: boolean;
-	} = $props();
+	};
+
+	let {
+		state,
+		onStateChange,
+		withMargin = false,
+	}: Props = $props();
 
 	const baseId = crypto.randomUUID();
-	let menu: MenuElement | undefined;
 
-	$effect(() => {
-		if (!menu) {
-			return;
-		}
+	export function setState(targetState: State): void {
+		state = targetState;
+	}
 
-		const element = menu;
-		element.onStateChange = onStateChange;
-		element.updateState = async targetState => {
-			for (const item of selectAll<HTMLElement>('[role="menuitemradio"]', element)) {
-				item.ariaChecked = String(item.dataset.state === targetState);
-			}
-
-			await tick();
-			select<HTMLElement>(`[data-state="${targetState}"]`, element).focus();
-		};
-
-		return () => {
-			delete element.onStateChange;
-			delete element.updateState;
-		};
-	});
+	function selectState(targetState: State): void {
+		state = targetState;
+		onStateChange(targetState);
+	}
 </script>
 
 <action-menu
-	bind:this={menu}
-	class={`conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	class={`menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
+	class:hide-events={state === 'hideEvents'}
+	class:hide-all-noise={state === 'hideAllNoise'}
 	data-select-variant="single"
 >
 	<focus-group direction="vertical" mnemonics retain>
@@ -114,6 +90,9 @@
 										role="menuitemradio"
 										class="ActionListContent"
 										aria-checked={`${itemState === state}`}
+										onclick={() => {
+											selectState(itemState as State);
+										}}
 									>
 										<span class="ActionListItem-visual ActionListItem-action--leading">
 											<DomChef as={CheckIcon} class="ActionListItem-singleSelectCheckmark" />
@@ -142,46 +121,41 @@
 </action-menu>
 
 <style>
-	.conversation-activity-filter-menu {
-		.Button {
+	.menu {
+		:global(.Button) {
 			height: fit-content;
 		}
 
-		.Button-leadingVisual {
+		:global(.Button-leadingVisual) {
 			margin-right: 0 !important;
 		}
 
-		.Button-leadingVisual :global(.octicon-eye-closed),
 		.events-label {
 			display: none;
 		}
-	}
 
-	:global([data-rgh-conversation-activity-filter='hideEvents']) {
-		.conversation-activity-filter-menu {
-			.Button-leadingVisual :global(.octicon-eye) {
+		:global(.octicon-eye-closed) {
+			display: none;
+		}
+
+		&.hide-events,
+		&.hide-all-noise {
+			:global(.octicon-eye) {
 				display: none;
 			}
 
-			.events-label,
-			.Button-leadingVisual :global(.octicon-eye-closed) {
+			:global(.octicon-eye-closed) {
 				display: inline-block;
-			}
-
-			.Button-leadingVisual {
-				margin-right: var(--control-small-gap) !important;
 			}
 		}
-	}
 
-	:global([data-rgh-conversation-activity-filter='hideAllNoise']) {
-		.conversation-activity-filter-menu {
-			.Button-leadingVisual :global(.octicon-eye) {
-				display: none;
+		&.hide-events {
+			.events-label {
+				display: inline-block;
 			}
 
-			.Button-leadingVisual :global(.octicon-eye-closed) {
-				display: inline-block;
+			:global(.Button-leadingVisual) {
+				margin-right: var(--control-small-gap) !important;
 			}
 		}
 	}
