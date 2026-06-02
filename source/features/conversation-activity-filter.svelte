@@ -48,7 +48,10 @@
 			class="Button--small Button color-fg-muted p-0 tmp-p-0"
 		>
 			<span class="Button-content">
-				<span class="Button-visual Button-leadingVisual" class:mr-0={state !== 'hideEvents'}>
+				<span
+					class="Button-visual Button-leadingVisual"
+					class:mr-0={state === 'showAll' || state === 'hideAllNoise'}
+				>
 					<DomChef as={EyeIcon} hidden={state !== 'showAll'} />
 					<DomChef
 						as={EyeClosedIcon}
