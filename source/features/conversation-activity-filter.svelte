@@ -36,8 +36,6 @@
 	class={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
-	class:hide-events={state === 'hideEvents'}
-	class:hide-all-noise={state === 'hideAllNoise'}
 	data-select-variant="single"
 >
 	<focus-group direction="vertical" mnemonics retain>
@@ -50,12 +48,16 @@
 			class="Button--small Button color-fg-muted p-0 tmp-p-0"
 		>
 			<span class="Button-content">
-				<span class="Button-visual Button-leadingVisual">
-					<DomChef as={EyeIcon} />
-					<DomChef as={EyeClosedIcon} class="color-fg-danger" />
+				<span class="Button-visual Button-leadingVisual" class:mr-0={state !== 'hideEvents'}>
+					<DomChef as={EyeIcon} hidden={state !== 'showAll'} />
+					<DomChef
+						as={EyeClosedIcon}
+						hidden={state === 'showAll'}
+						class="color-fg-danger"
+					/>
 				</span>
 				<span class="Button-label lh-condensed-ultra">
-					<span class="events-label v-align-text-top color-fg-danger"
+					<span hidden={state !== 'hideEvents'} class="v-align-text-top color-fg-danger"
 					>events</span>
 				</span>
 				<span class="Button-visual Button-trailingVisual">
@@ -133,39 +135,6 @@
 	.rgh-conversation-activity-filter-menu {
 		:global(.Button) {
 			height: fit-content;
-		}
-
-		:global(.Button-leadingVisual) {
-			margin-right: 0 !important;
-		}
-
-		.events-label {
-			display: none;
-		}
-
-		:global(.octicon-eye-closed) {
-			display: none;
-		}
-
-		&.hide-events,
-		&.hide-all-noise {
-			:global(.octicon-eye) {
-				display: none;
-			}
-
-			:global(.octicon-eye-closed) {
-				display: inline-block;
-			}
-		}
-
-		&.hide-events {
-			.events-label {
-				display: inline-block;
-			}
-
-			:global(.Button-leadingVisual) {
-				margin-right: var(--control-small-gap) !important;
-			}
 		}
 	}
 </style>
