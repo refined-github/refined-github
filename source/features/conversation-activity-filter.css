@@ -20,42 +20,6 @@
 	}
 }
 
-.rgh-conversation-activity-filter-menu {
-	.Button {
-		height: fit-content;
-	}
-	.Button-leadingVisual {
-		margin-right: 0 !important;
-	}
-
-	.octicon-eye-closed,
-	.rgh-conversation-events-label {
-		display: none;
-	}
-
-	[data-rgh-conversation-activity-filter='hideEvents'] & {
-		.octicon-eye {
-			display: none;
-		}
-		.rgh-conversation-events-label,
-		.octicon-eye-closed {
-			display: inline-block;
-		}
-		.Button-leadingVisual {
-			margin-right: var(--control-small-gap) !important;
-		}
-	}
-
-	[data-rgh-conversation-activity-filter='hideAllNoise'] & {
-		.octicon-eye {
-			display: none;
-		}
-		.octicon-eye-closed {
-			display: inline-block;
-		}
-	}
-}
-
 /* TODO [2026-08-01]: Remove */
 .gh-header-meta {
 	.rgh-conversation-activity-filter {
