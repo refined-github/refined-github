@@ -60,7 +60,9 @@
 					/>
 				</span>
 				<span class="Button-label lh-condensed-ultra">
-					<span hidden={state !== 'hideEvents'} class="v-align-text-top color-fg-danger"
+					<span
+						hidden={state !== 'hideEvents'}
+						class="v-align-text-top color-fg-danger"
 					>events</span>
 				</span>
 				<span class="Button-visual Button-trailingVisual">
