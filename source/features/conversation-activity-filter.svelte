@@ -33,7 +33,7 @@
 </script>
 
 <action-menu
-	class={`menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	class={`rgh-conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	class:hide-events={state === 'hideEvents'}
@@ -43,7 +43,6 @@
 	<focus-group direction="vertical" mnemonics retain>
 		<button
 			id={`${baseId}-button`}
-			/* @ts-expect-error HTML standard */
 			popovertarget={`${baseId}-overlay`}
 			aria-controls={`${baseId}-list`}
 			aria-haspopup="true"
@@ -131,7 +130,7 @@
 </action-menu>
 
 <style>
-	.menu {
+	.rgh-conversation-activity-filter-menu {
 		:global(.Button) {
 			height: fit-content;
 		}
