@@ -3,6 +3,7 @@
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import EyeIcon from 'octicons-plain-react/Eye';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
+	import {$ as select, $$ as selectAll} from 'select-dom';
 	import {tick} from 'svelte';
 
 	import {isSmallDevice} from '../helpers/dom-utils.js';
@@ -16,8 +17,8 @@
 
 	type State = keyof typeof states;
 	type MenuElement = HTMLElement & {
-		onStateChange?: (state: State) => void;
-		updateState?: (state: State) => Promise<void>;
+		onStateChange?: (_value: State) => void;
+		updateState?: (_value: State) => Promise<void>;
 	};
 
 	const {
@@ -26,17 +27,12 @@
 		withMargin = false,
 	}: {
 		state: State;
-		onStateChange: (state: State) => void;
+		onStateChange: (_value: State) => void;
 		withMargin?: boolean;
 	} = $props();
 
 	const baseId = crypto.randomUUID();
-	let currentState = $state(state);
 	let menu: MenuElement | undefined;
-
-	$effect(() => {
-		currentState = state;
-	});
 
 	$effect(() => {
 		if (!menu) {
@@ -46,9 +42,12 @@
 		const element = menu;
 		element.onStateChange = onStateChange;
 		element.updateState = async targetState => {
-			currentState = targetState;
+			for (const item of selectAll<HTMLElement>('[role="menuitemradio"]', element)) {
+				item.ariaChecked = String(item.dataset.state === targetState);
+			}
+
 			await tick();
-			element.querySelector<HTMLElement>(`[data-state="${targetState}"]`)?.focus();
+			select<HTMLElement>(`[data-state="${targetState}"]`, element).focus();
 		};
 
 		return () => {
@@ -60,7 +59,7 @@
 
 <action-menu
 	bind:this={menu}
-	class={`caf-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	class={`conversation-activity-filter-menu d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	data-select-variant="single"
@@ -77,8 +76,8 @@
 		>
 			<span class="Button-content">
 				<span class="Button-visual Button-leadingVisual">
-					<DomChef as={EyeIcon} class="eye" />
-					<DomChef as={EyeClosedIcon} class="eye-closed color-fg-danger" />
+					<DomChef as={EyeIcon} />
+					<DomChef as={EyeClosedIcon} class="color-fg-danger" />
 				</span>
 				<span class="Button-label lh-condensed-ultra">
 					<span class="events-label v-align-text-top color-fg-danger">events</span>
@@ -113,8 +112,8 @@
 										id={`item-${crypto.randomUUID()}`}
 										type="button"
 										role="menuitemradio"
-										class="ActionListContent item"
-										aria-checked={`${itemState === currentState}`}
+										class="ActionListContent"
+										aria-checked={`${itemState === state}`}
 									>
 										<span class="ActionListItem-visual ActionListItem-action--leading">
 											<DomChef as={CheckIcon} class="ActionListItem-singleSelectCheckmark" />
@@ -143,7 +142,7 @@
 </action-menu>
 
 <style>
-	.caf-menu {
+	.conversation-activity-filter-menu {
 		.Button {
 			height: fit-content;
 		}
@@ -152,20 +151,20 @@
 			margin-right: 0 !important;
 		}
 
-		.eye-closed,
+		.Button-leadingVisual :global(.octicon-eye-closed),
 		.events-label {
 			display: none;
 		}
 	}
 
-	[data-rgh-conversation-activity-filter='hideEvents'] {
-		.caf-menu {
-			.eye {
+	:global([data-rgh-conversation-activity-filter='hideEvents']) {
+		.conversation-activity-filter-menu {
+			.Button-leadingVisual :global(.octicon-eye) {
 				display: none;
 			}
 
 			.events-label,
-			.eye-closed {
+			.Button-leadingVisual :global(.octicon-eye-closed) {
 				display: inline-block;
 			}
 
@@ -175,13 +174,13 @@
 		}
 	}
 
-	[data-rgh-conversation-activity-filter='hideAllNoise'] {
-		.caf-menu {
-			.eye {
+	:global([data-rgh-conversation-activity-filter='hideAllNoise']) {
+		.conversation-activity-filter-menu {
+			.Button-leadingVisual :global(.octicon-eye) {
 				display: none;
 			}
 
-			.eye-closed {
+			.Button-leadingVisual :global(.octicon-eye-closed) {
 				display: inline-block;
 			}
 		}

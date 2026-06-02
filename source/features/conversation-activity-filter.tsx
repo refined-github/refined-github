@@ -48,7 +48,7 @@ const SessionPageSetting = {
 	},
 };
 
-const menuClass = 'caf-menu';
+const menuClass = 'conversation-activity-filter-menu';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
@@ -144,7 +144,7 @@ function applyState(targetState: State): void {
 
 	// Sync menu items state between two widgets
 	for (const menu of $$<MenuElement>(`.${menuClass}`)) {
-		menu.updateState?.(targetState);
+		void menu.updateState?.(targetState);
 	}
 
 	currentState = targetState;
