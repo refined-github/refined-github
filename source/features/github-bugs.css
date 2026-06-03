@@ -197,7 +197,7 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	row-gap: 2px;
 	justify-content: flex-start;
 
-	> [class*="ActivityHeader-module__narrowViewportWrapper"],
+	> [class*='ActivityHeader-module__narrowViewportWrapper'],
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
 		flex-basis: min-content;
@@ -208,7 +208,7 @@ div[class*='ActivityHeader-module__activityHeader'] {
 		}
 	}
 
-	> [class*="actionsWrapper"],
+	> [class*='actionsWrapper'],
 	> div[data-testid='comment-header-right-side-items'] {
 		flex-grow: 0;
 		flex-wrap: wrap;
