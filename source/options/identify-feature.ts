@@ -6,9 +6,8 @@ import {startFeatureIdentification} from '../helpers/bisect.js';
 const reloadPrompt = 'Reload the page to start identification. Reload now?';
 
 async function confirmAndReload(_menuInfo: unknown, tab: chrome.tabs.Tab): Promise<void> {
-	await startFeatureIdentification(new URL(tab.url!).origin);
-
 	try {
+		await startFeatureIdentification(new URL(tab.url!).origin);
 		await chrome.scripting.executeScript({
 			target: {
 				tabId: tab.id!,
