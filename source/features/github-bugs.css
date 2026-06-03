@@ -185,14 +185,19 @@ div[class^='PRIVATE_TreeView-item-visual']
 	}
 }
 
-/* Fix review thread header wrapping */
+/* Fix comment header wrapping */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
-div[class*='ActivityHeaderGridLayout'] {
+div[class*='ActivityHeaderGridLayout'],
+/* Info: https://github.com/refined-github/refined-github/issues/9623 */
+/* Test: https://github.com/refined-github/sandbox/issues/131 */
+div[class*='ActivityHeader-module__activityHeader'] {
 	display: flex;
 	flex-wrap: wrap;
 	row-gap: 2px;
+	justify-content: flex-start;
 
+	> [class*="ActivityHeader-module__narrowViewportWrapper"],
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
 		flex-basis: min-content;
@@ -203,14 +208,11 @@ div[class*='ActivityHeaderGridLayout'] {
 		}
 	}
 
+	> [class*="actionsWrapper"],
 	> div[data-testid='comment-header-right-side-items'] {
 		flex-grow: 0;
-
-		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
-			flex-wrap: wrap;
-			justify-content: flex-start;
-			margin-left: 0;
-		}
+		flex-wrap: wrap;
+		margin-left: auto;
 	}
 }
 
