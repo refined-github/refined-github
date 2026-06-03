@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
@@ -117,7 +118,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 		<div className="dropdown-divider" />,
 		<a
 			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
-			className={'dropdown-item btn-link ' + linkifiedUrlClass}
+			className={cx('dropdown-item btn-link', linkifiedUrlClass)}
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 		>
@@ -137,7 +138,7 @@ function addDropdownLinkReact({delegateTarget: delegate}: DelegateEvent): void {
 	const link = (
 		<a
 			href={buildRepoUrl(`tree/HEAD@{${timestamp}}`)}
-			className={menuItemContentWrapper.className + ' ' + linkifiedUrlClass}
+			className={cx(menuItemContentWrapper.className, linkifiedUrlClass)}
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 			aria-keyshortcuts="v"

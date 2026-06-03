@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -49,7 +50,7 @@ function add(anchor: HTMLElement): void {
 	anchor.prepend(
 		<button
 			type="button"
-			className={`rgh-open-all-conversations ${classes}`}
+			className={cx('rgh-open-all-conversations', classes)}
 		>
 			{isSelected
 				? 'Open selected'

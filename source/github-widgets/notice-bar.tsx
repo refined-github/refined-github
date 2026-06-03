@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import XIcon from 'octicons-plain-react/X';
@@ -21,7 +22,7 @@ export default async function addNotice(
 ): Promise<void> {
 	const container = await elementReady('#js-flash-container');
 	container!.append(
-		<div className={`flash flash-full flash-${type} px-4 tmp-px-3`}>
+		<div className={cx('flash flash-full', `flash-${type}`, 'px-4 tmp-px-3')}>
 			{action}
 			<div>
 				{message}

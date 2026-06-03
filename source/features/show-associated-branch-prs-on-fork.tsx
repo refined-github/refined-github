@@ -1,5 +1,6 @@
 import './show-associated-branch-prs-on-fork.css';
 
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
@@ -85,7 +86,7 @@ async function addLink(branch: HTMLElement): Promise<void> {
 				className="rgh-pr-link"
 			>
 				<StateIcon width={14} height={14} className={stateClassName} />
-				<RepoForkedIcon width={14} height={14} className={`mr-1 tmp-mr-1 ${stateClassName}`} />
+				<RepoForkedIcon width={14} height={14} className={cx('mr-1 tmp-mr-1', stateClassName)} />
 				#{prInfo.number}
 			</a>
 		</div>,

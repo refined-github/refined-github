@@ -2,6 +2,7 @@
 // We will drop the feature once that view has been gone for 6 months.
 // https://github.com/refined-github/refined-github/issues/8711
 // https://github.com/refined-github/refined-github/issues/9447
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -65,7 +66,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
 				form={formAttribute}
 				value={radio.value}
-				className={classes.join(' ')}
+				className={cx(classes)}
 				aria-label={tooltip}
 				disabled={radio.disabled}
 			>

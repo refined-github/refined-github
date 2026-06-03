@@ -1,4 +1,5 @@
 import './notifications-ui.css';
+import cx from 'clsx';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
@@ -34,7 +35,7 @@ function replaceNotificationsDropdown(dropdown: Element): void {
 
 					return (
 						<li
-							className={`SegmentedControl-item ${button.ariaChecked === 'true' ? 'SegmentedControl-item--selected' : ''}`}
+							className={cx('SegmentedControl-item', button.ariaChecked === 'true' && 'SegmentedControl-item--selected')}
 							role="listitem"
 							data-targets="segmented-control.items"
 						>

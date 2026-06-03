@@ -1,5 +1,6 @@
 import './one-click-pr-or-gist.css';
 
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';
@@ -33,7 +34,7 @@ function init(): void | false {
 			description,
 			<button
 				data-disable-invalid
-				className={classList.join(' ')}
+				className={cx(classList)}
 				type="submit"
 				name={radioButton.name}
 				value={radioButton.value}
