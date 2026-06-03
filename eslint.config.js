@@ -106,8 +106,9 @@ export default defineConfig([
 
 				'no-restricted-imports': ['error', {
 					paths: [{
-						name: 'classnames',
-						message: "Use `clsx` instead: import cx from 'clsx'",
+						name: 'clsx',
+						importNames: ['clsx'],
+						message: "Use default import: import cx from 'clsx'",
 					}],
 				}],
 
