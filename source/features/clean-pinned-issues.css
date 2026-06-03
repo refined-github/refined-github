@@ -12,6 +12,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
 			width: 100cqw; /* Restore original width */
+
 			/* Avoid overflow https://github.com/refined-github/refined-github/issues/9683 */
 			word-break: break-word;
 
