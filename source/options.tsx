@@ -23,7 +23,7 @@ const {version} = chrome.runtime.getManifest();
 
 async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
-	await startFeatureIdentification();
+	await startFeatureIdentification(location.origin);
 
 	this.disabled = true;
 	setTimeout(() => {

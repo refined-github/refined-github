@@ -1,9 +1,9 @@
 import webextAlert from 'webext-alert';
-import createContextMenu from 'webext-tools/create-context-menu.js';
 
 import {startFeatureIdentification} from '../helpers/bisect.js';
 
 const reloadPrompt = 'Reload the page to start identification. Reload now?';
+const menuId = 'identify-feature';
 
 async function confirmAndReload(_menuInfo: unknown, tab: chrome.tabs.Tab): Promise<void> {
 	if (!tab.id || !tab.url) {
@@ -32,10 +32,20 @@ async function confirmAndReload(_menuInfo: unknown, tab: chrome.tabs.Tab): Promi
 }
 
 export default function addIdentifyFeatureContextMenu(): void {
-	void createContextMenu({
-		id: 'identify-feature',
+	chrome.contextMenus.onClicked.addListener((info, tab) => {
+		if (info.menuItemId === menuId) {
+			void confirmAndReload(info, tab);
+		}
+	});
+
+	void chrome.contextMenus.update(menuId, {
 		title: 'Identify feature…',
 		contexts: ['action'],
-		onclick: confirmAndReload,
-	});
+	}).catch(() => {});
+
+	void chrome.contextMenus.create({
+		id: menuId,
+		title: 'Identify feature…',
+		contexts: ['action'],
+	}).catch(() => {});
 }
