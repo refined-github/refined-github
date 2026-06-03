@@ -31,3 +31,13 @@ test('setStatusFilter replaces merged and unmerged filters with a new state filt
 		'https://github.com/refined-github/refined-github/pulls?q=is%3Apr+label%3Abug+state%3Aopen+',
 	);
 });
+
+test('setStatusFilter replaces the legacy unmerged alias with a modern state filter', () => {
+	const link = document.createElement('a');
+	link.href = 'https://github.com/refined-github/refined-github/pulls?q=is:pr+is:unmerged+label:bug';
+
+	assert.equal(
+		setStatusFilter(link, 'state:closed'),
+		'https://github.com/refined-github/refined-github/pulls?q=is%3Apr+label%3Abug+state%3Aclosed+',
+	);
+});
