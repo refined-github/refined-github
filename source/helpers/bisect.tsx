@@ -11,10 +11,7 @@ import {getFeatureUrl} from './rgh-links.js';
 export const state = new CachedValue<FeatureId[]>('bisect', {maxAge: {minutes: 15}});
 
 export async function startFeatureIdentification(origin?: string): Promise<void> {
-	const options = await (origin
-		? perDomainOptions.getOptionsForOrigin(origin)
-		: perDomainOptions.getOptionsForOrigin()
-	).getAll();
+	const options = await perDomainOptions.getOptionsForOrigin(origin).getAll();
 	const enabledFeatures = importedFeatures.filter(featureId => options[`feature:${featureId}`]);
 	await state.set(enabledFeatures);
 }
