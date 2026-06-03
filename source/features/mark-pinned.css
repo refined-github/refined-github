@@ -1,0 +1,11 @@
+.rgh-pinned-issue-icon {
+	position: relative;
+	&::before {
+		content: '';
+		position: absolute;
+		inset: -30%;
+		background: currentColor;
+		opacity: 0.2;
+		border-radius: 50%;
+	}
+}

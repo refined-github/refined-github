@@ -275,3 +275,12 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 		}
 	}
 }
+
+/* Make collapsed diffs more visually distinct */
+/* Info: https://github.com/refined-github/refined-github/issues/7338 */
+/* Test: https://github.com/refined-github/refined-github/pull/7212/changes */
+/* Test: https://github.com/refined-github/refined-github/pull/7212/changes/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
+/* Test: https://github.com/refined-github/refined-github/commit/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
+[class*='HiddenDiffPatch-module__gridColumnTemplate'] {
+	margin-block: 6em;
+}
