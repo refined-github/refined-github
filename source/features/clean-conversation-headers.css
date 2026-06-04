@@ -58,7 +58,7 @@
 }
 
 /* Hide the state labels on small screens */
-@media (max-width: 700px) {
+@media (max-width: 500px) {
 	[data-testid='issue-metadata-sticky'],
 	[class*='StickyPullRequestHeader'] {
 		/* Open/Closed/Merged */
