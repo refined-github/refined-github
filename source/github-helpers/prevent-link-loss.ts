@@ -15,7 +15,7 @@ export const prCommitUrlRegex = new RegExp(
 	'gi',
 );
 
-const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fR-]+)/;
+const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fLR-]+)/;
 export const prCompareUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + prComparePathnameRegex.source,
 	'gi',
