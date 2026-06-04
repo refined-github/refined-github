@@ -7,8 +7,7 @@ import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
-import {importedFeatures} from './feature-data.js';
-import {state as bisectState} from './helpers/bisect.js';
+import {startFeatureIdentification} from './helpers/bisect.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
@@ -24,9 +23,7 @@ const {version} = chrome.runtime.getManifest();
 
 async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
-	const options = await perDomainOptions.getOptionsForOrigin().getAll();
-	const enabledFeatures = importedFeatures.filter(featureId => options['feature:' + featureId]);
-	await bisectState.set(enabledFeatures);
+	await startFeatureIdentification();
 
 	this.disabled = true;
 	setTimeout(() => {

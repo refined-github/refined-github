@@ -12,6 +12,7 @@ import {styleHotfixes} from './helpers/hotfix.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
 import optionsStorage, {hasToken} from './options-storage.js';
+import addIdentifyFeatureContextMenu from './options/identify-feature.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
 
 const {version} = chrome.runtime.getManifest();
@@ -25,6 +26,7 @@ if (!isSafari()) {
 
 // Add "Reload without content scripts" functionality
 addReloadWithoutContentScripts();
+addIdentifyFeatureContextMenu();
 
 // Extend the error message for the "No All URLs" bugfix
 customizeNoAllUrlsErrorMessage(

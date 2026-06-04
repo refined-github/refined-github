@@ -60,7 +60,7 @@
 		"webext-alert": "^1.1.0",
 		"webext-base-css": "^2.1.0",
 		"webext-bugs": "^2.0.1",
-		"webext-content-scripts": "^2.7.3",
+		"webext-content-scripts": "^2.8.0",
 		"webext-detect": "^5.3.1",
 		"webext-dynamic-content-scripts": "^10.0.4",
 		"webext-msg": "^1.0.0",
@@ -69,7 +69,7 @@
 		"webext-permission-toggle": "^6.0.1",
 		"webext-storage": "^3.1.0",
 		"webext-storage-cache": "^6.0.3",
-		"webext-tools": "^4.0.1",
+		"webext-tools": "^4.0.2",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
