@@ -285,11 +285,11 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 	margin-block: 6em;
 }
 
-
 /* Collapse Issue|PR|Repo buttons in headers for clarity */
 /* Info: https://github.com/refined-github/refined-github/issues/9674 */
 /* Test: https://github.com */
-div[data-testid="top-nav-right"] div.hide-sm.hide-md:has( > a > svg.octicon-repo) {
+div[data-testid='top-nav-right']
+	div.hide-sm.hide-md:has(> a > svg.octicon-repo) {
 	gap: 0;
 	a {
 		width: 2.1em;
