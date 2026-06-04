@@ -107,6 +107,7 @@ Test content:
 
 ```
 https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85
+https://github.com/refined-github/refined-github/pull/6954/changes/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85..5d28ba424368606c7b241840cf4386f23ce66ec3
 ```
 
 Test URLs:

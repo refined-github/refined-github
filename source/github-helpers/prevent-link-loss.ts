@@ -9,7 +9,7 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 
 const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
 const prCommitPathnameRegex =
-	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:#[\w-]+)?\b/;
+	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:[.]{2}([\da-f]{7})[\da-f]{33})?(?:#[\w-]+)?\b/;
 export const prCommitUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + prCommitPathnameRegex.source,
 	'gi',
@@ -33,6 +33,7 @@ export function preventPrCommitLinkLoss(
 	repoNameWithOwner: string,
 	pr: string,
 	commit: string,
+	commit2: string | undefined,
 	index: number,
 	fullText: string,
 ): string {
@@ -42,7 +43,8 @@ export function preventPrCommitLinkLoss(
 
 	const currentPr = getConversationNumber();
 	const prReference = currentPr && Number(pr) === currentPr ? '(this PR)' : `(#${pr})`;
-	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commit}\` ${prReference}](${url})`;
+	const commitReference = commit2 ? `${commit}..${commit2}` : commit;
+	return `[${getRepoReference(getRepo(), repoNameWithOwner, '@')}\`${commitReference}\` ${prReference}](${url})`;
 }
 
 // To be used as replacer callback in string.replace() for compare links
