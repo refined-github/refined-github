@@ -212,6 +212,7 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	> div[data-testid='comment-header-right-side-items'] {
 		flex-grow: 0;
 		flex-wrap: wrap;
+		flex-basis: max-content;
 		margin-left: auto;
 	}
 }
