@@ -135,6 +135,12 @@ test('preventPrCompareLinkLoss', () => {
 	);
 	assert.equal(
 		replacePrCompareLink(
+			'lorem ipsum dolor https://github.com/refined-github/refined-github/compare/26.5.24...26.6.1#diff-31bc308e7c7d86220613f3cbc05182706b71911a5d654362c32ea919622764d2L14-L15 some random string',
+		),
+		'lorem ipsum dolor [`26.5.24...26.6.1`#diff-31bc308e7c](https://github.com/refined-github/refined-github/compare/26.5.24...26.6.1#diff-31bc308e7c7d86220613f3cbc05182706b71911a5d654362c32ea919622764d2L14-L15) some random string',
+	);
+	assert.equal(
+		replacePrCompareLink(
 			'lorem ipsum dolor https://github.com/refined-github/refined-github/compare/main...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9 some random string',
 		),
 		'lorem ipsum dolor [`main...incremental-tag-changelog-link`#diff-5b3cf6bcc7](https://github.com/refined-github/refined-github/compare/main...incremental-tag-changelog-link#diff-5b3cf6bcc7c5b1373313553dc6f93a5eR7-R9) some random string',
