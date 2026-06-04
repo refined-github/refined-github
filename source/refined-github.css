@@ -284,3 +284,26 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 [class*='HiddenDiffPatch-module__gridColumnTemplate'] {
 	margin-block: 6em;
 }
+
+
+/* Collapse Issue|PR|Repo buttons in headers for clarity */
+/* Info: https://github.com/refined-github/refined-github/issues/9674 */
+/* Test: https://github.com */
+div[data-testid="top-nav-right"] div.hide-sm.hide-md:has( > a > svg.octicon-repo) {
+	gap: 0;
+	a {
+		width: 2.1em;
+	}
+	a:nth-of-type(1) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	a:nth-of-type(2) {
+		border-radius: 0;
+		border-inline: none;
+	}
+	a:nth-of-type(3) {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}
