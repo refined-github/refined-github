@@ -33,7 +33,7 @@ function addLock(stateLabel: HTMLElement): void {
 	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
 
 	container.parentElement!.style.height = 'auto';
-	container.parentElement!.classList.add('d-flex', 'gap-2', 'flex-wrap');
+	container.parentElement!.classList.add('d-flex', 'gap-2');
 	container.after(<LockedIndicator />);
 }
 
