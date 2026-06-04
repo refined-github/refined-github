@@ -7,7 +7,12 @@ import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {states, type State} from '../helpers/conversation-activity-filter.js';
+import {
+	inlineWidgetAnchorSelector,
+	shouldAppendWidgetToAnchor,
+	states,
+	type State,
+} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -157,7 +162,11 @@ async function addWidget(anchor: Element): Promise<void> {
 			onStateChange: applyState,
 		},
 	}));
-	position.after(container.firstElementChild!);
+	if (shouldAppendWidgetToAnchor(position)) {
+		position.append(container.firstElementChild!);
+	} else {
+		position.after(container.firstElementChild!);
+	}
 }
 
 function uncollapseTargetedComment(): void {
@@ -197,8 +206,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			// Issue view
-			'[class^="HeaderMetadata-module__metadataContent"]',
-			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			...inlineWidgetAnchorSelector,
 			// PR view
 			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
 			// Old PR view

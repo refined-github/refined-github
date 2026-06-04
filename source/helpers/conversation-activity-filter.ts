@@ -5,3 +5,12 @@ export const states = {
 } as const;
 
 export type State = keyof typeof states;
+
+export const inlineWidgetAnchorSelector = [
+	'[class^="HeaderMetadata-module__metadataContent"]',
+	'[class*="HeaderMetadata-module__smallMetadataRow"]',
+] as const;
+
+export function shouldAppendWidgetToAnchor(anchor: Element): boolean {
+	return anchor.matches(inlineWidgetAnchorSelector.join(','));
+}
