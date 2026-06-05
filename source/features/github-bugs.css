@@ -221,6 +221,7 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	> [class*='actionsWrapper'],
 	> div[data-testid='comment-header-right-side-items'] {
 		flex-wrap: wrap;
+		flex-grow: 0;
 		flex-basis: max-content;
 		margin-left: auto;
 	}
