@@ -197,7 +197,17 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	row-gap: 2px;
 	justify-content: flex-start;
 
-	> [class*='ActivityHeader-module__narrowViewportWrapper'],
+	[class*='authorLoginLink'] {
+		/* Override native `everywhere` value with causes the username to wrap before triggering `flex-wrap` */
+		/* https://github.com/refined-github/refined-github/pull/9682#issuecomment-4628292635 */
+		overflow-wrap: break-word;
+	}
+
+	/* Issue body */
+	div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
+	/* Issue comment */
+	div[class*='CommentHeaderContentContainer'],
+	/* Review comment (?) */
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
 		flex-basis: min-content;
@@ -210,7 +220,6 @@ div[class*='ActivityHeader-module__activityHeader'] {
 
 	> [class*='actionsWrapper'],
 	> div[data-testid='comment-header-right-side-items'] {
-		flex-grow: 0;
 		flex-wrap: wrap;
 		flex-basis: max-content;
 		margin-left: auto;
