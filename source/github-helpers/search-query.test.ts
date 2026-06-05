@@ -44,8 +44,8 @@ test('.replace', () => {
 });
 
 test('.remove', () => {
-	const query = SearchQuery.from({q: 'is:issue dog is:open'});
-	query.remove('is:issue', 'is:open');
+	const query = SearchQuery.from({q: 'is:issue dog state:open'});
+	query.remove('is:issue', 'state:open');
 	assert.equal(query.get(), 'dog');
 });
 
@@ -173,8 +173,8 @@ test('queries with special URL characters', () => {
 });
 
 test('queries with multiple negation patterns', () => {
-	const query = SearchQuery.from({q: 'is:pr -is:draft -is:merged -label:WIP'});
-	assert.deepEqual(query.getQueryParts(), ['is:pr', '-is:draft', '-is:merged', '-label:WIP']);
+	const query = SearchQuery.from({q: 'is:pr state:draft -state:merged -label:WIP'});
+	assert.deepEqual(query.getQueryParts(), ['is:pr', 'state:draft', '-state:merged', '-label:WIP']);
 });
 
 test('queries with modern state aliases', () => {
