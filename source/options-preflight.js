@@ -1,12 +1,7 @@
 function appendError(error) {
-	const message = error && String(error);
-	if (!message) {
-		return;
-	}
-
-	const paragraph = globalThis.document.createElement('p');
-	paragraph.textContent = message;
-	globalThis.document.body.append(paragraph);
+	const paragraph = document.createElement('p');
+	paragraph.textContent = error;
+	document.body.append(paragraph);
 }
 
 globalThis.addEventListener('error', event => {
