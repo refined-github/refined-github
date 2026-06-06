@@ -8,6 +8,7 @@ import {$, closestElement, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
+import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
@@ -39,7 +40,7 @@ function prefixUserMention(userMention: string): string {
 }
 
 function mentionUser({delegateTarget: button}: DelegateEvent): void {
-	const userMention = button.parentElement!.querySelector('img')!.alt;
+	const userMention = getCommentAuthor(button);
 	const newComment = $(fieldSelector);
 	newComment.focus();
 
@@ -55,7 +56,7 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 }
 
 function addButton(avatar: HTMLElement): void {
-	const userMention = $('img', avatar).alt;
+	const userMention = getCommentAuthor(avatar);
 	avatar.after(
 		tooltipped(
 			{
