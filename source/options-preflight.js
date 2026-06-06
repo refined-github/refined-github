@@ -7,7 +7,7 @@ function getErrorMessage(error) {
 		return error.message;
 	}
 
-	if (error != null) {
+	if (error !== undefined && error !== null) {
 		return String(error);
 	}
 }
