@@ -2,6 +2,14 @@
 	display: none;
 }
 
+#js-failed {
+	max-width: var(--content-width);
+	margin: auto;
+	padding: 1em var(--viewport-margin);
+	opacity: 0%;
+	animation: show-js-failed 0s 1.5s forwards;
+}
+
 :root {
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
@@ -32,6 +40,12 @@ html::after {
 @media (prefers-color-scheme: dark) {
 	:root {
 		--rgh-red: #f85149;
+	}
+}
+
+@keyframes show-js-failed {
+	to {
+		opacity: 100%;
 	}
 }
 
