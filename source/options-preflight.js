@@ -1,21 +1,5 @@
-function getErrorMessage(error) {
-	if (typeof error === 'string') {
-		return error;
-	}
-
-	if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
-		return error.message;
-	}
-
-	if (error !== undefined && error !== null) {
-		return String(error);
-	}
-
-	return undefined;
-}
-
 function appendError(error) {
-	const message = getErrorMessage(error);
+	const message = error && String(error);
 	if (!message) {
 		return;
 	}

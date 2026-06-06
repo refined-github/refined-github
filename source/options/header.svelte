@@ -3,7 +3,7 @@
 		tag: 'rgh-header',
 		props: {
 			title: {type: 'String', attribute: 'title'},
-			hideVersion: {type: 'Boolean', attribute: 'hide-version'},
+			withVersion: {type: 'Boolean', attribute: 'with-version'},
 		},
 	}}
 />
@@ -11,8 +11,8 @@
 <script lang="ts">
 	const {
 		title,
-		hideVersion = false,
-	}: {title: string; hideVersion?: boolean} = $props();
+		withVersion = false,
+	}: {title: string; withVersion?: boolean} = $props();
 	const {version} = chrome.runtime.getManifest();
 </script>
 
@@ -21,7 +21,7 @@
 		<h1>
 			<img src="icon.png" alt="" height="32" />
 			{title}
-			{#if !hideVersion}
+			{#if withVersion}
 				<small>v{version}</small>
 			{/if}
 		</h1>

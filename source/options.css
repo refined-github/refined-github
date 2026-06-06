@@ -6,8 +6,7 @@
 	max-width: var(--content-width);
 	margin: auto;
 	padding: 1em var(--viewport-margin);
-	opacity: 0%;
-	animation: show-js-failed 0s 1.5s forwards;
+	animation: fade-in 0s 1.5s backwards;
 }
 
 :root {
@@ -43,9 +42,9 @@ html::after {
 	}
 }
 
-@keyframes show-js-failed {
-	to {
-		opacity: 100%;
+@keyframes fade-in {
+	from {
+		opacity: 0;
 	}
 }
 

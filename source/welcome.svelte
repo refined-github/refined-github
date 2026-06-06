@@ -74,7 +74,7 @@
 </script>
 
 <main class:dimmed={stepValid === 3}>
-	<rgh-header title="Welcome to Refined GitHub" hide-version></rgh-header>
+	<rgh-header title="Welcome to Refined GitHub"></rgh-header>
 
 	<div class="content">
 		<ul>
