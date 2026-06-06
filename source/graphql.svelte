@@ -52,7 +52,7 @@
 </script>
 
 <main>
-	<rgh-header title="GraphQL tester" with-version></rgh-header>
+	<rgh-header title="GraphQL tester"></rgh-header>
 
 	<form onsubmit={runQuery}>
 		<label for="query">Query</label>
