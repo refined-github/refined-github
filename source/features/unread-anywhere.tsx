@@ -118,6 +118,10 @@ void features.add(import.meta.url, {
 
 		// Can't work on gists due to CORS: https://github.com/refined-github/refined-github/issues/8641
 		pageDetect.isGist,
+
+		// Avoid double notification indicator on profile pages
+		// https://github.com/refined-github/refined-github/issues/9695
+		pageDetect.isUserProfile,
 	],
 	init: onetime(initOnce),
 });
