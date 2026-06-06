@@ -10,6 +10,8 @@ function getErrorMessage(error) {
 	if (error !== undefined && error !== null) {
 		return String(error);
 	}
+
+	return undefined;
 }
 
 function appendError(error) {
