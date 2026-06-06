@@ -273,6 +273,14 @@ export default defineConfig([
 				},
 			},
 		},
+		{
+			files: ['source/options-preflight.js'],
+			languageOptions: {
+				globals: {
+					document: 'readonly',
+				},
+			},
+		},
 		// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files
 		{
 			ignores: ['safari'],
