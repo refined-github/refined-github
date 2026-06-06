@@ -190,6 +190,7 @@ div[class^='PRIVATE_TreeView-item-visual']
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'],
 /* Info: https://github.com/refined-github/refined-github/issues/9623 */
+/* Test: https://github.com/refined-github/sandbox/issues/151 */
 /* Test: https://github.com/refined-github/sandbox/issues/131 */
 div[class*='ActivityHeader-module__activityHeader'] {
 	display: flex;
