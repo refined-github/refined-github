@@ -1008,6 +1008,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253063446-6f556e7d-2ac5-439d-92f0-0c6d719fc86f.gif"
 	},
 	{
+		"id": "top-commits-pagination",
+		"description": "<a href=\"undefined\">Duplicates the pagination at the top of the commits list page.</a>()",
+		"screenshot": null
+	},
+	{
 		"id": "unclip-checks",
 		"description": "Automatically shows all checks without scrolling when expanding the checks panel.",
 		"css": true,

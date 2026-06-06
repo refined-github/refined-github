@@ -1,3 +1,4 @@
+import {$optional} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -10,11 +11,11 @@ function addPagination(pagination: HTMLElement): void {
 	}
 
 	// Avoid duplicating if already added
-	if (container.querySelector('.rgh-top-commits-pagination')) {
+	if ($optional('.rgh-top-commits-pagination', container)) {
 		return;
 	}
 
-	const clone = pagination.cloneNode(true) as HTMLElement;
+	const clone = pagination.cloneNode(true);
 	clone.classList.remove('mt-4', 'mt-5');
 	clone.classList.add('mb-4', 'rgh-top-commits-pagination');
 
@@ -37,3 +38,12 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+https://github.com/surge-synthesizer/surge/commits/main/
+https://github.com/refined-github/refined-github/commits/main
+
+*/

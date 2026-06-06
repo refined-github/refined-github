@@ -49,6 +49,7 @@ const noScreenshotExceptions = new Set([
 	'readable-title-change-events',
 	'sticky-csv-header',
 	'sticky-file-header',
+	'top-commits-pagination',
 ]);
 
 const entryPoint = 'source/refined-github.ts';
