@@ -190,6 +190,7 @@ div[class^='PRIVATE_TreeView-item-visual']
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'],
 /* Info: https://github.com/refined-github/refined-github/issues/9623 */
+/* Test: https://github.com/refined-github/sandbox/issues/151 */
 /* Test: https://github.com/refined-github/sandbox/issues/131 */
 div[class*='ActivityHeader-module__activityHeader'] {
 	display: flex;
@@ -197,15 +198,34 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	row-gap: 2px;
 	justify-content: flex-start;
 
-	> [class*='ActivityHeader-module__narrowViewportWrapper'],
+	/* Issue body */
+	div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
+	/* Issue comment */
+	div[class*='CommentHeaderContentContainer'],
+	/* Review comment (?) */
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
-		flex-basis: min-content;
+
+		/* Don't wrap inside until there's enough space */
+		flex-basis: max-content;
+
+		/* "Enough space" must always allow to *not* wrap below the avatar */
+		max-width: calc(100% - 32px);
 
 		a[class^='ActivityHeader-module__AuthorName'] {
 			overflow-wrap: break-word;
 			max-width: 100%;
 		}
+	}
+
+	/* Issue body */
+	[class*='IssueBodyHeader-module__titleSection'],
+	/* Issue comment */
+	[class*='ActivityHeader-module__TitleContainer'],
+	/* Hidden issue comment */
+	[class*='CommentHeaderContentContainer'] {
+		flex-wrap: wrap;
+		column-gap: 4px; /* `show-names` spacing */
 	}
 
 	> [class*='actionsWrapper'],
@@ -214,6 +234,15 @@ div[class*='ActivityHeader-module__activityHeader'] {
 		flex-wrap: wrap;
 		flex-basis: max-content;
 		margin-left: auto;
+	}
+
+	/* Limit length of "Edited by" username to avoid overflow */
+	[class*='MarkdownLastEditedBy-module__editorLogin'] {
+		max-width: 100px;
+		display: inline-block;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		vertical-align: bottom;
 	}
 }
 
