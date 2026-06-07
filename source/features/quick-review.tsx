@@ -76,6 +76,9 @@ function preloadPrFilesTab(): void {
 }
 
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
+	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
+	await delay(300);
+
 	const quickReview = (
 		<span className="text-normal color-fg-muted">
 			{'– '}
@@ -98,8 +101,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 		</span>
 	);
 
-	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
-	await delay(300);
 	reviewersSection.append(quickReview);
 
 	// Can't approve own PRs and closed PRs

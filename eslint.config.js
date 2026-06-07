@@ -104,6 +104,14 @@ export default defineConfig([
 				'n/prefer-global/process': 'off',
 				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
 
+				'no-restricted-imports': ['error', {
+					paths: [{
+						name: 'clsx',
+						importNames: ['clsx'],
+						message: "Use default import: import cx from 'clsx'",
+					}],
+				}],
+
 				// Import-x rules customization
 				'import-x/consistent-type-specifier-style': 'off',
 				'import-x/prefer-default-export': 'error',

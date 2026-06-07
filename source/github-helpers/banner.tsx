@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import React from 'dom-chef';
 import type {RequireAllOrNone} from 'type-fest';
 
@@ -32,7 +33,7 @@ export default function createBanner(props: BannerProps): JSX.Element {
 	}
 
 	return (
-		<div className={['flash', ...props.classes ?? ''].join(' ')}>
+		<div className={cx('flash', props.classes)}>
 			<div className="d-sm-flex flex-items-center gap-2">
 				<div className="d-flex flex-auto flex-self-center flex-items-center gap-2">
 					{props.icon}

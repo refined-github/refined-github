@@ -1,6 +1,7 @@
 import './tooltip.css';
 
 import React from 'dom-chef';
+import {lastElement} from 'select-dom';
 
 import {upperCaseFirst} from '../github-helpers/index.js';
 import joinJsx from './join-jsx.js';
@@ -54,6 +55,15 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 }
 
 /**
+Align tooltip behavior with native
+https://github.com/refined-github/refined-github/pull/9668
+*/
+function attachToDocument(tooltip: HTMLElement): void {
+	lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container')
+		.append(tooltip);
+}
+
+/**
 Generates a tooltip for the received element. You should use this when generating elements via JSX
 
 @example return <div>{tooltipped('Does something', <button type="button">...</button>)}</div>;
@@ -64,6 +74,12 @@ export function tooltipped(
 ): Element {
 	const tooltip = createTooltipFor(element, content);
 	element.append(tooltip);
+
+	queueMicrotask(() => {
+		console.assert(element.isConnected, 'Element must be attached to the document before the tooltip');
+		attachToDocument(tooltip);
+	});
+
 	return element;
 }
 
@@ -80,5 +96,8 @@ export default function addToolTip(
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	element.append(createTooltipFor(element, content));
+	const tooltip = createTooltipFor(element, content);
+	// Attach to element first just in case the global container is missing. This also "activates" the tool-tip element.
+	element.append(tooltip);
+	attachToDocument(tooltip);
 }

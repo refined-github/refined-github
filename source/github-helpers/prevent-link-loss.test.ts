@@ -90,6 +90,29 @@ test('preventPrCommitLinkLoss', () => {
 		),
 		'[refined-github/shorten-repo-url@`3d8d1cc` (#33)](https://github.com/refined-github/shorten-repo-url/pull/33/commits/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658)',
 	);
+	assert.equal(
+		replacePrCommitLink(
+			'https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb',
+		),
+		'[refined-github/shorten-repo-url@`3d8d1cc..cb44a4e` (#33)](https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
+		'It should handle two-dot diff (range) links',
+	);
+	assert.equal(
+		replacePrCommitLink(
+			replacePrCommitLink(
+				'https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb',
+			),
+		),
+		'[refined-github/shorten-repo-url@`3d8d1cc..cb44a4e` (#33)](https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
+		'It should not apply diff (range) links twice',
+	);
+	assert.equal(
+		replacePrCommitLink(
+			'I like [turtles](https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
+		),
+		'I like [turtles](https://github.com/refined-github/shorten-repo-url/pull/33/changes/3d8d1cc8d784c7d92788a8a21e2c30cf87be3658..cb44a4eb8cd5c66def3dc26dca0f386645fa29bb)',
+		'It should ignore Markdown diff (range) links',
+	);
 
 	// Test "this PR" behavior when on same PR
 	location.href = 'https://github.com/refined-github/refined-github/pull/3205';
@@ -106,6 +129,13 @@ test('preventPrCommitLinkLoss', () => {
 		),
 		'lorem ipsum dolor [`b0ac079` (this PR)](https://github.com/refined-github/refined-github/pull/3205/commits/b0ac07948f9d30a760bda25a7106011441abfd5d#r438059292) some random string',
 		'It should use "this PR" when on the same PR with hash',
+	);
+	assert.equal(
+		replacePrCommitLink(
+			'https://github.com/refined-github/refined-github/pull/3205/changes/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5..b0ac07948f9d30a760bda25a7106011441abfd5d',
+		),
+		'[`1da152b..b0ac079` (this PR)](https://github.com/refined-github/refined-github/pull/3205/changes/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5..b0ac07948f9d30a760bda25a7106011441abfd5d)',
+		'It should use "this PR" for diff (range) links on the same PR',
 	);
 
 	// When on PR 3205, a link to PR 44 should still show #44
@@ -132,6 +162,12 @@ test('preventPrCompareLinkLoss', () => {
 			'https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191',
 		),
 		'[sindresorhus/got@`v11.5.2...v11.6.0`#diff-6be2971b2b](https://github.com/sindresorhus/got/compare/v11.5.2...v11.6.0#diff-6be2971b2bb8dbf48d15ff680dd898b0R191)',
+	);
+	assert.equal(
+		replacePrCompareLink(
+			'lorem ipsum dolor https://github.com/refined-github/refined-github/compare/26.5.24...26.6.1#diff-31bc308e7c7d86220613f3cbc05182706b71911a5d654362c32ea919622764d2L14-L15 some random string',
+		),
+		'lorem ipsum dolor [`26.5.24...26.6.1`#diff-31bc308e7c](https://github.com/refined-github/refined-github/compare/26.5.24...26.6.1#diff-31bc308e7c7d86220613f3cbc05182706b71911a5d654362c32ea919622764d2L14-L15) some random string',
 	);
 	assert.equal(
 		replacePrCompareLink(

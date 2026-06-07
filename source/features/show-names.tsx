@@ -31,8 +31,6 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 
 	if (
 		element.matches([
-			'[data-testid="avatar-link"]', // Commment on React-based views
-			'[data-testid="issue-body-header-author"]',
 			'.feed-item-content *',
 			// PR event:
 			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292

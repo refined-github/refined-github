@@ -1,5 +1,6 @@
 import './update-pr-from-base-branch.css';
 
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -87,7 +88,7 @@ function createButtonGroup(): JSX.Element {
 					{tooltipped(
 						label.tooltipLabel,
 						<button
-							className={`Button--secondary Button--medium Button ${feature.class}`}
+							className={cx('Button--secondary Button--medium Button', feature.class)}
 							data-method={method}
 							type="button"
 						>

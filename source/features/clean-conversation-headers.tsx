@@ -80,12 +80,13 @@ async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
 }
 
 function replaceFromWithArrow(base: HTMLElement): void {
-	const anchor = base.nextElementSibling!.nextElementSibling!;
+	const anchor = base.nextElementSibling!.nextElementSibling as HTMLElement;
 	assertNodeContent(anchor, 'from');
-	anchor.replaceWith(
-		<span className="rgh-arrow">
-			<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1" />
-		</span>,
+	// Don't remove element, GitHub requires it to change the base
+	// https://github.com/refined-github/refined-github/issues/9688
+	anchor.hidden = true;
+	anchor.after(
+		<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1 rgh-arrow" />,
 	);
 }
 

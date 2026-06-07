@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -81,7 +82,7 @@ function append(container: HTMLElement): void {
 		divider,
 		<button
 			type="button"
-			className={classes.join(' ')}
+			className={cx(classes)}
 			aria-label="Add collapsible content"
 			data-targets="action-bar.items" // Enables automatic hiding when it doesn't fit
 		>

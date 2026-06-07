@@ -13,6 +13,9 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			display: table !important;
 			width: 100cqw; /* Restore original width */
 
+			/* Avoid overflow https://github.com/refined-github/refined-github/issues/9683 */
+			word-break: break-word;
+
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
 			border-collapse: collapse;

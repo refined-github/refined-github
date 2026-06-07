@@ -1,4 +1,5 @@
 import './extensible-nav.css';
+import cx from 'clsx';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import React from 'react';
@@ -55,7 +56,7 @@ function generateTab(item: HTMLAnchorElement): JSX.Element {
 
 	return (
 		<li key={item.href}>
-			<a href={item.href} className={'UnderlineNav-item ' + selectedClass}>
+			<a href={item.href} className={cx('UnderlineNav-item', selectedClass)}>
 				{icon}
 				{label}
 				{counter && (

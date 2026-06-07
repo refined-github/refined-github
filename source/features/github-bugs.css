@@ -185,17 +185,32 @@ div[class^='PRIVATE_TreeView-item-visual']
 	}
 }
 
-/* Fix review thread header wrapping */
+/* Fix comment header wrapping */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
-div[class*='ActivityHeaderGridLayout'] {
+div[class*='ActivityHeaderGridLayout'],
+/* Info: https://github.com/refined-github/refined-github/issues/9623 */
+/* Test: https://github.com/refined-github/sandbox/issues/151 */
+/* Test: https://github.com/refined-github/sandbox/issues/131 */
+div[class*='ActivityHeader-module__activityHeader'] {
 	display: flex;
 	flex-wrap: wrap;
 	row-gap: 2px;
+	justify-content: flex-start;
 
+	/* Issue body */
+	div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
+	/* Issue comment */
+	div[class*='CommentHeaderContentContainer'],
+	/* Review comment (?) */
 	> div[data-testid='comment-header-left-side-items'] {
 		flex-grow: 1;
-		flex-basis: min-content;
+
+		/* Don't wrap inside until there's enough space */
+		flex-basis: max-content;
+
+		/* "Enough space" must always allow to *not* wrap below the avatar */
+		max-width: calc(100% - 32px);
 
 		a[class^='ActivityHeader-module__AuthorName'] {
 			overflow-wrap: break-word;
@@ -203,14 +218,31 @@ div[class*='ActivityHeaderGridLayout'] {
 		}
 	}
 
+	/* Issue body */
+	[class*='IssueBodyHeader-module__titleSection'],
+	/* Issue comment */
+	[class*='ActivityHeader-module__TitleContainer'],
+	/* Hidden issue comment */
+	[class*='CommentHeaderContentContainer'] {
+		flex-wrap: wrap;
+		column-gap: 4px; /* `show-names` spacing */
+	}
+
+	> [class*='actionsWrapper'],
 	> div[data-testid='comment-header-right-side-items'] {
 		flex-grow: 0;
+		flex-wrap: wrap;
+		flex-basis: max-content;
+		margin-left: auto;
+	}
 
-		div[class^='ActivityHeader-module__BadgesGroupContainer'] {
-			flex-wrap: wrap;
-			justify-content: flex-start;
-			margin-left: 0;
-		}
+	/* Limit length of "Edited by" username to avoid overflow */
+	[class*='MarkdownLastEditedBy-module__editorLogin'] {
+		max-width: 100px;
+		display: inline-block;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		vertical-align: bottom;
 	}
 }
 

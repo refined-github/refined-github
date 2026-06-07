@@ -4,10 +4,17 @@ import {$$, $optional} from 'select-dom';
 import {CachedValue} from 'webext-storage-cache';
 
 import {importedFeatures} from '../feature-data.js';
+import {perDomainOptions} from '../options-storage.js';
 import pluralize from './pluralize.js';
 import {getFeatureUrl} from './rgh-links.js';
 
 export const state = new CachedValue<FeatureId[]>('bisect', {maxAge: {minutes: 15}});
+
+export async function startFeatureIdentification(origin?: string): Promise<void> {
+	const options = await perDomainOptions.getOptionsForOrigin(origin).getAll();
+	const enabledFeatures = importedFeatures.filter(featureId => options[`feature:${featureId}`]);
+	await state.set(enabledFeatures);
+}
 
 function enableButtons(): void {
 	for (const button of $$('#rgh-bisect-dialog [aria-disabled]')) {
