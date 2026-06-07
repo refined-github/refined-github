@@ -7,11 +7,10 @@ import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
 import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
-import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -25,33 +24,25 @@ type RepositoryInfo = {
 	ciCommit?: string;
 };
 
-const repositoryInfo = new CachedFunction('stargazer-count', {
-	async updater(): Promise<RepositoryInfo> {
-		const {repository} = await api.v4(GetRepositoryInfo);
+async function getRepositoryInfo(): Promise<RepositoryInfo> {
+	const {repository} = await api.v4(GetRepositoryInfo);
 
-		let ciCommit: string | undefined;
-		if (!repository.isEmpty && repository.defaultBranchRef) {
-			// Check earlier commits just in case the last one is CI-generated and doesn't have checks
-			for (const commit of repository.defaultBranchRef.target.history.nodes) {
-				if (commit.statusCheckRollup) {
-					ciCommit = commit.oid;
-					break;
-				}
+	let ciCommit: string | undefined;
+	if (!repository.isEmpty && repository.defaultBranchRef) {
+		// Check earlier commits just in case the last one is CI-generated and doesn't have checks
+		for (const commit of repository.defaultBranchRef.target.history.nodes) {
+			if (commit.statusCheckRollup) {
+				ciCommit = commit.oid;
+				break;
 			}
 		}
+	}
 
-		return {
-			forked: repository.forked,
-			isPrivate: repository.isPrivate,
-			stargazerCount: repository.stargazerCount,
-			viewerHasStarred: repository.viewerHasStarred,
-			ciCommit,
-		};
-	},
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 3},
-	cacheKey: cacheByRepo,
-});
+	return {
+		...repository,
+		ciCommit,
+	};
+}
 
 function prepareForAddition(element: HTMLElement): void {
 	if (!element.classList.contains('AppHeader-context-item')) {
@@ -86,7 +77,7 @@ function addStars(repoLink: HTMLElement, stargazerCount: number, viewerHasStarre
 		<a
 			href={buildRepoUrl('stargazers')}
 			title={tooltip}
-			// Hide in small viewports, matches `ci-link`
+			// Hide in small viewports
 			className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
 		>
 			{viewerHasStarred
@@ -125,7 +116,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 
 	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
 	anchor.parentElement!.append(
-		// Hide in small viewports, matches `repo-header-info`
+		// Hide in small viewports
 		<span
 			className="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 			title="CI status of latest commit"
@@ -145,7 +136,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 }
 
 async function add(repoLink: HTMLElement): Promise<void> {
-	const info = await repositoryInfo.get();
+	const info = await getRepositoryInfo();
 
 	repoLink.classList.add('rgh-repo-header-info-updated');
 
