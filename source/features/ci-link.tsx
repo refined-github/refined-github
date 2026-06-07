@@ -40,7 +40,7 @@ async function add(anchor: HTMLElement): Promise<void> {
 	anchor.parentElement!.append(
 		// Hide in small viewports, matches `repo-header-info`
 		<span
-			className="rgh-ci-link ml-1 tmp-ml-1 d-none d-sm-flex flex-items-center flex-justify-center"
+			className="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 			title="CI status of latest commit"
 		>
 			<batch-deferred-content hidden data-url={endpoint}>

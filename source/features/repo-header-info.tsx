@@ -67,12 +67,12 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 				href={buildRepoUrl('stargazers')}
 				title={tooltip}
 				// Hide in small viewports, matches `ci-link`
-				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 gap-1 color-fg-muted"
+				className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
 			>
 				{viewerHasStarred
 					// Use `color` because `fill` is overridden with `currentColor`
-					? <StarFillIcon className="ml-1 tmp-ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
-					: <StarIcon className="ml-1 tmp-ml-1" width={12} height={12} />}
+					? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
+					: <StarIcon width={12} height={12} />}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
 			</a>,
 		);
@@ -85,7 +85,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 		repoLink.after(
 			<a
 				href={forked.url}
-				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 p-1 tmp-p-1 Button Button--invisible"
+				className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 			>
 				<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
 			</a>,
