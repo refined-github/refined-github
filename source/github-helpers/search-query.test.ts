@@ -44,8 +44,8 @@ test('.replace', () => {
 });
 
 test('.remove', () => {
-	const query = SearchQuery.from({q: 'is:issue dog is:open'});
-	query.remove('is:issue', 'is:open');
+	const query = SearchQuery.from({q: 'is:issue dog state:open'});
+	query.remove('is:issue', 'state:open');
 	assert.equal(query.get(), 'dog');
 });
 
@@ -74,7 +74,7 @@ test('defaults', () => {
 	const link = document.createElement('a');
 	link.href = 'https://github.com/owner/repo/issues';
 	const queryFromLink = SearchQuery.from(link);
-	assert.equal(queryFromLink.get(), 'is:issue is:open');
+	assert.equal(queryFromLink.get(), 'is:issue state:open');
 });
 
 test('deduplicate is:pr/issue', () => {
@@ -95,13 +95,13 @@ test('parse label link', () => {
 	link.href = 'https://github.com/owner/repo/labels/bug';
 	const query = SearchQuery.from(link);
 
-	assert.equal(query.get(), 'is:open label:bug');
+	assert.equal(query.get(), 'state:open label:bug');
 	assert.isTrue(query.href.startsWith('https://github.com/owner/repo/issues?'));
 });
 
 test('complex queries with multiple conditions', () => {
-	const query = SearchQuery.from({q: 'is:issue is:open label:bug author:user milestone:"Q1 2023"'});
-	assert.deepEqual(query.getQueryParts(), ['is:issue', 'is:open', 'label:bug', 'author:user', 'milestone:"Q1 2023"']);
+	const query = SearchQuery.from({q: 'is:issue state:open label:bug author:user milestone:"Q1 2023"'});
+	assert.deepEqual(query.getQueryParts(), ['is:issue', 'state:open', 'label:bug', 'author:user', 'milestone:"Q1 2023"']);
 });
 
 test('queries with special characters in quoted values', () => {
@@ -173,8 +173,13 @@ test('queries with special URL characters', () => {
 });
 
 test('queries with multiple negation patterns', () => {
-	const query = SearchQuery.from({q: 'is:pr -is:draft -is:merged -label:WIP'});
-	assert.deepEqual(query.getQueryParts(), ['is:pr', '-is:draft', '-is:merged', '-label:WIP']);
+	const query = SearchQuery.from({q: 'is:pr state:draft -state:merged -label:WIP'});
+	assert.deepEqual(query.getQueryParts(), ['is:pr', 'state:draft', '-state:merged', '-label:WIP']);
+});
+
+test('queries with modern state aliases', () => {
+	const query = SearchQuery.from({q: 'is:pr state:draft state:merged -state:merged'});
+	assert.deepEqual(query.getQueryParts(), ['is:pr', 'state:draft', 'state:merged', '-state:merged']);
 });
 
 test('queries with multiple key-value pairs having the same key', () => {
@@ -206,8 +211,8 @@ test('queries with unicode characters', () => {
 });
 
 test('queries with multiple parenthesized groups', () => {
-	const query = SearchQuery.from({q: '(is:issue) (is:open) (label:bug) (author:user)'});
-	assert.deepEqual(query.getQueryParts(), ['(is:issue)', '(is:open)', '(label:bug)', '(author:user)']);
+	const query = SearchQuery.from({q: '(is:issue) (state:open) (label:bug) (author:user)'});
+	assert.deepEqual(query.getQueryParts(), ['(is:issue)', '(state:open)', '(label:bug)', '(author:user)']);
 });
 
 test('queries with multiple quoted strings', () => {
@@ -222,24 +227,24 @@ test('queries with URL-encoded characters', () => {
 
 test('href always has a trailing space', () => {
 	// GitHub issue list search boxes need a trailing space so users can immediately type a new term
-	const query = SearchQuery.from({q: 'is:issue is:open'});
+	const query = SearchQuery.from({q: 'is:issue state:open'});
 	assert.isTrue(query.href.endsWith('+'));
 });
 
 test('href always has a trailing space after prepend', () => {
-	const query = SearchQuery.from({q: 'cool is:issue is:open'});
+	const query = SearchQuery.from({q: 'cool is:issue state:open'});
 	query.prepend('sort:updated-desc');
 	assert.isTrue(query.href.endsWith('+'));
 });
 
 test('multiple leading spaces are dropped from get()', () => {
-	const query = SearchQuery.from({q: '   is:issue is:open'});
-	assert.equal(query.get(), 'is:issue is:open');
+	const query = SearchQuery.from({q: '   is:issue state:open'});
+	assert.equal(query.get(), 'is:issue state:open');
 });
 
 test('multiple trailing spaces are dropped from get()', () => {
-	const query = SearchQuery.from({q: 'is:issue is:open   '});
-	assert.equal(query.get(), 'is:issue is:open');
+	const query = SearchQuery.from({q: 'is:issue state:open   '});
+	assert.equal(query.get(), 'is:issue state:open');
 });
 
 test('multiple spaces between terms are collapsed in get()', () => {
