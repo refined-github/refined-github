@@ -7,6 +7,7 @@
 	margin: auto;
 	padding: 1em var(--viewport-margin);
 	animation: fade-in 0s 1.5s backwards;
+	white-space: pre-line;
 }
 
 :root {
