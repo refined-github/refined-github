@@ -49,7 +49,6 @@ export default defineConfig([
 				'unicorn/expiring-todo-comments': ['warn', {
 					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
 					allowWarningComments: false,
-					ignoreDates: false,
 				}],
 
 				// Disable some unicorn rules
