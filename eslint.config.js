@@ -37,8 +37,8 @@ export default defineConfig([
 			},
 			languageOptions: {
 				globals: {
-					browser: 'readonly',
-					document: 'readonly',
+					...globals.browser,
+					...globals.webextensions,
 				},
 			},
 			rules: {
@@ -49,6 +49,7 @@ export default defineConfig([
 				'unicorn/expiring-todo-comments': ['warn', {
 					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
 					allowWarningComments: false,
+					ignoreDates: false,
 				}],
 
 				// Disable some unicorn rules
@@ -264,16 +265,6 @@ export default defineConfig([
 				'import-x/no-anonymous-default-export': 'off',
 			},
 		},
-		// Test files need browser globals
-		{
-			files: ['test/**/*.js'],
-			languageOptions: {
-				globals: {
-					document: 'readonly',
-					location: 'readonly',
-				},
-			},
-		},
 		// https://eslint.org/docs/latest/use/configure/ignore#ignoring-files
 		{
 			ignores: ['safari'],
@@ -304,11 +295,6 @@ export default defineConfig([
 		languageOptions: {
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
-			},
-			globals: {
-				...globals.browser,
-				chrome: 'readonly',
-				location: 'readonly',
 			},
 		},
 
