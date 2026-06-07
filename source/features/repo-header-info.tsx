@@ -1,3 +1,4 @@
+import './ci-link.css';
 import './repo-header-info.css';
 
 import React from 'dom-chef';
@@ -6,7 +7,7 @@ import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
-import {$, closestElement, elementExists} from 'select-dom';
+import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -22,6 +23,17 @@ type RepositoryInfo = {
 	isPrivate: boolean;
 	stargazerCount: number;
 	viewerHasStarred: boolean;
+	isEmpty: boolean;
+	defaultBranchRef?: {
+		target: {
+			history: {
+				nodes: Array<{
+					oid: string;
+					statusCheckRollup: {state: string} | null;
+				}>;
+			};
+		};
+	};
 };
 
 const repositoryInfo = new CachedFunction('stargazer-count', {
@@ -34,17 +46,13 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 	cacheKey: cacheByRepo,
 });
 
-function prepareForAddition(repoLink: HTMLAnchorElement): void {
-	if (!repoLink.classList.contains('AppHeader-context-item')) {
-		closestElement('li', repoLink).classList.add('d-flex');
+function prepareForAddition(element: HTMLElement): void {
+	if (!element.classList.contains('AppHeader-context-item')) {
+		closestElement('li', element).classList.add('d-flex');
 	}
 }
 
-async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {forked, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
-
-	repoLink.classList.add('rgh-repo-header-info-updated');
-
+function markPrivate(repoLink: HTMLElement, isPrivate: boolean): void {
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		appendBefore(
@@ -53,52 +61,116 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
+}
 
-	if (stargazerCount > 1) {
-		let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
-		if (viewerHasStarred) {
-			tooltip += ', including you';
+function addStars(repoLink: HTMLElement, stargazerCount: number, viewerHasStarred: boolean): void {
+	if (stargazerCount <= 1) {
+		return;
+	}
+
+	let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
+	if (viewerHasStarred) {
+		tooltip += ', including you';
+	}
+
+	prepareForAddition(repoLink);
+
+	repoLink.after(
+		<a
+			href={buildRepoUrl('stargazers')}
+			title={tooltip}
+			// Hide in small viewports, matches `ci-link`
+			className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
+		>
+			{viewerHasStarred
+				// Use `color` because `fill` is overridden with `currentColor`
+				? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
+				: <StarIcon width={12} height={12} />}
+			<span className="f5">{abbreviateNumber(stargazerCount)}</span>
+		</a>,
+	);
+}
+
+function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
+	if (!forked) {
+		return;
+	}
+
+	prepareForAddition(repoLink);
+	// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
+	$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
+	repoLink.after(
+		<a
+			href={forked.url}
+			className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+		>
+			<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
+		</a>,
+	);
+}
+
+function addCiStatus(anchor: HTMLElement, {isEmpty, defaultBranchRef}: RepositoryInfo): void {
+	if (isEmpty || !defaultBranchRef) {
+		return;
+	}
+
+	// Check earlier commits just in case the last one is CI-generated and doesn't have checks
+	let commit: string | undefined;
+	for (const node of defaultBranchRef.target.history.nodes) {
+		if (node.statusCheckRollup) {
+			commit = node.oid;
+			break;
 		}
-
-		prepareForAddition(repoLink);
-
-		repoLink.after(
-			<a
-				href={buildRepoUrl('stargazers')}
-				title={tooltip}
-				// Hide in small viewports, matches `ci-link`
-				className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
-			>
-				{viewerHasStarred
-					// Use `color` because `fill` is overridden with `currentColor`
-					? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
-					: <StarIcon width={12} height={12} />}
-				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
-			</a>,
-		);
 	}
 
-	if (forked) {
-		prepareForAddition(repoLink);
-		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-		repoLink.after(
-			<a
-				href={forked.url}
-				className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
-			>
-				<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
-			</a>,
-		);
+	if (!commit) {
+		return;
 	}
+
+	prepareForAddition(anchor);
+
+	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
+	anchor.parentElement!.append(
+		// Hide in small viewports, matches `repo-header-info`
+		<span
+			className="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+			title="CI status of latest commit"
+		>
+			<batch-deferred-content hidden data-url={endpoint}>
+				<input
+					name="oid"
+					value={commit}
+					data-targets="batch-deferred-content.inputs"
+				/>
+			</batch-deferred-content>
+		</span>,
+	);
+
+	// A parent is clipping the popup
+	closestElementOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
+}
+
+async function add(repoLink: HTMLElement): Promise<void> {
+	const info = await repositoryInfo.get();
+
+	repoLink.classList.add('rgh-repo-header-info-updated');
+
+	markPrivate(repoLink, info.isPrivate);
+	addStars(repoLink, info.stargazerCount, info.viewerHasStarred);
+	markForked(repoLink, info.forked);
+	addCiStatus(repoLink, info);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
 			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			// TODO [2026-06-01]: Drop
-			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item',
+			// TODO [2026-08-01]: Remove
+			// Desktop
+			'.AppHeader-context-item:not([data-hovercard-type])',
+
+			// Mobile. `> *:first-child` avoids finding our own element
+			'.AppHeader-context-compact-mainItem > span:first-child',
 		],
 		add,
 		{signal},
@@ -125,5 +197,6 @@ Test URLs
 - Fork: https://github.com/134130/refined-github
 - Private: https://github.com/refined-github/private
 - Private fork: https://github.com/refined-github/private-fork
-
+- CI: https://github.com/refined-github/refined-github
+- No CI: https://github.com/fregante/.github
 */
