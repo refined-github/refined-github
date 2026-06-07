@@ -15,7 +15,7 @@ import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
-const shouldHideCount = debounce(() => pageDetect.isReleasesOrTags() || pageDetect.isSingleReleaseOrTag(), {
+const shouldShowCount = debounce(() => pageDetect.isIssue() || pageDetect.isPR(), {
 	wait: 100,
 	before: true,
 	after: false,
@@ -40,6 +40,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		// - <a>
 		// - <code> > <a>
 		possibleLink.href = href;
+		possibleLink.title = '';
 		possibleLink.classList.add('color-fg-accent');
 		if (title) {
 			possibleLink.title = title;
@@ -64,7 +65,7 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (anchorElement && !shouldHideCount()) {
+	if (anchorElement && shouldShowCount()) {
 		const sup = <sup />;
 		anchorElement.after(sup);
 		mount(RelatedIssuesCount, {
