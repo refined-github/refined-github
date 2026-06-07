@@ -1,4 +1,3 @@
-import './ci-link.css';
 import './repo-header-info.css';
 
 import React from 'dom-chef';
@@ -23,23 +22,31 @@ type RepositoryInfo = {
 	isPrivate: boolean;
 	stargazerCount: number;
 	viewerHasStarred: boolean;
-	isEmpty: boolean;
-	defaultBranchRef?: {
-		target: {
-			history: {
-				nodes: Array<{
-					oid: string;
-					statusCheckRollup: {state: string} | null;
-				}>;
-			};
-		};
-	};
+	ciCommit?: string;
 };
 
 const repositoryInfo = new CachedFunction('stargazer-count', {
 	async updater(): Promise<RepositoryInfo> {
 		const {repository} = await api.v4(GetRepositoryInfo);
-		return repository;
+
+		let ciCommit: string | undefined;
+		if (!repository.isEmpty && repository.defaultBranchRef) {
+			// Check earlier commits just in case the last one is CI-generated and doesn't have checks
+			for (const commit of repository.defaultBranchRef.target.history.nodes) {
+				if (commit.statusCheckRollup) {
+					ciCommit = commit.oid;
+					break;
+				}
+			}
+		}
+
+		return {
+			forked: repository.forked,
+			isPrivate: repository.isPrivate,
+			stargazerCount: repository.stargazerCount,
+			viewerHasStarred: repository.viewerHasStarred,
+			ciCommit,
+		};
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 3},
@@ -109,21 +116,8 @@ function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
 	);
 }
 
-function addCiStatus(anchor: HTMLElement, {isEmpty, defaultBranchRef}: RepositoryInfo): void {
-	if (isEmpty || !defaultBranchRef) {
-		return;
-	}
-
-	// Check earlier commits just in case the last one is CI-generated and doesn't have checks
-	let commit: string | undefined;
-	for (const node of defaultBranchRef.target.history.nodes) {
-		if (node.statusCheckRollup) {
-			commit = node.oid;
-			break;
-		}
-	}
-
-	if (!commit) {
+function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
+	if (!ciCommit) {
 		return;
 	}
 
@@ -139,7 +133,7 @@ function addCiStatus(anchor: HTMLElement, {isEmpty, defaultBranchRef}: Repositor
 			<batch-deferred-content hidden data-url={endpoint}>
 				<input
 					name="oid"
-					value={commit}
+					value={ciCommit}
 					data-targets="batch-deferred-content.inputs"
 				/>
 			</batch-deferred-content>
@@ -158,7 +152,7 @@ async function add(repoLink: HTMLElement): Promise<void> {
 	markPrivate(repoLink, info.isPrivate);
 	addStars(repoLink, info.stargazerCount, info.viewerHasStarred);
 	markForked(repoLink, info.forked);
-	addCiStatus(repoLink, info);
+	addCiStatus(repoLink, info.ciCommit);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

@@ -48,8 +48,7 @@
 	},
 	{
 		"id": "ci-link",
-		"description": "Adds a build/CI status icon next to the repo’s name.",
-		"css": true,
+		"description": "Adds a build/CI status icon next to the repo's name.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png"
 	},
 	{
