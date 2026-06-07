@@ -1,8 +1,10 @@
 query GetRepositoryInfo($owner: String!, $name: String!) {
 	repository(owner: $owner, name: $name) {
 		stargazerCount
-		isFork
 		isPrivate
 		viewerHasStarred
+		forked: parent {
+			url
+		}
 	}
 }

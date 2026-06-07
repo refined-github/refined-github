@@ -15,7 +15,7 @@ const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {
 		const {search} = await api.v4(GetPRs, {
 			variables: {
-				query: `is:pr is:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,
+				query: `is:pr state:open archived:false repo:${forkedRepo} author:${getLoggedInUser()!}`,
 			},
 		});
 
@@ -50,7 +50,7 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	}
 
 	const url = new URL(`/${forkedRepo}/pulls`, location.origin);
-	url.searchParams.set('q', 'is:pr is:open author:@me');
+	url.searchParams.set('q', 'is:pr state:open author:@me');
 	return [count, url.href];
 }
 

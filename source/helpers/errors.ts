@@ -63,7 +63,7 @@ export function logError(error: Error): void {
 	}
 
 	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue is:open label:bug ${id ?? message}`);
+	searchIssueUrl.searchParams.set('q', `is:issue state:open label:bug ${id ?? message}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');

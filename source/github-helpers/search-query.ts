@@ -64,17 +64,17 @@ export default class SearchQuery {
 		// Parse label links #5176
 		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
 		if (labelName) {
-			this.queryParts = ['is:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
+			this.queryParts = ['state:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
 			return;
 		}
 
 		// Query-less URLs imply some queries.
 		// When we explicitly set ?q=* they're overridden, so they need to be manually added again.
 
-		// Repo example: is:issue is:open
-		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'is:open');
+		// Repo example: is:issue state:open
+		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'state:open');
 
-		// Header nav example: is:open is:issue author:you archived:false
+		// Header nav example: state:open is:issue author:you archived:false
 		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
 			if (this.url.searchParams.has('user')) { // #1211
 				this.queryParts.push('user:' + this.url.searchParams.get('user')!);

@@ -54,7 +54,7 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 
 		// Projects use a different parameter name so don't use SearchQuery
 		const search = new URLSearchParams(link.search);
-		const query = search.get('query') ?? 'is:open'; // Default value query is missing
+		const query = search.get('query') ?? 'state:open'; // Default value query is missing
 		search.set('query', `sort:updated-desc ${query}`);
 		link.search = search.toString();
 	}
