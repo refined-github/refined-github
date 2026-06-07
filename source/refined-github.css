@@ -191,6 +191,11 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 			.ml-1 {
 				margin-left: 0 !important;
 			}
+
+			/* Hide clock icon https://github.com/refined-github/refined-github/issues/9667 */
+			.issue-meta-section {
+				display: none;
+			}
 		}
 	}
 }
