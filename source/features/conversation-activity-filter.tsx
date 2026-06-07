@@ -141,23 +141,21 @@ function applyState(targetState: State): void {
 }
 
 async function addWidget(anchor: Element): Promise<void> {
-	const position = closestElement('div', anchor);
-	if (position.classList.contains('rgh-conversation-activity-filter')) {
+	if (anchor.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
 
 	await delay(100); // Let `clean-conversation-headers` run first
-	position.classList.add('rgh-conversation-activity-filter');
+	anchor.classList.add('rgh-conversation-activity-filter');
 	const container = document.createElement('div');
 	widgets.add(mount(ConversationActivityFilter, {
 		target: container,
 		props: {
 			state: currentState,
-			withMargin: position.offsetWidth > 0,
 			onStateChange: applyState,
 		},
 	}));
-	position.after(container.firstElementChild!);
+	anchor.after(container.firstElementChild!);
 }
 
 function uncollapseTargetedComment(): void {

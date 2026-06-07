@@ -1,7 +1,6 @@
 function appendError(error) {
-	const paragraph = document.createElement('p');
-	paragraph.textContent = error;
-	document.body.append(paragraph);
+	// eslint-disable-next-line select-dom/prefer -- No build here
+	document.querySelector('#js-failed').append('\n', error);
 }
 
 globalThis.addEventListener('error', event => {

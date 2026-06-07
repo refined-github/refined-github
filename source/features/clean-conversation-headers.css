@@ -44,7 +44,8 @@
 
 	/* Hide the default base branch in sticky headers */
 	&.rgh-sticky-pr-header .rgh-base-branch:not(.rgh-non-default-branch) {
-		&, & ~ .rgh-arrow {
+		&,
+		& ~ .rgh-arrow {
 			display: none;
 		}
 	}
@@ -53,5 +54,27 @@
 	/* Fixes vertical alignment of base branch dropdown #5598 */
 	.commit-ref-dropdown {
 		margin-top: -2px !important;
+	}
+}
+
+/* Hide the state labels on small screens */
+@media (max-width: 500px) {
+	[data-testid='issue-metadata-sticky'],
+	[class*='StickyPullRequestHeader'] {
+		/* Open/Closed/Merged */
+		span[class^='prc-StateLabel'],
+		/* `locked-issue` */
+		.State {
+			/* Enforce border-radius on .State since it's set in em */
+			/* Value copied from StateLabel */
+			border-radius: var(--borderRadius-full, 0);
+
+			/* Turn them into circles */
+			font-size: 0;
+			height: 40px;
+			svg {
+				margin: 0 !important;
+			}
+		}
 	}
 }
