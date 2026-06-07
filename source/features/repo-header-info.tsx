@@ -6,19 +6,19 @@ import LockIcon from 'octicons-plain-react/Lock';
 import RepoForkedIcon from 'octicons-plain-react/RepoForked';
 import StarIcon from 'octicons-plain-react/Star';
 import StarFillIcon from 'octicons-plain-react/StarFill';
-import {closestElement, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {isSmallDevice} from '../helpers/dom-utils.js';
+import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepositoryInfo from './repo-header-info.gql';
 
 type RepositoryInfo = {
-	isFork: boolean;
+	forked?: {url: string};
 	isPrivate: boolean;
 	stargazerCount: number;
 	viewerHasStarred: boolean;
@@ -34,22 +34,23 @@ const repositoryInfo = new CachedFunction('stargazer-count', {
 	cacheKey: cacheByRepo,
 });
 
+function prepareForAddition(repoLink: HTMLAnchorElement): void {
+	if (!repoLink.classList.contains('AppHeader-context-item')) {
+		closestElement('li', repoLink).classList.add('d-flex');
+	}
+}
+
 async function add(repoLink: HTMLAnchorElement): Promise<void> {
-	const {isFork, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
+	const {forked, isPrivate, stargazerCount, viewerHasStarred} = await repositoryInfo.get();
 
 	repoLink.classList.add('rgh-repo-header-info-updated');
 
 	// GitHub may already show this icon natively, so we match its position
 	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
-		repoLink.append(
+		appendBefore(
+			repoLink,
+			'.octicon-repo-forked',
 			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
-		);
-	}
-
-	// GitHub may already show this icon natively, so we match its position
-	if (isFork && !elementExists('.octicon-repo-forked', repoLink)) {
-		repoLink.append(
-			<RepoForkedIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
 
@@ -59,9 +60,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 			tooltip += ', including you';
 		}
 
-		if (!repoLink.classList.contains('AppHeader-context-item')) {
-			closestElement('li', repoLink).classList.add('d-flex');
-		}
+		prepareForAddition(repoLink);
 
 		repoLink.after(
 			<a
@@ -75,6 +74,20 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 					? <StarFillIcon className="ml-1 tmp-ml-1" width={12} height={12} color="var(--button-star-iconColor)" />
 					: <StarIcon className="ml-1 tmp-ml-1" width={12} height={12} />}
 				<span className="f5">{abbreviateNumber(stargazerCount)}</span>
+			</a>,
+		);
+	}
+
+	if (forked) {
+		prepareForAddition(repoLink);
+		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
+		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
+		repoLink.after(
+			<a
+				href={forked.url}
+				className="d-none d-sm-flex flex-items-center flex-justify-center mr-1 tmp-mr-1 p-1 tmp-p-1 Button Button--invisible"
+			>
+				<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
 			</a>,
 		);
 	}
@@ -110,8 +123,7 @@ Test URLs
 
 - Regular: https://github.com/refined-github/refined-github
 - Fork: https://github.com/134130/refined-github
-- Fork with native icon: https://github.com/refined-github/fork
 - Private: https://github.com/refined-github/private
-- Private fork: https://github.com/refined-github/fork
+- Private fork: https://github.com/refined-github/private-fork
 
 */
