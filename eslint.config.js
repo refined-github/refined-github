@@ -38,6 +38,7 @@ export default defineConfig([
 			languageOptions: {
 				globals: {
 					browser: 'readonly',
+					document: 'readonly',
 				},
 			},
 			rules: {
