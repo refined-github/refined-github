@@ -59,8 +59,13 @@ Align tooltip behavior with native
 https://github.com/refined-github/refined-github/pull/9668
 */
 function attachToDocument(tooltip: HTMLElement): void {
-	lastElement('#js-repo-pjax-container, #js-pjax-container, #repo-content-turbo-frame, #repo-content-pjax-container, [data-turbo-body]')
-		.append(tooltip);
+	lastElement([
+		'#js-repo-pjax-container',
+		'#js-pjax-container',
+		'#repo-content-turbo-frame',
+		'#repo-content-pjax-container',
+		'[data-turbo-body]', // User profile
+	]).append(tooltip);
 }
 
 /**
