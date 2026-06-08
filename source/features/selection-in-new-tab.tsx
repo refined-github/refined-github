@@ -8,9 +8,7 @@ import onetime from '../helpers/onetime.js';
 function openInNewTab(): void {
 	const selected = $optional([
 		'.navigation-focus a.js-navigation-open[href]',
-		// Old view
-		// TODO [2025-07-01]: Drop
-		'[data-focus-visible-added] .markdown-title a',
+		'.navigation-focus a[data-testid="issue-pr-title-link"][href]',
 	]);
 
 	if (!selected) {
