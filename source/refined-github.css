@@ -21,6 +21,10 @@
 		position: relative;
 		z-index: 5;
 	}
+
+	.rgh-display-contents {
+		display: contents !important;
+	}
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */

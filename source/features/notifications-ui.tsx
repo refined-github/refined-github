@@ -3,60 +3,73 @@ import cx from 'clsx';
 import React from 'dom-chef';
 import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
+import SortDescIcon from 'octicons-plain-react/SortDesc';
+import SortAscIcon from 'octicons-plain-react/SortAsc';
 
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-function replaceNotificationsDropdown(dropdown: Element): void {
+function transform(button: HTMLButtonElement): JSX.Element {
+	const [buttonLabel] = button.textContent.trim().split(' ');
+	const clonedForm = button.form!.cloneNode(true);
+	$('button', clonedForm).replaceWith(
+		<button
+			className="Button--invisible Button--medium Button Button--invisible-noVisuals"
+			type="submit"
+		>
+			<span className="Button-content">
+				<span className="Button-label" data-content={buttonLabel}>
+					{buttonLabel}
+				</span>
+			</span>
+		</button>,
+	);
+
+	return (
+		<li
+			className={cx('SegmentedControl-item', button.ariaChecked === 'true' && 'SegmentedControl-item--selected')}
+			role="listitem"
+			data-targets="segmented-control.items"
+		>
+			{clonedForm}
+		</li>
+	);
+}
+
+function replaceDropdown(dropdown: Element): void {
 	const label = $('.Button-label .color-fg-muted', dropdown).textContent.trim();
 	const buttons = $$('button.ActionListContent', dropdown);
-
-	const segmentedControl = (
+	dropdown.classList.add('width-full', 'width-auto');
+	dropdown.replaceChildren(
 		<segmented-control>
 			<ul
 				className="SegmentedControl--medium SegmentedControl"
 				role="list"
 				aria-label={label}
 			>
-				{buttons.map(button => {
-					const [buttonLabel] = button.textContent.trim().split(' ');
-					const clonedForm = button.form!.cloneNode(true);
-					$('button', clonedForm).replaceWith(
-						<button
-							className="Button--invisible Button--medium Button Button--invisible-noVisuals"
-							type="submit"
-						>
-							<span className="Button-content">
-								<span className="Button-label" data-content={buttonLabel}>
-									{buttonLabel}
-								</span>
-							</span>
-						</button>,
-					);
-
-					return (
-						<li
-							className={cx('SegmentedControl-item', button.ariaChecked === 'true' && 'SegmentedControl-item--selected')}
-							role="listitem"
-							data-targets="segmented-control.items"
-						>
-							{clonedForm}
-						</li>
-					);
-				})}
+				{buttons.map(button => transform(button))}
 			</ul>
-		</segmented-control>
+		</segmented-control>,
 	);
+}
 
-	dropdown.firstElementChild!.replaceWith(segmentedControl);
-	if (dropdown.classList.contains('manage-notifications-responsive')) {
-		dropdown.classList.add('d-inline-block', 'width-auto');
+function compactDropdown(dropdown: Element): void {
+	dropdown.classList.add('width-full', 'width-auto');
+	const label = $('.Button-content', dropdown);
+	if (label.textContent.includes('Newest to')) {
+		label.replaceChildren(<SortDescIcon />);
+	} else {
+		label.classList.add('rgh-display-contents');
+		label.replaceChildren(
+			<span className='fgColor-severe'>Oldest first</span>,
+			<SortAscIcon className='fgColor-severe' />,
+		);
 	}
 }
 
-function init(): void {
-	for (const dropdown of $$(['.notification-sort-by', '.notification-group-by'])) {
-		replaceNotificationsDropdown(dropdown);
-	}
+function init(signal: AbortSignal): void {
+	observe('.notification-group-by', replaceDropdown, {signal});
+	observe('.notification-sort-by', compactDropdown, {signal});
 }
 
 void features.addCssFeature(import.meta.url);
