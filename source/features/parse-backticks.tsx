@@ -8,6 +8,8 @@ import observe from '../helpers/selector-observer.js';
 const selectors = [
 	// `isRepoHome` repository description
 	// https://github.com/refined-github/sandbox
+	'[class*="PageLayout-Pane"] .f4.my-3',
+	// TODO [2026-09-01]: Drop old selector
 	'.Layout-sidebar .f4.my-3',
 
 	// `isCommitList` commit description

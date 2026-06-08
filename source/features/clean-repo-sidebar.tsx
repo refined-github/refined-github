@@ -9,7 +9,11 @@ import features from '../feature-manager.js';
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // It's broken: https://github.com/refined-github/refined-github/issues/9339
 async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] .BorderGrid-cell h2 a[href$="/releases"]', {
+	const sidebarReleases = await elementReady([
+		'[class*="PageLayout-Pane"] .BorderGrid-cell h2 a[href$="/releases"]',
+		// TODO [2026-09-01]: Drop old selector
+		'.Layout-sidebar .BorderGrid-cell h2 a[href$="/releases"]',
+	], {
 		waitForChildren: false,
 	});
 	if (!sidebarReleases) {
