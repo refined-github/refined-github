@@ -10,8 +10,8 @@ html:not([rgh-OFF-clean-conversation-sidebar]) {
 
 			/* Hide empty text in case section is not read-only */
 			& span:is([class*='emptyText' i], [class*='developmentHelpText']):not(
-					:has(> button)
-				) {
+				:has(> button)
+			) {
 				display: none;
 			}
 		}
