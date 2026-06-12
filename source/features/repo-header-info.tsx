@@ -96,7 +96,7 @@ async function add(repoLink: HTMLAnchorElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
-			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+			'.loaded div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
 			// TODO [2026-06-01]: Drop
 			'.AppHeader-context-full [role="listitem"]:last-child a.AppHeader-context-item',
 		],
