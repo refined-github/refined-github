@@ -110,7 +110,7 @@ async function init(): Promise<void | false> {
 		let targetTags = cached[targetCommit];
 
 		if (!targetTags) {
-			// No tags for this commit found in the cache, check in github
+			// No tags for this commit found in the cache, check in GitHub
 			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
 			targetTags = cached[targetCommit];
 		}

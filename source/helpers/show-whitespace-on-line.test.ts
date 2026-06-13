@@ -13,12 +13,12 @@ function serializeDom(element: Element): string {
 	for (const replacement of $$optional('[data-rgh-whitespace]', element)) {
 		switch (replacement.getAttribute('data-rgh-whitespace')) {
 			case 'space': {
-				replacement.replaceWith(replacement.innerHTML.replaceAll(' ', '•'));
+				replacement.replaceWith(replacement.getHTML().replaceAll(' ', '•'));
 				break;
 			}
 
 			case 'tab': {
-				replacement.replaceWith(replacement.innerHTML.replaceAll('\t', '⟶'));
+				replacement.replaceWith(replacement.getHTML().replaceAll('\t', '⟶'));
 				break;
 			}
 
@@ -27,11 +27,11 @@ function serializeDom(element: Element): string {
 	}
 
 	for (const highlighting of $$optional('[class^="hljs"]', element)) {
-		highlighting.replaceWith(highlighting.innerHTML);
+		highlighting.replaceWith(highlighting.getHTML());
 	}
 
 	// Compare against the HTML to ensure we're making all the necessary replacements
-	return element.innerHTML;
+	return element.getHTML();
 }
 
 function process(html: string): string {

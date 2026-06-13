@@ -18,9 +18,9 @@ export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig(),
 	{
+		ignores: ['**/*.json', '**/*.css'],
 		plugins: {
 			promise: pluginPromise,
-			'select-dom': selectDom,
 		},
 		languageOptions: {
 			globals: {
@@ -178,10 +178,11 @@ export default defineConfig([
 		},
 	},
 	{
-		ignores: ['**/package.json'],
+		ignores: ['**/*.json'],
 		plugins: {
 			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
+			'select-dom': selectDom,
 		},
 		rules: {
 			...restrictedSyntax,

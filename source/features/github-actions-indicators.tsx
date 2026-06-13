@@ -61,7 +61,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			const workflowYaml = workflowFiles[workflow.name];
 
 			if (workflowYaml === undefined) {
-				// Cannot find workflow yaml; workflow removed.
+				// Cannot find workflow YAML; workflow removed.
 				continue;
 			}
 

@@ -17,12 +17,12 @@ const types = new Map([
 	['perf', 'Performance'],
 ]);
 
-export function parseConventionalCommit(commitTitle: string): {
+export function parseConventionalCommit(commitTitle: string): undefined | {
 	rawType: string;
 	type: string;
 	scope?: string;
 	raw: string;
-} | undefined {
+} {
 	const match = conventionalCommitRegex.exec(commitTitle);
 	if (!match?.groups?.type) {
 		return;

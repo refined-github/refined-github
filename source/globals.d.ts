@@ -13,11 +13,11 @@ type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit =
+| VoidFunction
 	| {disconnect: VoidFunction}
 	| {clear: VoidFunction}
 	| {destroy: VoidFunction}
-	| {abort: VoidFunction}
-	| VoidFunction;
+	| {abort: VoidFunction};
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {
