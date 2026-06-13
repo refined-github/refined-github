@@ -49,11 +49,11 @@ type GraphQlResponse = {
 	errors?: JsonError[];
 };
 
-type RestResponse = {
+type RestResponse = AnyObject & {
 	httpStatus: number;
 	headers: Headers;
 	ok: boolean;
-} & AnyObject;
+};
 
 const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
 

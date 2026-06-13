@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$$optional} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls} from '../github-helpers/dom-formatters.js';
@@ -14,7 +14,7 @@ function linkifyContent(wrapper: HTMLElement): void {
 
 	const currentRepo = pageDetect.isGlobalSearchResults()
 		// Look for the link on the line number
-		? getRepo(wrapper.parentElement!.querySelector('.blob-num a')!.href)
+		? getRepo($('.blob-num a', wrapper.parentElement!).href)
 		: getRepo();
 	// Some non-repo pages like gists have issue references #3844
 	// They make no sense, but we still want `linkifyURLs` to run there

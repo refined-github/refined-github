@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
+/* eslint-disable unicorn/no-global-object-property-assignment */
 import {NodeFilter, parseHTML} from 'linkedom';
 
 const globals = [

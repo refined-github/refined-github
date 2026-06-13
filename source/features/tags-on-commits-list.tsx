@@ -21,15 +21,15 @@ type BaseTarget = {
 	commitResourcePath: string;
 };
 
-type TagTarget = {
+type TagTarget = BaseTarget & {
 	tagger: {
 		date: Date;
 	};
-} & BaseTarget;
+};
 
-type CommitTarget = {
+type CommitTarget = BaseTarget & {
 	committedDate: Date;
-} & BaseTarget;
+};
 
 type CommonTarget = TagTarget | CommitTarget;
 type TagNode = {
@@ -39,10 +39,10 @@ type TagNode = {
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
-	for (const commit of Object.keys(newTags)) {
-		result[commit] = result[commit]
-			? arrayUnion(result[commit], newTags[commit])
-			: newTags[commit];
+	for (const [commit, tags] of Object.entries(newTags)) {
+		result[commit] = tags
+			? arrayUnion(result[commit], tags)
+			: tags;
 	}
 
 	return result;

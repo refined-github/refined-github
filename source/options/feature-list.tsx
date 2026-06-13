@@ -14,9 +14,12 @@ function moveDisabledFeaturesToTop(): void {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
 	});
-	for (const group of [grouped.off, grouped.broken, grouped.on].filter(Boolean)) {
-		for (const feature of group!) {
-			container.append(feature);
+
+	for (const group of [grouped.off, grouped.broken, grouped.on]) {
+		if (group) {
+			for (const feature of group) {
+				container.append(feature);
+			}
 		}
 	}
 }

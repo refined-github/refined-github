@@ -43,7 +43,6 @@ export function logError(error: Error): void {
 		return;
 	}
 
-	const id = parseFeatureNameFromStack(stack);
 
 	// Avoid duplicate errors
 	if (loggedStacks.has(stack!)) {
@@ -52,6 +51,7 @@ export function logError(error: Error): void {
 
 	loggedStacks.add(stack!);
 
+	const id = parseFeatureNameFromStack(stack);
 	if (message.endsWith(fineGrainedTokenSuggestion)) {
 		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
 		return;
@@ -87,7 +87,7 @@ export function logError(error: Error): void {
 }
 
 export function catchErrors(): void {
-	globalThis.addEventListener('error', event => {
+	addEventListener('error', event => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
 		if (error) {

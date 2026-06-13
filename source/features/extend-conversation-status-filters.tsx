@@ -16,7 +16,6 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 
 	const locationQuery = SearchQuery.from(location);
 	const isMerged = locationQuery.includes('is:merged', 'state:merged');
-	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
 
 	// The links in `.table-list-header-toggle` are either:
 	//   1 Open | 1 Closed
@@ -27,6 +26,7 @@ function addMergeLink(lastLink: HTMLAnchorElement): void {
 		return;
 	}
 
+	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
 	if (isUnmerged) {
 		// It's a "Total" link for an unmerged filter
 		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');

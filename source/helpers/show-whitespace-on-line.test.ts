@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-break-in-nested-loop -- TODO */
 import hl from 'highlight.js';
 import {$$optional} from 'select-dom';
 import {assert, test} from 'vitest';

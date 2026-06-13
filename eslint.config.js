@@ -39,9 +39,17 @@ export default defineConfig([
 			'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 			'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 			'unicorn/better-regex': 'off',
+			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
 			'unicorn/dom-node-dataset': 'off',
+			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/no-nested-ternary': 'off', // Nesting already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
+			'unicorn/no-unreadable-new-expression': 'off', // Me no like
+			'unicorn/no-unsafe-string-replacement': 'off', // TODO
+			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
+			'unicorn/prefer-early-return': 'off', // TODO: Enable after autofix https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4699505433
+			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
+			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
 			'unicorn/prevent-abbreviations': [
 				'error',
@@ -196,6 +204,7 @@ export default defineConfig([
 		files: ['source/features/**'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
+			'unicorn/no-top-level-side-effects': 'off', // Incompatible with the features that export helpers
 		},
 	},
 	{

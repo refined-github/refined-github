@@ -190,7 +190,7 @@ export function fixFileHeaderOverlap(child: Element): void {
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
-	globalThis.dispatchEvent(new Event('resize'));
+	dispatchEvent(new Event('resize'));
 }
 
 export function multilineAriaLabel(...lines: string[]): string {

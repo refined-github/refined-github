@@ -25,12 +25,14 @@
 	});
 
 	$effect(() => {
-		if (tokenInput) {
+		if (!tokenInput) {
+			return;
+		}
+
 			verifyToken();
 
 			// @ts-expect-error TS and its index signatures...
 			optionsStorage.set({personalToken: tokenInput});
-		}
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
@@ -64,12 +66,14 @@
 	}
 
 	onMount(async () => {
-		if (await chrome.permissions.contains({origins})) {
+		if (!(await chrome.permissions.contains({origins}))) {
+			return;
+		}
+
 			stepValid = 1;
 			setTimeout(() => {
 				stepVisible = 2;
 			}, 500);
-		}
 	});
 </script>
 

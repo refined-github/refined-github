@@ -2,11 +2,11 @@
 
 /// <reference types="@types/dom-navigation" />
 
-declare var content: {
+declare var content: undefined | {
 	fetch: GlobalFetch;
-} | undefined;
+};
 
-// eslint-disable-next-line unicorn/prefer-global-this -- Types not available there
+ 
 declare var navigation: typeof window.navigation;
 
 type GlobalFetch = typeof fetch;
