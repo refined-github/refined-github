@@ -17,3 +17,9 @@
 		min-width: 5em;
 	}
 }
+
+/* Fix SHA clipping at some resolutions (#9638) */
+.rgh-release-download-count [data-rgh-heat] {
+	white-space: nowrap;
+	overflow: visible;
+}
