@@ -42,17 +42,20 @@ export default defineConfig([
 				},
 			},
 			rules: {
+				'@stylistic/function-paren-newline': 'off', // Awful
+				'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
+				'n/prefer-global/process': 'off',
+				'no-alert': 'off',
+				'no-console': 'off',
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
 				'no-warning-comments': 'off', // Noise
-
-				// Disable some unicorn rules
-				'unicorn/no-this-outside-of-class': 'off',
-				'unicorn/better-regex': 'off',
-				'unicorn/prefer-top-level-await': 'off',
-				'unicorn/no-nested-ternary': 'off', // Nesting already helps
-				'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-				'unicorn/dom-node-dataset': 'off',
+				'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
+				'unicorn/better-regex': 'off',
+				'unicorn/dom-node-dataset': 'off',
+				'unicorn/no-nested-ternary': 'off', // Nesting already helps
+				'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
+				'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
 				'unicorn/prevent-abbreviations': [
 					'error',
 					{
@@ -65,18 +68,13 @@ export default defineConfig([
 					},
 				],
 
-				'new-cap': [
-					'error',
-					{
-						newIsCap: true,
-						capIsNew: true,
-					},
-				],
-
-				'no-console': 'off',
-				'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
-				'@stylistic/function-paren-newline': 'off', // Allow JSX on separate lines from parens
-				'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
+				'no-restricted-imports': ['error', {
+					paths: [{
+						name: 'clsx',
+						importNames: ['clsx'],
+						message: "Use default import: import cx from 'clsx'",
+					}],
+				}],
 
 				// Allow unassigned imports for CSS and feature files
 				'import-x/no-unassigned-import': ['error', {
@@ -91,18 +89,6 @@ export default defineConfig([
 						'vite/client',
 						'webext-dynamic-content-scripts',
 					],
-				}],
-
-				'no-alert': 'off',
-				'n/prefer-global/process': 'off',
-				'no-use-extend-native/no-use-extend-native': 'off', // False positives on ES2024 static methods (Map.groupBy, Object.groupBy, etc.)
-
-				'no-restricted-imports': ['error', {
-					paths: [{
-						name: 'clsx',
-						importNames: ['clsx'],
-						message: "Use default import: import cx from 'clsx'",
-					}],
 				}],
 
 				// Import-x rules customization
