@@ -47,12 +47,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
 	},
 	{
-		"id": "ci-link",
-		"description": "Adds a build/CI status icon next to the repo’s name.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png"
-	},
-	{
 		"id": "clean-checks-list",
 		"description": "Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.",
 		"css": true,
@@ -815,9 +809,9 @@
 	},
 	{
 		"id": "repo-header-info",
-		"description": "Shows whether a repo is a fork and adds the number of stars to its header.",
+		"description": "Adds stars, CI, fork and private status to the repository header.",
 		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png"
+		"screenshot": "https://github.com/user-attachments/assets/6b115387-962c-4cf4-b864-c750f9c8e0b1"
 	},
 	{
 		"id": "repo-wide-file-finder",

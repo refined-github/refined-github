@@ -58,7 +58,6 @@ import './features/pinned-issues-update-time.js';
 import './features/mark-pinned.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
-import './features/ci-link.js';
 import './features/sync-pr-commit-title.js';
 import './features/hide-inactive-deployments.js';
 import './features/pull-request-hotkeys.js';
