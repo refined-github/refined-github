@@ -138,12 +138,12 @@ const navigationBarSelector = is(
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/issues"]`);
+	return elementExists(`${navigationBarSelector} a[href^="/${repo.nameWithOwner}/issues"]`);
 }
 
 export function areDiscussionsEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/discussions"]`);
+	return elementExists(`${navigationBarSelector} a[href^="/${repo.nameWithOwner}/discussions"]`);
 }
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;

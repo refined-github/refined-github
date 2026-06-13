@@ -3,8 +3,23 @@ query GetRepositoryInfo($owner: String!, $name: String!) {
 		stargazerCount
 		isPrivate
 		viewerHasStarred
+		isEmpty
 		forked: parent {
 			url
+		}
+		defaultBranchRef {
+			target {
+				... on Commit {
+					history(first: 3) {
+						nodes {
+							oid
+							statusCheckRollup {
+								state
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
