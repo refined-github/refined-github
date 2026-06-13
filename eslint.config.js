@@ -46,12 +46,13 @@ export default defineConfig([
 				'no-warning-comments': 'off', // Noise
 
 				// Disable some unicorn rules
-				'unicorn/no-nested-ternary': 'off',
 				'unicorn/no-this-outside-of-class': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
+				'unicorn/no-nested-ternary': 'off', // Nesting already helps
 				'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
 				'unicorn/dom-node-dataset': 'off',
+				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 				'unicorn/prevent-abbreviations': [
 					'error',
 					{
@@ -64,10 +65,6 @@ export default defineConfig([
 					},
 				],
 
-				'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
-
-				// Restore errors
-				'no-await-in-loop': 'error',
 				'new-cap': [
 					'error',
 					{
