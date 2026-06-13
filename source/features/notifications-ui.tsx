@@ -8,7 +8,7 @@ import SortAscIcon from 'octicons-plain-react/SortAsc';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {upperCaseFirst} from '../github-helpers';
+import {upperCaseFirst} from '../github-helpers/index.js';
 
 function transform(button: HTMLButtonElement): JSX.Element {
 	const [buttonLabel] = button.textContent.trim().split(' ');
