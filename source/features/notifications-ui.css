@@ -51,6 +51,17 @@ html:not([rgh-OFF-notifications-ui]) {
 		}
 	}
 
+	@media screen and not (min-width: 544px) {
+		/* Adjust button sizing when the native media "sm" query hides the labels */
+		.js-notifications-mark-selected-actions .btn-sm {
+			padding-inline: 0.6em !important;
+			/* Use "form" to exclude our elements, which keep their labels */
+			form & .mr-1 {
+				margin: 0 !important;
+			}
+		}
+	}
+
 	/* Avoid viewport overflow when new notifications are available */
 	/* Info: https://github.com/refined-github/refined-github/issues/9658 */
 	/* Test:
