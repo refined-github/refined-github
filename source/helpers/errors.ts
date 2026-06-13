@@ -43,7 +43,6 @@ export function logError(error: Error): void {
 		return;
 	}
 
-
 	// Avoid duplicate errors
 	if (loggedStacks.has(stack!)) {
 		return;

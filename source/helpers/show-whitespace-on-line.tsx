@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-break-in-nested-loop */
 import React from 'dom-chef';
 
 import getTextNodes from './get-text-nodes.js';

@@ -6,14 +6,13 @@ declare var content: undefined | {
 	fetch: GlobalFetch;
 };
 
- 
 declare var navigation: typeof window.navigation;
 
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit =
-| VoidFunction
+	| VoidFunction
 	| {disconnect: VoidFunction}
 	| {clear: VoidFunction}
 	| {destroy: VoidFunction}

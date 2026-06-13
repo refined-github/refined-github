@@ -29,10 +29,10 @@
 			return;
 		}
 
-			verifyToken();
+		verifyToken();
 
-			// @ts-expect-error TS and its index signatures...
-			optionsStorage.set({personalToken: tokenInput});
+		// @ts-expect-error TS and its index signatures...
+		optionsStorage.set({personalToken: tokenInput});
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
@@ -70,10 +70,10 @@
 			return;
 		}
 
-			stepValid = 1;
-			setTimeout(() => {
-				stepVisible = 2;
-			}, 500);
+		stepValid = 1;
+		setTimeout(() => {
+			stepVisible = 2;
+		}, 500);
 	});
 </script>
 
