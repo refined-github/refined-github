@@ -87,10 +87,7 @@ function markForm(status: 'read' | 'unread'): JSX.Element {
 }
 
 function unwrapActions(details: HTMLDetailsElement): void {
-	details.before(
-		markForm('read'),
-		markForm('unread'),
-	);
+	details.before(markForm('read'), markForm('unread'));
 	details.hidden = true;
 }
 
@@ -106,7 +103,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	init,
-	awaitDomReady: true,
 });
 
 /*
