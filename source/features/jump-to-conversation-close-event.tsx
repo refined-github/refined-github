@@ -8,7 +8,7 @@ import {conversationCloseEvent} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import addToolTip from '../helpers/tooltip.js';
+import addTooltip from '../helpers/tooltip.js';
 
 export const statusBadgeSelector = [
 	'span[class*="StateLabel"]',
@@ -42,7 +42,7 @@ function updateStatusBadges(): void {
 				statusBadge,
 				link,
 			);
-			addToolTip({label: 'Scroll to most recent close event', direction: 'e'}, link);
+			addTooltip({label: 'Scroll to most recent close event', direction: 'e'}, link);
 		}
 	}
 }

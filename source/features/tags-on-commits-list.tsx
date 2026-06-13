@@ -72,7 +72,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 			continue;
 		}
 
-		const commit = node.target.commitResourcePath.split('/')[4];
+		const commit = node.target.commitResourcePath.split('/', 5)[4];
 		tags[commit] ||= [];
 
 		tags[commit].push(node.name);

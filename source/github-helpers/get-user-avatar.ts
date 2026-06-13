@@ -15,9 +15,11 @@ export default function getUserAvatar(username: string, size: number): string | 
 	}
 
 	if (
-		cleanName === 'Copilot'
-		|| cleanName === 'copilot-coding-agent-docs'
-		|| cleanName === 'copilot-swe-agent'
+		[
+			'Copilot',
+			'copilot-coding-agent-docs',
+			'copilot-swe-agent',
+		].includes(cleanName)
 	) {
 		cleanName = 'in/1143301';
 	}

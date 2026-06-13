@@ -65,7 +65,7 @@ function generateSubmenu(hideButton: Element): void {
 // Shows menu on top of mainDropdownContent when "Hide" is clicked;
 // Hide it when dropdown closes.
 // Uses `v-hidden` to avoid conflicts with `close-out-of-view-modals`
-function toggleSubMenu(hideButton: Element, show: boolean): void {
+function toggleSubmenu(hideButton: Element, show: boolean): void {
 	const dropdown = closestElement('details', hideButton);
 
 	// Native dropdown
@@ -76,12 +76,12 @@ function toggleSubMenu(hideButton: Element, show: boolean): void {
 }
 
 function resetDropdowns(event: DelegateEvent): void {
-	toggleSubMenu(event.delegateTarget, false);
+	toggleSubmenu(event.delegateTarget, false);
 }
 
 function showSubmenu(event: DelegateEvent): void {
 	generateSubmenu(event.delegateTarget);
-	toggleSubMenu(event.delegateTarget, true);
+	toggleSubmenu(event.delegateTarget, true);
 
 	event.stopImmediatePropagation();
 	event.preventDefault();

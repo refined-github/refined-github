@@ -16,7 +16,8 @@ for (const property of globals) {
 	globalThis[property] ??= window[property];
 }
 
-class Location {}
+class Location {
+}
 globalThis.Location = Location;
 globalThis.NodeFilter = NodeFilter;
 globalThis.location = new URL('https://github.com');

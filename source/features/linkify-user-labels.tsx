@@ -19,7 +19,7 @@ function getAuthor(label: HTMLElement): string {
 
 	const userPrsLink = $('a[data-hovercard-type="user"]', prMetadataRow);
 	// The link always ends with author
-	const username = userPrsLink.href.split('author%3A')[1];
+	const username = userPrsLink.href.split('author%3A', 2)[1];
 	return username;
 }
 

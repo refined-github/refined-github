@@ -96,7 +96,7 @@ const cachePerPage = {
 /** Is tag or commit, with elementReady */
 export const isPermalink = mem(async () => {
 	// No need for getCurrentGitRef(), it's a simple and exact check
-	if (/^[\da-f]{40}$/.test(location.pathname.split('/')[4])) {
+	if (/^[\da-f]{40}$/.test(location.pathname.split('/', 5)[4])) {
 		// It's a commit
 		return true;
 	}

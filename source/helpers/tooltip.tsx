@@ -91,9 +91,9 @@ export function tooltipped(
 /**
 Attaches a tooltip to an existing element. Don't use this with JSX.
 
-@example addToolTip('Does something', $('.some-existing-button'))
+@example addTooltip('Does something', $('.some-existing-button'))
 */
-export default function addToolTip(
+export default function addTooltip(
 	content: string | TooltipOptions,
 	element: Element,
 ): void {

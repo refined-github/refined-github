@@ -28,7 +28,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 	const renamedTooltip = $optional('span.sr-only', fileNameElement);
 	return (
 		// Tooltip doesn't exist if the file wasn't renamed
-		renamedTooltip?.textContent.split(' renamed to ')[1]
+		renamedTooltip?.textContent.split(' renamed to ', 2)[1]
 		?? fileNameElement.textContent
 	).replaceAll(/\u200E|\u200F/g, '').trim();
 }
