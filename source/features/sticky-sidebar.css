@@ -16,7 +16,7 @@ div[class^='prc-PageLayout-Pane']:has(
 	> rails-partial[data-partial-name='codeViewRepoRoute.Sidebar']
 ),
 /* Old `isRepoRoot` - Remove after August 2026 */
-.Layout-sidebar .BorderGrid {
+[class*='PageLayout-Pane'] .BorderGrid {
 	--rgh-sticky-sidebar-offset: 0;
 }
 

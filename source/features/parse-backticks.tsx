@@ -8,7 +8,7 @@ import observe from '../helpers/selector-observer.js';
 const selectors = [
 	// `isRepoHome` repository description
 	// https://github.com/refined-github/sandbox
-	'.Layout-sidebar .f4.my-3',
+	'[class*='PageLayout-Pane'] .f4.my-3',
 
 	// `isCommitList` commit description
 	// https://github.com/refined-github/sandbox/commits/buncha-files/
