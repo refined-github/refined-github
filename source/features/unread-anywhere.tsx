@@ -92,13 +92,13 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 	nativeLink.style.width = '30px'; // Reduce width of native button
 	button.setAttribute('data-variant', 'invisible'); // Enables hover style
 	button.classList.add(...classes);
+	removeNotificationIndicator(button);
+
 	addToolTip({
 		label: 'Open unread notifications',
 		shortcut: 'g u',
 		direction: 'sw',
 	}, button);
-
-	removeNotificationIndicator(button);
 }
 
 // No signal, created once per load

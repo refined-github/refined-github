@@ -149,7 +149,7 @@ async function add(repoLink: HTMLElement): Promise<void> {
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		[
-			'div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
+			'.loaded div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
 			// TODO [2026-08-01]: Remove
 			// Desktop
 			'.AppHeader-context-item:not([data-hovercard-type])',

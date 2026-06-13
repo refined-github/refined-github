@@ -117,7 +117,12 @@
 		field-sizing: content;
 		min-height: 3em;
 		font-family:
-			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+			ui-monospace,
+			SFMono-Regular,
+			Menlo,
+			Monaco,
+			Consolas,
+			monospace;
 		background: light-dark(#f6f8fa, #151b23);
 		border: solid 1px light-dark(#d0d9e0, #3d444d);
 		border-radius: 6px;
