@@ -158,7 +158,6 @@ function closeDropdown(): void {
 }
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
-	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
 	closestElement('label', selectAllCheckbox).after(
 		// `h6` matches "Select all" style
 		<span className="mx-2 tmp-mx-2 h6">·</span>,

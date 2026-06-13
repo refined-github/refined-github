@@ -8,6 +8,7 @@ import SortAscIcon from 'octicons-plain-react/SortAsc';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
+import {upperCaseFirst} from '../github-helpers/index.js';
 
 function transform(button: HTMLButtonElement): JSX.Element {
 	const [buttonLabel] = button.textContent.trim().split(' ');
@@ -68,9 +69,32 @@ function compactDropdown(dropdown: Element): void {
 	}
 }
 
+function markForm(status: 'read' | 'unread'): JSX.Element {
+	const form = $(`form[data-status="${status}"]`);
+	form.id ||= `rgh-mark-${status}-form`;
+	const icon = $('.mr-1:has(svg)', form).cloneNode(true);
+	return (
+		<button
+			className='d-flex justify-content-center align-items-center btn btn-sm mr-2'
+			form={form.id}
+			type="submit">
+			{icon}
+			{/* Spaces collapsed, use mr-1 to space words */}
+			<span className="not-sm-sr-only sr-only mr-1">Mark as</span>
+			{upperCaseFirst(status)}
+		</button>
+	);
+}
+
+function unwrapActions(details: HTMLDetailsElement): void {
+	details.before(markForm('read'), markForm('unread'));
+	details.hidden = true;
+}
+
 function init(signal: AbortSignal): void {
 	observe('.notification-group-by', replaceDropdown, {signal});
 	observe('.notification-sort-by', compactDropdown, {signal});
+	observe('.js-notifications-mark-selected-actions details.dropdown', unwrapActions, {signal});
 }
 
 void features.addCssFeature(import.meta.url);
@@ -79,7 +103,6 @@ void features.add(import.meta.url, {
 		pageDetect.isNotifications,
 	],
 	init,
-	awaitDomReady: true,
 });
 
 /*
