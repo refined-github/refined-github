@@ -54,7 +54,8 @@ function replaceDropdown(dropdown: Element): void {
 }
 
 function compactDropdown(dropdown: Element): void {
-	dropdown.classList.add('width-full', 'width-auto');
+	dropdown.classList.replace('width-full', 'width-auto');
+	dropdown.classList.replace('ml-0', 'ml-auto');
 	const label = $('.Button-content', dropdown);
 	if (label.textContent.includes('Newest to')) {
 		label.replaceChildren(<SortDescIcon />);
