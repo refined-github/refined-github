@@ -160,7 +160,8 @@
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
 		"is-core-module": "npm:@nolyfill/is-core-module@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
-		"object-keys": "npm:@nolyfill/object-keys@^1"
+		"object-keys": "npm:@nolyfill/object-keys@^1",
+		"eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@^65.0.1"
 	},
 	"webExt": {
 		"sourceDir": "distribution",

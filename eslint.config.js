@@ -53,10 +53,13 @@ export default defineConfig([
 
 				// Disable some unicorn rules
 				'unicorn/no-nested-ternary': 'off',
+				'unicorn/no-this-outside-of-class': 'off',
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
-				'unicorn/prefer-dom-node-dataset': 'off',
 				'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
+				'unicorn/dom-node-dataset': ['error', {
+					preferAttributes: true,
+				}],
 				'unicorn/prevent-abbreviations': [
 					'error',
 					{
