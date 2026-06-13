@@ -38,9 +38,9 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 function init(signal: AbortSignal): void {
 	observe(
 		[
+			'.loaded div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
 			// TODO [2026-07-01]: Drop
 			'.AppHeader-context-full [role="listitem"]:first-child .AppHeader-context-item-label',
-			'div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
 		],
 		add,
 		{signal},
