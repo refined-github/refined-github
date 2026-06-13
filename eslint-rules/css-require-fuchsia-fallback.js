@@ -19,6 +19,7 @@ const cssRequireFuchsiaFallback = {
 					return;
 				}
 
+				// eslint-disable-next-line unicorn/better-dom-traversing -- False positive
 				const variable = node.children[0];
 				if (variable?.type !== 'Identifier' || !colorVariableRegex.test(variable.name)) {
 					return;

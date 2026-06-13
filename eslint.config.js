@@ -43,13 +43,7 @@ export default defineConfig([
 			},
 			rules: {
 				'no-irregular-whitespace': 'off', // We do want to use non-breaking spaces
-
-				// Prefer unicorn's version
-				'no-warning-comments': 'off',
-				'unicorn/expiring-todo-comments': ['warn', {
-					// https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md#disallow-warning-comments-no-warning-comments
-					allowWarningComments: false,
-				}],
+				'no-warning-comments': 'off', // Noise
 
 				// Disable some unicorn rules
 				'unicorn/no-nested-ternary': 'off',
@@ -57,9 +51,7 @@ export default defineConfig([
 				'unicorn/better-regex': 'off',
 				'unicorn/prefer-top-level-await': 'off',
 				'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-				'unicorn/dom-node-dataset': ['error', {
-					preferAttributes: true,
-				}],
+				'unicorn/dom-node-dataset': 'off',
 				'unicorn/prevent-abbreviations': [
 					'error',
 					{
