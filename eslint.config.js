@@ -10,19 +10,8 @@ import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
 import xo from 'xo';
 
-import cssDocumentation from './eslint-rules/css-documentation.js';
-import cssRequireFuchsiaFallback from './eslint-rules/css-require-fuchsia-fallback.js';
-import noOptionalChaining from './eslint-rules/no-optional-chaining.js';
-
+import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
-
-const refinedGithubPlugin = {
-	rules: {
-		'no-optional-chaining': noOptionalChaining,
-		'css-documentation': cssDocumentation,
-		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
-	},
-};
 
 const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 export default defineConfig([
@@ -180,21 +169,13 @@ export default defineConfig([
 		},
 	},
 	{
-		// Other JSON files shouldn't be linted as JS
-		ignores: ['safari', '**/*.md', '**/*.json', '!**/package.json'],
-	},
-	{
 		files: ['**/*.svelte'],
-		plugins: {svelte: sveltePlugin},
 		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
 		},
-
-		// TODO: Use global `/flat` config. Currently limited to svelte files because dprint is applied to their JS
-		rules: eslintConfigPrettier.rules,
 	},
 	{
 		ignores: ['**/package.json'],
@@ -238,7 +219,10 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts'],
-		rules: eslintConfigPrettier.rules,
+		files: ['**/*.js', '**/*.ts', '**/*.svelte'],
+		...eslintConfigPrettier,
+	},
+	{
+		ignores: ['safari', '**/*.md', '**/*.json', '!**/package.json'],
 	},
 ]);
