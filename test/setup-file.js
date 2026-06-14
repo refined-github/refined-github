@@ -13,6 +13,9 @@ const globals = [
 
 const {window} = parseHTML('...', 'text/html');
 globalThis.location = new URL('https://github.com');
+location.assign = function(href) {
+	this.href = href;
+}
 
 for (const property of globals) {
 	globalThis[property] ??= window[property];
@@ -22,7 +25,6 @@ class Location {
 }
 globalThis.Location = Location;
 globalThis.NodeFilter = NodeFilter;
-globalThis.location = new URL('https://github.com');
 
 const link = document.createElement('link');
 link.rel = 'alternate';
