@@ -161,7 +161,7 @@
 		"is-core-module": "npm:@nolyfill/is-core-module@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
 		"object-keys": "npm:@nolyfill/object-keys@^1",
-    "eslint-plugin-unicorn": "sindresorhus/eslint-plugin-unicorn#4a95ff662ee28e7b092f35f81317ca98c31c64ae"
+		"eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@^66.0.0"
 	},
 	"webExt": {
 		"sourceDir": "distribution",

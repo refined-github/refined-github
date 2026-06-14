@@ -85,7 +85,7 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
 	for (const feature of $$('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+		feature.hidden = keywords.some(word => !feature.dataset.text!.includes(word));
 	}
 }
 

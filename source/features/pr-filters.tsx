@@ -69,7 +69,7 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 	const checksFilter = reviewsFilter.cloneNode(true);
 	checksFilter.id = '';
 
-	$('summary', checksFilter).firstChild!.textContent = 'Checks\u00A0'; // Only replace text node, keep caret
+	$('summary', checksFilter).firstChild!.textContent = 'Checks\u{A0}'; // Only replace text node, keep caret
 	$('.SelectMenu-title', checksFilter).textContent = 'Filter by checks status';
 
 	const dropdown = $('.SelectMenu-list', checksFilter);

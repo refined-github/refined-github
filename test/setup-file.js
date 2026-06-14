@@ -15,7 +15,7 @@ const {window} = parseHTML('...', 'text/html');
 globalThis.location = new URL('https://github.com');
 location.assign = function(href) {
 	this.href = href;
-}
+};
 
 for (const property of globals) {
 	globalThis[property] ??= window[property];

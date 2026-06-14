@@ -64,7 +64,7 @@ const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
-	if (!tags.every(tag => validVersion.test(tag))) {
+	if (tags.some(tag => !validVersion.test(tag))) {
 		return tags[0];
 	}
 
