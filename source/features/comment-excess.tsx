@@ -14,6 +14,7 @@ const hiddenCommentsForm = '#js-progressive-timeline-item-container';
 // Don't use `data-hotkey` because it always prevents default
 function scrollOnSearch(event: KeyboardEvent): void {
 	if (
+		// eslint-disable-next-line unicorn/prefer-minimal-ternary -- No.
 		(isMac ? event.metaKey : event.ctrlKey)
 		&& !event.shiftKey
 		&& !event.altKey

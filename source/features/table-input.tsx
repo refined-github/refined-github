@@ -54,7 +54,7 @@ function add(container: HTMLElement): void {
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
 			>
-				{Array.from({length: 25}).map((_, index) => (
+				{Array.from({length: 25}, (_, index) => (
 					<button
 						type="button"
 						role="menuitem"

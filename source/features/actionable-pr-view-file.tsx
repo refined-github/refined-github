@@ -30,7 +30,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 		// Tooltip doesn't exist if the file wasn't renamed
 		renamedTooltip?.textContent.split(' renamed to ', 2)[1]
 		?? fileNameElement.textContent
-	).replaceAll(/\u200E|\u200F/g, '').trim();
+	).replaceAll(/\u{200E}|\u{200F}/gu, '').trim();
 }
 
 async function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): Promise<void> {

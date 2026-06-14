@@ -40,7 +40,7 @@ type TagNode = {
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
 	for (const [commit, tags] of Object.entries(newTags)) {
-		result[commit] = result[commit]
+		result[commit] = Object.hasOwn(result, commit)
 			? arrayUnion(result[commit], tags)
 			: tags;
 	}

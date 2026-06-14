@@ -40,15 +40,17 @@ export default defineConfig([
 			'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 			'unicorn/better-regex': 'off',
 			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
-			'unicorn/dom-node-dataset': 'off',
-			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
+			'unicorn/dom-node-dataset': 'off',
+			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
+			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/no-nested-ternary': 'off', // Nesting already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
-			'unicorn/no-unsafe-property-keyword': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
+			'unicorn/no-unsafe-property-key': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
 			'unicorn/no-unsafe-string-replacement': 'off', // TODO
 			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
+			'unicorn/prefer-early-return': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4702452673
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-scoped-selector': 'off', // TODO
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112

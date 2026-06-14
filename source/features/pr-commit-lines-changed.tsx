@@ -37,7 +37,7 @@ const commitChanges = new CachedFunction('commit-changes', {
 });
 
 function repeatItems(count: number, Item: () => React.JSX.Element): React.JSX.Element[] {
-	return Array.from({length: count}).map(() => <Item style={{borderRadius: '2px'}} />);
+	return Array.from({length: count}, () => <Item style={{borderRadius: '2px'}} />);
 }
 
 async function add(commitHash: HTMLElement): Promise<void> {

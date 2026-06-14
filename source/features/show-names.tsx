@@ -95,7 +95,7 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	}
 
 	const names = await api.v4(
-		[...users.keys()].map(username => api.escapeKey(username) + `: user(login: "${username}") {name}`).join(','),
+		[...users.keys()].map(username => api.escapeKey(username) + `: user(login: "${username}") { name }`).join(','),
 	);
 
 	for (const [username, elements] of users) {
