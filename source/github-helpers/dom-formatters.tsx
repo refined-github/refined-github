@@ -36,12 +36,12 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// https://github.com/refined-github/refined-github/issues/6057
 	switch (link.textContent) {
 		case `#${getConversationNumber()} (comment)`: {
-			link.textContent = '(this comment)';
+			link.textContent = '(earlier comment)';
 			break;
 		}
 
 		case `#${getConversationNumber()} (review)`: {
-			link.textContent = '(this review)';
+			link.textContent = '(earlier review)';
 			break;
 		}
 	}
