@@ -41,14 +41,14 @@ export default defineConfig([
 			'unicorn/better-regex': 'off',
 			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
 			'unicorn/dom-node-dataset': 'off',
-			'unicorn/max-nested-calls': 'off', // TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3183#issuecomment-4699556695
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
+			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
 			'unicorn/no-nested-ternary': 'off', // Nesting already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
+			'unicorn/no-unsafe-property-keyword': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
 			'unicorn/no-unsafe-string-replacement': 'off', // TODO
 			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
-			'unicorn/prefer-early-return': 'off', // TODO: Enable after autofix https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4699505433
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-scoped-selector': 'off', // TODO
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112

@@ -6,11 +6,13 @@ import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 export function removeLinkToPrFilesTab(link: HTMLAnchorElement): void {
-	if (pageDetect.isPRFiles(link)) {
-		// Owner + name + pull + number
-		link.pathname = getCleanPathname(link).split('/').slice(0, 4).join('/');
-		link.hash = commentBoxHashPr;
+	if (!pageDetect.isPRFiles(link)) {
+		return;
 	}
+
+	// Owner + name + pull + number
+	link.pathname = getCleanPathname(link).split('/').slice(0, 4).join('/');
+	link.hash = commentBoxHashPr;
 }
 
 function init(signal: AbortSignal): void {
