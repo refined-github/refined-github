@@ -2,7 +2,7 @@ import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {closestElement, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -42,11 +42,11 @@ function buildQuery(prsByRepo: Map<string, Pr[]>): string {
 		return `
 			${api.escapeKey('repo', owner, repo)}: repository(owner: "${owner}", name: "${repo}") {
 				nameWithOwner
-				defaultBranchRef {name}
+				defaultBranchRef { name }
 					${
 						prs.map(pr => `
 						${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
-							ref: baseRef {id}
+							ref: baseRef { id }
 							refName: baseRefName
 						}
 					`).join('\n')
@@ -77,7 +77,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 
 	const metadataRow = pr.link.matches('.js-issue-row *')
 		// Legacy DOM
-		? pr.link.parentElement!.querySelector('.text-small.color-fg-muted .d-none.d-md-inline-flex')!
+		? $('.text-small.color-fg-muted .d-none.d-md-inline-flex', pr.link.parentElement!)
 		// React DOM
 		: closestElement('li', pr.link).querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]', // Issue list

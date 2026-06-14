@@ -100,7 +100,7 @@
 										type="button"
 										role="menuitemradio"
 										class="ActionListContent"
-										aria-checked={`${itemState === state}`}
+										aria-checked={String(itemState) === state}
 										onclick={() => {
 											selectState(itemState as State);
 										}}

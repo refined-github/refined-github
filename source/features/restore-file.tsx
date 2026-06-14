@@ -114,8 +114,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	const fileNameElement = $('[class^="DiffFileHeader-module__file-name"]', focusedFileContainer);
 	const span = $optional('span:not(.sr-only)', fileNameElement);
 	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement)
-		// eslint-disable-next-line unicorn/prefer-string-replace-all -- Invisible char
-		.textContent.split('  ').map(text => text.replaceAll(/\u200E/g, ''));
+		.textContent.split('  ').map(text => text.replaceAll('\u{200E}', ''));
 
 	return {original: originalFileName, new: newFileName};
 }

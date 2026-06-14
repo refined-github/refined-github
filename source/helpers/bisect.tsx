@@ -93,7 +93,7 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	}
 
 	await state.delete();
-	globalThis.removeEventListener('visibilitychange', hideMessage);
+	removeEventListener('visibilitychange', hideMessage);
 }
 
 export default async function bisectFeatures(): Promise<Record<string, boolean> | void> {
@@ -127,7 +127,7 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	}
 
 	// Hide message when the process is done elsewhere
-	globalThis.addEventListener('visibilitychange', hideMessage);
+	addEventListener('visibilitychange', hideMessage);
 
 	const half = getMiddleStep(bisectedFeatures);
 	const temporaryOptions: Record<string, boolean> = {};

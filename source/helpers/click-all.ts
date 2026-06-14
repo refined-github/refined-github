@@ -15,12 +15,14 @@ function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 }
 
 export default mem((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
-	if (event.altKey && event.isTrusted) {
-		const clickedItem = event.delegateTarget;
-
-		// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
-		const resetScroll = preserveScroll(clickedItem.parentElement!);
-		clickAllExcept(typeof selector === 'string' ? selector : selector(clickedItem), clickedItem);
-		resetScroll();
+	if (!(event.altKey && event.isTrusted)) {
+		return;
 	}
+
+	const clickedItem = event.delegateTarget;
+
+	// `parentElement` is the anchor because `clickedItem` might be hidden/replaced after the click
+	const resetScroll = preserveScroll(clickedItem.parentElement!);
+	clickAllExcept(typeof selector === 'string' ? selector : selector(clickedItem), clickedItem);
+	resetScroll();
 });

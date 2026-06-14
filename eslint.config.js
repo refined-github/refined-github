@@ -18,9 +18,9 @@ export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig(),
 	{
+		ignores: ['**/*.json', '**/*.css'],
 		plugins: {
 			promise: pluginPromise,
-			'select-dom': selectDom,
 		},
 		languageOptions: {
 			globals: {
@@ -39,9 +39,22 @@ export default defineConfig([
 			'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 			'require-unicode-regexp': 'off', // Too many violations to fix at once; enforce separately
 			'unicorn/better-regex': 'off',
+			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
+			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
 			'unicorn/dom-node-dataset': 'off',
+			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
+			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/no-nested-ternary': 'off', // Nesting already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
+			'unicorn/no-unreadable-new-expression': 'off', // Me no like
+			'unicorn/no-unsafe-property-key': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
+			'unicorn/no-unsafe-string-replacement': 'off', // TODO
+			'unicorn/prefer-await': 'off', // Native TS rule is preferred
+			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
+			'unicorn/prefer-early-return': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4702452673
+			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
+			'unicorn/prefer-scoped-selector': 'off', // TODO
+			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
 			'unicorn/prevent-abbreviations': [
 				'error',
@@ -178,10 +191,11 @@ export default defineConfig([
 		},
 	},
 	{
-		ignores: ['**/package.json'],
+		ignores: ['**/*.json'],
 		plugins: {
 			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
+			'select-dom': selectDom,
 		},
 		rules: {
 			...restrictedSyntax,
@@ -195,6 +209,7 @@ export default defineConfig([
 		files: ['source/features/**'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
+			'unicorn/no-top-level-side-effects': 'off', // Incompatible with the features that export helpers
 		},
 	},
 	{

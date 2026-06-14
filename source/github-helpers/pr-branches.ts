@@ -55,6 +55,7 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 	const {title, textContent, nextElementSibling} = referenceElement;
 
 	// In the old React version, we have a `title` attribute but it's used to mark deleted repos instead
+	// eslint-disable-next-line unicorn/prefer-minimal-ternary -- It will be removed soon ish
 	return title && title !== 'This repository has been deleted'
 		// TODO [2026-06-01]: Remove
 		? parseReferenceRaw(title, textContent.trim())

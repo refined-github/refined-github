@@ -3,11 +3,11 @@ import React from 'dom-chef';
 // Random icon just for types
 import type TagIcon from 'octicons-plain-react/Tag';
 
-type Options = {
+type Options = Record<string, string | typeof TagIcon> & {
 	label: string;
 	href: string;
 	icon: typeof TagIcon;
-} & Record<string, string | typeof TagIcon>;
+};
 
 export default function createDropdownItem({
 	label,
