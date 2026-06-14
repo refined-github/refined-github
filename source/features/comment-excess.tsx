@@ -49,9 +49,9 @@ function addIndicator(headerCommentCount: HTMLSpanElement): void {
 	headerCommentCount.after(link);
 }
 
-async function init(signal: AbortSignal): Promise<void> {
+async function init(signal: AbortSignal): Promise<void | false> {
 	if (!await elementReady(`${hiddenCommentsForm} ${paginationButtonSelector}`)) {
-		return;
+		return false;
 	}
 
 	observe('.gh-header-meta relative-time + span', addIndicator, {signal});

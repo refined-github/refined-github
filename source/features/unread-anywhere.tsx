@@ -65,7 +65,6 @@ async function openUnreadNotifications({currentTarget: button}: React.MouseEvent
 	}, {
 		message: 'Loading notifications…',
 		doneMessage: false,
-	// eslint-disable-next-line unicorn/prefer-await
 	}).finally(() => {
 		button.disabled = false;
 	});

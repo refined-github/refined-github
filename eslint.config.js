@@ -49,6 +49,7 @@ export default defineConfig([
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
 			'unicorn/no-unsafe-property-key': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
 			'unicorn/no-unsafe-string-replacement': 'off', // TODO
+			'unicorn/prefer-await': 'off', // Native TS rule is preferred
 			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
 			'unicorn/prefer-early-return': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4702452673
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027

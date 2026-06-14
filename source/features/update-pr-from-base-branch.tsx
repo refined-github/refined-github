@@ -65,7 +65,7 @@ async function handler({delegateTarget: button}: DelegateEvent<MouseEvent, HTMLB
 			pullRequestId: id,
 			updateMethod: method,
 		};
-		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable, unicorn/prefer-await -- Just pass it along
+		// eslint-disable-next-line @typescript-eslint/use-unknown-in-catch-callback-variable -- Just pass it along
 		const response = await mergeBranches(options).catch(error => error);
 		if (response instanceof Error) {
 			throw new Error(`Error updating the branch: ${response.message}`, {cause: response});
