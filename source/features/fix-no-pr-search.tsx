@@ -39,7 +39,7 @@ Test URLs:
 https://github.com/pulls
 https://github.com/refined-github/refined-github/pulls
 
-1. Open the url above
+1. Open the URL above
 2. Remove the "is:pr" from the search input and submit
 3. You should be redirected to the "Issues" tab
 

@@ -94,7 +94,7 @@ function processReview(review: HTMLElement): void {
 
 	for (const thread of unresolvedThreads) {
 		// Hide threads containing only resolved comments
-		if (!unresolvedThreadComments.some(comment => thread.contains(comment))) {
+		if (unresolvedThreadComments.every(comment => !thread.contains(comment))) {
 			thread.classList.add(collapsedClassName);
 		}
 	}
@@ -213,7 +213,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 
 	observe(timelineItem, processItem, {signal});
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	addEventListener('hashchange', uncollapseTargetedComment, {signal});
 }
 
 void features.add(import.meta.url, {

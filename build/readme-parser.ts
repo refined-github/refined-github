@@ -62,5 +62,5 @@ export function getImportedFeatures(): FeatureId[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf8');
 	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)]
 		.map(match => match[1] as FeatureId)
-		.toSorted();
+		.toSorted((a, b) => a.localeCompare(b));
 }

@@ -44,7 +44,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 
 	// Place before the update date ·
 	closestElement('[data-testid="results-list"] > div', repositoryLink)
-		.querySelector('ul > span:last-of-type')!
+		.querySelector(':scope ul > span:last-of-type')!
 		.before(
 			<span
 				aria-hidden="true"

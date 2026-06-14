@@ -64,7 +64,7 @@ const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
-	if (!tags.every(tag => validVersion.test(tag))) {
+	if (tags.some(tag => !validVersion.test(tag))) {
 		return tags[0];
 	}
 
@@ -190,7 +190,7 @@ export function fixFileHeaderOverlap(child: Element): void {
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
-	globalThis.dispatchEvent(new Event('resize'));
+	dispatchEvent(new Event('resize'));
 }
 
 export function multilineAriaLabel(...lines: string[]): string {

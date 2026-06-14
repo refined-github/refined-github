@@ -7,10 +7,12 @@ const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Pro
 
 	return new Promise(resolve => {
 		const observer = new ResizeObserver(([{target}], observer) => {
-			if (!target.isConnected) {
-				observer.disconnect();
-				resolve();
+			if (target.isConnected) {
+				return;
 			}
+
+			observer.disconnect();
+			resolve();
 		});
 
 		if (signal) {

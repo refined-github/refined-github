@@ -23,7 +23,7 @@ function replaceDiscussionLink(string: string): string {
 
 test('preventPrCommitLinkLoss', () => {
 	// Reset location to a non-PR page for most tests
-	location.href = 'https://github.com/refined-github/refined-github';
+	location.assign('https://github.com/refined-github/refined-github');
 
 	assert.equal(replacePrCommitLink('https://www.google.com/'), 'https://www.google.com/');
 	assert.equal(
@@ -115,7 +115,7 @@ test('preventPrCommitLinkLoss', () => {
 	);
 
 	// Test "this PR" behavior when on same PR
-	location.href = 'https://github.com/refined-github/refined-github/pull/3205';
+	location.assign('https://github.com/refined-github/refined-github/pull/3205');
 	assert.equal(
 		replacePrCommitLink(
 			'https://github.com/refined-github/refined-github/pull/3205/commits/1da152b3f8c51dd72d8ae6ad9cc96e0c2d8716f5',
@@ -148,7 +148,7 @@ test('preventPrCommitLinkLoss', () => {
 	);
 
 	// Reset location for other tests
-	location.href = 'https://github.com/refined-github/refined-github';
+	location.assign('https://github.com/refined-github/refined-github');
 });
 
 test('preventPrCompareLinkLoss', () => {

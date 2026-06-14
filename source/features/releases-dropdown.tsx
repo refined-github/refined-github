@@ -25,7 +25,7 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 	const selectedTag = field.value;
 	const releases = await getReleases.get(); // Expected to be in cache
 	if (!('inputType' in event) && releases.includes(selectedTag)) {
-		location.href = buildRepoUrl('releases/tag', encodeURIComponent(selectedTag));
+		location.assign(buildRepoUrl('releases/tag', encodeURIComponent(selectedTag)));
 		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 	}
 }

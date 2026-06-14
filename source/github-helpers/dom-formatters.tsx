@@ -26,19 +26,23 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	// Exclude the link if the closest element found is not `.markdown-body`
 	// This avoids shortening links in code and code suggestions, but still shortens them in review comments
 	// https://github.com/refined-github/refined-github/pull/4759#discussion_r702460890
-	if (closestElementOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
-		applyToLink(link, location.href);
+	if (!closestElementOptional([...codeElementsSelector, '.markdown-body'], link)?.classList.contains('markdown-body')) {
+		return;
+	}
 
-		// Customize same-thread links. Already handled by GitHub, but badly
-		// https://github.com/refined-github/refined-github/issues/6057
-		if (
-			link.textContent === `#${getConversationNumber()} (comment)`
-		) {
-			link.textContent = '(earlier comment)';
-		} else if (
-			link.textContent === `#${getConversationNumber()} (review)`
-		) {
-			link.textContent = '(earlier review)';
+	applyToLink(link, location.href);
+
+	// Customize same-thread links. Already handled by GitHub, but badly
+	// https://github.com/refined-github/refined-github/issues/6057
+	switch (link.textContent) {
+		case `#${getConversationNumber()} (comment)`: {
+			link.textContent = '(this comment)';
+			break;
+		}
+
+		case `#${getConversationNumber()} (review)`: {
+			link.textContent = '(this review)';
+			break;
 		}
 	}
 }

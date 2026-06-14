@@ -33,10 +33,10 @@ const noScreenshotExceptions = new Set([
 	'new-tab-links',
 	'extensible-nav', // No visual or behavior change
 
-	'hide-navigation-hover-highlight', // TODO: Add side-by-side gif
-	'hide-inactive-deployments', // TODO: side-by-side png
-	'esc-to-deselect-line', // TODO Add gif with key overlay
-	'scrollable-areas', // TODO: Add side-by-side png
+	'hide-navigation-hover-highlight', // TODO: Add side-by-side GIF
+	'hide-inactive-deployments', // TODO: side-by-side PNG
+	'esc-to-deselect-line', // TODO Add GIF with key overlay
+	'scrollable-areas', // TODO: Add side-by-side PNG
 
 	// CSS-only features without screenshots yet
 	'reactions-popup',
@@ -128,7 +128,7 @@ function validateCss(file: FeatureFile): void {
 			`Should be imported by \`${entryPoint}\` or removed if it is not needed`,
 		);
 
-		// `github-bugs` has its own eslint rule for test URLs
+		// `github-bugs` has its own ESLint rule for test URLs
 		if (file.id !== 'github-bugs') {
 			assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
 		}
