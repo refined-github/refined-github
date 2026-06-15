@@ -25,7 +25,7 @@ function init(signal: AbortSignal): void {
 	observe('.js-compare-pr', addWarning, {signal});
 }
 
-async function isCrossRepoCompareFromMaster(): Promise<boolean> {
+async function isCrossRepoCompareFromMain(): Promise<boolean> {
 	const c = parseCompareUrl(location.pathname);
 
 	return Boolean(c && c.isCrossRepo && c.head.branch === await defaultBranchOfRepo.get(c.head.repo));
@@ -34,7 +34,7 @@ async function isCrossRepoCompareFromMaster(): Promise<boolean> {
 void features.add(import.meta.url, {
 	asLongAs: [
 		pageDetect.isCompare,
-		isCrossRepoCompareFromMaster,
+		isCrossRepoCompareFromMain,
 	],
 	init,
 });

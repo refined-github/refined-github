@@ -14,8 +14,8 @@ function maybeCleanUrl(event?: NavigateEvent): void {
 function init(signal: AbortSignal): void {
 	maybeCleanUrl();
 	let interval: NodeJS.Timeout;
-	// eslint-disable-next-line unicorn/no-unnecessary-global-this -- bug
-	if (globalThis.navigation) {
+
+	if (navigation) {
 		navigation.addEventListener('navigate', maybeCleanUrl, {signal});
 	} else {
 		interval = setInterval(() => {

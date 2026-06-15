@@ -23,15 +23,15 @@ export default defineConfig([
 			'refined-github': refinedGithubPlugin,
 			'select-dom': selectDom,
 		},
-	},
-	{
-		ignores: ['**/*.json', '**/*.css'],
 		languageOptions: {
 			globals: {
 				...globals.browser,
 				...globals.webextensions,
 			},
 		},
+	},
+	{
+		ignores: ['**/*.json', '**/*.css'],
 		rules: {
 			...restrictedSyntax,
 
@@ -114,9 +114,8 @@ export default defineConfig([
 			],
 		},
 	},
-	// TypeScript-specific config
 	{
-		files: ['**/*.{ts,tsx,cts,mts}'],
+		files: ['**/*.ts','**/*.tsx'],
 		rules: {
 			// TODO: Drop after moving to dprint
 			// Allow empty blocks like `catch {}` or `function noop() {}`
@@ -147,9 +146,6 @@ export default defineConfig([
 				},
 			}],
 
-			'@typescript-eslint/switch-exhaustiveness-check': ['error', {
-				considerDefaultExhaustiveForUnions: true,
-			}],
 			'@typescript-eslint/no-use-before-define': 'error',
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
