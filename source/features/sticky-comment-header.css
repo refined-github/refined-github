@@ -35,6 +35,7 @@ html:not([rgh-OFF-sticky-comment-header]).rgh-show-names {
 	[class*='IssueBodyHeader-module__viewerDidAuthor'] {
 		/* Draw a possibly semi-transparent accent color over the opaque background */
 		background:
+			/*  eslint-disable-next-line css/no-invalid-properties -- Buggy https://github.com/eslint/css/issues/434 */
 			linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)),
 			var(--rgh-background);
 	}

@@ -22,6 +22,7 @@
 
 	const baseId = crypto.randomUUID();
 
+	// eslint-disable-next-line import-x/prefer-default-export -- Svelte component export
 	export function syncStateFromParent(targetState: State): void {
 		state = targetState;
 	}

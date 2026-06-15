@@ -18,10 +18,15 @@ export default defineConfig([
 	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
 	...xo.xoToEslintConfig(),
 	{
-		ignores: ['**/*.json', '**/*.css'],
 		plugins: {
 			promise: pluginPromise,
+			byo: byoPlugin,
+			'refined-github': refinedGithubPlugin,
+			'select-dom': selectDom,
 		},
+	},
+	{
+		ignores: ['**/*.json', '**/*.css'],
 		languageOptions: {
 			globals: {
 				...globals.browser,
@@ -29,6 +34,11 @@ export default defineConfig([
 			},
 		},
 		rules: {
+			...restrictedSyntax,
+
+			'select-dom/prefer': ['error', {
+				allowReadabilityExceptions: true,
+			}],
 			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
@@ -150,22 +160,7 @@ export default defineConfig([
 			'@typescript-eslint/no-unsafe-return': 'off',
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-type-assertion': 'off',
-			'@typescript-eslint/strict-void-return': 'off', // Too many violations to fix at once
-			'@typescript-eslint/explicit-function-return-type': [
-				'error',
-				{
-					allowExpressions: true,
-				},
-			],
-		},
-	},
-	{
-		files: [
-			'source/features/*',
-			'**/*.svelte',
-		],
-		rules: {
-			'import-x/prefer-default-export': 'off',
+			'@typescript-eslint/strict-void-return': 'off', // No like
 		},
 	},
 	{
@@ -178,25 +173,11 @@ export default defineConfig([
 		},
 	},
 	{
-		ignores: ['**/*.json'],
-		plugins: {
-			byo: byoPlugin,
-			'refined-github': refinedGithubPlugin,
-			'select-dom': selectDom,
-		},
-		rules: {
-			...restrictedSyntax,
-
-			'select-dom/prefer': ['error', {
-				allowReadabilityExceptions: true,
-			}],
-		},
-	},
-	{
-		files: ['source/features/**'],
+		files: ['source/features/**/*.tsx'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
 			'unicorn/no-top-level-side-effects': 'off', // Incompatible with the features that export helpers
+			'import-x/prefer-default-export': 'off',// Incompatible with the features that export helpers
 		},
 	},
 	{
@@ -216,7 +197,9 @@ export default defineConfig([
 		rules: {
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
-			'css/no-invalid-properties': 'off', // https://github.com/eslint/css/issues/434
+			'css/no-invalid-properties': ["error", {
+				allowUnknownVariables: true
+			}],
 			'refined-github/css-require-fuchsia-fallback': 'error',
 		},
 	},

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
-/* eslint-disable no-var,@typescript-eslint/triple-slash-reference -- TypeScript weirdness */
+/* eslint-disable no-var -- TypeScript weirdness */
 declare var content: undefined | {
 	fetch: GlobalFetch;
 };
