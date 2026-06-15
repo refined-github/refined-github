@@ -13,9 +13,8 @@ import xo from 'xo';
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
-const gitignorePath = fileURLToPath(new URL('.gitignore', import.meta.url));
 export default defineConfig([
-	includeIgnoreFile(gitignorePath, 'Imported .gitignore patterns'),
+	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url))),
 	...xo.xoToEslintConfig(),
 	{
 		plugins: {
@@ -136,7 +135,6 @@ export default defineConfig([
 					multiline: true,
 					consistent: true,
 				},
-
 				ImportDeclaration: {
 					multiline: true,
 					minProperties: 10,
@@ -161,6 +159,13 @@ export default defineConfig([
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-type-assertion': 'off',
 			'@typescript-eslint/strict-void-return': 'off', // No like
+			'@typescript-eslint/explicit-function-return-type': [
+				'error',
+				{
+					// Too late to do this manually
+					allowExpressions: true,
+				},
+			],
 		},
 	},
 	{
@@ -208,6 +213,6 @@ export default defineConfig([
 		...eslintConfigPrettier,
 	},
 	{
-		ignores: ['safari', '**/*.md', '**/*.json', '!**/package.json'],
+		ignores: ['safari', 'package-lock.json'],
 	},
 ]);
