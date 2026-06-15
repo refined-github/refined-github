@@ -138,15 +138,13 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
-	const container = document.createElement('div');
 	mount(ConversationActivityFilter, {
-		target: container,
+		target: anchor,
 		props: {
 			state: currentState,
 			onStateChange: applyState,
 		},
 	});
-	anchor.after(container.firstElementChild!);
 }
 
 function uncollapseTargetedComment(): void {

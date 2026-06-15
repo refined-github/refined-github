@@ -38,14 +38,14 @@
 			aria-controls={`${baseId}-list`}
 			aria-haspopup="true"
 			type="button"
-			class="Button--small Button color-fg-muted p-0 tmp-p-0"
+			class="Button--small Button color-fg-muted Button Button--invisible"
 		>
 			<span class="Button-content">
 				<span
 					class="Button-visual Button-leadingVisual"
 					class:mr-0={$activityFilterState === 'showAll' || $activityFilterState === 'hideAllNoise'}
 				>
-					{#if $activityFilterState === 'hideAllNoise'}
+					{#if $activityFilterState !== 'showAll'}
 						<DomChef as={EyeClosedIcon} class="color-fg-danger" />
 					{:else}
 						<DomChef as={EyeIcon} />
