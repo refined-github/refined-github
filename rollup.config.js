@@ -5,6 +5,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import sucrase from '@rollup/plugin-sucrase';
 import browserslist from 'browserslist';
 import {browserslistToTargets, Features} from 'lightningcss';
+import process from 'node:process';
 import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';

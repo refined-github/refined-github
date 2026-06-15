@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {modKey as moduleKey} from '../github-helpers/hotkey.js';
+import {modifierKey} from '../github-helpers/hotkey.js';
 
 // TODO [2026-09-01]: Remove
 const legacyInputElements = [
@@ -54,7 +54,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 	const message = (
 		<p className={cx('rgh-avoid-accidental-submissions', spacingClasses)}>
 			A submission via <kbd>enter</kbd> has been prevented. You can press <kbd>enter</kbd> again or use{' '}
-			<kbd>{moduleKey}</kbd>
+			<kbd>{modifierKey}</kbd>
 			<kbd>enter</kbd>.
 		</p>
 	);
