@@ -45,12 +45,11 @@
 					class="Button-visual Button-leadingVisual"
 					class:mr-0={$activityFilterState === 'showAll' || $activityFilterState === 'hideAllNoise'}
 				>
-					<DomChef as={EyeIcon} hidden={$activityFilterState !== 'showAll'} />
-					<DomChef
-						as={EyeClosedIcon}
-						hidden={$activityFilterState === 'showAll'}
-						class="color-fg-danger"
-					/>
+					{#if $activityFilterState === 'hideAllNoise'}
+						<DomChef as={EyeClosedIcon} class="color-fg-danger" />
+					{:else}
+						<DomChef as={EyeIcon} />
+					{/if}
 				</span>
 				<span class="Button-label lh-condensed-ultra">
 					<span
