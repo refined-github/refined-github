@@ -39,7 +39,7 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
 	// Maybe replace with https://github.com/refined-github/github-url-detection/issues/85
 	await elementReady('.UnderlineNav-body');
-	if (!pageDetect.canUserAdminRepo()) {
+	if (!pageDetect.canUserAccessRepoSettings()) {
 		return [];
 	}
 

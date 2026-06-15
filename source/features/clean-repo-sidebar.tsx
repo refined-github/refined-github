@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 // It's broken: https://github.com/refined-github/refined-github/issues/9339
@@ -30,26 +31,22 @@ async function cleanReleases(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $([
-		'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type h2',
-		// TODO [2026-09-01]: Drop old selector
-		'.Layout-sidebar .BorderGrid-row:last-of-type h2',
-	]);
-	if (lastSidebarHeader.textContent === 'Languages') {
-		lastSidebarHeader.hidden = true;
-	}
+	const languageHeader = $('[class*=\'PageLayout-Pane\'] .BorderGrid-row:has(.Progress-item) h2');
+	assertNodeContent(languageHeader.firstChild, 'Languages');
+	languageHeader.classList.add('sr-only');
 }
 
 // Hide empty meta if it’s not editable by the current user
 async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
-	if (!pageDetect.canUserAdminRepo()) {
-		$([
+	if (!pageDetect.canUserAccessRepoSettings()) {
+		// Selector only matches if it's empty
+		$optional([
 			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
 			// TODO [2026-09-01]: Drop old selector
 			'.Layout-sidebar .BorderGrid-cell > .text-italic',
-		]).remove();
+		])?.remove();
 	}
 }
 
