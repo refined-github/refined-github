@@ -51,6 +51,12 @@ const restrictedSyntax = {
 		selector: String.raw`Program:has(JSXAttribute[name.name="data-hotkey"])
 			:not(:has(ImportDeclaration[source.value=/\/helpers\/tooltip\.js$/]))`,
 	}],
+	'byo/prefer-tooltipped': ['error', {
+		selector:
+			'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"]) > JSXAttribute[name.name=/^(title|aria-label)$/]',
+		message:
+			"Elements with hotkeys require a mention in the tooltip, which requires: import addTooltip from '../helpers/tooltip.js';",
+	}],
 };
 
 export default restrictedSyntax;
