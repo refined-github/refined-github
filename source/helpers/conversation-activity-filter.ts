@@ -1,3 +1,5 @@
+import {writable} from 'svelte/store';
+
 export const states = {
 	showAll: 'Show all activities',
 	hideEvents: 'Hide events',
@@ -5,3 +7,5 @@ export const states = {
 } as const;
 
 export type State = keyof typeof states;
+
+export const activityFilterState = writable<State>('showAll');
