@@ -43,6 +43,10 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
+type ConversationActivityFilterWidget = {
+	syncStateFromParent: (state: State) => void;
+};
+const widgets = new Set<ConversationActivityFilterWidget>();
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -127,6 +131,11 @@ function applyState(targetState: State): void {
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
+	// Sync menu items state between two widgets
+	for (const widget of widgets) {
+		widget.syncStateFromParent(targetState);
+	}
+
 	currentState = targetState;
 	SessionPageSetting.set(targetState);
 }
@@ -139,13 +148,13 @@ async function addWidget(anchor: Element): Promise<void> {
 	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
 	const container = document.createElement('div');
-	mount(ConversationActivityFilter, {
+	widgets.add(mount(ConversationActivityFilter, {
 		target: container,
 		props: {
 			state: currentState,
 			onStateChange: applyState,
 		},
-	});
+	}));
 	anchor.after(container.firstElementChild!);
 }
 
@@ -166,6 +175,10 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	signal.addEventListener('abort', () => {
+		widgets.clear();
+	}, {once: true});
+
 	currentState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
