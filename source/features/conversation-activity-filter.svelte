@@ -4,34 +4,27 @@
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 
-	import {type State, states} from '../helpers/conversation-activity-filter.js';
+	import {
+		activityFilterState,
+		type State,
+		states,
+	} from '../helpers/conversation-activity-filter.js';
 	import DomChef from '../helpers/dom-chef.svelte';
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 
 	type Props = {
-		state: State;
 		onStateChange: (_value: State) => void;
 		withMargin?: boolean;
 	};
-
-	let {
-		state,
-		onStateChange,
-		withMargin = false,
-	}: Props = $props();
+	const {onStateChange, withMargin = false}: Props = $props();
 
 	const baseId = crypto.randomUUID();
 
-	export function syncStateFromParent(targetState: State): void {
-		state = targetState;
-	}
-
 	function selectState(targetState: State): void {
-		state = targetState;
+		activityFilterState.set(targetState);
 		onStateChange(targetState);
 	}
 </script>
-
 <action-menu
 	class={`d-inline-block position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
@@ -50,18 +43,18 @@
 			<span class="Button-content">
 				<span
 					class="Button-visual Button-leadingVisual"
-					class:mr-0={state === 'showAll' || state === 'hideAllNoise'}
+					class:mr-0={$activityFilterState === 'showAll' || $activityFilterState === 'hideAllNoise'}
 				>
-					<DomChef as={EyeIcon} hidden={state !== 'showAll'} />
+					<DomChef as={EyeIcon} hidden={$activityFilterState !== 'showAll'} />
 					<DomChef
 						as={EyeClosedIcon}
-						hidden={state === 'showAll'}
+						hidden={$activityFilterState === 'showAll'}
 						class="color-fg-danger"
 					/>
 				</span>
 				<span class="Button-label lh-condensed-ultra">
 					<span
-						hidden={state !== 'hideEvents'}
+						hidden={$activityFilterState !== 'hideEvents'}
 						class="v-align-text-top color-fg-danger"
 					>events</span>
 				</span>
@@ -100,10 +93,8 @@
 										type="button"
 										role="menuitemradio"
 										class="ActionListContent"
-										aria-checked={String(itemState) === state}
-										onclick={() => {
-											selectState(itemState as State);
-										}}
+										aria-checked={itemState === $activityFilterState}
+										onclick={() => selectState(itemState as State)}
 									>
 										<span
 											class="ActionListItem-visual ActionListItem-action--leading"
