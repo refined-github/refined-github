@@ -51,7 +51,7 @@ const restrictedSyntax = {
 			'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"]) > JSXAttribute[name.name=/^(title|aria-label)$/]',
 		message:
 			"Elements with hotkeys require a mention in the tooltip, which requires: import addTooltip from '../helpers/tooltip.js';",
-	},{
+	}, {
 		message: 'JSX elements with `data-hotkey` must be wrapped in `tooltipped()`',
 		selector:
 			'JSXOpeningElement:not(:has(JSXAttribute[name.name="hidden"])) > JSXAttribute[name.name="data-hotkey"]:not(CallExpression[callee.name="tooltipped"] JSXAttribute[name.name="data-hotkey"])',
