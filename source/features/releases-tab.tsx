@@ -15,7 +15,6 @@ import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleasesCount from './releases-tab.gql';
-import {tooltipped} from '../helpers/tooltip.js';
 
 function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
@@ -62,24 +61,19 @@ async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | v
 
 	repoNavigationBar.append(
 		<li className="d-flex">
-			{tooltipped(
-				{
-					label: '',
-					shortcut: 'g r',
-				},
-				<a
-					href={buildRepoUrl(type.toLowerCase())}
-					className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
-					data-hotkey="g r"
-					data-selected-links="repo_releases"
-					data-tab-item="rgh-releases-item"
-					data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
-				>
-					<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
-					<span data-content={type}>{type}</span>
-					<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
-				</a>,
-			)}
+			<a
+				href={buildRepoUrl(type.toLowerCase())}
+				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
+				data-hotkey="g r"
+				data-selected-links="repo_releases"
+				data-tab-item="rgh-releases-item"
+				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
+				title="Hotkey: G R"
+			>
+				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
+				<span data-content={type}>{type}</span>
+				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
+			</a>
 		</li>,
 	);
 
