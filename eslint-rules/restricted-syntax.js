@@ -46,16 +46,15 @@ const restrictedSyntax = {
 		selector: '*[test.type="CallExpression"][test.callee.name="$optional"],'
 			+ '*[test.type="UnaryExpression"][test.operator="!"][test.argument.type="CallExpression"][test.argument.callee.name="$optional"]',
 	}],
-	'byo/data-hotkey-imports-tooltip': ['error', {
-		message: 'JSX elements with `data-hotkey` must import `tooltip.js`',
-		selector: String.raw`Program:has(JSXAttribute[name.name="data-hotkey"])
-			:not(:has(ImportDeclaration[source.value=/\/helpers\/tooltip\.js$/]))`,
-	}],
 	'byo/prefer-tooltipped': ['error', {
 		selector:
 			'JSXOpeningElement:has(JSXAttribute[name.name="data-hotkey"]) > JSXAttribute[name.name=/^(title|aria-label)$/]',
 		message:
 			"Elements with hotkeys require a mention in the tooltip, which requires: import addTooltip from '../helpers/tooltip.js';",
+	},{
+		message: 'JSX elements with `data-hotkey` must be wrapped in `tooltipped()`',
+		selector:
+			'JSXOpeningElement:not(:has(JSXAttribute[name.name="hidden"])) > JSXAttribute[name.name="data-hotkey"]:not(CallExpression[callee.name="tooltipped"] JSXAttribute[name.name="data-hotkey"])',
 	}],
 };
 
