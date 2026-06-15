@@ -30,12 +30,12 @@ async function cleanReleases(): Promise<void> {
 async function hideLanguageHeader(): Promise<void> {
 	await domLoaded;
 
-	const lastSidebarHeader = $optional([
+	const lastSidebarHeader = $([
 		'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type h2',
 		// TODO [2026-09-01]: Drop old selector
 		'.Layout-sidebar .BorderGrid-row:last-of-type h2',
 	]);
-	if (lastSidebarHeader?.textContent === 'Languages') {
+	if (lastSidebarHeader.textContent === 'Languages') {
 		lastSidebarHeader.hidden = true;
 	}
 }
@@ -45,24 +45,24 @@ async function hideEmptyMeta(): Promise<void> {
 	await domLoaded;
 
 	if (!pageDetect.canUserAdminRepo()) {
-		$optional([
+		$([
 			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
 			// TODO [2026-09-01]: Drop old selector
 			'.Layout-sidebar .BorderGrid-cell > .text-italic',
-		])?.remove();
+		]).remove();
 	}
 }
 
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
+	// Your own repos don't include this link
 	const reportLink = $optional([
 		'[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]',
 		// TODO [2026-09-01]: Drop old selector
 		'.Layout-sidebar a[href^="/contact/report-content"]',
 	])?.parentElement;
 	if (reportLink) {
-		// Your own repos don't include this link
 		$([
 			'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell',
 			'.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell',
