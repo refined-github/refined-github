@@ -1,7 +1,7 @@
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
-interface FetchParameters {
+type FetchParameters = {
 	url: string;
 	options: RequestInit;
 }
