@@ -10,6 +10,7 @@ function fix(button: HTMLAnchorElement): void {
 function init(signal: AbortSignal): void {
 	observe(
 		[
+			'a[target="_blank"][class^="ConnectedEvent-module__linkedPullRequestLink"]', // "Linked a pull request" link
 			'a[target="_blank"][class^="ClosedEvent-module__closerLink"]', // "Closing issue" link
 			'a[target="_blank"][class^="LinkedPullRequest-module__pullRequestLink"]', // Linked PR links in issue headers
 			'a[target="_blank"][class^="prc-ActionList-ActionListContent"][aria-keyshortcuts="#"]', // Linked PR links in issue header menu
