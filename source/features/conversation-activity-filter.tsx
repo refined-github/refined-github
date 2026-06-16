@@ -2,12 +2,13 @@ import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
 import {mount} from 'svelte';
+import {get} from 'svelte/store';
 import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {states, type State} from '../helpers/conversation-activity-filter.js';
+import {activityFilterState, states, type State} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -43,10 +44,6 @@ const timelineItem = [
 	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
-type ConversationActivityFilterWidget = {
-	syncStateFromParent: (state: State) => void;
-};
-const widgets = new Set<ConversationActivityFilterWidget>();
 
 function processTimelineEvent(item: HTMLElement): void {
 	// Don't hide commits in PR conversation timelines #5581
@@ -117,8 +114,6 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-let currentState: State;
-
 function applyState(targetState: State): void {
 	const container = $([
 		// PR
@@ -131,12 +126,7 @@ function applyState(targetState: State): void {
 	]);
 	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
 
-	// Sync menu items state between two widgets
-	for (const widget of widgets) {
-		widget.syncStateFromParent(targetState);
-	}
-
-	currentState = targetState;
+	activityFilterState.set(targetState);
 	SessionPageSetting.set(targetState);
 }
 
@@ -147,15 +137,12 @@ async function addWidget(anchor: Element): Promise<void> {
 
 	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
-	const container = document.createElement('div');
-	widgets.add(mount(ConversationActivityFilter, {
-		target: container,
+	mount(ConversationActivityFilter, {
+		target: anchor,
 		props: {
-			state: currentState,
 			onStateChange: applyState,
 		},
-	}));
-	anchor.after(container.firstElementChild!);
+	});
 }
 
 function uncollapseTargetedComment(): void {
@@ -168,25 +155,22 @@ function uncollapseTargetedComment(): void {
 
 function switchToNextFilter(): void {
 	const stateNames = Object.keys(states);
-	const nextIndex = stateNames.indexOf(currentState) + 1;
+	const nextIndex = stateNames.indexOf(get(activityFilterState)) + 1;
 	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
 
 	applyState(nextState as State);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	signal.addEventListener('abort', () => {
-		widgets.clear();
-	}, {once: true});
-
-	currentState = SessionPageSetting.get()
+	const initialState = SessionPageSetting.get()
 		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
 			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 			: 'showAll');
+	activityFilterState.set(initialState);
 
 	const initialSetupOnce = onetime(() => {
-		if (currentState !== 'showAll') {
-			applyState(currentState);
+		if (initialState !== 'showAll') {
+			applyState(initialState);
 		}
 
 		registerHotkey('h', switchToNextFilter, {signal});

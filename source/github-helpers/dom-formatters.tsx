@@ -44,6 +44,8 @@ export function shortenLink(link: HTMLAnchorElement): void {
 			link.textContent = '(earlier review)';
 			break;
 		}
+
+		default:
 	}
 }
 

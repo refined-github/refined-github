@@ -1,5 +1,3 @@
-/// <reference types="../source/globals.js" />
-
 import {existsSync, readFileSync} from 'node:fs';
 import {regexJoinWithSeparator} from 'regex-join';
 import parseMarkdown from 'snarkdown';

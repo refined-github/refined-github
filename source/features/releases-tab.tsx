@@ -84,6 +84,8 @@ async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false
 	const [, type] = await getReleasesCount();
 
 	if (!type) {
+		// TODO: The feature was dropped
+		// Won't exist if `clean-repo-tabs` is disabled
 		$optional('.dropdown-divider', dropdownMenu)?.remove();
 		return false;
 	}

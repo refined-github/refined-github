@@ -1,10 +1,10 @@
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
-interface FetchParameters {
+type FetchParameters = {
 	url: string;
 	options: RequestInit;
-}
+};
 
 export async function fetchText({url, options}: FetchParameters): Promise<string> {
 	const response = await fetch(url, options);

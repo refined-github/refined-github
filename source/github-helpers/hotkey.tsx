@@ -27,5 +27,4 @@ export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefi
 	}
 }
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
-export const modKey = isMac ? 'cmd' : 'ctrl';
+export const modifierKey = isMac ? 'cmd' : 'ctrl';
