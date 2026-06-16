@@ -55,5 +55,6 @@
 	"use-first-commit-message-for-new-prs": "pr-first-commit-title",
 	"comment-on-draft-pr-indicator": "netiquette",
 	"draft-pr-notice": "netiquette",
+	"comment-excess": "hidden-content",
 	"highlight-collaborators-and-own-conversations": "conversation-authors"
 }

@@ -3,7 +3,7 @@ import {assert, test} from 'vitest';
 import {getFeatureRelatedIssuesQuery, getFeatureRelatedIssuesUrl} from './rgh-links.js';
 
 test('getFeatureRelatedIssuesQuery', () => {
-	assert.equal(getFeatureRelatedIssuesQuery('comment-excess'), 'state:open "comment-excess"');
+	assert.equal(getFeatureRelatedIssuesQuery('last-update-order'), 'state:open "last-update-order"');
 	assert.equal(
 		getFeatureRelatedIssuesQuery('closing-remarks'),
 		'state:open ("closing-remarks" OR "first-published-tag-for-merged-pr")',
