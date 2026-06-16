@@ -20,9 +20,9 @@ const disableAttributes = {
 	className: 'selected',
 	tabIndex: -1,
 	style: {pointerEvents: 'none'},
-} as const satisfies React.HTMLAttributes<HTMLButtonElement>;
+} as const satisfies React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function SubButton(): JSX.Element {
+function Button(_props: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
 	return (
 		<button
 			data-disable-with
@@ -60,35 +60,41 @@ function addLegacyButton(subscriptionButton: HTMLButtonElement): void {
 
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
-			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="unsubscribe"
-				{...(status === 'none' && disableAttributes)}
-			>
-				<BellSlashIcon /> None
-			</SubButton>)}
+			{tooltipped(
+				{label: 'Unsubscribe', direction: 'sw'},
+				<Button
+					value="unsubscribe"
+					{...(status === 'none' && disableAttributes)}
+				>
+					<BellSlashIcon /> None
+				</Button>,
+			)}
 
-			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="subscribe"
-				{...(status === 'all' && disableAttributes)}
-			>
-				<BellIcon /> All
-			</SubButton>)}
+			{tooltipped(
+				{label: 'Subscribe to all events', direction: 'sw'},
+				<Button
+					value="subscribe"
+					{...(status === 'all' && disableAttributes)}
+				>
+					<BellIcon /> All
+				</Button>,
+			)}
 
-			{tooltipped({
-				label: multilineAriaLabel(
-					'Subscribe just to status changes',
-					'(closing, reopening, merging)',
-				),
-				direction: 'sw',
-			}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="subscribe_to_custom_notifications"
-				{...(status === 'status' && disableAttributes)}
-			>
-				<IssueReopenedIcon /> Status
-			</SubButton>)}
+			{tooltipped(
+				{
+					label: multilineAriaLabel(
+						'Subscribe just to status changes',
+						'(closing, reopening, merging)',
+					),
+					direction: 'sw',
+				},
+				<Button
+					value="subscribe_to_custom_notifications"
+					{...(status === 'status' && disableAttributes)}
+				>
+					<IssueReopenedIcon /> Status
+				</Button>,
+			)}
 		</div>,
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
@@ -189,44 +195,53 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 	subscriptionButton.after(
 		// Use `fieldset` so that it can be disabled
 		<fieldset className="rgh-status-subscription BtnGroup d-flex width-full">
-			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				onClick={async event => {
-					closestElement('fieldset', event.currentTarget).disabled = true;
-					await updateIssueSubscriptionStatus('none', issue);
-					void addButton(subscriptionButton);
-				}}
-				{...(status === 'none' && disableAttributes)}
-			>
-				<BellSlashIcon /> None
-			</SubButton>)}
+			{tooltipped(
+				{label: 'Unsubscribe', direction: 'sw'},
+				<Button
+					onClick={async event => {
+						closestElement('fieldset', event.currentTarget).disabled = true;
+						await updateIssueSubscriptionStatus('none', issue);
+						void addButton(subscriptionButton);
+					}}
+					{...(status === 'none' && disableAttributes)}
+				>
+					<BellSlashIcon /> None
+				</Button>,
+			)}
 
-			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				onClick={async event => {
-					closestElement('fieldset', event.currentTarget).disabled = true;
-					await updateIssueSubscriptionStatus('all', issue);
-					void addButton(subscriptionButton);
-				}}
-				{...(status === 'all' && disableAttributes)}
-			>
-				<BellIcon /> All
-			</SubButton>)}
+			{tooltipped(
+				{label: 'Subscribe to all events', direction: 'sw'},
+				<Button
+					onClick={async event => {
+						closestElement('fieldset', event.currentTarget).disabled = true;
+						await updateIssueSubscriptionStatus('all', issue);
+						void addButton(subscriptionButton);
+					}}
+					{...(status === 'all' && disableAttributes)}
+				>
+					<BellIcon /> All
+				</Button>,
+			)}
 
-			{tooltipped({
-				label: multilineAriaLabel(
-					'Subscribe just to status changes',
-					'(closing, reopening, merging)',
-				),
-				direction: 'sw',
-			}, <SubButton
-				onClick={async event => {
-					closestElement('fieldset', event.currentTarget).disabled = true;
-					await updateIssueSubscriptionStatus('status', issue);
-					void addButton(subscriptionButton);
-				}}
-				{...(status === 'status' && disableAttributes)}
-			>
-				<IssueReopenedIcon /> Status
-			</SubButton>)}
+			{tooltipped(
+				{
+					label: multilineAriaLabel(
+						'Subscribe just to status changes',
+						'(closing, reopening, merging)',
+					),
+					direction: 'sw',
+				},
+				<Button
+					onClick={async event => {
+						closestElement('fieldset', event.currentTarget).disabled = true;
+						await updateIssueSubscriptionStatus('status', issue);
+						void addButton(subscriptionButton);
+					}}
+					{...(status === 'status' && disableAttributes)}
+				>
+					<IssueReopenedIcon /> Status
+				</Button>,
+			)}
 		</fieldset>,
 	);
 
