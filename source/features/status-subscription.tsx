@@ -53,7 +53,7 @@ function getCurrentStatus(subscriptionButton: HTMLButtonElement): SubscriptionSt
 	return 'all';
 }
 
-function addButton(subscriptionButton: HTMLButtonElement): void {
+function addLegacyButton(subscriptionButton: HTMLButtonElement): void {
 	const status = getCurrentStatus(subscriptionButton);
 	// Save first
 	const originalId = subscriptionButton.form!.elements.id;
@@ -181,17 +181,19 @@ async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<Subscript
 	return 'none';
 }
 
-async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<void> {
+async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 	const issue = await fetchIssue();
 	const status = await getCurrentStatusIssue(issue);
 	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
 
 	subscriptionButton.after(
-		<div className="rgh-status-subscription BtnGroup d-flex width-full">
+		// Use `fieldset` so that it can be disabled
+		<fieldset className="rgh-status-subscription BtnGroup d-flex width-full">
 			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				onClick={async () => {
+				onClick={async event => {
+					closestElement('fieldset', event.currentTarget).disabled = true;
 					await updateIssueSubscriptionStatus('none', issue);
-					void addButtonIssue(subscriptionButton);
+					void addButton(subscriptionButton);
 				}}
 				{...(status === 'none' && disableAttributes)}
 			>
@@ -199,9 +201,10 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 			</SubButton>)}
 
 			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				onClick={async () => {
+				onClick={async event => {
+					closestElement('fieldset', event.currentTarget).disabled = true;
 					await updateIssueSubscriptionStatus('all', issue);
-					void addButtonIssue(subscriptionButton);
+					void addButton(subscriptionButton);
 				}}
 				{...(status === 'all' && disableAttributes)}
 			>
@@ -215,15 +218,16 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 				),
 				direction: 'sw',
 			}, <SubButton
-				onClick={async () => {
+				onClick={async event => {
+					closestElement('fieldset', event.currentTarget).disabled = true;
 					await updateIssueSubscriptionStatus('status', issue);
-					void addButtonIssue(subscriptionButton);
+					void addButton(subscriptionButton);
 				}}
 				{...(status === 'status' && disableAttributes)}
 			>
 				<IssueReopenedIcon /> Status
 			</SubButton>)}
-		</div>,
+		</fieldset>,
 	);
 
 	// Would be missing on the first run
@@ -233,9 +237,9 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 
 function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
-	observe('button[data-thread-subscribe-button]:enabled', addButton, {signal});
+	observe('button[data-thread-subscribe-button]:enabled', addLegacyButton, {signal});
 	if (!pageDetect.isEnterprise()) {
-		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButtonIssue, {signal});
+		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButton, {signal});
 	}
 }
 
