@@ -130,7 +130,7 @@ const createDropdown = onetime(() => (
 		{
 			tooltipped(
 				{
-					label: '',
+					label: 'Open the notifications filter dropdown',
 					shortcut: 'Shift+S',
 				},
 				<summary
