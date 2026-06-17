@@ -4,12 +4,12 @@ import {$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
-const activeElementsSelector = 'a, button, clipboard-copy, details';
+export const interactiveElementSelector = 'a, button, clipboard-copy, details';
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 	// The clicked element is a button, a link or a popup ("Verified" badge, CI details, etc.)
 	const elementClicked = event.target as HTMLElement;
-	if (closestElementOptional(activeElementsSelector, elementClicked)) {
+	if (closestElementOptional(interactiveElementSelector, elementClicked)) {
 		return;
 	}
 

@@ -42,6 +42,7 @@
 	"download-folder-button",
 	"easy-toggle-commit-messages",
 	"easy-toggle-files",
+	"easy-toggle-hidden-comments",
 	"embed-gist-inline",
 	"emphasize-draft-pr-label",
 	"esc-to-cancel",

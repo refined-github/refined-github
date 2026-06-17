@@ -4,13 +4,13 @@ import {$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {codeSearchHeader} from '../github-helpers/selectors.js';
+import {interactiveElementSelector} from './easy-toggle-commit-messages.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	const elementClicked = event.target as HTMLElement;
 	const headerBar = event.delegateTarget;
 
-	// Exclude interactive elements
-	if (!closestElementOptional(['a', 'button', 'clipboard-copy', 'details'], elementClicked)) {
+	if (!closestElementOptional(interactiveElementSelector, elementClicked)) {
 		$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
 			.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
