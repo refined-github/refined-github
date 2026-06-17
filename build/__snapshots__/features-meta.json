@@ -252,7 +252,7 @@
 	},
 	{
 		"id": "easy-toggle-hidden-comments",
-		"description": "Enables toggling hidden comments and collapsed review threads by clicking on their header bar.",
+		"description": "Enables toggling hidden comments and resolved/outdated review threads by clicking on their header bar.",
 		"screenshot": null
 	},
 	{
