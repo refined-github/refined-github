@@ -9,8 +9,8 @@ function toggle(event: DelegateEvent<MouseEvent>): void {
 	if (!wasInteractiveElementClicked(event)) {
 		$(
 			[
-				'.review-thread-chevron',
-				'button:has(> .octicon-unfold, > .octicon-fold)',
+				'.review-thread-chevron', // PRs
+				'button:has(> .octicon-unfold, > .octicon-fold)', // Issues
 			],
 			event.delegateTarget,
 		).click();
@@ -20,8 +20,8 @@ function toggle(event: DelegateEvent<MouseEvent>): void {
 function init(signal: AbortSignal): void {
 	delegate(
 		[
-			'div[data-testid="comment-header"]:has(.octicon-unfold, .octicon-fold)',
-			'.js-toggle-outdated-comments',
+			'.js-toggle-outdated-comments', // PRs
+			'div[data-testid="comment-header"]:has(.octicon-unfold, .octicon-fold)', // Issues
 		],
 		'click',
 		toggle,
@@ -37,10 +37,11 @@ void features.add(import.meta.url, {
 });
 
 /*
-Test URLs
 
-https://github.com/refined-github/sandbox/issues/131#issuecomment-4297544223
+Test URLs:
 
-https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676
+- Resolved PR review: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676
+
+- Hidden issue comment: https://github.com/refined-github/sandbox/issues/131#issuecomment-4297544223
 
 */

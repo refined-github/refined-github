@@ -253,7 +253,7 @@
 	{
 		"id": "easy-toggle-hidden-comments",
 		"description": "Enables toggling hidden comments and resolved/outdated review threads by clicking on their header bar.",
-		"screenshot": null
+		"screenshot": "https://github.com/user-attachments/assets/d002c991-621e-4ac2-adac-099916af107f"
 	},
 	{
 		"id": "embed-gist-inline",
