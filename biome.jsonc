@@ -1,0 +1,19 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"complexity": {
+				"noImportantStyles": "off"
+			},
+			"style": {
+				// TODO: Enable later
+				"noDescendingSpecificity": "off"
+			}
+		}
+	},
+	"files": {
+		"includes": ["source/**/*.css"]
+	}
+}
