@@ -12,7 +12,6 @@
 	import prettyBytes from 'pretty-bytes';
 
 	import {onMount} from 'svelte';
-
 	import {
 		getStorageBytesInUse,
 		getStoredItemSize,

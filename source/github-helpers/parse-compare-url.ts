@@ -26,7 +26,6 @@ export default function parseCompareUrl(pathname: string): Comparison | undefine
 	const headParts = heads.split(':');
 	const headBranch = headParts.pop()!; // Branch is always last, or the only one
 	const headOwner = headParts.shift() ?? base.owner; // The owner is first, or it's the same as the base
-	// eslint-disable-next-line unicorn/no-declarations-before-early-exit -- Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3139#issuecomment-4702391391
 	const headName = headParts.pop() ?? base.name; // The repo is first or middle, or it's the same as the base
 
 	if (headParts.length > 0) {

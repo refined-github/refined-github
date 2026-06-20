@@ -34,6 +34,7 @@
 		"dom-loaded": "^3.1.0",
 		"doma": "^4.0.0",
 		"element-ready": "^9.0.2",
+		"eslint-config-xo": "^0.53.2",
 		"eslint-plugin-promise": "^7.3.0",
 		"filter-altered-clicks": "^2.1.1",
 		"flat-zip": "^1.0.1",
@@ -99,7 +100,6 @@
 		"dprint-plugin-markup": "^0.27.3",
 		"dprint-plugin-yaml": "^0.6.0",
 		"eslint": "^10.5.0",
-		"eslint-config-prettier": "^10.1.8",
 		"eslint-formatter-unix": "^9.0.1",
 		"eslint-import-resolver-typescript": "^4.4.5",
 		"eslint-plugin-byo": "^1.0.1",
@@ -128,8 +128,7 @@
 		"typed-query-selector": "^2.12.2",
 		"typescript": "^6.0.3",
 		"unplugin-lightningcss": "^0.4.5",
-		"vitest": "^4.1.9",
-		"xo": "^2.0.2"
+		"vitest": "^4.1.9"
 	},
 	"engines": {
 		"node": ">= 24",
@@ -160,8 +159,7 @@
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
 		"is-core-module": "npm:@nolyfill/is-core-module@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
-		"object-keys": "npm:@nolyfill/object-keys@^1",
-		"eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@^66.0.0"
+		"object-keys": "npm:@nolyfill/object-keys@^1"
 	},
 	"webExt": {
 		"sourceDir": "distribution",

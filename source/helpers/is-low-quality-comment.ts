@@ -33,5 +33,5 @@ export default function isLowQualityComment(text: string): boolean {
 	// Note: the Unicode range targets skin color modifiers for the hand emojis
 	return text
 		.replaceAll(lowQualityWordsRegex, '')
-		.replaceAll(/[\s,.!?👍👎👌🙏]+|[\u{1F3FB}-\u{1F3FF}]|[+-]\d+|⬆️/gu, '') === '';
+		.replaceAll(/[\s!,.?👌👍👎🙏]+|[\u{1F3FB}-\u{1F3FF}]|[+-]\d+|⬆️/gu, '') === '';
 }

@@ -7,7 +7,6 @@ import showOverlay from '../helpers/overlay.js';
 
 function isCtrlF(event: KeyboardEvent): boolean {
 	return (
-		// eslint-disable-next-line unicorn/prefer-minimal-ternary -- No.
 		(isMac ? event.metaKey : event.ctrlKey)
 		&& !event.shiftKey
 		&& !event.altKey

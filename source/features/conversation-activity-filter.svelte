@@ -3,7 +3,6 @@
 	import EyeIcon from 'octicons-plain-react/Eye';
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
-
 	import {
 		activityFilterState,
 		type State,

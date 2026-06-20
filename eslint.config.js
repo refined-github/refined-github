@@ -1,6 +1,6 @@
 import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
@@ -8,14 +8,16 @@ import {defineConfig} from 'eslint/config';
 import globals from 'globals';
 import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
-import xo from 'xo';
 
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
 	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url))),
-	...xo.xoToEslintConfig(),
+	...eslintConfigXo({
+		browser: true,
+		prettier: 'compat',
+	}),
 	{
 		plugins: {
 			promise: pluginPromise,
@@ -31,9 +33,11 @@ export default defineConfig([
 		},
 	},
 	{
-		ignores: ['**/*.json', '**/*.css'],
+		files: [tsFilesGlob, jsFilesGlob, '**/*.svelte'],
 		rules: {
 			...restrictedSyntax,
+			// TODO: Drop after https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3161#issuecomment-4756660250
+			'no-restricted-globals': 'off',
 
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
@@ -46,6 +50,7 @@ export default defineConfig([
 			'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 			'require-unicode-regexp': 'off', // Don't care
 			'unicorn/better-regex': 'off',
+			'regexp/no-useless-character-class': 'off', // Ugly
 			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
 			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
 			'unicorn/dom-node-dataset': 'off',
@@ -205,8 +210,28 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts', '**/*.svelte'],
-		...eslintConfigPrettier,
+		files: ['**/*.md'],
+		rules: {
+			'markdown/no-empty-links': 'off',
+		},
+	},
+	{
+		files: ['**/*.html'],
+		rules: {
+			// https://github.com/xojs/eslint-config-xo/issues/106
+			'@html-eslint/sort-attrs': 'off',
+			'@html-eslint/no-non-scalable-viewport': 'off',
+			'@html-eslint/require-closing-tags': 'off',
+			'@html-eslint/require-form-method': 'off',
+			'@html-eslint/require-button-type': 'off',
+			'@html-eslint/require-input-label': 'off',
+			'@html-eslint/require-li-container': 'off',
+			'@html-eslint/indent': 'off',
+			'@html-eslint/attrs-newline': 'off',
+			'@html-eslint/element-newline': 'off',
+			'@html-eslint/use-baseline': 'off',
+			'@html-eslint/require-content': 'off',
+		},
 	},
 	{
 		ignores: ['safari', 'package-lock.json'],

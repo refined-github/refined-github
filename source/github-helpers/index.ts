@@ -53,14 +53,14 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		// Remove diacritics, punctuation and spaces
 		// https://stackoverflow.com/a/37511463/288906
 		// https://www.freecodecamp.org/news/what-is-punct-in-regex-how-to-match-all-punctuation-marks-in-regular-expressions/
-		.replaceAll(/[\p{Diacritic}\p{P}\s]/gu, '')
+		.replaceAll(/[\s\p{Diacritic}\p{Punctuation}]/gu, '')
 		.toLowerCase();
 
 	return username === realname;
 }
 
-const validVersion = /^[vr]?\d+(?:\.\d+)+/;
-const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
+const validVersion = /^[rv]?\d+(?:\.\d+)+/;
+const isPrerelease = /^[rv]?\d+(?:\.\d+)+-\d/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)

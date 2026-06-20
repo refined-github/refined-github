@@ -20,12 +20,12 @@ type PrReference = {
 	nameWithOwner: string;
 };
 
-const absoluteReferenceRegex = /^(?<nameWithOwner>(?<owner>[^:/]+)\/(?<name>[^:]+)):(?<branch>.+)$/;
+const absoluteReferenceRegex = /^(?<nameWithOwner>(?<owner>[^/:]+)\/(?<name>[^:]+)):(?<branch>.+)$/;
 
 /**
- * @param absolute - The full reference, e.g. `fregante/mem:main`
- * @param relative - The references it appear to the user in the PR, e.g. "main" on same-repo PRs, "fregante:main" on cross-repo PRs
- * @example parseReferenceRaw('fregante/mem:main', 'main')
+ @param absolute - The full reference, e.g. `fregante/mem:main`
+ @param relative - The references it appear to the user in the PR, e.g. "main" on same-repo PRs, "fregante:main" on cross-repo PRs
+ @example parseReferenceRaw('fregante/mem:main', 'main')
  */
 export function parseReferenceRaw(absolute: string, relative: string): PrReference {
 	const absoluteMatch = absoluteReferenceRegex.exec(absolute);

@@ -55,7 +55,7 @@ type RestResponse = AnyObject & {
 	ok: boolean;
 };
 
-const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^a-z\d]/gi, '_');
+const escapeKey = (...keys: Array<string | number>): string => '_' + String(keys).replaceAll(/[^\da-z]/gi, '_');
 
 export class RefinedGitHubApiError extends Error {
 	response: AnyObject = {};
