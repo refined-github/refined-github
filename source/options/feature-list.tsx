@@ -14,9 +14,12 @@ function moveDisabledFeaturesToTop(): void {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
 	});
-	for (const group of [grouped.off, grouped.broken, grouped.on].filter(Boolean)) {
-		for (const feature of group!) {
-			container.append(feature);
+
+	for (const group of [grouped.off, grouped.broken, grouped.on]) {
+		if (group) {
+			for (const feature of group) {
+				container.append(feature);
+			}
 		}
 	}
 }
@@ -82,7 +85,7 @@ function featuresFilterHandler(this: HTMLInputElement): void {
 		.split(/\s+/)
 		.filter(Boolean); // Ignore empty strings
 	for (const feature of $$('.feature')) {
-		feature.hidden = !keywords.every(word => feature.dataset.text!.includes(word));
+		feature.hidden = keywords.some(word => !feature.dataset.text!.includes(word));
 	}
 }
 

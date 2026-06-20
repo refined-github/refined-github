@@ -8,6 +8,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
 function getFirstCommit(firstCommitTitle: HTMLElement): {title: string; body: string | undefined} {
+	// Commits might not have a body
 	const body = $optional('.Details-content--hidden pre', firstCommitTitle.parentElement!)
 		?.textContent
 		.trim() ?? undefined;
@@ -56,6 +57,7 @@ function init(signal: AbortSignal): void {
 // The user already altered the PR title/body in a previous load, don't overwrite it
 // https://github.com/refined-github/refined-github/issues/7191
 function hasUserAlteredThePr(): boolean {
+	// There might not be a previous session
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
 	return Boolean(
 		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)

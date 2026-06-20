@@ -63,7 +63,7 @@ async function redirectToBlameCommit(
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
 		blameUrl.hash = 'L' + $('.react-line-number', blameHunk).textContent;
-		location.href = blameUrl.href;
+		location.assign(blameUrl.href);
 	}, {
 		message: 'Fetching pull request',
 		doneMessage: 'Redirecting',

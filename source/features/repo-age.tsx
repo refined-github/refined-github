@@ -57,9 +57,8 @@ async function getRepoAge(
 	});
 
 	const {committedDate} = repository.defaultBranchRef.target.history.nodes
-		.toReversed()
 		// Filter out any invalid commit dates #3185
-		.find((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
+		.findLast((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
 	return [committedDate, lastCommitsPageUrl];

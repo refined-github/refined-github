@@ -23,15 +23,15 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
 		for (let index = endingCharacterIndex; index >= startingCharacterIndex; index--) {
 			const thisCharacter = text[index];
-			const endingIndex = index;
 
 			// Exclude irrelevant characters
 			if (thisCharacter !== ' ' && thisCharacter !== '\t') {
 				continue;
 			}
 
+			const endingIndex = index;
 			// Find the same character so they can be wrapped together, but stop at `startingCharacterIndex`
-			while (text[index - 1] === thisCharacter && !(index === startingCharacterIndex)) {
+			while (text[index - 1] === thisCharacter && index !== startingCharacterIndex) {
 				index--;
 			}
 

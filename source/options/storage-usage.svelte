@@ -42,7 +42,7 @@
 		changes: {[key: string]: chrome.storage.StorageChange},
 		areaName: chrome.storage.AreaName,
 	) => {
-		if (item && changes[item]) {
+		if (item && Object.hasOwn(changes, item)) {
 			used = getTrueSizeOfObject(changes[item].newValue);
 		}
 

@@ -22,6 +22,7 @@ function serializeDom(element: Element): string {
 				break;
 			}
 
+			case null:
 			default:
 		}
 	}

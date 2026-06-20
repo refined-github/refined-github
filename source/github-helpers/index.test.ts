@@ -66,7 +66,7 @@ test('getConversationNumber', () => {
 		],
 	]);
 	for (const [url, result] of pairs) {
-		location.href = url;
+		location.assign(url);
 		assert.equal(result, getConversationNumber());
 	}
 });

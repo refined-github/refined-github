@@ -20,6 +20,11 @@ html:not([rgh-OFF-notifications-ui]) {
 			flex-grow: 1;
 		}
 
+		/* Hide empty element that takes space in the flexbox */
+		.notification-recent-alerts:not(:has(a)) {
+			display: none !important;
+		}
+
 		/* Allow the filters/sort/search to be ordered */
 		.js-check-all-container > .d-md-none:first-child {
 			display: flex !important;
@@ -32,9 +37,28 @@ html:not([rgh-OFF-notifications-ui]) {
 			}
 		}
 
+		/* Move "1 new notification" to the center */
+		.notification-sort-by {
+			order: 3;
+		}
+		.notification-group-by {
+			order: 6;
+		}
+
 		/* Move search box to the bottom */
 		.notifications-query-builder-wrapper {
-			order: 10;
+			order: 9;
+		}
+	}
+
+	@media screen and not (min-width: 544px) {
+		/* Adjust button sizing when the native media "sm" query hides the labels */
+		.js-notifications-mark-selected-actions .btn-sm {
+			padding-inline: 0.6em !important;
+			/* Use "form" to exclude our elements, which keep their labels */
+			form & .mr-1 {
+				margin: 0 !important;
+			}
 		}
 	}
 

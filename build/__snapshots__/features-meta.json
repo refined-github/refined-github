@@ -47,12 +47,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
 	},
 	{
-		"id": "ci-link",
-		"description": "Adds a build/CI status icon next to the repo’s name.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png"
-	},
-	{
 		"id": "clean-checks-list",
 		"description": "Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.",
 		"css": true,
@@ -155,11 +149,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260875648-bd495d27-4cd1-4190-bcc5-b8b476f07d39.png"
 	},
 	{
-		"id": "comment-excess",
-		"description": "Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.",
-		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31"
-	},
-	{
 		"id": "comments-time-machine-links",
 		"description": "Adds links to browse the repository and linked files at the time of each comment.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252749373-9313f1d9-3d92-44a2-a1d1-2b49a29e6a5c.png"
@@ -205,7 +194,7 @@
 	{
 		"id": "copy-on-y",
 		"description": "Enhances the <kbd>y</kbd> hotkey to also copy the permalink.",
-		"screenshot": null
+		"screenshot": "https://github.com/user-attachments/assets/2237c549-5fc8-405c-8a72-7da518d23b0e"
 	},
 	{
 		"id": "create-release-shortcut",
@@ -331,6 +320,11 @@
 		"description": "Adds filters for PRs <em>in your repos</em> and <em>commented on by you</em> in the global PR search.",
 		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
+	},
+	{
+		"id": "hidden-content",
+		"description": "Informs you that there are hidden comments or files when pressing <kbd>Cmd</kbd><kbd>F</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd>.",
+		"screenshot": "https://github.com/user-attachments/assets/5437d8fc-c539-4d13-98b3-d7049d2d92e7"
 	},
 	{
 		"id": "hide-diff-signs",
@@ -820,9 +814,9 @@
 	},
 	{
 		"id": "repo-header-info",
-		"description": "Shows whether a repo is a fork and adds the number of stars to its header.",
+		"description": "Adds stars, CI, fork and private status to the repository header.",
 		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png"
+		"screenshot": "https://github.com/user-attachments/assets/6b115387-962c-4cf4-b864-c750f9c8e0b1"
 	},
 	{
 		"id": "repo-wide-file-finder",

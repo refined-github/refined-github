@@ -53,6 +53,7 @@ function getBestComment(): HTMLElement | undefined {
 		}
 	}
 
+	// Missing if no comment reached the threshold
 	return highest?.comment;
 }
 
@@ -106,6 +107,7 @@ function init(): false | void {
 		return false;
 	}
 
+	// Detection only
 	const commentText = $optional(singleParagraphCommentSelector, bestComment)?.textContent;
 	if (commentText && isLowQualityComment(commentText)) { // #5567
 		return false;

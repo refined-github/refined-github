@@ -24,7 +24,7 @@ function getLinkToLine(lineNumberCell: HTMLElement): string {
 
 function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	if (!isAlteredClick(event)) {
-		location.href = getLinkToLine(event.delegateTarget);
+		location.assign(getLinkToLine(event.delegateTarget));
 	}
 }
 

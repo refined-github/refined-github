@@ -20,9 +20,9 @@ const disableAttributes = {
 	className: 'selected',
 	tabIndex: -1,
 	style: {pointerEvents: 'none'},
-} as const satisfies React.HTMLAttributes<HTMLButtonElement>;
+} as const satisfies React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function SubButton(): JSX.Element {
+function Button(_props: React.ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element {
 	return (
 		<button
 			data-disable-with
@@ -33,12 +33,12 @@ function SubButton(): JSX.Element {
 	);
 }
 
-function getReasonElement(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
+function getLegacyReason(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
 	return $('p.reason', closestElement('.thread-subscription-status', subscriptionButton));
 }
 
-function getCurrentStatus(subscriptionButton: HTMLButtonElement): SubscriptionStatus {
-	const reason = getReasonElement(subscriptionButton).textContent;
+function getLegacyStatus(button: HTMLButtonElement): SubscriptionStatus {
+	const reason = getLegacyReason(button).textContent;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
 	if (reason.includes('custom settings')) {
@@ -53,42 +53,31 @@ function getCurrentStatus(subscriptionButton: HTMLButtonElement): SubscriptionSt
 	return 'all';
 }
 
-function addButton(subscriptionButton: HTMLButtonElement): void {
-	const status = getCurrentStatus(subscriptionButton);
+function addLegacyButton(subscriptionButton: HTMLButtonElement): void {
+	const status = getLegacyStatus(subscriptionButton);
 	// Save first
 	const originalId = subscriptionButton.form!.elements.id;
 
 	subscriptionButton.after(
 		<div className="rgh-status-subscription BtnGroup d-flex width-full">
-			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="unsubscribe"
-				{...(status === 'none' && disableAttributes)}
-			>
-				<BellSlashIcon /> None
-			</SubButton>)}
-
-			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="subscribe"
-				{...(status === 'all' && disableAttributes)}
-			>
-				<BellIcon /> All
-			</SubButton>)}
-
-			{tooltipped({
-				label: multilineAriaLabel(
-					'Subscribe just to status changes',
-					'(closing, reopening, merging)',
-				),
-				direction: 'sw',
-			}, <SubButton
-				// @ts-expect-error I don't remember how to fix this
-				value="subscribe_to_custom_notifications"
-				{...(status === 'status' && disableAttributes)}
-			>
-				<IssueReopenedIcon /> Status
-			</SubButton>)}
+			{tooltipped(
+				{label: 'Unsubscribe', direction: 'sw'},
+				<Button value="unsubscribe" {...(status === 'none' && disableAttributes)}>
+					<BellSlashIcon /> None
+				</Button>,
+			)}
+			{tooltipped(
+				{label: 'Subscribe to all events', direction: 'sw'},
+				<Button value="subscribe" {...(status === 'all' && disableAttributes)}>
+					<BellIcon /> All
+				</Button>,
+			)}
+			{tooltipped(
+				{label: multilineAriaLabel('Subscribe just to status changes', '(closing, reopening, merging)'), direction: 'sw'},
+				<Button value="subscribe_to_custom_notifications" {...(status === 'status' && disableAttributes)}>
+					<IssueReopenedIcon /> Status
+				</Button>,
+			)}
 		</div>,
 		// Always submitted, but ignored unless the value is `subscribe_to_custom_notifications`
 		// Keep outside BtnGroup
@@ -103,7 +92,7 @@ function addButton(subscriptionButton: HTMLButtonElement): void {
 
 	// 'all' can have many reasons, but the other two don't add further information #6684
 	if (status !== 'all') {
-		getReasonElement(subscriptionButton).hidden = true;
+		getLegacyReason(subscriptionButton).hidden = true;
 	}
 }
 
@@ -115,19 +104,12 @@ const githubApiBaseHeaders = new Headers({
 	credentials: 'include',
 });
 
-type IssueApiResponse = Record<string, any>;
-
-async function fetchIssue(): Promise<IssueApiResponse> {
-	const repo = getRepo()!;
-
+async function fetchIssueData(): Promise<Record<string, any>> {
+	const {owner, name} = getRepo()!;
 	const body = {
 		// `IssueViewerSecondaryViewQuery`
 		query: 'cb9b35846fadf5f80ec3a2c05bf42a89',
-		variables: {
-			number: getConversationNumber()!,
-			owner: repo.owner,
-			repo: repo.name,
-		},
+		variables: {number: getConversationNumber()!, owner, repo: name},
 	};
 	const url = new URL('/_graphql', location.origin);
 	url.searchParams.set('body', JSON.stringify(body));
@@ -141,89 +123,64 @@ async function fetchIssue(): Promise<IssueApiResponse> {
 	return data;
 }
 
-async function updateIssueSubscriptionStatus(targetStatus: SubscriptionStatus, issue: IssueApiResponse): Promise<void> {
-	const {id} = issue.repository.issue;
-
-	const body = {
-		// `updateIssueSubscriptionMutation`
-		query: 'd0752b2e49295017f67c84f21bfe41a3',
-		variables: {
-			input: {
-				events: targetStatus === 'status' ? ['CLOSED', 'REOPENED'] : [],
-				state: targetStatus === 'status' ? 'CUSTOM' : targetStatus === 'all' ? 'SUBSCRIBED' : 'UNSUBSCRIBED',
-				subscribableId: id,
-			},
-		},
-	};
-
+async function updateSubscription(targetStatus: SubscriptionStatus, id: string): Promise<void> {
 	const response = await fetch('/_graphql', {
 		headers: githubApiBaseHeaders,
 		method: 'POST',
-		body: JSON.stringify(body),
+		body: JSON.stringify({
+			// `updateIssueSubscriptionMutation`
+			query: 'd0752b2e49295017f67c84f21bfe41a3',
+			variables: {
+				input: {
+					events: targetStatus === 'status' ? ['CLOSED', 'REOPENED'] : [],
+					state: targetStatus === 'status' ? 'CUSTOM' : targetStatus === 'all' ? 'SUBSCRIBED' : 'UNSUBSCRIBED',
+					subscribableId: id,
+				},
+			},
+		}),
 	});
 	if (!response.ok) {
 		throw new Error('Failed to update the issue subscription status');
 	}
 }
 
-async function getCurrentStatusIssue(issue: IssueApiResponse): Promise<SubscriptionStatus> {
-	const {viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
-	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
-
-	if (isSubscribed) {
-		if (viewerCustomSubscriptionEvents.length > 0) {
-			return 'status';
-		}
-
-		return 'all';
-	}
-
-	return 'none';
-}
-
-async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<void> {
-	const issue = await fetchIssue();
-	const status = await getCurrentStatusIssue(issue);
+async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
+	const issue = await fetchIssueData();
+	const {id, viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
+	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
+	const status: SubscriptionStatus = isSubscribed
+		? (viewerCustomSubscriptionEvents.length > 0 ? 'status' : 'all')
+		: 'none';
+
+	const getOnClick = (target: SubscriptionStatus) => async (event: React.MouseEvent) => {
+		closestElement('fieldset', event.currentTarget).disabled = true;
+		await updateSubscription(target, id);
+		void addButton(subscriptionButton);
+	};
 
 	subscriptionButton.after(
-		<div className="rgh-status-subscription BtnGroup d-flex width-full">
-			{tooltipped({label: 'Unsubscribe', direction: 'sw'}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('none', issue);
-					void addButtonIssue(subscriptionButton);
-				}}
-				{...(status === 'none' && disableAttributes)}
-			>
-				<BellSlashIcon /> None
-			</SubButton>)}
-
-			{tooltipped({label: 'Subscribe to all events', direction: 'sw'}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('all', issue);
-					void addButtonIssue(subscriptionButton);
-				}}
-				{...(status === 'all' && disableAttributes)}
-			>
-				<BellIcon /> All
-			</SubButton>)}
-
-			{tooltipped({
-				label: multilineAriaLabel(
-					'Subscribe just to status changes',
-					'(closing, reopening, merging)',
-				),
-				direction: 'sw',
-			}, <SubButton
-				onClick={async () => {
-					await updateIssueSubscriptionStatus('status', issue);
-					void addButtonIssue(subscriptionButton);
-				}}
-				{...(status === 'status' && disableAttributes)}
-			>
-				<IssueReopenedIcon /> Status
-			</SubButton>)}
-		</div>,
+		// Use `fieldset` so that it can be disabled
+		<fieldset className="rgh-status-subscription BtnGroup d-flex width-full">
+			{tooltipped(
+				{label: 'Unsubscribe', direction: 'sw'},
+				<Button onClick={getOnClick('none')} {...(status === 'none' && disableAttributes)}>
+					<BellSlashIcon /> None
+				</Button>,
+			)}
+			{tooltipped(
+				{label: 'Subscribe to all events', direction: 'sw'},
+				<Button onClick={getOnClick('all')} {...(status === 'all' && disableAttributes)}>
+					<BellIcon /> All
+				</Button>,
+			)}
+			{tooltipped(
+				{label: multilineAriaLabel('Subscribe just to status changes', '(closing, reopening, merging)'), direction: 'sw'},
+				<Button onClick={getOnClick('status')} {...(status === 'status' && disableAttributes)}>
+					<IssueReopenedIcon /> Status
+				</Button>,
+			)}
+		</fieldset>,
 	);
 
 	// Would be missing on the first run
@@ -233,9 +190,9 @@ async function addButtonIssue(subscriptionButton: HTMLButtonElement): Promise<vo
 
 function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
-	observe('button[data-thread-subscribe-button]:enabled', addButton, {signal});
+	observe('button[data-thread-subscribe-button]:enabled', addLegacyButton, {signal});
 	if (!pageDetect.isEnterprise()) {
-		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButtonIssue, {signal});
+		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButton, {signal});
 	}
 }
 

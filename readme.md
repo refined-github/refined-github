@@ -89,7 +89,7 @@ Refer to style guide in the wiki. Keep this message between sections.
 https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
 -->
 
-- [](# "ci-link") 🔥 [Adds a build/CI status icon next to the repo’s name.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/237923995-5e14a272-0bf2-4fe4-b409-8c05378aa4fd.png)
+- [](# "repo-header-info") 🔥 [Adds stars, CI, fork and private status to the repository header.](https://github.com/user-attachments/assets/6b115387-962c-4cf4-b864-c750f9c8e0b1)
 - [](# "swap-branches-on-compare") [Adds a link to swap branches in the branch compare view.](https://user-images.githubusercontent.com/44045911/230370539-ebc94246-864f-48f2-85fa-7318fc1f6d71.png)
 - [](# "repo-age") [Displays the age of the repository in the sidebar.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176778-f8260312-d0dc-41b5-a4d1-ca680208d347.png)
 - [](# "show-open-prs-of-forks") [In your forked repos, shows number of your open PRs to the original repo.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252177140-94165582-628b-45b6-9a62-faf0c7fc2335.png)
@@ -103,7 +103,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
-- [](# "repo-header-info") [Shows whether a repo is a fork and adds the number of stars to its header.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267216946-404d79ab-46d7-4bc8-ba88-ae8f8029150d.png)
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
@@ -131,7 +130,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Code
 
 - [](# "linkify-code") [Linkifies issue/PR references and URLs in code.](https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png)
-- [](# "copy-on-y") Enhances [the <kbd>y</kbd> hotkey](https://help.github.com/articles/getting-permanent-links-to-files/) to also copy the permalink.
+- [](# "copy-on-y") Enhances [the <kbd>y</kbd> hotkey](https://docs.github.com/en/repositories/working-with-files/using-files/getting-permanent-links-to-files) to also [copy the permalink.](https://github.com/user-attachments/assets/2237c549-5fc8-405c-8a72-7da518d23b0e)
 - [](# "list-prs-for-file") [Alerts you if the current file is altered by an open PR.](https://user-images.githubusercontent.com/1402241/234559302-b9911ac2-a1bb-4f8a-8e88-078d631cde18.png)
 - [](# "refined-github.css") [Reduces tabs’ size to 4 spaces instead of 8](https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png) where GitHub doesn't follow [the user’s preferences.](https://github.com/settings/appearance)
 - [](# "esc-to-deselect-line") [Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.](https://github.com/refined-github/refined-github/issues/1590)
@@ -177,7 +176,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "open-issue-to-latest-comment") [Makes the "comment" icon in issue lists link to the latest comment of the issue.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png)
 - [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png)
 - [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
-- [](# "comment-excess") [Informs you that there are hidden comments in the header of long issues. Also scrolls down to the hidden comments when pressing Cmd+F or Ctrl+F.](https://github.com/refined-github/refined-github/assets/1402241/4e4660f9-c987-4b0d-82ca-56ef29952c31)
+- [](# "hidden-content") [Informs you that there are hidden comments or files when pressing <kbd>Cmd</kbd><kbd>F</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd>.](https://github.com/user-attachments/assets/5437d8fc-c539-4d13-98b3-d7049d2d92e7)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

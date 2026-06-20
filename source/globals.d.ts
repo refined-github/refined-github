@@ -1,23 +1,20 @@
-/* eslint-disable no-var,@typescript-eslint/triple-slash-reference -- TypeScript weirdness */
-
-/// <reference types="@types/dom-navigation" />
-
-declare var content: {
+/* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
+/* eslint-disable no-var -- TypeScript weirdness */
+declare var content: undefined | {
 	fetch: GlobalFetch;
-} | undefined;
+};
 
-// eslint-disable-next-line unicorn/prefer-global-this -- Types not available there
 declare var navigation: typeof window.navigation;
 
 type GlobalFetch = typeof fetch;
 type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
 type Deinit =
+	| VoidFunction
 	| {disconnect: VoidFunction}
 	| {clear: VoidFunction}
 	| {destroy: VoidFunction}
-	| {abort: VoidFunction}
-	| VoidFunction;
+	| {abort: VoidFunction};
 
 type FeatureId = string & {feature: true};
 interface FeatureMeta {

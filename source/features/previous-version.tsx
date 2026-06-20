@@ -75,11 +75,11 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 	);
 
 	onReactPageUpdate(async pageUnload => {
-		const url = await getPreviousFileUrl();
 		if (pageUnload.aborted) {
 			return;
 		}
 
+		const url = await getPreviousFileUrl();
 		if (url) {
 			previousButton.href = url;
 		}

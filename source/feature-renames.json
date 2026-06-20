@@ -4,7 +4,8 @@
 	"add-selection-in-new-tab": "selection-in-new-tab",
 	"add-profile-hotkey": "profile-hotkey",
 	"add-download-folder-button": "download-folder-button",
-	"add-ci-link": "ci-link",
+	"add-ci-link": "repo-header-info",
+	"ci-link": "repo-header-info",
 	"add-pull-request-hotkey": "pull-request-hotkeys",
 	"add-quick-review-buttons": "one-click-review-submission",
 	"add-time-machine-links-to-comments": "comments-time-machine-links",
@@ -54,5 +55,6 @@
 	"use-first-commit-message-for-new-prs": "pr-first-commit-title",
 	"comment-on-draft-pr-indicator": "netiquette",
 	"draft-pr-notice": "netiquette",
+	"comment-excess": "hidden-content",
 	"highlight-collaborators-and-own-conversations": "conversation-authors"
 }

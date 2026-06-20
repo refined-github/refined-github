@@ -8,7 +8,6 @@ import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {$, $$, $$optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
@@ -76,9 +75,7 @@ async function openSelectedNotifications(): Promise<void> {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	appendBefore(
-		selectedActionsGroup,
-		'details',
+	selectedActionsGroup.append(
 		tooltipped({
 			label: 'Open selected notifications',
 			shortcut: 'p',

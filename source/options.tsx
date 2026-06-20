@@ -197,4 +197,4 @@ async function init(): Promise<void> {
 	scrollTargetIntoView();
 }
 
-void init();
+await init();

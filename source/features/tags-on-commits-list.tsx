@@ -21,15 +21,15 @@ type BaseTarget = {
 	commitResourcePath: string;
 };
 
-type TagTarget = {
+type TagTarget = BaseTarget & {
 	tagger: {
 		date: Date;
 	};
-} & BaseTarget;
+};
 
-type CommitTarget = {
+type CommitTarget = BaseTarget & {
 	committedDate: Date;
-} & BaseTarget;
+};
 
 type CommonTarget = TagTarget | CommitTarget;
 type TagNode = {
@@ -39,10 +39,10 @@ type TagNode = {
 
 function mergeTags(oldTags: CommitTags, newTags: CommitTags): CommitTags {
 	const result: CommitTags = {...oldTags};
-	for (const commit of Object.keys(newTags)) {
-		result[commit] = result[commit]
-			? arrayUnion(result[commit], newTags[commit])
-			: newTags[commit];
+	for (const [commit, tags] of Object.entries(newTags)) {
+		result[commit] = Object.hasOwn(result, commit)
+			? arrayUnion(result[commit], tags)
+			: tags;
 	}
 
 	return result;
@@ -72,7 +72,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 			continue;
 		}
 
-		const commit = node.target.commitResourcePath.split('/')[4];
+		const commit = node.target.commitResourcePath.split('/', 5)[4];
 		tags[commit] ||= [];
 
 		tags[commit].push(node.name);
@@ -110,7 +110,7 @@ async function init(): Promise<void | false> {
 		let targetTags = cached[targetCommit];
 
 		if (!targetTags) {
-			// No tags for this commit found in the cache, check in github
+			// No tags for this commit found in the cache, check in GitHub
 			cached = mergeTags(cached, await getTags(lastCommitOnPage)); // eslint-disable-line no-await-in-loop
 			targetTags = cached[targetCommit];
 		}

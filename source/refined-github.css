@@ -21,6 +21,10 @@
 		position: relative;
 		z-index: 5;
 	}
+
+	.rgh-display-contents {
+		display: contents !important;
+	}
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */
@@ -42,25 +46,15 @@
 	}
 }
 
-/* For `open-all-notifications` and `select-notifications`: allow header wrapping */
+/* `notifications-ui`, `open-all-notifications`, `select-notifications`: allow overflow */
 /* Info: https://github.com/refined-github/refined-github/issues/5705 */
 /* Test: */
 /* https://github.com/notifications (Grouped by date) */
 /* https://github.com/notifications (Grouped by repo) */
 /* https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter) */
-:root {
-	.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
-		flex-wrap: wrap;
-		height: auto !important; /* Unset the default height to allow wrapping */
-		min-height: 52px; /* Re-set the default height as a minimum height */
-	}
-
-	:is(
-		.js-notifications-mark-selected-actions,
-		.js-notifications-mark-all-actions
-	):not([hidden]) {
-		display: contents !important;
-	}
+.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
+	overflow: auto;
+	white-space: nowrap;
 }
 
 /* 404 page animation on load */

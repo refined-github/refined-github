@@ -1,22 +1,7 @@
 {
-  "source/features/clean-repo-sidebar.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 3
-    }
-  },
-  "source/features/highest-rated-comment.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
-  "source/features/pr-first-commit-title.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 2
-    }
-  },
   "source/features/releases-tab.tsx": {
-    "refined-github/no-optional-chaining": {
-      "count": 1
+    "byo/prefer-tooltipped": {
+      "count": 2
     }
   }
 }

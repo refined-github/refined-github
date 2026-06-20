@@ -64,7 +64,7 @@ const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
-	if (!tags.every(tag => validVersion.test(tag))) {
+	if (tags.some(tag => !validVersion.test(tag))) {
 		return tags[0];
 	}
 
@@ -96,7 +96,7 @@ const cachePerPage = {
 /** Is tag or commit, with elementReady */
 export const isPermalink = mem(async () => {
 	// No need for getCurrentGitRef(), it's a simple and exact check
-	if (/^[\da-f]{40}$/.test(location.pathname.split('/')[4])) {
+	if (/^[\da-f]{40}$/.test(location.pathname.split('/', 5)[4])) {
 		// It's a commit
 		return true;
 	}
@@ -138,12 +138,12 @@ const navigationBarSelector = is(
 
 export function areIssuesEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/issues"]`);
+	return elementExists(`${navigationBarSelector} a[href^="/${repo.nameWithOwner}/issues"]`);
 }
 
 export function areDiscussionsEnabled(): boolean {
 	const repo = getRepo()!;
-	return elementExists(`${navigationBarSelector} a[href="/${repo.nameWithOwner}/discussions"]`);
+	return elementExists(`${navigationBarSelector} a[href^="/${repo.nameWithOwner}/discussions"]`);
 }
 
 export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
@@ -190,7 +190,7 @@ export function fixFileHeaderOverlap(child: Element): void {
 
 /** Trigger a reflow to push the right-most tab into the overflow dropdown */
 export function triggerRepoNavOverflow(): void {
-	globalThis.dispatchEvent(new Event('resize'));
+	dispatchEvent(new Event('resize'));
 }
 
 export function multilineAriaLabel(...lines: string[]): string {

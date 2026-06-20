@@ -4,10 +4,12 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 
 function handleSubmit(event: DelegateEvent<Event, HTMLElement>): void {
-	if (!confirm('Are you sure you want to publish this release?')) {
-		event.stopImmediatePropagation();
-		event.preventDefault();
+	if (confirm('Are you sure you want to publish this release?')) {
+		return;
 	}
+
+	event.stopImmediatePropagation();
+	event.preventDefault();
 }
 
 function handleSubmitOnCtrlEnter(event: DelegateEvent<KeyboardEvent, HTMLElement>): void {

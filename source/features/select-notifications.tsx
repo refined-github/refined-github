@@ -21,6 +21,7 @@ import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 import {is, not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 const prIcons = [
 	'.octicon-git-pull-request',
@@ -126,16 +127,21 @@ const createDropdown = onetime(() => (
 		className="details-reset details-overlay position-relative rgh-select-notifications mr-2 tmp-mr-2"
 		onToggle={resetFilters}
 	>
-		<summary
-			className="h6" // `h6` matches "Select all" style
-			data-hotkey="Shift+S"
-			aria-haspopup="menu"
-			// Don't use tooltipped, it remains visible when the dropdown is open
-			title="Hotkey: Shift+S"
-			role="button"
-		>
-			Select by <span className="dropdown-caret ml-1 tmp-ml-1" />
-		</summary>
+		{
+			tooltipped(
+				{
+					label: 'Open the notifications filter dropdown',
+					shortcut: 'Shift+S',
+				},
+				<summary
+					className="h6" // `h6` matches "Select all" style
+					data-hotkey="Shift+S"
+					aria-haspopup="menu"
+					role="button"
+				>
+					Select by <span className="dropdown-caret ml-1 tmp-ml-1" />
+				</summary>,
+			)}
 		<details-menu
 			className="SelectMenu left-0"
 			aria-label="Select by"
@@ -158,7 +164,6 @@ function closeDropdown(): void {
 }
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
-	selectAllCheckbox.style.verticalAlign = '-0.2em'; // #7852
 	closestElement('label', selectAllCheckbox).after(
 		// `h6` matches "Select all" style
 		<span className="mx-2 tmp-mx-2 h6">·</span>,
