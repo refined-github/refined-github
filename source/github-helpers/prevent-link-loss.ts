@@ -7,7 +7,7 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
 }
 
-const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
+const escapeRegex = (string: string): string => string.replaceAll(/[$()*+.?[\\\]^{|}]/g, String.raw`\$&`);
 const prCommitPathnameRegex =
 	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:[.]{2}([\da-f]{7})[\da-f]{33})?(?:#[\w-]+)?\b/;
 export const prCommitUrlRegex = new RegExp(
@@ -15,13 +15,13 @@ export const prCommitUrlRegex = new RegExp(
 	'gi',
 );
 
-const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fLR-]+)/;
+const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\d\-LRa-f]+)/;
 export const prCompareUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + prComparePathnameRegex.source,
 	'gi',
 );
 
-const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#[\w-]+)?\b/;
+const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^\s#]+(#[\w-]+)?\b/;
 export const discussionUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + discussionPathnameRegex.source,
 	'gi',

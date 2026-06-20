@@ -160,6 +160,7 @@ export default defineConfig([
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-type-assertion': 'off',
 			'@typescript-eslint/strict-void-return': 'off', // No like
+			'@typescript-eslint/strict-boolean-expressions': ['error', {'allowNullableString': true}],
 			'@typescript-eslint/explicit-function-return-type': [
 				'error',
 				{
@@ -176,6 +177,9 @@ export default defineConfig([
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
+		},
+		rules: {
+			'import-x/extensions': 'off', // Why does it prefer .ts only here?
 		},
 	},
 	{

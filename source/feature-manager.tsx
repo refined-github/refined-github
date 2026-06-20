@@ -30,13 +30,22 @@ type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 type FeatureLoader = RunConditions & {
-	/** This only adds the shortcut to the help screen, it doesn't enable it. @default {} */
+	/**
+	 This only adds the shortcut to the help screen, it doesn't enable it.
+	 @default {}
+	*/
 	shortcuts?: Record<string, string>;
 
-	/** Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found. @default false */
+	/**
+	 Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found.
+	 @default false
+	*/
 	awaitDomReady?: true;
 
-	/** Whether to require a personal token before running `init`. @default false */
+	/**
+	 Whether to require a personal token before running `init`.
+	 @default false
+	*/
 	requiresToken?: true;
 
 	/**
@@ -69,7 +78,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	listenToAjaxedLoad();
 
-	const [options, contentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
+	const [options, willLoadContentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		contentScriptToggle.get(),
 		getLocalHotfixesAsOptions(),
@@ -77,7 +86,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 		preloadSyncLocalStrings(),
 	]);
 
-	if (!contentScripts) {
+	if (!willLoadContentScripts) {
 		await contentScriptToggle.remove();
 		const message = 'Refined GitHub: scripts were disabled for this load, but CSS can’t be disabled this way.';
 		console.warn(message);
@@ -213,10 +222,10 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			currentFeatureControllers.append(id, featureController);
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
-			void asyncForEach(castArray(init), async init => {
-				const result = await init(featureController.signal);
+			void asyncForEach(castArray(init), async singleInit => {
+				const wasEnabled = await singleInit(featureController.signal);
 				// Features can return `false` when they decide not to run on the current page
-				if (result !== false && !isFeaturePrivate(id)) {
+				if (wasEnabled !== false && !isFeaturePrivate(id)) {
 					log.info('✅', id);
 					// Register feature shortcuts
 					for (const [hotkey, description] of Object.entries(shortcuts)) {

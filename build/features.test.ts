@@ -57,7 +57,7 @@ const featuresInReadme = getFeaturesMeta();
 
 // We used to enforce the filetype, but this is no longer possible with new URLs
 // https://github.com/refined-github/refined-github/pull/7130
-const imageRegex = /\.(png|gif)$/;
+const imageRegex = /\.(?:png|gif)$/;
 
 const rghUploadsRegex = /refined-github[/]refined-github[/]assets[/]/;
 
@@ -79,7 +79,7 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-restricted-types, n/prefer-global/buffer -- Just passing it
+	// eslint-disable-next-line @typescript-eslint/no-restricted-types -- Just passing it
 	contents(): Buffer {
 		return readFileSync(this.path);
 	}
@@ -102,6 +102,7 @@ class FeatureFile {
 
 function validateReadme(featureId: FeatureId): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
+	// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions -- Validates user content and type
 	assert(featureMeta, 'Should be described in the readme');
 
 	assert(
@@ -115,6 +116,7 @@ function validateReadme(featureId: FeatureId): void {
 		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 
+	// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions -- Validates user content and type
 	assert(!duplicate, 'Should be described only once in the readme');
 }
 
