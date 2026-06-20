@@ -14,7 +14,6 @@
 		/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
 		max-width: -webkit-fill-available;
 		/* TODO [2027-01-01]: Remove if supported */
-		/* biome-ignore lint/suspicious/noDuplicateProperties: Temporary compatibility */
 		max-width: -moz-available;
 		max-width: intrinsic;
 	}

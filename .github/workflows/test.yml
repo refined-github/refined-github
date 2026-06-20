@@ -65,7 +65,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint:eslint
-      - run: npm run lint:biome
       - uses: codespell-project/actions-codespell@v2
         with:
           ignore_words_list: eror,usera
