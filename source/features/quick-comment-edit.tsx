@@ -24,15 +24,15 @@ const isConversationIneditable = memoize(
 	},
 );
 
+const editMenuItemSelector = 'li[data-component="ActionList.Item"]:has(.octicon-pencil)';
+
 async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
 	if (await isConversationIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
 	}
 
-	const editMenuItemSelector = `ul[aria-labelledby="${menuButon.id}"] li[data-component="ActionList.Item"]:has(.octicon-pencil)`;
-
-	const canEditComment = await withMenuOpen(menuButon, () => elementExists(editMenuItemSelector));
+	const canEditComment = await withMenuOpen(menuButon, menu => elementExists(editMenuItemSelector, menu));
 	if (!canEditComment) {
 		return;
 	}
@@ -42,8 +42,8 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 			<button
 				type="button"
 				className="Button Button--iconOnly Button--invisible Button--small"
-				onClick={async () => withMenuOpen(menuButon, () => {
-					$(editMenuItemSelector).click();
+				onClick={async () => withMenuOpen(menuButon, menu => {
+					$(editMenuItemSelector, menu).click();
 				})}
 			>
 				<PencilIcon />
