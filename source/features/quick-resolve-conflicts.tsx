@@ -70,7 +70,7 @@ async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promi
 	}
 
 	const menuItems = await withMenuOpen(button, menu => $$('li[data-component="ActionList.Item"]', menu));
-	const buttonGroup = createResolveConflictsButtons(menuItems!);
+	const buttonGroup = createResolveConflictsButtons(menuItems);
 	button.replaceWith(buttonGroup);
 }
 
