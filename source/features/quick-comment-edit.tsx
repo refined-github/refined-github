@@ -2,26 +2,57 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {closestElement, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
+import withMenuOpen from '../github-helpers/with-menu-open.js';
 import observe from '../helpers/selector-observer.js';
+import {tooltipped} from '../helpers/tooltip.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
-const isIssueIneditable = memoize(
-	// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
-	// However, if you can edit every comment, you can still edit the comment
-	async (_signal: AbortSignal | undefined): Promise<boolean> =>
-		elementExists('.js-pick-reaction:first-child') && !await userIsModerator(),
+const isConversationIneditable = memoize(
+	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists([
+		'[class*="ReadonlyCommentBox-module"]',
+		// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
+		// However, if you can edit every comment, you can still edit the comment
+		'.js-pick-reaction:first-child',
+	]) && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
 );
 
-async function addQuickEditButton(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
-	if (await isIssueIneditable(signal)) {
+const editMenuItemSelector = 'div[data-component="ActionMenu.Overlay"] li[data-component="ActionList.Item"]:has(.octicon-pencil)';
+
+async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+	if (await isConversationIneditable(signal)) {
+		features.unload(import.meta.url);
+		return;
+	}
+
+	const canEditComment = await withMenuOpen(menuButon, () => elementExists(editMenuItemSelector));
+	if (!canEditComment) {
+		return;
+	}
+
+	menuButon.before(
+		tooltipped('Edit comment',
+			<button
+				type="button"
+				className="Button Button--iconOnly Button--invisible Button--small"
+				onClick={async () => withMenuOpen(menuButon, () => {
+					$(editMenuItemSelector).click();
+				})}
+			>
+				<PencilIcon />
+			</button>,
+		));
+}
+
+async function addQuickEditButtonLegacy(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
+	if (await isConversationIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
 	}
@@ -55,12 +86,17 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
+	observe(
+		':is(.loaded .react-issue-body, .react-issue-comment) button:has(> .octicon-kebab-horizontal)',
+		addQuickEditButton,
+		{signal},
+	);
+
 	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
 	const preSelector = await userIsModerator() ? '' : '.current-user';
-
 	observe(
 		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
-		addQuickEditButton,
+		addQuickEditButtonLegacy,
 		{signal},
 	);
 }
