@@ -110,10 +110,10 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 
 async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
-	const [, hash] = /commit\/([0-9a-f]{40})/.exec(mergeCommit.pathname)!;
+	const {hash} = /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!;
 	const tagName = await firstTag.get(hash);
 
-	if (tagName) {
+	if (tagName !== undefined) {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom

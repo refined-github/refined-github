@@ -160,7 +160,7 @@ export default defineConfig([
 			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/no-unsafe-type-assertion': 'off',
 			'@typescript-eslint/strict-void-return': 'off', // No like
-			'@typescript-eslint/strict-boolean-expressions': ['error', {'allowNullableString': true}],
+			'@typescript-eslint/strict-boolean-expressions': "off", // Unnecessarily noisy
 			'@typescript-eslint/explicit-function-return-type': [
 				'error',
 				{

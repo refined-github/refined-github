@@ -41,7 +41,7 @@ function wrapButtons(buttons: HTMLElement[]): void {
 	buttons.at(-1)!.classList.add('rounded-left-0');
 }
 
-async function add(branchSelector: HTMLElement): Promise<void> {
+async function add(branchSelectorElement: HTMLElement): Promise<void> {
 	// Apply here instead of `excludes` due to React loading:
 	// 1. Visit branch
 	// 2. Click "Code" repo tab
@@ -52,12 +52,12 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	}
 
 	// The DOM varies between details-based DOM and React-based one
-	const selectorWrapper = branchSelector.tagName === 'SUMMARY'
-		? branchSelector.parentElement!
-		: branchSelector;
+	const selectorWrapper = branchSelectorElement.tagName === 'SUMMARY'
+		? branchSelectorElement.parentElement!
+		: branchSelectorElement;
 	selectorWrapper.classList.add('rgh-highlight-non-default-branch');
 
-	const existingLink = $optional('.rgh-default-branch-button', branchSelector.parentElement!);
+	const existingLink = $optional('.rgh-default-branch-button', branchSelectorElement.parentElement!);
 
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7098
@@ -68,7 +68,7 @@ async function add(branchSelector: HTMLElement): Promise<void> {
 	}
 
 	if (pageDetect.isSingleFile()) {
-		fixFileHeaderOverlap(branchSelector);
+		fixFileHeaderOverlap(branchSelectorElement);
 	}
 
 	const defaultLink = (

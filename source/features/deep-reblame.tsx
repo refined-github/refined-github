@@ -27,11 +27,11 @@ const getPullRequestBlameCommit = mem(
 
 		const associatedPr = repository.object.associatedPullRequests.nodes[0];
 
-		if (!associatedPr || !prNumbers.includes(associatedPr.number) || associatedPr.mergeCommit.oid !== commit) {
+		if (associatedPr === undefined || !prNumbers.includes(associatedPr.number) || associatedPr.mergeCommit.oid !== commit) {
 			throw new Error('The PR linked in the title didn’t create this commit');
 		}
 
-		if (!repository.file) {
+		if (repository.file === undefined) {
 			throw new Error('The file was renamed and Refined GitHub can’t find it');
 		}
 
@@ -40,7 +40,7 @@ const getPullRequestBlameCommit = mem(
 );
 
 function extractCommitFromHoverCardUrl(url: string): string {
-	return /[/]commit[/]([0-9a-f]{40})[/]/i.exec(url)![1];
+	return /[/]commit[/](?<commit>[0-9a-f]{40})[/]/i.exec(url)!.groups!.commit;
 }
 
 async function redirectToBlameCommit(

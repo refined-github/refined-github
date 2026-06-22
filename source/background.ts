@@ -85,13 +85,13 @@ async function showWelcomePage(): Promise<void> {
 		return;
 	}
 
-	const [token, permissions] = await Promise.all([
+	const [hasStoredToken, hasPermissions] = await Promise.all([
 		hasToken(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
 		chrome.permissions.contains({origins: ['https://github.com/*']}),
 	]);
 
 	try {
-		if (token && permissions) {
+		if (hasStoredToken && hasPermissions) {
 			// Mark as welcomed
 			return;
 		}

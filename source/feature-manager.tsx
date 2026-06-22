@@ -189,7 +189,9 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			include,
 			exclude,
 			init,
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- Clear as is
 			awaitDomReady = false,
+			// eslint-disable-next-line @typescript-eslint/naming-convention -- Clear as is
 			requiresToken = false,
 			deduplicate = false,
 		} = loader;
@@ -198,15 +200,15 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			throw new Error(`${id}: \`include\` cannot be an empty array, it means "run nowhere"`);
 		}
 
-		let firstLoop = true;
+		let isFirstLoop = true;
 		do {
 			if (awaitDomReady) {
 				await domLoaded;
 			}
 
-			if (firstLoop) {
-				firstLoop = false;
-			} else if (deduplicate && elementExists(deduplicate)) {
+			if (isFirstLoop) {
+				isFirstLoop = false;
+			} else if (deduplicate !== false && elementExists(deduplicate)) {
 				continue;
 			}
 
@@ -223,9 +225,9 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
 			void asyncForEach(castArray(init), async singleInit => {
-				const wasEnabled = await singleInit(featureController.signal);
+				const didRun = await singleInit(featureController.signal);
 				// Features can return `false` when they decide not to run on the current page
-				if (wasEnabled !== false && !isFeaturePrivate(id)) {
+				if (didRun !== false && !isFeaturePrivate(id)) {
 					log.info('✅', id);
 					// Register feature shortcuts
 					for (const [hotkey, description] of Object.entries(shortcuts)) {

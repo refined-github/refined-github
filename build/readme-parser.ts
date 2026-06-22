@@ -34,6 +34,7 @@ function extractDataFromMatch(match: RegExpMatchArray): FeatureMeta {
 		return title;
 	}
 
+	// eslint-disable-next-line regexp/prefer-named-capture-group -- Not simpler
 	const linkLessMarkdownDescription = simpleDescription.replaceAll(/\[(.+?)\]\((.+?)\)/g, urlExtracter);
 	const hasCss = existsSync(`source/features/${simpleId}.css`);
 	const hasTsx = existsSync(`source/features/${simpleId}.tsx`);
@@ -58,7 +59,7 @@ export function getFeaturesMeta(): FeatureMeta[] {
 
 export function getImportedFeatures(): FeatureId[] {
 	const contents = readFileSync('source/refined-github.ts', 'utf8');
-	return [...contents.matchAll(/^import '\.\/features\/([^.]+)\.js';/gm)]
-		.map(match => match[1] as FeatureId)
+	return [...contents.matchAll(/^import '\.\/features\/(?<id>[^.]+)\.js';/gm)]
+		.map(match => match.groups!.id as FeatureId)
 		.toSorted((a, b) => a.localeCompare(b));
 }

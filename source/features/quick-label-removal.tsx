@@ -38,8 +38,8 @@ function removeLabelList(): void {
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
 
-	const removeLabelButton = event.delegateTarget;
-	const label = closestElement('a', removeLabelButton);
+	const labelRemovalButton = event.delegateTarget;
+	const label = closestElement('a', labelRemovalButton);
 
 	try {
 		label.hidden = true;

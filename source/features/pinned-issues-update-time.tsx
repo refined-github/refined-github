@@ -12,7 +12,7 @@ type IssueInfo = {
 	updatedAt: string;
 };
 
-const getLastUpdated = new CachedFunction('last-updated', {
+const lastUpdatedCache = new CachedFunction('last-updated', {
 	async updater(issueNumbers: number[]): Promise<Record<string, IssueInfo>> {
 		const {repository} = await api.v4(`
 		repository() {
@@ -33,13 +33,13 @@ const getLastUpdated = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
-	const issueNumber = /#(\d+)/.exec(pinnedIssueMetadata.textContent)![1];
+	const issueNumber = /#(?<issueNumber>\d+)/.exec(pinnedIssueMetadata.textContent)!.groups!.issueNumber;
 	return Number(issueNumber);
 }
 
 async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 	const issuesByNumber = new Map(pinnedIssuesMetadata.map(metadata => [getPinnedIssueNumber(metadata), metadata]));
-	const lastUpdated = await getLastUpdated.get([...issuesByNumber.keys()]);
+	const lastUpdated = await lastUpdatedCache.get([...issuesByNumber.keys()]);
 
 	for (const [issueNumber, issueMetadata] of issuesByNumber) {
 		const {updatedAt} = lastUpdated[api.escapeKey(issueNumber)];

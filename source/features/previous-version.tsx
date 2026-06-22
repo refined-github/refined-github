@@ -79,9 +79,9 @@ async function add(historyButton: HTMLAnchorElement, {signal}: SignalAsOptions):
 			return;
 		}
 
-		const url = await getPreviousFileUrl();
-		if (url) {
-			previousButton.href = url;
+		const previousFileUrl = await getPreviousFileUrl();
+		if (previousFileUrl) {
+			previousButton.href = previousFileUrl;
 		}
 
 		previousButton.hidden = !url;

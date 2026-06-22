@@ -28,7 +28,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
 		users = button.nextElementSibling!
 			.textContent
-			.replace(/.*including /, '')
+			.replace(/^.+including /, '')
 			.replace(/\)/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
