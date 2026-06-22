@@ -33,7 +33,7 @@ const lastUpdatedCache = new CachedFunction('last-updated', {
 });
 
 function getPinnedIssueNumber(pinnedIssueMetadata: HTMLElement): number {
-	const issueNumber = /#(?<issueNumber>\d+)/.exec(pinnedIssueMetadata.textContent)!.groups!.issueNumber;
+	const {issueNumber} = (/#(?<issueNumber>\d+)/.exec(pinnedIssueMetadata.textContent)!.groups!);
 	return Number(issueNumber);
 }
 

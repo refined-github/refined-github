@@ -102,7 +102,6 @@ class FeatureFile {
 
 function validateReadme(featureId: FeatureId): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions -- Validates user content and type
 	assert(featureMeta, 'Should be described in the readme');
 
 	assert(
@@ -116,7 +115,6 @@ function validateReadme(featureId: FeatureId): void {
 		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
 	);
 
-	// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions -- Validates user content and type
 	assert(!duplicate, 'Should be described only once in the readme');
 }
 
