@@ -153,8 +153,8 @@ export const isRepoCommitListRoot = (): boolean =>
 	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const {ok} = await fetch(url, {method: 'head'});
-	return ok;
+	const {ok: isOk} = await fetch(url, {method: 'head'});
+	return isOk;
 });
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error

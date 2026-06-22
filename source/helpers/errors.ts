@@ -3,10 +3,10 @@ import memoize from 'memoize';
 
 const warnOnce = memoize(console.warn, {cacheKey: JSON.stringify});
 
-let loggingEnabled = true;
+let isLoggingEnabled = true;
 
 export function disableErrorLogging(): void {
-	loggingEnabled = false;
+	isLoggingEnabled = false;
 }
 
 const {version} = chrome.runtime.getManifest();
@@ -19,20 +19,21 @@ const preferredMessage =
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
+	// eslint-disable-next-line regexp/prefer-regexp-exec -- Linear code is best
 	const match = stack
 		.split('\n')
 		.toReversed()
 		.join('\n')
 		// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec -- Linear code is best
-		.match(/assets\/features\/(.+)\.js/);
-	return match?.[1] as FeatureId | undefined;
+		.match(/assets\/features\/(?<id>.+)\.js/);
+	return match?.groups?.id as FeatureId | undefined;
 }
 
 /* Log errors only once */
 const loggedStacks = new Set<string>();
 
 export function logError(error: Error): void {
-	if (!loggingEnabled) {
+	if (!isLoggingEnabled) {
 		return;
 	}
 
