@@ -1,3 +1,4 @@
+/* eslint-disable regexp/prefer-named-capture-group -- Messes with the whole logic */
 /* eslint-disable max-params -- These match the native `String#replace` signature */
 import type {RepositoryInfo} from 'github-url-detection';
 

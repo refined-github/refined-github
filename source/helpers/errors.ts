@@ -73,7 +73,7 @@ export function logError(error: Error): void {
 		'description',
 		[
 			'```',
-			String(error instanceof Error ? error.stack! : error).trim(),
+			stack!.trim(),
 			'```',
 		].join('\n'),
 	);
