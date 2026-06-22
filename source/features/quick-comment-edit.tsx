@@ -24,13 +24,13 @@ const isConversationIneditable = memoize(
 	},
 );
 
-const editMenuItemSelector = 'div[data-component="ActionMenu.Overlay"] li[data-component="ActionList.Item"]:has(.octicon-pencil)';
-
 async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
 	if (await isConversationIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
 	}
+
+	const editMenuItemSelector = `ul[aria-labelledby="${menuButon.id}"] li[data-component="ActionList.Item"]:has(.octicon-pencil)`;
 
 	const canEditComment = await withMenuOpen(menuButon, () => elementExists(editMenuItemSelector));
 	if (!canEditComment) {
