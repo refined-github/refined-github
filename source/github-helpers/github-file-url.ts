@@ -69,10 +69,9 @@ export default class GitHubFileUrl {
 	}
 
 	get pathname(): string {
-		return `/${this.user}/${this.repository}/${this.route}/${this.branch}/${this.filePath}`.replaceAll(
-			/(?:(?:undefined)?\/)+$/g,
-			'',
-		);
+		return '/' + [this.user, this.repository, this.route, this.branch, this.filePath]
+			.filter(Boolean)
+			.join('/');
 	}
 
 	set pathname(pathname: string) {

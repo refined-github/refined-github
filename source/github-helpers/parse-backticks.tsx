@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 
+// eslint-disable-next-line regexp/prefer-named-capture-group -- Won't work
 const splittingRegex = /`` (.*?) ``|`([^\n`]+)`/g;
 
 export function getParsedBackticksParts(string: string): string[] {

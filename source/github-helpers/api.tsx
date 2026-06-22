@@ -242,9 +242,9 @@ const v3paginated = async function * (
 		const response = await v3(query, options);
 		yield response;
 
-		const match = /<([^>]+)>; rel="next"/.exec(response.headers.get('link')!);
+		const match = /<(?<url>[^<>]+)>; rel="next"/.exec(response.headers.get('link')!);
 		if (match) {
-			query = match[1]!;
+			query = match.groups!.url;
 		} else {
 			return;
 		}

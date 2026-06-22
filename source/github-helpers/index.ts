@@ -19,7 +19,7 @@ export function getConversationNumber(): number | undefined {
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
-type Not<Yes, Not> = Yes extends Not ? never : Yes;
+type Not<Yes, No> = Yes extends No ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
 export function buildRepoUrl<S extends string>(
@@ -39,7 +39,7 @@ export function getForkedRepo(): string | undefined {
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
-	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
+	const {namespace = '', version = ''} = /(?:(?<namespace>.*)@)?(?<version>[^@]+)/.exec(tag)?.groups ?? {};
 	return {namespace, version};
 }
 

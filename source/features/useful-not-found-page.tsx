@@ -191,7 +191,7 @@ async function initOnce(): Promise<void> {
 }
 
 async function initPrCommitOnce(): Promise<void | false> {
-	const commitUrl = location.href.replace(/pull\/\d+\/(commits|changes)/, 'commit');
+	const commitUrl = location.href.replace(/pull\/\d+\/(?:commits|changes)/, 'commit');
 	if (!(await isUrlReachable(commitUrl))) {
 		return false;
 	}

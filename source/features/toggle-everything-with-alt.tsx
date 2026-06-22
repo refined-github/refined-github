@@ -28,7 +28,7 @@ const collapseSelector = '.js-file .js-collapse-diff';
 
 const commitMessageSelector = 'button[data-testid="commit-row-show-description-button"]';
 
-const addSuggestionToBatchSelector = is(
+const buttonAddSuggestionToBatchSelector = is(
 	'.js-apply-changes button[data-variant="primary"]',
 	'.js-batched-suggested-changes-add',
 );
@@ -69,7 +69,7 @@ function init(signal: AbortSignal): void {
 	});
 
 	// "Add suggestion to batch" buttons in PR files
-	delegate(addSuggestionToBatchSelector, 'click', clickAll(addSuggestionToBatchSelector), {signal, capture: true});
+	delegate(buttonAddSuggestionToBatchSelector, 'click', clickAll(buttonAddSuggestionToBatchSelector), {signal, capture: true});
 }
 
 void features.add(import.meta.url, {

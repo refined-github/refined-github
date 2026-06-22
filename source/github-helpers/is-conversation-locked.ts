@@ -44,9 +44,9 @@ export default async function isConversationLocked(): Promise<boolean | undefine
 	// Like Promise.race, but it only resolves if the result is not undefined
 	return new Promise(resolve => {
 		const resolveIfDefined = async (check: () => Promise<boolean | undefined>): Promise<void> => {
-			const result = await check();
-			if (result !== undefined) {
-				resolve(result);
+			const isLocked = await check();
+			if (isLocked !== undefined) {
+				resolve(isLocked);
 			}
 		};
 

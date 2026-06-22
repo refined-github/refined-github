@@ -14,15 +14,16 @@ type Comparison = {
 	isCrossRepo: boolean;
 };
 
-const compareRegex = /compare[/]([^.]+)[.][.][.]?(.+)/;
+const compareRegex = /compare[/](?<baseBranch>[^.]+)[.][.][.]?(?<heads>.+)/;
 export default function parseCompareUrl(pathname: string): Comparison | undefined {
 	const base = getRepo(pathname)!;
 
-	const [, baseBranch, heads] = compareRegex.exec(base.path) ?? [];
-	if (!baseBranch) {
+	const match = compareRegex.exec(base.path);
+	if (match === null) {
 		return;
 	}
 
+	const {baseBranch, heads} = match.groups!;
 	const headParts = heads.split(':');
 	const headBranch = headParts.pop()!; // Branch is always last, or the only one
 	const headOwner = headParts.shift() ?? base.owner; // The owner is first, or it's the same as the base
