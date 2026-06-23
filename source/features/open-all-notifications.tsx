@@ -92,8 +92,8 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
-	const repo = closestElement('.js-notifications-group', markReadButton);
-	if (getUnreadNotifications(repo).length === 0) {
+	const repository = closestElement('.js-notifications-group', markReadButton);
+	if (getUnreadNotifications(repository).length === 0) {
 		return;
 	}
 
