@@ -24,7 +24,7 @@ async function isRepoUnpopular(): Promise<boolean> {
 	return counter!.textContent === '0';
 }
 
-async function deleteRepo(): Promise<void> {
+async function deleteRepository(): Promise<void> {
 	const {nameWithOwner} = getRepo()!;
 	await expectTokenScope('delete_repo');
 	await api.v3('/repos/' + nameWithOwner, {
@@ -66,7 +66,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	if (confirm('Are you sure you want to delete this repository?')) {
-		await showToast(deleteRepo, {
+		await showToast(deleteRepository, {
 			message: 'Deleting repo…',
 			doneMessage: 'Repo deleted',
 		});
