@@ -19,7 +19,6 @@ const preferredMessage =
 // Reads from path like assets/features/NAME.js
 export function parseFeatureNameFromStack(stack: string = new Error('stack').stack!): FeatureId | undefined {
 	// The stack may show other features due to cross-feature imports, but we want the top-most caller so we need to reverse it
-	 
 	const match = stack
 		.split('\n')
 		.toReversed()
