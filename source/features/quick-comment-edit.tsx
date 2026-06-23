@@ -32,11 +32,6 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 		return;
 	}
 
-	const canEditComment = await withMenuOpen(menuButon, menu => elementExists(editMenuItemSelector, menu));
-	if (!canEditComment) {
-		return;
-	}
-
 	menuButon.before(
 		tooltipped('Edit comment',
 			<button
@@ -44,6 +39,7 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 				className="Button Button--iconOnly Button--invisible Button--small"
 				onClick={async () => withMenuOpen(menuButon, menu => {
 					$(editMenuItemSelector, menu).click();
+					menuButon.previousElementSibling!.remove();
 				})}
 			>
 				<PencilIcon />
@@ -86,16 +82,18 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
+	const isUserModerator = await userIsModerator();
+
 	observe(
-		':is(.loaded .react-issue-body, .react-issue-comment) button:has(> .octicon-kebab-horizontal)',
+		(isUserModerator ? '' : 'div[class*="viewerDidAuthor"]')
+		+ ' button[aria-haspopup="true"]:is([data-testid="comment-header-hamburger"], [class^="IssueBodyHeader-module__actionsSection"] > *)',
 		addQuickEditButton,
 		{signal},
 	);
 
-	// If true then the resulting selector will match all comments, otherwise it will only match those made by you
-	const preSelector = await userIsModerator() ? '' : '.current-user';
 	observe(
-		preSelector + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
+		(isUserModerator ? '' : '.current-user')
+		+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButtonLegacy,
 		{signal},
 	);
