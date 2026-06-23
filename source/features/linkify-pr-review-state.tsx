@@ -30,10 +30,11 @@ function alterLink(label: HTMLElement): void {
 		const url = new SearchQuery(buildRepoUrl('pulls')).append(filter).href;
 		if (label instanceof HTMLAnchorElement) {
 			label.href = url;
-		} else {
-			wrap(label, <a href={url} />);
-			$('[class*="statusText"]', label).classList.add('Link--onHover');
+			continue;
 		}
+
+		wrap(label, <a href={url} />);
+		$('[class*="statusText"]', label).classList.add('Link--onHover');
 	}
 }
 

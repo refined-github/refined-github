@@ -44,6 +44,7 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
+			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
 			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
@@ -82,6 +83,7 @@ export default defineConfig([
 						ref: false,
 						nav: false,
 						repository: false, // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
+						repo: {repository: true}, // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
 					},
 				},
 			],

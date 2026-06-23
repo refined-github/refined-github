@@ -16,7 +16,7 @@ import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepoInfo from './repo-header-info.gql';
 
-type RepoInfo = {
+type RepositoryInfo = {
 	forked?: {url: string};
 	isPrivate: boolean;
 	stargazerCount: number;
@@ -24,7 +24,7 @@ type RepoInfo = {
 	ciCommit?: string;
 };
 
-async function getRepoInfo(): Promise<RepoInfo> {
+async function getRepositoryInfo(): Promise<RepositoryInfo> {
 	const {repository} = await api.v4(GetRepoInfo);
 
 	let ciCommit: string | undefined;
@@ -138,7 +138,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 }
 
 async function add(repoLink: HTMLElement): Promise<void> {
-	const info = await getRepoInfo();
+	const info = await getRepositoryInfo();
 
 	repoLink.classList.add('rgh-repo-header-info-updated');
 
