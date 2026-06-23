@@ -8,7 +8,7 @@ import {linkifyCommit} from '../github-helpers/dom-formatters.js';
 import getPrInfo, {type PullRequestInfo} from '../github-helpers/get-pr-info.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {deletedHeadRepository as deletedHeadRepo, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
+import {deletedHeadRepository, prMergeabilityBoxCaption} from '../github-helpers/selectors.js';
 import {isTextNodeContaining} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
@@ -55,7 +55,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isClosedConversation,
-		() => elementExists(deletedHeadRepo),
+		() => elementExists(deletedHeadRepository),
 	],
 	awaitDomReady: true, // DOM-based exclusions
 	requiresToken: true,
