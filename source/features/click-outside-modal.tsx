@@ -6,7 +6,7 @@ import features from '../feature-manager.js';
 function onButtonClick({delegateTarget, target}: DelegateEvent): void {
 	// Only close if clicking outside of modal
 	if (delegateTarget === target) {
-		delegate.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
+		delegateTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
 	}
 }
 

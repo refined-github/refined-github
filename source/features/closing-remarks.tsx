@@ -113,14 +113,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	const {hash} = /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!;
 	const tagName = await firstTag.get(hash);
 
-	if (tagName === undefined) {
-		void addReleaseBanner(
-			<>
-				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
-			</>,
-			signal,
-		);
-	} else {
+	if (tagName) {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
 
 		// Add static box at the bottom
@@ -130,7 +123,15 @@ async function init(signal: AbortSignal): Promise<void> {
 		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
 			signal,
 		});
+		return;
 	}
+
+	void addReleaseBanner(
+		<>
+			No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
+		</>,
+		signal,
+	);
 }
 
 void features.add(import.meta.url, {

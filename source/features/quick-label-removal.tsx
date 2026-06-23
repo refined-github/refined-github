@@ -47,13 +47,13 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		// Each deletion would be followed by a reload of the list _at the wrong time_
 		removeLabelList();
 
-		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+		await api.v3(`issues/${getConversationNumber()!}/labels/${labelRemovalButton.dataset.name!}`, {
 			method: 'DELETE',
 		});
 	} catch (error) {
 		assertError(error);
 		void showToast(error);
-		removeLabelButton.blur();
+		labelRemovalButton.blur();
 		label.hidden = false;
 		return;
 	}

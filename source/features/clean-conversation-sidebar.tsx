@@ -118,9 +118,9 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	const branchCreationButton = $optional('button[data-action="click:create-branch#openDialog"]');
 	const openWorkspaceButton = $optional('a[href^="https://copilot-workspace.githubnext.com"]');
 	if (branchCreationButton && !openWorkspaceButton) {
-		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
+		branchCreationButton.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary').append(
-			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+			<span style={{fontWeight: 'normal'}}> – {branchCreationButton}</span>,
 		);
 	}
 

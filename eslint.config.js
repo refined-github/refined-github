@@ -1,5 +1,6 @@
 import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
@@ -16,7 +17,8 @@ export default defineConfig([
 	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url))),
 	...eslintConfigXo({
 		browser: true,
-		prettier: 'compat',
+		// TODO: Use after dprint is enabled on TSX files
+		// prettier: 'compat',
 	}),
 	{
 		plugins: {
@@ -222,6 +224,10 @@ export default defineConfig([
 		rules: {
 			'markdown/no-empty-links': 'off',
 		},
+	},
+	{
+		files: ['**/*.js', '**/*.ts', '**/*.svelte'],
+		...eslintConfigPrettier,
 	},
 	{
 		files: ['**/*.html'],

@@ -189,9 +189,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			include,
 			exclude,
 			init,
-			 
 			awaitDomReady = false,
-			 
 			requiresToken = false,
 			deduplicate = false,
 		} = loader;

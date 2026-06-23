@@ -34,8 +34,8 @@ const bannerParent = [
 	'.CommentBox',
 ] as const;
 
-const documentation
-	= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
+const documentation =
+	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss';
 
 function handleButtonClick({currentTarget: fixButton}: React.MouseEvent<HTMLButtonElement>): void {
 	const field = $(
