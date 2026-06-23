@@ -39,6 +39,7 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 				className="Button Button--iconOnly Button--invisible Button--small"
 				onClick={async () => withMenuOpen(menuButon, menu => {
 					$(editMenuItemSelector, menu).click();
+					// Remove our edit button in case React doesn't, preventing duplicate buttons where only one works
 					menuButon.previousElementSibling!.remove();
 				})}
 			>
