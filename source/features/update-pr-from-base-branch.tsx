@@ -32,13 +32,13 @@ const updateMethods = {
 };
 
 /**
- * https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod
- */
+https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod
+*/
 type UpdateMethod = keyof typeof updateMethods;
 
 /**
- * https://docs.github.com/en/graphql/reference/input-objects#updatepullrequestbranchinput
- */
+https://docs.github.com/en/graphql/reference/input-objects#updatepullrequestbranchinput
+*/
 type MergeBranchesOptions = {
 	expectedHeadOid: string;
 	pullRequestId: string;

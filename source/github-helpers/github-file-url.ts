@@ -77,7 +77,7 @@ export default class GitHubFileUrl {
 	}
 
 	set pathname(pathname: string) {
-		const [user, repo, route, ...ambiguousReference] = pathname
+		const [user, repository, route, ...ambiguousReference] = pathname
 			.replaceAll(/^\/|\/$/g, '')
 			.replaceAll('%2F', '/') // Escaped in some cases
 			.split('/');
@@ -86,7 +86,7 @@ export default class GitHubFileUrl {
 		if (pathname === location.pathname ? isRepoRoot() : isRepoRoot(new URL(pathname, this.internalUrl))) {
 			this.assign({
 				user,
-				repository: repo,
+				repository,
 				route,
 				branch: ambiguousReference.join('/'),
 				filePath: '',
@@ -97,7 +97,7 @@ export default class GitHubFileUrl {
 		const {branch, filePath} = this.disambiguateReference(ambiguousReference);
 		this.assign({
 			user,
-			repository: repo,
+			repository,
 			route,
 			branch,
 			filePath,

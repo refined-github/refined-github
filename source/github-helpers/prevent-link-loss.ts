@@ -8,6 +8,7 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
 }
 
+// TODO: Drop after we drop Safari <18.2 support https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
 const escapeRegex = (string: string): string => string.replaceAll(/[$()*+.?[\\\]^{|}]/g, String.raw`\$&`);
 const prCommitPathnameRegex =
 	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:[.]{2}([\da-f]{7})[\da-f]{33})?(?:#[\w-]+)?\b/;

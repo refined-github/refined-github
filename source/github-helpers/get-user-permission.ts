@@ -18,9 +18,9 @@ TRIAGE: Can read and clone this repository. Can also manage issues and pull requ
 
 WRITE: Can read, clone, and push to this repository. Can also manage issues and pull requests.
 */
-type RepoPermission = 'ADMIN' | 'MAINTAIN' | 'READ' | 'TRIAGE' | 'WRITE';
+type RepositoryPermission = 'ADMIN' | 'MAINTAIN' | 'READ' | 'TRIAGE' | 'WRITE';
 
-async function getViewerPermission(): Promise<RepoPermission> {
+async function getViewerPermission(): Promise<RepositoryPermission> {
 	if (getRepo() === null) {
 		throw new Error('This can only be called on a repository page');
 	}
