@@ -39,7 +39,7 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 
 	for (const pr of prConfigs) {
 		const {mergeable, state, isDraft} = data[pr.key].pullRequest;
-		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft === true)) {
+		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
 			pr.link.after(
 				tooltipped(
 					{label: 'This PR has conflicts that must be resolved', direction: 'e'},
