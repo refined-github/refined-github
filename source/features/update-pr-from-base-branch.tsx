@@ -11,7 +11,7 @@ import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {deletedHeadRepository as deletedHeadRepo} from '../github-helpers/selectors.js';
+import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
@@ -32,12 +32,12 @@ const updateMethods = {
 };
 
 /**
- https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod
+ * https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod
  */
 type UpdateMethod = keyof typeof updateMethods;
 
 /**
- https://docs.github.com/en/graphql/reference/input-objects#updatepullrequestbranchinput
+ * https://docs.github.com/en/graphql/reference/input-objects#updatepullrequestbranchinput
  */
 type MergeBranchesOptions = {
 	expectedHeadOid: string;
@@ -176,7 +176,7 @@ void features.add(import.meta.url, {
 	],
 	exclude: [
 		pageDetect.isMergedPR,
-		() => elementExists(deletedHeadRepo),
+		() => elementExists(deletedHeadRepository),
 		isArchivedRepoAsync,
 	],
 	awaitDomReady: true, // DOM-based exclusions
