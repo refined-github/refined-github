@@ -14,9 +14,9 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import GetRepositoryInfo from './repo-header-info.gql';
+import GetRepoInfo from './repo-header-info.gql';
 
-type RepositoryInfo = {
+type RepoInfo = {
 	forked?: {url: string};
 	isPrivate: boolean;
 	stargazerCount: number;
@@ -24,17 +24,19 @@ type RepositoryInfo = {
 	ciCommit?: string;
 };
 
-async function getRepositoryInfo(): Promise<RepositoryInfo> {
-	const {repository} = await api.v4(GetRepositoryInfo);
+async function getRepoInfo(): Promise<RepoInfo> {
+	const {repository} = await api.v4(GetRepoInfo);
 
 	let ciCommit: string | undefined;
 	if (!repository.isEmpty && repository.defaultBranchRef) {
 		// Check earlier commits just in case the last one is CI-generated and doesn't have checks
 		for (const commit of repository.defaultBranchRef.target.history.nodes) {
-			if (commit.statusCheckRollup) {
-				ciCommit = commit.oid;
-				break;
+			if (!commit.statusCheckRollup) {
+				continue;
 			}
+
+			ciCommit = commit.oid;
+			break;
 		}
 	}
 
@@ -136,7 +138,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 }
 
 async function add(repoLink: HTMLElement): Promise<void> {
-	const info = await getRepositoryInfo();
+	const info = await getRepoInfo();
 
 	repoLink.classList.add('rgh-repo-header-info-updated');
 

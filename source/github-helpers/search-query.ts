@@ -1,5 +1,5 @@
 const queryPartsRegExp = /[^\s"()]+:[^\s"()]*(?:"[^"]*")?|\([^)]*\)|"[^"]*"|[^\s"():]+/g;
-const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/([^/]+)\/?$/;
+const labelLinkRegex = /^(?:\/[^/]+){2}\/labels\/(?<label>[^/]+)\/?$/;
 
 function splitQueryString(query: string): string[] {
 	return query.match(queryPartsRegExp) ?? [];
@@ -62,7 +62,7 @@ export default class SearchQuery {
 		}
 
 		// Parse label links #5176
-		const labelName = labelLinkRegex.exec(this.url.pathname)?.[1];
+		const labelName = labelLinkRegex.exec(this.url.pathname)?.groups?.label;
 		if (labelName) {
 			this.queryParts = ['state:open', 'label:' + SearchQuery.escapeValue(decodeURIComponent(labelName))];
 			return;

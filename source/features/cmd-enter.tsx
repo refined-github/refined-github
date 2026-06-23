@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/name-replacements -- It's the key name */
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';

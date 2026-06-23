@@ -51,6 +51,7 @@ export default defineConfig([
 			'require-unicode-regexp': 'off', // Don't care
 			'unicorn/better-regex': 'off',
 			'regexp/no-useless-character-class': 'off', // Ugly
+			'regexp/no-super-linear-move': 'off', // It is what is is
 			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
 			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
 			'unicorn/dom-node-dataset': 'off',
@@ -68,7 +69,9 @@ export default defineConfig([
 			'unicorn/prefer-scoped-selector': 'off', // After https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3254
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-			'unicorn/prevent-abbreviations': [
+			'unicorn/consistent-boolean-name': 'off', // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3403
+			'unicorn/no-nonstandard-builtin-properties': 'off', // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3405
+			'unicorn/name-replacements': [
 				'error',
 				{
 					replacements: {
@@ -76,6 +79,7 @@ export default defineConfig([
 						props: false,
 						ref: false,
 						nav: false,
+						repository: false, // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
 					},
 				},
 			],

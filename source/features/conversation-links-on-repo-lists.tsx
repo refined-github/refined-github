@@ -8,33 +8,33 @@ import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
-function addConversationLinks(repositoryLink: HTMLAnchorElement): void {
-	const repository = closestElement('li', repositoryLink);
+function addConversationLinks(repoLink: HTMLAnchorElement): void {
+	const repo = closestElement('li', repoLink);
 
 	// Remove the "X issues need help" link
-	$optional('[href*="issues?q=label%3A%22help+wanted"]', repository)?.remove();
+	$optional('[href*="issues?q=label%3A%22help+wanted"]', repo)?.remove();
 
 	// Place before the update date
 	assertNodeContent(
-		$('relative-time', repository).previousSibling,
+		$('relative-time', repo).previousSibling,
 		'Updated',
 	).before(
 		<a
 			className="Link--muted mr-3 tmp-mr-3"
-			href={repositoryLink.href + '/issues'}
+			href={repoLink.href + '/issues'}
 		>
 			<IssueOpenedIcon />
 		</a>,
 		<a
 			className="Link--muted mr-3 tmp-mr-3"
-			href={repositoryLink.href + '/pulls'}
+			href={repoLink.href + '/pulls'}
 		>
 			<GitPullRequestIcon />
 		</a>,
 	);
 }
 
-function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
+function addSearchConversationLinks(repoLink: HTMLAnchorElement): void {
 	// Do not move to `includes` until React AJAX issues are resolved:
 	// https://github.com/refined-github/refined-github/pull/7524#issuecomment-2211692096
 	// https://github.com/refined-github/refined-github/issues/6554
@@ -43,7 +43,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 	}
 
 	// Place before the update date ·
-	closestElement('[data-testid="results-list"] > div', repositoryLink)
+	closestElement('[data-testid="results-list"] > div', repoLink)
 		.querySelector(':scope ul > span:last-of-type')!
 		.before(
 			<span
@@ -55,7 +55,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 			<li className="d-flex text-small">
 				<a
 					className="Link--muted"
-					href={repositoryLink.href + '/issues'}
+					href={repoLink.href + '/issues'}
 				>
 					<IssueOpenedIcon />
 				</a>
@@ -63,7 +63,7 @@ function addSearchConversationLinks(repositoryLink: HTMLAnchorElement): void {
 			<li className="d-flex text-small ml-2 tmp-ml-2">
 				<a
 					className="Link--muted"
-					href={repositoryLink.href + '/pulls'}
+					href={repoLink.href + '/pulls'}
 				>
 					<GitPullRequestIcon />
 				</a>

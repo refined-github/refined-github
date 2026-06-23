@@ -12,11 +12,13 @@ import showWhiteSpacesOnLine from '../helpers/show-whitespace-on-line.js';
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const {target: line, isIntersecting} of changes) {
-		if (isIntersecting) {
-			const shouldAvoidSurroundingSpaces = Boolean(closestElementOptional('.blob-wrapper-embedded', line)); // #2285
-			showWhiteSpacesOnLine(line, shouldAvoidSurroundingSpaces);
-			viewportObserver.unobserve(line);
+		if (!isIntersecting) {
+			continue;
 		}
+
+		const shouldAvoidSurroundingSpaces = Boolean(closestElementOptional('.blob-wrapper-embedded', line)); // #2285
+		showWhiteSpacesOnLine(line, shouldAvoidSurroundingSpaces);
+		viewportObserver.unobserve(line);
 	}
 });
 

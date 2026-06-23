@@ -93,10 +93,12 @@ function showAvatarsOn(reactionsContainer: Element): void {
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const change of changes) {
-		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
+		if (!change.isIntersecting) {
+			continue;
 		}
+
+		showAvatarsOn(change.target);
+		viewportObserver.unobserve(change.target);
 	}
 }, {
 	// Start loading a little before they become visible

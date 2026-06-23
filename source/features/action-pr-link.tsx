@@ -11,7 +11,7 @@ function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, valu
 	anchorElement.search = String(parameters);
 }
 
-async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
+async function addForRepoActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent.slice(1);
 
 	const runLink = $('a:has(.Link--primary)', closestElement('.Box-row', prLink));
@@ -22,8 +22,8 @@ async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
 	setSearchParameter(actionLink, 'pr', String(getConversationNumber()));
 }
 
-async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {
-	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepositoryActions, {signal});
+async function initForRepoActionsPage(signal: AbortSignal): Promise<void> {
+	observe('div.Box-row[id^=check_suite_] a[data-hovercard-type="pull_request"]', addForRepoActions, {signal});
 }
 
 async function initForPrPage(signal: AbortSignal): Promise<void> {
@@ -42,7 +42,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepositoryActions,
 	],
-	init: initForRepositoryActionsPage,
+	init: initForRepoActionsPage,
 }, {
 	include: [
 		pageDetect.isPR,

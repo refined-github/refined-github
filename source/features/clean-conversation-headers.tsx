@@ -70,10 +70,12 @@ async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
 
 async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
 	for (const child of summaryRow.childNodes) {
-		if (child instanceof Text && /^(?:wants to merge|merged) \d+ commit/.test(child.textContent)) {
-			child.remove();
-			return;
+		if (!(child instanceof Text && /^(?:wants to merge|merged) \d+ commit/.test(child.textContent))) {
+			continue;
 		}
+
+		child.remove();
+		return;
 	}
 
 	throw new Error('Unable to find the PR metadata text node');

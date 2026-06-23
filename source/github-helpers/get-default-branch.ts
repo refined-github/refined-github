@@ -27,8 +27,8 @@ async function fromDom(): Promise<string | undefined> {
 	return extractCurrentBranchFromBranchPicker(element);
 }
 
-async function fromApi(repository: NameWithOwner): Promise<string> {
-	const [owner, name] = repository.split('/');
+async function fromApi(repo: NameWithOwner): Promise<string> {
+	const [owner, name] = repo.split('/');
 	const response = await api.v4(GetDefaultBranch, {
 		variables: {
 			owner,
@@ -42,13 +42,13 @@ async function fromApi(repository: NameWithOwner): Promise<string> {
 // DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 export const defaultBranchOfRepo = new CachedFunction('default-branch', {
-	async updater(repository: NameWithOwner): Promise<string> {
-		if (!repository) {
+	async updater(repo: NameWithOwner): Promise<string> {
+		if (!repo) {
 			throw new Error('getDefaultBranch was called on a non-repository page');
 		}
 
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- Wrong, type can be `false`
-		return (isCurrentRepo(repository) && await fromDom()) || fromApi(repository);
+		return (isCurrentRepo(repo) && await fromDom()) || fromApi(repo);
 	},
 
 	maxAge: {hours: 1},

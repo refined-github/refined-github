@@ -189,9 +189,9 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			include,
 			exclude,
 			init,
-			// eslint-disable-next-line @typescript-eslint/naming-convention -- Clear as is
+			 
 			awaitDomReady = false,
-			// eslint-disable-next-line @typescript-eslint/naming-convention -- Clear as is
+			 
 			requiresToken = false,
 			deduplicate = false,
 		} = loader;
