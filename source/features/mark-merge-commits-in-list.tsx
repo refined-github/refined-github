@@ -58,10 +58,12 @@ async function markCommits(commits: HTMLElement[]): Promise<void> {
 	const isPrConversation = pageDetect.isPRConversation();
 	const mergeCommits = await filterMergeCommits(commits.map(commit => getCommitHash(commit)));
 	for (const commit of commits) {
-		if (mergeCommits.includes(getCommitHash(commit))) {
-			commit.classList.add('rgh-merge-commit');
-			updateCommitIcon(commit, isPrConversation);
+		if (!mergeCommits.includes(getCommitHash(commit))) {
+			continue;
 		}
+
+		commit.classList.add('rgh-merge-commit');
+		updateCommitIcon(commit, isPrConversation);
 	}
 }
 

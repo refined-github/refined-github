@@ -62,7 +62,7 @@ export async function userHasPushAccess(): Promise<boolean> {
 export async function userIsModerator(): Promise<boolean> {
 	// Faster DOM-based check, if the DOM is available.
 	// This cannot be cached in `viewerPermission` because it guarantees you have *at least* moderation access, but can't tell if you have *more* capabilities
-	const domCheck = elementExists([
+	const hasPermissionsViaDom = elementExists([
 		'.lock-toggle-link > .octicon-lock',
 		'[aria-label^="You have been invited to collaborate"]',
 		'[title^="You are a member"]',
@@ -71,7 +71,7 @@ export async function userIsModerator(): Promise<boolean> {
 		// Don't check for admin access here. If the user has admin access, the DOM check in `viewerPermission` will use the DOM and be cached anyway
 	]);
 
-	if (domCheck) {
+	if (hasPermissionsViaDom) {
 		return true;
 	}
 

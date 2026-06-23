@@ -39,7 +39,7 @@ test('.replace', () => {
 	query.replace('error', 'failure');
 	assert.equal(query.get(), '404 failure');
 
-	query.replace(/^\d(\d)/, '1$1');
+	query.replace(/^\d(?<digit>\d)/, '1$<digit>');
 	assert.equal(query.get(), '104 failure');
 });
 

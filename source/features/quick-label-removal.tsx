@@ -38,8 +38,8 @@ function removeLabelList(): void {
 async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HTMLButtonElement>): Promise<void> {
 	event.preventDefault();
 
-	const removeLabelButton = event.delegateTarget;
-	const label = closestElement('a', removeLabelButton);
+	const labelRemovalButton = event.delegateTarget;
+	const label = closestElement('a', labelRemovalButton);
 
 	try {
 		label.hidden = true;
@@ -47,13 +47,13 @@ async function removeLabelButtonClickHandler(event: DelegateEvent<MouseEvent, HT
 		// Each deletion would be followed by a reload of the list _at the wrong time_
 		removeLabelList();
 
-		await api.v3(`issues/${getConversationNumber()!}/labels/${removeLabelButton.dataset.name!}`, {
+		await api.v3(`issues/${getConversationNumber()!}/labels/${labelRemovalButton.dataset.name!}`, {
 			method: 'DELETE',
 		});
 	} catch (error) {
 		assertError(error);
 		void showToast(error);
-		removeLabelButton.blur();
+		labelRemovalButton.blur();
 		label.hidden = false;
 		return;
 	}

@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 
-const splittingRegex = /`` (.*?) ``|`([^`\n]+)`/g;
+const splittingRegex = /`` (?<double>.*?) ``|`(?<single>[^\n`]+)`/;
 
 export function getParsedBackticksParts(string: string): string[] {
 	return string.split(splittingRegex)

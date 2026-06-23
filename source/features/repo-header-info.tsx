@@ -14,7 +14,7 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import GetRepositoryInfo from './repo-header-info.gql';
+import GetRepoInfo from './repo-header-info.gql';
 
 type RepositoryInfo = {
 	forked?: {url: string};
@@ -25,16 +25,18 @@ type RepositoryInfo = {
 };
 
 async function getRepositoryInfo(): Promise<RepositoryInfo> {
-	const {repository} = await api.v4(GetRepositoryInfo);
+	const {repository} = await api.v4(GetRepoInfo);
 
 	let ciCommit: string | undefined;
 	if (!repository.isEmpty && repository.defaultBranchRef) {
 		// Check earlier commits just in case the last one is CI-generated and doesn't have checks
 		for (const commit of repository.defaultBranchRef.target.history.nodes) {
-			if (commit.statusCheckRollup) {
-				ciCommit = commit.oid;
-				break;
+			if (!commit.statusCheckRollup) {
+				continue;
 			}
+
+			ciCommit = commit.oid;
+			break;
 		}
 	}
 

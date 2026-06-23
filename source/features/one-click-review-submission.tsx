@@ -51,7 +51,7 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 			'p',
 			'.FormControl-caption',
 		], parent).textContent.trim().replace(/\.$/, '');
-		assertNodeContent(labelElement, /^(Approve|Request changes|Comment)$/);
+		assertNodeContent(labelElement, /^(?:Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
 

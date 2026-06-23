@@ -22,7 +22,7 @@ import features from '../feature-manager.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-let ready = false;
+let isReady = false;
 
 const knownTabsIcons = new Map([
 	['code', CodeIcon],
@@ -83,7 +83,7 @@ function replace(nativeNav: HTMLElement): void {
 	);
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
-	ready = true;
+	isReady = true;
 }
 
 async function initOnce(): Promise<void> {
@@ -107,7 +107,7 @@ void features.add(import.meta.url, {
 	init: onetime(initOnce),
 }, {
 	asLongAs: [
-		() => ready,
+		() => isReady,
 	],
 	include: [
 		pageDetect.isRepo,

@@ -3,10 +3,10 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 
-function onButtonClick({delegateTarget: delegate, target}: DelegateEvent): void {
+function onButtonClick({delegateTarget, target}: DelegateEvent): void {
 	// Only close if clicking outside of modal
-	if (delegate === target) {
-		delegate.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
+	if (delegateTarget === target) {
+		delegateTarget.dispatchEvent(new KeyboardEvent('keydown', {bubbles: true, key: 'Escape', code: 'Escape'}));
 	}
 }
 

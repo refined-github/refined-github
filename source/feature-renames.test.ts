@@ -8,18 +8,17 @@ import featureRenames from './feature-renames.json';
 const oldNames = Object.keys(featureRenames);
 const newNames = Object.values(featureRenames);
 
-test('old feature names cannot appear anywhere in the repo', () => {
-	for (const oldName of oldNames) {
-		const grep = `rg -l "[^-]${oldName}[^-]" -g !feature-renames.json -g !package-lock.json`;
-		let results;
-		try {
-			results = execSync(grep, {encoding: 'utf8'});
-		} catch {
-			continue;
-		}
-
-		throw new Error(`Old feature name "${oldName}" found in ${results}`);
+test.each(oldNames)('old feature name cannot appear anywhere: "%s"', async oldName => {
+	const grep = `rg -l "[^-]${oldName}[^-]" -g !feature-renames.json -g !package-lock.json`;
+	let results;
+	try {
+		// The async version is 50 times slower 🤷‍♂️
+		results = execSync(grep, {encoding: 'utf8'});
+	} catch {
+		return;
 	}
+
+	throw new Error(`Old feature name "${oldName}" found in ${results}`);
 });
 
 test.concurrent.each(newNames)('new feature must exist: source/features/%s.tsx', async newName => {

@@ -47,26 +47,26 @@ export default async function showToast(
 		</div>
 	);
 	let lastRawMessage: ToastMessage = message;
-	const updateToast = (message: ToastMessage): void => {
-		lastRawMessage = message;
+	const updateToast = (newMessage: ToastMessage): void => {
+		lastRawMessage = newMessage;
 		messageWrapper.textContent = '';
-		messageWrapper.append(message);
+		messageWrapper.append(newMessage);
 	};
 
-	const finalUpdateToast = async (message: ToastMessage | Error): Promise<void> => {
-		if (message instanceof Error && 'richMessage' in message && message.richMessage) {
-			message = message.richMessage as ToastMessage;
-		} else if (message instanceof Error) {
-			message = message.message;
+	const finalUpdateToast = async (newMessage: ToastMessage | Error): Promise<void> => {
+		if (newMessage instanceof Error && 'richMessage' in newMessage && newMessage.richMessage) {
+			newMessage = newMessage.richMessage as ToastMessage;
+		} else if (newMessage instanceof Error) {
+			newMessage = newMessage.message;
 		}
 
-		updateToast(message);
+		updateToast(newMessage);
 
 		// Without rAF the toast might be removed before the first page paint
 		// rAF also allows showToast to resolve as soon as task is done
 		await frame();
 
-		const displayTime = (typeof message === 'string' ? message.split(' ').length * 300 : 3000) + 2000;
+		const displayTime = (typeof newMessage === 'string' ? newMessage.split(' ').length * 300 : 3000) + 2000;
 		await delay(displayTime);
 
 		// Display time is over, animate out

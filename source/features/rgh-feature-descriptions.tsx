@@ -89,11 +89,11 @@ async function addFeatureInformationWidget(
 function getFeatureNameFromIssueTitle(): string | undefined {
 	const title = new URLSearchParams(location.search).get('title') ?? '';
 	// The title might be missing altogether
-	return /^`([^`]+)`/.exec(title)?.[1];
+	return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id;
 }
 
 async function add(infoBanner: HTMLElement): Promise<void> {
-	const idFromUrl = /\/([^/]+)\.(?:tsx|css)$/.exec(location.pathname)![1];
+	const idFromUrl = /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(location.pathname)!.groups!.id;
 	await addFeatureInformationWidget(infoBanner, idFromUrl);
 }
 

@@ -1,19 +1,9 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-	"css": {
-		"formatter": {
-			"quoteStyle": "single"
-		}
-	},
-	"graphql": {
-		"formatter": {
-			"enabled": true
-		}
-	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"complexity": {
 				"noImportantStyles": "off"
 			},
@@ -24,6 +14,6 @@
 		}
 	},
 	"files": {
-		"includes": ["source/**/*.css", "source/**/*.gql"]
+		"includes": ["source/**/*.css"]
 	}
 }

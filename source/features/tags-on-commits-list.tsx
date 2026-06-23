@@ -79,11 +79,11 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 	}
 
 	const lastTag = nodes.at(-1)!.target;
-	const lastTagIsYounger = new Date(repository.object.committedDate)
+	const isLastTagYounger = new Date(repository.object.committedDate)
 		< new Date(isTagTarget(lastTag) ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
-	if (lastTagIsYounger && repository.refs.pageInfo.hasNextPage) {
+	if (isLastTagYounger && repository.refs.pageInfo.hasNextPage) {
 		tags = mergeTags(tags, await getTags(lastCommit, repository.refs.pageInfo.endCursor));
 	}
 

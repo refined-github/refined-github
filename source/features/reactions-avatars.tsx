@@ -28,7 +28,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
 		users = button.nextElementSibling!
 			.textContent
-			.replace(/.*including /, '')
+			.replace(/^.+including /, '')
 			.replace(/\)/, '')
 			.replace(/,? and /, ', ')
 			.replace(/, \d+ more/, '')
@@ -93,10 +93,12 @@ function showAvatarsOn(reactionsContainer: Element): void {
 
 const viewportObserver = new IntersectionObserver(changes => {
 	for (const change of changes) {
-		if (change.isIntersecting) {
-			showAvatarsOn(change.target);
-			viewportObserver.unobserve(change.target);
+		if (!change.isIntersecting) {
+			continue;
 		}
+
+		showAvatarsOn(change.target);
+		viewportObserver.unobserve(change.target);
 	}
 }, {
 	// Start loading a little before they become visible

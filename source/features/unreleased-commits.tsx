@@ -113,7 +113,7 @@ async function createLinkGroup(latestTag: string, aheadBy: number): Promise<HTML
 	]);
 }
 
-async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
+async function addToHome(branchSelectorElement: HTMLButtonElement): Promise<void> {
 	// React issues. Duplicates appear after a color scheme update
 	// https://github.com/refined-github/refined-github/issues/7536
 	if (elementExists('.rgh-unreleased-commits-wrapper')) {
@@ -132,7 +132,7 @@ async function addToHome(branchSelector: HTMLButtonElement): Promise<void> {
 
 	wrapAll(
 		<div className="d-flex gap-2 rgh-unreleased-commits-wrapper" />,
-		branchSelector,
+		branchSelectorElement,
 		linkGroup,
 	);
 }

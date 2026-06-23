@@ -64,14 +64,14 @@ function handleSelection(): void {
 	const statuses = getFiltersSelector(formData, 'Status');
 	const readStatus = getFiltersSelector(formData, 'Read');
 	const selectorGroups = [types, statuses, readStatus].filter(selectors => selectors.length > 0);
-	const deselectAll = selectorGroups.length === 0;
+	const shouldDeselectAll = selectorGroups.length === 0;
 
 	const notifications = $$('.notifications-list-item');
 	let input: HTMLInputElement;
 	for (const notification of notifications) {
 		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
-		input.checked = !deselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
+		input.checked = !shouldDeselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
 	}
 
 	// Trigger the selection action bar update
@@ -79,7 +79,7 @@ function handleSelection(): void {
 	input.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
-function createDropdownList(category: Category, filters: Filter[]): JSX.Element {
+function createDropdownList(category: Category, categoryFilters: Filter[]): JSX.Element {
 	const icons: Record<Filter, JSX.Element> = {
 		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
 		Issues: <IssueOpenedIcon className="color-fg-muted" />,
@@ -98,7 +98,7 @@ function createDropdownList(category: Category, filters: Filter[]): JSX.Element 
 			<header className="SelectMenu-header">
 				<span className="SelectMenu-title">{category}</span>
 			</header>
-			{filters.map(filter => (
+			{categoryFilters.map(filter => (
 				<label
 					className="SelectMenu-item text-normal"
 					role="menuitemcheckbox"
