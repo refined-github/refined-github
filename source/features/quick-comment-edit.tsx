@@ -85,8 +85,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	const isUserModerator = await userIsModerator();
 
 	observe(
-		(isUserModerator ? '' : 'div[class*="viewerDidAuthor"]')
-		+ ' button[aria-haspopup="true"]:is([data-testid="comment-header-hamburger"], [class^="IssueBodyHeader-module__actionsSection"] > *)',
+		(isUserModerator ? '' : 'div[class*="viewerDidAuthor"] ')
+		+ 'button[aria-haspopup="true"]:is([data-testid="comment-header-hamburger"], [class^="IssueBodyHeader-module__actionsSection"] > *)',
 		addQuickEditButton,
 		{signal},
 	);
