@@ -103,10 +103,10 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 
 	for (const repoPrs of prsByRepo.values()) {
 		const {owner, repo} = repoPrs[0];
-		const repo_ = data[api.escapeKey('repo', owner, repo)];
-		const defaultBranch = repo_.defaultBranchRef.name;
+		const repository = data[api.escapeKey('repo', owner, repo)];
+		const defaultBranch = repository.defaultBranchRef.name;
 		for (const pr of repoPrs) {
-			const baseBranch: BaseBranch = repo_[api.escapeKey('pr', pr.number)];
+			const baseBranch: BaseBranch = repository[api.escapeKey('pr', pr.number)];
 			if (baseBranch.refName === defaultBranch) {
 				continue;
 			}
@@ -117,7 +117,7 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 				continue;
 			}
 
-			renderBranches(pr, baseBranch, repo_.nameWithOwner);
+			renderBranches(pr, baseBranch, repository.nameWithOwner);
 		}
 	}
 }
