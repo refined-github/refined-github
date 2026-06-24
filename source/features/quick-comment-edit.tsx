@@ -87,7 +87,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe(
 		(isUserModerator ? '' : 'div[class*="viewerDidAuthor"] ')
-		+ 'button[aria-haspopup="true"]:is([data-testid="comment-header-hamburger"], [class^="IssueBodyHeader-module__actionsSection"] > *)',
+		+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list"])',
 		addQuickEditButton,
 		{signal},
 	);
