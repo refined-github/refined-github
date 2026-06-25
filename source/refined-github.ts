@@ -56,6 +56,7 @@ import './features/global-conversation-list-filters.js';
 import './features/last-update-sort.js'; // Must be after global-conversation-list-filters and conversation-links-on-repo-lists
 import './features/pinned-issues-update-time.js';
 import './features/mark-pinned.js';
+import './features/display-issue-fields.js';
 import './features/default-branch-button.js';
 import './features/one-click-diff-options.js';
 import './features/sync-pr-commit-title.js';

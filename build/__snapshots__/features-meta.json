@@ -225,6 +225,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/220607557-f8ea0863-f05b-48c8-a447-1fec42af0afd.gif"
 	},
 	{
+		"id": "display-issue-fields",
+		"description": "Shows issue field values (like Priority) on each row of the issues list.",
+		"css": true,
+		"screenshot": null
+	},
+	{
 		"id": "download-folder-button",
 		"description": "Adds a button to download entire folders, via https://download-directory.github.io.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png"
