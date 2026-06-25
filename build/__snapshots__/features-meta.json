@@ -228,7 +228,7 @@
 		"id": "display-issue-fields",
 		"description": "Shows issue field values (like Priority) on each row of the issues list.",
 		"css": true,
-		"screenshot": null
+		"screenshot": "https://github.com/user-attachments/assets/62f9ece9-36b4-4440-acbf-e58191f1a8f1"
 	},
 	{
 		"id": "download-folder-button",
