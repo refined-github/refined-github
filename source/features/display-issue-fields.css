@@ -4,11 +4,11 @@
 	height: 20px;
 	padding: 0 8px;
 	border: 1px solid
-		var(--borderColor-muted, var(--color-border-muted, #d1d9e0b3));
+		var(--borderColor-muted, var(--color-border-muted, fuchsia));
 	border-radius: 2em;
 	font-size: 12px;
 	font-weight: 500;
 	line-height: 1;
 	white-space: nowrap;
-	color: var(--fgColor-muted, var(--color-fg-muted, #59636e));
+	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
