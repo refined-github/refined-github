@@ -10,6 +10,7 @@ import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isConversationIneditable = memoize(
@@ -32,20 +33,22 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 		return;
 	}
 
-	menuButon.before(
-		tooltipped('Edit comment',
-			<button
-				type="button"
-				className="Button Button--iconOnly Button--invisible Button--small"
-				onClick={async () => withMenuOpen(menuButon, menu => {
-					$(editMenuItemSelector, menu).click();
-					// Remove our edit button in case React doesn't, preventing duplicate buttons where only one works
-					menuButon.previousElementSibling!.remove();
-				})}
-			>
-				<PencilIcon />
-			</button>,
-		));
+	const editButton = tooltipped('Edit comment',
+		<button
+			type="button"
+			className="Button Button--iconOnly Button--invisible Button--small"
+			onClick={async () => withMenuOpen(menuButon, menu => {
+				$(editMenuItemSelector, menu).click();
+			})}
+		>
+			<PencilIcon />
+		</button>,
+	);
+	menuButon.before(editButton);
+
+	// Remove our edit button when entering editing mode in case React doesn't, preventing duplicate buttons where only one works
+	await onElementRemoval(menuButon, signal);
+	editButton.remove();
 }
 
 async function addQuickEditButtonLegacy(commentDropdown: HTMLDetailsElement, {signal}: SignalAsOptions): Promise<void> {
