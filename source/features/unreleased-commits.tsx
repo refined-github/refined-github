@@ -165,12 +165,38 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	widget.classList.add('mr-md-0', 'mr-2');
 }
 
-async function initHome(signal: AbortSignal): Promise<void> {
+async function addToNewRelease(header: HTMLElement): Promise<void> {
+	const {latestTag, aheadBy} = await repoPublishState.get();
+	const isAhead = aheadBy > 0;
+
+	if (!latestTag || !isAhead) {
+		return;
+	}
+
+	const defaultBranch = await getDefaultBranch();
+
+	header.append(
+		' ',
+		<a target="_blank" href={buildRepoUrl('compare', `${latestTag}...${defaultBranch}`)}>
+			{pluralize(aheadBy, '$$ unreleased commit')}
+		</a>,
+		` on ${defaultBranch} since `,
+		<a target="_blank" href={buildRepoUrl('releases', latestTag)}>
+			{abbreviateString(latestTag, 30)}
+		</a>,
+	);
+}
+
+function initHome(signal: AbortSignal): void {
 	observe(branchSelector, addToHome, {signal});
 }
 
-async function initReleases(signal: AbortSignal): Promise<void> {
+function initReleases(signal: AbortSignal): void {
 	observe('input#release-filter', addToReleases, {signal});
+}
+
+function initNewRelease(signal: AbortSignal): void {
+	observe('.js-tag-status-message[data-state="empty"]', addToNewRelease, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -189,6 +215,13 @@ void features.add(import.meta.url, {
 	],
 	requiresToken: true,
 	init: initReleases,
+}, {
+	include: [
+		// Detections run on all pages, even not repos
+		() => getRepo()?.path === 'releases/new',
+	],
+	requiresToken: true,
+	init: initNewRelease,
 });
 
 /*
@@ -212,5 +245,8 @@ https://github.com/refined-github/refined-github/releases
 
 Releases page with changelog file
 https://github.com/fczbkk/css-selector-generator/releases
+
+Realeasing a new version
+https://github.com/refined-github/refined-github/releases/new
 
 */
