@@ -17,8 +17,8 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 		const isTrailing = nodeIndex === textNodesOnThisLine.length - 1;
 
 		const startingCharacterIndex = shouldAvoidSurroundingSpaces && isLeading ? 1 : 0;
-		const skipLastCharacter = shouldAvoidSurroundingSpaces && isTrailing;
-		const endingCharacterIndex = text.length - 1 - Number(skipLastCharacter);
+		const shouldSkipLastCharacter = shouldAvoidSurroundingSpaces && isTrailing;
+		const endingCharacterIndex = text.length - 1 - Number(shouldSkipLastCharacter);
 
 		// Loop goes in reverse otherwise `splitText`'s `index` parameter needs to keep track of the previous split
 		for (let index = endingCharacterIndex; index >= startingCharacterIndex; index--) {

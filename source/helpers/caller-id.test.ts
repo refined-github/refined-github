@@ -1,6 +1,8 @@
-import {assert, test} from 'vitest';
+import {assert, test, vi} from 'vitest';
 
 import {getStackLine} from './caller-id.js';
+
+vi.spyOn(console, 'warn').mockReturnValue();
 
 test('getCallerID: getStackLine', () => {
 	assert.equal(getStackLine('A\nB', 0), 'A');

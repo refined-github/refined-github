@@ -78,7 +78,7 @@ function getDropdown(prs: number[]): HTMLElement {
 /**
 @returns prsByFile {"filename1": [10, 3], "filename2": [2]}
 */
-const getPrsByFile = new CachedFunction('files-with-prs', {
+const prsByFileCache = new CachedFunction('files-with-prs', {
 	async updater(): Promise<Record<string, number[]>> {
 		const {repository} = await api.v4(listPrsForFileQuery, {
 			variables: {
@@ -106,7 +106,7 @@ const getPrsByFile = new CachedFunction('files-with-prs', {
 
 async function add(anchor: HTMLElement): Promise<false | void> {
 	const path = new GitHubFileUrl(location.href).filePath;
-	const prsByFile = await getPrsByFile.get();
+	const prsByFile = await prsByFileCache.get();
 	let prs = prsByFile[path];
 
 	if (!prs) {

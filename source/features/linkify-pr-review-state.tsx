@@ -23,15 +23,18 @@ const reviewStateFilters = new Map([
 function alterLink(label: HTMLElement): void {
 	for (const [text, filter] of reviewStateFilters) {
 		// Use .textContent because "Draft" lacks any unique attributes
-		if (label.textContent.trim() === text) {
-			const url = new SearchQuery(buildRepoUrl('pulls')).append(filter).href;
-			if (label instanceof HTMLAnchorElement) {
-				label.href = url;
-			} else {
-				wrap(label, <a href={url} />);
-				$('[class*="statusText"]', label).classList.add('Link--onHover');
-			}
+		if (label.textContent.trim() !== text) {
+			continue;
 		}
+
+		const url = new SearchQuery(buildRepoUrl('pulls')).append(filter).href;
+		if (label instanceof HTMLAnchorElement) {
+			label.href = url;
+			continue;
+		}
+
+		wrap(label, <a href={url} />);
+		$('[class*="statusText"]', label).classList.add('Link--onHover');
 	}
 }
 

@@ -110,7 +110,7 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 
 async function init(signal: AbortSignal): Promise<void> {
 	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
-	const [, hash] = /commit\/([a-f0-9]{40})/.exec(mergeCommit.pathname)!;
+	const {hash} = /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!;
 	const tagName = await firstTag.get(hash);
 
 	if (tagName) {
@@ -123,14 +123,15 @@ async function init(signal: AbortSignal): Promise<void> {
 		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
 			signal,
 		});
-	} else {
-		void addReleaseBanner(
-			<>
-				No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
-			</>,
-			signal,
-		);
+		return;
 	}
+
+	void addReleaseBanner(
+		<>
+			No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
+		</>,
+		signal,
+	);
 }
 
 void features.add(import.meta.url, {

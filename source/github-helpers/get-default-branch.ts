@@ -7,7 +7,7 @@ import GetDefaultBranch from './get-default-branch.gql';
 import {extractCurrentBranchFromBranchPicker, getRepo} from './index.js';
 import {branchSelector} from './selectors.js';
 
-const isCurrentRepo = (nameWithOwner: NameWithOwner): boolean => Boolean(getRepo()?.nameWithOwner === nameWithOwner);
+const isCurrentRepo = (nameWithOwner: NameWithOwner): boolean => getRepo()?.nameWithOwner === nameWithOwner;
 
 // Do not make this function complicated. We're only optimizing for the repo root.
 async function fromDom(): Promise<string | undefined> {

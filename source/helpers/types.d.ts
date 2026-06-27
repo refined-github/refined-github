@@ -1,3 +1,4 @@
+/* eslint-disable import-x/no-extraneous-dependencies -- This file for tests only */
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
 /* eslint-disable @typescript-eslint/no-restricted-types -- The API does return `null`, not `undefined` */
 import type {StrictlyParseSelector} from 'typed-query-selector/parser.js';

@@ -1,4 +1,5 @@
 /**
+Removes the PR number from the commit title if it exists.
 @example 'Something done (#123)' => 'Something done'
 */
 export default function cleanPrCommitTitle(commitTitle: string, pr: number): string {

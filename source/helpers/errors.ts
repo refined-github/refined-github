@@ -3,10 +3,10 @@ import memoize from 'memoize';
 
 const warnOnce = memoize(console.warn, {cacheKey: JSON.stringify});
 
-let loggingEnabled = true;
+let isLoggingEnabled = true;
 
 export function disableErrorLogging(): void {
-	loggingEnabled = false;
+	isLoggingEnabled = false;
 }
 
 const {version} = chrome.runtime.getManifest();
@@ -24,15 +24,15 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 		.toReversed()
 		.join('\n')
 		// eslint-disable-next-line @typescript-eslint/prefer-regexp-exec -- Linear code is best
-		.match(/assets\/features\/(.+)\.js/);
-	return match?.[1] as FeatureId | undefined;
+		.match(/assets\/features\/(?<id>.+)\.js/);
+	return match?.groups?.id as FeatureId | undefined;
 }
 
 /* Log errors only once */
 const loggedStacks = new Set<string>();
 
 export function logError(error: Error): void {
-	if (!loggingEnabled) {
+	if (!isLoggingEnabled) {
 		return;
 	}
 
@@ -72,7 +72,7 @@ export function logError(error: Error): void {
 		'description',
 		[
 			'```',
-			String(error instanceof Error ? error.stack! : error).trim(),
+			stack!.trim(),
 			'```',
 		].join('\n'),
 	);

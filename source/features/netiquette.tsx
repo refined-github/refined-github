@@ -71,12 +71,12 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	);
 }
 
-function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): void {
+function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
 	if (elementExists('.rgh-resolved-banner')) {
 		return;
 	}
 
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
 	const banner = createBanner({
 		icon: <InfoIcon className="m-0 tmp-m-0" />,
 		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
@@ -87,16 +87,16 @@ function addResolvedBanner(newCommentField: HTMLElement, closingDate: Date): voi
 		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
-		newCommentField.prepend(banner);
+		commentField.prepend(banner);
 	}
 }
 
-function addPopularBanner(newCommentField: HTMLElement): void {
+function addPopularBanner(commentField: HTMLElement): void {
 	if (elementExists('.rgh-popular-banner')) {
 		return;
 	}
 
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', newCommentField);
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
 	const banner = createBanner({
 		icon: <FlameIcon className="m-0 tmp-m-0" />,
 		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
@@ -108,12 +108,12 @@ function addPopularBanner(newCommentField: HTMLElement): void {
 		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
-		newCommentField.prepend(banner);
+		commentField.prepend(banner);
 	}
 }
 
-function addDraftBanner(newCommentField: HTMLElement): void {
-	newCommentField.prepend(
+function addDraftBanner(commentField: HTMLElement): void {
+	commentField.prepend(
 		createBanner({
 			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
 			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),

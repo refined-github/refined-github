@@ -26,14 +26,16 @@ function moveDisabledFeaturesToTop(): void {
 
 async function markLocalHotfixes(): Promise<void> {
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
-		if (importedFeatures.includes(feature)) {
-			const input = $<HTMLInputElement>('#' + feature);
-			input.disabled = true;
-			input.removeAttribute('name');
-			$(`.feature-name[for="${feature}"]`).after(
-				<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue, true)})</span>,
-			);
+		if (!importedFeatures.includes(feature)) {
+			continue;
 		}
+
+		const input = $<HTMLInputElement>('#' + feature);
+		input.disabled = true;
+		input.removeAttribute('name');
+		$(`.feature-name[for="${feature}"]`).after(
+			<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue, true)})</span>,
+		);
 	}
 }
 

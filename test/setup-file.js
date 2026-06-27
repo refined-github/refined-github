@@ -1,5 +1,5 @@
-/* eslint-disable unicorn/no-top-level-side-effects */
-/* eslint-disable unicorn/no-global-object-property-assignment */
+/* eslint-disable unicorn/no-top-level-side-effects -- "export" exists to vary the global */
+/* eslint-disable unicorn/no-global-object-property-assignment -- polyfill */
 import {NodeFilter, parseHTML} from 'linkedom';
 
 const globals = [
