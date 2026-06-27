@@ -19,7 +19,7 @@ export function getConversationNumber(): number | undefined {
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
-type Not<Yes, Not> = Yes extends Not ? never : Yes;
+type Not<Yes, No> = Yes extends No ? never : Yes;
 type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
 export function buildRepoUrl<S extends string>(
@@ -39,7 +39,7 @@ export function getForkedRepo(): string | undefined {
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {
-	const [, namespace = '', version = ''] = /(?:(.*)@)?([^@]+)/.exec(tag) ?? [];
+	const {namespace = '', version = ''} = /(?:(?<namespace>.*)@)?(?<version>[^@]+)/.exec(tag)?.groups ?? {};
 	return {namespace, version};
 }
 
@@ -53,14 +53,14 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 		// Remove diacritics, punctuation and spaces
 		// https://stackoverflow.com/a/37511463/288906
 		// https://www.freecodecamp.org/news/what-is-punct-in-regex-how-to-match-all-punctuation-marks-in-regular-expressions/
-		.replaceAll(/[\p{Diacritic}\p{P}\s]/gu, '')
+		.replaceAll(/[\s\p{Diacritic}\p{Punctuation}]/gu, '')
 		.toLowerCase();
 
 	return username === realname;
 }
 
-const validVersion = /^[vr]?\d+(?:\.\d+)+/;
-const isPrerelease = /^[vr]?\d+(?:\.\d+)+(?:-\d)/;
+const validVersion = /^[rv]?\d+(?:\.\d+)+/;
+const isPrerelease = /^[rv]?\d+(?:\.\d+)+-\d/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)
@@ -153,8 +153,8 @@ export const isRepoCommitListRoot = (): boolean =>
 	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
 export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
-	const {ok} = await fetch(url, {method: 'head'});
-	return ok;
+	const {ok: isOk} = await fetch(url, {method: 'head'});
+	return isOk;
 });
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error

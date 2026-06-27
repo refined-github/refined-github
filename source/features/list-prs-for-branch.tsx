@@ -20,10 +20,10 @@ const stateColorMap = {
 	DRAFT: '',
 };
 
-async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | false> {
-	const getPr = await pullRequestsAssociatedWithBranch.get();
+async function add(parent: HTMLDetailsElement): Promise<void | false> {
+	const prsByBranch = await pullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
-	const prInfo = getPr[currentBranch];
+	const prInfo = prsByBranch[currentBranch];
 	if (!prInfo) {
 		return;
 	}
@@ -31,7 +31,7 @@ async function add(branchSelectorParent: HTMLDetailsElement): Promise<void | fal
 	const StateIcon = stateIcon[prInfo.state];
 
 	addAfterBranchSelector(
-		branchSelectorParent,
+		parent,
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}

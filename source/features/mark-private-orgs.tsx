@@ -22,7 +22,7 @@ const publicOrganizationsNames = new CachedFunction('public-organizations', {
 });
 
 function markPrivate(org: HTMLAnchorElement, organizations: string[]): void {
-	if (organizations.includes(org.pathname.replace(/^\/(organizations\/)?/, ''))) {
+	if (organizations.includes(org.pathname.replace(/^\/(?:organizations\/)?/, ''))) {
 		return;
 	}
 

@@ -35,14 +35,14 @@ export const log = {
 	},
 };
 
-let _isInitialLoad = true;
+let isInitialLoadValue = true;
 
 export function isInitialLoad(): boolean {
-	return _isInitialLoad;
+	return isInitialLoadValue;
 }
 
 export function markAjaxedLoad(): void {
-	_isInitialLoad = false;
+	isInitialLoadValue = false;
 }
 
 export function listenToAjaxedLoad(): void {

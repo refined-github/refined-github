@@ -4,8 +4,8 @@ import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
 import type {ParseSelector} from 'typed-query-selector/parser.js';
 
-import delay from '../helpers/delay.js';
-import onetime from '../helpers/onetime.js';
+import delay from './delay.js';
+import onetime from './onetime.js';
 import optionsStorage from '../options-storage.js';
 import getCallerId from './caller-id.js';
 import {parseFeatureNameFromStack} from './errors.js';
@@ -66,7 +66,7 @@ export default function observe<
 	// }
 
 	rule.textContent = css`
-		:where(${String(selector)}):not(.${seenMark}) {
+		:where(${selector}):not(.${seenMark}) {
 			animation: 1ms ${animation};
 		}
 	`;

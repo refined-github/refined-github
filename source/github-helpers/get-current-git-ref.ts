@@ -5,7 +5,7 @@ import {extractCurrentBranchFromBranchPicker} from './index.js';
 import {branchSelector} from './selectors.js';
 
 const typesWithGitRef = new Set(['tree', 'blob', 'blame', 'edit', 'commit', 'commits', 'compare']);
-const titleWithGitRef = / at (?<branch>[.\w/-]+)(?: · [\w-]+\/[\w-]+)?$/i;
+const titleWithGitRef = / at (?<branch>[\w\-./]+)(?: · [\w-]+\/[\w-]+)?$/i;
 
 /** Must not be async because it's used by GitHubFileURL. May return different results depending on whether it's called before or after DOM ready */
 export function getGitRef(pathname: string, title: string): string | undefined {

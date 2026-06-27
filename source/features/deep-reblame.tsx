@@ -40,7 +40,7 @@ const getPullRequestBlameCommit = mem(
 );
 
 function extractCommitFromHoverCardUrl(url: string): string {
-	return /[/]commit[/]([0-9a-f]{40})[/]/i.exec(url)![1];
+	return /[/]commit[/](?<commit>[0-9a-f]{40})[/]/i.exec(url)!.groups!.commit;
 }
 
 async function redirectToBlameCommit(

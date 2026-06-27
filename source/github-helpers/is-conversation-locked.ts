@@ -1,9 +1,9 @@
 import elementReady from 'element-ready';
 
-import api from '../github-helpers/api.js';
-import {getConversationNumber} from '../github-helpers/index.js';
 import {isInitialLoad} from '../helpers/feature-helpers.js';
 import {hasToken} from '../options-storage.js';
+import api from './api.js';
+import {getConversationNumber} from './index.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
 
 async function isConversationLockedViaApi(): Promise<boolean | undefined> {
@@ -44,9 +44,9 @@ export default async function isConversationLocked(): Promise<boolean | undefine
 	// Like Promise.race, but it only resolves if the result is not undefined
 	return new Promise(resolve => {
 		const resolveIfDefined = async (check: () => Promise<boolean | undefined>): Promise<void> => {
-			const result = await check();
-			if (result !== undefined) {
-				resolve(result);
+			const isLocked = await check();
+			if (isLocked !== undefined) {
+				resolve(isLocked);
 			}
 		};
 

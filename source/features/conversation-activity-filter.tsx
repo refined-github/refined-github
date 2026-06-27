@@ -91,7 +91,7 @@ function processReview(review: HTMLElement): void {
 
 	for (const thread of unresolvedThreads) {
 		// Hide threads containing only resolved comments
-		if (unresolvedThreadComments.every(comment => !thread.contains(comment))) {
+		if (unresolvedThreadComments.every(unresolvedComment => !thread.contains(unresolvedComment))) {
 			thread.classList.add(collapsedClassName);
 		}
 	}

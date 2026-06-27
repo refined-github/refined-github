@@ -58,12 +58,12 @@ async function discardChanges(
 	const isRenamed = originalFileName !== newFileName;
 
 	const contents = file ?? '';
-	const deleteNewFile = {deletions: [{path: newFileName}]};
+	const newFileDeletion = {deletions: [{path: newFileName}]};
 	const restoreOldFile = {additions: [{path: originalFileName, contents}]};
 	const fileChanges = isRenamed
-		? {...restoreOldFile, ...deleteNewFile} // Renamed, maybe also changed
+		? {...restoreOldFile, ...newFileDeletion} // Renamed, maybe also changed
 		: isNewFile
-			? deleteNewFile // New
+			? newFileDeletion // New
 			: restoreOldFile; // Changes
 
 	const {nameWithOwner, branch: prBranch} = getBranches().head;

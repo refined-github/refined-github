@@ -34,7 +34,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 		${selection}
 
 		</details>
-	`.replaceAll(/(\n|\b)\t+/g, '$1').trim();
+	`.replaceAll(/(?<=\n|\b)\t+/g, '').trim();
 
 	field.focus();
 	insertTextIntoField(field, smartBlockWrap(newContent, field));

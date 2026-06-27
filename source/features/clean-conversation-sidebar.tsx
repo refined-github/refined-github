@@ -115,12 +115,12 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 		removeTextNodeContaining(developmentHint, /No branches or pull requests|Successfully merging/);
 	}
 
-	const createBranchLink = $optional('button[data-action="click:create-branch#openDialog"]');
+	const branchCreationButton = $optional('button[data-action="click:create-branch#openDialog"]');
 	const openWorkspaceButton = $optional('a[href^="https://copilot-workspace.githubnext.com"]');
-	if (createBranchLink && !openWorkspaceButton) {
-		createBranchLink.classList.add('Link--muted', 'Link--inTextBlock');
+	if (branchCreationButton && !openWorkspaceButton) {
+		branchCreationButton.classList.add('Link--muted', 'Link--inTextBlock');
 		$('[aria-label="Link issues"] summary').append(
-			<span style={{fontWeight: 'normal'}}> – {createBranchLink}</span>,
+			<span style={{fontWeight: 'normal'}}> – {branchCreationButton}</span>,
 		);
 	}
 

@@ -1,3 +1,4 @@
+/* eslint-disable regexp/prefer-named-capture-group -- Messes with the whole logic */
 /* eslint-disable max-params -- These match the native `String#replace` signature */
 import type {RepositoryInfo} from 'github-url-detection';
 
@@ -7,7 +8,8 @@ function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithO
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;
 }
 
-const escapeRegex = (string: string): string => string.replaceAll(/[\\^$.*+?()[\]{}|]/g, String.raw`\$&`);
+// TODO: Drop after we drop Safari <18.2 support https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+const escapeRegex = (string: string): string => string.replaceAll(/[$()*+.?[\\\]^{|}]/g, String.raw`\$&`);
 const prCommitPathnameRegex =
 	/[/]([^/]+[/][^/]+)[/]pull[/](\d+)[/](?:commits|changes)[/]([\da-f]{7})[\da-f]{33}(?:[.]{2}([\da-f]{7})[\da-f]{33})?(?:#[\w-]+)?\b/;
 export const prCommitUrlRegex = new RegExp(
@@ -15,13 +17,13 @@ export const prCommitUrlRegex = new RegExp(
 	'gi',
 );
 
-const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\da-fLR-]+)/;
+const prComparePathnameRegex = /[/]([^/]+[/][^/]+)[/]compare[/](.+)(#diff-[\d\-LRa-f]+)/;
 export const prCompareUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + prComparePathnameRegex.source,
 	'gi',
 );
 
-const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^#\s]+(#[\w-]+)?\b/;
+const discussionPathnameRegex = /[/]([^/]+[/][^/]+)[/]discussions[/](\d+)[?][^\s#]+(#[\w-]+)?\b/;
 export const discussionUrlRegex = new RegExp(
 	String.raw`\b` + escapeRegex(location.origin) + discussionPathnameRegex.source,
 	'gi',

@@ -7,10 +7,10 @@ import {setFieldText} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
-import {frame} from '../helpers/dom-utils.js';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
+import withMenuOpen from '../github-helpers/with-menu-open.js';
 
 function insertCopilotInstruction(): void {
 	const textarea = $(legacyCommentField);
@@ -69,12 +69,7 @@ async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promi
 		return;
 	}
 
-	button.click();
-	// Wait for the menu DOM to be created, but not rendered
-	await frame();
-	const menuItems = $$('div[data-component="AnchoredOverlay"] li[data-component="ActionList.Item"]');
-	button.click();
-
+	const menuItems = await withMenuOpen(button, menu => $$('li[data-component="ActionList.Item"]', menu));
 	const buttonGroup = createResolveConflictsButtons(menuItems);
 	button.replaceWith(buttonGroup);
 }
