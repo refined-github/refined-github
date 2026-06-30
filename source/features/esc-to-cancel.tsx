@@ -6,24 +6,26 @@ import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
-	if (event.key === 'Escape') {
-		if (!(event.delegateTarget instanceof HTMLInputElement)) {
-			return;
-		}
-
-		const cancelButton = $([
-			'div[class^="prc-PageLayout-HeaderContent"] > form button[data-variant="invisible"]',
-			// TODO [2027-01-01]: Remove after legacy PR files view is removed
-			'.js-cancel-issue-edit',
-		]);
-		if (cancelButton.textContent.trim() !== 'Cancel') {
-			throw new Error('Expected to find a cancel button');
-		}
-
-		cancelButton.click();
-		event.stopImmediatePropagation();
-		event.preventDefault();
+	if (event.key !== 'Escape') {
+		return;
 	}
+
+	if (!(event.delegateTarget instanceof HTMLInputElement)) {
+		return;
+	}
+
+	const cancelButton = $([
+		'div[class^="prc-PageLayout-HeaderContent"] > form button[data-variant="invisible"]',
+		// TODO [2027-01-01]: Remove after legacy PR files view is removed
+		'.js-cancel-issue-edit',
+	]);
+	if (cancelButton.textContent.trim() !== 'Cancel') {
+		throw new Error('Expected to find a cancel button');
+	}
+
+	cancelButton.click();
+	event.stopImmediatePropagation();
+	event.preventDefault();
 }
 
 function init(signal: AbortSignal): void {

@@ -75,7 +75,7 @@ export default function observe<
 		rule.remove();
 	});
 
-	let called = false;
+	let wasCalled = false;
 	// Capture stack outside
 	const currentFeature = parseFeatureNameFromStack();
 	(async () => {
@@ -86,7 +86,7 @@ export default function observe<
 
 		await domLoaded;
 		await delay(1000);
-		if (!called && !signal?.aborted) {
+		if (!wasCalled && !signal?.aborted) {
 			console.warn(currentFeature, '→ Selector not found on page:', selector);
 		}
 	})();
@@ -102,7 +102,7 @@ export default function observe<
 			return;
 		}
 
-		called = true;
+		wasCalled = true;
 
 		// Removes this specific selector’s animation once it was seen
 		target.classList.add(seenMark);

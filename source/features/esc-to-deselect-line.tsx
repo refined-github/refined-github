@@ -14,26 +14,28 @@ function isLineSelected(): boolean {
 }
 
 function listener({key, target}: KeyboardEvent): void {
-	if (key === 'Escape' && isLineSelected() && !isEditable(target)) {
-		const selectedLineNumber = $optional('.react-line-number.highlighted-line');
-
-		if (selectedLineNumber) {
-			// Save and remove line number
-			const {lineNumber} = selectedLineNumber.dataset;
-			selectedLineNumber.dataset.lineNumber = '';
-			// Trigger click to deselect
-			selectedLineNumber.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
-			// Restore line number
-			selectedLineNumber.dataset.lineNumber = lineNumber;
-			// Un-focus code block
-			(document.activeElement as HTMLElement).blur();
-		} else {
-			// TODO [2027-01-01]: Review if old UI is gone. Currently only applies to PRs
-			location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
-		}
-
-		removeHashFromUrlBar();
+	if (!(key === 'Escape' && isLineSelected() && !isEditable(target))) {
+		return;
 	}
+
+	const selectedLineNumber = $optional('.react-line-number.highlighted-line');
+
+	if (selectedLineNumber) {
+		// Save and remove line number
+		const {lineNumber} = selectedLineNumber.dataset;
+		selectedLineNumber.dataset.lineNumber = '';
+		// Trigger click to deselect
+		selectedLineNumber.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+		// Restore line number
+		selectedLineNumber.dataset.lineNumber = lineNumber;
+		// Un-focus code block
+		(document.activeElement as HTMLElement).blur();
+	} else {
+		// TODO [2027-01-01]: Review if old UI is gone. Currently only applies to PRs
+		location.hash = '#no-line'; // Update UI, without `scroll-to-top` behavior
+	}
+
+	removeHashFromUrlBar();
 }
 
 function init(signal: AbortSignal): void {

@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 function onButtonClick({delegateTarget: button}: DelegateEvent): void {
 	try {
 		closestElement('.js-comment', button)
-			.querySelector('.show-more-popover .js-comment-delete > button')!
+			.querySelector(':scope .show-more-popover .js-comment-delete > button')!
 			.click();
 	} catch (error) {
 		void showToast(new Error('Feature broken. Please open an issue with the link found in the console'));

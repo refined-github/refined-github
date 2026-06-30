@@ -3,27 +3,18 @@ import {isRepoRoot} from 'github-url-detection';
 import getCurrentGitRef from './get-current-git-ref.js';
 
 export default class GitHubFileUrl {
+	private readonly internalUrl: URL;
+
 	user = '';
 	repository = '';
 	route = '';
 	branch = '';
 	filePath = '';
 
-	private readonly internalUrl: URL;
-
 	constructor(url: string) {
 		// Use Facade pattern instead of inheritance #3193
 		this.internalUrl = new URL(url);
 		this.pathname = this.internalUrl.pathname;
-	}
-
-	toString(): string {
-		return this.href;
-	}
-
-	assign(...replacements: Array<Partial<GitHubFileUrl>>): this {
-		Object.assign(this, ...replacements);
-		return this;
 	}
 
 	// Handle branch names containing multiple slashes #4492
@@ -69,6 +60,16 @@ export default class GitHubFileUrl {
 			filePath: ambiguousReference.slice(currentBranchSections.length).join('/'),
 		};
 	}
+
+	toString(): string {
+		return this.href;
+	}
+
+	assign(...replacements: Array<Partial<GitHubFileUrl>>): this {
+		Object.assign(this, ...replacements);
+		return this;
+	}
+
 
 	get pathname(): string {
 		return '/' + [this.user, this.repository, this.route, this.branch, this.filePath]

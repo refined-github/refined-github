@@ -11,13 +11,15 @@ import {issueIcons} from './select-notifications.js';
 
 function mark(issueLink: HTMLAnchorElement): void {
 	// The href attribute in the pinned issue list contains the absolute URL
-	if (elementExists(`[class*='PinnedIssues-module__container'] a[href="${issueLink.href}"]`)) {
-		// Keep the container and its classes, replace just the contents
-		const paths = (<PinIcon />).children;
-		const icon = $(is(issueIcons), closestElement('li', issueLink));
-		icon.replaceChildren(...paths);
-		icon.parentElement!.classList.add('rgh-pinned-issue-icon');
+	if (!elementExists(`[class*='PinnedIssues-module__container'] a[href="${issueLink.href}"]`)) {
+		return;
 	}
+
+	// Keep the container and its classes, replace just the contents
+	const paths = (<PinIcon />).children;
+	const icon = $(is(issueIcons), closestElement('li', issueLink));
+	icon.replaceChildren(...paths);
+	icon.parentElement!.classList.add('rgh-pinned-issue-icon');
 }
 
 function init(signal: AbortSignal): void {
