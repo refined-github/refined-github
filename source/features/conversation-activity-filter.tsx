@@ -197,7 +197,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 
 	observe(timelineItem, processItem, {signal});
-	addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 }
 
 void features.add(import.meta.url, {

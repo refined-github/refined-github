@@ -91,7 +91,7 @@ export default function observe<
 		}
 	})();
 
-	addEventListener('animationstart', (event: AnimationEvent) => {
+	globalThis.addEventListener('animationstart', (event: AnimationEvent) => {
 		if (event.animationName !== animation) {
 			return;
 		}
