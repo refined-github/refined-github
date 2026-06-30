@@ -86,7 +86,7 @@ export function logError(error: Error): void {
 }
 
 export function catchErrors(): void {
-	addEventListener('error', event => {
+	globalThis.addEventListener('error', event => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
 		if (error) {
@@ -95,7 +95,7 @@ export function catchErrors(): void {
 		}
 	});
 
-	addEventListener('unhandledrejection', event => {
+	globalThis.addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values

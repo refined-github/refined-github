@@ -70,7 +70,6 @@ async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
 
 async function hideAuthorMetadata(summaryRow: HTMLElement): Promise<void> {
 	for (const child of summaryRow.childNodes) {
-		// eslint-disable-next-line unicorn/prefer-continue -- No. https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3408
 		if (child instanceof Text && /^(?:wants to merge|merged) \d+ commit/.test(child.textContent)) {
 			child.remove();
 			return;

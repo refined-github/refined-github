@@ -3,10 +3,10 @@ function appendError(error) {
 	document.querySelector('#js-failed').append('\n', error);
 }
 
-addEventListener('error', event => {
+globalThis.addEventListener('error', event => {
 	appendError(event.error ?? event.message);
 });
 
-addEventListener('unhandledrejection', event => {
+globalThis.addEventListener('unhandledrejection', event => {
 	appendError(event.reason);
 });

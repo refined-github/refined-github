@@ -38,9 +38,6 @@ export default defineConfig([
 		files: [tsFilesGlob, jsFilesGlob, '**/*.svelte'],
 		rules: {
 			...restrictedSyntax,
-			// TODO: Drop after https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3161#issuecomment-4756660250
-			'no-restricted-globals': 'off',
-
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
@@ -52,28 +49,20 @@ export default defineConfig([
 			'no-warning-comments': 'off', // Noise
 			'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 			'require-unicode-regexp': 'off', // Don't care
-			'unicorn/better-regex': 'off',
 			'regexp/no-useless-character-class': 'off', // Ugly
 			'regexp/no-super-linear-move': 'off', // It is what is is
-			'unicorn/comment-content': 'off', // Troublesome https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3104#issuecomment-4699446150
-			'unicorn/consistent-class-member-order': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3226#issuecomment-4702441484
 			'unicorn/dom-node-dataset': 'off',
 			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
-			'unicorn/no-unsafe-property-key': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3227#issuecomment-4702450251
-			'unicorn/no-unsafe-string-replacement': 'off', // Buggy
+			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
 			'unicorn/prefer-await': 'off', // Native TS rule is preferred
-			'unicorn/prefer-dom-node-html-methods': 'off', // No Safari support https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3119#issuecomment-4699490299
-			'unicorn/prefer-early-return': 'off', // Bug: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3131#issuecomment-4702452673
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
-			'unicorn/prefer-scoped-selector': 'off', // After https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3254
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
-			'unicorn/consistent-boolean-name': 'off', // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3403
-			'unicorn/no-nonstandard-builtin-properties': 'off', // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3405
+			'unicorn/consistent-boolean-name': 'off', // TODO maybe
 			'unicorn/name-replacements': [
 				'error',
 				{
@@ -82,7 +71,7 @@ export default defineConfig([
 						props: false,
 						ref: false,
 						nav: false,
-						repository: false, // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
+						repository: false, // No https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
 					},
 				},
 			],

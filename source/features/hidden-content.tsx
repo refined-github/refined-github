@@ -34,7 +34,7 @@ async function scrollOnSearch(event: KeyboardEvent): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	addEventListener('keydown', scrollOnSearch, {signal});
+	globalThis.addEventListener('keydown', scrollOnSearch, {signal});
 }
 
 void features.add(import.meta.url, {

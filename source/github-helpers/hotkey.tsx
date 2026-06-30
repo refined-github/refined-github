@@ -20,11 +20,13 @@ export function registerHotkey(
 
 /** Safely add a hotkey to an element, preserving any existing ones and avoiding duplicates */
 export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefined, hotkey: string): void {
-	if (button) {
-		const hotkeys = new Set(button.dataset.hotkey?.split(','));
-		hotkeys.add(hotkey);
-		button.dataset.hotkey = [...hotkeys].join(',');
+	if (!button) {
+		return;
 	}
+
+	const hotkeys = new Set(button.dataset.hotkey?.split(','));
+	hotkeys.add(hotkey);
+	button.dataset.hotkey = [...hotkeys].join(',');
 }
 
 export const modifierKey = isMac ? 'cmd' : 'ctrl';

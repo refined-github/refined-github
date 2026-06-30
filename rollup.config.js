@@ -10,7 +10,7 @@ import cleanup from 'rollup-plugin-cleanup';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import {string} from 'rollup-plugin-string';
-import styles from 'rollup-plugin-styles';
+import styles from 'rollup-plugin-styler';
 import svelte from 'rollup-plugin-svelte';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import lightning from 'unplugin-lightningcss/rollup';
