@@ -8,7 +8,11 @@ env:
 
 name: Release
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
+    inputs:
+      manual-version:
+        description: 'Version to release (leave empty for daily version)'
+        required: false
 jobs:
   Version:
     outputs:
@@ -25,7 +29,9 @@ jobs:
       - name: Test and build
         run: npm run build
       - name: Create tag if necessary
-        uses: fregante/daily-version-action@v2
+        uses: fregante/daily-version-action@v3
+        with:
+          custom-version: ${{ github.event.inputs.manual-version }}
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
         if: env.DAILY_VERSION_CREATED
         run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
