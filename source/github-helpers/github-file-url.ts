@@ -70,7 +70,6 @@ export default class GitHubFileUrl {
 		return this;
 	}
 
-
 	get pathname(): string {
 		return '/' + [this.user, this.repository, this.route, this.branch, this.filePath]
 			.filter(Boolean)
