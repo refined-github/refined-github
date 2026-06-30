@@ -76,7 +76,7 @@ export default defineConfig([
 						props: false,
 						ref: false,
 						nav: false,
-						repository: false, // Bug https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
+						repository: false, // No https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
 					},
 				},
 			],
