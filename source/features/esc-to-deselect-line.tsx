@@ -14,7 +14,7 @@ function isLineSelected(): boolean {
 }
 
 function listener({key, target}: KeyboardEvent): void {
-	if (!(key === 'Escape' && isLineSelected() && !isEditable(target))) {
+	if (key !== 'Escape' || !isLineSelected() || isEditable(target)) {
 		return;
 	}
 

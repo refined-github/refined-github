@@ -3,7 +3,7 @@ import {isEditable} from '../helpers/dom-utils.js';
 import showOverlay from '../helpers/overlay.js';
 
 async function handler({key, target}: KeyboardEvent): Promise<void> {
-	if (!(key === 'y' && !isEditable(target))) {
+	if (key !== 'y' || isEditable(target)) {
 		return;
 	}
 
