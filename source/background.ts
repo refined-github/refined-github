@@ -34,6 +34,9 @@ customizeNoAllUrlsErrorMessage(
 );
 
 handleMessages({
+	async ping(): Promise<string> {
+		return 'pong';
+	},
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const url of urls) {
 			void chrome.tabs.create({

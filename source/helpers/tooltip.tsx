@@ -81,7 +81,11 @@ export function tooltipped(
 	element.append(tooltip);
 
 	queueMicrotask(() => {
-		console.assert(element.isConnected, 'Element must be attached to the document before the tooltip');
+		// TODO: Replace with https://github.com/sindresorhus/ts-extras/issues/75
+		if (!element.isConnected) {
+			throw new Error('Element must be attached to the document before the tooltip');
+		}
+
 		attachToDocument(tooltip);
 	});
 
