@@ -7,6 +7,8 @@ import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
+import {messageRuntime} from 'webext-msg';
+
 import {startFeatureIdentification} from './helpers/bisect.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
@@ -102,6 +104,12 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	}
 }
 
+async function validateBackgroundPage(): Promise<void> {
+	if (await messageRuntime({ping: true}) !== 'pong') {
+		$('.js-background-fail-banner').hidden = false;
+	}
+}
+
 async function generateDom(): Promise<void> {
 	// Generate list
 	await initFeatureList();
@@ -129,6 +137,8 @@ async function generateDom(): Promise<void> {
 
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();
+
+	void validateBackgroundPage();
 }
 
 function addEventListeners(): void {
