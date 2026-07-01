@@ -115,3 +115,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 	// Call after the reset above just in case we nuked Safari's base permissions
 	await showWelcomePage();
 });
+
+(globalThis as typeof globalThis & {
+	removeBackgroundPageLoadErrorListener?: () => void;
+}).removeBackgroundPageLoadErrorListener?.();

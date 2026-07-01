@@ -239,3 +239,10 @@ summary:hover {
 	border: 1px solid var(--rgh-red);
 	background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
 }
+
+.js-background-fail-error {
+	overflow: auto;
+	white-space: pre-wrap;
+	margin: 1em 0 0;
+	font-size: 12px;
+}
