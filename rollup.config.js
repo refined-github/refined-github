@@ -119,6 +119,7 @@ const rollup = {
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
 				{src: './source/*.+(html|png)', dest: 'distribution/assets'},
+				{src: './source/background-loader.js', dest: 'distribution/assets'},
 				{src: './source/options-preflight.js', dest: 'distribution/assets'},
 			],
 		}),

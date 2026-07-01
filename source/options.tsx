@@ -22,6 +22,22 @@ import initTokenValidation from './options/token-validation.js';
 let syncedForm: SyncedForm | undefined;
 
 const {version} = chrome.runtime.getManifest();
+const backgroundPageLoadErrorsKey = 'backgroundPageLoadErrors';
+const backgroundPageLoadErrorsStorage = chrome.storage.session ?? chrome.storage.local;
+
+type BackgroundPageLoadError = {
+	message: string;
+	stack?: string;
+};
+
+async function getBackgroundPageLoadErrors(): Promise<BackgroundPageLoadError[]> {
+	const storedErrors: Record<string, BackgroundPageLoadError[] | undefined> = await backgroundPageLoadErrorsStorage.get(backgroundPageLoadErrorsKey);
+	return storedErrors[backgroundPageLoadErrorsKey] ?? [];
+}
+
+function formatBackgroundPageLoadError({message, stack}: BackgroundPageLoadError): string {
+	return stack ?? message;
+}
 
 async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
 	// TODO: Add support for GHE
@@ -105,9 +121,20 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 }
 
 async function validateBackgroundPage(): Promise<void> {
-	if (await messageRuntime({ping: true}) !== 'pong') {
-		$('.js-background-fail-banner').hidden = false;
+	try {
+		if (await messageRuntime({ping: true}) === 'pong') {
+			return;
+		}
+	} catch {}
+
+	const errors = await getBackgroundPageLoadErrors();
+	if (errors.length > 0) {
+		const errorField = $('.js-background-fail-error');
+		errorField.textContent = errors.map(error => formatBackgroundPageLoadError(error)).join('\n\n');
+		errorField.hidden = false;
 	}
+
+	$('.js-background-fail-banner').hidden = false;
 }
 
 async function generateDom(): Promise<void> {

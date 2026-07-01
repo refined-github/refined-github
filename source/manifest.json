@@ -37,10 +37,10 @@
 	},
 	"options_page": "assets/options.html",
 	"background": {
-		"service_worker": "assets/background.js",
+		"service_worker": "assets/background-loader.js",
 		"type": "module",
 		"scripts": [
-			"assets/background.js"
+			"assets/background-loader.js"
 		]
 	},
 	"content_scripts": [
