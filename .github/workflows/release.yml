@@ -34,7 +34,7 @@ jobs:
           custom-version: ${{ github.event.inputs.manual-version }}
       - name: Update manifest.json with version ${{ env.DAILY_VERSION}}
         if: env.DAILY_VERSION_CREATED
-        run: npx dot-json@1 "$DIRECTORY/manifest.json" version "$DAILY_VERSION"
+        run: yq -i '.version = strenv(DAILY_VERSION)' "$DIRECTORY/manifest.json"
       - name: Ready for "submit" jobs
         if: env.DAILY_VERSION_CREATED
         uses: actions/upload-artifact@v7
