@@ -40,6 +40,7 @@ const rollup = {
 		header: './source/options/header.svelte',
 		'storage-usage': './source/options/storage-usage.svelte',
 		'version-info': './source/options/version-info.svelte',
+		'rate-link': './source/options/rate-link.svelte',
 		background: './source/background.ts',
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',

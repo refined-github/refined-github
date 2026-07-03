@@ -3,7 +3,6 @@ import './options.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {enableTabToIndent} from 'indent-textarea';
 import {$, $$, $optional, closestElementOptional, elementExists} from 'select-dom';
-import {isChrome, isFirefox} from 'webext-detect';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
@@ -53,16 +52,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 			field.focus({preventScroll: true});
 		}
 	}
-}
-
-function updateRateLink(): void {
-	if (isChrome()) {
-		return;
-	}
-
-	$('a#rate-link').href = isFirefox()
-		? 'https://addons.mozilla.org/firefox/addon/refined-github-'
-		: 'https://apps.apple.com/app/id1519867270?action=write-review';
 }
 
 function isEnterprise(): boolean {
@@ -126,9 +115,6 @@ async function generateDom(): Promise<void> {
 
 	// Enable token validation
 	void initTokenValidation(syncedForm);
-
-	// Update rate link if necessary
-	updateRateLink();
 
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
