@@ -2,62 +2,67 @@
 	customElement={{
 		tag: 'hot-fixes',
 		shadow: 'none',
+		props: {
+			enterprise: {type: 'Boolean', attribute: 'enterprise'},
+		},
 	}}
 />
 
 <script lang="ts">
-	import {onMount} from 'svelte';
-
-	import isDevelopmentVersion from '../helpers/is-development-version.js';
 	import {brokenFeatures, styleHotfixes} from '../helpers/hotfix.js';
+	import isDevelopmentVersion from '../helpers/is-development-version.js';
 
-	const {domain = 'default'}: {domain?: string} = $props();
+	const {enterprise = false}: {enterprise?: boolean} = $props();
 
 	const {version} = chrome.runtime.getManifest();
 
-	let hotfixesText = $state('');
-	let brokenFeaturesText = $state('');
-	let showBrokenFeatures = $state(false);
-	let pending = $state(false);
 
-	function getExclusions(): string | void {
-		if (domain !== 'default') {
-			return 'Hotfixes are not applied on GitHub Enterprise.';
-		}
-
-		if (isDevelopmentVersion()) {
-			return 'Hotfixes are not applied in the development version';
-		}
-	}
-
-	async function fetchHotfixes(): Promise<void> {
-		pending = true;
-		try {
-			hotfixesText = getExclusions()
-				?? await styleHotfixes.getFresh(version)
-				?? 'No hotfixes needed for this version! 🎉';
-
-			const storage = await brokenFeatures.getFresh();
-			brokenFeaturesText = JSON.stringify(storage, undefined, 2);
-			showBrokenFeatures = true;
-		} finally {
-			pending = false;
-		}
-	}
-
-	onMount(async () => {
-		hotfixesText = getExclusions()
-			?? await styleHotfixes.getCached(version)
+	async function loadCached(): Promise<string> {
+		return await styleHotfixes.getCached(version)
 			?? 'No CSS found in cache.';
-	});
+	}
+
+	let brokenFeaturesText = $state<string | undefined>();
+	// eslint-disable-next-line unicorn/prefer-top-level-await -- https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3488
+	let hotfixesPromise = $state(loadCached());
+
+	async function fetchHotfixes(): Promise<string> {
+		const hotfixes = await styleHotfixes.getFresh(version)
+			?? 'No hotfixes needed for this version! 🎉';
+		const storage = await brokenFeatures.getFresh();
+		brokenFeaturesText = JSON.stringify(storage, undefined, 2);
+		return hotfixes;
+	}
+
+	function refreshHotfixes(): void {
+		hotfixesPromise = fetchHotfixes();
+	}
 </script>
 
 <div>
-	<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo">More info.</a></p>
-	<p>This is the latest CSS fetched from the server (if any):</p>
-	<p><textarea rows="2" disabled value={hotfixesText}></textarea></p>
-	{#if showBrokenFeatures}
-		<p><textarea rows="2" disabled value={brokenFeaturesText}></textarea></p>
+	<p>In order to address severe issues as quickly as possible, Refined GitHub
+		loads a list of disabled features and temporary CSS fixes.
+		<a href="https://github.com/refined-github/yolo">
+			More info.
+		</a></p>
+	{#if isDevelopmentVersion()}
+		<p>Hotfixes are not applied in the development version.</p>
+	{:else if enterprise}
+		<p>Hotfixes are not applied to GitHub Enterprise.</p>
+	{:else}
+		<p>This is the latest CSS fetched from the server (if any):</p>
+		{#await hotfixesPromise then hotfixes}
+			<p><textarea rows="2" readonly value={hotfixes}></textarea></p>
+			{#if brokenFeaturesText}
+				<p>
+					<textarea
+						rows="2"
+						readonly
+						value={brokenFeaturesText}
+					></textarea>
+				</p>
+			{/if}
+			<button type="button" onclick={refreshHotfixes}>Fetch hotfixes</button>
+		{/await}
 	{/if}
-	<button type="button" disabled={pending} onclick={fetchHotfixes}>Fetch hotfixes</button>
 </div>

@@ -37,10 +37,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 	}
 }
 
-function isEnterprise(): boolean {
-	return syncedForm!.getSelectedDomain() !== 'default';
-}
-
 async function validateBackgroundPage(): Promise<void> {
 	if (await messageRuntime({ping: true}) !== 'pong') {
 		$('.js-background-fail-banner').hidden = false;
@@ -77,6 +73,8 @@ function addEventListeners(): void {
 	syncedForm?.onChange(async domain => {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+
+		$('hotfixes').toggleAttribute('enterprise', domain !== 'default');
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
