@@ -95,7 +95,7 @@ details {
 	}
 }
 
-details > div {
+details[open]::details-content {
 	padding: 10px;
 }
 
