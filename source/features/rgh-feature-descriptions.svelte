@@ -15,6 +15,7 @@
 	const isReportingBug = pageDetect.isNewIssue();
 	const pathname = $derived(
 		isReportingBug
+			// Use .css so that it links to the .tsx file
 			? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
 			: location.pathname,
 	);
@@ -36,7 +37,7 @@
 			'https://github.com/refined-github/refined-github/issues/new',
 		);
 		url.searchParams.set('template', '1_bug_report.yml');
-		url.searchParams.set('title', `\`${id}\`  `);
+		url.searchParams.set('title', `\`${id}\`  `); // Trailing double-space to avoid triggering datalist autocomplete
 		url.searchParams.set('labels', 'bug, help wanted');
 		return url;
 	});
@@ -46,6 +47,7 @@
 	<a data-turbo-frame="repo-content-turbo-frame" {href}>{label}</a>
 {/snippet}
 
+<!-- Block and width classes required to avoid margin collapse -->
 <div
 	class="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description"
 >
@@ -103,6 +105,7 @@
 				{#if wasFeatureRemoved}
 					•
 					{@render featureLink(
+						// This links to the full commit history, which will start with the commit that removed the file
 						`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`,
 						'Commit history',
 					)}
