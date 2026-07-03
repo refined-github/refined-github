@@ -116,6 +116,4 @@ chrome.runtime.onInstalled.addListener(async () => {
 	await showWelcomePage();
 });
 
-(globalThis as typeof globalThis & {
-	removeBackgroundPageLoadErrorListener?: () => void;
-}).removeBackgroundPageLoadErrorListener?.();
+delete localStorage.backgroundLoadErrors;

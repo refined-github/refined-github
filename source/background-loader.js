@@ -1,89 +1,19 @@
-const backgroundPageLoadErrorsKey = 'backgroundPageLoadErrors';
-const storage = chrome.storage.session ?? chrome.storage.local;
-
-async function storageGet(key) {
-	return new Promise((resolve, reject) => {
-		storage.get(key, result => {
-			if (chrome.runtime.lastError) {
-				reject(new Error(chrome.runtime.lastError.message));
-			} else {
-				resolve(result);
-			}
-		});
-	});
+function storeBackgroundLoadError(error) {
+	localStorage.backgroundLoadErrors ??= '';
+	localStorage.backgroundLoadErrors += `${error?.stack ?? error?.message ?? String(error)}\n\n`;
 }
 
-async function storageRemove(key) {
-	return new Promise((resolve, reject) => {
-		storage.remove(key, () => {
-			if (chrome.runtime.lastError) {
-				reject(new Error(chrome.runtime.lastError.message));
-			} else {
-				resolve();
-			}
-		});
-	});
+function backgroundLoadErrorListener(event) {
+	storeBackgroundLoadError(event.error ?? event.message);
 }
 
-async function storageSet(value) {
-	return new Promise((resolve, reject) => {
-		storage.set(value, () => {
-			if (chrome.runtime.lastError) {
-				reject(new Error(chrome.runtime.lastError.message));
-			} else {
-				resolve();
-			}
-		});
-	});
-}
-
-function serializeError(error) {
-	const serialized = {
-		message: error instanceof Error ? error.message : String(error),
-	};
-
-	if (error instanceof Error && error.stack) {
-		serialized.stack = error.stack;
-	}
-
-	return serialized;
-}
-
-async function storeBackgroundPageLoadError(error) {
-	const serialized = serializeError(error);
-	const storedErrors = await storageGet(backgroundPageLoadErrorsKey);
-	const errors = storedErrors[backgroundPageLoadErrorsKey] ?? [];
-
-	if (errors.some(storedError => storedError.message === serialized.message && storedError.stack === serialized.stack)) {
-		return;
-	}
-
-	await storageSet({
-		[backgroundPageLoadErrorsKey]: [
-			...errors,
-			serialized,
-		],
-	});
-}
-
-function backgroundPageLoadErrorListener(event) {
-	storeBackgroundPageLoadError(event.error ?? event.message);
-}
-
-globalThis.addEventListener('error', backgroundPageLoadErrorListener);
-Object.defineProperty(globalThis, 'removeBackgroundPageLoadErrorListener', {
-	configurable: true,
-	value() {
-		globalThis.removeEventListener('error', backgroundPageLoadErrorListener);
-	},
-});
-
-await storageRemove(backgroundPageLoadErrorsKey);
+globalThis.addEventListener('error', backgroundLoadErrorListener);
 
 try {
 	// eslint-disable-next-line import-x/extensions -- The loader is copied to `distribution/assets`, where the built file is `background.js`.
 	await import('./background.js');
+	globalThis.removeEventListener('error', backgroundLoadErrorListener);
 } catch (error) {
-	await storeBackgroundPageLoadError(error);
+	storeBackgroundLoadError(error);
 	throw error;
 }
