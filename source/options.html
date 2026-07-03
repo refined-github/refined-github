@@ -10,6 +10,7 @@
 <script type="module" src="header.js"></script>
 <script type="module" src="storage-usage.js"></script>
 <script type="module" src="rate-link.js"></script>
+<script type="module" src="feature-finder.js"></script>
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub" with-version>
 	<p>
@@ -86,17 +87,7 @@
 
 	<details id="bisect">
 		<summary><strong>🔎 Identify feature</strong></summary>
-		<div>
-			<p>
-				This process will help you identify what Refined GitHub feature is making changes or causing issues on GitHub.
-			</p>
-			<p id="find-feature-message" hidden>
-				Visit the GitHub page where you want to find the feature and refresh it to see the instructions. You can navigate to any page, but don’t use multiple tabs.
-			</p>
-			<p>
-				<button id="find-feature">Start process to identify feature…</button>
-			</p>
-		</div>
+		<feature-finder></feature-finder>
 	</details>
 
 	<details id="css">

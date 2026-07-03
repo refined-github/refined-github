@@ -8,7 +8,6 @@ import 'webext-bugs/target-blank';
 
 import {messageRuntime} from 'webext-msg';
 
-import {startFeatureIdentification} from './helpers/bisect.js';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
@@ -21,18 +20,6 @@ import initTokenValidation from './options/token-validation.js';
 let syncedForm: SyncedForm | undefined;
 
 const {version} = chrome.runtime.getManifest();
-
-async function findFeatureHandler(this: HTMLButtonElement): Promise<void> {
-	// TODO: Add support for GHE
-	await startFeatureIdentification();
-
-	this.disabled = true;
-	setTimeout(() => {
-		this.disabled = false;
-	}, 10_000);
-
-	$('#find-feature-message').hidden = false;
-}
 
 let hasScrolledToTarget = false;
 
@@ -156,9 +143,6 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	$('#clear-cache').addEventListener('click', clearCacheHandler);
-
-	// Add bisect tool
-	$('#find-feature').addEventListener('click', findFeatureHandler);
 
 	// Handle "Fetch hotfixes" button
 	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
