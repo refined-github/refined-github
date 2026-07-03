@@ -10,16 +10,12 @@ import {messageRuntime} from 'webext-msg';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
-import {brokenFeatures, styleHotfixes} from './helpers/hotfix.js';
-import isDevelopmentVersion from './helpers/is-development-version.js';
 import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 import initTokenValidation from './options/token-validation.js';
 
 let syncedForm: SyncedForm | undefined;
-
-const {version} = chrome.runtime.getManifest();
 
 let hasScrolledToTarget = false;
 
@@ -43,41 +39,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 
 function isEnterprise(): boolean {
 	return syncedForm!.getSelectedDomain() !== 'default';
-}
-
-function getExclusions(): string | void {
-	if (isEnterprise()) {
-		return 'Hotfixes are not applied on GitHub Enterprise.';
-	}
-
-	if (isDevelopmentVersion()) {
-		return 'Hotfixes are not applied in the development version';
-	}
-}
-
-async function showStoredCssHotfixes(): Promise<void> {
-	$('#hotfixes-field').textContent = getExclusions()
-		?? await styleHotfixes.getCached(version)
-		?? 'No CSS found in cache.';
-}
-
-async function fetchHotfixes(event: MouseEvent): Promise<void> {
-	const button = event.currentTarget as HTMLButtonElement;
-	button.disabled = true;
-	try {
-		// Style
-		$('#hotfixes-field').textContent = getExclusions()
-			?? await styleHotfixes.getFresh(version)
-			?? 'No hotfixes needed for this version! 🎉';
-
-		// Broken features
-		const storage = await brokenFeatures.getFresh();
-		const field = $('#broken-features-field');
-		field.hidden = false;
-		field.textContent = JSON.stringify(storage, undefined, 2);
-	} finally {
-		button.disabled = false;
-	}
 }
 
 async function validateBackgroundPage(): Promise<void> {
@@ -107,9 +68,6 @@ async function generateDom(): Promise<void> {
 	if (doesBrowserActionOpenOptions) {
 		$('#action').hidden = true;
 	}
-
-	// Show stored CSS hotfixes
-	void showStoredCssHotfixes();
 
 	void validateBackgroundPage();
 }
@@ -143,9 +101,6 @@ function addEventListeners(): void {
 
 	// Add cache clearer
 	$('#clear-cache').addEventListener('click', clearCacheHandler);
-
-	// Handle "Fetch hotfixes" button
-	$('#fetch-hotfixes').addEventListener('click', fetchHotfixes);
 }
 
 function scrollTargetIntoView(): void {

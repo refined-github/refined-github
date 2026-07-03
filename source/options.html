@@ -11,6 +11,7 @@
 <script type="module" src="storage-usage.js"></script>
 <script type="module" src="rate-link.js"></script>
 <script type="module" src="feature-finder.js"></script>
+<script type="module" src="hot-fixes.js"></script>
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub" with-version>
 	<p>
@@ -146,13 +147,7 @@
 
 	<details id="hotfixes">
 		<summary><strong>☄️ Hotfixes</strong></summary>
-		<div>
-			<p>In order to address severe issues as quickly as possible, Refined GitHub loads a list of disabled features and temporary CSS fixes. <a href="https://github.com/refined-github/yolo">More info.</a></p>
-			<p>This is the latest CSS fetched from the server (if any):</p>
-			<p><textarea id="hotfixes-field" rows="2" disabled></textarea></p>
-			<p><textarea id="broken-features-field" rows="2" disabled hidden></textarea></p>
-			<button type="button" id="fetch-hotfixes">Fetch hotfixes</button>
-		</div>
+		<hot-fixes></hot-fixes>
 	</details>
 
 	<details id="export">
