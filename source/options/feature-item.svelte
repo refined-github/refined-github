@@ -60,10 +60,11 @@
 			>screenshot</a>
 		{/if}
 		{#if issue}
-			<span class="hotfix-notice"
-			>(Disabled due to <span
+			<span class="hotfix-notice">
+				(Disabled due to <span
 					use:mount={createRghIssueLink(issue, true)}
-				></span>)</span>
+				></span>)
+			</span>
 		{/if}
 		<p class="description">{@html feature.description}</p>
 		{#if feature.screenshot}

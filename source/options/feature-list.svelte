@@ -56,10 +56,15 @@
 			(a, b) =>
 				`${a.id} ${a.description}`.localeCompare(`${b.id} ${b.description}`),
 		);
-		const groups = Object.groupBy(sorted, feature => {
-			const checkbox = checkboxes[feature.id];
-			return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
-		});
+		const groups = Object.groupBy(
+			sorted,
+			feature =>
+				hotfixes.has(feature.id)
+					? 'broken'
+					: checkboxes[feature.id].checked
+					? 'on'
+					: 'off',
+		);
 
 		order = [...groups.off ?? [], ...groups.broken ?? [], ...groups.on ?? []].map(
 			feature => feature.id,
@@ -78,6 +83,7 @@
 				.filter(([feature]) => importedFeatures.includes(feature))
 				.map(([feature, issue]) => [feature, Number(issue)] as const),
 		);
+		sort();
 		root.dispatchEvent(new Event('ready'));
 	});
 </script>
@@ -86,13 +92,13 @@
 	<summary>
 		<strong class="features-header">
 			🔋 Features: {features.length + 25}
-			{#if offCount > 0}
-				({
-					offCount === features.length
-					? 'JS off… are you breaking up with me?'
-					: `${offCount} off`
-				})
-			{/if}
+			{
+				offCount === undefined
+				? false
+				: offCount === features.length
+				? '(JS off… are you breaking up with me?)'
+				: `(${offCount} off)`
+			}
 		</strong>
 	</summary>
 	<div>
