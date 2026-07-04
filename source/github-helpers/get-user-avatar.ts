@@ -2,26 +2,16 @@ import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 
 export default function getUserAvatar(username: string, size: number): string | void {
-	let cleanName = username.replace('[bot]', '');
+	const cleanName = username.replace('[bot]', '');
 
 	if (/[^\w-]/.test(cleanName)) {
 		throw new TypeError(`Expected a username, got ${cleanName}`);
 	}
 
 	// Find image on page. Saves a request and a redirect + add support for bots
-	const existingAvatar = $optional(`[href="/${cleanName}" i] img`);
+	const existingAvatar = $optional(`[href="/${cleanName}" i] img`) ?? $optional(`[href="/apps/${cleanName}" i] img`);
 	if (existingAvatar) {
 		return existingAvatar.src;
-	}
-
-	if (
-		[
-			'Copilot',
-			'copilot-coding-agent-docs',
-			'copilot-swe-agent',
-		].includes(cleanName)
-	) {
-		cleanName = 'in/1143301';
 	}
 
 	// Bots don't have a /$username.png URL
