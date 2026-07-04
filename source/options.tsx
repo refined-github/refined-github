@@ -11,7 +11,6 @@ import {messageRuntime} from 'webext-msg';
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {perDomainOptions} from './options-storage.js';
-import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 
 let syncedForm: SyncedForm | undefined;
@@ -46,11 +45,9 @@ async function validateBackgroundPage(): Promise<void> {
 }
 
 async function generateDom(): Promise<void> {
-	// Generate list
-	await initFeatureList();
-
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
+	$('feature-list').dispatchEvent(new Event('sync'));
 
 	// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 	// This triggers a proper run
@@ -59,7 +56,6 @@ async function generateDom(): Promise<void> {
 	}
 
 	// Decorate list
-	updateListDom();
 	initToggleAllButtons();
 
 	// Only now the form is ready, we can show it
@@ -95,7 +91,7 @@ function addEventListeners(): void {
 			informComponentOfExternalUpdate($('input', element));
 		}
 
-		updateListDom();
+		$('feature-list').dispatchEvent(new Event('sync'));
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)
