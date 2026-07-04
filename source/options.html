@@ -13,6 +13,7 @@
 <script type="module" src="feature-finder.js"></script>
 <script type="module" src="hot-fixes.js"></script>
 <script type="module" src="token-input.js"></script>
+<script type="module" src="feature-list.js"></script>
 <script type="module" src="options.js" defer></script>
 <rgh-header title="Refined GitHub" with-version>
 	<p>
@@ -58,16 +59,7 @@
 		</div>
 	</details>
 
-	<details id="features">
-		<summary><strong class="features-header">🔋 Features</strong></summary>
-		<div>
-			<p>
-					<input id="filter-features" type="text" placeholder="Find features" spellcheck="false" autocomplete="off" autocapitalize="off">
-					<small>Use the "Identify feature" section below if you can't find what you're looking for.</small>
-			</p>
-			<div class="js-features"></div>
-		</div>
-	</details>
+	<feature-list id="features"></feature-list>
 
 	<details id="bisect">
 		<summary><strong>🔎 Identify feature</strong></summary>

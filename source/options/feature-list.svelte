@@ -105,7 +105,7 @@
 	});
 </script>
 
-<details id="features">
+<details>
 	<summary>
 		<strong class="features-header">
 			🔋 Features: {features.length + 25}

@@ -40,10 +40,11 @@ const rollup = {
 		header: './source/options/header.svelte',
 		'feature-finder': './source/options/feature-finder.svelte',
 		'storage-usage': './source/options/storage-usage.svelte',
+		'feature-list': './source/options/feature-list.svelte',
 		'version-info': './source/options/version-info.svelte',
+		'token-input': './source/options/token-input.svelte',
 		'rate-link': './source/options/rate-link.svelte',
 		'hot-fixes': './source/options/hot-fixes.svelte',
-		'token-input': './source/options/token-input.svelte',
 
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
@@ -123,8 +124,7 @@ const rollup = {
 		copy({
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
-				{src: './source/*.+(html|png)', dest: 'distribution/assets'},
-				{src: './source/options-preflight.js', dest: 'distribution/assets'},
+				{src: './source/*.+(html|png|js)', dest: 'distribution/assets'},
 			],
 		}),
 		cleanup(),
