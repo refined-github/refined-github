@@ -49,12 +49,10 @@ async function generateDom(): Promise<void> {
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
 
-	// Trigger first validation manually
+	// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
+	// This triggers a proper run
 	for (const tokenField of $$('token-input input')) {
 		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
-		if (tokenField.value === '') {
-			closestElement('details', tokenField).open = true;
-		}
 	}
 
 	// Decorate list

@@ -18,8 +18,8 @@
 
 	const {host}: {host?: string} = $props();
 
+	let firstRun = true;
 	let focused = $state(false);
-
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state('');
 	let validationText = $state('');
@@ -65,12 +65,7 @@
 		validationError = false;
 		scopes = ['unknown'];
 
-		// Could be the first render before dom-form-serializer has run
 		if (value.length === 0) {
-			return;
-		}
-
-		if (!tokenField?.validity.valid) {
 			expandTokenSection();
 			return;
 		}
@@ -106,6 +101,12 @@
 	}
 
 	$effect(() => {
+		tokenValue;
+		if (firstRun) {
+			firstRun = false;
+			return;
+		}
+
 		validateToken(tokenValue);
 	});
 </script>
