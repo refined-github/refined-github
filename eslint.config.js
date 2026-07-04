@@ -101,6 +101,10 @@ export default defineConfig([
 
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
+			'import-x/extensions': ['error', {
+				js: 'ignorePackages',
+				json: 'always',
+			}],
 			'import-x/order': [
 				'error',
 				{
@@ -173,9 +177,6 @@ export default defineConfig([
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
-		},
-		rules: {
-			'import-x/extensions': 'off', // Why does it prefer .ts only here?
 		},
 	},
 	{

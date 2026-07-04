@@ -65,7 +65,7 @@ const rollup = {
 		clearScreen: false,
 	},
 
-	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
+	// TODO: Drop after https://github.com/fregante/webext-options-sync-per-domain/issues/17
 	context: 'globalThis',
 	onwarn(warning, defaultHandler) {
 		if (
