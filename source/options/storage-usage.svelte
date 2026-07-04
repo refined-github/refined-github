@@ -51,11 +51,11 @@
 		}
 	};
 
-	onMount(() => {
+	$effect(() => {
 		getStorageUsage();
-
+	});
+	onMount(() => {
 		chrome.storage.onChanged.addListener(handleStorageChange);
-
 		return () => {
 			chrome.storage.onChanged.removeListener(handleStorageChange);
 		};

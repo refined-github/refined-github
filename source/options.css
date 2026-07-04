@@ -65,11 +65,6 @@ ul {
 	list-style: none;
 }
 
-li {
-	padding-left: 1.8em;
-	margin-bottom: 0.3em;
-}
-
 storage-usage {
 	font-style: italic;
 }
@@ -197,11 +192,6 @@ summary:hover {
 
 .screenshot-toggle:checked ~ .screenshot {
 	display: block;
-}
-
-/* Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704 */
-.OptionsSyncPerDomain-picker:has([value='default']:not(:checked)) ~ #action {
-	display: none;
 }
 
 .js-background-fail-banner {
