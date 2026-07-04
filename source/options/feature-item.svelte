@@ -20,6 +20,7 @@
 	} = $props();
 
 	let showScreenshot = $state(false);
+	let checked = $state(!issue);
 
 	function toggle(event: MouseEvent): void {
 		if (event.ctrlKey || event.metaKey || event.shiftKey) {
@@ -43,10 +44,13 @@
 		class="feature-checkbox"
 		disabled={Boolean(issue)}
 		bind:this={ref}
+		bind:checked
 		{onchange}
 	>
 	<div class="info">
-		<label class="feature-name" for={feature.id}>{feature.id}</label>
+		<label class="feature-name" class:disabled={!checked} for={feature.id}>{
+			feature.id
+		}</label>
 		<a href={getFeatureUrl(feature.id)} class="feature-link">source</a>
 		{#if feature.screenshot}
 			<a
@@ -108,7 +112,7 @@
 		scroll-margin-top: 64px;
 	}
 
-	.feature-checkbox:not(:checked) + .info .feature-name {
+	.feature-name.disabled {
 		text-decoration: line-through;
 	}
 

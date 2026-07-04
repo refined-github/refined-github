@@ -7,17 +7,14 @@ function enableToggleAll(this: HTMLButtonElement): void {
 	this.hidden = true; // Hide button in "Debugging" section
 }
 
-function disableAllFeatures(): void {
-	for (const enabledFeature of $$('.feature-checkbox:checked')) {
-		enabledFeature.click();
-	}
+function setAllFeatures(checked: boolean): void {
+	for (const checkbox of $$<HTMLInputElement>('.feature-checkbox')) {
+		if (checkbox.checked === checked) {
+			continue;
+		}
 
-	$('details#features').open = true;
-}
-
-function enableAllFeatures(): void {
-	for (const disabledFeature of $$('.feature-checkbox:not(:checked)')) {
-		disabledFeature.click();
+		checkbox.checked = checked;
+		checkbox.dispatchEvent(new Event('change', {bubbles: true}));
 	}
 
 	$('details#features').open = true;
@@ -33,6 +30,10 @@ export default function initToggleAllButtons(): void {
 		initialButton.addEventListener('click', enableToggleAll);
 	}
 
-	$('#disable-all-features').addEventListener('click', disableAllFeatures);
-	$('#enable-all-features').addEventListener('click', enableAllFeatures);
+	$('#disable-all-features').addEventListener('click', () => {
+		setAllFeatures(false);
+	});
+	$('#enable-all-features').addEventListener('click', () => {
+		setAllFeatures(true);
+	});
 }
