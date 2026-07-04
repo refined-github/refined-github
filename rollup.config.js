@@ -35,16 +35,10 @@ const noise = new Set([
 const rollup = {
 	input: {
 		options: './source/options.tsx',
+		'options-components': './source/options/svelte-components.ts',
 		welcome: './source/welcome.svelte',
 		graphql: './source/graphql.svelte',
 		header: './source/options/header.svelte',
-		'feature-finder': './source/options/feature-finder.svelte',
-		'storage-usage': './source/options/storage-usage.svelte',
-		'feature-list': './source/options/feature-list.svelte',
-		'version-info': './source/options/version-info.svelte',
-		'token-input': './source/options/token-input.svelte',
-		'rate-link': './source/options/rate-link.svelte',
-		'hot-fixes': './source/options/hot-fixes.svelte',
 
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
