@@ -18,10 +18,10 @@
 
 	const {host}: {host?: string} = $props();
 
-	let firstRun = true;
+	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
 	let focused = $state(false);
 	let tokenField: HTMLInputElement;
-	let tokenValue = $state('');
+	let tokenValue = $state(initialMagicValue);
 	let validationText = $state('');
 	let validationError = $state(false);
 	let scopes = $state<string[]>(['unknown']);
@@ -65,7 +65,12 @@
 		validationError = false;
 		scopes = ['unknown'];
 
-		if (value.length === 0) {
+		// Silence first run
+		if (value === initialMagicValue) {
+			return;
+		}
+
+		if (value === '') {
 			expandTokenSection();
 			return;
 		}
@@ -101,12 +106,6 @@
 	}
 
 	$effect(() => {
-		tokenValue;
-		if (firstRun) {
-			firstRun = false;
-			return;
-		}
-
 		validateToken(tokenValue);
 	});
 </script>
