@@ -10,30 +10,16 @@
 <script lang="ts">
 	import {brokenFeatures, styleHotfixes} from '../helpers/hotfix.js';
 	import isDevelopmentVersion from '../helpers/is-development-version.js';
-	const {enterprise = false}: {enterprise?: boolean} = $props();
+
+	const {enterprise = false}: {enterprise: boolean} = $props();
 	const {version} = chrome.runtime.getManifest();
 
-	async function loadCachedHotfixes() {
-		return styleHotfixes.getCached(version);
-	}
-	async function loadCachedBrokenFeatures() {
-		return brokenFeatures.getCached();
-	}
-	async function fetchHotfixes() {
-		return styleHotfixes.getFresh(version);
-	}
-	async function fetchBrokenFeatures() {
-		return brokenFeatures.getFresh();
-	}
+	let hotfixesPromise = $state(styleHotfixes.getCached(version));
 
-	// eslint-disable-next-line unicorn/prefer-top-level-await -- https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3488
-	let hotfixesPromise = $state(loadCachedHotfixes());
-	// eslint-disable-next-line unicorn/prefer-top-level-await -- https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3488
-	let brokenFeaturesPromise = $state(loadCachedBrokenFeatures());
-
+	let brokenFeaturesPromise = $state(brokenFeatures.getCached());
 	function refreshHotfixes(): void {
-		hotfixesPromise = fetchHotfixes();
-		brokenFeaturesPromise = fetchBrokenFeatures();
+		hotfixesPromise = styleHotfixes.getFresh(version);
+		brokenFeaturesPromise = brokenFeatures.getFresh();
 	}
 </script>
 <div>
