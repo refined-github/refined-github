@@ -6,6 +6,8 @@
 />
 
 <script lang="ts">
+	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+	/* eslint-disable select-dom/prefer -- Should not use select at all */
 	import domify from 'doma';
 	import {closestElement} from 'select-dom';
 
@@ -84,7 +86,7 @@
 		element.append(node);
 		return {
 			destroy() {
-				node.parentNode?.removeChild(node);
+				node.remove();
 			},
 		};
 	}
