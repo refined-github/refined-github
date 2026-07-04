@@ -5,7 +5,7 @@ import isDevelopmentVersion from './is-development-version.js';
 const {version} = chrome.runtime.getManifest();
 
 // Safari updates are less frequent
-const maxReleaseAgeInDays = isSafari() ? 50 : 20;
+const maxReleaseAgeInDays = isSafari() ? 60 : 30;
 
 export function wasReleasedLongAgo(releaseAgeInDays: number): boolean {
 	return releaseAgeInDays > maxReleaseAgeInDays;
