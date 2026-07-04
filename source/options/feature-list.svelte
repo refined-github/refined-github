@@ -101,29 +101,27 @@
 			}
 		</strong>
 	</summary>
+	<p>
+		<input
+			type="text"
+			placeholder="Find features"
+			spellcheck="false"
+			autocomplete="off"
+			autocapitalize="off"
+			bind:value={filter}
+		>
+		<small>Use the "Identify feature" section below if you can't find what
+			you're looking for.</small>
+	</p>
 	<div>
-		<p>
-			<input
-				type="text"
-				placeholder="Find features"
-				spellcheck="false"
-				autocomplete="off"
-				autocapitalize="off"
-				bind:value={filter}
-			>
-			<small>Use the "Identify feature" section below if you can't find what
-				you're looking for.</small>
-		</p>
-		<div class="js-features">
-			{#each rows as {feature, issue, hidden} (feature.id)}
-				<FeatureItem
-					{feature}
-					{issue}
-					{hidden}
-					bind:ref={checkboxes[feature.id]}
-					onchange={updateOffCount}
-				/>
-			{/each}
-		</div>
+		{#each rows as {feature, issue, hidden} (feature.id)}
+			<FeatureItem
+				{feature}
+				{issue}
+				{hidden}
+				bind:ref={checkboxes[feature.id]}
+				onchange={updateOffCount}
+			/>
+		{/each}
 	</div>
 </details>
