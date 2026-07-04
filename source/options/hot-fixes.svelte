@@ -7,83 +7,74 @@
 		},
 	}}
 />
-
 <script lang="ts">
 	import {brokenFeatures, styleHotfixes} from '../helpers/hotfix.js';
 	import isDevelopmentVersion from '../helpers/is-development-version.js';
-
 	const {enterprise = false}: {enterprise?: boolean} = $props();
-
 	const {version} = chrome.runtime.getManifest();
 
-	type HotfixData = {
-		hotfixes: string;
-		brokenFeatures: string;
-	};
-
-	async function loadCached(): Promise<HotfixData> {
-		const cachedBrokenFeatures = await brokenFeatures.getCached();
-		const cachedStyleHotfixes = await styleHotfixes.getCached(version);
-		return {
-			hotfixes: cachedStyleHotfixes ?? 'No CSS found in cache.',
-			brokenFeatures: cachedBrokenFeatures
-				? JSON.stringify(
-					cachedBrokenFeatures,
-					undefined,
-					2,
-				)
-				: 'No broken features found in cache. This may be indicative of a hotfix loading failure, the list is never empty.',
-		};
+	async function loadCachedHotfixes() {
+		return styleHotfixes.getCached(version);
+	}
+	async function loadCachedBrokenFeatures() {
+		return brokenFeatures.getCached();
+	}
+	async function fetchHotfixes() {
+		return styleHotfixes.getFresh(version);
+	}
+	async function fetchBrokenFeatures() {
+		return brokenFeatures.getFresh();
 	}
 
 	// eslint-disable-next-line unicorn/prefer-top-level-await -- https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3488
-	let hotfixesPromise = $state(loadCached());
-
-	async function fetchHotfixes(): Promise<HotfixData> {
-		return {
-			hotfixes: await styleHotfixes.getFresh(version)
-				?? 'No hotfixes needed for this version! 🎉',
-			brokenFeatures: JSON.stringify(
-				await brokenFeatures.getFresh(),
-				undefined,
-				2,
-			),
-		};
-	}
+	let hotfixesPromise = $state(loadCachedHotfixes());
+	// eslint-disable-next-line unicorn/prefer-top-level-await -- https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3488
+	let brokenFeaturesPromise = $state(loadCachedBrokenFeatures());
 
 	function refreshHotfixes(): void {
 		hotfixesPromise = fetchHotfixes();
+		brokenFeaturesPromise = fetchBrokenFeatures();
 	}
 </script>
-
 <div>
 	<p>In order to address severe issues as quickly as possible, Refined GitHub
 		loads a list of disabled features and temporary CSS fixes.
 		<a href="https://github.com/refined-github/yolo">
 			More info.
-		</a></p>
+		</a>
+	</p>
+	<p><button type="button" onclick={refreshHotfixes}>Fetch hotfixes</button></p>
 	{#if isDevelopmentVersion()}
 		<p>Hotfixes are not applied in the development version.</p>
 	{:else if enterprise}
 		<p>Hotfixes are not applied to GitHub Enterprise.</p>
 	{:else}
-		<p>This is the latest data fetched from the server (or cache):</p>
-		{#await hotfixesPromise then data}
-			<p>CSS hotfixes:</p>
+		{#await hotfixesPromise then hotfixes}
+			<h3>CSS hotfixes</h3>
 			<p>
-				<textarea rows="2" readonly value={data.hotfixes}></textarea>
+				{#if hotfixes}
+					<textarea rows="2" readonly>{hotfixes}</textarea>
+				{:else}
+					No hotfixes needed for this version! 🎉
+				{/if}
 			</p>
-
-			<p>Disabled features:</p>
+		{/await}
+		{#await brokenFeaturesPromise then features}
+			<h3>Disabled features</h3>
 			<p>
-				<textarea
-					rows="2"
-					readonly
-					value={data.brokenFeatures}
-				></textarea>
+				{#if features}
+					<textarea
+						rows="2"
+						readonly
+					>{
+						features.map(line => line.join(' ')).join('\n')
+					}</textarea>
+				{:else}
+					No broken features found in cache. This may be indicative of a hotfix
+					loading failure, the list is never empty if you've ever opened
+					github.com
+				{/if}
 			</p>
-
-			<button type="button" onclick={refreshHotfixes}>Fetch hotfixes</button>
 		{/await}
 	{/if}
 </div>
