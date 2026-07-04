@@ -41,14 +41,10 @@
 	);
 
 	function updateOffCount(): void {
-		let count = 0;
-		for (const checkbox of Object.values(checkboxes)) {
-			if (!checkbox.checked) {
-				count++;
-			}
-		}
-
-		offCount = count;
+		offCount = Object
+			.values(checkboxes)
+			.filter(checkbox => !checkbox.checked)
+			.length;
 	}
 
 	function sort(): void {
@@ -125,3 +121,8 @@
 		{/each}
 	</div>
 </details>
+<style>
+	small {
+		opacity: 80%;
+	}
+</style>
