@@ -6,7 +6,7 @@
 	max-width: var(--content-width);
 	margin: auto;
 	padding: 1em var(--viewport-margin);
-	animation: fade-in 0s 1.5s backwards;
+	animation: fade-in 0s 1s backwards;
 	white-space: pre-line;
 }
 

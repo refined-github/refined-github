@@ -10,11 +10,11 @@
 
 <script lang="ts">
 	import {closestElement} from 'select-dom';
+	import {SvelteMap} from 'svelte/reactivity';
 	import {assertError} from 'ts-extras';
 
-	import {SvelteMap} from 'svelte/reactivity';
-
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
+	import TokenScope from './token-scope.svelte';
 
 	const {host}: {host?: string} = $props();
 
@@ -130,31 +130,31 @@
 	</output>
 </p>
 <ul>
-	<token-scope name="valid_token" state={scopeStates.get('valid_token')}>
+	<TokenScope name="valid_token" state={scopeStates.get('valid_token')}>
 		The token enables <a
 			href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code"
 		>
 			some features
 		</a>
 		to <strong>read</strong> data from public repositories
-	</token-scope>
-	<token-scope name="public_repo" state={scopeStates.get('public_repo')}>
+	</TokenScope>
+	<TokenScope name="public_repo" state={scopeStates.get('public_repo')}>
 		The <code>public_repo</code> scope lets them <strong>edit</strong> your
 		public repositories
-	</token-scope>
-	<token-scope name="repo" state={scopeStates.get('repo')}>
+	</TokenScope>
+	<TokenScope name="repo" state={scopeStates.get('repo')}>
 		The <code>repo</code> scope lets them <strong>edit private</strong>
 		repositories as well
-	</token-scope>
-	<token-scope name="read:project" state={scopeStates.get('read:project')}>
+	</TokenScope>
+	<TokenScope name="read:project" state={scopeStates.get('read:project')}>
 		The <code>read:project</code> scope lets them determine if a repo/org uses
 		projects
-	</token-scope>
-	<token-scope name="workflow" state={scopeStates.get('workflow')}>
+	</TokenScope>
+	<TokenScope name="workflow" state={scopeStates.get('workflow')}>
 		The <code>workflow</code> scope lets them
 		<strong>edit workflow files</strong>
 		<code>.github/workflows/*.yml</code>
-	</token-scope>
+	</TokenScope>
 </ul>
 <style>
 	/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
