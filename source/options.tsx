@@ -15,7 +15,6 @@ import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 
 let syncedForm: SyncedForm | undefined;
-
 let hasScrolledToTarget = false;
 
 function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
@@ -85,6 +84,7 @@ function addEventListeners(): void {
 
 		for (const element of $$('token-input')) {
 			element.setAttribute('host', host);
+			$('input', element).dispatchEvent(new InputEvent('input', {bubbles: true}));
 		}
 
 		updateListDom();
