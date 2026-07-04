@@ -1,6 +1,7 @@
 <script lang="ts">
 	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
+	import DomChef from '../helpers/dom-chef.svelte';
 	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
 	let {
@@ -27,11 +28,6 @@
 
 		event.preventDefault();
 		showScreenshot = !showScreenshot;
-	}
-
-	function mount(element: HTMLElement, node: Element): {destroy(): void} {
-		element.append(node);
-		return {destroy: () => node.remove()};
 	}
 </script>
 
@@ -61,9 +57,7 @@
 		{/if}
 		{#if issue}
 			<span class="hotfix-notice">
-				(Disabled due to <span
-					use:mount={createRghIssueLink(issue, true)}
-				></span>)
+				(Disabled due to <DomChef as={() => createRghIssueLink(issue, true)} />)
 			</span>
 		{/if}
 		<p class="description">{@html feature.description}</p>
