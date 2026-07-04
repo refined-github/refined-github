@@ -41,6 +41,10 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
+			'import-x/extensions': ['error', [
+				'.js',
+			]],
+
 			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
 			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
@@ -173,9 +177,6 @@ export default defineConfig([
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
-		},
-		rules: {
-			'import-x/extensions': 'off', // Why does it prefer .ts only here?
 		},
 	},
 	{

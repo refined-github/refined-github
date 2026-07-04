@@ -50,8 +50,10 @@ html::after {
 }
 
 p,
+pre,
 ul {
 	margin-top: 0;
+	margin-bottom: 1em;
 }
 
 /* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
@@ -145,6 +147,7 @@ summary:hover {
 	content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%23cb2431" d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z"></path></svg>');
 }
 
+pre,
 [name='customCss'] {
 	font-size: 11px;
 }
@@ -238,11 +241,4 @@ summary:hover {
 	padding: 1em;
 	border: 1px solid var(--rgh-red);
 	background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
-}
-
-.js-background-fail-error {
-	overflow: auto;
-	white-space: pre-wrap;
-	margin: 1em 0 0;
-	font-size: 12px;
 }

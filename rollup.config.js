@@ -65,7 +65,7 @@ const rollup = {
 		clearScreen: false,
 	},
 
-	// TODO: Drop after https://github.com/sindresorhus/memoize/issues/102
+	// TODO: Drop after https://github.com/fregante/webext-options-sync-per-domain/issues/17
 	context: 'globalThis',
 	onwarn(warning, defaultHandler) {
 		if (
@@ -118,9 +118,7 @@ const rollup = {
 		copy({
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
-				{src: './source/*.+(html|png)', dest: 'distribution/assets'},
-				{src: './source/background-loader.js', dest: 'distribution/assets'},
-				{src: './source/options-preflight.js', dest: 'distribution/assets'},
+				{src: './source/*.+(html|png|js)', dest: 'distribution/assets'},
 			],
 		}),
 		cleanup(),

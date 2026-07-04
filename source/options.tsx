@@ -1,5 +1,6 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
+import React from 'dom-chef';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import {enableTabToIndent} from 'indent-textarea';
 import {$, $$, $optional, closestElementOptional, elementExists} from 'select-dom';
@@ -102,16 +103,15 @@ async function fetchHotfixes(event: MouseEvent): Promise<void> {
 	}
 }
 
-function validateBackgroundPage(): void {
-	const backgroundLoadErrors = localStorage.backgroundLoadErrors?.trim();
-	if (!backgroundLoadErrors) {
+async function validateBackgroundPage(): Promise<void> {
+	const {backgroundLoadError} = await chrome.storage.session.get('backgroundLoadError');
+	if (!backgroundLoadError) {
 		return;
 	}
 
-	const errorField = $('.js-background-fail-error');
-	errorField.textContent = backgroundLoadErrors;
-	errorField.hidden = false;
-	$('.js-background-fail-banner').hidden = false;
+		const banner = $('.js-background-fail-banner');
+	banner.hidden = false;
+	banner.append(<pre className="js-background-fail-error">{backgroundLoadError}</pre>);
 }
 
 async function generateDom(): Promise<void> {
@@ -142,7 +142,7 @@ async function generateDom(): Promise<void> {
 	// Show stored CSS hotfixes
 	void showStoredCssHotfixes();
 
-	validateBackgroundPage();
+	void validateBackgroundPage();
 }
 
 function addEventListeners(): void {

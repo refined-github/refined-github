@@ -116,4 +116,4 @@ chrome.runtime.onInstalled.addListener(async () => {
 	await showWelcomePage();
 });
 
-delete localStorage.backgroundLoadErrors;
+throw new Error('bad soup.');
