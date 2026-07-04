@@ -17,6 +17,10 @@ import initToggleAllButtons from './options/toggle-all.js';
 let syncedForm: SyncedForm | undefined;
 let hasScrolledToTarget = false;
 
+function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaElement): void {
+	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
+}
+
 function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
 	if (!hasScrolledToTarget && elementExists(':target')) {
 		return;
@@ -51,7 +55,7 @@ async function generateDom(): Promise<void> {
 	// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 	// This triggers a proper run
 	for (const tokenField of $$('token-input input')) {
-		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
+		informComponentOfExternalUpdate(tokenField);
 	}
 
 	// Decorate list
@@ -80,7 +84,7 @@ function addEventListeners(): void {
 		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
 
 		// Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704
-		$('#action').hidden = domain !== 'default';
+		$('#action').hidden = domain !== 'default' || !doesBrowserActionOpenOptions;
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
@@ -88,7 +92,7 @@ function addEventListeners(): void {
 
 		for (const element of $$('token-input')) {
 			element.setAttribute('host', host);
-			$('input', element).dispatchEvent(new InputEvent('input', {bubbles: true}));
+			informComponentOfExternalUpdate($('input', element));
 		}
 
 		updateListDom();
