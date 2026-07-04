@@ -76,7 +76,7 @@ function addEventListeners(): void {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = host;
 
-		$('hotfixes').toggleAttribute('enterprise', domain !== 'default');
+		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);

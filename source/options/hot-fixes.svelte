@@ -28,12 +28,16 @@
 		More info.
 	</a>
 </p>
-<p><button type="button" onclick={refreshHotfixes}>Update hotfixes</button></p>
 {#if isDevelopmentVersion()}
 	<p>Hotfixes are not applied in the development version.</p>
 {:else if enterprise}
 	<p>Hotfixes are not applied to GitHub Enterprise.</p>
 {:else}
+	<p>
+		<button type="button" onclick={refreshHotfixes}>
+			Update hotfixes
+		</button>
+	</p>
 	{#await hotfixesPromise then hotfixes}
 		<h3>CSS hotfixes</h3>
 		<p>
