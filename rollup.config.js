@@ -43,6 +43,7 @@ const rollup = {
 		'version-info': './source/options/version-info.svelte',
 		'rate-link': './source/options/rate-link.svelte',
 		'hot-fixes': './source/options/hot-fixes.svelte',
+		'token-input': './source/options/token-input.svelte',
 
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',

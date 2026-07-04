@@ -13,7 +13,6 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
-import initTokenValidation from './options/token-validation.js';
 
 let syncedForm: SyncedForm | undefined;
 
@@ -57,9 +56,6 @@ async function generateDom(): Promise<void> {
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
 
-	// Enable token validation
-	void initTokenValidation(syncedForm);
-
 	// Hide non-applicable "Button link" section
 	if (doesBrowserActionOpenOptions) {
 		$('#action').hidden = true;
@@ -71,13 +67,18 @@ async function generateDom(): Promise<void> {
 function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {
+		const host = domain === 'default' ? 'github.com' : domain;
 		// Point the link to the right domain
-		$('a#personal-token-link').host = domain === 'default' ? 'github.com' : domain;
+		$('a#personal-token-link').host = host;
 
 		$('hotfixes').toggleAttribute('enterprise', domain !== 'default');
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
+		}
+
+		for (const element of $$('token-input')) {
+			element.setAttribute('host', host);
 		}
 
 		updateListDom();
