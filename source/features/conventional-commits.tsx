@@ -36,7 +36,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	}
 
 	commitTitleElement.prepend(
-		<span className="IssueLabel hx_IssueLabel mr-2 tmp-mr-2" rgh-conventional-commits={commit.rawType}>
+		<span className="IssueLabel hx_IssueLabel mr-2 tmp-mr-2" rgh-conventional-commits={commit.rawType.toLowerCase()}>
 			{commit.type}
 		</span>,
 
@@ -65,6 +65,7 @@ Test URLs:
 - Repo commits: https://github.com/refined-github/sandbox/commits/conventional-commits/
 - PR commits: https://github.com/refined-github/sandbox/pull/91/commits
 - Real data: https://github.com/conventional-changelog/standard-version/commits
+- Capitalized types: https://github.com/HMCL-dev/HMCL/commits/main/
 - Repo without conventional commits: https://github.com/refined-github/refined-github/commits
 
 */
