@@ -49,6 +49,14 @@ async function generateDom(): Promise<void> {
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
 
+	// Trigger first validation manually
+	for (const tokenField of $$('token-input input')) {
+		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
+		if (tokenField.value === '') {
+			closestElement('details', tokenField).open = true;
+		}
+	}
+
 	// Decorate list
 	updateListDom();
 	initToggleAllButtons();

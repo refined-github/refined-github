@@ -65,10 +65,13 @@
 		validationError = false;
 		scopes = ['unknown'];
 
-		if (!tokenField?.validity.valid || value.length === 0) {
-			// The Chrome options iframe auto-sizer causes the "scrollIntoView" function to scroll incorrectly unless you wait a bit
-			// https://github.com/refined-github/refined-github/issues/6807
-			setTimeout(expandTokenSection, 100);
+		// Could be the first render before dom-form-serializer has run
+		if (value.length === 0) {
+			return;
+		}
+
+		if (!tokenField?.validity.valid) {
+			expandTokenSection();
 			return;
 		}
 
