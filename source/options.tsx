@@ -76,7 +76,11 @@ function addEventListeners(): void {
 		// Point the link to the right domain
 		$('a#personal-token-link').host = host;
 
+		// Hot fixes are not used on GHE
 		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
+
+		// Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704
+		$('#action').hidden = domain !== 'default';
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);

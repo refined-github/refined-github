@@ -1,17 +1,15 @@
 <script lang="ts">
-	const {name, state}: {
-		name: string;
+	const {state}: {
 		state?: 'valid' | 'invalid' | '';
 	} = $props();
 </script>
 
-<li data-scope={name} data-validation={state}>
+<li data-validation={state}>
 	<slot />
 </li>
 
 <style>
-	li {
-		padding-left: 1.8em;
+	li[data-validation] {
 		margin-bottom: 0.3em;
 	}
 

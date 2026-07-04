@@ -16,6 +16,8 @@
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 	import TokenScope from './token-scope.svelte';
 
+	const apiFeaturesUrl =
+		'https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code';
 	const {host}: {host?: string} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
@@ -133,27 +135,23 @@
 	</output>
 </p>
 <ul>
-	<TokenScope name="valid_token" state={scopeStates.get('valid_token')}>
-		The token enables <a
-			href="https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code"
-		>
-			some features
-		</a>
+	<TokenScope state={scopeStates.get('valid_token')}>
+		The token enables <a href={apiFeaturesUrl}>some features</a>
 		to <strong>read</strong> data from public repositories
 	</TokenScope>
-	<TokenScope name="public_repo" state={scopeStates.get('public_repo')}>
+	<TokenScope state={scopeStates.get('public_repo')}>
 		The <code>public_repo</code> scope lets them <strong>edit</strong> your
 		public repositories
 	</TokenScope>
-	<TokenScope name="repo" state={scopeStates.get('repo')}>
+	<TokenScope state={scopeStates.get('repo')}>
 		The <code>repo</code> scope lets them <strong>edit private</strong>
 		repositories as well
 	</TokenScope>
-	<TokenScope name="read:project" state={scopeStates.get('read:project')}>
+	<TokenScope state={scopeStates.get('read:project')}>
 		The <code>read:project</code> scope lets them determine if a repo/org uses
 		projects
 	</TokenScope>
-	<TokenScope name="workflow" state={scopeStates.get('workflow')}>
+	<TokenScope state={scopeStates.get('workflow')}>
 		The <code>workflow</code> scope lets them
 		<strong>edit workflow files</strong>
 		<code>.github/workflows/*.yml</code>
@@ -163,5 +161,10 @@
 	/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
 	output {
 		display: inline-block;
+	}
+
+	/* Nicer style */
+	[name='personalToken']:not(:focus) {
+		-webkit-text-security: circle;
 	}
 </style>
