@@ -7,22 +7,24 @@
 
 <script lang="ts">
 	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-	/* eslint-disable select-dom/prefer -- Should not use select at all */
-	import domify from 'doma';
-	import {closestElement} from 'select-dom';
+	/* eslint-disable unicorn/no-computed-property-existence-check, svelte/no-at-html-tags -- Not user-provided */
 
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
 	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
-	const host = $host();
+	const root = $host();
 	const features = featuresMeta.filter(feature =>
 		importedFeatures.includes(feature.id)
 	);
 
 	let hotfixes = $state(new Map<string, number>());
 	let filter = $state('');
-	let offCount = $state(0);
+	const checked = $state<Record<string, boolean>>(
+		Object.fromEntries(features.map(feature => [feature.id, false])),
+	);
+	const showScreenshot = $state<Record<string, boolean>>({});
+	const checkboxReferences: Record<string, HTMLInputElement> = {};
 
 	function keywordsOf(value: string): string[] {
 		return value.toLowerCase().replaceAll(/\W/g, ' ').split(/\s+/).filter(
@@ -34,55 +36,45 @@
 		return keywordsOf(filter).some(word => !text.includes(word));
 	}
 
-	function updateOffCount(): void {
-		offCount = host.querySelectorAll('.feature-checkbox:not(:checked)').length;
-	}
-
-	function sort(): void {
-		const container = host.querySelector('.js-features')!;
-		const items = [...container.querySelectorAll<HTMLElement>('.feature')]
-			.toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
-		const grouped = Object.groupBy(items, item => {
-			const checkbox = item.querySelector<HTMLInputElement>(
-				'input.feature-checkbox',
-			)!;
-			return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
+	const rows = $derived.by(() => {
+		const enriched = features.map(feature => {
+			const issue = hotfixes.get(feature.id);
+			const text = `${feature.id} ${feature.description}`.toLowerCase();
+			return {feature, issue, text, hidden: isHidden(text)};
 		});
 
-		for (const group of [grouped.off, grouped.broken, grouped.on]) {
-			if (group) {
-				for (const item of group) {
-					container.append(item);
-				}
-			}
-		}
-	}
+		const sorted = enriched.toSorted((a, b) => a.text.localeCompare(b.text));
+		const groups = Object.groupBy(
+			sorted,
+			row => row.issue ? 'broken' : checked[row.feature.id] ? 'on' : 'off',
+		);
 
-	function toggleScreenshot(event: MouseEvent): void {
+		return [...groups.off ?? [], ...groups.broken ?? [], ...groups.on ?? []];
+	});
+
+	const offCount = $derived(
+		features.filter(feature => !checked[feature.id]).length,
+	);
+
+	function toggleScreenshot(id: string, event: MouseEvent): void {
 		if (event.ctrlKey || event.metaKey || event.shiftKey) {
 			return;
 		}
 
 		event.preventDefault();
 		if (event.altKey) {
-			for (
-				const toggle of host.querySelectorAll<HTMLInputElement>(
-					'input.screenshot-toggle',
-				)
-			) {
-				toggle.checked = !toggle.checked;
+			const next = !showScreenshot[id];
+			for (const feature of features) {
+				if (feature.screenshot) {
+					showScreenshot[feature.id] = next;
+				}
 			}
 		} else {
-			const toggle = closestElement(
-				'.feature',
-				event.currentTarget as HTMLElement,
-			)!
-				.querySelector<HTMLInputElement>('input.screenshot-toggle')!;
-			toggle.checked = !toggle.checked;
+			showScreenshot[id] = !showScreenshot[id];
 		}
 	}
 
-	function mount(element: HTMLElement, node: Node): {destroy(): void} {
+	function mount(element: HTMLElement, node: Element): {destroy(): void} {
 		element.append(node);
 		return {
 			destroy() {
@@ -91,17 +83,25 @@
 		};
 	}
 
-	host.addEventListener('sync', () => {
-		sort();
-		updateOffCount();
-	});
+	function handleSync(): void {
+		for (const feature of features) {
+			const element = checkboxReferences[feature.id];
+			if (element) {
+				checked[feature.id] = element.checked;
+			}
+		}
+	}
 
-	void getLocalHotfixes().then(entries => {
+	root.addEventListener('sync', handleSync);
+
+	// eslint-disable-next-line unicorn/prefer-top-level-await -- bug
+	getLocalHotfixes().then(entries => {
 		hotfixes = new Map(
-			entries.filter(([feature]) => importedFeatures.includes(feature)),
+			entries
+				.filter(([feature]) => importedFeatures.includes(feature))
+				.map(([feature, issue]) => [feature, Number(issue)] as const),
 		);
-		updateOffCount();
-		host.dispatchEvent(new Event('ready'));
+		root.dispatchEvent(new Event('ready'));
 	});
 </script>
 
@@ -132,27 +132,25 @@
 				you're looking for.</small>
 		</p>
 		<div class="js-features">
-			{#each features as feature (feature.id)}
-				{@const issue = hotfixes.get(feature.id)}
-				{@const text = `${feature.id} ${feature.description}`.toLowerCase()}
-				<div class="feature" data-text={text} hidden={isHidden(text)}>
+			{#each rows as {feature, issue, text, hidden} (feature.id)}
+				<div class="feature" data-text={text} {hidden}>
 					<input
 						type="checkbox"
 						name={issue ? undefined : `feature:${feature.id}`}
 						id={feature.id}
 						class="feature-checkbox"
 						disabled={Boolean(issue)}
-						onchange={updateOffCount}
+						bind:checked={checked[feature.id]}
+						bind:this={checkboxReferences[feature.id]}
 					>
 					<div class="info">
 						<label class="feature-name" for={feature.id}>{feature.id}</label>
 						<a href={getFeatureUrl(feature.id)} class="feature-link">source</a>
-						<input hidden type="checkbox" class="screenshot-toggle">
 						{#if feature.screenshot}
 							<a
 								href={feature.screenshot}
-								class="screenshot-link"
-								onclick={toggleScreenshot}
+								style={showScreenshot[feature.id] ? 'font-style: italic' : ''}
+								onclick={event => toggleScreenshot(feature.id, event)}
 							>screenshot</a>
 						{/if}
 						{#if issue}
@@ -161,11 +159,12 @@
 									use:mount={createRghIssueLink(issue, true)}
 								></span>)</span>
 						{/if}
-						<p class="description" use:mount={domify(feature.description)}></p>
+						<p class="description">{@html feature.description}</p>
 						{#if feature.screenshot}
 							<img
-								hidden
+								hidden={!showScreenshot[feature.id]}
 								src={feature.screenshot}
+								alt="Screenshot of the feature"
 								loading="lazy"
 								class="screenshot"
 							>
@@ -176,3 +175,68 @@
 		</div>
 	</div>
 </details>
+
+<style>
+	.feature:not([hidden]) {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0 0.4em;
+
+		padding: 0.5em 0;
+		&:first-of-type {
+			padding-top: 0;
+		}
+		p {
+			margin-bottom: 0;
+		}
+
+		border-radius: var(--border-radius);
+		outline: solid 2px transparent;
+		&:has(> :target) {
+			animation-name: blink-border;
+			animation-duration: 1.5s;
+			animation-iteration-count: 2;
+		}
+	}
+
+	@keyframes blink-border {
+		50% {
+			outline-color: #1f6feb;
+		}
+	}
+
+	.feature input[type='checkbox'] {
+		flex-shrink: 0;
+		scroll-margin-top: 64px;
+	}
+
+	.feature-checkbox:not(:checked) + .info .feature-name {
+		text-decoration: line-through;
+	}
+
+	.feature:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
+		opacity: 50%;
+	}
+
+	.feature .info {
+		flex: 1;
+	}
+
+	.feature .description {
+		opacity: 80%;
+	}
+
+	.feature-link {
+		margin: 0 0.6em;
+	}
+
+	.screenshot {
+		max-width: 100%;
+		margin-bottom: 2em;
+		border: 1px solid #d1d5da;
+		border-radius: 0.5em;
+		min-width: 2em;
+		min-height: 2em;
+	}
+</style>

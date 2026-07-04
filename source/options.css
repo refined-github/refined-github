@@ -10,6 +10,12 @@
 	white-space: pre-line;
 }
 
+.js-background-fail-banner {
+	padding: 1em;
+	border: 1px solid var(--rgh-red);
+	background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
+}
+
 :root {
 	--rgh-red: #cf222e;
 	--content-width: 750px; /* Sync with media query below */
@@ -121,81 +127,4 @@ summary:hover {
 
 [name='customCss'] {
 	font-size: 11px;
-}
-
-.feature:not([hidden]) {
-	display: flex;
-	align-items: baseline;
-	flex-wrap: wrap;
-	gap: 0 0.4em;
-
-	padding: 0.5em 0;
-	&:first-of-type {
-		padding-top: 0;
-	}
-	p {
-		margin-bottom: 0;
-	}
-
-	border-radius: var(--border-radius);
-	outline: solid 2px transparent;
-	&:has(> :target) {
-		animation-name: blink-border;
-		animation-duration: 1.5s;
-		animation-iteration-count: 2;
-	}
-}
-
-@keyframes blink-border {
-	50% {
-		outline-color: #1f6feb;
-	}
-}
-
-.feature input[type='checkbox'] {
-	flex-shrink: 0;
-	scroll-margin-top: 64px;
-}
-
-.feature-checkbox:not(:checked) + .info .feature-name {
-	text-decoration: line-through;
-}
-
-.feature:has(.feature-checkbox:disabled) > *:not(.hotfix-notice) {
-	opacity: 50%;
-}
-
-.feature .info {
-	flex: 1;
-}
-
-.feature .description {
-	opacity: 80%;
-}
-
-.feature-link {
-	margin: 0 0.6em;
-}
-
-.screenshot {
-	max-width: 100%;
-	margin-bottom: 2em;
-	border: 1px solid #d1d5da;
-	border-radius: 0.5em;
-	min-width: 2em;
-	min-height: 2em;
-}
-
-.screenshot-toggle:checked ~ .screenshot-link {
-	font-style: italic;
-}
-
-.screenshot-toggle:checked ~ .screenshot {
-	display: block;
-}
-
-.js-background-fail-banner {
-	padding: 1em;
-	border: 1px solid var(--rgh-red);
-	background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
 }
