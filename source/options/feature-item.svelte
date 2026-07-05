@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {tick} from 'svelte';
 	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair -- https://github.com/eslint-community/eslint-plugin-eslint-comments/issues/327
 	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
 	import DomChef from '../helpers/dom-chef.svelte';
@@ -23,10 +24,13 @@
 	let checked = $state(false);
 
 	$effect(() => {
-		if (issue) {
-			// The item is disabled and unchecked when there's an issue
-			checked = false;
+		if (!issue) {
+			return;
 		}
+
+		// The item is disabled and unchecked when there's an issue
+		checked = false;
+		ref!.checked = false;
 	});
 
 	function toggle(event: MouseEvent): void {

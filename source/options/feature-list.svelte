@@ -6,6 +6,7 @@
 />
 
 <script lang="ts">
+	import {tick} from 'svelte';
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
 	import FeatureItem from './feature-item.svelte';
@@ -67,19 +68,17 @@
 		);
 	}
 
-	root.addEventListener('read-from-dom', () => {
-		sort();
-		updateOffCount();
-	});
-
-	// eslint-disable-next-line unicorn/prefer-top-level-await -- bug
-	getLocalHotfixes().then(entries => {
+	root.addEventListener('read-from-dom', async () => {
+		// TODO: Move into a store so that it's updated by hot-fixes.svelte maybe?
+		const entries = await getLocalHotfixes();
 		hotfixes = new Map(
 			entries
 				.filter(([feature]) => importedFeatures.includes(feature))
 				.map(([feature, issue]) => [feature, Number(issue)] as const),
 		);
 		sort();
+		await tick();
+		updateOffCount();
 	});
 </script>
 
