@@ -47,7 +47,7 @@ async function validateBackgroundPage(): Promise<void> {
 async function generateDom(): Promise<void> {
 	// Update list from saved options
 	syncedForm = await perDomainOptions.syncForm('form');
-	$('feature-list').dispatchEvent(new Event('sync'));
+	$('feature-list').dispatchEvent(new CustomEvent('read-from-dom'));
 
 	// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 	// This triggers a proper run
@@ -91,7 +91,7 @@ function addEventListeners(): void {
 			informComponentOfExternalUpdate($('input', element));
 		}
 
-		$('feature-list').dispatchEvent(new Event('sync'));
+		$('feature-list').dispatchEvent(new CustomEvent('read-from-dom'));
 	});
 
 	// Refresh page when permissions are changed (because the dropdown selector needs to be regenerated)

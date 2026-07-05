@@ -67,7 +67,7 @@
 		);
 	}
 
-	root.addEventListener('sync', () => {
+	root.addEventListener('read-from-dom', () => {
 		sort();
 		updateOffCount();
 	});
@@ -80,7 +80,6 @@
 				.map(([feature, issue]) => [feature, Number(issue)] as const),
 		);
 		sort();
-		root.dispatchEvent(new Event('ready'));
 	});
 </script>
 
@@ -89,11 +88,11 @@
 		<strong class="features-header">
 			🔋 Features: {features.length + 25}
 			{
-				offCount === undefined
-				? false
-				: offCount === features.length
+				offCount === features.length
 				? '(JS off… are you breaking up with me?)'
-				: `(${offCount} off)`
+				: offCount
+				? `(${offCount} off)`
+				: undefined
 			}
 		</strong>
 	</summary>

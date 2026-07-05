@@ -1,5 +1,5 @@
 <script lang="ts">
-	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair -- https://github.com/eslint-community/eslint-plugin-eslint-comments/issues/327
 	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
 	import DomChef from '../helpers/dom-chef.svelte';
 	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
@@ -20,7 +20,14 @@
 	} = $props();
 
 	let showScreenshot = $state(false);
-	let checked = $state(!issue);
+	let checked = $state(false);
+
+	$effect(() => {
+		if (issue) {
+			// The item is disabled and unchecked when there's an issue
+			checked = false;
+		}
+	});
 
 	function toggle(event: MouseEvent): void {
 		if (event.ctrlKey || event.metaKey || event.shiftKey) {
