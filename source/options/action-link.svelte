@@ -20,14 +20,16 @@
 	<div>
 		<p>You can pick what page opens when you click the Refined GitHub icon in
 			the browser toolbar</p>
-		<p><input
+		<p>
+			<input
 				type="url"
 				name="actionUrl"
 				placeholder="https://example.com"
 				spellcheck="false"
 				autocomplete="off"
 				autocapitalize="off"
-			></p>
+			>
+		</p>
 		<p>If left empty, clicking it will open this options page.</p>
 	</div>
 </details>
