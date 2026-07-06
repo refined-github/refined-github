@@ -18,8 +18,11 @@
 </script>
 
 <output>
-	{version}{#if wasReleasedLongAgo(releaseAgeInDays)}
-		— <a href="https://github.com/refined-github/refined-github#install"
-		>Released {releaseAgeInDays} days ago. A newer version may be
-			available</a>{/if}
+	{version}
+	{#if wasReleasedLongAgo(releaseAgeInDays)}
+		— Released {releaseAgeInDays} days ago.
+		<a href="https://github.com/refined-github/refined-github#install">
+			A newer version may be available
+		</a>
+	{/if}
 </output>

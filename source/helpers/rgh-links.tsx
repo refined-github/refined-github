@@ -2,7 +2,7 @@ import React from 'dom-chef';
 
 import {getOldFeatureNames} from '../feature-data.js';
 
-export function createRghIssueLink(issueNumber: number | string, newTab = false): Element {
+export function createRghIssueLink(issueNumber: number | string, newTab = false): HTMLElement {
 	const issueUrl = `https://github.com/refined-github/refined-github/issues/${issueNumber}`;
 	return (
 		<a

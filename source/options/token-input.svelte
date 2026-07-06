@@ -138,11 +138,9 @@
 		size="20"
 		class="monospace-field"
 		onfocus={() => {
-			console.log('focus');
 			focused = true;
 		}}
 		onblur={() => {
-			console.log('focus false');
 			focused = false;
 		}}
 	/>
