@@ -13,8 +13,10 @@
 {#await ping then response}
 	{#if response !== 'pong'}
 		<p>
-			It seems that the background page failed to load. This breaks some features.
-			Please <a href="https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml">report it</a>.
+			It seems that the background page failed to load. This breaks some
+			features. Please <a
+				href="https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml"
+			>report it</a>.
 		</p>
 	{/if}
 {/await}
