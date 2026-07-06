@@ -10,18 +10,16 @@ import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 
-let syncedForm: SyncedForm | undefined;
-
 function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaElement): void {
 	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
 }
 
-async function generateDom(): Promise<void> {
+async function generateDom(): Promise<SyncedForm> {
 	// Generate list
 	await initFeatureList();
 
 	// Update list from saved options
-	syncedForm = await perDomainOptions.syncForm('form');
+	const syncedForm = await perDomainOptions.syncForm('form');
 
 	// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 	// This triggers a proper run
@@ -35,11 +33,13 @@ async function generateDom(): Promise<void> {
 
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
+
+	return syncedForm;
 }
 
-function addEventListeners(): void {
+function addEventListeners(syncedForm: SyncedForm): void {
 	// Update domain-dependent page content when the domain is changed
-	syncedForm?.onChange(async domain => {
+	syncedForm.onChange(async domain => {
 		const host = domain === 'default' ? 'github.com' : domain;
 
 		// Point the link to the right domain
@@ -79,8 +79,8 @@ function addEventListeners(): void {
 }
 
 async function init(): Promise<void> {
-	await generateDom();
-	addEventListeners();
+	const syncedForm = await generateDom();
+	addEventListeners(syncedForm);
 }
 
 await init();
