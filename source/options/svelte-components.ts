@@ -7,3 +7,4 @@ import './token-input.svelte';
 import './rate-link.svelte';
 import './hot-fixes.svelte';
 import './background-status.svelte';
+import './action-link.svelte';

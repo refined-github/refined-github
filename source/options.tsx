@@ -56,11 +56,6 @@ async function generateDom(): Promise<void> {
 
 	// Only now the form is ready, we can show it
 	$('#js-failed').remove();
-
-	// Hide non-applicable "Button link" section
-	if (doesBrowserActionOpenOptions) {
-		$('#action').hidden = true;
-	}
 }
 
 function addEventListeners(): void {
@@ -74,7 +69,7 @@ function addEventListeners(): void {
 		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
 
 		// Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704
-		$('#action').hidden = domain !== 'default' || !doesBrowserActionOpenOptions;
+		$('action-link').setAttribute('domain', domain);
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
