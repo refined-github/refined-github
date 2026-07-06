@@ -11,10 +11,9 @@
 <script lang="ts">
 	import {doesBrowserActionOpenOptions} from '../helpers/feature-utils.js';
 
-	const {enterprise = false}: {enterprise?: boolean} = $props();
-	const hidden = $derived(enterprise || !doesBrowserActionOpenOptions);
+	const {enterprise = false}: {enterprise: boolean} = $props();
+	const hidden = $derived(enterprise || doesBrowserActionOpenOptions);
 </script>
-
 {#if !hidden}
 	<details id="action">
 		<summary><strong>🔗 Button link</strong></summary>

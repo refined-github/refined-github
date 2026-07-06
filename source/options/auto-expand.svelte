@@ -29,7 +29,7 @@
 	}
 
 	onMount(() => {
-		expectElement(':scope > details', $host()).addEventListener(
+		expectElement('details', $host()).addEventListener(
 			'toggle',
 			onToggle,
 		);
