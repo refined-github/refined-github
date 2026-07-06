@@ -6,25 +6,19 @@
 />
 
 <script lang="ts">
-	import {
-		$ as expectElement,
-		$optional as querySelector,
-		elementExists,
-	} from 'select-dom';
+	import {$ as expectElement, $optional as querySelector} from 'select-dom';
 	import {onMount} from 'svelte';
 
 	function onToggle(event: Event): void {
-		if (elementExists(':target')) return;
+		const details = event.currentTarget as HTMLDetailsElement;
 
-		const section = event.currentTarget as HTMLDetailsElement;
-
-		const rect = section.getBoundingClientRect();
+		const rect = details.getBoundingClientRect();
 		if (rect.bottom > window.innerHeight || rect.top < 0) {
-			section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+			details.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 		}
 
-		if (section.open) {
-			querySelector('input, textarea', section)?.focus({preventScroll: true});
+		if (details.open) {
+			querySelector('input, textarea', details)?.focus({preventScroll: true});
 		}
 	}
 

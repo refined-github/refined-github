@@ -137,12 +137,13 @@ summary:hover {
 		margin-bottom: 0;
 	}
 
-	border-radius: var(--border-radius);
-	outline: solid 2px transparent;
-	&:has(> :target) {
+	&:target {
+		outline: solid 2px transparent;
+		border-radius: var(--border-radius);
 		animation-name: blink-border;
 		animation-duration: 1.5s;
 		animation-iteration-count: 2;
+		scroll-margin-top: 64px;
 	}
 }
 

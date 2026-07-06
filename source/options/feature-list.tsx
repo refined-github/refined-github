@@ -40,11 +40,12 @@ async function markLocalHotfixes(): Promise<void> {
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
+	const fieldId = `field:${id}`;
 	return (
-		<div className="feature" data-text={`${id} ${description}`.toLowerCase()}>
-			<input type="checkbox" name={`feature:${id}`} id={id} className="feature-checkbox" />
+		<div className="feature" data-text={`${id} ${description}`.toLowerCase()} id={id}>
+			<input type="checkbox" name={`feature:${id}`} id={fieldId} className="feature-checkbox" />
 			<div className="info">
-				<label className="feature-name" htmlFor={id}>{id}</label>{' '}
+				<label className="feature-name" htmlFor={fieldId}>{id}</label>{' '}
 				<a href={getFeatureUrl(id)} className="feature-link">
 					source
 				</a>
