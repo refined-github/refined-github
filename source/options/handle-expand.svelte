@@ -1,6 +1,6 @@
 <svelte:options
 	customElement={{
-		tag: 'auto-expand',
+		tag: 'handle-expand',
 		shadow: 'none',
 	}}
 />
