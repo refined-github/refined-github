@@ -7,7 +7,6 @@ import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';
-import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {perDomainOptions} from './options-storage.js';
 import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
