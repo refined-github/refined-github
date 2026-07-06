@@ -3,7 +3,7 @@
 		tag: 'action-link',
 		shadow: 'none',
 		props: {
-			domain: {type: 'String', attribute: 'domain'},
+			enterprise: {type: 'Boolean', attribute: 'enterprise'},
 		},
 	}}
 />
@@ -11,8 +11,8 @@
 <script lang="ts">
 	import {doesBrowserActionOpenOptions} from '../helpers/feature-utils.js';
 
-	const {domain = 'default'}: {domain?: string} = $props();
-	const hidden = $derived(domain !== 'default' || !doesBrowserActionOpenOptions);
+	const {enterprise = false}: {enterprise?: boolean} = $props();
+	const hidden = $derived(enterprise || !doesBrowserActionOpenOptions);
 </script>
 
 {#if !hidden}

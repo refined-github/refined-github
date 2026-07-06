@@ -41,6 +41,7 @@ function addEventListeners(): void {
 	// Update domain-dependent page content when the domain is changed
 	syncedForm?.onChange(async domain => {
 		const host = domain === 'default' ? 'github.com' : domain;
+
 		// Point the link to the right domain
 		$('a#personal-token-link').host = host;
 
@@ -48,7 +49,7 @@ function addEventListeners(): void {
 		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
 
 		// Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704
-		$('action-link').setAttribute('domain', domain);
+		$('action-link').toggleAttribute('enterprise', domain !== 'default');
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
