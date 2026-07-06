@@ -6,8 +6,6 @@ import {$, $$, $optional, closestElementOptional, elementExists} from 'select-do
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
-import {messageRuntime} from 'webext-msg';
-
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {perDomainOptions} from './options-storage.js';
@@ -39,12 +37,6 @@ function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetail
 	}
 }
 
-async function validateBackgroundPage(): Promise<void> {
-	if (await messageRuntime({ping: true}) !== 'pong') {
-		$('.js-background-fail-banner').hidden = false;
-	}
-}
-
 async function generateDom(): Promise<void> {
 	// Generate list
 	await initFeatureList();
@@ -69,8 +61,6 @@ async function generateDom(): Promise<void> {
 	if (doesBrowserActionOpenOptions) {
 		$('#action').hidden = true;
 	}
-
-	void validateBackgroundPage();
 }
 
 function addEventListeners(): void {
