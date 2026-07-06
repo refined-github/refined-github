@@ -6,5 +6,6 @@ import './version-info.svelte';
 import './token-input.svelte';
 import './rate-link.svelte';
 import './hot-fixes.svelte';
+import './auto-expand.svelte';
 import './background-status.svelte';
 import './action-link.svelte';

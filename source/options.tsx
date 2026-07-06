@@ -1,8 +1,7 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import delegate, {type DelegateEvent} from 'delegate-it';
 import {enableTabToIndent} from 'indent-textarea';
-import {$, $$, $optional, closestElementOptional, elementExists} from 'select-dom';
+import {$, $$} from 'select-dom';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
 
@@ -12,28 +11,9 @@ import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
 
 let syncedForm: SyncedForm | undefined;
-let hasScrolledToTarget = false;
 
 function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaElement): void {
 	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
-}
-
-function focusSection({delegateTarget: section}: DelegateEvent<Event, HTMLDetailsElement>): void {
-	if (!hasScrolledToTarget && elementExists(':target')) {
-		return;
-	}
-
-	const rect = section.getBoundingClientRect();
-	if (rect.bottom > window.innerHeight || rect.top < 0) {
-		section.scrollIntoView({behavior: 'smooth', block: 'nearest'});
-	}
-
-	if (section.open) {
-		const field = $optional('input, textarea', section);
-		if (field) {
-			field.focus({preventScroll: true});
-		}
-	}
 }
 
 async function generateDom(): Promise<void> {
@@ -93,40 +73,13 @@ function addEventListeners(): void {
 	// Improve textareas editing
 	enableTabToIndent('textarea');
 
-	// Bring section into view when opened
-	delegate('details', 'toggle', focusSection, {capture: true});
-
 	// Add cache clearer
 	$('#clear-cache').addEventListener('click', clearCacheHandler);
-}
-
-function scrollTargetIntoView(): void {
-	const {hash} = location;
-	if (!hash) {
-		return;
-	}
-
-	const element = $optional(hash);
-	if (!element) {
-		return;
-	}
-
-	const details = closestElementOptional('details', element);
-	if (details) {
-		details.open = true;
-	}
-
-	element.scrollIntoView({
-		block: 'start',
-	});
-
-	hasScrolledToTarget = true;
 }
 
 async function init(): Promise<void> {
 	await generateDom();
 	addEventListeners();
-	scrollTargetIntoView();
 }
 
 await init();
