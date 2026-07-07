@@ -48,7 +48,7 @@
 		autocapitalize="off"
 		bind:value={filterText}
 	>
-	<small>Use the "Identify feature" section below if you can't find what you're
+	<small style:opacity="80%">Use the "Identify feature" section below if you can't find what you're
 		looking for.</small>
 </p>
 
@@ -63,9 +63,3 @@
 		></feature-item>
 	{/each}
 </div>
-
-<style>
-	small {
-		opacity: 80%;
-	}
-</style>
