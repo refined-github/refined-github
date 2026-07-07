@@ -46,7 +46,8 @@
 </div>
 
 <style>
-	:global(feature-item:not([hidden])) {
+	/* Note that :host is not available because we're not using shadow DOM */
+	:global(feature-item):not([hidden]) {
 		display: flex;
 		align-items: baseline;
 		flex-wrap: wrap;
@@ -54,15 +55,11 @@
 		padding: 0.5em 0;
 	}
 
-	:global(feature-item:first-of-type) {
+	:global(feature-item):first-of-type {
 		padding-top: 0;
 	}
 
-	p {
-		margin-bottom: 0;
-	}
-
-	:global(feature-item:target) {
+	:global(feature-item):target {
 		outline: solid 2px transparent;
 		border-radius: var(--border-radius);
 		animation-name: blink-border;
@@ -77,6 +74,10 @@
 		}
 	}
 
+	p {
+		margin-bottom: 0;
+	}
+
 	input[type='checkbox'] {
 		flex-shrink: 0;
 		scroll-margin-top: 64px;
@@ -86,10 +87,10 @@
 		text-decoration: line-through;
 	}
 
-	:global(
-		feature-item:has(.feature-checkbox:disabled) > *:not(.hotfix-notice)
-	) {
-		opacity: 50%;
+	.feature-checkbox:disabled {
+		&, & + .info {
+			opacity: 50%;
+		}
 	}
 
 	.info {
