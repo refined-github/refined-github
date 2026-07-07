@@ -22,7 +22,7 @@
 	const fieldId = $derived(`field-${id}`);
 	let screenshotToggle = $state<HTMLInputElement>();
 
-	function handleScreenshotClick(event: MouseEvent): void {
+	function toggleScreenshot(event: MouseEvent): void {
 		if (event.ctrlKey || event.metaKey || event.shiftKey) {
 			return;
 		}
@@ -67,8 +67,13 @@
 		class="screenshot-toggle"
 	>
 	{#if screenshot}
-		<a href={screenshot} class="screenshot-link" onclick={handleScreenshotClick}
-		>screenshot</a>
+		<a
+			href={screenshot}
+			class="screenshot-link"
+			onclick={toggleScreenshot}
+		>
+			screenshot
+		</a>
 	{/if}
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	<p class="description">{@html description}</p>
@@ -162,6 +167,6 @@
 
 	:global(.hotfix-notice),
 	:global(.hotfix-notice a) {
-		color: var(--rgh-red, #cf222e);
+		color: var(--rgh-red);
 	}
 </style>

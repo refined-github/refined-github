@@ -9,10 +9,7 @@
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
 
-	// Component State
 	let filterText = $state('');
-
-	// Keep the raw Promise reference to read directly in the template
 	const hotfixesPromise = getLocalHotfixes();
 
 	// Pre-filter valid imported features
