@@ -1,6 +1,7 @@
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import {$, $$, countElements} from 'select-dom';
+import {assertDefined} from 'ts-extras';
 
 import {featuresMeta} from '../feature-data.js';
 
@@ -43,10 +44,12 @@ function updateOffCount(): void {
 }
 
 export default async function initFeatureList(): Promise<void> {
-	await elementReady('.feature-list', {
+	const element = await elementReady('.js-features', {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(500),
 	});
+
+	assertDefined(element);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);

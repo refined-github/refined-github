@@ -37,8 +37,8 @@
 	</small>
 </p>
 
-<div class="js-features">
-	{#await hotfixesPromise then fixes}
+{#await hotfixesPromise then fixes}
+	<div class="js-features">
 		{#each activeFeatures as feature (feature.id)}
 			{@const searchText = `${feature.id} ${feature.description}`.toLowerCase()}
 			{@const keywords = filterText
@@ -58,5 +58,5 @@
 				hotfixIssue={hotfixIssue}
 			></feature-item>
 		{/each}
-	{/await}
-</div>
+	</div>
+{/await}

@@ -31,12 +31,6 @@ html::after {
 	}
 }
 
-@keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-}
-
 p,
 ul {
 	margin-top: 0;
@@ -107,14 +101,19 @@ summary:hover {
 	font-size: 11px;
 }
 
-#js-failed + form {
-	display: none;
+.error-banner {
+	padding: 1em;
+	border: 1px solid var(--rgh-red);
+	background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
 }
 
 #js-failed {
-	max-width: var(--content-width);
-	margin: auto;
-	padding: 1em var(--viewport-margin);
-	animation: fade-in 0s 1s backwards;
+	animation: show 0s 1s both;
 	white-space: pre-line;
+}
+
+@keyframes show {
+	from {
+		display: none;
+	}
 }

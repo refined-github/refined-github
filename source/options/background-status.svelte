@@ -1,6 +1,7 @@
 <svelte:options
 	customElement={{
 		tag: 'background-status',
+		shadow: 'none',
 	}}
 />
 
@@ -17,7 +18,7 @@
 
 {#await ping then response}
 	{#if response !== 'pong'}
-		<p>
+		<p class="error-banner">
 			It seems that the background page failed to load. This breaks some
 			features. Please <a
 				href="https://github.com/refined-github/refined-github/issues/new?template=1_bug_report.yml"
@@ -25,11 +26,3 @@
 		</p>
 	{/if}
 {/await}
-
-<style>
-	p {
-		padding: 1em;
-		border: 1px solid var(--rgh-red);
-		background: color-mix(in srgb, var(--rgh-red) 10%, transparent);
-	}
-</style>

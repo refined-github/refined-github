@@ -160,7 +160,8 @@
 		display: block;
 	}
 
-	.hotfix-notice {
+	:global(.hotfix-notice),
+	:global(.hotfix-notice a) {
 		color: var(--rgh-red, #cf222e);
 	}
 </style>

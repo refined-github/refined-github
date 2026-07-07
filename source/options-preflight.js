@@ -1,6 +1,8 @@
 function appendError(error) {
 	// eslint-disable-next-line select-dom/prefer -- No build here
-	document.querySelector('#js-failed').append('\n', error);
+	const container = document.querySelector('#js-failed');
+	container.append('\n', error);
+	container.style.animation = 'none';
 }
 
 globalThis.addEventListener('error', event => {
