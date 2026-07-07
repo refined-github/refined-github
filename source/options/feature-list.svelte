@@ -7,18 +7,17 @@
 
 <script lang="ts">
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
+	import {getLocalHotfixes} from '../helpers/hotfix.js';
 
 	// Component State
 	let filterText = $state('');
+	let hotfixes = $state(getLocalHotfixes());
 
-	// Get all valid features
-	const activeFeatures = featuresMeta.filter(feature =>
-		importedFeatures.includes(feature.id)
-	);
-
-	// Derive visibility based on search text
 	const filteredFeatures = $derived(
-		activeFeatures.map(feature => {
+		hotfixes &&
+		featuresMeta
+		.filter(feature => importedFeatures.includes(feature.id))
+		.map(feature => {
 			const searchText = `${feature.id} ${feature.description}`.toLowerCase();
 			const keywords = filterText
 				.toLowerCase()
@@ -27,14 +26,15 @@
 				.filter(Boolean);
 
 			// Feature is visible if search input is empty or matches all entered keywords
-			const isVisible = keywords.every(word => searchText.includes(word));
+			const isVisible = keywords.keywords.every(word => searchText.includes(word));
 
 			return {
 				...feature,
 				searchText,
 				isVisible,
+				hotfixIssue: hotfixes.get(feature.id)
 			};
-		}),
+		})
 	);
 </script>
 
@@ -48,8 +48,10 @@
 		autocapitalize="off"
 		bind:value={filterText}
 	>
-	<small style:opacity="80%">Use the "Identify feature" section below if you can't find what you're
-		looking for.</small>
+	<small style:opacity="80%">
+		Use the "Identify feature" section below if you can't find what you're
+		looking for.
+	</small>
 </p>
 
 <div class="js-features">
@@ -60,6 +62,7 @@
 			description={feature.description}
 			screenshot={feature.screenshot}
 			hidden={!feature.isVisible || null}
+			hotfixIssue={feature.hotfixIssue}
 		></feature-item>
 	{/each}
 </div>
