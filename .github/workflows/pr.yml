@@ -138,3 +138,29 @@ jobs:
             Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
 
             Just push new commits on top of the branch instead — PRs are squashed on merge, so the commit history doesn't need to be clean.
+
+  manifest-version:
+    if: github.event.pull_request.state == 'open'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - id: check
+        run: echo "result=$(jq -r '.version == \"0.0.0\"' source/manifest.json)" >> "$GITHUB_OUTPUT"
+
+      - if: steps.check.outputs.result == 'false'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: manifest-version
+          message: |
+            Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
+
+      - if: steps.check.outputs.result == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: manifest-version
+          delete: true
