@@ -37,7 +37,7 @@ ul {
 }
 
 /* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
-p:last-child:not(.info p),
+p:last-child:not(.info p, background-status p),
 ul:last-child {
 	margin-bottom: 0;
 }
