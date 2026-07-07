@@ -76,7 +76,7 @@
 		</a>
 	{/if}
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	<p class="description">{@html description}</p>
+	<div class="description">{@html description}</div>
 	{#if screenshot}
 		<img
 			hidden
@@ -115,10 +115,6 @@
 		50% {
 			outline-color: #1f6feb;
 		}
-	}
-
-	p {
-		margin-bottom: 0;
 	}
 
 	input[type='checkbox'] {

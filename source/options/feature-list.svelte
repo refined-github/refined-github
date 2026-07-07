@@ -20,7 +20,6 @@
 
 <p>
 	<input
-		id="filter-features"
 		type="text"
 		placeholder="Find features"
 		spellcheck="false"
