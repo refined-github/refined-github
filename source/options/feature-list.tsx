@@ -1,11 +1,7 @@
 import delegate from 'delegate-it';
-import React from 'dom-chef';
 import {$, $$, countElements} from 'select-dom';
-import elementReady from 'element-ready';
 
-import {featuresMeta, importedFeatures} from '../feature-data.js';
-import {getLocalHotfixes} from '../helpers/hotfix.js';
-import {createRghIssueLink} from '../helpers/rgh-links.js';
+import {featuresMeta} from '../feature-data.js';
 
 function moveDisabledFeaturesToTop(): void {
 	const container = $('.js-features');
@@ -21,24 +17,6 @@ function moveDisabledFeaturesToTop(): void {
 				container.append(feature);
 			}
 		}
-	}
-}
-
-async function markLocalHotfixes(): Promise<void> {
-	// TODO: This shouldn't affect the list when it's switched to GHE
-	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
-		if (!importedFeatures.includes(feature)) {
-			continue;
-		}
-
-		const fieldId = `field-${feature}`;
-		const input = $<HTMLInputElement>('input#' + fieldId);
-		input.disabled = true;
-		input.removeAttribute('name');
-
-		$(`.feature-name[for="${fieldId}"]`).after(
-			<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue, true)})</span>,
-		);
 	}
 }
 
@@ -68,10 +46,6 @@ export default async function initFeatureList(): Promise<void> {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(500),
 	});
-
-	// Add notice for features disabled via hotfix
-	await markLocalHotfixes();
-
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);
 
