@@ -1,6 +1,7 @@
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import {$, $$, closestElement, countElements} from 'select-dom';
+import elementReady from 'element-ready';
 
 import {featuresMeta, importedFeatures} from '../feature-data.js';
 import {getLocalHotfixes} from '../helpers/hotfix.js';
@@ -34,6 +35,7 @@ async function markLocalHotfixes(): Promise<void> {
 		const input = $<HTMLInputElement>('input#' + fieldId);
 		input.disabled = true;
 		input.removeAttribute('name');
+
 		$(`.feature-name[for="${fieldId}"]`).after(
 			<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue, true)})</span>,
 		);
@@ -53,18 +55,6 @@ function summaryHandler(event: DelegateEvent<MouseEvent>): void {
 	} else {
 		const toggle = $('input.screenshot-toggle', closestElement('feature-item', event.delegateTarget));
 		toggle.checked = !toggle.checked;
-	}
-}
-
-function featuresFilterHandler(this: HTMLInputElement): void {
-	const keywords = this
-		.value
-		.toLowerCase()
-		.replaceAll(/\W/g, ' ')
-		.split(/\s+/)
-		.filter(Boolean); // Ignore empty strings
-	for (const feature of $$('feature-item')) {
-		feature.hidden = keywords.some(word => !feature.dataset.text!.includes(word));
 	}
 }
 
@@ -90,26 +80,15 @@ function updateOffCount(): void {
 }
 
 export default async function initFeatureList(): Promise<void> {
-	// Generate list
-	$('.js-features').append(
-		...featuresMeta
-			.filter(feature => importedFeatures.includes(feature.id))
-			.map(feature => (
-				<feature-item
-					data-text={`${feature.id} ${feature.description}`.toLowerCase()}
-					{...feature}
-				/>
-			)),
-	);
-
+	await elementReady('.feature-list', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(500),
+	});
 	// Add notice for features disabled via hotfix
 	await markLocalHotfixes();
 
 	// Load screenshots
 	delegate('.screenshot-link', 'click', summaryHandler);
-
-	// Filter feature list
-	$('input#filter-features').addEventListener('input', featuresFilterHandler);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);
