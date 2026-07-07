@@ -140,7 +140,7 @@ jobs:
             Just push new commits on top of the branch instead — PRs are squashed on merge, so the commit history doesn't need to be clean.
 
   manifest-version:
-    if: github.event.pull_request.state == 'open'
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -148,6 +148,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          sparse-checkout: source/manifest.json
 
       - id: check
         run: echo "result=$(jq -r '.version == \"0.0.0\"' source/manifest.json)" >> "$GITHUB_OUTPUT"
