@@ -8,6 +8,8 @@
 <script lang="ts">
 	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair -- https://github.com/eslint-community/eslint-plugin-eslint-comments/issues/327
 	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
+	import {$$ as querySelectorAll} from 'select-dom';
+
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
 
 	const {id, description, screenshot}: {
@@ -18,6 +20,27 @@
 	} = $props();
 
 	const fieldId = $derived(`field-${id}`);
+	let screenshotToggle = $state<HTMLInputElement>();
+
+	function handleScreenshotClick(event: MouseEvent): void {
+		if (event.ctrlKey || event.metaKey || event.shiftKey) {
+			return;
+		}
+
+		event.preventDefault();
+
+		if (event.altKey) {
+			// Global batch toggle across all instances
+			const toggles = querySelectorAll('input.screenshot-toggle');
+			for (const toggle of toggles) {
+				toggle.checked = !toggle.checked;
+				toggle.dispatchEvent(new Event('change', {bubbles: true}));
+			}
+		} else if (screenshotToggle) {
+			// Local instance toggle
+			screenshotToggle.checked = !screenshotToggle.checked;
+		}
+	}
 </script>
 
 <input
@@ -29,9 +52,15 @@
 <div class="info">
 	<label class="feature-name" for={fieldId}>{id}</label>
 	<a href={getFeatureUrl(id)} class="feature-link">source</a>
-	<input hidden type="checkbox" class="screenshot-toggle">
+	<input
+		bind:this={screenshotToggle}
+		hidden
+		type="checkbox"
+		class="screenshot-toggle"
+	>
 	{#if screenshot}
-		<a href={screenshot} class="screenshot-link">screenshot</a>
+		<a href={screenshot} class="screenshot-link" onclick={handleScreenshotClick}
+		>screenshot</a>
 	{/if}
 	<p class="description">{@html description}</p>
 	{#if screenshot}

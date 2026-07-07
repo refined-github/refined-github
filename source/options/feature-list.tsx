@@ -1,6 +1,6 @@
-import delegate, {type DelegateEvent} from 'delegate-it';
+import delegate from 'delegate-it';
 import React from 'dom-chef';
-import {$, $$, closestElement, countElements} from 'select-dom';
+import {$, $$, countElements} from 'select-dom';
 import elementReady from 'element-ready';
 
 import {featuresMeta, importedFeatures} from '../feature-data.js';
@@ -42,22 +42,6 @@ async function markLocalHotfixes(): Promise<void> {
 	}
 }
 
-function summaryHandler(event: DelegateEvent<MouseEvent>): void {
-	if (event.ctrlKey || event.metaKey || event.shiftKey) {
-		return;
-	}
-
-	event.preventDefault();
-	if (event.altKey) {
-		for (const toggle of $$('input.screenshot-toggle')) {
-			toggle.checked = !toggle.checked;
-		}
-	} else {
-		const toggle = $('input.screenshot-toggle', closestElement('feature-item', event.delegateTarget));
-		toggle.checked = !toggle.checked;
-	}
-}
-
 const offCount = new Text();
 
 function updateOffCount(): void {
@@ -84,11 +68,9 @@ export default async function initFeatureList(): Promise<void> {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(500),
 	});
+
 	// Add notice for features disabled via hotfix
 	await markLocalHotfixes();
-
-	// Load screenshots
-	delegate('.screenshot-link', 'click', summaryHandler);
 
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);
