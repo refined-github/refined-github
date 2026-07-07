@@ -2,9 +2,6 @@
 	customElement={{
 		tag: 'feature-list',
 		shadow: 'none',
-		props: {
-			enterprise: {type: 'Boolean', attribute: 'enterprise'},
-		}
 	}}
 />
 
@@ -12,9 +9,8 @@
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
 
-	const {enterprise = false}: {enterprise: boolean} = $props();
 	let filterText = $state('');
-	const hotfixesPromise = $derived(enterprise ? [] : getLocalHotfixes());
+	const hotfixesPromise = getLocalHotfixes();
 
 	// Pre-filter valid imported features
 	const activeFeatures = featuresMeta.filter(feature =>
