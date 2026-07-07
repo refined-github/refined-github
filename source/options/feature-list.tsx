@@ -30,17 +30,18 @@ async function markLocalHotfixes(): Promise<void> {
 			continue;
 		}
 
-		const input = $<HTMLInputElement>('#' + feature);
+		const fieldId = `field-${feature}`;
+		const input = $<HTMLInputElement>('input#' + fieldId);
 		input.disabled = true;
 		input.removeAttribute('name');
-		$(`.feature-name[for="${feature}"]`).after(
+		$(`.feature-name[for="${fieldId}"]`).after(
 			<span className="hotfix-notice">{' '}(Disabled due to {createRghIssueLink(relatedIssue, true)})</span>,
 		);
 	}
 }
 
 function buildFeatureCheckbox({id, description, screenshot}: FeatureMeta): HTMLElement {
-	const fieldId = `field:${id}`;
+	const fieldId = `field-${id}`;
 	return (
 		<div className="feature" data-text={`${id} ${description}`.toLowerCase()} id={id}>
 			<input type="checkbox" name={`feature:${id}`} id={fieldId} className="feature-checkbox" />
