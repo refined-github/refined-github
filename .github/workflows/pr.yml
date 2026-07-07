@@ -36,8 +36,7 @@ jobs:
               body: "This looks like an AI-generated PR, so we're preemptively closing it. If you're human and tested it, include a screenshot/video/gif of the working PR and we can reopen the PR. Don't open more PRs until this one is resolved.",
             });
 
-  reminder:
-    name: Label Reminder
+  labels:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
@@ -54,11 +53,11 @@ jobs:
 
       - name: Post comment if unlabeled
         if: steps.check.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: 'To maintainers: Please add labels to this PR'
 
-  Sync:
+  sync:
     if: github.event.pull_request.state == 'open'
     runs-on: ubuntu-latest
     permissions:
@@ -132,7 +131,7 @@ jobs:
             return String(data.status === 'diverged');
 
       - if: steps.check.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           message: |
             Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
@@ -152,17 +151,17 @@ jobs:
           sparse-checkout: source/manifest.json
 
       - id: check
-        run: echo "result=$(jq -r '.version == \"0.0.0\"' source/manifest.json)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(jq -r '.version' source/manifest.json)" >> "$GITHUB_OUTPUT"
 
-      - if: steps.check.outputs.result == 'false'
-        uses: marocchino/sticky-pull-request-comment@v2
+      - if: steps.check.outputs.version != '0.0.0'
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: manifest-version
           message: |
             Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
 
-      - if: steps.check.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+      - if: steps.check.outputs.version == '0.0.0'
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: manifest-version
           delete: true
