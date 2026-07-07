@@ -153,15 +153,8 @@ jobs:
       - id: check
         run: echo "version=$(jq -r '.version' source/manifest.json)" >> "$GITHUB_OUTPUT"
 
-      - if: steps.check.outputs.version != '0.0.0'
-        uses: marocchino/sticky-pull-request-comment@v3
+      - uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: manifest-version
-          message: |
-            Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
-
-      - if: steps.check.outputs.version == '0.0.0'
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          header: manifest-version
-          delete: true
+          delete: ${{ steps.check.outputs.version == '0.0.0' }}
+          message: ${{ steps.check.outputs.version == '0.0.0' && '' || 'Please change `source/manifest.json`''s `"version"` back to `"0.0.0"` before merging.' }}
