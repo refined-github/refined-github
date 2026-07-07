@@ -11,30 +11,13 @@
 
 	// Component State
 	let filterText = $state('');
-	let hotfixes = $state(getLocalHotfixes());
 
-	const filteredFeatures = $derived(
-		hotfixes &&
-		featuresMeta
-		.filter(feature => importedFeatures.includes(feature.id))
-		.map(feature => {
-			const searchText = `${feature.id} ${feature.description}`.toLowerCase();
-			const keywords = filterText
-				.toLowerCase()
-				.replaceAll(/\W/g, ' ')
-				.split(/\s+/)
-				.filter(Boolean);
+	// Keep the raw Promise reference to read directly in the template
+	const hotfixesPromise = getLocalHotfixes();
 
-			// Feature is visible if search input is empty or matches all entered keywords
-			const isVisible = keywords.keywords.every(word => searchText.includes(word));
-
-			return {
-				...feature,
-				searchText,
-				isVisible,
-				hotfixIssue: hotfixes.get(feature.id)
-			};
-		})
+	// Pre-filter valid imported features
+	const activeFeatures = featuresMeta.filter(feature =>
+		importedFeatures.includes(feature.id)
 	);
 </script>
 
@@ -55,14 +38,25 @@
 </p>
 
 <div class="js-features">
-	{#each filteredFeatures as feature (feature.id)}
-		<feature-item
-			data-text={feature.searchText}
-			id={feature.id}
-			description={feature.description}
-			screenshot={feature.screenshot}
-			hidden={!feature.isVisible || null}
-			hotfixIssue={feature.hotfixIssue}
-		></feature-item>
-	{/each}
+	{#await hotfixesPromise then fixes}
+		{#each activeFeatures as feature (feature.id)}
+			{@const searchText = `${feature.id} ${feature.description}`.toLowerCase()}
+			{@const keywords = filterText
+			.toLowerCase()
+			.replaceAll(/\W/g, ' ')
+			.split(/\s+/)
+			.filter(Boolean)}
+
+			{@const hotfixIssue = fixes.find(([hotfixId]) => hotfixId === feature.id)?.[1]}
+
+			<feature-item
+				data-text={searchText}
+				id={feature.id}
+				description={feature.description}
+				screenshot={feature.screenshot}
+				hidden={keywords.some(word => !searchText.includes(word))}
+				hotfixIssue={hotfixIssue}
+			></feature-item>
+		{/each}
+	{/await}
 </div>

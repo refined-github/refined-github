@@ -6,17 +6,15 @@
 />
 
 <script lang="ts">
-	// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair -- https://github.com/eslint-community/eslint-plugin-eslint-comments/issues/327
-	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
-	import {$$ as querySelectorAll} from 'select-dom';
+	import DomChef from '../helpers/dom-chef.svelte';
+	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
-	import {getFeatureUrl} from '../helpers/rgh-links.js';
-
-	const {id, description, screenshot}: {
+	const {id, description, screenshot, hotfixIssue}: {
 		// eslint-disable-next-line no-undef
 		id: FeatureId;
 		description: string;
 		screenshot?: string;
+		hotfixIssue?: string;
 	} = $props();
 
 	const fieldId = $derived(`field-${id}`);
@@ -45,12 +43,20 @@
 
 <input
 	type="checkbox"
-	name={`feature:${id}`}
+	name={hotfixIssue ? null : `feature:${id}`}
 	id={fieldId}
 	class="feature-checkbox"
+	disabled={!!hotfixIssue}
 >
 <div class="info">
 	<label class="feature-name" for={fieldId}>{id}</label>
+	{#if hotfixIssue}
+		<span class="hotfix-notice">
+			(Disabled due to <DomChef
+				as={() => createRghIssueLink(hotfixIssue, true)}
+			/>)
+		</span>
+	{/if}
 	<a href={getFeatureUrl(id)} class="feature-link">source</a>
 	<input
 		bind:this={screenshotToggle}
@@ -62,6 +68,7 @@
 		<a href={screenshot} class="screenshot-link" onclick={handleScreenshotClick}
 		>screenshot</a>
 	{/if}
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	<p class="description">{@html description}</p>
 	{#if screenshot}
 		<img
