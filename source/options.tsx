@@ -7,6 +7,8 @@ import 'webext-bugs/target-blank';
 import elementReady from 'element-ready';
 import {assertDefined} from 'ts-extras';
 
+import delegate, {type DelegateEvent} from 'delegate-it';
+
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {perDomainOptions} from './options-storage.js';
 import initToggleAllButtons from './options/toggle-all.js';
@@ -66,19 +68,29 @@ async function generateDom(): Promise<SyncedForm> {
 	return syncedForm;
 }
 
+function handleDomainChange(event: DelegateEvent<Event, HTMLSelectElement>): void {
+	for (const element of $$([
+		// Hot fixes are not used on GHE
+		'hot-fixes',
+		'feature-list',
+
+		// There's only one button, it doesn't depend on GHE https://github.com/refined-github/refined-github/issues/7704
+		'action-link',
+	])) {
+		element.toggleAttribute('enterprise', event.delegateTarget.value !== 'default');
+	}
+}
+
 function addEventListeners(syncedForm: SyncedForm): void {
+	// Listen independently because webext-options-sync-per-domain must run on <feature-item>s that are ready to be `checked`
+	delegate('.OptionsSyncPerDomain-picker select', 'change', handleDomainChange, {capture: true});
+
 	// Update domain-dependent page content when the domain is changed
 	syncedForm.onChange(async domain => {
 		const host = domain === 'default' ? 'github.com' : domain;
 
 		// Point the link to the right domain
 		$('a#personal-token-link').host = host;
-
-		// Hot fixes are not used on GHE
-		$('hot-fixes').toggleAttribute('enterprise', domain !== 'default');
-
-		// Hide "Button link" on GHE domains https://github.com/refined-github/refined-github/issues/7704
-		$('action-link').toggleAttribute('enterprise', domain !== 'default');
 
 		for (const element of $$('storage-usage[item]')) {
 			element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
