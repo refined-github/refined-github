@@ -38,7 +38,7 @@ const rollup = {
 		'options-components': './source/options/svelte-components.ts',
 		welcome: './source/welcome.svelte',
 		graphql: './source/graphql.svelte',
-		header: './source/options/header.svelte',
+		header: './source/options/header.svelte', // Also used by welcome and graphql
 
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',

@@ -25,6 +25,7 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 async function markLocalHotfixes(): Promise<void> {
+	// TODO: This shouldn't affect the list when it's switched to GHE
 	for (const [feature, relatedIssue] of await getLocalHotfixes()) {
 		if (!importedFeatures.includes(feature)) {
 			continue;
