@@ -2,6 +2,7 @@
 import './action-link.svelte';
 import './background-status.svelte';
 import './feature-finder.svelte';
+import './feature-item.svelte';
 import './handle-expand.svelte';
 import './hot-fixes.svelte';
 import './rate-link.svelte';

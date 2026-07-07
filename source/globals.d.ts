@@ -76,6 +76,7 @@ declare namespace JSX {
 		'action-list': IntrinsicElements.HTMLELement;
 		'segmented-control': IntrinsicElements.HTMLElement;
 		'tool-tip': IntrinsicElements.HTMLElement & {for?: string};
+		'feature-item': IntrinsicElements.HTMLElement & {id: string; 'data-text': string};
 	}
 
 	type BaseElement = IntrinsicElements['div'];
