@@ -25,9 +25,7 @@
 					type="url"
 					name="actionUrl"
 					placeholder="https://example.com"
-					spellcheck="false"
 					autocomplete="off"
-					autocapitalize="off"
 				>
 			</p>
 			<p>If left empty, clicking it will open this options page.</p>
