@@ -15,7 +15,6 @@ function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaE
 }
 
 async function generateDom(): Promise<SyncedForm> {
-	// Generate list
 	await initFeatureList();
 
 	// Update list from saved options

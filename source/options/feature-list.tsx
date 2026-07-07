@@ -1,4 +1,5 @@
 import delegate from 'delegate-it';
+import elementReady from 'element-ready';
 import {$, $$, countElements} from 'select-dom';
 
 import {featuresMeta} from '../feature-data.js';
@@ -46,9 +47,9 @@ export default async function initFeatureList(): Promise<void> {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(500),
 	});
+
 	// Add feature count. CSS-only features are added approximately
 	$('.features-header').append(`: ${featuresMeta.length + 25} `, offCount);
-
 	delegate('.feature-checkbox', 'change', updateOffCount);
 }
 

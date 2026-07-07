@@ -6,6 +6,8 @@
 />
 
 <script lang="ts">
+	import {$$ as querySelectorAll} from 'select-dom';
+
 	import DomChef from '../helpers/dom-chef.svelte';
 	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
@@ -46,7 +48,7 @@
 	name={hotfixIssue ? null : `feature:${id}`}
 	id={fieldId}
 	class="feature-checkbox"
-	disabled={!!hotfixIssue}
+	disabled={Boolean(hotfixIssue)}
 >
 <div class="info">
 	<label class="feature-name" for={fieldId}>{id}</label>
@@ -156,5 +158,9 @@
 
 	.screenshot-toggle:checked ~ .screenshot {
 		display: block;
+	}
+
+	.hotfix-notice {
+		color: var(--rgh-red, #cf222e);
 	}
 </style>
