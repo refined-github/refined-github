@@ -10,13 +10,22 @@
 	/* eslint-disable svelte/no-at-html-tags -- Not user-provided */
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
 
-	// eslint-disable-next-line no-undef
-	const {id, description, screenshot}: {id: FeatureId; description: string; screenshot?: string} = $props();
+	const {id, description, screenshot}: {
+		// eslint-disable-next-line no-undef
+		id: FeatureId;
+		description: string;
+		screenshot?: string;
+	} = $props();
 
-	const fieldId = `field-${id}`;
+	const fieldId = $derived(`field-${id}`);
 </script>
 
-<input type="checkbox" name={`feature:${id}`} id={fieldId} class="feature-checkbox">
+<input
+	type="checkbox"
+	name={`feature:${id}`}
+	id={fieldId}
+	class="feature-checkbox"
+>
 <div class="info">
 	<label class="feature-name" for={fieldId}>{id}</label>
 	<a href={getFeatureUrl(id)} class="feature-link">source</a>
@@ -26,7 +35,13 @@
 	{/if}
 	<p class="description">{@html description}</p>
 	{#if screenshot}
-		<img hidden src={screenshot} loading="lazy" class="screenshot" alt={`Screenshot of ${id} feature`} />
+		<img
+			hidden
+			src={screenshot}
+			loading="lazy"
+			class="screenshot"
+			alt={`Screenshot of ${id} feature`}
+		/>
 	{/if}
 </div>
 
@@ -71,7 +86,9 @@
 		text-decoration: line-through;
 	}
 
-	:global(feature-item:has(.feature-checkbox:disabled) > *:not(.hotfix-notice)) {
+	:global(
+		feature-item:has(.feature-checkbox:disabled) > *:not(.hotfix-notice)
+	) {
 		opacity: 50%;
 	}
 
