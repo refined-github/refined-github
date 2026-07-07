@@ -1,6 +1,7 @@
 /* eslint-disable import-x/no-unassigned-import -- Custom elements */
 import './action-link.svelte';
 import './background-status.svelte';
+import './feature-count.svelte';
 import './feature-finder.svelte';
 import './feature-item.svelte';
 import './feature-list.svelte';

@@ -4,18 +4,48 @@ import {enableTabToIndent} from 'indent-textarea';
 import {$, $$} from 'select-dom';
 import type {SyncedForm} from 'webext-options-sync-per-domain';
 import 'webext-bugs/target-blank';
+import elementReady from 'element-ready';
+import {assertDefined} from 'ts-extras';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {perDomainOptions} from './options-storage.js';
-import initFeatureList, {updateListDom} from './options/feature-list.js';
 import initToggleAllButtons from './options/toggle-all.js';
+
+function moveDisabledFeaturesToTop(): void {
+	const container = $('.js-features');
+	const features = $$('feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
+	const grouped = Object.groupBy(features, feature => {
+		const checkbox = $('input.feature-checkbox', feature);
+		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
+	});
+
+	for (const group of [grouped.off, grouped.broken, grouped.on]) {
+		if (group) {
+			for (const feature of group) {
+				container.append(feature);
+			}
+		}
+	}
+}
+
+function updateListDom(): void {
+	moveDisabledFeaturesToTop();
+
+	// Notify <feature-count> that the DOM state has updated
+	globalThis.dispatchEvent(new CustomEvent('rgh:update-count'));
+}
 
 function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaElement): void {
 	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
 }
 
 async function generateDom(): Promise<SyncedForm> {
-	await initFeatureList();
+	const element = await elementReady('.js-features', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(500),
+	});
+
+	assertDefined(element);
 
 	// Update list from saved options
 	const syncedForm = await perDomainOptions.syncForm('form');
