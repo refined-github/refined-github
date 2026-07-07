@@ -119,7 +119,8 @@
 				<img
 					src={meta.screenshot}
 					class="d-block border"
-					style="max-height: 100px; max-width: 150px"
+					style:max-height="100px"
+					style:max-width="150px"
 					alt=""
 				/>
 			</a>
