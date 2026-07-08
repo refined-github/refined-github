@@ -38,34 +38,32 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	container.parentElement!.append(
-		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
-			{tooltipped(
-				'Add a table',
-				<summary
-					className="Button Button--iconOnly Button--invisible Button--medium"
-					role="button"
-					aria-haspopup="menu"
-				>
-					<TableIcon />
-				</summary>,
-			)}
-			<details-menu
-				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
-				role="menu"
+	container.parentElement!.append(<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
+		{tooltipped(
+			'Add a table',
+			<summary
+				className="Button Button--iconOnly Button--invisible Button--medium"
+				role="button"
+				aria-haspopup="menu"
 			>
-				{Array.from({length: 25}, (_, index) => (
-					<button
-						type="button"
-						role="menuitem"
-						className="rgh-tic btn-link"
-						data-x={(index % 5) + 1}
-						data-y={Math.floor(index / 5) + 1}
-					/>
-				))}
-			</details-menu>
-		</details>,
-	);
+				<TableIcon />
+			</summary>,
+		)}
+		<details-menu
+			className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
+			role="menu"
+		>
+			{Array.from({length: 25}, (_, index) => (
+				<button
+					type="button"
+					role="menuitem"
+					className="rgh-tic btn-link"
+					data-x={(index % 5) + 1}
+					data-y={Math.floor(index / 5) + 1}
+				/>
+			))}
+		</details-menu>
+	</details>);
 }
 
 function init(signal: AbortSignal): void {

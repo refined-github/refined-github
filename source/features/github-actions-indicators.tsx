@@ -66,8 +66,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			}
 
 			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[\s"':]+(?<cron>[^\n"']+)/gm)].map(match =>
-				match.groups!.cron,
-			);
+				match.groups!.cron);
 			details[workflow.name] = {
 				...workflow,
 				schedules: crons,
@@ -96,19 +95,17 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			// User can trigger the workflow
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
-			workflowLink.after(
-				tooltipped(
-					{label: 'Trigger manually', direction: 'sw'},
-					<a
-						href={url.href}
-						data-turbo-frame={workflowLink.dataset.turboFrame}
-						// `actions-unpin-button` provides the hover style
-						className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
-					>
-						<PlayIcon />
-					</a>,
-				),
-			);
+			workflowLink.after(tooltipped(
+				{label: 'Trigger manually', direction: 'sw'},
+				<a
+					href={url.href}
+					data-turbo-frame={workflowLink.dataset.turboFrame}
+					// `actions-unpin-button` provides the hover style
+					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+				>
+					<PlayIcon />
+				</a>,
+			));
 		} else {
 			// User cannot trigger the workflow
 			const indicator = tooltipped(
@@ -145,11 +142,9 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('.ActionListItem-label', workflowLink).append(
-		<em>
-			(<relative-time datetime={String(nextTime)} />)
-		</em>,
-	);
+	$('.ActionListItem-label', workflowLink).append(<em>
+		(<relative-time datetime={String(nextTime)} />)
+	</em>);
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {

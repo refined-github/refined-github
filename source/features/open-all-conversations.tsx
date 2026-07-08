@@ -24,8 +24,7 @@ function onButtonClick(): void {
 			// TODO [2026-01-01]: Pre-React selector; Drop
 			'.js-issue-row.selected',
 			'[aria-label^="Selected"]',
-		], link),
-	);
+		], link));
 
 	const linksToOpen = selectedLinks.length > 0
 		? selectedLinks
@@ -47,16 +46,14 @@ function add(anchor: HTMLElement): void {
 		: isSelected
 			? 'btn'
 			: 'btn btn-sm';
-	anchor.prepend(
-		<button
-			type="button"
-			className={cx('rgh-open-all-conversations', classes)}
-		>
-			{isSelected
-				? 'Open selected'
-				: 'Open all'}
-		</button>,
-	);
+	anchor.prepend(<button
+		type="button"
+		className={cx('rgh-open-all-conversations', classes)}
+	>
+		{isSelected
+			? 'Open selected'
+			: 'Open all'}
+	</button>);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {

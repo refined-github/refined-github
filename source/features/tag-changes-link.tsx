@@ -124,28 +124,24 @@ async function init(): Promise<void> {
 				|| pageDetect.isTags()
 				|| (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
 			) {
-				lastLink.after(
-					<li className={cx(lastLink.className, 'rgh-changelog-link')}>
-						{compareLink}
-					</li>,
-				);
+				lastLink.after(<li className={cx(lastLink.className, 'rgh-changelog-link')}>
+					{compareLink}
+				</li>);
 				// Fix spacing issue when the window is < 700px wide https://github.com/refined-github/refined-github/pull/3841#issuecomment-754325056
 				lastLink.classList.remove('flex-auto');
 				continue;
 			}
 
-			lastLink.parentElement!.after(
-				<div
-					className={cx(
-						'rgh-changelog-link mr-4 tmp-mr-3',
-						pageDetect.isReleases()
-							? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0'
-							: 'mb-2 tmp-mb-2',
-					)}
-				>
-					{compareLink}
-				</div>,
-			);
+			lastLink.parentElement!.after(<div
+				className={cx(
+					'rgh-changelog-link mr-4 tmp-mr-3',
+					pageDetect.isReleases()
+						? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0'
+						: 'mb-2 tmp-mb-2',
+				)}
+			>
+				{compareLink}
+			</div>);
 			if (pageDetect.isReleases()) {
 				lastLink.classList.remove('mb-2');
 				lastLink.parentElement!.classList.remove('mb-md-2');

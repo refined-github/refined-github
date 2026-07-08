@@ -46,16 +46,14 @@ function createReleaseUrl(): string {
 }
 
 function addTagToHeader(tagName: string, tagUrl: string, relativeTime: HTMLElement): void {
-	relativeTime.parentElement!.append(
-		<a
-			href={tagUrl}
-			className="text-bold Link--primary no-underline"
-			title={`${tagName} was the first Git tag to include this pull request`}
-		>
-			<TagIcon className="ml-2 tmp-ml-2 mr-1 tmp-mr-1 color-fg-muted" />
-			{tagName}
-		</a>,
-	);
+	relativeTime.parentElement!.append(<a
+		href={tagUrl}
+		className="text-bold Link--primary no-underline"
+		title={`${tagName} was the first Git tag to include this pull request`}
+	>
+		<TagIcon className="ml-2 tmp-ml-2 mr-1 tmp-mr-1 color-fg-muted" />
+		{tagName}
+	</a>);
 }
 
 function addTagToFooter(tagName: string, tagUrl: string, signal: AbortSignal): void {
@@ -63,17 +61,15 @@ function addTagToFooter(tagName: string, tagUrl: string, signal: AbortSignal): v
 	// https://github.com/refined-github/refined-github/issues/9460
 	observe(commentBoxHashPr, anchor => {
 		const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-		anchor.before(
-			<TimelineItem>
-				{createBanner({
-					icon: <TagIcon className="m-0 tmp-m-0" />,
-					text: <>
-						This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
-					</>,
-					classes: ['flash-success', 'rgh-bg-none'],
-				})}
-			</TimelineItem>,
-		);
+		anchor.before(<TimelineItem>
+			{createBanner({
+				icon: <TagIcon className="m-0 tmp-m-0" />,
+				text: <>
+					This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
+				</>,
+				classes: ['flash-success', 'rgh-bg-none'],
+			})}
+		</TimelineItem>);
 	}, {signal});
 }
 
@@ -100,11 +96,9 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 	// Use observer because GitHub might remove the box
 	// https://github.com/refined-github/refined-github/issues/9460
 	observe(commentBoxHashPr, anchor => {
-		anchor.before(
-			<TimelineItem>
-				{createBanner(bannerContent)}
-			</TimelineItem>,
-		);
+		anchor.before(<TimelineItem>
+			{createBanner(bannerContent)}
+		</TimelineItem>);
 	}, {signal});
 }
 

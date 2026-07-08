@@ -47,8 +47,7 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 			// .rgh class enables tweakers to hide the number
 			<span className="text-small color-fg-muted">
 				<span className="rgh-pinned-issue-number">#{issueNumber}</span> updated <relative-time datetime={updatedAt} />
-			</span>,
-		);
+			</span>);
 
 		issueMetadata.hidden = true;
 	}

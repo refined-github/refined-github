@@ -12,11 +12,9 @@ import observe from '../helpers/selector-observer.js';
 function extract(textarea: HTMLTextAreaElement): void {
 	// eslint-disable-next-line regexp/prefer-named-capture-group -- Verbose
 	replaceFieldText(textarea, /<!--(.+)-->\n/s, (_, match) => {
-		closestElement('tab-container', textarea).before(
-			<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 tmp-mb-3 p-3 tmp-p-3">
-				{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
-			</div>,
-		);
+		closestElement('tab-container', textarea).before(<div style={{whiteSpace: 'pre-wrap'}} className="flash mb-3 tmp-mb-3 p-3 tmp-p-3">
+			{linkifyUrlsToDom(match.trim(), {value: url => shortenRepoUrl(url, location.href)})}
+		</div>);
 
 		return '';
 	});

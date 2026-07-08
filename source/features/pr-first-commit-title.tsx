@@ -59,11 +59,9 @@ function init(signal: AbortSignal): void {
 function hasUserAlteredThePr(): boolean {
 	// There might not be a previous session
 	const sessionResumeId = $optional('meta[name="session-resume-id"]')?.content;
-	return Boolean(
-		sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
+	return Boolean(sessionStorage.getItem(`copilot-generate-pull-title:${location.pathname}`)
 		// Remove after August 2026
-		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)),
-	);
+		?? (sessionResumeId && sessionStorage.getItem(`session-resume:${sessionResumeId}`)));
 }
 
 void features.add(import.meta.url, {

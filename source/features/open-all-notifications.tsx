@@ -75,23 +75,21 @@ async function openSelectedNotifications(): Promise<void> {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	selectedActionsGroup.append(
-		tooltipped(
-			{
-				label: 'Open selected notifications',
-				shortcut: 'p',
-			},
-			(
-				<button
-					type="button"
-					className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
-					data-hotkey="p"
-				>
-					<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
-				</button>
-			),
+	selectedActionsGroup.append(tooltipped(
+		{
+			label: 'Open selected notifications',
+			shortcut: 'p',
+		},
+		(
+			<button
+				type="button"
+				className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
+				data-hotkey="p"
+			>
+				<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
+			</button>
 		),
-	);
+	));
 }
 
 function addToRepoGroup(markReadButton: HTMLElement): void {
@@ -100,17 +98,15 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 		return;
 	}
 
-	markReadButton.before(
-		tooltipped(
-			{label: 'Open all unread notifications from this repo', direction: 'w'},
-			<button
-				type="button"
-				className={cx('btn btn-sm mr-2 tmp-mr-2', openUnread.class)}
-			>
-				<LinkExternalIcon width={16} /> Open unread
-			</button>,
-		),
-	);
+	markReadButton.before(tooltipped(
+		{label: 'Open all unread notifications from this repo', direction: 'w'},
+		<button
+			type="button"
+			className={cx('btn btn-sm mr-2 tmp-mr-2', openUnread.class)}
+		>
+			<LinkExternalIcon width={16} /> Open unread
+		</button>,
+	));
 }
 
 function addToMainHeader(notificationHeader: HTMLElement): void {
@@ -118,11 +114,9 @@ function addToMainHeader(notificationHeader: HTMLElement): void {
 		return;
 	}
 
-	notificationHeader.append(
-		<button className={cx('btn btn-sm ml-auto d-none', openUnread.class)} type="button">
-			<LinkExternalIcon className="mr-1 tmp-mr-1" />Open all unread
-		</button>,
-	);
+	notificationHeader.append(<button className={cx('btn btn-sm ml-auto d-none', openUnread.class)} type="button">
+		<LinkExternalIcon className="mr-1 tmp-mr-1" />Open all unread
+	</button>);
 }
 
 function init(signal: AbortSignal): void {

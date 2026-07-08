@@ -40,17 +40,15 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	for (const pr of prConfigs) {
 		const {mergeable, state, isDraft} = data[pr.key].pullRequest;
 		if (mergeable === 'CONFLICTING' && (state === 'OPEN' || isDraft)) {
-			pr.link.after(
-				tooltipped(
-					{label: 'This PR has conflicts that must be resolved', direction: 'e'},
-					<a
-						className="rgh-conflict-marker color-fg-muted ml-2 tmp-ml-2"
-						href={pr.link.pathname + commentBoxHashPr}
-					>
-						<AlertIcon className="v-align-middle" />
-					</a>,
-				),
-			);
+			pr.link.after(tooltipped(
+				{label: 'This PR has conflicts that must be resolved', direction: 'e'},
+				<a
+					className="rgh-conflict-marker color-fg-muted ml-2 tmp-ml-2"
+					href={pr.link.pathname + commentBoxHashPr}
+				>
+					<AlertIcon className="v-align-middle" />
+				</a>,
+			));
 		}
 	}
 }

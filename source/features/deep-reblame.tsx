@@ -16,36 +16,32 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
 
-const getPullRequestBlameCommit = mem(
-	async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
-		const {repository} = await api.v4(GetPullRequestBlameCommit, {
-			variables: {
-				commit,
-				file: commit + ':' + currentFilename,
-			},
-		});
+const getPullRequestBlameCommit = mem(async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
+	const {repository} = await api.v4(GetPullRequestBlameCommit, {
+		variables: {
+			commit,
+			file: commit + ':' + currentFilename,
+		},
+	});
 
-		const associatedPr = repository.object.associatedPullRequests.nodes[0];
+	const associatedPr = repository.object.associatedPullRequests.nodes[0];
 
-		if (!associatedPr || !prNumbers.includes(associatedPr.number) || associatedPr.mergeCommit.oid !== commit) {
-			throw new Error('The PR linked in the title didn’t create this commit');
-		}
+	if (!associatedPr || !prNumbers.includes(associatedPr.number) || associatedPr.mergeCommit.oid !== commit) {
+		throw new Error('The PR linked in the title didn’t create this commit');
+	}
 
-		if (!repository.file) {
-			throw new Error('The file was renamed and Refined GitHub can’t find it');
-		}
+	if (!repository.file) {
+		throw new Error('The file was renamed and Refined GitHub can’t find it');
+	}
 
-		return associatedPr.commits.nodes[0].commit.oid;
-	},
-);
+	return associatedPr.commits.nodes[0].commit.oid;
+});
 
 function extractCommitFromHoverCardUrl(url: string): string {
 	return /[/]commit[/](?<commit>[0-9a-f]{40})[/]/i.exec(url)!.groups!.commit;
 }
 
-async function redirectToBlameCommit(
-	event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>,
-): Promise<void> {
+async function redirectToBlameCommit(event: DelegateEvent<MouseEvent, HTMLAnchorElement | HTMLButtonElement>): Promise<void> {
 	const blameElement = event.delegateTarget;
 	if (blameElement instanceof HTMLAnchorElement && !event.altKey) {
 		return; // Unmodified click on regular link: let it proceed
@@ -79,18 +75,16 @@ function addButton(hunk: HTMLElement): void {
 		);
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {
-		$('.timestamp-wrapper-mobile', hunk).after(
-			<button
-				type="button"
-				aria-label={multilineAriaLabel(
-					'View blame prior to this change',
-					'(extracts commits from this PR first)',
-				)}
-				className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
-			>
-				<VersionsIcon />
-			</button>,
-		);
+		$('.timestamp-wrapper-mobile', hunk).after(<button
+			type="button"
+			aria-label={multilineAriaLabel(
+				'View blame prior to this change',
+				'(extracts commits from this PR first)',
+			)}
+			className="rgh-deep-reblame Button Button--iconOnly Button--invisible Button--small d-flex"
+		>
+			<VersionsIcon />
+		</button>);
 	}
 }
 

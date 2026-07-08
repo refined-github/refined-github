@@ -47,14 +47,12 @@ function attachButton(editButton: HTMLAnchorElement): void {
 		return;
 	}
 
-	editButton.before(
-		<button
-			type="button"
-			className="Button Button--secondary Button--small ml-3 tmp-ml-3 mr-1 tmp-mr-1 rgh-convert-draft"
-		>
-			Convert to draft
-		</button>,
-	);
+	editButton.before(<button
+		type="button"
+		className="Button Button--secondary Button--small ml-3 tmp-ml-3 mr-1 tmp-mr-1 rgh-convert-draft"
+	>
+		Convert to draft
+	</button>);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {

@@ -13,18 +13,16 @@ import observe from '../helpers/selector-observer.js';
 function transform(button: HTMLButtonElement): JSX.Element {
 	const [buttonLabel] = button.textContent.trim().split(' ');
 	const clonedForm = button.form!.cloneNode(true);
-	$('button', clonedForm).replaceWith(
-		<button
-			className="Button--invisible Button--medium Button Button--invisible-noVisuals"
-			type="submit"
-		>
-			<span className="Button-content">
-				<span className="Button-label" data-content={buttonLabel}>
-					{buttonLabel}
-				</span>
+	$('button', clonedForm).replaceWith(<button
+		className="Button--invisible Button--medium Button Button--invisible-noVisuals"
+		type="submit"
+	>
+		<span className="Button-content">
+			<span className="Button-label" data-content={buttonLabel}>
+				{buttonLabel}
 			</span>
-		</button>,
-	);
+		</span>
+	</button>);
 
 	return (
 		<li
@@ -41,17 +39,15 @@ function replaceDropdown(dropdown: Element): void {
 	const label = $('.Button-label .color-fg-muted', dropdown).textContent.trim();
 	const buttons = $$('button.ActionListContent', dropdown);
 	dropdown.classList.add('width-full', 'width-auto');
-	dropdown.replaceChildren(
-		<segmented-control>
-			<ul
-				className="SegmentedControl--medium SegmentedControl"
-				role="list"
-				aria-label={label}
-			>
-				{buttons.map(button => transform(button))}
-			</ul>
-		</segmented-control>,
-	);
+	dropdown.replaceChildren(<segmented-control>
+		<ul
+			className="SegmentedControl--medium SegmentedControl"
+			role="list"
+			aria-label={label}
+		>
+			{buttons.map(button => transform(button))}
+		</ul>
+	</segmented-control>);
 }
 
 function compactDropdown(dropdown: Element): void {

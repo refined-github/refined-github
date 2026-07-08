@@ -73,17 +73,15 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		hash?.style.setProperty('min-width', '100px');
 
 		// Add at the beginning of the line to avoid content shift
-		assetSize.parentElement!.prepend(
-			<span className={cx(getClasses(assetSize))}>
-				<span
-					className="d-inline-block text-right"
-					title={`${downloadCount} downloads`}
-					data-rgh-heat={calculateHeatIndex(downloadCount)}
-				>
-					{abbreviateNumber(downloadCount)} <DownloadIcon />
-				</span>
-			</span>,
-		);
+		assetSize.parentElement!.prepend(<span className={cx(getClasses(assetSize))}>
+			<span
+				className="d-inline-block text-right"
+				title={`${downloadCount} downloads`}
+				data-rgh-heat={calculateHeatIndex(downloadCount)}
+			>
+				{abbreviateNumber(downloadCount)} <DownloadIcon />
+			</span>
+		</span>);
 
 		// Unset all margin we added `gap` like sane people.
 		// Unset via JS because we can't override utility classes.

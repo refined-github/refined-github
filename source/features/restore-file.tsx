@@ -150,15 +150,13 @@ async function handleClick(event: DelegateEvent<MouseEvent, HTMLButtonElement>):
 
 // Legacy view handler
 function addLegacyMenuItem(editFile: HTMLAnchorElement): void {
-	editFile.after(
-		<button
-			className="pl-5 tmp-pl-5 dropdown-item btn-link rgh-restore-file"
-			role="menuitem"
-			type="button"
-		>
-			Discard changes
-		</button>,
-	);
+	editFile.after(<button
+		className="pl-5 tmp-pl-5 dropdown-item btn-link rgh-restore-file"
+		role="menuitem"
+		type="button"
+	>
+		Discard changes
+	</button>);
 }
 
 function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {

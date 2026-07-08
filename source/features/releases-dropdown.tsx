@@ -45,15 +45,13 @@ async function addList(searchField: HTMLInputElement): Promise<void> {
 	const hidePreReleases = new URLSearchParams(location.search).get('q')?.includes('prerelease:false');
 
 	searchField.setAttribute('list', 'rgh-releases-dropdown');
-	searchField.after(
-		<datalist id="rgh-releases-dropdown">
-			<option
-				value="prerelease:false"
-				selected={hidePreReleases}
-			/>
-			{releases.map(tag => <option value={tag} />)}
-		</datalist>,
-	);
+	searchField.after(<datalist id="rgh-releases-dropdown">
+		<option
+			value="prerelease:false"
+			selected={hidePreReleases}
+		/>
+		{releases.map(tag => <option value={tag} />)}
+	</datalist>);
 }
 
 const searchFieldSelector = 'input#release-filter';

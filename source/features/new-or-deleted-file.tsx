@@ -32,9 +32,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 	const icon = $optional(['.octicon-diff-removed', '.octicon-diff-added'], fileInList);
 	if (icon) {
 		// `span` needed for native vertical alignment
-		filename.parentElement!.append(
-			<span className="ml-1 tmp-ml-1">{icon.cloneNode(true)}</span>,
-		);
+		filename.parentElement!.append(<span className="ml-1 tmp-ml-1">{icon.cloneNode(true)}</span>);
 	}
 }
 

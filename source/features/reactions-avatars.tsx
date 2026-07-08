@@ -76,18 +76,16 @@ function showAvatarsOn(reactionsContainer: Element): void {
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
 	for (const {button, username, imageUrl} of flatParticipants) {
-		button.append(
-			<span className="avatar-user avatar rgh-reactions-avatar p-0 tmp-p-0 flex-self-center">
-				<img
-					src={imageUrl}
-					className="d-block"
-					width={avatarSize}
-					height={avatarSize}
-					alt={`@${username}`}
-					loading="lazy"
-				/>
-			</span>,
-		);
+		button.append(<span className="avatar-user avatar rgh-reactions-avatar p-0 tmp-p-0 flex-self-center">
+			<img
+				src={imageUrl}
+				className="d-block"
+				width={avatarSize}
+				height={avatarSize}
+				alt={`@${username}`}
+				loading="lazy"
+			/>
+		</span>);
 	}
 }
 

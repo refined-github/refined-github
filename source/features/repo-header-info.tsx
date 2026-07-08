@@ -75,20 +75,18 @@ function addStars(repoLink: HTMLElement, stargazerCount: number, viewerHasStarre
 
 	prepareForAddition(repoLink);
 
-	repoLink.after(
-		<a
-			href={buildRepoUrl('stargazers')}
-			title={tooltip}
-			// Hide in small viewports
-			className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
-		>
-			{viewerHasStarred
-				// Use `color` because `fill` is overridden with `currentColor`
-				? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
-				: <StarIcon width={12} height={12} />}
-			<span className="f5">{abbreviateNumber(stargazerCount)}</span>
-		</a>,
-	);
+	repoLink.after(<a
+		href={buildRepoUrl('stargazers')}
+		title={tooltip}
+		// Hide in small viewports
+		className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
+	>
+		{viewerHasStarred
+		// Use `color` because `fill` is overridden with `currentColor`
+			? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
+			: <StarIcon width={12} height={12} />}
+		<span className="f5">{abbreviateNumber(stargazerCount)}</span>
+	</a>);
 }
 
 function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
@@ -99,14 +97,12 @@ function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
 	prepareForAddition(repoLink);
 	// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
 	$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-	repoLink.after(
-		<a
-			href={forked.url}
-			className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
-		>
-			<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
-		</a>,
-	);
+	repoLink.after(<a
+		href={forked.url}
+		className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+	>
+		<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
+	</a>);
 }
 
 function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
@@ -130,8 +126,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 					data-targets="batch-deferred-content.inputs"
 				/>
 			</batch-deferred-content>
-		</span>,
-	);
+		</span>);
 
 	// A parent is clipping the popup
 	closestElementOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');

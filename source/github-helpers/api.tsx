@@ -132,21 +132,15 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 	}
 
 	if (apiResponse.message === 'Bad credentials') {
-		return new RefinedGitHubApiError(
-			'The token seems to be incorrect or expired. Update it in the options.',
-		);
+		return new RefinedGitHubApiError('The token seems to be incorrect or expired. Update it in the options.');
 	}
 
 	if ((apiResponse.message as string)?.includes('without `workflow` scope')) {
-		return new RefinedGitHubApiError(
-			'To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens',
-		);
+		return new RefinedGitHubApiError('To update workflow files, you need to add the `workflow` scope to your token. Update your token at https://github.com/settings/tokens');
 	}
 
 	if ((apiResponse.message as string)?.includes('Resource not accessible by personal access token')) {
-		const error = new RefinedGitHubApiError(
-			'Your organization requires a specific type of token.',
-		);
+		const error = new RefinedGitHubApiError('Your organization requires a specific type of token.');
 		error.richMessage = <>
 			Your organization requires a specific type of token.{' '}
 			<a

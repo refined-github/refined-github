@@ -57,20 +57,18 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 
 function addButton(avatar: HTMLElement): void {
 	const userMention = getCommentAuthor(avatar);
-	avatar.after(
-		tooltipped(
-			{
-				label: `Mention ${prefixUserMention(userMention)} in a new comment`,
-				direction: 'e',
-			},
-			<button
-				type="button"
-				className="rgh-quick-mention btn-link"
-			>
-				<ReplyIcon />
-			</button>,
-		),
-	);
+	avatar.after(tooltipped(
+		{
+			label: `Mention ${prefixUserMention(userMention)} in a new comment`,
+			direction: 'e',
+		},
+		<button
+			type="button"
+			className="rgh-quick-mention btn-link"
+		>
+			<ReplyIcon />
+		</button>,
+	));
 }
 
 function addButtonPr(avatar: HTMLElement): void {

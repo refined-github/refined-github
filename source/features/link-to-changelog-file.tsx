@@ -50,17 +50,15 @@ async function init(): Promise<void | false> {
 	];
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
-	navbar!.append(
-		tooltipped(
-			{label: `View the ${changelog} file`, direction: 'n'},
-			<a
-				className="subnav-item"
-				href={buildRepoUrl('blob', 'HEAD', changelog)}
-			>
-				<span>Changelog</span>
-			</a>,
-		),
-	);
+	navbar!.append(tooltipped(
+		{label: `View the ${changelog} file`, direction: 'n'},
+		<a
+			className="subnav-item"
+			href={buildRepoUrl('blob', 'HEAD', changelog)}
+		>
+			<span>Changelog</span>
+		</a>,
+	));
 }
 
 void features.add(import.meta.url, {

@@ -80,18 +80,16 @@ function addShortcutTooltip(button: HTMLElement): void {
 }
 
 function addButton(header: HTMLElement): void {
-	header.prepend(
-		<li>
-			<a
-				href={buildRepoUrl('settings', buttonHashSelector)}
-				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
-				title={tooltip}
-			>
-				<TrashIcon className="mr-2 tmp-mr-2" />
-				Delete fork
-			</a>
-		</li>,
-	);
+	header.prepend(<li>
+		<a
+			href={buildRepoUrl('settings', buttonHashSelector)}
+			className="btn btn-sm btn-danger rgh-quick-repo-deletion"
+			title={tooltip}
+		>
+			<TrashIcon className="mr-2 tmp-mr-2" />
+			Delete fork
+		</a>
+	</li>);
 }
 
 function autoFill(field: HTMLInputElement): void {

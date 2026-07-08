@@ -27,8 +27,7 @@ async function verify(header: HTMLElement): Promise<void> {
 					Write API calls are blocked because your <OptionsLink className="btn-link">Refined GitHub token</OptionsLink>{' '}
 					belongs to <code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.
 				</span>
-			</div>,
-		);
+			</div>);
 	}
 }
 

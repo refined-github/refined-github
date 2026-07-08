@@ -68,8 +68,7 @@ function add(blueprintRow: HTMLElement): void {
 				type="checkbox"
 				id="rgh-disable-project"
 			/>
-		</label>,
-	);
+		</label>);
 	control.classList.add('d-flex', 'flex-items-center');
 
 	blueprintRow.parentElement!.append(disableProjectsAndWikis);
@@ -82,22 +81,20 @@ function addOld(submitButton: HTMLElement): void {
 	}
 
 	submitButton.classList.add('mt-0'); // Normalize it. /new has margin, /:user/:repo/fork does not
-	submitButton.parentElement!.before(
-		<div className="flash flash-warn py-0 tmp-py-0 ml-n3 tmp-ml-n3 my-4 tmp-my-3">
-			<div className="form-checkbox checked">
-				<label>
-					<input
-						checked
-						type="checkbox"
-						id="rgh-disable-project"
-					/> Disable Projects and Wikis
-				</label>
-				<span className="note mb-2 tmp-mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
-				</span>
-			</div>
-		</div>,
-	);
+	submitButton.parentElement!.before(<div className="flash flash-warn py-0 tmp-py-0 ml-n3 tmp-ml-n3 my-4 tmp-my-3">
+		<div className="form-checkbox checked">
+			<label>
+				<input
+					checked
+					type="checkbox"
+					id="rgh-disable-project"
+				/> Disable Projects and Wikis
+			</label>
+			<span className="note mb-2 tmp-mb-2">
+				After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+			</span>
+		</div>
+	</div>);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

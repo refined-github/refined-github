@@ -10,9 +10,7 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 import preserveScroll from '../helpers/preserve-scroll.js';
 import observe from '../helpers/selector-observer.js';
 
-const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(
-	selector => `${selector}:not([href*="copilot"])`,
-);
+const botLinksCommitSelectorsExceptCopilot = botLinksCommitSelectors.map(selector => `${selector}:not([href*="copilot"])`);
 
 const dimBots = getIdentifiers(import.meta.url);
 

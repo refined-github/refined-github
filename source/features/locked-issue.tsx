@@ -23,9 +23,7 @@ function LockedIndicator(): JSX.Element {
 
 function addLockLegacy(element: HTMLElement): void {
 	const closestSticky = closestElementOptional(['.sticky-content', '.gh-header-sticky'], element);
-	element.after(
-		<LockedIndicator className={cx('mb-2 tmp-mb-2', closestSticky && 'mr-2 tmp-mr-2')} />,
-	);
+	element.after(<LockedIndicator className={cx('mb-2 tmp-mb-2', closestSticky && 'mr-2 tmp-mr-2')} />);
 }
 
 function addLock(stateLabel: HTMLElement): void {

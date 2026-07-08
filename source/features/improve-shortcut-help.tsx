@@ -19,25 +19,20 @@ const getRghShortcutsContainer = memoize(
 		const chord = $('span', shortcutItem);
 
 		$('h2', rghShortcutsContainer).textContent = 'Refined GitHub';
-		shortcutsList.replaceChildren(
-			...[...shortcutMap]
-				.toSorted(([, a], [, b]) => a.localeCompare(b))
-				.map(([hotkey, description]) => {
-					const keys = hotkey.split(' ').map(key =>
-						<span className={chord.className}>
-							{upperCaseFirst(key)}
-						</span>,
-					);
-					const currentItem = shortcutItem.cloneNode(true);
-					currentItem.firstElementChild!.textContent = description;
-					currentItem.lastElementChild!.replaceChildren(
-						<kbd className={keybindingHint.className}>
-							{joinJsx(' ', keys)}
-						</kbd>,
-					);
-					return currentItem;
-				}),
-		);
+		shortcutsList.replaceChildren(...[...shortcutMap]
+			.toSorted(([, a], [, b]) => a.localeCompare(b))
+			.map(([hotkey, description]) => {
+				const keys = hotkey.split(' ').map(key =>
+					<span className={chord.className}>
+						{upperCaseFirst(key)}
+					</span>);
+				const currentItem = shortcutItem.cloneNode(true);
+				currentItem.firstElementChild!.textContent = description;
+				currentItem.lastElementChild!.replaceChildren(<kbd className={keybindingHint.className}>
+					{joinJsx(' ', keys)}
+				</kbd>);
+				return currentItem;
+			}));
 
 		return rghShortcutsContainer;
 	},

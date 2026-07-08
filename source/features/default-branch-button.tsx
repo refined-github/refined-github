@@ -87,9 +87,7 @@ async function add(branchSelectorElement: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	selectorWrapper.before(
-		tooltipped({label: 'View on the default branch', direction: 'se'}, defaultLink),
-	);
+	selectorWrapper.before(tooltipped({label: 'View on the default branch', direction: 'se'}, defaultLink));
 	wrapButtons([defaultLink, selectorWrapper]);
 }
 
