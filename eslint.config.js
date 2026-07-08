@@ -193,7 +193,7 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts', '**/*.svelte','**/*.html', '**/*.md'],
+		files: ['**/*.js', '**/*.ts', '**/*.svelte', '**/*.html', '**/*.md'],
 		rules: {
 			...eslintConfigPrettier.rules,
 
