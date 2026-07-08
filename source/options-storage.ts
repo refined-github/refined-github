@@ -16,7 +16,7 @@ const defaults = Object.assign({
 
 export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare, unicorn/no-unnecessary-boolean-comparison
+	// eslint-disable-next-line unicorn/no-unnecessary-boolean-comparison
 	return options[`feature:${id}`] === false;
 }
 

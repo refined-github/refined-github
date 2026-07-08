@@ -12,6 +12,7 @@ function navigateToCommits(branch: string, pathname: string): void {
 	link.title = `Recent Commits to ava:${branch}`;
 	location.pathname = pathname;
 }
+
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getGitRef', () => {
 	// Error testing

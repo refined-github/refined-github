@@ -42,8 +42,6 @@ async function fromApi(repository: NameWithOwner): Promise<string> {
 export const defaultBranchOfRepo = new CachedFunction('default-branch', {
 	// DO NOT use optional arguments/defaults in "cached functions" because they can't be memoized effectively
 	// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
-	// eslint-disable-next-line jsdoc/require-description, jsdoc/check-tag-names
-	/** @isolated */
 	async updater(repository: NameWithOwner): Promise<string> {
 		if (!repository) {
 			throw new Error('getDefaultBranch was called on a non-repository page');
