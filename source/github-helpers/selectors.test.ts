@@ -1,5 +1,4 @@
 import filenamify from 'filenamify';
-import {parseHTML} from 'linkedom';
 import {access, mkdir, readFile, unlink, writeFile} from 'node:fs/promises';
 import pMemoize from 'p-memoize';
 import {$$optional} from 'select-dom';
@@ -46,6 +45,7 @@ const fetchDocument = pMemoize(async (url: string): Promise<string> => {
 });
 
 // It's broken: https://github.com/refined-github/refined-github/issues/9314
+// Also happy-dom fails to parse the selectors, so if it still says "not a valid selector" we need to switch to jsdom or a proper browser.
 describe.concurrent.skip('selectors', () => {
 	// Exclude URL arrays
 	const selectors: Array<[name: string, selector: string]> = [];
@@ -63,7 +63,9 @@ describe.concurrent.skip('selectors', () => {
 		assert.isArray(urls, `No URLs defined for "${name}"`);
 		await Promise.all(urls.map(async ([expectations, url]) => {
 			const html = await fetchDocument(url);
-			const {document} = parseHTML(html);
+			document.open();
+			document.write(html);
+			document.close();
 			const matches = $$optional(selector, document);
 			assert.equal(matches.length, expectations, `Got wrong number of matches on ${url}:\n${selector}`);
 		}));

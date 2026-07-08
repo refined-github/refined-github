@@ -109,9 +109,9 @@
 		"fast-ignore": "^2.0.0",
 		"filenamify": "^7.0.2",
 		"globals": "^17.7.0",
+		"happy-dom": "^20.10.6",
 		"highlight.js": "^11.11.1",
 		"lightningcss": "^1.32.0",
-		"linkedom": "^0.18.12",
 		"npm-run-all2": "^9.0.2",
 		"p-memoize": "^8.0.0",
 		"rollup": "^4.62.2",
@@ -129,7 +129,7 @@
 		"typed-query-selector": "^2.12.2",
 		"typescript": "^6.0.3",
 		"unplugin-lightningcss": "^0.4.5",
-		"vitest": "^4.1.9"
+		"vitest": "^4.1.10"
 	},
 	"engines": {
 		"node": ">= 24",

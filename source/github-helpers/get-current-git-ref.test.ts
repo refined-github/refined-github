@@ -1,9 +1,17 @@
 import {assert, test} from 'vitest';
 
-// @ts-expect-error JS only
-import {navigateToCommits} from '../../test/setup-file.js';
 import getCurrentGitRef, {getGitRef} from './get-current-git-ref.js';
 
+const link = document.createElement('link');
+link.rel = 'alternate';
+link.type = 'application/atom+xml';
+document.head.append(link);
+
+function navigateToCommits(branch: string, pathname: string): void {
+	link.href = `https://github.com/refined-github/refined-github/commits/${branch}.atom`;
+	link.title = `Recent Commits to ava:${branch}`;
+	location.pathname = pathname;
+}
 // The titles supplied here listed here are real, not guessed, except the error tester
 test('getGitRef', () => {
 	// Error testing

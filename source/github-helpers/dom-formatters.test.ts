@@ -1,18 +1,18 @@
-import {parseHTML} from 'linkedom';
 import {$$optional} from 'select-dom';
 import {afterEach, beforeEach, expect, test} from 'vitest';
 
-import {shortenLink} from '../source/github-helpers/dom-formatters.js';
+import {shortenLink} from './dom-formatters.js';
 
 function shortenLinksInFragment(html: string): string {
-	const {document} = parseHTML(html);
+	const template = document.createElement('template');
+	template.innerHTML = html;
 
-	const links = $$optional('a', document);
+	const links = $$optional('a', template.content);
 	for (const link of links) {
 		shortenLink(link);
 	}
 
-	return document.documentElement.outerHTML;
+	return template.innerHTML.trim();
 }
 
 const originalPathname = location.pathname;
