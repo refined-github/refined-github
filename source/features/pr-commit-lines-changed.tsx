@@ -45,18 +45,20 @@ async function add(commitHash: HTMLElement): Promise<void> {
 	const [additions, deletions] = await commitChanges.get(commitSha);
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	const {green, red, gray} = calculateDiffSquareCounts(additions, deletions);
-	commitHash.prepend(tooltipped(
-		tooltip,
-		<span className="ml-2 tmp-ml-2 d-md-block d-none diffstat">
-			<span className="color-fg-success">+{additions}</span>
-			{' '}
-			<span className="color-fg-danger">−{deletions}</span>
-			{' '}
-			{repeatItems(green, () => <span className="diffstat-block-added" />)}
-			{repeatItems(red, () => <span className="diffstat-block-deleted" />)}
-			{repeatItems(gray, () => <span className="diffstat-block-neutral" />)}
-		</span>,
-	));
+	commitHash.prepend(
+		tooltipped(
+			tooltip,
+			<span className="ml-2 tmp-ml-2 d-md-block d-none diffstat">
+				<span className="color-fg-success">+{additions}</span>
+				{' '}
+				<span className="color-fg-danger">−{deletions}</span>
+				{' '}
+				{repeatItems(green, () => <span className="diffstat-block-added" />)}
+				{repeatItems(red, () => <span className="diffstat-block-deleted" />)}
+				{repeatItems(gray, () => <span className="diffstat-block-neutral" />)}
+			</span>,
+		),
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {

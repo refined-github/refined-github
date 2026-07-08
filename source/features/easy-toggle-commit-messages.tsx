@@ -5,10 +5,12 @@ import {$optional, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 
 export function wasInteractiveElementClicked(event: DelegateEvent<MouseEvent>): boolean {
-	return Boolean(closestElementOptional(
-		['a', 'button', 'clipboard-copy', 'details'],
-		event.target as HTMLElement,
-	));
+	return Boolean(
+		closestElementOptional(
+			['a', 'button', 'clipboard-copy', 'details'],
+			event.target as HTMLElement,
+		),
+	);
 }
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
@@ -26,7 +28,9 @@ function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
 		'[data-testid="commit-row-show-description-button"]', // Commit list
 		'[data-testid="latest-commit-details-toggle"]', // File/folder
 		'.ellipsis-expander', // Compare
-	], event.delegateTarget)?.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
+	], event.delegateTarget)?.dispatchEvent(
+		new MouseEvent('click', {bubbles: true, altKey: event.altKey}),
+	);
 }
 
 const commitMessagesSelector = [

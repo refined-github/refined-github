@@ -26,21 +26,25 @@ function addDropdownItem(dropdown: HTMLElement, title: string, filterCategory: s
 		searchQuery.append(filterQuery);
 	}
 
-	dropdown.append(<a
-		href={searchQuery.href}
-		className="SelectMenu-item"
-		aria-checked={isSelected ? 'true' : 'false'}
-		role="menuitemradio"
-	>
-		<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
-		<span>{title}</span>
-	</a>);
+	dropdown.append(
+		<a
+			href={searchQuery.href}
+			className="SelectMenu-item"
+			aria-checked={isSelected ? 'true' : 'false'}
+			role="menuitemradio"
+		>
+			<CheckIcon className="SelectMenu-icon SelectMenu-icon--check" />
+			<span>{title}</span>
+		</a>,
+	);
 }
 
 function addDraftFilter(dropdown: HTMLElement): void {
-	dropdown.append(<div className="SelectMenu-divider">
-		Filter by draft pull requests
-	</div>);
+	dropdown.append(
+		<div className="SelectMenu-divider">
+			Filter by draft pull requests
+		</div>,
+	);
 
 	addDropdownItem(dropdown, 'Ready for review', 'draft', 'false');
 	addDropdownItem(dropdown, 'Not ready for review (Draft PR)', 'draft', 'true');

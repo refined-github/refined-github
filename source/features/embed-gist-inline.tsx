@@ -15,7 +15,9 @@ type GistData = {
 };
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
-const fetchGist = mem(async (url: string): Promise<GistData> => messageRuntime({fetchJson: `${url}.json`}));
+const fetchGist = mem(
+	async (url: string): Promise<GistData> => messageRuntime({fetchJson: `${url}.json`}),
+);
 
 const isOnlyChild = (link: HTMLAnchorElement): boolean =>
 	link.textContent.trim() === link.parentElement!.textContent.trim();

@@ -113,7 +113,9 @@ async function showMissingPartOnce(): Promise<void> {
 		.toReversed() // Restore order
 		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
 
-	$(['main > :first-child', '#parallax_illustration']).after(<h2 className="container mt-4 tmp-mt-3 text-center">{breadcrumbs}</h2>);
+	$(['main > :first-child', '#parallax_illustration']).after(
+		<h2 className="container mt-4 tmp-mt-3 text-center">{breadcrumbs}</h2>,
+	);
 }
 
 async function showDefaultBranchLink(): Promise<void> {
@@ -128,9 +130,11 @@ async function showDefaultBranchLink(): Promise<void> {
 		return;
 	}
 
-	$('main > .container-lg').before(<p className="container mt-4 tmp-mt-3 text-center">
-		<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
-	</p>);
+	$('main > .container-lg').before(
+		<p className="container mt-4 tmp-mt-3 text-center">
+			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
+		</p>,
+	);
 }
 
 async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
@@ -193,9 +197,11 @@ async function initPrCommitOnce(): Promise<void | false> {
 	}
 
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
-	blankSlateParagraph!.after(<p>
-		You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
-	</p>);
+	blankSlateParagraph!.after(
+		<p>
+			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+		</p>,
+	);
 }
 
 async function initRepoFile(signal: AbortSignal): Promise<void> {

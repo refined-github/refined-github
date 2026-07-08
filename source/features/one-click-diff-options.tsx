@@ -29,19 +29,21 @@ function addShortcut(signal: AbortSignal): void {
 }
 
 function attachButtons(nativeDiffButtons: HTMLElement): void {
-	nativeDiffButtons.parentElement!.after(tooltipped(
-		{
-			label: `${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`,
-			shortcut: 'd w',
-		},
-		<a
-			href={getAlternateUrl()}
-			data-hotkey="d w"
-			className={cx('float-right mr-3 tmp-mr-3 btn btn-sm', isHidingWhitespace() && 'color-fg-subtle')}
-		>
-			{isHidingWhitespace() && <CheckIcon />} No Whitespace
-		</a>,
-	));
+	nativeDiffButtons.parentElement!.after(
+		tooltipped(
+			{
+				label: `${isHidingWhitespace() ? 'Show' : 'Hide'} whitespace changes`,
+				shortcut: 'd w',
+			},
+			<a
+				href={getAlternateUrl()}
+				data-hotkey="d w"
+				className={cx('float-right mr-3 tmp-mr-3 btn btn-sm', isHidingWhitespace() && 'color-fg-subtle')}
+			>
+				{isHidingWhitespace() && <CheckIcon />} No Whitespace
+			</a>,
+		),
+	);
 }
 
 function init(signal: AbortSignal): void {

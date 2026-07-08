@@ -75,9 +75,11 @@ async function initDeleteHint(): Promise<void | false> {
 		return false;
 	}
 
-	$('#repo-delete-proceed-button-container').before(<p className="flash flash-warn">
-		It will also close your <a href={url}>{pluralize(count, 'open pull request', '$$+ open pull requests')}</a> in <strong>{getForkedRepo()!}</strong>.
-	</p>);
+	$('#repo-delete-proceed-button-container').before(
+		<p className="flash flash-warn">
+			It will also close your <a href={url}>{pluralize(count, 'open pull request', '$$+ open pull requests')}</a> in <strong>{getForkedRepo()!}</strong>.
+		</p>,
+	);
 }
 
 void features.add(import.meta.url, {

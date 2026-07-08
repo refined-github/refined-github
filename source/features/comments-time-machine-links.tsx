@@ -79,9 +79,11 @@ async function showTimeMachineBar(): Promise<void | false> {
 			view this object as it appeared at the time of the comment
 		</a>
 	);
-	await addNotice(<>
-		You can also {link} (<relative-time datetime={date} />)
-	</>);
+	await addNotice(
+		<>
+			You can also {link} (<relative-time datetime={date} />)
+		</>,
+	);
 }
 
 function addDateParameterToLink(link: HTMLAnchorElement): void {

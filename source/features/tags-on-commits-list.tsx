@@ -131,14 +131,17 @@ async function init(): Promise<void | false> {
 					href={buildRepoUrl('releases/tag', tag)}
 				>
 					<code>{tag}</code>
-				</a>);
+				</a>,
+			);
 
-			commitMeta.append(<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
-				<TagIcon />
-				<span className="d-flex flex-wrap gap-1">
-					{joinJsx(' ', tags)}
-				</span>
-			</div>);
+			commitMeta.append(
+				<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
+					<TagIcon />
+					<span className="d-flex flex-wrap gap-1">
+						{joinJsx(' ', tags)}
+					</span>
+				</div>,
+			);
 			commit.classList.add('rgh-tagged');
 		}
 	}

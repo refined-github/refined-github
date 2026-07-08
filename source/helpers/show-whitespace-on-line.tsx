@@ -49,9 +49,11 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 			// Update cached variable here because it just changed
 			text = textNode.textContent;
 
-			textNode.after(<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
-				{textNode.nextSibling}
-			</span>);
+			textNode.after(
+				<span data-rgh-whitespace={thisCharacter === '\t' ? 'tab' : 'space'}>
+					{textNode.nextSibling}
+				</span>,
+			);
 		}
 	}
 

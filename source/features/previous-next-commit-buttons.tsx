@@ -15,9 +15,11 @@ function init(): false | void {
 	$([
 		'#files', // Legacy
 		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
-	]).after(<div className="d-flex flex-justify-end mb-3 tmp-mb-3">
-		{originalPreviousNext.cloneNode(true)}
-	</div>);
+	]).after(
+		<div className="d-flex flex-justify-end mb-3 tmp-mb-3">
+			{originalPreviousNext.cloneNode(true)}
+		</div>,
+	);
 }
 
 void features.add(import.meta.url, {

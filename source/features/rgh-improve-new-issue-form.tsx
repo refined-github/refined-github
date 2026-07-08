@@ -21,9 +21,11 @@ const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
-	$('[class^="CreateIssueForm-module__mainContentSection"]').prepend(<div className={cx('flash', `flash-${type}`, 'h3 my-9 tmp-my-9')} style={{animation: 'pulse-in 0.3s 2'}}>
-		{message}
-	</div>);
+	$('[class^="CreateIssueForm-module__mainContentSection"]').prepend(
+		<div className={cx('flash', `flash-${type}`, 'h3 my-9 tmp-my-9')} style={{animation: 'pulse-in 0.3s 2'}}>
+			{message}
+		</div>,
+	);
 }
 
 function addTokenNotice(adjective: string): void {
@@ -102,13 +104,15 @@ function checkVersionAge(): void {
 }
 
 async function linkifyCacheRefresh(): Promise<void> {
-	$('[href="#clear-cache"]').replaceWith(<button
-		className="btn"
-		type="button"
-		onClick={clearCacheHandler}
-	>
-		Clear cache
-	</button>);
+	$('[href="#clear-cache"]').replaceWith(
+		<button
+			className="btn"
+			type="button"
+			onClick={clearCacheHandler}
+		>
+			Clear cache
+		</button>,
+	);
 }
 
 function Lies(): JSX.Element {
@@ -141,9 +145,11 @@ async function validateTokenCheckbox(): Promise<void> {
 function addAutocomplete(field: HTMLInputElement): void {
 	const featureNameListId = 'rgh-feature-name-list';
 	field.setAttribute('list', featureNameListId);
-	field.after(<datalist id={featureNameListId}>
-		{importedFeatures.map(feature => <option value={`\`${feature}\` `} />)}
-	</datalist>);
+	field.after(
+		<datalist id={featureNameListId}>
+			{importedFeatures.map(feature => <option value={`\`${feature}\` `} />)}
+		</datalist>,
+	);
 }
 
 function init(signal: AbortSignal): void {

@@ -28,11 +28,13 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 
 	// Set the default action for cmd+enter to Comment
 	if (radios.length > 1) {
-		form.prepend(<input
-			type="hidden"
-			name="pull_request_review[event]"
-			value="comment"
-		/>);
+		form.prepend(
+			<input
+				type="hidden"
+				name="pull_request_review[event]"
+				value="comment"
+			/>,
+		);
 	}
 
 	if (actionsRow) {

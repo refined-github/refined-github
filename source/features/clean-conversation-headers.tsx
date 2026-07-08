@@ -85,7 +85,9 @@ function replaceFromWithArrow(base: HTMLElement): void {
 	// Don't remove element, GitHub requires it to change the base
 	// https://github.com/refined-github/refined-github/issues/9688
 	anchor.hidden = true;
-	anchor.after(<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1 rgh-arrow" />);
+	anchor.after(
+		<ArrowLeftIcon className="v-align-middle mx-1 tmp-mx-1 rgh-arrow" />,
+	);
 }
 
 async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {

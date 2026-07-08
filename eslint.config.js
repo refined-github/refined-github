@@ -45,6 +45,7 @@ export default defineConfig([
 				allowReadabilityExceptions: true,
 			}],
 			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
+			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
 			'no-console': 'off',

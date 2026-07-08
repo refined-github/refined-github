@@ -74,11 +74,13 @@ function replace(nativeNav: HTMLElement): void {
 	}
 
 	const items = $$('a', nativeNav);
-	nativeNav.before(<nav className="UnderlineNav rgh-extensible-nav px-4">
-		<ul className="UnderlineNav-body">
-			{items.map(item => generateTab(item))}
-		</ul>
-	</nav>);
+	nativeNav.before(
+		<nav className="UnderlineNav rgh-extensible-nav px-4">
+			<ul className="UnderlineNav-body">
+				{items.map(item => generateTab(item))}
+			</ul>
+		</nav>,
+	);
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
 	isReady = true;

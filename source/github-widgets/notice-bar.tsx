@@ -21,10 +21,12 @@ export default async function addNotice(
 	}: Options = {},
 ): Promise<void> {
 	const container = await elementReady('#js-flash-container');
-	container!.append(<div className={cx('flash flash-full', `flash-${type}`, 'px-4 tmp-px-3')}>
-		{action}
-		<div>
-			{message}
-		</div>
-	</div>);
+	container!.append(
+		<div className={cx('flash flash-full', `flash-${type}`, 'px-4 tmp-px-3')}>
+			{action}
+			<div>
+				{message}
+			</div>
+		</div>,
+	);
 }

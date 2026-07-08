@@ -39,10 +39,12 @@ function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaE
 	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
 }
 
-assertDefined(await elementReady('.js-features', {
-	stopOnDomReady: false,
-	signal: AbortSignal.timeout(500),
-}));
+assertDefined(
+	await elementReady('.js-features', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(500),
+	}),
+);
 
 // Update list from saved options
 const syncedForm = await perDomainOptions.syncForm('form');

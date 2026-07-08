@@ -36,13 +36,15 @@ async function onEndButtonClick(): Promise<void> {
 
 function createMessageBox(message: Element | string, extraButtons?: Element): void {
 	$optional('#rgh-bisect-dialog')?.remove();
-	document.body.append(<div id="rgh-bisect-dialog" className="Box p-3 tmp-p-3">
-		<p>{message}</p>
-		<div className="d-flex flex-justify-between">
-			<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
-			{extraButtons}
-		</div>
-	</div>);
+	document.body.append(
+		<div id="rgh-bisect-dialog" className="Box p-3 tmp-p-3">
+			<p>{message}</p>
+			<div className="d-flex flex-justify-between">
+				<button type="button" className="btn" onClick={onEndButtonClick}>Exit</button>
+				{extraButtons}
+			</div>
+		</div>,
+	);
 }
 
 async function hideMessage(): Promise<void> {
@@ -56,9 +58,11 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 	const bisectedFeatures = (await state.get())!;
 
 	if (bisectedFeatures.length > 1) {
-		await state.set(answer === 'yes'
-			? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
-			: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)));
+		await state.set(
+			answer === 'yes'
+				? bisectedFeatures.slice(0, getMiddleStep(bisectedFeatures))
+				: bisectedFeatures.slice(getMiddleStep(bisectedFeatures)),
+		);
 
 		button.parentElement!.replaceWith(<div className="btn" aria-disabled="true">Reloading…</div>);
 		location.reload();
@@ -67,15 +71,17 @@ async function onChoiceButtonClick({currentTarget: button}: React.MouseEvent<HTM
 
 	// Last step, no JS feature was enabled
 	if (answer === 'yes') {
-		createMessageBox(<>
-			<p>
-				Unable to identify feature. It might be a CSS-only feature, a{' '}
-				<a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">
-					meta-feature
-				</a>, or unrelated to Refined GitHub.
-			</p>
-			<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
-		</>);
+		createMessageBox(
+			<>
+				<p>
+					Unable to identify feature. It might be a CSS-only feature, a{' '}
+					<a href="https://github.com/refined-github/refined-github/wiki/Meta-features" target="_blank" rel="noreferrer">
+						meta-feature
+					</a>, or unrelated to Refined GitHub.
+				</p>
+				<p>Try disabling Refined GitHub to see if the change or issue is caused by the extension.</p>
+			</>,
+		);
 	} else {
 		const feature = (
 			<a href={getFeatureUrl(bisectedFeatures[0])}>

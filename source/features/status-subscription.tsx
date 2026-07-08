@@ -180,7 +180,8 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 					<IssueReopenedIcon /> Status
 				</Button>,
 			)}
-		</fieldset>);
+		</fieldset>,
+	);
 
 	// Would be missing on the first run
 	previousRghButton?.remove();

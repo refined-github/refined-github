@@ -49,7 +49,8 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
 			// Username in issue events already has left margin
 			// Rename events use `gap` for spacing
-			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *')
+			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
+		)
 	) {
 		nameElement.classList.add('mr-1');
 	}
@@ -93,7 +94,9 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 		return;
 	}
 
-	const names = await api.v4([...users.keys()].map(username => api.escapeKey(username) + `: user(login: "${username}") { name }`).join(','));
+	const names = await api.v4(
+		[...users.keys()].map(username => api.escapeKey(username) + `: user(login: "${username}") { name }`).join(','),
+	);
 
 	for (const [username, elements] of users) {
 		const userKey = api.escapeKey(username);

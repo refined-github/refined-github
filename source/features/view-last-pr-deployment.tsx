@@ -14,17 +14,19 @@ function addLink(header: HTMLElement): void {
 	}
 
 	// Use "parentElement" because open PRs have a "PR status" button before the "Code" button
-	header.parentElement!.prepend(tooltipped(
-		'View last deployment',
-		<a
-			className="rgh-last-deployment btn d-none d-md-block"
-			target="_blank" // Matches GitHub’s own behavior
-			rel="noopener noreferrer"
-			href={lastDeployment.href}
-		>
-			<RocketIcon />
-		</a>,
-	));
+	header.parentElement!.prepend(
+		tooltipped(
+			'View last deployment',
+			<a
+				className="rgh-last-deployment btn d-none d-md-block"
+				target="_blank" // Matches GitHub’s own behavior
+				rel="noopener noreferrer"
+				href={lastDeployment.href}
+			>
+				<RocketIcon />
+			</a>,
+		),
+	);
 }
 
 function init(signal: AbortSignal): void {
