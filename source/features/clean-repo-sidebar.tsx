@@ -44,8 +44,6 @@ async function hideEmptyMeta(): Promise<void> {
 		// Selector only matches if it's empty
 		$optional([
 			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
-			// TODO [2026-09-01]: Drop old selector
-			'.Layout-sidebar .BorderGrid-cell > .text-italic',
 		])?.remove();
 	}
 }
@@ -56,13 +54,10 @@ async function moveReportLink(): Promise<void> {
 	// Your own repos don't include this link
 	const reportLink = $optional([
 		'[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]',
-		// TODO [2026-09-01]: Drop old selector
-		'.Layout-sidebar a[href^="/contact/report-content"]',
 	])?.parentElement;
 	if (reportLink) {
 		$([
 			'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell',
-			'.Layout-sidebar .BorderGrid-row:last-of-type .BorderGrid-cell',
 		]).append(reportLink);
 	}
 }
