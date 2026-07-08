@@ -42,9 +42,7 @@ async function hideEmptyMeta(): Promise<void> {
 
 	if (!pageDetect.canUserAccessRepoSettings()) {
 		// Selector only matches if it's empty
-		$optional([
-			'[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic',
-		])?.remove();
+		$optional('[class*=\'PageLayout-Pane\'] .BorderGrid-cell > .text-italic')?.remove();
 	}
 }
 
@@ -52,13 +50,9 @@ async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
 	// Your own repos don't include this link
-	const reportLink = $optional([
-		'[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]',
-	])?.parentElement;
+	const reportLink = $optional('[class*=\'PageLayout-Pane\'] a[href^="/contact/report-content"]')?.parentElement;
 	if (reportLink) {
-		$([
-			'[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell',
-		]).append(reportLink);
+		$('[class*=\'PageLayout-Pane\'] .BorderGrid-row:last-of-type .BorderGrid-cell').append(reportLink);
 	}
 }
 
