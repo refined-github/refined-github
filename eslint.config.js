@@ -86,6 +86,7 @@ export default defineConfig([
 			}],
 
 			// TODO: Probably drop it after moving to dprint
+			// Also: https://github.com/un-ts/eslint-plugin-import-x/issues/500
 			'import-x/order': [
 				'error',
 				{
@@ -192,16 +193,13 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.md'],
-		rules: {
-			'markdown/no-empty-links': 'off',
-		},
-	},
-	{
-		files: ['**/*.js', '**/*.ts', '**/*.svelte','**/*.html'],
+		files: ['**/*.js', '**/*.ts', '**/*.svelte','**/*.html', '**/*.md'],
 		rules: {
 			...eslintConfigPrettier.rules,
 
+			'markdown/no-empty-links': 'off',
+
+			// TODO: Drop after moving to dprint and enabling the global `prettier:compat` option
 			// https://github.com/xojs/eslint-config-xo/issues/106
 			'@html-eslint/require-closing-tags': 'off',
 			'@html-eslint/require-form-method': 'off',
