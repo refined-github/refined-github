@@ -19,7 +19,8 @@
 			"ES2024"
 		],
 		"types": [
-			"chrome"
+			"chrome",
+			"vite/client"
 		]
 	},
 	"include": [

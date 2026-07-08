@@ -78,29 +78,6 @@ export default defineConfig([
 				},
 			],
 
-			'no-restricted-imports': ['error', {
-				paths: [{
-					name: 'clsx',
-					importNames: ['clsx'],
-					message: "Use default import: import cx from 'clsx'",
-				}],
-			}],
-
-			// Allow unassigned imports for CSS and feature files
-			'import-x/no-unassigned-import': ['error', {
-				allow: [
-					'**/*.css',
-					'**/*.scss',
-					'**/*.sass',
-					'**/*.less',
-					'**/features/**',
-					'**/github-helpers/**',
-					'webext-bugs/*',
-					'vite/client',
-					'webext-dynamic-content-scripts',
-				],
-			}],
-
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
 			'import-x/extensions': ['error', {
