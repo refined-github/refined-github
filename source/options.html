@@ -1,15 +1,15 @@
 <!doctype html>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<meta name="color-scheme" content="light dark">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta content="light dark" name="color-scheme">
 <base target="_blank">
-<link rel="shortcut icon" href="icon.png">
+<link href="icon.png" rel="shortcut icon">
 <title>Refined GitHub options</title>
-<link rel="stylesheet" href="options.css">
+<link href="options.css" rel="stylesheet">
 <script src="options-preflight.js"></script>
 <script type="module" src="header.js"></script>
 <script type="module" src="options-components.js"></script>
-<script type="module" src="options.js" defer></script>
+<script type="module" defer src="options.js"></script>
 <rgh-header title="Refined GitHub" with-version>
 	<p>
 		Visit the <a href="https://github.com/refined-github/refined-github/wiki">wiki</a> to learn about updates, debugging, and GitHub Enterprise.
@@ -20,7 +20,7 @@
 
 <form id="options-form" class="detail-view-container">
 	<!-- Captures and ignores native enter-to-submit action -->
-	<button hidden>Capture Submit</button>
+	<button type="submit" hidden>Capture Submit</button>
 
 	<p id="js-failed" class="error-banner">JavaScript failed to load. Your development build failed or your browser has some issue.</p>
 
@@ -46,8 +46,8 @@
 				If you want to go through and only select a few improvements, you'll miss out on the best parts of Refined GitHub. Also note that new features will still be enabled by default and that some CSS-only refinements cannot be disabled.
 			</p>
 			<p>
-				<button id="disable-all-features">Disable all features</button>
-				<button id="enable-all-features">Enable all features</button>
+				<button id="disable-all-features" type="button">Disable all features</button>
+				<button id="enable-all-features" type="button">Enable all features</button>
 			</p>
 		</details>
 	</handle-expand>
@@ -71,7 +71,8 @@
 		<details id="css">
 			<summary><strong>💅 Custom CSS</strong></summary>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
-			<p><textarea name="customCss" rows="2" spellcheck="false" class="monospace-field"></textarea></p>
+			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
+			<p><textarea class="monospace-field" name="customCss" rows="2" spellcheck="false"></textarea></p>
 			<p>Options storage: <storage-usage area="sync" item="options">unknown</storage-usage></p>
 			<p>When the storage is full, the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>. If you need to use a lot of CSS, use a dedicated userstyle extension.</p>
 		</details>
@@ -102,7 +103,7 @@
 				Refined Github version: <rgh-version></rgh-version>
 			</p>
 			<p>
-				<button id="clear-cache">Clear cache</button>
+				<button id="clear-cache" type="button">Clear cache</button>
 			</p>
 			<p>
 				<!-- Native link that looks like a button (to blend in better). Don't @ me -->
@@ -112,7 +113,7 @@
 				<button type="submit" form="graphql-page-link">Open GraphQL tester</button>
 			</p>
 			<p>
-				<button id="toggle-all-features">Toggle all features…</button>
+				<button id="toggle-all-features" type="button">Toggle all features…</button>
 			</p>
 		</details>
 	</handle-expand>
@@ -143,5 +144,5 @@
 </form>
 
 <!-- Native link that looks like a button (to blend in better). Don't @ me -->
-<form action="./welcome.html" method="get" target="_blank" id="welcome-page-link"></form>
-<form action="./graphql.html" method="get" target="_blank" id="graphql-page-link"></form>
+<form id="welcome-page-link" action="./welcome.html" method="get" target="_blank"></form>
+<form id="graphql-page-link" action="./graphql.html" method="get" target="_blank"></form>

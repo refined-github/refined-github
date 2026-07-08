@@ -15,6 +15,9 @@ import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
 	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url))),
+	{
+		ignores: ['safari', 'package-lock.json'],
+	},
 	...eslintConfigXo({
 		browser: true,
 		// TODO: Use after dprint is enabled on TSX files
@@ -218,28 +221,17 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts', '**/*.svelte'],
-		...eslintConfigPrettier,
-	},
-	{
-		files: ['**/*.html'],
+		files: ['**/*.js', '**/*.ts', '**/*.svelte','**/*.html'],
 		rules: {
+			...eslintConfigPrettier.rules,
+
 			// https://github.com/xojs/eslint-config-xo/issues/106
-			'@html-eslint/sort-attrs': 'off',
-			'@html-eslint/no-non-scalable-viewport': 'off',
 			'@html-eslint/require-closing-tags': 'off',
 			'@html-eslint/require-form-method': 'off',
-			'@html-eslint/require-button-type': 'off',
-			'@html-eslint/require-input-label': 'off',
-			'@html-eslint/require-li-container': 'off',
 			'@html-eslint/indent': 'off',
 			'@html-eslint/attrs-newline': 'off',
 			'@html-eslint/element-newline': 'off',
-			'@html-eslint/use-baseline': 'off',
 			'@html-eslint/require-content': 'off',
 		},
-	},
-	{
-		ignores: ['safari', 'package-lock.json'],
 	},
 ]);
