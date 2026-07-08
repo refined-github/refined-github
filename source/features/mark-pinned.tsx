@@ -5,8 +5,8 @@ import PinIcon from 'octicons-plain-react/Pin';
 import {$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {is} from '../helpers/css-selectors.js';
+import observe from '../helpers/selector-observer.js';
 import {issueIcons} from './select-notifications.js';
 
 function mark(issueLink: HTMLAnchorElement): void {

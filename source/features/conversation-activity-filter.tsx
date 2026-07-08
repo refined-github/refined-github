@@ -1,14 +1,14 @@
 import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
+import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 import {mount} from 'svelte';
 import {get} from 'svelte/store';
-import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {activityFilterState, states, type State} from '../helpers/conversation-activity-filter.js';
+import {activityFilterState, type State, states} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';

@@ -110,7 +110,13 @@ export default async function bisectFeatures(): Promise<Record<string, boolean> 
 	createMessageBox(
 		`Do you see the change or issue? (${pluralize(steps, 'last step', '$$ steps remaining')})`,
 		<div>
-			<button type="button" className="btn btn-danger mr-2 tmp-mr-2" value="no" aria-disabled="true" onClick={onChoiceButtonClick}>
+			<button
+				type="button"
+				className="btn btn-danger mr-2 tmp-mr-2"
+				value="no"
+				aria-disabled="true"
+				onClick={onChoiceButtonClick}
+			>
 				No
 			</button>
 			<button type="button" className="btn btn-primary" value="yes" aria-disabled="true" onClick={onChoiceButtonClick}>

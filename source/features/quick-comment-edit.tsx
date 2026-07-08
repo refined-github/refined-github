@@ -8,18 +8,19 @@ import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
-import onElementRemoval from '../helpers/on-element-removal.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isConversationIneditable = memoize(
-	async (_signal: AbortSignal | undefined): Promise<boolean> => elementExists([
-		'[class*="ReadonlyCommentBox-module"]',
-		// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
-		// However, if you can edit every comment, you can still edit the comment
-		'.js-pick-reaction:first-child',
-	]) && !await userIsModerator(),
+	async (_signal: AbortSignal | undefined): Promise<boolean> =>
+		elementExists([
+			'[class*="ReadonlyCommentBox-module"]',
+			// If .js-pick-reaction is the first child, `reaction-menu` doesn't exist, which means that the conversation is locked.
+			// However, if you can edit every comment, you can still edit the comment
+			'.js-pick-reaction:first-child',
+		]) && !await userIsModerator(),
 	{
 		cache: new WeakMap(),
 	},
@@ -33,13 +34,15 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 		return;
 	}
 
-	const editButton = tooltipped('Edit comment',
+	const editButton = tooltipped(
+		'Edit comment',
 		<button
 			type="button"
 			className="Button Button--iconOnly Button--invisible Button--small"
-			onClick={async () => withMenuOpen(menuButon, menu => {
-				$(editMenuItemSelector, menu).click();
-			})}
+			onClick={async () =>
+				withMenuOpen(menuButon, menu => {
+					$(editMenuItemSelector, menu).click();
+				})}
 		>
 			<PencilIcon />
 		</button>,

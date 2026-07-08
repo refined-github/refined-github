@@ -76,18 +76,21 @@ async function openSelectedNotifications(): Promise<void> {
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	selectedActionsGroup.append(
-		tooltipped({
-			label: 'Open selected notifications',
-			shortcut: 'p',
-		}, (
-			<button
-				type="button"
-				className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
-				data-hotkey="p"
-			>
-				<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
-			</button>
-		)),
+		tooltipped(
+			{
+				label: 'Open selected notifications',
+				shortcut: 'p',
+			},
+			(
+				<button
+					type="button"
+					className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
+					data-hotkey="p"
+				>
+					<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
+				</button>
+			),
+		),
 	);
 }
 

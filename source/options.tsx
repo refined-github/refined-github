@@ -38,10 +38,12 @@ function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaE
 	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
 }
 
-assertDefined(await elementReady('.js-features', {
-	stopOnDomReady: false,
-	signal: AbortSignal.timeout(500),
-}));
+assertDefined(
+	await elementReady('.js-features', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(500),
+	}),
+);
 
 // Update list from saved options
 const syncedForm = await perDomainOptions.syncForm('form');
@@ -66,13 +68,15 @@ syncedForm.onChange(async domain => {
 	// Point the link to the right domain
 	$('a#personal-token-link').host = host;
 
-	for (const element of $$([
-		// Hot fixes are not used on GHE
-		'hot-fixes',
+	for (
+		const element of $$([
+			// Hot fixes are not used on GHE
+			'hot-fixes',
 
-		// There's only one button, it doesn't depend on GHE https://github.com/refined-github/refined-github/issues/7704
-		'action-link',
-	])) {
+			// There's only one button, it doesn't depend on GHE https://github.com/refined-github/refined-github/issues/7704
+			'action-link',
+		])
+	) {
 		element.toggleAttribute('enterprise', domain !== 'default');
 	}
 

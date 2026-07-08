@@ -39,7 +39,7 @@ function parseTags(element: HTMLElement): TagDetails {
 	// DO NOT change this to `pathname` because it's empty when element is from `getNextPage` function
 	// https://github.com/refined-github/refined-github/pull/7726#discussion_r1727135015
 	const tagUrl = $(['a[href*="/tree/"]', 'a[href*="/tag/"]'], element).href;
-	const {tag} = (/\/(?:releases\/tag|tree)\/(?<tag>.*)/.exec(tagUrl)!.groups!);
+	const {tag} = /\/(?:releases\/tag|tree)\/(?<tag>.*)/.exec(tagUrl)!.groups!;
 
 	return {
 		element,
@@ -135,12 +135,14 @@ async function init(): Promise<void> {
 			}
 
 			lastLink.parentElement!.after(
-				<div className={cx(
-					'rgh-changelog-link mr-4 tmp-mr-3',
-					pageDetect.isReleases()
-						? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0'
-						: 'mb-2 tmp-mb-2',
-				)}>
+				<div
+					className={cx(
+						'rgh-changelog-link mr-4 tmp-mr-3',
+						pageDetect.isReleases()
+							? 'tmp-my-md-2 my-md-2 mr-md-0 tmp-mr-md-0'
+							: 'mb-2 tmp-mb-2',
+					)}
+				>
 					{compareLink}
 				</div>,
 			);

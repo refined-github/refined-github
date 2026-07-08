@@ -105,7 +105,10 @@ function createDropdownList(category: Category, categoryFilters: Filter[]): JSX.
 					aria-checked="false"
 					tabIndex={0}
 				>
-					<CheckIcon className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2 tmp-mr-2" aria-hidden="true" />
+					<CheckIcon
+						className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2 tmp-mr-2"
+						aria-hidden="true"
+					/>
 					<div className="SelectMenu-item-text">
 						<input
 							hidden

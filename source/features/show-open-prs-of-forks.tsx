@@ -8,8 +8,8 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getForkedRepo, getLoggedInUser, getRepo} from '../github-helpers/index.js';
 import pluralize from '../helpers/pluralize.js';
-import GetPRs from './show-open-prs-of-forks.gql';
 import observe from '../helpers/selector-observer.js';
+import GetPRs from './show-open-prs-of-forks.gql';
 
 const countPrs = new CachedFunction('prs-on-forked-repo', {
 	async updater(forkedRepo: string): Promise<{count: number; firstPr?: number}> {

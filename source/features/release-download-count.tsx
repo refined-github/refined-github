@@ -49,7 +49,10 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
 		// Re-align the asset size
-		const assetSize = $(':scope > .flex-justify-end > span:has(+ span relative-time)', closestElement('.Box-row', assetLink));
+		const assetSize = $(
+			':scope > .flex-justify-end > span:has(+ span relative-time)',
+			closestElement('.Box-row', assetLink),
+		);
 		assertNodeContent(assetSize.firstChild, /^\d+(?:\.\d+)? \w{2,5}$/);
 
 		assetSize.classList.replace('text-sm-left', 'text-md-right');

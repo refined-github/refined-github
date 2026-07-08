@@ -61,7 +61,7 @@ export default defineConfig([
 			'unicorn/prefer-await': 'off', // Native TS rule is preferred
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
-			'unicorn/consistent-boolean-name': 'off', // TODO maybe
+			'unicorn/consistent-boolean-name': 'off', // Impractical
 			'unicorn/name-replacements': [
 				'error',
 				{
@@ -104,6 +104,8 @@ export default defineConfig([
 				js: 'ignorePackages',
 				json: 'always',
 			}],
+
+			// TODO: Probably drop it after moving to dprint
 			'import-x/order': [
 				'error',
 				{
@@ -125,7 +127,7 @@ export default defineConfig([
 			// Allow empty blocks like `catch {}` or `function noop() {}`
 			'@stylistic/curly-newline': ['error', {minElements: 1}],
 
-			// TODO: Drop after moving to dprint
+			// Dprint conflict fixer for the imports
 			// Copied from here, except ImportDeclaration
 			// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
 			'@stylistic/object-curly-newline': ['error', {

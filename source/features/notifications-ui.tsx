@@ -1,14 +1,14 @@
 import './notifications-ui.css';
 import cx from 'clsx';
 import React from 'dom-chef';
-import {$, $$} from 'select-dom';
 import * as pageDetect from 'github-url-detection';
-import SortDescIcon from 'octicons-plain-react/SortDesc';
 import SortAscIcon from 'octicons-plain-react/SortAsc';
+import SortDescIcon from 'octicons-plain-react/SortDesc';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function transform(button: HTMLButtonElement): JSX.Element {
 	const [buttonLabel] = button.textContent.trim().split(' ');
@@ -77,7 +77,8 @@ function markForm(status: 'read' | 'unread'): JSX.Element {
 		<button
 			className='d-flex justify-content-center align-items-center btn btn-sm mr-2'
 			form={form.id}
-			type="submit">
+			type="submit"
+		>
 			{icon}
 			{/* Spaces collapsed, use mr-1 to space words */}
 			<span className="not-sm-sr-only sr-only mr-1">Mark as</span>

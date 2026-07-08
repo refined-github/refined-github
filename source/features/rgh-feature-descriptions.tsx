@@ -1,10 +1,10 @@
 import './rgh-feature-descriptions.css';
 
+import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import InfoIcon from 'octicons-plain-react/Info';
-import delegate from 'delegate-it';
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';

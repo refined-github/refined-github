@@ -69,7 +69,10 @@ function init(signal: AbortSignal): void {
 	});
 
 	// "Add suggestion to batch" buttons in PR files
-	delegate(buttonAddSuggestionToBatchSelector, 'click', clickAll(buttonAddSuggestionToBatchSelector), {signal, capture: true});
+	delegate(buttonAddSuggestionToBatchSelector, 'click', clickAll(buttonAddSuggestionToBatchSelector), {
+		signal,
+		capture: true,
+	});
 }
 
 void features.add(import.meta.url, {
