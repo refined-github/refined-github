@@ -1,9 +1,9 @@
 <svelte:options customElement="rgh-welcome" />
 
 <script lang="ts">
-	import {onMount} from 'svelte';
 	// eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 	import 'webext-bugs/target-blank';
+	import {onMount} from 'svelte';
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';

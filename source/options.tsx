@@ -1,9 +1,10 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
-import {enableTabToIndent} from 'indent-textarea';
-import {$, $$} from 'select-dom';
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
+
+import {enableTabToIndent} from 'indent-textarea';
+import {$, $$} from 'select-dom';
 import elementReady from 'element-ready';
 import {assertDefined} from 'ts-extras';
 

@@ -18,18 +18,18 @@ import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
+/* eslint-disable @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values */
 const updateMethods = {
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	MERGE: {
 		buttonLabel: 'Update branch',
 		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
 	},
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values
 	REBASE: {
 		buttonLabel: 'Rebase',
 		tooltipLabel: 'Update branch with rebase using Refined GitHub',
 	},
 };
+/* eslint-enable @typescript-eslint/naming-convention */
 
 /**
 https://docs.github.com/en/graphql/reference/enums#pullrequestbranchupdatemethod

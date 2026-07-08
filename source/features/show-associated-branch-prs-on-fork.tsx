@@ -51,14 +51,12 @@ export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBr
 });
 
 export const stateIcon = {
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
+	/* eslint-disable @typescript-eslint/naming-convention -- The same case as in the API response */
 	OPEN: GitPullRequestIcon,
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	CLOSED: GitPullRequestClosedIcon,
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	MERGED: GitMergeIcon,
-	// eslint-disable-next-line @typescript-eslint/naming-convention -- The same case as in the API response
 	DRAFT: GitPullRequestDraftIcon,
+	/* eslint-enable @typescript-eslint/naming-convention */
 };
 
 async function addLink(branch: HTMLElement): Promise<void> {

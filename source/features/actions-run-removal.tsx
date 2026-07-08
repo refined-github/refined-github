@@ -12,14 +12,13 @@ import observe from '../helpers/selector-observer.js';
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
 	const contextMenuDetails = closestElement('details', contextMenuIcon);
 
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- Wrong
-	const menuItem = $optional<HTMLElement>([
+	// It might be missing if the user has no access to this repo
+	const menuItem = $optional([
 		'form[action$="/cancel"]',
 		'li:has(> button[data-show-dialog-id^="delete-workflow-run"])',
-	], contextMenuDetails)?.cloneNode(true);
+	], contextMenuDetails)?.cloneNode(true) as HTMLElement;
 
 	if (!menuItem) {
-		// No access to this repo
 		return;
 	}
 

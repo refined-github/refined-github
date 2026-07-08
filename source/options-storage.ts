@@ -1,6 +1,7 @@
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
-import {importedFeatures, renamedFeatures} from './feature-data.js';
+import {importedFeatures} from './feature-data.js';
+import renamedFeatures from './feature-renames.json' with {type: 'json'};
 
 export type RghOptions = typeof defaults;
 

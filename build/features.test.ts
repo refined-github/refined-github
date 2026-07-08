@@ -79,9 +79,8 @@ class FeatureFile {
 		return existsSync(this.path);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-restricted-types -- Just passing it
-	contents(): Buffer {
-		return readFileSync(this.path);
+	contents(): string {
+		return readFileSync(this.path, 'utf8');
 	}
 
 	get tsx(): FeatureFile {
@@ -129,7 +128,7 @@ function validateCss(file: FeatureFile): void {
 
 		// `github-bugs` has its own ESLint rule for test URLs
 		if (file.id !== 'github-bugs') {
-			assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+			assert(/test url/i.test(file.contents()), 'Should have test URLs');
 		}
 
 		if (!isFeaturePrivate(file.name)) {
@@ -149,7 +148,7 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	assert(!/test url/i.test(file.contents().toString()), 'Only TSX files and *lone* CSS files should have test URLs');
+	assert(!/test url/i.test(file.contents()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {
@@ -170,14 +169,14 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	assert(/test url/i.test(file.contents().toString()), 'Should have test URLs');
+	assert(/test url/i.test(file.contents()), 'Should have test URLs');
 
 	if (
-		/api\.v4|getDefaultBranch|getPrInfo/.test(String(file.contents()))
-		&& /observe\(|delegate\(/.test(String(file.contents()))
+		/api\.v4|getDefaultBranch|getPrInfo/.test(file.contents())
+		&& /observe\(|delegate\(/.test(file.contents())
 	) {
 		assert(
-			/requiresToken:\s*true|hasToken/.test(String(file.contents())),
+			/requiresToken:\s*true|hasToken/.test(file.contents()),
 			`${file.id} uses the v4 API, so it should include \`requiresToken: true\`, or if the token is optional, \`hasToken\` anywhere`,
 		);
 	}

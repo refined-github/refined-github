@@ -25,6 +25,15 @@
 	.rgh-display-contents {
 		display: contents !important;
 	}
+
+	.rgh-anchored-link {
+		position: absolute !important;
+		position-area: center;
+		z-index: 2;
+		pointer-events: auto;
+		/* For debugging */
+		/* color: red !important; */
+	}
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */
@@ -155,16 +164,6 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 			border-top-color: var(--borderColor-muted, fuchsia);
 		}
 	}
-}
-
-/* eslint-disable-next-line refined-github/css-documentation -- Refer to `dom-formatters` */
-.rgh-anchored-link {
-	position: absolute !important;
-	position-area: center;
-	z-index: 2;
-	pointer-events: auto;
-	/* For debugging */
-	/* color: red !important; */
 }
 
 /* Show PR reviews on mobile */
