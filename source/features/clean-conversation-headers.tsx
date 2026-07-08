@@ -103,12 +103,10 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 	// Add class here to avoid duplicating the selectors into the CSS file
 	base.classList.add('rgh-base-branch');
 
-	let baseBranch;
-	if (base.title) {
-		baseBranch = parseReferenceRaw(base.title, base.textContent).branch;
-	} else {
-		baseBranch = parseReferenceRaw(base.nextElementSibling!.textContent, base.textContent).branch;
-	}
+	const baseBranch = parseReferenceRaw(
+		base.title || base.nextElementSibling!.textContent,
+		base.textContent,
+	).branch;
 
 	// This can be run asynchronously
 	void hideAuthorMetadata(summaryRow);

@@ -34,11 +34,9 @@ function updateDocumentTitle(): void {
 	// Ensure it does not pile up
 	document.title = document.title.replace(prefix, '');
 
-	if (document.visibilityState === 'hidden' && hasDraftComments()) {
-		document.title = prefix + document.title;
-	} else {
-		document.title = document.title.replace(prefix, '');
-	}
+	document.title = document.visibilityState === 'hidden' && hasDraftComments()
+		? prefix + document.title
+		: document.title.replace(prefix, '');
 }
 
 function init(signal: AbortSignal): void {

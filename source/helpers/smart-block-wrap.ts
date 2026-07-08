@@ -9,15 +9,15 @@ export default function smartBlockWrap(
 	const after = field.value.slice(field.selectionEnd);
 	const [whitespaceAtStart] = /\n*$/.exec(before)!;
 	const [whitespaceAtEnd] = /^\n*/.exec(after)!;
-	let newlinesToAppend = '';
-	let newlinesToPrepend = '';
-	if (/\S/.test(before) && whitespaceAtStart.length < 2) {
-		newlinesToPrepend = '\n'.repeat(2 - whitespaceAtStart.length);
-	}
+const newlinesToPrepend =
+	/\S/.test(before) && whitespaceAtStart.length < 2
+		? '\n'.repeat(2 - whitespaceAtStart.length)
+		: '';
 
-	if (/\S/.test(after) && whitespaceAtEnd.length < 2) {
-		newlinesToAppend = '\n'.repeat(2 - whitespaceAtEnd.length);
-	}
+const newlinesToAppend =
+	/\S/.test(after) && whitespaceAtEnd.length < 2
+		? '\n'.repeat(2 - whitespaceAtEnd.length)
+		: '';
 
 	return newlinesToPrepend + content + newlinesToAppend;
 }

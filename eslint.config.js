@@ -61,7 +61,6 @@ export default defineConfig([
 			'unicorn/prefer-await': 'off', // Native TS rule is preferred
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
-			'unicorn/prefer-ternary': 'off', // Unreadable https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1633
 			'unicorn/consistent-boolean-name': 'off', // TODO maybe
 			'unicorn/name-replacements': [
 				'error',
