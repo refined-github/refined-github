@@ -20,7 +20,9 @@ import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {
 	timelineItems: {
-		nodes: AnyObject;
+		nodes: Array<{
+			__typename: string;
+		}>;
 	};
 	number: number;
 	state: keyof typeof stateIcon;

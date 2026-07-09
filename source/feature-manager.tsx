@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
 import {elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
-import type {Promisable} from 'type-fest';
+import type {Arrayable, Promisable} from 'type-fest';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 

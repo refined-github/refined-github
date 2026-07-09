@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
-/* eslint-disable no-var -- TypeScript weirdness */
-declare var content: undefined | {
-	fetch: GlobalFetch;
-};
 
-declare var navigation: typeof window.navigation;
+declare module '*.svelte';
+declare module '*.css';
+declare module '*.gql' {
+	export = string;
+}
 
-type GlobalFetch = typeof fetch;
-type Arrayable<X> = X | X[];
 type AnyObject = Record<string, any>;
-type Deinit =
-	| VoidFunction
-	| {disconnect: VoidFunction}
-	| {clear: VoidFunction}
-	| {destroy: VoidFunction}
-	| {abort: VoidFunction};
-
 type FeatureId = string & {feature: true};
 interface FeatureMeta {
 	id: FeatureId;
@@ -37,46 +28,27 @@ interface Element {
 	textContent: string;
 }
 
-declare module 'size-plugin';
-
-declare module '*.gql' {
-	export = string;
-}
-
-declare module '*.svelte';
-
-// Custom UI events specific to RGH
+// Custom UI events specific to GitHub
 interface GlobalEventHandlersEventMap {
-	'details:toggled': CustomEvent;
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
-	'session:resume': CustomEvent;
-	itemActivated: CustomEvent;
-	// No input:InputEvent match
-	// https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1174#issuecomment-933042088
 }
 
 declare namespace JSX {
 	interface IntrinsicElements {
-		'clipboard-copy': IntrinsicElements.button & {for?: string};
-		'details-dialog': IntrinsicElements.div & {tabindex: string};
-		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
-		'has-rgh': IntrinsicElements.div;
-		'has-rgh-inner': IntrinsicElements.div;
-		'include-fragment': IntrinsicElements.div & {src?: string};
-		label: IntrinsicElements.label & {for?: string};
-		'relative-time': IntrinsicElements.div & {datetime: string};
-		'tab-container': IntrinsicElements.div;
-		'batch-deferred-content': IntrinsicElements.div;
-		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
 		'anchored-position': IntrinsicElements.div;
-		'action-menu': IntrinsicElements.HTMLELement;
-		'focus-group': IntrinsicElements.HTMLELement;
-		'action-list': IntrinsicElements.HTMLELement;
-		'segmented-control': IntrinsicElements.HTMLElement;
-		'tool-tip': IntrinsicElements.HTMLElement & {for?: string};
+		'batch-deferred-content': IntrinsicElements.div;
+		'details-menu': IntrinsicElements.div & {src?: string; preload?: boolean};
 		'feature-item': IntrinsicElements.HTMLElement & {id: string; 'data-text': string};
+		'has-rgh-inner': IntrinsicElements.div;
+		'has-rgh': IntrinsicElements.div;
+		'include-fragment': IntrinsicElements.div & {src?: string};
+		'relative-time': IntrinsicElements.div & {datetime: string};
+		'segmented-control': IntrinsicElements.HTMLElement;
+		'time-ago': IntrinsicElements.div & {datetime: string; format?: string};
+		'tool-tip': IntrinsicElements.HTMLElement & {for?: string};
+		label: IntrinsicElements.label & {for?: string};
 	}
 
 	type BaseElement = IntrinsicElements['div'];

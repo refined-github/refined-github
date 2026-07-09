@@ -4,6 +4,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 import {CachedFunction} from 'webext-storage-cache';
+import type {UnknownRecord} from 'type-fest';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -15,7 +16,7 @@ const publicOrganizationsNames = new CachedFunction('public-organizations', {
 		// API v4 seems to *require* `org:read` permission AND it includes private organizations as well, which defeats the purpose. There's no way to filter them.
 		// GitHub's API explorer inexplicably only includes public organizations.
 		const response = await api.v3(`/users/${username}/orgs`);
-		return response.map((organization: AnyObject) => organization.login);
+		return response.map((organization: UnknownRecord) => organization.login);
 	},
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 10},
