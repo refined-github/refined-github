@@ -7,7 +7,7 @@ import type {RghOptions} from '../options-storage.js';
 import {getNewFeatureName} from '../feature-data.js';
 import isDevelopmentVersion from './is-development-version.js';
 import {isomorphicFetchText} from './isomorphic-fetch.js';
-import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './parse-broken-features-csv.js';
+import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
 

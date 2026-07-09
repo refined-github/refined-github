@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 
-import {parseBrokenFeaturesCsv} from './parse-broken-features-csv.js';
+import {parseBrokenFeaturesCsv} from './hotfix-parse.js';
 
 const header = 'Feature name, Issue, Minimum working version';
 
@@ -31,7 +31,7 @@ describe('parseBrokenFeaturesCsv', () => {
 	});
 
 	it('skips blank lines', () => {
-		const csv = [header, 'some-feature,123,', '', '   ', 'other-feature,456,'].join('\n');
+		const csv = [header, 'some-feature,123,', '', ' '.repeat(3), 'other-feature,456,'].join('\n');
 		expect(parseBrokenFeaturesCsv(csv, '26.6.0')).toEqual([
 			['some-feature', '123', ''],
 			['other-feature', '456', ''],
