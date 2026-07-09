@@ -12,7 +12,7 @@ import clearCacheHandler from './helpers/clear-cache-handler.js';
 import {perDomainOptions} from './options-storage.js';
 import initToggleAllButtons from './options/toggle-all.js';
 
-function moveDisabledFeaturesToTop(): void {
+function sortFeatures(): void {
 	const container = $('.js-features');
 	const features = $$('feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => {
@@ -30,7 +30,7 @@ function moveDisabledFeaturesToTop(): void {
 }
 
 function updateListDom(): void {
-	moveDisabledFeaturesToTop();
+	sortFeatures();
 
 	// Notify <feature-count> that the DOM state has updated
 	globalThis.dispatchEvent(new CustomEvent('rgh:update-count'));
