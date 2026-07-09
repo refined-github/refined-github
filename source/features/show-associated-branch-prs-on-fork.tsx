@@ -19,11 +19,6 @@ import observe from '../helpers/selector-observer.js';
 import AssociatedPullRequests from './show-associated-branch-prs-on-fork.gql';
 
 type PullRequest = {
-	timelineItems: {
-		nodes: Array<{
-			__typename: string;
-		}>;
-	};
 	number: number;
 	state: keyof typeof stateIcon;
 	isDraft: boolean;
@@ -36,12 +31,16 @@ export const pullRequestsAssociatedWithBranch = new CachedFunction('associatedBr
 
 		const pullRequests: Record<string, PullRequest> = {};
 		for (const {name, associatedPullRequests} of repository.refs.nodes) {
-			const [prInfo] = associatedPullRequests.nodes as PullRequest[];
+			const [prInfo] = associatedPullRequests.nodes;
 			// Check if the ref was deleted, since the result includes pr's that are not in fact related to this branch but rather to the branch name.
 			const wasHeadRefDeleted = prInfo?.timelineItems.nodes[0]?.__typename === 'HeadRefDeletedEvent';
 			if (prInfo && !wasHeadRefDeleted) {
-				prInfo.state = prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state;
-				pullRequests[name] = prInfo;
+				pullRequests[name] = {
+					number: prInfo.number,
+					state: prInfo.isDraft && prInfo.state === 'OPEN' ? 'DRAFT' : prInfo.state,
+					isDraft: prInfo.isDraft,
+					url: prInfo.url,
+				};
 			}
 		}
 
