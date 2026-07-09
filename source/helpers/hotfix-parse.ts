@@ -4,10 +4,6 @@ export type BrokenFeatureEntry = [featureId: FeatureId, relatedIssue: string, un
 
 export function parseBrokenFeaturesCsv(content: string, currentVersion: string): BrokenFeatureEntry[] {
 	const entries: BrokenFeatureEntry[] = [];
-	if (!content) {
-		return entries;
-	}
-
 	const [, ...rows] = content.trim().split('\n');
 	for (const row of rows) {
 		if (!row.trim()) {
