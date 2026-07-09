@@ -11,7 +11,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Check if PR has no labels
         id: check
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           result-encoding: string
           script: |
@@ -65,7 +65,7 @@ jobs:
       issues: read
       contents: read
     steps:
-      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const allowed = ['bug', 'enhancement', 'meta']
@@ -116,7 +116,7 @@ jobs:
     steps:
       - name: Check if force push
         id: check
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           result-encoding: string
           script: |
@@ -146,8 +146,9 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
+          allow-unsafe-pr-checkout: true
           sparse-checkout: source/manifest.json
 
       - id: check
