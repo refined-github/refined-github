@@ -6,6 +6,10 @@ html:not([rgh-OFF-repo-header-info]) {
 			padding-right: 4em;
 		}
 	}
+	.rgh-repo-header-info-updated::after {
+		/* Hide breadcrumb's slash */
+		content: none;
+	}
 
 	.rgh-ci-link .commit-build-statuses {
 		font-size: 0;
