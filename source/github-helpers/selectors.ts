@@ -217,6 +217,8 @@ export const botLinksPrSelectors = [
 	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+	// Global PR search results (github.com/pulls, /pulls/search), React list view
+	'[data-testid="author-filter-link"][aria-label$="[bot]"]',
 ];
 export const botLinksPrSelectors_ = [
 	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],

@@ -38,6 +38,8 @@ function dim(commit: HTMLElement): void {
 		'[data-testid="commit-row-item"]',
 
 		'.Box-row', // PRs
+
+		'li:has([data-testid="listitem-title-link"])', // Global PR search results
 	], commit).classList.add(dimBots.class);
 }
 
