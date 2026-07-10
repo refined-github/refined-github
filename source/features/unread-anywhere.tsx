@@ -19,7 +19,7 @@ import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
 
-const buttonWithNotificationsSelector = 'a[class*="notificationIndicator"]';
+const buttonWithNotificationsSelector = '.loaded a[class*="notificationIndicator"]';
 
 function removeNotificationIndicator(element: HTMLElement): void {
 	for (const className of element.classList) {
