@@ -88,10 +88,10 @@ function replace(nativeNav: HTMLElement): void {
 
 async function initOnce(): Promise<void> {
 	// Use `element-ready` to ensure that the native navigation is fully loaded before replacing it for the first time.
-	await elementReady('nav[aria-label="Repository"]');
+	await elementReady('.loaded nav[aria-label="Repository"]');
 
 	// Use `observe` because GitHub occasionally removes and re-adds the entire header.
-	observe('nav[aria-label="Repository"]', replace);
+	observe('.loaded nav[aria-label="Repository"]', replace);
 }
 
 function updateCurrentTab(): void {
