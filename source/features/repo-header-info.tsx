@@ -75,7 +75,7 @@ function addStars(repoLink: HTMLElement, stargazerCount: number, viewerHasStarre
 
 	prepareForAddition(repoLink);
 
-	repoLink.after(
+	repoLink.parentElement!.append(
 		<a
 			href={buildRepoUrl('stargazers')}
 			title={tooltip}
@@ -140,7 +140,7 @@ function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
 async function add(repoLink: HTMLElement): Promise<void> {
 	const info = await getRepositoryInfo();
 
-	repoLink.classList.add('rgh-repo-header-info-updated');
+	repoLink.parentElement!.classList.add('rgh-repo-header-info-updated');
 
 	markPrivate(repoLink, info.isPrivate);
 	addStars(repoLink, info.stargazerCount, info.viewerHasStarred);
