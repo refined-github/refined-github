@@ -13,7 +13,6 @@ const minimumViewportWidthForSidebar = 768; // Less than this, the layout is sin
 const sidebarSelector = [
 	'#partial-discussion-sidebar', // `isDiscussion`, `isPRConversation`
 	'div[class^="prc-PageLayout-Pane"]:has(> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"])', // `isRepoRoot`
-
 ];
 
 let sidebar: HTMLElement | undefined;

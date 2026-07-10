@@ -41,6 +41,7 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
+			'@stylistic/quotes': ['error', 'single', {avoidEscape: true}],
 			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
 			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
