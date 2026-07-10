@@ -18,7 +18,7 @@ export const standaloneGistLinkInMarkdown = `
 		[href^="https://gist.github.com/"],
 		[href^="${location.origin}/gist/"]
 	)
-` as 'a'; // `typed-query-selector` bug
+` as const;
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
 ] satisfies UrlMatch[];
