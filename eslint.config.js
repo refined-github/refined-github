@@ -13,10 +13,13 @@ import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
-	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url)), {gitignoreResolution: true}),
-	globalIgnores({
-		ignores: ['safari', 'package-lock.json'],
-	}),
+	includeIgnoreFile(
+		fileURLToPath(
+			new URL('.gitignore', import.meta.url),
+		),
+		{gitignoreResolution: true},
+	),
+	globalIgnores(['safari', 'package-lock.json']),
 	...eslintConfigXo({
 		browser: true,
 		// TODO: Use after dprint is enabled on TSX files

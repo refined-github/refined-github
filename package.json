@@ -101,7 +101,6 @@
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-formatter-unix": "^9.0.1",
 		"eslint-plugin-byo": "^1.0.1",
-		"eslint-plugin-import-x": "^4.17.1",
 		"eslint-plugin-svelte": "^3.20.0",
 		"fast-ignore": "^2.0.0",
 		"filenamify": "^7.0.2",
