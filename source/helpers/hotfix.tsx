@@ -1,26 +1,15 @@
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
 import React from 'dom-chef';
 import {isEnterprise} from 'github-url-detection';
-import compareVersions from 'tiny-version-compare';
 import {CachedFunction} from 'webext-storage-cache';
 
 import type {RghOptions} from '../options-storage.js';
+import {getNewFeatureName} from '../feature-data.js';
 import isDevelopmentVersion from './is-development-version.js';
 import {isomorphicFetchText} from './isomorphic-fetch.js';
+import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
-
-function parseCsv(content: string): string[][] {
-	const lines = [];
-	const [_header, ...rawLines] = content.trim().split('\n');
-	for (const line of rawLines) {
-		if (line.trim()) {
-			lines.push(line.split(',').map(cell => cell.trim()));
-		}
-	}
-
-	return lines;
-}
 
 async function fetchHotfix(path: string): Promise<string> {
 	// Use GitHub Pages host because the API is rate-limited
@@ -29,23 +18,12 @@ async function fetchHotfix(path: string): Promise<string> {
 	});
 }
 
-type HotfixStorage = Array<[FeatureId, string, string]>;
+type HotfixStorage = BrokenFeatureEntry[];
 
 export const brokenFeatures = new CachedFunction('broken-features', {
 	async updater(): Promise<HotfixStorage> {
 		const content = await fetchHotfix('broken-features.csv');
-		if (!content) {
-			return [];
-		}
-
-		const storage: HotfixStorage = [];
-		for (const [featureId, relatedIssue, unaffectedVersion] of parseCsv(content)) {
-			if (featureId && relatedIssue && (!unaffectedVersion || compareVersions(unaffectedVersion, currentVersion) > 0)) {
-				storage.push([featureId as FeatureId, relatedIssue, unaffectedVersion]);
-			}
-		}
-
-		return storage;
+		return parseBrokenFeaturesCsv(content, currentVersion);
 	},
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 30},
@@ -72,7 +50,10 @@ export async function getLocalHotfixes(): Promise<HotfixStorage> {
 export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> {
 	const options: Partial<RghOptions> = {};
 	for (const [feature] of await getLocalHotfixes()) {
-		options[`feature:${feature}`] = false;
+		const currentFeature = getNewFeatureName(feature);
+		if (currentFeature) {
+			options[`feature:${currentFeature}`] = false;
+		}
 	}
 
 	return options;

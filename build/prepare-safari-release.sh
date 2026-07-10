@@ -26,7 +26,8 @@ echo "Will bump the project version" "$PROJECT_VERSION"
 
 trash distribution
 npm run build
-npx dot-json distribution/manifest.json version "$TAG"
+# Quoted to ensure it's treated as a string, not a number, by dot-json
+npx dot-json distribution/manifest.json version '"'$TAG'"' --json
 
 # For https://github.com/refined-github/refined-github/issues/7629
 # TODO: Drop after https://bugs.webkit.org/show_bug.cgi?id=277588

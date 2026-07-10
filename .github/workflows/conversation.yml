@@ -13,11 +13,11 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - uses: fregante/title-to-labels-action@v1
+      - uses: fregante/title-to-labels-action@20f99e8f21b5da50da0494faf9ad87d58ec57370 # v1.2.5
         with:
           token: ${{ github.token }}
       - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-'))
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             await github.rest.issues.addLabels({
@@ -25,8 +25,8 @@ jobs:
               issue_number: context.payload.pull_request.number,
               labels: ['meta'],
             })
-      - uses: actions/checkout@v6
-      - uses: fregante/keyword-formatter-action@v1
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: fregante/keyword-formatter-action@ac8e2c7d8913c1f38cdbac6832218050be04c52f # v1.0.2
         with:
           token: ${{ github.token }}
           keywords-path: source/features

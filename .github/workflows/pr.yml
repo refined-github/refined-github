@@ -11,7 +11,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Check if PR has no labels
         id: check
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           result-encoding: string
           script: |
@@ -53,7 +53,7 @@ jobs:
 
       - name: Post comment if unlabeled
         if: steps.check.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           message: 'To maintainers: Please add labels to this PR'
 
@@ -65,7 +65,7 @@ jobs:
       issues: read
       contents: read
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const allowed = ['bug', 'enhancement', 'meta']
@@ -116,7 +116,7 @@ jobs:
     steps:
       - name: Check if force push
         id: check
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           result-encoding: string
           script: |
@@ -131,7 +131,7 @@ jobs:
             return String(data.status === 'diverged');
 
       - if: steps.check.outputs.result == 'true'
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           message: |
             Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
@@ -146,14 +146,15 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
+          allow-unsafe-pr-checkout: true
           sparse-checkout: source/manifest.json
 
       - id: check
         run: echo "version=$(jq -r '.version' source/manifest.json)" >> "$GITHUB_OUTPUT"
 
-      - uses: marocchino/sticky-pull-request-comment@v3
+      - uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: manifest-version
           delete: ${{ steps.check.outputs.version == '0.0.0' }}
