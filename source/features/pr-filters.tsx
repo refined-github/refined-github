@@ -3,7 +3,6 @@ import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
 import {$} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
-import type {UnknownRecord} from 'type-fest';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -55,7 +54,7 @@ const hasChecks = new CachedFunction('has-checks', {
 	async updater(): Promise<boolean> {
 		const {repository} = await api.v4(HasChecks);
 
-		return repository.head.history.nodes.some((commit: UnknownRecord) => commit.statusCheckRollup);
+		return repository.head.history.nodes.some((commit: AnyObject) => commit.statusCheckRollup);
 	},
 	maxAge: {days: 3},
 	cacheKey: cacheByRepo,
