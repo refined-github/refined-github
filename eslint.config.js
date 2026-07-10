@@ -1,11 +1,10 @@
-import {includeIgnoreFile} from '@eslint/compat';
 import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
-import {defineConfig} from 'eslint/config';
+import {defineConfig, globalIgnores, includeIgnoreFile} from 'eslint/config';
 import globals from 'globals';
 import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
@@ -14,10 +13,10 @@ import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
-	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url))),
-	{
+	includeIgnoreFile(fileURLToPath(new URL('.gitignore', import.meta.url)), {gitignoreResolution: true}),
+	globalIgnores({
 		ignores: ['safari', 'package-lock.json'],
-	},
+	}),
 	...eslintConfigXo({
 		browser: true,
 		// TODO: Use after dprint is enabled on TSX files
