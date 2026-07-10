@@ -147,7 +147,9 @@
 		"array.prototype.tosorted": "npm:@nolyfill/array.prototype.tosorted@^1",
 		"es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@^1",
 		"hasown": "npm:@nolyfill/hasown@^1",
+		"is-core-module": "npm:@nolyfill/is-core-module@^1",
 		"is-regex": "npm:@nolyfill/is-regex@^1",
+		"object-keys": "npm:@nolyfill/object-keys@^1",
 		"object.assign": "npm:@nolyfill/object.assign@^1",
 		"object.entries": "npm:@nolyfill/object.entries@^1",
 		"object.fromentries": "npm:@nolyfill/object.fromentries@^1",
@@ -156,9 +158,8 @@
 		"object.values": "npm:@nolyfill/object.values@^1",
 		"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
-		"is-core-module": "npm:@nolyfill/is-core-module@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
-		"object-keys": "npm:@nolyfill/object-keys@^1"
+		"typescript": "npm:@typescript/typescript6@^6.0.2"
 	},
 	"webExt": {
 		"sourceDir": "distribution",
