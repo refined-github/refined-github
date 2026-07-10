@@ -68,12 +68,11 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		const hash = $optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!);
 		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest)
-		hash?.classList.add('d-none');
+		hash?.classList.add('d-none', 'd-md-flex');
 		// Prevent sha from being clipped
 		hash?.style.setProperty('min-width', '100px');
 
-		// Add at the beginning of the line to avoid content shift
-		assetSize.parentElement!.prepend(
+		const widget = (
 			<span className={cx(getClasses(assetSize))}>
 				<span
 					className="d-inline-block text-right"
@@ -82,8 +81,16 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 				>
 					{abbreviateNumber(downloadCount)} <DownloadIcon />
 				</span>
-			</span>,
+			</span>
 		);
+
+		if (hash) {
+			// Prefer placing it where the native count appears
+			hash.after(widget);
+		} else {
+			// Add at the beginning of the line to avoid content shift
+			assetSize.parentElement!.prepend(widget);
+		}
 
 		// Unset all margin we added `gap` like sane people.
 		// Unset via JS because we can't override utility classes.
