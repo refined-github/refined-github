@@ -84,9 +84,11 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 			</span>
 		);
 
-		if (hash) {
-			// Prefer placing it where the native count appears
-			hash.after(widget);
+		const nativeCount = $optional('span[aria-label*="download"]', assetSize.parentElement!);
+		// The native counter doesn't have heat colors, so we replace it anyway.
+		// https://github.com/refined-github/refined-github/issues/9769#issuecomment-4857658434
+		if (nativeCount) {
+			nativeCount.replaceWith(widget);
 		} else {
 			// Add at the beginning of the line to avoid content shift
 			assetSize.parentElement!.prepend(widget);
