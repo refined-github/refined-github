@@ -2,7 +2,6 @@ import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
-import pluginPromise from 'eslint-plugin-promise';
 import sveltePlugin from 'eslint-plugin-svelte';
 import {defineConfig, globalIgnores, includeIgnoreFile} from 'eslint/config';
 import globals from 'globals';
@@ -27,7 +26,6 @@ export default defineConfig([
 	}),
 	{
 		plugins: {
-			promise: pluginPromise,
 			byo: byoPlugin,
 			'refined-github': refinedGithubPlugin,
 			'select-dom': selectDom,
@@ -53,7 +51,6 @@ export default defineConfig([
 			'no-alert': 'off',
 			'no-console': 'off',
 			'no-warning-comments': 'off', // Noise
-			'promise/prefer-await-to-then': ['error', {strict: false}], // Allows `await x.catch()`
 			'require-unicode-regexp': 'off', // Don't care
 			'regexp/no-useless-character-class': 'off', // Ugly
 			'regexp/no-super-linear-move': 'off', // It is what is is
@@ -64,7 +61,6 @@ export default defineConfig([
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
-			'unicorn/prefer-await': 'off', // Native TS rule is preferred
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/consistent-boolean-name': 'off', // Impractical

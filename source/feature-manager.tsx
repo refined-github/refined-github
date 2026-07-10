@@ -118,7 +118,6 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	// eslint-disable-next-line promise/prefer-await-to-then -- Reads as a callback
 	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
 
 	if (options.customCss.trim().length > 0) {
