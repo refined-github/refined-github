@@ -16,4 +16,10 @@
 	[data-rgh-heat] {
 		min-width: 5em;
 	}
+
+	/* Hide the native counter: https://github.com/refined-github/refined-github/issues/9769#issuecomment-4857658434 */
+	/* Their version doesn't have heat colors */
+	span[aria-label*="download"] {
+		display: none !important;
+	}
 }
