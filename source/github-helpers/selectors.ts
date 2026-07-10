@@ -278,11 +278,7 @@ export const prMergeabilityBoxCaption =
 	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
-export const deletedHeadRepository = [
-	'span[title="This repository has been deleted"]',
-	// TODO [2026-06-01]: Remove
-	'.head-ref[title="This repository has been deleted"]',
-];
+export const deletedHeadRepository = 'span[title="This repository has been deleted"]';
 
 export const deletedHeadRepository_ = [
 	[2, 'https://github.com/refined-github/refined-github/pull/271'],
