@@ -99,7 +99,7 @@ function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
 	prepareForAddition(repoLink);
 	// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
 	$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-	repoLink.after(
+	closestElement('li', repoLink).after(
 		<a
 			href={forked.url}
 			className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
