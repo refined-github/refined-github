@@ -99,7 +99,6 @@ import './features/release-download-count.js';
 import './features/open-issue-to-latest-comment.js';
 import './features/toggle-everything-with-alt.js';
 import './features/suggest-commit-title-limit.js';
-import './features/highest-rated-comment.js';
 import './features/clean-conversation-filters.js';
 import './features/tags-on-commits-list.js';
 import './features/conventional-commits.js';
