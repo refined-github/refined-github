@@ -97,14 +97,16 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 		});
 	}
 
+	const item = (
+		<TimelineItem>
+			{createBanner(bannerContent)}
+		</TimelineItem>
+	);
+
 	// Use observer because GitHub might remove the box
 	// https://github.com/refined-github/refined-github/issues/9460
 	observe(commentBoxHashPr, anchor => {
-		anchor.before(
-			<TimelineItem>
-				{createBanner(bannerContent)}
-			</TimelineItem>,
-		);
+		anchor.before(item);
 	}, {signal});
 }
 
@@ -126,6 +128,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
+	console.log('adding banner')
 	void addReleaseBanner(
 		<>
 			No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
