@@ -58,7 +58,8 @@ const restrictedSyntax = {
 	}],
 	'byo/prefer-safe-create-tab': ['error', {
 		message: 'Import safeCreateTab instead',
-		selector: 'CallExpression[callee.object.object.name="chrome"][callee.object.property.name="tabs"][callee.property.name="create"]',
+		selector:
+			'CallExpression[callee.object.object.name="chrome"][callee.object.property.name="tabs"][callee.property.name="create"]',
 	}],
 };
 

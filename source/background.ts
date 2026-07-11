@@ -58,7 +58,7 @@ handleMessages({
 		return response.json();
 	},
 	async openOptionsPage(hash: string) {
-		return chrome.tabs.create({
+		return safeCreateTab({
 			url: chrome.runtime.getURL(`assets/options.html${hash && `#${hash}`}`),
 		});
 	},
@@ -103,7 +103,7 @@ async function showWelcomePage(): Promise<void> {
 		}
 
 		const url = chrome.runtime.getURL('assets/welcome.html');
-		await chrome.tabs.create({url});
+		await safeCreateTab({url});
 	} finally {
 		// Make sure it's always set to true even in case of errors
 		await welcomeShown.set(true);
