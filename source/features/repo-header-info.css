@@ -7,7 +7,6 @@ html:not([rgh-OFF-repo-header-info]) {
 		}
 	}
 
-
 	/* Hide breadcrumb's slash. Somehow this is added via both pseudo-element and element */
 	.rgh-repo-header-info-updated > span[class*='Breadcrumbs-ItemSeparator'],
 	.rgh-repo-header-info-updated::after {
