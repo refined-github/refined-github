@@ -130,7 +130,6 @@ async function init(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	console.log('adding banner')
 	void addReleaseBanner(
 		<>
 			No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
