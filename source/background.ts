@@ -16,6 +16,7 @@ import {fetchText} from './helpers/isomorphic-fetch.js';
 import optionsStorage, {hasToken} from './options-storage.js';
 import addIdentifyFeatureContextMenu from './options/identify-feature.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
+import {safeCreateTab} from './helpers/open-tabs.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -41,7 +42,7 @@ handleMessages({
 	},
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const url of urls) {
-			void chrome.tabs.create({
+			void safeCreateTab({
 				url,
 				openerTabId: tab!.id,
 				active: false,
@@ -79,7 +80,7 @@ chrome.action.onClicked.addListener(async tab => {
 		return;
 	}
 
-	await chrome.tabs.create({
+	await safeCreateTab({
 		openerTabId: tab.id,
 		url: actionUrl,
 	});

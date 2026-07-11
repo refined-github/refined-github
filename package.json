@@ -62,15 +62,15 @@
 		"webext-base-css": "^2.1.0",
 		"webext-bugs": "^2.0.2",
 		"webext-content-scripts": "^2.8.0",
-		"webext-detect": "^5.3.1",
+		"webext-detect": "^6.0.0",
 		"webext-dynamic-content-scripts": "^10.0.4",
 		"webext-msg": "^1.0.0",
 		"webext-options-sync": "^4.3.0",
 		"webext-options-sync-per-domain": "^4.3.2",
-		"webext-permission-toggle": "^7.0.0",
+		"webext-permission-toggle": "^7.0.1",
 		"webext-storage": "^3.1.0",
 		"webext-storage-cache": "^6.0.3",
-		"webext-tools": "^4.0.2",
+		"webext-tools": "^4.1.0",
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
