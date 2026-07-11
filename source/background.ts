@@ -13,10 +13,10 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
+import {safeCreateTab} from './helpers/open-tabs.js';
 import optionsStorage, {hasToken} from './options-storage.js';
 import addIdentifyFeatureContextMenu from './options/identify-feature.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
-import {safeCreateTab} from './helpers/open-tabs.js';
 
 const {version} = chrome.runtime.getManifest();
 

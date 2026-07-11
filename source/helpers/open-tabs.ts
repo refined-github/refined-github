@@ -27,5 +27,6 @@ export async function safeCreateTab(properties: chrome.tabs.CreateProperties): P
 		delete properties.openerTabId;
 	}
 
+	// eslint-disable-next-line byo/prefer-safe-create-tab -- Rule points to this function
 	return chrome.tabs.create(properties);
 }
