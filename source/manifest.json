@@ -9,7 +9,10 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "128.0"
+			"strict_min_version": "128.0",
+			"data_collection_permissions": {
+				"required": ["none"]
+			}
 		},
 		"gecko_android": {
 			"strict_min_version": "128.0"
@@ -63,8 +66,8 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": [ "assets/*" ],
-			"matches": [ "https://*/*" ]
+			"resources": ["assets/*"],
+			"matches": ["https://*/*"]
 		}
 	]
 }
