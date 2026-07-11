@@ -97,6 +97,8 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 		});
 	}
 
+	// Create outside observer because `text` can be a document fragment, which can only be appended once
+	// https://github.com/refined-github/refined-github/pull/9808
 	const item = (
 		<TimelineItem>
 			{createBanner(bannerContent)}
