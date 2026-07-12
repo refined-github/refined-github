@@ -20,6 +20,7 @@ const collaborators = new CachedFunction('repo-collaborators', {
 			if (error.message.includes('You do not have permission to view repository collaborators')) {
 				return [];
 			}
+
 			throw error;
 		}
 	},
