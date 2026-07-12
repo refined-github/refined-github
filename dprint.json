@@ -9,8 +9,11 @@
 		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
 	"includes": [
-		"**/*.{svelte,css,gql,yml,ts,js}",
-		"dprint.json"
+		"**/*.{svelte,css,gql,yml,ts,js,json}"
+	],
+	"excludes": [
+		"safari",
+		"eslint-suppressions.json"
 	],
 	"useTabs": true,
 	"markup": {
