@@ -163,7 +163,7 @@ function validateGql(file: FeatureFile): void {
 
 	assert(
 		file.tsx.contents().includes(`from './${file.name}';`)
-		|| file.svelte.exists() && file.svelte.contents().includes(`from './${file.name}';`),
+			|| file.svelte.exists() && file.svelte.contents().includes(`from './${file.name}';`),
 		`Should be imported by \`${file.tsx.name}\` or \`${file.svelte.name}\``,
 	);
 }
