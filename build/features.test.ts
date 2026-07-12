@@ -97,6 +97,10 @@ class FeatureFile {
 	get css(): FeatureFile {
 		return new FeatureFile(this.id + '.css');
 	}
+
+	get svelte(): FeatureFile {
+		return new FeatureFile(this.id + '.svelte');
+	}
 }
 
 function validateReadme(featureId: FeatureId): void {
@@ -158,8 +162,9 @@ function validateGql(file: FeatureFile): void {
 	);
 
 	assert(
-		file.tsx.contents().includes(`from './${file.name}';`),
-		`Should be imported by \`${file.tsx.name}\``,
+		file.tsx.contents().includes(`from './${file.name}';`)
+			|| file.svelte.exists() && file.svelte.contents().includes(`from './${file.name}';`),
+		`Should be imported by \`${file.tsx.name}\` or \`${file.svelte.name}\``,
 	);
 }
 

@@ -32,7 +32,7 @@ void features.add(import.meta.url, {
 		pageDetect.isRepoTree,
 	],
 	exclude: [
-		pageDetect.isRepoFile404,
+		pageDetect.is404,
 		isArchivedRepoAsync,
 		isPermalink,
 	],

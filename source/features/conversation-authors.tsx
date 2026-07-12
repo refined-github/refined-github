@@ -2,6 +2,7 @@ import './conversation-authors.css';
 
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
+import {assertError} from 'ts-extras';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -11,8 +12,17 @@ import GetCollaborators from './conversation-authors.gql';
 
 const collaborators = new CachedFunction('repo-collaborators', {
 	async updater(): Promise<string[]> {
-		const {repository} = await api.v4(GetCollaborators);
-		return repository.collaborators.nodes.map((user: Record<string, string>) => user.login);
+		try {
+			const {repository} = await api.v4(GetCollaborators);
+			return repository.collaborators.nodes.map((user: Record<string, string>) => user.login);
+		} catch (error) {
+			assertError(error);
+			if (error.message.includes('You do not have permission to view repository collaborators')) {
+				return [];
+			}
+
+			throw error;
+		}
 	},
 	maxAge: {days: 1},
 	staleWhileRevalidate: {days: 20},

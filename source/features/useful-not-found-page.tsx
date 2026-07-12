@@ -1,36 +1,16 @@
+import './useful-not-found-page.css';
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import getDefaultBranch from '../github-helpers/get-default-branch.js';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import GetLatestCommitToFile from './useful-not-found-page.gql';
-
-type File = {
-	previous_filename?: string;
-	filename: string;
-	status: string;
-	blob_url: string;
-};
-
-type FileChanges = {
-	file: File;
-	commit: {
-		parentSha: string;
-		date: Date;
-		url: string;
-	};
-};
-
-function getType(): string {
-	return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
-}
+import NotFoundInfo from './useful-not-found-page.svelte';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 
 function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-fg-subtle">{text}</del>;
@@ -42,212 +22,75 @@ async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 	}
 }
 
-function parseCurrentUrl(): string[] {
-	const parts = getCleanPathname().split('/');
-	if (parts[2] === 'blob') { // Blob URLs are never useful
-		parts[2] = 'tree';
-	}
-
-	return parts;
+function addWidget(container: HTMLElement): void {
+	mount(NotFoundInfo, {target: container.parentElement!});
 }
 
-async function getLatestCommitToFile(branch: string, filePath: string): Promise<string> {
-	const {repository} = await api.v4(GetLatestCommitToFile, {
-		variables: {
-			branch,
-			filePath,
-		},
-	});
-	return repository.object.history.nodes[0].oid;
-}
-
-async function getChangesToFileInCommit(sha: string, filePath: string): Promise<FileChanges | void> {
-	// API v4 doesn't support it: https://github.community/t/what-is-the-corresponding-object-in-graphql-api-v4-for-patch-which-is-available-in-rest-api-v3/13590
-	const commit = await api.v3(`commits/${sha}`);
-	for (const fileInfo of commit.files as File[]) {
-		if ([fileInfo.filename, fileInfo.previous_filename].includes(filePath)) {
-			return {
-				commit: {
-					parentSha: commit.parents[0].sha,
-					date: commit.commit.committer.date,
-					url: commit.html_url,
-				},
-				file: fileInfo,
-			};
-		}
-	}
-}
-
-async function getUrlToFileOnDefaultBranch(): Promise<string | void> {
-	const parsedUrl = new GitHubFileUrl(location.href);
-	if (!parsedUrl.branch) {
-		return;
-	}
-
-	parsedUrl.assign({branch: await getDefaultBranch()});
-	const urlOnDefault = parsedUrl.href;
-	if (urlOnDefault !== location.href && await isUrlReachable(urlOnDefault)) {
-		return urlOnDefault;
-	}
-}
-
-async function showMissingPartOnce(): Promise<void> {
-	const pathParts = parseCurrentUrl();
-	const breadcrumbs = [...pathParts.entries()]
-		.toReversed() // Checks the anchors right to left
-		.map(([index, part]) => {
-			if (
-				// Exclude parts that don't exist as standalones
-				(index === 0 && part === 'orgs') // #5483
-				|| (index === 2 && ['tree', 'blob', 'edit'].includes(part))
-				|| index === pathParts.length - 1 // The last part is a known 404
-			) {
-				return getStrikeThrough(part);
-			}
-
-			const pathname = '/' + pathParts.slice(0, index + 1).join('/');
-			const link = <a href={pathname}>{part}</a>;
-			void crossIfNonExistent(link);
-			return link;
-		})
-		.toReversed() // Restore order
-		.flatMap((link, index) => [index > 0 && ' / ', link]); // Add separators
-
-	$(['main > :first-child', '#parallax_illustration']).after(
-		<h2 className="container mt-4 tmp-mt-3 text-center">{breadcrumbs}</h2>,
-	);
-}
-
-async function showDefaultBranchLink(): Promise<void> {
-	if (pageDetect.isRepoRoot()) {
-		// The root is not a "file" and the link to it already appears in the breadcrumbs
-		// https://github.com/refined-github/refined-github/issues/9423
-		return;
-	}
-
-	const urlToFileOnDefaultBranch = await getUrlToFileOnDefaultBranch();
-	if (!urlToFileOnDefaultBranch) {
-		return;
-	}
-
-	$('main > .container-lg').before(
-		<p className="container mt-4 tmp-mt-3 text-center">
-			<a href={urlToFileOnDefaultBranch}>This {getType()}</a> exists on the default branch.
-		</p>,
-	);
-}
-
-async function getGitObjectHistoryLink(): Promise<HTMLElement | undefined> {
-	const url = new GitHubFileUrl(location.href);
-	if (!url.branch || !url.filePath) {
-		return;
-	}
-
-	const commitSha = await getLatestCommitToFile(url.branch, url.filePath);
-	const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
-	if (!fileChanges) {
-		return;
-	}
-
-	url.assign({route: 'commits'});
-	const commitHistory = <a href={url.href}>Commit history</a>;
-	url.assign({route: 'blob', branch: fileChanges.commit.parentSha, filePath: url.filePath});
-	const lastVersionUrl = fileChanges.file.status === 'removed' ? fileChanges.file.blob_url : url.href;
-	const lastVersion = <a href={lastVersionUrl}>This {getType()}</a>;
-	const permalink = (
-		<a href={fileChanges.commit.url}>
-			<relative-time datetime={fileChanges.commit.date} />
-		</a>
-	);
-	const verb = fileChanges.file.status === 'removed'
-		? 'deleted'
-		: <a href={fileChanges.file.blob_url}>moved</a>;
-
-	return (
-		<p className="container mt-4 tmp-mt-3 text-center">
-			{lastVersion} was {verb} ({permalink}) - {commitHistory}.
-		</p>
-	);
-}
-
-async function showGitObjectHistory(): Promise<void> {
-	const link = await getGitObjectHistoryLink();
-	if (link) {
-		$('main > .container-lg').before(link);
-	}
-}
-
-async function showGitObjectHistoryOnRepo(description: HTMLDivElement): Promise<void> {
-	const link = await getGitObjectHistoryLink();
-	if (link) {
-		link.className = 'color-fg-muted';
-		description.after(link);
-	}
-}
-
-async function initOnce(): Promise<void> {
-	void showDefaultBranchLink();
-	void showGitObjectHistory();
-}
-
-async function initPrCommitOnce(): Promise<void | false> {
-	const commitUrl = location.href.replace(/pull\/\d+\/(?:commits|changes)/, 'commit');
+async function addDirectCommitLinkOnce(): Promise<void | false> {
+	const commitUrl = location.origin + '/' + getCleanPathname().replace(/pull\/\d+\/(?:commits|changes)/, 'commit');
 	if (!(await isUrlReachable(commitUrl))) {
 		return false;
 	}
 
+	const commitHash = new GitHubFileUrl(commitUrl).branch.slice(0, 8);
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>
-			You can also try to <a href={commitUrl}>view the detached standalone commit</a>.
+			<span className="commit-ref"><a href={commitUrl}>{commitHash}</a></span> exists outside of this pull request.
 		</p>,
 	);
 }
 
-async function initRepoFile(signal: AbortSignal): Promise<void> {
-	observe('#repos-header-breadcrumb-wide-heading + ol a', crossIfNonExistent, {signal});
-	observe('main div[data-testid="eror-404-description"]', showGitObjectHistoryOnRepo, {signal}); // "eror" as misspelled by GitHub
+function crossTreeBreadcrumbs(signal: AbortSignal): void {
+	observe('#repos-header-breadcrumb ol a', crossIfNonExistent, {signal});
+}
+
+function init(signal: AbortSignal): void {
+	observe([
+		// 410 file
+		// Typo in GitHub's code
+		'div[data-testid="eror-404-description"]',
+
+		// 404 ref
+		'div[data-testid="error-404-description"]',
+	], addWidget, {signal});
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		pageDetect.is404,
-		() => parseCurrentUrl().length > 1,
-	],
-	awaitDomReady: true, // Small page
-	init: onetime(showMissingPartOnce),
-}, {
 	asLongAs: [
 		pageDetect.is404,
 	],
 	include: [
 		pageDetect.isSingleFile,
 		pageDetect.isRepoTree,
-		pageDetect.isEditingFile,
 	],
-	awaitDomReady: true, // Small page
 	requiresToken: true,
-	init: onetime(initOnce),
+	init,
+}, {
+	asLongAs: [
+		pageDetect.is404,
+		pageDetect.isRepoTree,
+	],
+	// No token required.
+	// Only appears on /tree/ URLs:
+	// https://github.com/fregante/GhostText/tree/3cacd7df71b097dc525d99c7aa2f54d31b02fcc8/chrome/scripts/InputArea
+	init: crossTreeBreadcrumbs,
 }, {
 	include: [
 		pageDetect.isPRCommit404,
 	],
-	init: onetime(initPrCommitOnce),
-}, {
-	include: [
-		pageDetect.isRepoFile404,
-	],
-	requiresToken: true,
-	init: initRepoFile,
+	init: onetime(addDirectCommitLinkOnce),
 });
 
 /*
 
 Test URLs:
 
-- 404 issue: https://github.com/refined-github/refined-github/issues/888888
 - 404 file: https://github.com/refined-github/refined-github/blob/main/source/features/a-horse-with-no-name.tsx
-- 410 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js
+- 410 file: https://github.com/refined-github/refined-github/blob/main/source/features/highest-rated-comment.tsx
+- 301 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js
+- 404 folder (native breadcrumbs): https://github.com/fregante/GhostText/tree/3cacd7df71b097dc525d99c7aa2f54d31b02fcc8/chrome/scripts/InputArea
 - 404 ref: https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json
+- 410 PR commit: https://github.com/refined-github/refined-github/pull/9773/changes/f3b5e710d3e363dfb1f1211e8807ac4f2366b4b8
 
 */
