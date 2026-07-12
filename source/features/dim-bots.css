@@ -21,8 +21,12 @@
 		.dropdown-signed-commit /* Commit verified label */,
 		.flex-shrink-0 .BtnGroup /* Commit buttons on side */,
 		.min-width-0 > :is(.d-block, .d-flex) /* PR */,
-		/* Global PR search (React list view) metadata line: repo, author, time, labels */
-		& > *:has([data-testid='timestamp-container']) {
+		/* Global PR search (React list view): collapse to just the icon and title,
+		   like repo PR lists. The metadata line, the trailing metadata, and the
+		   labels (which sit beside the title) are all hidden until the first click. */
+		& > *:has([data-testid='timestamp-container']),
+		& > [class*='MetadataContainer'],
+		& [class*='trailingBadges'] {
 			display: none !important;
 		}
 	}
