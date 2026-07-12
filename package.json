@@ -1,6 +1,10 @@
 {
 	"private": true,
 	"type": "module",
+	"engines": {
+		"node": ">= 24"
+	},
+	"packageManager": "npm@12.0.0",
 	"scripts": {
 		"vitest": "NODE_NO_WARNINGS=1 vitest --run",
 		"build": "run-p build:* --continue-on-error",
@@ -34,7 +38,7 @@
 		"dom-loaded": "^3.1.0",
 		"doma": "^4.0.0",
 		"element-ready": "^9.0.2",
-		"eslint-config-xo": "^0.57.0",
+		"eslint-config-xo": "github:xojs/eslint-config-xo",
 		"filter-altered-clicks": "^2.1.1",
 		"flat-zip": "^1.0.1",
 		"github-reserved-names": "^2.2.0",
@@ -84,8 +88,6 @@
 		"@rollup/plugin-sucrase": "^5.1.0",
 		"@sindresorhus/tsconfig": "^8.1.0",
 		"@types/chrome": "^0.2.2",
-		"@types/codemirror": "^5.60.17",
-		"@types/dom-navigation": "^1.0.7",
 		"@types/node": "^26.1.1",
 		"@types/react": "^17.0.52",
 		"@typescript/native": "npm:typescript@^7.0.2",
@@ -128,13 +130,6 @@
 		"vite": "^8.1.4",
 		"vitest": "^4.1.10"
 	},
-	"engines": {
-		"node": ">= 24",
-		"npm": ">= 11"
-	},
-	"graphql": {
-		"schema": "https://docs.github.com/public/schema.docs.graphql"
-	},
 	"overrides": {
 		"array-includes": "npm:@nolyfill/array-includes@^1",
 		"array.prototype.find": "npm:@nolyfill/array.prototype.find@^1",
@@ -159,6 +154,9 @@
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
 		"typescript": "npm:@typescript/typescript6@^6.0.2"
+	},
+	"graphql": {
+		"schema": "https://docs.github.com/public/schema.docs.graphql"
 	},
 	"webExt": {
 		"sourceDir": "distribution",

@@ -9,7 +9,7 @@ then
 	exit 1
 fi
 
-echo "import React from 'react';
+echo "import React from 'dom-chef';
 import BugIcon from 'octicons-plain-react/Bug';
 import * as pageDetect from 'github-url-detection';
 

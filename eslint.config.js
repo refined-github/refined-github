@@ -192,11 +192,19 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.js', '**/*.ts', '**/*.svelte', '**/*.html', '**/*.md'],
+		files: ['**/package.json'],
+		rules: {
+			'package-json/no-orphan-types': ["error", {
+				"ignore": ["@types/chrome", "@types/react"]
+			}],
+		},
+	},
+	{
 		rules: {
 			...eslintConfigPrettier.rules,
 
 			'markdown/no-empty-links': 'off',
+			'package-json/require-fields': 'off', // Never needed name and version
 
 			// TODO: Drop after moving to dprint and enabling the global `prettier:compat` option
 			// https://github.com/xojs/eslint-config-xo/issues/106

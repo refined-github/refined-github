@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import CodeIcon from 'octicons-plain-react/Code';
-import React from 'react';
+import React from 'dom-chef';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';

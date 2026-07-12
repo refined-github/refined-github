@@ -1,7 +1,7 @@
 import cx from 'clsx';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
-import React from 'react';
+import React from 'dom-chef';
 import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';

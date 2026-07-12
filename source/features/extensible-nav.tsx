@@ -2,7 +2,7 @@ import './extensible-nav.css';
 import cx from 'clsx';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import React from 'react';
+import React from 'dom-chef';
 import {$, $$, $optional, elementExists} from 'select-dom';
 import {assertPresent} from 'ts-extras';
 
