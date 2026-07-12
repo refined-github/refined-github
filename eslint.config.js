@@ -194,8 +194,8 @@ export default defineConfig([
 	{
 		files: ['**/package.json'],
 		rules: {
-			'package-json/no-orphan-types': ["error", {
-				"ignore": ["@types/chrome", "@types/react"]
+			'package-json/no-orphan-types': ['error', {
+				'ignore': ['@types/chrome', '@types/react'],
 			}],
 		},
 	},
