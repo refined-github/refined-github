@@ -153,7 +153,6 @@
 
 	const {branch}: Props = $props();
 
-	console.log('useful-not-found-page: branch inside', branch);
 	const type = getType();
 	const showBreadcrumbs = $derived(
 		// No branch = no folder exists either
@@ -165,9 +164,15 @@
 		|| pageDetect.isEditingFile();
 	const muted = pageDetect.isRepoFile404();
 
-	const crumbs: Crumb[] = $state(showBreadcrumbs ? buildCrumbs() : []);
-	let defaultBranchUrl: string | undefined = $state();
-	let gitHistory: GitHistory | undefined = $state();
+	const crumbs: Crumb[] = $derived(showBreadcrumbs ? buildCrumbs() : []);
+
+	const defaultBranchUrlPromise = showFileInfo && !pageDetect.isRepoRoot()
+		? getUrlToFileOnDefaultBranch()
+		: undefined;
+
+	const gitHistoryPromise = showFileInfo || muted
+		? getGitHistory()
+		: undefined;
 
 	$effect(() => {
 		for (const crumb of crumbs) {
@@ -176,35 +181,23 @@
 			})();
 		}
 	});
-
-	$effect(() => {
-		if (showFileInfo && !pageDetect.isRepoRoot()) {
-			(async () => {
-				defaultBranchUrl = await getUrlToFileOnDefaultBranch();
-			})();
-		}
-
-		if (showFileInfo || muted) {
-			(async () => {
-				gitHistory = await getGitHistory();
-			})();
-		}
-	});
 </script>
 
-{#if gitHistory}
-	<p class={muted ? 'color-fg-muted' : 'container mt-4 tmp-mt-3 text-center'}>
-		<a href={gitHistory.lastVersionUrl}>This {type}</a> was
-		{#if gitHistory.status === 'removed'}
-			deleted
-		{:else}
-			<a href={gitHistory.movedUrl}>moved</a>
-		{/if}
-		(<a href={gitHistory.commitUrl} title="View commit">
-			<relative-time datetime={gitHistory.commitDate}></relative-time>
-		</a>) - <a href={gitHistory.commitHistoryUrl}>Commit history</a>.
-	</p>
-{/if}
+{#await gitHistoryPromise then gitHistory}
+	{#if gitHistory}
+		<p class={muted ? 'color-fg-muted' : 'container mt-4 tmp-mt-3 text-center'}>
+			<a href={gitHistory.lastVersionUrl}>This {type}</a> was
+			{#if gitHistory.status === 'removed'}
+				deleted
+			{:else}
+				<a href={gitHistory.movedUrl}>moved</a>
+			{/if}
+			(<a href={gitHistory.commitUrl} title="View commit">
+				<relative-time datetime={gitHistory.commitDate}></relative-time>
+			</a>) - <a href={gitHistory.commitHistoryUrl}>Commit history</a>.
+		</p>
+	{/if}
+{/await}
 
 {#if showBreadcrumbs}
 	<h4 class="container mt-4 tmp-mt-3 text-center">
@@ -219,8 +212,10 @@
 	</h4>
 {/if}
 
-{#if showFileInfo && defaultBranchUrl}
-	<p class="container mt-4 tmp-mt-3 text-center">
-		View <a href={defaultBranchUrl}>{type}</a> on the default branch.
-	</p>
-{/if}
+{#await defaultBranchUrlPromise then defaultBranchUrl}
+	{#if defaultBranchUrl}
+		<p class="container mt-4 tmp-mt-3 text-center">
+			View <a href={defaultBranchUrl}>{type}</a> on the default branch.
+		</p>
+	{/if}
+{/await}
