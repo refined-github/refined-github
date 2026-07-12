@@ -20,7 +20,9 @@
 		.mb-1 ~ * /* Commit metadata */,
 		.dropdown-signed-commit /* Commit verified label */,
 		.flex-shrink-0 .BtnGroup /* Commit buttons on side */,
-		.min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+		.min-width-0 > :is(.d-block, .d-flex) /* PR */,
+		/* Global PR search (React list view) metadata line: repo, author, time, labels */
+		& > *:has([data-testid='timestamp-container']) {
 			display: none !important;
 		}
 	}
