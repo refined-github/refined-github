@@ -56,6 +56,11 @@ const restrictedSyntax = {
 		selector:
 			'JSXOpeningElement:not(:has(JSXAttribute[name.name="hidden"])) > JSXAttribute[name.name="data-hotkey"]:not(CallExpression[callee.name="tooltipped"] JSXAttribute[name.name="data-hotkey"])',
 	}],
+	'byo/prefer-safe-create-tab': ['error', {
+		message: 'Import safeCreateTab instead',
+		selector:
+			'CallExpression[callee.object.object.name="chrome"][callee.object.property.name="tabs"][callee.property.name="create"]',
+	}],
 };
 
 export default restrictedSyntax;

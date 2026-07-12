@@ -97,14 +97,18 @@ async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal)
 		});
 	}
 
+	// Create outside observer because `text` can be a document fragment, which can only be appended once
+	// https://github.com/refined-github/refined-github/pull/9808
+	const item = (
+		<TimelineItem>
+			{createBanner(bannerContent)}
+		</TimelineItem>
+	);
+
 	// Use observer because GitHub might remove the box
 	// https://github.com/refined-github/refined-github/issues/9460
 	observe(commentBoxHashPr, anchor => {
-		anchor.before(
-			<TimelineItem>
-				{createBanner(bannerContent)}
-			</TimelineItem>,
-		);
+		anchor.before(item);
 	}, {signal});
 }
 

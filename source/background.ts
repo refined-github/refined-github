@@ -13,6 +13,7 @@ import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
+import {safeCreateTab} from './helpers/open-tabs.js';
 import optionsStorage, {hasToken} from './options-storage.js';
 import addIdentifyFeatureContextMenu from './options/identify-feature.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
@@ -41,7 +42,7 @@ handleMessages({
 	},
 	async openUrls(urls: string[], {tab}: chrome.runtime.MessageSender) {
 		for (const url of urls) {
-			void chrome.tabs.create({
+			void safeCreateTab({
 				url,
 				openerTabId: tab!.id,
 				active: false,
@@ -57,7 +58,7 @@ handleMessages({
 		return response.json();
 	},
 	async openOptionsPage(hash: string) {
-		return chrome.tabs.create({
+		return safeCreateTab({
 			url: chrome.runtime.getURL(`assets/options.html${hash && `#${hash}`}`),
 		});
 	},
@@ -79,7 +80,7 @@ chrome.action.onClicked.addListener(async tab => {
 		return;
 	}
 
-	await chrome.tabs.create({
+	await safeCreateTab({
 		openerTabId: tab.id,
 		url: actionUrl,
 	});
@@ -102,7 +103,7 @@ async function showWelcomePage(): Promise<void> {
 		}
 
 		const url = chrome.runtime.getURL('assets/welcome.html');
-		await chrome.tabs.create({url});
+		await safeCreateTab({url});
 	} finally {
 		// Make sure it's always set to true even in case of errors
 		await welcomeShown.set(true);

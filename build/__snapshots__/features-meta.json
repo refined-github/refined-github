@@ -355,12 +355,6 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png"
 	},
 	{
-		"id": "highest-rated-comment",
-		"description": "Highlights the most useful comment in issues.",
-		"css": true,
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252763905-a0c3b074-b032-4d97-946e-328e8a6fb2da.png"
-	},
-	{
 		"id": "highlight-non-default-base-branch",
 		"description": "Shows the base branch in PR lists if it’s not the default branch.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png"
