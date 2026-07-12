@@ -34,6 +34,9 @@
 		/* For debugging */
 		/* color: red !important; */
 	}
+	.rgh-hide-if-empty:empty {
+		display: none !important;
+	}
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */

@@ -1,0 +1,6 @@
+/* Missing file */
+.flex-items-center a[aria-label='go to Overview'],
+/* Missing branch */
+.flex-items-center a[aria-label='go to default branch'] {
+	display: none;
+}

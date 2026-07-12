@@ -1,10 +1,8 @@
 <script lang="ts">
-	import * as pageDetect from 'github-url-detection';
-
 	import api from '../github-helpers/api.js';
 	import getDefaultBranch from '../github-helpers/get-default-branch.js';
 	import GitHubFileUrl from '../github-helpers/github-file-url.js';
-	import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+	import {isUrlReachable} from '../github-helpers/index.js';
 	import GetLatestCommitToFile from './useful-not-found-page.gql';
 
 	type File = {
@@ -23,50 +21,17 @@
 		};
 	};
 
-	type Crumb = {
-		text: string;
-		href?: string;
-		strike: boolean;
-	};
-
 	type GitHistory = {
+		oldFilename: string;
 		lastVersionUrl: string;
 		status: string;
 		movedUrl: string;
 		commitUrl: string;
 		commitDate: Date;
-		commitHistoryUrl: string;
 	};
 
 	function getType(): string {
 		return location.pathname.split('/').pop()!.includes('.') ? 'file' : 'object';
-	}
-
-	function parseCurrentUrl(): string[] {
-		const parts = getCleanPathname().split('/');
-		if (parts[2] === 'blob') {
-			parts[2] = 'tree';
-		}
-
-		return parts;
-	}
-
-	function buildCrumbs(): Crumb[] {
-		const parts = parseCurrentUrl();
-
-		// Remove the first 3 parts because they're most likely already on the page (user, repo, tree/blob/edit)
-		const offset = 4;
-
-		return parts.slice(offset).map((part, index) => {
-			const strike = index === parts.length - offset - 1;
-			return {
-				text: part,
-				href: strike
-					? undefined
-					: '/' + parts.slice(0, offset + index + 1).join('/'),
-				strike,
-			};
-		});
 	}
 
 	async function getLatestCommitToFile(
@@ -76,7 +41,12 @@
 		const {repository} = await api.v4(GetLatestCommitToFile, {
 			variables: {branch, filePath},
 		});
-		return repository.object.history.nodes[0].oid;
+
+		return repository.object
+			// Missing if the ref doesn't exist
+			?.history.nodes[0]
+			// Missing if the ref exists but the file never existed
+			?.oid;
 	}
 
 	async function getChangesToFileInCommit(
@@ -122,100 +92,63 @@
 		}
 
 		const commitSha = await getLatestCommitToFile(url.branch, url.filePath);
+		if (!commitSha) {
+			// Never existed
+			return undefined;
+		}
+
 		const fileChanges = await getChangesToFileInCommit(commitSha, url.filePath);
 		if (!fileChanges) {
 			return undefined;
 		}
 
-		url.assign({route: 'commits'});
-		const commitHistoryUrl = url.href;
-		url.assign({
-			route: 'blob',
-			branch: fileChanges.commit.parentSha,
-			filePath: url.filePath,
-		});
-
 		return {
+			oldFilename: fileChanges.file.previous_filename ?? fileChanges.file.filename,
 			lastVersionUrl: fileChanges.file.status === 'removed'
 				? fileChanges.file.blob_url
 				: url.href,
 			status: fileChanges.file.status,
-			movedUrl: fileChanges.file.blob_url,
+			movedUrl: decodeURIComponent(fileChanges.file.blob_url), // Why is the API returning dir%2Ffile.js??!
 			commitUrl: fileChanges.commit.url,
 			commitDate: fileChanges.commit.date,
-			commitHistoryUrl,
 		};
 	}
 
-	type Props = {
-		branch?: string;
-	};
-
-	const {branch}: Props = $props();
-
 	const type = getType();
-	const showBreadcrumbs = $derived(
-		// No branch = no folder exists either
-		branch
-			// /tree/ URLs have breadcrumbs, but /blob/ URLs don't
-			&& pageDetect.isSingleFile(),
-	);
-	const showFileInfo = pageDetect.isSingleFile() || pageDetect.isRepoTree()
-		|| pageDetect.isEditingFile();
-	const muted = pageDetect.isRepoFile404();
-
-	const crumbs: Crumb[] = $derived(showBreadcrumbs ? buildCrumbs() : []);
-
-	const defaultBranchUrlPromise = showFileInfo && !pageDetect.isRepoRoot()
-		? getUrlToFileOnDefaultBranch()
-		: undefined;
-
-	const gitHistoryPromise = showFileInfo || muted
-		? getGitHistory()
-		: undefined;
-
-	$effect(() => {
-		for (const crumb of crumbs) {
-			(async () => {
-				crumb.strike = !(crumb.href && await isUrlReachable(crumb.href));
-			})();
-		}
-	});
 </script>
 
-{#await gitHistoryPromise then gitHistory}
-	{#if gitHistory}
-		<p class={muted ? 'color-fg-muted' : 'container mt-4 tmp-mt-3 text-center'}>
-			<a href={gitHistory.lastVersionUrl}>This {type}</a> was
-			{#if gitHistory.status === 'removed'}
-				deleted
-			{:else}
-				<a href={gitHistory.movedUrl}>moved</a>
+<div class="color-fg-muted rgh-hide-if-empty">
+	{#await getGitHistory()}
+		Loading history of this {type}...
+	{:then gitHistory}
+		{#if gitHistory}
+			<span class="commit-ref">
+				<a href={gitHistory.commitUrl}>
+					{new GitHubFileUrl(gitHistory.commitUrl).branch.slice(0, 8)}
+				</a>
+			</span>
+			{gitHistory.status}
+			<a href={gitHistory.lastVersionUrl}>{gitHistory.oldFilename}</a>
+			{#if gitHistory.status !== 'removed'}
+				to <a href={gitHistory.movedUrl}>{
+					gitHistory.movedUrl.split('/').slice(7).join('/')
+				}</a>
 			{/if}
-			(<a href={gitHistory.commitUrl} title="View commit">
-				<relative-time datetime={gitHistory.commitDate}></relative-time>
-			</a>) - <a href={gitHistory.commitHistoryUrl}>Commit history</a>.
-		</p>
-	{/if}
-{/await}
+			<relative-time datetime={gitHistory.commitDate}></relative-time>.
+		{:else}
+			<!-- TODO: Handle scenario. Can be because branch OR file is 404 -->
+		{/if}
+	{/await}
+</div>
 
-{#if showBreadcrumbs}
-	<h4 class="container mt-4 tmp-mt-3 text-center">
-		{#each crumbs as crumb, index (index)}
-			{index > 0 ? ' / ' : ''}
-			{#if crumb.strike}
-				<del class="color-fg-subtle">{crumb.text}</del>
-			{:else}
-				<a href={crumb.href}>{crumb.text}</a>
-			{/if}
-		{/each}
-	</h4>
-{/if}
-
-{#await defaultBranchUrlPromise then defaultBranchUrl}
-	{#if defaultBranchUrl}
-		<p class="container mt-4 tmp-mt-3 text-center">
-			View <a href={defaultBranchUrl}>{type}</a> on the default branch.
-		</p>
-	{/if}
-{/await}
+<div class="color-fg-muted rgh-hide-if-empty">
+	{#await getUrlToFileOnDefaultBranch()}
+		Loading default branch...
+	{:then defaultBranchUrl}
+		{#if defaultBranchUrl}
+			<a href={defaultBranchUrl}>{
+				new GitHubFileUrl(defaultBranchUrl).filePath
+			}</a> exists on the default branch.
+		{/if}
+	{/await}
+</div>
