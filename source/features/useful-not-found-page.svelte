@@ -53,13 +53,17 @@
 
 	function buildCrumbs(): Crumb[] {
 		const parts = parseCurrentUrl();
-		return parts.map((part, index) => {
-			const strike = (index === 0 && part === 'orgs') // #5483
-				|| (index === 2 && ['tree', 'blob', 'edit'].includes(part))
-				|| index === parts.length - 1;
+
+		// Remove the first 3 parts because they're most likely already on the page (user, repo, tree/blob/edit)
+		const offset = 4;
+
+		return parts.slice(offset).map((part, index) => {
+			const strike = index === parts.length - offset - 1;
 			return {
 				text: part,
-				href: strike ? undefined : '/' + parts.slice(0, index + 1).join('/'),
+				href: strike
+					? undefined
+					: '/' + parts.slice(0, offset + index + 1).join('/'),
 				strike,
 			};
 		});
@@ -143,8 +147,20 @@
 		};
 	}
 
+	type Props = {
+		branch?: string;
+	};
+
+	const {branch}: Props = $props();
+
+	console.log('useful-not-found-page: branch inside', branch);
 	const type = getType();
-	const showBreadcrumbs = parseCurrentUrl().length > 1;
+	const showBreadcrumbs = $derived(
+		// No branch = no folder exists either
+		branch
+			// /tree/ URLs have breadcrumbs, but /blob/ URLs don't
+			&& pageDetect.isSingleFile(),
+	);
 	const showFileInfo = pageDetect.isSingleFile() || pageDetect.isRepoTree()
 		|| pageDetect.isEditingFile();
 	const muted = pageDetect.isRepoFile404();
@@ -176,19 +192,6 @@
 	});
 </script>
 
-{#if showBreadcrumbs}
-	<h2 class="container mt-4 tmp-mt-3 text-center">
-		{#each crumbs as crumb, index (index)}
-			{index > 0 ? ' / ' : ''}
-			{#if crumb.strike}
-				<del class="color-fg-subtle">{crumb.text}</del>
-			{:else}
-				<a href={crumb.href}>{crumb.text}</a>
-			{/if}
-		{/each}
-	</h2>
-{/if}
-
 {#if gitHistory}
 	<p class={muted ? 'color-fg-muted' : 'container mt-4 tmp-mt-3 text-center'}>
 		<a href={gitHistory.lastVersionUrl}>This {type}</a> was
@@ -198,16 +201,26 @@
 			<a href={gitHistory.movedUrl}>moved</a>
 		{/if}
 		(<a href={gitHistory.commitUrl} title="View commit">
-			<relative-time
-				datetime={gitHistory.commitDate}
-			></relative-time>
-		</a>) - <a href={gitHistory.commitHistoryUrl}
-		>Commit history</a>.
+			<relative-time datetime={gitHistory.commitDate}></relative-time>
+		</a>) - <a href={gitHistory.commitHistoryUrl}>Commit history</a>.
 	</p>
+{/if}
+
+{#if showBreadcrumbs}
+	<h4 class="container mt-4 tmp-mt-3 text-center">
+		{#each crumbs as crumb, index (index)}
+			{index > 0 ? ' / ' : ''}
+			{#if crumb.strike}
+				<del class="color-fg-subtle">{crumb.text}</del>
+			{:else}
+				<a href={crumb.href}>{crumb.text}</a>
+			{/if}
+		{/each}
+	</h4>
 {/if}
 
 {#if showFileInfo && defaultBranchUrl}
 	<p class="container mt-4 tmp-mt-3 text-center">
-		<a href={defaultBranchUrl}>This {type}</a> exists on the default branch.
+		View <a href={defaultBranchUrl}>{type}</a> on the default branch.
 	</p>
 {/if}
