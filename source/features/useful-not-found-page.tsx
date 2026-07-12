@@ -57,8 +57,12 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		pageDetect.is404,
+	],
 	include: [
-		pageDetect.isRepoFile404,
+		pageDetect.isSingleFile,
+		pageDetect.isRepoTree,
 	],
 	requiresToken: true,
 	init,
