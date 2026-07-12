@@ -61,6 +61,10 @@ const restrictedSyntax = {
 		selector:
 			'CallExpression[callee.object.object.name="chrome"][callee.object.property.name="tabs"][callee.property.name="create"]',
 	}],
+	'byo/import-dom-chef': ['error', {
+		message: "Use this instead: import React from 'dom-chef'",
+		selector: 'ImportDeclaration[source.value="react"]',
+	}],
 };
 
 export default restrictedSyntax;
