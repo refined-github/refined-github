@@ -3,20 +3,17 @@ import './repo-header-info.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
-import RepoForkedIcon from 'octicons-plain-react/RepoForked';
-import StarIcon from 'octicons-plain-react/Star';
-import StarFillIcon from 'octicons-plain-react/StarFill';
 import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepoInfo from './repo-header-info.gql';
+import RepoHeaderInfo from './repo-header-info.svelte';
 
-type RepositoryInfo = {
+export type RepositoryInfo = {
 	forked?: {url: string};
 	isPrivate: boolean;
 	stargazerCount: number;
@@ -40,125 +37,52 @@ async function getRepositoryInfo(): Promise<RepositoryInfo> {
 		}
 	}
 
-	return {
-		...repository,
-		ciCommit,
-	};
+	return {...repository, ciCommit};
 }
 
-function prepareForAddition(element: HTMLElement): void {
-	if (!element.classList.contains('AppHeader-context-item')) {
-		closestElement('li', element).classList.add('d-flex');
-	}
-}
+async function add(repoLink: HTMLElement): Promise<void> {
+	const info = await getRepositoryInfo();
+	const li = closestElement('li', repoLink);
+	li.classList.add('rgh-repo-header-info-updated');
 
-function markPrivate(repoLink: HTMLElement, isPrivate: boolean): void {
 	// GitHub may already show this icon natively, so we match its position
-	if (isPrivate && !elementExists('.octicon-lock', repoLink)) {
+	if (info.isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		appendBefore(
 			repoLink,
 			'.octicon-repo-forked',
 			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
 		);
 	}
-}
 
-function addStars(repoLink: HTMLElement, stargazerCount: number, viewerHasStarred: boolean): void {
-	if (stargazerCount <= 1) {
-		return;
+	if (
+		info.forked
+		&& info.ciCommit
+		&& (info.stargazerCount > 1)
+		&& !repoLink.classList.contains('AppHeader-context-item')
+	) {
+		closestElement('li', repoLink).classList.add('d-flex');
 	}
 
-	let tooltip = `Repository starred by ${stargazerCount.toLocaleString('us')} people`;
-	if (viewerHasStarred) {
-		tooltip += ', including you';
+	if (info.forked) {
+		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
+		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
 	}
 
-	prepareForAddition(repoLink);
-
-	closestElement('li', repoLink).after(
-		<a
-			href={buildRepoUrl('stargazers')}
-			title={tooltip}
-			// Hide in small viewports
-			className="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
-		>
-			{viewerHasStarred
-				// Use `color` because `fill` is overridden with `currentColor`
-				? <StarFillIcon width={12} height={12} color="var(--button-star-iconColor)" />
-				: <StarIcon width={12} height={12} />}
-			<span className="f5">{abbreviateNumber(stargazerCount)}</span>
-		</a>,
-	);
-}
-
-function markForked(repoLink: HTMLElement, forked?: {url: string}): void {
-	if (!forked) {
-		return;
+	if (info.ciCommit) {
+		// A parent is clipping the popup
+		closestElementOptional('.AppHeader-context-full', repoLink)?.style.setProperty('overflow', 'visible');
 	}
 
-	prepareForAddition(repoLink);
-	// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-	$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-	closestElement('li', repoLink).after(
-		<a
-			href={forked.url}
-			className="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
-		>
-			<RepoForkedIcon className='m-0 tmp-m-0' width={12} height={12} />
-		</a>,
-	);
-}
-
-function addCiStatus(anchor: HTMLElement, ciCommit: string | undefined): void {
-	if (!ciCommit) {
-		return;
-	}
-
-	prepareForAddition(anchor);
-
-	const endpoint = buildRepoUrl('commits/checks-statuses-rollups');
-	closestElement('li', anchor).after(
-		// Hide in small viewports
-		<span
-			className="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
-			title="CI status of latest commit"
-		>
-			<batch-deferred-content hidden data-url={endpoint}>
-				<input
-					name="oid"
-					value={ciCommit}
-					data-targets="batch-deferred-content.inputs"
-				/>
-			</batch-deferred-content>
-		</span>,
-	);
-
-	// A parent is clipping the popup
-	closestElementOptional('.AppHeader-context-full', anchor)?.style.setProperty('overflow', 'visible');
-}
-
-async function add(repoLink: HTMLElement): Promise<void> {
-	const info = await getRepositoryInfo();
-
-	closestElement('li', repoLink).classList.add('rgh-repo-header-info-updated');
-
-	markPrivate(repoLink, info.isPrivate);
-	addCiStatus(repoLink, info.ciCommit);
-	addStars(repoLink, info.stargazerCount, info.viewerHasStarred);
-	markForked(repoLink, info.forked);
+	mount(RepoHeaderInfo, {
+		target: li.parentElement!,
+		anchor: li.nextSibling ?? undefined,
+		props: {info},
+	});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		[
-			'.loaded div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-			// TODO [2026-08-01]: Remove
-			// Desktop
-			'.AppHeader-context-item:not([data-hovercard-type])',
-
-			// Mobile. `> *:first-child` avoids finding our own element
-			'.AppHeader-context-compact-mainItem > span:first-child',
-		],
+		'.loaded div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
 		add,
 		{signal},
 	);
