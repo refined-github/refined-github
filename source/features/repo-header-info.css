@@ -14,6 +14,7 @@ html:not([rgh-OFF-repo-header-info]) {
 		display: none;
 	}
 
+	/* Improve alignment */
 	.rgh-ci-link .commit-build-statuses {
 		font-size: 0;
 	}

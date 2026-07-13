@@ -3,7 +3,7 @@ import './repo-header-info.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
-import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {$, closestElement, elementExists} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -46,36 +46,22 @@ async function add(repoLink: HTMLElement): Promise<void> {
 	li.classList.add('rgh-repo-header-info-updated');
 
 	// GitHub may already show this icon natively, so we match its position
+	// It's generally missing when it's forked and private
 	if (info.isPrivate && !elementExists('.octicon-lock', repoLink)) {
 		appendBefore(
 			repoLink,
 			'.octicon-repo-forked',
-			<LockIcon className="ml-1 tmp-ml-1" width={12} height={12} />,
+			<LockIcon className="mr-1 tmp-mr-1 v-align-middle" width={12} height={12} />,
 		);
-	}
-
-	if (
-		info.forked
-		&& info.ciCommit
-		&& (info.stargazerCount > 1)
-		&& !repoLink.classList.contains('AppHeader-context-item')
-	) {
-		closestElement('li', repoLink).classList.add('d-flex');
 	}
 
 	if (info.forked) {
 		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-		$('.octicon-repo-forked', repoLink).classList.add('d-sm-none');
-	}
-
-	if (info.ciCommit) {
-		// A parent is clipping the popup
-		closestElementOptional('.AppHeader-context-full', repoLink)?.style.setProperty('overflow', 'visible');
+		$('.octicon-repo-forked', repoLink).classList.add('d-lg-none');
 	}
 
 	mount(RepoHeaderInfo, {
-		target: li.parentElement!,
-		anchor: li.nextSibling ?? undefined,
+		target: closestElement('ol', repoLink),
 		props: {info},
 	});
 }
