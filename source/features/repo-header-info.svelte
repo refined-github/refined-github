@@ -11,22 +11,13 @@
 	const {info}: {info: RepositoryInfo} = $props();
 </script>
 
-{#if info.ciCommit}
-	<span
-		class="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
-		title="CI status of latest commit"
+{#if info.forked}
+	<a
+		href={info.forked.url}
+		class="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 	>
-		<batch-deferred-content
-			hidden
-			data-url={buildRepoUrl('commits/checks-statuses-rollups')}
-		>
-			<input
-				name="oid"
-				value={info.ciCommit}
-				data-targets="batch-deferred-content.inputs"
-			/>
-		</batch-deferred-content>
-	</span>
+		<DomChef as={RepoForkedIcon} class="m-0 tmp-m-0" width={12} height={12} />
+	</a>
 {/if}
 
 {#if info.stargazerCount > 1}
@@ -47,11 +38,20 @@
 	</a>
 {/if}
 
-{#if info.forked}
-	<a
-		href={info.forked.url}
-		class="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+{#if info.ciCommit}
+	<span
+		class="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+		title="CI status of latest commit"
 	>
-		<DomChef as={RepoForkedIcon} class="m-0 tmp-m-0" width={12} height={12} />
-	</a>
+		<batch-deferred-content
+			hidden
+			data-url={buildRepoUrl('commits/checks-statuses-rollups')}
+		>
+			<input
+				name="oid"
+				value={info.ciCommit}
+				data-targets="batch-deferred-content.inputs"
+			/>
+		</batch-deferred-content>
+	</span>
 {/if}
