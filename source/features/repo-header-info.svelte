@@ -11,11 +11,11 @@
 	const {info}: {info: RepositoryInfo} = $props();
 </script>
 <!-- Order set because React rebuilds both breadcrumbs on resize, leaving this as the first child -->
-<li class="d-none d-lg-flex rgh-header-info" style:order="10">
+<li class="d-none d-md-flex rgh-header-info" style:order="10">
 	{#if info.forked}
 		<a
 			href={info.forked.url}
-			class="d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+			class="d-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 		>
 			<DomChef as={RepoForkedIcon} class="m-0 tmp-m-0" width={12} height={12} />
 		</a>
@@ -27,7 +27,7 @@
 			title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
 				info.viewerHasStarred ? ', including you' : ''
 			}`}
-			class="d-none d-sm-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
+			class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
 		>
 			<DomChef
 				as={info.viewerHasStarred ? StarFillIcon : StarIcon}
@@ -41,7 +41,7 @@
 
 	{#if info.ciCommit}
 		<span
-			class="rgh-ci-link d-none d-sm-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
+			class="rgh-ci-link d-flex flex-items-center flex-justify-center p-1 tmp-p-1 Button Button--invisible"
 			title="CI status of latest commit"
 		>
 			<batch-deferred-content

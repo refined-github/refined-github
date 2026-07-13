@@ -57,7 +57,7 @@ async function add(breadcrumbs: HTMLElement): Promise<void> {
 
 	if (info.forked) {
 		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-		$('.octicon-repo-forked', breadcrumbs).classList.add('d-lg-none');
+		$('.octicon-repo-forked', breadcrumbs).classList.add('d-md-none');
 	}
 
 	mount(RepoHeaderInfo, {
