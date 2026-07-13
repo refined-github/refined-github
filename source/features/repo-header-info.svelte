@@ -10,7 +10,8 @@
 
 	const {info}: {info: RepositoryInfo} = $props();
 </script>
-<li class="d-none d-lg-flex">
+<!-- Order set because React rebuilds both breadcrumbs on resize, leaving this as the first child -->
+<li class="d-none d-lg-flex rgh-header-info" style:order="10">
 	{#if info.forked}
 		<a
 			href={info.forked.url}

@@ -3,7 +3,7 @@ import './repo-header-info.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
-import {$, closestElement, elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -40,14 +40,14 @@ async function getRepositoryInfo(): Promise<RepositoryInfo> {
 	return {...repository, ciCommit};
 }
 
-async function add(repoLink: HTMLElement): Promise<void> {
+async function add(breadcrumbs: HTMLElement): Promise<void> {
 	const info = await getRepositoryInfo();
-	const li = closestElement('li', repoLink);
-	li.classList.add('rgh-repo-header-info-updated');
+	breadcrumbs.classList.add('rgh-repo-header-info-updated');
 
 	// GitHub may already show this icon natively, so we match its position
 	// It's generally missing when it's forked and private
-	if (info.isPrivate && !elementExists('.octicon-lock', repoLink)) {
+	if (info.isPrivate && !elementExists('.octicon-lock', breadcrumbs)) {
+		const repoLink = $(':scope > li:last-child a', breadcrumbs);
 		appendBefore(
 			repoLink,
 			'.octicon-repo-forked',
@@ -57,21 +57,17 @@ async function add(repoLink: HTMLElement): Promise<void> {
 
 	if (info.forked) {
 		// Only show the clickable button at larger resolutions. Default to the native one on smaller screens
-		$('.octicon-repo-forked', repoLink).classList.add('d-lg-none');
+		$('.octicon-repo-forked', breadcrumbs).classList.add('d-lg-none');
 	}
 
 	mount(RepoHeaderInfo, {
-		target: closestElement('ol', repoLink),
+		target: breadcrumbs,
 		props: {info},
 	});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe(
-		'.loaded div[data-testid="top-nav-center"] li:last-child > a[class*="prc-Breadcrumbs-Item"]',
-		add,
-		{signal},
-	);
+	observe('.loaded nav[data-component="Breadcrumbs"] ol', add, {signal});
 }
 
 void features.addCssFeature(import.meta.url);
