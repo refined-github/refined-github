@@ -19,7 +19,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 		<img
 			className={cx(
 				'avatar mr-2 tmp-mr-2',
-				!pageDetect.isOrganizationProfile() && 'avatar-user'
+				!pageDetect.isOrganizationProfile() && 'avatar-user',
 			)}
 			src={source}
 			width={size}
