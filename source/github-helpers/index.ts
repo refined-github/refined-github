@@ -60,7 +60,7 @@ export function isUsernameAlreadyFullName(username: string, realname: string): b
 }
 
 const validVersion = /^[rv]?\d+(?:\.\d+)+/;
-const isPrerelease = /^[rv]?\d+(?:\.\d+)+-\d/;
+const isPrerelease = /^[rv]?\d+(?:\.\d+)+-/;
 export function getLatestVersionTag(tags: string[]): string {
 	// Some tags aren't valid versions; comparison is meaningless.
 	// Just use the latest tag returned by the API (reverse chronologically-sorted list)

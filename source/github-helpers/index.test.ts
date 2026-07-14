@@ -119,6 +119,24 @@ test('getLatestVersionTag', () => {
 
 	assert.equal(
 		getLatestVersionTag([
+			'v2.1.0-rc.1',
+			'v2.0.0',
+		]),
+		'v2.0.0',
+		'Named prereleases should be ignored',
+	);
+
+	assert.equal(
+		getLatestVersionTag([
+			'v2.1.0-rc.1',
+			'v2.0.0-beta.1',
+		]),
+		'v2.1.0-rc.1',
+		'Prereleases should be selected when no stable release exists',
+	);
+
+	assert.equal(
+		getLatestVersionTag([
 			'lol v0.0.0',
 			'2.0',
 			'2020-10-10',
