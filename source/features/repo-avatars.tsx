@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import cx from 'clsx';
 
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
@@ -12,31 +13,25 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 	const size = 16;
 	const source = getUserAvatar(username, size)!;
 
-	const avatar = (
+	ownerLabel.parentElement!.classList.add('d-flex', 'flex-items-center');
+
+	ownerLabel.prepend(
 		<img
-			className='d-none d-md-block avatar mr-2 tmp-mr-2'
+			className={cx(
+				'avatar mr-2 tmp-mr-2',
+				!pageDetect.isOrganizationProfile() && 'avatar-user',
+			)}
 			src={source}
 			width={size}
 			height={size}
 			alt={`@${username}`}
-		/>
+		/>,
 	);
-
-	ownerLabel.parentElement!.classList.add('d-flex', 'flex-items-center');
-
-	ownerLabel.prepend(avatar);
-
-	if (!pageDetect.isOrganizationRepo()) {
-		avatar.classList.add('avatar-user');
-	}
 }
 
 function init(signal: AbortSignal): void {
-	observe(
-		'.loaded div[data-testid="top-nav-center"] li:first-child > a[class*="prc-Breadcrumbs-Item"]',
-		add,
-		{signal},
-	);
+	const username = getRepo()!.owner;
+	observe('.loaded nav[data-component="Breadcrumbs"] a[href="/' + username + '"]', add, {signal});
 }
 
 void features.add(import.meta.url, {

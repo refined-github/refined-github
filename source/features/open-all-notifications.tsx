@@ -12,6 +12,7 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
+import {appendBefore} from '../helpers/dom-utils';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
@@ -75,7 +76,9 @@ async function openSelectedNotifications(): Promise<void> {
 }
 
 function addSelectedButton(selectedActionsGroup: HTMLElement): void {
-	selectedActionsGroup.append(
+	appendBefore(
+		selectedActionsGroup,
+		'.js-notifications-mark-all',
 		tooltipped(
 			{
 				label: 'Open selected notifications',

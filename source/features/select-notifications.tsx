@@ -1,27 +1,12 @@
-import './select-notifications.css';
-
-import delegate from 'delegate-it';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
-import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
-import DotIcon from 'octicons-plain-react/Dot';
-import DotFillIcon from 'octicons-plain-react/DotFill';
-import GitMergeIcon from 'octicons-plain-react/GitMerge';
-import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
-import HubotIcon from 'octicons-plain-react/Hubot';
-import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
-import SquirrelIcon from 'octicons-plain-react/Squirrel';
-import XCircleIcon from 'octicons-plain-react/XCircle';
 import {$, $$, closestElement, elementExists} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import {botLinksNotificationSelectors} from '../github-helpers/selectors.js';
 import {is, not} from '../helpers/css-selectors.js';
-import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import SelectNotifications from './select-notifications.svelte';
 
 const prIcons = [
 	'.octicon-git-pull-request',
@@ -29,7 +14,11 @@ const prIcons = [
 	'.octicon-git-pull-request-draft',
 	'.octicon-git-merge',
 ] as const;
-export const issueIcons = ['.octicon-issue-opened', '.octicon-issue-closed', '.octicon-skip'] as const;
+export const issueIcons = [
+	'.octicon-issue-opened',
+	'.octicon-issue-closed',
+	'.octicon-skip',
+] as const;
 const filters = {
 	'Pull requests': is(prIcons),
 	Issues: is(issueIcons),
@@ -44,146 +33,45 @@ const filters = {
 	Unread: '.notification-unread *',
 } as const;
 
-type Filter = keyof typeof filters;
-type Category = 'Type' | 'Status' | 'Read';
+export type Filter = keyof typeof filters;
+export type Category = 'Type' | 'Status' | 'Read';
+export type Selection = Record<Category, Filter[]>;
 
-function resetFilters({target}: React.SyntheticEvent): void {
-	$('form#rgh-select-notifications-form').reset();
-	for (const label of $$('label', target as Element)) {
-		label.setAttribute('aria-checked', 'false');
-	}
-}
+const categories: Record<Category, Filter[]> = {
+	Type: ['Pull requests', 'Issues', 'Others', 'Bots'],
+	Status: ['Open', 'Closed', 'Merged', 'Draft'],
+	Read: ['Read', 'Unread'],
+};
 
-function getFiltersSelector(formData: FormData, category: Category): string[] {
-	return formData.getAll(category).map(value => filters[value as Filter]);
-}
-
-function handleSelection(): void {
-	const formData = new FormData($('form#rgh-select-notifications-form'));
-	const types = getFiltersSelector(formData, 'Type');
-	const statuses = getFiltersSelector(formData, 'Status');
-	const readStatus = getFiltersSelector(formData, 'Read');
-	const selectorGroups = [types, statuses, readStatus].filter(selectors => selectors.length > 0);
+function selectMatching(selection: Selection): void {
+	const selectorGroups = Object.values(selection)
+		.map(names => names.map(name => filters[name]))
+		.filter(selectors => selectors.length > 0);
 	const shouldDeselectAll = selectorGroups.length === 0;
 
-	const notifications = $$('.notifications-list-item');
-	let input: HTMLInputElement;
-	for (const notification of notifications) {
+	let input: HTMLInputElement | undefined;
+	for (const notification of $$('.notifications-list-item')) {
 		input = $('input.js-notification-bulk-action-check-item', notification);
 		// Updating the "checked" property does not raise any events
 		input.checked = !shouldDeselectAll && selectorGroups.every(selectors => elementExists(selectors, notification));
 	}
 
 	// Trigger the selection action bar update
-	// @ts-expect-error input will be assigned in the loop above
-	input.dispatchEvent(new Event('change', {bubbles: true}));
-}
-
-function createDropdownList(category: Category, categoryFilters: Filter[]): JSX.Element {
-	const icons: Record<Filter, JSX.Element> = {
-		'Pull requests': <GitPullRequestIcon className="color-fg-muted" />,
-		Issues: <IssueOpenedIcon className="color-fg-muted" />,
-		Open: <CheckCircleIcon className="color-fg-success" />,
-		Others: <SquirrelIcon className="color-fg-muted" />,
-		Bots: <HubotIcon className="color-fg-muted" />,
-		Closed: <XCircleIcon className="color-fg-danger" />,
-		Draft: <GitPullRequestDraftIcon className="color-fg-subtle" />,
-		Merged: <GitMergeIcon className="color-fg-done" />,
-		Read: <DotIcon className="color-fg-accent" />,
-		Unread: <DotFillIcon className="color-fg-accent" />,
-	};
-
-	return (
-		<div className="SelectMenu-list">
-			<header className="SelectMenu-header">
-				<span className="SelectMenu-title">{category}</span>
-			</header>
-			{categoryFilters.map(filter => (
-				<label
-					className="SelectMenu-item text-normal"
-					role="menuitemcheckbox"
-					aria-checked="false"
-					tabIndex={0}
-				>
-					<CheckIcon
-						className="octicon octicon-check SelectMenu-icon SelectMenu-icon--check mr-2 tmp-mr-2"
-						aria-hidden="true"
-					/>
-					<div className="SelectMenu-item-text">
-						<input
-							hidden
-							type="checkbox"
-							name={category}
-							value={filter}
-						/>
-						{icons[filter]}
-						<span className="ml-2 tmp-ml-2">{filter}</span>
-					</div>
-				</label>
-			))}
-		</div>
-	);
-}
-
-const createDropdown = onetime(() => (
-	<details
-		className="details-reset details-overlay position-relative rgh-select-notifications mr-2 tmp-mr-2"
-		onToggle={resetFilters}
-	>
-		{
-			tooltipped(
-				{
-					label: 'Open the notifications filter dropdown',
-					shortcut: 'Shift+S',
-				},
-				<summary
-					className="h6" // `h6` matches "Select all" style
-					data-hotkey="Shift+S"
-					aria-haspopup="menu"
-					role="button"
-				>
-					Select by <span className="dropdown-caret ml-1 tmp-ml-1" />
-				</summary>,
-			)}
-		<details-menu
-			className="SelectMenu left-0"
-			aria-label="Select by"
-			role="menu"
-			on-details-menu-selected={handleSelection}
-		>
-			<div className="SelectMenu-modal">
-				<form id="rgh-select-notifications-form" className="SelectMenu-list">
-					{createDropdownList('Type', ['Pull requests', 'Issues', 'Others', 'Bots'])}
-					{createDropdownList('Status', ['Open', 'Closed', 'Merged', 'Draft'])}
-					{createDropdownList('Read', ['Read', 'Unread'])}
-				</form>
-			</div>
-		</details-menu>
-	</details>
-));
-
-function closeDropdown(): void {
-	$('.rgh-select-notifications').removeAttribute('open');
+	input?.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
-	closestElement('label', selectAllCheckbox).after(
-		// `h6` matches "Select all" style
-		<span className="mx-2 tmp-mx-2 h6">·</span>,
-		createDropdown(),
-	);
+	const anchor = closestElement('label', selectAllCheckbox);
+
+	mount(SelectNotifications, {
+		target: anchor.parentElement!,
+		anchor: anchor.nextElementSibling!,
+		props: {categories, onSelectionChange: selectMatching},
+	});
 }
 
 function init(signal: AbortSignal): void {
 	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
-
-	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(
-		['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'],
-		'click',
-		closeDropdown,
-		{signal},
-	);
 }
 
 void features.add(import.meta.url, {
