@@ -79,10 +79,7 @@ export default defineConfig([
 
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
-			'import-x/extensions': ['error', {
-				js: 'ignorePackages',
-				json: 'always',
-			}],
+			'import-x/extensions': 'off', // TODO: Drop after xo update?
 
 			// TODO: Probably drop it after moving to dprint
 			// Also: https://github.com/un-ts/eslint-plugin-import-x/issues/500

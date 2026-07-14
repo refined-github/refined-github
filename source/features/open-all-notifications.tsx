@@ -12,7 +12,7 @@ import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 import {tooltipped} from '../helpers/tooltip.js';
-import {appendBefore} from '../helpers/dom-utils';
+import {appendBefore} from '../helpers/dom-utils.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)
