@@ -113,7 +113,9 @@
 					</action-list>
 				</div>
 				{#if !isSmallDevice()}
-					<div class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2">
+					<div
+						class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 color-fg-muted"
+					>
 						<span class="color-fg-muted">
 							Press <kbd>h</kbd> to cycle through filters,
 							<br />
