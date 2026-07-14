@@ -1,4 +1,3 @@
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, closestElement, elementExists} from 'select-dom';
 import {mount} from 'svelte';
@@ -61,10 +60,6 @@ function selectMatching(selection: Selection): void {
 	input?.dispatchEvent(new Event('change', {bubbles: true}));
 }
 
-function closeDropdown(): void {
-	$('.rgh-select-notifications anchored-position')?.hidePopover();
-}
-
 function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 	const anchor = closestElement('label', selectAllCheckbox);
 
@@ -77,14 +72,6 @@ function addDropdown(selectAllCheckbox: HTMLInputElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('input.js-notifications-mark-all-prompt', addDropdown, {signal});
-
-	// Close the dropdown when one of the toolbar buttons is clicked
-	delegate(
-		['.js-notifications-mark-selected-actions > *', '.rgh-open-selected-button'],
-		'click',
-		closeDropdown,
-		{signal},
-	);
 }
 
 void features.add(import.meta.url, {
