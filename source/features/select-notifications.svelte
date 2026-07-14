@@ -97,7 +97,7 @@
 			popover="auto"
 			ontoggle={reset}
 		>
-			<div class="Overlay Overlay--size-small-portrait">
+			<div class="Overlay">
 				<div class="Overlay-body Overlay-body--paddingNone">
 					<action-list>
 						<ul
