@@ -105,9 +105,20 @@ const rollup = {
 		oxc({
 			// https://github.com/unplugin/unplugin-oxc#usage
 			resolveNodeModules: true,
+			exclude: [/node_modules\/(?!octicons-plain-react)/],
 			resolve: {
 				aliasFields: ['browser'],
 				tsconfig: {configFile: './tsconfig.json'},
+				'conditionNames': ['default', 'module', 'require', 'svelte'],
+
+				extensionAlias: {
+					'.js': ['.ts', '.tsx', '.js', '.jsx'],
+				},
+			},
+			transform: {
+				jsx: {
+					runtime: 'classic',
+				},
 			},
 		}),
 		copy({
