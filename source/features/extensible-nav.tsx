@@ -6,6 +6,7 @@ import React from 'dom-chef';
 import {$, $$, $optional, elementExists} from 'select-dom';
 import {assertPresent} from 'ts-extras';
 
+import AiModel from 'octicons-plain-react/AiModel';
 import AgentIcon from 'octicons-plain-react/Agent';
 import BookIcon from 'octicons-plain-react/Book';
 import CodeIcon from 'octicons-plain-react/Code';
@@ -30,6 +31,7 @@ const knownTabsIcons = new Map([
 	['pull-requests', GitPullRequestIcon],
 	['agents', AgentIcon],
 	['actions', PlayIcon],
+	['models', AiModel],
 	['wiki', BookIcon],
 	['security-and-quality', ShieldIcon],
 	['insights', GraphIcon],
