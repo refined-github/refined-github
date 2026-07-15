@@ -6,6 +6,7 @@ export type Tab = {
 	href: string;
 	label: string;
 	icon: typeof CodeIcon;
+	reactNav?: string;
 	counter?: string;
 };
 

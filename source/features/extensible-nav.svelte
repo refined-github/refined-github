@@ -10,6 +10,8 @@
 				<a
 					href={tab.href}
 					class="UnderlineNav-item"
+					data-turbo-frame="repo-content-turbo-frame"
+					data-react-nav={tab.reactNav}
 					class:selected={tab.id === $selectedId}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
