@@ -24,8 +24,6 @@ import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ExtensibleNav from './extensible-nav.svelte';
 
-let isReady = false;
-
 const knownTabsIcons = new Map([
 	['code', CodeIcon],
 	['issues', IssueOpenedIcon],
@@ -76,7 +74,6 @@ function replace(nativeNav: HTMLElement): void {
 	mount(ExtensibleNav, {target: nativeNav.parentElement!});
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
-	isReady = true;
 }
 
 async function initOnce(): Promise<void> {
@@ -99,9 +96,6 @@ void features.add(import.meta.url, {
 	],
 	init: onetime(initOnce),
 }, {
-	asLongAs: [
-		() => isReady,
-	],
 	include: [
 		pageDetect.isRepo,
 	],
