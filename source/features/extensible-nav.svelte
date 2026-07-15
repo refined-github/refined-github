@@ -28,11 +28,5 @@
 		/* Temporary indicator of successful replacement */
 		/* TODO: Remove after https://github.com/refined-github/refined-github/issues/8867 is completed */
 		border-left: 1px solid var(--borderColor-muted, fuchsia);
-		.UnderlineNav-octicon {
-			@media (max-width: 1100px) {
-				/* Somewhat match the native behavior for now. `mobile-tabs` would be better */
-				display: none !important;
-			}
-		}
 	}
 </style>
