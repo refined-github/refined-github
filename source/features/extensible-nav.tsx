@@ -80,11 +80,9 @@ async function initOnce(): Promise<void> {
 }
 
 function updateCurrentTab(): void {
-	const currentTab = $('nav[aria-label="Repository"] a[aria-current]');
-	const itemId = currentTab.getAttribute('data-tab-item');
-	if (itemId) {
-		selectTab(itemId);
-	}
+	const currentTab = $('nav[aria-label="Repository"] a[aria-current][data-tab-item]');
+	const itemId = currentTab.getAttribute('data-tab-item')!;
+	selectTab(itemId);
 }
 
 void features.add(import.meta.url, {
