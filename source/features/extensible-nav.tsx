@@ -1,10 +1,11 @@
 import './extensible-nav.css';
-import cx from 'clsx';
+
 import elementReady from 'element-ready';
-import * as pageDetect from 'github-url-detection';
 import React from 'dom-chef';
-import {$, $$, $optional, elementExists} from 'select-dom';
+import * as pageDetect from 'github-url-detection';
+import {$, $$, $optional} from 'select-dom';
 import {assertPresent} from 'ts-extras';
+import {mount} from 'svelte';
 
 import AgentIcon from 'octicons-plain-react/Agent';
 import BookIcon from 'octicons-plain-react/Book';
@@ -19,10 +20,13 @@ import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
 
 import features from '../feature-manager.js';
+import {tabs, selectTab, type Tab} from '../helpers/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import ExtensibleNav from './extensible-nav.svelte';
 
 let isReady = false;
+let container: HTMLElement | undefined;
 
 const knownTabsIcons = new Map([
 	['code', CodeIcon],
@@ -38,49 +42,39 @@ const knownTabsIcons = new Map([
 	['projects', TableIcon],
 ]);
 
-function generateTab(item: HTMLAnchorElement): JSX.Element {
+function generateTab(item: HTMLAnchorElement): Tab {
 	const label = ($optional('[data-component="text"]', item) ?? item).textContent;
 	// Only a few items have counters
 	const counter = $optional('[data-component="counter"] [data-variant="secondary"]', item)?.textContent;
-	const selectedClass = item.hasAttribute('aria-current') ? 'selected' : '';
 
 	// Hard assertions will make the feature fail before it attempts to replace the native one.
 	// Being the repository's main navigation, we want to avoid breaking.
 	const itemId = item.getAttribute('data-tab-item');
 	assertPresent(itemId);
-	const Icon = knownTabsIcons.get(itemId);
-	assertPresent(Icon);
+	const icon = knownTabsIcons.get(itemId);
+	assertPresent(icon);
 
-	// `UnderlineNav-octicon` comes after d-none utility classes so they can't override it
-	const icon = <Icon className="UnderlineNav-octicon" />;
-
-	return (
-		<li key={item.href}>
-			<a href={item.href} className={cx('UnderlineNav-item', selectedClass)}>
-				{icon}
-				{label}
-				{counter && (
-					<span className="Counter">{counter}</span>
-				)}
-			</a>
-		</li>
-	);
+	return {
+		id: itemId,
+		href: item.href,
+		label,
+		icon,
+		counter,
+		selected: item.hasAttribute('aria-current'),
+	};
 }
 
 function replace(nativeNav: HTMLElement): void {
 	// Final check to avoid duplicates in any scenario.
-	if (elementExists('.rgh-extensible-nav')) {
+	if (container?.isConnected) {
 		return;
 	}
 
-	const items = $$('a', nativeNav);
-	nativeNav.before(
-		<nav className="UnderlineNav rgh-extensible-nav px-4">
-			<ul className="UnderlineNav-body">
-				{items.map(item => generateTab(item))}
-			</ul>
-		</nav>,
-	);
+	tabs.set($$('a', nativeNav).map(element => generateTab(element)));
+
+	container = <div />;
+	nativeNav.before(container);
+	mount(ExtensibleNav, {target: container});
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
 	isReady = true;
@@ -96,8 +90,10 @@ async function initOnce(): Promise<void> {
 
 function updateCurrentTab(): void {
 	const currentTab = $('nav[aria-label="Repository"] a[aria-current]');
-	$('.rgh-extensible-nav .selected').classList.remove('selected');
-	$(`.rgh-extensible-nav a[href="${currentTab.href}"]`).classList.add('selected');
+	const itemId = currentTab.getAttribute('data-tab-item');
+	if (itemId) {
+		selectTab(itemId);
+	}
 }
 
 void features.add(import.meta.url, {
