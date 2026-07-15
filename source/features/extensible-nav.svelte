@@ -11,6 +11,11 @@
 					href={tab.href}
 					class="UnderlineNav-item"
 					class:selected={tab.id === $selectedId}
+					class:tooltipped={tab.tooltip}
+					// Temporarily "w" until tooltipped() is brought over to Svelte
+					// TODO: https://github.com/refined-github/refined-github/issues/9810
+					class:tooltipped-w={tab.tooltip}
+					aria-label={tab.tooltip}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<span class="rgh-extensible-nav-label">{tab.label}</span>

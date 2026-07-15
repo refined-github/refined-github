@@ -2,7 +2,7 @@ import './extensible-nav.css';
 
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $optional} from 'select-dom';
+import {$, $$, $optional, elementExists} from 'select-dom';
 import {assertPresent} from 'ts-extras';
 import {mount} from 'svelte';
 
@@ -18,6 +18,7 @@ import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
 import PlayIcon from 'octicons-plain-react/Play';
 import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
+import GitPullRequestLockedIcon from 'octicons-plain-react/GitPullRequestLocked';
 
 import features from '../feature-manager.js';
 import {selectTab, setNativeTabs, type Tab} from '../helpers/extensible-nav-store.js';
@@ -29,6 +30,7 @@ const knownTabsIcons = new Map([
 	['code', CodeIcon],
 	['issues', IssueOpenedIcon],
 	['pull-requests', GitPullRequestIcon],
+	['pull-requests-locked', GitPullRequestLockedIcon],
 	['agents', AgentIcon],
 	['actions', PlayIcon],
 	['models', AiModel],
@@ -42,15 +44,23 @@ const knownTabsIcons = new Map([
 
 function generateTab(item: HTMLAnchorElement): Tab {
 	const label = ($optional('[data-component="text"]', item) ?? item).textContent;
-	// Only a few items have counters
+	// Few items have counters
 	const counter = $optional('[data-component="counter"] [data-variant="secondary"]', item)?.textContent;
 
 	// Hard assertions will make the feature fail before it attempts to replace the native one.
 	// Being the repository's main navigation, we want to avoid breaking.
 	const itemId = item.getAttribute('data-tab-item');
 	assertPresent(itemId);
-	const icon = knownTabsIcons.get(itemId);
+
+	// Some tabs swap their icon depending on state
+	const lockedPrs = elementExists('[data-component="icon"] svg.octicon-git-pull-request-locked', item);
+	const icon = knownTabsIcons.get(lockedPrs ? 'pull-requests-locked' : itemId);
 	assertPresent(icon);
+
+	// The tooltip lives in a sibling element, referenced via `aria-describedby`
+	const describedBy = item.getAttribute('aria-describedby');
+	// Few items have tooltips
+	const tooltip = (describedBy && document.getElementById(describedBy)?.textContent) ?? undefined;
 
 	return {
 		id: itemId,
@@ -58,6 +68,7 @@ function generateTab(item: HTMLAnchorElement): Tab {
 		label,
 		icon,
 		counter,
+		tooltip,
 	};
 }
 

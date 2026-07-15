@@ -7,6 +7,7 @@ export type Tab = {
 	label: string;
 	icon: typeof CodeIcon;
 	counter?: string;
+	tooltip?: string;
 };
 
 type ExtraTab = {tab: Tab; before?: string};

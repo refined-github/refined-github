@@ -59,6 +59,7 @@ export default defineConfig([
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
+			'unicorn/prefer-query-selector': ['error', {'allowWithVariables': true}],
 			'unicorn/name-replacements': [
 				'error',
 				{
