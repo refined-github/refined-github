@@ -7,7 +7,11 @@
 	<ul class="UnderlineNav-body">
 		{#each $tabs as tab (tab.id)}
 			<li>
-				<a href={tab.href} class="UnderlineNav-item" class:selected={tab.selected}>
+				<a
+					href={tab.href}
+					class="UnderlineNav-item"
+					class:selected={tab.selected}
+				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					{tab.label}
 					{#if tab.counter}
