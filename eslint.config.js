@@ -192,6 +192,10 @@ export default defineConfig([
 		},
 	},
 	{
+		// Dprint doesn't run on tsx files yet, we need to allow style eslint rules
+		ignores: [
+			"**/*.tsx",
+		],
 		rules: {
 			...eslintConfigPrettier.rules,
 
