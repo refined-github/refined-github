@@ -167,7 +167,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			do {
 				document.documentElement.setAttribute('rgh-OFF-' + id, '');
 				log.info('↩️', 'Skipping', id);
-			} while (await oneEvent(document, 'turbo:render'));
+			} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 		} else {
 			log.info('↩️', 'Skipping', id);
 		}
@@ -232,7 +232,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 					}
 				}
 			});
-		} while (await oneEvent(document, 'turbo:render'));
+		} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
 	});
 }
 
