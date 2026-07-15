@@ -180,6 +180,9 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // We're specifically looking for the last event
 	init: initBanner,
 }, {
+	asLongAs: [
+		pageDetect.isPRConversation,
+	],
 	include: [
 		pageDetect.isDraftPR,
 	],
