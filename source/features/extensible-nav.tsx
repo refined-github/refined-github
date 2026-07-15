@@ -1,7 +1,6 @@
 import './extensible-nav.css';
 
 import elementReady from 'element-ready';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional} from 'select-dom';
 import {assertPresent} from 'ts-extras';
@@ -26,7 +25,6 @@ import observe from '../helpers/selector-observer.js';
 import ExtensibleNav from './extensible-nav.svelte';
 
 let isReady = false;
-let container: HTMLElement | undefined;
 
 const knownTabsIcons = new Map([
 	['code', CodeIcon],
@@ -65,16 +63,9 @@ function generateTab(item: HTMLAnchorElement): Tab {
 }
 
 function replace(nativeNav: HTMLElement): void {
-	// Final check to avoid duplicates in any scenario.
-	if (container?.isConnected) {
-		return;
-	}
-
 	tabs.set($$('a', nativeNav).map(element => generateTab(element)));
 
-	container = <div />;
-	nativeNav.before(container);
-	mount(ExtensibleNav, {target: container});
+	mount(ExtensibleNav, {target: nativeNav.parentElement!});
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
 	isReady = true;
