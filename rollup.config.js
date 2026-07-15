@@ -103,8 +103,11 @@ const rollup = {
 			],
 		}),
 		oxc({
-			resolveNodeModules: {
+			// https://github.com/unplugin/unplugin-oxc#usage
+			resolveNodeModules: true,
+			resolve: {
 				aliasFields: ['browser'],
+				tsconfig: {configFile: './tsconfig.json'},
 			},
 		}),
 		copy({
