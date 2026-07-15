@@ -54,6 +54,7 @@ export default defineConfig([
 			'require-unicode-regexp': 'off', // Don't care
 			'regexp/no-useless-character-class': 'off', // Ugly
 			'regexp/no-super-linear-move': 'off', // It is what is is
+			'unicorn/consistent-boolean-name': 'off', // Impractical
 			'unicorn/dom-node-dataset': 'off',
 			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
@@ -61,9 +62,9 @@ export default defineConfig([
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unreadable-new-expression': 'off', // Me no like
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
+			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
-			'unicorn/consistent-boolean-name': 'off', // Impractical
 			'unicorn/name-replacements': [
 				'error',
 				{

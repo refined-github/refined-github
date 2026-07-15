@@ -13,7 +13,7 @@ import {tooltipped} from '../helpers/tooltip.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
-		const [, owner, name, , prNumber] = link.pathname.split('/');
+		const [, owner, name, , prNumber] = link.pathname.split('/', 5);
 		const key = api.escapeKey(owner, name, prNumber);
 		return {
 			key,

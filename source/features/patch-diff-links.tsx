@@ -9,7 +9,7 @@ import observe from '../helpers/selector-observer.js';
 
 function getPrUrl(extension: 'patch' | 'diff'): string {
 	const pathname = getCleanPathname();
-	const [owner, repo, , id] = pathname.split('/');
+	const [owner, repo, , id] = pathname.split('/', 4);
 	return `/${owner}/${repo}/pull/${id}.${extension}`;
 }
 

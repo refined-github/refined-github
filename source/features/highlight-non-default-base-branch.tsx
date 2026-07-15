@@ -89,7 +89,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	const prs = new Set<Pr>();
 	for (const link of prLinks) {
-		const [, owner, repo, , number] = link.pathname.split('/');
+		const [, owner, repo, , number] = link.pathname.split('/', 5);
 		prs.add({
 			link,
 			owner,

@@ -95,7 +95,7 @@ async function init(): Promise<void> {
 	const [value, unit] = twas(birthday.getTime())
 		.replace('just now', '1 second')
 		.replace(/^an?/, '1')
-		.split(' ');
+		.split(' ', 2);
 
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7

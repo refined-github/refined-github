@@ -22,7 +22,7 @@ function findChangelogName(files: string[]): string | false {
 
 const changelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
-		const [owner, name] = nameWithOwner.split('/');
+		const [owner, name] = nameWithOwner.split('/', 2);
 		const {repository} = await api.v4(GetFilesOnRoot, {
 			variables: {name, owner},
 		});

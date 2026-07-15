@@ -11,7 +11,7 @@ import {upperCaseFirst} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 function transform(button: HTMLButtonElement): JSX.Element {
-	const [buttonLabel] = button.textContent.trim().split(' ');
+	const [buttonLabel] = button.textContent.trim().split(' ', 1);
 	const clonedForm = button.form!.cloneNode(true);
 	$('button', clonedForm).replaceWith(
 		<button

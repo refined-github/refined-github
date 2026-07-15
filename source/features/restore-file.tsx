@@ -105,7 +105,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 			closestElement('[data-path]', menuItem),
 		)
 			.textContent
-			.split(' → ');
+			.split(' → ', 2);
 
 		return {original: originalFileName, new: newFileName};
 	}

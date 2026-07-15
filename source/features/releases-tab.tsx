@@ -21,7 +21,7 @@ function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
 }
 
 async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
-	const [owner, name] = nameWithOwner.split('/');
+	const [owner, name] = nameWithOwner.split('/', 2);
 	const {repository: {releases, tags}} = await api.v4(GetReleasesCount, {
 		variables: {name, owner},
 	});

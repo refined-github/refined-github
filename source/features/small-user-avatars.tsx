@@ -23,7 +23,7 @@ function createAvatar(username: string, size: number): JSX.Element {
 }
 
 function addRepoAvatar(link: HTMLAnchorElement): void {
-	const [owner] = link.textContent.trim().split('/');
+	const [owner] = link.textContent.trim().split('/', 1);
 
 	link.firstElementChild!.prepend(
 		<span className="ActionListItem-visual ActionListItem-visual--leading d-none d-xl-inline-block">
