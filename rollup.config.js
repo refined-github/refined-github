@@ -1,8 +1,5 @@
 import alias from '@rollup/plugin-alias';
-import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import resolve from '@rollup/plugin-node-resolve';
-import sucrase from '@rollup/plugin-sucrase';
 import browserslist from 'browserslist';
 import {browserslistToTargets, Features} from 'lightningcss';
 import process from 'node:process';
@@ -14,6 +11,7 @@ import styles from 'rollup-plugin-styler';
 import svelte from 'rollup-plugin-svelte';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import lightning from 'unplugin-lightningcss/rollup';
+import oxc from 'unplugin-oxc/rollup';
 
 import svelteConfig from './svelte.config.js';
 
@@ -104,17 +102,11 @@ const rollup = {
 				{find: 'react', replacement: 'dom-chef'},
 			],
 		}),
-		sucrase({
-			transforms: ['typescript', 'jsx'],
-
-			// Output modern JS
-			disableESTransforms: true,
-
-			// Drop `__self` in JSX https://github.com/alangpierce/sucrase/issues/232#issuecomment-468898878
-			production: true,
+		oxc({
+			resolveNodeModules: {
+				aliasFields: ['browser'],
+			},
 		}),
-		resolve({browser: true}),
-		commonjs(),
 		copy({
 			targets: [
 				{src: './source/manifest.json', dest: 'distribution'},
