@@ -3,24 +3,18 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import sveltePlugin from 'eslint-plugin-svelte';
-import {defineConfig, globalIgnores, includeIgnoreFile} from 'eslint/config';
+import {defineConfig, globalIgnores} from 'eslint/config';
 import globals from 'globals';
-import {fileURLToPath} from 'node:url';
 import selectDom from 'select-dom/eslint-plugin';
 
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
-	includeIgnoreFile(
-		fileURLToPath(
-			new URL('.gitignore', import.meta.url),
-		),
-		{gitignoreResolution: true},
-	),
 	globalIgnores(['safari', 'package-lock.json']),
 	...eslintConfigXo({
 		browser: true,
+		gitignore: import.meta.url,
 		// TODO: Use after dprint is enabled on TSX files
 		// prettier: 'compat',
 	}),
@@ -80,7 +74,7 @@ export default defineConfig([
 
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
-			'import-x/extensions': 'off', // TODO: Drop after xo update?
+			'import-x/extensions': 'off', // TODO: https://github.com/xojs/eslint-config-xo/issues/119#issuecomment-4979192969
 
 			// TODO: Probably drop it after moving to dprint
 			// Also: https://github.com/un-ts/eslint-plugin-import-x/issues/500
