@@ -199,8 +199,6 @@ function init(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		// Workaround for https://github.com/refined-github/refined-github/issues/6554
-		pageDetect.isRepoIssueOrPRList,
 	],
 	awaitDomReady: true, // The sidebar is at the end of the page
 	init,

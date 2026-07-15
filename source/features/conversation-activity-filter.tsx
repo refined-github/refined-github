@@ -203,8 +203,6 @@ async function init(signal: AbortSignal): Promise<void> {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		// Workaround for https://github.com/refined-github/refined-github/issues/6554
-		pageDetect.isRepoIssueOrPRList,
 	],
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
