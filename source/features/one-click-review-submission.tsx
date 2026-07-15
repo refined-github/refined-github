@@ -1,122 +1,63 @@
-// Note: This feature only works on the legacy PR Files view.
-// We will drop the feature once that view has been gone for 6 months.
-// https://github.com/refined-github/refined-github/issues/8711
-// https://github.com/refined-github/refined-github/issues/9447
-import cx from 'clsx';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
-import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$, $optional, closestElement, closestElementOptional} from 'select-dom';
+import {elementExists} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import {assertNodeContent} from '../helpers/dom-utils.js';
+import {
+	getReviewControls,
+	type ReviewActionValue,
+} from '../helpers/review-submission.js';
 import observe from '../helpers/selector-observer.js';
+import OneClickReviewSubmission from './one-click-review-submission.svelte';
 
-function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
-	const form = originalSubmitButton.form!;
-	const actionsRow = closestElementOptional('.Overlay-footer', originalSubmitButton);
-	const formAttribute = originalSubmitButton.getAttribute('form')!;
-
-	// Do not use `$$` because elements can be outside `form`
-	// `RadioNodeList` is dynamic, so we need to make a copy
-	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
-	if (radios.length === 0) {
-		throw new Error('Could not find radio buttons');
-	}
-
-	// Set the default action for cmd+enter to Comment
-	if (radios.length > 1) {
-		form.prepend(
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
-			/>,
-		);
-	}
-
-	if (actionsRow) {
-		actionsRow.prepend(<span className="spacer.gif ml-auto" />);
-		radios.reverse();
-	}
-
-	// Generate the new buttons
-	for (const radio of radios) {
-		const parent = radio.parentElement!;
-		const labelElement = $optional('label', parent)
-			?? radio.nextSibling!;
-		const tooltip = $([
-			'p',
-			'.FormControl-caption',
-		], parent).textContent.trim().replace(/\.$/, '');
-		assertNodeContent(labelElement, /^(?:Approve|Request changes|Comment)$/);
-
-		const classes = ['btn btn-sm'];
-
-		if (tooltip) {
-			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
-		}
-
-		const button = (
-			<button
-				type="submit"
-				name="pull_request_review[event]"
-				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
-				form={formAttribute}
-				value={radio.value}
-				className={cx(classes)}
-				aria-label={tooltip}
-				disabled={radio.disabled}
-			>
-				{labelElement.textContent}
-			</button>
-		);
-
-		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className="color-fg-success" />);
-		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className="color-fg-danger" />);
-		}
-
-		if (actionsRow) {
-			actionsRow.prepend(button);
-		} else {
-			closestElement('.form-actions', originalSubmitButton).append(button);
-		}
-	}
-
-	// Remove original fields at last to avoid leaving a broken form
-	const fieldset = closestElementOptional('fieldset', radios[0]);
-
-	if (fieldset) {
-		fieldset.remove();
-	} else {
-		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
-		for (const radio of radios) {
-			closestElement('.form-checkbox', radio).remove();
-		}
-	}
-
-	originalSubmitButton.remove();
-}
-
-let lastSubmission: number | undefined;
-function blockDuplicateSubmissions(event: DelegateEvent): void {
-	if (lastSubmission && Date.now() - lastSubmission < 1000) {
-		event.preventDefault();
-		console.log('Duplicate submission prevented');
+function replaceNativeControls(fieldset: HTMLFieldSetElement): void {
+	const controls = getReviewControls(fieldset);
+	if (elementExists('.rgh-one-click-review-submission', controls.dialog)) {
 		return;
 	}
 
-	lastSubmission = Date.now();
+	const restore = (): void => {
+		controls.fieldset.hidden = false;
+		controls.nativeSubmitWrapper.hidden = false;
+	};
+
+	const submit = (value: ReviewActionValue): void => {
+		const radio = controls.radios.get(value);
+		if (!radio) {
+			throw new Error(`Missing native review action: ${value}`);
+		}
+
+		if (radio.disabled) {
+			return;
+		}
+
+		radio.click();
+		requestAnimationFrame(() => {
+			controls.nativeSubmitButton.click();
+		});
+	};
+
+	mount(OneClickReviewSubmission, {
+		target: controls.actionsGroup,
+		anchor: controls.nativeSubmitWrapper,
+		props: {
+			actions: controls.actions,
+			onSubmit: submit,
+			onRestore: restore,
+		},
+	});
+
+	// Hide native controls only after the replacement mounted successfully.
+	controls.fieldset.hidden = true;
+	controls.nativeSubmitWrapper.hidden = true;
 }
 
 function init(signal: AbortSignal): void {
-	// The selector excludes the "Cancel" button
-	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	observe(
+		'[role="dialog"] fieldset[data-component="RadioGroup"]',
+		replaceNativeControls,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
@@ -131,7 +72,6 @@ void features.add(import.meta.url, {
 
 Test URLs
 
-https://github.com/refined-github/sandbox/pull/4/files
-https://github.com/refined-github/sandbox/pull/12/files
+https://github.com/refined-github/refined-github/pull/9804/changes
 
 */
