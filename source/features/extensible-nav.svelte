@@ -13,7 +13,7 @@
 					class:selected={tab.id === $selectedId}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					{tab.label}
+					<span class="rgh-extensible-nav-label">{tab.label}</span>
 					{#if tab.counter}
 						<span class="Counter">{tab.counter}</span>
 					{/if}
