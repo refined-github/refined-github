@@ -1,34 +1,48 @@
-import type AnyIcon from 'octicons-plain-react/Code';
-import {writable} from 'svelte/store';
+import type CodeIcon from 'octicons-plain-react/Code';
+import {derived, writable} from 'svelte/store';
 
 export type Tab = {
 	id: string;
 	href: string;
 	label: string;
-	icon: typeof AnyIcon;
+	icon: typeof CodeIcon;
 	counter?: string;
-	selected?: boolean;
 };
 
-export const tabs = writable<Tab[]>([]);
+type ExtraTab = {tab: Tab; before?: string};
+
+const nativeTabs = writable<Tab[]>([]);
+const extraTabs = writable<ExtraTab[]>([]);
+const hiddenIds = writable(new Set<string>());
+
+export const selectedId = writable<string | undefined>();
+
+export const tabs = derived(
+	[nativeTabs, extraTabs, hiddenIds],
+	([$nativeTabs, $extraTabs, $hiddenIds]) => {
+		const tabs = $nativeTabs.filter(({id}) => !$hiddenIds.has(id));
+
+		for (const {tab, before} of $extraTabs) {
+			const index = before ? tabs.findIndex(({id}) => id === before) : -1;
+			tabs.splice(index === -1 ? tabs.length : index, 0, tab);
+		}
+
+		return tabs;
+	},
+);
+
+export function setNativeTabs(nativeTabsList: Tab[]): void {
+	nativeTabs.set(nativeTabsList);
+}
 
 export function addTab(tab: Tab, before?: string): void {
-	tabs.update(current => {
-		const index = before ? current.findIndex(item => item.id === before) : -1;
-		const next = [...current];
-		next.splice(index === -1 ? next.length : index, 0, tab);
-		return next;
-	});
+	extraTabs.update(current => [...current, {tab, before}]);
 }
 
-export function updateTab(id: string, changes: Partial<Tab>): void {
-	tabs.update(current => current.map(tab => (tab.id === id ? {...tab, ...changes} : tab)));
-}
-
-export function removeTab(id: string): void {
-	tabs.update(current => current.filter(tab => tab.id !== id));
+export function hideTab(id: string): void {
+	hiddenIds.update(current => new Set(current).add(id));
 }
 
 export function selectTab(id: string): void {
-	tabs.update(current => current.map(tab => ({...tab, selected: tab.id === id})));
+	selectedId.set(id);
 }

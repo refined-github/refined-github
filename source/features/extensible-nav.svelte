@@ -1,16 +1,16 @@
 <script lang="ts">
 	import DomChef from '../helpers/dom-chef.svelte';
-	import {tabs} from '../helpers/extensible-nav-store.js';
+	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
 </script>
 
-<nav class="UnderlineNav px-4">
+<nav class="UnderlineNav rgh-extensible-nav px-4">
 	<ul class="UnderlineNav-body">
 		{#each $tabs as tab (tab.id)}
 			<li>
 				<a
 					href={tab.href}
 					class="UnderlineNav-item"
-					class:selected={tab.selected}
+					class:selected={tab.id === $selectedId}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					{tab.label}
@@ -22,7 +22,6 @@
 		{/each}
 	</ul>
 </nav>
-
 <style>
 	nav {
 		/* Temporary indicator of successful replacement */

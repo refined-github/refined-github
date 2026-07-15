@@ -19,7 +19,7 @@ import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
 
 import features from '../feature-manager.js';
-import {tabs, selectTab, type Tab} from '../helpers/extensible-nav-store.js';
+import {selectTab, setNativeTabs, type Tab} from '../helpers/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ExtensibleNav from './extensible-nav.svelte';
@@ -58,12 +58,20 @@ function generateTab(item: HTMLAnchorElement): Tab {
 		label,
 		icon,
 		counter,
-		selected: item.hasAttribute('aria-current'),
 	};
 }
 
 function replace(nativeNav: HTMLElement): void {
-	tabs.set($$('a', nativeNav).map(element => generateTab(element)));
+	const items = $$('a', nativeNav);
+
+	// Shouldn't be missing, but assert anyway
+	const current = items
+		.find(item => item.hasAttribute('aria-current'))
+		?.getAttribute('data-tab-item');
+	assertPresent(current);
+
+	setNativeTabs(items.map(item => generateTab(item)));
+	selectTab(current);
 
 	mount(ExtensibleNav, {target: nativeNav.parentElement!});
 
