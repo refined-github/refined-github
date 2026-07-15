@@ -21,7 +21,6 @@ function underlineSelfReference(link: HTMLAnchorElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// TODO: Revert #9086 after https://github.com/refined-github/refined-github/issues/6554
 	// Exclude reference to a comment on the same page
 	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {
 		signal,
