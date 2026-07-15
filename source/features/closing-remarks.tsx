@@ -16,7 +16,7 @@ import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import {getReleasesCount} from './releases-tab.js';
 
-function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
+function isVersionedTag({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
 }
@@ -32,7 +32,12 @@ const firstTag = new CachedFunction('first-tag', {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
 		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
-		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
+		const preferredTag = tags.findLast(isVersionedTag) ?? tags.at(-1);
+		if (!preferredTag) {
+			return false;
+		}
+
+		return preferredTag.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
