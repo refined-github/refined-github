@@ -60,7 +60,7 @@ export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> 
 }
 
 export async function applyStyleHotfixes(style: string): Promise<void> {
-	if (isDevelopmentVersion() || isEnterprise() || !style) {
+	if (!style || isDevelopmentVersion() || isEnterprise()) {
 		return;
 	}
 

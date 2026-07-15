@@ -30,7 +30,7 @@ export default function getUserAvatar(username: string, size: number): string | 
 	// Bots don't have a /$username.png URL
 	// Enterprise can only use /$username.png
 	const isBot = username.endsWith('[bot]') || cleanName.includes('/');
-	const url = pageDetect.isEnterprise() || !isBot
+	const url = !isBot || pageDetect.isEnterprise()
 		// Use full URLs: https://github.com/refined-github/refined-github/issues/9571
 		? `${location.origin}/${cleanName}.png`
 		: `https://avatars.githubusercontent.com/${cleanName}`;

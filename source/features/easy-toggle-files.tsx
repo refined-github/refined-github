@@ -22,7 +22,7 @@ function toggleCodeSearchFile(event: DelegateEvent<MouseEvent>): void {
 	const toggle = $(':scope > button', headerBar);
 
 	// The clicked element is either the bar itself or one of its children excluding the button
-	if (elementClicked === headerBar || (elementClicked.parentElement === headerBar && elementClicked !== toggle)) {
+	if (elementClicked === headerBar || (elementClicked !== toggle && elementClicked.parentElement === headerBar)) {
 		toggle.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 	}
 }

@@ -31,7 +31,7 @@ export default function showWhiteSpacesOnLine(line: Element, shouldAvoidSurround
 
 			const endingIndex = index;
 			// Find the same character so they can be wrapped together, but stop at `startingCharacterIndex`
-			while (text[index - 1] === thisCharacter && index !== startingCharacterIndex) {
+			while (index !== startingCharacterIndex && text[index - 1] === thisCharacter) {
 				index--;
 			}
 

@@ -15,7 +15,7 @@ import observe from '../helpers/selector-observer.js';
 async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 	// Drop 'commented' label to shorten the copy
 	const commentedNode = link.parentNode!.nextSibling;
-	if (closestElementOptional('.timeline-comment-header', link) && commentedNode) {
+	if (commentedNode && closestElementOptional('.timeline-comment-header', link)) {
 		// "left a comment" appears in the main comment of reviews
 		removeTextNodeContaining(commentedNode, /commented|left a comment/);
 	}

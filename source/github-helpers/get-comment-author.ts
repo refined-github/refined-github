@@ -47,7 +47,7 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		'a[href^="https://github.com/apps/"]',
 	], avatar);
 
-	if (!name.endsWith('[bot]') && appLink) {
+	if (appLink && !name.endsWith('[bot]')) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
 		return name + '[bot]';
 	}
