@@ -1,10 +1,7 @@
-import './tooltip.css';
-
-import React from 'dom-chef';
 import {lastElement} from 'select-dom';
+import {mount} from 'svelte';
 
-import {upperCaseFirst} from '../github-helpers/index.js';
-import joinJsx from './join-jsx.js';
+import Tooltip from './tooltip.svelte';
 
 export type TooltipOptions = {
 	label: string;
@@ -12,19 +9,6 @@ export type TooltipOptions = {
 	direction?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw';
 	type?: 'label' | 'description';
 };
-
-function renderShortcut(shortcut: string): JSX.Element {
-	const keys = shortcut.split(' ').map(key => (
-		<span className="rgh-shortcut-chord" data-kbd-chord="true">
-			{upperCaseFirst(key)}
-		</span>
-	));
-	return (
-		<kbd className="rgh-shortcut">
-			{joinJsx(' ', keys)}
-		</kbd>
-	);
-}
 
 function createTooltipFor(element: Element, content: string | TooltipOptions): HTMLElement {
 	const options: TooltipOptions = typeof content === 'string'
@@ -37,21 +21,13 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	const tooltipId = crypto.randomUUID();
 	element.setAttribute('aria-labelledby', tooltipId);
 
-	return (
-		<tool-tip
-			id={tooltipId}
-			className="sr-only position-absolute"
-			for={element.id}
-			popover="manual"
-			data-direction={options.direction ?? 's'}
-			data-type={options.type ?? 'label'}
-			aria-hidden="true"
-			role="tooltip"
-		>
-			{options.label}
-			{options.shortcut && renderShortcut(options.shortcut)}
-		</tool-tip>
-	);
+	const container = document.createElement('div');
+	mount(Tooltip, {
+		target: container,
+		props: {id: tooltipId, for: element.id, options},
+	});
+
+	return container.firstElementChild as HTMLElement;
 }
 
 /**
