@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DomChef from '../helpers/dom-chef.svelte';
+	import TabCounter from '../helpers/extensible-nav-counter.svelte';
 	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
 </script>
 
@@ -13,12 +14,15 @@
 					data-turbo-frame="repo-content-turbo-frame"
 					data-react-nav={tab.reactNav}
 					class:selected={tab.id === $selectedId}
+					class:tooltipped={tab.tooltip}
+					// Temporarily "w" until tooltipped() is brought over to Svelte
+					// TODO: https://github.com/refined-github/refined-github/issues/9810
+					class:tooltipped-w={tab.tooltip}
+					aria-label={tab.tooltip}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					<span class="rgh-extensible-nav-label">{tab.label}</span>
-					{#if tab.counter}
-						<span class="Counter">{tab.counter}</span>
-					{/if}
+					<span data-content={tab.label}>{tab.label}</span>
+					<TabCounter counter={tab.counter} />
 				</a>
 			</li>
 		{/each}

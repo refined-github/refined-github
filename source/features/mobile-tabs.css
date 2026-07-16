@@ -1,0 +1,103 @@
+@media (width <= 767px) {
+	:root {
+		.AppHeader-localBar {
+			padding: 0;
+		}
+
+		.UnderlineNav {
+			padding-inline: var(--base-size-16, 16px);
+			padding-block: 5px var(--control-medium-gap, 8px);
+
+			.UnderlineNav-body {
+				align-items: stretch;
+			}
+
+			.UnderlineNav-item {
+				display: grid;
+				min-width: 50px;
+				grid:
+					'icon counter'
+					'title title';
+				gap: 0 5px;
+				padding: 6px 10px;
+				background: var(
+					--control-transparent-bgColor-hover,
+					var(--color-action-list-item-default-hover-bg, fuchsia)
+				);
+
+				&:hover {
+					background: var(
+						--control-transparent-bgColor-hover,
+						var(--color-action-list-item-default-active-bg, fuchsia)
+					);
+				}
+
+				&.selected::after {
+					bottom: -9px !important;
+				}
+
+				&:not(:has(.Counter)),
+				&:has([hidden]) {
+					grid-template-areas:
+						'icon icon'
+						'title title';
+
+					& svg {
+						justify-self: center;
+					}
+				}
+
+				[data-content] {
+					grid-area: title;
+					line-height: 1;
+					margin-top: 5px;
+					font-size: 0.6px;
+					color: transparent !important;
+
+					&::before {
+						content: attr(data-content);
+						visibility: inherit;
+						height: auto;
+						font-size: 10px;
+						color: var(--fgColor-default, var(--color-fg-default, fuchsia));
+						font-weight: inherit;
+					}
+				}
+
+				svg {
+					margin: 0 !important;
+					grid-area: icon;
+					justify-self: end;
+				}
+
+				.Counter {
+					grid-area: counter;
+					background: none;
+					padding: 0;
+					margin: 0;
+					border: none;
+					min-width: min-content;
+					justify-self: start;
+				}
+			}
+		}
+
+		/* TODO: Move to svelte component instead? It can toggle between full and short `span`s */
+		[data-content='Pull requests']::before {
+			content: 'Pulls' !important;
+		}
+		[data-content='Security and quality']::before {
+			content: 'Security' !important;
+		}
+	}
+}
+
+/*
+
+Test URLs:
+
+- Repo: https://github.com/refined-github/refined-github
+- Org: https://github.com/refined-github
+- User: https://github.com/fregante
+
+*/

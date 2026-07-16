@@ -489,6 +489,13 @@
 		"screenshot": null
 	},
 	{
+		"id": "mobile-tabs",
+		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
+		"css": true,
+		"cssOnly": true,
+		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
+	},
+	{
 		"id": "mobile-tabs-pr",
 		"description": "Makes the PR tabs smaller so they fit in the screen without scrolling.",
 		"css": true,
