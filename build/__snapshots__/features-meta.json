@@ -43,7 +43,7 @@
 	},
 	{
 		"id": "bugs-tab",
-		"description": "Adds a \"Bugs\" tab to repos, if there are any open issues with the \"bug\" label.",
+		"description": "Adds a \"Bugs\" tab to repos, if there are any open issues with the \"bug\" label (depends on <code>extensible-nav</code> feature).",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png"
 	},
 	{
@@ -490,7 +490,7 @@
 	},
 	{
 		"id": "mobile-tabs",
-		"description": "Makes the tabs more compact on mobile so more of them can be seen.",
+		"description": "Makes the tabs more compact on mobile so more of them can be seen (depends on <code>extensible-nav</code> feature).",
 		"css": true,
 		"cssOnly": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/245446231-28f44b59-0151-4986-8cb9-05b5645592d8.png"
