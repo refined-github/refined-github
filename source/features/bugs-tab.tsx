@@ -6,11 +6,12 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import {cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-store.js';
 import CountBugs from './bugs-tab.gql';
+import onetime from '../helpers/onetime.js';
 
 type ApiResponse = {
 	issues: {
@@ -62,9 +63,7 @@ async function isBugsListing(): Promise<boolean> {
 	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
-let added = false;
-
-async function addBugsTab(): Promise<void | false> {
+async function addBugsTabOnce(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const bugsPromise = bugs.get();
 
@@ -80,21 +79,20 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const href = SearchQuery.from(location).append(await getSearchQueryBugLabel()).href;
+	const {href} = new SearchQuery(buildRepoUrl('issues'))
+		.append(await getSearchQueryBugLabel());
 
 	addTab({
 		id: 'bugs',
 		href,
 		label: 'Bugs',
 		icon: BugIcon,
-		counter: '0',
 	}, 'pull-requests');
-	added = true;
 
 	// Update bugs count
 	try {
-		const {count: bugCount} = await bugsPromise;
-		updateTab('bugs', {counter: bugCount > 0 ? abbreviateNumber(bugCount) : undefined});
+		const {count: counter} = await bugsPromise;
+		updateTab('bugs', {counter});
 	} catch (error) {
 		updateTab('bugs', {counter: undefined});
 		throw error; // Likely an API call error that will be handled by the init
@@ -102,7 +100,13 @@ async function addBugsTab(): Promise<void | false> {
 }
 
 async function removePinnedIssues(): Promise<void> {
-	const pinnedIssues = await elementReady('.js-pinned-issues-reorder-container', {waitForChildren: false});
+	// TODO: Move to CSS, but it needs to be removed when the user navigates away from the bugs tab
+	const pinnedIssues = await elementReady('ul[class*="PinnedIssues-module__area"]', {
+		waitForChildren: false,
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(1000),
+	});
+
 	// The repo might not have any pinned issues
 	pinnedIssues?.remove();
 }
@@ -130,20 +134,20 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 	return false;
 }
 
-async function init(): Promise<void | false> {
-	if (!added) {
-		await addBugsTab();
-	}
-
-	await updateBugsTagHighlighting();
-}
-
 void features.add(import.meta.url, {
+	asLongAs: [
+		pageDetect.hasRepoHeader,
+		// Some repos may disable issues altogether
+		() => Boolean(elementReady('li[data-tab-item="issues"]', {waitForChildren: false})),
+	],
+	requiresToken: true,
+	init: onetime(addBugsTabOnce),
+}, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
 	requiresToken: true,
-	init,
+	init: updateBugsTagHighlighting,
 });
 
 /*

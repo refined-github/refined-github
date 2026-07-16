@@ -6,7 +6,7 @@ export type Tab = {
 	href: string;
 	label: string;
 	icon: typeof CodeIcon;
-	counter?: string;
+	counter?: number;
 	tooltip?: string;
 };
 
@@ -41,7 +41,9 @@ export function addTab(tab: Tab, before?: string): void {
 }
 
 export function updateTab(id: string, changes: Partial<Tab>): void {
-	extraTabs.update(current => current.map(extra => (extra.tab.id === id ? {...extra, tab: {...extra.tab, ...changes}} : extra)));
+	extraTabs.update(current =>
+		current.map(extra => (extra.tab.id === id ? {...extra, tab: {...extra.tab, ...changes}} : extra))
+	);
 }
 
 export function hideTab(id: string): void {
