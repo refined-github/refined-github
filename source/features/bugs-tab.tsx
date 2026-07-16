@@ -85,7 +85,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 
 	const counter = writable<number | undefined>();
 	addTab({
-		id: 'bugs',
+		id: 'rgh-bugs',
 		href,
 		label: 'Bugs',
 		icon: BugIcon,

@@ -51,7 +51,7 @@ async function addReleasesTabOnce(): Promise<false | void> {
 	const {pathname} = new URL(href);
 
 	addTab({
-		id: 'rgh-releases-item',
+		id: 'rgh-releases',
 		href,
 		label: type,
 		icon: TagIcon,
