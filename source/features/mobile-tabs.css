@@ -79,16 +79,10 @@
 					min-width: min-content;
 					justify-self: start;
 				}
-
-				span[data-view-component]:not([class]) {
-					grid-area: title;
-					line-height: 1;
-					margin-top: 5px;
-					font-size: 10px;
-				}
 			}
 		}
 
+		/* TODO: Move to svelte component instead? It can toggle between full and short `span`s */
 		[data-content='Pull requests']::before {
 			content: 'Pulls' !important;
 		}
