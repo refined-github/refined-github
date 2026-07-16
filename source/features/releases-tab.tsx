@@ -1,24 +1,15 @@
-import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
-import {$optional} from 'select-dom';
+import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import createDropdownItem from '../github-helpers/create-dropdown-item.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {buildRepoUrl, cacheByRepo, getRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
-import {repoUnderlineNavDropdownUl, repoUnderlineNavUl} from '../github-helpers/selectors.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {appendBefore} from '../helpers/dom-utils.js';
-import observe from '../helpers/selector-observer.js';
+import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
+import {addTab} from '../helpers/extensible-nav-store.js';
+import onetime from '../helpers/onetime.js';
 import GetReleasesCount from './releases-tab.gql';
-
-function detachHighlightFromCodeTab(codeTab: HTMLAnchorElement): void {
-	codeTab.dataset.selectedLinks = codeTab.dataset.selectedLinks!.replace('repo_releases ', '');
-}
 
 async function fetchCounts(nameWithOwner: string): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const [owner, name] = nameWithOwner.split('/', 2);
@@ -50,65 +41,26 @@ export async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Relea
 	return releasesCount.get(repo);
 }
 
-async function addReleasesTab(repoNavigationBar: HTMLElement): Promise<false | void> {
+async function addReleasesTabOnce(): Promise<false | void> {
 	const [count, type] = await getReleasesCount();
 	if (!type) {
 		return false;
 	}
 
-	// Wait for the dropdown because `observe` fires as soon as it encounter the container. `releases-tab` must be appended.
-	await elementReady(repoUnderlineNavUl);
+	const href = buildRepoUrl(type.toLowerCase());
+	const {pathname} = new URL(href);
 
-	repoNavigationBar.append(
-		<li className="d-flex">
-			<a
-				href={buildRepoUrl(type.toLowerCase())}
-				className="js-selected-navigation-item UnderlineNav-item hx_underlinenav-item no-wrap js-responsive-underlinenav-item rgh-releases-tab"
-				data-hotkey="g r"
-				data-selected-links="repo_releases"
-				data-tab-item="rgh-releases-item"
-				data-turbo-frame="repo-content-turbo-frame" /* Required for `data-selected-links` to work */
-				title="Hotkey: G R"
-			>
-				<TagIcon className="UnderlineNav-octicon d-none d-sm-inline" />
-				<span data-content={type}>{type}</span>
-				<span className="Counter" title={count > 999 ? String(count) : ''}>{abbreviateNumber(count)}</span>
-			</a>
-		</li>,
-	);
-
-	triggerRepoNavOverflow();
+	addTab({
+		id: 'rgh-releases',
+		href,
+		label: type,
+		icon: TagIcon,
+		counter: writable(count),
+		selected: () => location.pathname === pathname,
+	});
 }
 
-async function addReleasesDropdownItem(dropdownMenu: HTMLElement): Promise<false | void> {
-	const [, type] = await getReleasesCount();
-
-	if (!type) {
-		// TODO: The feature was dropped
-		// Won't exist if `clean-repo-tabs` is disabled
-		$optional('.dropdown-divider', dropdownMenu)?.remove();
-		return false;
-	}
-
-	appendBefore(
-		dropdownMenu,
-		'.dropdown-divider', // Won't exist if `clean-repo-tabs` is disabled
-		createDropdownItem({
-			label: type,
-			href: buildRepoUrl(type.toLowerCase()),
-			icon: TagIcon,
-			'data-menu-item': 'rgh-releases-item',
-		}),
-	);
-
-	triggerRepoNavOverflow();
-}
-
-async function init(signal: AbortSignal): Promise<void> {
-	observe(repoUnderlineNavUl, addReleasesTab, {signal});
-	observe(repoUnderlineNavDropdownUl, addReleasesDropdownItem, {signal});
-	observe(['[data-menu-item="i0code-tab"] a', 'a#code-tab'], detachHighlightFromCodeTab, {signal});
-	// Workaround for https://github.com/refined-github/refined-github/issues/8867
+function init(signal: AbortSignal): void {
 	registerHotkey('g r', buildRepoUrl('releases'), {signal});
 }
 
@@ -120,6 +72,11 @@ void features.add(import.meta.url, {
 		pageDetect.hasRepoHeader,
 	],
 	requiresToken: true,
+	init: onetime(addReleasesTabOnce),
+}, {
+	include: [
+		pageDetect.hasRepoHeader,
+	],
 	init,
 });
 
