@@ -1,17 +1,15 @@
-import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
-import {$, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import {cacheByRepo, triggerRepoNavOverflow} from '../github-helpers/index.js';
+import {cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {highlightTab, unhighlightTab} from '../helpers/dom-utils.js';
+import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-tabs.js';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
@@ -64,6 +62,8 @@ async function isBugsListing(): Promise<boolean> {
 	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
+let added = false;
+
 async function addBugsTab(): Promise<void | false> {
 	// Query API as early as possible, even if it's not necessary on archived repos
 	const bugsPromise = bugs.get();
@@ -80,60 +80,25 @@ async function addBugsTab(): Promise<void | false> {
 		}
 	}
 
-	const issuesTab = await elementReady('a.UnderlineNav-item[data-hotkey="g i"]', {waitForChildren: false});
-	if (!issuesTab) {
-		// Issues are disabled
-		return false;
-	}
+	const href = SearchQuery.from(location).append(await getSearchQueryBugLabel()).href;
 
-	// Copy Issues tab
-	const bugsTab = issuesTab.cloneNode(true);
-	bugsTab.classList.add('rgh-bugs-tab');
-	unhighlightTab(bugsTab);
-
-	// Disable unwanted behavior #3001
-	delete bugsTab.dataset.hotkey;
-	delete bugsTab.dataset.selectedLinks;
-	bugsTab.removeAttribute('id');
-
-	// Update its appearance
-	const bugsTabTitle = $('[data-content]', bugsTab);
-	bugsTabTitle.dataset.content = 'Bugs';
-	bugsTabTitle.textContent = 'Bugs';
-	$('.octicon', bugsTab).replaceWith(<BugIcon className="UnderlineNav-octicon d-none d-sm-inline" />);
-
-	// Set temporary counter
-	const bugsCounter = $('.Counter', bugsTab);
-	bugsCounter.textContent = '0';
-	bugsCounter.title = '';
-
-	// Update Bugs’ link
-	bugsTab.href = SearchQuery.from(bugsTab).append(await getSearchQueryBugLabel()).href;
-
-	// In case GitHub changes its layout again #4166
-	if (issuesTab.parentElement instanceof HTMLLIElement) {
-		issuesTab.parentElement.after(<li className="d-inline-flex">{bugsTab}</li>);
-	} else {
-		issuesTab.after(bugsTab);
-	}
-
-	triggerRepoNavOverflow();
+	addTab({
+		id: 'bugs',
+		href,
+		label: 'Bugs',
+		icon: BugIcon,
+		counter: '0',
+	}, 'pull-requests');
+	added = true;
 
 	// Update bugs count
 	try {
 		const {count: bugCount} = await bugsPromise;
-		bugsCounter.textContent = abbreviateNumber(bugCount);
-		bugsCounter.title = bugCount > 999 ? String(bugCount) : '';
+		updateTab('bugs', {counter: bugCount > 0 ? abbreviateNumber(bugCount) : undefined});
 	} catch (error) {
-		bugsCounter.remove();
+		updateTab('bugs', {counter: undefined});
 		throw error; // Likely an API call error that will be handled by the init
 	}
-}
-
-function highlightBugsTab(): void {
-	// Remove highlighting from "Issues" tab
-	unhighlightTab($('.UnderlineNav-item[data-hotkey="g i"]'));
-	highlightTab($('.rgh-bugs-tab'));
 }
 
 async function removePinnedIssues(): Promise<void> {
@@ -153,12 +118,12 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
 		void removePinnedIssues();
-		highlightBugsTab();
+		selectTab('bugs');
 		return;
 	}
 
 	if (pageDetect.isIssue() && (await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`))) {
-		highlightBugsTab();
+		selectTab('bugs');
 		return;
 	}
 
@@ -166,7 +131,7 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 }
 
 async function init(): Promise<void | false> {
-	if (!elementExists('.rgh-bugs-tab')) {
+	if (!added) {
 		await addBugsTab();
 	}
 
