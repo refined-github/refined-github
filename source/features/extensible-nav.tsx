@@ -46,7 +46,7 @@ const knownTabsIcons = new Map([
 function generateTab(item: HTMLAnchorElement): Tab {
 	const label = ($optional('[data-component="text"]', item) ?? item).textContent;
 	// Few items have counters. They can also be strings like "5k+" like in microsoft/vscode
-	const counterText = $optional('[data-component="counter"] [data-variant="secondary"]', item)?.textContent;
+	const counter = $optional('[data-component="counter"] [data-variant="secondary"]', item)?.textContent;
 
 	// Hard assertions will make the feature fail before it attempts to replace the native one.
 	// Being the repository's main navigation, we want to avoid breaking.
@@ -68,7 +68,7 @@ function generateTab(item: HTMLAnchorElement): Tab {
 		href: item.href,
 		label,
 		icon,
-		counter: counterText ? readable(counterText) : undefined,
+		counter: readable(counter),
 		tooltip,
 	};
 }
@@ -117,4 +117,5 @@ Test URLs:
 https://github.com/refined-github/refined-github
 https://github.com/refined-github/refined-github/pulse
 High counters https://github.com/microsoft/vscode
+
 */
