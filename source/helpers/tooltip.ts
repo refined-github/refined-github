@@ -1,4 +1,3 @@
-import {lastElement} from 'select-dom';
 import {mount} from 'svelte';
 
 import Tooltip from './tooltip.svelte';
@@ -10,7 +9,7 @@ export type TooltipOptions = {
 	type?: 'label' | 'description';
 };
 
-function createTooltipFor(element: Element, content: string | TooltipOptions): HTMLElement {
+function createTooltipFor(element: Element, content: string | TooltipOptions): void {
 	const options: TooltipOptions = typeof content === 'string'
 		? {label: content}
 		: content;
@@ -21,27 +20,10 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): H
 	const tooltipId = crypto.randomUUID();
 	element.setAttribute('aria-labelledby', tooltipId);
 
-	const container = document.createElement('div');
 	mount(Tooltip, {
-		target: container,
+		target: element as HTMLElement,
 		props: {id: tooltipId, for: element.id, options},
 	});
-
-	return container.firstElementChild as HTMLElement;
-}
-
-/**
-Align tooltip behavior with native
-https://github.com/refined-github/refined-github/pull/9668
-*/
-function attachToDocument(tooltip: HTMLElement): void {
-	lastElement([
-		'#js-repo-pjax-container',
-		'#js-pjax-container',
-		'#repo-content-turbo-frame',
-		'#repo-content-pjax-container',
-		'[data-turbo-body]', // User profile
-	]).append(tooltip);
 }
 
 /**
@@ -53,18 +35,7 @@ export function tooltipped(
 	content: string | TooltipOptions,
 	element: Element,
 ): Element {
-	const tooltip = createTooltipFor(element, content);
-	element.append(tooltip);
-
-	queueMicrotask(() => {
-		// TODO: Replace with https://github.com/sindresorhus/ts-extras/issues/75
-		if (!element.isConnected) {
-			throw new Error('Element must be attached to the document before the tooltip');
-		}
-
-		attachToDocument(tooltip);
-	});
-
+	createTooltipFor(element, content);
 	return element;
 }
 
@@ -81,8 +52,5 @@ export default function addTooltip(
 		throw new Error('Element has no parent. Use `tooltipped` instead for elements not yet attached to a parent.');
 	}
 
-	const tooltip = createTooltipFor(element, content);
-	// Attach to element first just in case the global container is missing. This also "activates" the tool-tip element.
-	element.append(tooltip);
-	attachToDocument(tooltip);
+	createTooltipFor(element, content);
 }
