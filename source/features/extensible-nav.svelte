@@ -19,7 +19,7 @@
 					aria-label={tab.tooltip}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					<span class="rgh-extensible-nav-label">{tab.label}</span>
+					<span data-content={tab.label}>{tab.label}</span>
 					<TabCounter counter={tab.counter} />
 				</a>
 			</li>
