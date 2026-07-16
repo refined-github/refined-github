@@ -40,6 +40,10 @@ export function addTab(tab: Tab, before?: string): void {
 	extraTabs.update(current => [...current, {tab, before}]);
 }
 
+export function updateTab(id: string, changes: Partial<Tab>): void {
+	extraTabs.update(current => current.map(extra => (extra.tab.id === id ? {...extra, tab: {...extra.tab, ...changes}} : extra)));
+}
+
 export function hideTab(id: string): void {
 	hiddenIds.update(current => new Set(current).add(id));
 }
