@@ -7,5 +7,7 @@
 </script>
 
 {#if $counter !== undefined}
-	<span class="Counter">{typeof $counter === 'number' ? abbreviateNumber($counter) : $counter}</span>
+	<span class="Counter">{
+		typeof $counter === 'number' ? abbreviateNumber($counter) : $counter
+	}</span>
 {/if}

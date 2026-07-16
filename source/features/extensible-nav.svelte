@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DomChef from '../helpers/dom-chef.svelte';
-	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
 	import TabCounter from '../helpers/extensible-nav-counter.svelte';
+	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
 </script>
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">

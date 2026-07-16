@@ -1,6 +1,6 @@
 import type CodeIcon from 'octicons-plain-react/Code';
 import {$} from 'select-dom';
-import {derived, get, writable, type Readable} from 'svelte/store';
+import {derived, get, type Readable, writable} from 'svelte/store';
 
 export type Tab = {
 	id: string;
@@ -38,25 +38,34 @@ export function setNativeTabs(nativeTabsList: Tab[]): void {
 	nativeTabs.set(nativeTabsList);
 }
 
+export function selectTab(id: string): void {
+	selectedId.set(id);
+}
+
 export function addTab(tab: Tab, before?: string): void {
 	extraTabs.update(current => [...current, {tab, before}]);
+
+	// TODO: Should probably trigger `updateCurrentTab` reactively somehow, but this works for now
+	if (tab.selected) {
+		void (async () => {
+			if (await tab.selected!()) {
+				selectTab(tab.id);
+			}
+		})();
+	}
 }
 
 export function hideTab(id: string): void {
 	hiddenIds.update(current => new Set(current).add(id));
 }
 
-export function selectTab(id: string): void {
-	selectedId.set(id);
-}
-
 export async function updateCurrentTab(): Promise<void> {
 	for (const {tab} of get(extraTabs)) {
 		// eslint-disable-next-line no-await-in-loop -- Tabs must be tried in order, first match wins
-			if (await tab.selected?.()) {
-				selectTab(tab.id);
-				return;
-			}
+		if (await tab.selected?.()) {
+			selectTab(tab.id);
+			return;
+		}
 	}
 
 	const currentTab = $('nav[aria-label="Repository"] a[aria-current][data-tab-item]');

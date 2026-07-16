@@ -60,6 +60,7 @@ async function getSearchQueryBugLabel(): Promise<string> {
 }
 
 async function isBugsListing(): Promise<boolean> {
+	// TODO: misses plain `label:bug` queries because the helper returns `(label:bug OR type:Bug)`
 	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
 }
 
@@ -127,7 +128,7 @@ async function isBugsTabSelected(): Promise<boolean> {
 	}
 
 	if (
-		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
+		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.pathname.endsWith('/labels/' + encodeURIComponent(label)))
 		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
 		// TODO: eh. This side effect should be moved
