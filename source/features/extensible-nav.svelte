@@ -29,7 +29,7 @@
 <style>
 	nav {
 		/* Temporary indicator of successful replacement */
-		/* TODO: Remove after https://github.com/refined-github/refined-github/issues/8867 is completed */
+		/* TODO: Remove after https://github.com/refined-github/refined-github/issues/8867 is closed */
 		border-left: 1px solid var(--borderColor-muted, fuchsia);
 	}
 </style>
