@@ -1,6 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
+import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -8,9 +9,9 @@ import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-store.js';
-import CountBugs from './bugs-tab.gql';
+import {addTab} from '../helpers/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
+import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
 	issues: {
@@ -81,19 +82,22 @@ async function addBugsTabOnce(): Promise<void | false> {
 	const {href} = new SearchQuery(buildRepoUrl('issues'))
 		.append(await getSearchQueryBugLabel());
 
+	const counter = writable<number | undefined>();
 	addTab({
 		id: 'bugs',
 		href,
 		label: 'Bugs',
 		icon: BugIcon,
+		counter,
+		selected: isBugsTabSelected,
 	}, 'pull-requests');
 
 	// Update bugs count
 	try {
-		const {count: counter} = await bugsPromise;
-		updateTab('bugs', {counter});
+		const {count: bugCount} = await bugsPromise;
+		counter.set(bugCount);
 	} catch (error) {
-		updateTab('bugs', {counter: undefined});
+		counter.set(undefined);
 		throw error; // Likely an API call error that will be handled by the init
 	}
 }
@@ -110,7 +114,13 @@ async function removePinnedIssues(): Promise<void> {
 	pinnedIssues?.remove();
 }
 
-async function updateBugsTagHighlighting(): Promise<void | false> {
+async function isBugsTabSelected(): Promise<boolean> {
+	// Early return when it's certain that it's not selected.
+	// This avoids delaying the `selected` check for other tabs.
+	if (!pageDetect.isRepoIssueList() && !pageDetect.isIssue()) {
+		return false;
+	}
+
 	const {count, label} = await bugs.get();
 	if (count === 0) {
 		return false;
@@ -120,17 +130,12 @@ async function updateBugsTagHighlighting(): Promise<void | false> {
 		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.href.endsWith('/labels/' + encodeURIComponent(label)))
 		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
+		// TODO: eh. This side effect should be moved
 		void removePinnedIssues();
-		selectTab('bugs');
-		return;
+		return true;
 	}
 
-	if (pageDetect.isIssue() && (await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`))) {
-		selectTab('bugs');
-		return;
-	}
-
-	return false;
+	return pageDetect.isIssue() && Boolean(await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`));
 }
 
 void features.add(import.meta.url, {
@@ -141,12 +146,6 @@ void features.add(import.meta.url, {
 	],
 	requiresToken: true,
 	init: onetime(addBugsTabOnce),
-}, {
-	include: [
-		pageDetect.hasRepoHeader,
-	],
-	requiresToken: true,
-	init: updateBugsTagHighlighting,
 });
 
 /*

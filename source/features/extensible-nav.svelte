@@ -1,7 +1,7 @@
 <script lang="ts">
-	import abbreviateNumber from '../helpers/abbreviate-number.js';
 	import DomChef from '../helpers/dom-chef.svelte';
 	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
+	import TabCounter from '../helpers/extensible-nav-counter.svelte';
 </script>
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">
@@ -20,9 +20,7 @@
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<span class="rgh-extensible-nav-label">{tab.label}</span>
-					{#if tab.counter}
-						<span class="Counter">{typeof tab.counter === 'number' ? abbreviateNumber(tab.counter) : tab.counter}</span>
-					{/if}
+					<TabCounter counter={tab.counter} />
 				</a>
 			</li>
 		{/each}

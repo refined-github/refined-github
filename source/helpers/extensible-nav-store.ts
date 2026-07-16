@@ -1,13 +1,15 @@
 import type CodeIcon from 'octicons-plain-react/Code';
-import {derived, writable} from 'svelte/store';
+import {$} from 'select-dom';
+import {derived, get, writable, type Readable} from 'svelte/store';
 
 export type Tab = {
 	id: string;
 	href: string;
 	label: string;
 	icon: typeof CodeIcon;
-	counter?: number | string;
+	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
+	selected?: () => boolean | Promise<boolean>;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
@@ -40,16 +42,23 @@ export function addTab(tab: Tab, before?: string): void {
 	extraTabs.update(current => [...current, {tab, before}]);
 }
 
-export function updateTab(id: string, changes: Partial<Tab>): void {
-	extraTabs.update(current =>
-		current.map(extra => (extra.tab.id === id ? {...extra, tab: {...extra.tab, ...changes}} : extra))
-	);
-}
-
 export function hideTab(id: string): void {
 	hiddenIds.update(current => new Set(current).add(id));
 }
 
 export function selectTab(id: string): void {
 	selectedId.set(id);
+}
+
+export async function updateCurrentTab(): Promise<void> {
+	for (const {tab} of get(extraTabs)) {
+		// eslint-disable-next-line no-await-in-loop -- Tabs must be tried in order, first match wins
+			if (await tab.selected?.()) {
+				selectTab(tab.id);
+				return;
+			}
+	}
+
+	const currentTab = $('nav[aria-label="Repository"] a[aria-current][data-tab-item]');
+	selectTab(currentTab.getAttribute('data-tab-item')!);
 }
