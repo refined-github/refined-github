@@ -67,7 +67,7 @@ async function add(breadcrumbs: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.loaded nav[data-component="Breadcrumbs"] ol', add, {signal});
+	observe('.loaded .GlobalNav nav[data-component="Breadcrumbs"] ol', add, {signal});
 }
 
 void features.addCssFeature(import.meta.url);
