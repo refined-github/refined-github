@@ -1,4 +1,4 @@
-@media (width <= 11767px) {
+@media (width <= 767px) {
 	:root {
 		.AppHeader-localBar {
 			padding: 0;
