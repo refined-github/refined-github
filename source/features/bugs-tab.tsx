@@ -9,7 +9,7 @@ import isBugLabel from '../github-helpers/bugs-label.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import abbreviateNumber from '../helpers/abbreviate-number.js';
-import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-tabs.js';
+import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-store.js';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
