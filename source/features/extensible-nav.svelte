@@ -31,7 +31,7 @@
 <style>
 	nav {
 		/* Temporary indicator of successful replacement */
-		/* TODO: Remove after https://github.com/refined-github/refined-github/issues/8867 is completed */
+		/* TODO: Remove after when the beta testing is complete. Also remove mention from readme and enable it by default */
 		border-left: 1px solid var(--borderColor-muted, fuchsia);
 	}
 </style>
