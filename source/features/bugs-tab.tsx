@@ -90,6 +90,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 		label: 'Bugs',
 		icon: BugIcon,
 		counter,
+		// eslint-disable-next-line @typescript-eslint/no-use-before-define -- TODO later, smaller diff now
 		selected: isBugsTabSelected,
 	}, 'pull-requests');
 
