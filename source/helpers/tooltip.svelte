@@ -1,5 +1,8 @@
 <script lang="ts">
+	import {lastElement} from 'select-dom';
+
 	import {upperCaseFirst} from '../github-helpers/index.js';
+	import portal from '../helpers/portal.js';
 	import type {TooltipOptions} from './tooltip.js';
 
 	type Props = {
@@ -9,6 +12,18 @@
 	};
 
 	const {id, for: htmlFor, options}: Props = $props();
+
+	function getTarget(): Element {
+		// Align tooltip behavior with native
+		// https://github.com/refined-github/refined-github/pull/9668
+		return lastElement([
+			'#js-repo-pjax-container',
+			'#js-pjax-container',
+			'#repo-content-turbo-frame',
+			'#repo-content-pjax-container',
+			'[data-turbo-body]', // User profile
+		]);
+	}
 </script>
 
 <tool-tip
@@ -20,6 +35,7 @@
 	data-type={options.type ?? 'label'}
 	aria-hidden="true"
 	role="tooltip"
+	use:portal={getTarget}
 >
 	{options.label}
 	{#if options.shortcut}
