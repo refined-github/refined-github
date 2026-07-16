@@ -1,5 +1,6 @@
 <script lang="ts">
 	import DomChef from '../helpers/dom-chef.svelte';
+	import TabCounter from '../helpers/extensible-nav-counter.svelte';
 	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
 </script>
 
@@ -19,9 +20,7 @@
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<span class="rgh-extensible-nav-label">{tab.label}</span>
-					{#if tab.counter}
-						<span class="Counter">{tab.counter}</span>
-					{/if}
+					<TabCounter counter={tab.counter} />
 				</a>
 			</li>
 		{/each}

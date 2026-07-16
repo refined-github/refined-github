@@ -61,16 +61,6 @@ export const frame = async (): Promise<number> =>
 		requestAnimationFrame(resolve);
 	});
 
-export const highlightTab = (tabElement: Element): void => {
-	tabElement.classList.add('selected');
-	tabElement.setAttribute('aria-current', 'page');
-};
-
-export const unhighlightTab = (tabElement: Element): void => {
-	tabElement.classList.remove('selected');
-	tabElement.removeAttribute('aria-current');
-};
-
 const matchString = (matcher: RegExp | string, string: string): boolean =>
 	typeof matcher === 'string' ? matcher === string : matcher.test(string);
 
