@@ -154,8 +154,9 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-"bug" label: https://github.com/refined-github/refined-github/issues
-"bug-fix" label: https://github.com/axios/axios/issues
-Issues disabled: https://github.com/refined-github/yolo
+- label:bug https://github.com/refined-github/refined-github/issues
+- label:"Type: Bug" https://github.com/react/react/issues
+- type:Bug: https://github.com/keepassxreboot/keepassxc/issues
+- Issues disabled: https://github.com/refined-github/yolo
 
 */
