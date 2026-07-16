@@ -6,13 +6,6 @@ const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
 
-/** The repo navigation bar */
-export const repoUnderlineNavUl = '.js-responsive-underlinenav ul.UnderlineNav-body';
-export const repoUnderlineNavUl_ = [
-	[1, 'https://github.com/refined-github/refined-github'],
-	[1, 'https://github.com/refined-github/refined-github/releases'],
-] satisfies UrlMatch[];
-
 export const standaloneGistLinkInMarkdown = `
 	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],
@@ -21,14 +14,6 @@ export const standaloneGistLinkInMarkdown = `
 ` as const;
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
-] satisfies UrlMatch[];
-
-/** The repo navigation bar’s overflow menu */
-export const repoUnderlineNavDropdownUl = '.js-responsive-underlinenav action-menu ul';
-export const repoUnderlineNavDropdownUl_ = [
-	// Added via JS :(
-	[1, 'https://github.com/refined-github/refined-github'],
-	[1, 'https://github.com/refined-github/refined-github/releases'],
 ] satisfies UrlMatch[];
 
 export const branchSelector = [
@@ -101,11 +86,6 @@ export const commentsCountInLists = [
 ];
 export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
-] satisfies UrlMatch[];
-
-export const actionsTab = '#actions-tab';
-export const actionsTab_ = [
-	[1, 'https://github.com/refined-github/sandbox'],
 ] satisfies UrlMatch[];
 
 export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
