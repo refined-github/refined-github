@@ -6,7 +6,7 @@ export type Tab = {
 	href: string;
 	label: string;
 	icon: typeof CodeIcon;
-	counter?: number;
+	counter?: number | string;
 	tooltip?: string;
 };
 

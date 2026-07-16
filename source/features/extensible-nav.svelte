@@ -21,7 +21,7 @@
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<span class="rgh-extensible-nav-label">{tab.label}</span>
 					{#if tab.counter}
-						<span class="Counter">{abbreviateNumber(tab.counter)}</span>
+						<span class="Counter">{typeof tab.counter === 'number' ? abbreviateNumber(tab.counter) : tab.counter}</span>
 					{/if}
 				</a>
 			</li>

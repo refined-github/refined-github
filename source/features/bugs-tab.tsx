@@ -8,7 +8,6 @@ import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import abbreviateNumber from '../helpers/abbreviate-number.js';
 import {addTab, selectTab, updateTab} from '../helpers/extensible-nav-store.js';
 import CountBugs from './bugs-tab.gql';
 import onetime from '../helpers/onetime.js';
