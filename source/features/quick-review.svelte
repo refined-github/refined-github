@@ -9,9 +9,9 @@
 	import {getToken} from '../options-storage.js';
 
 	interface Props {
-		onReview: (_event: MouseEvent) => void;
+		onReview?: (_event: MouseEvent) => void;
 		onApprove: (_event: MouseEvent) => void;
-		onPreload: () => void;
+		onPreload?: () => void;
 	}
 
 	const {onReview, onApprove, onPreload}: Props = $props();

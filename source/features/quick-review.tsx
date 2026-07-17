@@ -1,7 +1,7 @@
 import {mount} from 'svelte';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
-import {isAlteredClick} from 'filter-altered-clicks';
+import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 
@@ -17,7 +17,6 @@ import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 import QuickReviewComponent from './quick-review.svelte';
-import onetime from '../helpers/onetime.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
 
@@ -27,7 +26,7 @@ const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
 
-const isNewFilesChangedExperienceEnabled = onetime((): boolean => $(prFilesChangedTabSelector).href.endsWith('changes'));
+const isOldPrFiles = (): boolean => $(prFilesChangedTabSelector).href.endsWith('files');
 
 async function quickApprove(event: MouseEvent): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
@@ -57,19 +56,13 @@ async function openReviewDialogWhenAvailable(): Promise<void> {
 }
 
 function handleReviewClick(event: MouseEvent): void {
-	// This only applies to the new experience
-	if (isAlteredClick(event) || !isNewFilesChangedExperienceEnabled()) {
-		return;
-	}
-
+	event.preventDefault();
 	void openReviewDialogWhenAvailable();
 	$(prFilesChangedTabSelector).click();
 }
 
 function preloadPrFilesTab(): void {
-	if (isNewFilesChangedExperienceEnabled()) {
-		$(prFilesChangedTabSelector).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
-	}
+	$(prFilesChangedTabSelector).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
 }
 
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
@@ -78,11 +71,15 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 
 	mount(QuickReviewComponent, {
 		target: reviewersSection,
-		props: {
-			onReview: handleReviewClick,
-			onApprove: quickApprove,
-			onPreload: preloadPrFilesTab,
-		},
+		props: isOldPrFiles()
+			? {
+				onApprove: quickApprove,
+			}
+			: {
+				onReview: filterAlteredClicks(handleReviewClick),
+				onApprove: quickApprove,
+				onPreload: preloadPrFilesTab,
+			},
 	});
 }
 
