@@ -271,6 +271,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png"
 	},
 	{
+		"id": "expand-hidden-linked-comment",
+		"description": "Automatically expands a hidden/minimized comment when it’s linked directly (e.g. via a permalink).",
+		"screenshot": "https://github.com/user-attachments/assets/d1434f82-1a89-47cd-bec7-29d3b65b5c9b"
+	},
+	{
 		"id": "extend-conversation-status-filters",
 		"description": "Lets you toggle between open/closed/merged filters in searches.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif"
