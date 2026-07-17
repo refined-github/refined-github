@@ -56,6 +56,8 @@
 </fieldset>
 
 {#if isLegacy}
+	<!-- Always submitted, but ignored unless the value is `subscribe_to_custom_notifications` -->
+	<!-- Keep outside BtnGroup -->
 	<input type="hidden" name="events[]" value="merged" />
 	<input type="hidden" name="events[]" value="closed" />
 	<input type="hidden" name="events[]" value="reopened" />
