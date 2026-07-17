@@ -118,5 +118,6 @@ Test URLs:
 https://github.com/refined-github/refined-github
 https://github.com/refined-github/refined-github/pulse
 High counters https://github.com/microsoft/vscode
+Blocked PRs https://github.com/sindresorhus/eslint-plugin-unicorn
 
 */
