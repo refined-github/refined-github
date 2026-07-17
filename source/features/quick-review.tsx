@@ -3,7 +3,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -22,10 +22,8 @@ const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '�
 
 // Be careful not to select the "Submit review" button in the dialog
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
-
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
-
 const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
 
 const isNewFilesChangedExperienceEnabled = (): boolean => $(prFilesChangedTabSelector).href.endsWith('changes');
@@ -62,7 +60,6 @@ function handleReviewClick(event: MouseEvent): void {
 		return;
 	}
 
-	event.preventDefault();
 	void openReviewDialogWhenAvailable();
 	$(prFilesChangedTabSelector).click();
 }
@@ -85,16 +82,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 			onPreload: preloadPrFilesTab,
 		},
 	});
-}
-
-function onReviewRequestedButtonClick(event: PointerEvent): void {
-	if (isNewFilesChangedExperienceEnabled()) {
-		void openReviewDialogWhenAvailable();
-		return;
-	}
-
-	// TODO [2027-01-01]: Drop after legacy PR files view is removed
-	(event.currentTarget as HTMLAnchorElement).hash = openReviewMenuDeepLink;
 }
 
 // TODO [2027-01-01]: Drop after the legacy PR files view is removed
@@ -135,13 +122,6 @@ async function initDeepLinking(signal: AbortSignal): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)', addSidebarReviewButtons, {signal});
-
-	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
-	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
-	delegate('section[aria-label="Review Request Banner"] a[type="button"]', 'click', onReviewRequestedButtonClick, {
-		capture: true,
-		signal,
-	});
 }
 
 void features.add(import.meta.url, {
