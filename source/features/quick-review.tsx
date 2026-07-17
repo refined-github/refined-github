@@ -1,3 +1,4 @@
+import {mount} from 'svelte';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
@@ -9,7 +10,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {
 	getConversationNumber,
-	getLoggedInUser,
 	scrollIntoViewIfNeeded,
 	triggerConversationUpdate,
 } from '../github-helpers/index.js';
@@ -17,8 +17,7 @@ import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
-import {getToken} from '../options-storage.js';
+import QuickReviewComponent from './quick-review.svelte';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
 
@@ -79,52 +78,17 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
 
-	const quickReview = (
-		<span className="text-normal color-fg-muted">
-			{'– '}
-			{tooltipped(
-				{
-					label: 'Review now',
-					shortcut: 'v',
-				},
-				<a
-					// TODO [2027-01-01]: Change path to "changes" once Legacy PR files view is removed
-					href={`${location.pathname}/files#${openReviewMenuDeepLink}`}
-					className="rgh-quick-review btn-link Link--muted Link--inTextBlock"
-					data-turbo-frame="repo-content-turbo-frame"
-					data-hotkey="v"
-					onMouseEnter={preloadPrFilesTab}
-				>
-					review now
-				</a>,
-			)}
-		</span>
-	);
+	const container = <div className="rgh-quick-review-container" />;
+	reviewersSection.append(container);
 
-	reviewersSection.append(quickReview);
-
-	// Can't approve own PRs and closed PRs
-	// API required for this action
-	if (
-		getLoggedInUser() === $('.author').textContent
-		|| pageDetect.isClosedConversation()
-		|| !(await getToken())
-	) {
-		return;
-	}
-
-	quickReview.append(
-		' – ',
-		tooltipped(
-			{label: 'Hold alt to approve without confirmation', direction: 'nw'},
-			<button
-				type="button"
-				className="btn-link Link--muted Link--inTextBlock rgh-quick-approve"
-			>
-				approve now
-			</button>,
-		),
-	);
+	mount(QuickReviewComponent, {
+		target: container,
+		props: {
+			onReview: handleReviewClick,
+			onApprove: quickApprove,
+			onPreload: preloadPrFilesTab,
+		},
+	});
 }
 
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
