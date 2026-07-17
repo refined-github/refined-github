@@ -88,7 +88,8 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 }
 
 async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
-	observe('#reviewers-select-menu .discussion-sidebar-heading', addSidebarReviewButtons, {signal});
+	// "h3" required to exclude "x more reviewers without write access"
+	observe('[aria-label="Select reviewers"] h3.discussion-sidebar-heading', addSidebarReviewButtons, {signal});
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
 }

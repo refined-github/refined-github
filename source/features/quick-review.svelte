@@ -50,7 +50,7 @@
 
 	{#await canApprovePromise then canApprove}
 		{#if canApprove}
-			-
+			–
 			<button
 				id={approveId}
 				type="button"
@@ -64,7 +64,6 @@
 				id="{approveId}-tooltip"
 				htmlFor={approveId}
 				label="Hold alt to approve without confirmation"
-				direction="nw"
 			/>
 		{/if}
 	{/await}
