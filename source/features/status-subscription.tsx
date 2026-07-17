@@ -10,7 +10,7 @@ import {$, $optional, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped, tooltippedRef} from '../github-helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 
@@ -162,27 +162,24 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 	subscriptionButton.after(
 		// Use `fieldset` so that it can be disabled
 		<fieldset className="rgh-status-subscription BtnGroup d-flex width-full">
-			<Button
-				ref={tooltippedRef({label: 'Unsubscribe', direction: 'sw'})}
-				onClick={getOnClick('none')}
-				{...(status === 'none' && disableAttributes)}
-			>
-				<BellSlashIcon /> None
-			</Button>
-			<Button
-				ref={tooltippedRef({label: 'Subscribe to all events', direction: 'sw'})}
-				onClick={getOnClick('all')}
-				{...(status === 'all' && disableAttributes)}
-			>
-				<BellIcon /> All
-			</Button>
-			<Button
-				ref={tooltippedRef({label: multilineAriaLabel('Subscribe just to status changes', '(closing, reopening, merging)'), direction: 'sw'})}
-				onClick={getOnClick('status')}
-				{...(status === 'status' && disableAttributes)}
-			>
-				<IssueReopenedIcon /> Status
-			</Button>,
+			{tooltipped(
+				{label: 'Unsubscribe', direction: 'sw'},
+				<Button onClick={getOnClick('none')} {...(status === 'none' && disableAttributes)}>
+					<BellSlashIcon /> None
+				</Button>,
+			)}
+			{tooltipped(
+				{label: 'Subscribe to all events', direction: 'sw'},
+				<Button onClick={getOnClick('all')} {...(status === 'all' && disableAttributes)}>
+					<BellIcon /> All
+				</Button>,
+			)}
+			{tooltipped(
+				{label: multilineAriaLabel('Subscribe just to status changes', '(closing, reopening, merging)'), direction: 'sw'},
+				<Button onClick={getOnClick('status')} {...(status === 'status' && disableAttributes)}>
+					<IssueReopenedIcon /> Status
+				</Button>,
+			)}
 		</fieldset>,
 	);
 
