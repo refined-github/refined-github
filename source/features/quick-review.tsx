@@ -134,8 +134,8 @@ async function initDeepLinking(signal: AbortSignal): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// "h3" required to exclude "x more reviewers without write access"
-	observe('[aria-label="Select reviewers"] h3.discussion-sidebar-heading', addSidebarReviewButtons, {signal});
+	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)', addSidebarReviewButtons, {signal});
+
 	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
 	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
 	delegate('section[aria-label="Review Request Banner"] a[type="button"]', 'click', onReviewRequestedButtonClick, {
