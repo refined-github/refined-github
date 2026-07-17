@@ -15,7 +15,7 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../github-helpers/tooltip.js';
+import {withTooltipRef} from '../github-helpers/tooltip.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 /* eslint-disable @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values */
@@ -85,20 +85,18 @@ function createButtonGroup(): JSX.Element {
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => (
 				<div>
-					{tooltipped(
-						label.tooltipLabel,
-						<button
-							className={cx('Button--secondary Button--medium Button', feature.class)}
-							data-method={method}
-							type="button"
-						>
-							<span className="Button-content">
-								<span className="Button-label">
-									{label.buttonLabel}
-								</span>
+					<button
+						ref={withTooltipRef(label.tooltipLabel)}
+						className={cx('Button--secondary Button--medium Button', feature.class)}
+						data-method={method}
+						type="button"
+					>
+						<span className="Button-content">
+							<span className="Button-label">
+								{label.buttonLabel}
 							</span>
-						</button>,
-					)}
+						</span>
+					</button>
 				</div>
 			))}
 		</div>
