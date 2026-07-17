@@ -28,7 +28,7 @@ const isConversationIneditable = memoize(
 
 const editMenuItemSelector = 'li[data-component="ActionList.Item"]:has(.octicon-pencil)';
 
-async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
 	if (await isConversationIneditable(signal)) {
 		features.unload(import.meta.url);
 		return;
@@ -40,17 +40,17 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 			type="button"
 			className="Button Button--iconOnly Button--invisible Button--small"
 			onClick={async () =>
-				withMenuOpen(menuButton, menu => {
+				withMenuOpen(menuButon, menu => {
 					$(editMenuItemSelector, menu).click();
 				})}
 		>
 			<PencilIcon />
 		</button>,
 	);
-	menuButton.before(editButton);
+	menuButon.before(editButton);
 
 	// Remove our edit button when entering editing mode in case React doesn't, preventing duplicate buttons where only one works
-	await onElementRemoval(menuButton, signal);
+	await onElementRemoval(menuButon, signal);
 	editButton.remove();
 }
 
