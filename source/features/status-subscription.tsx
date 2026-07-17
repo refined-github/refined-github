@@ -1,5 +1,4 @@
-import React from 'dom-chef';
-import {mount, unmount} from 'svelte';
+import {mount} from 'svelte';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional, closestElement} from 'select-dom';
 
@@ -9,7 +8,6 @@ import observe from '../helpers/selector-observer.js';
 import StatusSubscription from './status-subscription.svelte';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
-
 
 function getLegacyReason(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
 	return $('p.reason', closestElement('.thread-subscription-status', subscriptionButton));
@@ -36,11 +34,8 @@ function addLegacyButton(subscriptionButton: HTMLButtonElement): void {
 	// Save first
 	const originalId = subscriptionButton.form!.elements.id;
 
-	const container = <div /> as unknown as HTMLDivElement;
-	subscriptionButton.after(container);
-
 	mount(StatusSubscription, {
-		target: container,
+		target: subscriptionButton.parentElement!,
 		props: {status, isLegacy: true},
 	});
 
@@ -102,8 +97,6 @@ async function updateSubscription(targetStatus: SubscriptionStatus, id: string):
 	}
 }
 
-const mountedComponents = new WeakMap<HTMLButtonElement, ReturnType<typeof mount>>();
-
 async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
 
@@ -124,11 +117,8 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 		void addButton(subscriptionButton);
 	};
 
-	const container = <div /> as unknown as HTMLDivElement;
-	subscriptionButton.after(container);
-
-	const component = mount(StatusSubscription, {
-		target: container,
+	mount(StatusSubscription, {
+		target: subscriptionButton.parentElement!,
 		props: {
 			status,
 			isLegacy: false,
@@ -137,13 +127,6 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 			onStatus: makeOnClick('status'),
 		},
 	});
-
-	const previous = mountedComponents.get(subscriptionButton);
-	if (previous) {
-		unmount(previous);
-	}
-
-	mountedComponents.set(subscriptionButton, component);
 
 	// Would be missing on the first run
 	previousRghButton?.remove();
