@@ -17,6 +17,7 @@ import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 import QuickReviewComponent from './quick-review.svelte';
+import onetime from '../helpers/onetime.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
 
@@ -26,7 +27,7 @@ const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
 
-const isNewFilesChangedExperienceEnabled = (): boolean => $(prFilesChangedTabSelector).href.endsWith('changes');
+const isNewFilesChangedExperienceEnabled = onetime((): boolean => $(prFilesChangedTabSelector).href.endsWith('changes'));
 
 async function quickApprove(event: MouseEvent): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
@@ -56,6 +57,7 @@ async function openReviewDialogWhenAvailable(): Promise<void> {
 }
 
 function handleReviewClick(event: MouseEvent): void {
+	// This only applies to the new experience
 	if (isAlteredClick(event) || !isNewFilesChangedExperienceEnabled()) {
 		return;
 	}
@@ -115,7 +117,9 @@ function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
 }
 
 async function initDeepLinking(signal: AbortSignal): Promise<void> {
+	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
+
 	// Cannot target the [popover] itself because observe() can't see hidden elements
 	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
 }
