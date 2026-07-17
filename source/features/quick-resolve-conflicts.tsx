@@ -10,7 +10,7 @@ import {legacyCommentField} from '../github-helpers/selectors.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import replaceElementTypeInPlace from '../helpers/recreate-element.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 
 function insertCopilotInstruction(): void {
 	const textarea = $(legacyCommentField);

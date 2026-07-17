@@ -6,7 +6,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {

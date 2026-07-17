@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 
 function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
