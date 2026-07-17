@@ -49,23 +49,20 @@ async function quickApprove(event: MouseEvent): Promise<void> {
 	triggerConversationUpdate();
 }
 
-async function openReviewDialogWhenAvailable(): Promise<void> {
+async function openReviewDialogWhenAvailable(event: MouseEvent): Promise<void> {
+	event.preventDefault();
+	$(prFilesChangedTabSelector).click();
+
 	const signal = AbortSignal.timeout(10_000);
 	const reviewMenuButton = await waitForElement(reviewMenuButtonSelector, {signal});
 	reviewMenuButton!.click();
-}
-
-function handleReviewClick(event: MouseEvent): void {
-	event.preventDefault();
-	void openReviewDialogWhenAvailable();
-	$(prFilesChangedTabSelector).click();
 }
 
 function preloadPrFilesTab(): void {
 	$(prFilesChangedTabSelector).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
 }
 
-async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
+async function addButtons(reviewersSection: Element): Promise<void> {
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
 
@@ -76,7 +73,7 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 				onApprove: quickApprove,
 			}
 			: {
-				onReview: filterAlteredClicks(handleReviewClick),
+				onReview: filterAlteredClicks(openReviewDialogWhenAvailable),
 				onApprove: quickApprove,
 				onPreload: preloadPrFilesTab,
 			},
@@ -113,16 +110,16 @@ function openReviewDialog(reviewMenuButton: HTMLButtonElement): void {
 	reviewMenuButton.click();
 }
 
-async function initDeepLinking(signal: AbortSignal): Promise<void> {
+async function initAutoOpenPopup(signal: AbortSignal): Promise<void> {
 	// TODO [2027-01-01]: Drop after legacy PR files view is removed
-	observe(reviewMenuButtonSelector, openReviewDialog, {signal});
+	observe(reviewMenuButtonSelector, openReviewDialog, {signal, once: true});
 
 	// Cannot target the [popover] itself because observe() can't see hidden elements
-	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
+	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal, once: true});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)', addSidebarReviewButtons, {signal});
+	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)', addButtons, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -146,7 +143,7 @@ void features.add(import.meta.url, {
 		() => location.hash === openReviewMenuDeepLinkSelector,
 		pageDetect.isPRFiles,
 	],
-	init: initDeepLinking,
+	init: initAutoOpenPopup,
 });
 
 /*
