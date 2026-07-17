@@ -10,7 +10,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {
@@ -97,28 +97,26 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			workflowLink.after(
-				tooltipped(
-					{label: 'Trigger manually', direction: 'sw'},
-					<a
-						href={url.href}
-						data-turbo-frame={workflowLink.dataset.turboFrame}
-						// `actions-unpin-button` provides the hover style
-						className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
-					>
-						<PlayIcon />
-					</a>,
-				),
+				<a
+					ref={withTooltipRef({label: 'Trigger manually', direction: 'sw'})}
+					href={url.href}
+					data-turbo-frame={workflowLink.dataset.turboFrame}
+					// `actions-unpin-button` provides the hover style
+					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+				>
+					<PlayIcon />
+				</a>,
 			);
 		} else {
 			// User cannot trigger the workflow
-			const indicator = tooltipped(
-				{label: 'This workflow can be triggered manually', direction: 'sw'},
+			const indicator = (
 				<div
+					ref={withTooltipRef({label: 'This workflow can be triggered manually', direction: 'sw'})}
 					className="ActionListItem-visual ActionListItem-visual--trailing"
 					style={{pointerEvents: 'initial'}}
 				>
 					<PlayIcon />
-				</div>,
+				</div>
 			);
 			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
 			if (pinIcon) {

@@ -10,7 +10,7 @@ import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isConversationIneditable = memoize(
@@ -34,9 +34,9 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 		return;
 	}
 
-	const editButton = tooltipped(
-		'Edit comment',
+	const editButton = (
 		<button
+			ref={withTooltipRef('Edit comment')}
 			type="button"
 			className="Button Button--iconOnly Button--invisible Button--small"
 			onClick={async () =>
@@ -45,7 +45,7 @@ async function addQuickEditButton(menuButon: HTMLButtonElement, {signal}: Signal
 				})}
 		>
 			<PencilIcon />
-		</button>,
+		</button>
 	);
 	menuButon.before(editButton);
 
