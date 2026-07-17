@@ -2,7 +2,7 @@
 	import DomChef from '../helpers/dom-chef.svelte';
 	import TabCounter from '../helpers/extensible-nav-counter.svelte';
 	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
-	import Tooltip from './tooltip.svelte';
+	import Tooltip from '../helpers/tooltip.svelte';
 </script>
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">
