@@ -16,7 +16,7 @@
 
 	const {onReview, onApprove, onPreload}: Props = $props();
 
-	const canApprove =
+	const canApprovePromise =
 		// Can't approve own PRs and closed PRs
 		getLoggedInUser() !== getConversationAuthor()
 		&& !isClosedConversation()
@@ -48,22 +48,24 @@
 		shortcut="v"
 	/>
 
-	{#if canApprove}
-		-
-		<button
-			id={approveId}
-			type="button"
-			class="btn-link Link--muted Link--inTextBlock rgh-quick-approve"
-			onclick={onApprove}
-			aria-labelledby="{approveId}-tooltip"
-		>
-			approve now
-		</button>
-		<Tooltip
-			id="{approveId}-tooltip"
-			htmlFor={approveId}
-			label="Hold alt to approve without confirmation"
-			direction="nw"
-		/>
-	{/if}
+	{#await canApprovePromise then canApprove}
+		{#if canApprove}
+			-
+			<button
+				id={approveId}
+				type="button"
+				class="btn-link Link--muted Link--inTextBlock rgh-quick-approve"
+				onclick={onApprove}
+				aria-labelledby="{approveId}-tooltip"
+			>
+				approve now
+			</button>
+			<Tooltip
+				id="{approveId}-tooltip"
+				htmlFor={approveId}
+				label="Hold alt to approve without confirmation"
+				direction="nw"
+			/>
+		{/if}
+	{/await}
 </span>

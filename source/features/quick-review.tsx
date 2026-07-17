@@ -31,7 +31,7 @@ const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
 
 const isNewFilesChangedExperienceEnabled = (): boolean => $(prFilesChangedTabSelector).href.endsWith('changes');
 
-async function quickApprove(event: DelegateEvent<MouseEvent>): Promise<void> {
+async function quickApprove(event: MouseEvent): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
 	if (approval === null) {
 		return;
@@ -58,7 +58,7 @@ async function openReviewDialogWhenAvailable(): Promise<void> {
 	reviewMenuButton!.click();
 }
 
-function handleReviewClick(event: DelegateEvent<MouseEvent>): void {
+function handleReviewClick(event: MouseEvent): void {
 	if (isAlteredClick(event) || !isNewFilesChangedExperienceEnabled()) {
 		return;
 	}
@@ -97,14 +97,14 @@ async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
 }
 
-function onReviewRequestedButtonClick(event: DelegateEvent<PointerEvent, HTMLAnchorElement>): void {
+function onReviewRequestedButtonClick(event: PointerEvent): void {
 	if (isNewFilesChangedExperienceEnabled()) {
 		void openReviewDialogWhenAvailable();
 		return;
 	}
 
 	// TODO [2027-01-01]: Drop after legacy PR files view is removed
-	event.delegateTarget.hash = openReviewMenuDeepLink;
+	(event.currentTarget as HTMLAnchorElement).hash = openReviewMenuDeepLink;
 }
 
 function initReviewRequestedButton(signal: AbortSignal): void {
