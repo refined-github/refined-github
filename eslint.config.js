@@ -185,6 +185,14 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['**/package.json'],
+		rules: {
+			'package-json/no-orphan-types': ['error', {
+				'ignore': ['react'],
+			}],
+		},
+	},
+	{
 		// Dprint doesn't run on tsx files yet, we need to allow style eslint rules
 		ignores: [
 			'**/*.tsx',
