@@ -10,7 +10,7 @@ import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../github-helpers/tooltip.js';
+import {tooltipped} from '../helpers/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {
