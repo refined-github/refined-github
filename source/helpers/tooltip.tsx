@@ -62,7 +62,7 @@ export function withTooltipRef(
 	content: string | TooltipOptions,
 	// eslint-disable-next-line @typescript-eslint/no-restricted-types -- Native type
 ): (element: Element | null) => void {
-	return (element) => {
+	return element => {
 		if (element) {
 			createTooltipFor(element, content);
 		}
