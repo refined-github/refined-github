@@ -30,6 +30,7 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): v
 /**
 Generates a tooltip for the received element. You should use this when generating elements via JSX
 @example return <div>{tooltipped('Does something', <button type="button">...</button>)}</div>;
+@deprecated use `withTooltipRef` instead
 */
 export function tooltipped(
 	content: string | TooltipOptions,
