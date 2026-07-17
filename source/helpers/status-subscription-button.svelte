@@ -23,9 +23,10 @@
 	type={isLegacy ? 'submit' : 'button'}
 	{value}
 	class="btn btn-sm flex-1 BtnGroup-item"
-	class:selected={active}
-	aria-selected={active || undefined}
 	aria-labelledby="{id}-tooltip"
+
+	// Make the element look selected, not disabled, but effectively disable clicks/focus
+	class:selected={active}
 	tabindex={active ? -1 : undefined}
 	style:pointer-events={active ? 'none' : undefined}
 	{onclick}
@@ -46,7 +47,7 @@
 			var(--color-accent-emphasis, fuchsia)
 		);
 
-		.octicon {
+		:global(svg) {
 			color: var(--fgColor-default, var(--color-fg-default, fuchsia));
 		}
 	}
