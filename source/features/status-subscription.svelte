@@ -40,7 +40,6 @@
 )}
 	<button
 		{id}
-		data-disable-with
 		name="id"
 		type={isLegacy ? 'submit' : 'button'}
 		{value}
