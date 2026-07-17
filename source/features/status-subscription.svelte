@@ -23,7 +23,6 @@
 		active
 			? {
 				'aria-selected': true,
-				class: 'selected',
 				tabindex: -1,
 				style: 'pointer-events:none',
 			}
@@ -46,6 +45,7 @@
 		type={isLegacy ? 'submit' : 'button'}
 		{value}
 		class="btn btn-sm flex-1 BtnGroup-item"
+		class:selected={active}
 		aria-labelledby="{id}-tooltip"
 		{...disabledProps(active)}
 		{onclick}
