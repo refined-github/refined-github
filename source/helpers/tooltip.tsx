@@ -10,25 +10,18 @@ export type TooltipOptions = {
 };
 
 function createTooltipFor(element: Element, content: string | TooltipOptions): void {
-	const options: TooltipOptions = typeof content === 'string'
+	const {label, shortcut, ...options} = typeof content === 'string'
 		? {label: content}
 		: content;
 
-	// Ensure the element has an ID for the `for` attribute to link to
-	element.id ||= crypto.randomUUID();
-
-	const tooltipId = crypto.randomUUID();
-	element.setAttribute('aria-labelledby', tooltipId);
-
 	mount(Tooltip, {
-		target: element as HTMLElement,
-		props: {id: tooltipId, for: element.id, options},
+		target: element,
+		props: {text: label, shortcut, options},
 	});
 }
 
 /**
 Generates a tooltip for the received element. You should use this when generating elements via JSX
-
 @example return <div>{tooltipped('Does something', <button type="button">...</button>)}</div>;
 */
 export function tooltipped(
@@ -41,7 +34,6 @@ export function tooltipped(
 
 /**
 Attaches a tooltip to an existing element. Don't use this with JSX.
-
 @example addTooltip('Does something', $('.some-existing-button'))
 */
 export default function addTooltip(

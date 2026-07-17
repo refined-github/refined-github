@@ -9,7 +9,11 @@ const portal: Action<HTMLElement, () => Element> = (node, getTarget) => {
 		getTarget().append(node);
 	}
 
-	node.isConnected ? move() : queueMicrotask(move);
+	if (node.isConnected) {
+		move();
+	} else {
+		queueMicrotask(move);
+	}
 
 	return {
 		destroy() {
