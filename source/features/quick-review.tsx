@@ -87,13 +87,6 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 	});
 }
 
-async function initSidebarReviewButton(signal: AbortSignal): Promise<void> {
-	// "h3" required to exclude "x more reviewers without write access"
-	observe('[aria-label="Select reviewers"] h3.discussion-sidebar-heading', addSidebarReviewButtons, {signal});
-	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
-	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
-}
-
 function onReviewRequestedButtonClick(event: PointerEvent): void {
 	if (isNewFilesChangedExperienceEnabled()) {
 		void openReviewDialogWhenAvailable();
@@ -102,13 +95,6 @@ function onReviewRequestedButtonClick(event: PointerEvent): void {
 
 	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	(event.currentTarget as HTMLAnchorElement).hash = openReviewMenuDeepLink;
-}
-
-function initReviewRequestedButton(signal: AbortSignal): void {
-	delegate('section[aria-label="Review Request Banner"] a[type="button"]', 'click', onReviewRequestedButtonClick, {
-		capture: true,
-		signal,
-	});
 }
 
 // TODO [2027-01-01]: Drop after the legacy PR files view is removed
@@ -147,16 +133,25 @@ async function initDeepLinking(signal: AbortSignal): Promise<void> {
 	observe(`[popovertarget="${openReviewMenuDeepLink}"]`, openReviewPopup, {signal});
 }
 
+async function init(signal: AbortSignal): Promise<void> {
+	// "h3" required to exclude "x more reviewers without write access"
+	observe('[aria-label="Select reviewers"] h3.discussion-sidebar-heading', addSidebarReviewButtons, {signal});
+	delegate('.rgh-quick-approve', 'click', quickApprove, {signal});
+	delegate('.rgh-quick-review', 'click', handleReviewClick, {signal});
+	delegate('section[aria-label="Review Request Banner"] a[type="button"]', 'click', onReviewRequestedButtonClick, {
+		capture: true,
+		signal,
+	});
+}
+
 void features.add(import.meta.url, {
+	shortcuts: {
+		v: 'Review PR',
+	},
 	include: [
 		pageDetect.isPRConversation,
 	],
-	init: initSidebarReviewButton,
-}, {
-	include: [
-		pageDetect.isPRConversation,
-	],
-	init: initReviewRequestedButton,
+	init,
 }, {
 	shortcuts: {
 		v: 'Open PR review popup',
