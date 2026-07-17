@@ -17,7 +17,7 @@ import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 import {getToken} from '../options-storage.js';
 
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];

@@ -5,7 +5,7 @@ import {lastElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 
 function addLink(header: HTMLElement): void {
 	const lastDeployment = lastElementOptional('.js-timeline-item a[title="Deployment has completed"]');

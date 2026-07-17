@@ -10,7 +10,7 @@ import {$, $optional, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo, multilineAriaLabel} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {tooltipped} from '../github-helpers/tooltip.js';
 
 type SubscriptionStatus = 'none' | 'all' | 'status';
 
