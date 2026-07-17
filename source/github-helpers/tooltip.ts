@@ -53,3 +53,18 @@ export default function addTooltip(
 
 	createTooltipFor(element, content);
 }
+
+/**
+Ref callback that attaches a tooltip to the element it's bound to.
+@example <summary ref={tooltippedRef('Add a table')}>...</summary>
+*/
+export function tooltippedRef(
+	content: string | TooltipOptions,
+	// eslint-disable-next-line @typescript-eslint/no-restricted-types -- Native type
+): (element: Element | null) => void {
+	return (element) => {
+		if (element) {
+			createTooltipFor(element, content);
+		}
+	};
+}
