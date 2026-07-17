@@ -13,7 +13,8 @@
 		onclick?: () => void;
 	}
 
-	const {id, value, icon, label, tooltipLabel, active, isLegacy, onclick}: Props = $props();
+	const {id, value, icon, label, tooltipLabel, active, isLegacy, onclick}:
+		Props = $props();
 </script>
 
 <button
@@ -35,18 +36,18 @@
 <Tooltip id="{id}-tooltip" htmlFor={id} label={tooltipLabel} direction="sw" />
 
 <style>
-		button:not(.selected) {
-			color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
-		}
+	button:not(.selected) {
+		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
+	}
 
-		button.selected {
-			border-color: var(
-				--control-borderColor-emphasis,
-				var(--color-accent-emphasis, fuchsia)
-			);
+	button.selected {
+		border-color: var(
+			--control-borderColor-emphasis,
+			var(--color-accent-emphasis, fuchsia)
+		);
 
-			.octicon {
-				color: var(--fgColor-default, var(--color-fg-default, fuchsia));
-			}
+		.octicon {
+			color: var(--fgColor-default, var(--color-fg-default, fuchsia));
 		}
+	}
 </style>
