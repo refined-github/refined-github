@@ -68,9 +68,9 @@ function handleReviewClick(event: MouseEvent): void {
 }
 
 function preloadPrFilesTab(): void {
-	// Trigger data preloading
-	// TODO [2027-01-01]: Change `$optional` to `$()` once legacy PR files view is removed
-	$optional(prFilesChangedTabSelector)?.dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+	if (isNewFilesChangedExperienceEnabled()) {
+		$(prFilesChangedTabSelector).dispatchEvent(new MouseEvent('mouseover', {bubbles: true}));
+	}
 }
 
 async function addSidebarReviewButtons(reviewersSection: Element): Promise<void> {
