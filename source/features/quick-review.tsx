@@ -1,6 +1,5 @@
 import {mount} from 'svelte';
 import delegate, {type DelegateEvent} from 'delegate-it';
-import React from 'dom-chef';
 import elementReady from 'element-ready';
 import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
@@ -78,11 +77,8 @@ async function addSidebarReviewButtons(reviewersSection: Element): Promise<void>
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
 
-	const container = <div className="rgh-quick-review-container" />;
-	reviewersSection.append(container);
-
 	mount(QuickReviewComponent, {
-		target: container,
+		target: reviewersSection,
 		props: {
 			onReview: handleReviewClick,
 			onApprove: quickApprove,
