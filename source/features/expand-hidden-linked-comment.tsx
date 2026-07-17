@@ -15,7 +15,10 @@ async function expandLinkedComment(): Promise<void> {
 	}
 
 	// TODO [2027-01-01]: Old timeline UI, drop
-	const details = target.querySelector('details');
+	// Scoped to `.minimized-comment .timeline-comment-header-text` (same selector as `preview-hidden-comments`)
+	// because `target` can also contain unrelated `<details>` dropdowns (e.g. the "..." menu, reactions popover)
+	const header = target.querySelector('.minimized-comment .timeline-comment-header-text');
+	const details = header?.closest('details');
 	if (details) {
 		if (!details.open) {
 			details.open = true;
@@ -35,8 +38,8 @@ async function expandLinkedComment(): Promise<void> {
 	}
 }
 
-function init(signal: AbortSignal): void {
-	void expandLinkedComment();
+async function init(signal: AbortSignal): Promise<void> {
+	await expandLinkedComment();
 	window.addEventListener('hashchange', expandLinkedComment, {signal});
 }
 
