@@ -1,6 +1,8 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
+import {$, closestElementOptional} from 'select-dom';
+
 import features from '../feature-manager.js';
 
 async function expandLinkedComment(): Promise<void> {
@@ -17,8 +19,8 @@ async function expandLinkedComment(): Promise<void> {
 	// TODO [2027-01-01]: Old timeline UI, drop
 	// Scoped to `.minimized-comment .timeline-comment-header-text` (same selector as `preview-hidden-comments`)
 	// because `target` can also contain unrelated `<details>` dropdowns (e.g. the "..." menu, reactions popover)
-	const header = target.querySelector('.minimized-comment .timeline-comment-header-text');
-	const details = header?.closest('details');
+	const header = $('.minimized-comment .timeline-comment-header-text', target);
+	const details = closestElementOptional('details', header);
 	if (details) {
 		if (!details.open) {
 			details.open = true;
@@ -29,8 +31,7 @@ async function expandLinkedComment(): Promise<void> {
 	}
 
 	// New React-based Issues UI
-	const unfoldButton = target
-		.closest('[data-testid="comment-header"]')
+	const unfoldButton = closestElementOptional('[data-testid="comment-header"]', target)
 		?.querySelector<HTMLButtonElement>('button:has(> .octicon-unfold)');
 	if (unfoldButton) {
 		unfoldButton.click();
@@ -40,7 +41,7 @@ async function expandLinkedComment(): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	await expandLinkedComment();
-	window.addEventListener('hashchange', expandLinkedComment, {signal});
+	globalThis.addEventListener('hashchange', expandLinkedComment, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -177,7 +177,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "expand-all-hidden-comments") [On long conversations where GitHub hides comments under a "N hidden items. Load more...", alt-clicking it will load up to 200 comments at once instead of 60.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261160123-9c4f894b-38c0-446f-af50-9beca7ff1f74.png)
 - [](# "keyboard-navigation") [Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.](https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif)
 - [](# "hidden-content") [Informs you that there are hidden comments or files when pressing <kbd>Cmd</kbd><kbd>F</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd>.](https://github.com/user-attachments/assets/5437d8fc-c539-4d13-98b3-d7049d2d92e7)
-- [](# "expand-hidden-linked-comment") Automatically expands a hidden/minimized comment when it’s linked directly (e.g. via a permalink).
+- [](# "expand-hidden-linked-comment") [Automatically expands a hidden/minimized comment when it’s linked directly (e.g. via a permalink).](https://github.com/user-attachments/assets/d1434f82-1a89-47cd-bec7-29d3b65b5c9b)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
