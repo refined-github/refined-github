@@ -10,13 +10,20 @@ export type TooltipOptions = {
 };
 
 function createTooltipFor(element: Element, content: string | TooltipOptions): void {
-	const {label, shortcut, ...options} = typeof content === 'string'
-		? {label: content}
-		: content;
+	// Ensure the element has an ID for the `for` attribute to link to
+	element.id ||= crypto.randomUUID();
 
+	const tooltipId = crypto.randomUUID();
+	element.setAttribute('aria-labelledby', tooltipId);
+
+	const options = typeof content === 'string' ? {label: content} : content;
 	mount(Tooltip, {
 		target: element,
-		props: {text: label, shortcut, options},
+		props: {
+			id: tooltipId,
+			htmlFor: element.id,
+			...options,
+		},
 	});
 }
 

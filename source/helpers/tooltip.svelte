@@ -2,16 +2,22 @@
 	import {lastElement} from 'select-dom';
 
 	import {upperCaseFirst} from '../github-helpers/index.js';
-	import portal from '../helpers/portal.js';
+	import portal from './portal.js';
 	import type {TooltipOptions} from './tooltip.js';
 
-	type Props = {
+	type Props = TooltipOptions & {
 		id: string;
-		for: string;
-		options: TooltipOptions;
+		htmlFor: string;
 	};
 
-	const {id, for: htmlFor, options}: Props = $props();
+	const {
+		id,
+		htmlFor,
+		label,
+		shortcut,
+		direction = 's',
+		type = 'label',
+	}: Props = $props();
 
 	function getTarget(): Element {
 		// Align tooltip behavior with native
@@ -25,23 +31,22 @@
 		]);
 	}
 </script>
-
 <tool-tip
 	{id}
-	class="sr-only position-absolute"
 	for={htmlFor}
+	class="sr-only position-absolute"
 	popover="manual"
-	data-direction={options.direction ?? 's'}
-	data-type={options.type ?? 'label'}
+	data-direction={direction}
+	data-type={type}
 	aria-hidden="true"
 	role="tooltip"
 	use:portal={getTarget}
 >
-	{options.label}
-	{#if options.shortcut}
+	{label}
+	{#if shortcut}
 		<kbd class="rgh-shortcut">
-			{#each options.shortcut.split(' ') as key, index (index)}
-				{#if index > 0}{' '}{/if}<span class="rgh-shortcut-chord" data-kbd-chord="true">{upperCaseFirst(key)}</span>
+			{#each shortcut.split(' ') as key (key)}
+				<span data-kbd-chord="true">{upperCaseFirst(key)}</span>
 			{/each}
 		</kbd>
 	{/if}
@@ -66,7 +71,7 @@
 	}
 
 	/* Adapted from: https://github.com/primer/react/blob/dfed7ca73532922ec0526dd85afcf7ae471c566e/packages/react/src/KeybindingHint/components/Chord.module.css */
-	.rgh-shortcut-chord {
+	.rgh-shortcut span {
 		display: inline-flex;
 		border: var(--borderWidth-thin, 0.0625rem) solid;
 		border-radius: var(--borderRadius-small, 0.1875rem);
