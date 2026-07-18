@@ -11,7 +11,7 @@ import features from '../feature-manager.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 
 // Selector works on:
@@ -79,21 +79,17 @@ function addSelectedButton(selectedActionsGroup: HTMLElement): void {
 	appendBefore(
 		selectedActionsGroup,
 		'.js-notifications-mark-all',
-		tooltipped(
-			{
+		<button
+			ref={withTooltipRef({
 				label: 'Open selected notifications',
 				shortcut: 'p',
-			},
-			(
-				<button
-					type="button"
-					className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
-					data-hotkey="p"
-				>
-					<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
-				</button>
-			),
-		),
+			})}
+			type="button"
+			className={cx('btn btn-sm mr-2 tmp-mr-2', openSelected.class)}
+			data-hotkey="p"
+		>
+			<LinkExternalIcon className="mr-1 tmp-mr-1" />Open
+		</button>,
 	);
 }
 
@@ -104,15 +100,13 @@ function addToRepoGroup(markReadButton: HTMLElement): void {
 	}
 
 	markReadButton.before(
-		tooltipped(
-			{label: 'Open all unread notifications from this repo', direction: 'w'},
-			<button
-				type="button"
-				className={cx('btn btn-sm mr-2 tmp-mr-2', openUnread.class)}
-			>
-				<LinkExternalIcon width={16} /> Open unread
-			</button>,
-		),
+		<button
+			ref={withTooltipRef({label: 'Open all unread notifications from this repo', direction: 'w'})}
+			type="button"
+			className={cx('btn btn-sm mr-2 tmp-mr-2', openUnread.class)}
+		>
+			<LinkExternalIcon width={16} /> Open unread
+		</button>,
 	);
 }
 

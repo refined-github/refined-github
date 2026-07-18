@@ -15,18 +15,18 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 /* eslint-disable @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values */
 const updateMethods = {
 	MERGE: {
 		buttonLabel: 'Update branch',
-		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
+		tooltip: 'Update branch with merge commit using Refined GitHub',
 	},
 	REBASE: {
 		buttonLabel: 'Rebase',
-		tooltipLabel: 'Update branch with rebase using Refined GitHub',
+		tooltip: 'Update branch with rebase using Refined GitHub',
 	},
 };
 /* eslint-enable @typescript-eslint/naming-convention */
@@ -85,20 +85,18 @@ function createButtonGroup(): JSX.Element {
 		<div className="ButtonGroup">
 			{Object.entries(updateMethods).map(([method, label]) => (
 				<div>
-					{tooltipped(
-						label.tooltipLabel,
-						<button
-							className={cx('Button--secondary Button--medium Button', feature.class)}
-							data-method={method}
-							type="button"
-						>
-							<span className="Button-content">
-								<span className="Button-label">
-									{label.buttonLabel}
-								</span>
+					<button
+						ref={withTooltipRef(label.tooltip)}
+						className={cx('Button--secondary Button--medium Button', feature.class)}
+						data-method={method}
+						type="button"
+					>
+						<span className="Button-content">
+							<span className="Button-label">
+								{label.buttonLabel}
 							</span>
-						</button>,
-					)}
+						</span>
+					</button>
 				</div>
 			))}
 		</div>

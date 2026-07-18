@@ -28,8 +28,9 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): v
 }
 
 /**
-Generates a tooltip for the received element. You should use this when generating elements via JSX
-@example return <div>{tooltipped('Does something', <button type="button">...</button>)}</div>;
+Generates a tooltip for the received element.
+@example const button = document.createElement('button'); tooltipped('Does something', button);
+@deprecated use `withTooltipRef` instead
 */
 export function tooltipped(
 	content: string | TooltipOptions,
@@ -52,4 +53,19 @@ export default function addTooltip(
 	}
 
 	createTooltipFor(element, content);
+}
+
+/**
+Ref callback that attaches a tooltip to the element it's bound to.
+@example <summary ref={withTooltipRef('Add a table')}>...</summary>
+*/
+export function withTooltipRef(
+	content: string | TooltipOptions,
+	// eslint-disable-next-line @typescript-eslint/no-restricted-types -- Native type
+): (element: Element | null) => void {
+	return element => {
+		if (element) {
+			createTooltipFor(element, content);
+		}
+	};
 }

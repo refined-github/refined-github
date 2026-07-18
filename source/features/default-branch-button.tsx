@@ -14,7 +14,7 @@ import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/inde
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);
@@ -64,6 +64,7 @@ async function add(branchSelectorElement: HTMLElement): Promise<void> {
 
 	const defaultLink = (
 		<a
+			ref={withTooltipRef({label: 'View on the default branch', direction: 'se'})}
 			className="btn px-2 tmp-px-2 rgh-default-branch-button flex-self-start"
 			href={await getUrl(location.href)}
 			// Update on hover because the URL may change without a DOM refresh
@@ -78,9 +79,7 @@ async function add(branchSelectorElement: HTMLElement): Promise<void> {
 		</a>
 	);
 
-	selectorWrapper.before(
-		tooltipped({label: 'View on the default branch', direction: 'se'}, defaultLink),
-	);
+	selectorWrapper.before(defaultLink);
 	wrapButtons([defaultLink, selectorWrapper]);
 }
 

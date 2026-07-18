@@ -11,7 +11,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 import features from '../feature-manager.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 
 type TagDetails = {
 	element: HTMLElement;
@@ -105,17 +105,17 @@ async function init(): Promise<void> {
 		], container.element);
 		for (const lastLink of lastLinks) {
 			const currentTag = allTags[index].tag;
-			const compareLink = tooltipped(
-				{
-					label: `See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`,
-					direction: 'n',
-				},
+			const compareLink = (
 				<a
+					ref={withTooltipRef({
+						label: `See commits between ${decodeURIComponent(previousTag)} and ${decodeURIComponent(currentTag)}`,
+						direction: 'n',
+					})}
 					className="Link--muted"
 					href={buildRepoUrl(`compare/${previousTag}...${currentTag}`)}
 				>
 					<DiffIcon /> {pageDetect.isEnterprise() ? 'Commits' : <span className="ml-1 tmp-ml-1 wb-break-all">Commits</span>}
-				</a>,
+				</a>
 			);
 
 			// The page of a tag without a release still uses the old layout #5037

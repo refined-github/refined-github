@@ -11,7 +11,7 @@ import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	const container = closestElementOptional('fieldset', square) // Issue
@@ -40,16 +40,14 @@ function add(container: HTMLElement): void {
 
 	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
-			{tooltipped(
-				'Add a table',
-				<summary
-					className="Button Button--iconOnly Button--invisible Button--medium"
-					role="button"
-					aria-haspopup="menu"
-				>
-					<TableIcon />
-				</summary>,
-			)}
+			<summary
+				ref={withTooltipRef('Add a table')}
+				className="Button Button--iconOnly Button--invisible Button--medium"
+				role="button"
+				aria-haspopup="menu"
+			>
+				<TableIcon />
+			</summary>,
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"

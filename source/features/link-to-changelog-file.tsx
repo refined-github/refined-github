@@ -6,7 +6,7 @@ import {CachedFunction} from 'webext-storage-cache';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {
@@ -51,15 +51,13 @@ async function init(): Promise<void | false> {
 
 	const navbar = await elementReady(releasesOrTagsNavbarSelector);
 	navbar!.append(
-		tooltipped(
-			{label: `View the ${changelog} file`, direction: 'n'},
-			<a
-				className="subnav-item"
-				href={buildRepoUrl('blob', 'HEAD', changelog)}
-			>
-				<span>Changelog</span>
-			</a>,
-		),
+		<a
+			ref={withTooltipRef({label: `View the ${changelog} file`, direction: 'n'})}
+			className="subnav-item"
+			href={buildRepoUrl('blob', 'HEAD', changelog)}
+		>
+			<span>Changelog</span>
+		</a>,
 	);
 }
 

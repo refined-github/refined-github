@@ -6,7 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {tooltipped} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../helpers/tooltip.js';
 
 function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
@@ -30,9 +30,9 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		initialGroupedButtons.after(tooltipped(
-			description,
+		initialGroupedButtons.after(
 			<button
+				ref={withTooltipRef(description)}
 				data-disable-invalid
 				className={cx(classList)}
 				type="submit"
@@ -41,7 +41,7 @@ function init(): void | false {
 			>
 				{title}
 			</button>,
-		));
+		);
 	}
 
 	initialGroupedButtons.remove();
