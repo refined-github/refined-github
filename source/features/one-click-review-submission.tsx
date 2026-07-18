@@ -47,11 +47,11 @@ function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
 		const parent = radio.parentElement!;
 		const labelElement = $optional('label', parent)
 			?? radio.nextSibling!;
+		assertNodeContent(labelElement, /^(?:Approve|Request changes|Comment)$/);
 		const tooltip = $([
 			'p',
 			'.FormControl-caption',
 		], parent).textContent.trim().replace(/\.$/, '');
-		assertNodeContent(labelElement, /^(?:Approve|Request changes|Comment)$/);
 
 		const classes = ['btn btn-sm'];
 
