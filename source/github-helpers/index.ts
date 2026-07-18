@@ -19,9 +19,6 @@ export function getConversationNumber(): number | undefined {
 
 export const isMac = navigator.userAgent.includes('Macintosh');
 
-type Not<Yes, No> = Yes extends No ? never : Yes;
-type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
-
 export function buildRepoUrl<S extends string>(
 	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
 ): string {

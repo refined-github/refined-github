@@ -16,6 +16,9 @@ interface FeatureMeta {
 	cssOnly?: true;
 }
 
+type Not<Yes, No> = Yes extends No ? never : Yes;
+type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
+
 // These types are unnecessarily loose
 // https://dom.spec.whatwg.org/#dom-node-textcontent
 interface ChildNode {
