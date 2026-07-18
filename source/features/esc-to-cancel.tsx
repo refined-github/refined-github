@@ -3,14 +3,39 @@ import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {
+	onCommentFieldKeydown,
+	onConversationTitleFieldKeydown,
+} from '../github-events/on-field-keydown.js';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key !== 'Escape') {
 		return;
 	}
 
-	if (!(event.delegateTarget instanceof HTMLInputElement)) {
+	const field = event.delegateTarget;
+
+	if (
+		!(field instanceof HTMLInputElement)
+		&& !(field instanceof HTMLTextAreaElement)
+	) {
+		return;
+	}
+
+	if (field instanceof HTMLTextAreaElement) {
+		const cancelButton = $(`
+			button.js-hide-inline-comment-form,
+			button.js-comment-cancel-button
+		`, field.form!);
+
+		if (cancelButton) {
+			cancelButton.click();
+		} else {
+			field.blur();
+		}
+
+		event.stopImmediatePropagation();
+		event.preventDefault();
 		return;
 	}
 
@@ -19,6 +44,7 @@ function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 		// TODO [2027-01-01]: Remove after legacy PR files view is removed
 		'.js-cancel-issue-edit',
 	]);
+
 	if (cancelButton.textContent.trim() !== 'Cancel') {
 		throw new Error('Expected to find a cancel button');
 	}
@@ -30,11 +56,12 @@ function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 
 function init(signal: AbortSignal): void {
 	onConversationTitleFieldKeydown(handleEscPress, signal);
+	onCommentFieldKeydown(handleEscPress, signal);
 }
 
 void features.add(import.meta.url, {
 	shortcuts: {
-		esc: 'Cancel editing a conversation title',
+		esc: 'Cancel editing titles and comments',
 	},
 	include: [
 		pageDetect.isPR,
