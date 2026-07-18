@@ -6,7 +6,7 @@ function normalizeUrl(url: string): string {
 	return parsed.href;
 }
 
-export const url = readable(normalizeUrl(location.href), set => {
+export default readable(normalizeUrl(location.href), set => {
 	let currentUrl = normalizeUrl(location.href);
 	const update = (nextUrl = location.href): void => {
 		const normalizedUrl = normalizeUrl(nextUrl);
@@ -19,11 +19,13 @@ export const url = readable(normalizeUrl(location.href), set => {
 	const onPopState = (): void => {
 		update();
 	};
+
 	globalThis.addEventListener('popstate', onPopState);
 
 	const onNavigate = (event: NavigateEvent): void => {
 		update(event.destination.url);
 	};
+
 	if ('navigation' in globalThis) {
 		navigation.addEventListener('navigate', onNavigate);
 	}

@@ -16,12 +16,12 @@ beforeEach(() => {
 });
 
 it('starts with a URL without hash', async () => {
-	const {url} = await loadModule();
+	const {default: url} = await loadModule();
 	expect(get(url)).toBe('https://github.com/refined-github/refined-github?tab=readme');
 });
 
 it('updates on pushState/replaceState URL changes and ignores hash-only changes', async () => {
-	const {url} = await loadModule();
+	const {default: url} = await loadModule();
 	const values: string[] = [];
 	const unsubscribe = url.subscribe(value => {
 		values.push(value);
@@ -42,7 +42,7 @@ it('updates on pushState/replaceState URL changes and ignores hash-only changes'
 
 it('updates on popstate', async () => {
 	const originalReplaceState = history.replaceState;
-	const {url} = await loadModule();
+	const {default: url} = await loadModule();
 	const values: string[] = [];
 	const unsubscribe = url.subscribe(value => {
 		values.push(value);
@@ -59,7 +59,7 @@ it('updates on navigation events when available', async () => {
 	const fakeNavigation = new EventTarget();
 	vi.stubGlobal('navigation', fakeNavigation);
 
-	const {url} = await loadModule();
+	const {default: url} = await loadModule();
 	const values: string[] = [];
 	const unsubscribe = url.subscribe(value => {
 		values.push(value);
