@@ -16,7 +16,8 @@ jobs:
       - uses: fregante/title-to-labels-action@20f99e8f21b5da50da0494faf9ad87d58ec57370 # v1.2.5
         with:
           token: ${{ github.token }}
-      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-'))
+          # starts with meta, upgrade, update, lint
+      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-') || startsWith(github.event.pull_request.title, 'Bump') || startsWith(github.event.pull_request.title, 'Update') || startsWith(github.event.pull_request.title, 'Lint'))
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
