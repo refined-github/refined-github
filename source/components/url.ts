@@ -7,11 +7,11 @@ function normalizeUrl(url: string): string {
 }
 
 export default readable(normalizeUrl(location.href), set => {
-	let currentUrl = normalizeUrl(location.href);
-
 	if (!('navigation' in globalThis)) {
 		return;
 	}
+
+	let currentUrl = normalizeUrl(location.href);
 
 	const update = (nextUrl: string): void => {
 		const normalizedUrl = normalizeUrl(nextUrl);
