@@ -22,11 +22,11 @@ import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 const updateMethods = {
 	MERGE: {
 		buttonLabel: 'Update branch',
-		tooltipLabel: 'Update branch with merge commit using Refined GitHub',
+		tooltip: 'Update branch with merge commit using Refined GitHub',
 	},
 	REBASE: {
 		buttonLabel: 'Rebase',
-		tooltipLabel: 'Update branch with rebase using Refined GitHub',
+		tooltip: 'Update branch with rebase using Refined GitHub',
 	},
 };
 /* eslint-enable @typescript-eslint/naming-convention */
@@ -86,7 +86,7 @@ function createButtonGroup(): JSX.Element {
 			{Object.entries(updateMethods).map(([method, label]) => (
 				<div>
 					<button
-						ref={withTooltipRef(label.tooltipLabel)}
+						ref={withTooltipRef(label.tooltip)}
 						className={cx('Button--secondary Button--medium Button', feature.class)}
 						data-method={method}
 						type="button"
