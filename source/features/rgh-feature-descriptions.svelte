@@ -2,11 +2,11 @@
 	import * as pageDetect from 'github-url-detection';
 	import CopyIcon from 'octicons-plain-react/Copy';
 
+	import DomChef from '../components/dom-chef.svelte';
+	import RelatedIssuesCount from '../components/related-issues-count.svelte';
 	import {getOldFeatureNames} from '../feature-data.js';
 	import {buildRepoUrl} from '../github-helpers/index.js';
-	import DomChef from '../helpers/dom-chef.svelte';
 	import {isFeaturePrivate} from '../helpers/feature-utils.js';
-	import RelatedIssuesCount from '../helpers/related-issues-count.svelte';
 
 	// eslint-disable-next-line no-undef -- Global
 	const {id, meta}: {id: string; meta: FeatureMeta | undefined} = $props();

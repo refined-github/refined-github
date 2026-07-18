@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {lastElement} from 'select-dom';
 
-	import portal from '../helpers/portal.js';
 	import {upperCaseFirst} from '../github-helpers/index.js';
+	import portal from '../helpers/portal.js';
 	import type {TooltipOptions} from './tooltip.js';
 
 	type Props = TooltipOptions & {

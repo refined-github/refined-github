@@ -12,7 +12,7 @@ import {linkifiedUrlClass} from '../github-helpers/dom-formatters.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
-import addNotice from '../github-widgets/notice-bar.js';
+import addNotice from '../github-helpers/notice-bar.js';
 import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';

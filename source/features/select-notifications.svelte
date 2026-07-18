@@ -12,7 +12,7 @@
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 	import XCircleIcon from 'octicons-plain-react/XCircle';
 
-	import DomChef from '../helpers/dom-chef.svelte';
+	import DomChef from '../components/dom-chef.svelte';
 	import {isSmallDevice} from '../helpers/dom-utils';
 	import type {Category, Filter, Selection} from './select-notifications.js';
 

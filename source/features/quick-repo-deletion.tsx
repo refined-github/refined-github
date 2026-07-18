@@ -12,7 +12,7 @@ import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
-import addNotice from '../github-widgets/notice-bar.js';
+import addNotice from '../github-helpers/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
 
 const tooltip = 'Instant deletion: shift-alt-click';

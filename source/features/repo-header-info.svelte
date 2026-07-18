@@ -3,9 +3,9 @@
 	import StarIcon from 'octicons-plain-react/Star';
 	import StarFillIcon from 'octicons-plain-react/StarFill';
 
+	import DomChef from '../components/dom-chef.svelte';
 	import {buildRepoUrl} from '../github-helpers/index.js';
 	import abbreviateNumber from '../helpers/abbreviate-number.js';
-	import DomChef from '../helpers/dom-chef.svelte';
 	import type {RepositoryInfo} from './repo-header-info.js';
 
 	const {info}: {info: RepositoryInfo} = $props();
