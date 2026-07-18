@@ -62,3 +62,4 @@
 	<input type="hidden" name="events[]" value="closed" />
 	<input type="hidden" name="events[]" value="reopened" />
 {/if}
+<div class="rgh-hide-sibling"></div>

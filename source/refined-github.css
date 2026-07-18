@@ -37,6 +37,12 @@
 	.rgh-hide-if-empty:empty {
 		display: none !important;
 	}
+
+	/* Use this class to hide the native component we're replacing, instead of using [hidden] */
+	/* This way, if our component is somehow removed, the native one is displayed automatically */
+	.rgh-hide-sibling + * {
+		display: none !important;
+	}
 }
 
 /* For `open-all-selected` and `pr-filters`: set a reduced padding for all buttons */
