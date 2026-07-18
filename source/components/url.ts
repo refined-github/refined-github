@@ -6,7 +6,7 @@ function stripHash(url: string): string {
 	return u.href;
 }
 
-export const url = readable(stripHash(location.href), set => {
+const urlStore = readable(stripHash(location.href), set => {
 	const handler = (event: NavigateEvent): void => {
 		set(stripHash(event.destination.url));
 	};
@@ -16,3 +16,5 @@ export const url = readable(stripHash(location.href), set => {
 		navigation.removeEventListener('navigate', handler);
 	};
 });
+
+export default urlStore;
