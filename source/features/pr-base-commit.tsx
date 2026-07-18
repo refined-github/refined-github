@@ -36,7 +36,10 @@ async function addInfo(statusMeta: Element): Promise<void> {
 
 	const previousMessage = statusMeta.firstChild!; // Extract now because it won't be the first child anymore
 	statusMeta.prepend(getBaseCommitNotice(prInfo));
-	if (isTextNodeContaining(previousMessage, 'Merging can be performed automatically.')) {
+	if (
+		previousMessage instanceof Text
+		&& isTextNodeContaining(previousMessage, 'Merging can be performed automatically.')
+	) {
 		previousMessage.remove();
 	}
 }
