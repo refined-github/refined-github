@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Banner from '../github-helpers/banner.svelte';
-	import DomChef from './dom-chef.svelte';
 	import TagIcon from 'octicons-plain-react/Tag';
+
+	import Banner from '../components/banner.svelte';
+	import DomChef from '../components/dom-chef.svelte';
 
 	type Props = {
 		tagName?: string;
@@ -11,14 +12,17 @@
 		releaseUrl?: string;
 	};
 
-	const {tagName, tagUrl, postMerge = false, hasPushAccess, releaseUrl}: Props = $props();
+	const {tagName, tagUrl, postMerge = false, hasPushAccess, releaseUrl}: Props =
+		$props();
 
 	const explanationHref =
 		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks';
 </script>
 
 <!-- Classes copied from #issuecomment-new + mt-3 added (TimelineItem) -->
-<div class="ml-0 tmp-ml-0 pl-0 tmp-pl-0 ml-md-6 tmp-ml-md-6 pl-md-3 tmp-pl-md-3 mt-3 tmp-mt-3">
+<div
+	class="ml-0 tmp-ml-0 pl-0 tmp-pl-0 ml-md-6 tmp-ml-md-6 pl-md-3 tmp-pl-md-3 mt-3 tmp-mt-3"
+>
 	{#if tagName && tagUrl}
 		<Banner classes={['flash-success', 'rgh-bg-none']}>
 			{#snippet icon()}<DomChef as={TagIcon} class="m-0 tmp-m-0" />{/snippet}

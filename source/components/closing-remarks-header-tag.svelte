@@ -1,6 +1,7 @@
 <script lang="ts">
-	import DomChef from './dom-chef.svelte';
 	import TagIcon from 'octicons-plain-react/Tag';
+
+	import DomChef from './dom-chef.svelte';
 
 	const {tagName, tagUrl}: {tagName: string; tagUrl: string} = $props();
 </script>

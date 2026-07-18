@@ -13,7 +13,7 @@ import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import {getReleasesCount} from './releases-tab.js';
 import ClosingRemarks from './closing-remarks.svelte';
-import HeaderTag from './closing-remarks-header-tag.svelte';
+import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
@@ -68,7 +68,9 @@ async function init(signal: AbortSignal): Promise<void> {
 		getReleasesCount(),
 		userHasPushAccess(),
 	]);
-	if (releases === 0) return;
+	if (releases === 0) {
+		return;
+	}
 
 	mountFooter({postMerge: false, hasPushAccess, releaseUrl: createReleaseUrl()}, signal);
 }
@@ -93,7 +95,10 @@ void features.add(import.meta.url, {
 			getReleasesCount(),
 			userHasPushAccess(),
 		]);
-		if (releases === 0) return;
+		if (releases === 0) {
+			return;
+		}
+
 		mountFooter({postMerge: true, hasPushAccess, releaseUrl: createReleaseUrl()}, signal);
 	},
 });
