@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DomChef from "./dom-chef.svelte";
-	import Tooltip from "./tooltip.svelte";
+	import DomChef from './dom-chef.svelte';
+	import Tooltip from './tooltip.svelte';
 
 	interface Props {
 		id: string;
