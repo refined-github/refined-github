@@ -1,5 +1,4 @@
-import {mount} from 'svelte';
-import type {ComponentProps} from 'svelte';
+import {mount, type ComponentProps} from 'svelte';
 import React from 'dom-chef';
 import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
