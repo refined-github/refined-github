@@ -6,12 +6,14 @@ function normalizeUrl(url: string): string {
 	return parsed.href;
 }
 
-export default readable(normalizeUrl(location.href), set => {
+const initialUrl = normalizeUrl(location.href);
+
+export default readable(initialUrl, set => {
 	if (!('navigation' in globalThis)) {
 		return;
 	}
 
-	let currentUrl = normalizeUrl(location.href);
+	let currentUrl = initialUrl;
 
 	const update = (nextUrl: string): void => {
 		const normalizedUrl = normalizeUrl(nextUrl);
