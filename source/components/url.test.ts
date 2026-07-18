@@ -13,6 +13,7 @@ beforeEach(() => {
 	vi.restoreAllMocks();
 	vi.unstubAllGlobals();
 	history.replaceState(history.state, '', initialUrl);
+	vi.stubGlobal('navigation', new EventTarget());
 });
 
 it('starts with a URL without hash', async () => {
@@ -20,45 +21,27 @@ it('starts with a URL without hash', async () => {
 	expect(get(url)).toBe('https://github.com/refined-github/refined-github?tab=readme');
 });
 
-it('updates on pushState/replaceState URL changes and ignores hash-only changes', async () => {
+it('ignores hash-only navigation events', async () => {
 	const {default: url} = await loadModule();
 	const values: string[] = [];
 	const unsubscribe = url.subscribe(value => {
 		values.push(value);
 	});
 
-	history.pushState(history.state, '', '#updated');
-	history.pushState(history.state, '', '/refined-github/refined-github/issues#details');
-	history.replaceState(history.state, '', '/refined-github/refined-github/pulls#review');
-
-	unsubscribe();
-
-	expect(values).toEqual([
-		'https://github.com/refined-github/refined-github?tab=readme',
-		'https://github.com/refined-github/refined-github/issues',
-		'https://github.com/refined-github/refined-github/pulls',
-	]);
-});
-
-it('updates on popstate', async () => {
-	const originalReplaceState = history.replaceState;
-	const {default: url} = await loadModule();
-	const values: string[] = [];
-	const unsubscribe = url.subscribe(value => {
-		values.push(value);
+	const navigateEvent = new Event('navigate') as NavigateEvent;
+	Object.defineProperty(navigateEvent, 'destination', {
+		value: {
+			url: 'https://github.com/refined-github/refined-github?tab=readme#updated',
+		},
 	});
-
-	originalReplaceState.call(history, history.state, '', 'https://github.com/refined-github/refined-github/discussions#tab');
-	globalThis.dispatchEvent(new PopStateEvent('popstate'));
+	navigation.dispatchEvent(navigateEvent);
 
 	unsubscribe();
-	expect(values.at(-1)).toBe('https://github.com/refined-github/refined-github/discussions');
+
+	expect(values).toEqual(['https://github.com/refined-github/refined-github?tab=readme']);
 });
 
-it('updates on navigation events when available', async () => {
-	const fakeNavigation = new EventTarget();
-	vi.stubGlobal('navigation', fakeNavigation);
-
+it('updates on navigation events', async () => {
 	const {default: url} = await loadModule();
 	const values: string[] = [];
 	const unsubscribe = url.subscribe(value => {
@@ -71,7 +54,7 @@ it('updates on navigation events when available', async () => {
 			url: 'https://github.com/refined-github/refined-github/actions#job',
 		},
 	});
-	fakeNavigation.dispatchEvent(navigateEvent);
+	navigation.dispatchEvent(navigateEvent);
 
 	unsubscribe();
 	expect(values.at(-1)).toBe('https://github.com/refined-github/refined-github/actions');
