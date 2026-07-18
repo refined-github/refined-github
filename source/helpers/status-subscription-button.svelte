@@ -7,13 +7,13 @@
 		value: string;
 		icon: (..._props: any[]) => HTMLElement;
 		label: string;
-		tooltipLabel: string;
+		tooltip: string;
 		active: boolean;
 		isLegacy: boolean;
 		onclick?: () => void;
 	}
 
-	const {id, value, icon, label, tooltipLabel, active, isLegacy, onclick}:
+	const {id, value, icon, label, tooltip, active, isLegacy, onclick}:
 		Props = $props();
 </script>
 
@@ -34,7 +34,7 @@
 	<DomChef as={icon} />
 	{label}
 </button>
-<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltipLabel} />
+<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltip} />
 
 <style>
 	button:not(.selected) {

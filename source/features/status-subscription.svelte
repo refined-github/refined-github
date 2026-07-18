@@ -28,7 +28,7 @@
 		value="unsubscribe"
 		icon={BellSlashIcon}
 		label="None"
-		tooltipLabel="Unsubscribe"
+		tooltip="Unsubscribe"
 		active={$status === 'none'}
 		{isLegacy}
 		onclick={onNone}
@@ -39,7 +39,7 @@
 		value="subscribe"
 		icon={BellIcon}
 		label="All"
-		tooltipLabel="Subscribe to all events"
+		tooltip="Subscribe to all events"
 		active={$status === 'all'}
 		{isLegacy}
 		onclick={onAll}
@@ -50,7 +50,7 @@
 		value="subscribe_to_custom_notifications"
 		icon={IssueReopenedIcon}
 		label="Status"
-		tooltipLabel="Subscribe only to closing, reopening, merging"
+		tooltip="Subscribe only to closing, reopening, merging"
 		active={$status === 'status'}
 		{isLegacy}
 		onclick={onStatus}
