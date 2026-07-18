@@ -1,4 +1,5 @@
 import {mount} from 'svelte';
+import type {ComponentProps} from 'svelte';
 import React from 'dom-chef';
 import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
@@ -39,7 +40,7 @@ function createReleaseUrl(): string {
 }
 
 function mountFooter(
-	props: Parameters<typeof ClosingRemarks>[0],
+	props: ComponentProps<typeof ClosingRemarks>,
 	signal: AbortSignal,
 ): void {
 	const container = <div />;
