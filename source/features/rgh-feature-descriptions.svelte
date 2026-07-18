@@ -5,20 +5,42 @@
 	import DisabledFeatureBanner from '../components/disabled-feature-banner.svelte';
 	import DomChef from '../components/dom-chef.svelte';
 	import RelatedIssuesCount from '../components/related-issues-count.svelte';
-	import {getOldFeatureNames} from '../feature-data.js';
+	import urlStore from '../components/url.js';
+	import {
+		featuresMeta,
+		getNewFeatureName,
+		getOldFeatureNames,
+	} from '../feature-data.js';
 	import {buildRepoUrl} from '../github-helpers/index.js';
 	import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
-	// eslint-disable-next-line no-undef -- Global
-	const {id, meta}: {id: string; meta: FeatureMeta | undefined} = $props();
+	const isReportingBug = pageDetect.isNewIssue();
+
+	const idFromUrl = $derived.by(() => {
+		if (isReportingBug) {
+			const title = new URL($urlStore).searchParams.get('title') ?? '';
+			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? '';
+		}
+
+		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(new URL($urlStore).pathname)
+			?.groups?.id ?? '';
+	});
+
+	const id = $derived.by(() => {
+		const latestId = getNewFeatureName(idFromUrl) ?? idFromUrl;
+		const meta = featuresMeta.find(f => f.id === latestId);
+		return meta?.id ?? latestId;
+	});
+
+	const meta = $derived(featuresMeta.find(f => f.id === id));
 
 	const wasFeatureRemoved = $derived(!meta && !isFeaturePrivate(id));
-	const isReportingBug = pageDetect.isNewIssue();
+
 	const pathname = $derived(
 		isReportingBug
 			// Use .css so that it links to the .tsx file
 			? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-			: location.pathname,
+			: new URL($urlStore).pathname,
 	);
 	const isCss = $derived(pathname.endsWith('.css'));
 
@@ -130,3 +152,15 @@
 </div>
 
 <DisabledFeatureBanner id={id} />
+
+<style>
+	.rgh-feature-description {
+		flex-basis: 300px !important;
+		flex-grow: 1;
+
+		:global(code, kbd) {
+			font-size: 0.8em;
+			line-height: 0.8;
+		}
+	}
+</style>

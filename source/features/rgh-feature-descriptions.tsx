@@ -1,35 +1,15 @@
-import './rgh-feature-descriptions.css';
-
 import delegate from 'delegate-it';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {mount} from 'svelte';
 
-import {featuresMeta, getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {openInNewTab} from './prevent-comment-loss.js';
 import Description from './rgh-feature-descriptions.svelte';
 
-function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | undefined): void {
-	const container = <div />;
-	mount(Description, {target: container, props: {id, meta}});
-	anchor.before(container);
-}
-
-async function addFeatureInformationWidget(
-	infoBanner: HTMLElement,
-	idFromUrl: string,
-): Promise<void> {
-	// Enable link even on past commits
-	const latestId = getNewFeatureName(idFromUrl) ?? idFromUrl;
-	const meta = featuresMeta.find(feature => feature.id === latestId);
-
-	// This ID exists whether the feature is documented or not
-	const id = meta?.id ?? latestId;
-
-	addDescription(infoBanner, id, meta);
+function addDescription(anchor: HTMLElement): void {
+	mount(Description, {target: anchor.parentElement!, anchor});
 }
 
 function getFeatureNameFromIssueTitle(): string | undefined {
@@ -38,22 +18,13 @@ function getFeatureNameFromIssueTitle(): string | undefined {
 	return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id;
 }
 
-async function add(infoBanner: HTMLElement): Promise<void> {
-	const idFromUrl = /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(location.pathname)!.groups!.id;
-	await addFeatureInformationWidget(infoBanner, idFromUrl);
-}
-
-async function addToIssueForm(mainContent: HTMLElement): Promise<void> {
-	const idFromUrl = getFeatureNameFromIssueTitle()!;
-	await addFeatureInformationWidget(mainContent, idFromUrl);
-}
-
 function init(signal: AbortSignal): void {
-	observe('#repos-sticky-header', add, {signal});
+	observe('#repos-sticky-header', addDescription, {signal});
 }
 
 function initIssueForm(signal: AbortSignal): void {
-	observe('[data-testid="sidebar-assignees-section"]', addToIssueForm, {signal});
+	observe('[data-testid="sidebar-assignees-section"]', addDescription, {signal});
+
 	// Avoid form content loss
 	delegate('.rgh-feature-description a', 'click', openInNewTab);
 }
@@ -62,6 +33,7 @@ const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]fea
 
 void features.add(import.meta.url, {
 	include: [
+		// TODO: Replace with generic "is rgh file url"
 		() => featureUrlRegex.test(location.pathname),
 	],
 	init,
@@ -69,6 +41,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
+		// TODO: Replace with "is bug report template"
 		() => Boolean(getFeatureNameFromIssueTitle()),
 	],
 	init: initIssueForm,
