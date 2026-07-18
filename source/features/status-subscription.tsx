@@ -1,4 +1,3 @@
-
 import {mount} from 'svelte';
 import {writable, readable} from 'svelte/store';
 import * as pageDetect from 'github-url-detection';
@@ -42,7 +41,9 @@ function toggleSubscriptionReason(status: SubscriptionStatus): void {
 
 function addLegacyButton(nativeButton: HTMLButtonElement): void {
 	const initialStatus = getSubscriptionReason();
-	const status = writable<SubscriptionStatus>(initialStatus);
+
+	// The whole block is removed and re-loaded in the legacy version, so these don't need to be writable
+	const status = readable(initialStatus);
 	const disabled = readable(false);
 
 	// Save first

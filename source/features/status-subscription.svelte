@@ -2,14 +2,14 @@
 	import BellIcon from 'octicons-plain-react/Bell';
 	import BellSlashIcon from 'octicons-plain-react/BellSlash';
 	import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
-	import type {Readable, Writable} from 'svelte/store';
+	import type {Readable} from 'svelte/store';
 
 	import Button from '../helpers/status-subscription-button.svelte';
 	import type {SubscriptionStatus} from './status-subscription.js';
 
 	interface Props {
-		status: Writable<SubscriptionStatus>;
-		disabled: Writable<boolean> | Readable<boolean>;
+		status: Readable<SubscriptionStatus>;
+		disabled: Readable<boolean>;
 		isLegacy: boolean;
 		onNone?: () => void;
 		onAll?: () => void;
@@ -20,7 +20,7 @@
 </script>
 
 <fieldset
-	class="rgh-status-subscription BtnGroup d-flex width-full"
+	class="BtnGroup d-flex width-full"
 	disabled={$disabled}
 >
 	<Button
