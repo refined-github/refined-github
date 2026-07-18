@@ -1,13 +1,18 @@
-import { readable } from 'svelte/store';
+import {readable} from 'svelte/store';
 
-const stripHash = (url: string) => {
+function stripHash(url: string): string {
 	const u = new URL(url);
 	u.hash = '';
-	return u.toString();
-};
+	return u.href;
+}
 
-export const url = readable(stripHash(location.href), (set) => {
-	const handler = (e: NavigateEvent) => set(stripHash(e.destination.url));
+export const url = readable(stripHash(location.href), set => {
+	const handler = (event: NavigateEvent): void => {
+		set(stripHash(event.destination.url));
+	};
+
 	navigation.addEventListener('navigate', handler);
-	return () => navigation.removeEventListener('navigate', handler);
+	return () => {
+		navigation.removeEventListener('navigate', handler);
+	};
 });
