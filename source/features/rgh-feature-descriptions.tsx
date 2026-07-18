@@ -3,19 +3,12 @@ import './rgh-feature-descriptions.css';
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import AlertIcon from 'octicons-plain-react/Alert';
-import InfoIcon from 'octicons-plain-react/Info';
 import {mount} from 'svelte';
 
 import {featuresMeta, getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
-import createBanner from '../github-helpers/banner.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {brokenFeatures} from '../helpers/hotfix.js';
-import openOptions from '../helpers/open-options.js';
-import {createRghIssueLink} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
-import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
 import {openInNewTab} from './prevent-comment-loss.js';
 import Description from './rgh-feature-descriptions.svelte';
 
@@ -23,52 +16,6 @@ function addDescription(anchor: HTMLElement, id: string, meta: FeatureMeta | und
 	const container = <div />;
 	mount(Description, {target: container, props: {id, meta}});
 	anchor.before(container);
-}
-
-async function getDisabledReason(id: string): Promise<JSX.Element | undefined> {
-	// Block and width classes required to avoid margin collapse
-	const classes = ['mb-3', 'd-inline-block', 'width-full'];
-	// Skip dev check present in `getLocalHotfixes`, we want to see this even when developing
-	const hotfixes = await brokenFeatures.get() ?? [];
-	const hotfixed = hotfixes.find(([feature]) => feature === id);
-	if (hotfixed) {
-		const [_name, issue, unaffectedVersion] = hotfixed;
-
-		if (unaffectedVersion) {
-			return createBanner({
-				text: <>This feature was disabled until version {unaffectedVersion} due to {createRghIssueLink(issue)}.</>,
-				classes,
-				icon: <InfoIcon className="mr-0 tmp-mr-0" />,
-			});
-		}
-
-		return createBanner({
-			text: <>This feature is disabled due to {createRghIssueLink(issue)}.</>,
-			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
-		});
-	}
-
-	if (isFeatureDisabled(await optionsStorage.getAll(), id)) {
-		return createBanner({
-			text: 'You disabled this feature on GitHub.com.',
-			classes: [...classes, 'flash-warn'],
-			icon: <AlertIcon className="mr-0 tmp-mr-0" />,
-			action(event) {
-				openOptions(event, id);
-			},
-			buttonLabel: 'Refined GitHub Options',
-		});
-	}
-
-	return undefined;
-}
-
-async function addDisabledBanner(infoBanner: HTMLElement, id: string): Promise<void> {
-	const reason = await getDisabledReason(id);
-	if (reason) {
-		infoBanner.before(reason);
-	}
 }
 
 async function addFeatureInformationWidget(
@@ -83,7 +30,6 @@ async function addFeatureInformationWidget(
 	const id = meta?.id ?? latestId;
 
 	addDescription(infoBanner, id, meta);
-	await addDisabledBanner(infoBanner, id);
 }
 
 function getFeatureNameFromIssueTitle(): string | undefined {

@@ -2,6 +2,7 @@
 	import * as pageDetect from 'github-url-detection';
 	import CopyIcon from 'octicons-plain-react/Copy';
 
+	import DisabledFeatureBanner from '../components/disabled-feature-banner.svelte';
 	import DomChef from '../components/dom-chef.svelte';
 	import RelatedIssuesCount from '../components/related-issues-count.svelte';
 	import {getOldFeatureNames} from '../feature-data.js';
@@ -127,3 +128,5 @@
 		{/if}
 	</div>
 </div>
+
+<DisabledFeatureBanner id={id} />
