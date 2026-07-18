@@ -22,6 +22,7 @@
 	{value}
 	name="id"
 	type={isLegacy ? 'submit' : 'button'}
+	data-disable-with={isLegacy ? '' : undefined}
 	class="btn btn-sm flex-1 BtnGroup-item"
 	aria-labelledby="{id}-tooltip"
 	// Make the element look selected, not disabled, but effectively disable clicks/focus

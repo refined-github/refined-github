@@ -60,6 +60,7 @@ function addLegacyButton(nativeButton: HTMLButtonElement): void {
 
 	// Remove it only if the form was successfully added
 	originalId.remove();
+	nativeButton.hidden = true;
 
 	toggleSubscriptionReason(initialStatus);
 }
