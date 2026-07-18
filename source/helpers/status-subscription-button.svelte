@@ -13,8 +13,8 @@
 		onclick?: () => void;
 	}
 
-	const {id, value, icon, label, tooltip, active, isLegacy, onclick}:
-		Props = $props();
+	const {id, value, icon, label, tooltip, active, isLegacy, onclick}: Props =
+		$props();
 </script>
 
 <button
