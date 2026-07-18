@@ -13,18 +13,8 @@ export default readable(initialUrl, set => {
 		return;
 	}
 
-	let currentUrl = initialUrl;
-
-	const update = (nextUrl: string): void => {
-		const normalizedUrl = normalizeUrl(nextUrl);
-		if (normalizedUrl !== currentUrl) {
-			currentUrl = normalizedUrl;
-			set(normalizedUrl);
-		}
-	};
-
 	const onNavigate = (event: NavigateEvent): void => {
-		update(event.destination.url);
+		set(normalizeUrl(event.destination.url));
 	};
 
 	navigation.addEventListener('navigate', onNavigate);
