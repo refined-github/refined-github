@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
-import {$, closestElementOptional} from 'select-dom';
+import {$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -17,16 +17,10 @@ async function expandLinkedComment(): Promise<void> {
 	}
 
 	// TODO [2027-01-01]: Old timeline UI, drop
-	// Scoped to `.minimized-comment .timeline-comment-header-text` (same selector as `preview-hidden-comments`)
-	// because `target` can also contain unrelated `<details>` dropdowns (e.g. the "..." menu, reactions popover)
-	const header = $('.minimized-comment .timeline-comment-header-text', target);
-	const details = closestElementOptional('details', header);
+	// `.minimized-comment > details` avoids matching unrelated `<details>` dropdowns (e.g. the "..." menu, reactions popover)
+	const details = $optional('.minimized-comment > details', target);
 	if (details) {
-		if (!details.open) {
-			details.open = true;
-			target.scrollIntoView();
-		}
-
+		details.open = true;
 		return;
 	}
 
@@ -35,7 +29,6 @@ async function expandLinkedComment(): Promise<void> {
 		?.querySelector<HTMLButtonElement>('button:has(> .octicon-unfold)');
 	if (unfoldButton) {
 		unfoldButton.click();
-		target.scrollIntoView();
 	}
 }
 
