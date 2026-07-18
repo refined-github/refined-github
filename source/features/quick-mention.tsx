@@ -14,7 +14,7 @@ import {legacyCommentField} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../components/tooltip.js';
 
 const fieldSelector = [
 	legacyCommentField,

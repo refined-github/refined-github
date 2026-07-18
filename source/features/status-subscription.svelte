@@ -4,7 +4,7 @@
 	import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
 	import type {Readable} from 'svelte/store';
 
-	import Button from '../helpers/status-subscription-button.svelte';
+	import Button from '../components/status-subscription-button.svelte';
 	import type {SubscriptionStatus} from './status-subscription.js';
 
 	interface Props {

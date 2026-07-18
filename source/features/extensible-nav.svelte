@@ -1,8 +1,8 @@
 <script lang="ts">
+	import Tooltip from '../components/tooltip.svelte';
 	import DomChef from '../helpers/dom-chef.svelte';
 	import TabCounter from '../helpers/extensible-nav-counter.svelte';
 	import {selectedId, tabs} from '../helpers/extensible-nav-store.js';
-	import Tooltip from '../helpers/tooltip.svelte';
 </script>
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">

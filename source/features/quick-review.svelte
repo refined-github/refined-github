@@ -5,7 +5,7 @@
 		getConversationAuthor,
 		getLoggedInUser,
 	} from '../github-helpers/index.js';
-	import Tooltip from '../helpers/tooltip.svelte';
+	import Tooltip from '../components/tooltip.svelte';
 	import {getToken} from '../options-storage.js';
 
 	interface Props {
