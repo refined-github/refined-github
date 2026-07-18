@@ -2,11 +2,11 @@
 	import AlertIcon from 'octicons-plain-react/Alert';
 	import InfoIcon from 'octicons-plain-react/Info';
 
-	import Banner from '../components/banner.svelte';
 	import {brokenFeatures} from '../helpers/hotfix.js';
 	import openOptions from '../helpers/open-options.js';
 	import {createRghIssueLink} from '../helpers/rgh-links.js';
 	import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
+	import Banner from './banner.svelte';
 	import Dom from './dom-chef.svelte';
 
 	const {id}: {id: string} = $props();
@@ -40,29 +40,28 @@
 
 {#await disabledState then state}
 	{#if state.kind === 'hotfixed-temporary'}
-		<Banner classes={bannerClasses}>
-			{#snippet icon()}<Dom as={InfoIcon} class="mr-0 tmp-mr-0" />{/snippet}
+		<Banner classes={bannerClasses} icon={InfoIcon}>
 			{#snippet text()}
 				This feature was disabled until version {state.unaffectedVersion} due to
 				<Dom as={() => createRghIssueLink(state.issue)} />.
 			{/snippet}
 		</Banner>
 	{:else if state.kind === 'hotfixed-permanent'}
-		<Banner classes={[...bannerClasses, 'flash-warn']}>
-			{#snippet icon()}<Dom as={AlertIcon} class="mr-0 tmp-mr-0" />{/snippet}
+		<Banner classes={[...bannerClasses, 'flash-warn']} icon={AlertIcon}>
 			{#snippet text()}
-				This feature is disabled due to
-				<Dom as={() => createRghIssueLink(state.issue)} />.
+				This feature is disabled due to <Dom
+					as={() => createRghIssueLink(state.issue)}
+				/>.
 			{/snippet}
 		</Banner>
 	{:else if state.kind === 'user-disabled'}
 		<Banner
 			classes={[...bannerClasses, 'flash-warn']}
+			icon={AlertIcon}
 			action={(event) => openOptions(event, id)}
-			buttonLabel="Refined GitHub Options"
 		>
-			{#snippet icon()}<Dom as={AlertIcon} class="mr-0 tmp-mr-0" />{/snippet}
 			{#snippet text()}You disabled this feature on GitHub.com.{/snippet}
+			{#snippet buttonLabel()}Refined GitHub Options{/snippet}
 		</Banner>
 	{/if}
 {/await}
