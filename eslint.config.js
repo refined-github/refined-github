@@ -40,7 +40,6 @@ export default defineConfig([
 			}],
 			'@stylistic/quotes': ['error', 'single', {avoidEscape: true}],
 			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
-			'@stylistic/function-paren-newline': 'off', // Awful
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
 			'no-console': 'off',
@@ -75,7 +74,6 @@ export default defineConfig([
 
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
-			'import-x/extensions': 'off', // TODO: https://github.com/xojs/eslint-config-xo/issues/119#issuecomment-4979192969
 
 			// TODO: Probably drop it after moving to dprint
 			// Also: https://github.com/un-ts/eslint-plugin-import-x/issues/500
@@ -185,14 +183,6 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/package.json'],
-		rules: {
-			'package-json/no-orphan-types': ['error', {
-				'ignore': ['react'],
-			}],
-		},
-	},
-	{
 		// Dprint doesn't run on tsx files yet, we need to allow style eslint rules
 		ignores: [
 			'**/*.tsx',
@@ -201,7 +191,6 @@ export default defineConfig([
 			...eslintConfigPrettier.rules,
 
 			'markdown/no-empty-links': 'off',
-			'package-json/require-fields': 'off', // Never needed name and version
 
 			// TODO: Drop after moving to dprint and enabling the global `prettier:compat` option
 			// https://github.com/xojs/eslint-config-xo/issues/106

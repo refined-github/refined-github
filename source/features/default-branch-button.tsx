@@ -14,7 +14,7 @@ import {fixFileHeaderOverlap, isRepoCommitListRoot} from '../github-helpers/inde
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../components/tooltip.js';
 
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);

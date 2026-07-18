@@ -9,7 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {commentBoxHashPr, openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../components/tooltip.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {

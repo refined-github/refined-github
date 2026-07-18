@@ -4,6 +4,7 @@ import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
+import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if (event.key !== 'Escape') {
@@ -19,9 +20,7 @@ function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 		// TODO [2027-01-01]: Remove after legacy PR files view is removed
 		'.js-cancel-issue-edit',
 	]);
-	if (cancelButton.textContent.trim() !== 'Cancel') {
-		throw new Error('Expected to find a cancel button');
-	}
+	assertNodeContent(cancelButton, 'Cancel');
 
 	cancelButton.click();
 	event.stopImmediatePropagation();

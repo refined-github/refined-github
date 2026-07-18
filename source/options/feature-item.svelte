@@ -8,7 +8,7 @@
 <script lang="ts">
 	import {$$ as querySelectorAll} from 'select-dom';
 
-	import DomChef from '../helpers/dom-chef.svelte';
+	import DomChef from '../components/dom-chef.svelte';
 	import {createRghIssueLink, getFeatureUrl} from '../helpers/rgh-links.js';
 
 	const {id, description, screenshot, hotfixIssue}: {

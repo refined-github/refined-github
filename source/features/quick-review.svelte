@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {isClosedConversation} from 'github-url-detection';
 
+	import Tooltip from '../components/tooltip.svelte';
 	import {
 		getConversationAuthor,
 		getLoggedInUser,
 	} from '../github-helpers/index.js';
-	import Tooltip from '../helpers/tooltip.svelte';
 	import {getToken} from '../options-storage.js';
 
 	interface Props {

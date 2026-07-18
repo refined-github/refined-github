@@ -17,6 +17,7 @@
 	],
 	"useTabs": true,
 	"markup": {
+		"quotes": "double",
 		"whitespaceSensitivity": "strict",
 		"scriptIndent": true,
 		"styleIndent": true

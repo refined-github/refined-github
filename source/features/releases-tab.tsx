@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {addTab} from '../helpers/extensible-nav-store.js';
+import {addTab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import GetReleasesCount from './releases-tab.gql';
 

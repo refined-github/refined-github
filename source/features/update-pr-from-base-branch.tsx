@@ -15,7 +15,7 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../components/tooltip.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 /* eslint-disable @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values */

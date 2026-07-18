@@ -11,7 +11,7 @@ import tinyVersionCompare from 'tiny-version-compare';
 import features from '../feature-manager.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
-import {withTooltipRef} from '../helpers/tooltip.js';
+import {withTooltipRef} from '../components/tooltip.js';
 
 type TagDetails = {
 	element: HTMLElement;
