@@ -38,6 +38,7 @@ import './features/sticky-comment-header.js';
 import './features/useful-not-found-page.js';
 import './features/releases-tab.js';
 import './features/one-key-formatting.js';
+import './features/esc-to-cancel.js'; // Must be before tab-to-indent, which stops Escape propagation
 import './features/tab-to-indent.js';
 import './features/hide-navigation-hover-highlight.js';
 import './features/selection-in-new-tab.js';
@@ -150,7 +151,6 @@ import './features/table-input.js';
 import './features/link-to-github-io.js';
 import './features/github-actions-indicators.js';
 import './features/unfinished-comments.js';
-import './features/esc-to-cancel.js';
 import './features/easy-toggle-files.js';
 import './features/quick-repo-deletion.js';
 import './features/clean-repo-sidebar.js';
