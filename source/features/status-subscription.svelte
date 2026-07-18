@@ -2,54 +2,56 @@
 	import BellIcon from 'octicons-plain-react/Bell';
 	import BellSlashIcon from 'octicons-plain-react/BellSlash';
 	import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
+	import type {Readable, Writable} from 'svelte/store';
 
-	import {multilineAriaLabel} from '../github-helpers/index.js';
 	import Button from '../helpers/status-subscription-button.svelte';
-
-	type SubscriptionStatus = 'none' | 'all' | 'status';
+	import type {SubscriptionStatus} from './status-subscription.js';
 
 	interface Props {
-		status: SubscriptionStatus;
+		status: Writable<SubscriptionStatus>;
+		disabled: Writable<boolean> | Readable<boolean>;
 		isLegacy: boolean;
 		onNone?: () => void;
 		onAll?: () => void;
 		onStatus?: () => void;
 	}
 
-	const {status, isLegacy, onNone, onAll, onStatus}: Props = $props();
+	const {status, disabled, isLegacy, onNone, onAll, onStatus}: Props = $props();
 </script>
 
-<fieldset class="rgh-status-subscription BtnGroup d-flex width-full">
+<fieldset
+	class="rgh-status-subscription BtnGroup d-flex width-full"
+	disabled={$disabled}
+>
 	<Button
 		id="rgh-sub-none"
 		value="unsubscribe"
 		icon={BellSlashIcon}
 		label="None"
 		tooltipLabel="Unsubscribe"
-		active={status === 'none'}
+		active={$status === 'none'}
 		{isLegacy}
 		onclick={onNone}
 	/>
+
 	<Button
 		id="rgh-sub-all"
 		value="subscribe"
 		icon={BellIcon}
 		label="All"
 		tooltipLabel="Subscribe to all events"
-		active={status === 'all'}
+		active={$status === 'all'}
 		{isLegacy}
 		onclick={onAll}
 	/>
+
 	<Button
 		id="rgh-sub-status"
 		value="subscribe_to_custom_notifications"
 		icon={IssueReopenedIcon}
 		label="Status"
-		tooltipLabel={multilineAriaLabel(
-			'Subscribe just to status changes',
-			'(closing, reopening, merging)',
-		)}
-		active={status === 'status'}
+		tooltipLabel="Subscribe only to closing, reopening, merging"
+		active={$status === 'status'}
 		{isLegacy}
 		onclick={onStatus}
 	/>

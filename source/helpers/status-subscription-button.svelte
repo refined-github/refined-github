@@ -19,9 +19,9 @@
 
 <button
 	{id}
+	{value}
 	name="id"
 	type={isLegacy ? 'submit' : 'button'}
-	{value}
 	class="btn btn-sm flex-1 BtnGroup-item"
 	aria-labelledby="{id}-tooltip"
 	// Make the element look selected, not disabled, but effectively disable clicks/focus
@@ -33,7 +33,7 @@
 	<DomChef as={icon} />
 	{label}
 </button>
-<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltipLabel} direction="sw" />
+<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltipLabel} />
 
 <style>
 	button:not(.selected) {

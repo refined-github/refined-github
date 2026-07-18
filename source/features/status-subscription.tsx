@@ -1,20 +1,25 @@
+
 import {mount} from 'svelte';
+import {writable, readable} from 'svelte/store';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, closestElement} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import StatusSubscription from './status-subscription.svelte';
 
-type SubscriptionStatus = 'none' | 'all' | 'status';
+export type SubscriptionStatus = 'none' | 'all' | 'status';
 
-function getLegacyReason(subscriptionButton: HTMLButtonElement): HTMLParagraphElement {
-	return $('p.reason', closestElement('.thread-subscription-status', subscriptionButton));
+function getSubscriptionReasonElement(): HTMLParagraphElement {
+	return $([
+		'#issue-viewer-subscription-description',
+		'#notification-subscribe-button-reason', // Legacy
+	]);
 }
 
-function getLegacyStatus(button: HTMLButtonElement): SubscriptionStatus {
-	const reason = getLegacyReason(button).textContent;
+function getSubscriptionReason(): SubscriptionStatus {
+	const reason = getSubscriptionReasonElement().textContent;
 
 	// You’re receiving notifications because you chose custom settings for this thread.
 	if (reason.includes('custom settings')) {
@@ -29,24 +34,34 @@ function getLegacyStatus(button: HTMLButtonElement): SubscriptionStatus {
 	return 'all';
 }
 
-function addLegacyButton(subscriptionButton: HTMLButtonElement): void {
-	const status = getLegacyStatus(subscriptionButton);
+// TODO: Move to CSS after legacy version is dropped
+function toggleSubscriptionReason(status: SubscriptionStatus): void {
+	// 'all' can have many reasons, but the other two don't add further information #6684
+	getSubscriptionReasonElement().hidden = status !== 'all';
+}
+
+function addLegacyButton(nativeButton: HTMLButtonElement): void {
+	const initialStatus = getSubscriptionReason();
+	const status = writable<SubscriptionStatus>(initialStatus);
+	const disabled = readable(false);
+
 	// Save first
-	const originalId = subscriptionButton.form!.elements.id;
+	const originalId = nativeButton.form!.elements.id;
 
 	mount(StatusSubscription, {
-		target: subscriptionButton.parentElement!,
-		props: {status, isLegacy: true},
+		target: nativeButton.parentElement!,
+		anchor: nativeButton,
+		props: {
+			status,
+			disabled,
+			isLegacy: true,
+		},
 	});
 
 	// Remove it only if the form was successfully added
 	originalId.remove();
-	subscriptionButton.hidden = true;
 
-	// 'all' can have many reasons, but the other two don't add further information #6684
-	if (status !== 'all') {
-		getLegacyReason(subscriptionButton).hidden = true;
-	}
+	toggleSubscriptionReason(initialStatus);
 }
 
 const githubApiBaseHeaders = new Headers({
@@ -97,30 +112,38 @@ async function updateSubscription(targetStatus: SubscriptionStatus, id: string):
 	}
 }
 
-async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
-	const previousRghButton = $optional('.rgh-status-subscription', subscriptionButton.parentElement!);
-
+async function renderWidget(nativeButton: HTMLButtonElement): Promise<void> {
 	const issue = await fetchIssueData();
 	const {id, viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
-	const isSubscribed = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE';
-	const status: SubscriptionStatus = isSubscribed
-		? (viewerCustomSubscriptionEvents.length > 0 ? 'status' : 'all')
-		: 'none';
+
+	const initialStatus = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE'
+		? 'none'
+		: viewerCustomSubscriptionEvents.length > 0
+			? 'status'
+			: 'all';
+
+	const status = writable<SubscriptionStatus>(initialStatus);
+	const disabled = writable(false);
 
 	const makeOnClick = (target: SubscriptionStatus) => async () => {
-		const fieldset = subscriptionButton.parentElement!.querySelector<HTMLFieldSetElement>('fieldset.rgh-status-subscription');
-		if (fieldset) {
-			fieldset.disabled = true;
-		}
+		disabled.set(true);
 
-		await updateSubscription(target, id);
-		void addButton(subscriptionButton);
+		try {
+			await updateSubscription(target, id);
+
+			status.set(target);
+			toggleSubscriptionReason(target);
+		} finally {
+			disabled.set(false);
+		}
 	};
 
 	mount(StatusSubscription, {
-		target: subscriptionButton.parentElement!,
+		target: nativeButton.parentElement!,
+		anchor: nativeButton,
 		props: {
 			status,
+			disabled,
 			isLegacy: false,
 			onNone: makeOnClick('none'),
 			onAll: makeOnClick('all'),
@@ -128,16 +151,15 @@ async function addButton(subscriptionButton: HTMLButtonElement): Promise<void> {
 		},
 	});
 
-	// Would be missing on the first run
-	previousRghButton?.remove();
-	subscriptionButton.hidden = true;
+	toggleSubscriptionReason(initialStatus);
+	nativeButton.hidden = true;
 }
 
 function init(signal: AbortSignal): void {
 	// Repos you're ignoring can't be subscribed to, so the button is disabled
 	observe('button[data-thread-subscribe-button]:enabled', addLegacyButton, {signal});
 	if (!pageDetect.isEnterprise()) {
-		observe('button[aria-describedby*="issue-viewer-subscription-description"]', addButton, {signal});
+		observe('button[aria-describedby*="issue-viewer-subscription-description"]', renderWidget, {signal});
 	}
 }
 
