@@ -11,7 +11,7 @@ import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import ClosingRemarksController from './closing-remarks-controller.svelte';
+import ClosingRemarks from './closing-remarks.svelte';
 import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
@@ -34,9 +34,9 @@ function getMergeCommitHash(): string {
 	return /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!.hash;
 }
 
-function mountController(props: ComponentProps<typeof ClosingRemarksController>, signal: AbortSignal): void {
+function mountClosingRemarks(props: ComponentProps<typeof ClosingRemarks>, signal: AbortSignal): void {
 	const container = <div />;
-	mount(ClosingRemarksController, {target: container, props});
+	mount(ClosingRemarks, {target: container, props});
 	observe(commentBoxHashPr, anchor => {
 		anchor.before(container);
 	}, {signal});
@@ -48,14 +48,14 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	if (tagName) {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
-		mountController({tagName, tagUrl, postMerge: false}, signal);
+		mountClosingRemarks({tagName, tagUrl}, signal);
 		observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
 			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName, tagUrl}});
 		}, {signal});
 		return;
 	}
 
-	mountController({postMerge: false}, signal);
+	mountClosingRemarks({}, signal);
 }
 
 void features.add(import.meta.url, {
@@ -74,7 +74,7 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
-		mountController({postMerge: true}, signal);
+		mountClosingRemarks({postMerge: true}, signal);
 	},
 });
 
