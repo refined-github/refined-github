@@ -29,8 +29,10 @@ function _onFieldKeydown(selector: string | readonly string[], callback: Keydown
 }
 
 const onFieldKeydown = memoize(_onFieldKeydown, {
+	// Drop signal, which comes from the init at every page load
+	// Flatten selector array otherwise it's a new "object" every time
+	cacheKey: ([selector, callback]) => [JSON.stringify(selector), callback],
 	// https://github.com/sindresorhus/memoize#example-multiple-non-serializable-arguments
-	cacheKey: arguments_ => arguments_,
 	cache: new ManyKeysMap(),
 });
 
