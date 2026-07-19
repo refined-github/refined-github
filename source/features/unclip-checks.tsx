@@ -5,13 +5,15 @@ import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 
+function unclipChecks({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	closestElement('section[aria-label="Checks"]', delegateTarget).classList.add('rgh-unclip-checks');
+}
+
 function init(signal: AbortSignal): void {
 	delegate(
 		'button[aria-label="Expand checks"]',
 		'click',
-		({delegateTarget}: DelegateEvent<MouseEvent, HTMLButtonElement>) => {
-			closestElement('section[aria-label="Checks"]', delegateTarget).classList.add('rgh-unclip-checks');
-		},
+		unclipChecks,
 		{signal, capture: true},
 	);
 }
