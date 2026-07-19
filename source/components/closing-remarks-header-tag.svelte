@@ -1,9 +1,12 @@
 <script lang="ts">
 	import TagIcon from 'octicons-plain-react/Tag';
 
+	import {buildRepoUrl} from '../github-helpers/index.js';
 	import DomChef from './dom-chef.svelte';
 
-	const {tagName, tagUrl}: {tagName: string; tagUrl: string} = $props();
+	const {tagName}: {tagName: string} = $props();
+
+	const tagUrl = $derived(buildRepoUrl('releases/tag', tagName));
 </script>
 
 <a

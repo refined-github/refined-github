@@ -47,10 +47,9 @@ async function init(signal: AbortSignal): Promise<void> {
 	const tagName = await firstTag.get(hash);
 
 	if (tagName) {
-		const tagUrl = buildRepoUrl('releases/tag', tagName);
-		mountClosingRemarks({tagName, tagUrl}, signal);
+		mountClosingRemarks({tagName}, signal);
 		observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
-			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName, tagUrl}});
+			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
 		}, {signal});
 		return;
 	}
