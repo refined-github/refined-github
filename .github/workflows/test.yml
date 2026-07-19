@@ -83,6 +83,7 @@ jobs:
           node-version-file: package.json
           cache: npm
       - run: npm ci
+      - run: npm run build:svelte
       - run: npm run build:typescript
 
   Format:
