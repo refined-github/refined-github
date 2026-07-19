@@ -23,6 +23,7 @@
 		"start": "npm run watch",
 		"test": "run-p vitest lint:* build:* --continue-on-error",
 		"watch": "run-p watch:* --continue-on-error",
+		"watch:svelte": "sv check --watch --preserveWatchOutput",
 		"watch:typescript": "tsc --noEmit --watch --preserveWatchOutput",
 		"watch:bundle": "rollup -c --watch"
 	},
