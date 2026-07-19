@@ -63,7 +63,6 @@ void features.add(import.meta.url, {
 		pageDetect.isMergedPR,
 	],
 	awaitDomReady: true, // It must look for the merge commit
-
 	init,
 }, {
 	// This catches a PR while it's being merged
@@ -73,7 +72,6 @@ void features.add(import.meta.url, {
 		userHasPushAccess,
 	],
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
-
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
 		mountClosingRemarks({postMerge: true}, signal);
