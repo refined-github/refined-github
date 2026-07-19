@@ -55,7 +55,7 @@ function initNewIssueOnce(): void {
 	onAlteredClick(
 		[
 			'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-			'[aria-label="Create new..."]',
+			'button[class*="GlobalCreateMenu-module__actionMenuButton"]',
 		],
 		openNewIssuePageInNewTab,
 	);
