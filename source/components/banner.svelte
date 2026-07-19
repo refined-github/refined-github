@@ -3,14 +3,12 @@
 
 	import DomChef from './dom-chef.svelte';
 
-	type Props = {
+	const {icon, text, classes = [], children}: {
 		icon?: (..._props: any[]) => HTMLElement;
 		text: Snippet;
 		classes?: string[];
 		children?: Snippet;
-	};
-
-	const {icon, text, classes = [], children}: Props = $props();
+	} = $props();
 </script>
 
 <div class={['flash', ...classes].join(' ')}>
