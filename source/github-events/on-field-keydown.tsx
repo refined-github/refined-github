@@ -1,10 +1,12 @@
 import delegate, {type DelegateEventHandler} from 'delegate-it';
+import memoize from 'memoize';
+import ManyKeysMap from 'many-keys-map';
 import {elementExists} from 'select-dom';
 
 type TextField = HTMLTextAreaElement | HTMLInputElement;
 type KeydownHandler = DelegateEventHandler<KeyboardEvent, TextField>;
 
-function onFieldKeydown(selector: string | readonly string[], callback: KeydownHandler, signal: AbortSignal): void {
+function _onFieldKeydown(selector: string | readonly string[], callback: KeydownHandler, signal: AbortSignal): void {
 	delegate<TextField, 'keydown'>(selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
@@ -25,6 +27,12 @@ function onFieldKeydown(selector: string | readonly string[], callback: KeydownH
 		signal,
 	});
 }
+
+const onFieldKeydown = memoize(_onFieldKeydown, {
+	// https://github.com/sindresorhus/memoize#example-multiple-non-serializable-arguments
+	cacheKey: arguments_ => arguments_,
+	cache: new ManyKeysMap(),
+});
 
 export function onCommentFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
 	onFieldKeydown('textarea', callback, signal);
