@@ -57,19 +57,23 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
+	// When arriving on an already-merged PR
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isMergedPR,
 	],
-	awaitDomReady: true,
+	awaitDomReady: true, // It must look for the merge commit
+
 	init,
 }, {
+	// This catches a PR while it's being merged
 	asLongAs: [
 		pageDetect.isPRConversation,
 		pageDetect.isOpenConversation,
 		userHasPushAccess,
 	],
-	awaitDomReady: true,
+	awaitDomReady: true, // Post-load user event, no need to listen earlier
+
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
 		mountClosingRemarks({postMerge: true}, signal);
