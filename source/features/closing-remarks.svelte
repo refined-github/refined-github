@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
 	import TagIcon from 'octicons-plain-react/Tag';
+	import {onMount} from 'svelte';
 
+	import BannerAction from '../components/banner-action.svelte';
 	import Banner from '../components/banner.svelte';
-	import DomChef from '../components/dom-chef.svelte';
-	import {getReleasesCount} from './releases-tab.js';
 	import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 	import {buildRepoUrl, isRefinedGitHubRepo} from '../github-helpers/index.js';
+	import {getReleasesCount} from './releases-tab.js';
 
 	type Props = {
 		tagName?: string;
@@ -47,8 +47,7 @@
 		class="ml-0 tmp-ml-0 pl-0 tmp-pl-0 ml-md-6 tmp-ml-md-6 pl-md-3 tmp-pl-md-3 mt-3 tmp-mt-3"
 	>
 		{#if tagName && tagUrl}
-			<Banner classes={['flash-success', 'rgh-bg-none']}>
-				{#snippet icon()}<DomChef as={TagIcon} class="m-0 tmp-m-0" />{/snippet}
+			<Banner classes={['flash-success', 'rgh-bg-none']} icon={TagIcon}>
 				{#snippet text()}
 					This pull request first <a href={explanationHref}>appeared</a> in
 					<a href={tagUrl} class="Link--primary text-bold">{tagName}</a>
@@ -57,10 +56,8 @@
 		{:else}
 			<Banner
 				classes={['rgh-bg-none']}
-				action={hasPushAccess ? createReleaseUrl() : undefined}
-				buttonLabel={hasPushAccess ? 'Draft a new release' : undefined}
+				icon={TagIcon}
 			>
-				{#snippet icon()}<DomChef as={TagIcon} class="m-0 tmp-m-0" />{/snippet}
 				{#snippet text()}
 					{#if postMerge}
 						Now you can release this change
@@ -68,6 +65,11 @@
 						No <a href={explanationHref}>stable version tags</a> for this PR.
 					{/if}
 				{/snippet}
+				{#if hasPushAccess}
+					<BannerAction action={createReleaseUrl()}>
+						Draft a new release
+					</BannerAction>
+				{/if}
 			</Banner>
 		{/if}
 	</div>

@@ -6,6 +6,7 @@
 	import openOptions from '../helpers/open-options.js';
 	import {createRghIssueLink} from '../helpers/rgh-links.js';
 	import optionsStorage, {isFeatureDisabled} from '../options-storage.js';
+	import BannerAction from './banner-action.svelte';
 	import Banner from './banner.svelte';
 	import Dom from './dom-chef.svelte';
 
@@ -58,10 +59,11 @@
 		<Banner
 			classes={[...bannerClasses, 'flash-warn']}
 			icon={AlertIcon}
-			action={(event) => openOptions(event, id)}
 		>
 			{#snippet text()}You disabled this feature on GitHub.com.{/snippet}
-			{#snippet buttonLabel()}Refined GitHub Options{/snippet}
+			<BannerAction action={(event) => openOptions(event, id)}>
+				Refined GitHub Options
+			</BannerAction>
 		</Banner>
 	{/if}
 {/await}
