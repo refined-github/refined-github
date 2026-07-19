@@ -43,7 +43,10 @@
 		areaName: chrome.storage.AreaName,
 	) => {
 		if (item && Object.hasOwn(changes, item)) {
-			used = getTrueSizeOfObject(changes[item].newValue);
+			const {newValue} = changes[item];
+			if (typeof newValue === 'object' && newValue !== null) {
+				used = getTrueSizeOfObject(newValue as Record<string, any>);
+			}
 		}
 
 		if (areaName === area) {
