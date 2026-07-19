@@ -8,7 +8,6 @@ import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import ClosingRemarks from './closing-remarks.svelte';
@@ -37,8 +36,8 @@ function getMergeCommitHash(): string {
 function mountClosingRemarks(props: ComponentProps<typeof ClosingRemarks>, signal: AbortSignal): void {
 	const container = <div />;
 	mount(ClosingRemarks, {target: container, props});
-	observe(commentBoxHashPr, anchor => {
-		anchor.before(container);
+	observe('.js-discussion', anchor => {
+		anchor.after(container);
 	}, {signal});
 }
 
