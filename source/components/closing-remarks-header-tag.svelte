@@ -14,6 +14,6 @@
 	class="text-bold Link--primary no-underline"
 	title="{tagName} was the first Git tag to include this pull request"
 >
-	<DomChef as={TagIcon} class="ml-2 tmp-ml-2 mr-1 tmp-mr-1 color-fg-muted" />
+	<DomChef as={TagIcon} class="mr-1 tmp-mr-1 color-fg-muted" />
 	{tagName}
 </a>
