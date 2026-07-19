@@ -45,7 +45,7 @@ function initSearchResultsOnce(): void {
 	);
 }
 
-function openNewIssuePageInNewTabe(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+function openNewIssuePageInNewTab(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	window.open(buildRepoUrl('issues/new/choose'), '_blank');
@@ -53,15 +53,18 @@ function openNewIssuePageInNewTabe(event: DelegateEvent<MouseEvent, HTMLElement>
 
 function initNewIssueOnce(): void {
 	onAlteredClick(
-		'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
-		openNewIssuePageInNewTabe,
+		[
+			'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
+			'button[class*="GlobalCreateMenu-module__actionMenuButton"]',
+		],
+		openNewIssuePageInNewTab,
 	);
 }
 
 function initIssueTemplate(): void {
 	onAlteredClick(
 		'a[class^="IssueCreatePage-module__chooseTemplateLink"]',
-		openNewIssuePageInNewTabe,
+		openNewIssuePageInNewTab,
 	);
 }
 

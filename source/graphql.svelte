@@ -1,6 +1,8 @@
 <svelte:options customElement="rgh-graphql" />
 
 <script lang="ts">
+	import type {JsonObject} from 'type-fest';
+
 	import api from './github-helpers/api.js';
 
 	let query = $state(`viewer {
@@ -36,7 +38,7 @@
 		}
 	}
 
-	function parseVariables(): Record<string, unknown> | undefined {
+	function parseVariables(): JsonObject | undefined {
 		const trimmed = variablesJson.trim();
 		if (!trimmed) {
 			return undefined;
@@ -47,7 +49,7 @@
 			throw new TypeError('Variables must be a JSON object.');
 		}
 
-		return parsed as Record<string, unknown>;
+		return parsed as JsonObject;
 	}
 </script>
 
