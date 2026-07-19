@@ -7,12 +7,11 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import {commentBoxHashPr} from '../github-helpers/selectors.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {getReleasesCount} from './releases-tab.js';
-import ClosingRemarks from './closing-remarks.svelte';
+import ClosingRemarksController from './closing-remarks-controller.svelte';
 import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
@@ -30,49 +29,33 @@ const firstTag = new CachedFunction('first-tag', {
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
-function createReleaseUrl(): string {
-	if (isRefinedGitHubRepo()) {
-		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
-	}
-
-	return buildRepoUrl('releases/new');
+function getMergeCommitHash(): string {
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
+	return /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!.hash;
 }
 
-function mountFooter(
-	props: ComponentProps<typeof ClosingRemarks>,
-	signal: AbortSignal,
-): void {
+function mountController(props: ComponentProps<typeof ClosingRemarksController>, signal: AbortSignal): void {
 	const container = <div />;
-	mount(ClosingRemarks, {target: container, props});
+	mount(ClosingRemarksController, {target: container, props});
 	observe(commentBoxHashPr, anchor => {
 		anchor.before(container);
 	}, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
-	const {hash} = /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!;
-
+	const hash = getMergeCommitHash();
 	const tagName = await firstTag.get(hash);
 
 	if (tagName) {
 		const tagUrl = buildRepoUrl('releases/tag', tagName);
-		mountFooter({tagName, tagUrl}, signal);
+		mountController({tagName, tagUrl, postMerge: false}, signal);
 		observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
 			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName, tagUrl}});
 		}, {signal});
 		return;
 	}
 
-	const [[releases], hasPushAccess] = await Promise.all([
-		getReleasesCount(),
-		userHasPushAccess(),
-	]);
-	if (releases === 0) {
-		return;
-	}
-
-	mountFooter({postMerge: false, hasPushAccess, releaseUrl: createReleaseUrl()}, signal);
+	mountController({postMerge: false}, signal);
 }
 
 void features.add(import.meta.url, {
@@ -91,15 +74,7 @@ void features.add(import.meta.url, {
 	awaitDomReady: true,
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
-		const [[releases], hasPushAccess] = await Promise.all([
-			getReleasesCount(),
-			userHasPushAccess(),
-		]);
-		if (releases === 0) {
-			return;
-		}
-
-		mountFooter({postMerge: true, hasPushAccess, releaseUrl: createReleaseUrl()}, signal);
+		mountController({postMerge: true}, signal);
 	},
 });
 
