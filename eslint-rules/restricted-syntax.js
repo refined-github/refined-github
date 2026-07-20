@@ -67,8 +67,8 @@ const restrictedSyntax = {
 	}],
 	'byo/no-inline-functions': ['error', {
 		selector:
-			'CallExpression[callee.name=/^(delegate|observe)$/] > :matches(ArrowFunctionExpression, FunctionExpression)',
-		message: 'Inline functions cannot be deduplicated. Extract the callback into a top-level named function.',
+			'CallExpression[callee.name=/^(delegate)$/] > :matches(ArrowFunctionExpression, FunctionExpression)',
+		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
 };
 
