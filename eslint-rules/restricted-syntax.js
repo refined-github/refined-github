@@ -65,6 +65,11 @@ const restrictedSyntax = {
 		message: "Use this instead: import React from 'dom-chef'",
 		selector: 'ImportDeclaration[source.value="react"]',
 	}],
+	'byo/no-inline-functions': ['error', {
+		selector:
+			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
+		message: 'Pass a callback reference, not an inline function or the result of a function call.',
+	}],
 };
 
 export default restrictedSyntax;

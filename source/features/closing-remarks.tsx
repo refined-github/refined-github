@@ -1,30 +1,21 @@
+import {mount, type ComponentProps} from 'svelte';
 import React from 'dom-chef';
 import {$, $$optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
-
 import * as pageDetect from 'github-url-detection';
-import TagIcon from 'octicons-plain-react/Tag';
 
 import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
-import createBanner, {type BannerProps} from '../github-helpers/banner.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-import {buildRepoUrl, getRepo, isRefinedGitHubRepo} from '../github-helpers/index.js';
-import {commentBoxHashPr} from '../github-helpers/selectors.js';
-import TimelineItem from '../github-helpers/timeline-item.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
-import {getReleasesCount} from './releases-tab.js';
+import ClosingRemarks from './closing-remarks.svelte';
+import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
 function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
 	// https://github.com/refined-github/refined-github/issues/7206
 	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
-}
-
-function ExplanationLink(): JSX.Element {
-	return (
-		<a href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks" />
-	);
 }
 
 const firstTag = new CachedFunction('first-tag', {
@@ -37,105 +28,32 @@ const firstTag = new CachedFunction('first-tag', {
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
 
-function createReleaseUrl(): string {
-	if (isRefinedGitHubRepo()) {
-		return 'https://github.com/refined-github/refined-github/actions/workflows/release.yml';
-	}
-
-	return buildRepoUrl('releases/new');
+function getMergeCommitHash(): string {
+	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
+	return /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!.hash;
 }
 
-function addTagToHeader(tagName: string, tagUrl: string, relativeTime: HTMLElement): void {
-	relativeTime.parentElement!.append(
-		<a
-			href={tagUrl}
-			className="text-bold Link--primary no-underline"
-			title={`${tagName} was the first Git tag to include this pull request`}
-		>
-			<TagIcon className="ml-2 tmp-ml-2 mr-1 tmp-mr-1 color-fg-muted" />
-			{tagName}
-		</a>,
-	);
-}
-
-function addTagToFooter(tagName: string, tagUrl: string, signal: AbortSignal): void {
-	// Use observer because GitHub might remove the box
-	// https://github.com/refined-github/refined-github/issues/9460
-	observe(commentBoxHashPr, anchor => {
-		const linkedTag = <a href={tagUrl} className="Link--primary text-bold">{tagName}</a>;
-		anchor.before(
-			<TimelineItem>
-				{createBanner({
-					icon: <TagIcon className="m-0 tmp-m-0" />,
-					text: <>
-						This pull request first <ExplanationLink>appeared</ExplanationLink> in {linkedTag}
-					</>,
-					classes: ['flash-success', 'rgh-bg-none'],
-				})}
-			</TimelineItem>,
-		);
-	}, {signal});
-}
-
-async function addReleaseBanner(text: string | JSX.Element, signal: AbortSignal): Promise<void> {
-	const [releases] = await getReleasesCount();
-	if (releases === 0) {
-		return;
-	}
-
-	const url = createReleaseUrl();
-	const bannerContent = {
-		text,
-		icon: <TagIcon className="m-0 tmp-m-0" />,
-		classes: ['rgh-bg-none'],
-	} satisfies BannerProps;
-
-	if (await userHasPushAccess()) {
-		Object.assign(bannerContent, {
-			action: url,
-			buttonLabel: 'Draft a new release',
-		});
-	}
-
-	// Create outside observer because `text` can be a document fragment, which can only be appended once
-	// https://github.com/refined-github/refined-github/pull/9808
-	const item = (
-		<TimelineItem>
-			{createBanner(bannerContent)}
-		</TimelineItem>
-	);
-
-	// Use observer because GitHub might remove the box
-	// https://github.com/refined-github/refined-github/issues/9460
-	observe(commentBoxHashPr, anchor => {
-		anchor.before(item);
+function mountClosingRemarks(props: ComponentProps<typeof ClosingRemarks>, signal: AbortSignal): void {
+	const container = <div />;
+	mount(ClosingRemarks, {target: container, props});
+	observe('.js-discussion', anchor => {
+		anchor.after(container);
 	}, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const mergeCommit = $(`.TimelineItem.js-details-container.Details a[href^="/${getRepo()!.nameWithOwner}/commit/" i]`);
-	const {hash} = /commit\/(?<hash>[0-9a-f]{40})/.exec(mergeCommit.pathname)!.groups!;
+	const hash = getMergeCommitHash();
 	const tagName = await firstTag.get(hash);
 
 	if (tagName) {
-		const tagUrl = buildRepoUrl('releases/tag', tagName);
-
-		// Add static box at the bottom
-		addTagToFooter(tagName, tagUrl, signal);
-
-		// PRs have a regular and a sticky header
-		observe('[class*="PullRequestHeaderSummary"] relative-time', addTagToHeader.bind(undefined, tagName, tagUrl), {
-			signal,
-		});
+		mountClosingRemarks({tagName}, signal);
+		observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
+			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
+		}, {signal});
 		return;
 	}
 
-	void addReleaseBanner(
-		<>
-			No <ExplanationLink>stable version tags</ExplanationLink> for this PR.
-		</>,
-		signal,
-	);
+	mountClosingRemarks({}, signal);
 }
 
 void features.add(import.meta.url, {
@@ -156,7 +74,7 @@ void features.add(import.meta.url, {
 	awaitDomReady: true, // Post-load user event, no need to listen earlier
 	async init(signal: AbortSignal): Promise<void> {
 		await waitForPrMerge(signal);
-		await addReleaseBanner('Now you can release this change', signal);
+		mountClosingRemarks({postMerge: true}, signal);
 	},
 });
 

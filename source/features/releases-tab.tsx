@@ -36,9 +36,14 @@ const releasesCount = new CachedFunction('releases-count', {
 	cacheKey: cacheByRepo,
 });
 
-export async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
+}
+
+export async function doesRepoHaveAnyTags(): Promise<boolean> {
+	const [count] = await getReleasesCount();
+	return count > 0;
 }
 
 async function addReleasesTabOnce(): Promise<false | void> {

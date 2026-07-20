@@ -28,6 +28,10 @@ async function validatePrTitle(field: HTMLInputElement): Promise<void> {
 	field.classList.toggle('rgh-title-over-limit', prTitle.length > limit);
 }
 
+async function validatePrTitleDelegate({delegateTarget}: DelegateEvent<Event, HTMLInputElement>): Promise<void> {
+	await validatePrTitle(delegateTarget);
+}
+
 const currentPrTitleSelectors = [
 	'[class^="prc-PageLayout-Header"] input', // `isPR`
 	'input[name="pull_request[title]"]', // `isCompare`
@@ -47,7 +51,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'input#issue_title', // Old `isPR` view - TODO: Remove after legacy PR files view is removed
 		],
 		'input',
-		async ({delegateTarget}) => validatePrTitle(delegateTarget as HTMLInputElement),
+		validatePrTitleDelegate,
 		{signal, passive: true},
 	);
 	// `isPR` - input is added to the DOM when user enters editing mode and removed when they exit it
