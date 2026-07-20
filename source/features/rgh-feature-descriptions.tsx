@@ -12,6 +12,7 @@ function addDescription(anchor: HTMLElement): void {
 	mount(Description, {target: anchor.parentElement!, anchor});
 }
 
+// TODO: Remove this, duplicate in the svelte component
 function getFeatureNameFromIssueTitle(): string | undefined {
 	const title = new URLSearchParams(location.search).get('title') ?? '';
 	// The title might be missing altogether
@@ -41,7 +42,6 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
-		// TODO: Replace with "is bug report template"
 		() => Boolean(getFeatureNameFromIssueTitle()),
 	],
 	init: initIssueForm,
