@@ -1,3 +1,5 @@
+/* eslint-disable byo/no-inline-functions -- Covered by memoization */
+
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {closestElement} from 'select-dom';

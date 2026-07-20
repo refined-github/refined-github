@@ -7,6 +7,7 @@ type TextField = HTMLTextAreaElement | HTMLInputElement;
 type KeydownHandler = DelegateEventHandler<KeyboardEvent, TextField>;
 
 function _onFieldKeydown(selector: string | readonly string[], callback: KeydownHandler, signal: AbortSignal): void {
+	// eslint-disable-next-line byo/no-inline-functions -- Covered by memoization
 	delegate<TextField, 'keydown'>(selector, 'keydown', event => {
 		const field = event.delegateTarget;
 
