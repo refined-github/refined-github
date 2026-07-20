@@ -1,16 +1,16 @@
+/* eslint-disable byo/no-inline-functions -- Covered by memoization */
+
 import delegate, {type DelegateEventHandler} from 'delegate-it';
 import memoize from 'memoize';
-import ManyKeysMap from 'many-keys-map';
 import {elementExists} from 'select-dom';
 
 type TextField = HTMLTextAreaElement | HTMLInputElement;
 type KeydownHandler = DelegateEventHandler<KeyboardEvent, TextField>;
 
-function _onFieldKeydown(selector: string | readonly string[], callback: KeydownHandler, signal: AbortSignal): void {
-	// eslint-disable-next-line byo/no-inline-functions -- Covered by memoization
-	delegate<TextField, 'keydown'>(selector, 'keydown', event => {
+/** Wrapper that skips execution if the user is *in the middle of something*. */
+function ignoreInteractive(callback: KeydownHandler): KeydownHandler {
+	return event => {
 		const field = event.delegateTarget;
-
 		if (
 			event.isComposing
 			// New autocomplete dropdown
@@ -22,27 +22,30 @@ function _onFieldKeydown(selector: string | readonly string[], callback: Keydown
 		}
 
 		callback(event);
-	}, {
-		// Adds support for `esc` key; GitHub seems to use `stopPropagation` on it
-		capture: true,
-		signal,
-	});
+	};
 }
 
-const onFieldKeydown = memoize(_onFieldKeydown, {
-	// Drop signal, which comes from the init at every page load
-	// Flatten selector array otherwise it's a new "object" every time
-	cacheKey: ([selector, callback]) => [JSON.stringify(selector), callback],
-	// https://github.com/sindresorhus/memoize#example-multiple-non-serializable-arguments
-	cache: new ManyKeysMap(),
-});
+/**
+ Memoizes the creation of the wrapped listener.
+ If the same `callback` function reference is passed multiple times,
+ it returns the exact same wrapped handler, enabling `delegate-it` deduplication.
+ */
+const deduplicateInteractiveFilter = memoize((callback: KeydownHandler) => ignoreInteractive(callback));
+
+// Support for `esc` key (where GitHub uses stopPropagation)
+const capture = true;
 
 export function onCommentFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
-	onFieldKeydown('textarea', callback, signal);
+	delegate<TextField, 'keydown'>(
+		'textarea',
+		'keydown',
+		deduplicateInteractiveFilter(callback),
+		{signal, capture},
+	);
 }
 
 export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
-	onFieldKeydown(
+	delegate<TextField, 'keydown'>(
 		[
 			'[class^="prc-PageLayout-Header"] input', // PR
 			'input[placeholder="Title"]', // Issue
@@ -53,11 +56,17 @@ export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal
 			// TODO [2026-09-01]: Remove
 			'#pull_request_title',
 		],
-		callback,
-		signal,
+		'keydown',
+		deduplicateInteractiveFilter(callback),
+		{signal, capture},
 	);
 }
 
 export function onCommitTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
-	onFieldKeydown('#commit-summary-input', callback, signal);
+	delegate<TextField, 'keydown'>(
+		'#commit-summary-input',
+		'keydown',
+		deduplicateInteractiveFilter(callback),
+		{signal, capture},
+	);
 }

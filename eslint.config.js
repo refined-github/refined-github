@@ -53,7 +53,6 @@ export default defineConfig([
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
-			'unicorn/no-unreadable-new-expression': 'off', // Me no like
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
