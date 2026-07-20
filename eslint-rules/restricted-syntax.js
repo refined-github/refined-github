@@ -65,6 +65,11 @@ const restrictedSyntax = {
 		message: "Use this instead: import React from 'dom-chef'",
 		selector: 'ImportDeclaration[source.value="react"]',
 	}],
+	'byo/no-inline-functions': ['error', {
+		selector:
+			'CallExpression[callee.name=/^(delegate|observe)$/] > :matches(ArrowFunctionExpression, FunctionExpression)',
+		message: 'Inline functions cannot be deduplicated. Extract the callback into a top-level named function.',
+	}],
 };
 
 export default restrictedSyntax;
