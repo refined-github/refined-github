@@ -67,7 +67,7 @@ const restrictedSyntax = {
 	}],
 	'byo/no-inline-functions': ['error', {
 		selector:
-			'CallExpression[callee.name=/^(delegate)$/] > :matches(ArrowFunctionExpression, FunctionExpression)',
+			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
 		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
 };
