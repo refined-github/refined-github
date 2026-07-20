@@ -207,7 +207,7 @@ export function getConversationAuthor(): string {
 	// Conversation tab. The header is absent on merged/closed PRs, so we fall back to the body.
 	const headerAuthorLink = $optional('[class*="PullRequestHeaderSummary"] a[data-hovercard-type="user"]');
 	return headerAuthorLink
-		? headerAuthorLink.textContent!.trim()
+		? headerAuthorLink.textContent.trim()
 		: getCommentAuthor(getConversationBody());
 }
 
