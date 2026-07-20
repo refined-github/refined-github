@@ -19,22 +19,25 @@
 	const idFromUrl = $derived.by(() => {
 		if (isReportingBug) {
 			const title = new URL($urlStore).searchParams.get('title') ?? '';
-			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? '';
+			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? undefined;
 		}
 
 		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(new URL($urlStore).pathname)
-			?.groups?.id ?? '';
-	});
+			?.groups?.id ?? undefined;
+		// eslint-disable-next-line no-undef -- Global type
+	}) as FeatureId | undefined;
 
 	const id = $derived.by(() => {
-		const latestId = getNewFeatureName(idFromUrl) ?? idFromUrl;
+		const latestId = idFromUrl
+			? getNewFeatureName(idFromUrl) ?? idFromUrl
+			: undefined;
 		const meta = featuresMeta.find(f => f.id === latestId);
 		return meta?.id ?? latestId;
 	});
 
 	const meta = $derived(featuresMeta.find(f => f.id === id));
 
-	const wasFeatureRemoved = $derived(!meta && !isFeaturePrivate(id));
+	const wasFeatureRemoved = $derived(!meta && id && !isFeaturePrivate(id));
 
 	const pathname = $derived(
 		isReportingBug
@@ -48,12 +51,12 @@
 		meta
 			? meta.description
 				+ (meta.cssOnly ? ' This feature is CSS-only and cannot be disabled.' : '')
-			: isFeaturePrivate(id)
+			: id && isFeaturePrivate(id)
 			? 'This feature applies only to "Refined GitHub" repositories and cannot be disabled.'
 			: undefined,
 	);
 
-	const oldNames = $derived(getOldFeatureNames(id));
+	const oldNames = $derived(id ? getOldFeatureNames(id) : []);
 
 	const newIssueUrl = $derived.by(() => {
 		const url = new URL(
@@ -70,88 +73,90 @@
 	<a data-turbo-frame="repo-content-turbo-frame" {href}>{label}</a>
 {/snippet}
 
-<!-- Block and width classes required to avoid margin collapse -->
-<div
-	class="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description"
->
-	<div class="Box-row d-flex gap-3 flex-wrap">
-		<div class="rgh-feature-description d-flex flex-column gap-2">
-			<h3>
-				{#if description}
-					<code>{id}</code>
-					<clipboard-copy
-						aria-label="Copy"
-						data-copy-feedback="Copied!"
-						value={id}
-						class="Link--onHover color-fg-muted d-inline-block ml-2"
-						tabindex="0"
-						role="button"
-					>
-						<DomChef as={CopyIcon} class="v-align-baseline" />
-					</clipboard-copy>
-				{:else}
-					<span class="color-fg-muted">
-						This feature is no longer part of Refined GitHub.
-					</span>
-				{/if}
-			</h3>
-
-			{#if oldNames.length > 0}
-				<div class="color-fg-muted mt-n3 tmp-mt-n3">
-					<span class="text-small">previously named </span>
-					{#each oldNames as name, index (name)}
-						{#if index > 0}, {/if}<code>{name}</code>
-					{/each}
-				</div>
-			{/if}
-
-			{#if description}
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				<div class="h3">{@html description}</div>
-			{/if}
-
-			<div class="no-wrap">
-				<RelatedIssuesCount featureId={id} />
-				{#if !wasFeatureRemoved && !isReportingBug}
-					•
-					{@render featureLink(newIssueUrl.href, 'Report bug')}
-				{/if}
-				{#if meta}
-					{#if isCss && !meta.cssOnly}
-						•
-						{@render featureLink(pathname.replace('.css', '.tsx'), 'See .tsx file')}
-					{:else if meta.css && !isCss}
-						•
-						{@render featureLink(pathname.replace('.tsx', '.css'), 'See .css file')}
+{#if id}
+	<!-- Block and width classes required to avoid margin collapse -->
+	<div
+		class="Box mb-3 tmp-mb-3 d-inline-block width-full rgh-feature-description"
+	>
+		<div class="Box-row d-flex gap-3 flex-wrap">
+			<div class="rgh-feature-description d-flex flex-column gap-2">
+				<h3>
+					{#if description}
+						<code>{id}</code>
+						<clipboard-copy
+							aria-label="Copy"
+							data-copy-feedback="Copied!"
+							value={id}
+							class="Link--onHover color-fg-muted d-inline-block ml-2"
+							tabindex="0"
+							role="button"
+						>
+							<DomChef as={CopyIcon} class="v-align-baseline" />
+						</clipboard-copy>
+					{:else}
+						<span class="color-fg-muted">
+							This feature is no longer part of Refined GitHub.
+						</span>
 					{/if}
+				</h3>
+
+				{#if oldNames.length > 0}
+					<div class="color-fg-muted mt-n3 tmp-mt-n3">
+						<span class="text-small">previously named </span>
+						{#each oldNames as name, index (name)}
+							{#if index > 0}, {/if}<code>{name}</code>
+						{/each}
+					</div>
 				{/if}
-				{#if wasFeatureRemoved}
-					•
-					{@render featureLink(
-						// This links to the full commit history, which will start with the commit that removed the file
-						`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`,
-						'Commit history',
-					)}
+
+				{#if description}
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					<div class="h3">{@html description}</div>
 				{/if}
+
+				<div class="no-wrap">
+					<RelatedIssuesCount featureId={id} />
+					{#if !wasFeatureRemoved && !isReportingBug}
+						•
+						{@render featureLink(newIssueUrl.href, 'Report bug')}
+					{/if}
+					{#if meta}
+						{#if isCss && !meta.cssOnly}
+							•
+							{@render featureLink(pathname.replace('.css', '.tsx'), 'See .tsx file')}
+						{:else if meta.css && !isCss}
+							•
+							{@render featureLink(pathname.replace('.tsx', '.css'), 'See .css file')}
+						{/if}
+					{/if}
+					{#if wasFeatureRemoved}
+						•
+						{@render featureLink(
+							// This links to the full commit history, which will start with the commit that removed the file
+							`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`,
+							'Commit history',
+						)}
+					{/if}
+				</div>
 			</div>
+
+			<!-- eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta  -->
+			{#if meta?.screenshot}
+				<a href={meta.screenshot} class="flex-self-center">
+					<img
+						src={meta.screenshot}
+						class="d-block border"
+						style:max-height="100px"
+						style:max-width="150px"
+						alt=""
+					/>
+				</a>
+			{/if}
 		</div>
-
-		<!-- eslint-disable-next-line refined-github/no-optional-chaining -- Undocumented feature, no meta  -->
-		{#if meta?.screenshot}
-			<a href={meta.screenshot} class="flex-self-center">
-				<img
-					src={meta.screenshot}
-					class="d-block border"
-					style:max-height="100px"
-					style:max-width="150px"
-					alt=""
-				/>
-			</a>
-		{/if}
 	</div>
-</div>
 
-<DisabledFeatureBanner id={id} />
+	<DisabledFeatureBanner id={id} />
+{/if}
 
 <style>
 	.rgh-feature-description {
