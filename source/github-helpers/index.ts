@@ -202,7 +202,13 @@ export function getConversationBody(): Element {
 }
 
 export function getConversationAuthor(): string {
-	return getCommentAuthor(getConversationBody());
+	// The header is present on every PR tab (Conversation, Files, Commits, Checks) and reliably
+	// reflects the author, unlike the conversation body element, which only exists on the
+	// Conversation tab. The header is absent on merged/closed PRs, so we fall back to the body.
+	const headerAuthorLink = $optional('[class*="PullRequestHeaderSummary"] a[data-hovercard-type="user"]');
+	return headerAuthorLink
+		? headerAuthorLink.textContent!.trim()
+		: getCommentAuthor(getConversationBody());
 }
 
 export function isOwnConversation(): boolean {
