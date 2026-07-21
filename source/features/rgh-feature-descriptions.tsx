@@ -1,15 +1,19 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {mount} from 'svelte';
+import {mount, unmount} from 'svelte';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import {openInNewTab} from './prevent-comment-loss.js';
 import Description from './rgh-feature-descriptions.svelte';
+import singleton from '../helpers/singleton.js';
 
-function addDescription(anchor: HTMLElement): void {
-	mount(Description, {target: anchor.parentElement!, anchor});
+function addDescription(anchor: HTMLElement): () => void {
+	const app = mount(Description, {target: anchor.parentElement!, anchor});
+	return () => {
+		void unmount(app);
+	};
 }
 
 // TODO: Remove this, duplicate in the svelte component
@@ -20,7 +24,7 @@ function getFeatureNameFromIssueTitle(): string | undefined {
 }
 
 function init(signal: AbortSignal): void {
-	observe('#repos-sticky-header', addDescription, {signal});
+	observe('#repos-sticky-header', singleton(addDescription), {signal});
 }
 
 function initIssueForm(signal: AbortSignal): void {
