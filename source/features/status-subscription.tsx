@@ -118,11 +118,13 @@ async function renderWidget(nativeButton: HTMLButtonElement): Promise<void> {
 	const issue = await fetchIssueData();
 	const {id, viewerThreadSubscriptionFormAction, viewerCustomSubscriptionEvents} = issue.repository.issue;
 
-	const initialStatus = viewerThreadSubscriptionFormAction === 'UNSUBSCRIBE'
-		? 'none'
-		: viewerCustomSubscriptionEvents.length > 0
-			? 'status'
-			: 'all';
+	const initialStatus: SubscriptionStatus =
+		// eslint-disable-next-line unicorn/no-negated-condition
+		viewerThreadSubscriptionFormAction !== 'UNSUBSCRIBE'
+			? 'none'
+			: viewerCustomSubscriptionEvents.length > 0
+				? 'status'
+				: 'all';
 
 	const status = writable<SubscriptionStatus>(initialStatus);
 	const disabled = writable(false);
