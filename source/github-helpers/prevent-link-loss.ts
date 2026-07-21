@@ -80,3 +80,10 @@ export function preventDiscussionLinkLoss(
 
 	return `[${getRepoReference(getRepo(), repoNameWithOwner)}#${discussion}${comment ? ' (comment)' : ''}](${url})`;
 }
+
+export function isVulnerableToLinkLoss(value: string): boolean {
+	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
+	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)
+		|| value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)
+		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+}
