@@ -3,7 +3,8 @@
 	import {onMount} from 'svelte';
 	import {replaceFieldText} from 'text-field-edit';
 
-	import DomChef from '../components/dom-chef.svelte';
+	import BannerAction from '../components/banner-action.svelte';
+	import Banner from '../components/banner.svelte';
 	import {
 		discussionUrlRegex,
 		isVulnerableToLinkLoss,
@@ -43,20 +44,17 @@
 </script>
 
 {#if visible}
-	<div class="flash flash-warn my-2">
-		<DomChef as={AlertIcon} class="m-0 tmp-m-0" />
-		Your link may be <a
-			href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss"
-			target="_blank"
-			rel="noopener noreferrer"
-			data-hovercard-type="issue"
-		>misinterpreted</a> by GitHub.
-		<button
-			type="button"
-			class="btn btn-sm flash-action"
-			onclick={fix}
-		>
+	<Banner classes={['flash-warn', 'my-2']} icon={AlertIcon}>
+		{#snippet text()}
+			Your link may be <a
+				href="https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#prevent-link-loss"
+				target="_blank"
+				rel="noopener noreferrer"
+				data-hovercard-type="issue"
+			>misinterpreted</a> by GitHub.
+		{/snippet}
+		<BannerAction action={fix}>
 			Fix link
-		</button>
-	</div>
+		</BannerAction>
+	</Banner>
 {/if}
