@@ -5,6 +5,9 @@
 		--shadow-spread-radius: 10px;
 
 		.Box:has(.js-notifications-mark-all-prompt) {
+			/* `.overflow-hidden` creates a scroll container that offsets the header at rest #9866 */
+			overflow: clip !important;
+
 			& .Box-header {
 				position: sticky;
 				top: var(--sticky-padding);
