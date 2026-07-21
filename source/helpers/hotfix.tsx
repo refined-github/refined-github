@@ -1,5 +1,4 @@
 import {any as concatenateTemplateLiteralTag} from 'code-tag';
-import React from 'dom-chef';
 import {isEnterprise} from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
@@ -29,8 +28,28 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 	staleWhileRevalidate: {days: 30},
 });
 
+const styleHotfixesScriptId = 'style-hotfixes-injector';
+const styleHotfixesMatches = ['https://github.com/*', 'https://gist.github.com/*'];
+
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
-	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
+	async updater(version: string): Promise<string> {
+		const css = await fetchHotfix(`style/${version}.css`);
+
+		// Always unregister the previous registration first
+		await chrome.scripting.unregisterContentScripts({ids: [styleHotfixesScriptId]}).catch(() => {/* Not registered */});
+
+		if (css) {
+			await chrome.scripting.registerContentScripts([{
+				id: styleHotfixesScriptId,
+				matches: styleHotfixesMatches,
+				js: ['assets/hotfix-css-injector.js'],
+				runAt: 'document_end',
+				persistAcrossSessions: true,
+			}]);
+		}
+
+		return css;
+	},
 
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},
@@ -57,15 +76,6 @@ export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> 
 	}
 
 	return options;
-}
-
-export async function applyStyleHotfixes(style: string): Promise<void> {
-	if (!style || isDevelopmentVersion() || isEnterprise()) {
-		return;
-	}
-
-	// Prepend to body because that's the only way to guarantee they come after the static file
-	document.body.prepend(<style>{style}</style>);
 }
 
 let localStrings: Record<string, string> = {};

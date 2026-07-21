@@ -16,11 +16,11 @@ import {catchErrors, disableErrorLogging} from './helpers/errors.js';
 import {getFeatureId, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/feature-utils.js';
 import {
-	applyStyleHotfixes,
 	brokenFeatures,
 	getLocalHotfixesAsOptions,
 	preloadSyncLocalStrings,
 } from './helpers/hotfix.js';
+import isDevelopmentVersion from './helpers/is-development-version.js';
 import ArrayMap from './helpers/map-of-arrays.js';
 import waitFor from './helpers/wait-for.js';
 import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
@@ -118,7 +118,10 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 
 	// Request in the background page to avoid showing a 404 request in the console
 	// https://github.com/refined-github/refined-github/issues/6433
-	void messageRuntime<string>({getStyleHotfixes: true}).then(applyStyleHotfixes);
+	// The background fetches the CSS and registers it via registerContentScripts for future pages
+	if (!isDevelopmentVersion() && !pageDetect.isEnterprise()) {
+		void messageRuntime({getStyleHotfixes: true});
+	}
 
 	if (options.customCss.trim().length > 0) {
 		// Review #5857 and #5493 before making changes

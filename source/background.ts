@@ -115,6 +115,12 @@ chrome.runtime.onInstalled.addListener(async () => {
 		await globalCache.clear();
 	}
 
+	// Clear the registered hotfix CSS and its cache so the new version's CSS is fetched and re-registered
+	await Promise.all([
+		chrome.scripting.unregisterContentScripts({ids: ['style-hotfixes-injector']}).catch(() => {/* Not registered */}),
+		styleHotfixes.delete(version),
+	]);
+
 	// Call after the reset above just in case we nuked Safari's base permissions
 	await showWelcomePage();
 });

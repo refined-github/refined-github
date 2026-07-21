@@ -43,6 +43,7 @@ const rollup = {
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
 		background: './source/background.ts',
+		'hotfix-css-injector': './source/hotfix-css-injector.ts',
 	},
 	output: {
 		dir: 'distribution/assets',
