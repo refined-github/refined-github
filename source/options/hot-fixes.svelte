@@ -21,6 +21,11 @@
 		hotfixesPromise = styleHotfixes.getFresh(version);
 		brokenFeaturesPromise = brokenFeatures.getFresh();
 	}
+
+	function emptyHotfixes(): void {
+		hotfixesPromise = styleHotfixes.applyOverride([version], '');
+		brokenFeaturesPromise = brokenFeatures.applyOverride([], []);
+	}
 </script>
 <p>In order to address severe issues as quickly as possible, Refined GitHub
 	loads a list of disabled features and temporary CSS fixes.
@@ -36,6 +41,9 @@
 	<p>
 		<button type="button" onclick={refreshHotfixes}>
 			Update hotfixes
+		</button>
+		<button type="button" onclick={emptyHotfixes}>
+			Empty hotfixes
 		</button>
 	</p>
 	{#await hotfixesPromise then hotfixes}
