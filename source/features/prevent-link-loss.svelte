@@ -13,7 +13,7 @@
 		preventDiscussionLinkLoss,
 		preventPrCommitLinkLoss,
 		preventPrCompareLinkLoss,
-	} from '../github-helpers/prevent-link-loss';
+	} from '../github-helpers/prevent-link-loss.js';
 
 	const {field} = $props<{field: HTMLTextAreaElement}>();
 
