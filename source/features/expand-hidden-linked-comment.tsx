@@ -50,6 +50,6 @@ Test URLs
 
 Legacy timeline UI, hidden comment: https://github.com/refined-github/sandbox/pull/47#issuecomment-1257136170
 Legacy timeline UI, hidden review comment: https://github.com/refined-github/sandbox/pull/47#discussion_r979366049
-New Issues UI, hidden comment: https://github.com/refined-github/sandbox/issues/131#issuecomment-4297544223
+Hidden issue comment: https://github.com/refined-github/sandbox/issues/131#issuecomment-4297544223
 
 */
