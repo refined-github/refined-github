@@ -24,7 +24,7 @@ async function expandLinkedComment(): Promise<void> {
 		return;
 	}
 
-	// New React-based Issues UI
+	// React-based UI
 	const unfoldButton = closestElementOptional('[data-testid="comment-header"]', target)
 		?.querySelector<HTMLButtonElement>('button:has(> .octicon-unfold)');
 	if (unfoldButton) {
