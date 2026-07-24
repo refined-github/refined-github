@@ -26,10 +26,12 @@
 				}
 
 				.Box-body {
-					margin-top: -4px;
 					border: 1px solid
 						var(--borderColor-default, var(--color-border-default, fuchsia));
 					border-radius: var(--borderRadius-medium);
+					border-top: none;
+					border-top-left-radius: 0;
+					border-top-right-radius: 0;
 					margin-bottom: var(--base-size-16, 16px) !important;
 				}
 			}
