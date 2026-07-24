@@ -16,10 +16,27 @@
 					var(--rgh-background);
 			}
 
-			/* Grouped by repo; .Box only contains the header */
+			display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
+
+			/* Grouped by date */
+			/* .Box contains the header and the body */
+			&.notifications-list {
+				.Box-header {
+					margin-inline: 0;
+				}
+
+				.Box-body {
+					margin-top: -4px;
+					border: 1px solid
+						var(--borderColor-default, var(--color-border-default, fuchsia));
+					border-radius: var(--borderRadius-medium);
+				}
+			}
+
+			/* Grouped by repo */
+			/* .Box only contains the header */
 			&:not(.notifications-list) {
-				display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
-				& .Box-header {
+				.Box-header {
 					/* Since its section already has its own .Box-header, we try to further "elevate" it */
 					box-shadow: 0 0 var(--shadow-blur-radius) var(--shadow-spread-radius)
 						var(--rgh-background);
