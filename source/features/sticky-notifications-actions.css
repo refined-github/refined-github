@@ -30,6 +30,7 @@
 					border: 1px solid
 						var(--borderColor-default, var(--color-border-default, fuchsia));
 					border-radius: var(--borderRadius-medium);
+					margin-bottom: var(--base-size-16, 16px) !important;
 				}
 			}
 
