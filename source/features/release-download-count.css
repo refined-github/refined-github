@@ -1,5 +1,8 @@
 /* Simulates fixed columns */
 .rgh-release-download-count {
+	/* `.flex-wrap` makes the element overflow. This prevents it */
+	max-width: 100%;
+
 	& > span:not(:last-child, [data-view-component]) {
 		flex-basis: 0 !important;
 		min-width: 5em;
