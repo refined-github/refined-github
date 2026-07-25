@@ -48,10 +48,14 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Match the asset in the DOM to the asset in the API response
 		const downloadCount = assets[assetLink.pathname.split('/').pop()!] ?? 0;
 
+		// Avoid overflow/overlap
+		const row = closestElement('.Box-row', assetLink);
+		row.classList.add('flex-wrap');
+
 		// Re-align the asset size
 		const assetSize = $(
 			':scope > .flex-justify-end > span:has(+ span relative-time)',
-			closestElement('.Box-row', assetLink),
+			row
 		);
 		assertNodeContent(assetSize.firstChild, /^\d+(?:\.\d+)? \w{2,5}$/);
 
@@ -65,12 +69,6 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Add class to parent in order to define "columns"
 		assetSize.parentElement!.classList.add('rgh-release-download-count', 'gap-4');
-
-		const hash = $optional(':scope > div:has(clipboard-copy)', assetSize.parentElement!);
-		// Hide sha on mobile. They have the classes but they're not correct (they hide in mid sizes, but show on smallest and largest)
-		hash?.classList.add('d-none', 'd-md-flex');
-		// Prevent sha from being clipped
-		hash?.style.setProperty('min-width', '100px');
 
 		const widget = (
 			<span className={cx(getClasses(assetSize))}>
