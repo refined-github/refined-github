@@ -1,11 +1,12 @@
 /* Matches the md query, but inverted */
 html:not([rgh-OFF-notifications-ui]) {
+	--gap: 8px;
 	/* Mobile layout without sidebar */
 	@media screen and not (min-width: 768px) {
 		/* Place top 3 dropdown buttons in a row */
 		.js-notifications-container > h1.sr-only + .d-md-none {
 			display: flex !important;
-			gap: 12px;
+			gap: var(--gap);
 			flex-wrap: wrap;
 		}
 
@@ -33,6 +34,12 @@ html:not([rgh-OFF-notifications-ui]) {
 		.js-check-all-container > .flex-lg-row {
 			flex-direction: row !important;
 			flex-wrap: wrap;
+			column-gap: var(--gap);
+		}
+
+		/* Drop margin on gear button */
+		[aria-label='Customize filters'] {
+			margin: 0 !important;
 		}
 
 		.notification-sort-by {
@@ -46,9 +53,15 @@ html:not([rgh-OFF-notifications-ui]) {
 			order: 6;
 		}
 
-		/* Move search box to the bottom */
-		.notifications-query-builder-wrapper {
+		/* Move search box to the bottom, unless it's missing "All|Unread" (any ?query= URL) */
+		.notifications-query-builder-wrapper:not(:first-child) {
 			order: 9;
+		}
+
+		/* Move search box inline when it's missing "All|Unread" (any ?query= URL) */
+		.notifications-query-builder-wrapper:first-child {
+			width: auto !important;
+			flex-grow: 1;
 		}
 	}
 

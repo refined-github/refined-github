@@ -93,12 +93,11 @@ function unwrapActions(details: HTMLDetailsElement): void {
 }
 
 function init(signal: AbortSignal): void {
+	observe('.notification-sort-by', compactDropdown, {signal});
 	observe('.js-notifications-mark-selected-actions details.dropdown', unwrapActions, {signal});
 
-	// Unread, Sort, Group are only available on the Inbox tab.
-	// This leaves the row with just a small "sort by" dropdown, so it's best to disable `compactDropdown` as well.
+	// Grouping is only available on the Inbox tab
 	if (!new URLSearchParams(location.search).get('query')) {
-		observe('.notification-sort-by', compactDropdown, {signal});
 		observe('.notification-group-by', replaceDropdown, {signal});
 	}
 }
