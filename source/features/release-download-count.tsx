@@ -55,7 +55,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		// Re-align the asset size
 		const assetSize = $(
 			':scope > .flex-justify-end > span:has(+ span relative-time)',
-			row
+			row,
 		);
 		assertNodeContent(assetSize.firstChild, /^\d+(?:\.\d+)? \w{2,5}$/);
 
