@@ -4,6 +4,12 @@
 		--shadow-blur-radius: 10px;
 		--shadow-spread-radius: 10px;
 
+		/* By date */
+		.Box.js-notifications-list {
+			/* Enables position:sticky and allows the "shadow" to be visible */
+			overflow: visible !important;
+		}
+
 		.Box:has(.js-notifications-mark-all-prompt) {
 			& .Box-header {
 				position: sticky;
