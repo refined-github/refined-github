@@ -36,7 +36,8 @@ async function addInfo(statusMeta: Element): Promise<void> {
 
 	const previousMessage = statusMeta.firstChild!; // Extract now because it won't be the first child anymore
 	statusMeta.prepend(getBaseCommitNotice(prInfo));
-	if (isTextNodeContaining(previousMessage, 'Merging can be performed automatically.')) {
+	// When there are conflicts, GitHub wraps the text in a span, so only attempt removal on text nodes
+	if (previousMessage instanceof Text && isTextNodeContaining(previousMessage, 'Merging can be performed automatically.')) {
 		previousMessage.remove();
 	}
 }
