@@ -1,5 +1,6 @@
 /* Matches the md query, but inverted */
 html:not([rgh-OFF-notifications-ui]) {
+	/* Mobile layout without sidebar */
 	@media screen and not (min-width: 768px) {
 		/* Place top 3 dropdown buttons in a row */
 		.js-notifications-container > h1.sr-only + .d-md-none {
@@ -14,7 +15,10 @@ html:not([rgh-OFF-notifications-ui]) {
 			margin: 0 !important;
 			order: 10;
 		}
+	}
 
+	/* Mobile + sidebar layout */
+	@media screen and not (min-width: 1012px) {
 		/* Keep the "Inbox" dropdown as wide as possible */
 		.manage-notifications-responsive + .d-flex {
 			flex-grow: 1;
@@ -25,21 +29,18 @@ html:not([rgh-OFF-notifications-ui]) {
 			display: none !important;
 		}
 
-		/* Allow the filters/sort/search to be ordered */
-		.js-check-all-container > .d-md-none:first-child {
-			display: flex !important;
+		/* Place "All | Unread", sort, group on one line */
+		.js-check-all-container > .flex-lg-row {
+			flex-direction: row !important;
 			flex-wrap: wrap;
-			column-gap: 12px;
-
-			/* Scale back "All | Unread" selector so it doesn't take the full width */
-			& > .BtnGroup:first-child {
-				width: auto;
-			}
 		}
 
-		/* Move "1 new notification" to the center */
 		.notification-sort-by {
+			/* Move "1 new notification" to the center */
 			order: 3;
+
+			/* Align sort/group to the right */
+			margin-left: auto;
 		}
 		.notification-group-by {
 			order: 6;
