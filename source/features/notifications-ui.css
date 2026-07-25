@@ -29,7 +29,7 @@ html:not([rgh-OFF-notifications-ui]) {
 			display: none !important;
 		}
 
-		/* Place "All | Unread", sort, group on one line */
+		/* Place Unread, Sort, Group on one line */
 		.js-check-all-container > .flex-lg-row {
 			flex-direction: row !important;
 			flex-wrap: wrap;
