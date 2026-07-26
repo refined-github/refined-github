@@ -6,12 +6,12 @@ import {$optional, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 
 async function expandLinkedComment(): Promise<void> {
-	const id = location.hash.slice(1);
+	const id = location.hash;
 	if (!id) {
 		return;
 	}
 
-	const target = await elementReady(`#${CSS.escape(id)}`, {waitForChildren: false});
+	const target = await elementReady(id, {waitForChildren: false});
 	if (!target) {
 		return;
 	}
