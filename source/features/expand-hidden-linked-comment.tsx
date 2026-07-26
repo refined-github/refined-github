@@ -1,17 +1,20 @@
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 
 import {$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {waitForElement} from '../helpers/selector-observer.js';
 
-async function expandLinkedComment(): Promise<void> {
+async function expandLinkedComment(signal: AbortSignal): Promise<void> {
 	const id = location.hash;
 	if (!id) {
 		return;
 	}
 
-	const target = await elementReady(id, {waitForChildren: false});
+	// `elementReady` resolves at "dom ready", but comments are loaded after that, so `waitForElement` is needed instead
+	const target = await waitForElement(id, {
+		signal: AbortSignal.any([signal, AbortSignal.timeout(5000)]),
+	});
 	if (!target) {
 		return;
 	}
@@ -33,8 +36,10 @@ async function expandLinkedComment(): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	await expandLinkedComment();
-	globalThis.addEventListener('hashchange', expandLinkedComment, {signal});
+	await expandLinkedComment(signal);
+	globalThis.addEventListener('hashchange', () => {
+		void expandLinkedComment(signal);
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
