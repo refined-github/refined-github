@@ -1,5 +1,9 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
+
+// eslint-disable-next-line import-x/no-unassigned-import -- custom component
+import './options.svelte';
+
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
 
@@ -14,7 +18,7 @@ import initToggleAllButtons from './options/toggle-all.js';
 
 function sortFeatures(): void {
 	const container = $('.js-features');
-	const features = $$('feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
+	const features = $$('.feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
@@ -52,7 +56,7 @@ const syncedForm = await perDomainOptions.syncForm('form');
 
 // <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 // This triggers a proper run
-for (const tokenField of $$('token-input input')) {
+for (const tokenField of $$('input[name="personalToken"]')) {
 	informComponentOfExternalUpdate(tokenField);
 }
 

@@ -1,6 +1,7 @@
 <svelte:options
 	customElement={{
 		tag: 'rgh-options',
+		shadow: 'none',
 		props: {
 			host: {
 				reflect: true,
@@ -41,10 +42,6 @@
 <form id="options-form" class="detail-view-container">
 	<!-- Captures and ignores native enter-to-submit action -->
 	<button type="submit" hidden>Capture Submit</button>
-
-	<p id="js-failed" class="error-banner"
-	>JavaScript failed to load. Your development build failed or your browser has
-		some issue.</p>
 
 	<BackgroundStatus />
 

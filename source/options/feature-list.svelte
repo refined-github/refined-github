@@ -41,6 +41,7 @@
 			{@const hotfixIssue = fixes.find(([hotfixId]) => hotfixId === feature.id)?.[1]}
 
 			<div
+				class="feature-item"
 				data-text={searchText}
 				hidden={keywords.some(word => !searchText.includes(word))}
 			>
@@ -54,3 +55,26 @@
 		{/each}
 	</div>
 {/await}
+
+<style>
+	.feature-item:not([hidden]) {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0 0.4em;
+		padding: 0.5em 0;
+	}
+
+	.feature-item:first-of-type {
+		padding-top: 0;
+	}
+
+	.feature-item:target {
+		outline: solid 2px transparent;
+		border-radius: var(--border-radius);
+		animation-name: blink-border;
+		animation-duration: 1.5s;
+		animation-iteration-count: 2;
+		scroll-margin-top: 64px;
+	}
+</style>
