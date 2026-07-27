@@ -11,3 +11,4 @@ import './rate-link.svelte';
 import './storage-usage.svelte';
 import './token-input.svelte';
 import './version-info.svelte';
+import './header.svelte';
