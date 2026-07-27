@@ -1,14 +1,26 @@
 <svelte:options customElement="rgh-options" />
 
 <script lang="ts">
-import Header from './options/header.svelte';
-
+	import Header from './options/header.svelte';
+	import ActionLink from './action-link.svelte';
+	import BackgroundStatus from './background-status.svelte';
+	import FeatureCount from './feature-count.svelte';
+	import FeatureFinder from './feature-finder.svelte';
+	import FeatureItem from './feature-item.svelte';
+	import FeatureList from './feature-list.svelte';
+	import HandleExpand from './handle-expand.svelte';
+	import HotFixes from './hot-fixes.svelte';
+	import RateLink from './rate-link.svelte';
+	import StorageUsage from './storage-usage.svelte';
+	import TokenInput from './token-input.svelte';
+	import VersionInfo from './version-info.svelte';
+	import AppHeader from './header.svelte';
 </script>
 
 <Header title="Refined GitHub" withVersion>
 	<p>
 		Visit the <a href="https://github.com/refined-github/refined-github/wiki">wiki</a> to learn about updates, debugging, and GitHub Enterprise.
-		You can <rate-link>rate Refined GitHub</rate-link> to help others find it.
+		You can <RateLink>rate Refined GitHub</RateLink> to help others find it.
 		Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
 	</p>
 </Header>
@@ -19,123 +31,178 @@ import Header from './options/header.svelte';
 
 	<p id="js-failed" class="error-banner">JavaScript failed to load. Your development build failed or your browser has some issue.</p>
 
-	<background-status></background-status>
+	<BackgroundStatus />
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="token">
 			<summary><strong>🔑 Personal token</strong></summary>
 			<!-- Keep this URL in sync with welcome.svelte -->
-			<p>You should <a id="personal-token-link" href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none">generate a token</a> to ensure that every feature works correctly. You can read more about the token on <a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a></p>
+			<p>
+				You should
+				<a
+					id="personal-token-link"
+					href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none"
+				>
+					generate a token
+				</a>
+				to ensure that every feature works correctly. You can read more about the token on
+				<a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a>
+			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
-			<token-input></token-input>
+			<TokenInput />
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="toggle-all" hidden>
 			<summary><strong>🏳️ Toggle all features</strong></summary>
 			<p>
-				If you're trying to identify a feature, please use "Identify feature" instead. Refined GitHub only implements lightweight features that are helpful to most people, even if they're tiny improvements. They're meant to "blend in" and fill in the gaps of GitHub's interface.
+				If you're trying to identify a feature, please use "Identify feature" instead.
+				Refined GitHub only implements lightweight features that are helpful to most people,
+				even if they're tiny improvements. They're meant to "blend in" and fill in the gaps
+				of GitHub's interface.
 			</p>
 			<p>
-				If you want to go through and only select a few improvements, you'll miss out on the best parts of Refined GitHub. Also note that new features will still be enabled by default and that some CSS-only refinements cannot be disabled.
+				If you want to go through and only select a few improvements, you'll miss out on the
+				best parts of Refined GitHub. Also note that new features will still be enabled by
+				default and that some CSS-only refinements cannot be disabled.
 			</p>
 			<p>
 				<button id="disable-all-features" type="button">Disable all features</button>
 				<button id="enable-all-features" type="button">Enable all features</button>
 			</p>
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="features">
 			<!-- No space, there's a colon after "Features" -->
-			<summary><strong>🔋 Features<feature-count></feature-count></strong></summary>
-			<feature-list></feature-list>
+			<summary><strong>🔋 Features<FeatureCount /></strong></summary>
+			<FeatureList />
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="bisect">
 			<summary><strong>🔎 Identify feature</strong></summary>
-			<feature-finder></feature-finder>
+			<FeatureFinder />
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="css">
 			<summary><strong>💅 Custom CSS</strong></summary>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
+
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
-			<p><textarea class="monospace-field" name="customCss" rows="2" spellcheck="false"></textarea></p>
-			<p>Options storage: <storage-usage area="sync" item="options">unknown</storage-usage></p>
-			<p>When the storage is full, the options <a href="https://github.com/fregante/webext-options-sync/issues/27">will stop being saved</a>. If you need to use a lot of CSS, use a dedicated userstyle extension.</p>
+			<p>
+				<textarea
+					class="monospace-field"
+					name="customCss"
+					rows="2"
+					spellcheck="false"
+				></textarea>
+			</p>
+
+			<p>
+				Options storage:
+				<StorageUsage area="sync" item="options">unknown</StorageUsage>
+			</p>
+
+			<p>
+				When the storage is full, the options
+				<a href="https://github.com/fregante/webext-options-sync/issues/27">
+					will stop being saved
+				</a>.
+				If you need to use a lot of CSS, use a dedicated userstyle extension.
+			</p>
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
-		<action-link></action-link>
-	</handle-expand>
+	<HandleExpand>
+		<ActionLink />
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="debugging">
 			<summary><strong>🐛 Debugging</strong></summary>
+
 			<p>
 				<label>
-					<input type="checkbox" name="logging">
+					<input type="checkbox" name="logging" />
 					Show the features enabled on each page in the console
 				</label>
 			</p>
+
 			<p>
 				<label>
-					<input type="checkbox" name="logHttp">
-						Log API calls in the console
+					<input type="checkbox" name="logHttp" />
+					Log API calls in the console
 				</label>
 			</p>
+
 			<p>
-				Options storage: <storage-usage area="sync" item="options">unknown</storage-usage><br>
-				Cache storage: <storage-usage area="local">unknown</storage-usage><br>
-				Refined Github version: <rgh-version></rgh-version>
+				Options storage:
+				<StorageUsage area="sync" item="options">unknown</StorageUsage>
+				<br />
+				Cache storage:
+				<StorageUsage area="local">unknown</StorageUsage>
+				<br />
+				Refined Github version:
+				<VersionInfo />
 			</p>
+
 			<p>
 				<button id="clear-cache" type="button">Clear cache</button>
 			</p>
+
 			<p>
 				<!-- Native link that looks like a button (to blend in better). Don't @ me -->
-				<button type="submit" form="welcome-page-link">Open welcome page</button>
+				<button type="submit" form="welcome-page-link">
+					Open welcome page
+				</button>
 			</p>
+
 			<p>
-				<button type="submit" form="graphql-page-link">Open GraphQL tester</button>
+				<button type="submit" form="graphql-page-link">
+					Open GraphQL tester
+				</button>
 			</p>
+
 			<p>
-				<button id="toggle-all-features" type="button">Toggle all features…</button>
+				<button id="toggle-all-features" type="button">
+					Toggle all features…
+				</button>
 			</p>
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="hotfixes">
 			<summary><strong>☄️ Hotfixes</strong></summary>
-			<hot-fixes></hot-fixes>
+			<HotFixes />
 		</details>
-	</handle-expand>
+	</HandleExpand>
 
-	<handle-expand>
+	<HandleExpand>
 		<details id="export">
 			<summary><strong>🗄️ Export options</strong></summary>
+
 			<p>
-				You can export and import options across browsers and devices via a JSON file. If you're a GitHub Enterprise user, you will need to export each domain separately.
+				You can export and import options across browsers and devices via a JSON file.
+				If you're a GitHub Enterprise user, you will need to export each domain separately.
 			</p>
+
 			<p>
 				<strong>Note</strong> that your options include your access token if provided.
 			</p>
+
 			<p>
 				<button type="button" class="js-export">Export</button>
 				<button type="button" class="js-import">Import</button>
 			</p>
 		</details>
-	</handle-expand>
-
+	</HandleExpand>
 </form>
 
 <!-- Native link that looks like a button (to blend in better). Don't @ me -->
