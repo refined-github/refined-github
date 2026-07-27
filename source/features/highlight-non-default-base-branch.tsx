@@ -1,3 +1,5 @@
+import './highlight-non-default-base-branch.css';
+
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -61,7 +63,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
-		<span className="ml-2 tmp-ml-2">
+		<span className="ml-2 tmp-ml-2 rgh-base-branch">
 			<GitPullRequestIcon />
 			{' To '}
 			<span
