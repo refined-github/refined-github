@@ -70,25 +70,10 @@ syncedForm.onChange(async domain => {
 	// Point the link to the right domain
 	$('a#personal-token-link').host = host;
 
-	for (
-		const element of $$([
-			// Hot fixes are not used on GHE
-			'hot-fixes',
+	$('rgh-options').domain = domain;
 
-			// There's only one button, it doesn't depend on GHE https://github.com/refined-github/refined-github/issues/7704
-			'action-link',
-		])
-	) {
-		element.toggleAttribute('enterprise', domain !== 'default');
-	}
-
-	for (const element of $$('storage-usage[item]')) {
-		element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
-	}
-
-	for (const element of $$('token-input')) {
-		element.setAttribute('host', host);
-		informComponentOfExternalUpdate($('input', element));
+	for (const input of $$('input[name="personalToken"]')) {
+		informComponentOfExternalUpdate(input);
 	}
 
 	updateListDom();

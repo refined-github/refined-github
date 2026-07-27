@@ -1,27 +1,40 @@
-<svelte:options customElement="rgh-options" />
+<svelte:options
+	customElement={{
+		tag: 'rgh-options',
+		props: {
+			host: {
+				reflect: true,
+				type: 'String',
+			},
+		},
+	}}
+/>
 
 <script lang="ts">
+	import ActionLink from './options/action-link.svelte';
+	import BackgroundStatus from './options/background-status.svelte';
+	import FeatureCount from './options/feature-count.svelte';
+	import FeatureFinder from './options/feature-finder.svelte';
+	import FeatureList from './options/feature-list.svelte';
+	import HandleExpand from './options/handle-expand.svelte';
 	import Header from './options/header.svelte';
-	import ActionLink from './action-link.svelte';
-	import BackgroundStatus from './background-status.svelte';
-	import FeatureCount from './feature-count.svelte';
-	import FeatureFinder from './feature-finder.svelte';
-	import FeatureItem from './feature-item.svelte';
-	import FeatureList from './feature-list.svelte';
-	import HandleExpand from './handle-expand.svelte';
-	import HotFixes from './hot-fixes.svelte';
-	import RateLink from './rate-link.svelte';
-	import StorageUsage from './storage-usage.svelte';
-	import TokenInput from './token-input.svelte';
-	import VersionInfo from './version-info.svelte';
-	import AppHeader from './header.svelte';
+	import HotFixes from './options/hot-fixes.svelte';
+	import RateLink from './options/rate-link.svelte';
+	import StorageUsage from './options/storage-usage.svelte';
+	import TokenInput from './options/token-input.svelte';
+	import VersionInfo from './options/version-info.svelte';
+
+	const {domain = 'default'} = $props();
+	const enterprise = $derived(domain !== 'default');
 </script>
 
 <Header title="Refined GitHub" withVersion>
 	<p>
-		Visit the <a href="https://github.com/refined-github/refined-github/wiki">wiki</a> to learn about updates, debugging, and GitHub Enterprise.
-		You can <RateLink>rate Refined GitHub</RateLink> to help others find it.
-		Follow or sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if Refined GitHub helps you work more efficiently. 🍻
+		Visit the <a href="https://github.com/refined-github/refined-github/wiki"
+		>wiki</a> to learn about updates, debugging, and GitHub Enterprise. You can
+		<RateLink>rate Refined GitHub</RateLink> to help others find it. Follow or
+		sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if
+		Refined GitHub helps you work more efficiently. 🍻
 	</p>
 </Header>
 
@@ -29,7 +42,9 @@
 	<!-- Captures and ignores native enter-to-submit action -->
 	<button type="submit" hidden>Capture Submit</button>
 
-	<p id="js-failed" class="error-banner">JavaScript failed to load. Your development build failed or your browser has some issue.</p>
+	<p id="js-failed" class="error-banner"
+	>JavaScript failed to load. Your development build failed or your browser has
+		some issue.</p>
 
 	<BackgroundStatus />
 
@@ -41,12 +56,16 @@
 				You should
 				<a
 					id="personal-token-link"
-					href="https://github.com/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none"
+					href={`https://${
+						domain === 'default' ? 'github.com' : domain
+					}/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none`}
 				>
 					generate a token
 				</a>
-				to ensure that every feature works correctly. You can read more about the token on
-				<a href="https://github.com/refined-github/refined-github/wiki/Security">the wiki.</a>
+				to ensure that every feature works correctly. You can read more about
+				the token on
+				<a href="https://github.com/refined-github/refined-github/wiki/Security"
+				>the wiki.</a>
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
 			<TokenInput />
@@ -57,19 +76,22 @@
 		<details id="toggle-all" hidden>
 			<summary><strong>🏳️ Toggle all features</strong></summary>
 			<p>
-				If you're trying to identify a feature, please use "Identify feature" instead.
-				Refined GitHub only implements lightweight features that are helpful to most people,
-				even if they're tiny improvements. They're meant to "blend in" and fill in the gaps
-				of GitHub's interface.
+				If you're trying to identify a feature, please use "Identify feature"
+				instead. Refined GitHub only implements lightweight features that are
+				helpful to most people, even if they're tiny improvements. They're meant
+				to "blend in" and fill in the gaps of GitHub's interface.
 			</p>
 			<p>
-				If you want to go through and only select a few improvements, you'll miss out on the
-				best parts of Refined GitHub. Also note that new features will still be enabled by
-				default and that some CSS-only refinements cannot be disabled.
+				If you want to go through and only select a few improvements, you'll
+				miss out on the best parts of Refined GitHub. Also note that new
+				features will still be enabled by default and that some CSS-only
+				refinements cannot be disabled.
 			</p>
 			<p>
-				<button id="disable-all-features" type="button">Disable all features</button>
-				<button id="enable-all-features" type="button">Enable all features</button>
+				<button id="disable-all-features" type="button"
+				>Disable all features</button>
+				<button id="enable-all-features" type="button"
+				>Enable all features</button>
 			</p>
 		</details>
 	</HandleExpand>
@@ -106,21 +128,24 @@
 
 			<p>
 				Options storage:
-				<StorageUsage area="sync" item="options">unknown</StorageUsage>
+				<StorageUsage
+					area="sync"
+					item={domain === 'default' ? 'options' : 'options:' + domain}
+				/>
 			</p>
 
 			<p>
 				When the storage is full, the options
 				<a href="https://github.com/fregante/webext-options-sync/issues/27">
 					will stop being saved
-				</a>.
-				If you need to use a lot of CSS, use a dedicated userstyle extension.
+				</a>. If you need to use a lot of CSS, use a dedicated userstyle
+				extension.
 			</p>
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
-		<ActionLink />
+		<ActionLink {enterprise} />
 	</HandleExpand>
 
 	<HandleExpand>
@@ -143,10 +168,10 @@
 
 			<p>
 				Options storage:
-				<StorageUsage area="sync" item="options">unknown</StorageUsage>
+				<StorageUsage area="sync" item="options" />
 				<br />
 				Cache storage:
-				<StorageUsage area="local">unknown</StorageUsage>
+				<StorageUsage area="local" />
 				<br />
 				Refined Github version:
 				<VersionInfo />
@@ -180,7 +205,7 @@
 	<HandleExpand>
 		<details id="hotfixes">
 			<summary><strong>☄️ Hotfixes</strong></summary>
-			<HotFixes />
+			<HotFixes {enterprise} />
 		</details>
 	</HandleExpand>
 
@@ -189,12 +214,14 @@
 			<summary><strong>🗄️ Export options</strong></summary>
 
 			<p>
-				You can export and import options across browsers and devices via a JSON file.
-				If you're a GitHub Enterprise user, you will need to export each domain separately.
+				You can export and import options across browsers and devices via a JSON
+				file. If you're a GitHub Enterprise user, you will need to export each
+				domain separately.
 			</p>
 
 			<p>
-				<strong>Note</strong> that your options include your access token if provided.
+				<strong>Note</strong> that your options include your access token if
+				provided.
 			</p>
 
 			<p>
@@ -206,5 +233,15 @@
 </form>
 
 <!-- Native link that looks like a button (to blend in better). Don't @ me -->
-<form id="welcome-page-link" action="./welcome.html" method="get" target="_blank"></form>
-<form id="graphql-page-link" action="./graphql.html" method="get" target="_blank"></form>
+<form
+	id="welcome-page-link"
+	action="./welcome.html"
+	method="get"
+	target="_blank"
+></form>
+<form
+	id="graphql-page-link"
+	action="./graphql.html"
+	method="get"
+	target="_blank"
+></form>

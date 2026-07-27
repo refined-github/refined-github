@@ -2,6 +2,8 @@
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
 
+	import FeatureItem from './feature-item.svelte';
+
 	let filterText = $state('');
 	const hotfixesPromise = getLocalHotfixes();
 
@@ -38,14 +40,17 @@
 
 			{@const hotfixIssue = fixes.find(([hotfixId]) => hotfixId === feature.id)?.[1]}
 
-			<feature-item
+			<div
 				data-text={searchText}
-				id={feature.id}
-				description={feature.description}
-				screenshot={feature.screenshot}
 				hidden={keywords.some(word => !searchText.includes(word))}
-				hotfixIssue={hotfixIssue}
-			></feature-item>
+			>
+				<FeatureItem
+					id={feature.id}
+					description={feature.description}
+					screenshot={feature.screenshot}
+					hotfixIssue={hotfixIssue}
+				/>
+			</div>
 		{/each}
 	</div>
 {/await}

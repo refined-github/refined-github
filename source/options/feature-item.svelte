@@ -8,7 +8,7 @@
 		// eslint-disable-next-line no-undef
 		id: FeatureId;
 		description: string;
-		screenshot?: string;
+		screenshot?: string | null;
 		hotfixIssue?: string;
 	} = $props();
 
