@@ -35,7 +35,6 @@ const noise = new Set([
 const rollup = {
 	input: {
 		options: './source/options.tsx',
-		'options-components': './source/options/svelte-components.ts',
 		welcome: './source/welcome.svelte',
 		graphql: './source/graphql.svelte',
 

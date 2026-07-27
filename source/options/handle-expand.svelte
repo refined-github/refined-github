@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'handle-expand',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {$ as expectElement, $optional as querySelector} from 'select-dom';
 	import {onMount} from 'svelte';

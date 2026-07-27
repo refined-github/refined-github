@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'feature-item',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {$$ as querySelectorAll} from 'select-dom';
 

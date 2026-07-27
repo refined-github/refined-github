@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'feature-list',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {getLocalHotfixes} from '../helpers/hotfix.js';
