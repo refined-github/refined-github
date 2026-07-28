@@ -116,10 +116,12 @@ jobs:
       - run: npm run build:bundle
         env:
           RELATIVE_CI_STATS: true
-      - name: Upload bundle stats artifact
+      - name: Upload to RelativeCI
         if: matrix.os == 'ubuntu-latest'
-        uses: relative-ci/agent-upload-artifact-action@a2b5741b4f7e6a989c84ec1a3059696b23c152e5 # v2.0.0
+        uses: relative-ci/agent-action@fcf45416581928e8dd62eded78ce98c78e5149f8 # v3.2.3
         with:
+          key: ${{ secrets.RELATIVE_CI_KEY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           webpackStatsFile: ./distribution/assets/webpack-stats.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: matrix.os == 'ubuntu-latest'
