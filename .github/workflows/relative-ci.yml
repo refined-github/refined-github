@@ -2,7 +2,7 @@ name: RelativeCI
 
 on:
   workflow_run:
-    workflows: [Test]
+    workflows: [CI]
     types:
       - completed
 

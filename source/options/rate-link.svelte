@@ -1,9 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'rate-link',
-	}}
-/>
-
 <script lang="ts">
 	import {isChrome, isFirefox} from 'webext-detect';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention -- Declaration merging */
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
 
 declare module '*.svelte';
@@ -38,6 +39,10 @@ interface GlobalEventHandlersEventMap {
 	'turbo:visit': CustomEvent;
 }
 
+interface HTMLElementTagNameMap {
+	'rgh-options': HTMLElement & {domain: string};
+}
+
 declare namespace JSX {
 	interface IntrinsicElements {
 		'anchored-position': IntrinsicElements.div;
@@ -68,7 +73,7 @@ interface NamedNodeMap {
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/naming-convention -- Declaration merging
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }
