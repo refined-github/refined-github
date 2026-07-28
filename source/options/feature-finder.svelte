@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'feature-finder',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {startFeatureIdentification} from '../helpers/bisect.js';
 

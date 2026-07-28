@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'background-status',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {messageRuntime} from 'webext-msg';
 

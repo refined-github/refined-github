@@ -1,5 +1,9 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
+
+// eslint-disable-next-line import-x/no-unassigned-import -- custom component
+import './options.svelte';
+
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
 
@@ -14,7 +18,7 @@ import initToggleAllButtons from './options/toggle-all.js';
 
 function sortFeatures(): void {
 	const container = $('.js-features');
-	const features = $$('feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
+	const features = $$('.feature-item').toSorted((a, b) => a.dataset.text!.localeCompare(b.dataset.text!));
 	const grouped = Object.groupBy(features, feature => {
 		const checkbox = $('input.feature-checkbox', feature);
 		return checkbox.checked ? 'on' : checkbox.disabled ? 'broken' : 'off';
@@ -52,7 +56,7 @@ const syncedForm = await perDomainOptions.syncForm('form');
 
 // <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 // This triggers a proper run
-for (const tokenField of $$('token-input input')) {
+for (const tokenField of $$('input[name="personalToken"]')) {
 	informComponentOfExternalUpdate(tokenField);
 }
 
@@ -70,25 +74,10 @@ syncedForm.onChange(async domain => {
 	// Point the link to the right domain
 	$('a#personal-token-link').host = host;
 
-	for (
-		const element of $$([
-			// Hot fixes are not used on GHE
-			'hot-fixes',
+	$('rgh-options').domain = domain;
 
-			// There's only one button, it doesn't depend on GHE https://github.com/refined-github/refined-github/issues/7704
-			'action-link',
-		])
-	) {
-		element.toggleAttribute('enterprise', domain !== 'default');
-	}
-
-	for (const element of $$('storage-usage[item]')) {
-		element.setAttribute('item', domain === 'default' ? 'options' : 'options:' + domain);
-	}
-
-	for (const element of $$('token-input')) {
-		element.setAttribute('host', host);
-		informComponentOfExternalUpdate($('input', element));
+	for (const input of $$('input[name="personalToken"]')) {
+		informComponentOfExternalUpdate(input);
 	}
 
 	updateListDom();

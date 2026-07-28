@@ -110,6 +110,10 @@ summary:hover {
 #js-failed {
 	animation: show 0s 1s both;
 	white-space: pre-line;
+
+	box-sizing: border-box;
+	width: var(--content-width);
+	margin: var(--viewport-margin) auto;
 }
 
 @keyframes show {
