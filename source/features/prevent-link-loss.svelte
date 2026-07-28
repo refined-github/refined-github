@@ -2,22 +2,15 @@
 	import debounceFn from 'debounce-fn';
 	import AlertIcon from 'octicons-plain-react/Alert';
 	import {onMount} from 'svelte';
-	import {replaceFieldText} from 'text-field-edit';
 
 	import BannerAction from '../components/banner-action.svelte';
 	import Banner from '../components/banner.svelte';
 	import {
-		discussionUrlRegex,
+		avoidLinkLoss,
 		isVulnerableToLinkLoss,
-		prCommitUrlRegex,
-		prCompareUrlRegex,
-		preventDiscussionLinkLoss,
-		preventPrCommitLinkLoss,
-		preventPrCompareLinkLoss,
 	} from '../github-helpers/prevent-link-loss.js';
 
 	const {field} = $props<{field: HTMLTextAreaElement}>();
-
 	let visible = $state(false);
 
 	function update(): void {
@@ -29,21 +22,19 @@
 	});
 
 	function fix(): void {
-		replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
-		replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
-		replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
+		avoidLinkLoss(field);
 		update();
 	}
 
 	onMount(() => {
 		update();
 
-		field.addEventListener('input', debouncedUpdate);
-		field.addEventListener('focus', update);
+		const controller = new AbortController();
+		field.addEventListener('input', debouncedUpdate, {signal: controller.signal});
+		field.addEventListener('focus', update, {signal: controller.signal});
 
 		return () => {
-			field.removeEventListener('input', debouncedUpdate);
-			field.removeEventListener('focus', update);
+			controller.abort();
 		};
 	});
 </script>
