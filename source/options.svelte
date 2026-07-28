@@ -27,7 +27,9 @@
 
 	const {domain = 'default'} = $props();
 	const enterprise = $derived(domain !== 'default');
-	const optionsStorageKey = $derived.by(() => domain === 'default' ? 'options' : 'options-' + domain);
+	const optionsStorageKey = $derived.by(() =>
+		domain === 'default' ? 'options' : 'options-' + domain
+	);
 </script>
 
 <Header title="Refined GitHub" withVersion>
