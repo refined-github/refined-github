@@ -1,5 +1,3 @@
-import './highlight-non-default-base-branch.css';
-
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
@@ -23,11 +21,14 @@ type Pr = {
 	number: number;
 };
 
-function isClosed(prLink: HTMLElement): boolean {
-	const row = closestElement([
+function getRow(prLink: HTMLElement): HTMLElement | undefined {
+	return closestElement([
 		'.js-issue-row', // Legacy DOM
 		'li',
 	], prLink);
+}
+
+function isClosed(prLink: HTMLElement): boolean {
 	return elementExists([
 		// Legacy DOM
 		'.octicon.merged',
@@ -35,7 +36,12 @@ function isClosed(prLink: HTMLElement): boolean {
 		// React DOM
 		'.octicon-git-merge',
 		'.octicon-git-pull-request-closed',
-	], row);
+	], getRow(prLink));
+}
+
+// GitHub's own stacked PR indicator already says the PR isn't going to the default branch
+function isStacked(prLink: HTMLElement): boolean {
+	return elementExists('.octicon-stack', getRow(prLink));
 }
 
 function buildQuery(prsByRepo: Map<string, Pr[]>): string {
@@ -63,7 +69,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 	const displayName = abbreviateString(baseBranch.refName, 25);
 
 	const badge = (
-		<span className="ml-2 tmp-ml-2 rgh-base-branch">
+		<span className="ml-2 tmp-ml-2">
 			<GitPullRequestIcon />
 			{' To '}
 			<span
@@ -91,6 +97,10 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	const prs = new Set<Pr>();
 	for (const link of prLinks) {
+		if (isStacked(link)) {
+			continue;
+		}
+
 		const [, owner, repo, , number] = link.pathname.split('/', 5);
 		prs.add({
 			link,
@@ -98,6 +108,10 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 			repo,
 			number: Number(number),
 		});
+	}
+
+	if (prs.size === 0) {
+		return;
 	}
 
 	const prsByRepo = Map.groupBy(prs, pr => `${pr.owner}/${pr.repo}`);
