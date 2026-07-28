@@ -1,5 +1,6 @@
 <script lang="ts">
 	import AlertIcon from 'octicons-plain-react/Alert';
+	import debounceFn from 'debounce-fn';
 	import {onMount} from 'svelte';
 	import {replaceFieldText} from 'text-field-edit';
 
@@ -23,6 +24,10 @@
 		visible = isVulnerableToLinkLoss(field.value);
 	}
 
+	const debouncedUpdate = debounceFn(update, {
+		wait: 300,
+	});
+
 	function fix(): void {
 		replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
 		replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
@@ -33,11 +38,11 @@
 	onMount(() => {
 		update();
 
-		field.addEventListener('input', update);
+		field.addEventListener('input', debouncedUpdate);
 		field.addEventListener('focus', update);
 
 		return () => {
-			field.removeEventListener('input', update);
+			field.removeEventListener('input', debouncedUpdate);
 			field.removeEventListener('focus', update);
 		};
 	});
