@@ -1,6 +1,6 @@
 <script lang="ts">
-	import AlertIcon from 'octicons-plain-react/Alert';
 	import debounceFn from 'debounce-fn';
+	import AlertIcon from 'octicons-plain-react/Alert';
 	import {onMount} from 'svelte';
 	import {replaceFieldText} from 'text-field-edit';
 
