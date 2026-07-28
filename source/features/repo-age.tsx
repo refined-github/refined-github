@@ -80,7 +80,7 @@ const firstCommit = new CachedFunction('first-commit', {
 	cacheKey: cacheByRepo,
 });
 
-async function init(signal: AbortSignal): Promise<void> {
+async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	// Construct class only when it's needed, as it is relatively expensive
 	const dateFormatter = new Intl.DateTimeFormat('en-US', {
 		year: 'numeric',
@@ -97,25 +97,26 @@ async function init(signal: AbortSignal): Promise<void> {
 		.replace(/^an?/, '1')
 		.split(' ', 2);
 
-	// Use the observer because React replaces the sidebar’s subtree during hydration, discarding the element we inserted
-	observe('[class*="PageLayout-Pane"] .octicon-repo-forked', sidebarForksLinkIcon => {
-		// The node is built on every callback because a fragment can only be inserted once
-		// About a day old or less ?
-		const age = Date.now() - birthday.getTime() < 10e7
-			? randomArrayItem(fresh)
-			: <>
-				<strong>{value}</strong> {unit} old
-			</>;
+	// About a day old or less ?
+	const age = Date.now() - birthday.getTime() < 10e7
+		? randomArrayItem(fresh)
+		: <>
+			<strong>{value}</strong> {unit} old
+		</>;
 
-		closestElement('.mt-2', sidebarForksLinkIcon).after(
-			<h3 className="sr-only">Repository age</h3>,
-			<div className="mt-2 tmp-mt-2">
-				<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-					<RepoIcon className="mr-2 tmp-mr-2" /> {age}
-				</a>
-			</div>,
-		);
-	}, {signal});
+	closestElement('.mt-2', sidebarForksLinkIcon).after(
+		<h3 className="sr-only">Repository age</h3>,
+		<div className="mt-2 tmp-mt-2">
+			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+				<RepoIcon className="mr-2 tmp-mr-2" /> {age}
+			</a>
+		</div>,
+	);
+}
+
+async function init(signal: AbortSignal): Promise<void> {
+	// Use the observer because React replaces the sidebar’s subtree during hydration, discarding the element we inserted
+	observe('[class*="PageLayout-Pane"] .octicon-repo-forked', addRepoAge, {signal});
 }
 
 void features.add(import.meta.url, {
