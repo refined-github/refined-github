@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'feature-item',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {$$ as querySelectorAll} from 'select-dom';
 
@@ -15,7 +8,7 @@
 		// eslint-disable-next-line no-undef
 		id: FeatureId;
 		description: string;
-		screenshot?: string;
+		screenshot?: string | null;
 		hotfixIssue?: string;
 	} = $props();
 
@@ -89,28 +82,6 @@
 </div>
 
 <style>
-	/* Note that :host is not available because we're not using shadow DOM */
-	:global(feature-item):not([hidden]) {
-		display: flex;
-		align-items: baseline;
-		flex-wrap: wrap;
-		gap: 0 0.4em;
-		padding: 0.5em 0;
-	}
-
-	:global(feature-item):first-of-type {
-		padding-top: 0;
-	}
-
-	:global(feature-item):target {
-		outline: solid 2px transparent;
-		border-radius: var(--border-radius);
-		animation-name: blink-border;
-		animation-duration: 1.5s;
-		animation-iteration-count: 2;
-		scroll-margin-top: 64px;
-	}
-
 	@keyframes blink-border {
 		50% {
 			outline-color: #1f6feb;
@@ -161,6 +132,7 @@
 		display: block;
 	}
 
+	/* Svelte can't find the "a" so it will report it as missing */
 	:global(.hotfix-notice),
 	:global(.hotfix-notice a) {
 		color: var(--rgh-red);

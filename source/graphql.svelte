@@ -4,6 +4,7 @@
 	import type {JsonObject} from 'type-fest';
 
 	import api from './github-helpers/api.js';
+	import Header from './options/header.svelte';
 
 	let query = $state(`viewer {
 	login
@@ -54,7 +55,7 @@
 </script>
 
 <main>
-	<rgh-header title="GraphQL tester"></rgh-header>
+	<Header title="GraphQL tester"></Header>
 
 	<form onsubmit={runQuery}>
 		<label for="query">Query</label>

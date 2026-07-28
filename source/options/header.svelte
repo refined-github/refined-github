@@ -1,13 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'rgh-header',
-		props: {
-			title: {type: 'String', attribute: 'title'},
-			withVersion: {type: 'Boolean', attribute: 'with-version'},
-		},
-	}}
-/>
-
 <script lang="ts">
 	const {
 		title,
