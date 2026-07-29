@@ -1,14 +1,13 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import InfoIcon from 'octicons-plain-react/Info';
-import {closestElement} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import createBanner from '../github-helpers/banner.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import observe from '../helpers/selector-observer.js';
-import {getCloseDate, getResolvedText, wasLongAgo} from './netiquette.js';
+import {getCloseDate, wasLongAgo} from '../helpers/netiquette-shared.js';
+import RghNetiquetteBanner from './rgh-netiquette-banner.svelte';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready
@@ -18,41 +17,18 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 		return;
 	}
 
-	const button = (
-		<button
-			type="button"
-			className="btn-link"
-			onClick={() => {
+	const container = <TimelineItem />;
+	newCommentBox.before(container);
+	mount(RghNetiquetteBanner, {
+		target: container,
+		props: {
+			closingDate,
+			onReveal() {
 				newCommentBox.hidden = false;
-
-				// Keep the banner, make it visible
-				closestElement('.rgh-bg-none', button).classList.replace('rgh-bg-none', 'flash-error');
-
-				// Unlink this button
-				button.replaceWith(button.firstChild!);
-
-				newCommentBox.scrollIntoView({
-					behavior: 'smooth',
-				});
-			}}
-		>
-			comment
-		</button>
-	);
-
-	const banner = (
-		<TimelineItem>
-			{createBanner({
-				classes: ['rgh-bg-none'],
-				icon: <InfoIcon className="mr-1 tmp-mr-1" />,
-				text: <>
-					{getResolvedText(closingDate)} If you want to say something helpful, you can leave a {button}.{' '}
-					<strong>Do not</strong> report issues here.
-				</>,
-			})}
-		</TimelineItem>
-	);
-	newCommentBox.before(banner);
+				newCommentBox.scrollIntoView({behavior: 'smooth'});
+			},
+		},
+	});
 	newCommentBox.hidden = true;
 }
 
