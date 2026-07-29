@@ -127,7 +127,7 @@
 		"svelte-eslint-parser": "^1.8.0",
 		"type-fest": "^5.8.0",
 		"typed-query-selector": "^2.12.2",
-		"typescript": "npm:typescript-native-bridge@^6.0.3-bridge.0.tsgo.7.0.2",
+		"typescript": "npm:typescript-native-bridge@^6.0.3-bridge.7.tsgo.7.0.2",
 		"unplugin-lightningcss": "^0.4.5",
 		"vite": "^8.1.5",
 		"vitest": "^4.1.10"
