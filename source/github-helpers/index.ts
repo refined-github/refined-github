@@ -4,6 +4,7 @@ import mem from 'memoize';
 import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import type {RequireAtLeastOne} from 'type-fest';
+import {assert} from 'ts-extras';
 
 import {is} from '../helpers/css-selectors.js';
 import getCommentAuthor from './get-comment-author.js';
@@ -201,7 +202,15 @@ export function getConversationBody(): Element {
 	]);
 }
 
+// Issues don't include the author in the title. PRs don't have a "conversation body" on the Files tab.
+const prTitleExtractionRegex = /\bby (?<author>[^·]+?) · Pull Request #\d+ · [^/\\]+\/[^/\\]+$/;
 export function getConversationAuthor(): string {
+	if (pageDetect.isPR()) {
+		const match = prTitleExtractionRegex.exec(document.title);
+		assert(match, `Failed to extract PR author from title: ${document.title}`);
+		return match.groups!.author;
+	}
+
 	return getCommentAuthor(getConversationBody());
 }
 
