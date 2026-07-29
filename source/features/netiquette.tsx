@@ -6,10 +6,10 @@ import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
 import {$optional, closestElementOptional, countElements, elementExists} from 'select-dom';
 import twas from 'twas';
+import cx from 'clsx';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import createBanner from '../github-helpers/banner.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {
 	areDiscussionsEnabled,
@@ -71,67 +71,55 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	);
 }
 
-function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
-	if (elementExists('.rgh-resolved-banner')) {
+type BannerOptions = {
+	className: string;
+	Icon: typeof InfoIcon;
+	text: JSX.Element | string;
+};
+
+function addBanner(commentField: HTMLElement, {className, Icon, text}: BannerOptions): void {
+	if (elementExists(`.${className}`)) {
 		return;
 	}
 
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
-	const banner = createBanner({
-		icon: <InfoIcon className="m-0 tmp-m-0" />,
-		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
-		text: getResolvedText(closingDate),
-	});
+	const banner = (
+		<div className={cx('flash d-flex flex-items-center gap-2 p-2 text-small color-fg-muted rounded-0 border-0 m-0', className)}>
+			<Icon className='m-0 tmp-m-0' />
+			<span>{text}</span>
+		</div>
+	);
 
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
 	if (reactWrapper) {
 		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
 		commentField.prepend(banner);
 	}
+}
+
+function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
+	addBanner(commentField, {
+		className: 'rgh-resolved-banner',
+		Icon: InfoIcon,
+		text: getResolvedText(closingDate),
+	});
 }
 
 function addPopularBanner(commentField: HTMLElement): void {
-	if (elementExists('.rgh-popular-banner')) {
-		return;
-	}
-
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
-	const banner = createBanner({
-		icon: <FlameIcon className="m-0 tmp-m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
-		text:
-			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
+	addBanner(commentField, {
+		className: 'rgh-popular-banner',
+		Icon: FlameIcon,
+		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
-
-	if (reactWrapper) {
-		reactWrapper.prepend(banner);
-	} else {
-		banner.classList.replace('rounded-0', 'm-2');
-		commentField.prepend(banner);
-	}
 }
 
 function addDraftBanner(commentField: HTMLElement): void {
-	if (elementExists('.rgh-draft-banner')) {
-		return;
-	}
-
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
-	const banner = createBanner({
-		icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-draft-banner'.split(' '),
-		text: <>
-			This is a <strong>draft PR</strong>, it might not be ready for review.
-		</>,
+	addBanner(commentField, {
+		className: 'rgh-draft-banner',
+		Icon: GitPullRequestDraftIcon,
+		text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
 	});
-
-	if (reactWrapper) {
-		reactWrapper.prepend(banner);
-	} else {
-		banner.classList.replace('rounded-0', 'm-2');
-		commentField.prepend(banner);
-	}
 }
 
 function initDraft(signal: AbortSignal): void {
