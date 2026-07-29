@@ -113,15 +113,25 @@ function addPopularBanner(commentField: HTMLElement): void {
 }
 
 function addDraftBanner(commentField: HTMLElement): void {
-	commentField.prepend(
-		createBanner({
-			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>
-				This is a <strong>draft PR</strong>, it might not be ready for review.
-			</>,
-		}),
-	);
+	if (elementExists('.rgh-draft-banner')) {
+		return;
+	}
+
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
+	const banner = createBanner({
+		icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-draft-banner'.split(' '),
+		text: <>
+			This is a <strong>draft PR</strong>, it might not be ready for review.
+		</>,
+	});
+
+	if (reactWrapper) {
+		reactWrapper.prepend(banner);
+	} else {
+		banner.classList.replace('rounded-0', 'm-2');
+		commentField.prepend(banner);
+	}
 }
 
 function initDraft(signal: AbortSignal): void {
