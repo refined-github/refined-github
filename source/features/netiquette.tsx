@@ -9,6 +9,7 @@ import twas from 'twas';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import createBanner from '../github-helpers/banner.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {
 	areDiscussionsEnabled,
@@ -70,48 +71,57 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 	);
 }
 
-type BannerOptions = {
-	Icon: typeof InfoIcon;
-	text: JSX.Element | string;
-};
-
-function addBanner(commentField: HTMLElement, {Icon, text}: BannerOptions): void {
-	const banner = (
-		<div className='flash d-flex flex-items-center gap-2 p-3 text-small color-fg-muted rounded-0 border-0 m-0'>
-			<Icon className='m-0 tmp-m-0' />
-			<span>{text}</span>
-		</div>
-	);
+function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
+	if (elementExists('.rgh-resolved-banner')) {
+		return;
+	}
 
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
+	const banner = createBanner({
+		icon: <InfoIcon className="m-0 tmp-m-0" />,
+		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
+		text: getResolvedText(closingDate),
+	});
+
 	if (reactWrapper) {
 		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
-		banner.classList.replace('p-3', 'p-2');
 		commentField.prepend(banner);
 	}
 }
 
-function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
-	addBanner(commentField, {
-		Icon: InfoIcon,
-		text: getResolvedText(closingDate),
-	});
-}
-
 function addPopularBanner(commentField: HTMLElement): void {
-	addBanner(commentField, {
-		Icon: FlameIcon,
-		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
+	if (elementExists('.rgh-popular-banner')) {
+		return;
+	}
+
+	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
+	const banner = createBanner({
+		icon: <FlameIcon className="m-0 tmp-m-0" />,
+		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
+		text:
+			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
+
+	if (reactWrapper) {
+		reactWrapper.prepend(banner);
+	} else {
+		banner.classList.replace('rounded-0', 'm-2');
+		commentField.prepend(banner);
+	}
 }
 
 function addDraftBanner(commentField: HTMLElement): void {
-	addBanner(commentField, {
-		Icon: GitPullRequestDraftIcon,
-		text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
-	});
+	commentField.prepend(
+		createBanner({
+			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
+			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
+			text: <>
+				This is a <strong>draft PR</strong>, it might not be ready for review.
+			</>,
+		}),
+	);
 }
 
 function initDraft(signal: AbortSignal): void {
@@ -192,6 +202,6 @@ Test URLs
 - Old issue: https://togithub.com/facebook/react/issues/227
 - Old PR: https://togithub.com/facebook/react/pull/209
 - Popular issue: https://togithub.com/facebook/react/issues/13991
-- Draft PR: https://togithub.com/react/react/pull/19377
+- Draft PR: https://github.com/refined-github/sandbox/pull/7
 
 */
