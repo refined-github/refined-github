@@ -14,16 +14,18 @@
 	const discussionsEnabled = areDiscussionsEnabled();
 </script>
 
-This {pageDetect.isPR() ? 'PR' : 'issue'} was closed <strong>{
-	twas(closingDate.getTime())
-}</strong>. Please consider opening a
-{#if issuesEnabled}
-	<a href={buildRepoUrl('issues/new/choose')}>new issue</a>
+This {pageDetect.isPR() ? 'PR' : 'issue'} was closed
+<strong>{twas(closingDate.getTime())}</strong>.
+{#if issuesEnabled || discussionsEnabled}
+	Please consider opening a
+	{#if issuesEnabled}
+		<a href={buildRepoUrl('issues/new/choose')}>new issue</a>
+	{/if}
+	{#if issuesEnabled && discussionsEnabled}
+		or a
+	{/if}
+	{#if discussionsEnabled}
+		<a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>
+	{/if}
+	instead of leaving a comment here.
 {/if}
-{#if issuesEnabled && discussionsEnabled}
-	or a
-{/if}
-{#if discussionsEnabled}
-	<a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>
-{/if}
-instead of leaving a comment here.

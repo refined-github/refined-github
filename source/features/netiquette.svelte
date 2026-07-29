@@ -12,16 +12,13 @@
 	import DomChef from '../components/dom-chef.svelte';
 	import AncientIssueText from '../components/netiquette-ancient.svelte';
 	import {userIsModerator} from '../github-helpers/get-user-permission.js';
-	import {
-		areDiscussionsEnabled,
-		areIssuesEnabled,
-		isOwnConversation,
-	} from '../github-helpers/index.js';
+	import {isOwnConversation} from '../github-helpers/index.js';
 	import {getCloseDate, wasLongAgo} from '../github-helpers/netiquette.js';
 	import looseParseInt from '../helpers/loose-parse-int.js';
 
 	const flashClass =
 		'flash d-flex flex-items-center gap-2 p-3 text-small color-fg-muted rounded-0 border-0 m-0';
+
 	function isPopular(): boolean {
 		return (
 			countElements('[data-testid="comment-header"]') > 30
@@ -35,31 +32,24 @@
 			|| countElements('.participant-avatar') > 10
 		);
 	}
-
-	const isDraft = pageDetect.isDraftPR() && !isOwnConversation();
-	const closingDate = pageDetect.isConversation()
-		? getCloseDate()
-		: Promise.resolve(undefined);
-	const isPopularAndAllowed =
-		(async () => isPopular() && !(await userIsModerator()))();
 </script>
 
-{#if isDraft}
+{#if pageDetect.isDraftPR() && !isOwnConversation()}
 	<div class={flashClass}>
 		<DomChef as={GitPullRequestDraftIcon} class="m-0 tmp-m-0" />
 		<span>This is a <strong>draft PR</strong>, it might not be ready for
 			review.</span>
 	</div>
 {:else}
-	{#await closingDate then date}
-		{#if date && wasLongAgo(date) && (areIssuesEnabled() || areDiscussionsEnabled())}
+	{#await getCloseDate() then date}
+		{#if date && wasLongAgo(date)}
 			<div class={flashClass}>
 				<DomChef as={InfoIcon} class="m-0 tmp-m-0" />
 				<span><AncientIssueText closingDate={date} /></span>
 			</div>
-		{:else}
-			{#await isPopularAndAllowed then popular}
-				{#if popular}
+		{:else if isPopular()}
+			{#await userIsModerator() then isModerator}
+				{#if !isModerator}
 					<div class={flashClass}>
 						<DomChef as={FlameIcon} class="m-0 tmp-m-0" />
 						<span>This issue is highly active. Reconsider commenting unless you

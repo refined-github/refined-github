@@ -4,7 +4,6 @@ import {closestElementOptional} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import {isOwnConversation, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import NetiquetteBanner from './netiquette.svelte';
@@ -52,20 +51,9 @@ function initBanner(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	exclude: [
-		isRefinedGitHubRepo,
-	],
 	include: [
 		pageDetect.isConversation,
-	],
-	awaitDomReady: true, // The comment field is at the end
-	init: initBanner,
-}, {
-	include: [
 		pageDetect.isDraftPR,
-	],
-	exclude: [
-		isOwnConversation,
 	],
 	awaitDomReady: true, // The comment field is at the end
 	init: initBanner,
