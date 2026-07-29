@@ -1,13 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'token-input',
-		shadow: 'none',
-		props: {
-			host: {type: 'String'},
-		},
-	}}
-/>
-
 <script lang="ts">
 	import {closestElement} from 'select-dom';
 	import {SvelteMap} from 'svelte/reactivity';

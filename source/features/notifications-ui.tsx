@@ -93,9 +93,13 @@ function unwrapActions(details: HTMLDetailsElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.notification-group-by', replaceDropdown, {signal});
 	observe('.notification-sort-by', compactDropdown, {signal});
 	observe('.js-notifications-mark-selected-actions details.dropdown', unwrapActions, {signal});
+
+	// Grouping is only available on the Inbox tab
+	if (!new URLSearchParams(location.search).get('query')) {
+		observe('.notification-group-by', replaceDropdown, {signal});
+	}
 }
 
 void features.addCssFeature(import.meta.url);

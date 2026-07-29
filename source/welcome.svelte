@@ -7,6 +7,7 @@
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
+	import Header from './options/header.svelte';
 
 	let stepVisible = $state(1);
 	let stepValid = $state(0);
@@ -79,7 +80,7 @@
 </script>
 
 <main class:dimmed={stepValid === 3}>
-	<rgh-header title="Welcome to Refined GitHub"></rgh-header>
+	<Header title="Welcome to Refined GitHub"></Header>
 
 	<div class="content">
 		<ul>

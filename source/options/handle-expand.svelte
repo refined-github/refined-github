@@ -1,13 +1,8 @@
-<svelte:options
-	customElement={{
-		tag: 'handle-expand',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {$ as expectElement, $optional as querySelector} from 'select-dom';
 	import {onMount} from 'svelte';
+
+	let host: HTMLDivElement;
 
 	function onToggle(event: Event): void {
 		const details = event.currentTarget as HTMLDetailsElement;
@@ -23,11 +18,15 @@
 	}
 
 	onMount(() => {
-		expectElement('details', $host()).addEventListener(
-			'toggle',
-			onToggle,
-		);
+		const details = expectElement('details', host);
+		details.addEventListener('toggle', onToggle);
+
+		return () => {
+			details.removeEventListener('toggle', onToggle);
+		};
 	});
 </script>
 
-<slot />
+<div bind:this={host} style="display: contents">
+	<slot />
+</div>

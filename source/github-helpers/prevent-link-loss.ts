@@ -1,6 +1,7 @@
 /* eslint-disable regexp/prefer-named-capture-group -- Messes with the whole logic */
 /* eslint-disable max-params -- These match the native `String#replace` signature */
 import type {RepositoryInfo} from 'github-url-detection';
+import {replaceFieldText} from 'text-field-edit';
 
 import {getConversationNumber, getRepo} from './index.js';
 
@@ -79,4 +80,17 @@ export function preventDiscussionLinkLoss(
 	}
 
 	return `[${getRepoReference(getRepo(), repoNameWithOwner)}#${discussion}${comment ? ' (comment)' : ''}](${url})`;
+}
+
+export function isVulnerableToLinkLoss(value: string): boolean {
+	// The replacement logic is not just in the regex, so it alone can't be used to detect the need for the replacement
+	return value !== value.replace(prCommitUrlRegex, preventPrCommitLinkLoss)
+		|| value !== value.replace(prCompareUrlRegex, preventPrCompareLinkLoss)
+		|| value !== value.replace(discussionUrlRegex, preventDiscussionLinkLoss);
+}
+
+export function avoidLinkLoss(field: HTMLTextAreaElement): void {
+	replaceFieldText(field, prCommitUrlRegex, preventPrCommitLinkLoss);
+	replaceFieldText(field, prCompareUrlRegex, preventPrCompareLinkLoss);
+	replaceFieldText(field, discussionUrlRegex, preventDiscussionLinkLoss);
 }

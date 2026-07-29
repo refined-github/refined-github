@@ -196,16 +196,6 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	}
 }
 
-/* Untruncate long asset name */
-/* Info: https://github.com/refined-github/refined-github/issues/9184 */
-/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
-.col-12.col-lg-6:has(.octicon-package + a[href*='/releases/download/']) {
-	width: 100%;
-	.Truncate-text.text-bold {
-		white-space: wrap;
-	}
-}
-
 /* TODO [2027-01-01]: Drop after repo PR list becomes exclusively React-based */
 /* Hide label on Milestones link if there are zero milestones */
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
