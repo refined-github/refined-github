@@ -6,7 +6,6 @@ import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 import InfoIcon from 'octicons-plain-react/Info';
 import {$optional, closestElementOptional, countElements, elementExists} from 'select-dom';
 import twas from 'twas';
-import cx from 'clsx';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -72,18 +71,13 @@ export function getResolvedText(closingDate: Date): JSX.Element {
 }
 
 type BannerOptions = {
-	className: string;
 	Icon: typeof InfoIcon;
 	text: JSX.Element | string;
 };
 
-function addBanner(commentField: HTMLElement, {className, Icon, text}: BannerOptions): void {
-	if (elementExists(`.${className}`)) {
-		return;
-	}
-
+function addBanner(commentField: HTMLElement, {Icon, text}: BannerOptions): void {
 	const banner = (
-		<div className={cx('flash d-flex flex-items-center gap-2 p-2 text-small color-fg-muted rounded-0 border-0 m-0', className)}>
+		<div className='flash d-flex flex-items-center gap-2 p-3 text-small color-fg-muted rounded-0 border-0 m-0'>
 			<Icon className='m-0 tmp-m-0' />
 			<span>{text}</span>
 		</div>
@@ -94,13 +88,13 @@ function addBanner(commentField: HTMLElement, {className, Icon, text}: BannerOpt
 		reactWrapper.prepend(banner);
 	} else {
 		banner.classList.replace('rounded-0', 'm-2');
+		banner.classList.replace('p-3', 'p-2');
 		commentField.prepend(banner);
 	}
 }
 
 function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
 	addBanner(commentField, {
-		className: 'rgh-resolved-banner',
 		Icon: InfoIcon,
 		text: getResolvedText(closingDate),
 	});
@@ -108,21 +102,21 @@ function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
 
 function addPopularBanner(commentField: HTMLElement): void {
 	addBanner(commentField, {
-		className: 'rgh-popular-banner',
 		Icon: FlameIcon,
 		text: 'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
 	});
 }
 
 function addDraftBanner(commentField: HTMLElement): void {
+	console.log('addDraftBanner');
 	addBanner(commentField, {
-		className: 'rgh-draft-banner',
 		Icon: GitPullRequestDraftIcon,
 		text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
 	});
 }
 
 function initDraft(signal: AbortSignal): void {
+	console.log('initDraft');
 	observe(newCommentField, addDraftBanner, {signal});
 }
 
