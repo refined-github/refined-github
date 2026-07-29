@@ -108,7 +108,6 @@ function addPopularBanner(commentField: HTMLElement): void {
 }
 
 function addDraftBanner(commentField: HTMLElement): void {
-	console.log('addDraftBanner');
 	addBanner(commentField, {
 		Icon: GitPullRequestDraftIcon,
 		text: <>This is a <strong>draft PR</strong>, it might not be ready for review.</>,
@@ -116,7 +115,6 @@ function addDraftBanner(commentField: HTMLElement): void {
 }
 
 function initDraft(signal: AbortSignal): void {
-	console.log('initDraft');
 	observe(newCommentField, addDraftBanner, {signal});
 }
 
