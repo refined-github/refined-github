@@ -24,16 +24,19 @@ function init(): void | false {
 		const radioButton = $('input[type=radio]', dropdownItem);
 		const classList = ['btn', 'ml-2'];
 
-		if (/\bdraft\b/i.test(title)) {
-			title = 'Create draft PR';
-		} else {
+		const isPrimary = !/\bdraft\b/i.test(title);
+
+		if (isPrimary) {
 			classList.push('btn-primary');
+		} else {
+			title = 'Create draft PR';
 		}
 
 		initialGroupedButtons.after(
 			<button
 				ref={withTooltipRef(description)}
 				data-disable-invalid
+				data-hotkey={isPrimary ? 'Mod+Enter' : undefined}
 				className={cx(classList)}
 				type="submit"
 				name={radioButton.name}

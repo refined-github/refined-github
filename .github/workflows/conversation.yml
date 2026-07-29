@@ -48,7 +48,7 @@ jobs:
         with:
           message: |
             Token required to open bug reports.
-          
+
             [![Token required to open issues](https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd)](https://www.youtube.com/watch?v=YWdD206eSv0)
       - if: steps.liars.outputs.matches == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
