@@ -86,7 +86,7 @@
 		"@rollup/plugin-commonjs": "^29.0.3",
 		"@rollup/plugin-json": "^6.1.0",
 		"@rollup/plugin-node-resolve": "^16.0.3",
-		"@rollup/plugin-sucrase": "^5.1.0",
+		"@rollup/plugin-typescript": "^12.3.0",
 		"@sindresorhus/tsconfig": "^8.1.0",
 		"@types/chrome": "^0.2.2",
 		"@types/node": "^26.1.1",
