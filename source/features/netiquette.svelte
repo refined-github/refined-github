@@ -1,5 +1,4 @@
 <script lang="ts">
-	import DomChef from 'dom-chef/svelte';
 	import * as pageDetect from 'github-url-detection';
 	import FlameIcon from 'octicons-plain-react/Flame';
 	import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
@@ -9,21 +8,17 @@
 		countElements,
 		elementExists,
 	} from 'select-dom';
-	import twas from 'twas';
 
+	import DomChef from '../components/dom-chef.svelte';
+	import AncientIssueText from '../components/netiquette-ancient.svelte';
 	import {userIsModerator} from '../github-helpers/get-user-permission.js';
 	import {
 		areDiscussionsEnabled,
 		areIssuesEnabled,
-		buildRepoUrl,
 		isOwnConversation,
 	} from '../github-helpers/index.js';
+	import {getCloseDate, wasLongAgo} from '../github-helpers/netiquette.js';
 	import looseParseInt from '../helpers/loose-parse-int.js';
-	import {
-		getCloseDate,
-		wasLongAgo,
-		whatToOpen,
-	} from '../helpers/netiquette-shared.js';
 
 	function isPopular(): boolean {
 		return (
@@ -62,20 +57,7 @@
 				class="flash d-flex flex-items-center gap-2 p-3 text-small color-fg-muted rounded-0 border-0 m-0"
 			>
 				<DomChef as={InfoIcon} class="m-0 tmp-m-0" />
-				<span>
-					This {pageDetect.isPR() ? 'PR' : 'issue'} was closed <strong>{
-						twas(date.getTime())
-					}</strong>. Please consider opening a
-					{#if whatToOpen() === 'both'}
-						<a href={buildRepoUrl('issues/new/choose')}>new issue</a> or a
-						<a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>
-					{:else if whatToOpen() === 'issues'}
-						<a href={buildRepoUrl('issues/new/choose')}>new issue</a>
-					{:else}
-						<a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>
-					{/if}
-					instead of leaving a comment here.
-				</span>
+				<span><AncientIssueText closingDate={date} /></span>
 			</div>
 		{:else}
 			{#await isPopularAndAllowed then popular}

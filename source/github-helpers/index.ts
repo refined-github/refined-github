@@ -1,4 +1,3 @@
-import toMilliseconds from '@sindresorhus/to-milliseconds';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
