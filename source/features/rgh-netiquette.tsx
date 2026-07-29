@@ -6,8 +6,8 @@ import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import TimelineItem from '../github-helpers/timeline-item.js';
 import observe from '../helpers/selector-observer.js';
-import {getCloseDate, wasLongAgo} from '../helpers/netiquette-shared.js';
-import RghNetiquetteBanner from './rgh-netiquette-banner.svelte';
+import {getCloseDate, wasLongAgo} from '../github-helpers/netiquette.js';
+import RghNetiquetteBanner from './rgh-netiquette.svelte';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {
 	// Check inside the observer because React views load after dom-ready

@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import {isOwnConversation, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import NetiquetteBanner from './netiquette-banner.svelte';
+import NetiquetteBanner from './netiquette.svelte';
 
 function mountBanner(commentField: HTMLElement): void {
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
