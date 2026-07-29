@@ -200,6 +200,6 @@ Test URLs
 - Old issue: https://togithub.com/facebook/react/issues/227
 - Old PR: https://togithub.com/facebook/react/pull/209
 - Popular issue: https://togithub.com/facebook/react/issues/13991
-- Draft PR: https://github.com/refined-github/sandbox/pull/7
+- Draft PR: https://togithub.com/react/react/pull/19377
 
 */
