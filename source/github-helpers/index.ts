@@ -3,8 +3,8 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
-import type {RequireAtLeastOne} from 'type-fest';
 import {assert} from 'ts-extras';
+import type {RequireAtLeastOne} from 'type-fest';
 
 import {is} from '../helpers/css-selectors.js';
 import getCommentAuthor from './get-comment-author.js';
