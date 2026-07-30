@@ -7,7 +7,7 @@
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">
 	<ul class="UnderlineNav-body">
-		{#each $tabs as tab (tab.id)}
+		{#each $tabs.filter(tab => !tab.hidden) as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
 			<li>
 				<a

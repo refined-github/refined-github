@@ -11,20 +11,22 @@ export type Tab = {
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
 	selected?: () => boolean | Promise<boolean>;
+	hidden?: true;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
+type TabOverride = {label?: string; hidden?: true};
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
-const hiddenIds = writable(new Set<string>());
+const overrides = writable(new Map<string, TabOverride>());
 
 export const selectedId = writable<string | undefined>();
 
 export const tabs = derived(
-	[nativeTabs, extraTabs, hiddenIds],
-	([$nativeTabs, $extraTabs, $hiddenIds]) => {
-		const tabs = $nativeTabs.filter(({id}) => !$hiddenIds.has(id));
+	[nativeTabs, extraTabs, overrides],
+	([$nativeTabs, $extraTabs, $overrides]) => {
+		const tabs = $nativeTabs.map(tab => ({...tab, ...$overrides.get(tab.id)}));
 
 		for (const {tab, before} of $extraTabs) {
 			const index = before ? tabs.findIndex(({id}) => id === before) : -1;
@@ -56,8 +58,12 @@ export function addTab(tab: Tab, before?: string): void {
 	}
 }
 
+export function overrideTab(id: string, override: TabOverride): void {
+	overrides.update(current => new Map(current).set(id, {...current.get(id), ...override}));
+}
+
 export function hideTab(id: string): void {
-	hiddenIds.update(current => new Set(current).add(id));
+	overrideTab(id, {hidden: true});
 }
 
 export async function updateCurrentTab(): Promise<void> {

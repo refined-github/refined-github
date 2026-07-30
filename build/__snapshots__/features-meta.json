@@ -108,6 +108,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png"
 	},
 	{
+		"id": "clean-repo-tabs",
+		"description": "<a href=\"undefined\">Hides some rarely-used repository tab labels.</a>()",
+		"screenshot": null
+	},
+	{
 		"id": "clean-rich-text-editor",
 		"description": "Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)",
 		"css": true,

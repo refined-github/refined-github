@@ -62,19 +62,35 @@ it('inserts multiple extra tabs before the same native tab in call order', async
 	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs', 'triage', 'issues']);
 });
 
-it('hides a native tab', async () => {
+it('hides a native tab without removing it from tabs', async () => {
 	const {tabs, setNativeTabs, hideTab} = await loadModule();
 	setNativeTabs([makeTab('code'), makeTab('issues')]);
 	hideTab('issues');
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code']);
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues']);
+	expect(get(tabs).find(tab => tab.id === 'issues')?.hidden).toBe(true);
 });
 
-it('does not hide extra tabs (only filters native tabs by id)', async () => {
+it('does not hide extra tabs (only overrides native tabs by id)', async () => {
 	const {tabs, setNativeTabs, addTab, hideTab} = await loadModule();
 	setNativeTabs([makeTab('code')]);
 	addTab(makeTab('bugs'));
 	hideTab('bugs');
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs']);
+	expect(get(tabs).find(tab => tab.id === 'bugs')?.hidden).toBeUndefined();
+});
+
+it('overrides a native tab label', async () => {
+	const {tabs, setNativeTabs, overrideTab} = await loadModule();
+	setNativeTabs([makeTab('security-and-quality', {label: 'Security and quality'})]);
+	overrideTab('security-and-quality', {label: 'Security'});
+	expect(get(tabs)[0].label).toBe('Security');
+});
+
+it('merges multiple overrides for the same tab', async () => {
+	const {tabs, setNativeTabs, overrideTab} = await loadModule();
+	setNativeTabs([makeTab('agents')]);
+	overrideTab('agents', {label: ''});
+	overrideTab('agents', {hidden: true});
+	expect(get(tabs)[0]).toMatchObject({label: '', hidden: true});
 });
 
 it('replacing native tabs does not drop extra tabs', async () => {
