@@ -73,6 +73,13 @@ const rollup = {
 			return;
 		}
 
+    // Fail the build immediately on unresolved dependencies. How is this not a default?!
+    if (warning.code === 'UNRESOLVED_IMPORT') {
+      throw new Error(
+        `Failed to resolve import "${warning.source}" from ${warning.importer}. Please check your setup.`
+      );
+    }
+
 		defaultHandler(warning);
 	},
 
