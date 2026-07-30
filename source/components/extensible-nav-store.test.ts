@@ -63,18 +63,18 @@ it('inserts multiple extra tabs before the same native tab in call order', async
 });
 
 it('hides a native tab without removing it from tabs', async () => {
-	const {tabs, setNativeTabs, hideTab} = await loadModule();
+	const {tabs, setNativeTabs, overrideTab} = await loadModule();
 	setNativeTabs([makeTab('code'), makeTab('issues')]);
-	hideTab('issues');
+	overrideTab('issues', {hidden: true});
 	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues']);
 	expect(get(tabs).find(tab => tab.id === 'issues')?.hidden).toBe(true);
 });
 
 it('does not hide extra tabs (only overrides native tabs by id)', async () => {
-	const {tabs, setNativeTabs, addTab, hideTab} = await loadModule();
+	const {tabs, setNativeTabs, addTab, overrideTab} = await loadModule();
 	setNativeTabs([makeTab('code')]);
 	addTab(makeTab('bugs'));
-	hideTab('bugs');
+	overrideTab('bugs', {hidden: true});
 	expect(get(tabs).find(tab => tab.id === 'bugs')?.hidden).toBeUndefined();
 });
 

@@ -1,10 +1,12 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {hideTab} from '../components/extensible-nav-store.js';
+import {overrideTab} from '../components/extensible-nav-store.js';
 
 function init(): void {
-	hideTab('projects');
+	overrideTab('projects', {label: ''});
+	overrideTab('security-and-quality', {label: ''});
+	overrideTab('insights', {label: ''});
 }
 
 void features.add(import.meta.url, {

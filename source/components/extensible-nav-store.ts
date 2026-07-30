@@ -62,10 +62,6 @@ export function overrideTab(id: string, override: TabOverride): void {
 	overrides.update(current => new Map(current).set(id, {...current.get(id), ...override}));
 }
 
-export function hideTab(id: string): void {
-	overrideTab(id, {hidden: true});
-}
-
 export async function updateCurrentTab(): Promise<void> {
 	for (const {tab} of get(extraTabs)) {
 		// eslint-disable-next-line no-await-in-loop -- Tabs must be tried in order, first match wins

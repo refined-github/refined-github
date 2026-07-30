@@ -7,7 +7,7 @@
 
 <nav class="UnderlineNav rgh-extensible-nav px-4">
 	<ul class="UnderlineNav-body">
-		{#each $tabs.filter(tab => !tab.hidden) as tab (tab.id)}
+		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
 			<li>
 				<a
@@ -16,11 +16,16 @@
 					class="UnderlineNav-item"
 					data-turbo-frame="repo-content-turbo-frame"
 					data-react-nav={tab.reactNav}
-					class:selected={tab.id === $selectedId}
 					aria-labelledby={tab.tooltip ? `${id}-tooltip` : undefined}
+
+					class:selected={tab.id === $selectedId}
+					// Keep visible if current tab
+					hidden={tab.hidden && tab.id !== $selectedId}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					<span data-content={tab.label}>{tab.label}</span>
+					{#if tab.label}
+						<span data-content={tab.label}>{tab.label}</span>
+					{/if}
 					<TabCounter counter={tab.counter} />
 				</a>
 				{#if tab.tooltip}
@@ -35,5 +40,13 @@
 		/* Temporary indicator of successful replacement */
 		/* TODO: Remove after when the beta testing is complete. Also remove mention from readme and enable it by default */
 		border-left: 1px solid var(--borderColor-muted, fuchsia);
+	}
+	a {
+		min-height: 1lh;
+		gap: 8px;
+
+		:global(svg) {
+			margin: 0;
+		}
 	}
 </style>
