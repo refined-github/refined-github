@@ -1,4 +1,3 @@
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {closestElementOptional} from 'select-dom';
 import {mount} from 'svelte';
@@ -11,9 +10,13 @@ import NetiquetteBanner from './netiquette.svelte';
 function mountBanner(commentField: HTMLElement): void {
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
 	const target = reactWrapper ?? commentField;
-	const container = <div className={reactWrapper ? '' : 'm-2'} />;
-	target.prepend(container);
-	mount(NetiquetteBanner, {target: container});
+	mount(NetiquetteBanner, {
+		target,
+		anchor: target.firstElementChild!,
+		props: {
+			legacy: !reactWrapper,
+		},
+	});
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {
@@ -53,7 +56,7 @@ function initBanner(signal: AbortSignal): void {
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
-		pageDetect.isDraftPR,
+		pageDetect.isPRFiles,
 	],
 	awaitDomReady: true, // The comment field is at the end
 	init: initBanner,
@@ -70,8 +73,10 @@ void features.add(import.meta.url, {
 Test URLs
 
 - Old issue: https://togithub.com/facebook/react/issues/227
-- Old PR: https://togithub.com/facebook/react/pull/209
 - Popular issue: https://togithub.com/facebook/react/issues/13991
+- Old and popular issue: https://togithub.com/react/react/issues/28313
+- Old PR: https://togithub.com/facebook/react/pull/209
 - Draft PR: https://togithub.com/react/react/pull/19377
+- Draft PR files: https://togithub.com/react/react/pull/19377/files
 
 */
