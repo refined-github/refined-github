@@ -166,6 +166,6 @@ Test URLs:
 - Repo issue list: https://github.com/refined-github/sandbox/issues?q=is%3Apr+non+default
 - Global PR list: https://github.com/pulls?q=is%3Apr+repo%3Arefined-github%2Fsandbox+non+default
 - Global issue list: https://github.com/issues?q=is%3Apr+repo%3Arefined-github%2Fsandbox+non+default
-- Stacked PRs: https://github.com/carousell/rgh-stacked-pr-sandbox/pulls?q=sort%3Aupdated-desc+is%3Apr+state%3Aopen
+- Stacked PRs: https://github.com/carousell/rgh-stacked-pr-sandbox/pulls
 
 */
