@@ -4,9 +4,10 @@ import features from '../feature-manager.js';
 import {overrideTab} from '../components/extensible-nav-store.js';
 
 function init(): void {
-	overrideTab('projects', {label: ''});
-	overrideTab('security-and-quality', {label: ''});
-	overrideTab('insights', {label: ''});
+	overrideTab('pulls', {label: 'Pulls'});
+	overrideTab('projects', {noLabel: true});
+	overrideTab('security-and-quality', {noLabel: true});
+	overrideTab('insights', {noLabel: true});
 }
 
 void features.add(import.meta.url, {

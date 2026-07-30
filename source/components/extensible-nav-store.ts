@@ -10,12 +10,13 @@ export type Tab = {
 	reactNav?: string;
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
+	noLabel?: true;
 	selected?: () => boolean | Promise<boolean>;
 	hidden?: true;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = {label?: string; hidden?: true};
+type TabOverride = {label?: string; hidden?: true; noLabel?: true};
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);

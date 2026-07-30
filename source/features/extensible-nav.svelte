@@ -9,6 +9,8 @@
 	<ul class="UnderlineNav-body">
 		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
+			{@const isSelected = tab.id === $selectedId}
+			{@const tooltip = tab.tooltip ?? (tab.noLabel ? tab.label : undefined)}
 			<li>
 				<a
 					{id}
@@ -16,20 +18,20 @@
 					class="UnderlineNav-item"
 					data-turbo-frame="repo-content-turbo-frame"
 					data-react-nav={tab.reactNav}
-					aria-labelledby={tab.tooltip ? `${id}-tooltip` : undefined}
+					aria-labelledby={tooltip ? `${id}-tooltip` : undefined}
 
-					class:selected={tab.id === $selectedId}
+					class:selected={isSelected}
 					// Keep visible if current tab
-					hidden={tab.hidden && tab.id !== $selectedId}
+					hidden={tab.hidden && !isSelected}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					{#if tab.label}
+					{#if !tab.noLabel}
 						<span data-content={tab.label}>{tab.label}</span>
 					{/if}
 					<TabCounter counter={tab.counter} />
 				</a>
-				{#if tab.tooltip}
-					<Tooltip id="{id}-tooltip" htmlFor={id} label={tab.tooltip} />
+				{#if tooltip}
+					<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltip} />
 				{/if}
 			</li>
 		{/each}
