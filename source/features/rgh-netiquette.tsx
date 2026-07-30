@@ -47,7 +47,7 @@ void features.add(import.meta.url, {
 	include: [
 		pageDetect.isConversation,
 	],
-	awaitDomReady: true, // We're specifically looking for the last event
+	awaitDomReady: true, // The comment field is at the end
 	init,
 });
 

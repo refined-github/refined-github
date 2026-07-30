@@ -1,5 +1,5 @@
 <script>
-	import cx from 'classnames';
+	import cx from 'clsx';
 	import * as pageDetect from 'github-url-detection';
 </script>
 <div
