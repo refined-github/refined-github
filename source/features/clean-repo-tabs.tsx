@@ -5,10 +5,10 @@ import {overrideTab} from '../components/extensible-nav-store.js';
 
 function init(): void {
 	overrideTab('pull-requests', {label: 'Pulls'});
-	overrideTab('projects', {noLabel: true});
-	overrideTab('agents', {noLabel: true});
-	overrideTab('security-and-quality', {noLabel: true});
-	overrideTab('insights', {noLabel: true});
+	overrideTab('projects', {demoted: true});
+	overrideTab('agents', {demoted: true});
+	overrideTab('security-and-quality', {demoted: true});
+	overrideTab('insights', {demoted: true});
 }
 
 void features.add(import.meta.url, {

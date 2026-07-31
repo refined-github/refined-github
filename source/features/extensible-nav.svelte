@@ -10,8 +10,8 @@
 		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
 			{@const isSelected = tab.id === $selectedId}
-			{@const tooltip = tab.tooltip ?? (tab.noLabel ? tab.label : undefined)}
-			<li>
+			{@const tooltip = tab.tooltip ?? (tab.demoted ? tab.label : undefined)}
+			<li class:demoted={tab.demoted}>
 				<a
 					{id}
 					href={tab.href}
@@ -19,14 +19,15 @@
 					data-turbo-frame="repo-content-turbo-frame"
 					data-react-nav={tab.reactNav}
 					aria-labelledby={tooltip ? `${id}-tooltip` : undefined}
-
 					class:selected={isSelected}
 					// Keep visible if current tab
 					hidden={tab.hidden && !isSelected}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<!-- Don't use [hidden] because Svelte won't render it at all -->
-					<span class:d-none={tab.noLabel} data-content={tab.label}>{tab.label}</span>
+					<span class:d-none={tab.demoted} data-content={tab.label}>
+						{tab.label}
+					</span>
 					<TabCounter counter={tab.counter} />
 				</a>
 				{#if tooltip}
@@ -44,5 +45,8 @@
 		:global(svg, .Counter) {
 			margin: 0;
 		}
+	}
+	.demoted:nth-child(1 of .demoted) {
+		margin-left: 16px;
 	}
 </style>

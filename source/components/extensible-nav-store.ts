@@ -10,13 +10,13 @@ export type Tab = {
 	reactNav?: string;
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
-	noLabel?: true;
+	demoted?: true;
 	selected?: () => boolean | Promise<boolean>;
 	hidden?: true;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = {label?: string; hidden?: true; noLabel?: true};
+type TabOverride = {label?: string; hidden?: true; demoted?: true};
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
@@ -34,7 +34,10 @@ export const tabs = derived(
 			tabs.splice(index === -1 ? tabs.length : index, 0, tab);
 		}
 
-		return tabs;
+		const demoted = tabs.filter(tab => tab.demoted);
+		const rest = tabs.filter(tab => !tab.demoted);
+
+		return [...rest, ...demoted];
 	},
 );
 
