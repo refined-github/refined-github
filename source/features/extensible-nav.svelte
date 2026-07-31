@@ -25,9 +25,8 @@
 					hidden={tab.hidden && !isSelected}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					{#if !tab.noLabel}
-						<span data-content={tab.label}>{tab.label}</span>
-					{/if}
+					<!-- Don't use [hidden] because Svelte won't render it at all -->
+					<span class:d-none={tab.noLabel} data-content={tab.label}>{tab.label}</span>
 					<TabCounter counter={tab.counter} />
 				</a>
 				{#if tooltip}
@@ -38,16 +37,11 @@
 	</ul>
 </nav>
 <style>
-	nav {
-		/* Temporary indicator of successful replacement */
-		/* TODO: Remove after when the beta testing is complete. Also remove mention from readme and enable it by default */
-		border-left: 1px solid var(--borderColor-muted, fuchsia);
-	}
 	a {
 		min-height: 1lh;
 		gap: 8px;
 
-		:global(svg) {
+		:global(svg, .Counter) {
 			margin: 0;
 		}
 	}
