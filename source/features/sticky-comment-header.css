@@ -26,17 +26,10 @@
 				var(--color-accent-subtle, fuchsia)
 			);
 
-			/* Remove opacity, flatten against background in dark mode */
-			--rgh-bg-author-dark: color-mix(
-				in srgb,
-				/* Remove alpha value, then use it to mix with the background (hardcoded to 10%) */
-				rgb(from var(--rgh-bg-author) r g b / 1) 10%,
-				var(--rgh-background)
-			);
-
-			/* Draw a possibly semi-transparent accent color over the opaque background */
-			/*  eslint-disable-next-line css/no-invalid-properties -- Buggy https://github.com/eslint/css/issues/434 */
-			background-color: light-dark(var(--rgh-bg-author, var(--rgh-bg-author-dark)));		}
+			background:
+				linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)),
+				var(--rgh-background);
+		}
 
 		/* Prevent header of the next comment from overlapping context menu of the sticky header */
 		.timeline-comment-header:has(details[open]) {
