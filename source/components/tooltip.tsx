@@ -28,6 +28,19 @@ function createTooltipFor(element: Element, content: string | TooltipOptions): v
 }
 
 /**
+Generates a tooltip for the received element.
+@example const button = document.createElement('button'); tooltipped('Does something', button);
+@deprecated use `withTooltipRef` instead
+*/
+export function tooltipped(
+	content: string | TooltipOptions,
+	element: Element,
+): Element {
+	createTooltipFor(element, content);
+	return element;
+}
+
+/**
 Attaches a tooltip to an existing element. Don't use this with JSX.
 @example addTooltip('Does something', $('.some-existing-button'))
 */
