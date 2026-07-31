@@ -10,12 +10,9 @@ async function init(): Promise<void> {
 		'[aria-label="Pull request tabs"]',
 		'[aria-label="Pull request navigation tabs"]', // Commits list tab
 	]);
-	const tabs = $$([
-		'a.tabnav-tab',
-		'a[role="tab"]', // Commits list tab
-	], tabnav);
+	const tabs = $$('a', tabnav);
 	const lastTab = tabs.length - 1;
-	const selectedIndex = tabs.findIndex(tab => tab.classList.contains('selected'));
+	const selectedIndex = tabs.findIndex(tab => tab.matches('.selected, [aria-current]'));
 
 	for (const [index, tab] of tabs.entries()) {
 		addHotkey(tab, `g ${index + 1}`);
