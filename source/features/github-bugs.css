@@ -16,20 +16,6 @@ a[class*='PinnedIssue-module__Link'] code {
 	border-radius: 6px;
 }
 
-/* Fix spacing of repo header button icons */
-/* Info: https://github.com/refined-github/refined-github/issues/5620 */
-/* Test: https://github.com/refined-github/refined-github */
-.pagehead-actions
-	:is(
-		.btn,
-		.Button--secondary,
-		[class^='prc-Button-ButtonBase'],
-		summary
-	)
-	.octicon:not(.octicon-triangle-down) {
-	margin-right: 4px !important;
-}
-
 /* Align icons in the release search field */
 /* Info: https://github.com/refined-github/refined-github/issues/6506 */
 /* Test: https://github.com/refined-github/refined-github/releases */
@@ -69,7 +55,7 @@ a[class*='PinnedIssue-module__Link'] code {
 /* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs */
 /* Info: https://github.com/refined-github/refined-github/issues/7108 */
-/* Test: https://github.com/refined-github/sandbox/issues/74 */
+/* Test: https://github.com/react/react/pull/8848#new_comment_form */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
@@ -115,27 +101,6 @@ div.markdown-body {
 	background-color: var(--bgColor-danger-emphasis, fuchsia);
 }
 
-/* TODO [2026-08-01]: Remove */
-/* Make the PR alert banner non-sticky so it doesn't cover the right sidebar */
-/* Info: https://github.com/refined-github/refined-github/issues/8975 */
-/* Test: GHE only, find a PR on /pulls?q=is%3Aopen+is%3Apr+user%3A@me+author%3Aapp%2Fdependabot */
-.sticky-header-wrapper.is-stuck .pr-alerts-banner {
-	position: absolute;
-	visibility: hidden;
-}
-
-/* Hide the 'Markdown is supported' label from the comment box footer, as it can overflow the viewport and isn't very useful */
-/* Info: https://github.com/refined-github/refined-github/issues/9075 */
-/* Test: https://github.com/refined-github/refined-github/pull/9115 */
-.js-previewable-comment-form a[href$='basic-writing-and-formatting-syntax'] {
-	.Button-label {
-		display: none;
-	}
-	.Button-visual {
-		margin-right: 0;
-	}
-}
-
 /* Vertically center PR summary row */
 /* Info: https://github.com/refined-github/refined-github/pull/9116/ */
 /* Test: https://github.com/refined-github/sandbox/pull/61 */
@@ -144,44 +109,6 @@ div[class^='prc-PageHeader-Description']
 	/* flex-sm-items-center */
 	@media (min-width: 544px) {
 		align-items: center !important;
-	}
-}
-
-/* TODO [2026-10-01]: Drop */
-/* Fix Watch/Unwatch button height on mobile */
-/* Info: https://github.com/refined-github/refined-github/issues/9183 */
-/* Test: https://github.com/refined-github/refined-github */
-#responsive-meta-container
-	button[data-testid='notifications-subscriptions-menu-button'] {
-	height: 32px;
-}
-
-/* Fix PR title width on small & medium screens */
-/* Info: https://github.com/refined-github/refined-github/issues/9180 */
-/* Test: https://github.com/refined-github/refined-github/pull/9179/changes */
-react-app[app-name='pull-requests'] {
-	@media (max-width: 1011px) {
-		div[class^='prc-PageHeader-TitleArea'] {
-			grid-area: 2 / 1 / auto / -1;
-		}
-	}
-	@container (width <= 1011px) {
-		div[class^='prc-PageHeader-TitleArea'] {
-			grid-area: 2 / 1 / auto / -1;
-		}
-	}
-}
-
-/* Fix checks state icon alignment in file tree sidebar */
-/* Info: https://github.com/refined-github/refined-github/issues/9198 */
-/* Test: https://github.com/refined-github/refined-github/pull/8958/changes */
-div[class^='PRIVATE_TreeView-item-visual']
-	> .flex-items-center.flex-row
-	> div:has(> svg) {
-	line-height: 0;
-
-	& > svg {
-		vertical-align: text-top !important;
 	}
 }
 
@@ -317,15 +244,6 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	}
 	p > a > img[style*='display: block'] {
 		margin-block: var(--base-size-16);
-	}
-}
-
-/* Restores "Symbolic link" link in the gap between GitHub's media queries (1012 -> 1280) */
-/* Info: https://github.com/refined-github/refined-github/issues/9480 */
-/* Test: https://github.com/refined-github/refined-github/blob/55b7ce0fddd/CLAUDE.md */
-@media (max-width: 1280px) {
-	:root .react-code-size-details-banner {
-		display: flex !important;
 	}
 }
 

@@ -1,12 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'hot-fixes',
-		shadow: 'none',
-		props: {
-			enterprise: {type: 'Boolean', attribute: 'enterprise'},
-		},
-	}}
-/>
 <script lang="ts">
 	import {brokenFeatures, styleHotfixes} from '../helpers/hotfix.js';
 	import isDevelopmentVersion from '../helpers/is-development-version.js';

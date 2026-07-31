@@ -1,9 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'rgh-version',
-	}}
-/>
-
 <script lang="ts">
 	import {
 		getExtensionReleaseDate,

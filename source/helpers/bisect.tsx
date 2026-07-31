@@ -1,3 +1,5 @@
+import './bisect.css';
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import {$$, $optional} from 'select-dom';

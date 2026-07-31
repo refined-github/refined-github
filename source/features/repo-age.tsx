@@ -1,5 +1,4 @@
 import React from 'dom-chef';
-import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import RepoIcon from 'octicons-plain-react/Repo';
 import {closestElement} from 'select-dom';
@@ -10,6 +9,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
+import observe from '../helpers/selector-observer.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import GetRepoAge from './repo-age.gql';
 
@@ -80,7 +80,7 @@ const firstCommit = new CachedFunction('first-commit', {
 	cacheKey: cacheByRepo,
 });
 
-async function init(): Promise<void> {
+async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	// Construct class only when it's needed, as it is relatively expensive
 	const dateFormatter = new Intl.DateTimeFormat('en-US', {
 		year: 'numeric',
@@ -104,7 +104,6 @@ async function init(): Promise<void> {
 			<strong>{value}</strong> {unit} old
 		</>;
 
-	const sidebarForksLinkIcon = await elementReady('.BorderGrid .octicon-repo-forked');
 	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2 tmp-mt-2">
@@ -115,6 +114,11 @@ async function init(): Promise<void> {
 	);
 }
 
+async function init(signal: AbortSignal): Promise<void> {
+	// Use the observer because React replaces the sidebar’s subtree during hydration, discarding the element we inserted
+	observe('[class*="PageLayout-Pane"] .octicon-repo-forked', addRepoAge, {signal});
+}
+
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoRoot,
@@ -122,7 +126,7 @@ void features.add(import.meta.url, {
 	exclude: [
 		pageDetect.isEmptyRepoRoot,
 	],
-	deduplicate: 'has-rgh-inner',
+	requiresToken: true,
 	init,
 });
 
