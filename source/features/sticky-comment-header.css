@@ -24,8 +24,8 @@ html:not([rgh-OFF-sticky-comment-header]) {
 
 			&[class*='viewerDidAuthor' i],
 			.current-user & {
-				/* Draw a possibly semi-transparent accent color over the opaque background */
-				/* The color has an alpha value in dark mode, but not in light mode*/
+				/* Draw a possibly semi-transparent accent color over the opaque background. */
+				/* The color has an alpha value in dark mode, but not in light mode. */
 				--rgh-bg-accent: var(
 					--bgColor-accent-muted,
 					var(--color-accent-subtle, fuchsia)

@@ -914,7 +914,7 @@
 	},
 	{
 		"id": "sticky-comment-header",
-		"description": "Makes the comment header sticky when scrolling through long comments. Requires <code>show-names</code> to be enabled.",
+		"description": "Makes the comment header sticky when scrolling through long comments.",
 		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8"
 	},
