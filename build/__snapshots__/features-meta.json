@@ -461,6 +461,7 @@
 	{
 		"id": "locked-issue",
 		"description": "Show a label on locked issues and PRs.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png"
 	},
 	{
