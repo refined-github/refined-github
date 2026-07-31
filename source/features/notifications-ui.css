@@ -1,5 +1,16 @@
 /* Matches the md query, but inverted */
 html:not([rgh-OFF-notifications-ui]) {
+	/* `notifications-ui`, `open-all-notifications`, `select-notifications`: allow overflow */
+	/* Info: https://github.com/refined-github/refined-github/issues/5705 */
+	/* Test: */
+	/* https://github.com/notifications (Grouped by date) */
+	/* https://github.com/notifications (Grouped by repo) */
+	/* https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter) */
+	.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
+		overflow: auto;
+		white-space: nowrap;
+	}
+
 	--gap: 8px;
 	/* Mobile layout without sidebar */
 	@media screen and not (min-width: 768px) {
