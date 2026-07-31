@@ -38,7 +38,6 @@ const featureUrlRegex = /^(?:[/]refined-github){2}[/]blob[/][^/]+[/]source[/]fea
 
 void features.add(import.meta.url, {
 	include: [
-		// TODO: Replace with generic "is rgh file url"
 		() => featureUrlRegex.test(location.pathname),
 	],
 	init,
@@ -46,6 +45,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
+		// TODO: detect `1_bug_report`, listen to title field changes
 		() => Boolean(getFeatureNameFromIssueTitle()),
 	],
 	init: initIssueForm,
