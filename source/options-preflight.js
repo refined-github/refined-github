@@ -1,6 +1,6 @@
 function appendError(error) {
 	// eslint-disable-next-line select-dom/prefer -- No build here
-	const container = document.querySelector('#js-failed') ?? document.querySelector('form');
+	const container = document.querySelector('#js-failed');
 	container.append('\n', error);
 	container.style.animation = 'none';
 }
