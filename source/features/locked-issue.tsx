@@ -1,3 +1,5 @@
+import './locked-issue.css';
+
 import cx from 'clsx';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
