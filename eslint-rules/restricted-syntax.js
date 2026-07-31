@@ -52,9 +52,9 @@ const restrictedSyntax = {
 		message:
 			"Elements with hotkeys require a mention in the tooltip, which requires: import addTooltip from '../helpers/tooltip.js';",
 	}, {
-		message: 'JSX elements with `data-hotkey` must be wrapped in `tooltipped()`',
+		message: 'JSX elements with `data-hotkey` use `withTooltipRef()`',
 		selector:
-			'JSXOpeningElement:not(:has(JSXAttribute[name.name="hidden"])) > JSXAttribute[name.name="data-hotkey"]:not(CallExpression[callee.name="tooltipped"] JSXAttribute[name.name="data-hotkey"])',
+			'JSXOpeningElement:not(:has(JSXAttribute[name.name="hidden"])):not(:has(JSXAttribute[name.name="ref"] JSXExpressionContainer > CallExpression[callee.name="withTooltipRef"])) > JSXAttribute[name.name="data-hotkey"]:not(CallExpression[callee.name="tooltipped"] JSXAttribute[name.name="data-hotkey"])',
 	}],
 	'byo/prefer-safe-create-tab': ['error', {
 		message: 'Import safeCreateTab instead',
@@ -64,6 +64,11 @@ const restrictedSyntax = {
 	'byo/import-dom-chef': ['error', {
 		message: "Use this instead: import React from 'dom-chef'",
 		selector: 'ImportDeclaration[source.value="react"]',
+	}],
+	'byo/no-inline-functions': ['error', {
+		selector:
+			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
+		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
 };
 

@@ -58,17 +58,6 @@
 	}
 }
 
-/* `notifications-ui`, `open-all-notifications`, `select-notifications`: allow overflow */
-/* Info: https://github.com/refined-github/refined-github/issues/5705 */
-/* Test: */
-/* https://github.com/notifications (Grouped by date) */
-/* https://github.com/notifications (Grouped by repo) */
-/* https://github.com/notifications?query=reason%3Acomment (which is an unsaved filter) */
-.js-check-all-container .js-bulk-action-toasts ~ div .Box-header {
-	overflow: auto;
-	white-space: nowrap;
-}
-
 /* 404 page animation on load */
 /* Info: None, self-explanatory */
 /* Test: https://github.com/refined-github/refined-github/404 */
@@ -81,20 +70,6 @@
 /* Test: https://github.com/refined-github/sandbox/issues/3 */
 .markdown-body del {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
-}
-
-/* Expand empty diffs in PRs */
-/* Info: https://github.com/refined-github/refined-github/issues/1630 */
-/* Test: https://github.com/webpack/webpack/pull/6446/changes */
-:root .file .data {
-	&.empty {
-		padding: 54px;
-		text-align: center;
-	}
-
-	table {
-		text-align: left;
-	}
 }
 
 /* TODO [2027-01-01]: Drop after legacy PR files view is removed. Currently it only applies to `quick-comment-hiding` */
@@ -112,22 +87,6 @@
 /* Test: https://github.com/refined-github/refined-github/pull/3922/files */
 .select-menu-item-text .diffstat {
 	display: inline !important;
-}
-
-/* Style the "Find feature" dialog that appears on top of the page */
-/* Info: https://github.com/refined-github/refined-github/pull/4119 */
-/* Test: start the "Identify feature" wizard from the options */
-#rgh-bisect-dialog {
-	position: fixed;
-	bottom: 50%;
-	right: 50%;
-	transform: translate(50%, 50%);
-	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
-	box-shadow: var(
-		--shadow-floating-large,
-		var(--color-shadow-large, var(--color-toast-shadow))
-	);
-	z-index: 2147483647;
 }
 
 /* Bold username in conversation lists */
@@ -148,13 +107,7 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 	height: 72px;
 }
 
-/* Make the gray "Star" icon in the feed yellow */
-/* Info: https://github.com/refined-github/refined-github/pull/8407 */
-/* Test: https://github.com/feed */
-.octicon-star-fill {
-	color: var(--button-star-iconColor);
-}
-
+/* TODO: Move to `release-download-count` after #9806 */
 /* Add hover effect to attachment row on the release page */
 /* Info: https://github.com/refined-github/refined-github/issues/8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
@@ -193,16 +146,6 @@ a[class^='IssueItem-module__authorCreatedLink'] {
 				display: none;
 			}
 		}
-	}
-}
-
-/* Untruncate long asset name */
-/* Info: https://github.com/refined-github/refined-github/issues/9184 */
-/* Test: https://github.com/hkint/xiaomi-ax3000t-immortalwrt-hanwckf-firmware-build/releases/tag/ImmortalWrt_2024.11.13-0026 */
-.col-12.col-lg-6:has(.octicon-package + a[href*='/releases/download/']) {
-	width: 100%;
-	.Truncate-text.text-bold {
-		white-space: wrap;
 	}
 }
 
@@ -251,7 +194,7 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 	}
 }
 
-/* Highligh review type radio labels on hover to improve clickability */
+/* Highlight review type radio labels on hover to improve clickability */
 /* Info: https://github.com/refined-github/refined-github/issues/9447 */
 /* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
 fieldset[class*='ReviewMenu-module__RadioGroup'] {
@@ -282,8 +225,13 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 /* Test: https://github.com/refined-github/refined-github/pull/7212/changes */
 /* Test: https://github.com/refined-github/refined-github/pull/7212/changes/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
 /* Test: https://github.com/refined-github/refined-github/commit/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
-[class*='HiddenDiffPatch-module__gridColumnTemplate'] {
+[class*='HiddenDiffPatch-module__gridColumnTemplate'],
+/* "Binary not shown" */
+/* Info: https://github.com/refined-github/refined-github/issues/1630 */
+/* Test: https://github.com/JonathanSalwan/binary-samples/pull/9/changes */
+div[data-estimated-height='62'] .fgColor-muted {
 	margin-block: 6em;
+	text-align: center; /* Just for binaries */
 }
 
 /* Collapse Issue|PR|Repo buttons in headers for clarity */

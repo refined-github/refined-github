@@ -22,7 +22,7 @@ import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
 
 import features from '../feature-manager.js';
-import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../helpers/extensible-nav-store.js';
+import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ExtensibleNav from './extensible-nav.svelte';

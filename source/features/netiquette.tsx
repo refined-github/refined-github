@@ -1,143 +1,22 @@
-import toMilliseconds from '@sindresorhus/to-milliseconds';
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import FlameIcon from 'octicons-plain-react/Flame';
-import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
-import InfoIcon from 'octicons-plain-react/Info';
-import {$optional, closestElementOptional, countElements, elementExists} from 'select-dom';
-import twas from 'twas';
+import {closestElementOptional} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import api from '../github-helpers/api.js';
-import createBanner from '../github-helpers/banner.js';
-import {userIsModerator} from '../github-helpers/get-user-permission.js';
-import {
-	areDiscussionsEnabled,
-	areIssuesEnabled,
-	buildRepoUrl,
-	getConversationNumber,
-	isOwnConversation,
-	isRefinedGitHubRepo,
-} from '../github-helpers/index.js';
 import {newCommentField} from '../github-helpers/selectors.js';
-import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
+import NetiquetteBanner from './netiquette.svelte';
 
-export async function getCloseDate(): Promise<Date | undefined> {
-	if (pageDetect.isOpenConversation()) {
-		return;
-	}
-
-	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
-	if (!closedAt) {
-		throw new TypeError('closed_at field is null');
-	}
-
-	return new Date(closedAt);
-}
-
-const threeMonths = toMilliseconds({days: 90});
-
-export function wasLongAgo(date: Date): boolean {
-	return (Date.now() - date.getTime()) > threeMonths;
-}
-
-function isPopular(): boolean {
-	return (
-		countElements('[data-testid="comment-header"]') > 30
-		// This element only appears after 6 participants
-		|| looseParseInt($optional('[aria-label*="other participants"]')?.ariaLabel) > 30
-		|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
-		// TODO [2027-01-01]: Drop after the legacy PR view is removed
-		|| countElements('.timeline-comment') > 30
-		|| countElements('.participant-avatar') > 10
-	);
-}
-
-export function getResolvedText(closingDate: Date): JSX.Element {
-	const ago = <strong>{twas(closingDate.getTime())}</strong>;
-	const newIssue = <a href={buildRepoUrl('issues/new/choose')}>new issue</a>;
-	const newDiscussion = <a href={buildRepoUrl('discussions/new/choose')}>new discussion</a>;
-	const whatToOpen = areIssuesEnabled() && areDiscussionsEnabled()
-		? <>{' '}{newIssue} or a {newDiscussion}{' '}</>
-		: areIssuesEnabled()
-			? newIssue
-			: newDiscussion;
-	return (
-		<>
-			This {pageDetect.isPR() ? 'PR' : 'issue'} was closed {ago}. Please consider opening a {whatToOpen}{' '}
-			instead of leaving a comment here.
-		</>
-	);
-}
-
-function addResolvedBanner(commentField: HTMLElement, closingDate: Date): void {
-	if (elementExists('.rgh-resolved-banner')) {
-		return;
-	}
-
+function mountBanner(commentField: HTMLElement): void {
 	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
-	const banner = createBanner({
-		icon: <InfoIcon className="m-0 tmp-m-0" />,
-		classes: 'm-0 p-2 text-small color-fg-muted border-0 rounded-0 rgh-resolved-banner'.split(' '),
-		text: getResolvedText(closingDate),
+	const target = reactWrapper ?? commentField;
+	mount(NetiquetteBanner, {
+		target,
+		anchor: target.firstElementChild!,
+		props: {
+			legacy: !reactWrapper,
+		},
 	});
-
-	if (reactWrapper) {
-		reactWrapper.prepend(banner);
-	} else {
-		banner.classList.replace('rounded-0', 'm-2');
-		commentField.prepend(banner);
-	}
-}
-
-function addPopularBanner(commentField: HTMLElement): void {
-	if (elementExists('.rgh-popular-banner')) {
-		return;
-	}
-
-	const reactWrapper = closestElementOptional('[class^="InlineAutocomplete"]', commentField);
-	const banner = createBanner({
-		icon: <FlameIcon className="m-0 tmp-m-0" />,
-		classes: 'p-2 text-small color-fg-muted border-0 rounded-0 rgh-popular-banner'.split(' '),
-		text:
-			'This issue is highly active. Reconsider commenting unless you have read all the comments and have something to add.',
-	});
-
-	if (reactWrapper) {
-		reactWrapper.prepend(banner);
-	} else {
-		banner.classList.replace('rounded-0', 'm-2');
-		commentField.prepend(banner);
-	}
-}
-
-function addDraftBanner(commentField: HTMLElement): void {
-	commentField.prepend(
-		createBanner({
-			icon: <GitPullRequestDraftIcon className="m-0 tmp-m-0" />,
-			classes: 'p-2 my-2 mx-md-2 text-small color-fg-muted border-0'.split(' '),
-			text: <>
-				This is a <strong>draft PR</strong>, it might not be ready for review.
-			</>,
-		}),
-	);
-}
-
-function initDraft(signal: AbortSignal): void {
-	observe(newCommentField, addDraftBanner, {signal});
-}
-
-function initBanner(signal: AbortSignal): void {
-	observe(newCommentField, async (field: HTMLElement) => {
-		// Check inside the observer because React views load after dom-ready
-		const closingDate = await getCloseDate();
-		if (closingDate && wasLongAgo(closingDate) && (areIssuesEnabled() || areDiscussionsEnabled())) {
-			addResolvedBanner(field, closingDate);
-		} else if (isPopular() && !(await userIsModerator())) {
-			addPopularBanner(field);
-		}
-	}, {signal});
 }
 
 function makeFieldKinder(field: HTMLParagraphElement): void {
@@ -170,28 +49,22 @@ function initKindness(signal: AbortSignal): void {
 	);
 }
 
+function initBanner(signal: AbortSignal): void {
+	observe(newCommentField, mountBanner, {signal});
+}
+
 void features.add(import.meta.url, {
-	exclude: [
-		isRefinedGitHubRepo,
-	],
 	include: [
 		pageDetect.isConversation,
+		pageDetect.isPRFiles,
 	],
-	awaitDomReady: true, // We're specifically looking for the last event
+	awaitDomReady: true, // The comment field is at the end
 	init: initBanner,
-}, {
-	include: [
-		pageDetect.isDraftPR,
-	],
-	exclude: [
-		isOwnConversation,
-	],
-	awaitDomReady: true,
-	init: initDraft,
 }, {
 	include: [
 		pageDetect.hasComments,
 	],
+	awaitDomReady: true, // The comment field is at the end
 	init: initKindness,
 });
 
@@ -200,8 +73,10 @@ void features.add(import.meta.url, {
 Test URLs
 
 - Old issue: https://togithub.com/facebook/react/issues/227
-- Old PR: https://togithub.com/facebook/react/pull/209
 - Popular issue: https://togithub.com/facebook/react/issues/13991
-- Draft PR: https://github.com/refined-github/sandbox/pull/7
+- Old and popular issue: https://togithub.com/react/react/issues/28313
+- Old PR: https://togithub.com/facebook/react/pull/209
+- Draft PR: https://togithub.com/react/react/pull/19377
+- Draft PR files: https://togithub.com/react/react/pull/19377/files
 
 */

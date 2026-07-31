@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
+import {assert} from 'ts-extras';
 import type {RequireAtLeastOne} from 'type-fest';
 
 import {is} from '../helpers/css-selectors.js';
@@ -18,9 +19,6 @@ export function getConversationNumber(): number | undefined {
 }
 
 export const isMac = navigator.userAgent.includes('Macintosh');
-
-type Not<Yes, No> = Yes extends No ? never : Yes;
-type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
 
 export function buildRepoUrl<S extends string>(
 	...pathParts: RequireAtLeastOne<Array<UnslashedString<S> | number>, 0>
@@ -204,7 +202,15 @@ export function getConversationBody(): Element {
 	]);
 }
 
+// Issues don't include the author in the title. PRs don't have a "conversation body" on the Files tab.
+const prTitleExtractionRegex = /\bby (?<author>[^·]+?) · Pull Request #\d+ · [^/\\]+\/[^/\\]+$/;
 export function getConversationAuthor(): string {
+	if (pageDetect.isPR()) {
+		const match = prTitleExtractionRegex.exec(document.title);
+		assert(match, `Failed to extract PR author from title: ${document.title}`);
+		return match.groups!.author;
+	}
+
 	return getCommentAuthor(getConversationBody());
 }
 

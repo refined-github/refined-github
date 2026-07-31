@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention -- Declaration merging */
 /* eslint-disable @typescript-eslint/consistent-type-definitions -- Declaration merging */
 
 declare module '*.svelte';
@@ -16,6 +17,9 @@ interface FeatureMeta {
 	cssOnly?: true;
 }
 
+type Not<Yes, No> = Yes extends No ? never : Yes;
+type UnslashedString<S extends string> = Not<S, `/${string}` | `${string}/`>;
+
 // These types are unnecessarily loose
 // https://dom.spec.whatwg.org/#dom-node-textcontent
 interface ChildNode {
@@ -33,6 +37,10 @@ interface GlobalEventHandlersEventMap {
 	'pjax:error': CustomEvent;
 	'page:loaded': CustomEvent;
 	'turbo:visit': CustomEvent;
+}
+
+interface HTMLElementTagNameMap {
+	'rgh-options': HTMLElement & {domain: string};
 }
 
 declare namespace JSX {
@@ -65,7 +73,7 @@ interface NamedNodeMap {
 }
 
 // Drop after https://github.com/Microsoft/TypeScript/issues/30928
-// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style, @typescript-eslint/naming-convention -- Declaration merging
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;
 }

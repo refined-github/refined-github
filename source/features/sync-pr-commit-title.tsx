@@ -27,9 +27,6 @@ function createCommitTitle(): string {
 	const prTitle = $([
 		'h1[class^="prc-PageHeader-Title"] .markdown-title',
 		'div[class^="prc-PageLayout-Header"] input',
-		// Old view
-		// TODO [2026-08-01]: Remove
-		'input#issue_title',
 	]);
 	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value.trim() : parseRenderedText(prTitle);
 	return formatPrCommitTitle(prTitleText);
@@ -99,12 +96,7 @@ function init(signal: AbortSignal): void {
 
 	// On PR title change
 	observe(
-		[
-			'h1[class^="prc-PageHeader-Title"]',
-			'.gh-header-title',
-			// Old view
-			// TODO [2026-08-01]: Remove
-		],
+		'h1[class^="prc-PageHeader-Title"]',
 		updateCommitTitle,
 		{signal},
 	);

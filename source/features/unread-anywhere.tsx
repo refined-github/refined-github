@@ -14,7 +14,7 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import addTooltip from '../helpers/tooltip.js';
+import addTooltip from '../components/tooltip.js';
 import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;

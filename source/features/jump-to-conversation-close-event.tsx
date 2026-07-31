@@ -8,7 +8,7 @@ import {conversationCloseEvent} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import addTooltip from '../helpers/tooltip.js';
+import addTooltip from '../components/tooltip.js';
 
 export const statusBadgeSelector = [
 	'span[class*="StateLabel"]',

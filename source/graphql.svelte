@@ -1,7 +1,10 @@
 <svelte:options customElement="rgh-graphql" />
 
 <script lang="ts">
+	import type {JsonObject} from 'type-fest';
+
 	import api from './github-helpers/api.js';
+	import Header from './options/header.svelte';
 
 	let query = $state(`viewer {
 	login
@@ -36,7 +39,7 @@
 		}
 	}
 
-	function parseVariables(): Record<string, unknown> | undefined {
+	function parseVariables(): JsonObject | undefined {
 		const trimmed = variablesJson.trim();
 		if (!trimmed) {
 			return undefined;
@@ -47,12 +50,12 @@
 			throw new TypeError('Variables must be a JSON object.');
 		}
 
-		return parsed as Record<string, unknown>;
+		return parsed as JsonObject;
 	}
 </script>
 
 <main>
-	<rgh-header title="GraphQL tester"></rgh-header>
+	<Header title="GraphQL tester"></Header>
 
 	<form onsubmit={runQuery}>
 		<label for="query">Query</label>

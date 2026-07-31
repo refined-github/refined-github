@@ -16,7 +16,8 @@ jobs:
       - uses: fregante/title-to-labels-action@20f99e8f21b5da50da0494faf9ad87d58ec57370 # v1.2.5
         with:
           token: ${{ github.token }}
-      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-'))
+          # starts with meta, upgrade, update, lint
+      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-') || startsWith(github.event.pull_request.title, 'Bump') || startsWith(github.event.pull_request.title, 'Update') || startsWith(github.event.pull_request.title, 'Lint'))
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
@@ -30,3 +31,31 @@ jobs:
         with:
           token: ${{ github.token }}
           keywords-path: source/features
+
+  TokenRequirement:
+    if: github.event_name == 'issues' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      # https://github.com/refined-github/refined-github/blob/6cf3c431a85632b6f3c59ae002b2ed05bb918c8e/source/features/rgh-improve-new-issue-form.tsx#L92-L93
+      - id: liars
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: core.setOutput('matches', /\(2\d(,\d{1,2}){1,2}\)/.test(context.payload.issue.title))
+      - if: steps.liars.outputs.matches == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          message: |
+            Token required to open bug reports.
+
+            [![Token required to open issues](https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd)](https://www.youtube.com/watch?v=YWdD206eSv0)
+      - if: steps.liars.outputs.matches == 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number: context.payload.issue.number,
+              state: 'closed',
+            })

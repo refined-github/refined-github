@@ -1,13 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'storage-usage',
-		props: {
-			area: {type: 'String', attribute: 'area'},
-			item: {type: 'String', attribute: 'item'},
-		},
-	}}
-/>
-
 <script lang="ts">
 	import prettyBytes from 'pretty-bytes';
 
@@ -43,6 +33,7 @@
 		areaName: chrome.storage.AreaName,
 	) => {
 		if (item && Object.hasOwn(changes, item)) {
+			// @ts-expect-error TODO: Use webext-storage
 			used = getTrueSizeOfObject(changes[item].newValue);
 		}
 

@@ -21,11 +21,14 @@ type Pr = {
 	number: number;
 };
 
-function isClosed(prLink: HTMLElement): boolean {
-	const row = closestElement([
+function getRow(prLink: HTMLElement): HTMLElement | undefined {
+	return closestElement([
 		'.js-issue-row', // Legacy DOM
 		'li',
 	], prLink);
+}
+
+function isClosed(prLink: HTMLElement): boolean {
 	return elementExists([
 		// Legacy DOM
 		'.octicon.merged',
@@ -33,7 +36,12 @@ function isClosed(prLink: HTMLElement): boolean {
 		// React DOM
 		'.octicon-git-merge',
 		'.octicon-git-pull-request-closed',
-	], row);
+	], getRow(prLink));
+}
+
+// GitHub's own stacked PR indicator already says the PR isn't going to the default branch
+function isStacked(prLink: HTMLElement): boolean {
+	return elementExists('.octicon-stack', getRow(prLink));
 }
 
 function buildQuery(prsByRepo: Map<string, Pr[]>): string {
@@ -89,6 +97,10 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 	const prs = new Set<Pr>();
 	for (const link of prLinks) {
+		if (isStacked(link)) {
+			continue;
+		}
+
 		const [, owner, repo, , number] = link.pathname.split('/', 5);
 		prs.add({
 			link,
@@ -96,6 +108,10 @@ async function add(prLinks: HTMLAnchorElement[]): Promise<void> {
 			repo,
 			number: Number(number),
 		});
+	}
+
+	if (prs.size === 0) {
+		return;
 	}
 
 	const prsByRepo = Map.groupBy(prs, pr => `${pr.owner}/${pr.repo}`);
@@ -150,5 +166,6 @@ Test URLs:
 - Repo issue list: https://github.com/refined-github/sandbox/issues?q=is%3Apr+non+default
 - Global PR list: https://github.com/pulls?q=is%3Apr+repo%3Arefined-github%2Fsandbox+non+default
 - Global issue list: https://github.com/issues?q=is%3Apr+repo%3Arefined-github%2Fsandbox+non+default
+- Stacked PRs: https://github.com/carousell/rgh-stacked-pr-sandbox/pulls
 
 */

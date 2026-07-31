@@ -4,12 +4,12 @@
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 
+	import DomChef from '../components/dom-chef.svelte';
 	import {
 		activityFilterState,
 		type State,
 		states,
 	} from '../helpers/conversation-activity-filter.js';
-	import DomChef from '../helpers/dom-chef.svelte';
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 
 	type Props = {

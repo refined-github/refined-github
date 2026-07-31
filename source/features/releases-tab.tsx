@@ -7,7 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
-import {addTab} from '../helpers/extensible-nav-store.js';
+import {addTab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import GetReleasesCount from './releases-tab.gql';
 
@@ -36,9 +36,14 @@ const releasesCount = new CachedFunction('releases-count', {
 	cacheKey: cacheByRepo,
 });
 
-export async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
+async function getReleasesCount(): Promise<[0] | [number, 'Tags' | 'Releases']> {
 	const repo = getRepo()!.nameWithOwner;
 	return releasesCount.get(repo);
+}
+
+export async function doesRepoHaveAnyTags(): Promise<boolean> {
+	const [count] = await getReleasesCount();
+	return count > 0;
 }
 
 async function addReleasesTabOnce(): Promise<false | void> {

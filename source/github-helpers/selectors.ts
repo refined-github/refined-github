@@ -125,9 +125,17 @@ export const linksToConversationLists_ = [
 ] satisfies UrlMatch[];
 
 export const newCommentField = [
-	'[input="fc-new_comment_field"]',
-	'[input^="fc-new_inline_comment_discussion"]',
-	'[aria-labelledby="comment-composer-heading"]',
+	// PR comment
+	'file-attachment[input="fc-new_comment_field"]',
+
+	// PR review comment, conversation tab
+	'file-attachment[input^="fc-new_inline_comment_discussion"]',
+
+	// PR Review comment, files tab
+	'div[class*="AddCommentEditor"] textarea',
+
+	// Issue comment
+	'textarea[aria-labelledby="comment-composer-heading"]',
 ];
 
 export const newCommentField_ = requiresLogin;

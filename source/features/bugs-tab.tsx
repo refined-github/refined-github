@@ -9,7 +9,7 @@ import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import {addTab} from '../helpers/extensible-nav-store.js';
+import {addTab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import CountBugs from './bugs-tab.gql';
 

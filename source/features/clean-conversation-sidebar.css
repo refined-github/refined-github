@@ -29,18 +29,3 @@ html:not([rgh-OFF-clean-conversation-sidebar]) {
 .rgh-clean-sidebar .discussion-sidebar-item:first-child {
 	padding-top: 0 !important;
 }
-
-/* Move message under the `Unsubscribe` button above the button */
-.rgh-clean-sidebar .thread-subscription-status {
-	display: flex;
-	flex-direction: column;
-}
-
-/* `form` excludes the header */
-.rgh-clean-sidebar form.thread-subscribe-form {
-	order: 1;
-}
-
-.rgh-clean-sidebar .thread-subscription-status .reason {
-	margin: 0 0 10px !important;
-}
