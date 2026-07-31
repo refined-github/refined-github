@@ -273,7 +273,7 @@
 	{
 		"id": "expand-hidden-linked-comment",
 		"description": "Automatically expands a hidden/minimized comment when it’s linked directly (e.g. via a permalink).",
-		"screenshot": "https://github.com/user-attachments/assets/d1434f82-1a89-47cd-bec7-29d3b65b5c9b"
+		"screenshot": "https://github.com/user-attachments/assets/4b090505-5f63-4c41-a5be-cb85e5bca29c"
 	},
 	{
 		"id": "extend-conversation-status-filters",
