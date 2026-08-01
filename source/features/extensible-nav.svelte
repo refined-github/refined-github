@@ -10,7 +10,10 @@
 		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
 			{@const isSelected = tab.id === $selectedId}
-			{@const tooltip = tab.tooltip ?? (tab.demoted ? tab.label : undefined)}
+			<!-- Always show label if selected -->
+			{@const hasLabel = !tab.demoted || isSelected}
+			{@const tooltip = tab.tooltip ?? (hasLabel ? undefined : tab.label)}
+			<!-- Keep it demoted even if it has a forced label due to `isSelected` -->
 			<li class:demoted={tab.demoted}>
 				<a
 					{id}
@@ -23,7 +26,7 @@
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<!-- Don't use [hidden] because Svelte won't render it at all -->
-					<span class:d-none={tab.demoted} data-content={tab.label}>
+					<span class:d-none={!hasLabel} data-content={tab.label}>
 						{tab.label}
 					</span>
 					<TabCounter counter={tab.counter} />
