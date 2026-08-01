@@ -95,6 +95,7 @@ Test URLs:
 - Repo with 0 projects: https://github.com/babel/flavortown
 - Repo with some projects: https://github.com/github/docs/projects
 - Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
+- Repo with some wiki: https://github.com/refined-github/refined-github
 - Repo with 0 actions: https://github.com/babel/jade-babel
 - Repo with some actions not on main branch: https://github.com/quatquatt/no-actions-menu
 - Repo with security alerts: (requires a repo you own with Dependabot alerts enabled)

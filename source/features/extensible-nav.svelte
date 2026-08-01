@@ -20,8 +20,6 @@
 					data-react-nav={tab.reactNav}
 					aria-labelledby={tooltip ? `${id}-tooltip` : undefined}
 					class:selected={isSelected}
-					// Keep visible if current tab
-					hidden={tab.hidden && !isSelected}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
 					<!-- Don't use [hidden] because Svelte won't render it at all -->

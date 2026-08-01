@@ -12,11 +12,10 @@ export type Tab = {
 	tooltip?: string;
 	demoted?: true;
 	selected?: () => boolean | Promise<boolean>;
-	hidden?: true;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = {label?: string; hidden?: true; demoted?: true; counter?: Readable<number | string | undefined>};
+type TabOverride = Partial<Pick<Tab, 'label' | 'counter' | 'tooltip' | 'demoted'>>;
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
