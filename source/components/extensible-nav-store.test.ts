@@ -88,9 +88,17 @@ it('overrides a native tab label', async () => {
 it('merges multiple overrides for the same tab', async () => {
 	const {tabs, setNativeTabs, overrideTab} = await loadModule();
 	setNativeTabs([makeTab('agents')]);
-	overrideTab('agents', {label: ''});
+	overrideTab('agents', {label: 'AI agents'});
 	overrideTab('agents', {hidden: true});
-	expect(get(tabs)[0]).toMatchObject({label: '', hidden: true});
+	expect(get(tabs)[0]).toMatchObject({label: 'AI agents', hidden: true});
+});
+
+it('moves demoted native tabs to the end, preserving relative order', async () => {
+	const {tabs, setNativeTabs, overrideTab} = await loadModule();
+	setNativeTabs([makeTab('code'), makeTab('projects'), makeTab('issues'), makeTab('insights')]);
+	overrideTab('projects', {demoted: true});
+	overrideTab('insights', {demoted: true});
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'projects', 'insights']);
 });
 
 it('replacing native tabs does not drop extra tabs', async () => {
