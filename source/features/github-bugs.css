@@ -267,3 +267,10 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 .empty-cell {
 	cursor: default !important;
 }
+
+/* Fix bad wrap in PR lists */
+/* Info: https://github.com/refined-github/refined-github/issues/9919 */
+/* Test: https://github.com/refined-github/refined-github/pulls?q=sort%3Aupdated-desc+is%3Apr++created%3A2026-07-31 */
+.js-issue-row div.d-flex.text-small.color-fg-muted {
+	display: block !important;
+}
