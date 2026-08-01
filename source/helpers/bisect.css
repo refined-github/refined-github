@@ -1,0 +1,15 @@
+/* Style the "Find feature" dialog that appears on top of the page */
+/* Info: https://github.com/refined-github/refined-github/pull/4119 */
+/* Test: start the "Identify feature" wizard from the options */
+#rgh-bisect-dialog {
+	position: fixed;
+	bottom: 50%;
+	right: 50%;
+	transform: translate(50%, 50%);
+	min-width: 380px; /* Avoids a width change on the last step which causes the YES button to be where NO was */
+	box-shadow: var(
+		--shadow-floating-large,
+		var(--color-shadow-large, var(--color-toast-shadow))
+	);
+	z-index: 2147483647;
+}

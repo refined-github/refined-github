@@ -29,11 +29,7 @@ function addLink(header: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		[
-			'button[class*="PullRequestCodeButton"]',
-			// TODO [2026-09-01]: Drop
-			'.gh-header-actions > :first-child',
-		],
+		'button[class*="PullRequestCodeButton"]',
 		addLink,
 		{signal},
 	);

@@ -2,7 +2,6 @@ import cx from 'clsx';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
 import React from 'dom-chef';
-import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';
@@ -21,13 +20,6 @@ function LockedIndicator(): JSX.Element {
 	);
 }
 
-function addLockLegacy(element: HTMLElement): void {
-	const closestSticky = closestElementOptional(['.sticky-content', '.gh-header-sticky'], element);
-	element.after(
-		<LockedIndicator className={cx('mb-2 tmp-mb-2', closestSticky && 'mr-2 tmp-mr-2')} />,
-	);
-}
-
 function addLock(stateLabel: HTMLElement): void {
 	const isWrapped = stateLabel.parentElement!.classList.contains(jumpToCloseEventClass);
 	const container = isWrapped ? stateLabel.parentElement! : stateLabel;
@@ -41,16 +33,6 @@ async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		'div:is([data-testid^="issue-metadata"], [class^="prc-PageLayout-Header"]) span[class^="prc-StateLabel"]',
 		addLock,
-		{signal},
-	);
-	// Old PR view
-	// TODO [2026-08-01]: Drop
-	observe(
-		[
-			'.gh-header-meta > :first-child',
-			':is(.sticky-content, .gh-header-sticky) .flex-row > :first-child',
-		],
-		addLockLegacy,
 		{signal},
 	);
 }
