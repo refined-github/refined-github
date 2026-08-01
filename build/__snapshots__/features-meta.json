@@ -283,8 +283,8 @@
 	},
 	{
 		"id": "extend-repo-tabs",
-		"description": "<a href=\"undefined\">Hides some rarely-used repository tab labels.</a>()",
-		"screenshot": null
+		"description": "Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.",
+		"screenshot": "https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326"
 	},
 	{
 		"id": "extensible-nav",
