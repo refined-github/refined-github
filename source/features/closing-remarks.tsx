@@ -13,17 +13,21 @@ import observe from '../helpers/selector-observer.js';
 import ClosingRemarks from './closing-remarks.svelte';
 import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
-function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
-	// https://github.com/refined-github/refined-github/issues/7206
-	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
-}
-
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
-		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
-		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
+		// Prefer versioned tags https://github.com/refined-github/refined-github/issues/7206
+		const tag = tags.findLast(({textContent}) =>
+			!textContent.includes('nightly') && /\d[.]\d/.test(textContent),
+		)
+
+		// But still select any tag if no versioned tags are found
+		// https://github.com/refined-github/refined-github/issues/9831
+		?? tags.at(-1);
+
+		// No tags might be found at all
+		return tag?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
