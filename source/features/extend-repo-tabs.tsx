@@ -9,7 +9,7 @@ import fetchDom from '../helpers/fetch-dom.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import {overrideTab} from '../components/extensible-nav-store.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
-import RepoCountInfo from './extended-repo-tabs.gql';
+import RepoCountInfo from './extend-repo-tabs.gql';
 
 type RepoTabsCounts = {
 	projects: number;

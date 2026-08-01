@@ -282,7 +282,7 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
 	},
 	{
-		"id": "extended-repo-tabs",
+		"id": "extend-repo-tabs",
 		"description": "<a href=\"undefined\">Hides some rarely-used repository tab labels.</a>()",
 		"screenshot": null
 	},
