@@ -24,6 +24,7 @@ Test URLs:
 
 - Org with 0 projects: https://github.com/babel
 - Repo with 0 projects: https://github.com/babel/flavortown
+- Repo with some projects: https://github.com/github/docs/projects
 - Repo with 0 wiki: https://github.com/babel/babel-sublime-snippets
 - Repo with 0 actions: https://github.com/babel/jade-babel
 - Repo with some actions not on main branch: https://github.com/quatquatt/no-actions-menu
