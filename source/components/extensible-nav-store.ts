@@ -10,7 +10,7 @@ export type Tab = {
 	reactNav?: string;
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
-	demoted?: true;
+	demoted?: true | string; // User-visible reason for demotion, e.g. "empty" or "disabled"
 	selected?: () => boolean | Promise<boolean>;
 };
 

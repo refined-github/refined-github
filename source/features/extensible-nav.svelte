@@ -32,7 +32,11 @@
 					<TabCounter counter={tab.counter} />
 				</a>
 				{#if tooltip}
-					<Tooltip id="{id}-tooltip" htmlFor={id} label={tooltip} />
+					<Tooltip
+						id="{id}-tooltip"
+						htmlFor={id}
+						label={typeof tab.demoted === 'string' ? `${tab.label}: ${tab.demoted}` : tooltip}
+					/>
 				{/if}
 			</li>
 		{/each}

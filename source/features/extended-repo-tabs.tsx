@@ -50,7 +50,7 @@ async function updateWikiTab(): Promise<void> {
 	if (count > 0) {
 		overrideTab('wiki', {counter: writable(count)});
 	} else {
-		overrideTab('wiki', {demoted: true, label: 'Wiki (empty)'});
+		overrideTab('wiki', {demoted: 'empty'});
 	}
 }
 
@@ -58,13 +58,13 @@ async function updateActionsAndProjectsTabs(): Promise<void> {
 	const {projects, actionRuns} = await repoTabsCounts.get();
 
 	if (actionRuns === 0) {
-		overrideTab('actions', {demoted: true, label: 'Actions (empty)'});
+		overrideTab('actions', {demoted: 'unused'});
 	}
 
 	if (projects > 0) {
 		overrideTab('projects', {counter: writable(projects)});
 	} else {
-		overrideTab('projects', {demoted: true, label: 'Projects (empty)'});
+		overrideTab('projects', {demoted: 'none'});
 	}
 }
 
