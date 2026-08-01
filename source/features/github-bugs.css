@@ -274,3 +274,11 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 .js-issue-row div.d-flex.text-small.color-fg-muted {
 	display: block !important;
 }
+
+/* Fix sponsor button overflowing on mobile repo home */
+/* Info: https://github.com/refined-github/refined-github/issues/9912 */
+/* Test: https://github.com/refined-github/refined-github */
+[data-testid='responsive-social-buttons'] {
+	flex-wrap: wrap;
+	max-width: 100%;
+}
