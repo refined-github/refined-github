@@ -1,7 +1,4 @@
-/* Match GitHub's medium StateLabel size next to Open/Closed badges */
-/* Info: https://github.com/refined-github/refined-github/issues/9911 */
-/* Test: https://github.com/refined-github/sandbox/issues/74 */
-/* Test: https://github.com/refined-github/sandbox/pull/48 */
+/* Match GitHub's medium StateLabel size next to Open/Closed #9911 */
 .rgh-locked-issue.State {
 	padding: 8px 12px;
 	font-weight: 600;
