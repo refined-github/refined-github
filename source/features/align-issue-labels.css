@@ -51,10 +51,6 @@ html:not([rgh-OFF-align-issue-labels]) {
 			order: 1;
 		}
 
-		.min-width-0 .text-small {
-			flex-basis: 100%; /* #4949 */
-		}
-
 		/* Build status */
 		.commit-build-statuses {
 			margin-left: 4px;
