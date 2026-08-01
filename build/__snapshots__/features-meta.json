@@ -108,11 +108,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png"
 	},
 	{
-		"id": "clean-repo-tabs",
-		"description": "<a href=\"undefined\">Hides some rarely-used repository tab labels.</a>()",
-		"screenshot": null
-	},
-	{
 		"id": "clean-rich-text-editor",
 		"description": "Hides unnecessary comment field tooltips and toolbar items (each one has a keyboard shortcut.)",
 		"css": true,
@@ -285,6 +280,11 @@
 		"description": "Widens the <code>Expand diff</code> button to be clickable across the screen.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
+	},
+	{
+		"id": "extended-repo-tabs",
+		"description": "<a href=\"undefined\">Hides some rarely-used repository tab labels.</a>()",
+		"screenshot": null
 	},
 	{
 		"id": "extensible-nav",

@@ -16,7 +16,7 @@ export type Tab = {
 };
 
 type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = {label?: string; hidden?: true; demoted?: true};
+type TabOverride = {label?: string; hidden?: true; demoted?: true; counter?: Readable<number | string | undefined>};
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);

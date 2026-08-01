@@ -1,64 +1,69 @@
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
+import {writable} from 'svelte/store';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, getRepo, buildRepoUrl} from '../github-helpers/index.js';
+import {cacheByRepo, buildRepoUrl} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import {overrideTab} from '../components/extensible-nav-store.js';
-import GetProjectCount from './clean-conversation-filters.gql';
 import {expectTokenScope} from '../github-helpers/github-token.js';
+import RepoCountInfo from './extended-repo-tabs.gql';
 
-const projectsCount = new CachedFunction('projects-count', {
-	async updater(): Promise<number> {
-		await expectTokenScope('read:project');
-		const {repository} = await api.v4(GetProjectCount, {
-			allowErrors: true,
-		});
+type RepoTabsCounts = {
+	projects: number;
+	actionRuns: number;
+};
 
-		return repository.projectsV2.totalCount;
-	},
+const cacheOptions = {
 	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 20},
+	staleWhileRevalidate: {days: 10},
 	cacheKey: cacheByRepo,
+} as const;
+
+const repoTabsCounts = new CachedFunction('repo-tabs-counts', {
+	async updater(): Promise<RepoTabsCounts> {
+		await expectTokenScope('read:project');
+		const {repository} = await api.v4(RepoCountInfo);
+
+		return {
+			// Projects undefined if not enabled in the repo
+			projects: repository.projectsV2?.totalCount ?? 0,
+			actionRuns: repository.defaultBranchRef.target.checkSuites.totalCount,
+		};
+	},
+	...cacheOptions,
 });
 
 const wikiPageCount = new CachedFunction('wiki-page-count', {
 	async updater(): Promise<number> {
+		// No v3/v4 API access at all
 		const counter = await fetchDom(buildRepoUrl('wiki'), '#wiki-pages-box .Counter');
 		return looseParseInt(counter);
 	},
-	maxAge: {hours: 1},
-	staleWhileRevalidate: {days: 5},
-	cacheKey: cacheByRepo,
-});
-
-const hasActionRuns = new CachedFunction('workflows-count', {
-	async updater(): Promise<boolean> {
-		return api.v3hasAnyItems(`/repos/${getRepo()!.nameWithOwner}/actions/runs`);
-	},
-	maxAge: {days: 1},
-	staleWhileRevalidate: {days: 10},
-	cacheKey: cacheByRepo,
+	...cacheOptions,
 });
 
 async function updateWikiTab(): Promise<void> {
 	const count = await wikiPageCount.get();
-	if (count === 0) {
+	if (count > 0) {
+		overrideTab('wiki', {counter: writable(count)});
+	} else {
 		overrideTab('wiki', {demoted: true});
 	}
 }
 
-async function updateActionsTab(): Promise<void> {
-	if (!await hasActionRuns.get()) {
+async function updateActionsAndProjectsTabs(): Promise<void> {
+	const {projects, actionRuns} = await repoTabsCounts.get();
+
+	if (actionRuns === 0) {
 		overrideTab('actions', {demoted: true});
 	}
-}
 
-async function updateProjectsTab(): Promise<void> {
-	const count = await projectsCount.get();
-	if (count === 0) {
+	if (projects > 0) {
+		overrideTab('projects', {counter: writable(projects)});
+	} else {
 		overrideTab('projects', {demoted: true});
 	}
 }
@@ -70,14 +75,15 @@ function init(): void {
 	overrideTab('insights', {demoted: true});
 
 	void updateWikiTab();
-	void updateActionsTab();
-	void updateProjectsTab();
+	void updateActionsAndProjectsTabs();
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.hasRepoHeader,
 	],
+	// The feature partially works without a token
+	// requiresToken: true,
 	init,
 });
 
