@@ -98,6 +98,6 @@ Test URLs:
 - Repo with some wiki: https://github.com/refined-github/refined-github
 - Repo with 0 actions: https://github.com/babel/jade-babel
 - Repo with some actions not on main branch: https://github.com/quatquatt/no-actions-menu
-- Repo with security alerts: (requires a repo you own with Dependabot alerts enabled)
+- Repo with security alerts: https://github.com/babel/babel
 
 */
