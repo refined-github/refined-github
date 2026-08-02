@@ -36,6 +36,12 @@ function onButtonClick(): void {
 }
 
 function add(anchor: HTMLElement): void {
+	// TODO: Drop after https://github.com/refined-github/refined-github/issues/9893
+	if (closestElementOptional('[class*="RepositoryViews"]', anchor)) {
+		// The user navigate to https://github.com/refined-github/refined-github/issues/views but the previous observer was not unloaded
+		return;
+	}
+
 	const isLegacy = closestElementOptional('.table-list-header-toggle', anchor);
 	const isSelected = closestElementOptional([
 		// TODO [2027-01-01]: Drop if PR lists have turned React
