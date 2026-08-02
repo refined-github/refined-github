@@ -75,7 +75,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isGlobalIssueOrPRList,
+		pageDetect.isIssueOrPRList,
 	],
 	init,
 });
