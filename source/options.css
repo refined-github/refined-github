@@ -112,7 +112,7 @@ summary:hover {
 	white-space: pre-line;
 
 	box-sizing: border-box;
-	width: var(--content-width);
+	max-width: var(--content-width);
 	margin: var(--viewport-margin) auto;
 }
 
