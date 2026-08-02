@@ -3,26 +3,32 @@ import * as pageDetect from 'github-url-detection';
 import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {addHotkey} from '../github-helpers/hotkey.js';
+import {addHotkey, registerHotkey} from '../github-helpers/hotkey.js';
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	const tabnav = await elementReady([
 		'[aria-label="Pull request tabs"]',
 		'[aria-label="Pull request navigation tabs"]', // Commits list tab
 	]);
 	const tabs = $$('a', tabnav);
-	const lastTab = tabs.length - 1;
-	const selectedIndex = tabs.findIndex(tab => tab.matches('.selected, [aria-current]'));
 
 	for (const [index, tab] of tabs.entries()) {
 		addHotkey(tab, `g ${index + 1}`);
-
-		if (index === selectedIndex - 1 || (selectedIndex === 0 && index === lastTab)) {
-			addHotkey(tab, 'g ArrowLeft');
-		} else if (index === selectedIndex + 1 || (selectedIndex === lastTab && index === 0)) {
-			addHotkey(tab, 'g ArrowRight');
-		}
 	}
+
+	const selectedIndex = tabs.findIndex(tab => tab.matches('.selected, [aria-current]'));
+	if (selectedIndex === -1) {
+		return;
+	}
+
+	const previousTab = tabs.at(selectedIndex - 1) ?? tabs.at(-1)!;
+	const nextTab = tabs.at(selectedIndex + 1) ?? tabs[0];
+	registerHotkey('g ArrowLeft', () => {
+		previousTab.click();
+	}, {signal});
+	registerHotkey('g ArrowRight', () => {
+		nextTab.click();
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
