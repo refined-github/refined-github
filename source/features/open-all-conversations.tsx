@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 function onButtonClick(): void {
 	const links = $$([
 		'a[data-testid="issue-pr-title-link"]',
-		// TODO [2026-01-01]: Pre-React selector; Drop
+		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'a.h4.js-navigation-open',
 	]);
 
@@ -21,7 +21,7 @@ function onButtonClick(): void {
 
 	const selectedLinks = links.filter(link =>
 		closestElementOptional([
-			// TODO [2026-01-01]: Pre-React selector; Drop
+			// TODO [2027-01-01]: Drop if PR lists have turned React
 			'.js-issue-row.selected',
 			'[aria-label^="Selected"]',
 		], link),
@@ -38,7 +38,7 @@ function onButtonClick(): void {
 function add(anchor: HTMLElement): void {
 	const isLegacy = closestElementOptional('.table-list-header-toggle', anchor);
 	const isSelected = closestElementOptional([
-		// TODO [2026-01-01]: Pre-React selector; Drop
+		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'.table-list-triage',
 		'[aria-label="Bulk actions"]',
 	], anchor);
@@ -62,7 +62,7 @@ function add(anchor: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(
 		[
-			// TODO [2026-01-01]: Pre-React selector; Drop
+			// TODO [2027-01-01]: Drop if PR lists have turned React
 			'.table-list-header-toggle:not(.states)',
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
@@ -74,14 +74,6 @@ async function init(signal: AbortSignal): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isIssueOrPRList,
-	],
-	exclude: [
-		pageDetect.isGlobalIssueOrPRList,
-	],
-	init,
-}, {
 	include: [
 		pageDetect.isGlobalIssueOrPRList,
 	],
