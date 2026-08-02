@@ -20,7 +20,7 @@ const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // Only if the repository hasn't been starred
 async function isRepoUnpopular(): Promise<boolean> {
-	const counter = await elementReady('.starring-container .Counter');
+	const counter = await elementReady('#repo-stars-counter-star');
 	return counter!.textContent === '0';
 }
 
