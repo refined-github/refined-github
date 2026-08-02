@@ -19,7 +19,7 @@ async function maybeCleanUrl(): Promise<void> {
 function init(signal: AbortSignal): void {
 	void maybeCleanUrl();
 
-	// TODO [2027-01-01]: Drop optional chaining, it's only needed to support Safari <26.2
+	// TODO [2027-01-01]: Only needed to avoid breaking on Safari <26.2 (<2026)
 	navigation?.addEventListener('navigatesuccess', maybeCleanUrl, {signal});
 }
 
