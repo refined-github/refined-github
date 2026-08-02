@@ -37,6 +37,8 @@ const noScreenshotExceptions = new Set([
 	'esc-to-deselect-line', // TODO Add GIF with key overlay
 	'scrollable-areas', // TODO: Add side-by-side PNG
 
+	'quick-comment-resolve', // One-click button, extremely clear by name and description
+
 	// CSS-only features without screenshots yet
 	'reactions-popup',
 	'clean-checks-list',

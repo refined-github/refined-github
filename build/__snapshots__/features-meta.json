@@ -720,6 +720,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif"
 	},
 	{
+		"id": "quick-comment-resolve",
+		"description": "Resolves a review conversation with one click instead of having to open a dropdown.",
+		"screenshot": null
+	},
+	{
 		"id": "quick-file-edit",
 		"description": "Adds a button to edit files from the repo file list.",
 		"css": true,
