@@ -5,7 +5,7 @@
 	import Tooltip from '../components/tooltip.svelte';
 </script>
 
-<nav class="UnderlineNav rgh-extensible-nav px-4">
+<nav class="UnderlineNav rgh-extensible-nav d-none px-4">
 	<ul class="UnderlineNav-body">
 		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
