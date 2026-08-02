@@ -282,3 +282,11 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap;
 	max-width: 100%;
 }
+
+/* Fix sticky header overlap when linking to a comment */
+/* Info: https://github.com/refined-github/refined-github/issues/9910 */
+/* Test: https://github.com/refined-github/sandbox/issues/47#issuecomment-1 */
+/* Test: https://github.com/refined-github/refined-github/pull/9910 */
+[id] {
+	scroll-margin-top: 80px;
+}
