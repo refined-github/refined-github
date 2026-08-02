@@ -112,6 +112,7 @@ export const linksToConversationLists = `
 		[href*="/labels/"]
 	):not(
 		[href*="/issues/labels"],
+		[href*="/issues/views"],
 		[href*="sort%3A"],
 		[href*="page="],
 		.issues-reset-query,
