@@ -40,6 +40,17 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		// Preserve relative attributes as such #5435
 		const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
 		link.href = isRelativeAttribute ? newUrl.replace(location.origin, '') : newUrl;
+
+		// GitHub's Turbo navigation intercepts clicks on sidebar links and ignores
+		// the modified href. This override ensures left-click uses the modified URL.
+		// https://github.com/refined-github/refined-github/issues/9927
+		link.addEventListener('click', (clickEvent: MouseEvent) => {
+			if (clickEvent.button === 0 && !clickEvent.metaKey && !clickEvent.ctrlKey && !clickEvent.altKey && !clickEvent.shiftKey) {
+				clickEvent.preventDefault();
+				clickEvent.stopImmediatePropagation();
+				location.assign(link.href);
+			}
+		}, {once: true});
 	}
 
 	// Also sort projects #4957
