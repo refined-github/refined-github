@@ -11,9 +11,10 @@
 	type Props = {
 		tagName?: string;
 		postMerge?: boolean;
+		mergeCommit?: string;
 	};
 
-	const {tagName, postMerge = false}: Props = $props();
+	const {tagName, postMerge = false, mergeCommit}: Props = $props();
 
 	const explanationHref =
 		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#closing-remarks';
@@ -46,7 +47,11 @@
 						{#if postMerge}
 							Now you can release this change
 						{:else}
-							No <a href={explanationHref}>stable version tags</a> for this PR.
+							This PR hasn't been released yet, <a href={explanationHref}>
+								judging
+							</a> by its <a href={buildRepoUrl('commits', mergeCommit!)}>
+								merge commit
+							</a>.
 						{/if}
 					{/snippet}
 					{#await userHasPushAccess() then hasPushAccess}
