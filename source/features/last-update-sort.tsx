@@ -54,6 +54,34 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
+function shouldAddSort(url: URL): string | undefined {
+	if (url.host !== location.host) {
+		return;
+	}
+
+	const q = url.searchParams.get('q');
+	if (
+		!q
+		|| q.includes('sort:updated-desc')
+		|| q.includes('sort:updated-asc')
+		|| url.searchParams.has('page')
+	) {
+		return;
+	}
+
+	// Check if this is a conversation list URL
+	const isConversationList = url.pathname.includes('/issues')
+		|| url.pathname.includes('/pulls')
+		|| url.pathname.includes('/projects');
+	if (!isConversationList) {
+		return;
+	}
+
+	const searchQuery = new SearchQuery(url.href);
+	searchQuery.prepend('sort:updated-desc');
+	return searchQuery.href;
+}
+
 function init(signal: AbortSignal): void {
 	// Get links that don't already have a specific sorting or pagination applied
 	observe(
@@ -61,6 +89,23 @@ function init(signal: AbortSignal): void {
 		updateLink,
 		{signal},
 	);
+
+	// Intercept navigation to handle sidebar links that are rendered by React
+	// and not caught by the AnimationObserver. GitHub's own navigation ignores
+	// the modified href for these links.
+	// https://github.com/refined-github/refined-github/issues/9927
+	navigation?.addEventListener('navigate', (event: NavigateEvent) => {
+		// Skip history navigation (back/forward)
+		if (event.navigationType === 'traverse') {
+			return;
+		}
+
+		const sortedUrl = shouldAddSort(new URL(event.destination.url));
+		if (sortedUrl) {
+			event.preventDefault();
+			location.href = sortedUrl;
+		}
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
