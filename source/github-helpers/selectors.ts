@@ -111,6 +111,8 @@ export const linksToConversationLists = `
 		[href*="/projects"],
 		[href*="/labels/"]
 	):not(
+		[href^="/pulls/"],
+		[href^="/issues/"],
 		[href*="/issues/labels"],
 		[href*="/issues/views"],
 		[href*="sort%3A"],
