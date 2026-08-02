@@ -119,5 +119,9 @@ summary:hover {
 @keyframes show {
 	from {
 		display: none;
+
+		/* Freaking firefox still does not support discrete animations */
+		/* https://caniuse.com/wf-display-animation */
+		opacity: 0;
 	}
 }
