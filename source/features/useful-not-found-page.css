@@ -1,6 +1,10 @@
-/* Missing file */
+/* Missing file (TODO: Drop 2027) */
 .flex-items-center a[aria-label='go to Overview'],
-/* Missing branch */
-.flex-items-center a[aria-label='go to default branch'] {
+/* Missing branch (TODO: Drop 2027) */
+.flex-items-center a[aria-label='go to default branch']
+
+/* 301 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js */
+/* 404 ref: https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json */
+[class^="CodeViewError"] .Blankslate-Action > a:only-child {
 	display: none;
 }

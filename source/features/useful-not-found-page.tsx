@@ -49,10 +49,10 @@ function init(signal: AbortSignal): void {
 	observe([
 		// 410 file
 		// Typo in GitHub's code
-		'div[data-testid="eror-404-description"]',
+		'[data-testid="eror-404-description"]',
 
 		// 404 ref
-		'div[data-testid="error-404-description"]',
+		'[data-testid="error-404-description"]',
 	], addWidget, {signal});
 }
 
