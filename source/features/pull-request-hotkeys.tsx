@@ -10,14 +10,14 @@ async function init(): Promise<void> {
 		'[aria-label="Pull request tabs"]',
 		'[aria-label="Pull request navigation tabs"]', // Commits list tab
 	]);
-	const tabs = $$([
-		'a.tabnav-tab',
-		'a[role="tab"]', // Commits list tab
-	], tabnav);
+	const tabs = $$('a', tabnav);
 	const lastTab = tabs.length - 1;
-	const selectedIndex = tabs.findIndex(tab => tab.classList.contains('selected'));
+	const selectedIndex = tabs.findIndex(tab => tab.matches('.selected, [aria-current]'));
 
 	for (const [index, tab] of tabs.entries()) {
+		// Reset previous hotkeys because the DOM persists across soft navigations
+		// https://github.com/refined-github/refined-github/pull/9916#issuecomment-5157852083
+		delete tab.dataset.hotkey;
 		addHotkey(tab, `g ${index + 1}`);
 
 		if (index === selectedIndex - 1 || (selectedIndex === 0 && index === lastTab)) {
