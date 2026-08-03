@@ -217,3 +217,4 @@ import './features/cmd-enter.js';
 import './features/extensible-nav.js';
 import './features/notifications-ui.js';
 import './features/easy-toggle-hidden-comments.js';
+import './features/extend-repo-tabs.js';
