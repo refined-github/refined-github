@@ -13,17 +13,21 @@ import observe from '../helpers/selector-observer.js';
 import ClosingRemarks from './closing-remarks.svelte';
 import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
-function excludeNightliesAndJunk({textContent}: HTMLAnchorElement): boolean {
-	// https://github.com/refined-github/refined-github/issues/7206
-	return !textContent.includes('nightly') && /\d[.]\d/.test(textContent);
-}
-
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
-		// eslint-disable-next-line unicorn/no-array-callback-reference -- Just this once, I swear
-		return tags.findLast(excludeNightliesAndJunk)?.textContent ?? false;
+		// Prefer versioned tags https://github.com/refined-github/refined-github/issues/7206
+		const tag = tags.findLast(({textContent}) =>
+			!textContent.includes('nightly') && /\d[.]\d/.test(textContent),
+		)
+
+		// But still select any tag if no versioned tags are found
+		// https://github.com/refined-github/refined-github/issues/9831
+		?? tags.at(-1);
+
+		// No tags might be found at all
+		return tag?.textContent ?? false;
 	},
 	cacheKey: ([commit]) => [getRepo()!.nameWithOwner, commit].join(':'),
 });
@@ -42,18 +46,17 @@ function mountClosingRemarks(props: ComponentProps<typeof ClosingRemarks>, signa
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const hash = getMergeCommitHash();
-	const tagName = await firstTag.get(hash);
-
-	if (tagName) {
-		mountClosingRemarks({tagName}, signal);
-		observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
-			mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
-		}, {signal});
+	const mergeCommit = getMergeCommitHash();
+	const tagName = await firstTag.get(mergeCommit);
+	if (!tagName) {
+		mountClosingRemarks({mergeCommit}, signal);
 		return;
 	}
 
-	mountClosingRemarks({}, signal);
+	mountClosingRemarks({tagName, mergeCommit}, signal);
+	observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
+		mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
+	}, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -84,11 +87,10 @@ Test URLs
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://github.com/eslint/eslint/pull/17
 - Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
-- Junk tag: https://github.com/refined-github/sandbox/pull/1
-	- See: https://github.com/refined-github/sandbox/branch_commits/f743c334f6475021ef133591b587bc282c0cf4c4
-- Normal tag: https://togithub.com/refined-github/refined-github/pull/7127
-	- See https://github.com/refined-github/refined-github/branch_commits/5321825
-- Nightly tag: https://togithub.com/neovim/neovim/pull/22060
-	- see: https://github.com/neovim/neovim/branch_commits/27b81af
+- Untagged PR: https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/pull/3
+- Prefer versioned tag: https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/pull/1
+	- See: https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/branch_commits/60eb1e5ee0953c70e6fc6150dbeacd1cf20899be
+- Show nightly tag if alone: https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/pull/2
+	- See https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/branch_commits/7571f5312ab5db9c23aa11a7e40c5ec88624a11b
 
 */
