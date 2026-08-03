@@ -35,10 +35,8 @@ const noise = new Set([
 const rollup = {
 	input: {
 		options: './source/options.tsx',
-		'options-components': './source/options/svelte-components.ts',
 		welcome: './source/welcome.svelte',
 		graphql: './source/graphql.svelte',
-		header: './source/options/header.svelte', // Also used by welcome and graphql
 
 		'refined-github': './source/refined-github.ts',
 		'content-script': './source/content-script.ts',
@@ -73,6 +71,11 @@ const rollup = {
 			&& warning.ids?.every(id => id.includes('/svelte/'))
 		) {
 			return;
+		}
+
+		// Fail the build immediately on unresolved dependencies. How is this not a default?!
+		if (warning.code === 'UNRESOLVED_IMPORT') {
+			throw new Error(warning.message);
 		}
 
 		defaultHandler(warning);

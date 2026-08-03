@@ -110,10 +110,18 @@ summary:hover {
 #js-failed {
 	animation: show 0s 1s both;
 	white-space: pre-line;
+
+	box-sizing: border-box;
+	max-width: var(--content-width);
+	margin: var(--viewport-margin) auto;
 }
 
 @keyframes show {
 	from {
 		display: none;
+
+		/* Freaking firefox still does not support discrete animations */
+		/* https://caniuse.com/wf-display-animation */
+		opacity: 0;
 	}
 }

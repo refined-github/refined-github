@@ -1,10 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'feature-count',
-		shadow: 'none',
-	}}
-/>
-
 <script lang="ts">
 	import {featuresMeta} from '../feature-data.js';
 

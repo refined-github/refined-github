@@ -62,8 +62,6 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 		get base() {
 			return parseReference($([
 				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
-				// TODO [2026-08-01]: Remove
-				'[class*="PullRequestHeaderSummary"] > [class*="PullRequestHeaderSummary"]',
 				'.base-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 			]));
 		},
@@ -71,11 +69,8 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 			return parseReference(
 				// Doesn't exist in old views
 				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
-					?? $([
-						// TODO [2026-08-01]: Remove
-						'[class*="PullRequestHeaderSummary"] * [class*="PullRequestHeaderSummary"]',
-						'.head-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
-					]),
+					// TODO [2027-01-01]: Drop after legacy PR files view is removed
+					?? $('.head-ref'),
 			);
 		},
 	};

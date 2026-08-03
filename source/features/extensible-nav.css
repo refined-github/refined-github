@@ -1,3 +1,8 @@
+/* Hidden via .d-none, restored via content script CSS (applies to Firefox and Safari) */
+nav.rgh-extensible-nav.d-none {
+	display: flex !important;
+}
+
 .rgh-extensible-nav-removed {
 	position: absolute;
 	top: -200px;

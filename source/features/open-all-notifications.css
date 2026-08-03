@@ -3,3 +3,8 @@
 	~ .rgh-open-notifications-button {
 	display: inline-block !important;
 }
+
+/* Add margin just in case the user has disabled `notifications-ui`, which drops the margin-less dropdown button */
+.dropdown + .rgh-open-selected-button {
+	margin-left: 8px;
+}

@@ -1,13 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'action-link',
-		shadow: 'none',
-		props: {
-			enterprise: {type: 'Boolean', attribute: 'enterprise'},
-		},
-	}}
-/>
-
 <script lang="ts">
 	import {doesBrowserActionOpenOptions} from '../helpers/feature-utils.js';
 

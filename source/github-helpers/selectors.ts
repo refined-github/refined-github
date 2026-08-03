@@ -104,6 +104,7 @@ export const codeSearchHeader_ = [
 	[0, 'https://github.com/search?q=repo%3Arefined-github%2Frefined-github&type=code'],
 ] satisfies UrlMatch[];
 
+// Excludes /pulls/* and /issues/* global pages since they're already sorted by update time #9604
 export const linksToConversationLists = `
 	a:is(
 		[href*="/issues"],
@@ -111,7 +112,11 @@ export const linksToConversationLists = `
 		[href*="/projects"],
 		[href*="/labels/"]
 	):not(
+		[href^="/pulls"],
+		[href^="/issues"],
+
 		[href*="/issues/labels"],
+		[href*="/issues/views"],
 		[href*="sort%3A"],
 		[href*="page="],
 		.issues-reset-query,
@@ -125,9 +130,17 @@ export const linksToConversationLists_ = [
 ] satisfies UrlMatch[];
 
 export const newCommentField = [
-	'[input="fc-new_comment_field"]',
-	'[input^="fc-new_inline_comment_discussion"]',
-	'[aria-labelledby="comment-composer-heading"]',
+	// PR comment
+	'file-attachment[input="fc-new_comment_field"]',
+
+	// PR review comment, conversation tab
+	'file-attachment[input^="fc-new_inline_comment_discussion"]',
+
+	// PR Review comment, files tab
+	'div[class*="AddCommentEditor"] textarea',
+
+	// Issue comment
+	'textarea[aria-labelledby="comment-composer-heading"]',
 ];
 
 export const newCommentField_ = requiresLogin;
