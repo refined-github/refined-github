@@ -30,12 +30,11 @@ function addTag(tags: CommitTags, commit: string, tag: string): void {
 	(tags[commit] ??= new Set()).add(tag);
 }
 
-async function getTags(lastCommit: string, after?: string): Promise<CommitTags> {
+async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}): Promise<CommitTags> {
 	const {repository} = await api.v4(GetTagsOnCommit, {
 		variables: {commit: lastCommit, after},
 	});
 	const nodes = repository.refs.nodes as TagNode[];
-	const tags: CommitTags = {};
 
 	if (nodes.length === 0) {
 		return tags;
@@ -51,11 +50,7 @@ async function getTags(lastCommit: string, after?: string): Promise<CommitTags> 
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
 	if (isLastTagYounger && repository.refs.pageInfo.hasNextPage) {
-		for (const [commit, tagNames] of Object.entries(await getTags(lastCommit, repository.refs.pageInfo.endCursor))) {
-			for (const tag of tagNames) {
-				addTag(tags, commit, tag);
-			}
-		}
+		await getTags(lastCommit, repository.refs.pageInfo.endCursor, tags);
 	}
 
 	return tags;
