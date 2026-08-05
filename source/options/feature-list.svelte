@@ -1,11 +1,11 @@
 <script lang="ts">
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
-	import {getLocalHotfixes} from '../helpers/hotfix.js';
+	import {getHotfixes} from '../helpers/hotfix.js';
 
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
-	const hotfixesPromise = getLocalHotfixes();
+	const hotfixesPromise = getHotfixes();
 
 	// Pre-filter valid imported features
 	const activeFeatures = featuresMeta.filter(feature =>

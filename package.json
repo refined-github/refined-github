@@ -73,7 +73,7 @@
 		"webext-options-sync-per-domain": "^4.3.2",
 		"webext-permission-toggle": "^7.0.1",
 		"webext-storage": "^3.1.0",
-		"webext-storage-cache": "^6.0.3",
+		"webext-storage-cache": "^7.0.0",
 		"webext-tools": "^4.1.0",
 		"zip-text-nodes": "^1.0.0"
 	},

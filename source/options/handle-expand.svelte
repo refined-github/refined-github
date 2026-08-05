@@ -13,7 +13,9 @@
 		}
 
 		if (details.open) {
-			querySelector('input, textarea', details)?.focus({preventScroll: true});
+			querySelector('input:read-write, textarea:read-write', details)?.focus({
+				preventScroll: true,
+			});
 		}
 	}
 

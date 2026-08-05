@@ -5,9 +5,9 @@
 	const {enterprise = false}: {enterprise: boolean} = $props();
 	const {version} = chrome.runtime.getManifest();
 
-	let hotfixesPromise = $state(styleHotfixes.getCached(version));
+	let hotfixesPromise = $state(styleHotfixes.get(version));
 
-	let brokenFeaturesPromise = $state(brokenFeatures.getCached());
+	let brokenFeaturesPromise = $state(brokenFeatures.get());
 	function refreshHotfixes(): void {
 		hotfixesPromise = styleHotfixes.getFresh(version);
 		brokenFeaturesPromise = brokenFeatures.getFresh();
@@ -37,31 +37,30 @@
 			Empty hotfixes
 		</button>
 	</p>
-	{#await hotfixesPromise then hotfixes}
-		<h3>CSS hotfixes</h3>
-		<p>
+	<h3>CSS hotfixes</h3>
+	<p>
+		{#await hotfixesPromise then hotfixes}
 			{#if hotfixes}
-				<textarea rows="2" readonly>{hotfixes}</textarea>
+				<textarea readonly class="text-monospace text-code"
+				>{hotfixes}</textarea>
 			{:else}
-				No hotfixes needed for this version! 🎉
+				<textarea readonly class="text-italics"
+				>No hotfixes needed for this version! 🎉</textarea>
 			{/if}
-		</p>
-	{/await}
-	{#await brokenFeaturesPromise then features}
-		<h3>Disabled features</h3>
-		<p>
-			{#if features}
-				<textarea
-					rows="2"
-					readonly
+		{/await}
+	</p>
+	<h3>Disabled features</h3>
+	<p>
+		{#await brokenFeaturesPromise then features}
+			{#if features.length}
+				<textarea readonly class="text-monospace"
 				>{
 						features.map(line => line.join(' ')).join('\n')
 					}</textarea>
 			{:else}
-				No broken features found in cache. This may be indicative of a hotfix
-				loading failure, the list is never empty if you've ever opened
-				github.com
+				<textarea readonly class="text-italics"
+				>No broken features found in cache. This may be indicative of a hotfix loading failure, the list is never empty if you've ever opened github.com</textarea>
 			{/if}
-		</p>
-	{/await}
+		{/await}
+	</p>
 {/if}

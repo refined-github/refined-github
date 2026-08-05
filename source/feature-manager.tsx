@@ -18,7 +18,7 @@ import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/
 import {
 	applyStyleHotfixes,
 	brokenFeatures,
-	getLocalHotfixesAsOptions,
+	getHotfixesAsOptions,
 	preloadSyncLocalStrings,
 } from './helpers/hotfix.js';
 import ArrayMap from './helpers/map-of-arrays.js';
@@ -81,7 +81,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	const [options, willLoadContentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		contentScriptToggle.get(),
-		getLocalHotfixesAsOptions(),
+		getHotfixesAsOptions({cachedOnly: true}), // They're fetched asynchronously down below
 		bisectFeatures(),
 		preloadSyncLocalStrings(),
 	]);

@@ -6,14 +6,14 @@ import {CachedFunction} from 'webext-storage-cache';
 import type {RghOptions} from '../options-storage.js';
 import {getNewFeatureName} from '../feature-data.js';
 import isDevelopmentVersion from './is-development-version.js';
-import {isomorphicFetchText} from './isomorphic-fetch.js';
+import {webextFetch} from './isomorphic-fetch.js';
 import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
 
 async function fetchHotfix(path: string): Promise<string> {
 	// Use GitHub Pages host because the API is rate-limited
-	return isomorphicFetchText(`https://refined-github.github.io/yolo/${path}`, {
+	return webextFetch(`https://refined-github.github.io/yolo/${path}`, {
 		cache: 'no-store', // Disable caching altogether
 	});
 }
@@ -37,19 +37,22 @@ export const styleHotfixes = new CachedFunction('style-hotfixes', {
 	cacheKey: () => '',
 });
 
-export async function getLocalHotfixes(): Promise<HotfixStorage> {
+export async function getHotfixes({cachedOnly = false}: {cachedOnly?: boolean} = {}): Promise<HotfixStorage> {
 	// To facilitate debugging, ignore hotfixes during development.
 	// Change the version in manifest.json to test hotfixes
 	if (isDevelopmentVersion()) {
 		return [];
 	}
 
-	return await brokenFeatures.get() ?? [];
+	const hotfixes = cachedOnly
+		? await brokenFeatures.getCached()
+		: await brokenFeatures.get();
+	return hotfixes ?? [];
 }
 
-export async function getLocalHotfixesAsOptions(): Promise<Partial<RghOptions>> {
+export async function getHotfixesAsOptions({cachedOnly = false}: {cachedOnly?: boolean} = {}): Promise<Partial<RghOptions>> {
 	const options: Partial<RghOptions> = {};
-	for (const [feature] of await getLocalHotfixes()) {
+	for (const [feature] of await getHotfixes({cachedOnly})) {
 		const currentFeature = getNewFeatureName(feature);
 		if (currentFeature) {
 			options[`feature:${currentFeature}`] = false;
