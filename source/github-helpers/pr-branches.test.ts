@@ -1,6 +1,6 @@
 import {assert, test} from 'vitest';
 
-import {parseReferenceRaw} from './pr-branches.js';
+import {getBranches, parseReferenceRaw} from './pr-branches.js';
 
 test('parseReferenceRaw', () => {
 	assert.deepEqual(parseReferenceRaw('fregante/mem:main', 'main'), {
@@ -35,4 +35,32 @@ test('parseReferenceRaw', () => {
 		TypeError,
 		'Expected `relative` to be either "main" or "fregante:main", got "main:main"',
 	);
+});
+
+test('getBranches uses the reference title when the adjacent element is empty', () => {
+	document.body.innerHTML = `
+		<span class="base-ref" title="refined-github/refined-github:main">main</span>
+		<span></span>
+		<span class="head-ref" title="fregante/refined-github:feature/restore-file">fregante:feature/restore-file</span>
+		<span></span>
+	`;
+
+	assert.deepEqual(getBranches(), {
+		base: {
+			absolute: 'refined-github/refined-github:main',
+			relative: 'main',
+			owner: 'refined-github',
+			name: 'refined-github',
+			nameWithOwner: 'refined-github/refined-github',
+			branch: 'main',
+		},
+		head: {
+			absolute: 'fregante/refined-github:feature/restore-file',
+			relative: 'fregante:feature/restore-file',
+			owner: 'fregante',
+			name: 'refined-github',
+			nameWithOwner: 'fregante/refined-github',
+			branch: 'feature/restore-file',
+		},
+	});
 });
