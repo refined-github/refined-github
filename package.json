@@ -108,6 +108,7 @@
 		"fast-ignore": "^2.0.0",
 		"filenamify": "^7.0.2",
 		"globals": "^17.7.0",
+		"gql.tada": "^1.11.3",
 		"happy-dom": "^20.10.6",
 		"highlight.js": "^11.11.1",
 		"lightningcss": "^1.32.0",
