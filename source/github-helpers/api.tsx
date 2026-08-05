@@ -26,11 +26,13 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
+import {initGraphQLTada} from 'gql.tada';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
 
+import type {introspection} from '../../graphql-env.d.ts';
 import {isWebPage} from 'webext-detect';
 
 import {log} from '../helpers/feature-helpers.js';
@@ -38,6 +40,15 @@ import onetime from '../helpers/onetime.js';
 import {getToken} from '../options-storage.js';
 import {tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
+
+export const graphql = initGraphQLTada<{
+	introspection: introspection;
+	scalars: {
+		DateTime: string;
+		URI: string;
+		GitObjectID: string;
+	};
+}>();
 
 type JsonError = {
 	message: string;

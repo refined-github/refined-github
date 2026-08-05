@@ -7,6 +7,13 @@
 		"moduleResolution": "bundler",
 		"jsx": "react",
 		"declaration": false,
+		"plugins": [
+			{
+				"name": "gql.tada/ts-plugin",
+				"schema": "./schema.graphql",
+				"tadaOutputLocation": "./graphql-env.d.ts"
+			}
+		],
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"resolveJsonModule": true,
