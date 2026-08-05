@@ -5,42 +5,29 @@ on:
     types: [opened, reopened, edited, closed, synchronize]
 
 jobs:
-  block-ai:
-    if: github.event.action == 'opened'
+    block-ai:
+    if: github.event.action == 'opened' || github.event.action == 'edited'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      issues: write
+
     steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          sparse-checkout: .github/workflows/pr-block-ai.ts
+
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            const pr = context.payload.pull_request;
-            const {owner, repo} = context.repo;
-
-            const isAi = pr.title.startsWith('AI:')
-              || /npx|build:bundle|build:typescript|Verification|Validation|Summary|Changes|Testing|—/.test(pr.body);
-            if (!isAi) return;
-
-            await github.rest.pulls.update({
-              owner,
-              repo,
-              pull_number: pr.number,
-              state: 'closed',
-              title: 'AI SPAM',
-            });
-
-            await github.rest.issues.createComment({
-              owner,
-              repo,
-              issue_number: pr.number,
-              body: "This looks like an AI-generated PR, so we're preemptively closing it. If you're human and tested it, include a screenshot/video/gif of the working PR and we can reopen the PR. Don't open more PRs until this one is resolved.",
-            });
+            await import('./.github/workflows/pr-block-ai.ts');
 
   labels:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+
     steps:
       - name: Check if PR has no labels
         id: check
@@ -64,13 +51,14 @@ jobs:
       pull-requests: write
       issues: read
       contents: read
+
     steps:
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            const allowed = ['bug', 'enhancement', 'meta']
-            const { owner, repo } = context.repo
-            const pr = context.payload.pull_request
+            const allowed = ['bug', 'enhancement', 'meta'];
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
 
             const query = `
               query($owner:String!, $repo:String!, $number:Int!) {
@@ -86,16 +74,24 @@ jobs:
                   }
                 }
               }
-            `
+            `;
 
             const res = await github.graphql(query, {
-              owner, repo, number: pr.number
-            })
+              owner,
+              repo,
+              number: pr.number,
+            });
 
-            const labels = new Set()
-            for (const issue of res.repository.pullRequest.closingIssuesReferences.nodes) {
-              for (const l of issue.labels.nodes) {
-                if (allowed.includes(l.name)) labels.add(l.name)
+            const labels = new Set();
+
+            for (
+              const issue of
+              res.repository.pullRequest.closingIssuesReferences.nodes
+            ) {
+              for (const label of issue.labels.nodes) {
+                if (allowed.includes(label.name)) {
+                  labels.add(label.name);
+                }
               }
             }
 
@@ -104,15 +100,18 @@ jobs:
                 owner,
                 repo,
                 issue_number: pr.number,
-                labels: [...labels]
-              })
+                labels: [...labels],
+              });
             }
 
   no-force-push:
-    if: github.event.action == 'synchronize' && github.event.pull_request.head.repo.full_name != github.repository
+    if: >-
+      github.event.action == 'synchronize' &&
+      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+
     steps:
       - name: Check if force push
         id: check
