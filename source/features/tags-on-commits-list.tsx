@@ -32,7 +32,10 @@ function addTag(tags: CommitTags, commit: string, tag: string): void {
 
 async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}): Promise<CommitTags> {
 	const {repository} = await api.v4(GetTagsOnCommit, {
-		variables: {commit: lastCommit, after},
+		variables: {
+			commit: lastCommit,
+			...after && {after},
+		},
 	});
 	const nodes = repository.refs.nodes as TagNode[];
 
@@ -86,6 +89,7 @@ async function markTags(commits: HTMLElement[]): Promise<void> {
 
 	for (const commit of commits) {
 		const commitTags = tags[getCommitHash(commit)];
+		// `commitTags` can be undefined if a commit has no associated release tags in the GraphQL response
 		if (commitTags?.size) {
 			renderTags(commit, commitTags);
 		}
