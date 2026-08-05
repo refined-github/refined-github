@@ -13,7 +13,8 @@
 	],
 	"excludes": [
 		"safari",
-		"eslint-suppressions.json"
+		"eslint-suppressions.json",
+		"graphql-env.d.ts"
 	],
 	"useTabs": true,
 	"markup": {

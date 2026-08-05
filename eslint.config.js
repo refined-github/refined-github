@@ -11,7 +11,7 @@ import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
 export default defineConfig([
-	globalIgnores(['safari', 'package-lock.json']),
+	globalIgnores(['safari', 'package-lock.json', 'graphql-env.d.ts']),
 	...eslintConfigXo({
 		browser: true,
 		gitignore: import.meta.url,
