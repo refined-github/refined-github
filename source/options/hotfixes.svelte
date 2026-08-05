@@ -4,18 +4,21 @@
 
 	const {enterprise = false}: {enterprise: boolean} = $props();
 	const {version} = chrome.runtime.getManifest();
+	let emptied = $state(false);
 
 	let hotfixesPromise = $state(styleHotfixes.get(version));
 
 	let brokenFeaturesPromise = $state(brokenFeatures.get());
 	function refreshHotfixes(): void {
+		emptied = false;
 		hotfixesPromise = styleHotfixes.getFresh(version);
 		brokenFeaturesPromise = brokenFeatures.getFresh();
 	}
 
 	function emptyHotfixes(): void {
-		hotfixesPromise = styleHotfixes.applyOverride([version], '');
-		brokenFeaturesPromise = brokenFeatures.applyOverride([], []);
+		hotfixesPromise = styleHotfixes.setCached('', version);
+		brokenFeaturesPromise = brokenFeatures.setCached([]);
+		emptied = true;
 	}
 </script>
 <p>In order to address severe issues as quickly as possible, Refined GitHub
@@ -36,6 +39,9 @@
 		<button type="button" onclick={emptyHotfixes}>
 			Empty hotfixes
 		</button>
+	</p>
+	<p hidden={!emptied}>
+		Hotfixes have been emptied and will stay empty until the next auto-update in a few hours.
 	</p>
 	<h3>CSS hotfixes</h3>
 	<p>
