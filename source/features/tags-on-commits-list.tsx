@@ -48,15 +48,16 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 	}
 
 	const lastTag = nodes.at(-1)!.target;
-	const isLastTagYounger = new Date(repository.object.committedDate)
-		< new Date('tagger' in lastTag ? lastTag.tagger.date : lastTag.committedDate);
+	const lastCommitDate = new Date(repository.object.committedDate);
+	const lastTagDate = new Date('tagger' in lastTag ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
-	if (isLastTagYounger && repository.refs.pageInfo.hasNextPage) {
-		await getTags(lastCommit, repository.refs.pageInfo.endCursor, tags);
+	if (!(lastCommitDate < lastTagDate && repository.refs.pageInfo.hasNextPage)) {
+		return tags;
 	}
 
-	return tags;
+	// eslint-disable-next-line unicorn/no-useless-recursion -- Not much better
+	return getTags(lastCommit, repository.refs.pageInfo.endCursor, tags);
 }
 
 function renderTags(commit: HTMLElement, tags: Set<string>): void {
