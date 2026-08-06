@@ -12,6 +12,7 @@ import observe from '../helpers/selector-observer.js';
 import joinJsx from '../helpers/join-jsx.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
 
 type CommitTags = Record<string, Set<string>>;
 
@@ -66,10 +67,12 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 		<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 			<TagIcon className="mr-1 tmp-mr-1 color-fg-muted" />
 			<span className="d-flex flex-wrap gap-1">
-				{joinJsx(' ', tagLinks)}
+				{joinJsx(', ', tagLinks)}
 			</span>
 		</div>,
 	);
+
+	$(commitTitleInLists, commit).prepend(<TagIcon className="mr-2 tmp-mr-2" />);
 	commit.classList.add('rgh-tagged');
 }
 
