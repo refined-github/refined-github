@@ -13,22 +13,7 @@ import joinJsx from '../helpers/join-jsx.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
 
-type TagNode = {
-	name: string;
-	target: {
-		commitResourcePath: string;
-	} & ({tagger: {date: Date}} | {committedDate: Date});
-};
-
 type CommitTags = Record<string, Set<string>>;
-
-function addTag(tags: CommitTags, commit: string, tag: string): void {
-	if (tag === 'nightly') {
-		return;
-	}
-
-	(tags[commit] ??= new Set()).add(tag);
-}
 
 async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}): Promise<CommitTags> {
 	const {repository} = await api.v4(GetTagsOnCommit, {
@@ -37,14 +22,18 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 			...after && {after},
 		},
 	});
-	const nodes = repository.refs.nodes as TagNode[];
-
-	if (nodes.length === 0) {
-		return tags;
-	}
+	const {nodes} = repository.refs;
 
 	for (const node of nodes) {
-		addTag(tags, node.target.commitResourcePath.split('/', 5)[4], node.name);
+		const commit = node.target.commitResourcePath.split('/', 5)[4];
+		if (node.name !== 'nightly') {
+			tags[commit] ??= new Set();
+			tags[commit].add(node.name);
+		}
+	}
+
+	if (nodes.length === 0 || !repository.refs.pageInfo.hasNextPage) {
+		return tags;
 	}
 
 	const lastTag = nodes.at(-1)!.target;
@@ -52,7 +41,7 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 	const lastTagDate = new Date('tagger' in lastTag ? lastTag.tagger.date : lastTag.committedDate);
 
 	// If the last tag is newer than last commit on the page, then not all commits are accounted for, keep looking
-	if (!(lastCommitDate < lastTagDate && repository.refs.pageInfo.hasNextPage)) {
+	if (lastCommitDate >= lastTagDate) {
 		return tags;
 	}
 
