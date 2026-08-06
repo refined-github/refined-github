@@ -51,12 +51,11 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 
 function renderTags(commit: HTMLElement, tags: Set<string>): void {
 	const tagLinks = [...tags].map(tag =>
-		// .markdown-title enables the background color
 		<a
-			className="Link--muted markdown-title"
+			className="text-bold Link--primary no-underline"
 			href={buildRepoUrl('releases/tag', tag)}
 		>
-			<code>{tag}</code>
+			{tag}
 		</a>,
 	);
 
@@ -65,7 +64,7 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 		'[class^="Description-module__container"]',
 	], commit).append(
 		<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
-			<TagIcon />
+			<TagIcon className="mr-1 tmp-mr-1 color-fg-muted" />
 			<span className="d-flex flex-wrap gap-1">
 				{joinJsx(' ', tagLinks)}
 			</span>
