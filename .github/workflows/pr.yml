@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, edited, closed, synchronize]
 
 jobs:
-    block-ai:
+  block-ai:
     if: github.event.action == 'opened' || github.event.action == 'edited'
     runs-on: ubuntu-latest
     permissions:
@@ -19,8 +19,7 @@ jobs:
 
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
-          script: |
-            await import('./.github/workflows/pr-block-ai.ts');
+          script: await import('./.github/workflows/pr-block-ai.js');
 
   labels:
     if: github.event.pull_request.merged == true
