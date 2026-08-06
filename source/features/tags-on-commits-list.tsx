@@ -68,7 +68,7 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 		<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 			<TagIcon />
 			<span className="d-flex flex-wrap gap-1">
-				{joinJsx(', ', tagLinks)}
+				{joinJsx(' ', tagLinks)}
 			</span>
 		</div>,
 	);
