@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable -- Uses globals */
+/* eslint-disable -- Uses globals */
 export async function run({github, context, core}) {
 	const marker = "This looks like an AI-generated PR, so we're preemptively closing it.";
 
