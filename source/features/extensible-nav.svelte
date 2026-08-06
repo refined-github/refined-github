@@ -9,26 +9,49 @@
 	<ul class="UnderlineNav-body">
 		{#each $tabs as tab (tab.id)}
 			{@const id = `rgh-extensible-nav-${tab.id}`}
-			<li>
+			{@const isSelected = tab.id === $selectedId}
+			<!-- Always show label if selected -->
+			{@const hasLabel = !tab.demoted || isSelected}
+			{@const tooltip = tab.tooltip ?? (hasLabel ? undefined : tab.label)}
+			<!-- Keep it demoted even if it has a forced label due to `isSelected` -->
+			<li class:demoted={tab.demoted}>
 				<a
 					{id}
 					href={tab.href}
 					class="UnderlineNav-item"
 					data-turbo-frame="repo-content-turbo-frame"
 					data-react-nav={tab.reactNav}
-					class:selected={tab.id === $selectedId}
-					aria-labelledby={tab.tooltip ? `${id}-tooltip` : undefined}
+					aria-labelledby={tooltip ? `${id}-tooltip` : undefined}
+					class:selected={isSelected}
 				>
 					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
-					<span data-content={tab.label}>{tab.label}</span>
+					<!-- Don't use [hidden] because Svelte won't render it at all -->
+					<span class:d-none={!hasLabel} data-content={tab.label}>
+						{tab.label}
+					</span>
 					<TabCounter counter={tab.counter} />
 				</a>
-				{#if tab.tooltip}
-					<Tooltip id="{id}-tooltip" htmlFor={id} label={tab.tooltip} />
+				{#if tooltip}
+					<Tooltip
+						id="{id}-tooltip"
+						htmlFor={id}
+						label={typeof tab.demoted === 'string' ? `${tab.label}: ${tab.demoted}` : tooltip}
+					/>
 				{/if}
 			</li>
 		{/each}
 	</ul>
 </nav>
 <style>
+	a {
+		min-height: 1lh;
+		gap: 8px;
+
+		:global(svg, .Counter) {
+			margin: 0;
+		}
+	}
+	.demoted:nth-child(1 of .demoted) {
+		margin-left: 16px;
+	}
 </style>

@@ -282,6 +282,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
 	},
 	{
+		"id": "extend-repo-tabs",
+		"description": "Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.",
+		"screenshot": "https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326"
+	},
+	{
 		"id": "extensible-nav",
 		"description": "Beta: This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar. Currently opt-in for testing.",
 		"css": true,

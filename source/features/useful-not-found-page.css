@@ -1,6 +1,13 @@
+/* TODO: Drop in 2027 */
 /* Missing file */
 .flex-items-center a[aria-label='go to Overview'],
 /* Missing branch */
 .flex-items-center a[aria-label='go to default branch'] {
+	display: none;
+}
+
+/* 301 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js */
+/* 404 ref: https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json */
+[class^='CodeViewError'] .Blankslate-Action > a:only-child {
 	display: none;
 }

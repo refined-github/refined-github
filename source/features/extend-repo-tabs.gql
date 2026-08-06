@@ -1,0 +1,16 @@
+query RepoCountInfo($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		projectsV2 {
+			totalCount
+		}
+		defaultBranchRef {
+			target {
+				... on Commit {
+					checkSuites {
+						totalCount
+					}
+				}
+			}
+		}
+	}
+}
