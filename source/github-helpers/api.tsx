@@ -26,7 +26,7 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
-import {initGraphQLTada} from 'gql.tada';
+import {initGraphQLTada, type ResultOf, type TadaDocumentNode} from 'gql.tada';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
@@ -59,6 +59,9 @@ type GraphQlResponse = {
 	data?: JsonObject;
 	errors?: JsonError[];
 };
+
+type GraphQlQuery = string | TadaDocumentNode;
+type GraphQlResult<Query extends GraphQlQuery> = Query extends TadaDocumentNode ? ResultOf<Query> : AnyObject;
 
 type RestResponse = AnyObject & {
 	httpStatus: number;
@@ -275,10 +278,11 @@ const v3hasAnyItems = async (
 	return headers.has('link');
 };
 
-const v4uncached = async (
-	query: string,
+const v4uncached = async <Query extends GraphQlQuery>(
+	query: Query,
 	options: GhGraphQlApiOptions = v4defaults,
-): Promise<AnyObject> => {
+): Promise<GraphQlResult<Query>> => {
+	const queryString = query as string;
 	const personalToken = await getToken();
 
 	if (!personalToken) {
@@ -286,36 +290,36 @@ const v4uncached = async (
 	}
 
 	// GraphQL uses POST for everything, so check the query type instead of the HTTP method
-	if (/^\s*mutation[\s({]/.test(query)) {
+	if (/^\s*mutation[\s({]/.test(queryString)) {
 		await assertCurrentUser();
 	}
 
 	// TODO: Remove automatic usage of globals via `getRepo()`
 	// https://github.com/refined-github/refined-github/issues/5821
 	const currentRepoIfAny = getRepo(); // Don't destructure, it's `undefined` outside repos
-	query = query.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
+	const fullQueryWithoutOperation = queryString.replace('repository() {', () => 'repository(owner: $owner, name: $name) {');
 
 	// Automatically provide variables common variables only when used.
 	// GraphQL doesn't like unused variables.
 	const variables: JsonObject = {};
 	const parameters: string[] = [];
-	if (query.includes('$owner')) {
+	if (fullQueryWithoutOperation.includes('$owner')) {
 		variables.owner = currentRepoIfAny!.owner;
 		parameters.push('$owner: String!');
 	}
 
-	if (query.includes('$name')) {
+	if (fullQueryWithoutOperation.includes('$name')) {
 		variables.name = currentRepoIfAny!.name;
 		parameters.push('$name: String!');
 	}
 
 	Object.assign(variables, options.variables);
 
-	const fullQuery = /^\s*(?:query|mutation)/.test(query)
-		? query
+	const fullQuery = /^\s*(?:query|mutation)/.test(fullQueryWithoutOperation)
+		? fullQueryWithoutOperation
 		: parameters.length === 0
-			? `query {${query}}`
-			: `query (${parameters.join(',')}) {${query}}`;
+			? `query {${fullQueryWithoutOperation}}`
+			: `query (${parameters.join(',')}) {${fullQueryWithoutOperation}}`;
 
 	log.http(fullQuery);
 
@@ -344,19 +348,20 @@ const v4uncached = async (
 	}
 
 	if (response.ok) {
-		return data;
+		return data as GraphQlResult<Query>;
 	}
 
 	throw await getError(apiResponse);
 };
 
-const v4 = mem(v4uncached, {
+const v4: typeof v4uncached = mem(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
+		const queryString = query as string;
+		if (queryString.includes('repository() {') || queryString.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);
 		}
 
