@@ -1,20 +1,15 @@
-/* eslint-disable unicorn/no-abusive-eslint-disable -- Uses globals */
-/* eslint-disable -- Uses globals */
-async function init() {
+export async function run({github, context, core}) {
 	const marker = "This looks like an AI-generated PR, so we're preemptively closing it.";
 
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
 
-	const comments = await github.paginate(
-		github.rest.issues.listComments,
-		{
-			owner,
-			repo,
-			issue_number: pr.number,
-			per_page: 5,
-		},
-	);
+	const {data: comments} = await github.rest.issues.listComments({
+		owner,
+		repo,
+		issue_number: pr.number,
+		per_page: 5,
+	});
 
 	const alreadyProcessed = comments.some(
 		comment =>
@@ -51,5 +46,3 @@ async function init() {
 			`${marker} If you're human and tested it, include a screenshot/video/gif of the working PR and we can reopen the PR. Don't open more PRs until this one is resolved.`,
 	});
 }
-
-await init();
