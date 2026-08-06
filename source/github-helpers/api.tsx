@@ -371,6 +371,7 @@ const api = {
 	v3hasAnyItems,
 	v3uncached,
 	v4uncached,
+	graphql,
 	escapeKey,
 	getError,
 	assertCurrentUser,
