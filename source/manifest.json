@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/chrome-manifest",
 	"name": "Refined GitHub",
-	"version": "26.7",
+	"version": "0.0.0",
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/refined-github/refined-github",
 	"manifest_version": 3,
