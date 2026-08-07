@@ -41,8 +41,8 @@
 		</button>
 	</p>
 	<p hidden={!emptied} class="error-banner">
-		✅ Hotfixes have been emptied and will stay empty until the next auto-update in
-		a few hours.
+		✅ Hotfixes have been emptied and will stay empty until the next
+		auto-update in a few hours.
 	</p>
 	<h3>CSS hotfixes</h3>
 	<p>
