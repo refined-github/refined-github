@@ -161,7 +161,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: manifest-version
-          message: Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
+          message: ❌ Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
 
       - if: success()
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
