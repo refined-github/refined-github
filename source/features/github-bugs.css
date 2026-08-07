@@ -2,6 +2,8 @@
 /* Info: https://github.com/refined-github/refined-github/issues/4817 */
 /* Test: https://github.com/sindresorhus/refined-github/commits/main?after=37fa4677f1ecf26d7176c8d9d43f8a4db6d5d902+104&branch=main */
 li[data-testid='commit-row-item'] code,
+/* Test: https://github.com/refined-github/refined-github/compare/26.7...26.7.12 */
+.js-commits-list-item p code,
 /* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
 div[class^='CommitHeader-module__commitMessageContainer'] code,
 /* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
