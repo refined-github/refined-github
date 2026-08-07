@@ -18,7 +18,7 @@ import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/
 import {
 	applyStyleHotfixes,
 	brokenFeatures,
-	getHotfixesAsOptions,
+	brokenFeaturesAsOptions,
 	preloadSyncLocalStrings,
 } from './helpers/hotfix.js';
 import ArrayMap from './helpers/map-of-arrays.js';
@@ -81,7 +81,7 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	const [options, willLoadContentScripts, localHotfixes, bisectedFeatures] = await Promise.all([
 		optionsStorage.getAll(),
 		contentScriptToggle.get(),
-		getHotfixesAsOptions({cachedOnly: true}), // They're fetched asynchronously down below
+		brokenFeatures.getCached(), // Cached first, they're fetched asynchronously down below
 		bisectFeatures(),
 		preloadSyncLocalStrings(),
 	]);
@@ -128,9 +128,11 @@ const globalReady = new Promise<RghOptions>(async resolve => {
 	if (bisectedFeatures) {
 		Object.assign(options, bisectedFeatures);
 	} else {
-		// If features are remotely marked as "seriously breaking" by the maintainers, disable them without having to wait for proper updates to propagate #3529
+		// Use cached first
+		Object.assign(options, brokenFeaturesAsOptions(localHotfixes));
+
+		// Asynchronously fetch the rest, if expired
 		void brokenFeatures.get();
-		Object.assign(options, localHotfixes);
 	}
 
 	if (elementExists('body.logged-out')) {

@@ -22,6 +22,12 @@ type HotfixStorage = BrokenFeatureEntry[];
 
 export const brokenFeatures = new CachedFunction('broken-features', {
 	async updater(): Promise<HotfixStorage> {
+	// To facilitate debugging, ignore hotfixes during development.
+	// Change the version in manifest.json to test hotfixes
+		if (isDevelopmentVersion()) {
+			return [];
+		}
+
 		const content = await fetchHotfix('broken-features.csv');
 		return parseBrokenFeaturesCsv(content, currentVersion);
 	},
@@ -30,29 +36,19 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 });
 
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
-	updater: async (version: string): Promise<string> => fetchHotfix(`style/${version}.css`),
+	// To facilitate debugging, ignore hotfixes during development.
+	// Change the version in manifest.json to test hotfixes
+	updater: async (version: string): Promise<string> =>
+		isDevelopmentVersion() ? '' : fetchHotfix(`style/${version}.css`),
 
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},
 	cacheKey: () => '',
 });
 
-export async function getHotfixes({cachedOnly = false}: {cachedOnly?: boolean} = {}): Promise<HotfixStorage> {
-	// To facilitate debugging, ignore hotfixes during development.
-	// Change the version in manifest.json to test hotfixes
-	if (isDevelopmentVersion()) {
-		return [];
-	}
-
-	const hotfixes = cachedOnly
-		? await brokenFeatures.getCached()
-		: await brokenFeatures.get();
-	return hotfixes ?? [];
-}
-
-export async function getHotfixesAsOptions({cachedOnly = false}: {cachedOnly?: boolean} = {}): Promise<Partial<RghOptions>> {
+export function brokenFeaturesAsOptions(brokenFeaturesStorage: HotfixStorage = []): Partial<RghOptions> {
 	const options: Partial<RghOptions> = {};
-	for (const [feature] of await getHotfixes({cachedOnly})) {
+	for (const [feature] of brokenFeaturesStorage) {
 		const currentFeature = getNewFeatureName(feature);
 		if (currentFeature) {
 			options[`feature:${currentFeature}`] = false;
@@ -63,7 +59,7 @@ export async function getHotfixesAsOptions({cachedOnly = false}: {cachedOnly?: b
 }
 
 export async function applyStyleHotfixes(style: string): Promise<void> {
-	if (!style || isDevelopmentVersion() || isEnterprise()) {
+	if (!style || isEnterprise()) {
 		return;
 	}
 
