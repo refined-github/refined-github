@@ -47,7 +47,7 @@ function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaE
 assertDefined(
 	await elementReady('.js-features', {
 		stopOnDomReady: false,
-		signal: AbortSignal.timeout(500),
+		signal: AbortSignal.timeout(1000),
 	}),
 );
 

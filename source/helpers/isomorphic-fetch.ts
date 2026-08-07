@@ -13,7 +13,7 @@ export async function fetchText({url, options}: FetchParameters): Promise<string
 		: ''; // Likely a 404. Either way the response isn't the CSS we expect #8142
 }
 
-export async function isomorphicFetchText(url: string, options: RequestInit): Promise<string> {
+export async function webextFetch(url: string, options: RequestInit): Promise<string> {
 	return isWebPage()
 		// Firefox CSP issue: https://github.com/refined-github/refined-github/issues/8144
 		? messageRuntime({fetchText: {url, options}})

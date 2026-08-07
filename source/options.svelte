@@ -119,7 +119,7 @@
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
 			<p>
 				<textarea
-					class="monospace-field"
+					class="monospace-field text-code"
 					name="customCss"
 					rows="2"
 					spellcheck="false"
