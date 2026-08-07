@@ -19,7 +19,7 @@
 	import FeatureList from './options/feature-list.svelte';
 	import HandleExpand from './options/handle-expand.svelte';
 	import Header from './options/header.svelte';
-	import HotFixes from './options/hotfixes.svelte';
+	import HotFixes from './options/hot-fixes.svelte';
 	import RateLink from './options/rate-link.svelte';
 	import StorageUsage from './options/storage-usage.svelte';
 	import TokenInput from './options/token-input.svelte';
