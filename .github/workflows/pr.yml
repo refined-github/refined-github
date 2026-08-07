@@ -16,13 +16,13 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          sparse-checkout: .github/workflows/pr-block-ai.js
+          sparse-checkout: .github/workflows/pr.js
 
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            await require('./.github/workflows/pr-block-ai.js')
-             .run({github, context, core});
+            await require('./.github/workflows/pr.js')
+             .blockAi({github, context, core});
 
   labels:
     if: github.event.pull_request.merged == true
@@ -55,56 +55,15 @@ jobs:
       contents: read
 
     steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          sparse-checkout: .github/workflows/pr.js
+
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            const allowed = ['bug', 'enhancement', 'meta'];
-            const { owner, repo } = context.repo;
-            const pr = context.payload.pull_request;
-
-            const query = `
-              query($owner:String!, $repo:String!, $number:Int!) {
-                repository(owner:$owner, name:$repo) {
-                  pullRequest(number:$number) {
-                    closingIssuesReferences(first: 10) {
-                      nodes {
-                        labels(first: 20) {
-                          nodes { name }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            `;
-
-            const res = await github.graphql(query, {
-              owner,
-              repo,
-              number: pr.number,
-            });
-
-            const labels = new Set();
-
-            for (
-              const issue of
-              res.repository.pullRequest.closingIssuesReferences.nodes
-            ) {
-              for (const label of issue.labels.nodes) {
-                if (allowed.includes(label.name)) {
-                  labels.add(label.name);
-                }
-              }
-            }
-
-            if (labels.size > 0) {
-              await github.rest.issues.addLabels({
-                owner,
-                repo,
-                issue_number: pr.number,
-                labels: [...labels],
-              });
-            }
+            await require('./.github/workflows/pr.js')
+             .inheritLabels({github, context, core});
 
   no-force-push:
     if: >-
@@ -152,11 +111,19 @@ jobs:
           allow-unsafe-pr-checkout: true
           sparse-checkout: source/manifest.json
 
-      - id: check
-        run: echo "version=$(jq -r '.version' source/manifest.json)" >> "$GITHUB_OUTPUT"
+      - name: Ensure it's still 0.0.0
+        run: |
+          jq -r '.version | "version=\(.)"' source/manifest.json
+          jq -e '.version == "0.0.0"' source/manifest.json
 
-      - uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+      - if: failure()
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: manifest-version
-          delete: ${{ steps.check.outputs.version == '0.0.0' }}
-          message: ${{ steps.check.outputs.version == '0.0.0' && '' || 'Please change `source/manifest.json`''s `"version"` back to `"0.0.0"` before merging.' }}
+          message: ❌ Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
+
+      - if: success()
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          header: manifest-version
+          delete: true
