@@ -5,6 +5,7 @@
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
+	// This will attempt to load the hotfixes because we do want an up-to-date options page
 	const hotfixesPromise = brokenFeatures.get();
 
 	// Pre-filter valid imported features

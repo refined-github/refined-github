@@ -6,9 +6,10 @@
 	const {version} = chrome.runtime.getManifest();
 	let emptied = $state(false);
 
+	// This will attempt to load the hotfixes because we do want an up-to-date options page
 	let hotfixesPromise = $state(styleHotfixes.get(version));
-
 	let brokenFeaturesPromise = $state(brokenFeatures.get());
+
 	function refreshHotfixes(): void {
 		emptied = false;
 		hotfixesPromise = styleHotfixes.getFresh(version);
