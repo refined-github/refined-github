@@ -152,19 +152,11 @@ jobs:
           allow-unsafe-pr-checkout: true
           sparse-checkout: source/manifest.json
 
-      - name: Ensure it's still 0.0.0
-        run: |
-          jq -r '.version | "version=\(.)"' source/manifest.json
-          jq -e '.version == "0.0.0"' source/manifest.json
+      - id: check
+        run: echo "version=$(jq -r '.version' source/manifest.json)" >> "$GITHUB_OUTPUT"
 
-      - if: failure()
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+      - uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: manifest-version
-          message: ❌ Please change `source/manifest.json`'s `"version"` back to `"0.0.0"` before merging.
-
-      - if: success()
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
-        with:
-          header: manifest-version
-          delete: true
+          delete: ${{ steps.check.outputs.version == '0.0.0' }}
+          message: ${{ steps.check.outputs.version == '0.0.0' && '' || 'Please change `source/manifest.json`''s `"version"` back to `"0.0.0"` before merging.' }}
