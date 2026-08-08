@@ -49,7 +49,7 @@
 						{:else}
 							This PR hasn't been released yet, <a href={explanationHref}>
 								judging
-							</a> by its <a href={buildRepoUrl('commits', mergeCommit!)}>
+							</a> by its <a href={buildRepoUrl('commit', mergeCommit!)}>
 								merge commit
 							</a>.
 						{/if}
