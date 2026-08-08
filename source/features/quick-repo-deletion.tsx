@@ -16,7 +16,7 @@ import addNotice from '../github-helpers/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
 import addTooltip, {withTooltipRef} from '../components/tooltip.js';
 
-const tooltip = {label: 'Instant deletion via', shortcut: 'shift alt click'} as const;
+const tooltip = {label: 'Instant deletion via', shortcut: 'alt click'} as const;
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // Only if the repository hasn't been starred
@@ -55,8 +55,8 @@ async function modifyUiAfterSuccessfulDeletion(): Promise<void> {
 	$('.application-main').remove();
 }
 
-async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
-	if (!event.shiftKey || !event.altKey) {
+async function handleAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Promise<void> {
+	if (!event.altKey) {
 		return;
 	}
 
@@ -106,11 +106,11 @@ function autoOpenModal(signal: AbortSignal): void {
 
 async function initRepoRoot(signal: AbortSignal): Promise<void | false> {
 	observe('[data-testid="repo-header-actions"]', addButton, {signal});
-	delegate('.rgh-quick-repo-deletion', 'click', handleShiftAltClick, {signal});
+	delegate('.rgh-quick-repo-deletion', 'click', handleAltClick, {signal});
 }
 
 async function initRepoSettings(signal: AbortSignal): Promise<void | false> {
-	delegate(buttonHashSelector, 'click', handleShiftAltClick, {signal});
+	delegate(buttonHashSelector, 'click', handleAltClick, {signal});
 	observe(buttonHashSelector, addShortcutTooltip, {signal});
 }
 
