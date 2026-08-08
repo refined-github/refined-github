@@ -14,13 +14,14 @@ import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import addNotice from '../github-helpers/notice-bar.js';
 import observe from '../helpers/selector-observer.js';
+import addTooltip, {withTooltipRef} from '../components/tooltip.js';
 
-const tooltip = 'Instant deletion: shift-alt-click';
+const tooltip = {label: 'Instant deletion via', shortcut: 'shift alt click'} as const;
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // Only if the repository hasn't been starred
 async function isRepoUnpopular(): Promise<boolean> {
-	const counter = await elementReady('.starring-container .Counter');
+	const counter = await elementReady('[data-testid="star-button"] [data-component="CounterLabel"]');
 	return counter!.textContent === '0';
 }
 
@@ -76,7 +77,7 @@ async function handleShiftAltClick(event: DelegateEvent<MouseEvent, HTMLElement>
 }
 
 function addShortcutTooltip(button: HTMLElement): void {
-	button.setAttribute('title', tooltip);
+	addTooltip(tooltip, button);
 }
 
 function addButton(header: HTMLElement): void {
@@ -85,7 +86,7 @@ function addButton(header: HTMLElement): void {
 			<a
 				href={buildRepoUrl('settings', buttonHashSelector)}
 				className="btn btn-sm btn-danger rgh-quick-repo-deletion"
-				title={tooltip}
+				ref={withTooltipRef(tooltip)}
 			>
 				<TrashIcon className="mr-2 tmp-mr-2" />
 				Delete fork
@@ -104,7 +105,7 @@ function autoOpenModal(signal: AbortSignal): void {
 }
 
 async function initRepoRoot(signal: AbortSignal): Promise<void | false> {
-	observe('.pagehead-actions', addButton, {signal});
+	observe('[data-testid="repo-header-actions"]', addButton, {signal});
 	delegate('.rgh-quick-repo-deletion', 'click', handleShiftAltClick, {signal});
 }
 

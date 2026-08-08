@@ -46,7 +46,7 @@
 	{#if shortcut}
 		<kbd class="rgh-shortcut">
 			{#each shortcut.split(' ') as key (key)}
-				<span data-kbd-chord="true">{upperCaseFirst(key)}</span>
+				<span data-kbd-chord="true">{upperCaseFirst(key)}</span>{' '}
 			{/each}
 		</kbd>
 	{/if}
