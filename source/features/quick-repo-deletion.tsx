@@ -66,7 +66,8 @@ async function handleAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Pr
 	// https://github.com/refined-github/refined-github/pull/7866#issuecomment-2396270060
 	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
-	if (confirm('Are you sure you want to delete this repository?')) {
+	const {nameWithOwner} = getRepo()!;
+	if (confirm(`⚠️${nameWithOwner}⚠️ will be deleted. Are you sure?`)) {
 		await showToast(deleteRepository, {
 			message: 'Deleting repo…',
 			doneMessage: 'Repo deleted',
