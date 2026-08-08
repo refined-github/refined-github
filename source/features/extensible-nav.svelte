@@ -14,7 +14,7 @@
 			{@const hasLabel = !tab.demoted || isSelected}
 			{@const tooltip = tab.tooltip ?? (hasLabel ? undefined : tab.label)}
 			<!-- Keep it demoted even if it has a forced label due to `isSelected` -->
-			<li class:demoted={tab.demoted}>
+			<li class:demoted={tab.demoted} hidden={tab.removed}>
 				<a
 					{id}
 					href={tab.href}
