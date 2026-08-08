@@ -52,7 +52,6 @@ function add(blueprintRow: HTMLElement): void {
 	control.replaceChildren(
 		// Padding/margin classes added to increate hit area
 		<label className="d-flex gap-1 flex-items-center p-2 tmp-p-2 mr-n2 tmp-mr-n2">
-			Disable
 			<input
 				checked
 				// @ts-expect-error Safari only
