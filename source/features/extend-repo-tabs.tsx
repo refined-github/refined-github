@@ -70,7 +70,6 @@ async function updateActionsAndProjectsTabs(): Promise<void> {
 
 function init(): void {
 	overrideTab('pull-requests', {label: 'Pulls'});
-	overrideTab('agents', {demoted: true});
 	overrideTab('security-and-quality', {demoted: true});
 	overrideTab('insights', {demoted: true});
 
