@@ -2,7 +2,7 @@
 
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {closestElement} from 'select-dom';
+import {closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import clickAll from '../helpers/click-all.js';
@@ -11,6 +11,13 @@ import {is} from '../helpers/css-selectors.js';
 function minimizedCommentsSelector(clickedItem: HTMLElement): string {
 	const open = (clickedItem.parentElement as HTMLDetailsElement).open ? '[open]' : ':not([open])';
 	return `.minimized-comment > details${open} > summary`;
+}
+
+const hiddenCommentButtonSelector = '[data-testid="comment-header-right-side-items"] button:has(> .octicon-unfold, > .octicon-fold)';
+
+function hiddenCommentsSelector(clickedItem: HTMLElement): string {
+	const action = elementExists('.octicon-unfold', clickedItem) ? 'unfold' : 'fold';
+	return `[data-testid="comment-header-right-side-items"] button:has(> .octicon-${action})`;
 }
 
 const diffsSelector = '.js-file .js-diff-load';
@@ -43,6 +50,9 @@ function markdownCommentSelector(clickedItem: HTMLElement): string {
 function init(signal: AbortSignal): void {
 	// Collapsed comments in PR conversations and files
 	delegate('.minimized-comment details summary', 'click', clickAll(minimizedCommentsSelector), {signal});
+
+	// Collapsed comments in issue conversations
+	delegate(hiddenCommentButtonSelector, 'click', clickAll(hiddenCommentsSelector), {signal, capture: true});
 
 	// "Load diff" buttons in PR files
 	delegate(diffsSelector, 'click', clickAll(diffsSelector), {signal});
