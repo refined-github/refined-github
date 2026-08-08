@@ -11,11 +11,13 @@ export type Tab = {
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
 	demoted?: true | string; // User-visible reason for demotion, e.g. "empty" or "disabled"
+	/** Tabs should only be removed if we know they lead to a 404 */
+	removed?: true;
 	selected?: () => boolean | Promise<boolean>;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = Partial<Pick<Tab, 'label' | 'counter' | 'tooltip' | 'demoted'>>;
+type TabOverride = Partial<Pick<Tab, 'label' | 'counter' | 'tooltip' | 'demoted' | 'removed'>>;
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
