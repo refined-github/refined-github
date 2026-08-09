@@ -7,7 +7,7 @@ import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import Banner from './prevent-link-loss.svelte';
 
-function attach(field: HTMLTextAreaElement, {signal}: {signal: AbortSignal}): void {
+function attach(field: HTMLTextAreaElement, {signal}: {signal?: AbortSignal}): void {
 	void (async () => {
 		await delay(100, signal);
 
