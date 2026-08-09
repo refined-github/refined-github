@@ -7,22 +7,24 @@ import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import Banner from './prevent-link-loss.svelte';
 
-async function attach(field: HTMLTextAreaElement, {signal}: {signal: AbortSignal}): Promise<void> {
-	await delay(100, signal);
+function attach(field: HTMLTextAreaElement, {signal}: {signal: AbortSignal}): void {
+	void (async () => {
+		await delay(100, signal);
 
-	const target = closestElement([
-		// Almost everywhere
-		'fieldset',
+		const target = closestElement([
+			// Almost everywhere
+			'fieldset',
 
-		// Editing PR body
-		'.CommentBox',
-	], field);
-	mount(Banner, {
-		target,
-		props: {
-			field,
-		},
-	});
+			// Editing PR body
+			'.CommentBox',
+		], field);
+		mount(Banner, {
+			target,
+			props: {
+				field,
+			},
+		});
+	})();
 }
 
 function init(signal: AbortSignal): void {
@@ -38,3 +40,21 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test content:
+
+```
+https://github.com/refined-github/refined-github/pull/6954/commits/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85
+https://github.com/refined-github/refined-github/pull/6954/changes/32d1c8b2e1b6971709fe273cfdd1f959b51e8d85..5d28ba424368606c7b241840cf4386f23ce66ec3
+```
+
+Test URLs:
+
+New issue form: https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
+New comment form: https://github.com/refined-github/sandbox/issues/3
+New review form: https://github.com/refined-github/sandbox/pull/4/files#review-changes-modal
+New review comment form: https://github.com/refined-github/sandbox/pull/4/files
+
+*/
