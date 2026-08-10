@@ -18,6 +18,7 @@ export type RepositoryInfo = {
 	isPrivate: boolean;
 	stargazerCount: number;
 	viewerHasStarred: boolean;
+	viewerPermission: string;
 	ciCommit?: string;
 };
 
