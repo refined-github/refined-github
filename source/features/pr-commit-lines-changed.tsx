@@ -8,7 +8,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {assertCommitHash} from '../github-helpers/index.js';
+import {getRepo} from '../github-helpers/index.js';
 import {commitHashLinkInLists} from '../github-helpers/selectors.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
@@ -31,12 +31,21 @@ function calculateDiffSquareCounts(linesAdded: number, linesDeleted: number): Sq
 
 type Changes = [additions: number, deletions: number];
 
-async function fetchChanges(commits: string[]): Promise<Map<string, Changes>> {
-	const {repository} = await api.v4(`
-		repository() {
+/** Cross-reference rows link commits in other repos, so the repo travels with the sha */
+type CommitReference = {owner: string; name: string; commitSha: string};
+
+async function fetchChanges(references: CommitReference[]): Promise<Map<string, Changes>> {
+	const byRepository = new Map<string, CommitReference[]>();
+	for (const reference of references) {
+		const repository = `${reference.owner}/${reference.name}`;
+		byRepository.set(repository, [...byRepository.get(repository) ?? [], reference]);
+	}
+
+	const response = await api.v4([...byRepository.values()].map((group, index) => `
+		_r${index}: repository(owner: "${group[0].owner}", name: "${group[0].name}") {
 			${
-				commits.map(commit => `
-				${api.escapeKey(commit)}: object(expression: "${commit}") {
+				group.map(({commitSha}) => `
+				${api.escapeKey(commitSha)}: object(expression: "${commitSha}") {
 					... on Commit {
 						additions
 						deletions
@@ -45,23 +54,37 @@ async function fetchChanges(commits: string[]): Promise<Map<string, Changes>> {
 			`).join('\n')
 			}
 		}
-	`);
+	`).join('\n'));
 
 	const changes = new Map<string, Changes>();
-	for (const [key, commit] of objectEntries(repository)) {
-		// Dangling or unreachable references resolve to null
-		if (commit) {
-			changes.set(key.slice(1), [commit.additions, commit.deletions]);
+	// A whole repository resolves to null once it's deleted or turned private
+	for (const repository of Object.values(response)) {
+		if (!repository) {
+			continue;
+		}
+
+		for (const [key, commit] of objectEntries(repository as AnyObject)) {
+			// A single commit resolves to null when it's been garbage-collected
+			if (commit) {
+				changes.set(key.slice(1), [commit.additions, commit.deletions]);
+			}
 		}
 	}
 
 	return changes;
 }
 
+// Keyed by sha alone: a commit's diffstat is the same wherever the commit is mirrored
 const commitChanges = new CachedFunction('commit-changes', {
-	async updater(commit: string): Promise<Changes> {
-		const changes = await fetchChanges([commit]);
-		return changes.get(commit)!;
+	async updater(commitSha: string): Promise<Changes> {
+		const {owner, name} = getRepo()!;
+		const changes = await fetchChanges([{owner, name, commitSha}]);
+		const commitChange = changes.get(commitSha);
+		if (!commitChange) {
+			throw new Error(`Commit not found: ${commitSha}`);
+		}
+
+		return commitChange;
 	},
 	// A commit's diffstat never changes, so this only expires to bound storage growth
 	maxAge: {days: 100},
@@ -94,29 +117,30 @@ async function addOnCommitPage(commitHash: HTMLElement): Promise<void> {
 	commitHash.prepend(buildDiffStat(additions, deletions, 'd-md-block d-none'));
 }
 
+// The owner/name are needed because cross-reference rows link to other repos
+const commitUrl = /^\/(?<owner>[\w\-.]+)\/(?<name>[\w\-.]+)\/commit\/(?<commitSha>[\da-f]{40})$/;
+
 /** Both the PR's own commits and the "added a commit that referenced this pull request" rows */
 async function addOnTimeline(shaLinks: HTMLAnchorElement[]): Promise<void> {
-	const rows: Array<{shaContainer: HTMLElement; commitSha: string}> = [];
+	const rows: Array<{shaContainer: HTMLElement; reference: CommitReference}> = [];
 	for (const shaLink of shaLinks) {
 		const shaContainer = closestElementOptional('.text-right', shaLink);
-		if (!shaContainer) {
-			continue;
+		// Null on rows linking something other than a single commit, like a force-push comparison
+		const reference = commitUrl.exec(shaLink.pathname)?.groups as CommitReference | undefined;
+		if (shaContainer && reference) {
+			rows.push({shaContainer, reference});
 		}
-
-		const commitSha = shaLink.pathname.split('/').pop()!;
-		assertCommitHash(commitSha);
-		rows.push({shaContainer, commitSha});
 	}
 
 	const changes = new Map<string, Changes>();
-	const uncached: string[] = [];
-	for (const {commitSha} of rows) {
+	const uncached: CommitReference[] = [];
+	for (const {reference} of rows) {
 		// eslint-disable-next-line no-await-in-loop -- Reads from local storage, not the API
-		const cached = await commitChanges.getCached(commitSha);
+		const cached = await commitChanges.getCached(reference.commitSha);
 		if (cached) {
-			changes.set(commitSha, cached);
-		} else if (!uncached.includes(commitSha)) {
-			uncached.push(commitSha);
+			changes.set(reference.commitSha, cached);
+		} else if (uncached.every(({commitSha}) => commitSha !== reference.commitSha)) {
+			uncached.push(reference);
 		}
 	}
 
@@ -127,8 +151,8 @@ async function addOnTimeline(shaLinks: HTMLAnchorElement[]): Promise<void> {
 		}
 	}
 
-	for (const {shaContainer, commitSha} of rows) {
-		const commitChange = changes.get(commitSha);
+	for (const {shaContainer, reference} of rows) {
+		const commitChange = changes.get(reference.commitSha);
 		if (commitChange) {
 			const [additions, deletions] = commitChange;
 			// Beside the sha rather than inside its right-aligned column, which would stack it above
