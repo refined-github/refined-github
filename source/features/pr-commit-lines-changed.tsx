@@ -71,7 +71,8 @@ function repeatItems(count: number, Item: () => React.JSX.Element): React.JSX.El
 	return Array.from({length: count}, () => <Item style={{borderRadius: '2px'}} />);
 }
 
-function DiffStat({additions, deletions, display}: {additions: number; deletions: number; display: string}): React.JSX.Element {
+// Not a JSX component: dom-chef calls those without props
+function buildDiffStat(additions: number, deletions: number, display: string): React.JSX.Element {
 	const tooltip = pluralize(additions + deletions, '1 line changed', '$$ lines changed');
 	const {green, red, gray} = calculateDiffSquareCounts(additions, deletions);
 	return (
@@ -90,7 +91,7 @@ function DiffStat({additions, deletions, display}: {additions: number; deletions
 async function addOnCommitPage(commitHash: HTMLElement): Promise<void> {
 	const commitSha = location.pathname.split('/').pop()!;
 	const [additions, deletions] = await commitChanges.get(commitSha);
-	commitHash.prepend(<DiffStat additions={additions} deletions={deletions} display="d-md-block d-none" />);
+	commitHash.prepend(buildDiffStat(additions, deletions, 'd-md-block d-none'));
 }
 
 /** Both the PR's own commits and the "added a commit that referenced this pull request" rows */
@@ -131,7 +132,7 @@ async function addOnTimeline(shaLinks: HTMLAnchorElement[]): Promise<void> {
 		if (commitChange) {
 			const [additions, deletions] = commitChange;
 			// Beside the sha rather than inside its right-aligned column, which would stack it above
-			shaContainer.before(<DiffStat additions={additions} deletions={deletions} display="d-md-inline-block d-none" />);
+			shaContainer.before(buildDiffStat(additions, deletions, 'd-md-inline-block d-none'));
 		}
 	}
 }
