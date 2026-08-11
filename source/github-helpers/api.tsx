@@ -30,7 +30,6 @@ import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
-
 import {isWebPage} from 'webext-detect';
 
 import {log} from '../helpers/feature-helpers.js';
