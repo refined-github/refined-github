@@ -125,6 +125,7 @@ summary:hover {
 
 		/* Freaking firefox still does not support discrete animations */
 		/* https://caniuse.com/wf-display-animation */
+		/* https://bugzilla.mozilla.org/show_bug.cgi?id=1834877 */
 		opacity: 0;
 	}
 }
