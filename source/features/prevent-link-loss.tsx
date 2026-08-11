@@ -15,10 +15,10 @@ function attach(field: HTMLTextAreaElement): void {
 		'.CommentBox',
 	], field);
 
-	const wrapper = document.createElement('div');
-	target.after(wrapper);
-
-	mount(Banner, { target: wrapper, props: { field } });
+	mount(Banner, {
+		target: target.parentElement!,
+		anchor: target.nextSibling ?? undefined, props: {field},
+	});
 }
 
 function init(signal: AbortSignal): void {
