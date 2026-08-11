@@ -14,12 +14,11 @@ function attach(field: HTMLTextAreaElement): void {
 		// Editing PR body
 		'.CommentBox',
 	], field);
-	mount(Banner, {
-		target,
-		props: {
-			field,
-		},
-	});
+
+	const wrapper = document.createElement('div');
+	target.after(wrapper);
+
+	mount(Banner, { target: wrapper, props: { field } });
 }
 
 function init(signal: AbortSignal): void {
