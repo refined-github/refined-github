@@ -15,9 +15,23 @@ function attach(field: HTMLTextAreaElement): void {
 		'.CommentBox',
 	], field);
 
+	if (target instanceof HTMLFieldSetElement) {
+		// On the new Markdown editor mounting a child directly inside the `fieldset` collapses
+		// its height to 0, hiding the textarea entirely. Mounting as a sibling instead avoids the issues.
+		// https://github.com/refined-github/refined-github/issues/9955
+		mount(Banner, {
+			target: target.parentElement!,
+			anchor: target.nextSibling ?? undefined, props: {field},
+		});
+
+		return;
+	}
+
+	// Old Markdown editor doesn't have this bug, so we can keep mounting inside it.
+	// This also preserve the extra margin for old views (PR)
 	mount(Banner, {
-		target: target.parentElement!,
-		anchor: target.nextSibling ?? undefined, props: {field},
+		target,
+		props: {field},
 	});
 }
 
