@@ -3,7 +3,6 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TrashIcon from 'octicons-plain-react/Trash';
 import {$, closestElement} from 'select-dom';
-import {isChrome} from 'webext-detect';
 
 import features from '../feature-manager.js';
 import loadDetailsMenu from '../github-helpers/load-details-menu.js';
@@ -41,9 +40,6 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	asLongAs: [
-		isChrome,
-	],
 	include: [
 		pageDetect.isPRConversation,
 		pageDetect.isPRFiles,
