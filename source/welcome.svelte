@@ -5,7 +5,8 @@
 	import 'webext-bugs/target-blank';
 	import {onMount} from 'svelte';
 
-	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
+	import {tokenUser} from './github-helpers/github-token.js';
+	import {getTokenOptionName} from './github-helpers/token-options.js';
 	import optionsStorage from './options-storage.js';
 	import Header from './options/header.svelte';
 
@@ -31,10 +32,7 @@
 			return;
 		}
 
-		verifyToken();
-
-		// @ts-expect-error TS and its index signatures...
-		optionsStorage.set({personalToken: tokenInput});
+		verifyAndSaveToken(tokenInput);
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
@@ -58,11 +56,23 @@
 		}, 1000);
 	}
 
-	async function verifyToken() {
-		if (await hasValidGitHubComToken(tokenInput)) {
+	async function verifyAndSaveToken(token: string) {
+		try {
+			const username = await tokenUser.get('https://api.github.com/', token);
+			if (token !== tokenInput) {
+				return;
+			}
+
+			await optionsStorage.set({
+				[getTokenOptionName(username)]: token,
+			});
 			stepValid = 3;
 			tokenError = '';
-		} else {
+		} catch {
+			if (token !== tokenInput) {
+				return;
+			}
+
 			tokenError = 'Invalid token';
 		}
 	}

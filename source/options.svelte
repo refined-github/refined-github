@@ -22,7 +22,7 @@
 	import HotFixes from './options/hot-fixes.svelte';
 	import RateLink from './options/rate-link.svelte';
 	import StorageUsage from './options/storage-usage.svelte';
-	import TokenInput from './options/token-input.svelte';
+	import TokenInputManager from './options/token-input-manager.svelte';
 	import VersionInfo from './options/version-info.svelte';
 
 	const {domain = 'default'} = $props();
@@ -68,7 +68,7 @@
 				>the wiki.</a>
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
-			<TokenInput />
+			<TokenInputManager {domain} />
 		</details>
 	</HandleExpand>
 

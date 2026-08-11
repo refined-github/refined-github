@@ -1,12 +1,24 @@
+import * as pageDetect from 'github-url-detection';
+import {isWebPage} from 'webext-detect';
+import type {Options} from 'webext-options-sync';
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
 import {importedFeatures} from './feature-data.js';
 import renamedFeatures from './feature-renames.json' with {type: 'json'};
+import {getTokenForUser, removeUnusedOptions} from './github-helpers/token-options.js';
 
-export type RghOptions = typeof defaults;
+export type RghOptions = Options & {
+	actionUrl: string;
+	customCss: string;
+	personalToken: string;
+	logging: boolean;
+	logHttp: boolean;
+	logHTTP?: boolean;
+	customCSS?: string;
+};
 
 // eslint-disable-next-line prefer-object-spread -- TypeScript hates this one weird trick
-const defaults = Object.assign({
+const defaults: RghOptions = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCss: '',
 	personalToken: '',
@@ -17,7 +29,6 @@ const defaults = Object.assign({
 
 export function isFeatureDisabled(options: RghOptions, id: string): boolean {
 	// Must check if it's specifically `false`: It could be undefined if not yet in the readme or if misread from the entry point #6606
-	// eslint-disable-next-line unicorn/no-unnecessary-boolean-comparison
 	return options[`feature:${id}`] === false;
 }
 
@@ -37,12 +48,12 @@ const migrations = [
 		}
 
 		if (options.customCSS) {
-			options.customCss = options.customCSS as unknown as string;
+			options.customCss = options.customCSS;
 		}
 	},
 
 	// Removed features will be automatically removed from the options as well
-	OptionsSyncPerDomain.migrations.removeUnused,
+	removeUnusedOptions,
 ];
 
 export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
@@ -52,8 +63,11 @@ export default optionsStorage;
 const cachedSettings = optionsStorage.getAll();
 
 export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
-	return personalToken;
+	const options = await cachedSettings;
+	const username = isWebPage()
+		? pageDetect.utils.getLoggedInUser()
+		: undefined;
+	return getTokenForUser(options, username);
 }
 
 export async function hasToken(): Promise<boolean> {

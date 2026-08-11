@@ -1,20 +1,36 @@
 <script lang="ts">
 	import {closestElement} from 'select-dom';
+	import {type Snippet, tick} from 'svelte';
 	import {SvelteMap} from 'svelte/reactivity';
 	import {assertError} from 'ts-extras';
+	import type {Promisable} from 'type-fest';
 
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 
-	const {host}: {host?: string} = $props();
+	type Props = {
+		host?: string;
+		name?: string;
+		value?: string;
+		actions?: Snippet;
+		onEmpty?: () => Promisable<void>;
+		onValidated?: (_username: string, _token: string) => Promisable<void>;
+	};
+
+	let {
+		host,
+		name = '',
+		value = $bindable(''),
+		actions,
+		onEmpty,
+		onValidated,
+	}: Props = $props();
 
 	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 	const apiFeaturesUrl =
 		'https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code';
 
-	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
 	let focused = $state(false);
 	let tokenField: HTMLInputElement;
-	let tokenValue = $state(initialMagicValue);
 	let validationText = $state('');
 	let validationError = $state(false);
 	let scopes = $state<string[]>(['unknown']);
@@ -53,17 +69,14 @@
 		closestElement('details', tokenField).open = true;
 	}
 
-	async function validateToken(value: string): Promise<void> {
+	async function validateToken(token: string): Promise<void> {
+		const validatedValue = token;
 		validationText = '';
 		validationError = false;
 		scopes = ['unknown'];
 
-		// Silence first run
-		if (value === initialMagicValue) {
-			return;
-		}
-
-		if (value === '') {
+		if (token === '') {
+			await onEmpty?.();
 			expandTokenSection();
 			return;
 		}
@@ -73,9 +86,13 @@
 		try {
 			const base = getApiUrl();
 			const [tokenInfo, user] = await Promise.all([
-				getTokenInfo(base, value),
-				tokenUser.get(base, value),
+				getTokenInfo(base, token),
+				tokenUser.get(base, token),
 			]);
+
+			if (validatedValue !== value) {
+				return;
+			}
 
 			if (
 				tokenInfo.expiration
@@ -102,7 +119,14 @@
 
 			validationText = statusMessage;
 			scopes = tokenInfo.scopes;
+			await onValidated?.(user, token);
+			await tick();
+			tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
 		} catch (error) {
+			if (validatedValue !== value) {
+				return;
+			}
+
 			assertError(error);
 			validationText = error.message + ' (expired?)';
 			validationError = true;
@@ -112,16 +136,16 @@
 	}
 
 	$effect(() => {
-		validateToken(tokenValue);
+		validateToken(value);
 	});
 </script>
 
 <p>
 	<input
 		bind:this={tokenField}
-		bind:value={tokenValue}
+		bind:value
 		type={focused ? 'text' : 'password'}
-		name="personalToken"
+		{name}
 		spellcheck="false"
 		autocomplete="off"
 		autocapitalize="off"
@@ -137,6 +161,9 @@
 	<span data-validation={validationError ? 'invalid' : undefined}>
 		{validationText}
 	</span>
+	{#if actions}
+		{@render actions()}
+	{/if}
 </p>
 <ul>
 	<li data-validation={scopeStates.get('valid_token')}>

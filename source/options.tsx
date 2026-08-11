@@ -40,12 +40,14 @@ function updateListDom(): void {
 	globalThis.dispatchEvent(new CustomEvent('rgh:update-count'));
 }
 
-function informComponentOfExternalUpdate(field: HTMLInputElement | HTMLTextAreaElement): void {
-	field.dispatchEvent(new InputEvent('input', {bubbles: true}));
-}
-
 assertDefined(
 	await elementReady('.js-features', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(1000),
+	}),
+);
+assertDefined(
+	await elementReady('[data-token-input-manager][data-ready="true"]', {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(1000),
 	}),
@@ -53,12 +55,6 @@ assertDefined(
 
 // Update list from saved options
 const syncedForm = await perDomainOptions.syncForm('form');
-
-// <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
-// This triggers a proper run
-for (const tokenField of $$('input[name="personalToken"]')) {
-	informComponentOfExternalUpdate(tokenField);
-}
 
 // Decorate list
 updateListDom();
@@ -75,10 +71,6 @@ syncedForm.onChange(async domain => {
 	$('a#personal-token-link').host = host;
 
 	$('rgh-options').domain = domain;
-
-	for (const input of $$('input[name="personalToken"]')) {
-		informComponentOfExternalUpdate(input);
-	}
 
 	updateListDom();
 });
