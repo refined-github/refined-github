@@ -3,9 +3,8 @@ import 'webext-dynamic-content-scripts';
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/options-menu-item';
 import {customizeNoAllUrlsErrorMessage} from 'webext-bugs/no-all-urls';
-import {isSafari} from 'webext-detect';
 import {handleMessages} from 'webext-msg';
-import addPermissionToggle from 'webext-permission-toggle';
+import addPermissionToggle, {hasRequiredPermissions} from 'webext-permission-toggle';
 import {StorageItem} from 'webext-storage';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 
@@ -23,7 +22,7 @@ const {version} = chrome.runtime.getManifest();
 const welcomeShown = new StorageItem('welcomed', {defaultValue: false});
 
 // GHE support
-if (!isSafari()) {
+if (hasRequiredPermissions()) {
 	addPermissionToggle();
 }
 
