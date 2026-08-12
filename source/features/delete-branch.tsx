@@ -1,8 +1,9 @@
 import * as pageDetect from 'github-url-detection';
+import {isForkedRepo} from 'github-url-detection';
 import React from 'dom-chef';
 import TrashIcon from 'octicons-plain-react/Trash';
 import delegate from 'delegate-it';
-import {$} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
@@ -20,13 +21,18 @@ function getNetworkRootRepository(): string | undefined {
 async function branchHasNoOpenPullRequest(): Promise<boolean> {
 	const branchName = getCurrentGitRef()!;
 	const {owner, nameWithOwner} = getRepo()!;
-	const targetRepository = getNetworkRootRepository() ?? nameWithOwner;
 
-	const pullRequests = await api.v3(
-		`/repos/${targetRepository}/pulls?head=${owner}:${branchName}&state=open`,
-	);
+	if (isForkedRepo()) {
+		const targetRepository = getNetworkRootRepository() ?? nameWithOwner;
 
-	return pullRequests.length === 0;
+		const pullRequests = await api.v3(
+			`/repos/${targetRepository}/pulls?head=${owner}:${branchName}&state=open`,
+		);
+
+		return pullRequests.length === 0;
+	}
+
+	return $$optional(`a[href*="/${nameWithOwner}/pull/"]`).length === 0;
 }
 
 async function deleteBranch(branchName: string): Promise<void> {
