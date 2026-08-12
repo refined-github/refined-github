@@ -1,5 +1,4 @@
 import * as pageDetect from 'github-url-detection';
-import {isForkedRepo} from 'github-url-detection';
 import React from 'dom-chef';
 import TrashIcon from 'octicons-plain-react/Trash';
 import delegate from 'delegate-it';
@@ -15,15 +14,13 @@ import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 function getNetworkRootRepository(): string | undefined {
-	const meta = $('meta[name="octolytics-dimension-repository_parent_nwo"]', document);
-	const attribute = meta.getAttribute('content');
-	return attribute ?? undefined;
+	return $('meta[name="octolytics-dimension-repository_parent_nwo"]').getAttribute('content') ?? undefined;
 }
 
 async function branchHasNoOpenPullRequest(): Promise<boolean> {
-	const branchName = getCurrentGitRef()!
+	const branchName = getCurrentGitRef()!;
 	const {owner, nameWithOwner} = getRepo()!;
-	const targetRepository = isForkedRepo() ? getNetworkRootRepository() : nameWithOwner;
+	const targetRepository = getNetworkRootRepository() ?? nameWithOwner;
 
 	const pullRequests = await api.v3(
 		`/repos/${targetRepository}/pulls?head=${owner}:${branchName}&state=open`,
