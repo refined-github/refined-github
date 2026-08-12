@@ -22,38 +22,21 @@
 	{/if}
 
 	{#if info.stargazerCount > 1}
-		{#if ['ADMIN', 'MAINTAIN', 'TRIAGE', 'WRITE'].includes(info.viewerPermission)}
-			<a
-				href={buildRepoUrl('stargazers')}
-				title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
-					info.viewerHasStarred ? ', including you' : ''
-				}`}
-				class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
-			>
-				<DomChef
-					as={info.viewerHasStarred ? StarFillIcon : StarIcon}
-					width={12}
-					height={12}
-					color={info.viewerHasStarred ? 'var(--button-star-iconColor)' : undefined}
-				/>
-				<span class="f5">{abbreviateNumber(info.stargazerCount)}</span>
-			</a>
-		{:else}
-			<span
-				class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted"
-				title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
-					info.viewerHasStarred ? ', including you' : ''
-				}`}
-			>
-				<DomChef
-					as={info.viewerHasStarred ? StarFillIcon : StarIcon}
-					width={12}
-					height={12}
-					color={info.viewerHasStarred ? 'var(--button-star-iconColor)' : undefined}
-				/>
-				<span class="f5">{abbreviateNumber(info.stargazerCount)}</span>
-			</span>
-		{/if}
+		<a
+			href={info.stargazerUrl || undefined}
+			title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
+				info.viewerHasStarred ? ', including you' : ''
+			}`}
+			class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted {info.stargazerUrl ? 'Button Button--invisible' : ''}"
+		>
+			<DomChef
+				as={info.viewerHasStarred ? StarFillIcon : StarIcon}
+				width={12}
+				height={12}
+				color={info.viewerHasStarred ? 'var(--button-star-iconColor)' : undefined}
+			/>
+			<span class="f5">{abbreviateNumber(info.stargazerCount)}</span>
+		</a>
 	{/if}
 
 	{#if info.ciCommit}
