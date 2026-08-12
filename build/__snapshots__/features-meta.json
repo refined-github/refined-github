@@ -716,7 +716,7 @@
 	},
 	{
 		"id": "quick-branch-deletion",
-		"description": "Simplifies the deletion of branches. Adds \"Quick deletion branch\" button on branches when you have PUSH access.",
+		"description": "Simplifies the deletion of branches. Adds \"Quick deletion branch\" button on branches.",
 		"screenshot": "https://github.com/user-attachments/assets/b73e7ede-b6bc-4f9c-a8ae-f65e514d228e"
 	},
 	{
