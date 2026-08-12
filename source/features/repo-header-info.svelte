@@ -23,7 +23,7 @@
 
 	{#if info.stargazerCount > 1}
 		<a
-			href={info.stargazerUrl || undefined}
+			href={info.stargazerUrl}
 			title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
 				info.viewerHasStarred ? ', including you' : ''
 			}`}

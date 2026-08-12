@@ -19,7 +19,6 @@ export type RepositoryInfo = {
 	isPrivate: boolean;
 	stargazerCount: number;
 	viewerHasStarred: boolean;
-	viewerPermission: string;
 	ciCommit?: string;
 	stargazerUrl?: string;
 };
@@ -43,7 +42,9 @@ async function getRepositoryInfo(): Promise<RepositoryInfo> {
 	return {
 		...repository,
 		ciCommit,
-		stargazerUrl: repository.viewerPermission !== 'READ' && buildRepoUrl('stargazers'),
+		stargazerUrl: repository.viewerPermission === 'READ'
+			? undefined // No access: https://github.com/refined-github/refined-github/issues/9964
+			: buildRepoUrl('stargazers'),
 	};
 }
 
