@@ -20,7 +20,7 @@ async function redirectAfterSuccessfulDeletion(): Promise<void> {
 	location.assign(redirectUrl);
 }
 
-async function deleteBranch(branchName: string | undefined): Promise<void> {
+async function quickBranchDeletion(branchName: string | undefined): Promise<void> {
 	if (branchName === undefined) {
 		throw new Error('Missing branch name');
 	}
@@ -34,7 +34,7 @@ async function deleteBranch(branchName: string | undefined): Promise<void> {
 async function handleClickDeletion(): Promise<void> {
 	const branchName = getCurrentGitRef();
 
-	await showToast(async () => deleteBranch(branchName), {
+	await showToast(async () => quickBranchDeletion(branchName), {
 		message: `Deleting \`${branchName}\` branch`,
 		doneMessage: 'Branch deleted. Redirecting…',
 	});
@@ -46,7 +46,7 @@ function attach(container: HTMLElement): void {
 	container.prepend(
 		<button
 			type="button"
-			className="btn btn-sm btn-danger rgh-delete-branch"
+			className="btn btn-sm btn-danger rgh-quick-branch-deletion"
 		>
 			<TrashIcon className="mr-2 tmp-mr-2" />
 			Delete branch
@@ -56,7 +56,7 @@ function attach(container: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe('[data-testid="branch-info-bar"] .d-flex.gap-2', attach, {signal});
-	delegate('.rgh-delete-branch', 'click', handleClickDeletion, {signal});
+	delegate('.rgh-quick-branch-deletion', 'click', handleClickDeletion, {signal});
 }
 
 void features.add(import.meta.url, {
