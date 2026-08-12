@@ -59,13 +59,16 @@ async function quickBranchDeletion(branchName: string | undefined): Promise<void
 
 async function handleClickDeletion(): Promise<void> {
 	const branchName = getCurrentGitRef();
+	const {nameWithOwner} = getRepo()!;
 
-	await showToast(async () => quickBranchDeletion(branchName), {
-		message: `Deleting \`${branchName}\` branch`,
-		doneMessage: 'Branch deleted. Redirecting…',
-	});
+	if (confirm(`\`${branchName}\` on ${nameWithOwner} will be deleted. Are you sure?`)) {
+		await showToast(async () => quickBranchDeletion(branchName), {
+			message: `Deleting \`${branchName}\` branch`,
+			doneMessage: 'Branch deleted. Redirecting…',
+		});
 
-	await redirectAfterSuccessfulDeletion();
+		await redirectAfterSuccessfulDeletion();
+	}
 }
 
 function attach(container: HTMLElement): void {
