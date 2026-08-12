@@ -21,12 +21,7 @@ function getNetworkRootRepository(): string | undefined {
 }
 
 async function branchHasNoOpenPullRequest(): Promise<boolean> {
-	const branchName = getCurrentGitRef();
-
-	if (!branchName) {
-		return false;
-	}
-
+	const branchName = getCurrentGitRef()!
 	const {owner, nameWithOwner} = getRepo()!;
 	const targetRepository = isForkedRepo() ? getNetworkRootRepository() : nameWithOwner;
 
@@ -82,11 +77,9 @@ void features.add(import.meta.url, {
 		isDefaultBranch,
 	],
 	asLongAs: [
+		pageDetect.isRepoRoot,
 		userHasPushAccess,
 		branchHasNoOpenPullRequest,
-	],
-	include: [
-		pageDetect.isRepoTree,
 	],
 	init,
 });
