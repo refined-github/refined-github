@@ -1,12 +1,8 @@
 import * as pageDetect from 'github-url-detection';
 import {isForkedRepo} from 'github-url-detection';
-
 import React from 'dom-chef';
-
 import TrashIcon from 'octicons-plain-react/Trash';
-
 import delegate from 'delegate-it';
-
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
@@ -41,38 +37,31 @@ async function branchHasNoOpenPullRequest(): Promise<boolean> {
 	return pullRequests.length === 0;
 }
 
-async function redirectAfterSuccessfulDeletion(): Promise<void> {
-	const redirectUrl = buildRepoUrl('activity?activity_type=branch_deletion');
-	location.assign(redirectUrl);
-}
-
-async function deleteBranch(branchName: string | undefined): Promise<void> {
-	if (branchName === undefined) {
-		throw new Error('Missing branch name');
-	}
-
+async function deleteBranch(branchName: string): Promise<void> {
 	await api.v3(`git/refs/heads/${branchName}`, {
 		method: 'DELETE',
 		responseFormat: 'text',
 	});
+
+	const redirectUrl = buildRepoUrl('activity?activity_type=branch_deletion');
+	location.assign(redirectUrl);
 }
 
 async function handleClickDeletion(): Promise<void> {
-	const branchName = getCurrentGitRef();
-	const {nameWithOwner} = getRepo()!;
+	const branchName = getCurrentGitRef()!;
 
-	if (confirm(`\`${branchName}\` on ${nameWithOwner} will be deleted. Are you sure?`)) {
-		await showToast(async () => deleteBranch(branchName), {
-			message: `Deleting \`${branchName}\` branch`,
-			doneMessage: 'Branch deleted. Redirecting…',
-		});
-
-		await redirectAfterSuccessfulDeletion();
+	if (!confirm(`\`${branchName}\` will be deleted. Are you sure?`)) {
+		return;
 	}
+
+	await showToast(async () => deleteBranch(branchName), {
+		message: `Deleting \`${branchName}\` branch`,
+		doneMessage: 'Branch deleted. Redirecting…',
+	});
 }
 
-function attach(container: HTMLElement): void {
-	container.prepend(
+function attach(contributeContainer: HTMLElement): void {
+	contributeContainer.prepend(
 		<button
 			type="button"
 			className="btn btn-sm btn-danger rgh-delete-branch"
@@ -84,7 +73,7 @@ function attach(container: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[data-testid="branch-info-bar"] .d-flex.gap-2', attach, {signal});
+	observe('[data-testid="branch-info-bar"] > .d-flex.gap-2', attach, {signal});
 	delegate('.rgh-delete-branch', 'click', handleClickDeletion, {signal});
 }
 
@@ -105,6 +94,6 @@ void features.add(import.meta.url, {
 /*
 Test URLs:
 
-1. https://github.com/refined-github/refined-github/tree/sandbox/keep-branch
+https://github.com/refined-github/refined-github/tree/sandbox/keep-branch
 
 */
