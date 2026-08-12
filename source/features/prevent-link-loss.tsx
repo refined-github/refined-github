@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {closestElement} from 'select-dom';
+import {$optional, closestElement} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -9,28 +9,16 @@ import Banner from './prevent-link-loss.svelte';
 function attach(field: HTMLTextAreaElement): void {
 	const target = closestElement([
 		// Almost everywhere
-		'fieldset',
+		// Don't use only `fieldset` https://github.com/refined-github/refined-github/issues/9955
+		'*:has(> fieldset)',
 
 		// Editing PR body
 		'.CommentBox',
 	], field);
 
-	if (target instanceof HTMLFieldSetElement) {
-		// On the new Markdown editor mounting a child directly inside the `fieldset` collapses
-		// its height to 0, hiding the textarea entirely. Mounting as a sibling instead avoids the issues.
-		// https://github.com/refined-github/refined-github/issues/9955
-		mount(Banner, {
-			target: target.parentElement!,
-			anchor: target.nextSibling ?? undefined, props: {field},
-		});
-
-		return;
-	}
-
-	// Old Markdown editor doesn't have this bug, so we can keep mounting inside it.
-	// This also preserve the extra margin for old views (PR)
 	mount(Banner, {
 		target,
+		anchor: $optional(':scope > fieldset + *', target), // After fieldset, if found
 		props: {field},
 	});
 }
