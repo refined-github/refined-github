@@ -60,6 +60,6 @@
 <style>
 	/* Old views (PRs) require extra margin #9402  */
 	:global(file-attachment ~ .rgh-prevent-link-loss) {
-		margin: 0 8px !important;
+		margin: 0 8px 8px !important;
 	}
 </style>
