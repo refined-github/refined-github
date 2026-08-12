@@ -41,7 +41,7 @@
 
 {#if visible}
 	<Banner
-		classes={['rgh-prevent-link-loss', 'flash-warn', 'my-2']}
+		classes={['rgh-prevent-link-loss', 'flash-warn', 'mt-2']}
 		icon={AlertIcon}
 	>
 		{#snippet text()}
@@ -60,6 +60,6 @@
 <style>
 	/* Old views (PRs) require extra margin #9402  */
 	:global(file-attachment ~ .rgh-prevent-link-loss) {
-		margin-inline: 10px !important;
+		margin: 0 8px !important;
 	}
 </style>
