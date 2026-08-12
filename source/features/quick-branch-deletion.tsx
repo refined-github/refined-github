@@ -1,4 +1,5 @@
 import * as pageDetect from 'github-url-detection';
+import {isForkedRepo} from 'github-url-detection';
 
 import React from 'dom-chef';
 
@@ -6,14 +7,39 @@ import TrashIcon from 'octicons-plain-react/Trash';
 
 import delegate from 'delegate-it';
 
+import {$} from 'select-dom';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
+import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import api from '../github-helpers/api.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
+
+function getNetworkRootRepository(): string | undefined {
+	const meta = $('meta[name="octolytics-dimension-repository_parent_nwo"]', document);
+	const attribute = meta.getAttribute('content');
+	return attribute ?? undefined;
+}
+
+async function branchHasNoOpenPullRequest(): Promise<boolean> {
+	const branchName = getCurrentGitRef();
+
+	if (!branchName) {
+		return false;
+	}
+
+	const {owner, nameWithOwner} = getRepo()!;
+	const targetRepository = isForkedRepo() ? getNetworkRootRepository() : nameWithOwner;
+
+	const pullRequests = await api.v3(
+		`/repos/${targetRepository}/pulls?head=${owner}:${branchName}&state=open`,
+	);
+
+	return pullRequests.length === 0;
+}
 
 async function redirectAfterSuccessfulDeletion(): Promise<void> {
 	const redirectUrl = buildRepoUrl('activity?activity_type=branch_deletion');
@@ -65,6 +91,7 @@ void features.add(import.meta.url, {
 	],
 	asLongAs: [
 		userHasPushAccess,
+		branchHasNoOpenPullRequest,
 	],
 	include: [
 		pageDetect.isRepoTree,
