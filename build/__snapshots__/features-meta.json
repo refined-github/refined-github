@@ -715,6 +715,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/94634958-7e7b5680-029f-11eb-82ea-1f96cd11e4cd.png"
 	},
 	{
+		"id": "quick-branch-deletion",
+		"description": "Simplifies the deletion of branches. Adds \"Quick deletion branch\" button on branches when you have PUSH access.",
+		"screenshot": "https://github.com/user-attachments/assets/b73e7ede-b6bc-4f9c-a8ae-f65e514d228e"
+	},
+	{
 		"id": "quick-comment-edit",
 		"description": "Lets you edit any comment with one click instead of having to open a dropdown.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/162252055-54750c89-0ddc-487a-b4ad-cec6009d9870.png"
