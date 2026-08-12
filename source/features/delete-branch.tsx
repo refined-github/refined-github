@@ -4,24 +4,25 @@ import React from 'dom-chef';
 
 import TrashIcon from 'octicons-plain-react/Trash';
 
+import delegate from 'delegate-it';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import api from '../github-helpers/api.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
 
 async function redirectAfterSuccessfulDeletion(): Promise<void> {
-	const {nameWithOwner} = getRepo()!;
-	const redirectUrl = `/${nameWithOwner}/activity?activity_type=branch_deletion`;
+	const redirectUrl = buildRepoUrl('activity?activity_type=branch_deletion');
 	location.assign(redirectUrl);
 }
 
 async function deleteBranch(branchName: string | undefined): Promise<void> {
 	if (branchName === undefined) {
-		return showToast(new Error('No branch name provided'));
+		throw new Error('Missing branch name');
 	}
 
 	await api.v3(`git/refs/heads/${branchName}`, {
@@ -35,36 +36,35 @@ async function handleClickDeletion(): Promise<void> {
 
 	await showToast(async () => deleteBranch(branchName), {
 		message: `Deleting \`${branchName}\` branch`,
-		doneMessage: 'Branch correctly deleted, Redirecting ...',
+		doneMessage: 'Branch deleted. Redirecting…',
 	});
 
 	await redirectAfterSuccessfulDeletion();
 }
 
 function attach(container: HTMLElement): void {
-	container.append(
+	container.prepend(
 		<button
 			type="button"
-			className="btn btn-sm btn-danger"
-			onClick={handleClickDeletion}
+			className="btn btn-sm btn-danger rgh-delete-branch"
 		>
 			<TrashIcon className="mr-2 tmp-mr-2" />
-			Quick deletion branch
+			Delete branch
 		</button>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	if (!await userHasPushAccess()) {
-		return;
-	}
-
 	observe('[data-testid="branch-info-bar"] .d-flex.gap-2', attach, {signal});
+	delegate('.rgh-delete-branch', 'click', handleClickDeletion, {signal});
 }
 
 void features.add(import.meta.url, {
 	exclude: [
 		isDefaultBranch,
+	],
+	asLongAs: [
+		userHasPushAccess,
 	],
 	include: [
 		pageDetect.isRepoTree,

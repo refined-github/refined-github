@@ -26,7 +26,6 @@ import './features/mobile-tabs-pr.css';
 
 // DO NOT add CSS files here if they are part of a JavaScript feature.
 // Import the `.css` file from the `.tsx` instead.
-
 // CSS-only disableable features
 import './features/align-issue-labels.js';
 import './features/clean-pinned-issues.js';
@@ -218,4 +217,4 @@ import './features/extensible-nav.js';
 import './features/notifications-ui.js';
 import './features/easy-toggle-hidden-comments.js';
 import './features/extend-repo-tabs.js';
-import './features/quick-branch-deletion.js';
+import './features/delete-branch.js';
