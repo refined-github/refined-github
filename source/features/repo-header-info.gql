@@ -3,6 +3,7 @@ query GetRepositoryInfo($owner: String!, $name: String!) {
 		stargazerCount
 		isPrivate
 		viewerHasStarred
+		viewerPermission
 		isEmpty
 		forked: parent {
 			url
