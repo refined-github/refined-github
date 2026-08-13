@@ -15,6 +15,7 @@ html:not([rgh-OFF-sticky-comment-header]) {
 		/* PR header */
 		.timeline-comment-header {
 			position: sticky;
+			container-type: scroll-state; /* eslint-disable-line css/no-invalid-properties -- Supported since Chrome 133 */
 			/* Prevent header from being covered by media */
 			z-index: 3;
 			/* `base-sticky-header-height` is applied when coming from notifications. Missing otherwise */
@@ -34,6 +35,17 @@ html:not([rgh-OFF-sticky-comment-header]) {
 				background: /*  eslint-disable-next-line css/no-invalid-properties -- Buggy https://github.com/eslint/css/issues/434 */
 					linear-gradient(var(--rgh-bg-accent), var(--rgh-bg-accent)),
 					var(--rgh-background);
+			}
+
+			@container scroll-state(stuck: top) {
+				/* Container queries only style descendants, so fill the rounded corners from behind. */
+				&::before {
+					position: absolute;
+					inset: 0;
+					z-index: -1;
+					background: inherit;
+					content: '';
+				}
 			}
 		}
 	}
