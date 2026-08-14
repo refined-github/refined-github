@@ -3,7 +3,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
@@ -24,10 +24,13 @@ const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '�
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
-const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
+const prFilesChangedTabSelector = [
+	'a#prs-files-anchor-tab',
+	// GHES still uses the legacy files tab without this ID #9937
+	'a.tabnav-tab[href$="/files"]',
+] as const;
 
-// GHES still uses the legacy files tab without this ID #9937
-const isOldPrFiles = (): boolean => $optional(prFilesChangedTabSelector)?.href.endsWith('files') ?? true;
+const isOldPrFiles = (): boolean => $(prFilesChangedTabSelector).href.endsWith('files');
 
 async function quickApprove(event: MouseEvent): Promise<void> {
 	const approval = event.altKey ? '' : prompt('Approve instantly? You can add a custom message or leave empty');
