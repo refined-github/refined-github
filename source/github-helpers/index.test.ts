@@ -1,6 +1,12 @@
-import {assert, test} from 'vitest';
+import {assert, test, vi} from 'vitest';
 
-import {getConversationNumber, getLatestVersionTag, isUsernameAlreadyFullName, parseTag} from './index.js';
+import {
+	getConversationNumber,
+	getLatestVersionTag,
+	isUsernameAlreadyFullName,
+	parseTag,
+	scrollIntoViewIfNeeded,
+} from './index.js';
 
 test('getConversationNumber', () => {
 	const pairs = new Map<string, number | undefined>([
@@ -127,4 +133,14 @@ test('getLatestVersionTag', () => {
 		'lol v0.0.0',
 		'Non-version tags should short-circuit the sorting and return the first tag',
 	);
+});
+
+test('scrollIntoViewIfNeeded uses nearest alignment as the Firefox fallback', () => {
+	const element = document.createElement('div');
+	const scrollIntoView = vi.fn();
+	element.scrollIntoView = scrollIntoView;
+
+	scrollIntoViewIfNeeded(element);
+
+	assert.deepEqual(scrollIntoView.mock.calls, [[{block: 'nearest'}]]);
 });

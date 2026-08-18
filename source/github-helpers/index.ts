@@ -191,8 +191,12 @@ export function multilineAriaLabel(...lines: string[]): string {
 }
 
 export function scrollIntoViewIfNeeded(element: Element): void {
-	// @ts-expect-error No Firefox support https://developer.mozilla.org/docs/Web/API/Element/scrollIntoViewIfNeeded
-	(element.scrollIntoViewIfNeeded ?? element.scrollIntoView).call(element);
+	const scrollIfNeeded = (element as Element & {scrollIntoViewIfNeeded?: () => void}).scrollIntoViewIfNeeded;
+	if (scrollIfNeeded) {
+		scrollIfNeeded.call(element);
+	} else {
+		element.scrollIntoView({block: 'nearest'});
+	}
 }
 
 export function getConversationBody(): Element {
