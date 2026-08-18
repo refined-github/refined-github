@@ -13,7 +13,7 @@ export const {class: featureClass, selector: featureSelector} = getIdentifiers(i
 
 function LockedIndicator(): JSX.Element {
 	return (
-		<span title="Locked" className={cx('State d-flex flex-items-center flex-shrink-0', featureClass)}>
+		<span title="Locked" className={cx('prc-StateLabel prc-StateLabel--medium d-flex flex-items-center flex-shrink-0', featureClass)}>
 			<LockIcon className="flex-items-center mr-1 tmp-mr-1" />
 			Locked
 		</span>
