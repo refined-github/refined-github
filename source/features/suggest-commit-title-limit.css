@@ -5,9 +5,7 @@
 /* Limit width of commit title to 72 characters */
 .rgh-suggest-commit-title-limit {
 	[data-testid='mergebox-partial'] input[type='text'],
-	#commit-message-input,
-	/* TODO [2026-08-01]: Remove */
-	#commit-summary-input {
+	#commit-message-input {
 		box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 		width: 72ch;
 
@@ -20,12 +18,8 @@
 	}
 }
 
-/* TODO [2026-09-01]: Remove */
-#pull_request_title,
-/* TODO [2026-08-01]: Remove */
-#commit-summary-input,
-/* TODO: Remove after legacy PR files view is removed */
-#issue_title {
+[class^='prc-PageLayout-Header'] input, /* `isPR` */
+input[name='pull_request[title]'] /* `isCompare` */ {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
 		background-color: color-mix(

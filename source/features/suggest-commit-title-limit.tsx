@@ -35,7 +35,7 @@ async function validatePrTitleDelegate({delegateTarget}: DelegateEvent<Event, HT
 const currentPrTitleSelectors = [
 	'[class^="prc-PageLayout-Header"] input', // `isPR`
 	'input[name="pull_request[title]"]', // `isCompare`
-];
+] as const;
 
 async function init(signal: AbortSignal): Promise<void> {
 	abortableClassName(document.body, signal, 'rgh-suggest-commit-title-limit');
@@ -43,13 +43,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	onCommitTitleUpdate(validateCommitTitle, signal);
 
 	delegate(
-		[
-			...currentPrTitleSelectors,
-			'input#pull_request_title',
-			// Old `isCompare`
-			// TODO [2026-09-01]: Remove
-			'input#issue_title', // Old `isPR` view - TODO: Remove after legacy PR files view is removed
-		],
+		currentPrTitleSelectors,
 		'input',
 		validatePrTitleDelegate,
 		{signal, passive: true},
