@@ -1,13 +1,14 @@
 import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
+import {isAlteredClick} from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
 
 import {importedFeatures} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {baseApiFetch} from '../github-helpers/github-token.js';
-import {isRefinedGitHubRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, isRefinedGitHubRepo} from '../github-helpers/index.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import delay from '../helpers/delay.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
@@ -16,6 +17,7 @@ import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
 import {getToken} from '../options-storage.js';
+import {newIssueActionSelectors} from './new-tab-links.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
@@ -163,7 +165,29 @@ function init(signal: AbortSignal): void {
 	}, {signal});
 }
 
+function openNewIssuePage(event: DelegateEvent<MouseEvent, HTMLElement>): void {
+	if (isAlteredClick(event)) {
+		return;
+	}
+
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	location.assign(buildRepoUrl('issues/new/choose'));
+}
+
+function bypassNewIssueModal(signal: AbortSignal): void {
+	delegate(newIssueActionSelectors, 'click', openNewIssuePage, {
+		capture: true,
+		signal,
+	});
+}
+
 void features.add(import.meta.url, {
+	asLongAs: [
+		isRefinedGitHubRepo,
+	],
+	init: bypassNewIssueModal,
+}, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
@@ -176,6 +200,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
+https://github.com/refined-github/refined-github
 https://github.com/refined-github/refined-github/issues/new?assignees=&labels=bug&projects=&template=1_bug_report.yml
 
 */
