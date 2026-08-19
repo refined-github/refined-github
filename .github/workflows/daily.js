@@ -12,8 +12,9 @@ export async function lockAiSpam({github, context, core}) {
 	});
 
 	await Promise.all(data.items.map(async issue => {
+		console.log(issue.html_url, issue.title);
 		if (issue.author_association === 'COLLABORATOR') {
-			core.info(`${issue.html_url}: ${issue.title} — skipped, collaborator`);
+			core.info('- skipped, collaborator');
 			return;
 		}
 
@@ -31,6 +32,6 @@ export async function lockAiSpam({github, context, core}) {
 			lock_reason: 'spam',
 		});
 
-		core.info(`${issue.html_url}: ${issue.title} — renamed and locked`);
+		core.info('- renamed and locked');
 	}));
 }
