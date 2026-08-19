@@ -219,6 +219,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png"
 	},
 	{
+		"id": "delete-branch",
+		"description": "Simplifies the deletion of branches. Adds \"Quick deletion branch\" button on branches.",
+		"screenshot": "https://github.com/user-attachments/assets/b73e7ede-b6bc-4f9c-a8ae-f65e514d228e"
+	},
+	{
 		"id": "dim-bots",
 		"description": "Dims commits and PRs by bots to reduce noise.",
 		"css": true,
