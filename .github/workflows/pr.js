@@ -37,7 +37,6 @@ export async function blockAi({github, context, core}) {
 		repo,
 		pull_number: pr.number,
 		state: 'closed',
-		title: 'AI SPAM',
 	});
 
 	await github.rest.issues.createComment({
