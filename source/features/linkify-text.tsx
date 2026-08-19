@@ -29,6 +29,9 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		pageDetect.isRepo,
+	],
 	include: [
 		pageDetect.isPR,
 		pageDetect.isIssue,
