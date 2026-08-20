@@ -216,7 +216,16 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			}
 
 			if (requiresToken) {
-				await expectToken();
+				try {
+					await expectToken();
+				} catch {
+					// No token: mark the feature as OFF so its CSS rules (e.g.
+					// repo-header-info's `html:not([rgh-OFF-…])` spacer) don't reserve
+					// space for content that will never render. Wait for the next
+					// navigation so a token added in the meantime gets picked up.
+					document.documentElement.setAttribute('rgh-OFF-' + id, '');
+					continue;
+				}
 			}
 
 			const featureController = new AbortController();
