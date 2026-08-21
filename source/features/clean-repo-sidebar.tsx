@@ -8,16 +8,20 @@ import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
-// It's broken: https://github.com/refined-github/refined-github/issues/9339
-async function cleanReleases(): Promise<void> {
-	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] .BorderGrid-cell h2 a[href$="/releases"]', {
+async function cleanReleases(signal: AbortSignal): Promise<void> {
+	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] :is(.BorderGrid-cell, [class*="SidebarSection-module__sidebarSection"]) h2 a[href$="/releases"]', {
+		signal,
+		stopOnDomReady: false,
 		waitForChildren: false,
 	});
 	if (!sidebarReleases) {
 		return;
 	}
 
-	const releasesSection = closestElement('.BorderGrid-cell', sidebarReleases);
+	const releasesSection = closestElement([
+		'.BorderGrid-cell', // Legacy repository sidebar
+		'[class*="SidebarSection-module__sidebarSection"]', // React repository sidebar
+	], sidebarReleases);
 	if (
 		// Hide the whole section if there's no releases
 		!elementExists('.octicon-tag', releasesSection)
@@ -28,10 +32,20 @@ async function cleanReleases(): Promise<void> {
 	}
 }
 
-async function hideLanguageHeader(): Promise<void> {
-	await domLoaded;
+async function hideLanguageHeader(signal: AbortSignal): Promise<void> {
+	const languageHeaderSelector = [
+		"[class*='PageLayout-Pane'] .BorderGrid-row:has(.Progress-item) h2", // Legacy repository sidebar
+		"[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:has([data-component='ProgressBar']) > h2", // React repository sidebar
+	].join(', ');
+	const languageHeader = await elementReady(languageHeaderSelector, {
+		signal,
+		stopOnDomReady: false,
+		waitForChildren: false,
+	});
+	if (!languageHeader) {
+		return;
+	}
 
-	const languageHeader = $("[class*='PageLayout-Pane'] .BorderGrid-row:has(.Progress-item) h2");
 	assertNodeContent(languageHeader.firstChild, 'Languages');
 	languageHeader.classList.add('sr-only');
 }
@@ -52,7 +66,7 @@ async function moveReportLink(): Promise<void> {
 	// Your own repos don't include this link
 	const reportLink = $optional("[class*='PageLayout-Pane'] a[href^='/contact/report-content']")?.parentElement;
 	if (reportLink) {
-		$("[class*='PageLayout-Pane'] .BorderGrid-row:last-of-type .BorderGrid-cell").append(reportLink);
+		$("[class*='PageLayout-Pane'] :is(.BorderGrid-row:last-of-type .BorderGrid-cell, [class*='SidebarSection-module__sidebarSection']:last-child)").append(reportLink);
 	}
 }
 

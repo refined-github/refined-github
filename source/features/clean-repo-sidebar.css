@@ -1,6 +1,9 @@
 [rgh-clean-repo-sidebar] [class*='PageLayout-Pane'] {
 	/* Hide "About" header */
-	.BorderGrid-row:first-child h2 {
+	:is(
+		.BorderGrid-row:first-child h2,
+		[class*='SidebarSection-module__sidebarSection']:first-child > h2
+	) {
 		display: none;
 	}
 
@@ -10,7 +13,10 @@
 	}
 
 	/* Align the top of the repo root sidebar with the main page content */
-	.BorderGrid-row:first-child h2 + p.f4 {
+	:is(
+		.BorderGrid-row:first-child h2 + p.f4,
+		[class*='SidebarSection-module__sidebarSection']:first-child > h2 + p
+	) {
 		margin-top: 0 !important;
 	}
 
@@ -27,8 +33,11 @@
 	 * Hide "+ 123 contributors" link
 	 * Don't hide "Create new release" link #8442
 	 */
-	.BorderGrid-cell
-		> div:is(.tmp-mt-3, .mt-3):has(> a:not([href$='releases/new'])) {
+	:is(
+		.BorderGrid-cell
+			> div:is(.tmp-mt-3, .mt-3):has(> a:not([href$='releases/new'])),
+		[class*='SidebarSection-module__moreLink']
+	) {
 		display: none;
 	}
 
@@ -38,5 +47,10 @@
 		[href$='/code_of_conduct.md' i] {
 			display: none;
 		}
+	}
+
+	[class*='SidebarSection-module__sidebarSection']
+		:is([href$='/code-of-conduct.md' i], [href$='/code_of_conduct.md' i]) {
+		display: none;
 	}
 }
