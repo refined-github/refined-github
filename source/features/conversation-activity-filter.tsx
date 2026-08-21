@@ -115,13 +115,7 @@ function processItem(item: HTMLElement): void {
 }
 
 function applyState(targetState: State): void {
-	const container = $([
-		// PR
-		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Issue
-		'[class*="IssueViewer-module__mainContainer"]',
-	]);
-	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
+	$('#repo-content-pjax-container').setAttribute('data-rgh-conversation-activity-filter', targetState);
 
 	activityFilterState.set(targetState);
 	SessionPageSetting.set(targetState);
