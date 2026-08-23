@@ -13,7 +13,7 @@ import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
 import {withTooltipRef} from '../components/tooltip.js';
 
 async function deleteBranch(branchName: string): Promise<void> {
-	await api.v3(`git/refs/heads/${branchName}`, {
+	await api.v3(`git/refs/heads/${encodeURIComponent(branchName)}`, {
 		method: 'DELETE',
 		responseFormat: 'text',
 	});
