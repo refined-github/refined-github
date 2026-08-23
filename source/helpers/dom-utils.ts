@@ -92,13 +92,13 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 };
 
 /** Prefer `assertNodeContent` for more precise matches */
-export const assertTextContent = <N extends Element>(element: Nullable<N>, expectation: string): N => {
+export const assertTextContent = (element: Nullable<Element>, expectation: string): void => {
 	const content = element?.textContent.trim();
 	if (content === expectation) {
-		return element!;
+		return ;
 	}
 
-	console.warn('Expected element:', element!.parentElement);
+	console.warn('Expected element:', element);
 	throw new Error(`Expected element matching "${expectation}", found "${content}"`);
 };
 
