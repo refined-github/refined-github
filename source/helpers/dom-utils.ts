@@ -91,6 +91,17 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 	throw new Error(`Expected node matching ${escapeMatcher(expectation)}, found ${escapeMatcher(content)}`);
 };
 
+/** Prefer `assertNodeContent` for more precise matches */
+export const assertTextContent = <N extends Element>(element: Nullable<N>, expectation: string): N => {
+	const content = element?.textContent.trim();
+	if (content === expectation) {
+		return element!;
+	}
+
+	console.warn('Expected element:', element!.parentElement);
+	throw new Error(`Expected element matching "${expectation}", found "${content}"`);
+};
+
 export const removeTextNodeContaining = (node: Text | ChildNode, expectation: RegExp | string): void => {
 	assertNodeContent(node, expectation);
 	node.remove();
