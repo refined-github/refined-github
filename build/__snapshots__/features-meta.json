@@ -220,8 +220,8 @@
 	},
 	{
 		"id": "delete-branch",
-		"description": "Simplifies the deletion of branches. Adds \"Quick deletion branch\" button on branches.",
-		"screenshot": "https://github.com/user-attachments/assets/b73e7ede-b6bc-4f9c-a8ae-f65e514d228e"
+		"description": "Adds a button to delete the current branch on the branch page.",
+		"screenshot": "https://github.com/user-attachments/assets/02478585-0613-4070-9616-df069dbc6c38"
 	},
 	{
 		"id": "dim-bots",

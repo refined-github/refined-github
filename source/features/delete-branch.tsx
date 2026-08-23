@@ -74,6 +74,10 @@ void features.add(import.meta.url, {
 /*
 Test URLs:
 
-https://github.com/refined-github/refined-github/tree/sandbox/keep-branch
+Deletable branch: https://github.com/refined-github/sandbox/tree/delete-and-recreate-this-branch
+Can't, default branch: https://github.com/bfred-it-org/github-sandbox/tree/main
+Can't, open PR: https://github.com/refined-github/sandbox/tree/sdfsdfds
+Can't, open PR on fork: https://github.com/bfred-it-org/github-sandbox/tree/branch/for-pr
+Can't, lack of permissions: https://github.com/gulpjs/vinyl/tree/before-rebase
 
 */
