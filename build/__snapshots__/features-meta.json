@@ -1040,6 +1040,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png"
 	},
 	{
+		"id": "unwrap-contribute",
+		"description": "Lets you open a PR in one click on the branch page.",
+		"screenshot": "https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9"
+	},
+	{
 		"id": "update-pr-from-base-branch",
 		"description": "Adds an \"Update branch | Rebase\" button to every PR. GitHub has the same feature, but it must be manually configured for each repo.",
 		"css": true,
