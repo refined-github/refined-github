@@ -95,7 +95,7 @@ export const assertNodeContent = <N extends Text | ChildNode>(node: Nullable<N>,
 export const assertTextContent = (element: Nullable<Element>, expectation: string): void => {
 	const content = element?.textContent.trim();
 	if (content === expectation) {
-		return ;
+		return;
 	}
 
 	console.warn('Expected element:', element);
