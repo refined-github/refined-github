@@ -32,8 +32,10 @@ export function buildRepoUrl<S extends string>(
 	return [location.origin, getRepo()?.nameWithOwner, ...pathParts].join('/');
 }
 
-export function getForkedRepo(): string | undefined {
-	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+export function getForkedRepo(): `${string}/${string}` | undefined {
+	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content as
+		| `${string}/${string}`
+		| undefined;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {

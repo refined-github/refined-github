@@ -1,39 +1,16 @@
 import * as pageDetect from 'github-url-detection';
-import {isForkedRepo} from 'github-url-detection';
 import React from 'dom-chef';
 import TrashIcon from 'octicons-plain-react/Trash';
 import delegate from 'delegate-it';
-import {$, $$optional} from 'select-dom';
+import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import api from '../github-helpers/api.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
-
-function getNetworkRootRepository(): string | undefined {
-	return $('meta[name="octolytics-dimension-repository_parent_nwo"]').getAttribute('content') ?? undefined;
-}
-
-async function branchHasNoOpenPullRequest(): Promise<boolean> {
-	const branchName = getCurrentGitRef()!;
-	const {owner, nameWithOwner} = getRepo()!;
-
-	if (isForkedRepo()) {
-		const targetRepository = getNetworkRootRepository() ?? nameWithOwner;
-
-		const pullRequests = await api.v3(
-			`/repos/${targetRepository}/pulls?head=${owner}:${branchName}&state=open`,
-		);
-
-		return pullRequests.length === 0;
-	}
-
-	return $$optional(`a[href*="/${nameWithOwner}/pull/"]`).length === 0;
-}
+import {withTooltipRef} from '../components/tooltip.js';
 
 async function deleteBranch(branchName: string): Promise<void> {
 	await api.v3(`git/refs/heads/${branchName}`, {
@@ -58,32 +35,39 @@ async function handleClickDeletion(): Promise<void> {
 	});
 }
 
-function attach(contributeContainer: HTMLElement): void {
+function add(contributeContainer: HTMLElement): void {
+	if (elementExists([
+		// No button if there are open PRs
+		'a[class*="PullRequestLink-module"]',
+		// No button if the branch is linked to upstream repo (generally the main branch)
+		'.octicon-sync',
+	], contributeContainer)) {
+		return;
+	}
+
 	contributeContainer.prepend(
 		<button
 			type="button"
-			className="btn btn-sm btn-danger rgh-delete-branch"
+			className="btn btn-danger rgh-delete-branch"
+			ref={withTooltipRef('Delete branch')}
 		>
-			<TrashIcon className="mr-2 tmp-mr-2" />
-			Delete branch
+			<TrashIcon/>
 		</button>,
 	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[data-testid="branch-info-bar"] > .d-flex.gap-2', attach, {signal});
+	// This bar does not appear on the default branch of the root repo, so no further checks are required
+	// The element is empty if the user doesn't have push access
+	observe('[data-testid="branch-info-bar"] > .d-flex.gap-2:not(:empty)', add, {signal});
 	delegate('.rgh-delete-branch', 'click', handleClickDeletion, {signal});
 }
 
 void features.add(import.meta.url, {
-	exclude: [
-		isDefaultBranch,
-	],
 	asLongAs: [
 		pageDetect.isRepoRoot,
-		userHasPushAccess,
-		branchHasNoOpenPullRequest,
 	],
+	requiresToken: true,
 	init,
 });
 
