@@ -156,7 +156,7 @@ function validateCss(file: FeatureFile): void {
 
 	assert(
 		!trailingComment || !/test url/i.test(trailingComment?.[0]),
-		'Only TSX files and *lone* CSS files should have test URLs'
+		'Only TSX files and *lone* CSS files should have test URLs',
 	);
 }
 
