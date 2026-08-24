@@ -34,17 +34,14 @@ function useCommitTitle(firstCommitTitle: HTMLElement): void {
 
 	if (!requestedContent.has('pull_request[title]')) {
 		setFieldText(
-			$([
-				'input[name="pull_request[title]"]',
-				'#pull_request_title', // Remove after August 2026
-			]),
+			$('input[name="pull_request[title]"]'),
 			firstCommit.title,
 		);
 	}
 
 	if (firstCommit.body && !requestedContent.has('pull_request[body]')) {
 		insertTextIntoField(
-			$('#pull_request_body'),
+			$('textarea[name="pull_request[body]"]'),
 			firstCommit.body,
 		);
 	}

@@ -49,12 +49,7 @@ export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal
 		[
 			'[class^="prc-PageLayout-Header"] input', // PR
 			'input[placeholder="Title"]', // Issue
-			// Old PR view
-			// TODO [2027-01-01]: Remove
-			'#issue_title',
-			// Old compare view
-			// TODO [2026-09-01]: Remove
-			'#pull_request_title',
+			"input[name='pull_request[title]']", // Compare
 		],
 		'keydown',
 		deduplicateInteractiveFilter(callback),
@@ -64,7 +59,7 @@ export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal
 
 export function onCommitTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
 	delegate<TextField, 'keydown'>(
-		'#commit-summary-input',
+		'#commit-message-input', // `isEditingFile`, `isNewFile`
 		'keydown',
 		deduplicateInteractiveFilter(callback),
 		{signal, capture},

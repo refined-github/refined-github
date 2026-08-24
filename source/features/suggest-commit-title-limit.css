@@ -18,8 +18,8 @@
 	}
 }
 
-/* Test URL: https://github.com/refined-github/refined-github/pull/9905 */
-[class^='prc-PageLayout-Header'] input,
+/* Test URL: https://github.com/refined-github/refined-github/edit/main/.editorconfig */
+#commit-message-input,
 /* Test URL: https://github.com/refined-github/sandbox/compare/default-a...new?expand=1 */
 input[name='pull_request[title]'] {
 	&.rgh-title-over-limit {
@@ -38,6 +38,7 @@ input[name='pull_request[title]'] {
 	}
 }
 
+/* Test URL: https://github.com/refined-github/sandbox/pull/16 */
 span[class*='TextInputWrapper']:has(> .rgh-title-over-limit) {
 	border-color: var(--rgh-limit-color);
 	outline-color: var(--rgh-limit-color);

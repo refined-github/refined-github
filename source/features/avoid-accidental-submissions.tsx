@@ -7,19 +7,6 @@ import {elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {modifierKey} from '../github-helpers/hotkey.js';
 
-// TODO [2026-09-01]: Remove
-const legacyInputElements = [
-	// Old `isCompare`
-	'input#pull_request_title',
-	// Old `isEditingFile`, `isNewFile`
-	'input#commit-summary-input',
-];
-
-const inputElements = [
-	'input[name="pull_request[title]"]', // `isCompare`
-	'#commit-message-input', // `isEditingFile`, `isNewFile`
-];
-
 function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void {
 	const field = event.delegateTarget;
 	const form = field.form!;
@@ -45,10 +32,8 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		return;
 	}
 
-	const isLegacyInput = field.matches(legacyInputElements);
-
 	const spacingClasses = pageDetect.isNewFile() || pageDetect.isEditingFile()
-		? isLegacyInput ? 'my-1' : 'mb-3 mt-n2'
+		? 'mb-3 mt-n2'
 		: 'mt-2 mb-n1';
 
 	const message = (
@@ -59,21 +44,20 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		</p>
 	);
 
-	if (isLegacyInput) {
-		if (pageDetect.isNewFile() || pageDetect.isEditingFile()) {
-			field.after(message);
-		} else {
-			field.parentElement!.append(message);
-		}
+	if (pageDetect.isNewFile() || pageDetect.isEditingFile()) {
+		field.after(message);
 	} else {
-		field.parentElement!.after(message);
+		field.parentElement!.append(message);
 	}
 
 	event.preventDefault();
 }
 
 function init(signal: AbortSignal): void {
-	delegate([...inputElements, ...legacyInputElements], 'keydown', onKeyDown, {signal, capture: true});
+	delegate([
+		'input[name="pull_request[title]"]', // `isCompare`
+		'#commit-message-input', // `isEditingFile`, `isNewFile`
+	], 'keydown', onKeyDown, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
