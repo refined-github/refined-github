@@ -1,0 +1,21 @@
+/* Sizing, hover square and muted color are inherited from the cloned kebab button */
+.rgh-rerun-workflow-from-pr[disabled] {
+	opacity: 50%;
+	cursor: default;
+}
+
+/* The job is queued but GitHub hasn't re-rendered the row yet. Spin the icon so the
+   disabled state reads as "work in flight" rather than as a dead button. */
+.rgh-rerun-workflow-from-pr-queued .octicon {
+	animation: rgh-rerun-workflow-from-pr-spin 1s linear infinite;
+}
+
+@keyframes rgh-rerun-workflow-from-pr-spin {
+	from {
+		rotate: 0deg;
+	}
+
+	to {
+		rotate: 360deg;
+	}
+}

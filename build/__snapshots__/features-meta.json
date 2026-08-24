@@ -835,6 +835,12 @@
 		"screenshot": "https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7"
 	},
 	{
+		"id": "rerun-workflow-from-pr",
+		"description": "Adds a button to re-run a completed GitHub Actions job directly from the pull request page, without opening the workflow run.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/TODO-add-screenshot-of-the-re-run-button-in-the-PR-merge-box"
+	},
+	{
 		"id": "restore-file",
 		"description": "Adds a button to discard all the changes to a file in a PR.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/236630610-e11a64f6-5e70-4353-89b8-39aae830dd16.gif"
