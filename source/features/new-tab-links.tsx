@@ -20,6 +20,7 @@ function disableLink(link: HTMLAnchorElement): void {
 }
 
 export const newIssueModalDeadLinks = 'div[data-testid="repository-and-template-picker-dialog"] a';
+export const newIssueMenuItem = 'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)';
 
 function initDeadLinksOnce(): void {
 	// Explanation: https://github.com/refined-github/refined-github/issues/9615
@@ -54,7 +55,10 @@ function openNewIssuePageInNewTab(event: DelegateEvent<MouseEvent, HTMLElement>)
 function initNewIssueOnce(): void {
 	onAlteredClick(
 		[
-			'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)',
+			// "New issue" menu item in the repo header
+			newIssueMenuItem,
+
+			// Main "+" dropdown button
 			'button[class*="GlobalCreateMenu-module__actionMenuButton"]',
 		],
 		openNewIssuePageInNewTab,

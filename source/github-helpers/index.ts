@@ -225,3 +225,27 @@ export function assertCommitHash(hash: string): void {
 		throw new Error(`Invalid commit hash: ${hash}`);
 	}
 }
+
+/** Use instead of location.assign() */
+export function visitAjaxedPage(url: string): void {
+	const anchor = document.createElement('a');
+	anchor.setAttribute('data-turbo-frame', 'repo-content-turbo-frame');
+	anchor.href = url;
+	document.body.append(anchor);
+	anchor.click();
+	anchor.remove();
+}
+
+/** Can be used to close modals or popovers */
+export function pressEscapeKey(): void {
+	document.body.dispatchEvent(
+		new KeyboardEvent('keydown', {
+			key: 'Escape',
+			code: 'Escape',
+			keyCode: 27,
+			which: 27,
+			bubbles: true,
+			cancelable: true,
+		}),
+	);
+}
