@@ -5,7 +5,6 @@ import {wrapFieldSelection} from 'text-field-edit';
 import features from '../feature-manager.js';
 import {
 	onCommentFieldKeydown,
-	onCommitTitleFieldKeydown,
 	onConversationTitleFieldKeydown,
 } from '../github-events/on-field-keydown.js';
 
@@ -42,13 +41,14 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 function init(signal: AbortSignal): void {
 	onCommentFieldKeydown(eventHandler, signal);
 	onConversationTitleFieldKeydown(eventHandler, signal);
-	onCommitTitleFieldKeydown(eventHandler, signal);
 	delegate(
 		[
+			// Make sure to not add the same input already covered by `onConversationTitleFieldKeydown` and `onCommentFieldKeydown`
 			'input[name="commit_title"]',
 			'input[name="gist[description]"]',
 			'#saved-reply-title-field',
-			'#commit-message-input',
+
+			'#commit-message-input', // `isEditingFile`, `isNewFile`
 		],
 		'keydown',
 		eventHandler,
