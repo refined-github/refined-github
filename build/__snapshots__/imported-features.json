@@ -112,6 +112,7 @@
 	"pr-commit-lines-changed",
 	"pr-filters",
 	"pr-first-commit-title",
+	"pr-from-branch",
 	"pr-jump-to-first-non-viewed-file",
 	"pr-notification-link",
 	"prevent-comment-loss",
