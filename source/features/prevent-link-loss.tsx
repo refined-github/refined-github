@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {closestElement} from 'select-dom';
+import {$optional, closestElement} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -9,16 +9,17 @@ import Banner from './prevent-link-loss.svelte';
 function attach(field: HTMLTextAreaElement): void {
 	const target = closestElement([
 		// Almost everywhere
-		'fieldset',
+		// Don't use only `fieldset` https://github.com/refined-github/refined-github/issues/9955
+		'*:has(> fieldset)',
 
 		// Editing PR body
 		'.CommentBox',
 	], field);
+
 	mount(Banner, {
 		target,
-		props: {
-			field,
-		},
+		anchor: $optional(':scope > fieldset + *', target), // After fieldset, if found
+		props: {field},
 	});
 }
 
