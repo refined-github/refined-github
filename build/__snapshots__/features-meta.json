@@ -669,6 +669,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif"
 	},
 	{
+		"id": "pr-from-branch",
+		"description": "Lets you open a PR in one click on the branch page.",
+		"screenshot": "https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9"
+	},
+	{
 		"id": "pr-jump-to-first-non-viewed-file",
 		"description": "Jumps to first non-viewed file in a PR when clicking on the progress bar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif"
@@ -1038,11 +1043,6 @@
 		"id": "unreleased-commits",
 		"description": "Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png"
-	},
-	{
-		"id": "unwrap-contribute",
-		"description": "Lets you open a PR in one click on the branch page.",
-		"screenshot": "https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9"
 	},
 	{
 		"id": "update-pr-from-base-branch",

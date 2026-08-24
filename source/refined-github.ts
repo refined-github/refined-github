@@ -219,4 +219,4 @@ import './features/notifications-ui.js';
 import './features/easy-toggle-hidden-comments.js';
 import './features/extend-repo-tabs.js';
 import './features/delete-branch.js';
-import './features/unwrap-contribute.js';
+import './features/pr-from-branch.js';
