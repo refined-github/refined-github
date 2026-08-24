@@ -21,7 +21,6 @@
 	const baseId = crypto.randomUUID();
 
 	function selectState(targetState: State): void {
-		activityFilterState.set(targetState);
 		onStateChange(targetState);
 	}
 </script>

@@ -8,36 +8,15 @@ import {get} from 'svelte/store';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {activityFilterState, type State, states} from '../helpers/conversation-activity-filter.js';
+import {activityFilterState, resetActivityFilterState, type State, states} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
 
-const SessionPageSetting = {
-	get key(): string {
-		return `rgh-conversation-activity-filter-state:${location.pathname}`;
-	},
-
-	set(value: State): void {
-		sessionStorage.setItem(this.key, value);
-	},
-
-	get(): State | undefined {
-		return sessionStorage.getItem(this.key) as State | undefined;
-	},
-};
-
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
-const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/3686',
-	'https://github.com/refined-github/refined-github/issues/6000',
-	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
-	'https://github.com/refined-github/refined-github/issues/8000',
-];
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
@@ -115,16 +94,14 @@ function processItem(item: HTMLElement): void {
 }
 
 function applyState(targetState: State): void {
-	const container = $([
+	$([
 		// PR
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
 		// Issue
 		'[class*="IssueViewer-module__mainContainer"]',
-	]);
-	container.setAttribute('data-rgh-conversation-activity-filter', targetState);
+	]).setAttribute('data-rgh-conversation-activity-filter', targetState);
 
 	activityFilterState.set(targetState);
-	SessionPageSetting.set(targetState);
 }
 
 async function addWidget(anchor: Element): Promise<void> {
@@ -159,17 +136,10 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = SessionPageSetting.get()
-		?? (minorFixesIssuePages.some(url => location.href.startsWith(url))
-			? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
-			: 'showAll');
-	activityFilterState.set(initialState);
+	const initialState = resetActivityFilterState();
 
 	const initialSetupOnce = onetime(() => {
-		if (initialState !== 'showAll') {
-			applyState(initialState);
-		}
-
+		applyState(initialState);
 		registerHotkey('h', switchToNextFilter, {signal});
 	});
 
