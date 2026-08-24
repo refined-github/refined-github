@@ -15,7 +15,7 @@ function add(rawButton: HTMLAnchorElement): void {
 		.parentElement! // `div`
 		.parentElement! // `BtnGroup`
 		.prepend(
-			<div>
+			<div className={rawButton.parentElement!.className}>
 				<a
 					className={rawButton.className}
 					data-variant="default"

@@ -2,6 +2,8 @@
 /* Info: https://github.com/refined-github/refined-github/issues/4817 */
 /* Test: https://github.com/sindresorhus/refined-github/commits/main?after=37fa4677f1ecf26d7176c8d9d43f8a4db6d5d902+104&branch=main */
 li[data-testid='commit-row-item'] code,
+/* Test: https://github.com/refined-github/refined-github/compare/26.7...26.7.12 */
+.js-commits-list-item p code,
 /* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
 div[class^='CommitHeader-module__commitMessageContainer'] code,
 /* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
@@ -266,4 +268,19 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 /* Test: https://github.com/refined-github/sandbox/pull/81 */
 .empty-cell {
 	cursor: default !important;
+}
+
+/* Fix bad wrap in PR lists */
+/* Info: https://github.com/refined-github/refined-github/issues/9919 */
+/* Test: https://github.com/refined-github/refined-github/pulls?q=sort%3Aupdated-desc+is%3Apr++created%3A2026-07-31 */
+.js-issue-row div.d-flex.text-small.color-fg-muted {
+	display: block !important;
+}
+
+/* Fix sponsor button overflowing on mobile repo home */
+/* Info: https://github.com/refined-github/refined-github/issues/9912 */
+/* Test: https://github.com/refined-github/refined-github */
+[data-testid='responsive-social-buttons'] {
+	flex-wrap: wrap;
+	max-width: 100%;
 }

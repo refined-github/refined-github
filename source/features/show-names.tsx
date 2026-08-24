@@ -7,7 +7,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
-import abortableClassName from '../helpers/abortable-classname.js';
 import attachElement from '../helpers/attach-element.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
@@ -23,7 +22,7 @@ async function dropExtraCopy(link: HTMLAnchorElement): Promise<void> {
 
 function createElement(element: HTMLAnchorElement, fullName: string): JSX.Element {
 	const nameElement = (
-		<span className="color-fg-muted css-truncate d-inline-block rgh-show-names no-wrap">
+		<span className="color-fg-muted css-truncate d-inline-block no-wrap">
 			{/* .css-truncate-target sets display: inline-block and confines bidi overrides #8191 */}
 			(<span className="css-truncate-target" style={{maxWidth: '200px'}}>{fullName}</span>)
 		</span>
@@ -77,14 +76,6 @@ async function updateLinks(found: HTMLAnchorElement[]): Promise<void> {
 	const currentUser = getLoggedInUser()!;
 	const currentUserElements = users.get(currentUser);
 	if (currentUserElements) {
-		for (const currentUserElement of currentUserElements) {
-			// For `sticky-comment-header`. Use attribute because classes are altered by GitHub
-			closestElementOptional('[data-testid="comment-header"]', currentUserElement)?.setAttribute(
-				'data-rgh-viewer-did-author',
-				'',
-			);
-		}
-
 		users.delete(currentUser);
 	}
 
@@ -128,8 +119,6 @@ function updateDom(link: HTMLAnchorElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	// For `sticky-comment-header`
-	abortableClassName(document.documentElement, signal, 'rgh-show-names');
 	observe(usernameLinksSelector, updateDom, {signal});
 }
 

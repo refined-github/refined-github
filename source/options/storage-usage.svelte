@@ -33,7 +33,7 @@
 		areaName: chrome.storage.AreaName,
 	) => {
 		if (item && Object.hasOwn(changes, item)) {
-			// @ts-expect-error TODO: Use webext-storage
+			// @ts-expect-error Can't use `webext-storage` because the component also supports whole-storage size
 			used = getTrueSizeOfObject(changes[item].newValue);
 		}
 

@@ -4,7 +4,7 @@ import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import ArrowLeftIcon from 'octicons-plain-react/ArrowLeft';
-import {$, closestElementOptional} from 'select-dom';
+import {$, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
@@ -90,7 +90,8 @@ function replaceFromWithArrow(base: HTMLElement): void {
 	);
 }
 
-async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
+async function cleanPrHeader(headRef: HTMLElement): Promise<void> {
+	const summaryRow = closestElement('.d-flex[class*="PullRequestHeaderSummary"]', headRef);
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
 	if (isStickyHeader(summaryRow)) {
@@ -122,7 +123,7 @@ async function cleanPrHeader(summaryRow: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		'.d-flex[class*="PullRequestHeaderSummary"]',
+		'[class^="PullRequestBranchName"] ~ div [class^="PullRequestBranchName"]',
 		cleanPrHeader,
 		{signal},
 	);

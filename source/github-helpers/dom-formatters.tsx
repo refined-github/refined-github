@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {$$, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {closestElementOptional, elementExists} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
@@ -49,39 +49,6 @@ export function shortenLink(link: HTMLAnchorElement): void {
 	}
 }
 
-// https://github.com/refined-github/refined-github/issues/6336#issuecomment-1498645639
-export function repositionAnchors(element: HTMLElement): void {
-	// TODO [2027-01-01]: bump min firefox version to 147 and safari to 26
-	if (!CSS.supports('anchor-name: --test')) {
-		return;
-	}
-
-	// Safety measure
-	// DOM changes made by this function is unnecessary if the textarea doesn't exist and can cause issues
-	if (!elementExists('#read-only-cursor-text-area')) {
-		return;
-	}
-
-	const container = closestElement('.react-code-file-contents', element).parentElement!;
-
-	const codeLine = closestElementOptional('[id]', element);
-	if (!codeLine) {
-		throw new Error('Could not find parent code line');
-	}
-
-	const links = $$('a', codeLine);
-	for (const [index, link] of links.entries()) {
-		const anchor = `--rgh-${codeLine.id}-${index}`;
-		link.replaceWith(<span style={{anchorName: anchor, opacity: 0}}>{link.textContent}</span>);
-		link.className = 'react-code-text rgh-anchored-link';
-		link.style.positionAnchor = anchor;
-		container.prepend(link);
-	}
-
-	// Hide overflow
-	container.style.position = 'relative';
-}
-
 export function linkifyIssues(
 	currentRepo: {owner?: string; name?: string},
 	element: HTMLElement,
@@ -114,7 +81,6 @@ export function linkifyIssues(
 	}
 
 	zipTextNodes(element, linkified);
-	repositionAnchors(element);
 }
 
 export function linkifyUrls(element: HTMLElement): void {
@@ -139,7 +105,6 @@ export function linkifyUrls(element: HTMLElement): void {
 	}
 
 	zipTextNodes(element, linkified);
-	repositionAnchors(element);
 }
 
 export function parseBackticks(element: Element): void {

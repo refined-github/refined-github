@@ -5,9 +5,6 @@ const fieldSelector = [
 	'[data-testid="mergebox-partial"] input[type="text"]',
 	// Commit title on edit file page
 	'#commit-message-input',
-	// Commit title on edit file page before some update
-	// TODO [2026-08-01]: Remove
-	'#commit-summary-input',
 ];
 
 export default function onCommitTitleUpdate(

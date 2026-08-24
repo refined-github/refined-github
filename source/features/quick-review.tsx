@@ -24,7 +24,11 @@ const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '�
 const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
-const prFilesChangedTabSelector = 'a#prs-files-anchor-tab';
+const prFilesChangedTabSelector = [
+	'a#prs-files-anchor-tab',
+	// GHES still uses the legacy files tab without this ID #9937
+	'a.tabnav-tab[href$="/files"]',
+] as const;
 
 const isOldPrFiles = (): boolean => $(prFilesChangedTabSelector).href.endsWith('files');
 

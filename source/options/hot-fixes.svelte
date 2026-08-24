@@ -4,13 +4,22 @@
 
 	const {enterprise = false}: {enterprise: boolean} = $props();
 	const {version} = chrome.runtime.getManifest();
+	let emptied = $state(false);
 
-	let hotfixesPromise = $state(styleHotfixes.getCached(version));
+	// This will attempt to load the hotfixes because we do want an up-to-date options page
+	let hotfixesPromise = $state(styleHotfixes.get(version));
+	let brokenFeaturesPromise = $state(brokenFeatures.get());
 
-	let brokenFeaturesPromise = $state(brokenFeatures.getCached());
 	function refreshHotfixes(): void {
+		emptied = false;
 		hotfixesPromise = styleHotfixes.getFresh(version);
 		brokenFeaturesPromise = brokenFeatures.getFresh();
+	}
+
+	function emptyHotfixes(): void {
+		hotfixesPromise = styleHotfixes.setCached('', version);
+		brokenFeaturesPromise = brokenFeatures.setCached([]);
+		emptied = true;
 	}
 </script>
 <p>In order to address severe issues as quickly as possible, Refined GitHub
@@ -28,32 +37,38 @@
 		<button type="button" onclick={refreshHotfixes}>
 			Update hotfixes
 		</button>
+		<button type="button" onclick={emptyHotfixes}>
+			Empty hotfixes
+		</button>
 	</p>
-	{#await hotfixesPromise then hotfixes}
-		<h3>CSS hotfixes</h3>
-		<p>
+	<p hidden={!emptied} class="error-banner">
+		✅ Hotfixes have been emptied and will stay empty until the next
+		auto-update in a few hours.
+	</p>
+	<h3>CSS hotfixes</h3>
+	<p>
+		{#await hotfixesPromise then hotfixes}
 			{#if hotfixes}
-				<textarea rows="2" readonly>{hotfixes}</textarea>
+				<textarea readonly class="text-monospace text-code"
+				>{hotfixes}</textarea>
 			{:else}
-				No hotfixes needed for this version! 🎉
+				<textarea readonly class="text-italics"
+				>No hotfixes needed for this version! 🎉</textarea>
 			{/if}
-		</p>
-	{/await}
-	{#await brokenFeaturesPromise then features}
-		<h3>Disabled features</h3>
-		<p>
-			{#if features}
-				<textarea
-					rows="2"
-					readonly
+		{/await}
+	</p>
+	<h3>Disabled features</h3>
+	<p>
+		{#await brokenFeaturesPromise then features}
+			{#if features.length}
+				<textarea readonly class="text-monospace"
 				>{
 						features.map(line => line.join(' ')).join('\n')
 					}</textarea>
 			{:else}
-				No broken features found in cache. This may be indicative of a hotfix
-				loading failure, the list is never empty if you've ever opened
-				github.com
+				<textarea readonly class="text-italics"
+				>No broken features found in cache. This may be indicative of a hotfix loading failure, the list is never empty if you've ever opened github.com</textarea>
 			{/if}
-		</p>
-	{/await}
+		{/await}
+	</p>
 {/if}

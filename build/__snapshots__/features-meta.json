@@ -219,6 +219,11 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png"
 	},
 	{
+		"id": "delete-branch",
+		"description": "Adds a button to delete the current branch on the branch page.",
+		"screenshot": "https://github.com/user-attachments/assets/02478585-0613-4070-9616-df069dbc6c38"
+	},
+	{
 		"id": "dim-bots",
 		"description": "Dims commits and PRs by bots to reduce noise.",
 		"css": true,
@@ -280,6 +285,11 @@
 		"description": "Widens the <code>Expand diff</code> button to be clickable across the screen.",
 		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif"
+	},
+	{
+		"id": "extend-repo-tabs",
+		"description": "Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.",
+		"screenshot": "https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326"
 	},
 	{
 		"id": "extensible-nav",
@@ -659,6 +669,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/16872793/87246205-ccf42400-c419-11ea-86d5-0e6570d99e6e.gif"
 	},
 	{
+		"id": "pr-from-branch",
+		"description": "Lets you open a PR in one click on the branch page.",
+		"screenshot": "https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9"
+	},
+	{
 		"id": "pr-jump-to-first-non-viewed-file",
 		"description": "Jumps to first non-viewed file in a PR when clicking on the progress bar.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif"
@@ -914,7 +929,7 @@
 	},
 	{
 		"id": "sticky-comment-header",
-		"description": "Makes the comment header sticky when scrolling through long comments. Requires <code>show-names</code> to be enabled.",
+		"description": "Makes the comment header sticky when scrolling through long comments.",
 		"css": true,
 		"screenshot": "https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8"
 	},

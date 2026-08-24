@@ -2,7 +2,6 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {isFirefox} from 'webext-detect';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -14,8 +13,7 @@ import observe from '../helpers/selector-observer.js';
 import listPrsForFileQuery from './list-prs-for-file.gql';
 
 function getPrUrl(prNumber: number): string {
-	// https://caniuse.com/url-scroll-to-text-fragment
-	const hash = isFirefox() ? '' : `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
+	const hash = `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
 	return buildRepoUrl('pull', prNumber, 'files') + hash;
 }
 

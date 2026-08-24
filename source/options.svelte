@@ -30,6 +30,7 @@
 	const optionsStorageKey = $derived.by(() =>
 		domain === 'default' ? 'options' : 'options-' + domain
 	);
+	const host = $derived.by(() => (domain === 'default' ? 'github.com' : domain));
 </script>
 
 <Header title="Refined GitHub" withVersion>
@@ -56,9 +57,7 @@
 				You should
 				<a
 					id="personal-token-link"
-					href={`https://${
-						domain === 'default' ? 'github.com' : domain
-					}/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none`}
+					href={`https://${host}/settings/tokens/new?description=Refined%20GitHub&scopes=repo,read:project,workflow&default_expires_at=none`}
 				>
 					generate a token
 				</a>
@@ -68,7 +67,7 @@
 				>the wiki.</a>
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
-			<TokenInput />
+			<TokenInput {host} />
 		</details>
 	</HandleExpand>
 
@@ -119,7 +118,7 @@
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
 			<p>
 				<textarea
-					class="monospace-field"
+					class="monospace-field text-code"
 					name="customCss"
 					rows="2"
 					spellcheck="false"

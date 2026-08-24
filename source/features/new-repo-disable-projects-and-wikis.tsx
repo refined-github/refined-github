@@ -1,6 +1,5 @@
 import delegate from 'delegate-it';
 import React from 'dom-chef';
-import domLoaded from 'dom-loaded';
 import * as pageDetect from 'github-url-detection';
 import {$, elementExists} from 'select-dom';
 
@@ -8,6 +7,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import {overrideTab} from '../components/extensible-nav-store.js';
 
 const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
@@ -23,17 +23,9 @@ async function disableWikiAndProjectsOnce(): Promise<void> {
 			/* eslint-enable @typescript-eslint/naming-convention */
 		},
 	});
-	await domLoaded;
-	$([
-		'li:has([data-content="Wiki"]',
-		// TODO [2026-10-01]: Drop
-		'[data-menu-item$="wiki-tab"]',
-	]).remove();
-	$([
-		'li:has([data-content="Projects"])',
-		// TODO [2026-10-01]: Drop
-		'[data-menu-item$="projects-tab"]',
-	]).remove();
+
+	overrideTab('wiki', {removed: true});
+	overrideTab('projects', {removed: true});
 }
 
 function setStorage(): void {
@@ -60,7 +52,6 @@ function add(blueprintRow: HTMLElement): void {
 	control.replaceChildren(
 		// Padding/margin classes added to increate hit area
 		<label className="d-flex gap-1 flex-items-center p-2 tmp-p-2 mr-n2 tmp-mr-n2">
-			Disable
 			<input
 				checked
 				// @ts-expect-error Safari only

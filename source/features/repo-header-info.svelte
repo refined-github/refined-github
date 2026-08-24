@@ -23,11 +23,11 @@
 
 	{#if info.stargazerCount > 1}
 		<a
-			href={buildRepoUrl('stargazers')}
+			href={info.stargazerUrl}
 			title={`Repository starred by ${info.stargazerCount.toLocaleString('us')} people${
 				info.viewerHasStarred ? ', including you' : ''
 			}`}
-			class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted Button Button--invisible"
+			class="d-flex flex-items-center flex-justify-center gap-1 p-1 tmp-p-1 color-fg-muted {info.stargazerUrl ? 'Button Button--invisible' : 'no-underline'}"
 		>
 			<DomChef
 				as={info.viewerHasStarred ? StarFillIcon : StarIcon}

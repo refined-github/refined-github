@@ -48,6 +48,7 @@
 				}
 
 				[data-content] {
+					display: block !important; /* Override `.d-none` if present */
 					grid-area: title;
 					line-height: 1;
 					margin-top: 5px;

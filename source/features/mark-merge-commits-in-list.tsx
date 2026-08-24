@@ -50,7 +50,7 @@ function updateCommitIcon(commit: HTMLElement, replace: boolean): void {
 	if (replace) {
 		$('.octicon-git-commit', commit).replaceWith(<GitMergeIcon />);
 	} else {
-		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-1 tmp-mr-1" />);
+		$(commitTitleInLists, commit).prepend(<GitMergeIcon className="mr-2 tmp-mr-2" />);
 	}
 }
 

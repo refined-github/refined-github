@@ -10,28 +10,35 @@ export type Tab = {
 	reactNav?: string;
 	counter?: Readable<number | string | undefined>;
 	tooltip?: string;
+	demoted?: true | string; // User-visible reason for demotion, e.g. "empty" or "disabled"
+	/** Tabs should only be removed if we know they lead to a 404 */
+	removed?: true;
 	selected?: () => boolean | Promise<boolean>;
 };
 
 type ExtraTab = {tab: Tab; before?: string};
+type TabOverride = Partial<Pick<Tab, 'label' | 'counter' | 'tooltip' | 'demoted' | 'removed'>>;
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
-const hiddenIds = writable(new Set<string>());
+const overrides = writable(new Map<string, TabOverride>());
 
 export const selectedId = writable<string | undefined>();
 
 export const tabs = derived(
-	[nativeTabs, extraTabs, hiddenIds],
-	([$nativeTabs, $extraTabs, $hiddenIds]) => {
-		const tabs = $nativeTabs.filter(({id}) => !$hiddenIds.has(id));
+	[nativeTabs, extraTabs, overrides],
+	([$nativeTabs, $extraTabs, $overrides]) => {
+		const tabs = $nativeTabs.map(tab => ({...tab, ...$overrides.get(tab.id)}));
 
 		for (const {tab, before} of $extraTabs) {
 			const index = before ? tabs.findIndex(({id}) => id === before) : -1;
 			tabs.splice(index === -1 ? tabs.length : index, 0, tab);
 		}
 
-		return tabs;
+		const demoted = tabs.filter(tab => tab.demoted);
+		const rest = tabs.filter(tab => !tab.demoted);
+
+		return [...rest, ...demoted];
 	},
 );
 
@@ -56,8 +63,8 @@ export function addTab(tab: Tab, before?: string): void {
 	}
 }
 
-export function hideTab(id: string): void {
-	hiddenIds.update(current => new Set(current).add(id));
+export function overrideTab(id: string, override: TabOverride): void {
+	overrides.update(current => new Map(current).set(id, {...current.get(id), ...override}));
 }
 
 export async function updateCurrentTab(): Promise<void> {

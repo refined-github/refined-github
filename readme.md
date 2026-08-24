@@ -99,6 +99,8 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "link-to-github-io") [Adds a link to visit the user’s github.io website from its repo.](https://user-images.githubusercontent.com/34235681/152473104-c4723999-9239-48fd-baee-273b01c4eb87.png)
 - [](# "github-actions-indicators") [In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png)
 - [](# "quick-repo-deletion") [Simplifies the deletion of repositories. Adds "Delete fork" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.](https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5)
+- [](# "delete-branch") [Adds a button to delete the current branch on the branch page.](https://github.com/user-attachments/assets/02478585-0613-4070-9616-df069dbc6c38)
+- [](# "pr-from-branch") [Lets you open a PR in one click on the branch page.](https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9)
 - [](# "archive-forks-link") [Helps you find forks on archived repos.](https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png)
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
@@ -107,6 +109,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "visit-tag") [When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png)
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
+- [](# "extend-repo-tabs") [Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.](https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -187,7 +190,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "open-all-conversations") [Lets you open all visible issues/PRs at once.](https://github.com/user-attachments/assets/0d890b01-d5ca-4247-8270-055dd6355606)
 - [](# "sticky-conversation-list-toolbar") [Makes the issue/PR list’s filters toolbar sticky.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif)
-- [](# "sticky-comment-header") [Makes the comment header sticky when scrolling through long comments. Requires `show-names` to be enabled.](https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8)
+- [](# "sticky-comment-header") [Makes the comment header sticky when scrolling through long comments.](https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8)
 - [](# "conversation-authors") [Highlights issues/PRs opened by you or the current repo’s collaborators.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png)
 - [](# "align-issue-labels") [In issue/PR lists, aligns the labels to the left, below each title.](https://github.com/user-attachments/assets/dca5dc12-7283-4704-a93f-5bfe5f2b1938)
 - [](# "last-update-sort") 🔥 Changes the default sort order of issues/PRs to `Recently updated`.

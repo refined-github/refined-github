@@ -54,14 +54,19 @@ const bugs = new CachedFunction('bugs', {
 	cacheKey: cacheByRepo,
 });
 
-async function getSearchQueryBugLabel(): Promise<string> {
+async function getBugsLabel(): Promise<string> {
 	const {label} = await bugs.getCached() ?? {};
-	return `(label:${SearchQuery.escapeValue(label ?? 'bug')} OR type:Bug)`;
+	return label ?? 'bug';
+}
+
+function getFullSearchQuery(bugsLabel: string): string {
+	return `(label:${bugsLabel} OR type:Bug)`;
 }
 
 async function isBugsListing(): Promise<boolean> {
-	// TODO: misses plain `label:bug` queries because the helper returns `(label:bug OR type:Bug)`
-	return SearchQuery.from(location).includes(await getSearchQueryBugLabel());
+	const query = SearchQuery.from(location);
+	const bugsLabel = await getBugsLabel();
+	return query.includes(`label:${bugsLabel}`) || query.includes(getFullSearchQuery(bugsLabel));
 }
 
 async function addBugsTabOnce(): Promise<void | false> {
@@ -81,7 +86,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 	}
 
 	const {href} = new SearchQuery(buildRepoUrl('issues'))
-		.append(await getSearchQueryBugLabel());
+		.append(getFullSearchQuery(await getBugsLabel()));
 
 	const counter = writable<number | undefined>();
 	addTab({

@@ -97,8 +97,11 @@ summary:hover {
 	background: light-dark(#e3e9ef, #0e1012);
 }
 
-[name='customCss'] {
+.text-code {
 	font-size: 11px;
+}
+.text-italics {
+	font-style: italic;
 }
 
 .error-banner {
@@ -112,12 +115,17 @@ summary:hover {
 	white-space: pre-line;
 
 	box-sizing: border-box;
-	width: var(--content-width);
+	max-width: var(--content-width);
 	margin: var(--viewport-margin) auto;
 }
 
 @keyframes show {
 	from {
 		display: none;
+
+		/* Freaking firefox still does not support discrete animations from 2024 */
+		/* https://caniuse.com/wf-display-animation */
+		/* https://bugzilla.mozilla.org/show_bug.cgi?id=1834877 */
+		opacity: 0;
 	}
 }

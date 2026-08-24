@@ -1,11 +1,12 @@
 <script lang="ts">
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
-	import {getLocalHotfixes} from '../helpers/hotfix.js';
+	import {brokenFeatures} from '../helpers/hotfix.js';
 
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
-	const hotfixesPromise = getLocalHotfixes();
+	// This will attempt to load the hotfixes because we do want an up-to-date options page
+	const hotfixesPromise = brokenFeatures.get();
 
 	// Pre-filter valid imported features
 	const activeFeatures = featuresMeta.filter(feature =>

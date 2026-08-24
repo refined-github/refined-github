@@ -29,11 +29,6 @@ npm run build
 # Quoted to ensure it's treated as a string, not a number, by dot-json
 npx dot-json distribution/manifest.json version '"'$TAG'"' --json
 
-# For https://github.com/refined-github/refined-github/issues/7629
-# TODO: Drop after https://bugs.webkit.org/show_bug.cgi?id=277588
-npx dot-json distribution/manifest.json background.service_worker --delete
-npx dot-json distribution/manifest.json background.persistent false --json-value
-
 # Due to https://github.com/refined-github/refined-github/issues/8405
 npx dot-json distribution/manifest.json optional_host_permissions --delete
 

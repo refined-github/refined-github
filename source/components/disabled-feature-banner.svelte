@@ -10,7 +10,8 @@
 	import Banner from './banner.svelte';
 	import Dom from './dom-chef.svelte';
 
-	const {id}: {id: string} = $props();
+	// eslint-disable-next-line no-undef -- Global type
+	const {id}: {id: FeatureId} = $props();
 
 	type DisabledState =
 		| {kind: 'hotfixed-permanent'; issue: string}
@@ -18,9 +19,10 @@
 		| {kind: 'user-disabled'}
 		| {kind: 'enabled'};
 
-	async function getDisabledState(): Promise<DisabledState> {
+	// eslint-disable-next-line no-undef -- Global type
+	async function getDisabledState(featureId: FeatureId): Promise<DisabledState> {
 		const hotfixes = await brokenFeatures.get() ?? [];
-		const hotfixed = hotfixes.find(([feature]) => feature === id);
+		const hotfixed = hotfixes.find(([feature]) => feature === featureId);
 		if (hotfixed) {
 			const [_name, issue, unaffectedVersion] = hotfixed;
 			return unaffectedVersion
@@ -28,14 +30,14 @@
 				: {kind: 'hotfixed-permanent', issue};
 		}
 
-		if (isFeatureDisabled(await optionsStorage.getAll(), id)) {
+		if (isFeatureDisabled(await optionsStorage.getAll(), featureId)) {
 			return {kind: 'user-disabled'};
 		}
 
 		return {kind: 'enabled'};
 	}
 
-	const disabledState = getDisabledState();
+	const disabledState = $derived(getDisabledState(id));
 	const bannerClasses = ['mb-3', 'd-inline-block', 'width-full'];
 </script>
 
