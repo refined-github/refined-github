@@ -9,7 +9,7 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 
 // The h2 is to avoid hiding website links that include '/releases' #4424
 async function cleanReleases(signal: AbortSignal): Promise<void> {
-	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] :is(.BorderGrid-cell, [class*="SidebarSection-module__sidebarSection"]) h2 a[href$="/releases"]', {
+	const sidebarReleases = await elementReady('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"] h2 a[href$="/releases"]', {
 		signal,
 		stopOnDomReady: false,
 		waitForChildren: false,
@@ -18,10 +18,7 @@ async function cleanReleases(signal: AbortSignal): Promise<void> {
 		return;
 	}
 
-	const releasesSection = closestElement([
-		'.BorderGrid-cell', // Legacy repository sidebar
-		'[class*="SidebarSection-module__sidebarSection"]', // React repository sidebar
-	], sidebarReleases);
+	const releasesSection = closestElement('[class*="SidebarSection-module__sidebarSection"]', sidebarReleases);
 	if (
 		// Hide the whole section if there's no releases
 		!elementExists('.octicon-tag', releasesSection)
@@ -33,11 +30,7 @@ async function cleanReleases(signal: AbortSignal): Promise<void> {
 }
 
 async function hideLanguageHeader(signal: AbortSignal): Promise<void> {
-	const languageHeaderSelector = [
-		"[class*='PageLayout-Pane'] .BorderGrid-row:has(.Progress-item) h2", // Legacy repository sidebar
-		"[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:has([data-component='ProgressBar']) > h2", // React repository sidebar
-	].join(', ');
-	const languageHeader = await elementReady(languageHeaderSelector, {
+	const languageHeader = await elementReady("[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:has([data-component='ProgressBar']) > h2", {
 		signal,
 		stopOnDomReady: false,
 		waitForChildren: false,
@@ -50,23 +43,13 @@ async function hideLanguageHeader(signal: AbortSignal): Promise<void> {
 	languageHeader.classList.add('sr-only');
 }
 
-// Hide empty meta if it’s not editable by the current user
-async function hideEmptyMeta(): Promise<void> {
-	await domLoaded;
-
-	if (!pageDetect.canUserAccessRepoSettings()) {
-		// Selector only matches if it's empty
-		$optional("[class*='PageLayout-Pane'] .BorderGrid-cell > .text-italic")?.remove();
-	}
-}
-
 async function moveReportLink(): Promise<void> {
 	await domLoaded;
 
 	// Your own repos don't include this link
 	const reportLink = $optional("[class*='PageLayout-Pane'] a[href^='/contact/report-content']")?.parentElement;
 	if (reportLink) {
-		$("[class*='PageLayout-Pane'] :is(.BorderGrid-row:last-of-type .BorderGrid-cell, [class*='SidebarSection-module__sidebarSection']:last-child)").append(reportLink);
+		$("[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:last-child").append(reportLink);
 	}
 }
 
@@ -83,7 +66,6 @@ void features.add(import.meta.url, {
 		init,
 		cleanReleases,
 		hideLanguageHeader,
-		hideEmptyMeta,
 		moveReportLink,
 	],
 });
