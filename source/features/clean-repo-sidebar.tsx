@@ -1,8 +1,7 @@
 import './clean-repo-sidebar.css';
-import domLoaded from 'dom-loaded';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, closestElement, elementExists} from 'select-dom';
+import {$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -43,13 +42,20 @@ async function hideLanguageHeader(signal: AbortSignal): Promise<void> {
 	languageHeader.classList.add('sr-only');
 }
 
-async function moveReportLink(): Promise<void> {
-	await domLoaded;
+async function moveReportLink(signal: AbortSignal): Promise<void> {
+	const lastSection = await elementReady("[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:last-child:not(:has([data-component='SkeletonText']))", {
+		signal,
+		stopOnDomReady: false,
+		waitForChildren: false,
+	});
+	if (!lastSection) {
+		return;
+	}
 
 	// Your own repos don't include this link
 	const reportLink = $optional("[class*='PageLayout-Pane'] a[href^='/contact/report-content']")?.parentElement;
 	if (reportLink) {
-		$("[class*='PageLayout-Pane'] [class*='SidebarSection-module__sidebarSection']:last-child").append(reportLink);
+		lastSection.append(reportLink);
 	}
 }
 
