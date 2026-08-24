@@ -152,12 +152,7 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.contents());
-
-	assert(
-		!trailingComment || !/test url/i.test(trailingComment?.[0]),
-		'Only TSX files and *lone* CSS files should have test URLs',
-	);
+	assert(!/test url/i.test(file.contents()), 'Only TSX files and *lone* CSS files should have test URLs');
 }
 
 function validateGql(file: FeatureFile): void {

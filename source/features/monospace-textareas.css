@@ -1,12 +1,7 @@
 /* Use monospace font in various fields */
 /* Use same font-family as GitHub style for `code` */
 
-/* Test URL: https://github.com/refined-github/refined-github/pull/9905 */
-[class^='prc-PageLayout-Header'] input,
-[data-testid='mergebox-partial'] input[type='text'],
-/* Test URL: https://github.com/refined-github/sandbox/compare/default-a...new?expand=1 */
-input[name='pull_request[title]'],
-/* Test URL: https://github.com/refined-github/sandbox/pull/10#issue-comment-box */
+/* https://github.com/refined-github/sandbox/pull/10#issue-comment-box */
 [placeholder='Add an optional extended description…'],
 /* Test URL: https://github.com/refined-github/refined-github/edit/main/.editorconfig */
 #commit-message-input,
