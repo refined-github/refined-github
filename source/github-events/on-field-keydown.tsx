@@ -56,12 +56,3 @@ export function onConversationTitleFieldKeydown(callback: KeydownHandler, signal
 		{signal, capture},
 	);
 }
-
-export function onCommitTitleFieldKeydown(callback: KeydownHandler, signal: AbortSignal): void {
-	delegate<TextField, 'keydown'>(
-		'#commit-message-input', // `isEditingFile`, `isNewFile`
-		'keydown',
-		deduplicateInteractiveFilter(callback),
-		{signal, capture},
-	);
-}
