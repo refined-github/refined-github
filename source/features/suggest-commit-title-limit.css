@@ -12,7 +12,8 @@
 	}
 
 	/* `isPR`: Tighten input wrapper around input because it has the border style */
-	[data-testid='mergebox-partial'] span[class*='TextInputBaseWrapper'][aria-busy] {
+	[data-testid='mergebox-partial']
+		span[class*='TextInputBaseWrapper'][aria-busy] {
 		max-width: min-content;
 	}
 }
