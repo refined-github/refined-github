@@ -21,6 +21,11 @@ function cleanSidebarSection(section: HTMLElement): void {
 		return;
 	}
 
+	const emptyMeta = $optional('[class*="SidebarAbout-module__noDescription"]', section);
+	if (emptyMeta && !pageDetect.canUserAccessRepoSettings()) {
+		emptyMeta.remove();
+	}
+
 	// Your own repos don't include this link
 	const reportLink = $optional('a[href^="/contact/report-content"]', section);
 	if (reportLink) {
@@ -50,5 +55,6 @@ Test URLs:
 - Repo with 1 package: https://github.com/recyclarr/recyclarr
 - Repo with tags but not releases: https://github.com/fregante/bin-dir
 - Repo with no tags: https://github.com/refined-github/yolo
+- Repo with no description: https://github.com/shadcn/Ant
 
 */
