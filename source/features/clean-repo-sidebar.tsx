@@ -24,7 +24,7 @@ function cleanSidebarSection(section: HTMLElement): void {
 	const emptyMeta = $optional('[class*="SidebarAbout-module__noDescription"]', section);
 	if (emptyMeta && !pageDetect.canUserAccessRepoSettings()) {
 		emptyMeta.remove();
-		return;
+		// Don't return here because the next condition applies to the same block
 	}
 
 	// Your own repos don't include this link
