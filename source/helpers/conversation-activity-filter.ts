@@ -10,9 +10,7 @@ export const states = {
 export type State = keyof typeof states;
 
 const minorFixesIssuePages = [
-	'https://github.com/refined-github/refined-github/issues/6000',
 	'https://github.com/refined-github/refined-github/issues/7000',
-	'https://github.com/refined-github/refined-github/issues/7777',
 	'https://github.com/refined-github/refined-github/issues/8000',
 ];
 
