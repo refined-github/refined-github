@@ -35,10 +35,10 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function add(container: HTMLElement, {signal}: SignalAsOptions): void {
+function add(container: HTMLElement): void {
 	container.classList.add('d-flex');
 
-	const menu = (
+	container.parentElement!.append(
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			<summary
 				ref={withTooltipRef('Add a table')}
@@ -62,15 +62,13 @@ function add(container: HTMLElement, {signal}: SignalAsOptions): void {
 					/>
 				))}
 			</details-menu>
-		</details>
+		</details>,
 	);
-
-	container.parentElement!.append(menu);
-	delegate('.rgh-tic', 'click', addTable, {base: menu, signal});
 }
 
 function init(signal: AbortSignal): void {
 	observe(actionBar, add, {signal});
+	delegate('.rgh-tic', 'click', addTable, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
