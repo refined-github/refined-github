@@ -136,11 +136,10 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	const initialState = resetActivityFilterState();
+	registerHotkey('h', switchToNextFilter, {signal});
 
 	const initialSetupOnce = onetime(() => {
-		applyState(initialState);
-		registerHotkey('h', switchToNextFilter, {signal});
+		applyState(resetActivityFilterState());
 	});
 
 	observe(
