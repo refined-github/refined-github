@@ -35,10 +35,10 @@ function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButton
 	field.selectionEnd = field.value.indexOf('<td>', cursorPosition) + '<td>'.length;
 }
 
-function add(container: HTMLElement): void {
+function add(container: HTMLElement, {signal}: SignalAsOptions): void {
 	container.classList.add('d-flex');
 
-	container.parentElement!.append(
+	const menu = (
 		<details className="details-reset details-overlay select-menu select-menu-modal-right hx_rsm my-auto">
 			<summary
 				ref={withTooltipRef('Add a table')}
@@ -47,7 +47,7 @@ function add(container: HTMLElement): void {
 				aria-haspopup="menu"
 			>
 				<TableIcon />
-			</summary>,
+			</summary>
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
@@ -62,13 +62,15 @@ function add(container: HTMLElement): void {
 					/>
 				))}
 			</details-menu>
-		</details>,
+		</details>
 	);
+
+	container.parentElement!.append(menu);
+	delegate('.rgh-tic', 'click', addTable, {base: menu, signal});
 }
 
 function init(signal: AbortSignal): void {
 	observe(actionBar, add, {signal});
-	delegate('.rgh-tic', 'click', addTable, {signal});
 }
 
 void features.add(import.meta.url, {
