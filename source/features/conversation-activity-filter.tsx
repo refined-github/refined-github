@@ -142,6 +142,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		applyState(resetActivityFilterState());
 	});
 
+	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	observe(timelineItem, processItem, {signal});
 	observe(
 		[
 			// Issue view
@@ -157,9 +159,6 @@ async function init(signal: AbortSignal): Promise<void> {
 		},
 		{signal},
 	);
-
-	observe(timelineItem, processItem, {signal});
-	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 }
 
 void features.add(import.meta.url, {
