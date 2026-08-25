@@ -2,7 +2,7 @@ import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $$optional, elementExists} from 'select-dom';
-import {onAbort} from 'abort-utils';
+import {mount} from 'svelte';
 import {get} from 'svelte/store';
 
 import features from '../feature-manager.js';
@@ -12,7 +12,6 @@ import {activityFilterState, resetActivityFilterState, type State, states} from 
 import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
-import mountUntilAborted from '../helpers/svelte.js';
 import {is, has} from '../helpers/css-selectors.js';
 
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
@@ -94,16 +93,16 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-async function addWidget(anchor: Element, {signal}: SignalAsOptions): Promise<void> {
+async function addWidget(anchor: Element): Promise<void> {
 	if (anchor.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
 
 	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
-	mountUntilAborted(ConversationActivityFilter, {
+	mount(ConversationActivityFilter, {
 		target: anchor,
-	}, signal!);
+	});
 }
 
 function uncollapseTargetedComment(): void {
