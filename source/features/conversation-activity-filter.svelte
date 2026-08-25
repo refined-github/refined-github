@@ -13,12 +13,15 @@
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 
 	type Props = {
-		onStateChange: (_value: State) => void;
 		withMargin?: boolean;
 	};
-	const {onStateChange, withMargin = false}: Props = $props();
+	const {withMargin = false}: Props = $props();
 
 	const baseId = crypto.randomUUID();
+
+	function selectState(targetState: State): void {
+		activityFilterState.set(targetState);
+	}
 </script>
 <action-menu
 	class={`d-inline-block position-relative lh-condensed-ultra v-align-middle ${
@@ -88,7 +91,7 @@
 										role="menuitemradio"
 										class="ActionListContent"
 										aria-checked={itemState === $activityFilterState}
-										onclick={() => onStateChange(itemState as State)}
+										onclick={() => selectState(itemState as State)}
 									>
 										<span
 											class="ActionListItem-visual ActionListItem-action--leading"

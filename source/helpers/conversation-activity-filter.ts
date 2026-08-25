@@ -1,3 +1,4 @@
+import {$} from 'select-dom';
 import {writable} from 'svelte/store';
 
 export const states = {
@@ -38,6 +39,13 @@ activityFilterState.subscribe(value => {
 	}
 
 	sessionStorage.setItem(sessionKey(), value);
+
+	$([
+		// PR
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Issue
+		'[class*="IssueViewer-module__mainContainer"]',
+	]).setAttribute('data-rgh-conversation-activity-filter', value);
 });
 
 export function resetActivityFilterState(): State {

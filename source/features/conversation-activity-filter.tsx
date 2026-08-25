@@ -1,8 +1,8 @@
 import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $$optional, closestElement, elementExists} from 'select-dom';
-import {mount} from 'svelte';
+import {$, $$, $$optional, elementExists} from 'select-dom';
+import {onAbort} from 'abort-utils';
 import {get} from 'svelte/store';
 
 import features from '../feature-manager.js';
@@ -10,9 +10,10 @@ import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {activityFilterState, resetActivityFilterState, type State, states} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
-import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
+import mountUntilAborted from '../helpers/svelte.js';
+import {is, has} from '../helpers/css-selectors.js';
 
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
@@ -49,7 +50,7 @@ function processDismissedReviewEvent(item: HTMLElement): void {
 
 	// Find and hide stale reviews referenced by dismissed review events
 	for (const {hash: staleReviewId} of $$('.TimelineItem-body > a[href^="#pullrequestreview-"]', item)) {
-		closestElement(timelineItem, $(staleReviewId))
+		$(is(timelineItem) + has(staleReviewId))
 			.classList
 			.add(collapsedClassName);
 	}
@@ -93,35 +94,21 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-function applyState(targetState: State): void {
-	$([
-		// PR
-		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Issue
-		'[class*="IssueViewer-module__mainContainer"]',
-	]).setAttribute('data-rgh-conversation-activity-filter', targetState);
-
-	activityFilterState.set(targetState);
-}
-
-async function addWidget(anchor: Element): Promise<void> {
+async function addWidget(anchor: Element, {signal}: SignalAsOptions): Promise<void> {
 	if (anchor.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
 
 	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
-	mount(ConversationActivityFilter, {
+	mountUntilAborted(ConversationActivityFilter, {
 		target: anchor,
-		props: {
-			onStateChange: applyState,
-		},
-	});
+	}, signal!);
 }
 
 function uncollapseTargetedComment(): void {
 	if (location.hash.startsWith('#issuecomment-')) {
-		closestElement(timelineItem, $(`.${collapsedClassName} ${location.hash}`))
+		$(is(timelineItem) + has(`.${collapsedClassName} ${location.hash}`))
 			.classList
 			.remove(collapsedClassName);
 	}
@@ -132,15 +119,12 @@ function switchToNextFilter(): void {
 	const nextIndex = stateNames.indexOf(get(activityFilterState)) + 1;
 	const nextState = stateNames.length > nextIndex ? stateNames[nextIndex] : stateNames[0];
 
-	applyState(nextState as State);
+	activityFilterState.set(nextState as State);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
+	resetActivityFilterState();
 	registerHotkey('h', switchToNextFilter, {signal});
-
-	const initialSetupOnce = onetime(() => {
-		applyState(resetActivityFilterState());
-	});
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
 	observe(timelineItem, processItem, {signal});
@@ -152,11 +136,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			// PR view
 			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
 		],
-		// This code runs twice - we have 2 widgets on the page
-		async anchor => {
-			await addWidget(anchor);
-			initialSetupOnce();
-		},
+		addWidget,
 		{signal},
 	);
 }
