@@ -14,6 +14,9 @@ import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import {withTooltipRef} from '../components/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	// In the PR's "Files changed" tab, the table input is in a `<details>` menu;
+	// when clicking a square, the menu closes and steals the focus from the textarea,
+	// so close it ourselves first to keep the focus on the field
 	closestElement('details', square).open = false;
 
 	const container = closestElementOptional('fieldset', square) // Issue
