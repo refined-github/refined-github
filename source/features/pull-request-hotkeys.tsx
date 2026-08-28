@@ -3,12 +3,13 @@ import * as pageDetect from 'github-url-detection';
 import {$$} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {addHotkey} from '../github-helpers/hotkey.js';
+import {registerHotkey} from '../github-helpers/hotkey.js';
 
-async function init(): Promise<void> {
+async function init(signal: AbortSignal): Promise<void> {
 	const tabnav = await elementReady([
 		'[aria-label="Pull request tabs"]',
 		'[aria-label="Pull request navigation tabs"]', // Commits list tab
+		'[aria-label="Pull request navigation"]', // Renamed on Conversation/Commits sub-pages (issue #10006)
 	]);
 	const tabs = $$('a', tabnav);
 	const lastTab = tabs.length - 1;
@@ -17,15 +18,18 @@ async function init(): Promise<void> {
 	for (const [index, tab] of tabs.entries()) {
 		// Reset previous hotkeys because the DOM persists across soft navigations
 		// https://github.com/refined-github/refined-github/pull/9916#issuecomment-5157852083
-		delete tab.dataset.hotkey;
-		addHotkey(tab, `g ${index + 1}`);
-
-		if (index === selectedIndex - 1 || (selectedIndex === 0 && index === lastTab)) {
-			addHotkey(tab, 'g ArrowLeft');
-		} else if (index === selectedIndex + 1 || (selectedIndex === lastTab && index === 0)) {
-			addHotkey(tab, 'g ArrowRight');
-		}
+		tab.dataset.hotkey = `g ${index + 1}`;
 	}
+
+	// The previous/next hotkeys are registered on dedicated hidden elements instead of
+	// being combined with the tab's own `g <number>` hotkey via a comma-separated
+	// `data-hotkey` value. GitHub's native hotkey handler doesn't reliably resolve
+	// multiple `g`-prefixed sequences sharing one element (e.g. `g 1,g ArrowLeft`),
+	// which caused arrow-key navigation to jump to the wrong tab. See issue #10006.
+	const previousIndex = selectedIndex === 0 ? lastTab : selectedIndex - 1;
+	const nextIndex = selectedIndex === lastTab ? 0 : selectedIndex + 1;
+	registerHotkey('g ArrowLeft', tabs[previousIndex].href, {signal});
+	registerHotkey('g ArrowRight', tabs[nextIndex].href, {signal});
 }
 
 void features.add(import.meta.url, {
