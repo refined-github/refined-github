@@ -69,22 +69,6 @@ div.markdown-body {
 	min-height: 2em !important;
 }
 
-/* TODO [2026-10-01]: drop */
-/* Notifications "Group by" button unnecessary space */
-/* Info: https://github.com/refined-github/refined-github/pull/8208 */
-/* Test: https://github.com/notifications */
-/* Matches .d-md-block */
-@media (width >= 768px) {
-	/* Pulls the alert container to the right when empty */
-	.gap-4.pl-3:not(:has(a.h6)):has(
-		> .d-md-block
-			> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
-	) {
-		/* Subtract 16px spacing from both .gap-3 and .ml-3 */
-		margin-right: -32px;
-	}
-}
-
 /* Fix issue picker overflowing the viewport in PRs when it contains long unbreakable issue titles */
 /* Info: https://github.com/refined-github/refined-github/pull/8454 */
 /* Test: type "#113" in https://github.com/refined-github/sandbox/pull/4 */
