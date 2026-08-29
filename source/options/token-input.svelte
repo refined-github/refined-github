@@ -18,6 +18,7 @@
 	let validationText = $state('');
 	let validationError = $state(false);
 	let scopes = $state<string[]>(['unknown']);
+	let validationRun = 0;
 
 	const scopeElements = [
 		'valid_token',
@@ -53,7 +54,11 @@
 		closestElement('details', tokenField).open = true;
 	}
 
-	async function validateToken(value: string): Promise<void> {
+	async function validateToken(
+		value: string,
+		base: string,
+		run: number,
+	): Promise<void> {
 		validationText = '';
 		validationError = false;
 		scopes = ['unknown'];
@@ -71,11 +76,13 @@
 		validationText = 'Validating…';
 
 		try {
-			const base = getApiUrl();
 			const [tokenInfo, user] = await Promise.all([
 				getTokenInfo(base, value),
 				tokenUser.get(base, value),
 			]);
+			if (run !== validationRun) {
+				return;
+			}
 
 			if (
 				tokenInfo.expiration
@@ -103,6 +110,10 @@
 			validationText = statusMessage;
 			scopes = tokenInfo.scopes;
 		} catch (error) {
+			if (run !== validationRun) {
+				return;
+			}
+
 			assertError(error);
 			validationText = error.message + ' (expired?)';
 			validationError = true;
@@ -112,7 +123,7 @@
 	}
 
 	$effect(() => {
-		validateToken(tokenValue);
+		validateToken(tokenValue, getApiUrl(), ++validationRun);
 	});
 </script>
 
