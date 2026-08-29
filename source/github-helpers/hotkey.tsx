@@ -18,6 +18,14 @@ export function registerHotkey(
 	});
 }
 
+export function overrideHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefined, hotkey: string): void {
+	if (!button) {
+		return;
+	}
+
+	button.dataset.hotkey = hotkey;
+}
+
 /** Safely add a hotkey to an element, preserving any existing ones and avoiding duplicates */
 export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefined, hotkey: string): void {
 	if (!button) {
@@ -26,7 +34,7 @@ export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefi
 
 	const hotkeys = new Set(button.dataset.hotkey?.split(','));
 	hotkeys.add(hotkey);
-	button.dataset.hotkey = [...hotkeys].join(',');
+	overrideHotkey(button, [...hotkeys].join(','));
 }
 
 export const modifierKey = isMac ? 'cmd' : 'ctrl';
