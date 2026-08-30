@@ -66,7 +66,7 @@ export function logError(error: Error): void {
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
-	newIssueUrl.searchParams.set('title', id ? `\`${id}\`: ${message}` : message);
+	newIssueUrl.searchParams.set('title', id ? `\`${id}\` - ${message}` : message);
 	newIssueUrl.searchParams.set('repro', location.href);
 	newIssueUrl.searchParams.set(
 		'description',
