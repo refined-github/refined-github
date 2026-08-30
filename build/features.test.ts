@@ -16,6 +16,7 @@ void import.meta.glob([
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
 const noScreenshotExceptions = new Set([
+	// DO NOT ADD EXCEPTIONS HERE without explicit approval from the maintainers.
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
 	'last-update-sort',
 	'create-release-shortcut',
