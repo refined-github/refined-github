@@ -57,7 +57,7 @@ a[class*='PinnedIssue-module__Link'] code {
 /* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs */
 /* Info: https://github.com/refined-github/refined-github/issues/7108 */
-/* Test: https://github.com/react/react/pull/8848#new_comment_form */
+/* Test: https://github.com/liip/bund_ds/pull/131#event-10992164827 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
