@@ -10,14 +10,13 @@ const restrictedSyntax = {
 		selector: 'ImportDeclaration[source.value="clsx"] > ImportDefaultSpecifier:not([local.name="cx"])',
 		message: "Import clsx as `cx`: `import cx from 'clsx'`",
 	}],
-	'byo/selectors-array-for-complex-strings': ['error', {
+	'byo/selectors-array': ['error', {
 		selector:
-			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',
+			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=elementExists], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=matches], [callee.property.name=closest])[arguments.0.value=/,/][arguments.0.value.length>=20]:not([arguments.0.value=/:has|:is|:not/])',
 		message: 'Instead of a single string, pass an array of selectors and add comments to each selector',
-	}],
-	'byo/selectors-string-for-single-array-item': ['error', {
+	}, {
 		selector:
-			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
+			':matches([callee.name=delegate], [callee.name=$], [callee.name=$$], [callee.name=$optional], [callee.name=closestElement], [callee.name=closestElementOptional], [callee.name=elementExists], [callee.name=observe], [callee.property.name=querySelector], [callee.property.name=querySelectorAll], [callee.property.name=matches], [callee.property.name=closest])[arguments.0.type=ArrayExpression][arguments.0.elements.length=1]:not([arguments.0.value=/:has|:is/])',
 		message: "If it's a single selector, use a single string instead of an array",
 	}],
 	'byo/no-non-null-optional': ['error', {

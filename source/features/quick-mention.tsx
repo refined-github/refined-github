@@ -81,7 +81,7 @@ function addButtonPr(avatar: HTMLElement): void {
 
 	if (
 		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!elementExists('.unminimized-comment, .js-comment-container', timelineItem)
+		!elementExists(['.unminimized-comment', '.js-comment-container'], timelineItem)
 	) {
 		return;
 	}

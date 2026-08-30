@@ -13,7 +13,7 @@ const tabnavSelectors = [
 
 function selectAdjacentTab(offset: number): void {
 	const tabs = $$(is(tabnavSelectors) + ' a');
-	const selectedIndex = tabs.findIndex(tab => tab.matches('.selected, [aria-current]'));
+	const selectedIndex = tabs.findIndex(tab => tab.matches(['.selected', '[aria-current]']));
 	const adjacentIndex = (selectedIndex + offset + tabs.length) % tabs.length;
 	tabs[adjacentIndex].click();
 }
