@@ -344,7 +344,7 @@
 	},
 	{
 		"id": "hide-inactive-deployments",
-		"description": "Hides inactive deployments in PRs.",
+		"description": "Hides inactive or failed deployments in PRs.",
 		"screenshot": null
 	},
 	{
