@@ -19,7 +19,7 @@ export default async function withMenuOpen<T>(
 			// Note: this selector will select `menuButton` itself if it lacks a tag name
 			// https://github.com/refined-github/refined-github/issues/10003
 			`ul[aria-labelledby="${menuButton.getAttribute('aria-labelledby')}"]`,
-	]);
+		]);
 		const result = callback(menu);
 		return result;
 	} finally {
