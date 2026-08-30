@@ -10,7 +10,10 @@ function init(): void {
 	deployments.pop(); // Don't hide the last deployment, even if it is inactive
 
 	for (const deployment of deployments) {
-		if (elementExists('[title="Deployment Status Label: Inactive"], [title="Deployment Status Label: Failure"]', deployment)) {
+		if (elementExists([
+			'[title="Deployment Status Label: Inactive"]',
+			'[title="Deployment Status Label: Failure"]',
+		], deployment)) {
 			deployment.remove();
 		}
 	}
