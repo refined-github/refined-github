@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TableIcon from 'octicons-plain-react/Table';
-import {$, closestElementOptional} from 'select-dom';
+import {$, closestElement, closestElementOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
@@ -14,6 +14,11 @@ import smartBlockWrap from '../helpers/smart-block-wrap.js';
 import {withTooltipRef} from '../components/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
+	// In the PR's "Files changed" tab, the table input is in a `<details>` menu;
+	// when clicking a square, the menu closes and steals the focus from the textarea,
+	// so close it ourselves first to keep the focus on the field
+	closestElement('details', square).open = false;
+
 	const container = closestElementOptional('fieldset', square) // Issue
 		?? square.form!.querySelector('.CommentBox-container')!; // PR
 	const field = $('textarea', container);
@@ -47,7 +52,7 @@ function add(container: HTMLElement): void {
 				aria-haspopup="menu"
 			>
 				<TableIcon />
-			</summary>,
+			</summary>
 			<details-menu
 				className="select-menu-modal position-absolute right-0 hx_rsm-modal rgh-table-input"
 				role="menu"
@@ -68,7 +73,7 @@ function add(container: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(actionBar, add, {signal});
-	delegate('.rgh-tic', 'click', addTable, {signal});
+	delegate('.rgh-tic', 'click', addTable, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
