@@ -130,7 +130,7 @@ function addDropdownLink(menu: HTMLElement, timestamp: string): void {
 function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 	const timestamp = $(
 		'relative-time[datetime]',
-		closestElement('[class^="Box"]', delegateTarget),
+		closestElement(commentSelector, delegateTarget),
 	).attributes.datetime.value;
 	const menuItemList = $('[class^="prc-ActionList-ActionList"]');
 	const menuItem = $('[class^="prc-ActionList-ActionListItem"]', menuItemList).cloneNode(true);
