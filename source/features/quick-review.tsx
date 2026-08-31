@@ -72,6 +72,7 @@ async function addButtons(reviewersSection: Element): Promise<void> {
 
 	mount(QuickReviewComponent, {
 		target: reviewersSection,
+		// `hasToken` used internally to determine if `quickApprove` is available
 		props: isOldPrFiles()
 			? {
 				onApprove: quickApprove,

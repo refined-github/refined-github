@@ -183,11 +183,11 @@ function validateTsx(file: FeatureFile): void {
 	assert(/test url/i.test(file.contents()), 'Should have test URLs');
 
 	if (
-		/api\.v4|getDefaultBranch|getPrInfo/.test(file.contents())
+		/api\.v4|getDefaultBranch|getPrInfo|method: '(?:PATCH|DELETE|POST)'/.test(file.contents())
 		&& /observe\(|delegate\(/.test(file.contents())
 	) {
 		assert(
-			/requiresToken:\s*true|hasToken/.test(file.contents()),
+			/requiresToken:\s*true|hasToken|expectTokenScope/.test(file.contents()),
 			`${file.id} uses the v4 API, so it should include \`requiresToken: true\`, or if the token is optional, \`hasToken\` anywhere`,
 		);
 	}
