@@ -52,7 +52,7 @@ async function add(breadcrumbs: HTMLElement): Promise<void> {
 	const info = await getRepositoryInfo().finally(() => {
 		// Show the breadcrumbs even if the request fails
 		// https://github.com/refined-github/refined-github/issues/9986
-		breadcrumbs.classList.add('rgh-repo-header-info-loaded');
+		breadcrumbs.classList.add('rgh-repo-header-info-updated');
 	});
 
 	// GitHub may already show this icon natively, so we match its position
