@@ -1,5 +1,5 @@
 import elementReady from 'element-ready';
-import {writable} from 'svelte/store';
+import {writable, get} from 'svelte/store';
 
 export const states = {
 	showAll: 'Show all activities',
@@ -19,25 +19,19 @@ function sessionKey(): string {
 }
 
 function getDefaultState(): State {
+	const stored = sessionStorage.getItem(sessionKey());
+	if (stored) {
+		return stored as State;
+	}
+
 	return minorFixesIssuePages.some(url => location.href.startsWith(url))
 		? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'showAll';
 }
 
-export const activityFilterState = writable<State>('showAll');
+export const activityFilterState = writable<State>(getDefaultState());
 
-let firstEmission = true;
-
-// eslint-disable-next-line unicorn/no-top-level-side-effects
-activityFilterState.subscribe(async value => {
-	// Skip the emission `subscribe` fires immediately on registration, before resetActivityFilterState() has loaded the real value
-	if (firstEmission) {
-		firstEmission = false;
-		return;
-	}
-
-	sessionStorage.setItem(sessionKey(), value);
-
+async function setActivityFilterAttribute(value: State): Promise<void> {
 	const wrapper = await elementReady([
 		// PR
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
@@ -48,12 +42,22 @@ activityFilterState.subscribe(async value => {
 		signal: AbortSignal.timeout(5000)
 	});
 
+	// Bail out if a newer subscription call has already updated the state
+	if (value !== get(activityFilterState)) {
+		return;
+	}
+
 	wrapper!.setAttribute('data-rgh-conversation-activity-filter', value);
+}
+
+// eslint-disable-next-line unicorn/no-top-level-side-effects
+activityFilterState.subscribe(value => {
+	sessionStorage.setItem(sessionKey(), value);
+	void setActivityFilterAttribute(value);
 });
 
 export function resetActivityFilterState(): State {
-	const stored = sessionStorage.getItem(sessionKey());
-	const state = stored as State ?? getDefaultState();
+	const state = getDefaultState();
 	activityFilterState.set(state);
 	return state;
 }
