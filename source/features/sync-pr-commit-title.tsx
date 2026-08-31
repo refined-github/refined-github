@@ -122,6 +122,7 @@ void features.add(import.meta.url, {
 		pageDetect.isMergedPR,
 	],
 	awaitDomReady: true, // DOM-based filters, feature appears at the end of the page
+	requiresToken: true,
 	init,
 });
 
