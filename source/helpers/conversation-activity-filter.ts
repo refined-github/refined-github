@@ -25,7 +25,7 @@ function getInitialStateForUrl(pathname: string): State {
 	return initialState as State;
 }
 
-// Internal state used so that the state can be updated/reset on `init` without linking saving it to the storage
+// Internal state used so that the state can be updated/reset on `init` without immediately saving it to the storage
 const {subscribe, set: internalSet} = writable<State>(
 	getInitialStateForUrl(location.pathname),
 );
