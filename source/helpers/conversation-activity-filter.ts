@@ -1,3 +1,4 @@
+import {onAbort} from 'abort-utils';
 import {writable} from 'svelte/store';
 
 export const states = {
@@ -8,4 +9,45 @@ export const states = {
 
 export type State = keyof typeof states;
 
-export const activityFilterState = writable<State>('showAll');
+const defaults = new Map([
+	['/refined-github/refined-github/issues/7000', 'hideAllNoise'],
+	['/refined-github/refined-github/issues/8000', 'hideAllNoise'],
+]);
+
+function sessionKey(pathname: string): string {
+	return `rgh-conversation-activity-filter-state:${pathname}`;
+}
+
+function getInitialStateForUrl(pathname: string): State {
+	const initialState = sessionStorage.getItem(sessionKey(pathname))
+		?? defaults.get(pathname)
+		?? 'showAll';
+	return initialState as State;
+}
+
+// Internal state used so that the state can be updated/reset on `init` without immediately saving it to the storage
+const {subscribe, set: internalSet} = writable<State>(
+	getInitialStateForUrl(location.pathname),
+);
+
+export const activityFilterState = {
+	subscribe,
+	set(value: State): void {
+		sessionStorage.setItem(sessionKey(location.pathname), value);
+		internalSet(value);
+	},
+};
+
+export function syncWrapper(
+	wrapper: Element,
+	{signal}: SignalAsOptions,
+): void {
+	const unsubscribe = activityFilterState.subscribe((value) => {
+		wrapper.setAttribute('data-rgh-conversation-activity-filter', value);
+	});
+	onAbort(signal, unsubscribe);
+}
+
+export function fetchStateForCurrentUrl(): void {
+	internalSet(getInitialStateForUrl(location.pathname));
+}
