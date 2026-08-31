@@ -4,6 +4,7 @@ import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import delay from '../helpers/delay.js';
+import onetime from '../helpers/onetime.js';
 
 async function init(): Promise<void | false> {
 	const {filePath} = new GitHubFileUrl(location.href);
@@ -26,6 +27,10 @@ async function init(): Promise<void | false> {
 }
 
 void features.add(import.meta.url, {
+	asLongAs: [
+		// Not my problem https://github.com/refined-github/refined-github/issues/9981
+		onetime(() => 'scrollIntoViewIfNeeded' in document.createElement('i')),
+	],
 	include: [
 		pageDetect.isRepoTree,
 		pageDetect.isSingleFile,
