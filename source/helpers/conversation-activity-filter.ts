@@ -29,12 +29,15 @@ function getStateForUrl(url: string): State {
 		: 'showAll';
 }
 
-export const activityFilterState = writable<State>(getStateForUrl(location.href));
+const {subscribe, set: internalSet} = writable<State>(getStateForUrl(location.href));
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects
-activityFilterState.subscribe(value => {
-	sessionStorage.setItem(sessionKey(location.href), value);
-});
+export const activityFilterState = {
+	subscribe,
+	set(value: State): void {
+		sessionStorage.setItem(sessionKey(location.href), value);
+		internalSet(value);
+	},
+};
 
 export function syncWrapper(wrapper: Element, {signal}: SignalAsOptions): void {
 	const unsubscribe = activityFilterState.subscribe(value => {
@@ -44,5 +47,5 @@ export function syncWrapper(wrapper: Element, {signal}: SignalAsOptions): void {
 }
 
 export function fetchStateForCurrentUrl(): void {
-	activityFilterState.set(getStateForUrl(location.href));
+	internalSet(getStateForUrl(location.href));
 }

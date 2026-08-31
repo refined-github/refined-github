@@ -18,11 +18,11 @@ const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
 const timeline = [
-		// PR
-		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Issue
-		'[class*="IssueViewer-module__mainContainer"]',
-	] as const;
+	// PR
+	'[class^="prc-PageLayout-PageLayoutWrapper"]',
+	// Issue
+	'[class*="IssueViewer-module__mainContainer"]',
+] as const;
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
