@@ -62,9 +62,9 @@
 			{/if}
 		{/await}
 	{/if}
+	<!-- rgh-netiquette takes care of old repos -->
 	{#if !isRefinedGitHubRepo()}
 		{#await getCloseDate() then date}
-			<!-- rgh-netiquette takes care of old repos -->
 			{#if date && wasLongAgo(date)}
 				<div class={flashClass}>
 					<DomChef as={InfoIcon} />
