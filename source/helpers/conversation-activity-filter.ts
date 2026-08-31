@@ -1,5 +1,5 @@
-import elementReady from 'element-ready';
-import {writable, get} from 'svelte/store';
+import {onAbort} from 'abort-utils';
+import {writable} from 'svelte/store';
 
 export const states = {
 	showAll: 'Show all activities',
@@ -31,30 +31,17 @@ function getStateForUrl(url: string): State {
 
 export const activityFilterState = writable<State>(getStateForUrl(location.href));
 
-async function setActivityFilterAttribute(value: State): Promise<void> {
-	const wrapper = await elementReady([
-		// PR
-		'[class^="prc-PageLayout-PageLayoutWrapper"]',
-		// Issue
-		'[class*="IssueViewer-module__mainContainer"]',
-	], {
-		stopOnDomReady: false,
-		signal: AbortSignal.timeout(5000)
-	});
-
-	// Bail out if a newer subscription call has already updated the state
-	if (value !== get(activityFilterState)) {
-		return;
-	}
-
-	wrapper!.setAttribute('data-rgh-conversation-activity-filter', value);
-}
-
 // eslint-disable-next-line unicorn/no-top-level-side-effects
 activityFilterState.subscribe(value => {
 	sessionStorage.setItem(sessionKey(location.href), value);
-	void setActivityFilterAttribute(value);
 });
+
+export function syncWrapper(wrapper: Element, {signal}: SignalAsOptions): void {
+	const unsubscribe = activityFilterState.subscribe(value => {
+		wrapper.setAttribute('data-rgh-conversation-activity-filter', value);
+	});
+	onAbort(signal, unsubscribe);
+}
 
 export function fetchStateForCurrentUrl(): void {
 	activityFilterState.set(getStateForUrl(location.href));

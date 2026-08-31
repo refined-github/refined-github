@@ -8,7 +8,7 @@ import {get} from 'svelte/store';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {activityFilterState, fetchStateForCurrentUrl, type State, states} from '../helpers/conversation-activity-filter.js';
+import {activityFilterState, fetchStateForCurrentUrl, type State, states, syncWrapper} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
@@ -17,6 +17,12 @@ import {is, has} from '../helpers/css-selectors.js';
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
+const timeline = [
+		// PR
+		'[class^="prc-PageLayout-PageLayoutWrapper"]',
+		// Issue
+		'[class*="IssueViewer-module__mainContainer"]',
+	] as const;
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
@@ -126,6 +132,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	registerHotkey('h', switchToNextFilter, {signal});
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});
+	observe(timeline, syncWrapper, {signal});
 	observe(timelineItem, processItem, {signal});
 	observe(
 		[
