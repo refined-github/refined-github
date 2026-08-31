@@ -190,7 +190,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 - [](# "open-all-conversations") [Lets you open all visible issues/PRs at once.](https://github.com/user-attachments/assets/0d890b01-d5ca-4247-8270-055dd6355606)
 - [](# "sticky-conversation-list-toolbar") [Makes the issue/PR list’s filters toolbar sticky.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164103-875b70f7-5adc-4bb2-b158-8d5231d47da2.gif)
-- [](# "sticky-comment-header") [Makes the comment header sticky when scrolling through long comments.](https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8)
 - [](# "conversation-authors") [Highlights issues/PRs opened by you or the current repo’s collaborators.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png)
 - [](# "align-issue-labels") [In issue/PR lists, aligns the labels to the left, below each title.](https://github.com/user-attachments/assets/dca5dc12-7283-4704-a93f-5bfe5f2b1938)
 - [](# "last-update-sort") 🔥 Changes the default sort order of issues/PRs to `Recently updated`.
@@ -226,7 +225,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "unclip-checks") [Automatically shows all checks without scrolling when expanding the checks panel.](https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
-- [](# "hide-inactive-deployments") [Hides inactive deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
+- [](# "hide-inactive-deployments") [Hides inactive or failed deployments in PRs.](https://github.com/refined-github/refined-github/issues/1144)
 - [](# "previous-next-commit-buttons") [Adds duplicate commit navigation buttons at the bottom of the `Commits` tab page.](https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png)
 - [](# "conflict-marker") [Shows which PRs have conflicts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png)
 - [](# "pr-commit-lines-changed") [Adds diff stats on PR commits.](https://github.com/user-attachments/assets/eb0f5e6e-9870-4daf-8c00-f1f23f61ef0f)
@@ -399,7 +398,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 <!--
 Documented but hidden from the readme:
-- [](# "extensible-nav") Beta: This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar. Currently opt-in for testing.
+- [](# "extensible-nav") This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.
 -->
 
 ### Previously part of Refined GitHub

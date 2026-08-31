@@ -3,29 +3,25 @@
 }
 
 /* Limit width of commit title to 72 characters */
+/* Intentionally ignores the PR title to reduce annoyance for people who disagree */
 .rgh-suggest-commit-title-limit {
-	[data-testid='mergebox-partial'] input[type='text'],
-	#commit-message-input,
-	/* TODO [2026-08-01]: Remove */
-	#commit-summary-input {
+	/* `isPR` */
+	[data-testid='mergebox-partial'] input[type='text'] {
 		box-sizing: content-box; /* Exclude padding/border from `width`; No need to mess with `calc` */
 		width: 72ch;
+	}
 
-		/* Like 100%, except it works with content-box and it feels like -webkit-1999 */
-		max-width: -webkit-fill-available;
-		/* TODO [2027-01-01]: Remove if supported */
-		/* biome-ignore lint/suspicious/noDuplicateProperties: Temporary compatibility */
-		max-width: -moz-available;
-		max-width: intrinsic;
+	/* `isPR`: Tighten input wrapper around input because it has the border style */
+	[data-testid='mergebox-partial']
+		span[class*='TextInputBaseWrapper'][aria-busy] {
+		max-width: min-content;
 	}
 }
 
-/* TODO [2026-09-01]: Remove */
-#pull_request_title,
-/* TODO [2026-08-01]: Remove */
-#commit-summary-input,
-/* TODO: Remove after legacy PR files view is removed */
-#issue_title {
+/* Test URL: https://github.com/refined-github/refined-github/edit/main/.editorconfig */
+#commit-message-input,
+/* Test URL: https://github.com/refined-github/sandbox/compare/default-a...new?expand=1 */
+input[name='pull_request[title]'] {
 	&.rgh-title-over-limit {
 		border-color: var(--rgh-limit-color);
 		background-color: color-mix(
@@ -42,6 +38,7 @@
 	}
 }
 
+/* Test URL: https://github.com/refined-github/sandbox/pull/16 */
 span[class*='TextInputWrapper']:has(> .rgh-title-over-limit) {
 	border-color: var(--rgh-limit-color);
 	outline-color: var(--rgh-limit-color);

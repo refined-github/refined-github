@@ -16,6 +16,7 @@ void import.meta.glob([
 const isGitIgnored = fastIgnore(readFileSync('.gitignore', 'utf8'));
 
 const noScreenshotExceptions = new Set([
+	// DO NOT ADD EXCEPTIONS HERE without explicit approval from the maintainers.
 	// Only add feature here if it's a shortcut only and/or extremely clear by name or description
 	'last-update-sort',
 	'create-release-shortcut',
@@ -152,7 +153,12 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	assert(!/test url/i.test(file.contents()), 'Only TSX files and *lone* CSS files should have test URLs');
+	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.contents());
+
+	assert(
+		!trailingComment || !/test url/i.test(trailingComment?.[0]),
+		'Only TSX files and *lone* CSS files should have test URLs',
+	);
 }
 
 function validateGql(file: FeatureFile): void {

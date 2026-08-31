@@ -293,7 +293,7 @@
 	},
 	{
 		"id": "extensible-nav",
-		"description": "Beta: This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar. Currently opt-in for testing.",
+		"description": "This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.",
 		"css": true,
 		"screenshot": null
 	},
@@ -344,7 +344,7 @@
 	},
 	{
 		"id": "hide-inactive-deployments",
-		"description": "Hides inactive deployments in PRs.",
+		"description": "Hides inactive or failed deployments in PRs.",
 		"screenshot": null
 	},
 	{
@@ -926,12 +926,6 @@
 		"id": "status-subscription",
 		"description": "Lets you subscribe to opening/closing events of issues in one click.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/238186901-cbc98b51-d173-40c6-b21e-5f0bae3d800c.png"
-	},
-	{
-		"id": "sticky-comment-header",
-		"description": "Makes the comment header sticky when scrolling through long comments.",
-		"css": true,
-		"screenshot": "https://github.com/user-attachments/assets/0d6deca0-0f49-4aa3-ab23-0cfbde4fa4e8"
 	},
 	{
 		"id": "sticky-conversation-list-toolbar",
