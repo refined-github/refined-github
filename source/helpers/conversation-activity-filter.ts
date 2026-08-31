@@ -1,4 +1,4 @@
-import {$} from 'select-dom';
+import elementReady from 'element-ready';
 import {writable} from 'svelte/store';
 
 export const states = {
@@ -29,7 +29,7 @@ export const activityFilterState = writable<State>('showAll');
 let firstEmission = true;
 
 // eslint-disable-next-line unicorn/no-top-level-side-effects
-activityFilterState.subscribe(value => {
+activityFilterState.subscribe(async value => {
 	// Skip the emission `subscribe` fires immediately on registration, before resetActivityFilterState() has loaded the real value
 	if (firstEmission) {
 		firstEmission = false;
@@ -38,12 +38,17 @@ activityFilterState.subscribe(value => {
 
 	sessionStorage.setItem(sessionKey(), value);
 
-	$([
+	const wrapper = await elementReady([
 		// PR
 		'[class^="prc-PageLayout-PageLayoutWrapper"]',
 		// Issue
 		'[class*="IssueViewer-module__mainContainer"]',
-	]).setAttribute('data-rgh-conversation-activity-filter', value);
+	], {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(5000)
+	});
+
+	wrapper!.setAttribute('data-rgh-conversation-activity-filter', value);
 });
 
 export function resetActivityFilterState(): State {
