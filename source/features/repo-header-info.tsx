@@ -49,8 +49,11 @@ async function getRepositoryInfo(): Promise<RepositoryInfo> {
 }
 
 async function add(breadcrumbs: HTMLElement): Promise<void> {
-	const info = await getRepositoryInfo();
-	breadcrumbs.classList.add('rgh-repo-header-info-updated');
+	const info = await getRepositoryInfo().finally(() => {
+		// Show the breadcrumbs even if the request fails
+		// https://github.com/refined-github/refined-github/issues/9986
+		breadcrumbs.classList.add('rgh-repo-header-info-loaded');
+	});
 
 	// GitHub may already show this icon natively, so we match its position
 	// It's generally missing when it's forked and private
@@ -87,7 +90,6 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
-	requiresToken: true,
 	init,
 });
 
