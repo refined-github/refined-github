@@ -8,7 +8,7 @@ import {get} from 'svelte/store';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {activityFilterState, resetActivityFilterState, type State, states} from '../helpers/conversation-activity-filter.js';
+import {activityFilterState, fetchStateForCurrentUrl, type State, states} from '../helpers/conversation-activity-filter.js';
 import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
@@ -122,7 +122,7 @@ function switchToNextFilter(): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	resetActivityFilterState();
+	fetchStateForCurrentUrl();
 	registerHotkey('h', switchToNextFilter, {signal});
 
 	globalThis.addEventListener('hashchange', uncollapseTargetedComment, {signal});

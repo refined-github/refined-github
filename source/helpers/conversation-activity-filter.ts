@@ -14,22 +14,22 @@ const minorFixesIssuePages = [
 	'https://github.com/refined-github/refined-github/issues/8000',
 ];
 
-function sessionKey(): string {
-	return `rgh-conversation-activity-filter-state:${location.pathname}`;
+function sessionKey(url: string): string {
+	return `rgh-conversation-activity-filter-state:${new URL(url).pathname}`;
 }
 
-function getDefaultState(): State {
-	const stored = sessionStorage.getItem(sessionKey());
+function getStateForUrl(url: string): State {
+	const stored = sessionStorage.getItem(sessionKey(url));
 	if (stored) {
 		return stored as State;
 	}
 
-	return minorFixesIssuePages.some(url => location.href.startsWith(url))
+	return minorFixesIssuePages.some(page => url.startsWith(page))
 		? 'hideAllNoise' // Automatically hide resolved comments on "Minor codebase updates and fixes" issue pages
 		: 'showAll';
 }
 
-export const activityFilterState = writable<State>(getDefaultState());
+export const activityFilterState = writable<State>(getStateForUrl(location.href));
 
 async function setActivityFilterAttribute(value: State): Promise<void> {
 	const wrapper = await elementReady([
@@ -52,12 +52,10 @@ async function setActivityFilterAttribute(value: State): Promise<void> {
 
 // eslint-disable-next-line unicorn/no-top-level-side-effects
 activityFilterState.subscribe(value => {
-	sessionStorage.setItem(sessionKey(), value);
+	sessionStorage.setItem(sessionKey(location.href), value);
 	void setActivityFilterAttribute(value);
 });
 
-export function resetActivityFilterState(): State {
-	const state = getDefaultState();
-	activityFilterState.set(state);
-	return state;
+export function fetchStateForCurrentUrl(): void {
+	activityFilterState.set(getStateForUrl(location.href));
 }
