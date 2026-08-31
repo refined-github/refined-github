@@ -90,6 +90,8 @@ void features.add(import.meta.url, {
 		// Disable the feature entirely on small screens
 		isSmallDevice,
 	],
+	// Not enabled due to https://github.com/refined-github/refined-github/issues/9986
+	// requiresToken: true,
 	init,
 });
 
