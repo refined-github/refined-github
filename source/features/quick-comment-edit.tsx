@@ -34,6 +34,11 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 		return;
 	}
 
+	// Disable feature on hidden comments #9857
+	if (elementExists('.octicon-fold, .octicon-unfold', closestElement('[data-testid="comment-header-right-side-items"]', menuButton))) {
+		return;
+	}
+
 	const editButton = (
 		<button
 			ref={withTooltipRef('Edit comment')}
