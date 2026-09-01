@@ -96,6 +96,7 @@ async function fetchIssueData(): Promise<Record<string, any>> {
 async function updateSubscription(targetStatus: SubscriptionStatus, id: string): Promise<void> {
 	const response = await fetch('/_graphql', {
 		headers: githubApiBaseHeaders,
+		// `hasToken` not needed because we use GitHub's own cookies
 		method: 'POST',
 		body: JSON.stringify({
 			// `updateIssueSubscriptionMutation`

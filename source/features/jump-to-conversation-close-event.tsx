@@ -12,8 +12,6 @@ import addTooltip from '../components/tooltip.js';
 
 export const statusBadgeSelector = [
 	'span[class*="StateLabel"]',
-	// TODO [2026-09-01]: Drop both
-	'#partial-discussion-header .State:not(.rgh-locked-issue)',
 	'[data-testid="header-state"]',
 ] as const;
 

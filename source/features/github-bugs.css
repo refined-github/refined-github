@@ -57,7 +57,7 @@ a[class*='PinnedIssue-module__Link'] code {
 /* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs */
 /* Info: https://github.com/refined-github/refined-github/issues/7108 */
-/* Test: https://github.com/react/react/pull/8848#new_comment_form */
+/* Test: https://github.com/liip/bund_ds/pull/131#event-10992164827 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
@@ -67,22 +67,6 @@ a[class*='PinnedIssue-module__Link'] code {
 /* Test: https://github.com/refined-github/sandbox/compare/default-a...fregante-patch-2?expand=1 */
 div.markdown-body {
 	min-height: 2em !important;
-}
-
-/* TODO [2026-10-01]: drop */
-/* Notifications "Group by" button unnecessary space */
-/* Info: https://github.com/refined-github/refined-github/pull/8208 */
-/* Test: https://github.com/notifications */
-/* Matches .d-md-block */
-@media (width >= 768px) {
-	/* Pulls the alert container to the right when empty */
-	.gap-4.pl-3:not(:has(a.h6)):has(
-		> .d-md-block
-			> .js-socket-channel[data-url^='/notifications/beta/recent_notifications_alert']
-	) {
-		/* Subtract 16px spacing from both .gap-3 and .ml-3 */
-		margin-right: -32px;
-	}
 }
 
 /* Fix issue picker overflowing the viewport in PRs when it contains long unbreakable issue titles */
