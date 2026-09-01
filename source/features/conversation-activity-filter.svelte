@@ -13,16 +13,14 @@
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 
 	type Props = {
-		onStateChange: (_value: State) => void;
 		withMargin?: boolean;
 	};
-	const {onStateChange, withMargin = false}: Props = $props();
+	const {withMargin = false}: Props = $props();
 
 	const baseId = crypto.randomUUID();
 
 	function selectState(targetState: State): void {
 		activityFilterState.set(targetState);
-		onStateChange(targetState);
 	}
 </script>
 <action-menu

@@ -11,3 +11,10 @@ export function not(firstSelector: readonly string[] | string, ...otherSelectors
 	const selectors = Array.isArray(firstSelector) ? firstSelector : [firstSelector, ...otherSelectors];
 	return `:not(${selectors.join(', ')})`;
 }
+
+export function has(selectors: readonly string[]): string;
+export function has(firstSelector: string, ...otherSelectors: readonly string[]): string;
+export function has(firstSelector: readonly string[] | string, ...otherSelectors: readonly string[]): string {
+	const selectors = Array.isArray(firstSelector) ? firstSelector : [firstSelector, ...otherSelectors];
+	return `:has(${selectors.join(', ')})`;
+}
