@@ -67,8 +67,12 @@ async function addQuickEditButtonLegacy(commentDropdown: HTMLDetailsElement, {si
 		return;
 	}
 
-	// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
-	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
+	if (elementExists([
+		// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
+		'.rgh-quick-comment-edit-button',
+		// Disable feature on hidden comments #9857
+		'.octicon-fold',
+	], commentBody)) {
 		return;
 	}
 
