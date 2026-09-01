@@ -34,6 +34,11 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 		return;
 	}
 
+	// Disable feature on hidden comments #9857
+	if (elementExists('.octicon-fold, .octicon-unfold', closestElement('[data-testid="comment-header-right-side-items"]', menuButton))) {
+		return;
+	}
+
 	const editButton = (
 		<button
 			ref={withTooltipRef('Edit comment')}
@@ -67,12 +72,8 @@ async function addQuickEditButtonLegacy(commentDropdown: HTMLDetailsElement, {si
 		return;
 	}
 
-	if (elementExists([
-		// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
-		'.rgh-quick-comment-edit-button',
-		// Disable feature on hidden comments #9857
-		'.octicon-fold',
-	], commentBody)) {
+	// We can't rely on `observe` for deduplication because the anchor might be replaced by GitHub while leaving the edit button behind #5572
+	if (elementExists('.rgh-quick-comment-edit-button', commentBody)) {
 		return;
 	}
 
