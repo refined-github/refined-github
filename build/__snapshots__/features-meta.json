@@ -424,6 +424,7 @@
 	{
 		"id": "linkify-code",
 		"description": "Linkifies issue/PR references and URLs in code.",
+		"css": true,
 		"screenshot": "https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png"
 	},
 	{

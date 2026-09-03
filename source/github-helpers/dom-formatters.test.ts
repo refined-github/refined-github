@@ -1,7 +1,7 @@
-import {$$optional} from 'select-dom';
-import {afterEach, beforeEach, expect, test} from 'vitest';
+import {$, $$, $$optional, closestElementOptional} from 'select-dom';
+import {afterEach, beforeEach, expect, test, vi} from 'vitest';
 
-import {shortenLink} from './dom-formatters.js';
+import {linkifyIssues, linkifyUrls, makeCodeLinksClickable, shortenLink} from './dom-formatters.js';
 
 function shortenLinksInFragment(html: string): string {
 	const template = document.createElement('template');
@@ -23,6 +23,54 @@ beforeEach(() => {
 
 afterEach(() => {
 	location.pathname = originalPathname;
+	vi.restoreAllMocks();
+});
+
+test('make links clickable above the React code-view overlay', () => {
+	vi.spyOn(CSS, 'supports').mockReturnValue(true);
+	const wrapper = document.createElement('div');
+	wrapper.className = 'react-code-text';
+	wrapper.innerHTML = `
+		<div>
+			<div class="react-file-line" inert>
+				<span class="pl-c">See https://example.com and #6336</span>
+			</div>
+		</div>
+	`;
+	const codeLine = $('.react-file-line', wrapper);
+	const comment = $('.pl-c', codeLine);
+
+	linkifyUrls(codeLine);
+	linkifyIssues({owner: 'refined-github', name: 'refined-github'}, comment);
+	makeCodeLinksClickable(codeLine);
+
+	const sourceLinks = [...$$('a', codeLine)];
+	const overlays = [...codeLine.parentElement!.querySelectorAll<HTMLAnchorElement>(':scope > .rgh-clickable-code-link')];
+	expect(sourceLinks).toHaveLength(2);
+	expect(overlays).toHaveLength(2);
+	expect(overlays.map(link => link.href)).toEqual(sourceLinks.map(link => link.href));
+	expect(overlays.every(link => !closestElementOptional('[inert]', link))).toBe(true);
+	for (const [index, link] of sourceLinks.entries()) {
+		expect(overlays[index].style.getPropertyValue('position-anchor')).toBe(link.style.getPropertyValue('anchor-name'));
+	}
+});
+
+test('replace stale code-link overlays instead of accumulating them', () => {
+	vi.spyOn(CSS, 'supports').mockReturnValue(true);
+	const wrapper = document.createElement('div');
+	wrapper.className = 'react-code-text';
+	wrapper.innerHTML =
+		'<div><div class="react-file-line"><a class="rgh-linkified-code" href="https://example.com">example</a></div></div>';
+	const codeLine = $('.react-file-line', wrapper);
+
+	makeCodeLinksClickable(codeLine);
+	makeCodeLinksClickable(codeLine);
+	expect(codeLine.parentElement!.querySelectorAll(':scope > .rgh-clickable-code-link')).toHaveLength(1);
+
+	codeLine.textContent = 'No links in the newly rendered line';
+	makeCodeLinksClickable(codeLine);
+
+	expect(codeLine.parentElement!.querySelectorAll(':scope > .rgh-clickable-code-link')).toHaveLength(0);
 });
 
 test('shorten link in comment text', () => {

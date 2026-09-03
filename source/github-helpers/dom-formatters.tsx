@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import {linkifyIssuesToDom, type Options as LinkifyIssuesOptions} from 'linkify-issues';
 import {linkifyUrlsToDom} from 'linkify-urls';
-import {closestElementOptional, elementExists} from 'select-dom';
+import {$$optional, closestElementOptional, elementExists} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
@@ -12,6 +12,8 @@ import parseBackticksCore from './parse-backticks.js';
 // Shared class necessary to avoid also shortening the links
 export const linkifiedUrlClass = 'rgh-linkified-code';
 const linkifiedUrlSelector = '.rgh-linkified-code';
+const clickableCodeLinkClass = 'rgh-clickable-code-link';
+let codeLinkAnchorIndex = 0;
 
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
@@ -46,6 +48,40 @@ export function shortenLink(link: HTMLAnchorElement): void {
 		}
 
 		default:
+	}
+}
+
+// GitHub puts an invisible textarea over code when line wrapping is disabled,
+// which prevents links inside the inert syntax-highlighted line from receiving clicks.
+// Keep the clickable copies inside the line's own React wrapper so virtualization
+// and navigation remove them together with the line.
+export function makeCodeLinksClickable(element: HTMLElement): void {
+	if (!CSS.supports('anchor-name', '--test')) {
+		return;
+	}
+
+	const codeLine = closestElementOptional('.react-file-line', element);
+	if (!codeLine) {
+		return;
+	}
+
+	const overlayContainer = codeLine.parentElement;
+	if (!overlayContainer || !closestElementOptional('.react-code-text', overlayContainer)) {
+		return;
+	}
+
+	for (const oldOverlay of $$optional(`:scope > .${clickableCodeLinkClass}`, overlayContainer)) {
+		oldOverlay.remove();
+	}
+
+	for (const link of $$optional('a', codeLine)) {
+		const anchorName = `--rgh-code-link-${codeLinkAnchorIndex++}`;
+		const clickableLink = link.cloneNode(true);
+		link.style.setProperty('anchor-name', anchorName);
+		clickableLink.style.removeProperty('anchor-name');
+		clickableLink.style.setProperty('position-anchor', anchorName);
+		clickableLink.classList.add(clickableCodeLinkClass);
+		overlayContainer.append(clickableLink);
 	}
 }
 

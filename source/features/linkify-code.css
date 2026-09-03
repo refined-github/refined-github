@@ -1,0 +1,13 @@
+.rgh-clickable-code-link {
+	position: absolute !important;
+	position-area: center;
+	z-index: 2;
+	padding: 0 !important;
+	pointer-events: auto;
+	text-wrap: nowrap;
+	opacity: 0;
+
+	&:focus-visible {
+		opacity: 1;
+	}
+}

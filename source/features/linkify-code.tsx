@@ -1,8 +1,16 @@
+import './linkify-code.css';
+
 import * as pageDetect from 'github-url-detection';
 import {$, $$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {codeElementsSelector, linkifiedUrlClass, linkifyIssues, linkifyUrls} from '../github-helpers/dom-formatters.js';
+import {
+	codeElementsSelector,
+	linkifiedUrlClass,
+	linkifyIssues,
+	linkifyUrls,
+	makeCodeLinksClickable,
+} from '../github-helpers/dom-formatters.js';
 import {getRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -19,6 +27,7 @@ function linkifyContent(wrapper: HTMLElement): void {
 	// Some non-repo pages like gists have issue references #3844
 	// They make no sense, but we still want `linkifyURLs` to run there
 	if (!currentRepo) {
+		makeCodeLinksClickable(wrapper);
 		return;
 	}
 
@@ -26,6 +35,8 @@ function linkifyContent(wrapper: HTMLElement): void {
 	for (const element of $$optional('.pl-c', wrapper)) {
 		linkifyIssues(currentRepo, element);
 	}
+
+	makeCodeLinksClickable(wrapper);
 }
 
 function init(signal: AbortSignal): void {
