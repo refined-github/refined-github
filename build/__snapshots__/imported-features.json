@@ -47,6 +47,7 @@
 	"esc-to-cancel",
 	"esc-to-deselect-line",
 	"expand-all-hidden-comments",
+	"expand-linked-diff",
 	"extend-conversation-status-filters",
 	"extend-diff-expander",
 	"extend-repo-tabs",

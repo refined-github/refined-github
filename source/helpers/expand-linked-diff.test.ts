@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-use-before-define -- Keep tests before their context factory */
+
+import {$optional} from 'select-dom';
 import {describe, expect, it} from 'vitest';
 
-import expandLinkedDiff from './expand-linked-diff.js';
+import expandLinkedDiff, {type WaitForElement} from './expand-linked-diff.js';
 
 type RecordedEvent = {
 	line: number;
@@ -9,8 +12,14 @@ type RecordedEvent = {
 
 type TestContextOptions = {
 	deferred?: boolean;
-	hash?: string;
 	legacy?: boolean;
+};
+
+type TestContext = {
+	file: HTMLElement;
+	loadClicks: string[];
+	recordedEvents: RecordedEvent[];
+	waitForElement: WaitForElement;
 };
 
 describe('expandLinkedDiff', () => {
@@ -18,8 +27,13 @@ describe('expandLinkedDiff', () => {
 		// Arrange
 		const {file, loadClicks, recordedEvents, waitForElement} = createTestContext({deferred: true});
 		queueMicrotask(() => {
-			addLoadButton(file, loadClicks, () => {
-				addReactLines(file, recordedEvents);
+			addLoadButton({
+				file,
+				name: 'target',
+				loadClicks,
+				onClick() {
+					addReactLines(file, recordedEvents);
+				},
 			});
 		});
 
@@ -74,9 +88,7 @@ describe('expandLinkedDiff', () => {
 
 	it('ignores fragments without a line target', async () => {
 		// Arrange
-		const {loadClicks, recordedEvents, waitForElement} = createTestContext({
-			hash: '#diff-abc123',
-		});
+		const {loadClicks, recordedEvents, waitForElement} = createTestContext();
 
 		// Act
 		await expandLinkedDiff('#diff-abc123', {
@@ -92,22 +104,24 @@ describe('expandLinkedDiff', () => {
 
 function createTestContext({
 	deferred = false,
-	hash = '#diff-abc123R22-R28',
 	legacy = false,
-}: TestContextOptions = {}) {
+}: TestContextOptions = {}): TestContext {
 	document.body.replaceChildren();
-	location.hash = hash;
 
 	const recordedEvents: RecordedEvent[] = [];
 	const loadClicks: string[] = [];
 	const file = document.createElement('div');
 	file.id = 'diff-abc123';
+	file.className = 'Diff-module__diffTargetable__hash';
+	file.append(createReactFileHeader(), document.createElement('div'));
 	document.body.append(file);
 
 	const otherFile = document.createElement('div');
 	otherFile.id = 'diff-deadbeef';
+	otherFile.className = 'Diff-module__diffTargetable__hash';
+	otherFile.append(createReactFileHeader(), document.createElement('div'));
 	document.body.append(otherFile);
-	addLoadButton(otherFile, 'other', () => {});
+	addLoadButton({file: otherFile, name: 'other', loadClicks});
 
 	if (!deferred) {
 		if (legacy) {
@@ -125,17 +139,17 @@ function createTestContext({
 	};
 }
 
-function createWaitForElement() {
+function createWaitForElement(): WaitForElement {
 	return async (selectors: string | readonly string[], {signal}: {signal: AbortSignal}) => {
 		const selector = typeof selectors === 'string' ? selectors : selectors.join(',');
-		const existing = document.querySelector<HTMLElement>(selector);
+		const existing = $optional(selector);
 		if (existing) {
 			return existing;
 		}
 
 		return new Promise<HTMLElement | undefined>(resolve => {
 			const observer = new MutationObserver(() => {
-				const element = document.querySelector<HTMLElement>(selector);
+				const element = $optional(selector);
 				if (element) {
 					finish(element);
 				}
@@ -153,18 +167,36 @@ function createWaitForElement() {
 	};
 }
 
-function addLoadButton(file: HTMLElement, loadClicks: string[] | string, onClick: () => void): void {
+function addLoadButton({
+	file,
+	name,
+	loadClicks,
+	onClick,
+	legacy = false,
+}: {
+	file: HTMLElement;
+	legacy?: boolean;
+	loadClicks: string[];
+	name: string;
+	onClick?: () => void;
+}): void {
 	const button = document.createElement('button');
-	button.className = 'js-diff-load';
+	if (legacy) {
+		button.className = 'js-diff-load';
+	}
+
 	button.textContent = 'Load Diff';
 	button.addEventListener('click', () => {
-		if (Array.isArray(loadClicks)) {
-			loadClicks.push('target');
-		}
-
-		onClick();
+		loadClicks.push(name);
+		onClick?.();
 	});
-	file.append(button);
+	(legacy ? file : file.lastElementChild!).append(button);
+}
+
+function createReactFileHeader(): HTMLElement {
+	const header = document.createElement('div');
+	header.dataset.diffHeaderWrapper = 'true';
+	return header;
 }
 
 function addReactLines(file: HTMLElement, recordedEvents: RecordedEvent[]): void {
@@ -173,7 +205,7 @@ function addReactLines(file: HTMLElement, recordedEvents: RecordedEvent[]): void
 		cell.className = 'new-diff-line-number';
 		cell.dataset.diffSide = 'right';
 		cell.dataset.lineNumber = String(line);
-		recordLineSelection(cell, line, recordedEvents);
+		recordLineSelection(cell, line, recordedEvents, 'mousedown');
 		file.append(cell);
 	}
 }
@@ -182,13 +214,18 @@ function addLegacyLines(file: HTMLElement, recordedEvents: RecordedEvent[]): voi
 	for (const line of [22, 28]) {
 		const cell = document.createElement('td');
 		cell.id = `diff-abc123L${line}`;
-		recordLineSelection(cell, line, recordedEvents);
+		recordLineSelection(cell, line, recordedEvents, 'click');
 		file.append(cell);
 	}
 }
 
-function recordLineSelection(cell: HTMLElement, line: number, recordedEvents: RecordedEvent[]): void {
-	cell.addEventListener('mousedown', event => {
+function recordLineSelection(
+	cell: HTMLElement,
+	line: number,
+	recordedEvents: RecordedEvent[],
+	eventName: 'click' | 'mousedown',
+): void {
+	cell.addEventListener(eventName, event => {
 		recordedEvents.push({line, shiftKey: event.shiftKey});
 	});
 }

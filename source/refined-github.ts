@@ -98,6 +98,7 @@ import './features/sticky-sidebar.js';
 import './features/release-download-count.js';
 import './features/open-issue-to-latest-comment.js';
 import './features/toggle-everything-with-alt.js';
+import './features/expand-linked-diff.js';
 import './features/suggest-commit-title-limit.js';
 import './features/clean-conversation-filters.js';
 import './features/tags-on-commits-list.js';
