@@ -268,7 +268,7 @@ function addLoadButton({
 		button.className = 'js-diff-load';
 	}
 
-	button.textContent = 'Load Diff';
+	button.textContent = legacy ? 'Load diff' : 'Load Diff';
 	button.addEventListener('click', () => {
 		loadClicks.push(name);
 		onClick?.();
