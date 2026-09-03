@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define -- Keep tests before their context factory */
 
 import {$optional} from 'select-dom';
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 
 import expandLinkedDiff, {type WaitForElement} from './expand-linked-diff.js';
 
@@ -39,6 +39,54 @@ describe('expandLinkedDiff', () => {
 
 		// Act
 		await expandLinkedDiff('#diff-abc123R22-R28', {
+			signal: AbortSignal.timeout(100),
+			waitForElement,
+		});
+
+		// Assert
+		expect(loadClicks).toEqual(['target']);
+		expect(recordedEvents).toEqual([
+			{line: 22, shiftKey: false},
+			{line: 28, shiftKey: true},
+		]);
+	});
+
+	it('uses an existing load button when the observer already saw it', async () => {
+		// Arrange
+		const {file, loadClicks, recordedEvents} = createTestContext({deferred: true});
+		addLoadButton({
+			file,
+			name: 'target',
+			loadClicks,
+			onClick() {
+				addReactLines(file, recordedEvents);
+			},
+		});
+		const waitForElement = async (): Promise<undefined> => undefined;
+
+		// Act
+		await expandLinkedDiff('#diff-abc123R22-R28', {
+			signal: AbortSignal.timeout(100),
+			waitForElement,
+		});
+
+		// Assert
+		expect(loadClicks).toEqual(['target']);
+		expect(recordedEvents).toEqual([
+			{line: 22, shiftKey: false},
+			{line: 28, shiftKey: true},
+		]);
+	});
+
+	it('loads and selects a deferred legacy diff', async () => {
+		// Arrange
+		const {loadClicks, recordedEvents, waitForElement} = createTestContext({
+			deferred: true,
+			legacy: true,
+		});
+
+		// Act
+		await expandLinkedDiff('#diff-abc123L22-L28', {
 			signal: AbortSignal.timeout(100),
 			waitForElement,
 		});
@@ -100,7 +148,32 @@ describe('expandLinkedDiff', () => {
 		expect(loadClicks).toEqual([]);
 		expect(recordedEvents).toEqual([]);
 	});
-});
+
+	it('keeps large line numbers as selector-safe digit strings', async () => {
+		// Arrange
+		const {file, loadClicks, recordedEvents} = createTestContext({deferred: true});
+		const lineNumber = '1000000000000000000000';
+		const cell = document.createElement('td');
+		cell.className = 'new-diff-line-number';
+		cell.dataset.diffSide = 'right';
+		cell.dataset.lineNumber = lineNumber;
+		cell.scrollIntoView = vi.fn();
+		const onSelection = vi.fn();
+		cell.addEventListener('mousedown', onSelection);
+		file.append(cell);
+		const waitForElement = async (): Promise<undefined> => undefined;
+
+		// Act
+		await expandLinkedDiff(`#diff-abc123R${lineNumber}`, {
+			signal: AbortSignal.timeout(100),
+			waitForElement,
+		});
+
+		// Assert
+		expect(loadClicks).toEqual([]);
+		expect(recordedEvents).toEqual([]);
+		expect(onSelection).toHaveBeenCalledOnce();
+	});
 
 function createTestContext({
 	deferred = false,
@@ -123,7 +196,17 @@ function createTestContext({
 	document.body.append(otherFile);
 	addLoadButton({file: otherFile, name: 'other', loadClicks});
 
-	if (!deferred) {
+	if (deferred && legacy) {
+		addLoadButton({
+			file,
+			legacy: true,
+			name: 'target',
+			loadClicks,
+			onClick() {
+				addLegacyLines(file, recordedEvents);
+			},
+		});
+	} else if (!deferred) {
 		if (legacy) {
 			addLegacyLines(file, recordedEvents);
 		} else {
@@ -229,3 +312,5 @@ function recordLineSelection(
 		recordedEvents.push({line, shiftKey: event.shiftKey});
 	});
 }
+
+});
