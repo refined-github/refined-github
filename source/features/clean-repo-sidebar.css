@@ -18,6 +18,12 @@
 		display: none;
 	}
 
+	/* Hide broken Readme link #10030 */
+	[class*='SidebarSection-module__sidebarSection']
+		> div:has(> a[href^='#readme']) {
+		display: none;
+	}
+
 	/* Hide Code of conduct links */
 	[class*='SidebarSection-module__sidebarSection']
 		:is([href$='/code-of-conduct.md' i], [href$='/code_of_conduct.md' i]) {
