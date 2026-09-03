@@ -5,7 +5,7 @@ import {$optional} from 'select-dom';
 type DiffSide = 'left' | 'right';
 
 type LineTarget = {
-	line: number;
+	line: string;
 	side: DiffSide;
 };
 
@@ -42,25 +42,28 @@ export default async function expandLinkedDiff(
 		return;
 	}
 
-	let startLine = findLine(file, target.fileId, target.start);
+	const startLineSelectors = lineSelectors(target.fileId, target.start);
+	let startLine = $optional(startLineSelectors);
 	if (!startLine) {
-		const lineOrLoadButton = await waitForElement([
-			...lineSelectors(target.fileId, target.start),
+		const lineOrLoadButtonSelectors = [
+			...startLineSelectors,
 			...loadButtonSelectors(target.fileId),
-		], {signal});
+		];
+		const lineOrLoadButton = $optional(lineOrLoadButtonSelectors)
+			?? await waitForElement(lineOrLoadButtonSelectors, {signal});
 		if (!lineOrLoadButton) {
 			return;
 		}
 
-		if (lineOrLoadButton instanceof HTMLButtonElement) {
+		if (lineOrLoadButton.matches(startLineSelectors.join(','))) {
+			startLine = lineOrLoadButton;
+		} else {
 			if (!isLoadButton(lineOrLoadButton)) {
 				return;
 			}
 
 			lineOrLoadButton.click();
 			startLine = await waitForLine(target.fileId, target.start, signal, waitForElement);
-		} else {
-			startLine = lineOrLoadButton;
 		}
 	}
 
@@ -94,13 +97,9 @@ function parseDiffTarget(hash: string): DiffTarget | undefined {
 
 function createLineTarget(side: string, line: string): LineTarget {
 	return {
-		line: Number(line),
+		line,
 		side: side.toUpperCase() === 'L' ? 'left' : 'right',
 	};
-}
-
-function findLine(file: HTMLElement, fileId: string, target: LineTarget): HTMLElement | undefined {
-	return $optional(lineSelectors(fileId, target), file);
 }
 
 async function waitForLine(
@@ -129,7 +128,7 @@ function loadButtonSelectors(fileId: string): readonly string[] {
 	];
 }
 
-function isLoadButton(button: HTMLButtonElement): boolean {
+function isLoadButton(button: HTMLElement): boolean {
 	return button.classList.contains('js-diff-load') || button.textContent.trim() === 'Load Diff';
 }
 
