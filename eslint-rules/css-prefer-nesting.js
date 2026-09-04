@@ -26,8 +26,16 @@ const preferNesting = {
 							continue;
 						}
 
-						const before = isDescendant(children[index - 1]);
-						const after = isDescendant(children[index + 1]);
+						const previousItem = children[index - 1];
+						const nextItem = children[index + 1];
+						const isSoloCompound = (previousItem === undefined || previousItem.type === 'Combinator')
+							&& (nextItem === undefined || nextItem.type === 'Combinator');
+						if (!isSoloCompound) {
+							continue;
+						}
+
+						const before = isDescendant(previousItem);
+						const after = isDescendant(nextItem);
 						if (!before && !after) {
 							continue;
 						}
@@ -46,13 +54,13 @@ const preferNesting = {
 								const block = sourceCode.getText(rule.block);
 
 								// `X :is(A, B)` -> `X { A, B { … } }`
-								if (before && index === children.length - 1) {
+								if (before && nextItem === undefined) {
 									const outer = text.slice(children[0].loc.start.offset, children[index - 2].loc.end.offset).trim();
 									return fixer.replaceText(rule, `${outer} {\n\t${arguments_} ${block}\n}`);
 								}
 
 								// `:is(A, B) X` -> `A, B { X { … } }`
-								if (after && index === 0) {
+								if (after && previousItem === undefined) {
 									const rest = text.slice(children[index + 2].loc.start.offset, children.at(-1).loc.end.offset).trim();
 									return fixer.replaceText(rule, `${arguments_} {\n\t${rest} ${block}\n}`);
 								}
