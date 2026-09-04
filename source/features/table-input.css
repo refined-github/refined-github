@@ -39,7 +39,7 @@
 
 .rgh-tic:hover::before,
 /* Hovering the 1st column */
-.rgh-tic:is(:nth-of-type(5n+1)):has(
+.rgh-tic:nth-of-type(5n+1):has(
 	~ .rgh-tic:hover:nth-of-type(5n+1)
 )::before,
 /* Hovering the 2nd column */
