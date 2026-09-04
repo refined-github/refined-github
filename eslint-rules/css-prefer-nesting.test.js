@@ -14,6 +14,7 @@ test('css-prefer-nesting', () => {
 		valid: [
 			{code: 'a:is(.foo, .bar) {}'},
 			{code: ':is(.foo, .bar)::before {}'},
+			{code: '&:is(:focus, :hover) svg {}'},
 		],
 		invalid: [
 			{

@@ -27,13 +27,13 @@ const preferNesting = {
 						}
 
 						const previousItem = children[index - 1];
-						const nextItem = children[index + 1];
-						const isSoloCompound = (previousItem === undefined || previousItem.type === 'Combinator')
-							&& (nextItem === undefined || nextItem.type === 'Combinator');
-						if (!isSoloCompound) {
+
+						// `&:is(...)` is already using CSS nesting; don't suggest nesting again.
+						if (previousItem?.type === 'NestingSelector') {
 							continue;
 						}
 
+						const nextItem = children[index + 1];
 						const before = isDescendant(previousItem);
 						const after = isDescendant(nextItem);
 						if (!before && !after) {
