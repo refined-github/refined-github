@@ -268,3 +268,18 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap;
 	max-width: 100%;
 }
+
+/* Keep issue and PR anchors visible below their sticky page headers */
+/* Info: https://github.com/refined-github/refined-github/issues/9910 */
+/* Test: https://github.com/refined-github/sandbox/pull/47#discussion_r979366510 */
+/* Test: https://github.com/Dyalog/documentation/issues/861#checkbox-item-22 */
+#repo-content-pjax-container:has(
+	:is(
+		[data-testid='issue-viewer-container'],
+		#partial-discussion-header,
+		#diff-comparison-viewer-container
+	)
+)
+	[id] {
+	scroll-margin-top: 80px;
+}
