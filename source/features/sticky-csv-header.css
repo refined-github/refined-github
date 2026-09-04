@@ -1,15 +1,17 @@
-.markdown-body .csv-data :is(td, th) {
-	/* Make first column sticky */
-	&:first-child {
-		position: sticky;
-		left: 0;
-		z-index: 1;
-		background-clip: padding-box;
-	}
+.markdown-body .csv-data {
+	td, th {
+		/* Make first column sticky */
+		&:first-child {
+			position: sticky;
+			left: 0;
+			z-index: 1;
+			background-clip: padding-box;
+		}
 
-	/* Prevent double borders */
-	&:last-child {
-		border-right: none;
+		/* Prevent double borders */
+		&:last-child {
+			border-right: none;
+		}
 	}
 }
 
