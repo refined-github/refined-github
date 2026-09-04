@@ -10,8 +10,6 @@ const sortCompoundSelector = {
 	},
 
 	create(context) {
-		const {sourceCode} = context;
-
 		const order = {
 			TypeSelector: 0,
 			IdSelector: 1,
@@ -44,18 +42,17 @@ const sortCompoundSelector = {
 						return;
 					}
 
-					const firstRange = sourceCode.getRange(compound[0]);
-					const lastRange = sourceCode.getRange(compound.at(-1));
-
 					context.report({
 						node,
 						messageId: 'sort',
 						fix(fixer) {
-							return fixer.replaceTextRange(
-								[firstRange[0], lastRange[1]],
-								sorted
-									.map(selector => sourceCode.getText(selector))
-									.join(''),
+							return compound.map((selector, index) =>
+								fixer.replaceText(
+									selector,
+									context.sourceCode.getText(
+										sorted[index],
+									),
+								)
 							);
 						},
 					});
