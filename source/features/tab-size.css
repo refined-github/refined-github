@@ -14,7 +14,7 @@ There’s also one place where GitHub incorrectly uses the "user configuration" 
 */
 
 :root,
-.comment-body .tab-size[data-tab-size='8'] {
+:is(.comment-body, [data-testid='markdown-body'], .markdown-body) .tab-size[data-tab-size='8'] {
 	--tab-size: 4;
 
 	tab-size: var(--tab-size);
@@ -26,6 +26,7 @@ There’s also one place where GitHub incorrectly uses the "user configuration" 
 
 - Rendered documents: https://github.com/refined-github/refined-github/blob/154c0f8c86b23e52d1e1ee947b90bc36bc6188ba/contributing.md#featuresadd
 - Code blocks and embeds in conversations: https://github.com/refined-github/sandbox/pull/19
+- Code blocks and embeds in issues: https://github.com/refined-github/sandbox/issues/164
 - The comment field everywhere
 
 ### Unaffected URLs
