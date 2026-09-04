@@ -20,7 +20,8 @@
 
 	/* Hide Code of conduct links */
 	[class*='SidebarSection-module__sidebarSection'] {
-		[href$='/code-of-conduct.md' i], [href$='/code_of_conduct.md' i] {
+		[href$='/code-of-conduct.md' i],
+		[href$='/code_of_conduct.md' i] {
 			display: none;
 		}
 	}

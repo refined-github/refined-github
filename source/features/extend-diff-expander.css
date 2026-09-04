@@ -1,8 +1,8 @@
 /* TODO [2025-04-01]: Revert https://github.com/refined-github/refined-github/pull/8111 */
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
-.rgh-extend-diff-expander .js-expandable-line:hover {
-	.blob-num:not(:hover) .directional-expander:first-child,
-	.blob-num:not(:hover) + .blob-code {
+.rgh-extend-diff-expander .js-expandable-line:hover .blob-num:not(:hover) {
+	.directional-expander:first-child,
+	& + .blob-code {
 		color: var(
 			--control-checked-fgColor-rest,
 			var(
@@ -12,7 +12,10 @@
 		);
 		background: var(
 			--control-checked-bgColor-hover,
-			var(--color-state-hover-primary-bg, var(--color-accent-emphasis, fuchsia))
+			var(
+				--color-state-hover-primary-bg,
+				var(--color-accent-emphasis, fuchsia)
+			)
 		);
 		border-color: var(
 			--control-checked-borderColor-hover,
