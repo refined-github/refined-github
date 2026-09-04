@@ -29,11 +29,6 @@ test('css-sort-compound-selector', () => {
 
 		invalid: [
 			{
-				code: '.foo a {}',
-				output: '.foo a {}',
-				errors: [{messageId: 'sort'}],
-			},
-			{
 				code: '.foo#a {}',
 				output: '#a.foo {}',
 				errors: [{messageId: 'sort'}],
@@ -44,18 +39,13 @@ test('css-sort-compound-selector', () => {
 				errors: [{messageId: 'sort'}],
 			},
 			{
-				code: ':hovera {}',
-				output: 'a:hover {}',
-				errors: [{messageId: 'sort'}],
-			},
-			{
 				code: '::before:hover {}',
 				output: ':hover::before {}',
 				errors: [{messageId: 'sort'}],
 			},
 			{
 				code: '.foo#a[data-x]:hover::before {}',
-				output: 'a#foo? {}',
+				output: '#a.foo[data-x]:hover::before {}',
 				errors: [{messageId: 'sort'}],
 			},
 		],
