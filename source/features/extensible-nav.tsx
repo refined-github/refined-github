@@ -26,6 +26,7 @@ import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../component
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import ExtensibleNav from './extensible-nav.svelte';
+import {markNativeNavAsReplaced, shouldReplaceNativeNav} from './extensible-nav-helpers.js';
 
 const knownTabsIcons = new Map([
 	['code', CodeIcon],
@@ -75,6 +76,10 @@ function generateTab(item: HTMLAnchorElement): Tab {
 }
 
 function replace(nativeNav: HTMLElement): void {
+	if (!shouldReplaceNativeNav(nativeNav)) {
+		return;
+	}
+
 	const items = $$('a', nativeNav);
 
 	// Shouldn't be missing, but assert anyway
@@ -87,8 +92,7 @@ function replace(nativeNav: HTMLElement): void {
 	selectTab(current);
 
 	mount(ExtensibleNav, {target: nativeNav.parentElement!});
-
-	nativeNav.classList.add('rgh-extensible-nav-removed');
+	markNativeNavAsReplaced(nativeNav);
 }
 
 async function initOnce(): Promise<void> {
