@@ -14,6 +14,9 @@ import onetime from '../helpers/onetime.js';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
+	typeBug: {
+		totalCount: number;
+	};
 	issues: {
 		totalCount: number;
 	};
@@ -34,7 +37,7 @@ type Bugs = {
 
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
-	const bugTypeCount = repository.issues.totalCount;
+	const bugTypeCount = repository.typeBug.totalCount;
 
 	let label = repository.labels.nodes.find(({name}) => name === 'bug');
 	label ??= repository.labels.nodes.find(({name}) => isBugLabel(name));
@@ -43,8 +46,13 @@ async function countBugs(): Promise<Bugs> {
 	const bugLabelCount = label?.issues.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
-	// Label might not be found if the repo uses a non-standard bug label name
-	return {label: label?.name ?? 'bug', count: bugCount};
+	return {
+		// Label might not be found if the repo uses a non-standard bug label name
+		label: label?.name ?? 'bug',
+
+		// GitHub bug: labelled issues are counted even if issues are disabled
+		count: Math.min(bugCount, repository.issues.totalCount),
+	};
 }
 
 const bugs = new CachedFunction('bugs', {
@@ -162,6 +170,6 @@ Test URLs:
 - label:bug https://github.com/refined-github/refined-github/issues
 - label:"Type: Bug" https://github.com/react/react/issues
 - type:Bug: https://github.com/keepassxreboot/keepassxc/issues
-- Issues disabled: https://github.com/refined-github/yolo
+- Issues disabled: https://github.com/bfred-it-org/no-issues/labels
 
 */
