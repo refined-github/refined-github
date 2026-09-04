@@ -4,7 +4,7 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {$$, $optional, elementExists} from 'select-dom';
 import {assertPresent} from 'ts-extras';
-import {mount} from 'svelte';
+import {mount, unmount} from 'svelte';
 import {readable} from 'svelte/store';
 
 import AiModel from 'octicons-plain-react/AiModel';
@@ -25,6 +25,7 @@ import features from '../feature-manager.js';
 import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
+import singleton from '../helpers/singleton.js';
 import ExtensibleNav from './extensible-nav.svelte';
 
 const knownTabsIcons = new Map([
@@ -74,7 +75,7 @@ function generateTab(item: HTMLAnchorElement): Tab {
 	};
 }
 
-function replace(nativeNav: HTMLElement): void {
+function replace(nativeNav: HTMLElement): () => void {
 	const items = $$('a', nativeNav);
 
 	// Shouldn't be missing, but assert anyway
@@ -86,9 +87,15 @@ function replace(nativeNav: HTMLElement): void {
 	setNativeTabs(items.map(item => generateTab(item)));
 	selectTab(current);
 
-	mount(ExtensibleNav, {target: nativeNav.parentElement!});
+	const nav = mount(ExtensibleNav, {target: nativeNav.parentElement!});
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
+
+	// GitHub re-renders the header when a repository feature is toggled, re-adding the native nav and
+	// firing this callback again. Unmount the previous instance so duplicate navs don't stack up.
+	return () => {
+		void unmount(nav);
+	};
 }
 
 async function initOnce(): Promise<void> {
@@ -96,7 +103,8 @@ async function initOnce(): Promise<void> {
 	await elementReady('.loaded nav[aria-label="Repository"]');
 
 	// Use `observe` because GitHub occasionally removes and re-adds the entire header.
-	observe('.loaded nav[aria-label="Repository"]', replace);
+	// `singleton` keeps a single mounted nav by unmounting the previous one on each re-render.
+	observe('.loaded nav[aria-label="Repository"]', singleton(replace));
 }
 
 void features.add(import.meta.url, {
