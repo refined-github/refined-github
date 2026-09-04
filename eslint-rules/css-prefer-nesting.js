@@ -1,5 +1,5 @@
 /** @type {import('eslint').Rule.RuleModule} */
-const avoidIsSelector = {
+const preferNesting = {
 	meta: {
 		type: 'suggestion',
 		fixable: 'code',
@@ -65,4 +65,4 @@ const avoidIsSelector = {
 	},
 };
 
-export default avoidIsSelector;
+export default preferNesting;

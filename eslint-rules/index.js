@@ -1,5 +1,5 @@
-import avoidIsSelector from './avoid-is-selector.js';
 import cssDocumentation from './css-documentation.js';
+import preferNesting from './css-prefer-nesting.js';
 import cssRequireFuchsiaFallback from './css-require-fuchsia-fallback.js';
 import noOptionalChaining from './no-optional-chaining.js';
 
@@ -8,7 +8,7 @@ const refinedGithubPlugin = {
 		'no-optional-chaining': noOptionalChaining,
 		'css-documentation': cssDocumentation,
 		'css-require-fuchsia-fallback': cssRequireFuchsiaFallback,
-		'avoid-is-selector': avoidIsSelector,
+		'css-prefer-nesting': preferNesting,
 	},
 };
 

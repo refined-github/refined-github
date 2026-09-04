@@ -180,7 +180,7 @@ export default defineConfig([
 				allowUnknownVariables: true,
 			}],
 			'refined-github/css-require-fuchsia-fallback': 'error',
-			'refined-github/avoid-is-selector': 'error',
+			'refined-github/css-prefer-nesting': 'error',
 		},
 	},
 	{
