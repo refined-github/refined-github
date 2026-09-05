@@ -1,5 +1,6 @@
 import toMilliseconds from '@sindresorhus/to-milliseconds';
 import * as pageDetect from 'github-url-detection';
+import {assertPresent} from 'ts-extras';
 
 import api from './api.js';
 import {getConversationNumber} from './index.js';
@@ -12,9 +13,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 	}
 
 	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
-	if (closedAt === null) {
-		return;
-	}
+	assertPresent(closedAt);
 
 	return new Date(closedAt);
 }
