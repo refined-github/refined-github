@@ -121,6 +121,7 @@ import './features/bugs-tab.js';
 import './features/cross-deleted-pr-branches.js';
 import './features/repo-wide-file-finder.js';
 import './features/pr-commit-lines-changed.js';
+import './features/pr-commit-position.js';
 import './features/show-open-prs-of-forks.js';
 import './features/deep-reblame.js';
 import './features/clear-pr-merge-commit-message.js';

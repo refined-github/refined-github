@@ -659,6 +659,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/eb0f5e6e-9870-4daf-8c00-f1f23f61ef0f"
 	},
 	{
+		"id": "pr-commit-position",
+		"description": "Counts how many commits are left in each direction on the PR’s commit navigation buttons.",
+		"screenshot": "https://github.com/user-attachments/assets/eecc1fdc-8a7a-4b90-a937-62e7860a4516"
+	},
+	{
 		"id": "pr-filters",
 		"description": "Adds Checks and Draft PR dropdown filters in PR lists.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png"
