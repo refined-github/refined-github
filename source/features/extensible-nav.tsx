@@ -91,8 +91,6 @@ function replace(nativeNav: HTMLElement): () => void {
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
 
-	// GitHub re-renders the header when a repository feature is toggled, re-adding the native nav and
-	// firing this callback again. Unmount the previous instance so duplicate navs don't stack up.
 	return () => {
 		void unmount(nav);
 	};
@@ -103,7 +101,6 @@ async function initOnce(): Promise<void> {
 	await elementReady('.loaded nav[aria-label="Repository"]');
 
 	// Use `observe` because GitHub occasionally removes and re-adds the entire header.
-	// `singleton` keeps a single mounted nav by unmounting the previous one on each re-render.
 	observe('.loaded nav[aria-label="Repository"]', singleton(replace));
 }
 
