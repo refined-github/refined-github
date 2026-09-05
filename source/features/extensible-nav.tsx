@@ -21,7 +21,7 @@ import PlayIcon from 'octicons-plain-react/Play';
 import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
 
-import features from '../feature-manager.js';
+import features from '../feature-manager.js'
 import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -100,7 +100,7 @@ async function initOnce(): Promise<void> {
 	// Use `element-ready` to ensure that the native navigation is fully loaded before replacing it for the first time.
 	await elementReady('.loaded nav[aria-label="Repository"]');
 
-	// Use `observe` because GitHub occasionally removes and re-adds the entire header.
+	// Use `observe` because GitHub occasionally removes and re-adds the entire header, for example when removing tabs #10038
 	observe('.loaded nav[aria-label="Repository"]', singleton(replace));
 }
 
