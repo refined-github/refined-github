@@ -165,6 +165,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png"
 	},
 	{
+		"id": "contribution-calendar-view",
+		"description": "Replaces the contribution graph with a real month-by-month calendar layout, day names on top.",
+		"css": true,
+		"screenshot": null
+	},
+	{
 		"id": "conventional-commits",
 		"description": "Shows conventional commit types as labels before the commit message.",
 		"css": true,

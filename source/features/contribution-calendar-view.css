@@ -1,0 +1,48 @@
+html:not([rgh-OFF-contribution-calendar-view]) {
+	.rgh-contribution-calendar-container {
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 16px;
+		margin-block: 8px;
+		max-width: 100%;
+	}
+
+	.rgh-contribution-calendar-month {
+		min-width: 0;
+	}
+
+	.rgh-contribution-calendar-month-title {
+		font-size: 11px;
+		font-weight: 600;
+		margin: 0 0 4px;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.rgh-contribution-calendar-month table {
+		border-collapse: separate;
+		border-spacing: 2px;
+		table-layout: fixed;
+		/* table-layout:fixed only enforces equal column widths when the table's
+		own width isn't auto — otherwise cells with unbreakable text (day labels)
+		still stretch their column to fit their content. `100%` counts as fixed
+		for this purpose, so columns stay equal while still filling the space. */
+		width: 100%;
+	}
+
+	.rgh-contribution-calendar-month th {
+		font-size: 9px;
+		font-weight: normal;
+		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.rgh-contribution-calendar-month td {
+		height: 14px !important;
+		padding: 0;
+	}
+}

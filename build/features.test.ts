@@ -49,6 +49,7 @@ const noScreenshotExceptions = new Set([
 	'readable-title-change-events',
 	'sticky-csv-header',
 	'sticky-file-header',
+	'contribution-calendar-view', // TODO: Add screenshot before submitting upstream
 ]);
 
 const entryPoint = 'source/refined-github.ts';

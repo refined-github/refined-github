@@ -108,6 +108,7 @@ import './features/show-whitespace.js';
 import './features/restore-file.js';
 import './features/reload-failed-proxied-images.js';
 import './features/conversation-authors.js';
+import './features/contribution-calendar-view.js';
 import './features/one-click-pr-or-gist.js';
 import './features/dim-bots.js';
 import './features/conflict-marker.js';
