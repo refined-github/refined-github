@@ -52,3 +52,14 @@ void features.add(import.meta.url, {
 	],
 	init,
 });
+
+/*
+
+Test URLs:
+
+Third of 23 commits: https://github.com/mavlink/mavlink-camera-manager/pull/594/commits/a02ae36205b66468223d521504ef6c44a443c597
+Same commit in the new PR view: https://github.com/mavlink/mavlink-camera-manager/pull/594/changes/a02ae36205b66468223d521504ef6c44a443c597
+Last of 23 commits: https://github.com/mavlink/mavlink-camera-manager/pull/594/commits/7774e1e625c69d458633cc0760d472fd40f8a4d5
+Single-commit PR, GitHub drops the navigation buttons so nothing is added: https://github.com/refined-github/sandbox/pull/10/commits/a34a1812612a03774cd1acfb39ee90acc72b0bde
+
+*/
