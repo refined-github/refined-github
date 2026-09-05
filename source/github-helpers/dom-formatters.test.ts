@@ -1,7 +1,7 @@
-import {$$optional} from 'select-dom';
+import {$, $$optional} from 'select-dom';
 import {afterEach, beforeEach, expect, test} from 'vitest';
 
-import {shortenLink} from './dom-formatters.js';
+import {linkifyUrls, shortenLink} from './dom-formatters.js';
 
 function shortenLinksInFragment(html: string): string {
 	const template = document.createElement('template');
@@ -144,4 +144,38 @@ test('do not mark different-thread comment link as earlier comment', () => {
 			</p>
 		</div>
 	`)).toMatchSnapshot();
+});
+
+function linkifyUrlsInText(text: string): HTMLElement {
+	const element = document.createElement('span');
+	element.append(text);
+	linkifyUrls(element);
+	return element;
+}
+
+test('add a native hovercard to a linkified issue URL', () => {
+	const link = $('a', linkifyUrlsInText('See https://github.com/user/repo/issues/1 for details'));
+	expect(link.dataset.hovercardType).toBe('issue');
+	expect(link.dataset.hovercardUrl).toBe('/user/repo/issues/1/hovercard');
+});
+
+test('add a native hovercard to a linkified PR URL', () => {
+	const link = $('a', linkifyUrlsInText('Fixed by https://github.com/user/repo/pull/2'));
+	expect(link.dataset.hovercardType).toBe('pull_request');
+	expect(link.dataset.hovercardUrl).toBe('/user/repo/pull/2/hovercard');
+});
+
+test('keep the hovercard base path when the URL has a sub-path or hash', () => {
+	const link = $('a', linkifyUrlsInText('See https://github.com/user/repo/pull/2/files#diff-abc'));
+	expect(link.dataset.hovercardUrl).toBe('/user/repo/pull/2/hovercard');
+});
+
+test('do not add a hovercard to a non-issue GitHub URL', () => {
+	const link = $('a', linkifyUrlsInText('See https://github.com/user/repo/blob/main/readme.md soon'));
+	expect(link.dataset.hovercardType).toBeUndefined();
+});
+
+test('do not add a hovercard to a same-path URL on another host', () => {
+	const link = $('a', linkifyUrlsInText('See https://example.com/user/repo/issues/1 instead'));
+	expect(link.dataset.hovercardType).toBeUndefined();
 });

@@ -83,6 +83,23 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
+// GitHub only enables native hovercards on some links, not on plain issue/PR URLs. Add them so a
+// linkified `https://github.com/user/repo/issues/1` in code hovers like a `#1` reference would. #5052
+function addNativeHovercard(link: HTMLAnchorElement): void {
+	// Hovercards are fetched from the current origin, so only same-host URLs work (also covers Enterprise)
+	if (link.hostname !== location.hostname) {
+		return;
+	}
+
+	const match = /^\/[^/]+\/[^/]+\/(?<type>issues|pull)\/\d+/.exec(link.pathname);
+	if (!match) {
+		return;
+	}
+
+	link.dataset.hovercardType = match.groups!.type === 'pull' ? 'pull_request' : 'issue';
+	link.dataset.hovercardUrl = `${match[0]}/hovercard`;
+}
+
 export function linkifyUrls(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
@@ -102,6 +119,10 @@ export function linkifyUrls(element: HTMLElement): void {
 
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
+	}
+
+	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
+		addNativeHovercard(link);
 	}
 
 	zipTextNodes(element, linkified);
