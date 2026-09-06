@@ -15,14 +15,6 @@
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
 
-	const scopeElements = [
-		'valid_token',
-		'public_repo',
-		'repo',
-		'read:project',
-		'workflow',
-	];
-
 	type Validation = {message: string; error?: boolean; scopes: string[]};
 
 	function getApiUrl(): string {
@@ -35,7 +27,10 @@
 		closestElement('details', tokenField).open = true;
 	}
 
-	function getScopeState(scope: string, scopes: string[]): 'valid' | 'invalid' | '' {
+	function getScopeState(
+		scope: string,
+		scopes: string[],
+	): 'valid' | 'invalid' | '' {
 		return scopes.includes(scope)
 			? 'valid'
 			: scopes.includes('unknown')
@@ -86,15 +81,11 @@
 		} catch (error) {
 			assertError(error);
 			expandTokenSection();
-			throw new Error(`${error.message} (expired?)`);
+			throw new Error(`${error.message} (expired?)`, {cause: error});
 		}
 	}
 
-	let tokenPromise = $state<Promise<Validation | undefined>>();
-
-	$effect(() => {
-		tokenPromise = validateToken(tokenValue);
-	});
+	const tokenPromise = $derived(validateToken(tokenValue));
 </script>
 
 {#snippet scopesList(scopes: string[])}
