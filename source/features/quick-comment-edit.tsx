@@ -2,7 +2,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {$, closestElement, elementExists} from 'select-dom';
+import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
@@ -35,7 +35,7 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 	}
 
 	// Disable feature on hidden comments #9857
-	if (elementExists(['.octicon-fold', '.octicon-unfold'], closestElement('[data-testid="comment-header-right-side-items"]', menuButton))) {
+	if (elementExists(['.octicon-fold', '.octicon-unfold'], closestElementOptional('[data-testid="comment-header-right-side-items"]', menuButton))) {
 		return;
 	}
 
