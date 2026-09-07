@@ -660,7 +660,7 @@
 	},
 	{
 		"id": "pr-commit-position",
-		"description": "Counts how many commits are left in each direction on the PR’s commit navigation buttons.",
+		"description": "Shows the position of the commit you are viewing in the PR.",
 		"screenshot": "https://github.com/user-attachments/assets/eecc1fdc-8a7a-4b90-a937-62e7860a4516"
 	},
 	{

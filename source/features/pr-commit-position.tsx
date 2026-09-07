@@ -1,15 +1,16 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$, $$optional} from 'select-dom';
+import {$$optional} from 'select-dom';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl, getConversationNumber} from '../github-helpers/index.js';
-import fetchDom from '../helpers/fetch-dom.js';
+import {buildRepoUrl, cacheByRepo, getConversationNumber} from '../github-helpers/index.js';
+import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 
 // GitHub shows at most 250 commits per PR, all on a single unpaginated page
 async function getCommits(): Promise<string[]> {
-	const list = await fetchDom(buildRepoUrl('pull', getConversationNumber()!, 'commits'));
+	const list = await fetchDomUncached(buildRepoUrl('pull', getConversationNumber()!, 'commits'));
 
 	// The old PR view links commits as `/commits/:hash`, the new one as `/changes/:hash`
 	const hashes = $$optional('a[href*="/commits/"], a[href*="/changes/"]', list)
@@ -20,29 +21,32 @@ async function getCommits(): Promise<string[]> {
 	return [...new Set(hashes)];
 }
 
-async function add(navigationLink: HTMLAnchorElement): Promise<void> {
-	const commits = await getCommits();
+// A PR can gain commits while it's being reviewed
+const commitHashes = new CachedFunction('pr-commit-hashes', {
+	updater: getCommits,
+	maxAge: {hours: 1},
+	cacheKey: () => `${cacheByRepo()}:${getConversationNumber()}`,
+});
+
+async function add(navigation: HTMLElement): Promise<void> {
+	const commits = await commitHashes.get();
 	const position = commits.indexOf(location.pathname.split('/').pop()!) + 1;
 	if (position === 0) {
 		return;
 	}
 
-	// Each button counts the commits it can still take you through
-	const isPrevious = navigationLink.dataset.hotkey === 'p' || /previous/i.test(navigationLink.ariaLabel ?? '');
-	const remaining = isPrevious ? position - 1 : commits.length - position;
-
-	// The count goes inside the label: an extra element in the group would wrap, and one
-	// next to the label would be auto-placed in Primer's grid, before the text
-	$([
-		'[class*="Button-label" i]', // Also matches Primer React's `prc-Button-Label-*`
-		'[data-component="text"]',
-	], navigationLink).append(<span className="color-fg-muted"> ({remaining})</span>);
+	navigation.after(
+		<span className="rgh-pr-commit-position float-right flex-self-center color-fg-muted mx-2 tmp-mx-2 no-wrap">
+			{position} of {commits.length} commits
+		</span>,
+	);
 }
 
 function init(signal: AbortSignal): void {
 	observe([
-		'a[data-hotkey="p"], a[data-hotkey="n"]', // Legacy
-		'a[aria-label$="commit" i]',
+		'.commit .float-right.ButtonGroup', // Legacy
+		// The first and last commits render one of the buttons as a disabled `button`
+		'[class^="prc-ButtonGroup-ButtonGroup"]:has([aria-label$="commit" i])',
 	], add, {signal});
 }
 
