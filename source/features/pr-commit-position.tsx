@@ -34,7 +34,12 @@ async function add(navigationLink: HTMLAnchorElement): Promise<void> {
 	const commits = await commitHashes.get();
 	const position = commits.indexOf(getCleanPathname().split('/').pop()!) + 1;
 	if (position === 0) {
-		return;
+		// Commits past the 250th aren't listed, so they can't be counted
+		if (commits.length >= 250) {
+			return;
+		}
+
+		throw new Error('The commit is missing from the PR’s commit list');
 	}
 
 	closestElement(buttonGroup, navigationLink).after(
