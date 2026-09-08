@@ -4,15 +4,15 @@ import {$$optional, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl, cacheByRepo, getCleanPathname, getConversationNumber} from '../github-helpers/index.js';
+import {buildRepoUrl, getCleanPathname, getConversationNumber} from '../github-helpers/index.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 
 const buttonGroup = '[class^="prc-ButtonGroup-ButtonGroup"]';
 
 // GitHub shows at most 250 commits per PR, all on a single unpaginated page
-async function getCommits(): Promise<string[]> {
-	const list = await fetchDomUncached(buildRepoUrl('pull', getConversationNumber()!, 'commits'));
+async function getCommits(commitsUrl: string): Promise<string[]> {
+	const list = await fetchDomUncached(commitsUrl);
 
 	// The old PR view links commits as `/commits/:hash`, the new one as `/changes/:hash`
 	const hashes = $$optional('a[href*="/commits/"], a[href*="/changes/"]', list)
@@ -27,11 +27,10 @@ async function getCommits(): Promise<string[]> {
 const commitHashes = new CachedFunction('pr-commit-hashes', {
 	updater: getCommits,
 	maxAge: {hours: 1},
-	cacheKey: () => `${cacheByRepo()}:${getConversationNumber()}`,
 });
 
 async function add(navigationLink: HTMLAnchorElement): Promise<void> {
-	const commits = await commitHashes.get();
+	const commits = await commitHashes.get(buildRepoUrl('pull', getConversationNumber()!, 'commits'));
 	const position = commits.indexOf(getCleanPathname().split('/').pop()!) + 1;
 	if (position === 0) {
 		// Commits past the 250th aren't listed, so they can't be counted
