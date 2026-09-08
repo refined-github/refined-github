@@ -1,12 +1,14 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$$optional} from 'select-dom';
+import {$$optional, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl, cacheByRepo, getConversationNumber} from '../github-helpers/index.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
+
+const buttonGroup = '[class^="prc-ButtonGroup-ButtonGroup"]';
 
 // GitHub shows at most 250 commits per PR, all on a single unpaginated page
 async function getCommits(): Promise<string[]> {
@@ -28,14 +30,14 @@ const commitHashes = new CachedFunction('pr-commit-hashes', {
 	cacheKey: () => `${cacheByRepo()}:${getConversationNumber()}`,
 });
 
-async function add(navigation: HTMLElement): Promise<void> {
+async function add(navigationLink: HTMLAnchorElement): Promise<void> {
 	const commits = await commitHashes.get();
 	const position = commits.indexOf(location.pathname.split('/').pop()!) + 1;
 	if (position === 0) {
 		return;
 	}
 
-	navigation.after(
+	closestElement(buttonGroup, navigationLink).after(
 		<span className="rgh-pr-commit-position float-right flex-self-center color-fg-muted mx-2 tmp-mx-2 no-wrap">
 			{position} of {commits.length} commits
 		</span>,
@@ -43,7 +45,8 @@ async function add(navigation: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class^="prc-ButtonGroup-ButtonGroup"]:has([aria-label$="commit" i])', add, {signal});
+	// Both buttons match, but the group only needs one counter
+	observe(`${buttonGroup} a[aria-label$="commit" i]`, add, {signal, once: true});
 }
 
 void features.add(import.meta.url, {
