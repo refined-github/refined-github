@@ -13,7 +13,7 @@ export async function getCloseDate(): Promise<Date | undefined> {
 	}
 
 	const {closed_at: closedAt} = await api.v3(`issues/${getConversationNumber()!}`);
-	assertPresent(closedAt);
+	assertPresent(closedAt, 'closed_at field is null');
 
 	return new Date(closedAt);
 }
