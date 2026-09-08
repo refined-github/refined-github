@@ -4,7 +4,7 @@ import {$$optional, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
-import {buildRepoUrl, cacheByRepo, getConversationNumber} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getCleanPathname, getConversationNumber} from '../github-helpers/index.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -32,7 +32,7 @@ const commitHashes = new CachedFunction('pr-commit-hashes', {
 
 async function add(navigationLink: HTMLAnchorElement): Promise<void> {
 	const commits = await commitHashes.get();
-	const position = commits.indexOf(location.pathname.split('/').pop()!) + 1;
+	const position = commits.indexOf(getCleanPathname().split('/').pop()!) + 1;
 	if (position === 0) {
 		return;
 	}
