@@ -43,11 +43,7 @@ async function add(navigation: HTMLElement): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'.commit .float-right.ButtonGroup', // Legacy
-		// The first and last commits render one of the buttons as a disabled `button`
-		'[class^="prc-ButtonGroup-ButtonGroup"]:has([aria-label$="commit" i])',
-	], add, {signal});
+	observe('[class^="prc-ButtonGroup-ButtonGroup"]:has([aria-label$="commit" i])', add, {signal});
 }
 
 void features.add(import.meta.url, {
