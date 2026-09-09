@@ -97,7 +97,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           message: |
-            Please don't force-push to this PR — it makes it harder to see what changed since the last review.
+            Please don't force-push to this PR, it makes it harder to see what changed since the last review.
 
             We merge commits rather than squash, so we care more about reviewability than a clean history. Feel free to push dirty commits.
 
