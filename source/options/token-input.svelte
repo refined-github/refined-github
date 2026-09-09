@@ -14,7 +14,6 @@
 	let focused = $state(false);
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
-	let validationId = 0;
 
 	type Validation = {message: string; error?: boolean; scopes: string[]};
 
@@ -40,8 +39,6 @@
 	}
 
 	async function validateToken(value: string): Promise<Validation | undefined> {
-		const currentValidationId = ++validationId;
-
 		// Silence first run
 		if (value === initialMagicValue) {
 			return;
@@ -63,10 +60,7 @@
 				tokenInfo.expiration
 				&& new Date(tokenInfo.expiration).getTime() < Date.now()
 			) {
-				if (currentValidationId === validationId) {
-					expandTokenSection();
-				}
-
+				expandTokenSection();
 				return {message: 'Token expired', error: true, scopes: ['unknown']};
 			}
 
@@ -86,10 +80,7 @@
 			return {message, scopes: tokenInfo.scopes};
 		} catch (error) {
 			assertError(error);
-			if (currentValidationId === validationId) {
-				expandTokenSection();
-			}
-
+			expandTokenSection();
 			throw new Error(`${error.message} (expired?)`, {cause: error});
 		}
 	}
