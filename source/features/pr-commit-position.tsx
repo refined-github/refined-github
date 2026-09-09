@@ -13,14 +13,11 @@ const buttonGroup = '[class^="prc-ButtonGroup-ButtonGroup"]';
 // GitHub shows at most 250 commits per PR, all on a single unpaginated page
 async function getCommits(commitsUrl: string): Promise<string[]> {
 	const list = await fetchDomUncached(commitsUrl);
+	const linkPrefix = new URL(commitsUrl).pathname + '/';
 
-	// The old PR view links commits as `/commits/:hash`, the new one as `/changes/:hash`
-	const hashes = $$optional('a[href*="/commits/"], a[href*="/changes/"]', list)
-		.map(link => link.getAttribute('href')!.split('/').pop()!)
-		.filter(hash => /^[\da-f]{40}$/.test(hash));
-
-	// Each commit is linked twice: by title and by hash
-	return [...new Set(hashes)];
+	// Each row links the commit by title and by hash, the heading picks one of the two
+	return $$optional(`h4 a[href^="${linkPrefix}"]`, list)
+		.map(link => link.getAttribute('href')!.slice(linkPrefix.length));
 }
 
 // A PR can gain commits while it's being reviewed
