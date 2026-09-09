@@ -42,7 +42,7 @@ async function add(navigationLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	closestElement(buttonGroup, navigationLink).after(
-		<span className="rgh-pr-commit-position float-right flex-self-center color-fg-muted mx-2 tmp-mx-2 no-wrap">
+		<span className="float-right flex-self-center color-fg-muted mx-2 tmp-mx-2 no-wrap">
 			{position} of {commits.length} commits
 		</span>,
 	);
