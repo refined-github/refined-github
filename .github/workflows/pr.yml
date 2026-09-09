@@ -100,7 +100,7 @@ jobs:
             Please don't force-push to this PR — it makes it harder to see what changed since the last review.
 
             We merge commits rather than squash, so we care more about reviewability than a clean history. Feel free to push dirty commits.
-  
+
   manifest-version:
     if: github.event.action != 'closed'
     runs-on: ubuntu-latest
