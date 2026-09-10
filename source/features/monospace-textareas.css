@@ -2,7 +2,7 @@
 /* Use same font-family as GitHub style for `code` */
 
 /* Test URL: https://github.com/refined-github/sandbox/pull/16 */
-[class^='prc-PageLayout-Header'] input,
+[class^='prc-PageLayout-Header'] form input,
 [data-testid='mergebox-partial'] input[type='text'],
 /* Test URL: https://github.com/refined-github/sandbox/compare/default-a...new?expand=1 */
 input[name='pull_request[title]'],
