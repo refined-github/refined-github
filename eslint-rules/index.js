@@ -1,5 +1,5 @@
 import cssDocumentation from './css-documentation.js';
-import noSingleIsWhere from './css-no-useless-function.js';
+import noUselessFunction from './css-no-useless-function.js';
 import preferNesting from './css-prefer-nesting.js';
 import requireFuchsiaFallback from './css-require-fuchsia-fallback.js';
 import sortCompoundSelector from './css-sort-compound-selector.js';
@@ -12,7 +12,7 @@ const refinedGithubPlugin = {
 		'css-require-fuchsia-fallback': requireFuchsiaFallback,
 		'css-prefer-nesting': preferNesting,
 		'css-sort-compound-selector': sortCompoundSelector,
-		'css-no-useless-function': noSingleIsWhere,
+		'css-no-useless-function': noUselessFunction,
 	},
 };
 

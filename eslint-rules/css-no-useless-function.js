@@ -5,7 +5,7 @@ const noSingleIsWhere = {
 		fixable: 'code',
 		schema: [],
 		messages: {
-			unnecessaryIs: 'Remove unnecessary single-item :is().',
+      unnecessaryFunction: 'Remove unnecessary single-item function.',
 		},
 	},
 
@@ -19,10 +19,10 @@ const noSingleIsWhere = {
 				if (children.length === 1 && children[0].type === 'SelectorList') {
 					const selectors = [...children[0].children];
 
-					if (selectors.length === 1) {
+					if (selectors.length === 1 && [...selectors[0].children].every(child => child.type !== 'Combinator')) {
 						context.report({
 							node,
-							messageId: 'unnecessaryIs',
+							messageId: 'unnecessaryFunction',
 							fix(fixer) {
 								return fixer.replaceText(
 									node,
