@@ -181,6 +181,7 @@ export default defineConfig([
 			}],
 			'refined-github/css-require-fuchsia-fallback': 'error',
 			'refined-github/css-prefer-nesting': 'error',
+			'refined-github/css-no-useless-function': 'error',
 		},
 	},
 	{
