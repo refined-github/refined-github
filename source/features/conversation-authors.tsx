@@ -48,6 +48,7 @@ function highlightSelf(signal: AbortSignal): void {
 			CSS.escape(getLoggedInUser()!)
 		}/hovercard"]`,
 		`[data-testid="author-filter-link"][aria-label="Filter by author ${CSS.escape(getLoggedInUser()!)}"]`,
+		`[data-testid="author-filter-link"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});
