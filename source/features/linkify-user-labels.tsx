@@ -40,6 +40,7 @@ function linkify(label: HTMLElement): void {
 const ariaLabelSelector = is(
 	'[aria-label^="This user is a member"]',
 	'[aria-label^="This user has previously committed"]',
+	'[aria-label^="You have previously committed"]',
 	'[aria-label^="This user has been invited to collaborate"]',
 );
 
