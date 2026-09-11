@@ -2,7 +2,6 @@ import './small-user-avatars.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
@@ -10,7 +9,6 @@ import {is, not} from '../helpers/css-selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import {listAuthorSelector} from '../github-helpers/selectors.js';
 
 function createAvatar(username: string, size: number): JSX.Element {
 	return (
@@ -20,7 +18,6 @@ function createAvatar(username: string, size: number): JSX.Element {
 			width={size}
 			height={size}
 			loading="lazy"
-			alt=""
 		/>
 	);
 }
@@ -35,46 +32,13 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 	);
 }
 
-function addAvatar(link: HTMLElement, username = link.textContent): void {
-	if (elementExists('img.rgh-small-user-avatars', link)) {
-		return;
-	}
-
+function addAvatar(link: HTMLElement): void {
+	const username = link.textContent;
 	const avatar = createAvatar(username, 14);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
 	link.prepend(avatar);
-}
-
-function addListAvatar(author: HTMLElement): void {
-	// Prefer hovercards; direct text excludes hidden accessibility spans and injected content.
-	const hovercard = author.getAttribute('data-hovercard-url');
-	const username = hovercard
-		// Malformed or non-user hovercard.
-		? /^\/users\/(?<login>[^/]+)\/hovercard$/.exec(hovercard)?.groups?.login ?? ''
-		: [...author.childNodes].filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent).join('').trim();
-	const existing = $optional('img.rgh-small-user-avatars', author);
-	if (!/^[\w-]+$/.test(username) || author.matches(is(
-		'[data-hovercard-type="bot"]', // Bots with hovercards
-		'[href^="/apps/"]', // Legacy app authors
-		'[href^="/github-apps/"]', // GHE apps
-	))) {
-		// A reused author may still have a previous human's avatar.
-		existing?.remove();
-		return;
-	}
-
-	const avatarUrl = getUserAvatarURL(username, 14)!;
-	if (existing) {
-		if (existing.getAttribute('src') !== avatarUrl) {
-			existing.setAttribute('src', avatarUrl);
-		}
-
-		return;
-	}
-
-	addAvatar(author, username);
 }
 
 function addMentionAvatar(link: HTMLAnchorElement): void {
@@ -87,34 +51,16 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 }
 
 function initOnce(): void {
-	// Keep legacy authors on the existing avatar path, including nested username text.
-	observe<string, HTMLElement>(is(listAuthorSelector) + not('.opened-by a'), author => {
-		addListAvatar(author);
-		// Restore/update avatars when React reuses the author or replaces its children.
-		const observer = new MutationObserver(() => {
-			addListAvatar(author);
-		});
-		observer.observe(author, {
-			childList: true,
-			subtree: true,
-			characterData: true,
-			attributes: true,
-			attributeFilter: ['data-hovercard-url', 'data-hovercard-type', 'href'],
-		});
-	});
 	// Excludes bots
-	observe<string, HTMLElement>([
+	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
 		is(
 			'[data-testid="created-at"]',
 			'[data-testid="closed-at"]',
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
-	], link => {
-		if (link.matches('.opened-by a') || !link.matches(listAuthorSelector.join(','))) {
-			addAvatar(link);
-		}
-	});
+		'[data-testid="author-filter-link"][aria-label^="Filter by author "]:not([aria-label$="[bot]"])', // Preview PR lists
+	], addAvatar);
 	observe(
 		'.user-mention' + not(
 			'.opened-by > *', // Merge queue

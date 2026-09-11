@@ -175,14 +175,6 @@ export const commitTitleInLists_ = [
 	[4, 'https://github.com/refined-github/refined-github/pull/6194/commits'],
 ];
 
-export const listAuthorSelector = [
-	'.opened-by a[title*="ed by "]',
-	'a[class^="IssueItem-module__authorCreatedLink"]',
-	'a[data-testid="author-filter-link"]',
-	'button[data-testid="author-filter-link"]',
-];
-export const listAuthorSelector_ = requiresLogin;
-
 const botNames = [
 	'actions-user',
 	'bors',

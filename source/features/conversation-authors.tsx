@@ -8,7 +8,6 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo, getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import {listAuthorSelector} from '../github-helpers/selectors.js';
 import GetCollaborators from './conversation-authors.gql';
 
 const collaborators = new CachedFunction('repo-collaborators', {
@@ -41,35 +40,16 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 }
 
 function highlightSelf(signal: AbortSignal): void {
-	// Public repository lists can be viewed while logged out.
-	const self = getLoggedInUser()?.toLowerCase();
-	observe<string, HTMLElement>(listAuthorSelector, author => {
-		const update = (): void => {
-			// Direct text excludes hidden accessibility spans and injected avatars/names.
-			const hovercard = author.getAttribute('data-hovercard-url');
-			const name = hovercard
-				// Malformed or non-user hovercard.
-				? /^\/users\/(?<login>[^/]+)\/hovercard$/.exec(hovercard)?.groups?.login ?? ''
-				: [...author.childNodes].filter(node => node.nodeType === Node.TEXT_NODE).map(node => node.textContent).join('').trim();
-			// Preserve the legacy title-based selector, including nested author text.
-			// "Opened by {user}" and "Created by {user}"
-			// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
-			const ownLegacyAuthor = Boolean(self && author.matches(`.opened-by a[title$="ed by ${CSS.escape(self)}" i]`));
-			author.classList.toggle('rgh-own-conversation', Boolean(ownLegacyAuthor || (self && name.toLowerCase() === self)));
-		};
-
-		update();
-		const observer = new MutationObserver(update);
-		observer.observe(author, {
-			childList: true,
-			subtree: true,
-			characterData: true,
-			attributes: true,
-			attributeFilter: ['data-hovercard-url', 'title'],
-		});
-		signal.addEventListener('abort', () => {
-			observer.disconnect();
-		}, {once: true});
+	// "Opened by {user}" and "Created by {user}"
+	observe([
+		// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
+		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
+			CSS.escape(getLoggedInUser()!)
+		}/hovercard"]`,
+		`[data-testid="author-filter-link"][aria-label="Filter by author ${CSS.escape(getLoggedInUser()!)}"]`,
+	], author => {
+		author.classList.add('rgh-own-conversation');
 	}, {signal});
 }
 
