@@ -68,6 +68,8 @@ export const openPrsListLink = [
 	css`
 		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
+	// New PR lists
+	'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
 ];
 
 export const openPrsListLink_ = [

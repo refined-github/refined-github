@@ -68,6 +68,7 @@ void features.add(import.meta.url, {
 /*
 Test URLs
 https://github.com/pulls
+https://github.com/refined-github/sandbox/pulls?q=is%3Apr+is%3Aopen+conflict
 https://github.com/refined-github/sandbox/issues?q=conflict
 https://github.com/kubernetes/kubernetes/milestone/62
 */
