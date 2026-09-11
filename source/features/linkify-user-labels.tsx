@@ -25,7 +25,7 @@ function getAuthor(label: HTMLElement): string {
 
 function linkify(label: HTMLElement): void {
 	if (closestElementOptional('a', label)) {
-		return;
+		throw new Error('Already linkified, feature needs to be updated');
 	}
 
 	// React might create a new label without removing the old one
