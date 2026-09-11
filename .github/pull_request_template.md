@@ -15,6 +15,8 @@ Lastly:
 
 If you haven't done so yet, check out the Contributing page in the wiki: https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guidelines
 
+Note that AI-generated PRs without a screenshot are automatically closed, so don't waste your time. "Tests" are useless, changes need to be visually verified by a human. 
+
 -->
 
 

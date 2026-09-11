@@ -88,15 +88,18 @@ jobs:
             });
 
             // This intentionally allows "force push to undo commit"
-            return String(data.status === 'diverged');
+            const isForcePush = data.status === 'diverged';
+            const hasComments = context.payload.pull_request.comments > 0;
+
+            return String(isForcePush && hasComments);
 
       - if: steps.check.outputs.result == 'true'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           message: |
-            Please avoid force-pushing to this PR. It makes it harder for reviewers to track what changed since the last review.
+            Please don't force-push to this PR, it makes it harder to see what changed since the last review.
 
-            Just push new commits on top of the branch instead — PRs are squashed on merge, so the commit history doesn't need to be clean.
+            We merge commits rather than squash, so we care more about reviewability than a clean history. Feel free to push dirty commits.
 
   manifest-version:
     if: github.event.action != 'closed'
