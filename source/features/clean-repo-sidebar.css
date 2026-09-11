@@ -19,8 +19,10 @@
 	}
 
 	/* Hide Code of conduct links */
-	[class*='SidebarSection-module__sidebarSection']
-		:is([href$='/code-of-conduct.md' i], [href$='/code_of_conduct.md' i]) {
-		display: none;
+	[class*='SidebarSection-module__sidebarSection'] {
+		[href$='/code-of-conduct.md' i],
+		[href$='/code_of_conduct.md' i] {
+			display: none;
+		}
 	}
 }
