@@ -69,6 +69,10 @@ const restrictedSyntax = {
 			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
 		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
+	'byo/no-mutation-observer': ['error', {
+		selector: 'NewExpression[callee.name="MutationObserver"]',
+		message: 'Import `selector-observer` instead of using MutationObserver',
+	}],
 };
 
 export default restrictedSyntax;
