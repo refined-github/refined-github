@@ -1,12 +1,13 @@
 [rgh-clean-repo-sidebar] [class*='PageLayout-Pane'] {
-	/* Hide "About" header */
-	[class*='SidebarSection-module__sidebarSection']:first-child > h2 {
+	/* Hide "About" header unless it contains repository edit controls #10027 */
+	[class*='SidebarSection-module__sidebarSection']:first-child
+		> h2:not(:has([aria-label='Edit repository metadata'])) {
 		display: none;
-	}
 
-	/* Align the top of the repo root sidebar with the main page content */
-	[class*='SidebarSection-module__sidebarSection']:first-child > h2 + p {
-		margin-top: 0 !important;
+		/* Align the top of the repo root sidebar with the main page content */
+		& + p {
+			margin-top: 0 !important;
+		}
 	}
 
 	/*
