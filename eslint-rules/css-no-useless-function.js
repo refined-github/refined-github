@@ -5,7 +5,7 @@ const noSingleIsWhere = {
 		fixable: 'code',
 		schema: [],
 		messages: {
-      unnecessaryFunction: 'Remove unnecessary single-item function.',
+			unnecessaryFunction: 'Remove unnecessary single-item function.',
 		},
 	},
 
