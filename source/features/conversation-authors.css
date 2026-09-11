@@ -10,8 +10,8 @@
 	}
 }
 
-a.rgh-own-conversation,
-a.rgh-own-conversation:hover {
+:is(a, button).rgh-own-conversation,
+:is(a, button).rgh-own-conversation:hover {
 	/* Colors taken from native .user-mention class */
 	color: var(
 		--color-user-mention-fg,
@@ -23,6 +23,6 @@ a.rgh-own-conversation:hover {
 	);
 }
 
-a.rgh-own-conversation:hover {
+:is(a, button).rgh-own-conversation:hover {
 	text-decoration: underline !important;
 }
