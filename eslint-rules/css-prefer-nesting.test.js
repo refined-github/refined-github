@@ -14,6 +14,8 @@ test('css-prefer-nesting', () => {
 		valid: [
 			{code: 'a:is(.foo, .bar) {}'},
 			{code: '&:is(:focus, :hover) svg {}'},
+			{code: 'a :is(.foo, .bar), b {}'},
+			{code: 'a :is(.foo, .bar) b, c {}'},
 		],
 		invalid: [
 			{
@@ -47,9 +49,9 @@ test('css-prefer-nesting', () => {
 				errors: [{messageId: 'descendantIs'}],
 			},
 			{
-				code: 'a :is(.foo), b {}',
+				code: 'a :is(.foo, .bar), b {}',
 				output: null,
-				errors: [{messageId: 'descendantIs'}],
+				errors: [],
 			},
 		],
 	});

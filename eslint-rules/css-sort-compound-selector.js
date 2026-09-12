@@ -35,8 +35,7 @@ const sortCompoundSelector = {
 						selector => selector.type === 'NestingSelector',
 					);
 					const hasPseudoClass = compound.some(
-						selector =>
-							selector.type === 'PseudoClassSelector',
+						selector => selector.type === 'PseudoClassSelector',
 					);
 
 					if (hasNesting && hasPseudoClass) {
@@ -67,7 +66,7 @@ const sortCompoundSelector = {
 									context.sourceCode.getText(
 										sorted[index],
 									),
-								),
+								)
 							);
 						},
 					});
@@ -78,7 +77,7 @@ const sortCompoundSelector = {
 				for (const child of node.children) {
 					if (child.type === 'Combinator') {
 						checkCompound();
-					} else if (child.type in order) {
+					} else if (Object.hasOwn(order, child.type)) {
 						compound.push(child);
 					}
 				}

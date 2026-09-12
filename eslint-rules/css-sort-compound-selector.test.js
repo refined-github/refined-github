@@ -31,7 +31,7 @@ test('css-sort-compound-selector', () => {
 			{code: '&:hover::before {}'},
 			{code: ':hover& {}'},
 
-			// pseudo-class/pseudo-element order is left alone: CSS grammar
+			// Pseudo-class/pseudo-element order is left alone: CSS grammar
 			// already enforces valid affixing, and swapping them changes meaning
 			// (e.g. `:hover::before` vs `::before:hover` select different things).
 			{code: '::before:hover {}'},
