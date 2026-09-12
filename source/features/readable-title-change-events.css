@@ -8,7 +8,7 @@ div:has(> span[class^='RenamedTitleEvent']),
 }
 
 span[class^='RenamedTitleEvent'],
-.TimelineItem-body :is(del, ins).markdown-title {
+.TimelineItem-body .markdown-title:is(del, ins) {
 	flex-basis: 100%;
 	order: 99;
 
