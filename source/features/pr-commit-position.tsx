@@ -1,6 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {$$optional, closestElement} from 'select-dom';
+import {$$, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -12,35 +12,34 @@ const buttonGroup = '[class^="prc-ButtonGroup-ButtonGroup"]';
 
 // GitHub shows at most 250 commits per PR, all on a single unpaginated page
 async function getCommits(commitsUrl: string): Promise<string[]> {
-	const list = await fetchDomUncached(commitsUrl);
-	const linkPrefix = new URL(commitsUrl).pathname + '/';
+	const list = await fetchDomUncached(commitsUrl + '/commits');
+	const linkPrefix = new URL(commitsUrl).pathname + '/changes/';
 
 	// Each row links the commit by title and by hash, the heading picks one of the two
-	return $$optional(`h4 a[href^="${linkPrefix}"]`, list)
+	return $$(`h4 a[href^="${linkPrefix}"]`, list)
 		.map(link => link.getAttribute('href')!.slice(linkPrefix.length));
 }
 
-// A PR can gain commits while it's being reviewed
 const commitHashes = new CachedFunction('pr-commit-hashes', {
 	updater: getCommits,
 	maxAge: {hours: 1},
 });
 
 async function add(navigationLink: HTMLAnchorElement): Promise<void> {
-	const commits = await commitHashes.get(buildRepoUrl('pull', getConversationNumber()!, 'commits'));
-	const position = commits.indexOf(getCleanPathname().split('/').pop()!) + 1;
-	if (position === 0) {
+	const commits = await commitHashes.get(buildRepoUrl('pull', getConversationNumber()!));
+	const position = commits.indexOf(getCleanPathname().split('/').pop()!);
+	if (position === -1) {
 		// Commits past the 250th aren't listed, so they can't be counted
-		if (commits.length >= 250) {
+		if (commits.length === 250) {
 			return;
 		}
 
-		throw new Error('The commit is missing from the PR’s commit list');
+		throw new Error('The commit is missing from the PR’s commit list, the PR might have changed since the last fetch');
 	}
 
 	closestElement(buttonGroup, navigationLink).after(
 		<span className="float-right flex-self-center color-fg-muted mx-2 tmp-mx-2 no-wrap">
-			{position} of {commits.length} commits
+			{position + 1} of {commits.length} commits
 		</span>,
 	);
 }
@@ -61,9 +60,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-Third of 23 commits: https://github.com/mavlink/mavlink-camera-manager/pull/594/commits/a02ae36205b66468223d521504ef6c44a443c597
-Same commit in the new PR view: https://github.com/mavlink/mavlink-camera-manager/pull/594/changes/a02ae36205b66468223d521504ef6c44a443c597
-Last of 23 commits: https://github.com/mavlink/mavlink-camera-manager/pull/594/commits/7774e1e625c69d458633cc0760d472fd40f8a4d5
-Single-commit PR, GitHub drops the navigation buttons so nothing is added: https://github.com/refined-github/sandbox/pull/10/commits/a34a1812612a03774cd1acfb39ee90acc72b0bde
+Commit 2 in a 251-commit PR: https://github.com/refined-github/sandbox/pull/165/changes/99ba8b70177b398046f214702d6a537ae8ba825a
 
 */
