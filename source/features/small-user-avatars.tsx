@@ -60,8 +60,11 @@ function initOnce(): void {
 			'[data-testid="created-at"]',
 			'[data-testid="closed-at"]',
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
-		'[aria-label^="Filter by author "]:not([aria-label$="[bot]"])', // Preview and global PR lists, including `attributed-author-filter-link`
-		'[data-testid="author-filter-link"][data-hovercard-type="user"]', // Global issue lists
+		// `a` on repository PR lists, including `attributed-author-filter-link` for app-created PRs
+		// `button` on https://github.com/pulls/authored
+		'[aria-label^="Filter by author "]:not([aria-label$="[bot]"])',
+		// `button` on https://github.com/issues/* (no aria-label, hides "Filter by author " in its text)
+		'[data-testid="author-filter-link"][data-hovercard-type="user"]',
 	], addAvatar);
 	observe(
 		'.user-mention' + not(
