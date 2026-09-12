@@ -18,20 +18,28 @@ const sortCompoundSelector = {
 			PseudoClassSelector: 4,
 		};
 
-		const isSortable = node => {
-			if (node.type in order) {
-				return true;
-			}
-
-			return false;
-		};
-
 		return {
 			Selector(node) {
 				let compound = [];
 
 				const checkCompound = () => {
 					if (compound.length < 2) {
+						compound = [];
+						return;
+					}
+
+					// Never move a nesting selector across a pseudo-class.
+					// This intentionally leaves both `&:hover` and `:hover&`
+					// alone.
+					const hasNesting = compound.some(
+						selector => selector.type === 'NestingSelector',
+					);
+					const hasPseudoClass = compound.some(
+						selector =>
+							selector.type === 'PseudoClassSelector',
+					);
+
+					if (hasNesting && hasPseudoClass) {
 						compound = [];
 						return;
 					}
@@ -56,7 +64,9 @@ const sortCompoundSelector = {
 							return compound.map((selector, index) =>
 								fixer.replaceText(
 									selector,
-									context.sourceCode.getText(sorted[index]),
+									context.sourceCode.getText(
+										sorted[index],
+									),
 								),
 							);
 						},
@@ -68,18 +78,8 @@ const sortCompoundSelector = {
 				for (const child of node.children) {
 					if (child.type === 'Combinator') {
 						checkCompound();
-						continue;
-					}
-
-					if (child.type === 'PseudoElementSelector') {
-						checkCompound();
-						continue;
-					}
-
-					if (isSortable(child)) {
+					} else if (child.type in order) {
 						compound.push(child);
-					} else {
-						checkCompound();
 					}
 				}
 
