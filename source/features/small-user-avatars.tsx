@@ -33,8 +33,7 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 }
 
 function addAvatar(link: HTMLElement): void {
-	const hovercardUrl = link.getAttribute('data-hovercard-url');
-	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : link.textContent;
+	const username = link.textContent;
 	const avatar = createAvatar(username, 14);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
@@ -60,8 +59,6 @@ function initOnce(): void {
 			'[data-testid="created-at"]',
 			'[data-testid="closed-at"]',
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
-		'[data-testid="author-filter-link"][aria-label^="Filter by author "]:not([aria-label$="[bot]"])', // Preview PR lists
-		'[data-testid="author-filter-link"][data-hovercard-type="user"]', // Global issue lists
 	], addAvatar);
 	observe(
 		'.user-mention' + not(
