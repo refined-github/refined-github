@@ -41,14 +41,13 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
+	const loggedInUser = CSS.escape(getLoggedInUser()!);
 	observe([
 		// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
-		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
-			CSS.escape(getLoggedInUser()!)
-		}/hovercard"]`,
-		`[data-testid="author-filter-link"][aria-label="Filter by author ${CSS.escape(getLoggedInUser()!)}"]`, // Preview and global PR lists
-		`[data-testid="author-filter-link"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`, // Global issue lists
+		`.opened-by a[title$="ed by ${loggedInUser}"]`,
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
+		`[data-testid="author-filter-link"][aria-label="Filter by author ${loggedInUser}"]`, // Preview and global PR lists
+		`[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`, // Global issue lists
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});
