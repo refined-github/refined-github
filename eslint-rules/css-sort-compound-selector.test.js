@@ -25,6 +25,11 @@ test('css-sort-compound-selector', () => {
 			{code: 'a:is(.foo, .bar)::before {}'},
 
 			{code: 'a.foo.bar[data-a][data-b]:focus:hover::before {}'},
+
+			{code: '&.foo {}'},
+			{code: '&#id.foo {}'},
+			{code: '&:hover {}'},
+			{code: '&:hover::before {}'},
 		],
 
 		invalid: [
@@ -46,6 +51,21 @@ test('css-sort-compound-selector', () => {
 			{
 				code: '.foo#a[data-x]:hover::before {}',
 				output: '#a.foo[data-x]:hover::before {}',
+				errors: [{messageId: 'sort'}],
+			},
+			{
+				code: ':is(a, button).rgh-own-conversation {}',
+				output: '.rgh-own-conversation:is(a, button) {}',
+				errors: [{messageId: 'sort'}],
+			},
+			{
+				code: '.foo& {}',
+				output: '&.foo {}',
+				errors: [{messageId: 'sort'}],
+			},
+			{
+				code: ':hover& {}',
+				output: '&:hover {}',
 				errors: [{messageId: 'sort'}],
 			},
 		],

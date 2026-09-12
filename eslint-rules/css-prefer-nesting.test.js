@@ -13,7 +13,6 @@ test('css-prefer-nesting', () => {
 	ruleTester.run('css-prefer-nesting', rule, {
 		valid: [
 			{code: 'a:is(.foo, .bar) {}'},
-			{code: ':is(.foo, .bar)::before {}'},
 			{code: '&:is(:focus, :hover) svg {}'},
 		],
 		invalid: [
@@ -25,6 +24,16 @@ test('css-prefer-nesting', () => {
 			{
 				code: ':is(.foo, .bar) a[data-x] {}',
 				output: '.foo, .bar {\n\ta[data-x] {}\n}',
+				errors: [{messageId: 'descendantIs'}],
+			},
+			{
+				code: ':is(.foo, .bar)::before {}',
+				output: '.foo, .bar {\n\t&::before {}\n}',
+				errors: [{messageId: 'descendantIs'}],
+			},
+			{
+				code: ':is(a, button).rgh-own-conversation {}',
+				output: 'a, button {\n\t&.rgh-own-conversation {}\n}',
 				errors: [{messageId: 'descendantIs'}],
 			},
 			{

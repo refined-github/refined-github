@@ -5,12 +5,13 @@ const preferNesting = {
 		fixable: 'code',
 		schema: [],
 		messages: {
-			descendantIs: 'Avoid `:is()` used with a descendant combinator. Use CSS nesting instead.',
+			descendantIs: 'Avoid `:is()` used with a descendant combinator or as the start of a selector. Use CSS nesting instead.',
 		},
 	},
 	create(context) {
 		const {sourceCode} = context;
 		const isDescendant = node => node?.type === 'Combinator' && node.name.trim() === '';
+		const isAttachedOrDescendant = node => node !== undefined && (node.type !== 'Combinator' || isDescendant(node));
 
 		return {
 			Rule(rule) {
@@ -35,8 +36,8 @@ const preferNesting = {
 
 						const nextItem = children[index + 1];
 						const before = isDescendant(previousItem);
-						const after = isDescendant(nextItem);
-						if (!before && !after) {
+						const startsWithIs = previousItem === undefined && isAttachedOrDescendant(nextItem);
+						if (!before && !startsWithIs) {
 							continue;
 						}
 
@@ -60,9 +61,12 @@ const preferNesting = {
 								}
 
 								// `:is(A, B) X` -> `A, B { X { … } }`
-								if (after && previousItem === undefined) {
-									const rest = text.slice(children[index + 2].loc.start.offset, children.at(-1).loc.end.offset).trim();
-									return fixer.replaceText(rule, `${arguments_} {\n\t${rest} ${block}\n}`);
+								// `:is(A, B).x` -> `A, B { &.x { … } }`
+								if (startsWithIs) {
+									const isCombinator = nextItem.type === 'Combinator';
+									const restStart = children[index + (isCombinator ? 2 : 1)];
+									const rest = text.slice(restStart.loc.start.offset, children.at(-1).loc.end.offset).trim();
+									return fixer.replaceText(rule, `${arguments_} {\n\t${isCombinator ? rest : `&${rest}`} ${block}\n}`);
 								}
 							},
 						});

@@ -11,6 +11,7 @@ const sortCompoundSelector = {
 
 	create(context) {
 		const order = {
+			NestingSelector: 0,
 			TypeSelector: 0,
 			IdSelector: 1,
 			ClassSelector: 2,
