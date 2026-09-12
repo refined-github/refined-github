@@ -659,6 +659,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/eb0f5e6e-9870-4daf-8c00-f1f23f61ef0f"
 	},
 	{
+		"id": "pr-commit-position",
+		"description": "Shows the position of the commit you are viewing in the PR.",
+		"screenshot": "https://github.com/user-attachments/assets/caa3cf32-0a9c-4bb0-a5bc-4e9f0cd1f1fc"
+	},
+	{
 		"id": "pr-filters",
 		"description": "Adds Checks and Draft PR dropdown filters in PR lists.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png"
