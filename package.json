@@ -105,6 +105,7 @@
 		"eslint-formatter-unix": "^9.0.1",
 		"eslint-plugin-byo": "^1.0.1",
 		"eslint-plugin-svelte": "^3.23.0",
+		"eslint-vitest-rule-tester": "^3.2.0",
 		"fast-ignore": "^2.0.0",
 		"filenamify": "^7.0.3",
 		"globals": "^17.12.0",
