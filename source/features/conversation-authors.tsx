@@ -41,12 +41,17 @@ async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
+	const loggedInUser = CSS.escape(getLoggedInUser()!);
 	observe([
 		// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
-		`.opened-by a[title$="ed by ${CSS.escape(getLoggedInUser()!)}"]`,
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
-			CSS.escape(getLoggedInUser()!)
-		}/hovercard"]`,
+		`.opened-by a[title$="ed by ${loggedInUser}"]`,
+		// `a` on https://github.com/refined-github/refined-github/issues
+		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
+		// `a` on https://github.com/refined-github/refined-github/pulls
+		// `button` on https://github.com/pulls/authored
+		`[aria-label="Filter by author ${loggedInUser}"]`,
+		// `button` on https://github.com/issues/created
+		`button[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});
@@ -70,6 +75,8 @@ void features.add(import.meta.url, {
 Test URLs:
 
 https://github.com/issues
+https://github.com/pulls/authored (user is not linkified at all on /pulls/inbox)
 https://github.com/refined-github/refined-github/issues
+https://github.com/refined-github/refined-github/pulls
 
 */

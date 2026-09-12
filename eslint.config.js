@@ -1,4 +1,3 @@
-import css from '@eslint/css';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
@@ -160,19 +159,8 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
-		rules: {
-			'refined-github/css-documentation': 'error',
-		},
-	},
-	{
 		files: ['**/*.css'],
 		language: 'css/css',
-		plugins: {css},
-		extends: ['css/recommended'],
-		languageOptions: {
-			tolerant: true, // Required for @container
-		},
 		rules: {
 			'css/no-important': 'off', // Intentionally used to override GitHub styles
 			'css/use-baseline': 'off', // We support the latest browsers only
@@ -182,6 +170,12 @@ export default defineConfig([
 			'refined-github/css-require-fuchsia-fallback': 'error',
 			'refined-github/css-prefer-nesting': 'error',
 			'refined-github/css-no-useless-function': 'error',
+		},
+	},
+	{
+		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
+		rules: {
+			'refined-github/css-documentation': 'error',
 		},
 	},
 	{
