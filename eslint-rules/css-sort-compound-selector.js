@@ -18,6 +18,14 @@ const sortCompoundSelector = {
 			PseudoClassSelector: 4,
 		};
 
+		const isSortable = node => {
+			if (node.type in order) {
+				return true;
+			}
+
+			return false;
+		};
+
 		return {
 			Selector(node) {
 				let compound = [];
@@ -48,10 +56,8 @@ const sortCompoundSelector = {
 							return compound.map((selector, index) =>
 								fixer.replaceText(
 									selector,
-									context.sourceCode.getText(
-										sorted[index],
-									),
-								)
+									context.sourceCode.getText(sorted[index]),
+								),
 							);
 						},
 					});
@@ -62,8 +68,18 @@ const sortCompoundSelector = {
 				for (const child of node.children) {
 					if (child.type === 'Combinator') {
 						checkCompound();
-					} else if (child.type in order) {
+						continue;
+					}
+
+					if (child.type === 'PseudoElementSelector') {
+						checkCompound();
+						continue;
+					}
+
+					if (isSortable(child)) {
 						compound.push(child);
+					} else {
+						checkCompound();
 					}
 				}
 

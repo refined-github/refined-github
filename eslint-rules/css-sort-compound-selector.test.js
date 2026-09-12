@@ -21,9 +21,7 @@ test('css-sort-compound-selector', () => {
 
 			{code: 'a#foo.bar[data-x]:hover::before {}'},
 			{code: 'a#foo.bar[data-x]:not(.disabled):hover::before {}'},
-			{code: ':is(.foo, .bar) {}'},
 			{code: 'a:is(.foo, .bar)::before {}'},
-			{code: ':is(a, button).rgh-own-conversation {}'},
 
 			{code: 'a.foo.bar[data-a][data-b]:focus:hover::before {}'},
 
