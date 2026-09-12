@@ -10,8 +10,8 @@ import observe from '../helpers/selector-observer.js';
 import {issueIcons} from './select-notifications.js';
 
 function mark(issueLink: HTMLAnchorElement): void {
-	// The href attribute in the pinned issue list contains the absolute URL
-	if (!elementExists(`[class*='PinnedIssues-module__container'] a[href="${issueLink.href}"]`)) {
+	// The href attribute in the pinned issue list may be relative or absolute, so match by pathname
+	if (!elementExists(`[class*='PinnedIssues-module__container'] a[href$="${issueLink.pathname}"]`)) {
 		return;
 	}
 
