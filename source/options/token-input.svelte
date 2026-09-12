@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {closestElement} from 'select-dom';
-	import {SvelteMap} from 'svelte/reactivity';
 	import {assertError} from 'ts-extras';
 
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
@@ -15,33 +14,8 @@
 	let focused = $state(false);
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
-	let validationText = $state('');
-	let validationError = $state(false);
-	let scopes = $state<string[]>(['unknown']);
 
-	const scopeElements = [
-		'valid_token',
-		'public_repo',
-		'repo',
-		'read:project',
-		'workflow',
-	];
-
-	const scopeStates = $derived.by(() => {
-		const map = new SvelteMap<string, 'valid' | 'invalid' | ''>();
-		for (const scope of scopeElements) {
-			map.set(
-				scope,
-				scopes.includes(scope)
-					? 'valid'
-					: scopes.includes('unknown')
-					? ''
-					: 'invalid',
-			);
-		}
-
-		return map;
-	});
+	type Validation = {message: string; error?: boolean; scopes?: string[]};
 
 	function getApiUrl(): string {
 		return !host || host === 'github.com'
@@ -53,11 +27,18 @@
 		closestElement('details', tokenField).open = true;
 	}
 
-	async function validateToken(value: string): Promise<void> {
-		validationText = '';
-		validationError = false;
-		scopes = ['unknown'];
+	function getScopeState(
+		scope: string,
+		scopes?: string[],
+	): 'valid' | 'invalid' | undefined {
+		return scopes?.includes(scope)
+			? 'valid'
+			: scopes
+			? 'invalid'
+			: undefined;
+	}
 
+	async function validateToken(value: string): Promise<Validation | undefined> {
 		// Silence first run
 		if (value === initialMagicValue) {
 			return;
@@ -67,8 +48,6 @@
 			expandTokenSection();
 			return;
 		}
-
-		validationText = 'Validating…';
 
 		try {
 			const base = getApiUrl();
@@ -81,40 +60,57 @@
 				tokenInfo.expiration
 				&& new Date(tokenInfo.expiration).getTime() < Date.now()
 			) {
-				validationText = 'Token expired';
-				validationError = true;
 				expandTokenSection();
-				return;
+				return {message: 'Token expired', error: true};
 			}
 
 			// Build status message with user and expiration
-			let statusMessage = `👤 @${user}`;
+			let message = `👤 @${user}`;
 			if (tokenInfo.expiration) {
 				const msUntilExpiration = new Date(tokenInfo.expiration).getTime()
 					- Date.now();
 				const daysUntilExpiration = Math.ceil(
 					msUntilExpiration / (1000 * 60 * 60 * 24),
 				);
-				statusMessage += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
+				message += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
 			} else {
-				statusMessage += ', no expiration';
+				message += ', no expiration';
 			}
 
-			validationText = statusMessage;
-			scopes = tokenInfo.scopes;
+			return {message, scopes: tokenInfo.scopes};
 		} catch (error) {
 			assertError(error);
-			validationText = error.message + ' (expired?)';
-			validationError = true;
 			expandTokenSection();
-			throw error;
+			throw new Error(`${error.message} (expired?)`, {cause: error});
 		}
 	}
 
-	$effect(() => {
-		validateToken(tokenValue);
-	});
+	const tokenPromise = $derived(validateToken(tokenValue));
 </script>
+
+{#snippet scopesList(scopes?: string[])}
+	<li data-validation={getScopeState('valid_token', scopes)}>
+		The token enables <a href={apiFeaturesUrl}>some features</a>
+		to <strong>read</strong> data from public repositories
+	</li>
+	<li data-validation={getScopeState('public_repo', scopes)}>
+		The <code>public_repo</code> scope lets them <strong>edit</strong> your
+		public repositories
+	</li>
+	<li data-validation={getScopeState('repo', scopes)}>
+		The <code>repo</code> scope lets them <strong>edit private</strong>
+		repositories as well
+	</li>
+	<li data-validation={getScopeState('read:project', scopes)}>
+		The <code>read:project</code> scope lets them determine if a repo/org uses
+		projects
+	</li>
+	<li data-validation={getScopeState('workflow', scopes)}>
+		The <code>workflow</code> scope lets them
+		<strong>edit workflow files</strong>
+		<code>.github/workflows/*.yml</code>
+	</li>
+{/snippet}
 
 <p>
 	<input
@@ -134,42 +130,35 @@
 			focused = false;
 		}}
 	/>
-	<span data-validation={validationError ? 'invalid' : undefined}>
-		{validationText}
-	</span>
+	{#await tokenPromise}
+		<span>Validating…</span>
+	{:then result}
+		<span data-validation={result?.error ? 'invalid' : undefined}>
+			{result?.message ?? ''}
+		</span>
+	{:catch error}
+		<span data-validation="invalid">{error.message}</span>
+	{/await}
 </p>
 <ul>
-	<li data-validation={scopeStates.get('valid_token')}>
-		The token enables <a href={apiFeaturesUrl}>some features</a>
-		to <strong>read</strong> data from public repositories
-	</li>
-	<li data-validation={scopeStates.get('public_repo')}>
-		The <code>public_repo</code> scope lets them <strong>edit</strong> your
-		public repositories
-	</li>
-	<li data-validation={scopeStates.get('repo')}>
-		The <code>repo</code> scope lets them <strong>edit private</strong>
-		repositories as well
-	</li>
-	<li data-validation={scopeStates.get('read:project')}>
-		The <code>read:project</code> scope lets them determine if a repo/org uses
-		projects
-	</li>
-	<li data-validation={scopeStates.get('workflow')}>
-		The <code>workflow</code> scope lets them
-		<strong>edit workflow files</strong>
-		<code>.github/workflows/*.yml</code>
-	</li>
+	{#await tokenPromise}
+		{@render scopesList()}
+	{:then result}
+		{@render scopesList(result?.scopes)}
+	{:catch}
+		{@render scopesList()}
+	{/await}
 </ul>
+
 <style>
-	[data-validation] {
+	li {
 		padding-left: 1.8em;
 
 		/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
 		display: inline-block;
 	}
 
-	[data-validation]::before {
+	li::before {
 		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 		width: 16px;
 		height: 16px;
