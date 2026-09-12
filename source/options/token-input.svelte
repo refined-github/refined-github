@@ -15,7 +15,7 @@
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
 
-	type Validation = {message: string; error?: boolean; scopes: string[]};
+	type Validation = {message: string; error?: boolean; scopes?: string[]};
 
 	function getApiUrl(): string {
 		return !host || host === 'github.com'
@@ -29,13 +29,13 @@
 
 	function getScopeState(
 		scope: string,
-		scopes: string[],
-	): 'valid' | 'invalid' | '' {
-		return scopes.includes(scope)
+		scopes?: string[],
+	): 'valid' | 'invalid' | undefined {
+		return scopes?.includes(scope)
 			? 'valid'
-			: scopes.includes('unknown')
-			? ''
-			: 'invalid';
+			: scopes
+			? 'invalid'
+			: undefined;
 	}
 
 	async function validateToken(value: string): Promise<Validation | undefined> {
@@ -61,7 +61,7 @@
 				&& new Date(tokenInfo.expiration).getTime() < Date.now()
 			) {
 				expandTokenSection();
-				return {message: 'Token expired', error: true, scopes: ['unknown']};
+				return {message: 'Token expired', error: true};
 			}
 
 			// Build status message with user and expiration
@@ -88,7 +88,7 @@
 	const tokenPromise = $derived(validateToken(tokenValue));
 </script>
 
-{#snippet scopesList(scopes: string[])}
+{#snippet scopesList(scopes?: string[])}
 	<li data-validation={getScopeState('valid_token', scopes)}>
 		The token enables <a href={apiFeaturesUrl}>some features</a>
 		to <strong>read</strong> data from public repositories
@@ -142,23 +142,23 @@
 </p>
 <ul>
 	{#await tokenPromise}
-		{@render scopesList(['unknown'])}
+		{@render scopesList()}
 	{:then result}
-		{@render scopesList(result?.scopes ?? ['unknown'])}
+		{@render scopesList(result?.scopes)}
 	{:catch}
-		{@render scopesList(['unknown'])}
+		{@render scopesList()}
 	{/await}
 </ul>
 
 <style>
-	[data-validation] {
+	li {
 		padding-left: 1.8em;
 
 		/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
 		display: inline-block;
 	}
 
-	[data-validation]::before {
+	li::before {
 		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 		width: 16px;
 		height: 16px;
