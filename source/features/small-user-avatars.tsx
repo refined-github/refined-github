@@ -60,7 +60,7 @@ function initOnce(): void {
 			'[data-testid="created-at"]',
 			'[data-testid="closed-at"]',
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
-		'[data-testid="author-filter-link"][aria-label^="Filter by author "]:not([aria-label$="[bot]"])', // Preview and global PR lists
+		'[aria-label^="Filter by author "]:not([aria-label$="[bot]"])', // Preview and global PR lists, including `attributed-author-filter-link`
 		'[data-testid="author-filter-link"][data-hovercard-type="user"]', // Global issue lists
 	], addAvatar);
 	observe(
