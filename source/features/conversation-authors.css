@@ -10,19 +10,21 @@
 	}
 }
 
-:is(a, button).rgh-own-conversation,
-:is(a, button).rgh-own-conversation:hover {
-	/* Colors taken from native .user-mention class */
-	color: var(
-		--color-user-mention-fg,
-		fuchsia
-	) !important; /* Their :hover	uses !important... */
-	background-color: var(
-		--bgColor-attention-muted,
-		var(--color-attention-subtle, fuchsia)
-	);
-}
+.rgh-own-conversation:is(a, button) {
+	&,
+	&:hover {
+		/* Colors taken from native .user-mention class */
+		color: var(
+			--color-user-mention-fg,
+			fuchsia
+		) !important; /* Their :hover	uses !important... */
+		background-color: var(
+			--bgColor-attention-muted,
+			var(--color-attention-subtle, fuchsia)
+		);
+	}
 
-:is(a, button).rgh-own-conversation:hover {
-	text-decoration: underline !important;
+	&:hover {
+		text-decoration: underline !important;
+	}
 }
