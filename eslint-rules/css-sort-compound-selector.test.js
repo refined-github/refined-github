@@ -23,6 +23,7 @@ test('css-sort-compound-selector', () => {
 			{code: 'a#foo.bar[data-x]:not(.disabled):hover::before {}'},
 			{code: ':is(.foo, .bar) {}'},
 			{code: 'a:is(.foo, .bar)::before {}'},
+			{code: ':is(a, button).rgh-own-conversation {}'},
 
 			{code: 'a.foo.bar[data-a][data-b]:focus:hover::before {}'},
 
@@ -30,6 +31,13 @@ test('css-sort-compound-selector', () => {
 			{code: '&#id.foo {}'},
 			{code: '&:hover {}'},
 			{code: '&:hover::before {}'},
+			{code: ':hover& {}'},
+
+			// pseudo-class/pseudo-element order is left alone: CSS grammar
+			// already enforces valid affixing, and swapping them changes meaning
+			// (e.g. `:hover::before` vs `::before:hover` select different things).
+			{code: '::before:hover {}'},
+			{code: ':hover::before {}'},
 		],
 
 		invalid: [
@@ -39,13 +47,8 @@ test('css-sort-compound-selector', () => {
 				errors: [{messageId: 'sort'}],
 			},
 			{
-				code: '[data-x]a {}',
-				output: 'a[data-x] {}',
-				errors: [{messageId: 'sort'}],
-			},
-			{
-				code: '::before:hover {}',
-				output: ':hover::before {}',
+				code: '[data-x]#foo {}',
+				output: '#foo[data-x] {}',
 				errors: [{messageId: 'sort'}],
 			},
 			{
@@ -61,11 +64,6 @@ test('css-sort-compound-selector', () => {
 			{
 				code: '.foo& {}',
 				output: '&.foo {}',
-				errors: [{messageId: 'sort'}],
-			},
-			{
-				code: ':hover& {}',
-				output: '&:hover {}',
 				errors: [{messageId: 'sort'}],
 			},
 		],

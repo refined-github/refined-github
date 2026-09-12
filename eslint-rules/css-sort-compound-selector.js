@@ -1,4 +1,3 @@
-/** @type {import('eslint').Rule.RuleModule} */
 const sortCompoundSelector = {
 	meta: {
 		type: 'suggestion',
@@ -17,7 +16,6 @@ const sortCompoundSelector = {
 			ClassSelector: 2,
 			AttributeSelector: 3,
 			PseudoClassSelector: 4,
-			PseudoElementSelector: 5,
 		};
 
 		return {
@@ -64,7 +62,7 @@ const sortCompoundSelector = {
 				for (const child of node.children) {
 					if (child.type === 'Combinator') {
 						checkCompound();
-					} else {
+					} else if (child.type in order) {
 						compound.push(child);
 					}
 				}
