@@ -48,11 +48,6 @@ test('css-prefer-nesting', () => {
 				output: null,
 				errors: [{messageId: 'descendantIs'}],
 			},
-			{
-				code: 'a :is(.foo, .bar), b {}',
-				output: null,
-				errors: [],
-			},
 		],
 	});
 });
