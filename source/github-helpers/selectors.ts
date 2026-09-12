@@ -64,12 +64,12 @@ export const openPrsListLink = [
 			.octicon-git-pull-request-draft
 		) a.js-navigation-open
 	`,
-	// React view
+	// React issue list
 	css`
 		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
-	// New PR lists
-	'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
+	// React PR list
+	css`a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]`,
 ];
 
 export const openPrsListLink_ = [
