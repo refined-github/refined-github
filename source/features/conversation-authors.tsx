@@ -47,8 +47,8 @@ function highlightSelf(signal: AbortSignal): void {
 		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${
 			CSS.escape(getLoggedInUser()!)
 		}/hovercard"]`,
-		`[data-testid="author-filter-link"][aria-label="Filter by author ${CSS.escape(getLoggedInUser()!)}"]`,
-		`[data-testid="author-filter-link"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`,
+		`[data-testid="author-filter-link"][aria-label="Filter by author ${CSS.escape(getLoggedInUser()!)}"]`, // Preview and global PR lists
+		`[data-testid="author-filter-link"][data-hovercard-url="/users/${CSS.escape(getLoggedInUser()!)}/hovercard"]`, // Global issue lists
 	], author => {
 		author.classList.add('rgh-own-conversation');
 	}, {signal});
