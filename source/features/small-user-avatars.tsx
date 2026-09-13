@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import {assertUsername} from '../github-helpers/index.js';
 import {is, not} from '../helpers/css-selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
@@ -32,9 +33,21 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 	);
 }
 
+function extractUsername(element: HTMLElement): string {
+	// Preview issue lists have no aria-label and wrap the login in a visually hidden "Filter by author " label, so it's read from `data-hovercard-url` instead.
+	// Preview PR lists have no data-hovercard-url; both aria-label and textContent are the bare login there.
+	// Legacy lists need none of this: their selectors only match user hovercards, so their text is always a login.
+	const hovercardUrl = element.getAttribute('data-hovercard-url');
+	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : element.textContent;
+
+	// The extracted login is used to build an avatar URL, anything else (e.g. "Filter by author X") would be broken
+	assertUsername(username);
+
+	return username;
+}
+
 function addAvatar(link: HTMLElement): void {
-	const hovercardUrl = link.getAttribute('data-hovercard-url');
-	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : link.textContent;
+	const username = extractUsername(link);
 	const avatar = createAvatar(username, 14);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
