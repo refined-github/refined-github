@@ -1,0 +1,13 @@
+.rgh-mark-locked-issues-in-lists {
+	position: relative;
+
+	/* Centered under the state icon. Absolute so it can't change the row height or the icon's size */
+	> .rgh-mark-locked-issues-in-lists-badge {
+		position: absolute;
+		top: calc(100% + var(--base-size-4, 4px));
+		left: 50%;
+		translate: -50%;
+		display: flex; /* Drops the inline baseline gap, so the box is exactly as tall as the icon */
+		color: var(--fgColor-muted, fuchsia);
+	}
+}
