@@ -3,8 +3,15 @@ import {$optional} from 'select-dom';
 
 import {assertUsername} from './index.js';
 
+// GitHub App IDs
 const appAvatarIds = new Map<string, string>([
 	['dependabot', '29110'],
+	['github-actions', '15368'],
+	['renovate', '2740'],
+	['stale', '1724'],
+	['bors', '1847'],
+	['ImgBotApp', '4706'],
+	['scala-steward', '27233'],
 	['Copilot', '1143301'],
 	['copilot-coding-agent-docs', '1143301'],
 	['copilot-swe-agent', '1143301'],
