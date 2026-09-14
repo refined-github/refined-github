@@ -2,11 +2,12 @@ import './small-user-avatars.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import regexJoin from 'regex-join';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
 import {assertUsername} from '../github-helpers/index.js';
-import {is, not} from '../helpers/css-selectors.js';
+import {not} from '../helpers/css-selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -33,21 +34,39 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 	);
 }
 
-function extractUsername(element: HTMLElement): string {
-	// Preview issue lists have no aria-label and wrap the login in a visually hidden "Filter by author " label, so it's read from `data-hovercard-url` instead.
-	// Preview PR lists have no data-hovercard-url; both aria-label and textContent are the bare login there.
-	// Legacy lists need none of this: their selectors only match user hovercards, so their text is always a login.
-	const hovercardUrl = element.getAttribute('data-hovercard-url');
-	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : element.textContent;
+/** Extracts user from attribute values */
+const userAttributeRegex = regexJoin(
+	// [data-hovercard-url="/users/fregante/hovercard"]
+	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+lol+wow
+	/^[/]users[/](?<username>[^/]+)[/]hovercard$/,
 
-	// The extracted login is used to build an avatar URL, anything else (e.g. "Filter by author X") would be broken
-	// GitHub appends `[bot]` to bot logins in PR lists.
-	assertUsername(username.replace(/\[bot\]$/, ''));
+	// [data-hovercard-url="/copilot/hovercard?bot=copilot-swe-agent"]
+	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aclosed+copilot+regression
+	/^[/]copilot[/]hovercard[?]bot=(?<username>[^&?]+)$/,
+
+	// [aria-label="Filter by author github-user-here"]
+	// https://github.com/pulls/involves
+	/^Filter by author (?<username>[^ ]+)$/,
+);
+
+function extractUsername(element: HTMLAnchorElement | HTMLButtonElement): string {
+	// Prefer reading username from URL if present.
+	// - [data-hovercard-url]: everywhere but the React PR lists (global and repo)
+	// - [aria-label="Filter by author github-user-here"]: in React PR lists (global and repo)
+	const attribute = element.getAttribute('data-hovercard-url') ?? element.getAttribute('aria-label');
+
+	// If there's no match, the following assertion will fail
+	const username = userAttributeRegex.exec(attribute!)?.groups?.username
+		// Fallback to the last child text content if it couldn't be extracted from known strings
+		?? element.lastChild?.textContent.trim();
+
+	// GitHub appends `[bot]` to bots in PR lists.
+	assertUsername(username?.replace(/\[bot\]$/, ''));
 
 	return username;
 }
 
-function addAvatar(link: HTMLElement): void {
+function addIssueRowAvatar(link: HTMLAnchorElement | HTMLButtonElement): void {
 	const username = extractUsername(link);
 	const avatar = createAvatar(username, 14);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
@@ -67,18 +86,16 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 
 function initOnce(): void {
 	observe([
-		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
-		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		is(
-			'[data-testid="created-at"]',
-			'[data-testid="closed-at"]',
-		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
+		'.js-issue-row a[data-hovercard-type="user"]', // `isPRList` TODO: Drop in February 2027
+		'.notification-thread-subscription a[data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+		'[data-testid="created-at"] a[data-hovercard-url*="/users"]', // `isIssueList`
+		'[data-testid="closed-at"] a[data-hovercard-url*="/users"]', // `isIssueList`
 		// `a` on repository PR lists, including `attributed-author-filter-link` for app-created PRs
 		// `button` on https://github.com/pulls/authored
-		'[aria-label^="Filter by author "]',
+		'[aria-label^="Filter by author "]:is(a, button)',
 		// `button` on https://github.com/issues/* (no aria-label, hides "Filter by author " in its text)
-		'[data-testid="author-filter-link"][data-hovercard-type="user"]',
-	], addAvatar);
+		'button[data-testid="author-filter-link"][data-hovercard-type="user"]',
+	], addIssueRowAvatar);
 	observe(
 		'.user-mention' + not(
 			'.opened-by > *', // Merge queue
@@ -119,5 +136,6 @@ https://github.com/refined-github/refined-github/issues/8802#issuecomment-371116
 https://github.com/refined-github/refined-github/releases
 https://github.com/refined-github/refined-github/releases/tag/23.9.21
 https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
+User with AI bot: https://github.com/pulls/authored?q=is%3Apr+author%3Afregante+state%3Aopen+archived%3Afalse+sort%3Aupdated-desc+linkify
 
 */
