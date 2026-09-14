@@ -41,7 +41,8 @@ function extractUsername(element: HTMLElement): string {
 	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : element.textContent;
 
 	// The extracted login is used to build an avatar URL, anything else (e.g. "Filter by author X") would be broken
-	assertUsername(username);
+	// GitHub appends `[bot]` to bot logins in PR lists.
+	assertUsername(username.replace(/\[bot\]$/, ''));
 
 	return username;
 }
@@ -65,7 +66,6 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 }
 
 function initOnce(): void {
-	// Excludes bots
 	observe([
 		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
 		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
@@ -75,7 +75,7 @@ function initOnce(): void {
 		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
 		// `a` on repository PR lists, including `attributed-author-filter-link` for app-created PRs
 		// `button` on https://github.com/pulls/authored
-		'[aria-label^="Filter by author "]:not([aria-label$="[bot]"])',
+		'[aria-label^="Filter by author "]',
 		// `button` on https://github.com/issues/* (no aria-label, hides "Filter by author " in its text)
 		'[data-testid="author-filter-link"][data-hovercard-type="user"]',
 	], addAvatar);
