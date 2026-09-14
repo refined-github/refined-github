@@ -1,0 +1,7 @@
+query CountBugOverlap($owner: String!, $name: String!, $label: String!) {
+	repository(owner: $owner, name: $name) {
+		overlap: issues(filterBy: { type: "Bug", labels: [$label], states: OPEN }) {
+			totalCount
+		}
+	}
+}

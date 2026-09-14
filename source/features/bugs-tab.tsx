@@ -11,6 +11,7 @@ import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import {addTab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
+import CountBugOverlap from './bugs-tab-overlap.gql';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
@@ -35,6 +36,10 @@ type Bugs = {
 	count: number;
 };
 
+function getFullSearchQuery(bugsLabel: string): string {
+	return `(label:${SearchQuery.escapeValue(bugsLabel)} OR type:Bug)`;
+}
+
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
 	const bugTypeCount = repository.typeBug.totalCount;
@@ -43,12 +48,35 @@ async function countBugs(): Promise<Bugs> {
 	label ??= repository.labels.nodes.find(({name}) => isBugLabel(name));
 
 	// Label might not be found if the repo uses a non-standard bug label name
-	const bugLabelCount = label?.issues.totalCount ?? 0;
-	const bugCount = Math.max(bugTypeCount, bugLabelCount);
+	const bugsLabel = label?.name ?? 'bug';
+	const bugLabelCount = label ? label.issues.totalCount : 0;
+	const approximateCount = Math.max(bugTypeCount, bugLabelCount);
+
+	// Avoid a second request on repositories that have no bugs at all
+	if (approximateCount === 0 || repository.issues.totalCount === 0) {
+		return {
+			label: bugsLabel,
+			count: 0,
+		};
+	}
+
+	const {repository: overlapRepository} = await api.v4(CountBugOverlap, {
+		variables: {
+			label: bugsLabel,
+		},
+	}) as {
+		repository: {
+			overlap: {
+				totalCount: number;
+			};
+		};
+	};
+
+	// Count label OR type exactly: |A ∪ B| = |A| + |B| - |A ∩ B|
+	const bugCount = bugLabelCount + bugTypeCount - overlapRepository.overlap.totalCount;
 
 	return {
-		// Label might not be found if the repo uses a non-standard bug label name
-		label: label?.name ?? 'bug',
+		label: bugsLabel,
 
 		// GitHub bug: labelled issues are counted even if issues are disabled
 		count: Math.min(bugCount, repository.issues.totalCount),
@@ -67,14 +95,10 @@ async function getBugsLabel(): Promise<string> {
 	return label ?? 'bug';
 }
 
-function getFullSearchQuery(bugsLabel: string): string {
-	return `(label:${bugsLabel} OR type:Bug)`;
-}
-
 async function isBugsListing(): Promise<boolean> {
 	const query = SearchQuery.from(location);
 	const bugsLabel = await getBugsLabel();
-	return query.includes(`label:${bugsLabel}`) || query.includes(getFullSearchQuery(bugsLabel));
+	return query.includes(`label:${SearchQuery.escapeValue(bugsLabel)}`) || query.includes(getFullSearchQuery(bugsLabel));
 }
 
 async function addBugsTabOnce(): Promise<void | false> {
