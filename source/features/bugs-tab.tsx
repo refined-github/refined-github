@@ -52,7 +52,7 @@ async function countBugs(): Promise<Bugs> {
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
 	return {
-		label: label?.name ?? 'bug',
+		label: label ? label.name : 'bug',
 
 		// GitHub bug: labelled issues are counted even if issues are disabled
 		count: Math.min(bugCount, repository.issues.totalCount),
