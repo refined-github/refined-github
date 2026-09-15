@@ -226,6 +226,12 @@ export function assertCommitHash(hash: string): void {
 	}
 }
 
+export function assertUsername(username: string): void {
+	if (/[^\w-]/.test(username)) {
+		throw new TypeError(`Expected a username, got ${username}`);
+	}
+}
+
 /** Use instead of location.assign() */
 export function visitAjaxedPage(url: string): void {
 	const anchor = document.createElement('a');
