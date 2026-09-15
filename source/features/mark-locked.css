@@ -1,0 +1,14 @@
+.rgh-mark-locked {
+	position: relative;
+
+	/* Centered under the state icon and aligned with the row's second line.
+	   Absolute so it can't change the row height or the icon's size */
+	span {
+		position: absolute;
+		top: calc(100% + 9px);
+		left: 50%;
+		translate: -50%;
+		display: flex; /* Drops the inline baseline gap, so the box is exactly as tall as the icon */
+		color: var(--fgColor-muted, fuchsia);
+	}
+}

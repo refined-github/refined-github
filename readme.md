@@ -201,7 +201,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label (depends on `extensible-nav` feature).](https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png)
 - [](# "pinned-issues-update-time") [Replaces the "opened" time with the "updated" time on pinned issues.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/240707405-e416be14-5ab5-4869-b33c-f43aab7afcb6.png)
 - [](# "mark-pinned") [Marks pinned issues in the issues list so duplicate rows are immediately recognizable.](https://github.com/user-attachments/assets/8ca3eb03-9567-4894-ace3-98de4d453f86)
-- [](# "mark-locked-issues-in-lists") [Adds a lock icon to locked issues and PRs in issue/PR lists.](https://github.com/user-attachments/assets/9b889f8d-6e7b-46c8-a0bf-4be7449500f6)
+- [](# "mark-locked") [Marks locked issues and PRs in lists in repositories.](https://github.com/user-attachments/assets/4b186778-d9d5-447f-8077-d645dd5a8b17)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258224321-e8ee8c70-6952-4a42-8626-6b5f31d167a3.png)
 - [](# "quick-label-removal") [Adds one-click buttons to remove labels in issues/PRs.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)

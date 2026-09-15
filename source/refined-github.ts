@@ -219,4 +219,4 @@ import './features/easy-toggle-hidden-comments.js';
 import './features/extend-repo-tabs.js';
 import './features/delete-branch.js';
 import './features/pr-from-branch.js';
-import './features/mark-locked-issues-in-lists.js';
+import './features/mark-locked.js';
