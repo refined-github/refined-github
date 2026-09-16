@@ -14,8 +14,8 @@ export function wasInteractiveElementClicked(event: DelegateEvent<MouseEvent>): 
 }
 
 function toggleCommitMessage(event: DelegateEvent<MouseEvent>): void {
+	// Avoid conflicts with user actions
 	if (wasInteractiveElementClicked(event) || getSelection()?.toString().length !== 0) {
-		// There is text selection
 		return;
 	}
 
