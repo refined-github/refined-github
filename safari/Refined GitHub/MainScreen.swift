@@ -142,10 +142,14 @@ struct MainScreen: View {
 	private func openExtensionSettings() async {
 		do {
 			try await SafariExtension.openSettings(forIdentifier: Constants.extensionBundleIdentifier)
-			NSApplication.shared.terminate(nil)
 		} catch {
-			error.present()
+			// This sometimes fails randomly, so we fall back to just opening Safari.
+			if let safariURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari") {
+				_ = try? await NSWorkspace.shared.openApplication(at: safariURL, configuration: NSWorkspace.OpenConfiguration())
+			}
 		}
+
+		NSApplication.shared.terminate(nil)
 	}
 	#else
 	@available(iOS 26.2, visionOS 26.2, *)
