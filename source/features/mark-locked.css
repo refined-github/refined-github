@@ -1,8 +1,7 @@
 .rgh-mark-locked {
 	position: relative;
 
-	/* Centered under the state icon and aligned with the row's second line.
-	   Absolute so it can't change the row height or the icon's size */
+	/* Centered under the state icon and aligned with the row's second line */
 	span {
 		position: absolute;
 		top: calc(100% + 9px);
