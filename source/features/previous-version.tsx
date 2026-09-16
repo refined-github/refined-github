@@ -8,11 +8,11 @@ import onReactPageUpdate from '../github-events/on-react-page-update.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import observe from '../helpers/selector-observer.js';
-import previousVersionQuery from './previous-version.gql';
+import GetPreviousCommitForFile from './previous-version.gql';
 
 async function getPreviousCommitForFile(pathname: string): Promise<string | undefined> {
 	const {user, repository, branch, filePath} = new GitHubFileUrl(pathname);
-	const {resource} = await api.v4(previousVersionQuery, {
+	const {resource} = await api.v4(GetPreviousCommitForFile, {
 		variables: {
 			filePath,
 			resource: `/${user}/${repository}/commit/${branch}`,

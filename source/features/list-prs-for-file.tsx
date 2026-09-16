@@ -10,7 +10,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
-import listPrsForFileQuery from './list-prs-for-file.gql';
+import GetPrsByFile from './list-prs-for-file.gql';
 
 function getPrUrl(prNumber: number): string {
 	const hash = `#:~:text=${new GitHubFileUrl(location.href).filePath}`;
@@ -78,7 +78,7 @@ function getDropdown(prs: number[]): HTMLElement {
 */
 const prsByFileCache = new CachedFunction('files-with-prs', {
 	async updater(): Promise<Record<string, number[]>> {
-		const {repository} = await api.v4(listPrsForFileQuery, {
+		const {repository} = await api.v4(GetPrsByFile, {
 			variables: {
 				defaultBranch: await getDefaultBranch(),
 			},

@@ -17,7 +17,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import getPublishRepoState from './unreleased-commits.gql';
+import GetPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -38,7 +38,7 @@ const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
-		const {repository} = await api.v4(getPublishRepoState);
+		const {repository} = await api.v4(GetPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {
 			return {
