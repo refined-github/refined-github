@@ -107,8 +107,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 
 	observe(
-		(isUserModerator ? '' : '.current-user')
-		+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
+		(isUserModerator ? '' : '.current-user') + '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButtonLegacy,
 		{signal},
 	);

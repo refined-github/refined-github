@@ -119,11 +119,7 @@ async function init(): Promise<void> {
 			);
 
 			// The page of a tag without a release still uses the old layout #5037
-			if (
-				pageDetect.isEnterprise()
-				|| pageDetect.isTags()
-				|| (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))
-			) {
+			if (pageDetect.isEnterprise() || pageDetect.isTags() || (pageDetect.isSingleReleaseOrTag() && elementExists('.release'))) {
 				lastLink.after(
 					<li className={cx(lastLink.className, 'rgh-changelog-link')}>
 						{compareLink}

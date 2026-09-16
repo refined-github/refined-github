@@ -160,17 +160,18 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		return error;
 	}
 
-	const error = new RefinedGitHubApiError(
+	const errorMessages = [
 		'Unable to fetch.',
 		personalToken
 			? 'Ensure that your token has access to this repo.'
 			: 'Maybe adding a token in the options will fix this issue.',
 		// https://github.com/refined-github/refined-github/pull/9525
-		Array.isArray(apiResponse.errors)
+		...(Array.isArray(apiResponse.errors)
 			// eslint-disable-next-line @typescript-eslint/no-base-to-string
-			? apiResponse.errors.join('.\n')
-			: JSON.stringify(apiResponse, undefined, '\t'), // Beautify
-	);
+			? apiResponse.errors.map(e => e.message)
+			: [JSON.stringify(apiResponse, undefined, '\t')]), // Beautify
+	];
+	const error = new RefinedGitHubApiError(...errorMessages);
 	error.response = apiResponse;
 	return error;
 }

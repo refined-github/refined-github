@@ -32,9 +32,7 @@ export default function attachElement<NewElement extends Element>(
 		const element = before(anchor);
 		element.classList.add(className);
 		anchor.before(element);
-	}
-
-	if (after) {
+	} else if (after) {
 		const element = after(anchor);
 		element.classList.add(className);
 		anchor.after(element);

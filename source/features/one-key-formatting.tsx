@@ -8,8 +8,8 @@ import {
 	onConversationTitleFieldKeydown,
 } from '../github-events/on-field-keydown.js';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
+const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '"', '''];
+const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '"', '''];
 const quoteCharacters = new Set(['`', '\'', '"']);
 
 function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
@@ -23,12 +23,8 @@ function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | 
 	const [start, end] = [field.selectionStart!, field.selectionEnd!];
 
 	// If `start` and `end` of selection are the same, then no text is selected
-	if (start === end) {
-		return;
-	}
-
 	// Allow replacing quotes #5960
-	if (quoteCharacters.has(formattingChar) && end - start === 1 && quoteCharacters.has(field.value.at(start)!)) {
+	if (start === end || (quoteCharacters.has(formattingChar) && end - start === 1 && quoteCharacters.has(field.value.at(start)!))) {
 		return;
 	}
 

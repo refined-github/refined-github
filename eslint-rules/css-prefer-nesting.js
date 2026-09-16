@@ -66,12 +66,14 @@ const preferNesting = {
 
 							// `:is(A, B) X` -> `A, B { X { … } }`
 							// `:is(A, B).x` -> `A, B { &.x { … } }`
-							if (startsWithIs) {
-								const isCombinator = nextItem.type === 'Combinator';
-								const restStart = children[index + (isCombinator ? 2 : 1)];
-								const rest = text.slice(restStart.loc.start.offset, children.at(-1).loc.end.offset).trim();
-								return fixer.replaceText(rule, `${arguments_} {\n\t${isCombinator ? rest : `&${rest}`} ${block}\n}`);
+							if (!startsWithIs) {
+								return undefined;
 							}
+
+							const isCombinator = nextItem.type === 'Combinator';
+							const restStart = children[index + (isCombinator ? 2 : 1)];
+							const rest = text.slice(restStart.loc.start.offset, children.at(-1).loc.end.offset).trim();
+							return fixer.replaceText(rule, `${arguments_} {\n\t${isCombinator ? rest : `&${rest}`} ${block}\n}`);
 						},
 					});
 				}

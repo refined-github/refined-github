@@ -49,16 +49,12 @@ function init(): void {
 
 		// Comments that contain useful images or links shouldn't be removed
 		// Images are wrapped in <a> tags on GitHub hence included in the selector
-		if (elementExists('a', commentText)) {
+		if (elementExists('a', commentText) || elementExists('.Label', closestElement('.js-timeline-item', commentText))) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		const comment = closestElement('.js-timeline-item', commentText);
-		if (elementExists('.Label', comment)) {
-			continue;
-		}
-
 		// If the person is having a conversation, then don't hide it
 		const author = $('.author', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment
@@ -72,17 +68,19 @@ function init(): void {
 	}
 
 	const lowQualityCount = countElements('.rgh-hidden-comment');
-	if (lowQualityCount > 0) {
-		$('.discussion-timeline-actions').prepend(
-			<p className="rgh-low-quality-comments-note">
-				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
-			</p>,
-		);
-
-		// No need to add the signal here
-		delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
+	if (lowQualityCount === 0) {
+		return;
 	}
+
+	$('.discussion-timeline-actions').prepend(
+		<p className="rgh-low-quality-comments-note">
+			{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
+			<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
+		</p>,
+	);
+
+	// No need to add the signal here
+	delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
 }
 
 // This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments

@@ -26,24 +26,12 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	// Pick only links to lists, not single issues
 	// + skip pagination links
 	// + skip pr/issue filter dropdowns (some are lazyloaded)
-	if (pageDetect.isIssueOrPRList(link)) {
-		// Avoid rewriting /labels/ URLs until the last moment
-		// https://github.com/refined-github/refined-github/issues/7205
-		if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
-			await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
+	if (!pageDetect.isIssueOrPRList(link)) {
+		// Also sort projects #4957
+		if (!pageDetect.isProjects()) {
+			return;
 		}
 
-		saveOriginalHref(link);
-
-		const newUrl = SearchQuery.from(link).prepend('sort:updated-desc').href;
-
-		// Preserve relative attributes as such #5435
-		const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
-		link.href = isRelativeAttribute ? newUrl.replace(location.origin, '') : newUrl;
-	}
-
-	// Also sort projects #4957
-	if (pageDetect.isProjects()) {
 		saveOriginalHref(link);
 
 		// Projects use a different parameter name so don't use SearchQuery
@@ -51,7 +39,22 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 		const query = search.get('query') ?? 'state:open'; // Default value query is missing
 		search.set('query', `sort:updated-desc ${query}`);
 		link.search = search.toString();
+		return;
 	}
+
+	// Avoid rewriting /labels/ URLs until the last moment
+	// https://github.com/refined-github/refined-github/issues/7205
+	if (pageDetect.isRepoTaxonomyIssueOrPRList(link)) {
+		await oneEvent(link, 'click', {filter: event => (event as MouseEvent).which < 2});
+	}
+
+	saveOriginalHref(link);
+
+	const newUrl = SearchQuery.from(link).prepend('sort:updated-desc').href;
+
+	// Preserve relative attributes as such #5435
+	const isRelativeAttribute = link.getAttribute('href')!.startsWith('/');
+	link.href = isRelativeAttribute ? newUrl.replace(location.origin, '') : newUrl;
 }
 
 function init(signal: AbortSignal): void {
