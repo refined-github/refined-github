@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable -- Uses globals */
 /* eslint-disable -- Uses globals */
 export async function blockAi({github, context, core}) {
-	const marker = "This looks like an AI-generated PR, so we're preemptively closing it.";
+	const marker = "This looks like an AI-generated PR";
 
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
@@ -44,7 +44,7 @@ export async function blockAi({github, context, core}) {
 		repo,
 		issue_number: pr.number,
 		body:
-			`${marker} If you're human and tested it, include a screenshot/video/gif of the working PR and we can reopen the PR. Don't open more PRs until this one is resolved.`,
+			`**All PRs must include screenshots showing the changes or fixes.** "Tests pass" is not an excuse. ${marker}; if you're human and tested it, include a screenshot/video/gif of the working PR and a human will reopen the PR.\n\n**Don't open more PRs** until this one is resolved.`,
 	});
 }
 
