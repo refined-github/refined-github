@@ -36,7 +36,6 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 		};
 	});
 
-	// Batch queries cannot be exported to .gql files
 	const batchQuery = conversations.map(({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			issueOrPullRequest(number: ${number}) {
