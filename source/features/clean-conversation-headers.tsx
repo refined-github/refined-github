@@ -54,10 +54,12 @@ async function getPrCreator(): Promise<string> {
 
 // Hide if it's the same as the opener (always) or merger
 async function maybeHideAuthor(summaryRow: HTMLElement): Promise<void> {
-	// Extra author name is only shown on `isPRConversation`
-	if (!pageDetect.isPRConversation() || isStickyHeader(summaryRow)) {
+	if (
+		// Extra author name is only shown on `isPRConversation`
+		!pageDetect.isPRConversation()
 		// Keep author in sticky header
 		// https://github.com/refined-github/refined-github/issues/7802
+		|| isStickyHeader(summaryRow)) {
 		return;
 	}
 

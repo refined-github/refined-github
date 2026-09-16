@@ -18,8 +18,8 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		|| elementExists([
 			'.suggester', // GitHub's autocomplete dropdown
 			'.rgh-avoid-accidental-submissions',
-		], form)
-		|| elementExists([
+
+			// Don't handle event if the form can't be submitted already
 			'button[data-hotkey="Mod+Enter"]:disabled',
 			'button[type="submit"]:disabled',
 		], form)

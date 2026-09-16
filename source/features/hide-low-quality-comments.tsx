@@ -42,19 +42,24 @@ function init(): void {
 		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
-		// Exclude explicitly linked comments #5363
-		if ((commentText === linkedComment) || !isLowQualityComment(commentText.textContent)) {
-			continue;
-		}
-
-		// Comments that contain useful images or links shouldn't be removed
-		// Images are wrapped in <a> tags on GitHub hence included in the selector
-		if (elementExists('a', commentText) || elementExists('.Label', closestElement('.js-timeline-item', commentText))) {
+		if (
+			// Exclude explicitly linked comments #5363
+			(commentText === linkedComment)
+			|| !isLowQualityComment(commentText.textContent)
+			// Comments that contain useful images or links shouldn't be removed
+			// Images are wrapped in <a> tags on GitHub hence included in the selector
+		||
+			elementExists('a', commentText)
+		) {
 			continue;
 		}
 
 		// Ensure that they're not by VIPs (owner, collaborators, etc)
 		const comment = closestElement('.js-timeline-item', commentText);
+		if (elementExists('.Label', comment)) {
+			continue;
+		}
+
 		// If the person is having a conversation, then don't hide it
 		const author = $('.author', comment).getAttribute('href')!;
 		// If the first comment left by the author isn't a low quality comment

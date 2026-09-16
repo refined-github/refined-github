@@ -67,7 +67,7 @@ const preferNesting = {
 							// `:is(A, B) X` -> `A, B { X { … } }`
 							// `:is(A, B).x` -> `A, B { &.x { … } }`
 							if (!startsWithIs) {
-								return undefined;
+								return;
 							}
 
 							const isCombinator = nextItem.type === 'Combinator';
