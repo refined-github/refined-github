@@ -18,10 +18,12 @@ const observer = new IntersectionObserver(entries => {
 		lastModal = modal;
 	}
 
-	if (visible.size === 0) {
-		observer.disconnect();
-		closestElement('details', lastModal!).open = false;
+	if (visible.size > 0) {
+		return;
 	}
+
+	observer.disconnect();
+	closestElement('details', lastModal!).open = false;
 });
 
 let lastOpen: number;

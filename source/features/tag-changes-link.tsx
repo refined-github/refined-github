@@ -146,10 +146,12 @@ async function init(): Promise<void> {
 					{compareLink}
 				</div>,
 			);
-			if (pageDetect.isReleases()) {
-				lastLink.classList.remove('mb-2');
-				lastLink.parentElement!.classList.remove('mb-md-2');
+			if (!pageDetect.isReleases()) {
+				continue;
 			}
+
+			lastLink.classList.remove('mb-2');
+			lastLink.parentElement!.classList.remove('mb-md-2');
 		}
 	}
 }

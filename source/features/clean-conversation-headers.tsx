@@ -27,10 +27,12 @@ async function removeBaseRepo(base: HTMLElement): Promise<void> {
 	}
 
 	const crossRepoPr = textNode.textContent.indexOf(':');
-	if (crossRepoPr > 0) {
-		textNode.splitText(crossRepoPr + 1);
-		wrap(textNode, <span className="sr-only" />);
+	if (!(crossRepoPr > 0)) {
+		return;
 	}
+
+	textNode.splitText(crossRepoPr + 1);
+	wrap(textNode, <span className="sr-only" />);
 }
 
 function isStickyHeader(childElement: HTMLElement): boolean {

@@ -27,10 +27,12 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 
 	for (const node of nodes) {
 		const commit = node.target.commitResourcePath.split('/', 5)[4];
-		if (node.name !== 'nightly') {
-			tags[commit] ??= new Set();
-			tags[commit].add(node.name);
+		if (node.name === 'nightly') {
+			continue;
 		}
+
+		tags[commit] ??= new Set();
+		tags[commit].add(node.name);
 	}
 
 	if (nodes.length === 0 || !repository.refs.pageInfo.hasNextPage) {

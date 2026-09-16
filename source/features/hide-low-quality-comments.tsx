@@ -43,11 +43,7 @@ function init(): void {
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
 		// Exclude explicitly linked comments #5363
-		if (commentText === linkedComment) {
-			continue;
-		}
-
-		if (!isLowQualityComment(commentText.textContent)) {
+		if ((commentText === linkedComment) || !isLowQualityComment(commentText.textContent)) {
 			continue;
 		}
 

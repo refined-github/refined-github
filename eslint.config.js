@@ -53,6 +53,7 @@ export default defineConfig([
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
+			'unicorn/prefer-ternary': 'off', // Not always better
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-query-selector': ['error', {allowWithVariables: true}],
