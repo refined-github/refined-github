@@ -27,7 +27,7 @@ async function removeBaseRepo(base: HTMLElement): Promise<void> {
 	}
 
 	const crossRepoPr = textNode.textContent.indexOf(':');
-	if (!(crossRepoPr > 0)) {
+	if (crossRepoPr === -1) {
 		return;
 	}
 
