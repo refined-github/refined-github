@@ -3,7 +3,7 @@ import './quick-file-edit.css';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PencilIcon from 'octicons-plain-react/Pencil';
-import {$} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
@@ -12,6 +12,14 @@ import {directoryListingFileIcon} from '../github-helpers/selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
+// Only directories are expandable; the child combinator excludes the pencil that this feature adds
+const sidebarFileIcon = '[role="treeitem"]:not([aria-expanded]) .PRIVATE_TreeView-item-visual > svg';
+
+function addIcon(fileIcon: Element, url: GitHubFileUrl): void {
+	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
+	fileIcon.after(<PencilIcon />);
+}
+
 async function linkifyIcon(fileIcon: Element): Promise<void> {
 	const fileLink = $('.react-directory-filename-cell a', fileIcon.parentElement!);
 
@@ -19,17 +27,30 @@ async function linkifyIcon(fileIcon: Element): Promise<void> {
 		route: 'edit',
 	});
 
-	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);
-	fileIcon.after(<PencilIcon />);
+	addIcon(fileIcon, url);
+}
+
+function linkifySidebarIcon(fileIcon: Element): void {
+	// The sidebar items aren't links, but their ID holds the path
+	const {id} = closestElement('[role="treeitem"]', fileIcon);
+
+	const url = new GitHubFileUrl(location.href).assign({
+		route: 'edit',
+		filePath: id.replace(/-item$/, ''),
+	});
+
+	addIcon(fileIcon, url);
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
 	observe(directoryListingFileIcon, linkifyIcon, {signal});
+	observe(sidebarFileIcon, linkifySidebarIcon, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isRepoTree,
+		pageDetect.isSingleFile, // The sidebar appears here too
 	],
 	exclude: [
 		pageDetect.is404,
@@ -45,5 +66,7 @@ Test URLs
 
 Legacy views: https://github.com/refined-github/refined-github
 React views: https://github.com/refined-github/refined-github/tree/main/.github
+Sidebar: https://github.com/refined-github/refined-github/tree/main/source
+Sidebar on a file: https://github.com/refined-github/refined-github/blob/main/source/background.ts
 
 */

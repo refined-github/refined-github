@@ -11,3 +11,12 @@
 	line-height: 0;
 	display: inline-block;
 }
+
+/* Unlike the directory listing, the sidebar icons aren't `color-fg-muted`, so they'd pick up the link color */
+.PRIVATE_TreeView-item-visual > .rgh-quick-file-edit {
+	color: inherit;
+
+	& .octicon-pencil {
+		color: var(--fgColor-accent);
+	}
+}
