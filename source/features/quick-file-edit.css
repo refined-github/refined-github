@@ -17,6 +17,6 @@
 	color: inherit;
 
 	& .octicon-pencil {
-		color: var(--fgColor-accent);
+		color: var(--fgColor-accent, fuchsia);
 	}
 }
