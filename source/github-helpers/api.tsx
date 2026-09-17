@@ -160,18 +160,17 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		return error;
 	}
 
-	const errorMessages = [
+	const error = new RefinedGitHubApiError(
 		'Unable to fetch.',
 		personalToken
 			? 'Ensure that your token has access to this repo.'
 			: 'Maybe adding a token in the options will fix this issue.',
 		// https://github.com/refined-github/refined-github/pull/9525
-		...(Array.isArray(apiResponse.errors)
+		Array.isArray(apiResponse.errors)
 			// eslint-disable-next-line @typescript-eslint/no-base-to-string
 			? apiResponse.errors.join('.\n')
-			: [JSON.stringify(apiResponse, undefined, '\t')]), // Beautify
-	];
-	const error = new RefinedGitHubApiError(...errorMessages);
+			: JSON.stringify(apiResponse, undefined, '\t'), // Beautify
+	);
 	error.response = apiResponse;
 	return error;
 }
@@ -345,7 +344,6 @@ const v4 = mem(v4uncached, {
 		// https://github.com/refined-github/refined-github/issues/5821
 		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
-		// eslint-disable-next-line unicorn/no-immediate-mutation -- No
 		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);
 		}

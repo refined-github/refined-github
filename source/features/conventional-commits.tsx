@@ -6,8 +6,8 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 
 import './conventional-commits.css';
 
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
@@ -20,14 +20,17 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 	const textNode = commitTitleElement.firstChild!;
 	const commit = parseConventionalCommit(textNode.textContent);
 
+	if (!commit) {
+		return;
+	}
+
 	if (
-		!commit
-		|| ( // Skip commits that are _only_ "ci:" without anything else. Rare but it would be confusing to show just the label
-			commit.raw === textNode.textContent
-			&& !commitTitleElement.nextElementSibling
-			// Ensure that the element contains only plain text, not stuff like <code>
-			&& commitTitleElement.childElementCount < 1
-		)
+		// Skip commits that are _only_ "ci:" without anything else. Rare but it would be confusing to show just the label
+		commit.raw === textNode.textContent
+		&& !commitTitleElement.nextElementSibling
+
+		// Ensure that the element contains only plain text, not stuff like <code>
+		&& commitTitleElement.childElementCount < 1
 	) {
 		return;
 	}
