@@ -226,12 +226,14 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			void asyncForEach(castArray(init), async singleInit => {
 				const didRun = await singleInit(featureController.signal);
 				// Features can return `false` when they decide not to run on the current page
-				if (didRun !== false && !isFeaturePrivate(id)) {
-					log.info('✅', id);
-					// Register feature shortcuts
-					for (const [hotkey, description] of Object.entries(shortcuts)) {
-						shortcutMap.set(hotkey, description);
-					}
+				if (didRun === false || isFeaturePrivate(id)) {
+					return;
+				}
+
+				log.info('✅', id);
+				// Register feature shortcuts
+				for (const [hotkey, description] of Object.entries(shortcuts)) {
+					shortcutMap.set(hotkey, description);
 				}
 			});
 		} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));

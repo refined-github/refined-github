@@ -67,14 +67,16 @@ async function handleAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Pr
 	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	const {nameWithOwner} = getRepo()!;
-	if (confirm(`⚠️${nameWithOwner}⚠️ will be deleted. Are you sure?`)) {
-		await showToast(deleteRepository, {
-			message: 'Deleting repo…',
-			doneMessage: 'Repo deleted',
-		});
-
-		await modifyUiAfterSuccessfulDeletion();
+	if (!confirm(`⚠️${nameWithOwner}⚠️ will be deleted. Are you sure?`)) {
+		return;
 	}
+
+	await showToast(deleteRepository, {
+		message: 'Deleting repo…',
+		doneMessage: 'Repo deleted',
+	});
+
+	await modifyUiAfterSuccessfulDeletion();
 }
 
 function addShortcutTooltip(button: HTMLElement): void {

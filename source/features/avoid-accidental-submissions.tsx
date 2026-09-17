@@ -16,15 +16,10 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		|| event.metaKey
 		|| event.isComposing // #4323
 		|| elementExists([
-			'.suggester', // GitHub’s autocomplete dropdown
+			'.suggester', // GitHub's autocomplete dropdown
 			'.rgh-avoid-accidental-submissions',
-		], form)
-	) {
-		return;
-	}
 
-	if (
-		elementExists([
+			// Don't handle event if the form can't be submitted already
 			'button[data-hotkey="Mod+Enter"]:disabled',
 			'button[type="submit"]:disabled',
 		], form)

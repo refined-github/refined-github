@@ -43,15 +43,17 @@ async function updateLink(link: HTMLAnchorElement): Promise<void> {
 	}
 
 	// Also sort projects #4957
-	if (pageDetect.isProjects()) {
-		saveOriginalHref(link);
-
-		// Projects use a different parameter name so don't use SearchQuery
-		const search = new URLSearchParams(link.search);
-		const query = search.get('query') ?? 'state:open'; // Default value query is missing
-		search.set('query', `sort:updated-desc ${query}`);
-		link.search = search.toString();
+	if (!pageDetect.isProjects()) {
+		return;
 	}
+
+	saveOriginalHref(link);
+
+	// Projects use a different parameter name so don't use SearchQuery
+	const search = new URLSearchParams(link.search);
+	const query = search.get('query') ?? 'state:open'; // Default value query is missing
+	search.set('query', `sort:updated-desc ${query}`);
+	link.search = search.toString();
 }
 
 function init(signal: AbortSignal): void {

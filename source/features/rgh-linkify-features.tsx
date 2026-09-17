@@ -65,17 +65,19 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (anchorElement && shouldShowCount()) {
-		const sup = <sup />;
-		anchorElement.after(sup);
-		mount(RelatedIssuesCount, {
-			target: sup,
-			props: {
-				featureId: id,
-				mini: true,
-			},
-		});
+	if (!anchorElement || !shouldShowCount()) {
+		return;
 	}
+
+	const sup = <sup />;
+	anchorElement.after(sup);
+	mount(RelatedIssuesCount, {
+		target: sup,
+		props: {
+			featureId: id,
+			mini: true,
+		},
+	});
 }
 
 function init(signal: AbortSignal): void {
