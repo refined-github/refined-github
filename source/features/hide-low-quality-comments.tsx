@@ -42,15 +42,18 @@ function init(): void {
 		: undefined;
 
 	for (const commentText of $$(singleParagraphCommentSelector)) {
-		if (
-			// Exclude explicitly linked comments #5363
-			(commentText === linkedComment)
-			|| !isLowQualityComment(commentText.textContent)
-			// Comments that contain useful images or links shouldn't be removed
-			// Images are wrapped in <a> tags on GitHub hence included in the selector
-		||
-			elementExists('a', commentText)
-		) {
+		// Exclude explicitly linked comments #5363
+		if (commentText === linkedComment) {
+			continue;
+		}
+
+		if (!isLowQualityComment(commentText.textContent)) {
+			continue;
+		}
+
+		// Comments that contain useful images or links shouldn't be removed
+		// Images are wrapped in <a> tags on GitHub hence included in the selector
+		if (elementExists('a', commentText)) {
 			continue;
 		}
 
