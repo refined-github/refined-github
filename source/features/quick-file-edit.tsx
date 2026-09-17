@@ -66,7 +66,5 @@ Test URLs
 
 Legacy views: https://github.com/refined-github/refined-github
 React views: https://github.com/refined-github/refined-github/tree/main/.github
-Sidebar: https://github.com/refined-github/refined-github/tree/main/source
-Sidebar on a file: https://github.com/refined-github/refined-github/blob/main/source/background.ts
 
 */
