@@ -8,7 +8,6 @@ import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getCleanPathname} from '../github-helpers/index.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -29,27 +28,26 @@ function mark(link: HTMLAnchorElement): void {
 
 async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 	const conversations = links.map(link => {
-		const [owner, name, , number] = getCleanPathname(link).split('/', 4);
-		const key = api.escapeKey(owner, name, number);
-		return {
-			key, link, owner, name, number,
-		};
+		const number = link.pathname.split('/').pop()!;
+		return {key: api.escapeKey(number), link, number};
 	});
 
-	const batchQuery = conversations.map(({key, owner, name, number}) => `
-		${key}: repository(owner: "${owner}", name: "${name}") {
-			issueOrPullRequest(number: ${number}) {
-				... on Lockable {
-					locked
-				}
+	const {repository} = await api.v4(`
+		repository() {
+			${
+				conversations.map(({key, number}) => `
+					${key}: issueOrPullRequest(number: ${number}) {
+						... on Lockable {
+							locked
+						}
+					}
+				`).join('\n')
 			}
 		}
-	`).join('\n');
-
-	const data = await api.v4(batchQuery);
+	`);
 
 	for (const conversation of conversations) {
-		if (data[conversation.key].issueOrPullRequest!.locked) {
+		if (repository[conversation.key].locked) {
 			mark(conversation.link);
 		}
 	}
@@ -66,7 +64,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isIssueOrPRList,
+		pageDetect.isRepoIssueOrPRList,
 	],
 	requiresToken: true,
 	init,
