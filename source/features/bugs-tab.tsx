@@ -52,6 +52,7 @@ async function countBugs(): Promise<Bugs> {
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
 	return {
+		// Label might not be found if the repo uses a non-standard bug label name
 		label: label?.name ?? 'bug',
 
 		// GitHub bug: labelled issues are counted even if issues are disabled
@@ -134,7 +135,9 @@ async function addBugsTabOnce(): Promise<void | false> {
 	// Exact counting should not delay the tab or replace the approximate count on failure
 	try {
 		counter.set(await exactBugs.get(query));
-	} catch {}
+	} catch {
+		// Keep the approximate count if exact counting fails
+	}
 }
 
 async function removePinnedIssues(): Promise<void> {
