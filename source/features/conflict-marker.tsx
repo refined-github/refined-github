@@ -24,7 +24,6 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 		};
 	});
 
-	// Batch queries cannot be exported to .gql files
 	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			pullRequest(number: ${number}) {

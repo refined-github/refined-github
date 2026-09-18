@@ -34,6 +34,7 @@ export default function attachElement<NewElement extends Element>(
 		anchor.before(element);
 	}
 
+	// eslint-disable-next-line unicorn/prefer-early-return -- Readable
 	if (after) {
 		const element = after(anchor);
 		element.classList.add(className);

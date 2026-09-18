@@ -47,10 +47,12 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 	}
 
 	$('.octicon', link).remove();
-	if (link.classList.contains('selected')) {
-		link.prepend(<CheckIcon />);
-		link.href = setStatusFilter(link, '');
+	if (!link.classList.contains('selected')) {
+		return;
 	}
+
+	link.prepend(<CheckIcon />);
+	link.href = setStatusFilter(link, '');
 }
 
 function init(signal: AbortSignal): void {

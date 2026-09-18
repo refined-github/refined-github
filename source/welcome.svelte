@@ -41,10 +41,12 @@
 
 	async function grantPermissions() {
 		const granted = await chrome.permissions.request({origins});
-		if (granted) {
-			stepVisible = 2;
-			stepValid = 1;
+		if (!granted) {
+			return;
 		}
+
+		stepVisible = 2;
+		stepValid = 1;
 	}
 
 	function showThirdStep() {

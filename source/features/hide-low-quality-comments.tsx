@@ -76,17 +76,19 @@ function init(): void {
 	}
 
 	const lowQualityCount = countElements('.rgh-hidden-comment');
-	if (lowQualityCount > 0) {
-		$('.discussion-timeline-actions').prepend(
-			<p className="rgh-low-quality-comments-note">
-				{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
-				<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
-			</p>,
-		);
-
-		// No need to add the signal here
-		delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
+	if (lowQualityCount === 0) {
+		return;
 	}
+
+	$('.discussion-timeline-actions').prepend(
+		<p className="rgh-low-quality-comments-note">
+			{`${lowQualityCount} unhelpful comment${lowQualityCount > 1 ? 's were' : ' was'} automatically hidden. `}
+			<button className="btn-link text-emphasized rgh-unhide-low-quality-comments" type="button">Show</button>
+		</p>,
+	);
+
+	// No need to add the signal here
+	delegate('.rgh-unhide-low-quality-comments', 'click', unhide);
 }
 
 // This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments

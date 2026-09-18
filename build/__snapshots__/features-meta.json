@@ -474,6 +474,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png"
 	},
 	{
+		"id": "mark-locked",
+		"description": "Marks locked issues and PRs in lists in repositories.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/4b186778-d9d5-447f-8077-d645dd5a8b17"
+	},
+	{
 		"id": "mark-merge-commits-in-list",
 		"description": "Marks merge commits in commit lists.",
 		"css": true,

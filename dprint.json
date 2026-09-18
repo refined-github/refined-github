@@ -38,6 +38,9 @@
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle"
 	},
+	"json": {
+		"packageJson.applyConventions": false
+	},
 	"graphql": {},
 	"yaml": {
 		"quotes": "preferSingle"

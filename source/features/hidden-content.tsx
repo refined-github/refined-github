@@ -26,11 +26,13 @@ async function scrollOnSearch(event: KeyboardEvent): Promise<void> {
 
 		// TODO: Add support for PRs by detecting deferred-content wrappers
 	);
-	if (indicator) {
-		const content = pageDetect.isPRFiles() ? 'files' : 'comments';
-		scrollIntoViewIfNeeded(indicator);
-		await showOverlay(`There are hidden ${content} that won’t be searched`);
+	if (!indicator) {
+		return;
 	}
+
+	const content = pageDetect.isPRFiles() ? 'files' : 'comments';
+	scrollIntoViewIfNeeded(indicator);
+	await showOverlay(`There are hidden ${content} that won't be searched`);
 }
 
 function init(signal: AbortSignal): void {

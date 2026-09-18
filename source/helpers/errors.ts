@@ -89,19 +89,23 @@ export function catchErrors(): void {
 	globalThis.addEventListener('error', event => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
-		if (error) {
-			logError(error);
-			event.preventDefault();
+		if (!error) {
+			return;
 		}
+
+		logError(error);
+		event.preventDefault();
 	});
 
 	globalThis.addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values
-		if (error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://')) {
-			logError(error);
-			event.preventDefault();
+		if (!(error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://'))) {
+			return;
 		}
+
+		logError(error);
+		event.preventDefault();
 	});
 }

@@ -29,10 +29,12 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 	}
 
 	const releases = await releasesCache.get(); // Expected to be in cache
-	if (!('inputType' in event) && releases.includes(selectedTag)) {
-		location.assign(buildRepoUrl('releases/tag', encodeURIComponent(selectedTag)));
-		field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
+	if (('inputType' in event) || !releases.includes(selectedTag)) {
+		return;
 	}
+
+	location.assign(buildRepoUrl('releases/tag', encodeURIComponent(selectedTag)));
+	field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 }
 
 async function addList(searchField: HTMLInputElement): Promise<void> {

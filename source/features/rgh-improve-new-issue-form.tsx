@@ -90,11 +90,13 @@ async function setVersion(): Promise<void> {
 	const {version} = chrome.runtime.getManifest();
 	setReactInputValue(field, version);
 
-	if (!await getToken()) {
-		// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
-		setReactInputValue(field, '(' + version + ')');
-		field.disabled = true;
+	if (await getToken()) {
+		return;
 	}
+
+	// Mark the submission as not having a token set up because people have a tendency to go through forms and read absolutely nothing. This makes it easier to spot liars.
+	setReactInputValue(field, '(' + version + ')');
+	field.disabled = true;
 }
 
 function checkVersionAge(): void {

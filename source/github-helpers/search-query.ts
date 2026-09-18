@@ -11,10 +11,12 @@ function deduplicateKeywords(array: string[], ...keywords: string[]): string[] {
 	let wasKeywordFound = false;
 	for (const current of array.toReversed()) {
 		const isKeyword = keywords.includes(current);
-		if (!isKeyword || !wasKeywordFound) {
-			deduplicated.unshift(current);
-			wasKeywordFound ||= isKeyword;
+		if (isKeyword && wasKeywordFound) {
+			continue;
 		}
+
+		deduplicated.unshift(current);
+		wasKeywordFound ||= isKeyword;
 	}
 
 	return deduplicated;
@@ -75,15 +77,17 @@ export default class SearchQuery {
 		this.queryParts.push(/\/pulls\/?$/.test(this.url.pathname) ? 'is:pr' : 'is:issue', 'state:open');
 
 		// Header nav example: state:open is:issue author:you archived:false
-		if (this.url.pathname === '/issues' || this.url.pathname === '/pulls') {
-			if (this.url.searchParams.has('user')) { // #1211
-				this.queryParts.push('user:' + this.url.searchParams.get('user')!);
-			} else {
-				this.queryParts.push('author:@me');
-			}
-
-			this.queryParts.push('archived:false');
+		if (!(this.url.pathname === '/issues' || this.url.pathname === '/pulls')) {
+			return;
 		}
+
+		if (this.url.searchParams.has('user')) { // #1211
+			this.queryParts.push('user:' + this.url.searchParams.get('user')!);
+		} else {
+			this.queryParts.push('author:@me');
+		}
+
+		this.queryParts.push('archived:false');
 	}
 
 	getQueryParts(): string[] {
