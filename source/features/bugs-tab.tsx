@@ -135,9 +135,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 	// Exact counting should not delay the tab or replace the approximate count on failure
 	try {
 		counter.set(await exactBugs.get(query));
-	} catch {
-		// Keep the approximate count if exact counting fails
-	}
+	} catch {}
 }
 
 async function removePinnedIssues(): Promise<void> {
