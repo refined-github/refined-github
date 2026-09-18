@@ -8,16 +8,14 @@ import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-
-const {class: featureClass} = getIdentifiers(import.meta.url);
+import {getCleanPathname} from '../github-helpers/index.js';
 
 function mark(link: HTMLAnchorElement): void {
 	// The state icon is left untouched so the row still says issue/PR/draft/merged
 	const icon = $('[class^="LeadingVisual"] .octicon', closestElement('li', link));
 	const wrapper = icon.parentElement!;
-	wrapper.classList.add(featureClass);
+	wrapper.classList.add('rgh-mark-locked');
 	// `span` wrapper: SVG ignores the `title` attribute, it only tooltips via a `<title>` child
 	wrapper.append(
 		<span title="Locked">
@@ -28,7 +26,7 @@ function mark(link: HTMLAnchorElement): void {
 
 async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 	const conversations = links.map(link => {
-		const number = link.pathname.split('/').pop()!;
+		const number = getCleanPathname(link).split('/').pop()!;
 		return {key: api.escapeKey(number), link, number};
 	});
 
