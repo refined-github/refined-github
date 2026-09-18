@@ -63,7 +63,7 @@ async function countExactBugs(label: string): Promise<number> {
 	const query = `repo:${getRepo()!.nameWithOwner} is:issue state:open ${getFullSearchQuery(label)}`;
 	const {search} = await api.v4(CountExactBugs, {
 		variables: {query},
-	}) as {search: {issueCount: number}};
+	});
 
 	return search.issueCount;
 }
@@ -72,7 +72,7 @@ const exactBugs = new CachedFunction('exact-bugs', {
 	updater: countExactBugs,
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
-	cacheKey: ([label]): string => `${cacheByRepo()}:${label}`,
+	cacheKey: cacheByRepo,
 });
 
 const bugs = new CachedFunction('bugs', {
