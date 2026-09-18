@@ -1,4 +1,9 @@
-import {closestElement, closestElementOptional} from 'select-dom';
+import {closestElement, closestElementOptional, elementExists} from 'select-dom';
+
+const appLinkSelectors = [
+	'a[href^="/apps/"]',
+	'a[href^="https://github.com/apps/"]',
+] as const;
 
 /**
 Given any element in a comment, returns the comment’s author
@@ -42,12 +47,14 @@ export default function getCommentAuthor(anyElementInsideComment: Element): stri
 		.alt // Occasionally ends with `[bot]`
 		.replace(/^@/, ''); // May or may not be present
 
-	const appLink = closestElementOptional([
-		'a[href^="/apps/"]',
-		'a[href^="https://github.com/apps/"]',
-	], avatar);
+	const isApp = Boolean(closestElementOptional(appLinkSelectors, avatar))
+		// PR review comments place the avatar outside the author link, but in the same heading
+		|| elementExists(
+			appLinkSelectors.map(selector => `${selector}.author`),
+			closestElementOptional('h3', avatar),
+		);
 
-	if (appLink && !name.endsWith('[bot]')) {
+	if (isApp && !name.endsWith('[bot]')) {
 		// Example: https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
 		return name + '[bot]';
 	}

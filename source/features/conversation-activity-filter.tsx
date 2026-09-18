@@ -1,7 +1,7 @@
 import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $$optional, elementExists} from 'select-dom';
+import {$, $$, $$optional, $optional, elementExists} from 'select-dom';
 import {mount} from 'svelte';
 import {get} from 'svelte/store';
 
@@ -39,13 +39,29 @@ function processTimelineEvent(item: HTMLElement): void {
 	item.classList.add(hiddenClassName);
 }
 
+function isBotAuthored(anyElementInsideComment: Element): boolean {
+	return getCommentAuthor(anyElementInsideComment).endsWith('[bot]');
+}
+
+// Reviews left by bots are noise, but a human replying inside one isn’t
+function isBotReview(review: HTMLElement): boolean {
+	const author = $optional('.TimelineItem-avatar', review);
+	if (!author) {
+		return false;
+	}
+
+	return isBotAuthored(author)
+		&& $$optional('.timeline-comment-group:not(.minimized-comment)', review)
+			.every(thread => isBotAuthored(thread));
+}
+
 function processSimpleComment(item: HTMLElement): void {
 	// Hide comments marked as resolved/hidden
 	if (elementExists('.octicon-unfold', item)) {
 		item.classList.add(collapsedClassName);
 	}
 
-	if (getCommentAuthor($(comment, item)).endsWith('[bot]')) {
+	if (isBotAuthored($(comment, item))) {
 		item.classList.add(botClassName);
 	}
 }
@@ -72,6 +88,10 @@ function processReview(review: HTMLElement): void {
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved
 		return;
+	}
+
+	if (isBotReview(review)) {
+		review.classList.add(botClassName);
 	}
 
 	for (const thread of unresolvedThreads) {
