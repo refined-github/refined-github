@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CheckIcon from 'octicons-plain-react/Check';
 	import CheckCircleIcon from 'octicons-plain-react/CheckCircle';
+	import CopilotIcon from 'octicons-plain-react/Copilot';
 	import DotIcon from 'octicons-plain-react/Dot';
 	import DotFillIcon from 'octicons-plain-react/DotFill';
 	import GitMergeIcon from 'octicons-plain-react/GitMerge';
@@ -8,6 +9,7 @@
 	import GitPullRequestDraftIcon from 'octicons-plain-react/GitPullRequestDraft';
 	import HubotIcon from 'octicons-plain-react/Hubot';
 	import IssueOpenedIcon from 'octicons-plain-react/IssueOpened';
+	import RocketIcon from 'octicons-plain-react/Rocket';
 	import SquirrelIcon from 'octicons-plain-react/Squirrel';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 	import XCircleIcon from 'octicons-plain-react/XCircle';
@@ -28,6 +30,8 @@
 	const icons: Record<Filter, typeof CheckIcon> = {
 		'Pull requests': GitPullRequestIcon,
 		Issues: IssueOpenedIcon,
+		'Deployment reviews': RocketIcon,
+		'Copilot sessions': CopilotIcon,
 		Others: SquirrelIcon,
 		Bots: HubotIcon,
 		Open: CheckCircleIcon,

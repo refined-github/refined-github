@@ -22,8 +22,10 @@ export const issueIcons = [
 const filters = {
 	'Pull requests': is(prIcons),
 	Issues: is(issueIcons),
+	'Deployment reviews': '.octicon-rocket',
+	'Copilot sessions': ':is(.octicon-agent, .octicon-copilot)',
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
-	Others: '.notification-list-item-link .octicon' + not(...prIcons, ...issueIcons, '.octicon-bookmark'),
+	Others: '.notification-list-item-link .octicon' + not(...prIcons, ...issueIcons, '.octicon-bookmark', '.octicon-rocket', '.octicon-agent', '.octicon-copilot'),
 	Bots: is(botLinksNotificationSelectors),
 	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
 	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
@@ -38,7 +40,7 @@ export type Category = 'Type' | 'Status' | 'Read';
 export type Selection = Record<Category, Filter[]>;
 
 const categories: Record<Category, Filter[]> = {
-	Type: ['Pull requests', 'Issues', 'Others', 'Bots'],
+	Type: ['Pull requests', 'Issues', 'Deployment reviews', 'Copilot sessions', 'Others', 'Bots'],
 	Status: ['Open', 'Closed', 'Merged', 'Draft'],
 	Read: ['Read', 'Unread'],
 };
