@@ -48,21 +48,20 @@ async function countBugs(): Promise<Bugs> {
 	label ??= repository.labels.nodes.find(({name}) => isBugLabel(name));
 
 	// Label might not be found if the repo uses a non-standard bug label name
-	const bugLabelCount = label ? label.issues.totalCount : 0;
+	const bugLabelCount = label?.issues.totalCount ?? 0;
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
 	return {
-		label: label ? label.name : 'bug',
+		label: label?.name ?? 'bug',
 
 		// GitHub bug: labelled issues are counted even if issues are disabled
 		count: Math.min(bugCount, repository.issues.totalCount),
 	};
 }
 
-async function countExactBugs(label: string): Promise<number> {
-	const query = `repo:${getRepo()!.nameWithOwner} is:issue state:open ${getFullSearchQuery(label)}`;
+async function countExactBugs(query: string): Promise<number> {
 	const {search} = await api.v4(CountExactBugs, {
-		variables: {query},
+		variables: {query: `repo:${getRepo()!.nameWithOwner} ${query}`},
 	});
 
 	return search.issueCount;
@@ -109,7 +108,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 		}
 	}
 
-	const {href} = new SearchQuery(buildRepoUrl('issues'))
+	const {href, query} = new SearchQuery(buildRepoUrl('issues'))
 		.append(getFullSearchQuery(await getBugsLabel()));
 
 	const counter = writable<number | undefined>();
@@ -125,19 +124,17 @@ async function addBugsTabOnce(): Promise<void | false> {
 
 	// Update bugs count
 	try {
-		const {count: bugCount, label} = await bugsPromise;
+		const {count: bugCount} = await bugsPromise;
 		counter.set(bugCount);
-
-		// Exact counting needs the selected bug label, but it should not delay the tab
-		void exactBugs.get(label)
-			.then(exactCount => {
-				counter.set(exactCount);
-			})
-			.catch(() => undefined);
 	} catch (error) {
 		counter.set(undefined);
 		throw error; // Likely an API call error that will be handled by the init
 	}
+
+	// Exact counting should not delay the tab or replace the approximate count on failure
+	try {
+		counter.set(await exactBugs.get(query));
+	} catch {}
 }
 
 async function removePinnedIssues(): Promise<void> {
