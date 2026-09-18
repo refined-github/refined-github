@@ -260,8 +260,12 @@ export const usernameLinksSelector_ = [
 ];
 
 export const actionBar = [
-	'[data-component="ActionBar"]', // React component
-	'action-bar', // Still used in gists, PRs, etc
+	// React comment editor, `Add a comment` form
+	'[data-testid="comment-composer"] [data-component="ActionBar"]',
+	// React comment editor, edit form #5303
+	'[class^="MarkdownEditor-module__container"] [data-component="ActionBar"]',
+	// Still used in gists, PRs, etc
+	'action-bar',
 ];
 export const actionBar_ = requiresLogin;
 
