@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import QuestionIcon from 'octicons-plain-react/Question';
 import RepoIcon from 'octicons-plain-react/Repo';
 import {closestElement} from 'select-dom';
 import twas from 'twas';
@@ -10,6 +11,7 @@ import api from '../github-helpers/api.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
+import hasSignificantDateDifference from '../helpers/repo-age-date-difference.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import GetRepoAge from './repo-age.gql';
 
@@ -19,6 +21,12 @@ type CommitTarget = {
 	history: {
 		totalCount: number;
 	};
+};
+
+type RepoAge = {
+	firstCommitDate: string;
+	lastCommitsPageUrl: string;
+	repositoryCreatedAt: string;
 };
 
 const fresh = [
@@ -49,7 +57,8 @@ function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): strin
 async function getRepoAge(
 	commitSha: string,
 	commitsCount: number,
-): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+	repositoryCreatedAt: string,
+): Promise<RepoAge> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -61,21 +70,22 @@ async function getRepoAge(
 		.findLast((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
-	return [committedDate, lastCommitsPageUrl];
+	return {firstCommitDate: committedDate, lastCommitsPageUrl, repositoryCreatedAt};
 }
 
-const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+const repoAge = new CachedFunction('repo-age', {
+	async updater(): Promise<RepoAge> {
 		const {repository} = await api.v4(GetFirstCommit);
 
+		const {createdAt: repositoryCreatedAt} = repository;
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
-			return [committedDate, lastCommitsPageUrl];
+			return {firstCommitDate: committedDate, lastCommitsPageUrl, repositoryCreatedAt};
 		}
 
-		return getRepoAge(commitSha, commitsCount);
+		return getRepoAge(commitSha, commitsCount, repositoryCreatedAt);
 	},
 	cacheKey: cacheByRepo,
 });
@@ -88,8 +98,11 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, lastCommitsPageUrl] = await firstCommit.get();
+	const {firstCommitDate, lastCommitsPageUrl, repositoryCreatedAt} = await repoAge.get();
 	const birthday = new Date(firstCommitDate);
+	const repositoryCreated = new Date(repositoryCreatedAt);
+	const datesDifferSignificantly = hasSignificantDateDifference(birthday, repositoryCreated);
+	const dateDetails = `First commit dated ${dateFormatter.format(birthday)}; repository created ${dateFormatter.format(repositoryCreated)}`;
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(birthday.getTime())
@@ -107,8 +120,9 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2 tmp-mt-2">
-			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+			<a href={lastCommitsPageUrl} className="Link--muted" title={dateDetails}>
 				<RepoIcon className="mr-2 tmp-mr-2" /> {age}
+				{datesDifferSignificantly && <QuestionIcon className="v-align-middle ml-1 tmp-ml-1" aria-hidden={false} aria-label="Repository and first commit dates differ significantly" />}
 			</a>
 		</div>,
 	);

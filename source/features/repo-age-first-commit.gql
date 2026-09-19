@@ -1,5 +1,6 @@
 query GetFirstCommit($owner: String!, $name: String!) {
 	repository(owner: $owner, name: $name) {
+		createdAt
 		defaultBranchRef {
 			target {
 				... on Commit {
