@@ -25,5 +25,10 @@
 		[href$='/code_of_conduct.md' i] {
 			display: none;
 		}
+
+		/* Hide broken Readme link #10030 */
+		div:has(> [href='#readme-ov-file']) {
+			display: none;
+		}
 	}
 }
