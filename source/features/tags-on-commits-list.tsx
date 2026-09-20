@@ -1,9 +1,8 @@
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
-import {$} from 'select-dom';
-
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

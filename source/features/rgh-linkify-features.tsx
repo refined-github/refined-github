@@ -2,7 +2,6 @@ import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {closestElementOptional} from 'select-dom';
-
 import {mount} from 'svelte';
 
 import RelatedIssuesCount from '../components/related-issues-count.svelte';

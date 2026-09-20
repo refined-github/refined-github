@@ -1,4 +1,5 @@
 import './mark-pinned.css';
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PinIcon from 'octicons-plain-react/Pin';
