@@ -1,0 +1,52 @@
+# Requires Settings → Pages → Source: "GitHub Actions"
+name: Website
+
+on:
+  pull_request:
+    paths: &paths
+      - website/**
+      - build/**
+      - source/features/**
+      - source/options.css
+      - source/options/header.svelte
+      - .github/workflows/website.yml
+  push:
+    branches:
+      - main
+    paths: *paths
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx tsx website/build.ts
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: website/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

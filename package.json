@@ -11,6 +11,7 @@
 		"build:svelte": "svelte-check",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
+		"build:website": "node build/website.ts",
 		"fix": "run-p format \"lint -- --fix\" \"vitest -- --update\" --continue-on-error",
 		"format": "dprint fmt",
 		"format:check": "dprint check",

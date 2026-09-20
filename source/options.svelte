@@ -33,7 +33,7 @@
 	const host = $derived.by(() => (domain === 'default' ? 'github.com' : domain));
 </script>
 
-<Header title="Refined GitHub" withVersion>
+<Header title="Refined GitHub" version={chrome.runtime.getManifest().version}>
 	<p>
 		Visit the <a href="https://github.com/refined-github/refined-github/wiki"
 		>wiki</a> to learn about updates, debugging, and GitHub Enterprise. You can

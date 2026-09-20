@@ -1,0 +1,68 @@
+/* Loaded after options.css */
+main,
+footer {
+	max-width: var(--content-width);
+	margin: auto;
+	padding: 1em var(--viewport-margin);
+}
+
+footer {
+	text-align: center;
+	opacity: 0.8;
+}
+
+.install {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-bottom: 0;
+
+	a {
+		display: block;
+		padding: 0.4em 0.9em;
+		border: solid 1px light-dark(#d2d9e0, #3d444d);
+		border-radius: 6px;
+		background: light-dark(#fff, #0d1117);
+		text-decoration: none;
+	}
+}
+
+h2 {
+	font-weight: 200;
+}
+
+.highlights {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+	gap: 1.5em;
+
+	li {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5em;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	img {
+		width: 100%;
+		margin-top: auto;
+		border: solid 1px light-dark(#d2d9e0, #3d444d);
+		border-radius: 6px;
+	}
+}
+
+.features li {
+	padding-block: 0.4em;
+
+	&:target {
+		background: color-mix(in srgb, canvasText 8%, transparent);
+	}
+}
+
+.screenshot {
+	font-size: 0.85em;
+	opacity: 0.8;
+}

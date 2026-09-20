@@ -1,9 +1,11 @@
 <script lang="ts">
+	import type {Snippet} from 'svelte';
+
 	const {
 		title,
-		withVersion = false,
-	}: {title: string; withVersion?: boolean} = $props();
-	const {version} = chrome.runtime.getManifest();
+		version,
+		children,
+	}: {title: string; version?: string; children?: Snippet} = $props();
 </script>
 
 <header>
@@ -11,12 +13,12 @@
 		<h1>
 			<img src="icon.png" alt="" height="32" />
 			{title}
-			{#if withVersion}
+			{#if version}
 				<small>v{version}</small>
 			{/if}
 		</h1>
 		<div>
-			<slot />
+			{@render children?.()}
 		</div>
 	</div>
 </header>
