@@ -97,6 +97,10 @@ summary:hover {
 	background: light-dark(#e3e9ef, #0e1012);
 }
 
+svg {
+	fill: currentcolor;
+}
+
 .text-code {
 	font-size: 11px;
 }

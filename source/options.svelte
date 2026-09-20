@@ -21,7 +21,7 @@
 	import SearchIcon from 'octicons-plain-react/Search';
 	import ZapIcon from 'octicons-plain-react/Zap';
 
-	import DomChef from './dom-chef.svelte';
+	import DomChef from './components/dom-chef.svelte';
 	import ActionLink from './options/action-link.svelte';
 	import BackgroundStatus from './options/background-status.svelte';
 	import FeatureCount from './options/feature-count.svelte';
