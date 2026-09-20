@@ -1,7 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
-import delay from '../helpers/delay.js';
 import features from '../feature-manager.js';
+import delay from '../helpers/delay.js';
 
 async function maybeCleanUrl(): Promise<void> {
 	const parsed = new URL(location.href);

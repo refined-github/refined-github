@@ -3,14 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';
 
 import features from '../feature-manager.js';
-import {
-	onCommentFieldKeydown,
-	onConversationTitleFieldKeydown,
-} from '../github-events/on-field-keydown.js';
+import {onCommentFieldKeydown, onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 
-const formattingCharacters = ['`', '\'', '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
-const matchingCharacters = ['`', '\'', '"', ']', ')', '}', '*', '_', '~', '”', '’'];
-const quoteCharacters = new Set(['`', '\'', '"']);
+const formattingCharacters = ['`', "'", '"', '[', '(', '{', '*', '_', '~', '“', '‘'];
+const matchingCharacters = ['`', "'", '"', ']', ')', '}', '*', '_', '~', '”', '’'];
+const quoteCharacters = new Set(['`', "'", '"']);
 
 function eventHandler(event: DelegateEvent<KeyboardEvent, HTMLTextAreaElement | HTMLInputElement>): void {
 	const field = event.delegateTarget;

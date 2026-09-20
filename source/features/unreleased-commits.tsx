@@ -58,7 +58,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
 		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
-			node.oid === latestTagOid,
+			node.oid === latestTagOid
 		);
 
 		return {
@@ -86,9 +86,7 @@ async function createLink(
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon />
-			{' '}
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
+			<TagIcon /> {aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }

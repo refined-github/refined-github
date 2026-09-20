@@ -6,11 +6,11 @@ import * as pageDetect from 'github-url-detection';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import NotFoundInfo from './useful-not-found-page.svelte';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
 
 function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-fg-subtle">{text}</del>;
@@ -36,7 +36,10 @@ async function addDirectCommitLinkOnce(): Promise<void | false> {
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>
-			<span className="commit-ref"><a href={commitUrl}>{commitHash}</a></span> exists outside of this pull request.
+			<span className="commit-ref">
+				<a href={commitUrl}>{commitHash}</a>
+			</span>{' '}
+			exists outside of this pull request.
 		</p>,
 	);
 }
@@ -46,14 +49,18 @@ function crossTreeBreadcrumbs(signal: AbortSignal): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// 410 file
-		// Typo in GitHub's code
-		'[data-testid="eror-404-description"]',
+	observe(
+		[
+			// 410 file
+			// Typo in GitHub's code
+			'[data-testid="eror-404-description"]',
 
-		// 404 ref
-		'[data-testid="error-404-description"]',
-	], addWidget, {signal});
+			// 404 ref
+			'[data-testid="error-404-description"]',
+		],
+		addWidget,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

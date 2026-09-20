@@ -24,7 +24,7 @@ function onButtonClick(): void {
 			// TODO [2027-01-01]: Drop if PR lists have turned React
 			'.js-issue-row.selected',
 			'[aria-label^="Selected"]',
-		], link),
+		], link)
 	);
 
 	const linksToOpen = selectedLinks.length > 0
@@ -51,8 +51,8 @@ function add(anchor: HTMLElement): void {
 	const classes = isLegacy
 		? 'btn-link px-2'
 		: isSelected
-			? 'btn'
-			: 'btn btn-sm';
+		? 'btn'
+		: 'btn btn-sm';
 	anchor.prepend(
 		<button
 			type="button"

@@ -1,4 +1,5 @@
 import './unclip-checks.css';
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {closestElement} from 'select-dom';

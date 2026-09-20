@@ -11,17 +11,17 @@ const scrollableSelector = is(
 	'.comment-body',
 	'[data-testid="markdown-body"]',
 )
-+ ' '
-+ is(
-	'blockquote',
-	'pre',
-) + not(
-	/* Exclude clicked areas */
-	'.rgh-scrollable-expanded',
-	/* Exclude nested scrollable areas */
-	'blockquote *',
-	'pre *',
-);
+	+ ' '
+	+ is(
+		'blockquote',
+		'pre',
+	) + not(
+		/* Exclude clicked areas */
+		'.rgh-scrollable-expanded',
+		/* Exclude nested scrollable areas */
+		'blockquote *',
+		'pre *',
+	);
 
 function disableScroll(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	const area = event.delegateTarget;

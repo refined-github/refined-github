@@ -8,11 +8,11 @@ import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepoInfo from './repo-header-info.gql';
 import RepoHeaderInfo from './repo-header-info.svelte';
-import {buildRepoUrl} from '../github-helpers/index.js';
 
 export type RepositoryInfo = {
 	forked?: {url: string};

@@ -8,8 +8,8 @@ import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import observe from '../helpers/selector-observer.js';
 import {getCleanPathname} from '../github-helpers/index.js';
+import observe from '../helpers/selector-observer.js';
 
 function mark(link: HTMLAnchorElement): void {
 	// The state icon is left untouched so the row still says issue/PR/draft/merged
@@ -33,14 +33,14 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 	const {repository} = await api.v4(`
 		repository() {
 			${
-				conversations.map(({key, number}) => `
+		conversations.map(({key, number}) => `
 					${key}: issueOrPullRequest(number: ${number}) {
 						... on Lockable {
 							locked
 						}
 					}
 				`).join('\n')
-			}
+	}
 		}
 	`);
 
@@ -52,12 +52,16 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// Issue list, which also includes PRs
-		'a[data-testid="issue-pr-title-link"]',
-		// PR list. `data-hovercard-type` excludes the repo links that share this `data-testid`
-		'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
-	], batchedFunction(markLocked, {delay: 100}), {signal});
+	observe(
+		[
+			// Issue list, which also includes PRs
+			'a[data-testid="issue-pr-title-link"]',
+			// PR list. `data-hovercard-type` excludes the repo links that share this `data-testid`
+			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
+		],
+		batchedFunction(markLocked, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

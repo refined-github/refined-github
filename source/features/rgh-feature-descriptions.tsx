@@ -5,9 +5,9 @@ import {mount, unmount} from 'svelte';
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import singleton from '../helpers/singleton.js';
 import {openInNewTab} from './prevent-comment-loss.js';
 import Description from './rgh-feature-descriptions.svelte';
-import singleton from '../helpers/singleton.js';
 
 function addDescription(anchor: HTMLElement): () => void {
 	const app = mount(Description, {target: anchor.parentElement!, anchor});

@@ -1,17 +1,13 @@
-import {mount} from 'svelte';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
+import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {
-	getConversationNumber,
-	scrollIntoViewIfNeeded,
-	triggerConversationUpdate,
-} from '../github-helpers/index.js';
+import {getConversationNumber, scrollIntoViewIfNeeded, triggerConversationUpdate} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import delay from '../helpers/delay.js';
 import {randomArrayItem} from '../helpers/math.js';
@@ -124,7 +120,11 @@ async function initAutoOpenPopup(signal: AbortSignal): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)', addButtons, {signal});
+	observe(
+		'[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)',
+		addButtons,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

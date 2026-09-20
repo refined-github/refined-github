@@ -24,10 +24,14 @@ function attach(field: HTMLTextAreaElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		'textarea.js-comment-field',
-		'[class*="MarkdownInput-module__textArea"] textarea',
-	], attach, {signal});
+	observe(
+		[
+			'textarea.js-comment-field',
+			'[class*="MarkdownInput-module__textArea"] textarea',
+		],
+		attach,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

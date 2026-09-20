@@ -4,13 +4,13 @@ import memoize from 'memoize';
 import PencilIcon from 'octicons-plain-react/Pencil';
 import {$, closestElement, elementExists} from 'select-dom';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 // The signal is only used to memoize calls on the current page. A new page load will use a new signal.
 const isConversationIneditable = memoize(
@@ -35,7 +35,12 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 	}
 
 	// Disable feature on hidden comments #9857
-	if (elementExists(['.octicon-fold', '.octicon-unfold'], closestElement('[data-testid="comment-header-right-side-items"]', menuButton))) {
+	if (
+		elementExists(
+			['.octicon-fold', '.octicon-unfold'],
+			closestElement('[data-testid="comment-header-right-side-items"]', menuButton),
+		)
+	) {
 		return;
 	}
 
@@ -99,16 +104,16 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		// Scoped to comment headers; a bare kebab-button selector also matches unrelated menus like the PR checks section #9771
 		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"])'
-		+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
-		+ ' '
-		+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
+			+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
+			+ ' '
+			+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
 		addQuickEditButton,
 		{signal},
 	);
 
 	observe(
 		(isUserModerator ? '' : '.current-user')
-		+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
+			+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButtonLegacy,
 		{signal},
 	);

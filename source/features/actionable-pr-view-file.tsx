@@ -29,7 +29,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 	return (
 		// Tooltip doesn't exist if the file wasn't renamed
 		renamedTooltip?.textContent.split(' renamed to ', 2)[1]
-		?? fileNameElement.textContent
+			?? fileNameElement.textContent
 	).replaceAll(/\u{200E}|\u{200F}/gu, '').trim();
 }
 

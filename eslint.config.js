@@ -1,4 +1,3 @@
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import sveltePlugin from 'eslint-plugin-svelte';
@@ -14,8 +13,7 @@ export default defineConfig([
 	...eslintConfigXo({
 		browser: true,
 		gitignore: import.meta.url,
-		// TODO: Use after dprint is enabled on TSX files
-		// prettier: 'compat',
+		prettier: 'compat',
 	}),
 	{
 		plugins: {
@@ -25,9 +23,13 @@ export default defineConfig([
 		},
 		languageOptions: {
 			globals: {
-				...globals.browser,
 				...globals.webextensions,
 			},
+		},
+	},
+	{
+		rules: {
+			'markdown/no-empty-links': 'off', // We use hidden links for documentation
 		},
 	},
 	{
@@ -37,9 +39,6 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
-			'@stylistic/quotes': ['error', 'single', {avoidEscape: true}],
-			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
-			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
 			'no-console': 'off',
 			'no-warning-comments': 'off', // Noise
@@ -50,17 +49,17 @@ export default defineConfig([
 			'unicorn/dom-node-dataset': 'off',
 			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
-			'unicorn/no-immediate-mutation': 'off', // TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3700
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
-			'unicorn/prefer-combined-guards': 'off', // TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3702
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
-			'unicorn/prefer-query-selector': ['error', {allowWithVariables: true}],
-			'unicorn/prefer-short-arrow-method': 'off', // No like https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3118#issuecomment-4699459112
 			'unicorn/prefer-ternary': 'off', // Not always better
 			'unicorn/single-line-block-comment-style': 'off', // No thanks
+
+			// Customized
+			'unicorn/prefer-query-selector': ['error', {allowWithVariables: true}],
+			'unicorn/prefer-short-arrow-method': ['error', 'consistent-as-needed'],
 			'unicorn/name-replacements': [
 				'error',
 				{
@@ -77,18 +76,30 @@ export default defineConfig([
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
 
-			// TODO: Probably drop it after moving to dprint
-			// Also: https://github.com/un-ts/eslint-plugin-import-x/issues/500
+			// Spacing not covered by dprint
+			// TODO: https://github.com/dprint/dprint-plugin-typescript/issues/493
+			// TODO: https://github.com/un-ts/eslint-plugin-import-x/issues/500
 			'import-x/order': [
 				'error',
 				{
 					groups: [
+						'unknown',
 						[
 							'builtin',
 							'external',
 						],
 					],
-					'newlines-between': 'always-and-inside-groups',
+					pathGroups: [
+						{
+							pattern: '*.css',
+							patternOptions: {matchBase: true},
+							group: 'unknown',
+							position: 'before',
+						},
+					],
+					pathGroupsExcludedImportTypes: [],
+					warnOnUnassignedImports: true,
+					'newlines-between': 'always',
 				},
 			],
 		},
@@ -96,35 +107,6 @@ export default defineConfig([
 	{
 		files: ['**/*.ts', '**/*.tsx'],
 		rules: {
-			// TODO: Drop after moving to dprint
-			// Allow empty blocks like `catch {}` or `function noop() {}`
-			'@stylistic/curly-newline': ['error', {minElements: 1}],
-
-			// Dprint conflict fixer for the imports
-			// Copied from here, except ImportDeclaration
-			// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
-			'@stylistic/object-curly-newline': ['error', {
-				ObjectExpression: {
-					multiline: true,
-					minProperties: 4,
-					consistent: true,
-				},
-				ObjectPattern: {
-					multiline: true,
-					consistent: true,
-				},
-				ImportDeclaration: {
-					multiline: true,
-					minProperties: 10,
-					consistent: true,
-				},
-				ExportDeclaration: {
-					multiline: true,
-					minProperties: 4,
-					consistent: true,
-				},
-			}],
-
 			'@typescript-eslint/no-use-before-define': 'error',
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
@@ -179,26 +161,6 @@ export default defineConfig([
 		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
 		rules: {
 			'refined-github/css-documentation': 'error',
-		},
-	},
-	{
-		// Dprint doesn't run on tsx files yet, we need to allow style eslint rules
-		ignores: [
-			'**/*.tsx',
-		],
-		rules: {
-			...eslintConfigPrettier.rules,
-
-			'markdown/no-empty-links': 'off',
-
-			// TODO: Drop after moving to dprint and enabling the global `prettier:compat` option
-			// https://github.com/xojs/eslint-config-xo/issues/106
-			'@html-eslint/require-closing-tags': 'off',
-			'@html-eslint/require-form-method': 'off',
-			'@html-eslint/indent': 'off',
-			'@html-eslint/attrs-newline': 'off',
-			'@html-eslint/element-newline': 'off',
-			'@html-eslint/require-content': 'off',
 		},
 	},
 ]);

@@ -1,8 +1,7 @@
-import React from 'dom-chef';
-import {$, $$, closestElement, closestElementOptional} from 'select-dom';
-
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $$, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 

@@ -1,6 +1,6 @@
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import cx from 'clsx';
 
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';

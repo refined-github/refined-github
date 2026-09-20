@@ -1,11 +1,10 @@
 import './reactions-avatars.css';
 
+import {onAbort} from 'abort-utils';
 import React from 'dom-chef';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
 import {$$optional} from 'select-dom';
-
-import {onAbort} from 'abort-utils';
 
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';

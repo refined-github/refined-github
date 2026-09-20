@@ -23,7 +23,6 @@ async function scrollOnSearch(event: KeyboardEvent): Promise<void> {
 	const indicator = $optional(
 		// Issues
 		'[class*="LoadMore"]',
-
 		// TODO: Add support for PRs by detecting deferred-content wrappers
 	);
 	if (!indicator) {

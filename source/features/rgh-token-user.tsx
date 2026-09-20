@@ -1,5 +1,5 @@
-import AlertIcon from 'octicons-plain-react/Alert';
 import React from 'dom-chef';
+import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
 import {api3} from '../github-helpers/api.js';

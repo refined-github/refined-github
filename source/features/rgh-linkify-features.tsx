@@ -2,16 +2,15 @@ import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {closestElementOptional} from 'select-dom';
-
 import {mount} from 'svelte';
 
+import RelatedIssuesCount from '../components/related-issues-count.svelte';
 import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import RelatedIssuesCount from '../components/related-issues-count.svelte';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 

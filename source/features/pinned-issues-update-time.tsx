@@ -17,12 +17,12 @@ const lastUpdatedCache = new CachedFunction('last-updated', {
 		const {repository} = await api.v4(`
 		repository() {
 			${
-				issueNumbers.map(number => `
+			issueNumbers.map(number => `
 					${api.escapeKey(number)}: issue(number: ${number}) {
 						updatedAt
 					}
 				`).join('\n')
-			}
+		}
 		}
 	`);
 

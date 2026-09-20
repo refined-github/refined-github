@@ -1,7 +1,7 @@
-import {mount} from 'svelte';
-import {writable, readable} from 'svelte/store';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
+import {mount} from 'svelte';
+import {readable, writable} from 'svelte/store';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';
@@ -124,8 +124,8 @@ async function renderWidget(nativeButton: HTMLButtonElement): Promise<void> {
 		viewerThreadSubscriptionFormAction !== 'UNSUBSCRIBE'
 			? 'none'
 			: viewerCustomSubscriptionEvents.length > 0
-				? 'status'
-				: 'all';
+			? 'status'
+			: 'all';
 
 	const status = writable<SubscriptionStatus>(initialStatus);
 	const disabled = writable(false);

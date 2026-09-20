@@ -52,13 +52,13 @@ function buildQuery(prsByRepo: Map<string, Pr[]>): string {
 				nameWithOwner
 				defaultBranchRef { name }
 					${
-						prs.map(pr => `
+			prs.map(pr => `
 						${api.escapeKey('pr', pr.number)}: pullRequest(number: ${pr.number}) {
 							ref: baseRef { id }
 							refName: baseRefName
 						}
 					`).join('\n')
-					}
+		}
 			}
 		`;
 	}).join('\n');

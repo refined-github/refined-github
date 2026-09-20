@@ -1,16 +1,16 @@
-import * as pageDetect from 'github-url-detection';
-import React from 'dom-chef';
-import TrashIcon from 'octicons-plain-react/Trash';
 import delegate from 'delegate-it';
+import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
+import TrashIcon from 'octicons-plain-react/Trash';
 import {elementExists} from 'select-dom';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
-import observe from '../helpers/selector-observer.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
-import showToast from '../github-helpers/toast.js';
 import api from '../github-helpers/api.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import {withTooltipRef} from '../components/tooltip.js';
+import {buildRepoUrl} from '../github-helpers/index.js';
+import showToast from '../github-helpers/toast.js';
+import observe from '../helpers/selector-observer.js';
 
 async function deleteBranch(branchName: string): Promise<void> {
 	await api.v3(`git/refs/heads/${encodeURIComponent(branchName)}`, {
@@ -36,12 +36,14 @@ async function handleClickDeletion(): Promise<void> {
 }
 
 function add(contributeContainer: HTMLElement): void {
-	if (elementExists([
-		// No button if there are open PRs
-		'a[class*="PullRequestLink-module"]',
-		// No button if the branch is linked to upstream repo (generally the main branch)
-		'.octicon-sync',
-	], contributeContainer)) {
+	if (
+		elementExists([
+			// No button if there are open PRs
+			'a[class*="PullRequestLink-module"]',
+			// No button if the branch is linked to upstream repo (generally the main branch)
+			'.octicon-sync',
+		], contributeContainer)
+	) {
 		return;
 	}
 
@@ -51,7 +53,7 @@ function add(contributeContainer: HTMLElement): void {
 			className="btn btn-danger rgh-delete-branch"
 			ref={withTooltipRef('Delete branch')}
 		>
-			<TrashIcon/>
+			<TrashIcon />
 		</button>,
 	);
 }

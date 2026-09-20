@@ -8,10 +8,10 @@ import DiffIcon from 'octicons-plain-react/Diff';
 import {$, $$, $optional, elementExists} from 'select-dom';
 import tinyVersionCompare from 'tiny-version-compare';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {buildRepoUrl, getRepo, parseTag} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 type TagDetails = {
 	element: HTMLElement;
