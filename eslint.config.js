@@ -83,7 +83,7 @@ export default defineConfig([
 				'error',
 				{
 					groups: [
-						'style',
+						'unknown',
 						[
 							'builtin',
 							'external',
@@ -93,7 +93,7 @@ export default defineConfig([
 						{
 							pattern: '*.css',
 							patternOptions: {matchBase: true},
-							group: 'style',
+							group: 'unknown',
 							position: 'before',
 						},
 					],
