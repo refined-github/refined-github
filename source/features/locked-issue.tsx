@@ -1,7 +1,7 @@
 import cx from 'clsx';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LockIcon from 'octicons-plain-react/Lock';
-import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import isConversationLocked from '../github-helpers/is-conversation-locked.js';

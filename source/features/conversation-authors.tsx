@@ -1,8 +1,8 @@
 import './conversation-authors.css';
 
 import * as pageDetect from 'github-url-detection';
-import {CachedFunction} from 'webext-storage-cache';
 import {assertError} from 'ts-extras';
+import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';

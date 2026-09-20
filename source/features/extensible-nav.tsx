@@ -3,12 +3,12 @@ import './extensible-nav.css';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {$$, $optional, elementExists} from 'select-dom';
-import {assertPresent} from 'ts-extras';
 import {mount, unmount} from 'svelte';
 import {readable} from 'svelte/store';
+import {assertPresent} from 'ts-extras';
 
-import AiModel from 'octicons-plain-react/AiModel';
 import AgentIcon from 'octicons-plain-react/Agent';
+import AiModel from 'octicons-plain-react/AiModel';
 import BookIcon from 'octicons-plain-react/Book';
 import CodeIcon from 'octicons-plain-react/Code';
 import CommentDiscussionIcon from 'octicons-plain-react/CommentDiscussion';
@@ -21,8 +21,8 @@ import PlayIcon from 'octicons-plain-react/Play';
 import ShieldIcon from 'octicons-plain-react/Shield';
 import TableIcon from 'octicons-plain-react/Table';
 
+import {selectTab, setNativeTabs, type Tab, updateCurrentTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
-import {selectTab, setNativeTabs, updateCurrentTab, type Tab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import singleton from '../helpers/singleton.js';

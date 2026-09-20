@@ -49,10 +49,15 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 }
 
 function init(signal: AbortSignal): void {
-	delegate([
-		'input[name="pull_request[title]"]', // `isCompare`
-		'#commit-message-input', // `isEditingFile`, `isNewFile`
-	], 'keydown', onKeyDown, {signal, capture: true});
+	delegate(
+		[
+			'input[name="pull_request[title]"]', // `isCompare`
+			'#commit-message-input', // `isEditingFile`, `isNewFile`
+		],
+		'keydown',
+		onKeyDown,
+		{signal, capture: true},
+	);
 }
 
 void features.add(import.meta.url, {

@@ -1,9 +1,10 @@
-import {mount, type ComponentProps} from 'svelte';
 import React from 'dom-chef';
-import {$, $$optional} from 'select-dom';
-import {CachedFunction} from 'webext-storage-cache';
 import * as pageDetect from 'github-url-detection';
+import {$, $$optional} from 'select-dom';
+import {type ComponentProps, mount} from 'svelte';
+import {CachedFunction} from 'webext-storage-cache';
 
+import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 import features from '../feature-manager.js';
 import waitForPrMerge from '../github-events/on-pr-merge.js';
 import {userHasPushAccess} from '../github-helpers/get-user-permission.js';
@@ -11,20 +12,16 @@ import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import observe from '../helpers/selector-observer.js';
 import ClosingRemarks from './closing-remarks.svelte';
-import HeaderTag from '../components/closing-remarks-header-tag.svelte';
 
 const firstTag = new CachedFunction('first-tag', {
 	async updater(commit: string): Promise<string | false> {
 		const tagsAndBranches = await fetchDom(buildRepoUrl('branch_commits', commit));
 		const tags = $$optional('ul.branches-tag-list a', tagsAndBranches);
 		// Prefer versioned tags https://github.com/refined-github/refined-github/issues/7206
-		const tag = tags.findLast(({textContent}) =>
-			!textContent.includes('nightly') && /\d[.]\d/.test(textContent),
-		)
-
-		// But still select any tag if no versioned tags are found
-		// https://github.com/refined-github/refined-github/issues/9831
-		?? tags.at(-1);
+		const tag = tags.findLast(({textContent}) => !textContent.includes('nightly') && /\d[.]\d/.test(textContent))
+			// But still select any tag if no versioned tags are found
+			// https://github.com/refined-github/refined-github/issues/9831
+			?? tags.at(-1);
 
 		// No tags might be found at all
 		return tag?.textContent ?? false;

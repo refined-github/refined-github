@@ -1,6 +1,6 @@
 import React from 'dom-chef';
-import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import * as pageDetect from 'github-url-detection';
+import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
 import {$optional} from 'select-dom';
 
 import {assertTextContent} from '../helpers/dom-utils.js';

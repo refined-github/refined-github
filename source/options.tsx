@@ -7,9 +7,9 @@ import './options.svelte';
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
 
+import elementReady from 'element-ready';
 import {enableTabToIndent} from 'indent-textarea';
 import {$, $$} from 'select-dom';
-import elementReady from 'element-ready';
 import {assertDefined} from 'ts-extras';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';

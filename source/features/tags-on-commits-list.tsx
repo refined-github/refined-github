@@ -1,6 +1,6 @@
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import {$} from 'select-dom';
-import batchedFunction from 'batched-function';
 
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
@@ -8,11 +8,11 @@ import TagIcon from 'octicons-plain-react/Tag';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
 import joinJsx from '../helpers/join-jsx.js';
+import observe from '../helpers/selector-observer.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
-import {commitTitleInLists} from '../github-helpers/selectors.js';
 
 type CommitTags = Record<string, Set<string>>;
 

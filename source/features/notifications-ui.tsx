@@ -63,8 +63,8 @@ function compactDropdown(dropdown: Element): void {
 	} else {
 		label.classList.add('rgh-display-contents');
 		label.replaceChildren(
-			<span className='fgColor-severe'>Oldest first</span>,
-			<SortAscIcon className='fgColor-severe' />,
+			<span className="fgColor-severe">Oldest first</span>,
+			<SortAscIcon className="fgColor-severe" />,
 		);
 	}
 }
@@ -75,7 +75,7 @@ function markForm(status: 'read' | 'unread'): JSX.Element {
 	const icon = $('.mr-1:has(svg)', form).cloneNode(true);
 	return (
 		<button
-			className='d-flex justify-content-center align-items-center btn btn-sm mr-2'
+			className="d-flex justify-content-center align-items-center btn btn-sm mr-2"
 			form={form.id}
 			type="submit"
 		>

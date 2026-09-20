@@ -4,12 +4,12 @@ import BugIcon from 'octicons-plain-react/Bug';
 import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {addTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
-import {addTab} from '../components/extensible-nav-store.js';
 import onetime from '../helpers/onetime.js';
 import CountBugs from './bugs-tab.gql';
 
@@ -150,7 +150,8 @@ async function isBugsTabSelected(): Promise<boolean> {
 		return true;
 	}
 
-	return pageDetect.isIssue() && Boolean(await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`));
+	return pageDetect.isIssue()
+		&& Boolean(await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`));
 }
 
 void features.add(import.meta.url, {

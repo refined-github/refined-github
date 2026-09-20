@@ -6,6 +6,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
@@ -15,7 +16,6 @@ import {deletedHeadRepository} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import updatePullRequestBranch from './update-pr-from-base-branch.gql';
 
 /* eslint-disable @typescript-eslint/naming-convention -- Uppercase to match GraphQL enum values */

@@ -1,7 +1,7 @@
-import {mount} from 'svelte';
-import {writable, readable} from 'svelte/store';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
+import {mount} from 'svelte';
+import {readable, writable} from 'svelte/store';
 
 import features from '../feature-manager.js';
 import {getConversationNumber, getRepo} from '../github-helpers/index.js';

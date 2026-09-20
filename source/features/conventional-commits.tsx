@@ -6,8 +6,8 @@ This feature is documented at https://github.com/refined-github/refined-github/w
 
 import './conventional-commits.css';
 
-import * as pageDetect from 'github-url-detection';
 import React from 'dom-chef';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';

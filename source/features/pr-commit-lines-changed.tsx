@@ -2,11 +2,11 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
 
 // Adapted from GitHub https://github.com/refined-github/refined-github/pull/9486#discussion_r3252807259

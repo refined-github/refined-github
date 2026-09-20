@@ -5,12 +5,12 @@ import PlayIcon from 'octicons-plain-react/Play';
 import {$, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {

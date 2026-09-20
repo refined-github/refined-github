@@ -8,11 +8,17 @@ import {get} from 'svelte/store';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
-import {activityFilterState, fetchStateForCurrentUrl, type State, states, syncWrapper} from '../helpers/conversation-activity-filter.js';
+import {
+	activityFilterState,
+	fetchStateForCurrentUrl,
+	type State,
+	states,
+	syncWrapper,
+} from '../helpers/conversation-activity-filter.js';
+import {has, is} from '../helpers/css-selectors.js';
 import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
-import {is, has} from '../helpers/css-selectors.js';
 
 const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';

@@ -7,9 +7,12 @@ import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function cleanSidebarSection(section: HTMLElement): void {
-	// The h2 is to avoid hiding website links that include '/releases' #4424
-	// Hide the whole section if there's no releases, unless it has a "Create new release" link
-	if (elementExists('h2 a[href$="/releases"]', section) && !elementExists(['.octicon-tag', 'a[href$="releases/new"]'], section)) {
+	if (
+		// The h2 is to avoid hiding website links that include '/releases' #4424
+		elementExists('h2 a[href$="/releases"]', section)
+		// Hide the whole section if there's no releases, unless it has a "Create new release" link
+		&& !elementExists(['.octicon-tag', 'a[href$="releases/new"]'], section)
+	) {
 		section.hidden = true;
 		return;
 	}
@@ -30,7 +33,9 @@ function cleanSidebarSection(section: HTMLElement): void {
 	// Your own repos don't include this link
 	const reportLink = $optional('a[href^="/contact/report-content"]', section);
 	if (reportLink) {
-		$('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"]:last-child').append(reportLink.parentElement!);
+		$('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"]:last-child').append(
+			reportLink.parentElement!,
+		);
 	}
 }
 

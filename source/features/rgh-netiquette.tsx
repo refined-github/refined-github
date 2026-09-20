@@ -3,8 +3,8 @@ import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
 import {getCloseDate, wasLongAgo} from '../github-helpers/netiquette.js';
+import observe from '../helpers/selector-observer.js';
 import RghNetiquetteBanner from './rgh-netiquette.svelte';
 
 async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> {

@@ -5,8 +5,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';
 
-import features from '../feature-manager.js';
 import {withTooltipRef} from '../components/tooltip.js';
+import features from '../feature-manager.js';
 
 function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
