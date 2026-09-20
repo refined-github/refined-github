@@ -5,7 +5,7 @@ import {regexJoinWithSeparator} from 'regex-join';
 import {assert, describe, test} from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getFeaturesMeta, getImportedFeatures, headerRegex} from './features-parser.js'; // Export `headerRegex` from the parser
+import {getFeaturesMeta, getImportedFeatures} from './features-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob([
@@ -84,11 +84,6 @@ class FeatureFile {
 		return readFileSync(this.path, 'utf8');
 	}
 
-	// Contents without the metadata header
-	body(): string {
-		return this.contents().replace(headerRegex, '');
-	}
-
 	get tsx(): FeatureFile {
 		if (this.name.endsWith('.gql')) {
 			const id = importedFeatures.find(featureId => this.id.startsWith(featureId));
@@ -136,7 +131,7 @@ function validateCss(file: FeatureFile): void {
 
 		// `github-bugs` has its own ESLint rule for test URLs
 		if (file.id !== 'github-bugs') {
-			assert(/test url/i.test(file.body()), 'Should have test URLs');
+			assert(/test url/i.test(file.contents()), 'Should have test URLs');
 		}
 
 		if (!isFeaturePrivate(file.name)) {
@@ -156,7 +151,7 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.body());
+	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.contents());
 
 	assert(
 		!trailingComment || !/test url/i.test(trailingComment?.[0]),
@@ -183,7 +178,7 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	assert(/test url/i.test(file.body()), 'Should have test URLs');
+	assert(/test url/i.test(file.contents()), 'Should have test URLs');
 
 	if (
 		/api\.v4|getDefaultBranch|getPrInfo|method: '(?:PATCH|DELETE|POST)'/.test(file.contents())

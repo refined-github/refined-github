@@ -1,7 +1,7 @@
 import {existsSync, readdirSync, readFileSync} from 'node:fs';
 
 const featureFileRegex = /^(?<id>[^.]+)\.(?:tsx?|css)$/;
-export const headerRegex = /^\/\*\*(?<body>[\s\S]*?)\*\//;
+const headerRegex = /^\/\*\*(?<body>[\s\S]*?)\*\//;
 
 function getFeatureIds(): FeatureId[] {
 	const ids = new Set<string>();
