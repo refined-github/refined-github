@@ -1,3 +1,8 @@
+/**
+@description On branch commit lists, shows the PR that touches the current branch.
+@screenshot https://user-images.githubusercontent.com/16872793/119760295-b8751a80-be77-11eb-87da-91d0c403bb49.png
+*/
+
 import React from 'dom-chef';
 
 import features from '../feature-manager.js';

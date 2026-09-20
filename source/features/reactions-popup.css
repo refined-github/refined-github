@@ -1,3 +1,7 @@
+/**
+@description Improves the usability of the comment reactions popup by making it smaller.
+*/
+
 /* Restore two-line layout */
 :root .dropdown-menu-reactions {
 	display: grid !important;

@@ -1,3 +1,8 @@
+/**
+@description Hides <code>Projects</code> filter in issue/PR lists if it is empty.
+@screenshot https://github.com/user-attachments/assets/b690405f-b138-413d-9779-9467c160e802
+*/
+
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {$optional, elementExists} from 'select-dom';

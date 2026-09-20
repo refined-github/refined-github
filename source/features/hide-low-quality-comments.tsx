@@ -1,3 +1,8 @@
+/**
+@description Hides reaction comments ("+1", "👍", …) (except the maintainers’) but they can still be shown.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258220965-4743b9b9-2aef-41b3-a905-ccf8d7beb74e.png
+*/
+
 import './hide-low-quality-comments.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

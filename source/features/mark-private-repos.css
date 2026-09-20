@@ -1,3 +1,7 @@
+/**
+@description Highlights private repositories in the repository list with a distinct color.
+*/
+
 li.private .Label--secondary {
 	border-color: var(
 		--borderColor-attention-muted,

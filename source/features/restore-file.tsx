@@ -1,3 +1,8 @@
+/**
+@description Adds a button to discard all the changes to a file in a PR.
+@screenshot https://user-images.githubusercontent.com/1402241/236630610-e11a64f6-5e70-4353-89b8-39aae830dd16.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

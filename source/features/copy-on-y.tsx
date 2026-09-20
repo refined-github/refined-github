@@ -1,3 +1,8 @@
+/**
+@description Enhances the <kbd>y</kbd> hotkey to also copy the permalink.
+@screenshot https://github.com/user-attachments/assets/2237c549-5fc8-405c-8a72-7da518d23b0e
+*/
+
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
 import showOverlay from '../helpers/overlay.js';

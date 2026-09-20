@@ -1,3 +1,7 @@
+/**
+@description Adds a keyboard shortcut to deselect the current line: <kbd>esc</kbd>.
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 

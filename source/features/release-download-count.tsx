@@ -1,3 +1,8 @@
+/**
+@description Adds a download count next to release assets.
+@screenshot https://user-images.githubusercontent.com/1402241/197958719-1577bc1b-1f4d-44a8-98c2-2645b7b14d31.png
+*/
+
 /*
 
 This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization

@@ -1,3 +1,8 @@
+/**
+@description Adds a button to convert a release to draft.
+@screenshot https://user-images.githubusercontent.com/46634000/139236979-44533bfd-5c17-457d-bdc1-f9ec395f6a3a.png
+*/
+
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

@@ -1,3 +1,8 @@
+/**
+@description Linkifies branch references in "Quick PR" pages.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258553554-e1711be0-d5ce-4edc-aaf8-72d659c881bc.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional} from 'select-dom';

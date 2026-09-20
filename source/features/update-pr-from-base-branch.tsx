@@ -1,3 +1,8 @@
+/**
+@description Adds an "Update branch | Rebase" button to every PR. GitHub has the same feature, but it must be manually configured for each repo.
+@screenshot https://github.com/user-attachments/assets/7bd2745b-c57c-4c26-bbb8-b05e9cf089db
+*/
+
 import './update-pr-from-base-branch.css';
 
 import cx from 'clsx';

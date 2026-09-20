@@ -1,3 +1,7 @@
+/**
+@description Removes the file hover effect in the repo file browser.
+*/
+
 import './hide-navigation-hover-highlight.css';
 
 import features from '../feature-manager.js';

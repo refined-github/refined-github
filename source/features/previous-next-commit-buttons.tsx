@@ -1,3 +1,8 @@
+/**
+@description Adds duplicate commit navigation buttons at the bottom of the <code>Commits</code> tab page.
+@screenshot https://user-images.githubusercontent.com/24777/41755271-741773de-75a4-11e8-9181-fcc1c73df633.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';

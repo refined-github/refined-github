@@ -1,3 +1,8 @@
+/**
+@description Shows how far behind a PR head branch is + tells you its base commit.
+@screenshot https://user-images.githubusercontent.com/1402241/234492651-b54bf9ba-c218-4a30-bed4-f85a7f037297.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';

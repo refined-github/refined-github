@@ -1,3 +1,8 @@
+/**
+@description Helps you find forks on archived repos.
+@screenshot https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 

@@ -1,3 +1,8 @@
+/**
+@description Makes the "comment" icon in issue lists link to the latest comment of the issue.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261159396-0610574b-ab1f-42fb-813f-ee7310a1e5b6.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';

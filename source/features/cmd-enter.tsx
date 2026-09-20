@@ -1,3 +1,8 @@
+/**
+@description Fixes <kbd>cmd</kbd> <kbd>enter</kbd> to submit comments on closed PRs, which is broken.
+@screenshot https://github.com/user-attachments/assets/e972239b-6a28-42a4-9bac-fd71aa5a465f
+*/
+
 /* eslint-disable unicorn/name-replacements -- It's the key name */
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';

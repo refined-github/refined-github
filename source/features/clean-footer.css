@@ -1,3 +1,7 @@
+/**
+@description Dims the site footer so it's less prominent.
+*/
+
 .footer > .d-flex {
 	transition: opacity 0.2s ease;
 	margin: auto;

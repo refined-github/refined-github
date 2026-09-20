@@ -1,3 +1,8 @@
+/**
+@description Simplifies the UI to hide comments.
+@screenshot https://user-images.githubusercontent.com/1402241/43039221-1ddc91f6-8d29-11e8-9ed4-93459191a510.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

@@ -1,3 +1,8 @@
+/**
+@description Lets you toggle between open/closed/merged filters in searches.
+@screenshot https://user-images.githubusercontent.com/1402241/73605061-2125ed00-45cc-11ea-8cbd-41a53ae00cd3.gif
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';

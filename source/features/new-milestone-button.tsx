@@ -1,3 +1,8 @@
+/**
+@description Adds a 'New Milestone' button to the milestone page.
+@screenshot https://github.com/user-attachments/assets/1fceb336-6d32-4733-afe0-9971989b1987
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 

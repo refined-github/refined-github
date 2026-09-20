@@ -1,3 +1,8 @@
+/**
+@description Preserves current branch and path when viewing all commits by an author.
+@screenshot https://user-images.githubusercontent.com/44045911/148764372-ee443213-e61a-4227-9219-0ee54ed832e8.png
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$$} from 'select-dom';
 

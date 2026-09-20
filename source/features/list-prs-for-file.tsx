@@ -1,3 +1,8 @@
+/**
+@description Alerts you if the current file is altered by an open PR.
+@screenshot https://user-images.githubusercontent.com/1402241/234559302-b9911ac2-a1bb-4f8a-8e88-078d631cde18.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';

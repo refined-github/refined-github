@@ -1,3 +1,8 @@
+/**
+@description When navigating a repo's file on a specific tag, it adds a link to see the release/tag itself.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285123739-e5f4fa0a-3f48-49ef-9b87-2fd6f183c923.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';

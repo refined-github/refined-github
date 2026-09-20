@@ -1,3 +1,8 @@
+/**
+@description Marks merge commits in commit lists.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/285106996-9bdbc938-69c4-4692-8d47-11e30676de62.png
+*/
+
 import './mark-merge-commits-in-list.css';
 
 import batchedFunction from 'batched-function';

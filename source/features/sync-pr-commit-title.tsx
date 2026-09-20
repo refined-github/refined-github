@@ -1,3 +1,8 @@
+/**
+@description Uses the PR’s title as the default squash commit title and updates the PR’s title to match the commit title, if changed.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011579-25332762-b25f-407b-b6d2-bbfc13de2be7.png
+*/
+
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

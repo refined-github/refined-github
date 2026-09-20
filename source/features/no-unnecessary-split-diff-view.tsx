@@ -1,3 +1,8 @@
+/**
+@description Always uses unified diffs on files where split diffs aren’t useful.
+@screenshot https://user-images.githubusercontent.com/46634000/121495005-89af8600-c9d9-11eb-822d-77e0b987e3b1.png
+*/
+
 import './no-unnecessary-split-diff-view.css';
 
 import * as pageDetect from 'github-url-detection';

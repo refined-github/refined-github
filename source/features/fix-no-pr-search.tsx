@@ -1,3 +1,8 @@
+/**
+@description Redirect to repo issue list when the search doesn‘t include <code>is:pr</code>.
+@screenshot https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

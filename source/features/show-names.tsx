@@ -1,3 +1,8 @@
+/**
+@description Adds the real name of users by their usernames.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252756294-94785dc2-423e-498c-939a-359a012036e0.png
+*/
+
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

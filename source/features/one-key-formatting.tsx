@@ -1,3 +1,8 @@
+/**
+@description Wraps selected text when pressing one of Markdown symbols instead of replacing it: <code>[</code> `<code> </code> `<code> </code>'<code> </code>"<code> </code><em><code> </code>~<code> </code><em>`</em></em>
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261155564-e7aabd0e-b14b-4fe6-b379-62e7419c43f8.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {wrapFieldSelection} from 'text-field-edit';

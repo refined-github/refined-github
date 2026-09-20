@@ -1,3 +1,8 @@
+/**
+@description Marks locked issues and PRs in lists in repositories.
+@screenshot https://github.com/user-attachments/assets/4b186778-d9d5-447f-8077-d645dd5a8b17
+*/
+
 import './mark-locked.css';
 
 import batchedFunction from 'batched-function';

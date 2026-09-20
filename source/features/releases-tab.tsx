@@ -1,3 +1,8 @@
+/**
+@description Adds a <code>Releases</code> tab and a keyboard shortcut: <kbd>g</kbd> <kbd>r</kbd> (depends on <code>extensible-nav</code> feature).
+@screenshot https://cloud.githubusercontent.com/assets/170270/13136797/16d3f0ea-d64f-11e5-8a45-d771c903038f.png
+*/
+
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
 import {writable} from 'svelte/store';

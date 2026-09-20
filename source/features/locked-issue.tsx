@@ -1,3 +1,8 @@
+/**
+@description Show a label on locked issues and PRs.
+@screenshot https://user-images.githubusercontent.com/1402241/283015579-0a04becc-9bff-4aef-8770-272d6804970b.png
+*/
+
 import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

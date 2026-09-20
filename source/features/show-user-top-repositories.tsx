@@ -1,3 +1,8 @@
+/**
+@description Adds a link to the user’s most starred repositories.
+@screenshot https://user-images.githubusercontent.com/1402241/48474026-43e3ae80-e82c-11e8-93de-159ad4c6f283.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 

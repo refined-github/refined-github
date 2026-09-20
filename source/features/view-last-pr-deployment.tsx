@@ -1,3 +1,8 @@
+/**
+@description Adds a link to open the latest deployment to the PR header.
+@screenshot https://github.com/user-attachments/assets/90d2498d-ef65-45b9-96eb-07e7988bea61
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import RocketIcon from 'octicons-plain-react/Rocket';

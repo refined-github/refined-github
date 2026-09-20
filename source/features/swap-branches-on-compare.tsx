@@ -1,3 +1,8 @@
+/**
+@description Adds a link to swap branches in the branch compare view.
+@screenshot https://user-images.githubusercontent.com/44045911/230370539-ebc94246-864f-48f2-85fa-7318fc1f6d71.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

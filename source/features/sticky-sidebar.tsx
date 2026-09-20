@@ -1,3 +1,8 @@
+/**
+@description Makes sidebars sticky in repositories, issues, and PRs, if they fit the viewport.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252179311-ea6d42dc-1525-401a-bc4d-404cf8fa1785.gif
+*/
+
 import './sticky-sidebar.css';
 
 import {onAbort} from 'abort-utils';

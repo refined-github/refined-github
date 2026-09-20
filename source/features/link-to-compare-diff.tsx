@@ -1,3 +1,8 @@
+/**
+@description Linkifies the "X files changed" text on compare pages to allow jumping to the diff.
+@screenshot https://user-images.githubusercontent.com/46634000/157072587-0335357a-18c7-44c4-ae6e-237080fb36b4.png
+*/
+
 import './link-to-compare-diff.css';
 
 import React from 'dom-chef';

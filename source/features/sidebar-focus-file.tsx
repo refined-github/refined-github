@@ -1,3 +1,8 @@
+/**
+@description Scrolls the file tree to the current file.
+@screenshot https://github.com/user-attachments/assets/25e1e19e-799b-4dab-ae81-59ba17ad1194
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

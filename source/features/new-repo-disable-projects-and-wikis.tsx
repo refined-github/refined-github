@@ -1,3 +1,8 @@
+/**
+@description Automatically disables projects and wikis when creating a repository.
+@screenshot https://github.com/user-attachments/assets/2537e5a0-f537-4901-8d11-96c1f536663e
+*/
+
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

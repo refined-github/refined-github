@@ -1,3 +1,8 @@
+/**
+@description Suggests limiting commit and PR titles to 72 characters.
+@screenshot https://github.com/user-attachments/assets/e0392989-9c60-4f5c-9052-27a3bb51d4e4
+*/
+
 import './suggest-commit-title-limit.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

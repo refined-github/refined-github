@@ -1,3 +1,8 @@
+/**
+@description Adds shortcuts to issues, PRs conversations, and PR file lists: <kbd>j</kbd> focuses the comment/file below; <kbd>k</kbd> focuses the comment/file above; <kbd>x</kbd> marks the file as viewed/unviewed.
+@screenshot https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$$, $optional, closestElementOptional, elementExists} from 'select-dom';
 

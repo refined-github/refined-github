@@ -1,3 +1,8 @@
+/**
+@description Informs you that there are hidden comments or files when pressing <kbd>Cmd</kbd><kbd>F</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd>.
+@screenshot https://github.com/user-attachments/assets/5437d8fc-c539-4d13-98b3-d7049d2d92e7
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 

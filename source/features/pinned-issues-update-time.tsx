@@ -1,3 +1,8 @@
+/**
+@description Replaces the "opened" time with the "updated" time on pinned issues.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/240707405-e416be14-5ab5-4869-b33c-f43aab7afcb6.png
+*/
+
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

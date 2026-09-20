@@ -1,3 +1,8 @@
+/**
+@description While writing/editing comments, open the preview links in new tab instead of navigating away from the page.
+@screenshot https://user-images.githubusercontent.com/17681399/282616531-2befcabe-5c80-4b9a-bfb5-7b9917847bb5.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';

@@ -1,3 +1,8 @@
+/**
+@description Select notifications by type and status.
+@screenshot https://user-images.githubusercontent.com/83146190/252175851-e0826d3b-1990-4bff-ba09-71892463818e.gif
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$, $$, closestElement, elementExists} from 'select-dom';
 import {mount} from 'svelte';

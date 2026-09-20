@@ -1,3 +1,8 @@
+/**
+@description Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

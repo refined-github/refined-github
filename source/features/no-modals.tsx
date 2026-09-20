@@ -1,3 +1,8 @@
+/**
+@description Disable modals that reduce user-experience instead of enhancing it.
+@screenshot https://github.com/user-attachments/assets/7b63c7db-ae31-4ee8-8510-3b9db0c11f3e
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

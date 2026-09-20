@@ -1,3 +1,8 @@
+/**
+@description Simplifies the deletion of repositories. Adds "Delete fork" button on 0-star repos. Enables <kbd>shift</kbd> <kbd>alt</kbd> clicks to delete repos in 2 clicks.
+@screenshot https://github.com/user-attachments/assets/9e05ec18-680d-4fbd-acbd-2b5b3505c5b5
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import elementReady from 'element-ready';

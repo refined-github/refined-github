@@ -1,3 +1,8 @@
+/**
+@description Turns the "Resolve conflicts" dropdown into two plain buttons.
+@screenshot https://github.com/user-attachments/assets/a4920731-340d-48ec-96d9-066a1ef0564d
+*/
+
 import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

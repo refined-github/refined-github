@@ -1,3 +1,8 @@
+/**
+@description Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.
+@screenshot https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif
+*/
+
 import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';

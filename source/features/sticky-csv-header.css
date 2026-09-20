@@ -1,3 +1,7 @@
+/**
+@description Makes the first column of CSV/TSV file previews sticky while scrolling horizontally.
+*/
+
 .markdown-body .csv-data {
 	td, th {
 		/* Make first column sticky */

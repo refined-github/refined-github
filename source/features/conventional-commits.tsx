@@ -1,3 +1,8 @@
+/**
+@description Shows conventional commit types as labels before the commit message.
+@screenshot https://github.com/user-attachments/assets/980a2d5e-13c2-4b1b-bb80-81dc94723000
+*/
+
 /*
 
 This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization#conventional-commits

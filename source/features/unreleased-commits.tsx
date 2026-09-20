@@ -1,3 +1,8 @@
+/**
+@description Tells you whether you're looking at the latest version of a repository, or if there are any unreleased commits.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/267236196-8564c193-a3c7-4248-9735-54749c1990c7.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';

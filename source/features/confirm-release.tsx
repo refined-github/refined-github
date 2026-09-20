@@ -1,3 +1,8 @@
+/**
+@description Adds a confirmation dialog when publishing a release, preventing accidental submissions.
+@screenshot https://github.com/user-attachments/assets/6cff805d-3825-43c4-ac20-38c76decd858
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

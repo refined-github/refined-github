@@ -1,3 +1,8 @@
+/**
+@description Automatically shows all checks without scrolling when expanding the checks panel.
+@screenshot https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f
+*/
+
 import './unclip-checks.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

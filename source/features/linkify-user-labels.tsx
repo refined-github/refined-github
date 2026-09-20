@@ -1,3 +1,8 @@
+/**
+@description Links the "Contributor", "Member" and "Collaborator" labels on comments and PRs to the author’s commits on the repo.
+@screenshot https://user-images.githubusercontent.com/1402241/177033344-4d4eea63-e075-4096-b2d4-f4b879f1df31.png
+*/
+
 import './linkify-user-labels.css';
 
 import React from 'dom-chef';

@@ -1,3 +1,8 @@
+/**
+@description Removes unnecessary or redundant information from the repository sidebar.
+@screenshot https://user-images.githubusercontent.com/46634000/107955448-18694480-6f9e-11eb-8bc6-80cc90d910bc.png
+*/
+
 import './clean-repo-sidebar.css';
 
 import * as pageDetect from 'github-url-detection';

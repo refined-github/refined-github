@@ -1,3 +1,8 @@
+/**
+@description Removes duplicate information in the header of PRs ("User wants to merge X commits from Y into Z")
+@screenshot https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png
+*/
+
 import './clean-conversation-headers.css';
 
 import React from 'dom-chef';

@@ -1,3 +1,8 @@
+/**
+@description Shows a small avatar next to the username in issue/PR lists and mentions.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png
+*/
+
 import './small-user-avatars.css';
 
 import React from 'dom-chef';

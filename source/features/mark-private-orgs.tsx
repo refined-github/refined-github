@@ -1,3 +1,8 @@
+/**
+@description Marks private organizations on your own profile.
+@screenshot https://github.com/user-attachments/assets/145a7a97-7b8c-4ac4-8288-f72dcb4613ea
+*/
+
 import './mark-private-orgs.css';
 
 import React from 'dom-chef';

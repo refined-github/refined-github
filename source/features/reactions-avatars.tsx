@@ -1,3 +1,8 @@
+/**
+@description Adds reaction avatars showing <em>who</em> reacted to a comment.
+@screenshot https://user-images.githubusercontent.com/1402241/236628453-8b646178-b838-44a3-9541-0a9b5f54a84a.png
+*/
+
 import './reactions-avatars.css';
 
 import {onAbort} from 'abort-utils';

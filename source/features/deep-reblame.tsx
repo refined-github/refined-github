@@ -1,3 +1,8 @@
+/**
+@description When exploring blames, <code>Alt</code>-clicking the “Reblame” buttons will extract the associated PR’s commits first, instead of treating the commit as a single change.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257035884-732ee7ff-22c5-4049-af7d-f11117d2bbe4.png
+*/
+
 import './deep-reblame.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

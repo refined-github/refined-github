@@ -1,3 +1,8 @@
+/**
+@description Marks pinned issues in the issues list so duplicate rows are immediately recognizable.
+@screenshot https://github.com/user-attachments/assets/8ca3eb03-9567-4894-ace3-98de4d453f86
+*/
+
 import './mark-pinned.css';
 
 import React from 'dom-chef';

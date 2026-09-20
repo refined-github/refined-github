@@ -26,11 +26,17 @@ export default defineConfig([
 				...globals.webextensions,
 			},
 		},
-	},
-	{
 		rules: {
 			'markdown/no-empty-links': 'off', // We use hidden links for documentation
 		},
+
+    "settings": {
+        "jsdoc": {
+            "tagNamePreference": {
+                "screenshot": "screenshot"
+            }
+        }
+    }
 	},
 	{
 		files: [tsFilesGlob, jsFilesGlob, '**/*.svelte'],

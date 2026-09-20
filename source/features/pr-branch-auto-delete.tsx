@@ -1,3 +1,8 @@
+/**
+@description Automatically deletes the branch right after merging a PR, if possible. Common branch names known to be long-lived are excluded (<code>develop</code>, <code>release/*</code>, etc)
+@screenshot https://user-images.githubusercontent.com/1402241/177067141-eabc7494-38a2-45b5-aef9-ac33cc0da370.png
+*/
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

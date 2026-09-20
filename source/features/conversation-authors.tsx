@@ -1,3 +1,8 @@
+/**
+@description Highlights issues/PRs opened by you or the current repo’s collaborators.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252804821-a412e05c-fb76-400b-85b5-5acbda538ab2.png
+*/
+
 import './conversation-authors.css';
 
 import * as pageDetect from 'github-url-detection';

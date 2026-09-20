@@ -1,3 +1,8 @@
+/**
+@description Adds diff stats on PR commits.
+@screenshot https://github.com/user-attachments/assets/eb0f5e6e-9870-4daf-8c00-f1f23f61ef0f
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';

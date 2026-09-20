@@ -1,3 +1,8 @@
+/**
+@description Linkifies the user location in their hovercard and profile page.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262554067-43bea584-cdb4-41c7-b0fa-f487e7ef8807.png
+*/
+
 import React from 'dom-chef';
 import {closestElementOptional} from 'select-dom';
 

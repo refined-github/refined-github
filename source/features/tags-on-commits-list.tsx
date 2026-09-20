@@ -1,3 +1,8 @@
+/**
+@description Displays the corresponding tags next to commits.
+@screenshot https://user-images.githubusercontent.com/1402241/285106537-3c882cb2-6847-4098-9e51-cf2951dee818.png
+*/
+
 import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

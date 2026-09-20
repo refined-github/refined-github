@@ -1,3 +1,8 @@
+/**
+@description Linkifies the line numbers where GitHub forgot to add links.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3
+*/
+
 import './linkify-line-numbers.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

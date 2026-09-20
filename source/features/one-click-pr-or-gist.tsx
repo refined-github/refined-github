@@ -1,3 +1,8 @@
+/**
+@description Lets you create draft PRs and public gists in one click.
+@screenshot https://user-images.githubusercontent.com/34235681/152473201-868ad7c1-e06f-4826-b808-d90bca7f08b3.png
+*/
+
 import './one-click-pr-or-gist.css';
 
 import cx from 'clsx';

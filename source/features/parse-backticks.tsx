@@ -1,3 +1,8 @@
+/**
+@description GitHub renders `<code> </code>text in backticks<code> </code>` in some places but not others; this features fills in where forgotten.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262555091-df31aa17-e7a2-4c16-91ca-fb077ba6134a.png
+*/
+
 import './parse-backticks.css';
 
 import features from '../feature-manager.js';

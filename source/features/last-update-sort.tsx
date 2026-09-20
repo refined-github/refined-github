@@ -1,3 +1,7 @@
+/**
+@description Changes the default sort order of issues/PRs to <code>Recently updated</code>.
+*/
+
 import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
 

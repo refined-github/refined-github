@@ -1,3 +1,8 @@
+/**
+@description Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>.
+@screenshot https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional} from 'select-dom';
 

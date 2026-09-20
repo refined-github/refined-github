@@ -1,3 +1,8 @@
+/**
+@description Adds links to view the raw version, the blame, and the history of files in PRs and commits.
+@screenshot https://user-images.githubusercontent.com/46634000/145016304-aec5a8b8-4cdb-48e6-936f-b214a3fb4b49.png
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

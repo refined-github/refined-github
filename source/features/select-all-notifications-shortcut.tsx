@@ -1,3 +1,7 @@
+/**
+@description Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 

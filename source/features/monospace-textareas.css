@@ -1,3 +1,7 @@
+/**
+@description Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
+*/
+
 /* Use monospace font in various fields */
 /* Use same font-family as GitHub style for `code` */
 

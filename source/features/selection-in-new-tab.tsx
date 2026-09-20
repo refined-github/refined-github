@@ -1,3 +1,7 @@
+/**
+@description Adds a keyboard shortcut to open selection in new tab when navigating via <kbd>j</kbd> and <kbd>k</kbd>: <kbd>shift</kbd> <kbd>o</kbd>.
+*/
+
 import {$optional, closestElementOptional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 

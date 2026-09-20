@@ -1,3 +1,8 @@
+/**
+@description Shows which PRs have conflicts in PR lists.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253128438-d67c8f49-44f1-4e15-9363-a717109fef39.png
+*/
+
 import './conflict-marker.css';
 
 import batchedFunction from 'batched-function';

@@ -1,3 +1,8 @@
+/**
+@description Adds a link back to the PR that ran the workflow.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
 

@@ -1,3 +1,8 @@
+/**
+@description Adds a button in the text editor to insert collapsible content (via <code>&lt;details&gt;</code>).
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260875648-bd495d27-4cd1-4190-bcc5-b8b476f07d39.png
+*/
+
 import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';

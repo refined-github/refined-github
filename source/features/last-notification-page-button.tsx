@@ -1,3 +1,8 @@
+/**
+@description Adds a link to the last page of notifications.
+@screenshot https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

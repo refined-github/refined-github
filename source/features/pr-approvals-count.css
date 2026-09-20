@@ -1,3 +1,8 @@
+/**
+@description Shows color-coded review counts in PR lists.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png
+*/
+
 /* TODO: Drop feature when the new PR list is fully rolled out */
 
 /* Show approvals count in PR list */

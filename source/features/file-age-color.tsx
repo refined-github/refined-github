@@ -1,3 +1,8 @@
+/**
+@description Highlights the most-recently-modified items in file lists.
+@screenshot https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png
+*/
+
 /*
 
 This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization

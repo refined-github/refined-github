@@ -1,3 +1,7 @@
+/**
+@description Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow the user's preferences.
+*/
+
 /*
 
 This feature is documented at https://github.com/refined-github/refined-github/wiki/Customization#tab-size

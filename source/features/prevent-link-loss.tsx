@@ -1,3 +1,8 @@
+/**
+@description Suggests fixing links that are wrongly shortened by GitHub.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260087535-a0f19995-5f4a-44e9-87d8-cf742b9bfeed.gif
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$optional, closestElement} from 'select-dom';
 import {mount} from 'svelte';

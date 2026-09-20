@@ -1,3 +1,8 @@
+/**
+@description Widens the <code>Expand diff</code> button to be clickable across the screen.
+@screenshot https://user-images.githubusercontent.com/1402241/152118201-f25034c7-6fae-4be0-bb3f-c217647e32b7.gif
+*/
+
 import './extend-diff-expander.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

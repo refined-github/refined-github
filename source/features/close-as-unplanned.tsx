@@ -1,3 +1,8 @@
+/**
+@description Lets you "close issue as unplanned" in one click instead of three.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';

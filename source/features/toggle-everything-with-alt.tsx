@@ -1,3 +1,8 @@
+/**
+@description Adds a shortcut to toggle all similar items (minimized comments, deferred diffs, etc) at once: <kbd>alt</kbd> <kbd>click</kbd> on each button or checkbox.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253063446-6f556e7d-2ac5-439d-92f0-0c6d719fc86f.gif
+*/
+
 /* eslint-disable byo/no-inline-functions -- Covered by memoization */
 
 import delegate from 'delegate-it';

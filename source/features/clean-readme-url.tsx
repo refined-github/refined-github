@@ -1,3 +1,8 @@
+/**
+@description Drops redundant "readme-ov-file" parameter from repo URLs.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/73e96411-3314-4501-a9b6-d006af6fcc47
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

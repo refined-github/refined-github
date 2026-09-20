@@ -1,3 +1,8 @@
+/**
+@description In issue/PR lists, aligns the labels to the left, below each title.
+@screenshot https://github.com/user-attachments/assets/dca5dc12-7283-4704-a93f-5bfe5f2b1938
+*/
+
 import './align-issue-labels.css';
 
 import features from '../feature-manager.js';

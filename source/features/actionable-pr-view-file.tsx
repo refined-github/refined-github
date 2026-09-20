@@ -1,3 +1,8 @@
+/**
+@description Points the "View file" on PRs to the branch instead of the commit, so the Edit/Delete buttons will be enabled on the "View file" page.
+@screenshot https://user-images.githubusercontent.com/1402241/69044026-c5b17d80-0a26-11ea-86ae-c95f89d3669a.png
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional, closestElement, elementExists} from 'select-dom';

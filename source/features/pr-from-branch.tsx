@@ -1,3 +1,8 @@
+/**
+@description Lets you open a PR in one click on the branch page.
+@screenshot https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';

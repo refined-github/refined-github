@@ -1,3 +1,8 @@
+/**
+@description Lets you cancel or delete workflow runs faster from the workflow list.
+@screenshot https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b
+*/
+
 import './actions-run-removal.css';
 
 import React from 'dom-chef';

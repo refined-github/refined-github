@@ -1,3 +1,8 @@
+/**
+@description Embeds short gists when linked in comments on their own lines.
+@screenshot https://user-images.githubusercontent.com/1402241/152117903-80d784d5-4f43-4786-bc4c-d4993aec5c79.png
+*/
+
 import {css} from 'code-tag';
 import React from 'dom-chef';
 import domify from 'doma';

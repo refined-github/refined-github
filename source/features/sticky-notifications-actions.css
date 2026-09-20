@@ -1,3 +1,8 @@
+/**
+@description Make the notifications action bar sticky.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f
+*/
+
 @media (height >= 500px) {
 	.js-notifications-container {
 		--sticky-padding: 10px;

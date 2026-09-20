@@ -1,3 +1,8 @@
+/**
+@description On profiles, it shows whether the user follows you.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png
+*/
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

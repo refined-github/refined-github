@@ -1,3 +1,8 @@
+/**
+@description Lets you open all visible issues/PRs at once.
+@screenshot https://github.com/user-attachments/assets/0d890b01-d5ca-4247-8270-055dd6355606
+*/
+
 import cx from 'clsx';
 import delegate from 'delegate-it';
 import React from 'dom-chef';

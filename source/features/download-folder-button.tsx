@@ -1,3 +1,8 @@
+/**
+@description Adds a button to download entire folders, via https://download-directory.github.io.
+@screenshot https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import DownloadIcon from 'octicons-plain-react/Download';

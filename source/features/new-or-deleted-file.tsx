@@ -1,3 +1,8 @@
+/**
+@description Indicates with an icon whether files in commits and PRs are being added or removed.
+@screenshot https://user-images.githubusercontent.com/1402241/90332474-23262b00-dfb5-11ea-9a03-8fd676ea0fdd.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';

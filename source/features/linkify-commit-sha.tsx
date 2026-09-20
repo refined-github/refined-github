@@ -1,3 +1,8 @@
+/**
+@description Adds a link to the non-PR commit when visiting a PR commit.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';

@@ -1,3 +1,8 @@
+/**
+@description Adds a link to jump to the latest close event of a issue/PR.
+@screenshot https://user-images.githubusercontent.com/16872793/177792713-64219754-f8df-4629-a9ec-33259307cfe7.gif
+*/
+
 import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

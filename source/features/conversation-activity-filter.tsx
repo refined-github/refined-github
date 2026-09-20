@@ -1,3 +1,8 @@
+/**
+@description Lets you hide every event except comments or unresolved comments in issues and PRs.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png
+*/
+
 import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';

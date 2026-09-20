@@ -1,3 +1,8 @@
+/**
+@description Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.
+@screenshot https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';

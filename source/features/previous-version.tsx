@@ -1,3 +1,8 @@
+/**
+@description Lets you see the previous version of a file in one click.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import VersionsIcon from 'octicons-plain-react/Versions';

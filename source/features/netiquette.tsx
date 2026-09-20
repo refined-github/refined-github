@@ -1,3 +1,8 @@
+/**
+@description Adds unobtrusive netiquette reminders (old closed issues, highly-active issues, draft PRs, …).
+@screenshot https://github.com/user-attachments/assets/8646d663-7458-4e6d-888a-68d38110fcda
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {closestElementOptional} from 'select-dom';
 import {mount} from 'svelte';

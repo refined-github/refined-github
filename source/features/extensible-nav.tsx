@@ -1,3 +1,7 @@
+/**
+@description This is a core feature that enables other Refined GitHub features to extend or modify the repository navigation bar.
+*/
+
 import './extensible-nav.css';
 
 import elementReady from 'element-ready';

@@ -1,3 +1,8 @@
+/**
+@description Makes whitespace characters visible.
+@screenshot https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png
+*/
+
 import './show-whitespace.css';
 
 import {onAbort} from 'abort-utils';

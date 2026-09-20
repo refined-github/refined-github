@@ -1,3 +1,7 @@
+/**
+@description Enables the File Finder keyboard shortcut (<kbd>t</kbd>) on entire repository.
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 

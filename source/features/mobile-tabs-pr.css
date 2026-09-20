@@ -1,3 +1,7 @@
+/**
+@description Makes the PR tabs smaller so they fit in the screen without scrolling.
+*/
+
 /* Info: https://github.com/refined-github/refined-github/issues/7725 */
 @media (width <= 767px) {
 	a[class*='PullRequestHeaderNavigation'] {

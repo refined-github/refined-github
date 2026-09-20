@@ -1,3 +1,7 @@
+/**
+@description Lets you open pseudo-links in a new tab with <kbd>ctrl</kbd> <kbd>click</kbd> or middle click.
+*/
+
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

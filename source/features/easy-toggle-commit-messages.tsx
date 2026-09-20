@@ -1,3 +1,8 @@
+/**
+@description Enables toggling commit messages by clicking on the commit box.
+@screenshot https://user-images.githubusercontent.com/1402241/152121837-ca13bf8a-9b7f-4517-8e8d-b58bb135523b.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$optional, closestElementOptional} from 'select-dom';

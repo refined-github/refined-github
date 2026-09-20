@@ -1,3 +1,7 @@
+/**
+@description Adds dark mode to the global 404 page.
+*/
+
 /* Animate :hover Octocat brightening */
 .font-mktg > .position-relative [height='230'] {
 	transition: filter 1s ease-out;

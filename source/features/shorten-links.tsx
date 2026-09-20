@@ -1,3 +1,8 @@
+/**
+@description Shortens URLs and repo URLs to readable references like "<em>user/repo/.file@<code>d71718d</code>".</em>
+@screenshot https://user-images.githubusercontent.com/1402241/27252232-8fdf8ed0-538b-11e7-8f19-12d317c9cd32.png
+*/
+
 import features from '../feature-manager.js';
 import {linkifiedUrlClass, shortenLink} from '../github-helpers/dom-formatters.js';
 import onetime from '../helpers/onetime.js';

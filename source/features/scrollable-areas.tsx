@@ -1,3 +1,7 @@
+/**
+@description Limits the height of tall code blocks and quotes.
+*/
+
 import './scrollable-areas.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

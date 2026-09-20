@@ -1,3 +1,8 @@
+/**
+@description In the workflows sidebar, shows an indicator that a workflow can be triggered manually, and its next scheduled time if relevant.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252181237-a1d809b1-e5d4-4747-9654-7dde5ab5c61a.png
+*/
+
 import {parseCron} from '@fregante/mi-cron';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

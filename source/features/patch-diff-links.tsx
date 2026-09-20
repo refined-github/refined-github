@@ -1,3 +1,8 @@
+/**
+@description Adds links to <code>.patch</code> and <code>.diff</code> files in commits.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011950-51712338-ffba-4b71-ad8f-9a0f142afb85.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import DiffIcon from 'octicons-plain-react/Diff';

@@ -1,3 +1,7 @@
+/**
+@description Makes the file header sticky when scrolling through code diffs.
+*/
+
 /* `.sticky-file-header` excludes native sticky header */
 :root .file-header:not(.sticky-file-header) {
 	position: sticky;

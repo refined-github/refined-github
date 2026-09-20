@@ -1,3 +1,8 @@
+/**
+@description Makes certain text clickable, like issue references in the issue title and discussion sidebar.
+@screenshot https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 

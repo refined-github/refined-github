@@ -1,3 +1,8 @@
+/**
+@description Adds a button to view the changelog file from the releases page.
+@screenshot https://user-images.githubusercontent.com/46634000/139236982-a1bce2a2-f3aa-40a9-bca4-8756bc941210.png
+*/
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

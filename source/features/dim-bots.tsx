@@ -1,3 +1,8 @@
+/**
+@description Dims commits and PRs by bots to reduce noise.
+@screenshot https://user-images.githubusercontent.com/1402241/220607557-f8ea0863-f05b-48c8-a447-1fec42af0afd.gif
+*/
+
 import './dim-bots.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

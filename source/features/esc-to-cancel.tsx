@@ -1,3 +1,8 @@
+/**
+@description Adds a shortcut to cancel editing a PR title: <kbd>esc</kbd>.
+@screenshot https://user-images.githubusercontent.com/35100156/98303086-d81d2200-1fbd-11eb-8529-70d48d889bcf.gif
+*/
+
 import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

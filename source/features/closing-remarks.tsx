@@ -1,3 +1,8 @@
+/**
+@description Shows the first Git tag a merged PR was included in or suggests creating a release if not yet released.
+@screenshot https://user-images.githubusercontent.com/1402241/169497171-85d4a97f-413a-41b4-84ba-885dca2b51cf.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$optional} from 'select-dom';

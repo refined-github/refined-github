@@ -1,3 +1,8 @@
+/**
+@description Enables toggling file diffs by clicking on their header bar.
+@screenshot https://user-images.githubusercontent.com/47531779/99855419-be173e00-2b7e-11eb-9a55-0f6251aeb0ef.gif
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

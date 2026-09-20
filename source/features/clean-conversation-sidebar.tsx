@@ -1,3 +1,8 @@
+/**
+@description Hides empty sections (or just their "empty" label) in the issue/PR sidebar.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253054419-48c38c01-b1dc-42ca-9ff6-fd63392b5921.png
+*/
+
 import './clean-conversation-sidebar.css';
 
 import React from 'dom-chef';

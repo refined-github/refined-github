@@ -1,3 +1,8 @@
+/**
+@description Adds links to browse the repository and linked files at the time of each comment.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252749373-9313f1d9-3d92-44a2-a1d1-2b49a29e6a5c.png
+*/
+
 import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';

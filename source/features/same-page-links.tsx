@@ -1,3 +1,7 @@
+/**
+@description Keeps links from opening in new tabs when they shouldn't. "Open in new tab" must be the user's choice, not the default behavior.
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

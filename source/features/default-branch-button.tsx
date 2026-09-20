@@ -1,3 +1,8 @@
+/**
+@description Adds a link to the default branch on directory listings and files.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png
+*/
+
 import './default-branch-button.css';
 
 import React from 'dom-chef';

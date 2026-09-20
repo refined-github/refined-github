@@ -1,3 +1,7 @@
+/**
+@description Stacks the old and new titles in title change timeline events for better readability.
+*/
+
 /* Stack titles in title edition events to improve readability */
 
 div:has(> span[class^='RenamedTitleEvent']),

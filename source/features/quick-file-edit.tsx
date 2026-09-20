@@ -1,3 +1,8 @@
+/**
+@description Adds a button to edit files from the repo file list.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252182890-081975f4-f041-4ba5-ae48-d52cb0796543.png
+*/
+
 import './quick-file-edit.css';
 
 import React from 'dom-chef';

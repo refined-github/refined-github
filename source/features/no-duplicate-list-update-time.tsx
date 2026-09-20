@@ -1,3 +1,8 @@
+/**
+@description Hides the update time of issues/PRs in lists when it matches the open/closed/merged time.
+@screenshot https://user-images.githubusercontent.com/1402241/111357166-ac3a3900-864e-11eb-884a-d6d6da88f7e2.png
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$$} from 'select-dom';
 

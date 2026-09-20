@@ -1,3 +1,8 @@
+/**
+@description Simplifies the PR review form: Approve or reject reviews faster with one-click review-type buttons.
+@screenshot https://user-images.githubusercontent.com/1402241/236627732-df341ff7-cd98-4cd0-a579-722d1fffa5cf.png
+*/
+
 // Note: This feature only works on the legacy PR Files view.
 // We will drop the feature once that view has been gone for 6 months.
 // https://github.com/refined-github/refined-github/issues/8711

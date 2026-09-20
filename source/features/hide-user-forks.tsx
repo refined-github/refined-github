@@ -1,3 +1,8 @@
+/**
+@description Filters out forks and archived repos from profiles by default, leaving only the sources. (but they can still be shown.)
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png
+*/
+
 import features from '../feature-manager.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';

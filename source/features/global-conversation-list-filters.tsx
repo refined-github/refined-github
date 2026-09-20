@@ -1,3 +1,8 @@
+/**
+@description Adds filters for PRs <em>in your repos</em> and <em>commented on by you</em> in the global PR search.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png
+*/
+
 import './global-conversation-list-filters.css';
 
 import React from 'dom-chef';

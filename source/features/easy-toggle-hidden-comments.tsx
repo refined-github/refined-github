@@ -1,3 +1,8 @@
+/**
+@description Enables toggling hidden comments and resolved/outdated review threads by clicking on their header bar.
+@screenshot https://github.com/user-attachments/assets/d002c991-621e-4ac2-adac-099916af107f
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

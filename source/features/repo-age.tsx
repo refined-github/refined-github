@@ -1,3 +1,8 @@
+/**
+@description Displays the age of the repository in the sidebar.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176778-f8260312-d0dc-41b5-a4d1-ca680208d347.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import RepoIcon from 'octicons-plain-react/Repo';

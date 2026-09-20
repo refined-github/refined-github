@@ -1,3 +1,8 @@
+/**
+@description Adds stars, CI, fork and private status to the repository header.
+@screenshot https://github.com/user-attachments/assets/6b115387-962c-4cf4-b864-c750f9c8e0b1
+*/
+
 import './repo-header-info.css';
 
 import React from 'dom-chef';

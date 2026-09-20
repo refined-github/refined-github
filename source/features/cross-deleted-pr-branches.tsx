@@ -1,3 +1,8 @@
+/**
+@description Adds a line-through to the deleted branches in PRs.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/256963526-646ac7d0-3e7f-40c6-ba39-014b49bc0063.png
+*/
+
 import './cross-deleted-pr-branches.css';
 
 import * as pageDetect from 'github-url-detection';

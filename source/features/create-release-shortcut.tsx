@@ -1,3 +1,7 @@
+/**
+@description Adds a keyboard shortcut to create a new release while on the Releases page: <kbd>c</kbd>.
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

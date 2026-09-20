@@ -1,3 +1,8 @@
+/**
+@description Lets you edit any comment with one click instead of having to open a dropdown.
+@screenshot https://user-images.githubusercontent.com/46634000/162252055-54750c89-0ddc-487a-b4ad-cec6009d9870.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';

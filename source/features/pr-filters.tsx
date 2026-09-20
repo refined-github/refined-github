@@ -1,3 +1,8 @@
+/**
+@description Adds Checks and Draft PR dropdown filters in PR lists.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';

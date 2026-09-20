@@ -1,3 +1,8 @@
+/**
+@description Adds the profile picture to the header of public repositories.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png
+*/
+
 import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

@@ -1,3 +1,8 @@
+/**
+@description Adds quick-review buttons to the PR sidebar, automatically focuses the review textarea, and adds a keyboard shortcut to open the review popup: <kbd>v</kbd>.
+@screenshot https://github.com/refined-github/refined-github/assets/1402241/f11039c4-c9d1-4adc-9a65-cfe1f2027ec3
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import filterAlteredClicks from 'filter-altered-clicks';

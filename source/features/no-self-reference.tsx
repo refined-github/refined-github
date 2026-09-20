@@ -1,3 +1,8 @@
+/**
+@description Warns against self-reference links, helping you avoid mistakes.
+@screenshot https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd
+*/
+
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';

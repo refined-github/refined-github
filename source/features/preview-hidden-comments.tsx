@@ -1,3 +1,8 @@
+/**
+@description Previews hidden comments inline.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/262556553-ca04b870-9adb-4a8c-a6d0-6238863948be.png
+*/
+
 import './preview-hidden-comments.css';
 
 import React from 'dom-chef';

@@ -1,3 +1,7 @@
+/**
+@description Closes checks list when clicking outside of modal.
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 

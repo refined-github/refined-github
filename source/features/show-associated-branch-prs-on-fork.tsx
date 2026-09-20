@@ -1,3 +1,8 @@
+/**
+@description Shows the associated PRs on branches for forked repositories.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260873542-2a7fc7a2-231f-4f2e-9c7e-272d894de4c6.png
+*/
+
 import './show-associated-branch-prs-on-fork.css';
 
 import cx from 'clsx';

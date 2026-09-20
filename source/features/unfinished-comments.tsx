@@ -1,3 +1,8 @@
+/**
+@description Notifies the user of unfinished comments in hidden tabs.
+@screenshot https://user-images.githubusercontent.com/1402241/97792086-423d5d80-1b9f-11eb-9a3a-daf716d10b0e.gif
+*/
+
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$$optional} from 'select-dom';

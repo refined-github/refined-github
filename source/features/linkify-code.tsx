@@ -1,3 +1,8 @@
+/**
+@description Linkifies issue/PR references and URLs in code.
+@screenshot https://cloud.githubusercontent.com/assets/170270/25370217/61718820-29b3-11e7-89c5-2959eaf8cac8.png
+*/
+
 import * as pageDetect from 'github-url-detection';
 import {$, $$optional} from 'select-dom';
 

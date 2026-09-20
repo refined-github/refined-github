@@ -1,3 +1,8 @@
+/**
+@description Adds a link to visit the user’s github.io website from its repo.
+@screenshot https://user-images.githubusercontent.com/34235681/152473104-c4723999-9239-48fd-baee-273b01c4eb87.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import LinkIcon from 'octicons-plain-react/Link';

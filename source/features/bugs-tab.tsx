@@ -1,3 +1,8 @@
+/**
+@description Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label (depends on <code>extensible-nav</code> feature).
+@screenshot https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png
+*/
+
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';

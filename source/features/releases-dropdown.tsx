@@ -1,3 +1,8 @@
+/**
+@description Adds a tags dropdown/search on release pages.
+@screenshot https://user-images.githubusercontent.com/1402241/231678527-f0a96112-9c30-4b49-8205-efa472bd880e.png
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

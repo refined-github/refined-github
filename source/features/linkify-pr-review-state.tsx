@@ -1,3 +1,8 @@
+/**
+@description Linkifies the PR review state labels ("Draft", "Changes requested", etc) in PR lists to filter by that state.
+@screenshot https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';

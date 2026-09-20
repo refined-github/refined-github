@@ -1,3 +1,8 @@
+/**
+@description Jumps to first non-viewed file in a PR when clicking on the progress bar.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257011208-764f509d-fed9-424b-84e9-c01cf2fd428b.gif
+*/
+
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

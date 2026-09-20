@@ -1,3 +1,7 @@
+/**
+@description Makes the notifications list more compact when grouped by repo.
+*/
+
 /* Place conversation number before the title */
 .js-notifications-group [id^='notification'] {
 	flex-direction: row !important;

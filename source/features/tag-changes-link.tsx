@@ -1,3 +1,8 @@
+/**
+@description Adds a link to changes since last tag/release for each tag/release.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257036739-bebafb94-cb94-4053-9768-ff97306ab862.png
+*/
+
 import './tag-changes-link.css';
 
 import cx from 'clsx';

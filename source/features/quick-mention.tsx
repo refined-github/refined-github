@@ -1,3 +1,8 @@
+/**
+@description Adds a button to <code>@mention</code> a user in issues and PRs.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261158402-5a79cc3e-4331-475f-8063-5ed81fefcf10.gif
+*/
+
 import './quick-mention.css';
 
 import delegate, {type DelegateEvent} from 'delegate-it';

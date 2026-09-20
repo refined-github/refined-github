@@ -1,3 +1,8 @@
+/**
+@description In your forked repos, shows number of your open PRs to the original repo.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252177140-94165582-628b-45b6-9a62-faf0c7fc2335.png
+*/
+
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';

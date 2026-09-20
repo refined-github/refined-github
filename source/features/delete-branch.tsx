@@ -1,3 +1,8 @@
+/**
+@description Adds a button to delete the current branch on the branch page.
+@screenshot https://github.com/user-attachments/assets/02478585-0613-4070-9616-df069dbc6c38
+*/
+
 import delegate from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

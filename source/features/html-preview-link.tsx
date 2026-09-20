@@ -1,3 +1,8 @@
+/**
+@description Adds a link to preview HTML files.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 

@@ -1,3 +1,8 @@
+/**
+@description Adds a button to the notification page to open all your unread notifications at once.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/140871606/257085496-17e5c6fa-6bad-443d-96d2-d97e73cd1a5e.png
+*/
+
 import './open-all-notifications.css';
 
 import cx from 'clsx';

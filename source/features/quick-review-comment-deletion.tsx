@@ -1,3 +1,8 @@
+/**
+@description Adds a button to delete review comments in one click when editing them.
+@screenshot https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435
+*/
+
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';

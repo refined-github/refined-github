@@ -1,3 +1,8 @@
+/**
+@description Lets you see how others are using the current Action in the Marketplace.
+@screenshot https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258552390-7d2cd013-c167-4fe5-9731-33622b8607e9.png
+*/
+
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SearchIcon from 'octicons-plain-react/Search';

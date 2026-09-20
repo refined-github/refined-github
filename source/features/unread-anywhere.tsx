@@ -1,3 +1,8 @@
+/**
+@description Adds a button to the global header to open your unread notifications from any page.
+@screenshot https://github.com/user-attachments/assets/978ac1fe-db98-40f9-9b56-7d289849aa2f
+*/
+
 import './unread-anywhere.css';
 
 import React from 'dom-chef';

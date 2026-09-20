@@ -1,3 +1,8 @@
+/**
+@description Cleans up the Notifications page header, especially on mobile.
+@screenshot https://github.com/user-attachments/assets/88b96125-83a1-4550-bf2d-ec1bac264783
+*/
+
 import './notifications-ui.css';
 
 import cx from 'clsx';

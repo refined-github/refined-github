@@ -1,3 +1,7 @@
+/**
+@description Adds a keyboard shortcut to visit your own profile: <kbd>g</kbd> <kbd>m</kbd>.
+*/
+
 import {isEnterprise} from 'github-url-detection';
 
 import features from '../feature-manager.js';
