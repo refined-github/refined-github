@@ -50,11 +50,9 @@ export default defineConfig([
 			'unicorn/dom-node-dataset': 'off',
 			'unicorn/max-nested-calls': 'off', // 3 is too low, can't be bothered rn
 			'unicorn/no-break-in-nested-loop': 'off', // Don't care
-			'unicorn/no-immediate-mutation': 'off', // TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3700
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
-			'unicorn/prefer-combined-guards': 'off', // TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3702
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-query-selector': ['error', {allowWithVariables: true}],
