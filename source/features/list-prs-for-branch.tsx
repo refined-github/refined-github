@@ -38,7 +38,7 @@ async function add(parent: HTMLDetailsElement): Promise<void | false> {
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
 			<StateIcon className={stateColorMap[prInfo.state]} />
-			<span> #{prInfo.number}</span>
+			<span>{' #'}{prInfo.number}</span>
 		</a>,
 	);
 }
