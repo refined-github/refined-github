@@ -1,4 +1,3 @@
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import eslintConfigXo, {jsFilesGlob, tsFilesGlob} from 'eslint-config-xo';
 import byoPlugin from 'eslint-plugin-byo';
 import sveltePlugin from 'eslint-plugin-svelte';
@@ -24,9 +23,13 @@ export default defineConfig([
 		},
 		languageOptions: {
 			globals: {
-				...globals.browser,
 				...globals.webextensions,
 			},
+		},
+	},
+	{
+		rules: {
+			'markdown/no-empty-links': 'off', // We use hidden links for documentation
 		},
 	},
 	{
@@ -36,7 +39,6 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
-			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
 			'no-console': 'off',
 			'no-warning-comments': 'off', // Noise
@@ -80,7 +82,7 @@ export default defineConfig([
 				'error',
 				{
 					groups: [
-						'unknown',
+						'style',
 						[
 							'builtin',
 							'external',
@@ -90,7 +92,7 @@ export default defineConfig([
 						{
 							pattern: '*.css',
 							patternOptions: {matchBase: true},
-							group: 'unknown',
+							group: 'style',
 							position: 'before',
 						},
 					],
@@ -158,22 +160,6 @@ export default defineConfig([
 		files: ['source/features/github-bugs.css', 'source/refined-github.css'],
 		rules: {
 			'refined-github/css-documentation': 'error',
-		},
-	},
-	{
-		rules: {
-			...eslintConfigPrettier.rules,
-
-			'markdown/no-empty-links': 'off',
-
-			// TODO: Drop after moving to dprint and enabling the global `prettier:compat` option
-			// https://github.com/xojs/eslint-config-xo/issues/106
-			'@html-eslint/require-closing-tags': 'off',
-			'@html-eslint/require-form-method': 'off',
-			'@html-eslint/indent': 'off',
-			'@html-eslint/attrs-newline': 'off',
-			'@html-eslint/element-newline': 'off',
-			'@html-eslint/require-content': 'off',
 		},
 	},
 ]);

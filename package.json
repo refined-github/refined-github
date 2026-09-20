@@ -100,7 +100,6 @@
 		"dprint-plugin-markup": "^0.27.3",
 		"dprint-plugin-yaml": "^0.6.0",
 		"eslint": "^10.11.0",
-		"eslint-config-prettier": "^10.1.8",
 		"eslint-config-xo": "^4.0.0",
 		"eslint-formatter-unix": "^9.0.1",
 		"eslint-plugin-byo": "^1.0.1",
