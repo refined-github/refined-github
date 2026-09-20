@@ -7,7 +7,9 @@ function getFeatureIds(): FeatureId[] {
 	const ids = new Set<string>();
 	for (const file of readdirSync('source/features')) {
 		const id = featureFileRegex.exec(file)?.groups!.id;
-		if (id) {ids.add(id);}
+		if (id) {
+			ids.add(id);
+		}
 	}
 
 	return [...ids] as FeatureId[];
@@ -21,7 +23,9 @@ function parseHeader(source: string): Record<string, string> {
 	for (const chunk of text.split(/^@/m).slice(1)) {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking -- Why is this still enabled?
 		const {name, value} = /^(?<name>\w+)\s+(?<value>[\s\S]*)$/.exec(chunk.trim())?.groups ?? {};
-		if (name && value) {tags[name] ??= value;}
+		if (name && value) {
+			tags[name] ??= value;
+		}
 	}
 
 	return tags;
@@ -34,7 +38,9 @@ function extractDataFromFeature(id: FeatureId): FeatureMeta | undefined {
 		existsSync(path)
 	)!;
 	const {description, screenshot} = parseHeader(readFileSync(file, 'utf8'));
-	if (!description) {return;}
+	if (!description) {
+		return;
+	}
 
 	return {
 		id,

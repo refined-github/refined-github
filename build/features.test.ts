@@ -4,7 +4,6 @@ import path from 'node:path';
 import {regexJoinWithSeparator} from 'regex-join';
 import {assert, describe, test} from 'vitest';
 
-import featureGroupsJson from './feature-groups.json' with {type: 'json'};
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
 import {getFeaturesMeta, getImportedFeatures, headerRegex} from './features-parser.js'; // Export `headerRegex` from the parser
 

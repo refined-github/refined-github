@@ -1,13 +1,12 @@
 import {assert, describe, test} from 'vitest';
 
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import featureGroupsJson from './feature-groups.json' with {type: 'json'};
+import featureGroups from './feature-groups.json' with {type: 'json'};
 import {getFeaturesMeta} from './features-parser.js';
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob('../source/features/*.*');
 
-const featureGroups: Record<string, string[]> = featureGroupsJson;
 const featuresMeta = getFeaturesMeta();
 const fireRegex = /^🔥 /;
 const groupedIds = Object.values(featureGroups).flat().map(entry => entry.replace(fireRegex, ''));
@@ -22,7 +21,7 @@ describe('feature-groups.json', () => {
 
 	test('Highlights have a screenshot and are not marked with 🔥', () => {
 		for (const entry of featureGroups.Highlights) {
-			assert(!entry.startsWith("🔥 "), `${entry} is already in Highlights, remove the 🔥`);
+			assert(!entry.startsWith('🔥 '), `${entry} is already in Highlights, remove the 🔥`);
 			const meta = featuresMeta.find(({id}) => id === entry);
 			assert(meta?.screenshot, `${entry} should have a screenshot to be in Highlights`);
 		}
@@ -45,7 +44,7 @@ describe('feature-groups.json', () => {
 	test('groups only list existing features', () => {
 		const ids = new Set(featuresMeta.map(({id}) => id));
 		for (const id of groupedIds) {
-			assert(ids.has(id), `${id} is in feature-groups.json but has no description in its file header`);
+			assert(ids.has(id as FeatureId), `${id} is in feature-groups.json but has no description in its file header`);
 		}
 	});
 });
