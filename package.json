@@ -11,12 +11,10 @@
 		"build:svelte": "svelte-check",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
-		"fix": "run-p format \"lint:biome -- --write\" \"lint:eslint -- --fix\" \"vitest -- --update\" --continue-on-error",
+		"fix": "run-p format \"lint -- --fix\" \"vitest -- --update\" --continue-on-error",
 		"format": "dprint fmt",
 		"format:check": "dprint check",
-		"lint": "run-p lint:* --continue-on-error",
-		"lint:eslint": "eslint .",
-		"lint:biome": "biome lint",
+		"lint": "eslint .",
 		"new": "bash build/new-feature.sh",
 		"pack:safari": "xcodebuild -project 'safari/Refined GitHub.xcodeproj' -scheme 'Refined GitHub' -destination 'platform=macOS'",
 		"prepare:safari": "bash build/prepare-safari-release.sh",
@@ -78,7 +76,6 @@
 		"zip-text-nodes": "^1.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.14",
 		"@dprint/json": "^0.24.0",
 		"@dprint/typescript": "^0.96.1",
 		"@eslint/css": "^2.0.0",
