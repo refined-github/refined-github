@@ -11,7 +11,7 @@
 		"build:svelte": "svelte-check",
 		"build:typescript": "tsc --noEmit",
 		"build:bundle": "rollup -c",
-		"fix": "run-p format \"lint:eslint -- --fix\" \"vitest -- --update\" --continue-on-error",
+		"fix": "run-p format \"lint -- --fix\" \"vitest -- --update\" --continue-on-error",
 		"format": "dprint fmt",
 		"format:check": "dprint check",
 		"lint": "eslint .",
