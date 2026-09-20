@@ -4,7 +4,7 @@
 */
 
 // Note: This feature only works on the legacy PR Files view.
-// We will drop the feature once that view has been gone for 6 months.
+// TODO: Drop the feature once that view has been gone for 6 months.
 // https://github.com/refined-github/refined-github/issues/8711
 // https://github.com/refined-github/refined-github/issues/9447
 import cx from 'clsx';

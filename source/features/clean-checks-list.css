@@ -2,7 +2,6 @@
 @description Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
 */
 
-/* Bringing running checks and failed checks to the top of the list */
 /* .octicon-check targets "successful" checks */
 /* .octicon-x targets "failed" checks */
 /* .octicon-skip targets "skipped" checks */

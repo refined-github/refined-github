@@ -5,7 +5,6 @@
 
 /* TODO: Drop feature when the new PR list is fully rolled out */
 
-/* Show approvals count in PR list */
 .js-issue-row .color-fg-muted.text-small {
 	a[aria-label*='approval'] {
 		font-size: 0;

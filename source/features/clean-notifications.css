@@ -2,8 +2,8 @@
 @description Makes the notifications list more compact when grouped by repo.
 */
 
-/* Place conversation number before the title */
 .js-notifications-group [id^='notification'] {
+	/* Place conversation number before the title */
 	flex-direction: row !important;
 
 	/* Hide duplicate repository URL */

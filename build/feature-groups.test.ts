@@ -11,7 +11,6 @@ const featuresMeta = getFeaturesMeta();
 const fireRegex = /^🔥 /;
 const groupedIds = Object.values(featureGroups).flat().map(entry => entry.replace(fireRegex, ''));
 
-// Documented in the file header, but intentionally not listed in any group
 const hiddenFromGroups = new Set<string>(['extensible-nav']);
 
 describe('feature-groups.json', () => {
