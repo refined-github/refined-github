@@ -173,6 +173,7 @@
 	{
 		"id": "conversation-activity-filter",
 		"description": "Lets you hide every event except comments or unresolved comments in issues and PRs.",
+		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252116522-053bce84-5c55-477b-8cc2-42a48104fb02.png"
 	},
 	{
@@ -216,6 +217,7 @@
 	{
 		"id": "default-branch-button",
 		"description": "Adds a link to the default branch on directory listings and files.",
+		"css": true,
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/252176294-9130783c-51aa-4df9-9c35-9b87c179199a.png"
 	},
 	{
@@ -591,7 +593,7 @@
 	},
 	{
 		"id": "one-click-diff-options",
-		"description": "Adds \"Hide whitespace\" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd> <kbd>w</kbd>.",
+		"description": "Adds \"Hide whitespace\" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd><kbd>w</kbd>.",
 		"screenshot": "https://github.com/user-attachments/assets/0b92992a-69a4-4de1-ab2a-cb6508870b4a"
 	},
 	{
@@ -799,11 +801,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "refined-github.css",
-		"description": "Reduces tabs’ size to 4 spaces instead of 8 where GitHub doesn't follow the user’s preferences.",
-		"screenshot": "https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png"
-	},
-	{
 		"id": "release-download-count",
 		"description": "Adds a download count next to release assets.",
 		"css": true,
@@ -915,6 +912,7 @@
 	{
 		"id": "show-whitespace",
 		"description": "Makes whitespace characters visible.",
+		"css": true,
 		"screenshot": "https://user-images.githubusercontent.com/1402241/61187598-f9118380-a6a5-11e9-985a-990a7f798805.png"
 	},
 	{
@@ -993,11 +991,11 @@
 		"description": "Reduces the default tab indent width from 8 to 4 characters in code views where GitHub doesn't follow the user's preferences.",
 		"css": true,
 		"cssOnly": true,
-		"screenshot": null
+		"screenshot": "https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png"
 	},
 	{
 		"id": "tab-to-indent",
-		"description": "Enables <kbd>tab</kbd> and <kbd>shift</kbd> <kbd>tab</kbd> for indentation in comment fields.",
+		"description": "Enables <kbd>tab</kbd> and <kbd>shift</kbd><kbd>tab</kbd> for indentation in comment fields.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/33802977-beb8497c-ddbf-11e7-899c-698d89298de4.gif"
 	},
 	{

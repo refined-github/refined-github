@@ -30,13 +30,13 @@ export default defineConfig([
 			'markdown/no-empty-links': 'off', // We use hidden links for documentation
 		},
 
-    "settings": {
-        "jsdoc": {
-            "tagNamePreference": {
-                "screenshot": "screenshot"
-            }
-        }
-    }
+		'settings': {
+			'jsdoc': {
+				'tagNamePreference': {
+					'screenshot': 'screenshot',
+				},
+			},
+		},
 	},
 	{
 		files: [tsFilesGlob, jsFilesGlob, '**/*.svelte'],

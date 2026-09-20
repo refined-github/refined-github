@@ -4,8 +4,9 @@ import path from 'node:path';
 import {regexJoinWithSeparator} from 'regex-join';
 import {assert, describe, test} from 'vitest';
 
+import featureGroupsJson from './feature-groups.json' with {type: 'json'};
 import {isFeaturePrivate} from '../source/helpers/feature-utils.js';
-import {getFeaturesMeta, getImportedFeatures} from './readme-parser.js';
+import {getFeaturesMeta, getImportedFeatures, headerRegex} from './features-parser.js'; // Export `headerRegex` from the parser
 
 // Re-run tests when these files change https://github.com/vitest-dev/vitest/discussions/5864
 void import.meta.glob([
@@ -54,7 +55,7 @@ const noScreenshotExceptions = new Set([
 const entryPoint = 'source/refined-github.ts';
 const entryPointSource = readFileSync(entryPoint);
 const importedFeatures = getImportedFeatures();
-const featuresInReadme = getFeaturesMeta();
+const featuresMeta = getFeaturesMeta();
 
 // We used to enforce the filetype, but this is no longer possible with new URLs
 // https://github.com/refined-github/refined-github/pull/7130
@@ -84,6 +85,11 @@ class FeatureFile {
 		return readFileSync(this.path, 'utf8');
 	}
 
+	// Contents without the metadata header
+	body(): string {
+		return this.contents().replace(headerRegex, '');
+	}
+
 	get tsx(): FeatureFile {
 		if (this.name.endsWith('.gql')) {
 			const id = importedFeatures.find(featureId => this.id.startsWith(featureId));
@@ -104,22 +110,20 @@ class FeatureFile {
 	}
 }
 
-function validateReadme(featureId: FeatureId): void {
-	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
-	assert(featureMeta, 'Should be described in the readme');
+function validateMeta(file: FeatureFile): void {
+	const featureMeta = featuresMeta.find(feature => feature.id === file.id);
+	assert(featureMeta, 'Should have a `@description` in the file header');
 
 	assert(
 		featureMeta.description.length >= 20,
-		'Should be described better in the readme (at least 20 characters)',
+		'Should be described better in the file header (at least 20 characters)',
 	);
 
 	assert(
-		screenshotRegex.test(featureMeta.screenshot!)
-			|| noScreenshotExceptions.has(featureId),
-		'Should have a screenshot (png/gif) in the readme, unless really difficult to demonstrate (to be discussed in review)',
+		screenshotRegex.test(featureMeta.screenshot ?? '')
+			|| noScreenshotExceptions.has(file.id),
+		'Should have a `@screenshot` (png/gif) in the file header, unless really difficult to demonstrate (to be discussed in review)',
 	);
-
-	assert(!duplicate, 'Should be described only once in the readme');
 }
 
 function validateCss(file: FeatureFile): void {
@@ -133,11 +137,11 @@ function validateCss(file: FeatureFile): void {
 
 		// `github-bugs` has its own ESLint rule for test URLs
 		if (file.id !== 'github-bugs') {
-			assert(/test url/i.test(file.contents()), 'Should have test URLs');
+			assert(/test url/i.test(file.body()), 'Should have test URLs');
 		}
 
 		if (!isFeaturePrivate(file.name)) {
-			validateReadme(file.id);
+			validateMeta(file);
 		}
 
 		return;
@@ -153,7 +157,7 @@ function validateCss(file: FeatureFile): void {
 		`Should only be imported by \`${file.tsx.name}\`, not by \`${entryPoint}\``,
 	);
 
-	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.contents());
+	const trailingComment = /\/\*[\s\S]*\*\/\n$/.exec(file.body());
 
 	assert(
 		!trailingComment || !/test url/i.test(trailingComment?.[0]),
@@ -180,7 +184,7 @@ function validateTsx(file: FeatureFile): void {
 		`Should be imported by \`${entryPoint}\``,
 	);
 
-	assert(/test url/i.test(file.contents()), 'Should have test URLs');
+	assert(/test url/i.test(file.body()), 'Should have test URLs');
 
 	if (
 		/api\.v4|getDefaultBranch|getPrInfo|method: '(?:PATCH|DELETE|POST)'/.test(file.contents())
@@ -219,7 +223,7 @@ function validateTsx(file: FeatureFile): void {
 	}
 
 	if (!isFeaturePrivate(file.name)) {
-		validateReadme(file.id);
+		validateMeta(file);
 	}
 }
 

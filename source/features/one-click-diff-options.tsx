@@ -1,5 +1,5 @@
 /**
-@description Adds "Hide whitespace" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd> <kbd>w</kbd>.
+@description Adds "Hide whitespace" button to Compare pages and a keyboard shortcut to PRs and Compare pages: <kbd>d</kbd><kbd>w</kbd>.
 @screenshot https://github.com/user-attachments/assets/0b92992a-69a4-4de1-ab2a-cb6508870b4a
 */
 
