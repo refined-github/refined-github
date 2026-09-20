@@ -77,6 +77,7 @@ export default defineConfig([
 			'import-x/prefer-default-export': 'error',
 
 			// Spacing not covered by dprint
+			// TODO: https://github.com/dprint/dprint-plugin-typescript/issues/493
 			// TODO: https://github.com/un-ts/eslint-plugin-import-x/issues/500
 			'import-x/order': [
 				'error',
