@@ -66,7 +66,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			}
 
 			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[\s"':]+(?<cron>[^\n"']+)/gm)].map(match =>
-				match.groups!.cron,
+				match.groups!.cron
 			);
 			details[workflow.name] = {
 				...workflow,

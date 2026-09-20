@@ -60,7 +60,7 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 			href={buildRepoUrl('releases/tag', tag)}
 		>
 			<code>{tag}</code>
-		</a>,
+		</a>
 	);
 
 	$([

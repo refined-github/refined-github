@@ -33,14 +33,14 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 	const {repository} = await api.v4(`
 		repository() {
 			${
-				conversations.map(({key, number}) => `
+		conversations.map(({key, number}) => `
 					${key}: issueOrPullRequest(number: ${number}) {
 						... on Lockable {
 							locked
 						}
 					}
 				`).join('\n')
-			}
+	}
 		}
 	`);
 

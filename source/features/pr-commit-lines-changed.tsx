@@ -47,10 +47,7 @@ async function add(commitHash: HTMLElement): Promise<void> {
 	const {green, red, gray} = calculateDiffSquareCounts(additions, deletions);
 	commitHash.prepend(
 		<span ref={withTooltipRef(tooltip)} className="ml-2 tmp-ml-2 d-md-block d-none diffstat">
-			<span className="color-fg-success">+{additions}</span>
-			{' '}
-			<span className="color-fg-danger">−{deletions}</span>
-			{' '}
+			<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span>{' '}
 			{repeatItems(green, () => <span className="diffstat-block-added" />)}
 			{repeatItems(red, () => <span className="diffstat-block-deleted" />)}
 			{repeatItems(gray, () => <span className="diffstat-block-neutral" />)}

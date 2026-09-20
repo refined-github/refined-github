@@ -23,7 +23,8 @@ const noSingleIsWhere = {
 						context.report({
 							node,
 							messageId: 'unnecessaryFunction',
-							fix: (fixer) => fixer.replaceText(
+							fix: (fixer) =>
+								fixer.replaceText(
 									node,
 									sourceCode.getText(selectors[0]),
 								),

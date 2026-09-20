@@ -104,16 +104,16 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(
 		// Scoped to comment headers; a bare kebab-button selector also matches unrelated menus like the PR checks section #9771
 		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"])'
-		+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
-		+ ' '
-		+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
+			+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
+			+ ' '
+			+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
 		addQuickEditButton,
 		{signal},
 	);
 
 	observe(
 		(isUserModerator ? '' : '.current-user')
-		+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
+			+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButtonLegacy,
 		{signal},
 	);

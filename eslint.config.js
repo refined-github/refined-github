@@ -14,8 +14,7 @@ export default defineConfig([
 	...eslintConfigXo({
 		browser: true,
 		gitignore: import.meta.url,
-		// TODO: Use after dprint is enabled on TSX files
-		// prettier: 'compat',
+		prettier: 'compat',
 	}),
 	{
 		plugins: {
@@ -37,8 +36,6 @@ export default defineConfig([
 			'select-dom/prefer': ['error', {
 				allowReadabilityExceptions: true,
 			}],
-			'@stylistic/quotes': ['error', 'single', {avoidEscape: true}],
-			'@stylistic/operator-linebreak': 'off', // `dprint` conflict
 			'@stylistic/jsx-quotes': 'off', // Keep existing quote style in JSX
 			'no-alert': 'off',
 			'no-console': 'off',
@@ -96,35 +93,6 @@ export default defineConfig([
 	{
 		files: ['**/*.ts', '**/*.tsx'],
 		rules: {
-			// TODO: Drop after moving to dprint
-			// Allow empty blocks like `catch {}` or `function noop() {}`
-			'@stylistic/curly-newline': ['error', {minElements: 1}],
-
-			// Dprint conflict fixer for the imports
-			// Copied from here, except ImportDeclaration
-			// https://github.com/xojs/eslint-config-xo/blob/0e5bd83b1780f3a6a63ae270c3c8ee0ab947cc8f/source/javascript-rules.js#L458
-			'@stylistic/object-curly-newline': ['error', {
-				ObjectExpression: {
-					multiline: true,
-					minProperties: 4,
-					consistent: true,
-				},
-				ObjectPattern: {
-					multiline: true,
-					consistent: true,
-				},
-				ImportDeclaration: {
-					multiline: true,
-					minProperties: 10,
-					consistent: true,
-				},
-				ExportDeclaration: {
-					multiline: true,
-					minProperties: 4,
-					consistent: true,
-				},
-			}],
-
 			'@typescript-eslint/no-use-before-define': 'error',
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
@@ -182,10 +150,6 @@ export default defineConfig([
 		},
 	},
 	{
-		// Dprint doesn't run on tsx files yet, we need to allow style eslint rules
-		ignores: [
-			'**/*.tsx',
-		],
 		rules: {
 			...eslintConfigPrettier.rules,
 

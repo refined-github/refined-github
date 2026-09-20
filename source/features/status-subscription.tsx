@@ -124,8 +124,8 @@ async function renderWidget(nativeButton: HTMLButtonElement): Promise<void> {
 		viewerThreadSubscriptionFormAction !== 'UNSUBSCRIBE'
 			? 'none'
 			: viewerCustomSubscriptionEvents.length > 0
-				? 'status'
-				: 'all';
+			? 'status'
+			: 'all';
 
 	const status = writable<SubscriptionStatus>(initialStatus);
 	const disabled = writable(false);

@@ -39,7 +39,8 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 		} else {
 			const container = <div />;
 			container.attachShadow({mode: 'open'}).append(
-				<style>{`
+				<style>
+					{`
 					.gist .gist-data {
 						max-height: 16em;
 						overflow-y: auto;
