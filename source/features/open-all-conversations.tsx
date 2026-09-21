@@ -11,6 +11,8 @@ import observe from '../helpers/selector-observer.js';
 function onButtonClick(): void {
 	const links = $$([
 		'a[data-testid="issue-pr-title-link"]',
+		// PR list. Repository links share the same test ID.
+		'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'a.h4.js-navigation-open',
 	]);
@@ -47,6 +49,7 @@ function add(anchor: HTMLElement): void {
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'.table-list-triage',
 		'[aria-label="Bulk actions"]',
+		'[aria-label="Pull request actions"]',
 	], anchor);
 	const classes = isLegacy
 		? 'btn-link px-2'
@@ -72,6 +75,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			'.table-list-header-toggle:not(.states)',
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
+			'[id$="-list-view-metadata"] > :has([aria-label="Pull request filters"])',
+			'[aria-label="Pull request actions"] > :first-child',
 		],
 		add,
 		{signal},
