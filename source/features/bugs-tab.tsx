@@ -132,10 +132,8 @@ async function addBugsTabOnce(): Promise<void | false> {
 		throw error; // Likely an API call error that will be handled by the init
 	}
 
-	// Exact counting should not delay the tab or replace the approximate count on failure
-	try {
-		counter.set(await exactBugs.get(query));
-	} catch {}
+	// Count again once we know the label, without delaying the initial tag appearance
+	counter.set(await exactBugs.get(query));
 }
 
 async function removePinnedIssues(): Promise<void> {
