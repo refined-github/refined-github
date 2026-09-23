@@ -1,0 +1,6 @@
+query SubscribeRelease($owner: String!, $name: String!) {
+	repository(owner: $owner, name: $name) {
+		id
+		viewerSubscription
+	}
+}

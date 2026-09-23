@@ -221,3 +221,4 @@ import './features/extend-repo-tabs.js';
 import './features/delete-branch.js';
 import './features/pr-from-branch.js';
 import './features/mark-locked.js';
+import './features/subscribe-releases.js';
