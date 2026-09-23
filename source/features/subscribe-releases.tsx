@@ -1,4 +1,4 @@
-import {closestElement} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -7,12 +7,15 @@ import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 import SubscribeRelease from './subscribe-releases.svelte';
 
-async function subscribeRequest(repositoryId: string): Promise<void> {
+async function subscribeRequest(repositoryId: string, threadTypes: string[]): Promise<void> {
 	const form = new FormData();
 
 	form.append('do', 'custom');
 	form.append('repository_id', repositoryId);
-	form.append('thread_types[]', 'Release');
+
+	for (const type of new Set([...threadTypes, 'Release'])) {
+		form.append('thread_types[]', type);
+	}
 
 	const response = await fetch(
 		'https://github.com/notifications/subscribe',
@@ -32,11 +35,15 @@ async function subscribeRequest(repositoryId: string): Promise<void> {
 	}
 }
 
-async function subscribeToReleases(repositoryId: string): Promise<void> {
-	await showToast(async () => subscribeRequest(repositoryId), {
+async function subscribeToReleases(repositoryId: string, threadTypes: string[]): Promise<void> {
+	await showToast(async () => subscribeRequest(repositoryId, threadTypes), {
 		message: 'Subscribing to releases',
 		doneMessage: 'Subscribed to releases',
 	});
+}
+
+function getRepositoryId(): string {
+	return $('meta[name="hovercard-subject-tag"]', document).content.split(':', 2)[1];
 }
 
 function addButton(releasesFilter: HTMLInputElement): void {
@@ -47,6 +54,7 @@ function addButton(releasesFilter: HTMLInputElement): void {
 		target,
 		anchor: target.firstElementChild!,
 		props: {
+			repositoryId: getRepositoryId(),
 			onSubscribe: subscribeToReleases,
 		},
 	});
@@ -67,6 +75,6 @@ void features.add(import.meta.url, {
 /*
 
 Test URLs
-https://github.com/refined-github/refined-github
+https://github.com/refined-github/refined-github/releases
 
 */

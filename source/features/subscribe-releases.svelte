@@ -3,16 +3,16 @@
 	import EyeIcon from 'octicons-plain-react/Eye';
 
 	import DomChef from '../components/dom-chef.svelte';
-	import {buildRepoUrl} from '../github-helpers/index.js';
 	import {fetchDomUncached} from '../helpers/fetch-dom.js';
 
 	type Props = {
-		onSubscribe: (_repositoryId: string) => Promise<void>;
+		repositoryId: string;
+		onSubscribe: (_repositoryId: string, _threadTypes: string[]) => Promise<void>;
 	};
 
-	const {onSubscribe}: Props = $props();
+	const {repositoryId, onSubscribe}: Props = $props();
 
-	let id = $state<string>();
+	let threadTypes = $state<string[]>();
 	let subscribed = $state(false);
 	let loading = $state(false);
 
@@ -22,31 +22,29 @@
 
 	async function loadSubscription(): Promise<void> {
 		const script = await fetchDomUncached(
-			buildRepoUrl(''),
-			'script[data-target="react-app.embeddedData"]',
+			`/notifications/${repositoryId}/watch_subscription`,
+			'script[data-target="react-partial.embeddedData"]',
 		);
-		const {payload} = JSON.parse(script!.textContent!);
+		const {props} = JSON.parse(script!.textContent);
 
-		const {watchData} = payload.sidebarAbout.watch;
-		const {subscribableThreadTypes, repositoryId} = watchData;
-		const release = subscribableThreadTypes.find(
-			(type: {name: string}) => type.name === 'Release',
-		);
+		threadTypes =
+			(props.subscribableThreadTypes as Array<{name: string; subscribed: boolean}>)
+				.filter(type => type.subscribed)
+				.map(type => type.name);
 
-		id = repositoryId;
-		subscribed = watchData.subscriptionType === 'watching'
-			|| Boolean(release?.subscribed);
+		subscribed = props.subscriptionType === 'watching'
+			|| threadTypes.includes('Release');
 	}
 
 	async function handleClick(): Promise<void> {
-		if (loading || subscribed || !id) {
+		if (loading || subscribed || !threadTypes) {
 			return;
 		}
 
 		loading = true;
 
 		try {
-			await onSubscribe(id);
+			await onSubscribe(repositoryId, threadTypes);
 			subscribed = true;
 		} finally {
 			loading = false;
@@ -57,14 +55,13 @@
 <button
 	type="button"
 	class={cx(
-		'btn px-2 tmp-px-2 mr-2 mb-2 rgh-subscribe-release',
-		subscribed && 'tooltipped tooltipped-s',
+		'btn px-2 tmp-px-2 mr-2 tmp-mr-2 mb-2 tmp-mb-2 tooltipped tooltipped-s',
 	)}
-	disabled={!id || loading || subscribed}
+	disabled={!threadTypes || loading || subscribed}
 	onclick={handleClick}
 	aria-label={subscribed
 	? 'You can change your subscription from the repository home'
-	: undefined}
+	: 'Subscribe to releases'}
 >
 	<DomChef as={EyeIcon} />
 	<span class="ml-1 tmp-ml-1">

@@ -82,7 +82,7 @@ async function createLink(
 
 	return (
 		<a
-			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-s"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
