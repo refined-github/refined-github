@@ -19,6 +19,7 @@
 	let responseJson = $state('');
 	let error = $state('');
 	let loading = $state(false);
+	let form: HTMLFormElement | undefined;
 
 	async function runQuery(event: Event): Promise<void> {
 		event.preventDefault();
@@ -52,12 +53,24 @@
 
 		return parsed as JsonObject;
 	}
+
+	function submitOnShortcut(event: KeyboardEvent): void {
+		if (
+			loading || event.isComposing
+			|| event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)
+		) {
+			return;
+		}
+
+		form?.requestSubmit();
+		event.preventDefault();
+	}
 </script>
 
 <main>
 	<Header title="GraphQL tester"></Header>
 
-	<form onsubmit={runQuery}>
+	<form bind:this={form} onsubmit={runQuery}>
 		<label for="query">Query</label>
 		<textarea
 			id="query"
@@ -65,6 +78,7 @@
 			autocomplete="off"
 			autocapitalize="off"
 			bind:value={query}
+			onkeydown={submitOnShortcut}
 		></textarea>
 
 		<label for="variables">Variables (JSON, optional)</label>
@@ -74,6 +88,7 @@
 			autocomplete="off"
 			autocapitalize="off"
 			bind:value={variablesJson}
+			onkeydown={submitOnShortcut}
 		></textarea>
 
 		<button disabled={loading}>{loading ? 'Running…' : 'Run query'}</button>
