@@ -1,6 +1,20 @@
-/* TODO: Drop feature when the new PR list is fully rolled out */
+/* Color review statuses in the React PR list */
+[data-testid='review-decision-icon'] {
+	button[aria-label='Filter by review: Approved'] {
+		color: var(--rgh-green) !important;
+	}
 
-/* Show approvals count in PR list */
+	button[aria-label='Filter by review: Changes requested'] {
+		color: var(--rgh-red) !important;
+	}
+
+	button[aria-label='Filter by review: Review required'] {
+		color: var(--rgh-yellow) !important;
+	}
+}
+
+/* TODO: Drop feature when the new PR list is fully rolled out */
+/* Show approvals count in the legacy PR list */
 .js-issue-row .color-fg-muted.text-small {
 	a[aria-label*='approval'] {
 		font-size: 0;
