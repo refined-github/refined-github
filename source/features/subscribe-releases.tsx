@@ -69,6 +69,8 @@ void features.add(import.meta.url, {
 		// Only first page of Releases
 		() => getRepo()?.path === 'releases',
 	],
+	// The feature uses GitHub's own cookies
+	// requiresToken: true,
 	init,
 });
 
