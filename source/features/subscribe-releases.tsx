@@ -1,10 +1,11 @@
-import * as pageDetect from 'github-url-detection';
+import {closestElement} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
+import {getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
-import SubscribeRelease from './subscribe-release.svelte';
+import SubscribeRelease from './subscribe-releases.svelte';
 
 async function subscribeRequest(repositoryId: string): Promise<void> {
 	const form = new FormData();
@@ -20,6 +21,7 @@ async function subscribeRequest(repositoryId: string): Promise<void> {
 			credentials: 'include',
 			headers: {
 				'GitHub-Verified-Fetch': 'true',
+				'X-Requested-With': 'XMLHttpRequest',
 			},
 			body: form,
 		},
@@ -38,11 +40,12 @@ async function subscribeToReleases(repositoryId: string): Promise<void> {
 }
 
 function addButton(releasesFilter: HTMLInputElement): void {
-	const target = document.createElement('span');
-	releasesFilter.form!.before(target);
+	const target = closestElement('.d-flex', releasesFilter);
+	target.classList.add('flex-items-start');
 
 	mount(SubscribeRelease, {
 		target,
+		anchor: target.firstElementChild!,
 		props: {
 			onSubscribe: subscribeToReleases,
 		},
@@ -55,9 +58,9 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoHome,
+		// Only first page of Releases
+		() => getRepo()?.path === 'releases',
 	],
-	requiresToken: true,
 	init,
 });
 
