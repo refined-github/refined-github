@@ -53,7 +53,7 @@
 
 <button
 	type="button"
-	class='btn px-2 tmp-px-2 mr-2 tmp-mr-2 mb-2 tmp-mb-2 tooltipped tooltipped-s'
+	class="btn px-2 tmp-px-2 mr-2 tmp-mr-2 mb-2 tmp-mb-2 tooltipped tooltipped-s"
 	disabled={!threadTypes || loading || subscribed}
 	onclick={handleClick}
 	aria-label={subscribed

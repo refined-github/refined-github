@@ -1,6 +1,6 @@
+import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
 import {mount} from 'svelte';
-import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
