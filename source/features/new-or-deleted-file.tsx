@@ -41,7 +41,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileLink = $('a', fileHeader);
 	const listIcon = $(`li[class*="file-tree-row"]:has(a[href="${fileLink.hash}"]) ` + is(iconSelectors));
-	if (listIcon.classList.contains('octicon-file-diff')) {
+	if (listIcon.classList.contains('octicon-file-diff') || listIcon.classList.contains('octicon-file-moved')) {
 		// We only select the icon to avoid $optional
 		return;
 	}
