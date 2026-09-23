@@ -1,8 +1,8 @@
 import {$, closestElement} from 'select-dom';
 import {mount} from 'svelte';
+import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
-import {getRepo} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 import SubscribeRelease from './subscribe-releases.svelte';
@@ -18,7 +18,7 @@ async function subscribeRequest(repositoryId: string, threadTypes: string[]): Pr
 	}
 
 	const response = await fetch(
-		'https://github.com/notifications/subscribe',
+		'/notifications/subscribe',
 		{
 			method: 'POST',
 			credentials: 'include',
@@ -66,8 +66,7 @@ function init(signal: AbortSignal): void {
 
 void features.add(import.meta.url, {
 	include: [
-		// Only first page of Releases
-		() => getRepo()?.path === 'releases',
+		pageDetect.isReleases,
 	],
 	// The feature uses GitHub's own cookies
 	// requiresToken: true,
