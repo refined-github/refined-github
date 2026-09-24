@@ -2,8 +2,8 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
 import {writable} from 'svelte/store';
-import {CachedFunction} from 'webext-storage-cache';
 import {assert} from 'ts-extras';
+import {CachedFunction} from 'webext-storage-cache';
 
 import {addTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
@@ -135,7 +135,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 	}
 
 	// Count again once we know the label, without delaying the initial tag appearance
-	const exactCount= await exactBugs.get(query);
+	const exactCount = await exactBugs.get(query);
 	assert(exactCount > 0, `Compound bug search returned zero results when about ${count} were expected`);
 	counter.set(exactCount);
 }
