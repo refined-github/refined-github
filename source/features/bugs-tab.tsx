@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
 import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';
+import {assert} from 'ts-extras';
 
 import {addTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
@@ -124,16 +125,19 @@ async function addBugsTabOnce(): Promise<void | false> {
 	}, 'pull-requests');
 
 	// Update bugs count
+	let count: number;
 	try {
-		const {count: bugCount} = await bugsPromise;
-		counter.set(bugCount);
+		({count} = await bugsPromise);
+		counter.set(count);
 	} catch (error) {
 		counter.set(undefined);
 		throw error; // Likely an API call error that will be handled by the init
 	}
 
 	// Count again once we know the label, without delaying the initial tag appearance
-	counter.set(await exactBugs.get(query));
+	const exactCount= await exactBugs.get(query);
+	assert(exactCount > 0, `Compound bug search returned zero results when about ${count} were expected`);
+	counter.set(exactCount);
 }
 
 async function removePinnedIssues(): Promise<void> {
