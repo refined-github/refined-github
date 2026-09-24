@@ -34,7 +34,7 @@
 		verifyToken();
 
 		// @ts-expect-error TS and its index signatures...
-		optionsStorage.set({personalToken: tokenInput});
+		optionsStorage.set({personalToken: [tokenInput]});
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
@@ -133,7 +133,7 @@
 					type="text"
 					size="10"
 					autocomplete="off"
-					name="personalToken"
+					name="personalToken[]"
 					bind:value={tokenInput}
 				/>
 				{#if tokenError}

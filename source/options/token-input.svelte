@@ -117,7 +117,7 @@
 		bind:this={tokenField}
 		bind:value={tokenValue}
 		type={focused ? 'text' : 'password'}
-		name="personalToken"
+		name="personalToken[]"
 		spellcheck="false"
 		autocomplete="off"
 		autocapitalize="off"

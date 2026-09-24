@@ -68,6 +68,10 @@
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
 			<TokenInput {host} />
+			<TokenInput {host} />
+			<TokenInput {host} />
+			<TokenInput {host} />
+			<TokenInput {host} />
 		</details>
 	</HandleExpand>
 
