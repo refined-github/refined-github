@@ -32,7 +32,7 @@ const migrations = [
 	// TODO [2027-01-01]: Drop
 	(options: RghOptions): void => {
 		if (typeof options.personalToken === 'string') {
-			options.personalToken = [options.personalToken,'','','',''];
+			options.personalToken = [options.personalToken];
 		}
 	},
 
