@@ -41,10 +41,7 @@ function maybeAddIconLegacy(filename: HTMLAnchorElement): void {
 function maybeAddIcon(fileHeader: HTMLDivElement): void {
 	const fileLink = $('a', fileHeader);
 	const listIcon = $(`li[class*="file-tree-row"]:has(a[href="${fileLink.hash}"]) ` + is(iconSelectors));
-	if (
-		listIcon.classList.contains('octicon-file-moved')
-		|| listIcon.classList.contains('octicon-file-diff')
-	) {
+	if (listIcon.matches(['.octicon-file-moved', '.octicon-file-diff'])) {
 		// We only select these icons to avoid $optional; GitHub already shows renamed files in the header.
 		return;
 	}
