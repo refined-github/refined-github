@@ -77,6 +77,9 @@ summary {
 	--summary-padding: 10px;
 
 	position: sticky;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 	top: 0;
 	z-index: 1;
 	background: light-dark(#f6f8fa, #141415);
