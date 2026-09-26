@@ -77,11 +77,15 @@ summary {
 	--summary-padding: 10px;
 
 	position: sticky;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 	top: 0;
 	z-index: 1;
 	background: light-dark(#f6f8fa, #141415);
 	list-style: none;
 	padding: var(--summary-padding);
+	font-weight: bold;
 
 	[open] & {
 		border-top-left-radius: var(--border-radius);
@@ -95,6 +99,10 @@ summary::-webkit-details-marker {
 
 summary:hover {
 	background: light-dark(#e3e9ef, #0e1012);
+}
+
+svg {
+	fill: currentcolor;
 }
 
 .text-code {

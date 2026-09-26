@@ -12,6 +12,16 @@
 />
 
 <script lang="ts">
+	import ArchiveIcon from 'octicons-plain-react/Archive';
+	import BugIcon from 'octicons-plain-react/Bug';
+	import FlagIcon from 'octicons-plain-react/Flag';
+	import FlameIcon from 'octicons-plain-react/Flame';
+	import KeyIcon from 'octicons-plain-react/Key';
+	import PaintbrushIcon from 'octicons-plain-react/Paintbrush';
+	import SearchIcon from 'octicons-plain-react/Search';
+	import ZapIcon from 'octicons-plain-react/Zap';
+
+	import DomChef from './components/dom-chef.svelte';
 	import ActionLink from './options/action-link.svelte';
 	import BackgroundStatus from './options/background-status.svelte';
 	import FeatureCount from './options/feature-count.svelte';
@@ -51,7 +61,7 @@
 
 	<HandleExpand>
 		<details id="token">
-			<summary><strong>🔑 Personal token</strong></summary>
+			<summary><DomChef as={KeyIcon} /> Personal token</summary>
 			<!-- Keep this URL in sync with welcome.svelte -->
 			<p>
 				You should
@@ -73,7 +83,7 @@
 
 	<HandleExpand>
 		<details id="toggle-all" hidden>
-			<summary><strong>🏳️ Toggle all features</strong></summary>
+			<summary><DomChef as={FlagIcon} /> Toggle all features</summary>
 			<p>
 				If you're trying to identify a feature, please use "Identify feature"
 				instead. Refined GitHub only implements lightweight features that are
@@ -98,21 +108,21 @@
 	<HandleExpand>
 		<details id="features">
 			<!-- No space, there's a colon after "Features" -->
-			<summary><strong>🔋 Features<FeatureCount /></strong></summary>
+			<summary><DomChef as={ZapIcon} />Features<FeatureCount /></summary>
 			<FeatureList />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="bisect">
-			<summary><strong>🔎 Identify feature</strong></summary>
+			<summary><DomChef as={SearchIcon} /> Identify feature</summary>
 			<FeatureFinder />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="css">
-			<summary><strong>💅 Custom CSS</strong></summary>
+			<summary><DomChef as={PaintbrushIcon} /> Custom CSS</summary>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
 
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
@@ -149,7 +159,7 @@
 
 	<HandleExpand>
 		<details id="debugging">
-			<summary><strong>🐛 Debugging</strong></summary>
+			<summary><DomChef as={BugIcon} /> Debugging</summary>
 
 			<p>
 				<label>
@@ -203,14 +213,14 @@
 
 	<HandleExpand>
 		<details id="hotfixes">
-			<summary><strong>☄️ Hotfixes</strong></summary>
+			<summary><DomChef as={FlameIcon} /> Hotfixes</summary>
 			<HotFixes {enterprise} />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="export">
-			<summary><strong>🗄️ Export options</strong></summary>
+			<summary><DomChef as={ArchiveIcon} /> Export options</summary>
 
 			<p>
 				You can export and import options across browsers and devices via a JSON
