@@ -19,6 +19,7 @@
 	let responseJson = $state('');
 	let error = $state('');
 	let loading = $state(false);
+	let form: HTMLFormElement | undefined;
 
 	async function runQuery(event: Event): Promise<void> {
 		event.preventDefault();
@@ -39,8 +40,8 @@
 		}
 	}
 
-	function parseVariables(): JsonObject | undefined {
-		const trimmed = variablesJson.trim();
+	function parseVariablesJson(rawJson: string): JsonObject | undefined {
+		const trimmed = rawJson.trim();
 		if (!trimmed) {
 			return undefined;
 		}
@@ -52,12 +53,48 @@
 
 		return parsed as JsonObject;
 	}
+
+	function parseVariables(): JsonObject | undefined {
+		return parseVariablesJson(variablesJson);
+	}
+
+	function validateVariablesField(event: Event): void {
+		const textarea = event.currentTarget as HTMLTextAreaElement;
+
+		try {
+			parseVariablesJson(textarea.value);
+			textarea.setCustomValidity('');
+		} catch (caughtError) {
+			textarea.setCustomValidity(
+				caughtError instanceof Error ? caughtError.message : String(caughtError),
+			);
+		}
+	}
+
+	function formatVariablesField(event: FocusEvent): void {
+		const textarea = event.currentTarget as HTMLTextAreaElement;
+		variablesJson = JSON.stringify(JSON.parse(textarea.value), undefined, '\t');
+	}
+
+	function submitOnShortcut(event: KeyboardEvent): void {
+		if (
+			loading
+			|| event.isComposing
+			|| event.key !== 'Enter'
+			|| !(event.metaKey || event.ctrlKey)
+		) {
+			return;
+		}
+
+		form?.requestSubmit();
+		event.preventDefault();
+	}
 </script>
 
 <main>
 	<Header title="GraphQL tester"></Header>
 
-	<form onsubmit={runQuery}>
+	<form bind:this={form} onsubmit={runQuery}>
 		<label for="query">Query</label>
 		<textarea
 			id="query"
@@ -65,6 +102,7 @@
 			autocomplete="off"
 			autocapitalize="off"
 			bind:value={query}
+			onkeydown={submitOnShortcut}
 		></textarea>
 
 		<label for="variables">Variables (JSON, optional)</label>
@@ -74,6 +112,9 @@
 			autocomplete="off"
 			autocapitalize="off"
 			bind:value={variablesJson}
+			oninput={validateVariablesField}
+			onblur={formatVariablesField}
+			onkeydown={submitOnShortcut}
 		></textarea>
 
 		<button disabled={loading}>{loading ? 'Running…' : 'Run query'}</button>
@@ -139,6 +180,14 @@
 		border-color: #1f6feb;
 		box-shadow: inset 0 0 0 1px #1f6feb;
 		outline: none;
+	}
+
+	#variables:invalid {
+		border-color: light-dark(#cf222e, #f85149);
+	}
+
+	#variables:invalid:focus {
+		box-shadow: inset 0 0 0 1px light-dark(#cf222e, #f85149);
 	}
 
 	button {
