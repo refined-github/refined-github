@@ -973,6 +973,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png"
 	},
 	{
+		"id": "subscribe-releases",
+		"description": "Adds a button to subscribe to repository releases in one click.",
+		"screenshot": "https://github.com/user-attachments/assets/76f211ae-7f7e-4ca6-843c-38a63a364813"
+	},
+	{
 		"id": "suggest-commit-title-limit",
 		"description": "Suggests limiting commit and PR titles to 72 characters.",
 		"css": true,

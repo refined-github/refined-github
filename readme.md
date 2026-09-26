@@ -110,6 +110,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
 - [](# "extend-repo-tabs") [Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.](https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326)
+- [](# "subscribe-releases") [Adds a button to subscribe to repository releases in one click.](https://github.com/user-attachments/assets/76f211ae-7f7e-4ca6-843c-38a63a364813)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
