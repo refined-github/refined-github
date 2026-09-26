@@ -110,6 +110,13 @@
 		<strong>edit workflow files</strong>
 		<code>.github/workflows/*.yml</code>
 	</li>
+
+	{#if scopes?.includes('delete_repo')}
+		<li data-validation="valid">
+			The <code>delete_repo</code> scope enables <strong>quick repo
+				deletion</strong>
+		</li>
+	{/if}
 {/snippet}
 
 <p>
