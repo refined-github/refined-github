@@ -136,6 +136,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 
 	// Count again once we know the label, without delaying the initial tag appearance
 	const exactCount = await exactBugs.get(query);
+	// GitHub bug: https://github.com/refined-github/refined-github/pull/10117
 	assert(exactCount > 0, `Compound bug search returned zero results when about ${count} were expected`);
 	counter.set(exactCount);
 }
