@@ -77,6 +77,9 @@
 				>the wiki.</a>
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
+			<TokenInput {host} visible />
+			<TokenInput {host} />
+			<TokenInput {host} />
 			<TokenInput {host} />
 		</details>
 	</HandleExpand>

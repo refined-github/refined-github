@@ -3,8 +3,13 @@
 	import {assertError} from 'ts-extras';
 
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
+	import {
+		claimTokenInputSlot,
+		tokenInputVisibility,
+	} from './token-input-visibility.svelte.js';
 
-	const {host}: {host?: string} = $props();
+	const {host, visible = false}: {host?: string; visible?: boolean} = $props();
+	const slotIndex = claimTokenInputSlot();
 
 	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 	const apiFeaturesUrl =
@@ -14,6 +19,10 @@
 	let focused = $state(false);
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
+	const isEmpty = $derived(tokenValue.trim() === '');
+	const shown = $derived(
+		visible || !isEmpty || slotIndex <= tokenInputVisibility.revealed,
+	);
 
 	type Validation = {message: string; error?: boolean; scopes?: string[]};
 
@@ -112,7 +121,7 @@
 	</li>
 {/snippet}
 
-<p>
+<p hidden={!shown}>
 	<input
 		bind:this={tokenField}
 		bind:value={tokenValue}
@@ -139,8 +148,16 @@
 	{:catch error}
 		<span data-validation="invalid">{error.message}</span>
 	{/await}
+	{#if visible}
+		<button
+			type="button"
+			onclick={() => tokenInputVisibility.revealed++}
+		>
+			+ add user
+		</button>
+	{/if}
 </p>
-<ul>
+<ul hidden={!shown}>
 	{#await tokenPromise}
 		{@render scopesList()}
 	{:then result}
