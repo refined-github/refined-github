@@ -2,11 +2,11 @@
 	import {isClosedConversation} from 'github-url-detection';
 
 	import Tooltip from '../components/tooltip.svelte';
-	import {getToken} from '../github-helpers/github-token.js';
 	import {
 		getConversationAuthor,
 		getLoggedInUser,
 	} from '../github-helpers/index.js';
+	import {getToken} from '../options-storage.js';
 
 	interface Props {
 		onReview?: (_event: MouseEvent) => void;

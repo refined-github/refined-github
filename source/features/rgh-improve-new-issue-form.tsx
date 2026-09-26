@@ -7,7 +7,7 @@ import {$, closestElement} from 'select-dom';
 
 import {importedFeatures} from '../feature-data.js';
 import features from '../feature-manager.js';
-import {baseApiFetch, getToken} from '../github-helpers/github-token.js';
+import {baseApiFetch} from '../github-helpers/github-token.js';
 import {buildRepoUrl, isRefinedGitHubRepo, pressEscapeKey, visitAjaxedPage} from '../github-helpers/index.js';
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import delay from '../helpers/delay.js';
@@ -16,6 +16,7 @@ import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers
 import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
+import {getToken} from '../options-storage.js';
 import {newIssueMenuItem} from './new-tab-links.js';
 
 const isSetTheTokenSelector = 'input[type="checkbox"][required]';

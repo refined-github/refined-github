@@ -1,8 +1,8 @@
 import elementReady from 'element-ready';
 
 import {isInitialLoad} from '../helpers/feature-helpers.js';
+import {hasToken} from '../options-storage.js';
 import api from './api.js';
-import {hasToken} from './github-token.js';
 import {getConversationNumber} from './index.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
 
