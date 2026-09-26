@@ -2,13 +2,12 @@ import React from 'dom-chef';
 import AlertIcon from 'octicons-plain-react/Alert';
 
 import features from '../feature-manager.js';
-import {api3} from '../github-helpers/api.js';
-import {tokenUser} from '../github-helpers/github-token.js';
+import {getToken, tokenUser} from '../github-helpers/github-token.js';
 import {getLoggedInUser} from '../github-helpers/index.js';
+import {api3} from '../github-helpers/urls.js';
 import onetime from '../helpers/onetime.js';
 import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
-import {getToken} from '../options-storage.js';
 
 async function verify(header: HTMLElement): Promise<void> {
 	const token = await getToken();

@@ -1,9 +1,34 @@
-import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
+import * as pageDetect from 'github-url-detection';
+import {isWebPage} from 'webext-detect';
 
 // Avoid importing api.js here, there's too much logic/caching we don't need
 import hashString from '../helpers/hash-string.js';
-import {getToken} from '../options-storage.js';
+import optionsStorage from '../options-storage.js';
+import {api3} from './urls.js';
+
+const cachedSettings = optionsStorage.getAll();
+
+export async function getToken(): Promise<string | undefined> {
+	const {personalToken} = await cachedSettings;
+	const loggedInUser = pageDetect.utils.getLoggedInUser();
+	if (!(loggedInUser && isWebPage())) {
+		return personalToken[0];
+	}
+
+	for (const token of personalToken) {
+		// eslint-disable-next-line no-await-in-loop -- Tokens are checked in order until a match is found; lookups are cached for a year so it should be instant
+		if (token && await tokenUser.get(api3, token) === loggedInUser) {
+			return token;
+		}
+	}
+
+	return personalToken[0];
+}
+
+export async function hasToken(): Promise<boolean> {
+	return Boolean(await getToken());
+}
 
 type BaseApiFetchOptions = {
 	apiBase: string;
@@ -115,11 +140,7 @@ export async function getTokenInfo(apiBase: string, personalToken: string): Prom
 
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();
-	const api = pageDetect.isEnterprise()
-		? `${location.origin}/api/v3/`
-		: 'https://api.github.com/';
-
-	const {scopes: tokenScopes} = await getTokenInfo(api, token);
+	const {scopes: tokenScopes} = await getTokenInfo(api3, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error(
 			'The token you provided does not have ' + (tokenScopes.length > 0

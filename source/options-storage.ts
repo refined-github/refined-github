@@ -1,10 +1,7 @@
-import * as pageDetect from 'github-url-detection';
-import {isWebPage} from 'webext-detect';
 import OptionsSyncPerDomain from 'webext-options-sync-per-domain';
 
 import {importedFeatures} from './feature-data.js';
 import renamedFeatures from './feature-renames.json' with {type: 'json'};
-import {tokenUser} from './github-helpers/github-token.js';
 
 export type RghOptions = typeof defaults;
 
@@ -57,27 +54,3 @@ const migrations = [
 export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
 const optionsStorage = perDomainOptions.getOptionsForOrigin();
 export default optionsStorage;
-
-const cachedSettings = optionsStorage.getAll();
-
-export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
-	const loggedInUser = pageDetect.utils.getLoggedInUser();
-	if (!(loggedInUser && isWebPage())) {
-		return personalToken[0];
-	}
-
-	const apiBase = pageDetect.isEnterprise() ? `${location.origin}/api/v3/` : 'https://api.github.com/';
-	for (const token of personalToken) {
-		// eslint-disable-next-line no-await-in-loop -- Tokens are checked in order until a match is found; lookups are cached for a year so it should be instant
-		if (token && await tokenUser.get(apiBase, token) === loggedInUser) {
-			return token;
-		}
-	}
-
-	return personalToken[0];
-}
-
-export async function hasToken(): Promise<boolean> {
-	return Boolean(await getToken());
-}
