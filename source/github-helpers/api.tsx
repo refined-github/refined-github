@@ -29,8 +29,7 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
-import {uint8ArrayToBase64} from 'uint8array-extras';
-import {isFirefox, isWebPage} from 'webext-detect';
+import {isWebPage} from 'webext-detect';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
@@ -205,15 +204,8 @@ const v3uncached = async (
 	});
 	let apiResponse: AnyObject;
 	if (responseFormat === 'base64') {
-		const buffer = await response.arrayBuffer();
-		let uint = new Uint8Array(buffer);
-		if (isFirefox()) {
-			// Firefox requires a copy into the current context https://github.com/refined-github/refined-github/issues/10070
-			uint = new Uint8Array(buffer);
-		}
-
-		const content = uint8ArrayToBase64(uint);
-		apiResponse = {content};
+		const uint8Array = await response.bytes();
+		apiResponse = {content: uint8Array.toBase64()};
 	} else {
 		const content = await response.text();
 		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
