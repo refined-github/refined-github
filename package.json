@@ -67,7 +67,6 @@
 		"webext-detect": "^6.0.0",
 		"webext-dynamic-content-scripts": "^10.0.5",
 		"webext-msg": "^1.0.0",
-		"webext-options-sync": "^4.3.0",
 		"webext-options-sync-per-domain": "^4.3.2",
 		"webext-permission-toggle": "^7.1.1",
 		"webext-storage": "^3.1.0",
@@ -152,7 +151,8 @@
 		"string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@^1",
 		"string.prototype.padend": "npm:@nolyfill/string.prototype.padend@^1",
 		"string.prototype.repeat": "npm:@nolyfill/string.prototype.repeat@^1",
-		"typescript": "npm:@typescript/typescript6@^6.0.2"
+		"typescript": "npm:@typescript/typescript6@^6.0.2",
+		"webext-options-sync": "^4.4.0-0"
 	},
 	"graphql": {
 		"schema": "https://docs.github.com/public/schema.docs.graphql"

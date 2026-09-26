@@ -89,23 +89,23 @@
 </script>
 
 {#snippet scopesList(scopes?: string[])}
-	<li data-validation={getScopeState('valid_token', scopes)}>
+	<li data-validation={getScopeState('valid_token', scopes) ?? ''}>
 		The token enables <a href={apiFeaturesUrl}>some features</a>
 		to <strong>read</strong> data from public repositories
 	</li>
-	<li data-validation={getScopeState('public_repo', scopes)}>
+	<li data-validation={getScopeState('public_repo', scopes) ?? ''}>
 		The <code>public_repo</code> scope lets them <strong>edit</strong> your
 		public repositories
 	</li>
-	<li data-validation={getScopeState('repo', scopes)}>
+	<li data-validation={getScopeState('repo', scopes) ?? ''}>
 		The <code>repo</code> scope lets them <strong>edit private</strong>
 		repositories as well
 	</li>
-	<li data-validation={getScopeState('read:project', scopes)}>
+	<li data-validation={getScopeState('read:project', scopes) ?? ''}>
 		The <code>read:project</code> scope lets them determine if a repo/org uses
 		projects
 	</li>
-	<li data-validation={getScopeState('workflow', scopes)}>
+	<li data-validation={getScopeState('workflow', scopes) ?? ''}>
 		The <code>workflow</code> scope lets them
 		<strong>edit workflow files</strong>
 		<code>.github/workflows/*.yml</code>
@@ -117,7 +117,7 @@
 		bind:this={tokenField}
 		bind:value={tokenValue}
 		type={focused ? 'text' : 'password'}
-		name="personalToken"
+		name="personalToken[]"
 		spellcheck="false"
 		autocomplete="off"
 		autocapitalize="off"
@@ -151,14 +151,14 @@
 </ul>
 
 <style>
-	li {
+	[data-validation] {
 		padding-left: 1.8em;
 
 		/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
 		display: inline-block;
 	}
 
-	li::before {
+	[data-validation]::before {
 		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
 		width: 16px;
 		height: 16px;
