@@ -82,6 +82,7 @@ summary {
 	background: light-dark(#f6f8fa, #141415);
 	list-style: none;
 	padding: var(--summary-padding);
+	font-weight: bold;
 
 	[open] & {
 		border-top-left-radius: var(--border-radius);

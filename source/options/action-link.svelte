@@ -9,7 +9,7 @@
 </script>
 {#if !hidden}
 	<details id="action">
-		<summary><strong><DomChef as={LinkIcon} /> Button link</strong></summary>
+		<summary><DomChef as={LinkIcon} /> Button link</summary>
 		<div>
 			<p>You can pick what page opens when you click the Refined GitHub icon in
 				the browser toolbar</p>

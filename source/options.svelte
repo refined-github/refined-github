@@ -61,8 +61,7 @@
 
 	<HandleExpand>
 		<details id="token">
-			<summary><strong><DomChef as={KeyIcon} /> Personal
-					token</strong></summary>
+			<summary><DomChef as={KeyIcon} /> Personal token</summary>
 			<!-- Keep this URL in sync with welcome.svelte -->
 			<p>
 				You should
@@ -84,8 +83,7 @@
 
 	<HandleExpand>
 		<details id="toggle-all" hidden>
-			<summary><strong><DomChef as={FlagIcon} /> Toggle all
-					features</strong></summary>
+			<summary><DomChef as={FlagIcon} /> Toggle all features</summary>
 			<p>
 				If you're trying to identify a feature, please use "Identify feature"
 				instead. Refined GitHub only implements lightweight features that are
@@ -110,24 +108,21 @@
 	<HandleExpand>
 		<details id="features">
 			<!-- No space, there's a colon after "Features" -->
-			<summary><strong><DomChef as={ZapIcon} />
-					Features<FeatureCount /></strong></summary>
+			<summary><DomChef as={ZapIcon} />Features<FeatureCount /></summary>
 			<FeatureList />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="bisect">
-			<summary><strong><DomChef as={SearchIcon} /> Identify
-					feature</strong></summary>
+			<summary><DomChef as={SearchIcon} /> Identify feature</summary>
 			<FeatureFinder />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="css">
-			<summary><strong><DomChef as={PaintbrushIcon} /> Custom
-					CSS</strong></summary>
+			<summary><DomChef as={PaintbrushIcon} /> Custom CSS</summary>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
 
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
@@ -164,7 +159,7 @@
 
 	<HandleExpand>
 		<details id="debugging">
-			<summary><strong><DomChef as={BugIcon} /> Debugging</strong></summary>
+			<summary><DomChef as={BugIcon} /> Debugging</summary>
 
 			<p>
 				<label>
@@ -218,15 +213,14 @@
 
 	<HandleExpand>
 		<details id="hotfixes">
-			<summary><strong><DomChef as={FlameIcon} /> Hotfixes</strong></summary>
+			<summary><DomChef as={FlameIcon} /> Hotfixes</summary>
 			<HotFixes {enterprise} />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="export">
-			<summary><strong><DomChef as={ArchiveIcon} /> Export
-					options</strong></summary>
+			<summary><DomChef as={ArchiveIcon} /> Export options</summary>
 
 			<p>
 				You can export and import options across browsers and devices via a JSON
