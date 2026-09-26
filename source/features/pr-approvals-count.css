@@ -1,4 +1,5 @@
 /* Color review statuses in the React PR list */
+/* https://github.com/refined-github/refined-github/pull/10114#issuecomment-5845859814 */
 [data-testid='review-decision-icon'] {
 	button[aria-label='Filter by review: Approved'] {
 		color: var(--rgh-green) !important;
