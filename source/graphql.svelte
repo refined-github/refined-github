@@ -73,20 +73,15 @@
 
 	function formatVariablesField(event: FocusEvent): void {
 		const textarea = event.currentTarget as HTMLTextAreaElement;
-
-		try {
-			const parsed = parseVariablesJson(textarea.value);
-			textarea.setCustomValidity('');
-			variablesJson = parsed
-				? JSON.stringify(parsed, undefined, '\t')
-				: '';
-		} catch {}
+		variablesJson = JSON.stringify(JSON.parse(textarea.value), undefined, '\t');
 	}
 
 	function submitOnShortcut(event: KeyboardEvent): void {
 		if (
-			loading || event.isComposing
-			|| event.key !== 'Enter' || !(event.metaKey || event.ctrlKey)
+			loading
+			|| event.isComposing
+			|| event.key !== 'Enter'
+			|| !(event.metaKey || event.ctrlKey)
 		) {
 			return;
 		}
