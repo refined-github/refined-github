@@ -64,8 +64,10 @@
 		try {
 			parseVariablesJson(textarea.value);
 			textarea.setCustomValidity('');
-		} catch (error) {
-			textarea.setCustomValidity(error instanceof Error ? error.message : String(error));
+		} catch (caughtError) {
+			textarea.setCustomValidity(
+				caughtError instanceof Error ? caughtError.message : String(caughtError),
+			);
 		}
 	}
 
