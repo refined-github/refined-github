@@ -2,15 +2,17 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import BugIcon from 'octicons-plain-react/Bug';
 import {writable} from 'svelte/store';
+import {assert} from 'ts-extras';
 import {CachedFunction} from 'webext-storage-cache';
 
 import {addTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import isBugLabel from '../github-helpers/bugs-label.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import onetime from '../helpers/onetime.js';
+import CountExactBugs from './bugs-tab-exact.gql';
 import CountBugs from './bugs-tab.gql';
 
 type ApiResponse = {
@@ -35,6 +37,10 @@ type Bugs = {
 	count: number;
 };
 
+function getFullSearchQuery(bugsLabel: string): string {
+	return `(label:${SearchQuery.escapeValue(bugsLabel)} OR type:Bug)`;
+}
+
 async function countBugs(): Promise<Bugs> {
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
 	const bugTypeCount = repository.typeBug.totalCount;
@@ -55,6 +61,21 @@ async function countBugs(): Promise<Bugs> {
 	};
 }
 
+async function countExactBugs(query: string): Promise<number> {
+	const {search} = await api.v4(CountExactBugs, {
+		variables: {query: `repo:${getRepo()!.nameWithOwner} ${query}`},
+	});
+
+	return search.issueCount;
+}
+
+const exactBugs = new CachedFunction('exact-bugs', {
+	updater: countExactBugs,
+	maxAge: {minutes: 30},
+	staleWhileRevalidate: {days: 4},
+	cacheKey: cacheByRepo,
+});
+
 const bugs = new CachedFunction('bugs', {
 	updater: countBugs,
 	maxAge: {minutes: 30},
@@ -67,14 +88,10 @@ async function getBugsLabel(): Promise<string> {
 	return label ?? 'bug';
 }
 
-function getFullSearchQuery(bugsLabel: string): string {
-	return `(label:${bugsLabel} OR type:Bug)`;
-}
-
 async function isBugsListing(): Promise<boolean> {
 	const query = SearchQuery.from(location);
 	const bugsLabel = await getBugsLabel();
-	return query.includes(`label:${bugsLabel}`) || query.includes(getFullSearchQuery(bugsLabel));
+	return query.includes(`label:${SearchQuery.escapeValue(bugsLabel)}`) || query.includes(getFullSearchQuery(bugsLabel));
 }
 
 async function addBugsTabOnce(): Promise<void | false> {
@@ -93,7 +110,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 		}
 	}
 
-	const {href} = new SearchQuery(buildRepoUrl('issues'))
+	const {href, query} = new SearchQuery(buildRepoUrl('issues'))
 		.append(getFullSearchQuery(await getBugsLabel()));
 
 	const counter = writable<number | undefined>();
@@ -108,13 +125,20 @@ async function addBugsTabOnce(): Promise<void | false> {
 	}, 'pull-requests');
 
 	// Update bugs count
+	let count: number;
 	try {
-		const {count: bugCount} = await bugsPromise;
-		counter.set(bugCount);
+		({count} = await bugsPromise);
+		counter.set(count);
 	} catch (error) {
 		counter.set(undefined);
 		throw error; // Likely an API call error that will be handled by the init
 	}
+
+	// Count again once we know the label, without delaying the initial tag appearance
+	const exactCount = await exactBugs.get(query);
+	// GitHub bug: https://github.com/refined-github/refined-github/pull/10117
+	assert(exactCount > 0, `Compound bug search returned zero results when about ${count} were expected`);
+	counter.set(exactCount);
 }
 
 async function removePinnedIssues(): Promise<void> {

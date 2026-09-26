@@ -103,6 +103,10 @@ export default class SearchQuery {
 		return this;
 	}
 
+	get query(): string {
+		return this.get();
+	}
+
 	get searchParams(): URLSearchParams {
 		return this.url.searchParams;
 	}

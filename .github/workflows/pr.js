@@ -49,9 +49,11 @@ export async function blockAi({github, context, core}) {
 			'Next steps:',
 			'1. Update the PR body with a screenshot/video/gif of the working PR.',
 			'2. Wait for a human to review the PR and reopen it.',
-			'Also:',
-			"Don't waste your tokens on junk PRs that won't be accepted.",
-			'**Do not open more PRs** until this one is merged.',
+			'',
+			'Tips:',
+			'- **Do not open more PRs** until this one is reopened and merged.',
+			"- Don't waste your tokens on junk PRs that won't be accepted.",
+			"- Don't waste your tokens on junk comments that nobody reads.",
 		].join('\n'),
 	});
 }

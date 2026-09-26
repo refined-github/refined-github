@@ -173,6 +173,8 @@ void features.add(import.meta.url, {
 		pageDetect.isConversation,
 	],
 	awaitDomReady: true, // The sidebar is at the end of the page
+	// The feature uses GitHub's own cookies
+	// requiresToken: true,
 	init,
 });
 
