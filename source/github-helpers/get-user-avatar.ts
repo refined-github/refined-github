@@ -18,7 +18,7 @@ const appAvatarIds = new Map<string, string>([
 ]);
 
 export default function getUserAvatar(username: string, size: number): string | void {
-	const cleanName = username.replace('[bot]', '');
+	const cleanName = username.replace('[bot]', '').replace('app/', '');
 	assertUsername(cleanName);
 
 	// Find image on page. Saves a request and a redirect + add support for bots
