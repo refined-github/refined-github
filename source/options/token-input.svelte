@@ -3,6 +3,7 @@
 	import {assertError} from 'ts-extras';
 
 	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
+	import {getFeatureUrl} from '../helpers/rgh-links.js';
 
 	const {host}: {host?: string} = $props();
 
@@ -113,8 +114,9 @@
 
 	{#if scopes?.includes('delete_repo')}
 		<li data-validation="valid">
-			The <code>delete_repo</code> scope enables <strong>quick repo
-				deletion</strong>
+			The <code>delete_repo</code> scope enables <a
+				href={getFeatureUrl('quick-repo-deletion' as string & {feature: true})}
+			>quick-repo-deletion</a>
 		</li>
 	{/if}
 {/snippet}
