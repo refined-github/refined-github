@@ -61,7 +61,8 @@
 
 	<HandleExpand>
 		<details id="token">
-			<summary><strong><DomChef as={KeyIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Personal token</strong></summary>
+			<summary><strong><DomChef as={KeyIcon} /> Personal
+					token</strong></summary>
 			<!-- Keep this URL in sync with welcome.svelte -->
 			<p>
 				You should
@@ -83,7 +84,8 @@
 
 	<HandleExpand>
 		<details id="toggle-all" hidden>
-			<summary><strong><DomChef as={FlagIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Toggle all features</strong></summary>
+			<summary><strong><DomChef as={FlagIcon} /> Toggle all
+					features</strong></summary>
 			<p>
 				If you're trying to identify a feature, please use "Identify feature"
 				instead. Refined GitHub only implements lightweight features that are
@@ -108,21 +110,24 @@
 	<HandleExpand>
 		<details id="features">
 			<!-- No space, there's a colon after "Features" -->
-			<summary><strong><DomChef as={ZapIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Features<FeatureCount /></strong></summary>
+			<summary><strong><DomChef as={ZapIcon} />
+					Features<FeatureCount /></strong></summary>
 			<FeatureList />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="bisect">
-			<summary><strong><DomChef as={SearchIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Identify feature</strong></summary>
+			<summary><strong><DomChef as={SearchIcon} /> Identify
+					feature</strong></summary>
 			<FeatureFinder />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="css">
-			<summary><strong><DomChef as={PaintbrushIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Custom CSS</strong></summary>
+			<summary><strong><DomChef as={PaintbrushIcon} /> Custom
+					CSS</strong></summary>
 			<p>Like a userstyle, useful to undo unwanted style changes</p>
 
 			<!-- eslint-disable-next-line @html-eslint/require-input-label -->
@@ -159,7 +164,7 @@
 
 	<HandleExpand>
 		<details id="debugging">
-			<summary><strong><DomChef as={BugIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Debugging</strong></summary>
+			<summary><strong><DomChef as={BugIcon} /> Debugging</strong></summary>
 
 			<p>
 				<label>
@@ -213,14 +218,15 @@
 
 	<HandleExpand>
 		<details id="hotfixes">
-			<summary><strong><DomChef as={FlameIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Hotfixes</strong></summary>
+			<summary><strong><DomChef as={FlameIcon} /> Hotfixes</strong></summary>
 			<HotFixes {enterprise} />
 		</details>
 	</HandleExpand>
 
 	<HandleExpand>
 		<details id="export">
-			<summary><strong><DomChef as={ArchiveIcon} class="mr-1 tmp-mr-1 color-fg-muted" /> Export options</strong></summary>
+			<summary><strong><DomChef as={ArchiveIcon} /> Export
+					options</strong></summary>
 
 			<p>
 				You can export and import options across browsers and devices via a JSON
