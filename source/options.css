@@ -1,5 +1,6 @@
 :root {
 	--rgh-red: #cf222e;
+	--rgh-green: #28a745;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
 
