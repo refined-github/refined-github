@@ -127,7 +127,7 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['**/*.svelte'],
+		files: ['**/*.svelte', '**/*.svelte.ts'],
 		extends: [sveltePlugin.configs['flat/recommended']],
 		languageOptions: {
 			parserOptions: {
