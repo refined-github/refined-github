@@ -3,7 +3,10 @@ import {CachedFunction} from 'webext-storage-cache';
 
 // Avoid importing api.js here, there's too much logic/caching we don't need
 import hashString from '../helpers/hash-string.js';
-import {getToken} from '../options-storage.js';
+import optionsStorage from '../options-storage.js';
+import {api3} from './urls.js';
+
+const cachedSettings = optionsStorage.getAll();
 
 type BaseApiFetchOptions = {
 	apiBase: string;
@@ -49,6 +52,28 @@ export const tokenUser = new CachedFunction('token-user', {
 	cacheKey: ([apiBase, token]) => hashString(`${apiBase}-${token}`),
 });
 
+export async function getToken(): Promise<string | undefined> {
+	const {personalToken} = await cachedSettings;
+	if (personalToken.length < 2) {
+		return personalToken[0];
+	}
+
+	const loggedInUser = pageDetect.utils.getLoggedInUser();
+	for (const token of personalToken) {
+		// eslint-disable-next-line no-await-in-loop -- Tokens are checked in order until a match is found; lookups are cached for a year so it should be instant
+		if (loggedInUser && token && await tokenUser.get(api3, token) === loggedInUser) {
+			return token;
+		}
+	}
+
+	return personalToken[0];
+}
+
+export async function hasAnyTokens(): Promise<boolean> {
+	const {personalToken} = await cachedSettings;
+	return personalToken.some(Boolean);
+}
+
 export async function expectToken(): Promise<string> {
 	const token = await getToken();
 	if (!token) {
@@ -59,7 +84,6 @@ export async function expectToken(): Promise<string> {
 }
 
 export async function hasValidGitHubComToken(token?: string): Promise<boolean> {
-	token ??= await getToken();
 	if (!token) {
 		return false;
 	}
@@ -115,11 +139,7 @@ export async function getTokenInfo(apiBase: string, personalToken: string): Prom
 
 export async function expectTokenScope(scope: string): Promise<void> {
 	const token = await expectToken();
-	const api = pageDetect.isEnterprise()
-		? `${location.origin}/api/v3/`
-		: 'https://api.github.com/';
-
-	const {scopes: tokenScopes} = await getTokenInfo(api, token);
+	const {scopes: tokenScopes} = await getTokenInfo(api3, token);
 	if (!tokenScopes.includes(scope)) {
 		throw new Error(
 			'The token you provided does not have ' + (tokenScopes.length > 0

@@ -26,17 +26,15 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 import {uint8ArrayToBase64} from 'uint8array-extras';
-import {isWebPage} from 'webext-detect';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
-import {getToken} from '../options-storage.js';
-import {tokenUser} from './github-token.js';
+import {getToken, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
+import {api3, api4} from './urls.js';
 
 type JsonError = {
 	message: string;
@@ -63,14 +61,6 @@ export class RefinedGitHubApiError extends Error {
 		super(messages.join('\n'));
 	}
 }
-
-export const api3 = pageDetect.isEnterprise()
-	? `${location.origin}/api/v3/`
-	: 'https://api.github.com/';
-
-const api4 = pageDetect.isEnterprise() && isWebPage() // It can also run in graphql.html
-	? `${location.origin}/api/graphql`
-	: 'https://api.github.com/graphql';
 
 type GhRestApiOptions = {
 	ignoreHttpStatus?: boolean | number;

@@ -8,12 +8,13 @@ import addPermissionToggle, {hasRequiredPermissions} from 'webext-permission-tog
 import {StorageItem} from 'webext-storage';
 import {globalCache} from 'webext-storage-cache'; // Also needed to regularly clear the cache
 
+import {hasAnyTokens} from './github-helpers/github-token.js';
 import {doesBrowserActionOpenOptions} from './helpers/feature-utils.js';
 import {styleHotfixes} from './helpers/hotfix.js';
 import isDevelopmentVersion from './helpers/is-development-version.js';
 import {fetchText} from './helpers/isomorphic-fetch.js';
 import safeCreateTab from './helpers/safe-create-tab.js';
-import optionsStorage, {hasToken} from './options-storage.js';
+import optionsStorage from './options-storage.js';
 import addIdentifyFeatureContextMenu from './options/identify-feature.js';
 import addReloadWithoutContentScripts from './options/reload-without.js';
 
@@ -91,7 +92,7 @@ async function showWelcomePage(): Promise<void> {
 	}
 
 	const [hasStoredToken, hasPermissions] = await Promise.all([
-		hasToken(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
+		hasAnyTokens(), // We can't handle an invalid token on a "Welcome" page, so just check whether the user has ever set one
 		chrome.permissions.contains({origins: ['https://github.com/*']}),
 	]);
 
