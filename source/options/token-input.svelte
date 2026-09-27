@@ -259,7 +259,7 @@
 
 <style>
 	.token-field:not(:focus) {
-		/* -webkit-text-security: circle; */
+		-webkit-text-security: circle;
 	}
 
 	.compact-scopes {
