@@ -24,7 +24,8 @@ async function verify(header: HTMLElement): Promise<void> {
 				<AlertIcon className="mr-2 tmp-mr-2" />
 				<span>
 					Write API calls are blocked because your <OptionsLink className="btn-link">Refined GitHub token</OptionsLink>{' '}
-					belongs to <code>{currentTokenUser}</code>, not <code>{currentWebUser}</code>.
+					belongs to <code>{currentTokenUser}</code>, not{' '}
+					<code>{currentWebUser}</code>. Refined GitHub now supports multiple tokens.
 				</span>
 			</div>,
 		);

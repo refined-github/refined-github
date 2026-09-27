@@ -59,13 +59,9 @@ export async function getToken(): Promise<string | undefined> {
 	}
 
 	const loggedInUser = pageDetect.utils.getLoggedInUser();
-	if (!loggedInUser) {
-		return personalToken[0];
-	}
-
 	for (const token of personalToken) {
 		// eslint-disable-next-line no-await-in-loop -- Tokens are checked in order until a match is found; lookups are cached for a year so it should be instant
-		if (token && await tokenUser.get(api3, token) === loggedInUser) {
+		if (loggedInUser && token && await tokenUser.get(api3, token) === loggedInUser) {
 			return token;
 		}
 	}
