@@ -8,7 +8,7 @@ import {$, $$, $optional, elementExists} from 'select-dom';
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 
-function init(signal: AbortSignal): void | false {
+function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
 	if (!initialGroupedButtons) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
@@ -34,6 +34,7 @@ function init(signal: AbortSignal): void | false {
 			<button
 				ref={withTooltipRef(description)}
 				data-disable-invalid
+				data-disable-with=""
 				className={cx(classList)}
 				type="submit"
 				name={radioButton.name}
@@ -45,25 +46,6 @@ function init(signal: AbortSignal): void | false {
 	}
 
 	initialGroupedButtons.remove();
-
-	const secondaryButton = $('button.btn:not(.btn-primary)[type="submit"][data-disable-invalid]', parent);
-	const primaryButton = $('button.btn-primary[type="submit"][data-disable-invalid]', parent);
-
-	function disableSecondaryButton(): void {
-		secondaryButton.disabled = true;
-	}
-
-	function syncSecondaryButton(): void {
-		queueMicrotask(() => {
-			secondaryButton.disabled = primaryButton.disabled;
-		});
-	}
-
-	const form = primaryButton.form!;
-	form.addEventListener('upload:start', disableSecondaryButton, {signal, capture: true});
-	form.addEventListener('upload:complete', syncSecondaryButton, {signal});
-	form.addEventListener('upload:error', syncSecondaryButton, {signal});
-	form.addEventListener('upload:invalid', syncSecondaryButton, {signal});
 
 	// Add minimal structure validation before adding a dangerous class
 	if (parent.classList.contains('d-flex') && parent.parentElement!.classList.contains('flex-justify-end')) {
