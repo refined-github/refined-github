@@ -47,6 +47,11 @@ const migrations = [
 		}
 	},
 
+	// Cleanup personal token array
+	(options: RghOptions): void => {
+		options.personalToken = options.personalToken.filter(string => string.trim());
+	},
+
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];

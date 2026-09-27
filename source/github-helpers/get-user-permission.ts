@@ -2,7 +2,7 @@ import {elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import api from './api.js';
-import {hasToken} from './github-token.js';
+import {hasAnyTokens} from './github-token.js';
 import {getRepo} from './index.js';
 
 /*
@@ -25,7 +25,7 @@ async function getViewerPermission(): Promise<RepositoryPermission> {
 		throw new Error('This can only be called on a repository page');
 	}
 
-	if (!await hasToken()) {
+	if (!await hasAnyTokens()) {
 		return 'READ';
 	}
 
