@@ -13,7 +13,7 @@
 		tokenInputVisibility,
 	} from './token-input-visibility.svelte.js';
 
-	const {host, visible = false}: {host?: string; visible?: boolean} = $props();
+	const {host}: {host?: string} = $props();
 	const slotIndex = claimTokenInputSlot();
 
 	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
@@ -25,7 +25,7 @@
 	let tokenValue = $state(initialMagicValue);
 	const isEmpty = $derived(tokenValue.trim() === '');
 	const shown = $derived(
-		visible || !isEmpty || slotIndex <= tokenInputVisibility.revealed,
+		!isEmpty || slotIndex <= tokenInputVisibility.revealed,
 	);
 	type Validation = {message: string; scopes?: string[]};
 
@@ -105,15 +105,25 @@
 	}
 
 	const tokenPromise = $derived(validateToken(tokenValue));
+	$effect(() => {
+		if (
+			tokenValue !== initialMagicValue
+			&& !isEmpty
+			&& tokenInputVisibility.revealed < slotIndex + 1
+		) {
+			tokenInputVisibility.revealed = slotIndex;
+		}
+	});
 </script>
 
-{#snippet validationIcon(state?: 'valid' | 'invalid')}
+{#snippet validationIcon(state?: 'valid' | 'invalid', title?: string)}
 	<DomChef
 		as={state === 'valid'
 		? CheckCircleFillIcon
 		: state === 'invalid'
 		? CircleSlashIcon
 		: DotIcon}
+		title={title}
 		style={{
 			color: `var(--rgh-${
 				state === 'valid'
@@ -163,6 +173,28 @@
 	{/if}
 {/snippet}
 
+{#snippet compactScopesList(scopes?: string[])}
+	<span class="compact-scopes" aria-label="Token scopes">
+		{@render validationIcon(
+			getScopeState('valid_token', scopes),
+			'valid_token',
+		)}
+		{@render validationIcon(
+			getScopeState('public_repo', scopes),
+			'public_repo',
+		)}
+		{@render validationIcon(getScopeState('repo', scopes), 'repo')}
+		{@render validationIcon(
+			getScopeState('read:project', scopes),
+			'read:project',
+		)}
+		{@render validationIcon(getScopeState('workflow', scopes), 'workflow')}
+		{#if scopes?.includes('delete_repo')}
+			{@render validationIcon('valid', 'delete_repo')}
+		{/if}
+	</span>
+{/snippet}
+
 <p hidden={!shown}>
 	<input
 		bind:this={tokenField}
@@ -173,8 +205,19 @@
 		autocomplete="off"
 		autocapitalize="off"
 		size="20"
-		class="monospace-field password-field"
+		class="monospace-field token-field"
 	/>
+	{#if tokenInputVisibility.revealed > 0}
+		<span>
+			{#await tokenPromise}
+				{@render compactScopesList()}
+			{:then result}
+				{@render compactScopesList(result?.scopes)}
+			{:catch}
+				{@render compactScopesList()}
+			{/await}
+		</span>
+	{/if}
 	{#await tokenPromise}
 		<span>Validating…</span>
 	{:then result}
@@ -187,7 +230,8 @@
 			{error.message}
 		</span>
 	{/await}
-	{#if visible && tokenInputVisibility.revealed < 2}
+	{#if tokenInputVisibility.revealed === slotIndex
+	&& tokenInputVisibility.revealed < 2}
 		<button
 			type="button"
 			onclick={() => tokenInputVisibility.revealed++}
@@ -196,18 +240,31 @@
 		</button>
 	{/if}
 </p>
-<ul hidden={!shown}>
-	{#await tokenPromise}
+
+{#if tokenInputVisibility.revealed === 0}
+	<ul hidden={!shown}>
+		{#await tokenPromise}
+			{@render scopesList()}
+		{:then result}
+			{@render scopesList(result?.scopes)}
+		{:catch}
+			{@render scopesList()}
+		{/await}
+	</ul>
+{:else if tokenInputVisibility.revealed === slotIndex}
+	<ul hidden={!shown}>
 		{@render scopesList()}
-	{:then result}
-		{@render scopesList(result?.scopes)}
-	{:catch}
-		{@render scopesList()}
-	{/await}
-</ul>
+	</ul>
+{/if}
 
 <style>
-	.password-field:not(:focus) {
-		-webkit-text-security: circle;
+	.token-field:not(:focus) {
+		/* -webkit-text-security: circle; */
+	}
+
+	.compact-scopes {
+		display: inline-flex;
+		gap: 0.2em;
+		align-items: center;
 	}
 </style>

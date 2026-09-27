@@ -78,7 +78,7 @@
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
 			<!-- "3 tokens ought to be enough for anyone" -->
-			<TokenInput {host} visible />
+			<TokenInput {host} />
 			<TokenInput {host} />
 			<TokenInput {host} />
 			<!-- Donate $30 to unlock -- or just build locally -->
