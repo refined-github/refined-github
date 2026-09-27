@@ -117,23 +117,24 @@
 </script>
 
 {#snippet validationIcon(state?: 'valid' | 'invalid', title?: string)}
-	<DomChef
-		as={state === 'valid'
-		? CheckCircleFillIcon
-		: state === 'invalid'
-		? CircleSlashIcon
-		: DotIcon}
-		title={title}
-		style={{
-			color: `var(--rgh-${
-				state === 'valid'
-					? 'green'
-					: state === 'invalid'
-					? 'red'
-					: 'inherit'
-			})`,
-		}}
-	/>
+	<span title={title}>
+		<DomChef
+			as={state === 'valid'
+			? CheckCircleFillIcon
+			: state === 'invalid'
+			? CircleSlashIcon
+			: DotIcon}
+			style={{
+				color: `var(--rgh-${
+					state === 'valid'
+						? 'green'
+						: state === 'invalid'
+						? 'red'
+						: 'inherit'
+				})`,
+			}}
+		/>
+	</span>
 {/snippet}
 
 {#snippet scopesList(scopes?: string[])}
