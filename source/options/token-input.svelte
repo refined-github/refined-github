@@ -157,7 +157,7 @@
 	{:catch error}
 		<span data-validation="invalid">{error.message}</span>
 	{/await}
-	{#if visible}
+	{#if visible && tokenInputVisibility.revealed < 2}
 		<button
 			type="button"
 			onclick={() => tokenInputVisibility.revealed++}
