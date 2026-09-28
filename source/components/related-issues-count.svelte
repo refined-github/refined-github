@@ -20,8 +20,8 @@
 	);
 
 	const countPromise = $derived.by(async (): Promise<number> => {
-		const query = getFeatureRelatedIssuesQuery(featureId)
-			+ ' repo:refined-github/refined-github';
+		const query = 'repo:refined-github/refined-github '
+			+ getFeatureRelatedIssuesQuery(featureId);
 
 		const {search} = await api.v4(CountIssues, {variables: {query}});
 		return search.issueCount;
