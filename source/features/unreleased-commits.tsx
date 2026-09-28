@@ -71,14 +71,17 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
+function getLabel(aheadBy: number): string {
+	return aheadBy === undeterminableAheadBy
+		? 'More than 20 unreleased commits'
+		: pluralize(aheadBy, '$$ unreleased commit');
+}
+
 async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount = aheadBy === undeterminableAheadBy
-		? 'More than 20 unreleased commits'
-		: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
+	const label = getLabel(aheadBy) + '\nsince ' + abbreviateString(latestTag, 30);
 
 	return (
 		<a
@@ -176,7 +179,7 @@ async function addToNewRelease(header: HTMLElement): Promise<void> {
 	header.append(
 		' ',
 		<a target="_blank" href={buildRepoUrl('compare', `${latestTag}...${defaultBranch}`)}>
-			{pluralize(aheadBy, '$$ unreleased commit')}
+			{getLabel(aheadBy)}
 		</a>,
 		` on ${defaultBranch} since `,
 		<a target="_blank" href={buildRepoUrl('releases', latestTag)}>
