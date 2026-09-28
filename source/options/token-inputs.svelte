@@ -3,8 +3,9 @@
 
 	const {host}: {host?: string} = $props();
 	// "3 tokens ought to be enough for anyone"
-	// Donate $30 to unlock 4 -- or just build locally
 	const slots = 3;
+	// Donate $30 to unlock -- or just build locally
+	// const slots = 4;
 	let revealed = $state(0);
 
 	function reveal(index: number): void {

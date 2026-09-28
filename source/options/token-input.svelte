@@ -187,6 +187,13 @@
 		margin-bottom: 1em;
 	}
 
+	code {
+		padding: 0.15em 0.2em;
+		border-radius: 0.375em;
+		background: color-mix(in srgb, currentColor 8%, transparent);
+		font-size: 0.8em;
+	}
+
 	.token-field:not(:focus) {
 		-webkit-text-security: circle;
 	}
