@@ -6,6 +6,7 @@
 		getFeatureRelatedIssuesQuery,
 		getFeatureRelatedIssuesUrl,
 	} from '../helpers/rgh-links.js';
+	import CountIssues from './related-issues-count.gql';
 
 	type Props = {
 		featureId: string;
@@ -17,14 +18,13 @@
 	const relatedIssuesHref = $derived.by(() =>
 		getFeatureRelatedIssuesUrl(featureId).href
 	);
-	const countPromise = $derived.by(async () => {
-		const query = `${
-			getFeatureRelatedIssuesQuery(featureId)
-		} repo:refined-github/refined-github`;
-		const response = await api.v3(
-			`/search/issues?q=${encodeURIComponent(query)}`,
-		);
-		return response.total_count;
+
+	const countPromise = $derived.by(async (): Promise<number> => {
+		const query = 'repo:refined-github/refined-github '
+			+ getFeatureRelatedIssuesQuery(featureId);
+
+		const {search} = await api.v4(CountIssues, {variables: {query}});
+		return search.issueCount;
 	});
 </script>
 
@@ -48,8 +48,8 @@
 {:then count}
 	{@const openIssuesLabel = pluralize(
 		count,
-		'1 open issue',
-		'$$ open issues',
+		'1 mention',
+		'$$ mentions',
 		'Related issues',
 	)}
 	{#if mini}
