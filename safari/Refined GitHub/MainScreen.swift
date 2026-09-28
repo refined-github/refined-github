@@ -76,8 +76,8 @@ struct MainScreen: View {
 			requestReviewIfNeeded()
 			await updateExtensionStatus()
 		}
-		.onChange(of: scenePhase) { newScenePhase in
-			guard newScenePhase == .active else {
+		.onChange(of: scenePhase) {
+			guard scenePhase == .active else {
 				return
 			}
 
