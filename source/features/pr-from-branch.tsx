@@ -26,7 +26,7 @@ function unwrap(button: HTMLButtonElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="branch-info-bar"] button[aria-haspopup="true"]', unwrap, {signal});
+	observe('[data-testid="branch-info-bar"] button[aria-haspopup="true"]:not(:has(.octicon-sync))', unwrap, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -41,6 +41,7 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - Ahead, can open PR: https://github.com/refined-github/sandbox/tree/new
+- Fork with "Sync fork" button: https://github.com/fregante/fork
 - Behind, can't open PRs: https://github.com/refined-github/sandbox/tree/behind
 
 */
