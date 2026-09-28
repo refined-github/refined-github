@@ -8,9 +8,6 @@ import {assertTextContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function unwrap(icon: Element): void {
-	const button = closestElement('button', icon);
-	assertTextContent(button, 'Contribute');
-
 	const commitsAhead = $optional('[data-testid="branch-info-bar"] > span > a');
 	// The link might be missing altogether if the branch is up to date
 	if (!commitsAhead?.textContent.includes('ahead of')) {
@@ -18,6 +15,8 @@ function unwrap(icon: Element): void {
 		return;
 	}
 
+	const button = closestElement('button', icon);
+	assertTextContent(button, 'Contribute');
 	button.replaceWith(
 		<a className="btn" href={commitsAhead.href + '?expand=1'}>
 			<GitPullRequestIcon className="mr-2 tmp-mr-2" />
