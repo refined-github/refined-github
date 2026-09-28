@@ -128,11 +128,9 @@
 	</span>
 {/snippet}
 
-<p hidden={!shown}>
-	{#await settled}
-		<input type="hidden" title="User" />
-	{:then result}
-		<input type="hidden" title="User" value={result?.user} />
+<fieldset hidden={!shown}>
+	{#await settled then result}
+		<input type="hidden" name="username" value={result?.user} />
 	{/await}
 	<input
 		bind:this={tokenField}
@@ -169,7 +167,7 @@
 			+ add user
 		</button>
 	{/if}
-</p>
+</fieldset>
 
 {#if active}
 	<ul>
@@ -182,6 +180,13 @@
 {/if}
 
 <style>
+	fieldset {
+		margin: 0;
+		padding: 0;
+		border: none;
+		margin-bottom: 1em;
+	}
+
 	.token-field:not(:focus) {
 		-webkit-text-security: circle;
 	}
