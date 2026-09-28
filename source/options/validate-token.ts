@@ -1,6 +1,12 @@
 import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
 
-export type TokenValidation = {message: string; scopes?: string[]};
+export type TokenValidation = {user: string; message: string; scopes?: string[]};
+
+export class TokenExpiredError extends Error {
+	constructor() {
+		super('Token expired');
+	}
+}
 
 const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
 
@@ -27,7 +33,7 @@ export async function checkToken(
 		tokenInfo.expiration
 		&& new Date(tokenInfo.expiration).getTime() < Date.now()
 	) {
-		throw new Error('Token expired');
+		throw new TokenExpiredError();
 	}
 
 	// Build status message with user and expiration
@@ -41,5 +47,5 @@ export async function checkToken(
 		message += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
 	}
 
-	return {message, scopes: tokenInfo.scopes};
+	return {user, message, scopes: tokenInfo.scopes};
 }

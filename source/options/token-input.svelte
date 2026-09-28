@@ -13,25 +13,27 @@
 		STANDARD_SCOPES,
 	} from './token-input-scopes.js';
 	import {
-		claimTokenInputSlot,
-		tokenInputVisibility,
-	} from './token-input-visibility.svelte.js';
-	import {
 		checkToken,
 		getApiUrl,
+		TokenExpiredError,
 		type TokenValidation,
 	} from './validate-token.js';
 
-	const {host}: {host?: string} = $props();
-	const slotIndex = claimTokenInputSlot();
+	const {host, index, revealed, last, reveal}: {
+		host?: string;
+		index: number;
+		revealed: number; // Highest visible index
+		last: boolean;
+		reveal: (_index: number) => void;
+	} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
 	const isEmpty = $derived(tokenValue.trim() === '');
-	const shown = $derived(
-		!isEmpty || slotIndex <= tokenInputVisibility.revealed,
-	);
+	const shown = $derived(!isEmpty || index <= revealed);
+	const active = $derived(revealed === index);
+	const compact = $derived(revealed > 0);
 
 	function expandTokenSection(): void {
 		closestElement('details', tokenField).open = true;
@@ -60,20 +62,17 @@
 		} catch (error) {
 			assertError(error);
 			expandTokenSection();
-			throw error.message === 'Token expired'
+			throw error instanceof TokenExpiredError
 				? error
 				: new Error(`${error.message} (expired?)`, {cause: error});
 		}
 	}
 
 	const tokenPromise = $derived(validateToken(tokenValue));
+	const settled = $derived(tokenPromise.catch(() => undefined));
 	$effect(() => {
-		if (
-			tokenValue !== initialMagicValue
-			&& !isEmpty
-			&& tokenInputVisibility.revealed < slotIndex + 1
-		) {
-			tokenInputVisibility.revealed = slotIndex;
+		if (!isEmpty) {
+			reveal(index);
 		}
 	});
 </script>
@@ -129,71 +128,64 @@
 	</span>
 {/snippet}
 
-<div hidden={!shown}>
-	<p>
-		<input
-			bind:this={tokenField}
-			bind:value={tokenValue}
-			type="text"
-			name="personalToken[]"
-			spellcheck="false"
-			autocomplete="off"
-			autocapitalize="off"
-			size="20"
-			class="monospace-field token-field"
-		/>
-		{#if tokenInputVisibility.revealed > 0}
-			<span>
-				{#await tokenPromise}
-					{@render compactScopesList()}
-				{:then result}
-					{@render compactScopesList(result?.scopes)}
-				{:catch}
-					{@render compactScopesList()}
-				{/await}
-			</span>
-		{/if}
-		{#await tokenPromise}
-			<span>Validating…</span>
+<p hidden={!shown}>
+	{#await settled}
+		<input type="hidden" title="User" />
+	{:then result}
+		<input type="hidden" title="User" value={result?.user} />
+	{/await}
+	<input
+		bind:this={tokenField}
+		bind:value={tokenValue}
+		type="text"
+		name="personalToken[]"
+		spellcheck="false"
+		autocomplete="off"
+		autocapitalize="off"
+		size="20"
+		class="monospace-field token-field"
+	/>
+	{#if compact}
+		{#await settled}
+			{@render compactScopesList()}
 		{:then result}
-			<span>
-				{result?.message ?? ''}
-			</span>
-		{:catch error}
-			<span>
-				{@render validationIcon('invalid')}
-				{error.message}
-			</span>
+			{@render compactScopesList(result?.scopes)}
 		{/await}
-		{#if tokenInputVisibility.revealed === slotIndex
-	&& tokenInputVisibility.revealed < 2}
-			<button
-				type="button"
-				onclick={() => tokenInputVisibility.revealed++}
-			>
-				+ add user
-			</button>
-		{/if}
-	</p>
-
-	{#if tokenInputVisibility.revealed === 0}
-		<ul>
-			{#await tokenPromise}
-				{@render scopesList()}
-			{:then result}
-				{@render scopesList(result?.scopes)}
-			{:catch}
-				{@render scopesList()}
-			{/await}
-		</ul>
-	{:else if tokenInputVisibility.revealed === slotIndex}
-		<ul>
-			{@render scopesList()}
-		</ul>
 	{/if}
-</div>
+	{#await tokenPromise}
+		<span>Validating…</span>
+	{:then result}
+		<span>
+			{result?.message ?? ''}
+		</span>
+	{:catch error}
+		<span>
+			{@render validationIcon('invalid')}
+			{error.message}
+		</span>
+	{/await}
+	{#if active && !last}
+		<button type="button" onclick={() => reveal(index + 1)}>
+			+ add user
+		</button>
+	{/if}
+</p>
+
+{#if active}
+	<ul>
+		{#await settled}
+			{@render scopesList()}
+		{:then result}
+			{@render scopesList(compact ? undefined : result?.scopes)}
+		{/await}
+	</ul>
+{/if}
 
 <style>
+	.token-field:not(:focus) {
+		-webkit-text-security: circle;
+	}
+
 	.compact-scopes {
 		display: inline-flex;
 		gap: 0.2em;
