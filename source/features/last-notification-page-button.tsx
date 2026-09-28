@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
-import {stringToBase64} from 'uint8array-extras';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
@@ -9,6 +8,7 @@ import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 
 const itemsPerNotificationsPage = 25;
+const encoder = new TextEncoder();
 
 function linkify(nextButton: HTMLAnchorElement): void {
 	const totalNotificationsNode = $('.js-notifications-list-paginator-counts').lastChild!;
@@ -16,7 +16,7 @@ function linkify(nextButton: HTMLAnchorElement): void {
 	const totalNotificationsNumber = looseParseInt(totalNotificationsNode);
 	const lastCursor = Math.floor((totalNotificationsNumber - 1) / itemsPerNotificationsPage) * itemsPerNotificationsPage;
 	const nextButtonSearch = new URLSearchParams(nextButton.search);
-	nextButtonSearch.set('after', stringToBase64(`cursor:${lastCursor}`));
+	nextButtonSearch.set('after', encoder.encode(`cursor:${lastCursor}`).toBase64());
 	totalNotificationsNode.replaceWith(
 		' of ',
 		<a href={'?' + String(nextButtonSearch)}>

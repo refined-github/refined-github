@@ -28,7 +28,6 @@ so the call will not throw an error but it will return as usual.
 import React from 'dom-chef';
 import mem from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
-import {uint8ArrayToBase64} from 'uint8array-extras';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
@@ -195,9 +194,8 @@ const v3uncached = async (
 	});
 	let apiResponse: AnyObject;
 	if (responseFormat === 'base64') {
-		const arrayBuffer = await response.arrayBuffer();
-		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
-		apiResponse = {content};
+		const uint8Array = await response.bytes();
+		apiResponse = {content: uint8Array.toBase64()};
 	} else {
 		const content = await response.text();
 		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
