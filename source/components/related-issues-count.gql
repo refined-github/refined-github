@@ -1,4 +1,4 @@
-query CountExactBugs($query: String!) {
+query CountIssues($query: String!) {
 	search(query: $query, type: ISSUE_ADVANCED, first: 1) {
 		issueCount
 	}

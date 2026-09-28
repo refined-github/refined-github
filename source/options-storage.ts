@@ -47,6 +47,11 @@ const migrations = [
 		}
 	},
 
+	// Cleanup personal token array
+	(options: RghOptions): void => {
+		options.personalToken = options.personalToken.filter(string => string.trim());
+	},
+
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
@@ -54,14 +59,3 @@ const migrations = [
 export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
 const optionsStorage = perDomainOptions.getOptionsForOrigin();
 export default optionsStorage;
-
-const cachedSettings = optionsStorage.getAll();
-
-export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
-	return personalToken[0];
-}
-
-export async function hasToken(): Promise<boolean> {
-	return Boolean(await getToken());
-}
