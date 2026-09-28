@@ -1,13 +1,14 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import GitPullRequestIcon from 'octicons-plain-react/GitPullRequest';
-import {$optional} from 'select-dom';
+import {$optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertTextContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
-function unwrap(button: HTMLButtonElement): void {
+function unwrap(icon: Element): void {
+	const button = closestElement('button', icon);
 	assertTextContent(button, 'Contribute');
 
 	const commitsAhead = $optional('[data-testid="branch-info-bar"] > span > a');
@@ -26,7 +27,7 @@ function unwrap(button: HTMLButtonElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[data-testid="branch-info-bar"] button[aria-haspopup="true"]:not(:has(.octicon-sync))', unwrap, {signal});
+	observe('[data-testid="branch-info-bar"] button[aria-haspopup="true"] .octicon-git-pull-request', unwrap, {signal});
 }
 
 void features.add(import.meta.url, {
