@@ -2,127 +2,114 @@
 	import {closestElement} from 'select-dom';
 	import {assertError} from 'ts-extras';
 
-	import {getTokenInfo, tokenUser} from '../github-helpers/github-token.js';
+	import DomChef from '../components/dom-chef.svelte';
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
 	import {
-		claimTokenInputSlot,
-		tokenInputVisibility,
-	} from './token-input-visibility.svelte.js';
+		apiFeaturesUrl,
+		defaultIcon,
+		getScopeState,
+		SCOPE_ICON,
+		type ScopeState,
+		STANDARD_SCOPES,
+	} from './token-input-scopes.js';
+	import {
+		checkToken,
+		getApiUrl,
+		TokenExpiredError,
+		type TokenValidation,
+	} from './validate-token.js';
 
-	const {host, visible = false}: {host?: string; visible?: boolean} = $props();
-	const slotIndex = claimTokenInputSlot();
-
-	const rtf = new Intl.RelativeTimeFormat('en', {numeric: 'auto'});
-	const apiFeaturesUrl =
-		'https://github.com/search?q=repo%3Arefined-github%2Frefined-github+%28api.js+OR+does-file-exist.js+OR+get-default-branch.js+OR+get-pr-info.js+OR+pr-ci-status.js%29+path%3A%2F%5Esource%5C%2Ffeatures%5C%2F%2F&type=code';
+	const {host, index, revealed, last, reveal}: {
+		host?: string;
+		index: number;
+		revealed: number; // Highest visible index
+		last: boolean;
+		reveal: (_index: number) => void;
+	} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
-	let focused = $state(false);
 	let tokenField: HTMLInputElement;
 	let tokenValue = $state(initialMagicValue);
 	const isEmpty = $derived(tokenValue.trim() === '');
-	const shown = $derived(
-		visible || !isEmpty || slotIndex <= tokenInputVisibility.revealed,
-	);
-
-	type Validation = {message: string; error?: boolean; scopes?: string[]};
-
-	function getApiUrl(): string {
-		return !host || host === 'github.com'
-			? 'https://api.github.com/'
-			: `https://${host}/api/v3/`;
-	}
+	const shown = $derived(!isEmpty || index <= revealed);
+	const active = $derived(revealed === index);
+	const compact = $derived(revealed > 0);
 
 	function expandTokenSection(): void {
 		closestElement('details', tokenField).open = true;
 	}
 
-	function getScopeState(
-		scope: string,
-		scopes?: string[],
-	): 'valid' | 'invalid' | undefined {
-		return scopes?.includes(scope)
-			? 'valid'
-			: scopes
-			? 'invalid'
-			: undefined;
-	}
-
-	async function validateToken(value: string): Promise<Validation | undefined> {
+	async function validateToken(
+		value: string,
+	): Promise<TokenValidation | undefined> {
 		// Silence first run
 		if (value === initialMagicValue) {
 			return;
 		}
 
 		if (value === '') {
-			expandTokenSection();
+			// Only expand if it's the first field
+			if (shown) {
+				expandTokenSection();
+			}
+
+			// Exit validation, never attempt for ''
 			return;
 		}
 
 		try {
-			const base = getApiUrl();
-			const [tokenInfo, user] = await Promise.all([
-				getTokenInfo(base, value),
-				tokenUser.get(base, value),
-			]);
-
-			if (
-				tokenInfo.expiration
-				&& new Date(tokenInfo.expiration).getTime() < Date.now()
-			) {
-				expandTokenSection();
-				return {message: 'Token expired', error: true};
-			}
-
-			// Build status message with user and expiration
-			let message = `👤 @${user}`;
-			if (tokenInfo.expiration) {
-				const msUntilExpiration = new Date(tokenInfo.expiration).getTime()
-					- Date.now();
-				const daysUntilExpiration = Math.ceil(
-					msUntilExpiration / (1000 * 60 * 60 * 24),
-				);
-				message += `, expires ${rtf.format(daysUntilExpiration, 'day')}`;
-			} else {
-				message += ', no expiration';
-			}
-
-			return {message, scopes: tokenInfo.scopes};
+			return await checkToken(getApiUrl(host), value);
 		} catch (error) {
 			assertError(error);
 			expandTokenSection();
-			throw new Error(`${error.message} (expired?)`, {cause: error});
+			throw error instanceof TokenExpiredError
+				? error
+				: new Error(`${error.message} (expired?)`, {cause: error});
 		}
 	}
 
 	const tokenPromise = $derived(validateToken(tokenValue));
+	const settled = $derived(tokenPromise.catch(() => undefined));
+	$effect(() => {
+		if (!isEmpty) {
+			reveal(index);
+		}
+	});
 </script>
 
-{#snippet scopesList(scopes?: string[])}
-	<li data-validation={getScopeState('valid_token', scopes) ?? ''}>
-		The token enables <a href={apiFeaturesUrl}>some features</a>
-		to <strong>read</strong> data from public repositories
-	</li>
-	<li data-validation={getScopeState('public_repo', scopes) ?? ''}>
-		The <code>public_repo</code> scope lets them <strong>edit</strong> your
-		public repositories
-	</li>
-	<li data-validation={getScopeState('repo', scopes) ?? ''}>
-		The <code>repo</code> scope lets them <strong>edit private</strong>
-		repositories as well
-	</li>
-	<li data-validation={getScopeState('read:project', scopes) ?? ''}>
-		The <code>read:project</code> scope lets them determine if a repo/org uses
-		projects
-	</li>
-	<li data-validation={getScopeState('workflow', scopes) ?? ''}>
-		The <code>workflow</code> scope lets them
-		<strong>edit workflow files</strong>
-		<code>.github/workflows/*.yml</code>
-	</li>
+{#snippet validationIcon(state?: ScopeState, title?: string)}
+	{@const {Icon, color} = state ? SCOPE_ICON[state] : defaultIcon}
+	<span {title}>
+		<DomChef as={Icon} style={{color}} />
+	</span>
+{/snippet}
 
+{#snippet scopesList(scopes?: string[])}
+	{#each STANDARD_SCOPES as scope (scope)}
+		<li>
+			{@render validationIcon(getScopeState(scope, scopes))}
+			{#if scope === 'valid_token'}
+				The token enables <a href={apiFeaturesUrl}>some features</a>
+				to <strong>read</strong> data from public repositories
+			{:else if scope === 'public_repo'}
+				The <code>public_repo</code> scope lets them <strong>edit</strong> your
+				public repositories
+			{:else if scope === 'repo'}
+				The <code>repo</code> scope lets them <strong>edit private</strong>
+				repositories as well
+			{:else if scope === 'read:project'}
+				The <code>read:project</code> scope lets them determine if a repo/org
+				uses projects
+			{:else if scope === 'workflow'}
+				The <code>workflow</code> scope lets them
+				<strong>edit workflow files</strong>
+				<code>.github/workflows/*.yml</code>
+			{/if}
+		</li>
+	{/each}
 	{#if scopes?.includes('delete_repo')}
-		<li data-validation="valid">
+		<li>
+			{@render validationIcon('valid')}
 			The <code>delete_repo</code> scope enables <a
 				href={getFeatureUrl('quick-repo-deletion' as string & {feature: true})}
 			>quick-repo-deletion</a>
@@ -130,75 +117,90 @@
 	{/if}
 {/snippet}
 
-<p hidden={!shown}>
+{#snippet compactScopesList(scopes?: string[])}
+	<span class="compact-scopes" aria-label="Token scopes">
+		{#each STANDARD_SCOPES as scope (scope)}
+			{@render validationIcon(getScopeState(scope, scopes), scope)}
+		{/each}
+		{#if scopes?.includes('delete_repo')}
+			{@render validationIcon('valid', 'delete_repo')}
+		{/if}
+	</span>
+{/snippet}
+
+<fieldset hidden={!shown}>
+	{#await settled then result}
+		<input type="hidden" name="username" value={result?.user} />
+	{/await}
 	<input
 		bind:this={tokenField}
 		bind:value={tokenValue}
-		type={focused ? 'text' : 'password'}
+		type="text"
 		name="personalToken[]"
 		spellcheck="false"
 		autocomplete="off"
 		autocapitalize="off"
 		size="20"
-		class="monospace-field"
-		onfocus={() => {
-			focused = true;
-		}}
-		onblur={() => {
-			focused = false;
-		}}
+		class="monospace-field token-field"
 	/>
+	{#if compact}
+		{#await settled}
+			{@render compactScopesList()}
+		{:then result}
+			{@render compactScopesList(result?.scopes)}
+		{/await}
+	{/if}
 	{#await tokenPromise}
 		<span>Validating…</span>
 	{:then result}
-		<span data-validation={result?.error ? 'invalid' : undefined}>
+		<span>
 			{result?.message ?? ''}
 		</span>
 	{:catch error}
-		<span data-validation="invalid">{error.message}</span>
+		<span>
+			{@render validationIcon('invalid')}
+			{error.message}
+		</span>
 	{/await}
-	{#if visible && tokenInputVisibility.revealed < 2}
-		<button
-			type="button"
-			onclick={() => tokenInputVisibility.revealed++}
-		>
+	{#if active && !last}
+		<button type="button" onclick={() => reveal(index + 1)}>
 			+ add user
 		</button>
 	{/if}
-</p>
-<ul hidden={!shown}>
-	{#await tokenPromise}
-		{@render scopesList()}
-	{:then result}
-		{@render scopesList(result?.scopes)}
-	{:catch}
-		{@render scopesList()}
-	{/await}
-</ul>
+</fieldset>
+
+{#if active}
+	<ul>
+		{#await settled}
+			{@render scopesList()}
+		{:then result}
+			{@render scopesList(compact ? undefined : result?.scopes)}
+		{/await}
+	</ul>
+{/if}
 
 <style>
-	[data-validation] {
-		padding-left: 1.8em;
-
-		/* Improve wrapping https://github.com/refined-github/refined-github/issues/9153 */
-		display: inline-block;
+	fieldset {
+		margin: 0;
+		padding: 0;
+		border: none;
+		margin-bottom: 1em;
 	}
 
-	[data-validation]::before {
-		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="gray" d="M8 5.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 8a4 4 0 118 0 4 4 0 01-8 0z"></path></svg>');
-		width: 16px;
-		height: 16px;
-		vertical-align: -4px;
-		margin-right: 0.4em;
-		margin-left: -1.8em; /* Pull out */
-		display: inline-block;
+	code {
+		padding: 0.15em 0.2em;
+		border-radius: 0.375em;
+		background: color-mix(in srgb, currentColor 8%, transparent);
+		font-size: 0.8em;
 	}
 
-	[data-validation='valid']::before {
-		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%2328a745" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>');
+	.token-field:not(:focus) {
+		-webkit-text-security: circle;
 	}
 
-	[data-validation='invalid']::before {
-		content: url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill-rule="evenodd" fill="%23cb2431" d="M1.5 8a6.5 6.5 0 0110.535-5.096l-9.131 9.131A6.472 6.472 0 011.5 8zm2.465 5.096a6.5 6.5 0 009.131-9.131l-9.131 9.131zM8 0a8 8 0 100 16A8 8 0 008 0z"></path></svg>');
+	.compact-scopes {
+		display: inline-flex;
+		gap: 0.2em;
+		align-items: center;
 	}
 </style>

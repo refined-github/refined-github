@@ -32,7 +32,7 @@
 	import HotFixes from './options/hot-fixes.svelte';
 	import RateLink from './options/rate-link.svelte';
 	import StorageUsage from './options/storage-usage.svelte';
-	import TokenInput from './options/token-input.svelte';
+	import TokenInputs from './options/token-inputs.svelte';
 	import VersionInfo from './options/version-info.svelte';
 
 	const {domain = 'default'} = $props();
@@ -77,12 +77,7 @@
 				>the wiki.</a>
 			</p>
 			<p><strong>Token-less usage is not officially supported.</strong></p>
-			<!-- "3 tokens ought to be enough for anyone" -->
-			<TokenInput {host} visible />
-			<TokenInput {host} />
-			<TokenInput {host} />
-			<!-- Donate $30 to unlock -- or just build locally -->
-			<!-- <TokenInput {host} /> -->
+			<TokenInputs {host} />
 		</details>
 	</HandleExpand>
 
