@@ -5,17 +5,17 @@
 	"description": "Simplifies the GitHub interface and adds useful features",
 	"homepage_url": "https://github.com/refined-github/refined-github",
 	"manifest_version": 3,
-	"minimum_chrome_version": "123",
+	"minimum_chrome_version": "125",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}",
-			"strict_min_version": "128.0",
+			"strict_min_version": "129.0",
 			"data_collection_permissions": {
 				"required": ["none"]
 			}
 		},
 		"gecko_android": {
-			"strict_min_version": "128.0"
+			"strict_min_version": "129.0"
 		}
 	},
 	"permissions": [
