@@ -1,57 +1,21 @@
-import elementReady from 'element-ready';
+import memoize from 'memoize';
 
-import {isInitialLoad} from '../helpers/feature-helpers.js';
 import api from './api.js';
-import {hasAnyTokens} from './github-token.js';
 import {getConversationNumber} from './index.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
 
-async function isConversationLockedViaApi(): Promise<boolean | undefined> {
-	if (!await hasAnyTokens()) {
-		return undefined;
-	}
-
+const isLocked = memoize(async (number: number): Promise<boolean> => {
 	const {repository} = await api.v4uncached(GetIssueLockStatus, {
 		variables: {
-			number: getConversationNumber()!,
+			number,
 		},
 	});
 
 	return repository.issueOrPullRequest.locked;
-}
+}, {
+	maxAge: 10_000,
+});
 
-async function isConversationLockedViaDom(): Promise<boolean | undefined> {
-	// The form only appears to moderators
-	const lockToggle = await elementReady([
-		'.discussion-sidebar-item svg.octicon-key + strong', // PRs, old issues
-		'[class^="Item__LiBox"]:has(svg.octicon-lock) [data-component="ActionList.Item--DividerContainer"] span', // Issues
-	]);
-	return lockToggle ? lockToggle.textContent === 'Unlock conversation' : undefined;
-}
-
-async function isConversationLockedViaReactData(): Promise<boolean | undefined> {
-	if (!isInitialLoad()) {
-		return;
-	}
-
-	const data = await elementReady('[data-target="react-app.embeddedData"]');
-	return data
-		? JSON.parse(data.textContent).payload?.preloadedQueries?.[0].result.data.repository?.issue?.locked
-		: undefined;
-}
-
-export default async function isConversationLocked(): Promise<boolean | undefined> {
-	// Like Promise.race, but it only resolves if the result is not undefined
-	return new Promise(resolve => {
-		const resolveIfDefined = async (check: () => Promise<boolean | undefined>): Promise<void> => {
-			const isLocked = await check();
-			if (isLocked !== undefined) {
-				resolve(isLocked);
-			}
-		};
-
-		void resolveIfDefined(isConversationLockedViaReactData);
-		void resolveIfDefined(isConversationLockedViaDom);
-		void resolveIfDefined(isConversationLockedViaApi);
-	});
+export default async function isConversationLocked(conversationNumber = getConversationNumber()!): Promise<boolean> {
+	return isLocked(conversationNumber);
 }
