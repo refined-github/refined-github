@@ -73,12 +73,10 @@ function init(signal: AbortSignal): void {
 	observe('.markdown-body > p:only-child', maybeHide, {signal});
 }
 
-// This should NOT be made dynamic via observer, it's not worth updating the lowQuality count for fresh comments
 void features.add(import.meta.url, {
 	include: [
 		pageDetect.isIssue,
 	],
-	awaitDomReady: true,
 	init,
 });
 
