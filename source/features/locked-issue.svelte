@@ -11,9 +11,18 @@
 
 {#await isConversationLocked(conversationNumber) then isLocked}
 	{#if isLocked}
-		<span title="Locked" class="State d-flex flex-items-center flex-shrink-0">
-			<DomChef as={LockIcon} class="flex-items-center mr-1 tmp-mr-1" />
+		<span
+			class="State d-flex flex-items-center flex-shrink-0 gap-1 rgh-locked-issue"
+		>
+			<DomChef as={LockIcon} />
 			Locked
 		</span>
 	{/if}
 {/await}
+
+<style>
+	.rgh-locked-issue {
+		/* Match size on PRs https://github.com/refined-github/refined-github/issues/9911 */
+		align-self: normal;
+	}
+</style>
