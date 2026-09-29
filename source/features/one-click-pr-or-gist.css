@@ -3,3 +3,11 @@
 	margin-left: auto !important;
 	margin-right: 0;
 }
+
+.rgh-draft-pr-button {
+	order: -1;
+}
+
+.btn-primary:disabled + .rgh-draft-pr-button {
+	display: none;
+}
