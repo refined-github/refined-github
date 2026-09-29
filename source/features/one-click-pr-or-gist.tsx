@@ -50,7 +50,9 @@ function init(): void | false {
 	// after it in the DOM so CSS can react to that native state, then use flex
 	// ordering to preserve the existing visual order.
 	buttons.sort(
-		(button) => (button.classList.contains('rgh-draft-pr-button') ? 1 : -1),
+		(a, b) =>
+			Number(a.classList.contains('rgh-draft-pr-button')) -
+			Number(b.classList.contains('rgh-draft-pr-button')),
 	);
 	initialGroupedButtons.after(...buttons);
 	initialGroupedButtons.remove();
