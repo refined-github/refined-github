@@ -391,11 +391,6 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/86573176-48665900-bf74-11ea-8996-a5c46cb7bdfd.gif"
 	},
 	{
-		"id": "last-notification-page-button",
-		"description": "Adds a link to the last page of notifications.",
-		"screenshot": "https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png"
-	},
-	{
 		"id": "last-update-sort",
 		"description": "Changes the default sort order of issues/PRs to <code>Recently updated</code>.",
 		"screenshot": null
