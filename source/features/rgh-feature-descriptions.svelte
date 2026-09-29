@@ -18,7 +18,8 @@
 
 	const idFromUrl = $derived.by(() => {
 		if (isReportingBug) {
-			const title = new URL($urlStore).searchParams.get('title') ?? '';
+			const title = new URL($urlStore, location.origin).searchParams.get('title')
+				?? '';
 			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? undefined;
 		}
 
