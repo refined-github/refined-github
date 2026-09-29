@@ -10,7 +10,8 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick(): void {
 	const links = $$([
-		'a[data-testid="issue-pr-title-link"]',
+		'a[data-testid="issue-pr-title-link"]', // Issue list
+		'a[data-testid="listitem-title-link"]', // PR list
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'a.h4.js-navigation-open',
 	]);
@@ -47,6 +48,7 @@ function add(anchor: HTMLElement): void {
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'.table-list-triage',
 		'[aria-label="Bulk actions"]',
+		'[aria-label="Pull request actions"]',
 	], anchor);
 	const classes = isLegacy
 		? 'btn-link px-2'
@@ -72,6 +74,9 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			'.table-list-header-toggle:not(.states)',
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
+			// PR list: the filters toolbar is a Primer ActionBar that measures its children for overflow, so use its container
+			'[class*="SharedListContainer-module__primerActionBar"]:has([aria-label="Pull request filters"])',
+			'[aria-label="Pull request actions"] > :first-child',
 		],
 		add,
 		{signal},
