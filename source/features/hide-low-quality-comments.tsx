@@ -4,11 +4,11 @@ import * as pageDetect from 'github-url-detection';
 import {$, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import {mount, unmount} from 'svelte';
 
+import lowQualityCount from '../components/hide-low-quality-comments-store.js';
 import features from '../feature-manager.js';
 import isLowQualityComment from '../helpers/is-low-quality-comment.js';
 import observe from '../helpers/selector-observer.js';
 import singleton from '../helpers/singleton.js';
-import lowQualityCount from './hide-low-quality-comments.store.js';
 import HideLowQualityComments from './hide-low-quality-comments.svelte';
 
 async function unhide(): Promise<void> {
