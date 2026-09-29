@@ -17,7 +17,7 @@ function init(): void | false {
 	}
 
 	const parent = initialGroupedButtons.parentElement!;
-	const buttons: HTMLButtonElement[] = [];
+	const buttons: Element[] = [];
 
 	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
 		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
@@ -51,8 +51,8 @@ function init(): void | false {
 	// ordering to preserve the existing visual order.
 	buttons.sort(
 		(a, b) =>
-			Number(a.classList.contains('rgh-draft-pr-button')) -
-			Number(b.classList.contains('rgh-draft-pr-button')),
+			Number(a.classList.contains('rgh-draft-pr-button'))
+			- Number(b.classList.contains('rgh-draft-pr-button')),
 	);
 	initialGroupedButtons.after(...buttons);
 	initialGroupedButtons.remove();
