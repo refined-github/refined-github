@@ -21,14 +21,14 @@ function addLock(stateLabel: HTMLElement): () => void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	observe(
-		[
-			'div[data-testid^="issue-metadata"] span[class^="prc-StateLabel"]',
-			'div[class^="prc-PageLayout-Header"] span[class^="prc-StateLabel"]',
-		],
-		singleton(addLock),
-		{signal},
-	);
+	// Issues
+	observe('div[data-testid^="issue-metadata"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
+
+	// Observe separately due to singleton nature
+	// PR normal header
+	observe('div[class*="PageHeader-Description"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
+	// PR sticky header
+	observe('div[class*="StickyPullRequestHeader"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
 }
 
 void features.add(import.meta.url, {
