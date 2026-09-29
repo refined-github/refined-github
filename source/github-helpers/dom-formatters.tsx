@@ -126,6 +126,7 @@ export function linkifyUrls(element: HTMLElement): void {
 	}
 
 	// Add hovercards for PR, issue and commit URLs
+	// Test URL: https://github.com/refined-github/sandbox/pull/167/changes
 	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
 		addNativeHovercard(link);
 	}
