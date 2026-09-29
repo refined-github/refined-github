@@ -1,6 +1,6 @@
 <script lang="ts">
-	import pluralize from '../helpers/pluralize.js';
 	import lowQualityCount from '../components/hide-low-quality-comments-store.js';
+	import pluralize from '../helpers/pluralize.js';
 
 	let shown = $state(false);
 	const {onclick}: {onclick: () => void} = $props();

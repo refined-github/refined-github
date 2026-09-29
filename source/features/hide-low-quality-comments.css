@@ -3,8 +3,7 @@
 		display: none;
 	}
 
-	[data-timeline-event-id],
-	.timeline-comment {
+	[data-timeline-event-id] {
 		border-color: var(--rgh-red, fuchsia);
 	}
 }
