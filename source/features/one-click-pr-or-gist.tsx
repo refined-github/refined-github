@@ -17,6 +17,7 @@ function init(): void | false {
 	}
 
 	const parent = initialGroupedButtons.parentElement!;
+	const buttons: HTMLButtonElement[] = [];
 
 	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
 		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
@@ -26,15 +27,15 @@ function init(): void | false {
 
 		if (/\bdraft\b/i.test(title)) {
 			title = 'Create draft PR';
+			classList.push('rgh-draft-pr-button');
 		} else {
 			classList.push('btn-primary');
 		}
 
-		initialGroupedButtons.after(
+		buttons.push(
 			<button
 				ref={withTooltipRef(description)}
 				data-disable-invalid
-				data-disable-with=""
 				className={cx(classList)}
 				type="submit"
 				name={radioButton.name}
@@ -45,6 +46,13 @@ function init(): void | false {
 		);
 	}
 
+	// GitHub's upload handler disables the primary button. Keep the draft button
+	// after it in the DOM so CSS can react to that native state, then use flex
+	// ordering to preserve the existing visual order.
+	buttons.sort(
+		(button) => (button.classList.contains('rgh-draft-pr-button') ? 1 : -1),
+	);
+	initialGroupedButtons.after(...buttons);
 	initialGroupedButtons.remove();
 
 	// Add minimal structure validation before adding a dangerous class
