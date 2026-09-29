@@ -303,6 +303,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png"
 	},
 	{
+		"id": "filter-jobs-by-status",
+		"description": "In the workflows sidebar, allows picking more than one filter simultaneously.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/6f9d1dad-e471-4ca3-b4fd-1974bddb5489"
+	},
+	{
 		"id": "fit-textareas",
 		"description": "Auto-resizes comment fields to fit their content and no longer show scroll bars.",
 		"css": true,

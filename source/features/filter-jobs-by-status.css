@@ -1,0 +1,12 @@
+/*
+	Filter the jobs in the sidebar by more than one filter at a time.
+	`li:has(> a)` matches jobs.
+	`li:has(> button)` matches groups of jobs.
+	A group is visible if one or more of its jobs match the filters.
+*/
+.rgh-job-status-filtering nav[aria-label='Workflow run'] {
+	& li:has(> a[data-test-selector='job-link']:not(.rgh-job-status-match)),
+	& li:has(> button):not(:has(.rgh-job-status-match)) {
+		display: none;
+	}
+}

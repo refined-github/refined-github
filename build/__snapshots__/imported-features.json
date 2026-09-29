@@ -52,6 +52,7 @@
 	"extend-repo-tabs",
 	"extensible-nav",
 	"file-age-color",
+	"filter-jobs-by-status",
 	"fit-textareas",
 	"fix-no-pr-search",
 	"github-actions-indicators",
