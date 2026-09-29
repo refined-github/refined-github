@@ -38,7 +38,13 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 	if (
 		elementExists(
 			['.octicon-fold', '.octicon-unfold'],
-			closestElement('[data-testid="comment-header-right-side-items"]', menuButton),
+			closestElement([
+				// Comments
+				'[data-testid="comment-header-right-side-items"]',
+				// Body, only useful to avoid "closestElementOptional"
+				// https://github.com/refined-github/refined-github/issues/9893
+				'[data-testid="issue-body"]',
+			], menuButton),
 		)
 	) {
 		return;
