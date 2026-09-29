@@ -15,11 +15,7 @@
 		{$lowQualityCount} unhelpful {
 			pluralize($lowQualityCount, 'comment was', 'comments were')
 		} automatically hidden.
-		<button
-			class="btn-link text-emphasized rgh-unhide-low-quality-comments"
-			type="button"
-			onclick={onshow}
-		>
+		<button class="btn-link text-emphasized" type="button" onclick={onshow}>
 			Show
 		</button>
 	</p>

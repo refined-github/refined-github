@@ -14,6 +14,9 @@ import HideLowQualityComments from './hide-low-quality-comments.svelte';
 async function unhide(): Promise<void> {
 	$('#issue-timeline').classList.add('rgh-unhide-low-quality-comments');
 	$('.rgh-low-quality-comment').scrollIntoView();
+
+	// No point in analyzing new comments, we should not hide comments after the user clicked "Load more"
+	features.unload(import.meta.url);
 }
 
 function hideComment(comment: HTMLElement): void {
