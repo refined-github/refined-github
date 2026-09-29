@@ -21,12 +21,17 @@ function addLock(stateLabel: HTMLElement): () => void {
 }
 
 async function init(signal: AbortSignal): Promise<void | false> {
-	// Issues
-	observe('div[data-testid^="issue-metadata"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
+	// Observe separately due to singleton nature. PRs have two headers and therefore two widgets
+	// Issues, PR normal header
+	observe(
+		[
+			'div[data-testid^="issue-metadata"] span[class^="prc-StateLabel"]',
+			'div[class*="PageHeader-Description"] span[class^="prc-StateLabel"]',
+		],
+		singleton(addLock),
+		{signal},
+	);
 
-	// Observe separately due to singleton nature
-	// PR normal header
-	observe('div[class*="PageHeader-Description"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
 	// PR sticky header
 	observe('div[class*="StickyPullRequestHeader"] span[class^="prc-StateLabel"]', singleton(addLock), {signal});
 }
