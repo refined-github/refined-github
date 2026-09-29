@@ -83,6 +83,27 @@ export function linkifyIssues(
 	zipTextNodes(element, linkified);
 }
 
+const hovercardTypeByUrlType: Record<string, string> = {
+	issues: 'issue',
+	pull: 'pull_request',
+	commit: 'commit',
+};
+
+function addNativeHovercard(link: HTMLAnchorElement): void {
+	// Hovercards load from the current origin (github.com or Enterprise) - skip other hosts
+	if (link.hostname !== location.hostname) {
+		return;
+	}
+
+	const match = /^\/[^/]+\/[^/]+\/(?<type>issues|pull|commit)\/(?:\d+|[\da-f]{7,64})(?=\/|$)/.exec(link.pathname);
+	if (!match?.groups) {
+		return;
+	}
+
+	link.dataset.hovercardType = hovercardTypeByUrlType[match.groups.type];
+	link.dataset.hovercardUrl = `${match[0]}/hovercard`;
+}
+
 export function linkifyUrls(element: HTMLElement): void {
 	if (element.textContent.length < 15) { // Must be long enough for a URL
 		return;
@@ -102,6 +123,11 @@ export function linkifyUrls(element: HTMLElement): void {
 
 	if (linkified.children.length === 0) { // Children are <a>
 		return;
+	}
+
+	// Add hovercards for PR, issue and commit URLs
+	for (const link of linkified.children as HTMLCollectionOf<HTMLAnchorElement>) {
+		addNativeHovercard(link);
 	}
 
 	zipTextNodes(element, linkified);
