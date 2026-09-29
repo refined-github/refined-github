@@ -14,7 +14,7 @@ function addLock(stateLabel: HTMLElement): () => void {
 
 	container.parentElement!.style.height = 'auto';
 	container.parentElement!.classList.add('d-flex', 'gap-2');
-	const app = mount(LockedIndicator, {target: container.parentElement!, anchor: container});
+	const app = mount(LockedIndicator, {target: container.parentElement!});
 	return () => {
 		void unmount(app);
 	};

@@ -4,7 +4,7 @@ import api from './api.js';
 import {getConversationNumber} from './index.js';
 import GetIssueLockStatus from './is-conversation-locked.gql';
 
-const isConversationLocked = memoize(async (number: number): Promise<boolean> => {
+const isLocked = memoize(async (number: number): Promise<boolean> => {
 	const {repository} = await api.v4uncached(GetIssueLockStatus, {
 		variables: {
 			number,
@@ -16,6 +16,6 @@ const isConversationLocked = memoize(async (number: number): Promise<boolean> =>
 	maxAge: 10_000,
 });
 
-export default async function isConversionLocked(conversationNumber = getConversationNumber()!): Promise<boolean> {
-	return isConversationLocked(conversationNumber);
+export default async function isConversationLocked(conversationNumber = getConversationNumber()!): Promise<boolean> {
+	return isLocked(conversationNumber);
 }
