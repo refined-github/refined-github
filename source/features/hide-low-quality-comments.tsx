@@ -13,56 +13,47 @@ import HideLowQualityComments from './hide-low-quality-comments.svelte';
 
 async function unhide(): Promise<void> {
 	$('#issue-timeline').classList.add('rgh-unhide-low-quality-comments');
-	$('.rgh-hidden-comment').scrollIntoView();
+	$('.rgh-low-quality-comment').scrollIntoView();
 }
 
 function hideComment(comment: HTMLElement): void {
 	lowQualityCount.update(n => n + 1);
-	comment.classList.add('rgh-hidden-comment');
+	comment.classList.add('rgh-low-quality-comment');
+}
+
+function closestComment(element: HTMLElement): HTMLElement {
+	return closestElement('[data-wrapper-timeline-id]', element);
 }
 
 // Exclude explicitly linked comments #5363
-function isCommentHidden(comment: HTMLElement): boolean {
+function isDeepLinked(comment: HTMLElement): boolean {
 	return location.hash.startsWith('#issuecomment-') && Boolean(closestElementOptional(location.hash, comment));
 }
 
 function maybeHide(commentText: HTMLElement): void {
-	if (isCommentHidden(commentText) || !isLowQualityComment(commentText.textContent)) {
+	if (isDeepLinked(commentText) || !isLowQualityComment(commentText.textContent)) {
 		return;
 	}
 
-	// Comments that contain useful images or links shouldn't be removed
+	// Comments that contain useful images or links shouldn't be removed.
 	// Images are wrapped in <a> tags on GitHub hence included in the selector
 	if (elementExists('a', commentText)) {
 		return;
 	}
 
 	// Ensure that they're not by VIPs (owner, collaborators, etc)
-	const comment = closestElement([
-		'.js-timeline-item',
-		'[data-wrapper-timeline-id]',
-	], commentText);
-	if (elementExists([
-		'.Label',
-		'[data-component="Label"]'
-	], comment)) {
+	const comment = closestComment(commentText);
+	if (elementExists('[data-component="Label"]', comment)) {
 		return;
 	}
 
 	// If the person is having a conversation, then don't hide it
-	const author = $(['a.author', 'a[data-testid="avatar-link"]'], comment).getAttribute('href')!;
-	// If the first comment left by the author isn't a low quality comment
-	// (previously hidden or about to be hidden), then leave this one as well
-	const previousComment = $([
-		`.js-timeline-item:not(.rgh-hidden-comment) .unminimized-comment a.author[href="${author}"]`,
-		`[data-wrapper-timeline-id]:not(.rgh-hidden-comment) a[data-testid="avatar-link"][href="${author}"]:not(.color-fg-muted)`,
-	]);
-	if (
-		closestElement([
-			'.js-timeline-item',
-			'[data-wrapper-timeline-id]',
-		], previousComment) !== comment
-	) {
+	const author = $('a[data-testid="avatar-link"]', comment).getAttribute('href')!;
+	// If the first comment left by the author isn't a low quality comment (previously hidden or about to be hidden), then leave this one as well
+	const previousComment = $(
+		`[data-wrapper-timeline-id]:not(.rgh-low-quality-comment) a[data-testid="avatar-link"][href="${author}"]:not(.color-fg-muted)`,
+	);
+	if (closestComment(previousComment) !== comment) {
 		return;
 	}
 
@@ -78,14 +69,7 @@ function addWidget(target: HTMLElement): () => void {
 
 function init(signal: AbortSignal): void {
 	lowQualityCount.set(0);
-	observe(
-		[
-			'.discussion-timeline-actions',
-			'#react-issue-comment-composer',
-		],
-		singleton(addWidget),
-		{signal},
-	);
+	observe('#react-issue-comment-composer', singleton(addWidget), {signal});
 	observe('.markdown-body > p:only-child', maybeHide, {signal});
 }
 

@@ -1,4 +1,4 @@
-.rgh-hidden-comment {
+.rgh-low-quality-comment {
 	#issue-timeline:not(.rgh-unhide-low-quality-comments) & {
 		display: none;
 	}
