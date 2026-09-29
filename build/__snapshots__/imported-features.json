@@ -61,6 +61,7 @@
 	"hide-inactive-deployments",
 	"hide-low-quality-comments",
 	"hide-navigation-hover-highlight",
+	"hide-skipped-jobs",
 	"hide-user-forks",
 	"highlight-non-default-base-branch",
 	"html-preview-link",

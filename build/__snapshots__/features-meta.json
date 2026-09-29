@@ -360,6 +360,12 @@
 		"screenshot": null
 	},
 	{
+		"id": "hide-skipped-jobs",
+		"description": "Hides skipped jobs from the sidebar and graph of workflow runs, with a toggle to show them again.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/5c1133aa-1fc1-4c0e-83d5-4999d81f4abb"
+	},
+	{
 		"id": "hide-user-forks",
 		"description": "Filters out forks and archived repos from profiles by default, leaving only the sources. (but they can still be shown.)",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263195425-85cf0951-c6ed-45fe-8cfc-e447e3ed2a25.png"

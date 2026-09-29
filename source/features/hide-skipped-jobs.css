@@ -1,0 +1,26 @@
+/*
+	In the Actions Sidebar, skipped jobs and groups.
+	`li:has(> a)` matches jobs, not groups, so we only hide groups if they are skipped entirely
+*/
+.rgh-hide-skipped-jobs
+	nav[aria-label='Workflow run']
+	li:is(
+		:has(> a[data-test-selector='job-link'] .octicon-skip),
+		:has(> button > * > .octicon-skip)
+	) {
+	display: none;
+}
+
+/*
+	In the Actions workflow graph, we have to add our own classes, since there's no info exposed in the markup
+    that tells us if an entire job's actions are skipped.
+*/
+.rgh-hide-skipped-jobs .WorkflowGraph {
+	.rgh-skipped-job,
+	/* Hide lines that point to a skipped card. */
+	.WorkflowConnector.rgh-skipped-connector,
+	/* Hide columns with only skipped jobs */
+	.WorkflowStage:not(:has(.WorkflowCard:not(.rgh-skipped-job))) {
+		display: none;
+	}
+}
