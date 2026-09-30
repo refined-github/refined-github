@@ -9,5 +9,5 @@
 }
 
 .btn-primary:disabled + .rgh-draft-pr-button {
-	display: none;
+	opacity: 0.5;
 }
