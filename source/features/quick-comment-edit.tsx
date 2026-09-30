@@ -41,9 +41,13 @@ async function addQuickEditButton(menuButton: HTMLButtonElement, {signal}: Signa
 			closestElement([
 				// Comments
 				'[data-testid="comment-header-right-side-items"]',
+
 				// Body, only useful to avoid "closestElementOptional"
 				// https://github.com/refined-github/refined-github/issues/9893
+				// Issue body
 				'[data-testid="issue-body"]',
+				// PR body
+				'.timeline-comment-header',
 			], menuButton),
 		)
 	) {
