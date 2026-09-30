@@ -2,7 +2,7 @@ import cx from 'clsx';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import {elementExists} from 'select-dom';
+import {closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {modifierKey} from '../github-helpers/hotkey.js';
@@ -39,11 +39,7 @@ function onKeyDown(event: DelegateEvent<KeyboardEvent, HTMLInputElement>): void 
 		</p>
 	);
 
-	if (pageDetect.isNewFile() || pageDetect.isEditingFile()) {
-		field.after(message);
-	} else {
-		field.parentElement!.append(message);
-	}
+	closestElement('[data-component="TextInput"]', field).after(message);
 
 	event.preventDefault();
 }
