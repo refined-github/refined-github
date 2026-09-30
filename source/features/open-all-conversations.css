@@ -1,7 +1,0 @@
-html:not([rgh-OFF-open-all-conversations]) {
-	/* PR list: keep the button next to the filters at any width */
-	[class*='SharedListContainer-module__primerActionBar']
-		[class*='prc-ActionBar-OverflowContainer'] {
-		justify-content: flex-start;
-	}
-}

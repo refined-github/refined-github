@@ -1,5 +1,3 @@
-import './open-all-conversations.css';
-
 import cx from 'clsx';
 import delegate from 'delegate-it';
 import React from 'dom-chef';
@@ -76,8 +74,8 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			'.table-list-header-toggle:not(.states)',
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
-			// PR list: the filters toolbar is a Primer ActionBar that measures its children for overflow, so use its container
-			'[class*="SharedListContainer-module__primerActionBar"]',
+			// PR list: the filters are right-aligned inside the ActionBar's overflow container, so the button has to live in it to stay next to them
+			'[class*="SharedListContainer-module__primerActionBar"] [class*="prc-ActionBar-OverflowContainer"]',
 			'[aria-label="Pull request actions"] > :first-child',
 		],
 		add,
