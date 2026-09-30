@@ -59,6 +59,11 @@ function addAvatar(link: HTMLElement): void {
 function addMentionAvatar(link: HTMLAnchorElement): void {
 	// Don't use textContent #8389
 	const username = link.href.split('/').pop()!;
+	if (location.pathname === '/sponsors/' + username) {
+		// Redundant: https://github.com/refined-github/refined-github/issues/9815
+		return;
+	}
+
 	const avatarUrl = getUserAvatarURL(username, 16)!;
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
