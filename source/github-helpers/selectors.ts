@@ -260,7 +260,7 @@ export const usernameLinksSelector_ = [
 ];
 
 export const actionBar = [
-	'[data-component="ActionBar"]', // React component
+	'fieldset [data-component="ActionBar"]', // React component; `fieldset` avoids #10093
 	'action-bar', // Still used in gists, PRs, etc
 ];
 export const actionBar_ = requiresLogin;
