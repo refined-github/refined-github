@@ -5,11 +5,16 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import SortAscIcon from 'octicons-plain-react/SortAsc';
 import SortDescIcon from 'octicons-plain-react/SortDesc';
-import {$, $$} from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {upperCaseFirst} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+
+// Acceptable race condition. IF we can tell the view is empty in time, just remove the dropdowns, no point in altering them.
+function isEmptyView(): boolean {
+	return elementExists('.blankslate-container');
+}
 
 function transform(button: HTMLButtonElement): JSX.Element {
 	const [buttonLabel] = button.textContent.trim().split(' ', 1);
@@ -39,6 +44,11 @@ function transform(button: HTMLButtonElement): JSX.Element {
 }
 
 function replaceDropdown(dropdown: Element): void {
+	if (isEmptyView()) {
+		dropdown.remove();
+		return;
+	}
+
 	const label = $('.Button-label .color-fg-muted', dropdown).textContent.trim();
 	const buttons = $$('button.ActionListContent', dropdown);
 	dropdown.classList.add('width-full', 'width-auto');
@@ -56,6 +66,11 @@ function replaceDropdown(dropdown: Element): void {
 }
 
 function compactDropdown(dropdown: Element): void {
+	if (isEmptyView()) {
+		dropdown.remove();
+		return;
+	}
+
 	dropdown.classList.replace('width-full', 'width-auto');
 	dropdown.classList.replace('ml-0', 'ml-auto');
 	const label = $('.Button-content', dropdown);
@@ -95,12 +110,8 @@ function unwrapActions(details: HTMLDetailsElement): void {
 
 function init(signal: AbortSignal): void {
 	observe('.notification-sort-by', compactDropdown, {signal});
+	observe('.notification-group-by', replaceDropdown, {signal});
 	observe('.js-notifications-mark-selected-actions details.dropdown', unwrapActions, {signal});
-
-	// Grouping is only available on the Inbox tab
-	if (!new URLSearchParams(location.search).get('query')) {
-		observe('.notification-group-by', replaceDropdown, {signal});
-	}
 }
 
 void features.addCssFeature(import.meta.url);
