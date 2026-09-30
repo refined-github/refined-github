@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 
 // Acceptable race condition. IF we can tell the view is empty in time, just remove the dropdowns, no point in altering them.
 function isEmptyView(): boolean {
-	return elementExists('.blankslate-container');
+	return elementExists('.js-notifications-blankslate');
 }
 
 function transform(button: HTMLButtonElement): JSX.Element {
