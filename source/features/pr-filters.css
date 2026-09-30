@@ -11,8 +11,11 @@ html:not([rgh-OFF-pr-filters]) {
 		border: 0;
 		border-radius: 12px;
 		background: var(--overlay-bgColor, Canvas);
-		color: var(--fgColor-default);
-		box-shadow: 0 0 0 1px #d1d9e040, 0 6px 12px -3px #25292e0a, 0 6px 18px #25292e1f;
+		color: var(--fgColor-default, fuchsia);
+		box-shadow:
+			0 0 0 1px #d1d9e040,
+			0 6px 12px -3px #25292e0a,
+			0 6px 18px #25292e1f;
 	}
 
 	/* .SelectMenu-modal sets display: flex, which overrides the closed popover's display: none */
@@ -43,9 +46,9 @@ html:not([rgh-OFF-pr-filters]) {
 	.rgh-pr-filter-heading {
 		margin: 8px -8px;
 		padding: 6px 16px;
-		border-block: 1px solid var(--borderColor-muted);
-		background: var(--bgColor-muted);
-		color: var(--fgColor-muted);
+		border-block: 1px solid var(--borderColor-muted, fuchsia);
+		background: var(--bgColor-muted, fuchsia);
+		color: var(--fgColor-muted, fuchsia);
 		font-size: 12px;
 		font-weight: 600;
 		line-height: 18px;

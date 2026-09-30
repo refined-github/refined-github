@@ -1,9 +1,10 @@
 import './pr-filters.css';
 
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import {$} from 'select-dom';
+import {$, closestElementOptional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -94,13 +95,14 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 function createMenu(title: string, fill: (dropdown: HTMLElement) => void): HTMLElement {
 	const id = `rgh-pr-filter-${title.toLowerCase()}`;
 	const menu = (
-		<span className={`rgh-pr-filter ${id}`}>
+		<span className={cx('rgh-pr-filter', id)}>
 			<button
 				type="button"
 				className="Button Button--invisible Button--medium text-normal color-fg-muted"
 				{...{popovertarget: id}}
 			>
-				{title}<div className="dropdown-caret ml-1" />
+				{title}
+				<div className="dropdown-caret ml-1" />
 			</button>
 			<div id={id} className="SelectMenu-modal" {...{popover: 'auto'}}>
 				<div className="SelectMenu-list" />
@@ -112,14 +114,16 @@ function createMenu(title: string, fill: (dropdown: HTMLElement) => void): HTMLE
 	const dropdown = $('.SelectMenu-list', menu);
 	const popover = $('[popover]', menu);
 	popover.addEventListener('beforetoggle', event => {
-		if ((event as ToggleEvent).newState === 'open') {
-			dropdown.textContent = '';
-			fill(dropdown);
+		if (event.newState !== 'open') {
+			return;
 		}
+
+		dropdown.textContent = '';
+		fill(dropdown);
 	});
 	// GitHub navigates without a reload, so the popover would stay open
 	popover.addEventListener('click', event => {
-		if ((event.target as Element).closest('a')) {
+		if (closestElementOptional('a', event.target as Element)) {
 			popover.hidePopover();
 		}
 	});
@@ -130,7 +134,7 @@ function createMenu(title: string, fill: (dropdown: HTMLElement) => void): HTMLE
 // The React menu is rendered on open, so clone one of its items to match the Primer styles
 function addReactDraftFilter(menu: HTMLElement): void {
 	const button = document.getElementById(menu.getAttribute('aria-labelledby')!);
-	if (button?.getAttribute('aria-label') !== 'Filter by reviews') {
+	if (button!.getAttribute('aria-label') !== 'Filter by reviews') {
 		return;
 	}
 
@@ -155,10 +159,12 @@ function addReactDraftFilter(menu: HTMLElement): void {
 			location.assign(href);
 		});
 		item.addEventListener('keydown', event => {
-			if (event.key === 'Enter' || event.key === ' ') {
-				event.preventDefault();
-				location.assign(href);
+			if (event.key !== 'Enter' && event.key !== ' ') {
+				return;
 			}
+
+			event.preventDefault();
+			location.assign(href);
 		});
 		menu.append(item);
 	}
