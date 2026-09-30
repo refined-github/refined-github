@@ -1,0 +1,54 @@
+html:not([rgh-OFF-pr-filters]) {
+	/* New PR list: the toolbar clips overflow, so use top-layer popovers anchored to their buttons */
+	.rgh-pr-filter > [popover] {
+		position: fixed;
+		inset: auto;
+		top: anchor(bottom);
+		right: anchor(right);
+		margin: 0;
+		padding: 8px;
+		width: 300px;
+		border: 0;
+		border-radius: 12px;
+		background: var(--overlay-bgColor, Canvas);
+		color: var(--fgColor-default);
+		box-shadow: 0 0 0 1px #d1d9e040, 0 6px 12px -3px #25292e0a, 0 6px 18px #25292e1f;
+	}
+
+	/* .SelectMenu-modal sets display: flex, which overrides the closed popover's display: none */
+	.rgh-pr-filter > [popover]:not(:popover-open) {
+		display: none;
+	}
+
+	.rgh-pr-filter .SelectMenu-item {
+		padding: 6px 8px;
+		border: 0;
+		border-radius: 6px;
+		font-size: 14px;
+
+		&:hover {
+			background: var(--control-transparent-bgColor-hover);
+		}
+	}
+
+	#rgh-pr-filter-checks {
+		position-anchor: --rgh-checks;
+	}
+
+	.rgh-pr-filter-checks > button {
+		anchor-name: --rgh-checks;
+	}
+
+	/* Same look as the group headings in the other filter menus */
+	.rgh-pr-filter-heading {
+		margin: 8px -8px;
+		padding: 6px 16px;
+		border-block: 1px solid var(--borderColor-muted);
+		background: var(--bgColor-muted);
+		color: var(--fgColor-muted);
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 18px;
+		list-style: none;
+	}
+}
