@@ -17,9 +17,10 @@ function init(): void | false {
 	}
 
 	const parent = initialGroupedButtons.parentElement!;
-	const buttons: Element[] = [];
 
-	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
+	// Reverse the DOM order to enable the "auto-disable on load" logic
+	// https://github.com/refined-github/refined-github/pull/10130#issuecomment-5889333355
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons).toReversed()) {
 		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
 		const description = $('.description', dropdownItem).textContent.trim();
 		const radioButton = $('input[type=radio]', dropdownItem);
@@ -32,7 +33,7 @@ function init(): void | false {
 			classList.push('btn-primary');
 		}
 
-		buttons.push(
+		initialGroupedButtons.after(
 			<button
 				ref={withTooltipRef(description)}
 				data-disable-invalid
@@ -46,15 +47,6 @@ function init(): void | false {
 		);
 	}
 
-	// GitHub's upload handler disables the primary button. Keep the draft button
-	// after it in the DOM so CSS can react to that native state, then use flex
-	// ordering to preserve the existing visual order.
-	buttons.sort(
-		(a, b) =>
-			Number(a.classList.contains('rgh-draft-pr-button'))
-			- Number(b.classList.contains('rgh-draft-pr-button')),
-	);
-	initialGroupedButtons.after(...buttons);
 	initialGroupedButtons.remove();
 
 	// Add minimal structure validation before adding a dangerous class

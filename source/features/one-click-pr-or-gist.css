@@ -4,6 +4,8 @@
 	margin-right: 0;
 }
 
+/* Reverse the DOM order to enable the "auto-disable on load" logic */
+/* https://github.com/refined-github/refined-github/pull/10130#issuecomment-5889333355 */
 .rgh-draft-pr-button {
 	order: -1;
 }
