@@ -1,0 +1,8 @@
+html:not([rgh-OFF-open-all-conversations]) {
+	/* PR list: keep the button at the right edge at any width */
+	[class*='SharedListContainer-module__primerActionBar']
+		> .rgh-open-all-conversations {
+		order: 1;
+		margin-left: auto;
+	}
+}
