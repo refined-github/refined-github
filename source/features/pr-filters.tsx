@@ -13,7 +13,9 @@ import HasChecks from './pr-filters.gql';
 
 const reviewsFilterSelector = '#reviews-select-menu';
 
-function getFilterLink(filterCategory: string, filterValue: string): {href: string; isSelected: boolean} {
+type FilterLink = {href: string; isSelected: boolean};
+
+function getFilterLink(filterCategory: string, filterValue: string): FilterLink {
 	const filterQuery = `${filterCategory}:${filterValue}`;
 
 	const searchQuery = SearchQuery.from(location);
@@ -89,45 +91,46 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 }
 
 // The React menu is rendered on open, so clone one of its items to match its styles
-function addReactDraftFilter(menu: HTMLElement): void {
-	const button = document.getElementById(menu.getAttribute('aria-labelledby')!);
-	if (button!.getAttribute('aria-label') !== 'Filter by reviews') {
-		return;
-	}
+function cloneItem(template: HTMLElement, title: string, {href, isSelected}: FilterLink): HTMLElement {
+	const item = template.cloneNode(true);
+	item.removeAttribute('id');
+	item.removeAttribute('aria-labelledby');
+	item.removeAttribute('aria-keyshortcuts');
+	item.ariaChecked = String(isSelected);
 
-	const template = $('li', menu);
+	// Use a real link like GitHub's own link items, with the same classes as the content it replaces
+	const content = item.firstElementChild as HTMLElement;
+	content.replaceWith(
+		<a
+			href={href}
+			className={content.className}
+			data-size={content.dataset.size}
+			// GitHub navigates without a reload, so the menu has to be closed manually
+			onClick={event => {
+				event.currentTarget.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}));
+			}}
+		>
+			{[...content.childNodes]}
+		</a>,
+	);
 
-	for (const [title, value] of [['Ready for review', 'false'], ['Not ready for review (Draft PR)', 'true']]) {
-		const {href, isSelected} = getFilterLink('draft', value);
-		const item = template.cloneNode(true);
-		item.removeAttribute('id');
-		item.removeAttribute('aria-labelledby');
-		item.removeAttribute('aria-keyshortcuts');
-		item.tabIndex = -1;
-		item.ariaChecked = String(isSelected);
+	const label = $('[data-component="ActionList.Item.Label"]', item);
+	label.removeAttribute('id');
+	label.textContent = title;
 
-		const label = $('[data-component="ActionList.Item.Label"]', item);
-		label.removeAttribute('id');
-		label.textContent = title;
+	return item;
+}
 
-		// Cloning drops React's handlers
-		item.addEventListener('click', () => {
-			location.assign(href);
-		});
-		item.addEventListener('keydown', event => {
-			if (event.key !== 'Enter' && event.key !== ' ') {
-				return;
-			}
-
-			event.preventDefault();
-			location.assign(href);
-		});
-		menu.append(item);
-	}
+function addReactDraftFilter(template: HTMLElement): void {
+	template.parentElement!.append(
+		cloneItem(template, 'Ready for review', getFilterLink('draft', 'false')),
+		cloneItem(template, 'Not ready for review (Draft PR)', getFilterLink('draft', 'true')),
+	);
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[role="menu"][aria-labelledby]', addReactDraftFilter, {signal});
+	// The first item of the Reviews menu ("No reviews") is the only one with the "n" shortcut
+	observe('[role="menu"] > li[aria-keyshortcuts="n"]:first-child', addReactDraftFilter, {signal});
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
 	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
 }
