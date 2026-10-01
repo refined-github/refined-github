@@ -1,19 +1,20 @@
-import {readable} from 'svelte/store';
+import {derived, readable} from 'svelte/store';
 
 // Do not replace with `getCleanPathname`, we read the URL parameters too
-function stripHashAndOrigin(url: string): string {
+function stripHash(url: string): string {
 	const u = new URL(url);
-	return u.pathname + u.search;
+	u.hash = '';
+	return u.href;
 }
 
-const urlStore = readable(stripHashAndOrigin(location.href), set => {
+const hrefStore = readable(stripHash(location.href), set => {
 	// The first value might be set before any subscribers appear.
 	// The first subscriber will then call this function, but receive the cached value instead of the real URL.
 	// This updates the value immediately.
-	set(stripHashAndOrigin(location.href));
+	set(stripHash(location.href));
 
 	const handler = (event: NavigateEvent): void => {
-		set(stripHashAndOrigin(event.destination.url));
+		set(stripHash(event.destination.url));
 	};
 
 	navigation.addEventListener('navigate', handler);
@@ -21,5 +22,8 @@ const urlStore = readable(stripHashAndOrigin(location.href), set => {
 		navigation.removeEventListener('navigate', handler);
 	};
 });
+
+// Strings are compared by value, so `derived` only re-runs when the href actually changes
+const urlStore = derived(hrefStore, href => new URL(href));
 
 export default urlStore;

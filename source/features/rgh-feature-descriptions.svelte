@@ -18,12 +18,12 @@
 
 	const idFromUrl = $derived.by(() => {
 		if (isReportingBug) {
-			const title = new URL($urlStore, location.origin).searchParams.get('title')
+			const title = $urlStore.searchParams.get('title')
 				?? '';
 			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? undefined;
 		}
 
-		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(new URL($urlStore).pathname)
+		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec($urlStore.pathname)
 			?.groups?.id ?? undefined;
 		// eslint-disable-next-line no-undef -- Global type
 	}) as FeatureId | undefined;
@@ -44,7 +44,7 @@
 		isReportingBug
 			// Use .css so that it links to the .tsx file
 			? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-			: new URL($urlStore).pathname,
+			: $urlStore.pathname,
 	);
 	const isCss = $derived(pathname.endsWith('.css'));
 

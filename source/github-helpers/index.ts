@@ -13,8 +13,8 @@ import {branchSelector} from './selectors.js';
 // Re-export for convenience
 export const {getRepositoryInfo: getRepo, getCleanPathname, getLoggedInUser} = pageDetect.utils;
 
-export function getConversationNumber(): number | undefined {
-	const [, _owner, _repo, type, prNumber] = location.pathname.split('/', 5);
+export function getConversationNumber({pathname}: URL | Location = location): number | undefined {
+	const [, _owner, _repo, type, prNumber] = pathname.split('/', 5);
 	return (type === 'pull' || type === 'issues') && Number(prNumber) ? Number(prNumber) : undefined;
 }
 
