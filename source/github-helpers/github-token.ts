@@ -52,8 +52,15 @@ export const tokenUser = new CachedFunction('token-user', {
 	cacheKey: ([apiBase, token]) => hashString(`${apiBase}-${token}`),
 });
 
+// TODO [2027-06-01]: Drop the string handling, along with the matching migration in options-storage.ts
+// Returns the stored tokens as an array. Per-origin storage can still hold the legacy string format.
+async function getStoredTokens(): Promise<string[]> {
+	const {personalToken} = await cachedSettings as {personalToken: string[] | string};
+	return typeof personalToken === 'string' ? [personalToken] : personalToken;
+}
+
 export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
+	const personalToken = await getStoredTokens();
 	if (personalToken.length < 2) {
 		return personalToken[0];
 	}
@@ -70,7 +77,7 @@ export async function getToken(): Promise<string | undefined> {
 }
 
 export async function hasAnyTokens(): Promise<boolean> {
-	const {personalToken} = await cachedSettings;
+	const personalToken = await getStoredTokens();
 	return personalToken.some(Boolean);
 }
 
