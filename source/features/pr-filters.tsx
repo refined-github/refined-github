@@ -1,3 +1,4 @@
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
@@ -92,33 +93,27 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 
 // The React menu is rendered on open, so clone one of its items to match its styles
 function cloneItem(template: HTMLElement, title: string, {href, isSelected}: FilterLink): HTMLElement {
-	const item = template.cloneNode(true);
-	item.removeAttribute('id');
-	item.removeAttribute('aria-labelledby');
-	item.removeAttribute('aria-keyshortcuts');
-	item.ariaChecked = String(isSelected);
+	const content = template.firstElementChild!.cloneNode(true) as HTMLElement;
+	const label = $('[data-component="ActionList.Item.Label"]', content);
+	label.removeAttribute('id');
+	label.textContent = title;
 
-	// Use a real link like GitHub's own link items, with the same classes as the content it replaces
-	const content = item.firstElementChild as HTMLElement;
-	content.replaceWith(
+	// The link is the menu item itself, so there is only one focusable element per option
+	return (
 		<a
 			href={href}
-			className={content.className}
-			data-size={content.dataset.size}
+			role="menuitemradio"
+			aria-checked={isSelected ? 'true' : 'false'}
+			className={cx(template.className, 'd-block')}
+			data-component="ActionList.Item"
 			// GitHub navigates without a reload, so the menu has to be closed manually
 			onClick={event => {
 				event.currentTarget.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}));
 			}}
 		>
-			{[...content.childNodes]}
-		</a>,
+			{content}
+		</a>
 	);
-
-	const label = $('[data-component="ActionList.Item.Label"]', item);
-	label.removeAttribute('id');
-	label.textContent = title;
-
-	return item;
 }
 
 function addReactDraftFilter(template: HTMLElement): void {
