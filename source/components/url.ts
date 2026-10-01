@@ -1,19 +1,26 @@
 import {readable} from 'svelte/store';
 
 // Do not replace with `getCleanPathname`, we read the URL parameters too
-function stripHashAndOrigin(url: string): string {
+function stripHash(url: string): URL {
 	const u = new URL(url);
-	return u.pathname + u.search;
+	u.hash = '';
+	return u;
 }
 
-const urlStore = readable(stripHashAndOrigin(location.href), set => {
+const urlStore = readable(stripHash(location.href), set => {
+	let current = stripHash(location.href);
+
 	// The first value might be set before any subscribers appear.
 	// The first subscriber will then call this function, but receive the cached value instead of the real URL.
 	// This updates the value immediately.
-	set(stripHashAndOrigin(location.href));
+	set(current);
 
 	const handler = (event: NavigateEvent): void => {
-		set(stripHashAndOrigin(event.destination.url));
+		const next = stripHash(event.destination.url);
+		if (next.href !== current.href) {
+			current = next;
+			set(next);
+		}
 	};
 
 	navigation.addEventListener('navigate', handler);
