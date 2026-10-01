@@ -1,10 +1,7 @@
-import './pr-filters.css';
-
-import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import {$, closestElementOptional} from 'select-dom';
+import {$} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -91,47 +88,7 @@ async function addChecksFilter(reviewsFilter: HTMLElement): Promise<void> {
 	reviewsFilter.after(checksFilter);
 }
 
-// New React PR list: its toolbar clips overflow, so add a standalone popover next to the filters
-function createMenu(title: string, fill: (dropdown: HTMLElement) => void): HTMLElement {
-	const id = `rgh-pr-filter-${title.toLowerCase()}`;
-	const menu = (
-		<span className={cx('rgh-pr-filter', id)}>
-			<button
-				type="button"
-				className="Button Button--invisible Button--medium text-normal color-fg-muted"
-				{...{popovertarget: id}}
-			>
-				{title}
-				<div className="dropdown-caret ml-1" />
-			</button>
-			<div id={id} className="SelectMenu-modal" {...{popover: 'auto'}}>
-				<div className="SelectMenu-list" />
-			</div>
-		</span>
-	);
-
-	// The React list changes the URL without reloading, so rebuild the links on every open
-	const dropdown = $('.SelectMenu-list', menu);
-	const popover = $('[popover]', menu);
-	popover.addEventListener('beforetoggle', event => {
-		if (event.newState !== 'open') {
-			return;
-		}
-
-		dropdown.textContent = '';
-		fill(dropdown);
-	});
-	// GitHub navigates without a reload, so the popover would stay open
-	popover.addEventListener('click', event => {
-		if (closestElementOptional('a', event.target as Element)) {
-			popover.hidePopover();
-		}
-	});
-
-	return menu;
-}
-
-// The React menu is rendered on open, so clone one of its items to match the Primer styles
+// The React menu is rendered on open, so clone one of its items to match its styles
 function addReactDraftFilter(menu: HTMLElement): void {
 	const button = document.getElementById(menu.getAttribute('aria-labelledby')!);
 	if (button!.getAttribute('aria-label') !== 'Filter by reviews') {
@@ -139,7 +96,6 @@ function addReactDraftFilter(menu: HTMLElement): void {
 	}
 
 	const template = $('li', menu);
-	menu.append(<li role="separator" className="rgh-pr-filter-heading">Filter by draft pull requests</li>);
 
 	for (const [title, value] of [['Ready for review', 'false'], ['Not ready for review (Draft PR)', 'true']]) {
 		const {href, isSelected} = getFilterLink('draft', value);
@@ -170,18 +126,7 @@ function addReactDraftFilter(menu: HTMLElement): void {
 	}
 }
 
-async function addReactChecksFilter(assigneeFilter: HTMLElement): Promise<void> {
-	if (await hasChecks.get()) {
-		assigneeFilter.before(createMenu('Checks', dropdown => {
-			for (const status of ['Success', 'Failure', 'Pending']) {
-				addDropdownItem(dropdown, status, 'status', status.toLowerCase());
-			}
-		}));
-	}
-}
-
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[aria-label="Pull request filters"] [aria-label="Filter by assignee"]', addReactChecksFilter, {signal});
 	observe('[role="menu"][aria-labelledby]', addReactDraftFilter, {signal});
 	observe(reviewsFilterSelector, addChecksFilter, {signal});
 	observe(`${reviewsFilterSelector} .SelectMenu-list`, addDraftFilter, {signal});
