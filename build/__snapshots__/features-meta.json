@@ -502,7 +502,7 @@
 	{
 		"id": "merge-queue-tab",
 		"description": "Adds a <code>Merge queue</code> tab on repositories whose default branch has a merge queue (depends on <code>extensible-nav</code> feature).",
-		"screenshot": "media/merge-queue-tab.png"
+		"screenshot": "https://raw.githubusercontent.com/mcncl/refined-github/31e4450de0a4f61c8f014f4a1397d8299c7e1570/media/merge-queue-tab.png"
 	},
 	{
 		"id": "mobile-tabs",

@@ -222,7 +222,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 
 ### Viewing pull requests
 
-- [](# "merge-queue-tab") [Adds a `Merge queue` tab on repositories whose default branch has a merge queue (depends on `extensible-nav` feature).](media/merge-queue-tab.png)
+- [](# "merge-queue-tab") [Adds a `Merge queue` tab on repositories whose default branch has a merge queue (depends on `extensible-nav` feature).](https://raw.githubusercontent.com/mcncl/refined-github/31e4450de0a4f61c8f014f4a1397d8299c7e1570/media/merge-queue-tab.png)
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png)
 - [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
 - [](# "unclip-checks") [Automatically shows all checks without scrolling when expanding the checks panel.](https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f)
