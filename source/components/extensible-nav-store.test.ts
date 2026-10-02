@@ -62,6 +62,21 @@ it('inserts multiple extra tabs before the same native tab in call order', async
 	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs', 'triage', 'issues']);
 });
 
+it('replaces and removes an extra tab without duplicating it', async () => {
+	const {tabs, selectedId, setNativeTabs, addTab, removeTab, selectTab} = await loadModule();
+	setNativeTabs([makeTab('code'), makeTab('actions')]);
+	addTab(makeTab('queue', {href: '/queue/main'}), 'actions');
+	addTab(makeTab('queue', {href: '/queue/stable'}), 'actions');
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'queue', 'actions']);
+	expect(get(tabs)[1].href).toBe('/queue/stable');
+	selectTab('queue');
+	removeTab('queue');
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'actions']);
+	expect(get(selectedId)).toBeUndefined();
+	addTab(makeTab('queue', {href: '/queue/stable'}), 'actions');
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'queue', 'actions']);
+});
+
 it('overrides a native tab label', async () => {
 	const {tabs, setNativeTabs, overrideTab} = await loadModule();
 	setNativeTabs([makeTab('security-and-quality', {label: 'Security and quality'})]);

@@ -51,7 +51,14 @@ export function selectTab(id: string): void {
 }
 
 export function addTab(tab: Tab, before?: string): void {
-	extraTabs.update(current => [...current, {tab, before}]);
+	extraTabs.update(current => {
+		const index = current.findIndex(item => item.tab.id === tab.id);
+		if (index === -1) {
+			return [...current, {tab, before}];
+		}
+
+		return current.map((item, position) => position === index ? {tab, before} : item);
+	});
 
 	// TODO: Should probably trigger `updateCurrentTab` reactively somehow, but this works for now
 	if (tab.selected) {
@@ -61,6 +68,11 @@ export function addTab(tab: Tab, before?: string): void {
 			}
 		})();
 	}
+}
+
+export function removeTab(id: string): void {
+	extraTabs.update(current => current.filter(({tab}) => tab.id !== id));
+	selectedId.update(current => current === id ? undefined : current);
 }
 
 export function overrideTab(id: string, override: TabOverride): void {

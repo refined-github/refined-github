@@ -217,6 +217,7 @@ import './features/extensible-nav.js';
 import './features/notifications-ui.js';
 import './features/easy-toggle-hidden-comments.js';
 import './features/extend-repo-tabs.js';
+import './features/merge-queue-tab.js';
 import './features/delete-branch.js';
 import './features/pr-from-branch.js';
 import './features/mark-locked.js';
