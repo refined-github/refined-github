@@ -42,6 +42,15 @@
 	translate: -28px -56px;
 }
 
+/* Don't reposition the Projects side panel overlay that contains the reaction popup */
+/* https://github.com/refined-github/refined-github/issues/10162 */
+:root div[data-visibility-visible][class*='SidePanel-module__Overlay']:has(
+	[class*='ReactionsMenuItem-module']
+) {
+	min-width: revert !important;
+	translate: none;
+}
+
 /*
 
 Test URLs:
