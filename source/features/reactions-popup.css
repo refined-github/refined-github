@@ -40,15 +40,18 @@ div[data-visibility-visible]:has(
 	/* Reset the width */
 	min-width: 0px !important;
 
-	/* Center, but keep in view on mobile too */
+	/* Center */
 	/* https://github.com/refined-github/refined-github/issues/8605 */
-	translate: -28px -56px;
+	position-area: center;
+	top: auto;
+	left: auto;
 
-	/* The popup appears above the button in Project view */
+	/* Keep in view on mobile too */
+	translate: 6px;
+
+	/* Keep anchor direction static because now it overlaps the button */
 	/* https://github.com/refined-github/refined-github/pull/10166 */
-	[class*='IssueViewer-module__issueViewerContainer'] & {
-		translate: -28px 56px;
-	}
+	position-try-fallbacks: none;
 }
 /*
 
