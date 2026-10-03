@@ -1,7 +1,8 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class^='IssueRow-module__row'],
 	div[class^='PullRequestRow-module__row'],
-	div[data-testid="issues-list-surface"] li[class*='ListItem-module__listItem']:not([class*='compact']),
+	div[data-testid='issues-list-surface']
+		li[class*='ListItem-module__listItem']:not([class*='compact']),
 	li[class*='PullsListItem']:not([class*='compact']) {
 		div[class^='Title-module__container'] {
 			display: contents;
