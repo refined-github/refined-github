@@ -1,8 +1,6 @@
-/* TODO: Drop in 2027 */
-/* Missing file */
-.flex-items-center a[aria-label='go to Overview'],
-/* Missing branch */
-.flex-items-center a[aria-label='go to default branch'] {
+/* Missing file & missing branch */
+/* The buttons lost their `aria-label` in the 2026 blank slate redesign; the 410 variant keeps GitHub's `eror-` typo (see the test ids observed in useful-not-found-page.tsx) */
+p:has(> [data-testid='error-404-description'], > [data-testid='eror-404-description']) ~ .Blankslate-Action > a:only-child {
 	display: none;
 }
 
