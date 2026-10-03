@@ -26,7 +26,10 @@
 }
 
 /* React Issue View */
-:root div[data-visibility-visible]:has(> ul > li[class*='ReactionsMenuItem-module']) {
+:root
+	div[data-visibility-visible]:has(
+		> ul > li[class*='ReactionsMenuItem-module']
+	) {
 	& > ul {
 		display: grid !important;
 		/* Keep two lines whether there are 6 or 8 reactions */
