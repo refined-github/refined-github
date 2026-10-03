@@ -26,7 +26,10 @@
 }
 
 /* React Issue View */
-:root div[data-visibility-visible]:has([class*='ReactionsMenuItem-module']) {
+/* Specific :has() to exclude https://github.com/orgs/nodejs/projects/13/views/1?pane=issue&itemId=222267555&issue=nodejs%7Cuserland-migrations%7C520 */
+div[data-visibility-visible]:has(
+	> ul > li[class*='ReactionsMenuItem-module']
+) {
 	& > ul {
 		display: grid !important;
 		/* Keep two lines whether there are 6 or 8 reactions */
@@ -37,11 +40,19 @@
 	/* Reset the width */
 	min-width: 0px !important;
 
-	/* Center, but keep in view on mobile too */
+	/* Center */
 	/* https://github.com/refined-github/refined-github/issues/8605 */
-	translate: -28px -56px;
-}
+	position-area: center;
+	top: auto;
+	left: auto;
 
+	/* Keep in view on mobile too */
+	translate: 6px;
+
+	/* Keep anchor direction static because now it overlaps the button */
+	/* https://github.com/refined-github/refined-github/pull/10166 */
+	position-try-fallbacks: none;
+}
 /*
 
 Test URLs:
