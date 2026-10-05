@@ -35,13 +35,7 @@ const dimmedClass = 'rgh-dim-viewed-files';
 
 // Dim only the folder's own row, not its nested subtree, to avoid compounding opacity
 function getFolderRow(folder: HTMLElement): HTMLElement {
-	for (const child of folder.children) {
-		if (child instanceof HTMLElement && !child.matches('ul, [role="group"]')) {
-			return child;
-		}
-	}
-
-	return folder;
+	return $optional(':scope > :not(ul, [role="group"])', folder) ?? folder;
 }
 
 function updateTree(): void {
