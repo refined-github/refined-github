@@ -8,7 +8,13 @@ import {$$optional, $optional, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import {frame} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
-import {viewedToggleSelector} from '../helpers/viewed-file-selectors.js';
+
+// Same as `batch-mark-files-as-viewed`; not imported to avoid pulling in its JSX dependencies
+const viewedToggleSelector = [
+	'button[class*="MarkAsViewedButton"]',
+	// Old view
+	'input.js-reviewed-checkbox',
+] as const;
 
 const fileSelector = '[class^="Diff-module__diffTargetable"], .js-file';
 const treeLinkSelectors = [
