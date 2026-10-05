@@ -8,8 +8,12 @@ import showToast from '../github-helpers/toast.js';
 import clickAll from '../helpers/click-all.js';
 import {is} from '../helpers/css-selectors.js';
 import getItemsBetween from '../helpers/get-items-between.js';
-import {viewedToggleSelector} from '../helpers/viewed-file-selectors.js';
 
+export const viewedToggleSelector = [
+	'button[class*="MarkAsViewedButton"]',
+	// Old view
+	'input.js-reviewed-checkbox',
+] as const;
 const fileSelector = [
 	'[class^="Diff-module__diffTargetable"]',
 	// Old view
