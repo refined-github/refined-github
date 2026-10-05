@@ -1,0 +1,3 @@
+.rgh-dim-viewed-files:not(:hover, :focus-within) {
+	opacity: 50%;
+}
