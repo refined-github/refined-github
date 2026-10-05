@@ -62,17 +62,22 @@ function updateTree(): void {
 		}
 	}
 
-	const treeLinks = $$optional(treeLinkSelectors);
-	for (const link of treeLinks) {
+	// A folder is viewed when it has files and all of them are viewed
+	const viewedFolders = new Map<HTMLElement, boolean>();
+	for (const link of $$optional(treeLinkSelectors)) {
+		const viewed = viewedAnchors.get(link.hash) === true;
 		const row = link.closest(treeFileSelector) ?? link;
-		row.classList.toggle(dimmedClass, viewedAnchors.get(link.hash) === true);
+		row.classList.toggle(dimmedClass, viewed);
+
+		let folder = link.closest(treeFolderSelector);
+		while (folder) {
+			viewedFolders.set(folder, (viewedFolders.get(folder) ?? true) && viewed);
+			folder = folder.parentElement?.closest(treeFolderSelector) ?? null; // eslint-disable-line unicorn/no-null
+		}
 	}
 
 	for (const folder of $$optional(treeFolderSelector)) {
-		const descendantFiles = treeLinks.filter(link => folder.contains(link));
-		const viewed = descendantFiles.length > 0
-			&& descendantFiles.every(link => viewedAnchors.get(link.hash) === true);
-		getFolderRow(folder).classList.toggle(dimmedClass, viewed);
+		getFolderRow(folder).classList.toggle(dimmedClass, viewedFolders.get(folder) === true);
 	}
 }
 
