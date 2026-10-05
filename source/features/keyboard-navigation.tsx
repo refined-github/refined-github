@@ -3,7 +3,7 @@ import {$$, $optional, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {isEditable} from '../helpers/dom-utils.js';
-import {viewedToggleSelector} from '../helpers/viewed-file-selectors.js';
+import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 
 const isCommentGroupMinimized = (comment: HTMLElement): boolean =>
 	elementExists('.minimized-comment:not(.d-none)', comment)
