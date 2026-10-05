@@ -233,7 +233,7 @@
 		"id": "dim-viewed-files",
 		"description": "Dims viewed files and folders containing only viewed files in the PR file tree, keeping unreviewed files easy to find.",
 		"css": true,
-		"screenshot": null
+		"screenshot": "https://private-user-images.githubusercontent.com/9824294/665923384-1b7a5682-ec3d-4ca4-8608-71ad3b6a2228.png"
 	},
 	{
 		"id": "download-folder-button",
