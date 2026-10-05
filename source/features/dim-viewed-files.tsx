@@ -26,17 +26,7 @@ const treeFileSelector = [
 	'li[data-tree-entry-type="file"]',
 	'[role="treeitem"]:not([aria-expanded])',
 ] as const;
-const treeFolderSelector = [
-	'[role="treeitem"][aria-expanded]',
-	// Old view
-	'li[data-tree-entry-type="directory"]',
-] as const;
 const dimmedClass = 'rgh-dim-viewed-files';
-
-// Dim only the folder's own row, not its nested subtree, to avoid compounding opacity
-function getFolderRow(folder: HTMLElement): HTMLElement {
-	return $optional(':scope > :not(ul, [role="group"])', folder) ?? folder;
-}
 
 function updateTree(): void {
 	const viewedAnchors = new Map<string, boolean>();
@@ -62,22 +52,9 @@ function updateTree(): void {
 		}
 	}
 
-	// A folder is viewed when it has files and all of them are viewed
-	const viewedFolders = new Map<HTMLElement, boolean>();
 	for (const link of $$optional(treeLinkSelectors)) {
-		const viewed = viewedAnchors.get(link.hash) === true;
 		const row = link.closest(treeFileSelector) ?? link;
-		row.classList.toggle(dimmedClass, viewed);
-
-		let folder = link.closest(treeFolderSelector);
-		while (folder) {
-			viewedFolders.set(folder, (viewedFolders.get(folder) ?? true) && viewed);
-			folder = folder.parentElement?.closest(treeFolderSelector) ?? null; // eslint-disable-line unicorn/no-null
-		}
-	}
-
-	for (const folder of $$optional(treeFolderSelector)) {
-		getFolderRow(folder).classList.toggle(dimmedClass, viewedFolders.get(folder) === true);
+		row.classList.toggle(dimmedClass, viewedAnchors.get(link.hash) === true);
 	}
 }
 
@@ -96,7 +73,6 @@ export function init(signal: AbortSignal): void {
 	observe(
 		[
 			...treeLinkSelectors,
-			...treeFolderSelector,
 			'[class^="Diff-module__diffTargetable"]',
 			'.js-file',
 		],

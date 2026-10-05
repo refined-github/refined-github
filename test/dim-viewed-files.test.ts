@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import {afterEach, beforeEach, expect, it, vi} from 'vitest';
 
 import {init} from '../source/features/dim-viewed-files.js';
@@ -7,6 +8,21 @@ vi.mock('../source/feature-manager.js', () => ({default: {add: vi.fn()}}));
 vi.mock('../source/helpers/selector-observer.js', () => ({default: vi.fn()}));
 
 let controller: AbortController;
+
+// The selectors of the feature's CSS rules, so dimming can be tested without a layout engine
+const dimmedSelector = readFileSync('source/features/dim-viewed-files.css', 'utf8')
+	.replaceAll(/\/\*.*?\*\//gsv, '')
+	.replaceAll(/\{[^\}]*\}/gv, ',')
+	// The test DOM's selector parser doesn't accept whitespace inside parentheses
+	.replaceAll(/\s+/gv, ' ')
+	.replaceAll('( ', '(')
+	.replaceAll(' )', ')')
+	.trim()
+	.replace(/,$/v, '');
+
+function isDimmed(selector: string): boolean {
+	return document.querySelector(selector)!.matches(dimmedSelector);
+}
 
 beforeEach(() => {
 	controller = new AbortController();
@@ -58,13 +74,14 @@ it('dims only files already marked as viewed', () => {
 it('dims nested folders only when all descendant files are viewed', async () => {
 	setNestedTree();
 	init(controller.signal);
-	expect(document.querySelector('#folder-components > button')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
-	expect(document.querySelector('#folder-src > button')?.classList.contains('rgh-dim-viewed-files')).toBe(false);
+	expect(isDimmed('#folder-components > button')).toBe(true);
+	expect(isDimmed('#folder-src > button')).toBe(false);
+	expect(isDimmed('#folder-src > ul')).toBe(false);
 
 	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
 	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
 	await vi.waitFor(() => {
-		expect(document.querySelector('#folder-src > button')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+		expect(isDimmed('#folder-src > button')).toBe(true);
 	});
 });
 
@@ -83,12 +100,10 @@ it('dims folders in the React file tree without dimming their subtree', () => {
 		</ul>
 	`;
 	init(controller.signal);
-	const folder = document.querySelector('#react-folder')!;
-	expect(folder.classList.contains('rgh-dim-viewed-files')).toBe(false);
-	expect(folder.querySelector('.PRIVATE_TreeView-item-container')?.classList.contains('rgh-dim-viewed-files')).toBe(
-		true,
-	);
-	expect(folder.querySelector('li')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+	expect(isDimmed('#react-folder')).toBe(false);
+	expect(isDimmed('#react-folder > ul')).toBe(false);
+	expect(isDimmed('#react-folder .PRIVATE_TreeView-item-container')).toBe(true);
+	expect(isDimmed('#react-folder li')).toBe(true);
 });
 
 it('keeps folders undimmed when a descendant file state is unknown', () => {
@@ -99,7 +114,7 @@ it('keeps folders undimmed when a descendant file state is unknown', () => {
 		</li>
 	`;
 	init(controller.signal);
-	expect(document.querySelector('#folder-unknown > button')?.classList.contains('rgh-dim-viewed-files')).toBe(false);
+	expect(isDimmed('#folder-unknown > button')).toBe(false);
 });
 
 it('updates after viewed controls are clicked', async () => {

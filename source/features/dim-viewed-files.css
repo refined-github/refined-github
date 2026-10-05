@@ -1,3 +1,11 @@
+/* Files: rows marked as viewed by the JS */
 .rgh-dim-viewed-files:not(:hover, :focus-within) {
+	opacity: 50%;
+}
+
+/* Folders: dim only the folder's own row (not its subtree, to avoid compounding opacity) when it contains viewed files and no unviewed ones */
+:is([role="treeitem"][aria-expanded], li[data-tree-entry-type="directory"]):has(.rgh-dim-viewed-files):not(:has(
+	:is(li[class*="file-tree-row"], li[data-tree-entry-type="file"], [role="treeitem"]):not([aria-expanded], [data-tree-entry-type="directory"], .rgh-dim-viewed-files)
+)) > :not(ul, [role="group"], :hover, :focus-within) {
 	opacity: 50%;
 }
