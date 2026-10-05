@@ -23,7 +23,16 @@ async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 }
 
 function addWidget(container: HTMLElement): void {
-	mount(NotFoundInfo, {target: container.parentElement!});
+	const paragraph = container.parentElement!;
+	mount(NotFoundInfo, {target: paragraph});
+
+	// Hide the default "go to" actions, the widget supersedes them
+	// They lost their aria-label in the 2026 blank slate redesign, so they can only be matched structurally
+	for (
+		const link of paragraph.parentElement!.querySelectorAll<HTMLElement>(':scope > .Blankslate-Action > a:only-child')
+	) {
+		link.style.display = 'none';
+	}
 }
 
 async function addDirectCommitLinkOnce(): Promise<void | false> {
