@@ -71,18 +71,24 @@ it('dims only files already marked as viewed', () => {
 	expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
 });
 
-it('dims nested folders only when all descendant files are viewed', async () => {
+it('dims nested folders only when all descendant files are viewed', () => {
 	setNestedTree();
 	init(controller.signal);
 	expect(isDimmed('#folder-components > button')).toBe(true);
 	expect(isDimmed('#folder-src > button')).toBe(false);
 	expect(isDimmed('#folder-src > ul')).toBe(false);
+});
 
+// Separate test because happy-dom caches `:has()` results across descendant changes
+it('dims parent folders once their remaining files are viewed', async () => {
+	setNestedTree();
+	init(controller.signal);
 	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
 	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
 	await vi.waitFor(() => {
-		expect(isDimmed('#folder-src > button')).toBe(true);
+		expect(document.querySelectorAll('li.rgh-dim-viewed-files')).toHaveLength(2);
 	});
+	expect(isDimmed('#folder-src > button')).toBe(true);
 });
 
 it('dims folders in the React file tree without dimming their subtree', () => {
