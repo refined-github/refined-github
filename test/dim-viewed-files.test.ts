@@ -25,6 +25,25 @@ beforeEach(() => {
 	`;
 });
 
+function setNestedTree(): void {
+	document.querySelector('ul[aria-label="File Tree"]')!.outerHTML = `
+		<ul aria-label="File Tree">
+			<li id="folder-src" data-tree-entry-type="directory">
+				<button>src</button>
+				<ul>
+					<li id="folder-components" data-tree-entry-type="directory">
+						<button>components</button>
+						<ul>
+							<li data-tree-entry-type="file"><a href="#diff-first">first.ts</a></li>
+						</ul>
+					</li>
+					<li data-tree-entry-type="file"><a href="#diff-second">second.ts</a></li>
+				</ul>
+			</li>
+		</ul>
+	`;
+}
+
 afterEach(() => {
 	controller.abort();
 	document.body.replaceChildren();
@@ -34,6 +53,53 @@ it('dims only files already marked as viewed', () => {
 	init(controller.signal);
 	expect(document.querySelectorAll('.rgh-dim-viewed-files')).toHaveLength(1);
 	expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
+});
+
+it('dims nested folders only when all descendant files are viewed', async () => {
+	setNestedTree();
+	init(controller.signal);
+	expect(document.querySelector('#folder-components > button')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+	expect(document.querySelector('#folder-src > button')?.classList.contains('rgh-dim-viewed-files')).toBe(false);
+
+	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
+	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+	await vi.waitFor(() => {
+		expect(document.querySelector('#folder-src > button')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+	});
+});
+
+it('dims folders in the React file tree without dimming their subtree', () => {
+	document.querySelector('ul[aria-label="File Tree"]')!.outerHTML = `
+		<ul role="tree" aria-label="File Tree">
+			<li id="react-folder" role="treeitem" aria-expanded="true" class="PRIVATE_TreeView-item">
+				<div class="PRIVATE_TreeView-item-container">
+					<div class="PRIVATE_TreeView-item-toggle"></div>
+					<div class="PRIVATE_TreeView-item-content">tests</div>
+				</div>
+				<ul role="group">
+					<li role="treeitem" class="file-tree-row"><a href="#diff-first">first.ts</a></li>
+				</ul>
+			</li>
+		</ul>
+	`;
+	init(controller.signal);
+	const folder = document.querySelector('#react-folder')!;
+	expect(folder.classList.contains('rgh-dim-viewed-files')).toBe(false);
+	expect(folder.querySelector('.PRIVATE_TreeView-item-container')?.classList.contains('rgh-dim-viewed-files')).toBe(
+		true,
+	);
+	expect(folder.querySelector('li')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+});
+
+it('keeps folders undimmed when a descendant file state is unknown', () => {
+	document.querySelector('ul[aria-label="File Tree"]')!.innerHTML = `
+		<li id="folder-unknown" data-tree-entry-type="directory">
+			<button>unknown</button>
+			<ul><li data-tree-entry-type="file"><a href="#diff-unknown">unknown.ts</a></li></ul>
+		</li>
+	`;
+	init(controller.signal);
+	expect(document.querySelector('#folder-unknown > button')?.classList.contains('rgh-dim-viewed-files')).toBe(false);
 });
 
 it('updates after viewed controls are clicked', async () => {

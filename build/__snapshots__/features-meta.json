@@ -231,7 +231,7 @@
 	},
 	{
 		"id": "dim-viewed-files",
-		"description": "Dims viewed files in the PR file tree, keeping unreviewed files easy to find.",
+		"description": "Dims viewed files and folders containing only viewed files in the PR file tree, keeping unreviewed files easy to find.",
 		"css": true,
 		"screenshot": null
 	},
