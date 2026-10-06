@@ -3,7 +3,7 @@ import './dim-viewed-files.css';
 import {onAbort} from 'abort-utils';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$$optional, $optional, elementExists} from 'select-dom';
+import {$$optional, $optional, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {frame} from '../helpers/dom-utils.js';
@@ -47,13 +47,14 @@ function updateTree(): void {
 			'div[class*="file-path-section"] a',
 			'.file-info a.Link--primary',
 		], file);
-		if (link && link.hash) {
+		// Missing when the diff is collapsed or its header has not rendered yet
+		if (link?.hash) {
 			viewedAnchors.set(link.hash, viewed);
 		}
 	}
 
 	for (const link of $$optional(treeLinkSelectors)) {
-		const row = link.closest(treeFileSelector) ?? link;
+		const row = closestElementOptional(treeFileSelector, link) ?? link;
 		row.classList.toggle(dimmedClass, viewedAnchors.get(link.hash) === true);
 	}
 }

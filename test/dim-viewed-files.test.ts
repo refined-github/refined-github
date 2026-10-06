@@ -1,4 +1,5 @@
 import {readFileSync} from 'node:fs';
+import {$, $$optional, $optional} from 'select-dom';
 import {afterEach, beforeEach, expect, it, vi} from 'vitest';
 
 import {init} from '../source/features/dim-viewed-files.js';
@@ -10,18 +11,23 @@ vi.mock('../source/helpers/selector-observer.js', () => ({default: vi.fn()}));
 let controller: AbortController;
 
 // The selectors of the feature's CSS rules, so dimming can be tested without a layout engine
-const dimmedSelector = readFileSync('source/features/dim-viewed-files.css', 'utf8')
-	.replaceAll(/\/\*.*?\*\//gsv, '')
-	.replaceAll(/\{[^\}]*\}/gv, ',')
+const css = readFileSync('source/features/dim-viewed-files.css', 'utf8').replaceAll(/\/\*.*?\*\//gsv, '');
+const dimmedSelector = css
+	// Flatten one level of nesting: `parent { &child {…} }` becomes `:is(parent)child`
+	.matchAll(/(?<parent>[^\{\}]+)\{(?<body>[^\{\}]*(?:\{[^\{\}]*\}[^\{\}]*)?)\}/gv)
+	.map(({groups}) => {
+		const {parent, body} = groups!;
+		return body.includes('{') ? `:is(${parent})${body.slice(body.indexOf('&') + 1, body.indexOf('{'))}` : parent;
+	})
+	.toArray()
+	.join(',')
 	// The test DOM's selector parser doesn't accept whitespace inside parentheses
 	.replaceAll(/\s+/gv, ' ')
 	.replaceAll('( ', '(')
-	.replaceAll(' )', ')')
-	.trim()
-	.replace(/,$/v, '');
+	.replaceAll(' )', ')');
 
 function isDimmed(selector: string): boolean {
-	return document.querySelector(selector)!.matches(dimmedSelector);
+	return $(selector).matches(dimmedSelector);
 }
 
 beforeEach(() => {
@@ -42,7 +48,7 @@ beforeEach(() => {
 });
 
 function setNestedTree(): void {
-	document.querySelector('ul[aria-label="File Tree"]')!.outerHTML = `
+	$('ul[aria-label="File Tree"]').outerHTML = `
 		<ul aria-label="File Tree">
 			<li id="folder-src" data-tree-entry-type="directory">
 				<button>src</button>
@@ -67,8 +73,8 @@ afterEach(() => {
 
 it('dims only files already marked as viewed', () => {
 	init(controller.signal);
-	expect(document.querySelectorAll('.rgh-dim-viewed-files')).toHaveLength(1);
-	expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
+	expect($$optional('.rgh-dim-viewed-files')).toHaveLength(1);
+	expect($optional('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
 });
 
 it('dims nested folders only when all descendant files are viewed', () => {
@@ -83,16 +89,16 @@ it('dims nested folders only when all descendant files are viewed', () => {
 it('dims parent folders once their remaining files are viewed', async () => {
 	setNestedTree();
 	init(controller.signal);
-	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
-	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+	$('#diff-second button').innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
+	$('#diff-second button').dispatchEvent(new MouseEvent('click', {bubbles: true}));
 	await vi.waitFor(() => {
-		expect(document.querySelectorAll('li.rgh-dim-viewed-files')).toHaveLength(2);
+		expect($$optional('li.rgh-dim-viewed-files')).toHaveLength(2);
 	});
 	expect(isDimmed('#folder-src > button')).toBe(true);
 });
 
 it('dims folders in the React file tree without dimming their subtree', () => {
-	document.querySelector('ul[aria-label="File Tree"]')!.outerHTML = `
+	$('ul[aria-label="File Tree"]').outerHTML = `
 		<ul role="tree" aria-label="File Tree">
 			<li id="react-folder" role="treeitem" aria-expanded="true" class="PRIVATE_TreeView-item">
 				<div class="PRIVATE_TreeView-item-container">
@@ -113,7 +119,7 @@ it('dims folders in the React file tree without dimming their subtree', () => {
 });
 
 it('keeps folders undimmed when a descendant file state is unknown', () => {
-	document.querySelector('ul[aria-label="File Tree"]')!.innerHTML = `
+	$('ul[aria-label="File Tree"]').innerHTML = `
 		<li id="folder-unknown" data-tree-entry-type="directory">
 			<button>unknown</button>
 			<ul><li data-tree-entry-type="file"><a href="#diff-unknown">unknown.ts</a></li></ul>
@@ -125,70 +131,70 @@ it('keeps folders undimmed when a descendant file state is unknown', () => {
 
 it('updates after viewed controls are clicked', async () => {
 	init(controller.signal);
-	document.querySelector('#diff-first button')!.replaceChildren();
-	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
-	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+	$('#diff-first button').replaceChildren();
+	$('#diff-second button').innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
+	$('#diff-second button').dispatchEvent(new MouseEvent('click', {bubbles: true}));
 	await vi.waitFor(() => {
-		expect(document.querySelectorAll('.rgh-dim-viewed-files')).toHaveLength(1);
-		expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('second.ts');
+		expect($$optional('.rgh-dim-viewed-files')).toHaveLength(1);
+		expect($optional('.rgh-dim-viewed-files')?.textContent).toBe('second.ts');
 	});
 });
 
 it('dims viewed files when the tree is rendered again', async () => {
 	init(controller.signal);
-	document.querySelector('ul')!.innerHTML = '<li class="file-tree-row"><a href="#diff-first">first.ts</a></li>';
-	const [, update] = vi.mocked(observe).mock.calls[0]!;
-	update(document.querySelector('a')!, {signal: controller.signal});
+	$('ul').innerHTML = '<li class="file-tree-row"><a href="#diff-first">first.ts</a></li>';
+	const [, update] = vi.mocked(observe).mock.calls[0];
+	update($('a'), {signal: controller.signal});
 	await vi.waitFor(() => {
-		expect(document.querySelector('li')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
+		expect($optional('li')?.classList.contains('rgh-dim-viewed-files')).toBe(true);
 	});
 });
 
 it('dims files whose viewed state loads after rendering', async () => {
 	init(controller.signal);
-	const button = document.querySelector('#diff-second button')!;
+	const button = $('#diff-second button');
 	button.setAttribute('aria-pressed', 'true');
 	const [selectors, update] = vi.mocked(observe).mock.calls[0];
 	expect([selectors].flat().some(selector => button.matches(selector))).toBe(true);
 	update(button, {signal: controller.signal});
 	await vi.waitFor(() => {
-		expect(document.querySelectorAll('.rgh-dim-viewed-files')).toHaveLength(2);
+		expect($$optional('.rgh-dim-viewed-files')).toHaveLength(2);
 	});
 });
 
 it('supports legacy viewed checkboxes and restores unviewed files', async () => {
-	document.querySelector('#diff-first')!.outerHTML = `
+	$('#diff-first').outerHTML = `
 		<div class="js-file" id="diff-first">
 			<input class="js-reviewed-checkbox" type="checkbox" checked>
 		</div>
 	`;
 	init(controller.signal);
-	expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
-	const checkbox = document.querySelector<HTMLInputElement>('input')!;
+	expect($optional('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
+	const checkbox = $<HTMLInputElement>('input');
 	checkbox.checked = false;
 	checkbox.dispatchEvent(new Event('change', {bubbles: true}));
 	await vi.waitFor(() => {
-		expect(document.querySelector('.rgh-dim-viewed-files')).toBeNull();
+		expect($optional('.rgh-dim-viewed-files')).toBeUndefined();
 	});
 });
 
 it('reads the current viewed state from aria-pressed', () => {
-	document.querySelector('#diff-first button')!.replaceChildren();
-	document.querySelector('#diff-first button')!.setAttribute('aria-pressed', 'true');
+	$('#diff-first button').replaceChildren();
+	$('#diff-first button').setAttribute('aria-pressed', 'true');
 	init(controller.signal);
-	expect(document.querySelector('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
+	expect($optional('.rgh-dim-viewed-files')?.textContent).toBe('first.ts');
 });
 
 it('removes dimming and ignores pending updates when unloaded', async () => {
 	init(controller.signal);
-	document.querySelector('#diff-second button')!.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+	$('#diff-second button').dispatchEvent(new MouseEvent('click', {bubbles: true}));
 	controller.abort();
-	expect(document.querySelector('.rgh-dim-viewed-files')).toBeNull();
-	document.querySelector('#diff-second button')!.innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
+	expect($optional('.rgh-dim-viewed-files')).toBeUndefined();
+	$('#diff-second button').innerHTML = '<svg class="octicon-checkbox-fill"></svg>';
 	await new Promise<void>(resolve => {
 		requestAnimationFrame(() => {
 			resolve();
 		});
 	});
-	expect(document.querySelector('.rgh-dim-viewed-files')).toBeNull();
+	expect($optional('.rgh-dim-viewed-files')).toBeUndefined();
 });
