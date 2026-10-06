@@ -3,11 +3,13 @@ import './useful-not-found-page.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+import {getCleanPathname, getRepo, isUrlReachable} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import NotFoundInfo from './useful-not-found-page.svelte';
@@ -26,13 +28,17 @@ function addWidget(container: HTMLElement): void {
 	const paragraph = container.parentElement!;
 	mount(NotFoundInfo, {target: paragraph});
 
+	const repoPath = '/' + getRepo()!.nameWithOwner;
+	const selectors = is(
+		// https://github.com/refined-github/refined-github/blob/main/definitely-not-a-real-file-xyz123.ts
+		`[href="${repoPath}"]`,
+		// https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json
+		`[href="${repoPath}?files=1"]`,
+	);
+
 	// Hide the default "go to" actions, the widget supersedes them
 	// They lost their aria-label in the 2026 blank slate redesign, so they can only be matched structurally
-	for (
-		const link of paragraph.parentElement!.querySelectorAll<HTMLElement>(':scope > .Blankslate-Action > a:only-child')
-	) {
-		link.style.display = 'none';
-	}
+	$(`.Blankslate-Action:has(> a:only-child${selectors})`).hidden = true;
 }
 
 async function addDirectCommitLinkOnce(): Promise<void | false> {
