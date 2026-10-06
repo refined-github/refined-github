@@ -37,7 +37,6 @@ function addWidget(container: HTMLElement): void {
 	);
 
 	// Hide the default "go to" actions, the widget supersedes them
-	// They lost their aria-label in the 2026 blank slate redesign, so they can only be matched structurally
 	$(`.Blankslate-Action:has(> a:only-child${selectors})`).hidden = true;
 }
 
