@@ -58,16 +58,24 @@ function updateTree(): void {
 	}
 }
 
-async function updateAfterRender(signal: AbortSignal): Promise<void> {
-	await frame();
-	if (!signal.aborted) {
-		updateTree();
-	}
-}
-
 export function init(signal: AbortSignal): void {
-	function handleToggle(): void {
-		void updateAfterRender(signal);
+	// Batch the many observer/click callbacks during rendering into a single update per frame
+	let isUpdateScheduled = false;
+	async function scheduleUpdate(): Promise<void> {
+		if (isUpdateScheduled) {
+			return;
+		}
+
+		isUpdateScheduled = true;
+		await frame();
+		isUpdateScheduled = false;
+		if (!signal.aborted) {
+			updateTree();
+		}
+	}
+
+	function handleChange(): void {
+		void scheduleUpdate();
 	}
 
 	observe(
@@ -75,12 +83,15 @@ export function init(signal: AbortSignal): void {
 			...treeLinkSelectors,
 			'[class^="Diff-module__diffTargetable"]',
 			'.js-file',
+			// GitHub loads the viewed state after rendering the button, without adding a new file
+			'button[class*="MarkAsViewedButton"][aria-pressed="true"]',
+			'button[class*="MarkAsViewedButton"] .octicon-checkbox-fill',
 		],
-		updateTree,
+		handleChange,
 		{signal},
 	);
-	delegate(viewedToggleSelector, 'click', handleToggle, {signal});
-	delegate(viewedToggleSelector, 'change', handleToggle, {signal});
+	delegate(viewedToggleSelector, 'click', handleChange, {signal});
+	delegate(viewedToggleSelector, 'change', handleChange, {signal});
 	updateTree();
 	onAbort(signal, () => {
 		for (const row of $$optional('.' + dimmedClass)) {

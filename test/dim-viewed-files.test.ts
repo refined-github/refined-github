@@ -144,6 +144,18 @@ it('dims viewed files when the tree is rendered again', async () => {
 	});
 });
 
+it('dims files whose viewed state loads after rendering', async () => {
+	init(controller.signal);
+	const button = document.querySelector('#diff-second button')!;
+	button.setAttribute('aria-pressed', 'true');
+	const [selectors, update] = vi.mocked(observe).mock.calls[0];
+	expect([selectors].flat().some(selector => button.matches(selector))).toBe(true);
+	update(button, {signal: controller.signal});
+	await vi.waitFor(() => {
+		expect(document.querySelectorAll('.rgh-dim-viewed-files')).toHaveLength(2);
+	});
+});
+
 it('supports legacy viewed checkboxes and restores unviewed files', async () => {
 	document.querySelector('#diff-first')!.outerHTML = `
 		<div class="js-file" id="diff-first">
