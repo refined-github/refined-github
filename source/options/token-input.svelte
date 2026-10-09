@@ -156,17 +156,17 @@
 		<span>
 			{result?.message ?? ''}
 		</span>
+		{#if active && !last && result}
+			<button type="button" onclick={() => reveal(index + 1)}>
+				+ add user
+			</button>
+		{/if}
 	{:catch error}
 		<span>
 			{@render validationIcon('invalid')}
 			{error.message}
 		</span>
 	{/await}
-	{#if active && !last}
-		<button type="button" onclick={() => reveal(index + 1)}>
-			+ add user
-		</button>
-	{/if}
 </fieldset>
 
 {#if active}
