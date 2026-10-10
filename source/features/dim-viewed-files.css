@@ -11,7 +11,7 @@ ul[aria-label='File Tree'] {
 				[role='treeitem']:not([aria-expanded], .rgh-dim-viewed-files)
 			)
 		)
-			> :not(ul, [role='group'], :hover, :focus-within) {
+			> div:not(:hover, :focus-within) {
 			opacity: 50%;
 		}
 	}
