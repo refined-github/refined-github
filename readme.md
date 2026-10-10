@@ -126,6 +126,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
 - [](# "previous-version") [Lets you see the previous version of a file in one click.](https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319)
+- [](# "absolute-time") [Shows absolute dates for commits older than 6 months on repository file lists.](https://github.com/user-attachments/assets/8c2bbd77-94fc-4917-8fef-ebdbd83a2c24)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
