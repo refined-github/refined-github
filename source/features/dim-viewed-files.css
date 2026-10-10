@@ -4,8 +4,10 @@
 }
 
 /* Folders: dim only the folder's own row (not its subtree, to avoid compounding opacity) when it contains viewed files and no unviewed ones */
-[role='treeitem'][aria-expanded],
-li[data-tree-entry-type='directory'] {
+#files_bucket ul[aria-label='File Tree'] :is(
+	[role='treeitem'][aria-expanded],
+	li[data-tree-entry-type='directory']
+) {
 	&:has(.rgh-dim-viewed-files):not(
 		:has(
 			:is(
