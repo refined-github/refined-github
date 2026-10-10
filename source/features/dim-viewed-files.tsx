@@ -33,7 +33,7 @@ export function init(signal: AbortSignal): void {
 
 	observe(
 		// The pressed selector also catches viewed state loaded after the button renders.
-		`${treeLinkSelector}, ${viewedToggleSelector}, ${viewedToggleSelector}[aria-pressed="true"]`,
+		`${treeLinkSelector}, ${viewedToggleSelector}[aria-pressed="true"]`,
 		handleChange,
 		{signal},
 	);
