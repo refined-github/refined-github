@@ -23,17 +23,13 @@ const updateTree = debounce((): void => {
 }, {wait: 100});
 
 export function init(signal: AbortSignal): void {
-	function handleChange(): void {
-		updateTree();
-	}
-
 	observe(
 		// The pressed selector also catches viewed state loaded after the button renders.
 		`${treeLinkSelector}, ${viewedToggleSelector}[aria-pressed="true"]`,
-		handleChange,
+		updateTree,
 		{signal},
 	);
-	delegate(viewedToggleSelector, 'click', handleChange, {signal});
+	delegate(viewedToggleSelector, 'click', updateTree, {signal});
 }
 
 void features.add(import.meta.url, {
