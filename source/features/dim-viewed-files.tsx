@@ -11,8 +11,6 @@ import observe from '../helpers/selector-observer.js';
 // Same as `batch-mark-files-as-viewed`; not imported to avoid pulling in its JSX dependencies
 const viewedToggleSelector = [
 	'button[class*="MarkAsViewedButton"]',
-	// Old view
-	'input.js-reviewed-checkbox',
 ] as const;
 
 const fileSelector = '[class^="Diff-module__diffTargetable"], .js-file';
@@ -31,12 +29,10 @@ const updateTree = debounce((): void => {
 	const viewedAnchors = new Map<string, boolean>();
 	for (const file of $$optional(fileSelector)) {
 		const toggle = $optional(viewedToggleSelector, file);
-		const viewed = toggle instanceof HTMLInputElement
-			? toggle.checked
-			: file.hasAttribute('data-file-user-viewed')
-				|| Boolean(
-					toggle && (toggle.getAttribute('aria-pressed') === 'true' || elementExists('.octicon-checkbox-fill', toggle)),
-				);
+		const viewed = file.hasAttribute('data-file-user-viewed')
+			|| Boolean(
+				toggle && (toggle.getAttribute('aria-pressed') === 'true' || elementExists('.octicon-checkbox-fill', toggle)),
+			);
 
 		if (file.id) {
 			viewedAnchors.set('#' + file.id, viewed);
