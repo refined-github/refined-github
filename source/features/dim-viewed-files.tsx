@@ -1,6 +1,5 @@
 import './dim-viewed-files.css';
 
-import {onAbort} from 'abort-utils';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$$optional, $optional, closestElementOptional, elementExists} from 'select-dom';
@@ -94,11 +93,6 @@ export function init(signal: AbortSignal): void {
 	delegate(viewedToggleSelector, 'click', handleChange, {signal});
 	delegate(viewedToggleSelector, 'change', handleChange, {signal});
 	updateTree();
-	onAbort(signal, () => {
-		for (const row of $$optional('.' + dimmedClass)) {
-			row.classList.remove(dimmedClass);
-		}
-	});
 }
 
 void features.add(import.meta.url, {
