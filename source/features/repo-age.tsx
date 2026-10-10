@@ -109,7 +109,8 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	const formattedBirthday = dateFormatter.format(birthday);
 	const formattedRepoCreation = repoCreatedAt && dateFormatter.format(new Date(repoCreatedAt));
 	const isSubstantialDifference = Boolean(
-		repoCreatedAt && Math.abs(birthday.getTime() - new Date(repoCreatedAt).getTime()) > (Date.now() - birthday.getTime()) * 0.1,
+		repoCreatedAt
+			&& Math.abs(birthday.getTime() - new Date(repoCreatedAt).getTime()) > (Date.now() - birthday.getTime()) * 0.1,
 	);
 
 	const title = formattedRepoCreation && formattedRepoCreation !== formattedBirthday
