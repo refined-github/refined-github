@@ -92,7 +92,6 @@ export function init(signal: AbortSignal): void {
 	);
 	delegate(viewedToggleSelector, 'click', handleChange, {signal});
 	delegate(viewedToggleSelector, 'change', handleChange, {signal});
-	updateTree();
 }
 
 void features.add(import.meta.url, {
