@@ -1,11 +1,11 @@
 import './dim-viewed-files.css';
 
+import debounce from 'debounce-fn';
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$$optional, $optional, closestElementOptional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {frame} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 // Same as `batch-mark-files-as-viewed`; not imported to avoid pulling in its JSX dependencies
@@ -27,7 +27,7 @@ const treeFileSelector = [
 ] as const;
 const dimmedClass = 'rgh-dim-viewed-files';
 
-function updateTree(): void {
+const updateTree = debounce((): void => {
 	const viewedAnchors = new Map<string, boolean>();
 	for (const file of $$optional(fileSelector)) {
 		const toggle = $optional(viewedToggleSelector, file);
@@ -56,26 +56,11 @@ function updateTree(): void {
 		const row = closestElementOptional(treeFileSelector, link) ?? link;
 		row.classList.toggle(dimmedClass, viewedAnchors.get(link.hash) === true);
 	}
-}
+}, {wait: 100});
 
 export function init(signal: AbortSignal): void {
-	// Batch the many observer/click callbacks during rendering into a single update per frame
-	let isUpdateScheduled = false;
-	async function scheduleUpdate(): Promise<void> {
-		if (isUpdateScheduled) {
-			return;
-		}
-
-		isUpdateScheduled = true;
-		await frame();
-		isUpdateScheduled = false;
-		if (!signal.aborted) {
-			updateTree();
-		}
-	}
-
 	function handleChange(): void {
-		void scheduleUpdate();
+		updateTree();
 	}
 
 	observe(
