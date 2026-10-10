@@ -13,16 +13,12 @@ const treeLinkSelector = 'ul[aria-label="File Tree"] a[href*="#"]';
 const dimmedClass = 'rgh-dim-viewed-files';
 
 const updateTree = debounce((): void => {
-	const viewedAnchors = new Set<string>();
-	for (const file of $$optional('[class^="Diff-module__diffTargetable"]')) {
-		if (elementExists(viewedToggleSelector + '[aria-pressed="true"]', file)) {
-			viewedAnchors.add('#' + file.id);
-		}
-	}
-
 	for (const link of $$optional(treeLinkSelector)) {
 		const row = closestElement('[role="treeitem"]', link);
-		row.classList.toggle(dimmedClass, viewedAnchors.has(link.hash));
+		const viewed = elementExists(
+			`#${CSS.escape(link.hash.slice(1))} ${viewedToggleSelector}[aria-pressed="true"]`,
+		);
+		row.classList.toggle(dimmedClass, viewed);
 	}
 }, {wait: 100});
 
