@@ -16,7 +16,6 @@ import {
 	syncWrapper,
 } from '../helpers/conversation-activity-filter.js';
 import {has, is} from '../helpers/css-selectors.js';
-import delay from '../helpers/delay.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
 
@@ -105,15 +104,15 @@ function processItem(item: HTMLElement): void {
 	}
 }
 
-async function addWidget(anchor: Element): Promise<void> {
+function addWidget(anchor: Element): void {
 	if (anchor.classList.contains('rgh-conversation-activity-filter')) {
 		return;
 	}
 
-	await delay(100); // Let `clean-conversation-headers` run first
 	anchor.classList.add('rgh-conversation-activity-filter');
 	mount(ConversationActivityFilter, {
 		target: anchor,
+		anchor: anchor.firstElementChild ?? undefined,
 	});
 }
 
@@ -142,11 +141,10 @@ async function init(signal: AbortSignal): Promise<void> {
 	observe(timelineItem, processItem, {signal});
 	observe(
 		[
-			// Issue view
-			'[class^="HeaderMetadata-module__metadataContent"]',
-			'[class*="HeaderMetadata-module__smallMetadataRow"]',
+			// Issue view (desktop, mobile, sticky)
+			'[class*="menuActionsContainer"]',
 			// PR view
-			'[class*="PullRequestHeaderSummary-module"] > .d-flex',
+			'[data-component="PageHeader"][data-has-nav] :is([data-component="PH_Actions"], [class*="PageHeader-Actions"])',
 		],
 		addWidget,
 		{signal},
@@ -169,5 +167,7 @@ Test URLs:
 
 https://github.com/refined-github/refined-github/pull/4030
 https://github.com/refined-github/refined-github/issues/4008
+https://github.com/refined-github/refined-github/issues/10169
+https://github.com/refined-github/sandbox/pull/4
 
 */
