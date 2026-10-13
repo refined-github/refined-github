@@ -1,5 +1,10 @@
 [
 	{
+		"id": "absolute-time",
+		"description": "Shows absolute dates for commits older than 6 months on repository file lists.",
+		"screenshot": "https://github.com/user-attachments/assets/8c2bbd77-94fc-4917-8fef-ebdbd83a2c24"
+	},
+	{
 		"id": "action-pr-link",
 		"description": "Adds a link back to the PR that ran the workflow.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png"
