@@ -112,7 +112,7 @@ function addWidget(anchor: Element): void {
 	anchor.classList.add('rgh-conversation-activity-filter');
 	mount(ConversationActivityFilter, {
 		target: anchor,
-		anchor: anchor.firstElementChild ?? undefined,
+		anchor: anchor.firstElementChild!,
 	});
 }
 
@@ -144,7 +144,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			// Issue view (desktop, mobile, sticky)
 			'[class*="menuActionsContainer"]',
 			// PR view
-			'[data-component="PageHeader"][data-has-nav] :is([data-component="PH_Actions"], [class*="PageHeader-Actions"])',
+			'[data-component="PageHeader"][data-has-nav] [data-component="PH_Actions"]',
 		],
 		addWidget,
 		{signal},
@@ -167,7 +167,5 @@ Test URLs:
 
 https://github.com/refined-github/refined-github/pull/4030
 https://github.com/refined-github/refined-github/issues/4008
-https://github.com/refined-github/refined-github/issues/10169
-https://github.com/refined-github/sandbox/pull/4
 
 */
