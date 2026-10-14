@@ -57,18 +57,24 @@ function parseReference(referenceElement: HTMLElement): PrReference {
 	return parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
 }
 
+const branchLinkSelectors = [
+	'[class^="prc-PageHeader-Description"] a[class*="prc-BranchName-BranchName"]',
+	// TODO [2027-01-01]: Drop old PR header selector
+	'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
+];
+
 export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([
-				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
+				...branchLinkSelectors,
 				'.base-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 			]));
 		},
 		get head() {
 			return parseReference(
 				// Doesn't exist in old views
-				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
+				$$optional(branchLinkSelectors)?.[1]
 					// TODO [2027-01-01]: Drop after legacy PR files view is removed
 					?? $('.head-ref'),
 			);
