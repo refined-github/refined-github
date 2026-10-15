@@ -55,7 +55,7 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('span[class^="PinnedIssue-module__issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
+	observe('span[class*="issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
 }
 
 void features.add(import.meta.url, {
