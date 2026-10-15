@@ -31,7 +31,7 @@ import type {AsyncReturnType, JsonObject} from 'type-fest';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
-import {getToken, tokenUser} from './github-token.js';
+import {getToken, isSameUser, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
 import {api3, api4} from './urls.js';
 
@@ -87,7 +87,7 @@ const assertCurrentUser = onetime(async (): Promise<void> => {
 	}
 
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
-	if (currentTokenUser !== loggedInUser) {
+	if (!isSameUser(currentTokenUser, loggedInUser)) {
 		throw new RefinedGitHubApiError(
 			'API call blocked.',
 			`Your token belongs to "${currentTokenUser}" but you are logged in as "${loggedInUser}".`,
