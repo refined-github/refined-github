@@ -11,7 +11,7 @@ import observe from '../helpers/selector-observer.js';
 import {issueIcons} from './select-notifications.js';
 
 function mark(issueLink: HTMLAnchorElement): void {
-	if (!elementExists(`[class*='PinnedIssues-module__container'] a[href$="${issueLink.pathname}"]`)) {
+	if (!elementExists(`ul[class*='area__'] a[href$="${issueLink.pathname}"]`)) {
 		return;
 	}
 
