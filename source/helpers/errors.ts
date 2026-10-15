@@ -85,11 +85,17 @@ export function logError(error: Error): void {
 	console.groupEnd();
 }
 
+// Firefox lets extensions catch the host page's errors, ignore them
+function isExtensionError(error?: Error): error is Error {
+	const stack = error?.stack;
+	return Boolean(stack && (stack.includes('-extension://') || stack.includes('webkit-masked-url://')));
+}
+
 export function catchErrors(): void {
 	globalThis.addEventListener('error', event => {
 		const {error} = event; // Access only once
 		// Don't use `assertError` or it'll loop
-		if (!error) {
+		if (!isExtensionError(error)) {
 			return;
 		}
 
@@ -100,8 +106,7 @@ export function catchErrors(): void {
 	globalThis.addEventListener('unhandledrejection', event => {
 		const error = event.reason; // Access only once
 		// Don't use `assertError` or it'll loop
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- False positive: `||` is used on booleans, not nullish values
-		if (!(error?.stack.includes('-extension://') || error?.stack.includes('webkit-masked-url://'))) {
+		if (!isExtensionError(error)) {
 			return;
 		}
 
