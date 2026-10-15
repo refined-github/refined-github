@@ -52,6 +52,11 @@ export const tokenUser = new CachedFunction('token-user', {
 	cacheKey: ([apiBase, token]) => hashString(`${apiBase}-${token}`),
 });
 
+/** GitHub usernames are case-insensitive, and the token user is cached so its case can be outdated */
+export function isSameUser(a: string | undefined, b: string | undefined): boolean {
+	return a?.toLowerCase() === b?.toLowerCase();
+}
+
 export async function getToken(): Promise<string | undefined> {
 	const {personalToken} = await cachedSettings;
 	if (personalToken.length < 2) {
@@ -61,7 +66,7 @@ export async function getToken(): Promise<string | undefined> {
 	const loggedInUser = pageDetect.utils.getLoggedInUser();
 	for (const token of personalToken) {
 		// eslint-disable-next-line no-await-in-loop -- Tokens are checked in order until a match is found; lookups are cached for a year so it should be instant
-		if (loggedInUser && token && await tokenUser.get(api3, token) === loggedInUser) {
+		if (loggedInUser && token && isSameUser(await tokenUser.get(api3, token), loggedInUser)) {
 			return token;
 		}
 	}
