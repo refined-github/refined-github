@@ -62,7 +62,7 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 		get base() {
 			return parseReference($([
 				'[class*="summaryContainer"] a[data-component="BranchName"]',
-				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
+				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]', // TODO [2027-03-01]: Drop
 				'.base-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 			]));
 		},
@@ -71,7 +71,7 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 				// Doesn't exist in old views
 				$$optional([
 					'[class*="summaryContainer"] a[data-component="BranchName"]',
-					'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
+					'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]', // TODO [2027-03-01]: Drop
 				])?.[1]
 					// TODO [2027-01-01]: Drop after legacy PR files view is removed
 					?? $('.head-ref'),
