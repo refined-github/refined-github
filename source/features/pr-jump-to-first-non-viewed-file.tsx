@@ -9,7 +9,7 @@ function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = $optional([
 		// TODO [2027-01-01]: Old PR Files view, drop
 		'[id][data-details-container-group="file"]:not([data-file-user-viewed])',
-		'[id][class^="Diff-module"]:has(button[aria-pressed="false"])',
+		'[id][class*="diffTargetable"]:has(button[aria-pressed="false"])',
 	]);
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
