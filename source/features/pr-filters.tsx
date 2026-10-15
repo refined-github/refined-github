@@ -110,6 +110,15 @@ function cloneItem(template: HTMLElement, title: string, {href, isSelected}: Fil
 			onClick={event => {
 				event.currentTarget.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}));
 			}}
+			// Links only react to Enter, but menu items are expected to react to Space too
+			onKeyDown={event => {
+				if (event.key !== ' ') {
+					return;
+				}
+
+				event.preventDefault();
+				event.currentTarget.click();
+			}}
 		>
 			{content}
 		</a>
