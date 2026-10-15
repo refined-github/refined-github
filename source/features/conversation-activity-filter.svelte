@@ -14,11 +14,6 @@
 	} from '../helpers/conversation-activity-filter.js';
 	import {isSmallDevice} from '../helpers/dom-utils.js';
 
-	type Props = {
-		withMargin?: boolean;
-	};
-	const {withMargin = false}: Props = $props();
-
 	const baseId = crypto.randomUUID();
 
 	function selectState(targetState: State): void {
@@ -27,9 +22,7 @@
 </script>
 <action-menu
 	hidden={!pageDetect.isConversation($url)}
-	class={`position-relative lh-condensed-ultra v-align-middle ${
-		withMargin ? 'ml-2' : ''
-	}`}
+	class="position-relative lh-condensed-ultra v-align-middle"
 	data-select-variant="single"
 >
 	<focus-group direction="vertical" mnemonics retain>

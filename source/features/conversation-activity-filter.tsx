@@ -112,7 +112,7 @@ function addWidget(anchor: Element): void {
 	anchor.classList.add('rgh-conversation-activity-filter');
 	mount(ConversationActivityFilter, {
 		target: anchor,
-		anchor: anchor.firstElementChild!,
+		anchor: anchor.firstElementChild ?? undefined,
 	});
 }
 
@@ -143,8 +143,11 @@ async function init(signal: AbortSignal): Promise<void> {
 		[
 			// Issue view (desktop, mobile, sticky)
 			'[class*="menuActionsContainer"]',
-			// PR view
-			'[data-component="PageHeader"][data-has-nav] [data-component="PH_Actions"]',
+			// PR view (main header)
+			':is([data-component="PageHeader"][data-has-nav], [class*="PageHeader"][data-has-nav]) [data-component="PH_Actions"]',
+			// PR view (sticky header)
+			'[class*="prTitleArea"]',
+			':is([class*="StickyPullRequestHeader"], [class*="prHeader"]) [data-component="TitleArea"]',
 		],
 		addWidget,
 		{signal},

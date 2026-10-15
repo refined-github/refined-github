@@ -19,9 +19,23 @@
 		/* outline: solid 5px #f00; */
 	}
 }
-/* On mobile, keep the original primary button (e.g. "New issue") at the start without shifting */
-@media (max-width: 768px) {
-	.rgh-conversation-activity-filter > action-menu + * {
+
+/* Align activity filter after title in the PR sticky header */
+[class*='StickyPullRequestHeader'] [data-component='TitleArea'] > action-menu,
+[class*='prHeader'] [data-component='TitleArea'] > action-menu,
+[class*='prTitleArea'] > action-menu {
+	order: 2;
+	margin-left: auto;
+	margin-right: var(--base-size-16, 16px);
+}
+
+/* On narrow layouts, keep primary buttons at the start */
+@media (max-width: 1012px) {
+	[class*='menuActionsContainer'] > action-menu + * {
 		order: -1;
+	}
+
+	[data-component='PH_Actions'] > action-menu {
+		order: 1;
 	}
 }
