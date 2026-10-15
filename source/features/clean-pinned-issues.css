@@ -1,6 +1,6 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
-		div[class*='IssuesIndexSearch-module__FilterContainer'] {
+		div[class*='FilterContainer'] {
 			container-type: inline-size;
 		}
 
@@ -20,34 +20,34 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 
 		/* Individual pinned issue rows */
 		ul[aria-label='Drag and drop pinned issues list.']
-			> li[class*='PinnedIssuesStrip-module__container'] {
+			> li {
 			display: table-row !important;
 			border-color: var(--rgh-border-color, fuchsia) !important;
 		}
 
 		/* Inner grid wrapper */
 		ul[aria-label='Drag and drop pinned issues list.']
-			> li[class*='PinnedIssuesStrip-module__container']
+			> li
 			> div.position-relative {
 			display: contents;
 		}
 
 		/* Drag handle / issue container */
-		div[class*='PinnedIssueCard-module__PinnedIssueContainer'] {
+		div[class*='PinnedIssueContainer'] {
 			padding: 4px 8px !important;
 			display: table-cell;
 			vertical-align: top;
 		}
 
 		/* Issue content */
-		div[class*='PinnedIssueCard-module__contentContainer'] {
+		div[class*='contentContainer'] {
 			display: flex;
 			flex-direction: row;
 			align-items: flex-start;
 		}
 
 		/* Status icon */
-		span[class*='PinnedIssueCard-module__Octicon'] {
+		span[class*='Octicon'] {
 			vertical-align: text-bottom;
 			margin-left: -1.5em;
 			/* Pull icon a bit lower to align with the title */
@@ -55,12 +55,12 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		}
 
 		/* Prevent title wrapping below the status icon */
-		a[class*='PinnedIssueCard-module__Link'] {
+		ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] {
 			padding-left: 1.5em;
 		}
 
 		/* Move options button to the end if GitHub renders one here */
-		div[class*='PinnedIssueCard-module__titleOptionsContainer'] {
+		div[class*='titleOptionsContainer'] {
 			display: contents;
 
 			> button {
@@ -72,7 +72,7 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 		}
 
 		/* Metadata */
-		div[class*='PinnedIssueCard-module__metadataContainer'] {
+		div[class*='metadataContainer'] {
 			text-align: end;
 			margin-left: 8px;
 			line-height: 1.2;
