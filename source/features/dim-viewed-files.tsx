@@ -8,7 +8,8 @@ import {$$optional, closestElement, elementExists} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const viewedToggleSelector = 'button[class*="MarkAsViewedButton"]';
+const viewedToggleSelector =
+	':is(button[class*="MarkAsViewedButton"], [class*="diff-file-header"] button[aria-pressed])';
 const treeLinkSelector = 'ul[aria-label="File Tree"] a[href*="#"]';
 const dimmedClass = 'rgh-dim-viewed-files';
 
