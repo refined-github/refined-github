@@ -4,8 +4,20 @@ import features from '../feature-manager.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 
+const maxRetries = 3;
+// Some images (e.g. 404 images) never load, don't retry them forever
+const retries = new Map<string, number>();
+
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
-	console.log('Refined GitHub: image failed loading, will retry', delegateTarget.src);
+	const {src} = delegateTarget;
+	const attempts = retries.get(src) ?? 0;
+	if (attempts >= maxRetries) {
+		console.log('Refined GitHub: image failed loading, giving up', src);
+		return;
+	}
+
+	retries.set(src, attempts + 1);
+	console.log('Refined GitHub: image failed loading, will retry', src);
 
 	await delay(5000);
 	try {
