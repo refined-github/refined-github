@@ -6,6 +6,7 @@ import * as pageDetect from 'github-url-detection';
 import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {visitAjaxedPage} from '../github-helpers/index.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 
 function getLinkToLine(lineNumberCell: HTMLElement): string {
@@ -24,7 +25,7 @@ function getLinkToLine(lineNumberCell: HTMLElement): string {
 
 function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	if (!isAlteredClick(event)) {
-		location.assign(getLinkToLine(event.delegateTarget));
+		visitAjaxedPage(getLinkToLine(event.delegateTarget));
 	}
 }
 
