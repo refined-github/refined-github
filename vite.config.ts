@@ -1,6 +1,9 @@
 import {defineConfig} from 'vitest/config';
 
 export default defineConfig({
+	optimizeDeps: {
+		entries: ['source/**/*.test.ts'], // Don't scan the HTML files, they reference built files
+	},
 	test: {
 		environment: 'happy-dom',
 		pool: 'vmThreads', // https://vitest.dev/guide/improving-performance#test-environments
