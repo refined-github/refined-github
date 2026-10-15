@@ -19,3 +19,13 @@
 		/* outline: solid 5px #f00; */
 	}
 }
+
+action-menu[hidden] {
+	display: none !important;
+}
+
+@media (max-width: 768px) {
+	.rgh-conversation-activity-filter > action-menu {
+		order: 1;
+	}
+}
