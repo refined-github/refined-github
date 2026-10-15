@@ -4,7 +4,15 @@ import features from '../feature-manager.js';
 import delay from '../helpers/delay.js';
 import onetime from '../helpers/onetime.js';
 
+// Some images (e.g. 404 images) never load, retry each only once
+const retried = new WeakSet<HTMLImageElement>();
+
 async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HTMLImageElement>): Promise<void> {
+	if (retried.has(delegateTarget)) {
+		return;
+	}
+
+	retried.add(delegateTarget);
 	console.log('Refined GitHub: image failed loading, will retry', delegateTarget.src);
 
 	await delay(5000);
@@ -13,6 +21,7 @@ async function handleErroredImage({delegateTarget}: DelegateEvent<ErrorEvent, HT
 		const cloned = delegateTarget.cloneNode();
 		await cloned.decode();
 		// If successfully loaded, the failed image will be replaced.
+		retried.add(cloned);
 		delegateTarget.replaceWith(cloned);
 	} catch {}
 }
