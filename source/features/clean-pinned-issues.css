@@ -1,19 +1,14 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
-		div[class^='IssueIndexPage-module__middlePaneGrid'] {
+		div[class*='IssuesIndexSearch-module__FilterContainer'] {
 			container-type: inline-size;
-
-			/* Element whose width is tracked */
-			> div:not([class]) {
-				max-width: 767px; /* Enable native vertical sorting */
-			}
 		}
 
+		/* Pinned issues list */
 		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
-			width: 100cqw; /* Restore original width */
-
 			/* Avoid overflow https://github.com/refined-github/refined-github/issues/9683 */
+			width: 100%;
 			word-break: break-word;
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
@@ -23,48 +18,51 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-style: hidden;
 		}
 
-		div [class*='PinnedIssueContainer'] {
-			padding-top: 4px !important;
-		}
-
-		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
-			display: table;
-		}
-
-		[class*='PinnedIssues-module__container'] {
+		/* Individual pinned issue rows */
+		ul[aria-label='Drag and drop pinned issues list.']
+			> li[class*='PinnedIssuesStrip-module__container'] {
 			display: table-row !important;
 			border-color: var(--rgh-border-color, fuchsia) !important;
-
-			> :first-child {
-				padding-inline: 8px !important;
-				&:has(> div[class^='DragAndDropTrigger']) {
-					padding-left: 0 !important;
-				}
-			}
 		}
 
-		div[class^='PinnedIssue-module__contentContainer'] {
-			flex-direction: row;
+		/* Inner grid wrapper */
+		ul[aria-label='Drag and drop pinned issues list.']
+			> li[class*='PinnedIssuesStrip-module__container']
+			> div.position-relative {
+			display: contents;
+		}
 
-			/* Align content to the top when the title wraps */
+		/* Drag handle / issue container */
+		div[class*='PinnedIssueCard-module__PinnedIssueContainer'] {
+			padding: 4px 8px !important;
+			display: table-cell;
+			vertical-align: top;
+		}
+
+		/* Issue content */
+		div[class*='PinnedIssueCard-module__contentContainer'] {
+			display: flex;
+			flex-direction: row;
 			align-items: flex-start;
 		}
 
-		span[class^='PinnedIssue-module__Octicon'] {
+		/* Status icon */
+		span[class*='PinnedIssueCard-module__Octicon'] {
 			vertical-align: text-bottom;
 			margin-left: -1.5em;
 			/* Pull icon a bit lower to align with the title */
 			line-height: 1.3;
 		}
 
-		/* Prevent title from wrapping below the octicon */
-		a[class*='PinnedIssue-module__Link'] {
+		/* Prevent title wrapping below the status icon */
+		a[class*='PinnedIssueCard-module__Link'] {
 			padding-left: 1.5em;
 		}
 
-		/* Move options button to the end */
-		div[class^='PinnedIssue-module__titleOptionsContainer'] {
+		/* Move options button to the end if GitHub renders one here */
+		div[class*='PinnedIssueCard-module__titleOptionsContainer'] {
 			display: contents;
+
 			> button {
 				order: 1;
 
@@ -73,7 +71,8 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			}
 		}
 
-		div[class^='PinnedIssue-module__metadataContainer'] {
+		/* Metadata */
+		div[class*='PinnedIssueCard-module__metadataContainer'] {
 			text-align: end;
 			margin-left: 8px;
 			line-height: 1.2;
