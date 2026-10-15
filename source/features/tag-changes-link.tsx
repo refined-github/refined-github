@@ -59,7 +59,6 @@ function getPreviousTag(current: number, allTags: TagDetails[]): string | undefi
 		}
 
 		// Find an earlier version
-
 		if (tinyVersionCompare(allTags[current].version, allTags[next].version) < 1) {
 			continue;
 		}

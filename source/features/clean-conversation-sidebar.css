@@ -5,7 +5,6 @@ html:not([rgh-OFF-clean-conversation-sidebar]) {
 			&:has(span[class*='emptyText' i], [class*='developmentHelpText']):not(
 				:has(.octicon-gear)
 			),
-
 			/* Hide empty text in case section is not read-only */
 			:is(span[class*='emptyText' i], span[class*='developmentHelpText']):not(
 				:has(> button)
