@@ -22,7 +22,7 @@ const isSetTheTokenSelector = 'input[type="checkbox"][required]';
 const liesGif = 'https://github.com/user-attachments/assets/f417264f-f230-4156-b020-16e4390562bd';
 
 function addNotice(type: 'error' | 'warn', message: JSX.Element): void {
-	$('[class^="CreateIssueForm-module__mainContentSection"]').prepend(
+	$('[class*="mainContentSection"]').prepend(
 		<div className={cx('flash', `flash-${type}`, 'h3 my-9 tmp-my-9')} style={{animation: 'pulse-in 0.3s 2'}}>
 			{message}
 		</div>,
@@ -70,6 +70,9 @@ async function checkToken(): Promise<void> {
 		return;
 	}
 
+	// Wait for GitHub's listener to be attached #9293 #10196
+	await delay(1000);
+
 	// Thank you for following the instructions. I'll save you a click.
 	const checkbox = $(isSetTheTokenSelector);
 	if (!checkbox.checked) {
@@ -82,7 +85,7 @@ async function setVersion(): Promise<void> {
 	await delay(1000);
 
 	const field = getElementByAriaLabelledBy<HTMLInputElement>(
-		'span[class^="TextInputElement-module__issueFormTextField"] > input',
+		'span[class*="issueFormTextField"] > input',
 		'Extension version*',
 	);
 
@@ -155,15 +158,17 @@ function addAutocomplete(field: HTMLInputElement): void {
 	);
 }
 
+function enableAll(): void {
+	void linkifyCacheRefresh();
+	void checkToken();
+	void validateTokenCheckbox();
+	void setVersion();
+	checkVersionAge();
+}
+
 function init(signal: AbortSignal): void {
 	observe('input[aria-label="Add a title"]', addAutocomplete, {signal});
-	observe('[class^="CreateIssueForm-module__mainContentSection"]', () => {
-		void linkifyCacheRefresh();
-		void checkToken();
-		void validateTokenCheckbox();
-		void setVersion();
-		checkVersionAge();
-	}, {signal});
+	observe('[class*="mainContentSection"]', enableAll, {signal});
 }
 
 const openNewIssuePage = filterAlteredClicks((event: DelegateEvent<MouseEvent, HTMLElement>): void => {
