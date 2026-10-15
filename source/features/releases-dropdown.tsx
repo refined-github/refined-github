@@ -5,7 +5,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, visitAjaxedPage} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleases from './releases-dropdown.gql';
 
@@ -24,7 +24,7 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 	const field = event.delegateTarget;
 	const selectedTag = field.value;
 	if (selectedTag === 'prerelease:false') {
-		location.assign('?q=prerelease%3Afalse');
+		visitAjaxedPage('?q=prerelease%3Afalse');
 		return;
 	}
 
@@ -33,7 +33,7 @@ async function selectionHandler(event: DelegateEvent<Event, HTMLInputElement>): 
 		return;
 	}
 
-	location.assign(buildRepoUrl('releases/tag', encodeURIComponent(selectedTag)));
+	visitAjaxedPage(buildRepoUrl('releases/tag', encodeURIComponent(selectedTag)));
 	field.value = ''; // Can't call `preventDefault`, the `input` event is not cancelable
 }
 

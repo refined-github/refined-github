@@ -8,7 +8,7 @@ import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import {buildRepoUrl} from '../github-helpers/index.js';
+import {buildRepoUrl, visitAjaxedPage} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -19,7 +19,7 @@ async function deleteBranch(branchName: string): Promise<void> {
 	});
 
 	const redirectUrl = buildRepoUrl('activity?activity_type=branch_deletion');
-	location.assign(redirectUrl);
+	visitAjaxedPage(redirectUrl);
 }
 
 async function handleClickDeletion(): Promise<void> {

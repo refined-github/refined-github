@@ -136,6 +136,12 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['**/*.test.ts'],
+		rules: {
+			'byo/prefer-visit-ajaxed-page': 'off', // Tests use it to set the URL
+		},
+	},
+	{
 		files: ['source/features/**/*.tsx'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
