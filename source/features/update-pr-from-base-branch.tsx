@@ -133,7 +133,7 @@ async function manageButtonGroup(stateIcon: Element): Promise<void> {
 		}
 
 		// The same container as the native button uses
-		$('section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__contentLayout"]')
+		$('section[aria-label="Conflicts"] div[class*="contentLayout"]')
 			.append(createButtonGroup());
 
 		return;
