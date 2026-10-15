@@ -1,5 +1,6 @@
 import {isEnterprise} from 'github-url-detection';
 import memoize from 'memoize';
+import {isSafari} from 'webext-detect';
 
 const warnOnce = memoize(console.warn, {cacheKey: JSON.stringify});
 
@@ -31,7 +32,8 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 /* Log errors only once */
 const loggedStacks = new Set<string>();
 
-export function logError(error: Error): void {
+// `featureId` is preferred over the one parsed from the stack, which Safari masks
+export function logError(error: Error, featureId?: FeatureId): void {
 	if (!isLoggingEnabled) {
 		return;
 	}
@@ -50,7 +52,7 @@ export function logError(error: Error): void {
 
 	loggedStacks.add(stack!);
 
-	const id = parseFeatureNameFromStack(stack);
+	const id = featureId ?? parseFeatureNameFromStack(stack);
 	if (message.endsWith(fineGrainedTokenSuggestion)) {
 		console.log('ℹ️', id, '→', message.replace(fineGrainedTokenSuggestion, preferredMessage));
 		return;
@@ -60,9 +62,6 @@ export function logError(error: Error): void {
 		console.log('ℹ️ Refined GitHub →', message, '→', id);
 		return;
 	}
-
-	const searchIssueUrl = new URL('https://github.com/refined-github/refined-github/issues');
-	searchIssueUrl.searchParams.set('q', `is:issue state:open label:bug ${id ?? message}`);
 
 	const newIssueUrl = new URL('https://github.com/refined-github/refined-github/issues/new');
 	newIssueUrl.searchParams.set('template', '1_bug_report.yml');
@@ -78,9 +77,9 @@ export function logError(error: Error): void {
 	);
 
 	// Don't change this to `throw Error` because Firefox doesn't show extensions' errors in the console
-	console.group(`❌ Refined GitHub: ${id ?? 'global'}`); // Safari supports only one parameter
+	const scope = id ?? (isSafari() ? undefined : 'global'); // Safari masks the stack, so the scope is often unknown
+	console.group(scope ? `❌ Refined GitHub: ${scope}` : '❌ Refined GitHub'); // Safari supports only one parameter
 	console.log(`📕 ${version} ${isEnterprise() ? 'GHE →' : '→'}`, error); // One parameter improves Safari formatting
-	console.log('🔍 Search issue', searchIssueUrl.href);
 	console.log('🚨 Report issue', newIssueUrl.href);
 	console.groupEnd();
 }
