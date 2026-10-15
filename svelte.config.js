@@ -1,4 +1,4 @@
-/** @type {import('rollup-plugin-svelte').Options} */
+/** @type {import('@sveltejs/vite-plugin-svelte').Options} */
 const options = {
 	compilerOptions: {
 		// Compile all components to custom elements
