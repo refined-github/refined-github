@@ -32,7 +32,7 @@ export function parseFeatureNameFromStack(stack: string = new Error('stack').sta
 /* Log errors only once */
 const loggedStacks = new Set<string>();
 
-/** @param featureId - Preferred over the one parsed from the stack, which Safari masks */
+// `featureId` is preferred over the one parsed from the stack, which Safari masks
 export function logError(error: Error, featureId?: FeatureId): void {
 	if (!isLoggingEnabled) {
 		return;
