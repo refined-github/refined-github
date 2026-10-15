@@ -70,7 +70,8 @@ const restrictedSyntax = {
 		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
 	'byo/prefer-visit-ajaxed-page': ['error', {
-		selector: 'CallExpression[callee.property.name="assign"]:matches([callee.object.name="location"], [callee.object.property.name="location"])',
+		selector:
+			'CallExpression[callee.property.name="assign"]:matches([callee.object.name="location"], [callee.object.property.name="location"])',
 		message: 'Use `visitAjaxedPage()` instead of `location.assign()`',
 	}],
 	'byo/no-mutation-observer': ['error', {
