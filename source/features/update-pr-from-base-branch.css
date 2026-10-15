@@ -1,7 +1,5 @@
 section[aria-label='Conflicts']
-	div[class^='MergeBoxSectionHeader-module__contentLayout']:has(
-		> .ButtonGroup
-	) {
+	div[class*='contentLayout']:has(> .ButtonGroup) {
 	> div[class^='prc-ButtonGroup'] {
 		display: none;
 	}
