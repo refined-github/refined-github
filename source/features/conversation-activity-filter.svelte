@@ -27,7 +27,7 @@
 </script>
 <action-menu
 	hidden={!pageDetect.isConversation($url)}
-	class={`d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	class={`position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	data-select-variant="single"
@@ -114,7 +114,9 @@
 					</action-list>
 				</div>
 				{#if !isSmallDevice()}
-					<div class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 text-body f6 text-normal">
+					<div
+						class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 text-body f6 text-normal"
+					>
 						<span class="color-fg-muted">
 							Press <kbd>h</kbd> to cycle through filters,
 							<br />
