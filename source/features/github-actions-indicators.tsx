@@ -118,7 +118,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 					<PlayIcon />
 				</div>
 			);
-			const pinIcon = $optional('[class^="prc-ActionList-TrailingVisual"]', workflowLink);
+			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
 			if (pinIcon) {
 				// Enable tooltip
 				pinIcon.style.pointerEvents = 'auto';
@@ -143,7 +143,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
+	$('.ActionListItem-label', workflowLink).append(
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
@@ -151,7 +151,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe('a[class^="prc-ActionList-ActionListContent"]', addIndicators, {signal});
+	observe('a.ActionListContent', addIndicators, {signal});
 }
 
 function openRunWorkflow(): void {
