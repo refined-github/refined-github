@@ -1,5 +1,5 @@
 import domify from 'doma';
-import mem from 'memoize';
+import memoize from 'memoize';
 import {$optional} from 'select-dom';
 import type {ParseSelector} from 'typed-query-selector/parser.js';
 
@@ -24,4 +24,5 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 
 export {fetchDom as fetchDomUncached};
 
-export default mem(fetchDom);
+// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3895
+export default memoize(fetchDom);

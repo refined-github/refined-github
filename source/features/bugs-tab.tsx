@@ -84,8 +84,8 @@ const bugs = new CachedFunction('bugs', {
 });
 
 async function getBugsLabel(): Promise<string> {
-	const {label} = await bugs.getCached() ?? {};
-	return label ?? 'bug';
+	const {label = 'bug'} = await bugs.getCached() ?? {};
+	return label;
 }
 
 async function isBugsListing(): Promise<boolean> {
