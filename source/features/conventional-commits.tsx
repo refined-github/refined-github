@@ -46,10 +46,14 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		is(commitTitleInLists) + ' > a > span:first-child', // `isCommitList`
-		is(commitTitleInLists) + ' > span > a:first-child', // `isCompare`
-	], renderLabelInCommitTitle, {signal});
+	observe(
+		[
+			is(commitTitleInLists) + ' > a > span:first-child', // `isCommitList`
+			is(commitTitleInLists) + ' > span > a:first-child', // `isCompare`
+		],
+		renderLabelInCommitTitle,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
