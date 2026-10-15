@@ -166,7 +166,7 @@ export const commitHashLinkInLists_ = [
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = [
-	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
+	'[data-testid="commit-row-item"] h4', // `isCommitList`
 	'.js-commits-list-item > .js-details-container > p:first-child', // `isCompare`
 ];
 export const commitTitleInLists_ = [
