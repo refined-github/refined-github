@@ -1,6 +1,6 @@
 /* Info: https://github.com/refined-github/refined-github/issues/7725 */
 @media (width <= 767px) {
-	a[class*='PullRequestHeaderNavigation'] {
+	[aria-label='Pull request navigation'] a[class*='TabNavLink'] {
 		display: inline-flex;
 		flex-wrap: wrap;
 		white-space: nowrap;
@@ -30,7 +30,7 @@
 }
 
 @media (width <= 500px) {
-	a[class*='PullRequestHeaderNavigation'] {
+	[aria-label='Pull request navigation'] a[class*='TabNavLink'] {
 		font-size: 10px;
 
 		[data-variant='secondary'] {
