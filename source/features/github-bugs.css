@@ -7,7 +7,7 @@ li[data-testid='commit-row-item'] code,
 /* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
 div[class*='commitMessageContainer'] code,
 /* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
-a[class*='PinnedIssue-module__Link'] code {
+ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] code {
 	padding: 2px 4px;
 	background-color: var(
 		--bgColor-neutral-muted,
