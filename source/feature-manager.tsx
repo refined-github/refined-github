@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import oneEvent from 'one-event';
 import {elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
+import {assertError} from 'ts-extras';
 import type {Arrayable, Promisable} from 'type-fest';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
@@ -12,7 +13,7 @@ import {messageRuntime} from 'webext-msg';
 import {expectToken} from './github-helpers/github-token.js';
 import asyncForEach from './helpers/async-for-each.js';
 import bisectFeatures from './helpers/bisect.js';
-import {catchErrors, disableErrorLogging} from './helpers/errors.js';
+import {catchErrors, disableErrorLogging, logError} from './helpers/errors.js';
 import {getFeatureId, listenToAjaxedLoad, log, shortcutMap} from './helpers/feature-helpers.js';
 import {isFeaturePrivate, type RunConditions, shouldFeatureRun} from './helpers/feature-utils.js';
 import {
@@ -224,16 +225,22 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
 			void asyncForEach(castArray(init), async singleInit => {
-				const didRun = await singleInit(featureController.signal);
-				// Features can return `false` when they decide not to run on the current page
-				if (didRun === false || isFeaturePrivate(id)) {
-					return;
-				}
+				try {
+					const didRun = await singleInit(featureController.signal);
+					// Features can return `false` when they decide not to run on the current page
+					if (didRun === false || isFeaturePrivate(id)) {
+						return;
+					}
 
-				log.info('✅', id);
-				// Register feature shortcuts
-				for (const [hotkey, description] of Object.entries(shortcuts)) {
-					shortcutMap.set(hotkey, description);
+					log.info('✅', id);
+					// Register feature shortcuts
+					for (const [hotkey, description] of Object.entries(shortcuts)) {
+						shortcutMap.set(hotkey, description);
+					}
+				} catch (error) {
+					// Pass the id because Safari masks the feature name in the stack
+					assertError(error);
+					logError(error, id);
 				}
 			});
 		} while (await oneEvent(document, ['turbo:render', 'soft-nav:react-done']));
