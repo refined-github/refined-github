@@ -158,15 +158,17 @@ function addAutocomplete(field: HTMLInputElement): void {
 	);
 }
 
+function enableAll(): void {
+	void linkifyCacheRefresh();
+	void checkToken();
+	void validateTokenCheckbox();
+	void setVersion();
+	checkVersionAge();
+}
+
 function init(signal: AbortSignal): void {
 	observe('input[aria-label="Add a title"]', addAutocomplete, {signal});
-	observe('[class*="mainContentSection"]', () => {
-		void linkifyCacheRefresh();
-		void checkToken();
-		void validateTokenCheckbox();
-		void setVersion();
-		checkVersionAge();
-	}, {signal});
+	observe('[class*="mainContentSection"]', enableAll, {signal});
 }
 
 const openNewIssuePage = filterAlteredClicks((event: DelegateEvent<MouseEvent, HTMLElement>): void => {
