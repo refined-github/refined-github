@@ -1,16 +1,42 @@
-import {defineConfig} from 'vitest/config';
+import {svelte} from '@sveltejs/vite-plugin-svelte';
+import {defineConfig} from 'vite';
+import {viteStaticCopy} from 'vite-plugin-static-copy';
+
+import svelteConfig from './svelte.config.js';
 
 export default defineConfig({
-	optimizeDeps: {
-		entries: ['source/**/*.test.ts'], // Don't scan the HTML files, they reference built files
+	plugins: [
+		svelte(svelteConfig),
+		viteStaticCopy({
+			targets: [
+				{src: 'source/manifest.json', dest: '..'},
+				{src: 'source/*.{html,png,js}', dest: '.'},
+			],
+		}),
+	],
+	resolve: {
+		alias: [{find: /^react$/, replacement: 'dom-chef'}],
 	},
-	test: {
-		environment: 'happy-dom',
-		pool: 'vmThreads', // https://vitest.dev/guide/improving-performance#test-environments
-		environmentOptions: {
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			happyDOM: {
-				url: 'https://github.com',
+	build: {
+		outDir: 'distribution/assets',
+		emptyOutDir: true,
+		minify: false,
+		modulePreload: false,
+		rolldownOptions: {
+			input: {
+				options: './source/options.tsx',
+				'options-components': './source/options.svelte',
+				welcome: './source/welcome.svelte',
+				graphql: './source/graphql.svelte',
+				'refined-github': './source/refined-github.ts',
+				'content-script': './source/content-script.ts',
+				background: './source/background.ts',
+			},
+			preserveEntrySignatures: 'strict',
+			output: {
+				preserveModules: true,
+				preserveModulesRoot: 'source',
+				entryFileNames: '[name].js',
 			},
 		},
 	},

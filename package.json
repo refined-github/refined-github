@@ -83,6 +83,7 @@
 		"@rollup/plugin-node-resolve": "^16.0.3",
 		"@rollup/plugin-sucrase": "^5.1.0",
 		"@sindresorhus/tsconfig": "^8.1.0",
+		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@types/chrome": "^0.3.0",
 		"@types/node": "^26.6.2",
 		"@typescript/native": "npm:typescript@^7.0.2",
@@ -125,6 +126,7 @@
 		"typescript": "npm:@typescript/typescript6@^6.0.2",
 		"unplugin-lightningcss": "^0.5.0",
 		"vite": "^8.3.0",
+		"vite-plugin-static-copy": "^4.1.1",
 		"vitest": "^5.0.1"
 	},
 	"overrides": {
