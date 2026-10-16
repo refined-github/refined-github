@@ -7,7 +7,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
@@ -80,6 +80,18 @@ const firstCommit = new CachedFunction('first-commit', {
 	cacheKey: cacheByRepo,
 });
 
+const repositoryCreatedAt = new CachedFunction('repository-created-at', {
+	async updater(): Promise<string> {
+		const repository = await api.v3(`/repos/${getRepo()!.nameWithOwner}`);
+		if (typeof repository.created_at !== 'string') {
+			throw new TypeError('GitHub repository response is missing created_at');
+		}
+
+		return repository.created_at;
+	},
+	cacheKey: cacheByRepo,
+});
+
 async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	// Construct class only when it's needed, as it is relatively expensive
 	const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -88,8 +100,12 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, lastCommitsPageUrl] = await firstCommit.get();
-	const birthday = new Date(firstCommitDate);
+	const [[firstCommitDate, lastCommitsPageUrl], createdAt] = await Promise.all([
+		firstCommit.get(),
+		repositoryCreatedAt.get(),
+	]);
+	const birthday = new Date(createdAt);
+	const firstCommitBirthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(birthday.getTime())
@@ -107,7 +123,13 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2 tmp-mt-2">
-			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
+			<a
+				href={lastCommitsPageUrl}
+				className="Link--muted"
+				title={`Repository created ${dateFormatter.format(birthday)}; first commit dated ${
+					dateFormatter.format(firstCommitBirthday)
+				}`}
+			>
 				<RepoIcon className="mr-2 tmp-mr-2" /> {age}
 			</a>
 		</div>,
