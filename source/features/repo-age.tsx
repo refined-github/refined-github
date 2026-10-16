@@ -1,5 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import QuestionIcon from 'octicons-plain-react/Question';
 import RepoIcon from 'octicons-plain-react/Repo';
 import {closestElement} from 'select-dom';
 import twas from 'twas';
@@ -90,8 +91,8 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	});
 
 	const [firstCommitDate, lastCommitsPageUrl, createdAt] = await firstCommit.get();
-	const birthday = new Date(createdAt);
-	const firstCommitBirthday = new Date(firstCommitDate);
+	const birthday = new Date(firstCommitDate);
+	const repositoryBirthday = new Date(createdAt);
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(birthday.getTime())
@@ -106,17 +107,19 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 			<strong>{value}</strong> {unit} old
 		</>;
 
+	const formattedBirthday = dateFormatter.format(birthday);
+	const formattedRepositoryBirthday = dateFormatter.format(repositoryBirthday);
+	const isSubstantialDifference = Math.abs(birthday.getTime() - repositoryBirthday.getTime())
+		> (Date.now() - birthday.getTime()) * 0.1;
+	const title = isSubstantialDifference
+		? `First commit dated ${formattedBirthday}\nRepository created ${formattedRepositoryBirthday}`
+		: `First commit dated ${formattedBirthday}`;
+
 	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2 tmp-mt-2">
-			<a
-				href={lastCommitsPageUrl}
-				className="Link--muted"
-				title={`Repository created ${dateFormatter.format(birthday)}; first commit dated ${
-					dateFormatter.format(firstCommitBirthday)
-				}`}
-			>
-				<RepoIcon className="mr-2 tmp-mr-2" /> {age}
+			<a href={lastCommitsPageUrl} className="Link--muted" title={title}>
+				<RepoIcon className="mr-2 tmp-mr-2" /> {age} {isSubstantialDifference && <QuestionIcon className="ml-1" />}
 			</a>
 		</div>,
 	);
