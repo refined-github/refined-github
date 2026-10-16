@@ -1,6 +1,6 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import mem from 'memoize';
+import memoize from 'memoize';
 import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import {assert} from 'ts-extras';
@@ -94,7 +94,7 @@ const cachePerPage = {
 };
 
 /** Is tag or commit, with elementReady */
-export const isPermalink = mem(async () => {
+export const isPermalink = memoize(async () => {
 	// No need for getCurrentGitRef(), it's a simple and exact check
 	if (/^[\da-f]{40}$/.test(location.pathname.split('/', 5)[4])) {
 		// It's a commit
@@ -152,7 +152,7 @@ export const cacheByRepo = (): string => getRepo()!.nameWithOwner;
 export const isRepoCommitListRoot = (): boolean =>
 	pageDetect.isRepoCommitList() && document.title.startsWith('Commits');
 
-export const isUrlReachable = mem(async (url: string): Promise<boolean> => {
+export const isUrlReachable = memoize(async (url: string): Promise<boolean> => {
 	const {ok: isOk} = await fetch(url, {method: 'head'});
 	return isOk;
 });
