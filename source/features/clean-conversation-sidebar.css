@@ -1,6 +1,6 @@
 html:not([rgh-OFF-clean-conversation-sidebar]) {
-	div[class^='IssueSidebar-module__sidebarContent'] {
-		div[class^='Section-module__SectionContainer'] {
+	div[class*='sidebarContent'] {
+		div[class*='SectionContainer'] {
 			/* Hide read-only empty sections */
 			&:has(span[class*='emptyText' i], [class*='developmentHelpText']):not(
 				:has(.octicon-gear)
