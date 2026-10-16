@@ -27,10 +27,12 @@ async function removeBaseRepo(base: HTMLElement): Promise<void> {
 	}
 
 	const crossRepoPr = textNode.textContent.indexOf(':');
-	if (crossRepoPr > 0) {
-		textNode.splitText(crossRepoPr + 1);
-		wrap(textNode, <span className="sr-only" />);
+	if (crossRepoPr === -1) {
+		return;
 	}
+
+	textNode.splitText(crossRepoPr + 1);
+	wrap(textNode, <span className="sr-only" />);
 }
 
 function isStickyHeader(childElement: HTMLElement): boolean {
@@ -91,7 +93,7 @@ function replaceFromWithArrow(base: HTMLElement): void {
 }
 
 async function cleanPrHeader(headRef: HTMLElement): Promise<void> {
-	const summaryRow = closestElement('.d-flex[class*="PullRequestHeaderSummary"]', headRef);
+	const summaryRow = closestElement('.d-flex[class*="summaryContainer"]', headRef);
 	summaryRow.classList.add('rgh-clean-conversation-headers');
 
 	if (isStickyHeader(summaryRow)) {
@@ -99,7 +101,7 @@ async function cleanPrHeader(headRef: HTMLElement): Promise<void> {
 		summaryRow.classList.add('rgh-sticky-pr-header');
 	}
 
-	const base = $('[class^="PullRequestBranchName"]', summaryRow);
+	const base = $('a[data-component="BranchName"]', summaryRow);
 
 	// Add class here to avoid duplicating the selectors into the CSS file
 	base.classList.add('rgh-base-branch');
@@ -123,7 +125,7 @@ async function cleanPrHeader(headRef: HTMLElement): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		'[class^="PullRequestBranchName"] ~ div [class^="PullRequestBranchName"]',
+		'a[data-component="BranchName"] ~ div a[data-component="BranchName"]',
 		cleanPrHeader,
 		{signal},
 	);

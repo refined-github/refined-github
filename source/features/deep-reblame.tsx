@@ -3,20 +3,20 @@ import './deep-reblame.css';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import mem from 'memoize';
+import memoize from 'memoize';
 import VersionsIcon from 'octicons-plain-react/Versions';
 import {$, $$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
-import {multilineAriaLabel} from '../github-helpers/index.js';
+import {multilineAriaLabel, visitAjaxedPage} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
 
-const getPullRequestBlameCommit = mem(
+const getPullRequestBlameCommit = memoize(
 	async (commit: string, prNumbers: number[], currentFilename: string): Promise<string> => {
 		const {repository} = await api.v4(GetPullRequestBlameCommit, {
 			variables: {
@@ -63,7 +63,7 @@ async function redirectToBlameCommit(
 	await showToast(async () => {
 		blameUrl.branch = await getPullRequestBlameCommit(prCommit, prNumbers, blameUrl.filePath);
 		blameUrl.hash = 'L' + $('.react-line-number', blameHunk).textContent;
-		location.assign(blameUrl.href);
+		visitAjaxedPage(blameUrl.href);
 	}, {
 		message: 'Fetching pull request',
 		doneMessage: 'Redirecting',

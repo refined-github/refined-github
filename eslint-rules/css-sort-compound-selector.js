@@ -59,16 +59,15 @@ const sortCompoundSelector = {
 					context.report({
 						node,
 						messageId: 'sort',
-						fix(fixer) {
-							return compound.map((selector, index) =>
+						fix: (fixer) =>
+							compound.map((selector, index) =>
 								fixer.replaceText(
 									selector,
 									context.sourceCode.getText(
 										sorted[index],
 									),
 								)
-							);
-						},
+							),
 					});
 
 					compound = [];

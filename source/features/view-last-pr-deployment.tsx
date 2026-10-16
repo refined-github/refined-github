@@ -3,9 +3,9 @@ import * as pageDetect from 'github-url-detection';
 import RocketIcon from 'octicons-plain-react/Rocket';
 import {lastElementOptional} from 'select-dom';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 function addLink(header: HTMLElement): void {
 	const lastDeployment = lastElementOptional('.js-timeline-item a[title="Deployment has completed"]');

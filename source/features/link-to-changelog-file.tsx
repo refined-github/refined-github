@@ -3,10 +3,10 @@ import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
 type FileType = {

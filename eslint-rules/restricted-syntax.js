@@ -69,6 +69,11 @@ const restrictedSyntax = {
 			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
 		message: 'Pass a callback reference, not an inline function or the result of a function call.',
 	}],
+	'byo/prefer-visit-ajaxed-page': ['error', {
+		selector:
+			'CallExpression[callee.property.name="assign"]:matches([callee.object.name="location"], [callee.object.property.name="location"])',
+		message: 'Use `visitAjaxedPage()` instead of `location.assign()`',
+	}],
 	'byo/no-mutation-observer': ['error', {
 		selector: 'NewExpression[callee.name="MutationObserver"]',
 		message: 'Import `selector-observer` instead of using MutationObserver',

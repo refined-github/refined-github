@@ -17,12 +17,12 @@ const lastUpdatedCache = new CachedFunction('last-updated', {
 		const {repository} = await api.v4(`
 		repository() {
 			${
-				issueNumbers.map(number => `
+			issueNumbers.map(number => `
 					${api.escapeKey(number)}: issue(number: ${number}) {
 						updatedAt
 					}
 				`).join('\n')
-			}
+		}
 		}
 	`);
 
@@ -55,7 +55,11 @@ async function update(pinnedIssuesMetadata: HTMLElement[]): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('span[class^="PinnedIssue-module__issueMetadata"]', batchedFunction(update, {delay: 100}), {signal});
+	observe(
+		'ul[aria-label="Drag and drop pinned issues list."] span[class*="issueMetadata"]',
+		batchedFunction(update, {delay: 100}),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

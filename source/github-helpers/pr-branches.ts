@@ -10,7 +10,7 @@ type PrReference = {
 	/** @example fregante */
 	owner: string;
 
-	/** @example mem */
+	/** @example memoize */
 	name: string;
 
 	/** @example main */
@@ -61,14 +61,18 @@ export function getBranches(): {base: PrReference; head: PrReference} {
 	return {
 		get base() {
 			return parseReference($([
-				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]',
+				'[class*="summaryContainer"] a[data-component="BranchName"]',
+				'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]', // TODO [2027-03-01]: Drop
 				'.base-ref', // TODO [2027-01-01]: Drop after legacy PR files view is removed
 			]));
 		},
 		get head() {
 			return parseReference(
 				// Doesn't exist in old views
-				$$optional('[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]')?.[1]
+				$$optional([
+					'[class*="summaryContainer"] a[data-component="BranchName"]',
+					'[class*="PullRequestHeaderSummary"] a[class^="PullRequestBranchName"]', // TODO [2027-03-01]: Drop
+				])?.[1]
 					// TODO [2027-01-01]: Drop after legacy PR files view is removed
 					?? $('.head-ref'),
 			);

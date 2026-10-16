@@ -1,3 +1,4 @@
+/* eslint-disable import-x/order -- Bespoke order 💅 */
 /* eslint-disable import-x/no-unassigned-import -- Side effects for all */
 // Core feature that needs to run first; it serves the `deduplicate` key.
 import './features/rgh-deduplicator.js';
@@ -175,7 +176,6 @@ import './features/hide-low-quality-comments.js';
 import './features/linkify-user-labels.js';
 import './features/repo-avatars.js';
 import './features/jump-to-conversation-close-event.js';
-import './features/last-notification-page-button.js';
 import './features/rgh-linkify-yolo.js';
 import './features/scrollable-areas.js';
 import './features/emphasize-draft-pr-label.js';
@@ -219,3 +219,6 @@ import './features/easy-toggle-hidden-comments.js';
 import './features/extend-repo-tabs.js';
 import './features/delete-branch.js';
 import './features/pr-from-branch.js';
+import './features/mark-locked.js';
+import './features/subscribe-releases.js';
+import './features/absolute-time.js';

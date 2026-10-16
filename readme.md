@@ -110,6 +110,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "actions-run-removal") [Lets you cancel or delete workflow runs faster from the workflow list.](https://github.com/user-attachments/assets/a054f9b4-9d56-40c0-9aac-09a8b07bbb3b)
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
 - [](# "extend-repo-tabs") [Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.](https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326)
+- [](# "subscribe-releases") [Adds a button to subscribe to repository releases in one click.](https://github.com/user-attachments/assets/76f211ae-7f7e-4ca6-843c-38a63a364813)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -125,6 +126,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "html-preview-link") [Adds a link to preview HTML files.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/260874191-69d386a0-7c1f-42ae-84fd-4f67f90982da.png)
 - [](# "file-age-color") [Highlights the most-recently-modified items in file lists.](https://user-images.githubusercontent.com/1402241/218314631-1442cc89-3616-40fc-abe2-9ba3d3697b6a.png)
 - [](# "previous-version") [Lets you see the previous version of a file in one click.](https://github.com/refined-github/refined-github/assets/1402241/bc82cc77-bde2-4683-98a6-012c87b4a319)
+- [](# "absolute-time") [Shows absolute dates for commits older than 6 months on repository file lists.](https://github.com/user-attachments/assets/8c2bbd77-94fc-4917-8fef-ebdbd83a2c24)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -201,6 +203,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "bugs-tab") [Adds a "Bugs" tab to repos, if there are any open issues with the "bug" label (depends on `extensible-nav` feature).](https://user-images.githubusercontent.com/46634000/156766081-f2ea100b-a9f3-472b-bddc-a984a88ddcd3.png)
 - [](# "pinned-issues-update-time") [Replaces the "opened" time with the "updated" time on pinned issues.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/240707405-e416be14-5ab5-4869-b33c-f43aab7afcb6.png)
 - [](# "mark-pinned") [Marks pinned issues in the issues list so duplicate rows are immediately recognizable.](https://github.com/user-attachments/assets/8ca3eb03-9567-4894-ace3-98de4d453f86)
+- [](# "mark-locked") [Marks locked issues and PRs in lists in repositories.](https://github.com/user-attachments/assets/4b186778-d9d5-447f-8077-d645dd5a8b17)
 - [](# "clean-pinned-issues") [Changes the layout of pinned issues from side-by-side to a standard list.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/258224321-e8ee8c70-6952-4a42-8626-6b5f31d167a3.png)
 - [](# "quick-label-removal") [Adds one-click buttons to remove labels in issues/PRs.](https://user-images.githubusercontent.com/36174850/89980178-0bc80480-dc7a-11ea-8ded-9e25f5f13d1a.gif)
 - [](# "clean-conversation-headers") [Removes duplicate information in the header of PRs ("User wants to merge X commits from Y into Z")](https://user-images.githubusercontent.com/44045911/112314137-a34b0680-8ce3-11eb-9e0e-8afd6c8235c2.png)
@@ -221,7 +224,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 ### Viewing pull requests
 
 - [](# "linkify-commit-sha") [Adds a link to the non-PR commit when visiting a PR commit.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/261164635-b3caa3fa-3bb6-41a5-90d3-4aba84517da6.png)
-- [](# "pr-filters") [Adds Checks and Draft PR dropdown filters in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
+- [](# "pr-filters") [Adds a Draft PR dropdown filter in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253068868-6afb4656-4ef5-4846-89c5-24dc6ee7f839.png)
 - [](# "unclip-checks") [Automatically shows all checks without scrolling when expanding the checks panel.](https://github.com/user-attachments/assets/785fffab-43e8-4f79-8170-7c264111df9f)
 - [](# "pr-approvals-count") [Shows color-coded review counts in PR lists.](https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253125143-d10d95df-4a89-4692-b218-5eba5cd79906.png)
 - [](# "highlight-non-default-base-branch") [Shows the base branch in PR lists if it’s not the default branch.](https://user-images.githubusercontent.com/1402241/88480306-39f4d700-cf4d-11ea-9e40-2b36d92d41aa.png)
@@ -323,7 +326,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "unread-anywhere") 🔥 [Adds a button to the global header to open your unread notifications from any page.](https://github.com/user-attachments/assets/978ac1fe-db98-40f9-9b56-7d289849aa2f)
 - [](# "select-all-notifications-shortcut") Adds a shortcut to select all visible notifications: <kbd>a</kbd>.
 - [](# "stop-redirecting-in-notification-bar") [Stops redirecting to notification inbox from notification bar actions while holding <kbd>Alt</kbd>.](https://user-images.githubusercontent.com/202916/80318782-c38cef80-880c-11ea-9226-72c585f42a51.png)
-- [](# "last-notification-page-button") [Adds a link to the last page of notifications.](https://user-images.githubusercontent.com/16872793/199828181-3ff2cef3-8740-4efa-8122-8f2f222bd657.png)
 - [](# "pr-notification-link") [Points PR notifications to the Conversation tabs instead of the commits page, which may be a 404.](https://github.com/refined-github/refined-github/assets/1402241/621f6512-655e-4565-a37b-2b159ea0ffce)
 - [](# "sticky-notifications-actions") [Make the notifications action bar sticky.](https://github.com/refined-github/refined-github/assets/1402241/5b370430-2319-4c78-88e7-c2c06cd1c30f)
 - [](# "clean-notifications") Makes the notifications list more compact when grouped by repo.

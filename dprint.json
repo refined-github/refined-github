@@ -8,10 +8,8 @@
 		"./node_modules/@dprint/json/plugin.wasm",
 		"./node_modules/dprint-plugin-yaml/plugin.wasm"
 	],
-	"includes": [
-		"**/*.{svelte,css,gql,yml,ts,js,json}"
-	],
 	"excludes": [
+		"media/sponsor-*",
 		"safari",
 		"eslint-suppressions.json"
 	],
@@ -37,6 +35,9 @@
 	"malva": {
 		"linebreakInPseudoParens": true,
 		"quotes": "alwaysSingle"
+	},
+	"json": {
+		"packageJson.applyConventions": false
 	},
 	"graphql": {},
 	"yaml": {

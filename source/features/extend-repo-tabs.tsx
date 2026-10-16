@@ -1,14 +1,14 @@
 import * as pageDetect from 'github-url-detection';
-import {CachedFunction} from 'webext-storage-cache';
 import {writable} from 'svelte/store';
+import {CachedFunction} from 'webext-storage-cache';
 
+import {overrideTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo, buildRepoUrl} from '../github-helpers/index.js';
+import {expectTokenScope} from '../github-helpers/github-token.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import fetchDom from '../helpers/fetch-dom.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
-import {overrideTab} from '../components/extensible-nav-store.js';
-import {expectTokenScope} from '../github-helpers/github-token.js';
 import RepoCountInfo from './extend-repo-tabs.gql';
 
 type RepoTabsCounts = {

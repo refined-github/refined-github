@@ -1,6 +1,5 @@
 <script lang="ts">
 	import prettyBytes from 'pretty-bytes';
-
 	import {onMount} from 'svelte';
 
 	import {

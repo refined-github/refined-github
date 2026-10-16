@@ -1,8 +1,7 @@
-import React from 'dom-chef';
-import {$, $$, closestElement, closestElementOptional} from 'select-dom';
-
 import delegate, {type DelegateEvent} from 'delegate-it';
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {$, $$, closestElement, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 
@@ -27,7 +26,7 @@ function generateSubmenu(hideButton: Element): void {
 	const newForm = hideCommentForm.cloneNode();
 	const fields = [...hideCommentForm.elements].map(field => field.cloneNode());
 	newForm.append(<i hidden>{fields}</i>); // Add existing fields (comment ID, token)
-	newForm.setAttribute('novalidate', 'true'); // Ignore the form's required attributes
+	newForm.setAttribute('novalidate', ''); // Ignore the form's required attributes
 
 	// Imitate existing menu, reset classes
 	newForm.className = '';

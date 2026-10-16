@@ -7,11 +7,7 @@ import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown
 import {assertNodeContent} from '../helpers/dom-utils.js';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
-	if (event.key !== 'Escape') {
-		return;
-	}
-
-	if (!(event.delegateTarget instanceof HTMLInputElement)) {
+	if ((event.key !== 'Escape') || !(event.delegateTarget instanceof HTMLInputElement)) {
 		return;
 	}
 

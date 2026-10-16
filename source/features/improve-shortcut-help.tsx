@@ -26,7 +26,7 @@ const getRghShortcutsContainer = memoize(
 					const keys = hotkey.split(' ').map(key =>
 						<span className={chord.className}>
 							{upperCaseFirst(key)}
-						</span>,
+						</span>
 					);
 					const currentItem = shortcutItem.cloneNode(true);
 					currentItem.firstElementChild!.textContent = description;

@@ -19,3 +19,9 @@
 		/* outline: solid 5px #f00; */
 	}
 }
+/* On mobile, keep the original primary button (e.g. "New issue") at the start without shifting */
+@media (width <= 768px) {
+	.rgh-conversation-activity-filter > action-menu + * {
+		order: -1;
+	}
+}

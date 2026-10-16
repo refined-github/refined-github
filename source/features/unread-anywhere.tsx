@@ -6,6 +6,7 @@ import ArrowUpRightIcon from 'octicons-plain-react/ArrowUpRight';
 import {$, $$optional} from 'select-dom';
 import {messageRuntime} from 'webext-msg';
 
+import addTooltip from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import showToast from '../github-helpers/toast.js';
@@ -14,7 +15,6 @@ import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import addTooltip from '../components/tooltip.js';
 import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;

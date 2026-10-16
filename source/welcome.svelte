@@ -34,17 +34,19 @@
 		verifyToken();
 
 		// @ts-expect-error TS and its index signatures...
-		optionsStorage.set({personalToken: tokenInput});
+		optionsStorage.set({personalToken: [tokenInput]});
 	});
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
 	async function grantPermissions() {
 		const granted = await chrome.permissions.request({origins});
-		if (granted) {
-			stepVisible = 2;
-			stepValid = 1;
+		if (!granted) {
+			return;
 		}
+
+		stepVisible = 2;
+		stepValid = 1;
 	}
 
 	function showThirdStep() {
@@ -131,7 +133,7 @@
 					type="text"
 					size="10"
 					autocomplete="off"
-					name="personalToken"
+					name="personalToken[]"
 					bind:value={tokenInput}
 				/>
 				{#if tokenError}

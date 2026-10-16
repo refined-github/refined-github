@@ -5,22 +5,15 @@ import {mount, unmount} from 'svelte';
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
+import singleton from '../helpers/singleton.js';
 import {openInNewTab} from './prevent-comment-loss.js';
 import Description from './rgh-feature-descriptions.svelte';
-import singleton from '../helpers/singleton.js';
 
 function addDescription(anchor: HTMLElement): () => void {
 	const app = mount(Description, {target: anchor.parentElement!, anchor});
 	return () => {
 		void unmount(app);
 	};
-}
-
-// TODO: Remove this, duplicate in the svelte component
-function getFeatureNameFromIssueTitle(): string | undefined {
-	const title = new URLSearchParams(location.search).get('title') ?? '';
-	// The title might be missing altogether
-	return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id;
 }
 
 function init(signal: AbortSignal): void {
@@ -45,8 +38,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
-		// TODO: detect `1_bug_report`, listen to title field changes
-		() => Boolean(getFeatureNameFromIssueTitle()),
+		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
 	init: initIssueForm,
 });

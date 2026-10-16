@@ -1,10 +1,15 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable -- Uses globals */
 /* eslint-disable -- Uses globals */
 export async function blockAi({github, context, core}) {
-	const marker = "This looks like an AI-generated PR, so we're preemptively closing it.";
+	const marker = 'This looks like an AI-generated PR';
 
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
+
+	if (pr.user?.login === 'fregante') {
+		core.info(`PR #${pr.number} was opened by a maintainer; skipping.`);
+		return;
+	}
 
 	const {data: comments} = await github.rest.issues.listComments({
 		owner,
@@ -16,7 +21,7 @@ export async function blockAi({github, context, core}) {
 	const alreadyProcessed = comments.some(
 		comment =>
 			comment.user?.type === 'Bot'
-			&& comment.body?.startsWith(marker),
+			&& comment.body?.includes(marker),
 	);
 
 	if (alreadyProcessed) {
@@ -43,8 +48,18 @@ export async function blockAi({github, context, core}) {
 		owner,
 		repo,
 		issue_number: pr.number,
-		body:
-			`${marker} If you're human and tested it, include a screenshot/video/gif of the working PR and we can reopen the PR. Don't open more PRs until this one is resolved.`,
+		body: [
+			`**All PRs must include screenshots showing the changes or fixes.** ${marker}, "tests pass" is not an excuse.`,
+			'',
+			'Next steps:',
+			'1. Update the PR body with a screenshot/video/gif of the working PR.',
+			'2. Wait for a human to review the PR and reopen it.',
+			'',
+			'Tips:',
+			'- **Do not open more PRs** until this one is reopened and merged.',
+			"- Don't waste your tokens on junk PRs that won't be accepted.",
+			"- Don't waste your tokens on junk comments that nobody reads.",
+		].join('\n'),
 	});
 }
 
@@ -76,6 +91,14 @@ export async function inheritLabels({github, context, core}) {
 	});
 
 	const labels = new Set();
+
+	if (/^(?:Meta:|Bump|Update|Lint)|rgh-/.test(pr.title)) {
+		labels.add('meta');
+	}
+
+	if (/restore feature/i.test(pr.title)) {
+		labels.add('bug');
+	}
 
 	for (
 		const issue of res.repository.pullRequest.closingIssuesReferences.nodes

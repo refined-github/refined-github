@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {brokenFeatures} from '../helpers/hotfix.js';
-
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');

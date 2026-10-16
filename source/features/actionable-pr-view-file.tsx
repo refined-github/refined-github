@@ -29,7 +29,7 @@ function getFilePath(fileHeader: HTMLElement): string {
 	return (
 		// Tooltip doesn't exist if the file wasn't renamed
 		renamedTooltip?.textContent.split(' renamed to ', 2)[1]
-		?? fileNameElement.textContent
+			?? fileNameElement.textContent
 	).replaceAll(/\u{200E}|\u{200F}/gu, '').trim();
 }
 
@@ -62,7 +62,7 @@ function alter(viewFileLink: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	delegate(
-		'div[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'div[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
 		handleMenuOpening,
 		// `capture: true` to run before `more-file-links`

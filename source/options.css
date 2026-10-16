@@ -1,5 +1,6 @@
 :root {
 	--rgh-red: #cf222e;
+	--rgh-green: #28a745;
 	--content-width: 750px; /* Sync with media query below */
 	--viewport-margin: 30px;
 
@@ -37,7 +38,7 @@ ul {
 }
 
 /* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
-p:last-child:not(.info p, background-status p),
+p:last-child:where(:not(.info p, background-status p)),
 ul:last-child {
 	margin-bottom: 0;
 }
@@ -56,7 +57,7 @@ details {
 
 	--border-radius: 6px;
 
-	border: solid 1px transparent;
+	border: 1px solid transparent;
 	border-radius: var(--border-radius);
 
 	/* Sync with --content-width */
@@ -77,11 +78,15 @@ summary {
 	--summary-padding: 10px;
 
 	position: sticky;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
 	top: 0;
 	z-index: 1;
 	background: light-dark(#f6f8fa, #141415);
 	list-style: none;
 	padding: var(--summary-padding);
+	font-weight: bold;
 
 	[open] & {
 		border-top-left-radius: var(--border-radius);
@@ -95,6 +100,10 @@ summary::-webkit-details-marker {
 
 summary:hover {
 	background: light-dark(#e3e9ef, #0e1012);
+}
+
+svg {
+	fill: currentcolor;
 }
 
 .text-code {
@@ -112,11 +121,12 @@ summary:hover {
 
 #js-failed {
 	animation: show 0s 1s both;
-	white-space: pre-line;
-
 	box-sizing: border-box;
 	max-width: var(--content-width);
 	margin: var(--viewport-margin) auto;
+	div {
+		white-space: pre-line;
+	}
 }
 
 @keyframes show {

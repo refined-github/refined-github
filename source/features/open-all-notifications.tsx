@@ -7,12 +7,12 @@ import * as pageDetect from 'github-url-detection';
 import LinkExternalIcon from 'octicons-plain-react/LinkExternal';
 import {$, $$, $$optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import {getIdentifiers} from '../helpers/feature-helpers.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
-import {appendBefore} from '../helpers/dom-utils.js';
 
 // Selector works on:
 // https://github.com/notifications (Grouped by date)

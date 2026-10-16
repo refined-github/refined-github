@@ -5,8 +5,8 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, $$, $optional, elementExists} from 'select-dom';
 
-import features from '../feature-manager.js';
 import {withTooltipRef} from '../components/tooltip.js';
+import features from '../feature-manager.js';
 
 function init(): void | false {
 	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
@@ -18,7 +18,9 @@ function init(): void | false {
 
 	const parent = initialGroupedButtons.parentElement!;
 
-	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons)) {
+	// Reverse the DOM order to enable the "auto-disable on load" logic
+	// https://github.com/refined-github/refined-github/pull/10130#issuecomment-5889333355
+	for (const dropdownItem of $$('.select-menu-item', initialGroupedButtons).toReversed()) {
 		let title = $('.select-menu-item-heading', dropdownItem).textContent.trim();
 		const description = $('.description', dropdownItem).textContent.trim();
 		const radioButton = $('input[type=radio]', dropdownItem);
@@ -26,6 +28,7 @@ function init(): void | false {
 
 		if (/\bdraft\b/i.test(title)) {
 			title = 'Create draft PR';
+			classList.push('rgh-draft-pr-button');
 		} else {
 			classList.push('btn-primary');
 		}

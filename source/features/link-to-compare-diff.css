@@ -1,6 +1,6 @@
 .rgh-link-to-compare-diff:hover > .octicon-file-diff {
 	&,
-	& ~ span {
+	~ span {
 		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
 	}
 }

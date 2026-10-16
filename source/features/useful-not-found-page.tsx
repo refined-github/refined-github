@@ -3,14 +3,16 @@ import './useful-not-found-page.css';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
+import {$} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
-import {getCleanPathname, isUrlReachable} from '../github-helpers/index.js';
+import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {getCleanPathname, getRepo, isUrlReachable} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import NotFoundInfo from './useful-not-found-page.svelte';
-import GitHubFileUrl from '../github-helpers/github-file-url.js';
 
 function getStrikeThrough(text: string): HTMLElement {
 	return <del className="color-fg-subtle">{text}</del>;
@@ -23,7 +25,19 @@ async function crossIfNonExistent(anchor: HTMLElement): Promise<void> {
 }
 
 function addWidget(container: HTMLElement): void {
-	mount(NotFoundInfo, {target: container.parentElement!});
+	const paragraph = container.parentElement!;
+	mount(NotFoundInfo, {target: paragraph});
+
+	const repoPath = '/' + getRepo()!.nameWithOwner;
+	const selectors = is(
+		// https://github.com/refined-github/refined-github/blob/main/definitely-not-a-real-file-xyz123.ts
+		`[href="${repoPath}"]`,
+		// https://github.com/refined-github/refined-github/blob/eggs-for-branch/package.json
+		`[href="${repoPath}?files=1"]`,
+	);
+
+	// Hide the default "go to" actions, the widget supersedes them
+	$(`.Blankslate-Action:has(> a:only-child${selectors})`).hidden = true;
 }
 
 async function addDirectCommitLinkOnce(): Promise<void | false> {
@@ -36,7 +50,10 @@ async function addDirectCommitLinkOnce(): Promise<void | false> {
 	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
 	blankSlateParagraph!.after(
 		<p>
-			<span className="commit-ref"><a href={commitUrl}>{commitHash}</a></span> exists outside of this pull request.
+			<span className="commit-ref">
+				<a href={commitUrl}>{commitHash}</a>
+			</span>{' '}
+			exists outside of this pull request.
 		</p>,
 	);
 }
@@ -46,14 +63,18 @@ function crossTreeBreadcrumbs(signal: AbortSignal): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// 410 file
-		// Typo in GitHub's code
-		'[data-testid="eror-404-description"]',
+	observe(
+		[
+			// 410 file
+			// Typo in GitHub's code
+			'[data-testid="eror-404-description"]',
 
-		// 404 ref
-		'[data-testid="error-404-description"]',
-	], addWidget, {signal});
+			// 404 ref
+			'[data-testid="error-404-description"]',
+		],
+		addWidget,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

@@ -18,7 +18,7 @@ import api from '../github-helpers/api.js';
 import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
-import getReleaseDownloadCount from './release-download-count.gql';
+import GetReleaseDownloadCount from './release-download-count.gql';
 
 type Asset = {
 	name: string;
@@ -26,7 +26,7 @@ type Asset = {
 };
 
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
-	const {repository} = await api.v4(getReleaseDownloadCount, {variables: {tag}});
+	const {repository} = await api.v4(GetReleaseDownloadCount, {variables: {tag}});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
 	return Object.fromEntries(assets.map(({name, downloadCount}) => [name, downloadCount]));
 }

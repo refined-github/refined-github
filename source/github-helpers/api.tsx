@@ -26,17 +26,14 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
-import * as pageDetect from 'github-url-detection';
-import mem from 'memoize';
+import memoize from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
-import {uint8ArrayToBase64} from 'uint8array-extras';
-import {isWebPage} from 'webext-detect';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
-import {getToken} from '../options-storage.js';
-import {tokenUser} from './github-token.js';
+import {getToken, isSameUser, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
+import {api3, api4} from './urls.js';
 
 type JsonError = {
 	message: string;
@@ -64,14 +61,6 @@ export class RefinedGitHubApiError extends Error {
 	}
 }
 
-export const api3 = pageDetect.isEnterprise()
-	? `${location.origin}/api/v3/`
-	: 'https://api.github.com/';
-
-const api4 = pageDetect.isEnterprise() && isWebPage() // It can also run in graphql.html
-	? `${location.origin}/api/graphql`
-	: 'https://api.github.com/graphql';
-
 type GhRestApiOptions = {
 	ignoreHttpStatus?: boolean | number;
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -98,7 +87,7 @@ const assertCurrentUser = onetime(async (): Promise<void> => {
 	}
 
 	const currentTokenUser = await tokenUser.get(api3, personalToken);
-	if (currentTokenUser !== loggedInUser) {
+	if (!isSameUser(currentTokenUser, loggedInUser)) {
 		throw new RefinedGitHubApiError(
 			'API call blocked.',
 			`Your token belongs to "${currentTokenUser}" but you are logged in as "${loggedInUser}".`,
@@ -205,9 +194,8 @@ const v3uncached = async (
 	});
 	let apiResponse: AnyObject;
 	if (responseFormat === 'base64') {
-		const arrayBuffer = await response.arrayBuffer();
-		const content = uint8ArrayToBase64(new Uint8Array(arrayBuffer));
-		apiResponse = {content};
+		const uint8Array = await response.bytes();
+		apiResponse = {content: uint8Array.toBase64()};
 	} else {
 		const content = await response.text();
 		apiResponse = responseFormat === 'json' ? JSON.parse(content) : {content};
@@ -228,11 +216,11 @@ const v3uncached = async (
 	throw await getError(apiResponse);
 };
 
-const v3 = mem(v3uncached, {
+const v3 = memoize(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
-const v3paginated = async function * (
+const v3paginated = async function*(
 	query: string,
 	options?: GhRestApiOptions,
 ): AsyncGenerator<AsyncReturnType<typeof v3>> {
@@ -302,8 +290,8 @@ const v4uncached = async (
 	const fullQuery = /^\s*(?:query|mutation)/.test(query)
 		? query
 		: parameters.length === 0
-			? `query {${query}}`
-			: `query (${parameters.join(',')}) {${query}}`;
+		? `query {${query}}`
+		: `query (${parameters.join(',')}) {${query}}`;
 
 	log.http(fullQuery);
 
@@ -338,7 +326,7 @@ const v4uncached = async (
 	throw await getError(apiResponse);
 };
 
-const v4 = mem(v4uncached, {
+const v4 = memoize(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821

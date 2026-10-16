@@ -48,7 +48,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	await waitForPrMerge(signal);
 
-	const branchDeletionButton = await elementReady('div[class^="MergeBoxSectionHeader-module__contentLayout"] button', {
+	const branchDeletionButton = await elementReady('div[class*="contentLayout"] button', {
 		predicate: button => button.textContent.trim() === 'Delete branch',
 		stopOnDomReady: false,
 		signal,
@@ -59,8 +59,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		stopOnDomReady: false,
 		signal,
 	});
-	const url
-		= 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
+	const url =
+		'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#pr-branch-auto-delete';
 	deletionEvent!.append(
 		<a className="d-inline-block" href={url}>
 			via Refined GitHub <InfoIcon />

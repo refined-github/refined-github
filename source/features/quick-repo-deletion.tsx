@@ -6,15 +6,15 @@ import TrashIcon from 'octicons-plain-react/Trash';
 import {$, $optional} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
+import addTooltip, {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
 import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
-import showToast from '../github-helpers/toast.js';
 import addNotice from '../github-helpers/notice-bar.js';
+import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
-import addTooltip, {withTooltipRef} from '../components/tooltip.js';
 
 const tooltip = {label: 'Instant deletion via', shortcut: 'alt click'} as const;
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
@@ -67,14 +67,16 @@ async function handleAltClick(event: DelegateEvent<MouseEvent, HTMLElement>): Pr
 	$optional<HTMLDialogElement>('#' + event.delegateTarget.getAttribute('data-show-dialog-id')!)?.close();
 
 	const {nameWithOwner} = getRepo()!;
-	if (confirm(`⚠️${nameWithOwner}⚠️ will be deleted. Are you sure?`)) {
-		await showToast(deleteRepository, {
-			message: 'Deleting repo…',
-			doneMessage: 'Repo deleted',
-		});
-
-		await modifyUiAfterSuccessfulDeletion();
+	if (!confirm(`⚠️${nameWithOwner}⚠️ will be deleted. Are you sure?`)) {
+		return;
 	}
+
+	await showToast(deleteRepository, {
+		message: 'Deleting repo…',
+		doneMessage: 'Repo deleted',
+	});
+
+	await modifyUiAfterSuccessfulDeletion();
 }
 
 function addShortcutTooltip(button: HTMLElement): void {

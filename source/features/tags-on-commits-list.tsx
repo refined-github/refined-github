@@ -1,18 +1,17 @@
-import React from 'dom-chef';
-import {$} from 'select-dom';
 import batchedFunction from 'batched-function';
-
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import TagIcon from 'octicons-plain-react/Tag';
+import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
-import observe from '../helpers/selector-observer.js';
+import {commitTitleInLists} from '../github-helpers/selectors.js';
 import joinJsx from '../helpers/join-jsx.js';
+import observe from '../helpers/selector-observer.js';
 import {getCommitHash} from './mark-merge-commits-in-list.js';
 import GetTagsOnCommit from './tags-on-commits-list.gql';
-import {commitTitleInLists} from '../github-helpers/selectors.js';
 
 type CommitTags = Record<string, Set<string>>;
 
@@ -27,10 +26,12 @@ async function getTags(lastCommit: string, after?: string, tags: CommitTags = {}
 
 	for (const node of nodes) {
 		const commit = node.target.commitResourcePath.split('/', 5)[4];
-		if (node.name !== 'nightly') {
-			tags[commit] ??= new Set();
-			tags[commit].add(node.name);
+		if (node.name === 'nightly') {
+			continue;
 		}
+
+		tags[commit] ??= new Set();
+		tags[commit].add(node.name);
 	}
 
 	if (nodes.length === 0 || !repository.refs.pageInfo.hasNextPage) {
@@ -58,13 +59,10 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 			href={buildRepoUrl('releases/tag', tag)}
 		>
 			<code>{tag}</code>
-		</a>,
+		</a>
 	);
 
-	$([
-		'div[data-testid="list-view-item-description"]',
-		'[class^="Description-module__container"]',
-	], commit).append(
+	$('[class*="CommitAttributionContainer"]', commit).append(
 		<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 			<TagIcon />
 			<span className="d-flex flex-wrap gap-1">

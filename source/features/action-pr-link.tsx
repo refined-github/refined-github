@@ -5,9 +5,9 @@ import features from '../feature-manager.js';
 import {getConversationNumber} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
-function setSearchParameter(anchorElement: HTMLAnchorElement, name: string, value: string): void {
+function setSearchParameter(anchorElement: HTMLAnchorElement, value: string): void {
 	const parameters = new URLSearchParams(anchorElement.search);
-	parameters.set(name, value);
+	parameters.set('pr', value);
 	anchorElement.search = String(parameters);
 }
 
@@ -15,11 +15,11 @@ async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void>
 	const prNumber = prLink.textContent.slice(1);
 
 	const runLink = $('a:has(.Link--primary)', closestElement('.Box-row', prLink));
-	setSearchParameter(runLink, 'pr', prNumber);
+	setSearchParameter(runLink, prNumber);
 }
 
 async function addForPr(actionLink: HTMLAnchorElement): Promise<void> {
-	setSearchParameter(actionLink, 'pr', String(getConversationNumber()));
+	setSearchParameter(actionLink, String(getConversationNumber()));
 }
 
 async function initForRepositoryActionsPage(signal: AbortSignal): Promise<void> {

@@ -7,11 +7,11 @@ import TableIcon from 'octicons-plain-react/Table';
 import {$, closestElement, closestElementOptional} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 function addTable({delegateTarget: square}: DelegateEvent<MouseEvent, HTMLButtonElement>): void {
 	// In the PR's "Files changed" tab, the table input is in a `<details>` menu;

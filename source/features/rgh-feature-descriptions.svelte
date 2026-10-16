@@ -1,4 +1,5 @@
 <script lang="ts">
+	import delegate, {type DelegateEvent} from 'delegate-it';
 	import * as pageDetect from 'github-url-detection';
 	import CopyIcon from 'octicons-plain-react/Copy';
 
@@ -16,13 +17,34 @@
 
 	const isReportingBug = pageDetect.isNewIssue();
 
+	// The title field overrides the URL parameter once the user edits it
+	let typedTitle = $state<string>();
+
+	function updateTitle(event: DelegateEvent<Event, HTMLInputElement>): void {
+		typedTitle = event.delegateTarget.value;
+	}
+
+	$effect(() => {
+		if (!isReportingBug) {
+			return;
+		}
+
+		const controller = new AbortController();
+		delegate('input[aria-label="Add a title"]', 'input', updateTitle, {
+			signal: controller.signal,
+		});
+		return () => {
+			controller.abort();
+		};
+	});
+
 	const idFromUrl = $derived.by(() => {
 		if (isReportingBug) {
-			const title = new URL($urlStore).searchParams.get('title') ?? '';
+			const title = typedTitle ?? $urlStore.searchParams.get('title') ?? '';
 			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? undefined;
 		}
 
-		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec(new URL($urlStore).pathname)
+		return /\/(?<id>[^/]+)\.(?:tsx|css)$/.exec($urlStore.pathname)
 			?.groups?.id ?? undefined;
 		// eslint-disable-next-line no-undef -- Global type
 	}) as FeatureId | undefined;
@@ -43,7 +65,7 @@
 		isReportingBug
 			// Use .css so that it links to the .tsx file
 			? buildRepoUrl('blob', 'main', 'source', 'features', `${id}.css`)
-			: new URL($urlStore).pathname,
+			: $urlStore.pathname,
 	);
 	const isCss = $derived(pathname.endsWith('.css'));
 

@@ -2,16 +2,15 @@ import debounce from 'debounce-fn';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {closestElementOptional} from 'select-dom';
-
 import {mount} from 'svelte';
 
+import RelatedIssuesCount from '../components/related-issues-count.svelte';
 import {getNewFeatureName} from '../feature-data.js';
 import features from '../feature-manager.js';
 import {isAnyRefinedGitHubRepo} from '../github-helpers/index.js';
 import {commitTitleInLists} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
-import RelatedIssuesCount from '../components/related-issues-count.svelte';
 import {getFeatureUrl} from '../helpers/rgh-links.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -65,17 +64,19 @@ function linkifyFeature(possibleFeature: HTMLElement): void {
 		anchorElement = possibleFeature.parentElement!;
 	}
 
-	if (anchorElement && shouldShowCount()) {
-		const sup = <sup />;
-		anchorElement.after(sup);
-		mount(RelatedIssuesCount, {
-			target: sup,
-			props: {
-				featureId: id,
-				mini: true,
-			},
-		});
+	if (!anchorElement || !shouldShowCount()) {
+		return;
 	}
+
+	const sup = <sup />;
+	anchorElement.after(sup);
+	mount(RelatedIssuesCount, {
+		target: sup,
+		props: {
+			featureId: id,
+			mini: true,
+		},
+	});
 }
 
 function init(signal: AbortSignal): void {
@@ -86,7 +87,7 @@ function init(signal: AbortSignal): void {
 			'[data-testid="issue-title"] code', // `isIssue`
 			'.js-comment-body code', // Old view `hasComments`
 			'.markdown-body code', // `hasComments`, `isReleasesOrTags`
-			'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
+			'[class*="commitMessageContainer"] code', // `isSingleCommit`,
 			`${is(commitTitleInLists)} code`, // `isCommitList`, `isCompare`
 			'.react-directory-commit-message code', // `isRepoTree`
 		],

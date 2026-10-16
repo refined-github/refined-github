@@ -1,20 +1,15 @@
 html:not([rgh-OFF-clean-pinned-issues]) {
 	@media (width >= 700px) {
-		div[class^='IssueIndexPage-module__middlePaneGrid'] {
+		div[class*='FilterContainer'] {
 			container-type: inline-size;
-
-			/* Element whose width is tracked */
-			> div:not([class]) {
-				max-width: 767px; /* Enable native vertical sorting */
-			}
 		}
 
+		/* Pinned issues list */
 		ul[aria-label='Drag and drop pinned issues list.'] {
 			display: table !important;
-			width: 100cqw; /* Restore original width */
-
 			/* Avoid overflow https://github.com/refined-github/refined-github/issues/9683 */
-			word-break: break-word;
+			width: 100%;
+			overflow-wrap: anywhere;
 
 			/* Rounded table border https://stackoverflow.com/a/2586780/288906 */
 			box-shadow: 0 0 0 1px var(--rgh-border-outer-color, fuchsia);
@@ -23,48 +18,52 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-style: hidden;
 		}
 
-		div [class*='PinnedIssueContainer'] {
-			padding-top: 4px !important;
-		}
-
-		div[class^='DragAndDropContainer']:has(> [class*='PinnedIssues']) {
-			display: table;
-		}
-
-		[class*='PinnedIssues-module__container'] {
+		/* Individual pinned issue rows */
+		ul[aria-label='Drag and drop pinned issues list.'] > li {
 			display: table-row !important;
 			border-color: var(--rgh-border-color, fuchsia) !important;
-
-			> :first-child {
-				padding-inline: 8px !important;
-				&:has(> div[class^='DragAndDropTrigger']) {
-					padding-left: 0 !important;
-				}
-			}
 		}
 
-		div[class^='PinnedIssue-module__contentContainer'] {
-			flex-direction: row;
+		/* Inner grid wrapper */
+		ul[aria-label='Drag and drop pinned issues list.']
+			> li > div.position-relative {
+			display: contents;
+		}
 
-			/* Align content to the top when the title wraps */
+		/* Drag handle / issue container */
+		ul[aria-label='Drag and drop pinned issues list.']
+			div[class*='PinnedIssueContainer'] {
+			padding: 4px 8px !important;
+			display: table-cell;
+			vertical-align: top;
+		}
+
+		/* Issue content */
+		ul[aria-label='Drag and drop pinned issues list.']
+			div[class*='contentContainer'] {
+			display: flex;
+			flex-direction: row;
 			align-items: flex-start;
 		}
 
-		span[class^='PinnedIssue-module__Octicon'] {
+		/* Status icon */
+		ul[aria-label='Drag and drop pinned issues list.'] span[class*='Octicon'] {
 			vertical-align: text-bottom;
 			margin-left: -1.5em;
 			/* Pull icon a bit lower to align with the title */
 			line-height: 1.3;
 		}
 
-		/* Prevent title from wrapping below the octicon */
-		a[class*='PinnedIssue-module__Link'] {
+		/* Prevent title wrapping below the status icon */
+		ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] {
 			padding-left: 1.5em;
 		}
 
-		/* Move options button to the end */
-		div[class^='PinnedIssue-module__titleOptionsContainer'] {
+		/* Move options button to the end if GitHub renders one here */
+		ul[aria-label='Drag and drop pinned issues list.']
+			div[class*='titleOptionsContainer'] {
 			display: contents;
+
 			> button {
 				order: 1;
 
@@ -73,7 +72,9 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			}
 		}
 
-		div[class^='PinnedIssue-module__metadataContainer'] {
+		/* Metadata */
+		ul[aria-label='Drag and drop pinned issues list.']
+			div[class*='metadataContainer'] {
 			text-align: end;
 			margin-left: 8px;
 			line-height: 1.2;

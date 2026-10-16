@@ -5,11 +5,11 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import AlertIcon from 'octicons-plain-react/Alert';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {commentBoxHashPr, openPrsListLink} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 	const prConfigs = links.map(link => {
@@ -24,7 +24,6 @@ async function addIcon(links: HTMLAnchorElement[]): Promise<void> {
 		};
 	});
 
-	// Batch queries cannot be exported to .gql files
 	const batchQuery = prConfigs.map(({key, owner, name, number}) => `
 		${key}: repository(owner: "${owner}", name: "${name}") {
 			pullRequest(number: ${number}) {

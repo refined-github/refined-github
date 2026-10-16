@@ -1,4 +1,5 @@
 import './no-unnecessary-split-diff-view.css';
+
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement, elementExists} from 'select-dom';
 

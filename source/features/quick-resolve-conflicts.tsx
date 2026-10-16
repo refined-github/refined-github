@@ -5,11 +5,11 @@ import CopilotIcon from 'octicons-plain-react/Copilot';
 import {$, $$, $optional, elementExists} from 'select-dom';
 import {setFieldText} from 'text-field-edit';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 
 function insertCopilotInstruction(): void {
 	const textarea = $(legacyCommentField);
@@ -81,7 +81,7 @@ async function replaceResolveConflictsDropdown(button: HTMLButtonElement): Promi
 function initPrConversation(signal: AbortSignal): void {
 	// `data-component` is used to avoid selecting our button and one of the files with conflicts
 	observe(
-		'[aria-label="Conflicts"] [class^="MergeBoxSectionHeader-module__wrapper"] button[data-component$="Button"]',
+		'[aria-label="Conflicts"] div[class*="contentLayout"] button[data-component$="Button"]',
 		replaceResolveConflictsDropdown,
 		{signal},
 	);

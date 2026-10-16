@@ -1,4 +1,4 @@
-query getPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
+query GetPrsByFile($owner: String!, $name: String!, $defaultBranch: String!) {
 	repository(owner: $owner, name: $name) {
 		pullRequests(
 			first: 25

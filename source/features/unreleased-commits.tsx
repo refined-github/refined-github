@@ -17,7 +17,7 @@ import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import getPublishRepoState from './unreleased-commits.gql';
+import GetPublishRepoState from './unreleased-commits.gql';
 
 type RepoPublishState = {
 	latestTag: string | false;
@@ -38,7 +38,7 @@ const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
-		const {repository} = await api.v4(getPublishRepoState);
+		const {repository} = await api.v4(GetPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {
 			return {
@@ -58,7 +58,7 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 		const latestTag = getLatestVersionTag([...tags.keys()]);
 		const latestTagOid = tags.get(latestTag)!;
 		const aheadBy = repository.defaultBranchRef.target.history.nodes.findIndex((node: AnyObject) =>
-			node.oid === latestTagOid,
+			node.oid === latestTagOid
 		);
 
 		return {
@@ -71,24 +71,25 @@ const repoPublishState = new CachedFunction('tag-ahead-by', {
 	cacheKey: cacheByRepo,
 });
 
+function getLabel(aheadBy: number): string {
+	return aheadBy === undeterminableAheadBy
+		? 'More than 20 unreleased commits'
+		: pluralize(aheadBy, '$$ unreleased commit');
+}
+
 async function createLink(
 	latestTag: string,
 	aheadBy: number,
 ): Promise<HTMLElement> {
-	const commitCount = aheadBy === undeterminableAheadBy
-		? 'More than 20 unreleased commits'
-		: pluralize(aheadBy, '$$ unreleased commit');
-	const label = `${commitCount}\nsince ${abbreviateString(latestTag, 30)}`;
+	const label = getLabel(aheadBy) + '\nsince ' + abbreviateString(latestTag, 30);
 
 	return (
 		<a
-			className="btn px-2 tmp-px-2 tooltipped tooltipped-se"
+			className="btn px-2 tmp-px-2 tooltipped tooltipped-s"
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon />
-			{' '}
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
+			<TagIcon /> {aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
 		</a>
 	);
 }
@@ -178,7 +179,7 @@ async function addToNewRelease(header: HTMLElement): Promise<void> {
 	header.append(
 		' ',
 		<a target="_blank" href={buildRepoUrl('compare', `${latestTag}...${defaultBranch}`)}>
-			{pluralize(aheadBy, '$$ unreleased commit')}
+			{getLabel(aheadBy)}
 		</a>,
 		` on ${defaultBranch} since `,
 		<a target="_blank" href={buildRepoUrl('releases', latestTag)}>

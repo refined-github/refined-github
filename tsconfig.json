@@ -16,7 +16,7 @@
 			"DOM.Iterable",
 			"ESNext.Collection",
 			"ESNext.Object",
-			"ES2024"
+			"ESNext"
 		],
 		"types": [
 			"chrome",

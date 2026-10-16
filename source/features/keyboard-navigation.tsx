@@ -31,9 +31,8 @@ function runShortcuts(event: KeyboardEvent): void {
 		'.js-minimizable-comment-group', // Comments (to be `.filter()`ed)
 	])
 		.filter(element =>
-			element.classList.contains('js-minimizable-comment-group')
-				? !isCommentGroupMinimized(element)
-				: true,
+			!element.classList.contains('js-minimizable-comment-group')
+			|| !isCommentGroupMinimized(element)
 		);
 
 	// `j` goes to the next item, `k` goes back an item

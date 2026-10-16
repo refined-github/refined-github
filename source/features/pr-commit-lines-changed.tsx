@@ -2,11 +2,11 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import pluralize from '../helpers/pluralize.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import GetCommitChanges from './pr-commit-lines-changed.gql';
 
 // Adapted from GitHub https://github.com/refined-github/refined-github/pull/9486#discussion_r3252807259
@@ -47,10 +47,7 @@ async function add(commitHash: HTMLElement): Promise<void> {
 	const {green, red, gray} = calculateDiffSquareCounts(additions, deletions);
 	commitHash.prepend(
 		<span ref={withTooltipRef(tooltip)} className="ml-2 tmp-ml-2 d-md-block d-none diffstat">
-			<span className="color-fg-success">+{additions}</span>
-			{' '}
-			<span className="color-fg-danger">−{deletions}</span>
-			{' '}
+			<span className="color-fg-success">+{additions}</span> <span className="color-fg-danger">−{deletions}</span>{' '}
 			{repeatItems(green, () => <span className="diffstat-block-added" />)}
 			{repeatItems(red, () => <span className="diffstat-block-deleted" />)}
 			{repeatItems(gray, () => <span className="diffstat-block-neutral" />)}

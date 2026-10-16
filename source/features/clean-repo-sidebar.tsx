@@ -1,17 +1,27 @@
 import './clean-repo-sidebar.css';
+
 import * as pageDetect from 'github-url-detection';
-import {$, $optional, elementExists} from 'select-dom';
+import {$optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 function cleanSidebarSection(section: HTMLElement): void {
-	// The h2 is to avoid hiding website links that include '/releases' #4424
-	// Hide the whole section if there's no releases, unless it has a "Create new release" link
-	if (elementExists('h2 a[href$="/releases"]', section) && !elementExists(['.octicon-tag', 'a[href$="releases/new"]'], section)) {
+	if (
+		// The h2 is to avoid hiding website links that include '/releases' #4424
+		elementExists('h2 a[href$="/releases"]', section)
+		// Hide the whole section if there's no releases, unless it has a "Create new release" link
+		&& !elementExists(['.octicon-tag', 'a[href$="releases/new"]'], section)
+	) {
 		section.hidden = true;
 		return;
+	}
+
+	// Readme link broken and redundant: https://github.com/refined-github/refined-github/issues/10030
+	const readmeLink = $optional('.mt-2:has(> a[href="#readme-ov-file"])', section);
+	if (readmeLink) {
+		readmeLink.remove();
 	}
 
 	const languageHeader = $optional(':scope > h2', section);
@@ -21,23 +31,17 @@ function cleanSidebarSection(section: HTMLElement): void {
 		return;
 	}
 
-	const emptyMeta = $optional('[class*="SidebarAbout-module__noDescription"]', section);
+	const emptyMeta = $optional('[class*="noDescription"]', section);
 	if (emptyMeta && !pageDetect.canUserAccessRepoSettings()) {
 		emptyMeta.remove();
 		// Don't return here because the next condition applies to the same block
-	}
-
-	// Your own repos don't include this link
-	const reportLink = $optional('a[href^="/contact/report-content"]', section);
-	if (reportLink) {
-		$('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"]:last-child').append(reportLink.parentElement!);
 	}
 }
 
 async function init(signal: AbortSignal): Promise<void> {
 	document.documentElement.setAttribute('rgh-clean-repo-sidebar', '');
 
-	observe('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"]', cleanSidebarSection, {signal});
+	observe('[class*="PageLayout-Pane"] [class*="sidebarSection"]', cleanSidebarSection, {signal});
 }
 
 void features.add(import.meta.url, {

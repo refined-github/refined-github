@@ -63,18 +63,11 @@ const cssDocumentation = {
 						hasDescription ||= commentValue.length > 0 && !isNonDescriptionMetadataLine(commentValue);
 					}
 
-					const missingRequirements = [];
-					if (!hasDescription) {
-						missingRequirements.push('Description');
-					}
-
-					if (!hasInfo) {
-						missingRequirements.push('Info');
-					}
-
-					if (!hasTest) {
-						missingRequirements.push('Test');
-					}
+					const missingRequirements = [
+						!hasDescription && 'Description',
+						!hasInfo && 'Info',
+						!hasTest && 'Test',
+					].filter(Boolean);
 
 					if (missingRequirements.length > 0) {
 						context.report({

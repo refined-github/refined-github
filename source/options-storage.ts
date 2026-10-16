@@ -9,7 +9,7 @@ export type RghOptions = typeof defaults;
 const defaults = Object.assign({
 	actionUrl: 'https://github.com/',
 	customCss: '',
-	personalToken: '',
+	personalToken: [''],
 	logging: false,
 	logHttp: false,
 }, Object.fromEntries(importedFeatures.map(id => [`feature:${id}`, true])));
@@ -29,6 +29,13 @@ const migrations = [
 		}
 	},
 
+	// TODO [2027-06-01]: Drop
+	(options: RghOptions): void => {
+		if (typeof options.personalToken === 'string') {
+			options.personalToken = [options.personalToken];
+		}
+	},
+
 	// TODO [2027-01-01]: Drop
 	(options: RghOptions): void => {
 		if (options.logHTTP) {
@@ -40,6 +47,11 @@ const migrations = [
 		}
 	},
 
+	// Cleanup personal token array
+	(options: RghOptions): void => {
+		options.personalToken = options.personalToken.filter(string => string.trim());
+	},
+
 	// Removed features will be automatically removed from the options as well
 	OptionsSyncPerDomain.migrations.removeUnused,
 ];
@@ -47,14 +59,3 @@ const migrations = [
 export const perDomainOptions = new OptionsSyncPerDomain({defaults, migrations});
 const optionsStorage = perDomainOptions.getOptionsForOrigin();
 export default optionsStorage;
-
-const cachedSettings = optionsStorage.getAll();
-
-export async function getToken(): Promise<string | undefined> {
-	const {personalToken} = await cachedSettings;
-	return personalToken;
-}
-
-export async function hasToken(): Promise<boolean> {
-	return Boolean(await getToken());
-}

@@ -5,12 +5,12 @@ import PlayIcon from 'octicons-plain-react/Play';
 import {$, $optional} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
+import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {cacheByRepo} from '../github-helpers/index.js';
 import removeHashFromUrlBar from '../helpers/history.js';
 import observe from '../helpers/selector-observer.js';
-import {withTooltipRef} from '../components/tooltip.js';
 import GetWorkflows from './github-actions-indicators.gql';
 
 type Workflow = {
@@ -66,7 +66,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 			}
 
 			const crons = [...workflowYaml.matchAll(/^(?: {4}|\t\t)-\s*cron[\s"':]+(?<cron>[^\n"']+)/gm)].map(match =>
-				match.groups!.cron,
+				match.groups!.cron
 			);
 			details[workflow.name] = {
 				...workflow,
@@ -118,7 +118,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 					<PlayIcon />
 				</div>
 			);
-			const pinIcon = $optional('.ActionListItem-visual--trailing', workflowLink);
+			const pinIcon = $optional('[class^="prc-ActionList-TrailingVisual"]', workflowLink);
 			if (pinIcon) {
 				// Enable tooltip
 				pinIcon.style.pointerEvents = 'auto';
@@ -143,7 +143,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('.ActionListItem-label', workflowLink).append(
+	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
@@ -151,7 +151,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe('a.ActionListContent', addIndicators, {signal});
+	observe('a[class^="prc-ActionList-ActionListContent"]', addIndicators, {signal});
 }
 
 function openRunWorkflow(): void {

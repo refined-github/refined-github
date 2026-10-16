@@ -1,15 +1,11 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 
-// eslint-disable-next-line import-x/no-unassigned-import -- custom component
-import './options.svelte';
-
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
-
+import elementReady from 'element-ready';
 import {enableTabToIndent} from 'indent-textarea';
 import {$, $$} from 'select-dom';
-import elementReady from 'element-ready';
 import {assertDefined} from 'ts-extras';
 
 import clearCacheHandler from './helpers/clear-cache-handler.js';
@@ -56,7 +52,7 @@ const syncedForm = await perDomainOptions.syncForm('form');
 
 // <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 // This triggers a proper run
-for (const tokenField of $$('input[name="personalToken"]')) {
+for (const tokenField of $$('input[name="personalToken[]"]')) {
 	informComponentOfExternalUpdate(tokenField);
 }
 
@@ -76,7 +72,7 @@ syncedForm.onChange(async domain => {
 
 	$('rgh-options').domain = domain;
 
-	for (const input of $$('input[name="personalToken"]')) {
+	for (const input of $$('input[name="personalToken[]"]')) {
 		informComponentOfExternalUpdate(input);
 	}
 

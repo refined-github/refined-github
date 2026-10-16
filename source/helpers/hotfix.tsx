@@ -3,11 +3,11 @@ import React from 'dom-chef';
 import {isEnterprise} from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
-import type {RghOptions} from '../options-storage.js';
 import {getNewFeatureName} from '../feature-data.js';
+import type {RghOptions} from '../options-storage.js';
+import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 import isDevelopmentVersion from './is-development-version.js';
 import {webextFetch} from './isomorphic-fetch.js';
-import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
 
@@ -22,8 +22,8 @@ type HotfixStorage = BrokenFeatureEntry[];
 
 export const brokenFeatures = new CachedFunction('broken-features', {
 	async updater(): Promise<HotfixStorage> {
-	// To facilitate debugging, ignore hotfixes during development.
-	// Change the version in manifest.json to test hotfixes
+		// To facilitate debugging, ignore hotfixes during development.
+		// Change the version in manifest.json to test hotfixes
 		if (isDevelopmentVersion()) {
 			return [];
 		}
@@ -38,8 +38,7 @@ export const brokenFeatures = new CachedFunction('broken-features', {
 export const styleHotfixes = new CachedFunction('style-hotfixes', {
 	// To facilitate debugging, ignore hotfixes during development.
 	// Change the version in manifest.json to test hotfixes
-	updater: async (version: string): Promise<string> =>
-		isDevelopmentVersion() ? '' : fetchHotfix(`style/${version}.css`),
+	updater: async (version: string): Promise<string> => isDevelopmentVersion() ? '' : fetchHotfix(`style/${version}.css`),
 
 	maxAge: {hours: 6},
 	staleWhileRevalidate: {days: 300},

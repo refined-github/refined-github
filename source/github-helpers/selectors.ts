@@ -166,7 +166,7 @@ export const commitHashLinkInLists_ = [
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = [
-	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
+	'[data-testid="commit-row-item"] h4', // `isCommitList`
 	'.js-commits-list-item > .js-details-container > p:first-child', // `isCompare`
 ];
 export const commitTitleInLists_ = [
@@ -260,7 +260,7 @@ export const usernameLinksSelector_ = [
 ];
 
 export const actionBar = [
-	'[data-component="ActionBar"]', // React component
+	'fieldset [data-component="ActionBar"]', // React component; `fieldset` avoids #10093
 	'action-bar', // Still used in gists, PRs, etc
 ];
 export const actionBar_ = requiresLogin;
@@ -269,8 +269,7 @@ export const prMergeabilityBoxHeader =
 	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
-export const prMergeabilityBoxCaption =
-	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption = 'section[aria-label="Conflicts"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = 'span[title="This repository has been deleted"]';

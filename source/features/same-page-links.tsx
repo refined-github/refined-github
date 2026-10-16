@@ -12,15 +12,15 @@ function init(signal: AbortSignal): void {
 		[
 			// "Linked a pull request" link
 			// https://github.com/refined-github/refined-github/issues/9382
-			'a[target="_blank"][class^="ConnectedEvent-module__linkedPullRequestLink"]',
+			'a[target="_blank"][class*="linkedPullRequestLink"]',
 
 			// "Closing issue" link
 			// https://github.com/refined-github/refined-github/issues/8346#event-16947543136
-			'a[target="_blank"][class^="ClosedEvent-module__closerLink"]',
+			'a[target="_blank"][class*="closerLink"]',
 
 			// Linked PR links in issue headers
 			// https://github.com/refined-github/refined-github/issues/8346
-			'a[target="_blank"][class^="LinkedPullRequest-module__pullRequestLink"]',
+			'a[target="_blank"][class*="pullRequestLink"]',
 
 			// Linked PR links in issue header menu
 			// https://github.com/refined-github/sandbox/issues/130
@@ -32,11 +32,12 @@ function init(signal: AbortSignal): void {
 
 			// Commit linkbacks on issue timeline
 			// https://github.com/sindresorhus/np/issues/82#event-22200037448
-			'a[target="_blank"][class^="ReferencedEventInner-module__commitHashLink"]',
+			'a[target="_blank"][class*="commitHashLink"]',
 
 			// Linked PRs on issue list
 			// https://github.com/refined-github/refined-github/issues?q=is%3Aissue%20has%3Alinked%20reason%3Acompleted
-			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]',
+			'div[data-testid="issues-list-surface"] [class*="metadataCell"] > a[target="_blank"]',
+			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]', // TODO: Drop in March 2027
 
 			// PR links on branches page
 			// https://github.com/bfred-it-org/github-sandbox/branches

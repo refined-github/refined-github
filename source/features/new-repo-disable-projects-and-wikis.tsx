@@ -3,13 +3,14 @@ import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import {$, elementExists} from 'select-dom';
 
+import {overrideTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-import {overrideTab} from '../components/extensible-nav-store.js';
 
-const documentation = 'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
+const documentation =
+	'https://github.com/refined-github/refined-github/wiki/Extended-feature-descriptions#new-repo-disable-projects-and-wikis';
 
 async function disableWikiAndProjectsOnce(): Promise<void> {
 	delete sessionStorage.rghNewRepo;
@@ -81,10 +82,12 @@ function addOld(submitButton: HTMLElement): void {
 						checked
 						type="checkbox"
 						id="rgh-disable-project"
-					/> Disable Projects and Wikis
+					/>{' '}
+					Disable Projects and Wikis
 				</label>
 				<span className="note mb-2 tmp-mb-2">
-					After creating the repository disable the projects and wiki. <a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
+					After creating the repository disable the projects and wiki.{' '}
+					<a href={documentation} target="_blank" rel="noreferrer">Suggestion by Refined GitHub.</a>
 				</span>
 			</div>
 		</div>,
