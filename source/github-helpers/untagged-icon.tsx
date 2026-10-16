@@ -1,7 +1,7 @@
-import type {SVGProps} from 'react';
+import React from 'dom-chef';
 
 // Octicons `tag` with a slash, in the style of `cloud-offline`
-export default function UntaggedIcon(props: SVGProps<SVGSVGElement>): React.JSX.Element {
+export default function UntaggedIcon(props: React.SVGProps<SVGSVGElement>): React.JSX.Element {
 	return (
 		<svg
 			className="octicon octicon-untagged"
