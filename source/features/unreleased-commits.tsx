@@ -90,7 +90,7 @@ async function createLink(
 			aria-label={label}
 		>
 			<span dangerouslySetInnerHTML={{__html: untaggedIcon}} />{' '}
-			{aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
+			{aheadBy === undeterminableAheadBy || <sup className="ml-n1 tmp-ml-n1">{aheadBy}</sup>}
 		</a>
 	);
 }
