@@ -13,9 +13,11 @@ details.rgh-highlight-non-default-branch > summary {
 	) !important;
 }
 
-button.rgh-highlight-non-default-branch svg,
-details.rgh-highlight-non-default-branch > summary svg {
-	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
+svg {
+	button.rgh-highlight-non-default-branch &,
+	details.rgh-highlight-non-default-branch > summary & {
+		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia)) !important;
+	}
 }
 
 /* Remove bad native link https://github.com/refined-github/refined-github/issues/8662#issuecomment-4126171014 */
