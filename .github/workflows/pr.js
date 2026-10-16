@@ -63,27 +63,6 @@ export async function blockAi({github, context, core}) {
 	});
 }
 
-export async function labelByTitle({github, context}) {
-	const pr = context.payload.pull_request;
-	const labels = [];
-
-	if (/^(?:Meta:|Bump|Update|Lint)|rgh-/.test(pr.title)) {
-		labels.push('meta');
-	}
-
-	if (/restore feature/i.test(pr.title)) {
-		labels.push('bug');
-	}
-
-	if (labels.length > 0) {
-		await github.rest.issues.addLabels({
-			...context.repo,
-			issue_number: pr.number,
-			labels,
-		});
-	}
-}
-
 export async function inheritLabels({github, context, core}) {
 	const allowed = ['bug', 'enhancement', 'meta'];
 	const {owner, repo} = context.repo;
@@ -112,6 +91,14 @@ export async function inheritLabels({github, context, core}) {
 	});
 
 	const labels = new Set();
+
+	if (/^(?:Meta:|Bump|Update|Lint)|rgh-/.test(pr.title)) {
+		labels.add('meta');
+	}
+
+	if (/restore feature/i.test(pr.title)) {
+		labels.add('bug');
+	}
 
 	for (
 		const issue of res.repository.pullRequest.closingIssuesReferences.nodes
