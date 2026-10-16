@@ -11,7 +11,8 @@ import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-function createAvatar(username: string, size: number): JSX.Element {
+function createAvatar(username: string): JSX.Element {
+	const size = 14;
 	return (
 		<img
 			className="avatar avatar-user rgh-small-user-avatars"
@@ -28,7 +29,7 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 
 	link.firstElementChild!.prepend(
 		<span className="ActionListItem-visual ActionListItem-visual--leading d-none d-xl-inline-block">
-			{createAvatar(owner, 14)}
+			{createAvatar(owner)}
 		</span>,
 	);
 }
@@ -49,7 +50,7 @@ function extractUsername(element: HTMLElement): string {
 
 function addAvatar(link: HTMLElement): void {
 	const username = extractUsername(link);
-	const avatar = createAvatar(username, 14);
+	const avatar = createAvatar(username);
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
