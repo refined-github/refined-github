@@ -62,7 +62,7 @@ function renderTags(commit: HTMLElement, tags: Set<string>): void {
 		</a>
 	);
 
-	$('[class^="CommitAttributionContainer"]', commit).append(
+	$('[class*="CommitAttributionContainer"]', commit).append(
 		<div className="ml-1 tmp-ml-1 d-flex flex-items-center gap-1">
 			<TagIcon />
 			<span className="d-flex flex-wrap gap-1">
