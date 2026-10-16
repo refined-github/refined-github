@@ -6,6 +6,11 @@ export async function blockAi({github, context, core}) {
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
 
+	if (pr.user?.login === 'fregante') {
+		core.info(`PR #${pr.number} was opened by a maintainer; skipping.`);
+		return;
+	}
+
 	const {data: comments} = await github.rest.issues.listComments({
 		owner,
 		repo,
@@ -56,6 +61,27 @@ export async function blockAi({github, context, core}) {
 			"- Don't waste your tokens on junk comments that nobody reads.",
 		].join('\n'),
 	});
+}
+
+export async function labelByTitle({github, context}) {
+	const pr = context.payload.pull_request;
+	const labels = [];
+
+	if (/^(?:Meta:|Bump|Update|Lint)|rgh-/.test(pr.title)) {
+		labels.push('meta');
+	}
+
+	if (/restore feature/i.test(pr.title)) {
+		labels.push('bug');
+	}
+
+	if (labels.length > 0) {
+		await github.rest.issues.addLabels({
+			...context.repo,
+			issue_number: pr.number,
+			labels,
+		});
+	}
 }
 
 export async function inheritLabels({github, context, core}) {
