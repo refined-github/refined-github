@@ -6,9 +6,6 @@ declare module '*.css';
 declare module '*.gql' {
 	export = string;
 }
-declare module '*.svg' {
-	export = string;
-}
 
 type AnyObject = Record<string, any>;
 type FeatureId = string & {feature: true};

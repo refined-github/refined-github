@@ -101,7 +101,7 @@ const rollup = {
 			url: false,
 		}),
 		string({
-			include: ['**/*.gql', '**/*.svg'],
+			include: '**/*.gql',
 		}),
 		alias({
 			entries: [
