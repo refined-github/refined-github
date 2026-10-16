@@ -20,14 +20,13 @@
 	a[aria-label*='approval'] {
 		font-size: 0;
 		color: transparent !important;
-	}
-
-	a[aria-label*='approval']::before {
-		all: unset;
-		content: attr(aria-label);
-		display: inline-block !important;
-		color: var(--rgh-green);
-		font-size: 12px;
+		&::before {
+			all: unset;
+			content: attr(aria-label);
+			display: inline-block !important;
+			color: var(--rgh-green);
+			font-size: 12px;
+		}
 	}
 
 	a[aria-label*='changes'] {
