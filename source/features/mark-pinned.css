@@ -4,7 +4,7 @@
 		content: '';
 		position: absolute;
 		inset: -30%;
-		background: currentColor;
+		background: currentcolor;
 		opacity: 0.2;
 		border-radius: 50%;
 	}

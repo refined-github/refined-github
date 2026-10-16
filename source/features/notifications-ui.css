@@ -1,5 +1,7 @@
 /* Matches the md query, but inverted */
 html:not([rgh-OFF-notifications-ui]) {
+	--gap: 8px;
+
 	/* `notifications-ui`, `open-all-notifications`, `select-notifications`: allow overflow */
 	/* Info: https://github.com/refined-github/refined-github/issues/5705 */
 	/* Test: */
@@ -11,9 +13,8 @@ html:not([rgh-OFF-notifications-ui]) {
 		white-space: nowrap;
 	}
 
-	--gap: 8px;
 	/* Mobile layout without sidebar */
-	@media screen and not (min-width: 768px) {
+	@media screen and not (width >= 768px) {
 		/* Place top 3 dropdown buttons in a row */
 		.js-notifications-container > h1.sr-only + .d-md-none {
 			display: flex !important;
@@ -30,7 +31,7 @@ html:not([rgh-OFF-notifications-ui]) {
 	}
 
 	/* Mobile + sidebar layout */
-	@media screen and not (min-width: 1012px) {
+	@media screen and not (width >= 1012px) {
 		/* Keep the "Inbox" dropdown as wide as possible */
 		.manage-notifications-responsive + .d-flex {
 			flex-grow: 1;
@@ -76,7 +77,7 @@ html:not([rgh-OFF-notifications-ui]) {
 		}
 	}
 
-	@media screen and not (min-width: 544px) {
+	@media screen and not (width >= 544px) {
 		/* Adjust button sizing when the native media "sm" query hides the labels */
 		.js-notifications-mark-selected-actions .btn-sm {
 			padding-inline: 0.6em !important;
