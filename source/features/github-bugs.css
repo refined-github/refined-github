@@ -1,21 +1,23 @@
 /* Style backticked code in links, matches GitHub’s `.markdown-title code` rule */
 /* Info: https://github.com/refined-github/refined-github/issues/4817 */
 /* Test: https://github.com/sindresorhus/refined-github/commits/main?after=37fa4677f1ecf26d7176c8d9d43f8a4db6d5d902+104&branch=main */
-li[data-testid='commit-row-item'] code,
 /* Test: https://github.com/refined-github/refined-github/compare/26.7...26.7.12 */
-.js-commits-list-item p code,
 /* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
-div[class^='CommitHeader-module__commitMessageContainer'] code,
 /* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
-a[class*='PinnedIssue-module__Link'] code {
-	padding: 2px 4px;
-	background-color: var(
-		--bgColor-neutral-muted,
-		var(--color-neutral-muted, fuchsia)
-	);
-	font-size: 0.9em;
-	line-height: 1;
-	border-radius: 6px;
+code {
+	li[data-testid='commit-row-item'] &,
+	.js-commits-list-item p &,
+	div[class^='CommitHeader-module__commitMessageContainer'] &,
+	a[class*='PinnedIssue-module__Link'] & {
+		padding: 2px 4px;
+		background-color: var(
+			--bgColor-neutral-muted,
+			var(--color-neutral-muted, fuchsia)
+		);
+		font-size: 0.9em;
+		line-height: 1;
+		border-radius: 6px;
+	}
 }
 
 /* Align icons in the release search field */
@@ -102,61 +104,63 @@ div[class^='prc-PageHeader-Description']
 /* Fix comment header wrapping */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
 /* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
-div[class*='ActivityHeaderGridLayout'],
 /* Info: https://github.com/refined-github/refined-github/issues/9623 */
 /* Test: https://github.com/refined-github/sandbox/issues/151 */
 /* Test: https://github.com/refined-github/sandbox/issues/131 */
-div[class*='ActivityHeader-module__activityHeader'] {
-	display: flex;
-	flex-wrap: wrap;
-	row-gap: 2px;
-	justify-content: flex-start;
+div {
+	&[class*='ActivityHeaderGridLayout'],
+	&[class*='ActivityHeader-module__activityHeader'] {
+		display: flex;
+		flex-wrap: wrap;
+		row-gap: 2px;
+		justify-content: flex-start;
 
-	/* Issue body */
-	div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
-	/* Issue comment */
-	div[class*='CommentHeaderContentContainer'],
-	/* Review comment (?) */
-	> div[data-testid='comment-header-left-side-items'] {
-		flex-grow: 1;
+		/* Issue body */
+		div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
+		/* Issue comment */
+		div[class*='CommentHeaderContentContainer'],
+		/* Review comment (?) */
+		> div[data-testid='comment-header-left-side-items'] {
+			flex-grow: 1;
 
-		/* Don't wrap inside until there's enough space */
-		flex-basis: max-content;
+			/* Don't wrap inside until there's enough space */
+			flex-basis: max-content;
 
-		/* "Enough space" must always allow to *not* wrap below the avatar */
-		max-width: calc(100% - 32px);
+			/* "Enough space" must always allow to *not* wrap below the avatar */
+			max-width: calc(100% - 32px);
 
-		a[class^='ActivityHeader-module__AuthorName'] {
-			overflow-wrap: break-word;
-			max-width: 100%;
+			a[class^='ActivityHeader-module__AuthorName'] {
+				overflow-wrap: break-word;
+				max-width: 100%;
+			}
 		}
-	}
 
-	/* Issue body */
-	[class*='IssueBodyHeader-module__titleSection'],
-	/* Issue comment */
-	[class*='ActivityHeader-module__TitleContainer'],
-	/* Hidden issue comment */
-	[class*='CommentHeaderContentContainer'] {
-		flex-wrap: wrap;
-		column-gap: 4px; /* `show-names` spacing */
-	}
+		/* Issue body */
+		[class*='IssueBodyHeader-module__titleSection'],
+		/* Issue comment */
+		[class*='ActivityHeader-module__TitleContainer'],
+		/* Hidden issue comment */
+		[class*='CommentHeaderContentContainer'] {
+			flex-wrap: wrap;
+			column-gap: 4px; /* `show-names` spacing */
+		}
 
-	> [class*='actionsWrapper'],
-	> div[data-testid='comment-header-right-side-items'] {
-		flex-grow: 0;
-		flex-wrap: wrap;
-		flex-basis: max-content;
-		margin-left: auto;
-	}
+		> [class*='actionsWrapper'],
+		> div[data-testid='comment-header-right-side-items'] {
+			flex-grow: 0;
+			flex-wrap: wrap;
+			flex-basis: max-content;
+			margin-left: auto;
+		}
 
-	/* Limit length of "Edited by" username to avoid overflow */
-	[class*='MarkdownLastEditedBy-module__editorLogin'] {
-		max-width: 100px;
-		display: inline-block;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		vertical-align: bottom;
+		/* Limit length of "Edited by" username to avoid overflow */
+		[class*='MarkdownLastEditedBy-module__editorLogin'] {
+			max-width: 100px;
+			display: inline-block;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			vertical-align: bottom;
+		}
 	}
 }
 
@@ -223,14 +227,16 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 /* Info: https://github.com/refined-github/refined-github/issues/9319 */
 /* Test: https://github.com/refined-github/refined-github/issues/9319 */
 .markdown-body {
-	p ~ a > img {
-		margin-bottom: var(--base-size-16);
-	}
-	p ~ animated-image > a > img {
-		margin-bottom: var(--base-size-8);
-	}
-	p > a > img[style*='display: block'] {
-		margin-block: var(--base-size-16);
+	p {
+		~ a > img {
+			margin-bottom: var(--base-size-16);
+		}
+		~ animated-image > a > img {
+			margin-bottom: var(--base-size-8);
+		}
+		> a > img[style*='display: block'] {
+			margin-block: var(--base-size-16);
+		}
 	}
 }
 

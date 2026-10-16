@@ -1,21 +1,22 @@
 :root {
 	--rgh-table-input-size: 40px;
+	&:root:root:root .rgh-table-input {
+		font-size: var(--rgh-table-input-size);
+		padding: 3px;
+		z-index: 99;
+		display: grid !important;
+		grid-template: repeat(5, 1em) / repeat(5, 1em);
+		width: fit-content;
+		height: fit-content;
+		margin: auto;
+	}
 }
 
-:root:root:root:root .rgh-table-input {
-	font-size: var(--rgh-table-input-size);
-	padding: 3px;
-	z-index: 99;
-	display: grid !important;
-	grid-template: repeat(5, 1em) / repeat(5, 1em);
-	width: fit-content;
-	height: fit-content;
-	margin: auto;
-}
-
-.ActionBar-item-container:has(.rgh-table-input),
-[class*='ActionBar-Nav']:has(.rgh-table-input) {
-	overflow: visible;
+:has(.rgh-table-input) {
+	&.ActionBar-item-container,
+	&[class*='ActionBar-Nav'] {
+		overflow: visible;
+	}
 }
 
 :root .rgh-tic {
@@ -37,6 +38,7 @@
 	}
 }
 
+/* eslint-disable-next-line cssicorn/prefer-nesting -- Less readable */
 .rgh-tic:hover::before,
 /* Hovering the 1st column */
 .rgh-tic:nth-of-type(5n+1):has(

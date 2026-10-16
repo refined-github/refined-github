@@ -16,81 +16,78 @@ html:not([rgh-OFF-clean-pinned-issues]) {
 			border-collapse: collapse;
 			border-radius: 6px;
 			border-style: hidden;
-		}
 
-		/* Individual pinned issue rows */
-		ul[aria-label='Drag and drop pinned issues list.'] > li {
-			display: table-row !important;
-			border-color: var(--rgh-border-color, fuchsia) !important;
-		}
+			/* Individual pinned issue rows */
+			> li {
+				display: table-row !important;
+				border-color: var(--rgh-border-color, fuchsia) !important;
 
-		/* Inner grid wrapper */
-		ul[aria-label='Drag and drop pinned issues list.']
-			> li > div.position-relative {
-			display: contents;
-		}
-
-		/* Drag handle / issue container */
-		ul[aria-label='Drag and drop pinned issues list.']
-			div[class*='PinnedIssueContainer'] {
-			padding: 4px 8px !important;
-			display: table-cell;
-			vertical-align: top;
-		}
-
-		/* Issue content */
-		ul[aria-label='Drag and drop pinned issues list.']
-			div[class*='contentContainer'] {
-			display: flex;
-			flex-direction: row;
-			align-items: flex-start;
-		}
-
-		/* Status icon */
-		ul[aria-label='Drag and drop pinned issues list.'] span[class*='Octicon'] {
-			vertical-align: text-bottom;
-			margin-left: -1.5em;
-			/* Pull icon a bit lower to align with the title */
-			line-height: 1.3;
-		}
-
-		/* Prevent title wrapping below the status icon */
-		ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] {
-			padding-left: 1.5em;
-		}
-
-		/* Move options button to the end if GitHub renders one here */
-		ul[aria-label='Drag and drop pinned issues list.']
-			div[class*='titleOptionsContainer'] {
-			display: contents;
-
-			> button {
-				order: 1;
-
-				/* Optically align the button to the title so it's not too near the border */
-				margin-top: 6px;
+				/* Inner grid wrapper */
+				> div.position-relative {
+					display: contents;
+				}
 			}
-		}
 
-		/* Metadata */
-		ul[aria-label='Drag and drop pinned issues list.']
-			div[class*='metadataContainer'] {
-			text-align: end;
-			margin-left: 8px;
-			line-height: 1.2;
+			div {
+				/* Drag handle / issue container */
+				&[class*='PinnedIssueContainer'] {
+					padding: 4px 8px !important;
+					display: table-cell;
+					vertical-align: top;
+				}
 
-			/* Since it grows, the content should still be aligned right */
-			justify-content: flex-end;
+				/* Issue content */
+				&[class*='contentContainer'] {
+					display: flex;
+					flex-direction: row;
+					align-items: flex-start;
+				}
 
-			/* Align content to the top when the title wraps */
-			align-items: flex-start;
+				/* Move options button to the end if GitHub renders one here */
+				&[class*='titleOptionsContainer'] {
+					display: contents;
 
-			/* Optically align the metadata to the title so it's not too near the border */
-			padding-top: 11px;
+					> button {
+						order: 1;
 
-			/* Hide "opened" */
-			[data-hovercard-type='user'] + span {
-				display: none;
+						/* Optically align the button to the title so it's not too near the border */
+						margin-top: 6px;
+					}
+				}
+
+				/* Metadata */
+				&[class*='metadataContainer'] {
+					text-align: end;
+					margin-left: 8px;
+					line-height: 1.2;
+
+					/* Since it grows, the content should still be aligned right */
+					justify-content: flex-end;
+
+					/* Align content to the top when the title wraps */
+					align-items: flex-start;
+
+					/* Optically align the metadata to the title so it's not too near the border */
+					padding-top: 11px;
+
+					/* Hide "opened" */
+					[data-hovercard-type='user'] + span {
+						display: none;
+					}
+				}
+			}
+
+			/* Status icon */
+			span[class*='Octicon'] {
+				vertical-align: text-bottom;
+				margin-left: -1.5em;
+				/* Pull icon a bit lower to align with the title */
+				line-height: 1.3;
+			}
+
+			/* Prevent title wrapping below the status icon */
+			a[class*='Link__'] {
+				padding-left: 1.5em;
 			}
 		}
 	}

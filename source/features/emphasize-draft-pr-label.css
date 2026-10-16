@@ -2,23 +2,23 @@
 
 @media (resolution >= 2x) {
 	/* README: These selectors don't have to be super specific, they just need to limit the feature to lists so that it doesn't affect icons that appear in buttons, for example (if any) */
-	html:not([rgh-OFF-emphasize-draft-pr-label]) {
+	html:not([rgh-OFF-emphasize-draft-pr-label]) .octicon-git-pull-request-draft {
 		/* Dashboard PR lists */
-		.controlBoxContainer .octicon-git-pull-request-draft,
+		.controlBoxContainer &,
 		/* Legacy PR list (repo, global) */
 		/* https://github.com/refined-github/sandbox/pulls?q=is%3Apr%20is%3Adraft */
 		/* https://github.com/pulls?q=is%3Apr+is%3Adraft */
-		.Box-row .octicon-git-pull-request-draft,
+		.Box-row &,
 		/* Issue list (repo, global) */
 		/* https://github.com/refined-github/sandbox/issues?q=+is%3Adraft */
 		/* https://github.com/pulls/inbox */
 		/* https://github.com/pulls/authored?q=is%3Adraft */
 		/* https://github.com/issues?q=is%3Adraft */
-		[role='list'] .octicon-git-pull-request-draft,
+		[role='list'] &,
 		/* Notification select by */
-		.rgh-select-notifications .octicon-git-pull-request-draft,
+		.rgh-select-notifications &,
 		/* Notification list */
-		.notification-list-item-link .octicon-git-pull-request-draft {
+		.notification-list-item-link & {
 			stroke: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 			stroke-width: 1.2px;
 			color: var(--rgh-background, fuchsia) !important;

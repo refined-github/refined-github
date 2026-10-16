@@ -32,14 +32,16 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	[data-hunk],
 	.blob-expanded {
-		/* Only additions: Hide the left side */
-		td:nth-child(2) {
-			display: var(--rgh-only-additions, table-cell) !important;
-		}
+		td {
+			/* Only additions: Hide the left side */
+			&:nth-child(2) {
+				display: var(--rgh-only-additions, table-cell) !important;
+			}
 
-		/* Only deletions: Hide the right side */
-		td:nth-child(4) {
-			display: var(--rgh-only-deletions, table-cell) !important;
+			/* Only deletions: Hide the right side */
+			&:nth-child(4) {
+				display: var(--rgh-only-deletions, table-cell) !important;
+			}
 		}
 	}
 
@@ -77,22 +79,23 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	}
 
 	.diff-line-row {
-		/* The left side (deletions) */
 		/* > to avoid selecting suggested changes */
-		> td:nth-child(2) {
-			/* Only additions: hide the left side */
-			display: var(--rgh-left-side-d, table-cell) !important;
-			/* Only deletions: expand the left side */
-			width: var(--rgh-left-side-w, auto) !important;
-		}
+		> td {
+			/* The left side (deletions) */
+			&:nth-child(2) {
+				/* Only additions: hide the left side */
+				display: var(--rgh-left-side-d, table-cell) !important;
+				/* Only deletions: expand the left side */
+				width: var(--rgh-left-side-w, auto) !important;
+			}
 
-		/* The right side (additions) */
-		/* > to avoid selecting suggested changes */
-		> td:nth-child(4) {
-			/* Only deletions: hide the right side */
-			display: var(--rgh-right-side-d, table-cell) !important;
-			/* Only additions: expand the right side */
-			width: var(--rgh-right-side-w, auto) !important;
+			/* The right side (additions) */
+			&:nth-child(4) {
+				/* Only deletions: hide the right side */
+				display: var(--rgh-right-side-d, table-cell) !important;
+				/* Only additions: expand the right side */
+				width: var(--rgh-right-side-w, auto) !important;
+			}
 		}
 	}
 }

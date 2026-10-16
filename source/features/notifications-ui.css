@@ -65,15 +65,17 @@ html:not([rgh-OFF-notifications-ui]) {
 			order: 6;
 		}
 
-		/* Move search box to the bottom, unless it's missing "All|Unread" (any ?query= URL) */
-		.notifications-query-builder-wrapper:not(:first-child) {
-			order: 9;
-		}
+		.notifications-query-builder-wrapper {
+			/* Move search box to the bottom, unless it's missing "All|Unread" (any ?query= URL) */
+			&:not(:first-child) {
+				order: 9;
+			}
 
-		/* Move search box inline when it's missing "All|Unread" (any ?query= URL) */
-		.notifications-query-builder-wrapper:first-child {
-			width: auto !important;
-			flex-grow: 1;
+			/* Move search box inline when it's missing "All|Unread" (any ?query= URL) */
+			&:first-child {
+				width: auto !important;
+				flex-grow: 1;
+			}
 		}
 	}
 

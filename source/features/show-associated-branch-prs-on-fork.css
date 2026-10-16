@@ -27,8 +27,7 @@
 	white-space: nowrap;
 	height: 20px;
 	padding: 0 7px;
-}
-
-.rgh-pr-link:hover {
-	background-color: var(--bgColor-muted, var(--color-canvas-subtle, fuchsia));
+	&:hover {
+		background-color: var(--bgColor-muted, var(--color-canvas-subtle, fuchsia));
+	}
 }
