@@ -1,8 +1,3 @@
-/* Show button when the avatar or the button itself are hovered/focused */
-:not(:hover, :focus) + .rgh-quick-mention:not(:hover, :focus) {
-	opacity: 20%;
-}
-
 .rgh-quick-mention {
 	position: absolute;
 	top: 100%;
@@ -11,19 +6,24 @@
 
 	/* Centers and improves clickable area; !important required to override .btn-link */
 	padding: 4px 12px !important;
-}
 
-.react-view + .rgh-quick-mention {
-	position: static !important;
-	translate: none;
-
-	&::after {
-		bottom: unset;
-		transform: none;
+	/* Show button when the avatar or the button itself are hovered/focused */
+	:not(:hover, :focus) + &:not(:hover, :focus) {
+		opacity: 20%;
 	}
-}
 
-/* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
-.rgh-quick-mention:not(:hover, :focus) {
-	color: inherit;
+	.react-view + & {
+		position: static !important;
+		translate: none;
+
+		&::after {
+			bottom: unset;
+			transform: none;
+		}
+	}
+
+	/* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
+	&:not(:hover, :focus) {
+		color: inherit;
+	}
 }

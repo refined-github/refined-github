@@ -1,29 +1,30 @@
 /* Hide unnecessary comment toolbar items, but only on desktop #5743 */
 /* Kinda excludes "soft keyboards" devices https://github.com/w3c/csswg-drafts/issues/3871 */
 @media (hover: hover) and (pointer: fine) {
-	html:not([rgh-OFF-clean-rich-text-editor])
-		button:is(
-			/* Classic fields */
-			[data-md-button='mention'],
-			[data-md-button='ref'],
-			[data-md-button='header-3'],
-			[data-md-button='bold'],
-			[data-md-button='italic'],
-			/* React fields */
-			[data-component='IconButton']:has(
-				> .octicon-heading,
-				> .octicon-bold,
-				> .octicon-italic,
-				> .octicon-cross-reference,
-				> .octicon-mention
-			)
-		):not(:focus) {
-		/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		margin: 0;
-		overflow: hidden;
-		clip-path: inset(50%);
+	html:not([rgh-OFF-clean-rich-text-editor]) button {
+		/* Classic fields */
+		&[data-md-button='mention'],
+		&[data-md-button='ref'],
+		&[data-md-button='header-3'],
+		&[data-md-button='bold'],
+		&[data-md-button='italic'],
+		/* React fields */
+		&[data-component='IconButton']:has(
+			> .octicon-heading,
+			> .octicon-bold,
+			> .octicon-italic,
+			> .octicon-cross-reference,
+			> .octicon-mention
+		) {
+			&:not(:focus) {
+				/* Like GitHub’s `show-on-focus` class. Needed because we target `md-ref` with the observer in `table-input` and `collapsible-content-button` */
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				margin: 0;
+				overflow: hidden;
+				clip-path: inset(50%);
+			}
+		}
 	}
 }

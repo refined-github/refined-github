@@ -1,24 +1,26 @@
 html:not([rgh-OFF-clean-repo-filelist-actions]) div[class^='OverviewContent'] {
-	/* Hide "Code" label */
-	button[data-variant='primary'] {
-		padding-inline: 0.5em 0.4em; /* Reduce and balance padding */
-		span {
-			&[data-component='leadingVisual'] {
-				margin-right: 0.2em;
+	button {
+		/* Hide "Code" label */
+		&[data-variant='primary'] {
+			padding-inline: 0.5em 0.4em; /* Reduce and balance padding */
+			span {
+				&[data-component='leadingVisual'] {
+					margin-right: 0.2em;
 
-				> .octicon-code {
-					display: inline-block !important;
+					> .octicon-code {
+						display: inline-block !important;
+					}
+				}
+				&[data-component='text'] {
+					display: none;
 				}
 			}
-			&[data-component='text'] {
-				display: none;
-			}
 		}
-	}
 
-	/* Hide agent */
-	button:has(> .octicon-agent) {
-		display: none;
+		/* Hide agent */
+		&:has(> .octicon-agent) {
+			display: none;
+		}
 	}
 
 	/* Reduce file search field */

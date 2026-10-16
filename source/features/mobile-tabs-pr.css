@@ -26,18 +26,15 @@
 			/* Optical alignment */
 			margin-right: -0.5em !important;
 		}
-	}
-}
 
-@media (width <= 500px) {
-	[aria-label='Pull request navigation'] a[class*='TabNavLink'] {
-		font-size: 10px;
+		@media (width <= 500px) {
+			font-size: 10px;
 
-		[data-variant='secondary'] {
-			background: none;
-			padding: 0;
-			margin: 0;
-			min-width: 0;
+			[data-variant='secondary'] {
+				background: none;
+				padding: 0;
+				min-width: 0;
+			}
 		}
 	}
 }

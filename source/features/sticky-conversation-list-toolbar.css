@@ -1,11 +1,13 @@
 /* Sticky table header on issues list */
-/* https://github.com/refined-github/refined-github/issues */
-#js-issues-toolbar.Box-header,
-/* https://github.com/issues */
-#js-issues-toolbar.Box > .Box-header {
-	position: sticky;
-	top: 0;
-	z-index: 25; /* Must be above .modal-backdrop (z-index 20) #1317 */
+#js-issues-toolbar {
+	/* https://github.com/refined-github/refined-github/issues */
+	&.Box-header,
+	/* https://github.com/issues */
+	&.Box > .Box-header {
+		position: sticky;
+		top: 0;
+		z-index: 25; /* Must be above .modal-backdrop (z-index 20) #1317 */
+	}
 }
 
 /* Test URLs above */
