@@ -1,4 +1,5 @@
 <script lang="ts">
+	import delegate, {type DelegateEvent} from 'delegate-it';
 	import * as pageDetect from 'github-url-detection';
 	import CopyIcon from 'octicons-plain-react/Copy';
 
@@ -16,10 +17,30 @@
 
 	const isReportingBug = pageDetect.isNewIssue();
 
+	// The title field overrides the URL parameter once the user edits it
+	let typedTitle = $state<string>();
+
+	function updateTitle(event: DelegateEvent<Event, HTMLInputElement>): void {
+		typedTitle = event.delegateTarget.value;
+	}
+
+	$effect(() => {
+		if (!isReportingBug) {
+			return;
+		}
+
+		const controller = new AbortController();
+		delegate('input[aria-label="Add a title"]', 'input', updateTitle, {
+			signal: controller.signal,
+		});
+		return () => {
+			controller.abort();
+		};
+	});
+
 	const idFromUrl = $derived.by(() => {
 		if (isReportingBug) {
-			const title = $urlStore.searchParams.get('title')
-				?? '';
+			const title = typedTitle ?? $urlStore.searchParams.get('title') ?? '';
 			return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id ?? undefined;
 		}
 
