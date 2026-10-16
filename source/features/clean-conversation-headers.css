@@ -45,7 +45,7 @@
 	/* Hide the default base branch in sticky headers */
 	&.rgh-sticky-pr-header .rgh-base-branch:not(.rgh-non-default-branch) {
 		&,
-		& ~ .rgh-arrow {
+		~ .rgh-arrow {
 			display: none;
 		}
 	}
@@ -58,7 +58,7 @@
 }
 
 /* Hide the state labels on small screens */
-@media (max-width: 500px) {
+@media (width <= 500px) {
 	[data-testid='issue-metadata-sticky'],
 	[class*='StickyPullRequestHeader'] {
 		/* Open/Closed/Merged */

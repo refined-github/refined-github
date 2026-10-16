@@ -10,7 +10,7 @@ type PrReference = {
 	/** @example fregante */
 	owner: string;
 
-	/** @example mem */
+	/** @example memoize */
 	name: string;
 
 	/** @example main */

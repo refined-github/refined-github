@@ -1,6 +1,6 @@
-import mem from 'memoize';
+import memoize from 'memoize';
 
-const onElementRemoval = mem(async (element: Element, signal?: AbortSignal): Promise<void> => {
+const onElementRemoval = memoize(async (element: Element, signal?: AbortSignal): Promise<void> => {
 	if (signal?.aborted) {
 		return;
 	}
