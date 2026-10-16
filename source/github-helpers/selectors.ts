@@ -79,7 +79,7 @@ export const openPrsListLink_ = [
 export const commentsCountInLists = [
 	// Issue list:
 	'div[data-testid="list-row-comments"]:not(:empty)',
-	'div[class*="commentCountContainer"]',
+	'ul[aria-label="Drag and drop pinned issues list."] div[class*="commentCountContainer"]',
 
 	// PR list
 	// aria-label="1 comment"
