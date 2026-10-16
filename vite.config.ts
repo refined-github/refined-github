@@ -4,8 +4,11 @@ import {browserslistToTargets, Features, transform} from 'lightningcss';
 import {readFileSync} from 'node:fs';
 import process from 'node:process';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
-import {defineConfig, type Plugin} from 'vite';
+import {type Plugin} from 'vite';
 import {viteStaticCopy} from 'vite-plugin-static-copy';
+import {defineConfig} from 'vitest/config';
+
+import cssConfig from './build/css-config.json' with {type: 'json'};
 
 const noise = new Set([
 	'index',
@@ -41,6 +44,7 @@ function extractCss(entries: string[]): Plugin {
 	const cssByEntry = new Map<string, string[]>();
 	return {
 		name: 'extract-css',
+		apply: 'build',
 		enforce: 'pre',
 		async resolveId(source, importer, options) {
 			if (!importer || !source.endsWith('.css') || importer.startsWith(cssPrefix) || importer.includes('?')) {
@@ -82,7 +86,7 @@ function extractCss(entries: string[]): Plugin {
 			}
 		},
 		generateBundle(_, bundle) {
-			const targets = browserslistToTargets(browserslist('chrome 123, firefox 126, iOS 17.5'));
+			const targets = browserslistToTargets(browserslist(cssConfig.targets));
 			for (const chunk of Object.values(bundle)) {
 				if (chunk.type !== 'chunk' || !chunk.isEntry || !chunk.facadeModuleId || !entries.includes(chunk.name)) {
 					continue;
@@ -117,6 +121,7 @@ function extractCss(entries: string[]): Plugin {
 function failOnExternalImports(): Plugin {
 	return {
 		name: 'fail-on-external-imports',
+		apply: 'build',
 		generateBundle(_, bundle) {
 			const files = new Set(Object.keys(bundle));
 			for (const chunk of Object.values(bundle)) {
@@ -135,13 +140,27 @@ function failOnExternalImports(): Plugin {
 }
 
 export default defineConfig({
+	clearScreen: false,
+	optimizeDeps: {
+		entries: ['source/**/*.test.ts'], // Don't scan the HTML files, they reference built files
+	},
+	test: {
+		environment: 'happy-dom',
+		pool: 'vmThreads', // https://vitest.dev/guide/improving-performance#test-environments
+		environmentOptions: {
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			happyDOM: {
+				url: 'https://github.com',
+			},
+		},
+	},
 	plugins: [
 		gqlAsString(),
 		failOnExternalImports(),
 		extractCss(['refined-github', 'options', 'options-components']),
 		svelte(),
 		process.env.RELATIVE_CI_STATS ? webpackStatsPlugin() : undefined,
-		viteStaticCopy({
+		...viteStaticCopy({
 			targets: [
 				{src: 'source/manifest.json', dest: '..', rename: {stripBase: true}},
 				{src: 'source/*.{html,png,js}', dest: '.', rename: {stripBase: true}},
