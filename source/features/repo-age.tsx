@@ -7,7 +7,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {buildRepoUrl, cacheByRepo, getRepo} from '../github-helpers/index.js';
+import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
 import {randomArrayItem} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
@@ -49,7 +49,8 @@ function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): strin
 async function getRepoAge(
 	commitSha: string,
 	commitsCount: number,
-): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+	createdAt: string,
+): Promise<[committedDate: string, lastCommitsPageUrl: string, createdAt: string]> {
 	const {repository} = await api.v4(GetRepoAge, {
 		variables: {
 			cursor: `${commitSha} ${commitsCount - Math.min(6, commitsCount)}`,
@@ -61,33 +62,21 @@ async function getRepoAge(
 		.findLast((commit: CommitTarget) => new Date(commit.committedDate).getFullYear() > 1970);
 
 	const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
-	return [committedDate, lastCommitsPageUrl];
+	return [committedDate, lastCommitsPageUrl, createdAt];
 }
 
-const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+const firstCommit = new CachedFunction('first-commit-with-created-at', {
+	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string, createdAt: string]> {
 		const {repository} = await api.v4(GetFirstCommit);
 
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
-			return [committedDate, lastCommitsPageUrl];
+			return [committedDate, lastCommitsPageUrl, repository.createdAt];
 		}
 
-		return getRepoAge(commitSha, commitsCount);
-	},
-	cacheKey: cacheByRepo,
-});
-
-const repositoryCreatedAt = new CachedFunction('repository-created-at', {
-	async updater(): Promise<string> {
-		const repository = await api.v3(`/repos/${getRepo()!.nameWithOwner}`);
-		if (typeof repository.created_at !== 'string') {
-			throw new TypeError('GitHub repository response is missing created_at');
-		}
-
-		return repository.created_at;
+		return getRepoAge(commitSha, commitsCount, repository.createdAt);
 	},
 	cacheKey: cacheByRepo,
 });
@@ -100,10 +89,7 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [[firstCommitDate, lastCommitsPageUrl], createdAt] = await Promise.all([
-		firstCommit.get(),
-		repositoryCreatedAt.get(),
-	]);
+	const [firstCommitDate, lastCommitsPageUrl, createdAt] = await firstCommit.get();
 	const birthday = new Date(createdAt);
 	const firstCommitBirthday = new Date(firstCommitDate);
 
