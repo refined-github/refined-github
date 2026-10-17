@@ -9,8 +9,6 @@ import {viteStaticCopy} from 'vite-plugin-static-copy';
 import svgr from 'vite-plugin-svgr';
 import {defineConfig} from 'vitest/config';
 
-import cssConfig from './build/css-config.json' with {type: 'json'};
-
 const noise = new Set([
 	'index',
 	'dist',
@@ -87,7 +85,7 @@ function extractCss(entries: string[]): Plugin {
 			}
 		},
 		generateBundle(_, bundle) {
-			const targets = browserslistToTargets(browserslist(cssConfig.targets));
+			const targets = browserslistToTargets(browserslist());
 			for (const chunk of Object.values(bundle)) {
 				if (chunk.type !== 'chunk' || !chunk.isEntry || !chunk.facadeModuleId || !entries.includes(chunk.name)) {
 					continue;

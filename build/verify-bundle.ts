@@ -17,8 +17,6 @@ import {createRequire} from 'node:module';
 import path from 'node:path';
 import process from 'node:process';
 
-import cssConfig from './css-config.json' with {type: 'json'};
-
 const sourceDirectory = path.resolve('source');
 const distributionDirectory = path.resolve('distribution');
 const assetsDirectory = path.join(distributionDirectory, 'assets');
@@ -53,7 +51,7 @@ const relativeToDistribution = (file: string): string =>
 // ---------- CSS ----------
 
 const require = createRequire(path.resolve('package.json'));
-const targets = browserslistToTargets(browserslist(cssConfig.targets));
+const targets = browserslistToTargets(browserslist());
 
 function compileCss(file: string): string {
 	const {code} = transform({
