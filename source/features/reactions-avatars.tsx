@@ -17,6 +17,7 @@ import observe from '../helpers/selector-observer.js';
 const arbitraryAvatarLimit = 36;
 const approximateHeaderLength = 3; // Each button header takes about as much as 3 avatars
 const avatarSize = 16;
+const maxAvatarsPerReaction = 9;
 
 type Participant = {
 	button: HTMLButtonElement;
@@ -24,7 +25,7 @@ type Participant = {
 	imageUrl: string;
 };
 
-// The React issue view only lists full names, so the usernames come from the API
+// The React issue layout only lists full names, so the usernames come from the API
 const reactionContents: Record<string, string> = {
 	'👍': 'THUMBS_UP',
 	'👎': 'THUMBS_DOWN',
@@ -40,7 +41,7 @@ const reactorsQuery = `
 	... on Reactable {
 		reactionGroups {
 			content
-			reactors(first: ${arbitraryAvatarLimit}) {
+			reactors(first: ${maxAvatarsPerReaction}) {
 				nodes {
 					... on Actor {
 						login
@@ -62,8 +63,16 @@ type Reactable = {
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
-	// Uses optional chaining to throw an error manually later
-	if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
+	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
+		users = button.nextElementSibling!
+			.textContent
+			.replace(/^.+including /, '')
+			.replace(/\)/, '')
+			.replace(/,? and /, ', ')
+			.replace(/, \d+ more/, '')
+			.split(', ');
+		// Uses optional chaining to throw an error manually later
+	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling
 			.textContent
@@ -121,18 +130,16 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 	}
 
 	// Comments are identified by their node ID, the issue description by its number
-	const commentIds = new Set<string>();
 	const containerIds = new Map<Element, string | undefined>();
 	for (const container of containers) {
 		// The issue description isn't a timeline item
-		const id = closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId;
-		containerIds.set(container, id);
-		if (id) {
-			commentIds.add(id);
-		}
+		containerIds.set(
+			container,
+			closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId,
+		);
 	}
 
-	const ids = [...commentIds];
+	const ids = [...new Set(containerIds.values())].filter(Boolean);
 	const hasDescription = [...containerIds.values()].includes(undefined);
 	const data = await api.v4(`
 		${
@@ -155,7 +162,7 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 				.map(({login, avatarUrl}) => ({button, username: login, imageUrl: avatarUrl}));
 		});
 
-		// Each container is shown on its own so that the avatar limit applies to each comment
+		// The total limit is per comment, so each container is handled on its own
 		appendAvatars(reactions);
 	}
 }
@@ -163,14 +170,19 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 const showReactorAvatarsBatched = batchedFunction(showReactorAvatars, {delay: 100});
 
 function showAvatarsOn(reactionsContainer: Element): void {
-	if ($$optional('button[aria-checked]', reactionsContainer).length > 0) { // React issues
+	const buttons = $$optional([
+		'button[aria-pressed]', // Discussions, releases, PRs, old issues
+		'button[aria-checked]', // React issues
+	], reactionsContainer);
+
+	// The latest React issue layout lists names instead of usernames, the others still work
+	// Optional chaining: some layouts have nothing after the button
+	if (buttons.some(button => button.nextElementSibling?.textContent.startsWith('Reacted by '))) {
 		showReactorAvatarsBatched(reactionsContainer);
 		return;
 	}
 
-	const reactions = $$optional('button[aria-pressed]', reactionsContainer) // Discussions, releases, PRs, old issues
-		.map(button => getParticipants(button)); // Get all participants for each reaction
-	appendAvatars(reactions);
+	appendAvatars(buttons.map(button => getParticipants(button))); // Get all participants for each reaction
 }
 
 const viewportObserver = new IntersectionObserver(changes => {
