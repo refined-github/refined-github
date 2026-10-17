@@ -13,7 +13,7 @@
 
 <div class={['flash', ...classes].join(' ')}>
 	<div class="d-flex flex-wrap flex-items-center gap-2">
-		<div class="d-flex flex-auto flex-self-center flex-items-center gap-2">
+		<div class="d-flex flex-auto flex-self-center flex-items-baseline gap-2">
 			{#if icon}<DomChef as={icon} class="mr-0 tmp-mr-0" />{/if}
 			<span>{@render text()}</span>
 		</div>
