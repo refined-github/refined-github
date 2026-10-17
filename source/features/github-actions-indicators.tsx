@@ -154,11 +154,16 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe('a[class^="prc-ActionList-ActionListContent"]', addIndicators, {signal});
 }
 
-function openRunWorkflow(): void {
-	removeHashFromUrlBar();
-	// Note that the attribute is removed after the first opening, so the selector only matches it once
-	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
-	dropdown.open = true;
+function openRunWorkflow(signal: AbortSignal): void {
+	// Wait for React to attach the button's click handler before opening the dialog.
+	observe('react-app.loaded [data-component="PH_Actions"] > button[data-variant="primary"]:enabled', button => {
+		if (button.textContent.trim() !== 'Run workflow') {
+			return;
+		}
+
+		removeHashFromUrlBar();
+		button.click();
+	}, {signal, once: true});
 }
 
 void features.add(import.meta.url, {
@@ -169,7 +174,8 @@ void features.add(import.meta.url, {
 	requiresToken: true,
 	init,
 }, {
-	include: [
+	asLongAs: [
+		pageDetect.isRepositoryActions,
 		() => location.hash === '#rgh-run-workflow',
 	],
 	awaitDomReady: true,
@@ -182,6 +188,7 @@ void features.add(import.meta.url, {
 
 Manual + scheduled:
 https://github.com/sindresorhus/type-fest/actions/workflows/ts-canary.yml
+https://github.com/3kh0/slick/actions/workflows/electron-watch.yml#rgh-run-workflow
 
 Manual + disabled + pinned:
 https://github.com/refined-github/sandbox/actions
