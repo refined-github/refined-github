@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {messageRuntime} from 'webext-msg';
 
-	import delay from '../helpers/delay';
+	import delay from '../helpers/delay.js';
 
 	const ping = Promise.race([
 		messageRuntime({ping: true}).catch(() => undefined),

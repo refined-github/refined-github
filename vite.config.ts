@@ -28,11 +28,17 @@ const cssPrefix = '\0rgh-css:';
 // Avoid the `.css` extension so Vite's own CSS pipeline ignores these modules
 const cssSuffix = '.rgh';
 
-/** Import `.gql` files as strings */
-function gqlAsString(): Plugin {
+/** Import `.gql` and `.svg` files as strings */
+function rawAsString(): Plugin {
 	return {
-		name: 'gql-as-string',
-		transform: (code, id) => id.endsWith('.gql') ? `export default ${JSON.stringify(code)};` : undefined,
+		name: 'raw-as-string',
+		enforce: 'pre',
+		load(id) {
+			const path = id.split('?')[0]!;
+			if (path.endsWith('.gql') || path.endsWith('.svg')) {
+				return 'export default ' + JSON.stringify(readFileSync(path, 'utf8')) + ';';
+			}
+		},
 	};
 }
 
@@ -155,7 +161,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		gqlAsString(),
+		rawAsString(),
 		failOnExternalImports(),
 		extractCss(['refined-github', 'options', 'options-components']),
 		svelte(),

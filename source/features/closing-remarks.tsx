@@ -51,7 +51,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	}
 
 	mountClosingRemarks({tagName, mergeCommit}, signal);
-	observe('[class*="PullRequestHeaderSummary"] relative-time', relativeTime => {
+	observe('[class*="summaryContainer"] relative-time', relativeTime => {
 		mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
 	}, {signal});
 }

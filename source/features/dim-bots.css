@@ -1,6 +1,6 @@
 .rgh-dim-bots {
-	& > *,
-	& .Box-row--drag-hide {
+	> *,
+	.Box-row--drag-hide {
 		transition: 100ms opacity; /* Match `mark-merge-commits-in-list` */
 	}
 

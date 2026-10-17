@@ -16,7 +16,7 @@
 .PRIVATE_TreeView-item-visual > .rgh-quick-file-edit {
 	color: inherit;
 
-	& .octicon-pencil {
+	.octicon-pencil {
 		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
 	}
 }

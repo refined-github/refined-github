@@ -53,7 +53,7 @@ const syncedForm = await perDomainOptions.syncForm('form');
 // <token-input> runs before the value is set, so it detects `firstRun` to avoid validation on an empty form.
 // This triggers a proper run
 for (const tokenField of $$('input[name="personalToken[]"]')) {
-	informComponentOfExternalUpdate(tokenField as HTMLInputElement);
+	informComponentOfExternalUpdate(tokenField);
 }
 
 // Decorate list
@@ -73,7 +73,7 @@ syncedForm.onChange(async domain => {
 	$('rgh-options').domain = domain;
 
 	for (const input of $$('input[name="personalToken[]"]')) {
-		informComponentOfExternalUpdate(input as HTMLInputElement);
+		informComponentOfExternalUpdate(input);
 	}
 
 	updateListDom();
