@@ -87,11 +87,21 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	const workflows = await workflowDetails.get();
 	const workflowName = workflowLink.href.split('/').pop()!;
 	const workflow = workflows[workflowName];
-	if (!workflow) {
+	if (!workflow || !workflowLink.isConnected) {
 		return;
 	}
 
-	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
+	const isCurrentWorkflow = workflowLink.pathname === location.pathname;
+	const existingIndicator = $optional('.rgh-workflow-dispatch', workflowLink.parentElement!);
+	if (existingIndicator) {
+		// React redraws the workflow link on navigation but can retain our indicator.
+		existingIndicator.classList.toggle('d-none', isCurrentWorkflow);
+		if (existingIndicator instanceof HTMLAnchorElement) {
+			workflowLink.after(existingIndicator);
+		}
+	}
+
+	if (!isCurrentWorkflow && !existingIndicator && workflow.manuallyDispatchable) {
 		if (workflowLink.nextElementSibling) {
 			// User can trigger the workflow
 			const url = new URL(workflowLink.href);
@@ -102,7 +112,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 					href={url.href}
 					data-turbo-frame={workflowLink.dataset.turboFrame}
 					// `actions-unpin-button` provides the hover style
-					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button rgh-workflow-dispatch"
 				>
 					<PlayIcon />
 				</a>,
@@ -112,7 +122,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			const indicator = (
 				<div
 					ref={withTooltipRef({label: 'This workflow can be triggered manually', direction: 'sw'})}
-					className="ActionListItem-visual ActionListItem-visual--trailing"
+					className="ActionListItem-visual ActionListItem-visual--trailing rgh-workflow-dispatch"
 					style={{pointerEvents: 'initial'}}
 				>
 					<PlayIcon />
@@ -143,8 +153,14 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
+	const existingSchedule = $optional('.rgh-workflow-schedule relative-time', workflowLink);
+	if (existingSchedule) {
+		existingSchedule.setAttribute('datetime', String(nextTime));
+		return;
+	}
+
 	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
-		<em>
+		<em className="rgh-workflow-schedule">
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
 	);
