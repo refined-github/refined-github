@@ -28,18 +28,32 @@ const cssPrefix = '\0rgh-css:';
 // Avoid the `.css` extension so Vite's own CSS pipeline ignores these modules
 const cssSuffix = '.rgh';
 
-/** Import `.gql` and `.svg` files as strings */
-function rawAsString(): Plugin {
+/** Import `.gql` files as strings */
+function gqlAsString(): Plugin {
 	return {
-		name: 'raw-as-string',
+		name: 'gql-as-string',
+		transform: (code, id) => id.endsWith('.gql') ? `export default ${JSON.stringify(code)};` : undefined,
+	};
+}
+
+/** Import `.svg` files as components that return a fresh element */
+function svgAsComponent(): Plugin {
+	return {
+		name: 'svg-as-component',
 		enforce: 'pre',
 		load(id) {
-			const path = id.split('?', 1)[0];
-			if (path.endsWith('.gql') || path.endsWith('.svg')) {
-				return 'export default ' + JSON.stringify(readFileSync(path, 'utf8')) + ';';
+			const [path] = id.split('?', 1);
+			if (!path.endsWith('.svg')) {
+				return undefined;
 			}
 
-			return undefined;
+			return [
+				'export default function Icon() {',
+				"\tconst template = document.createElement('template');",
+				'\ttemplate.innerHTML = ' + JSON.stringify(readFileSync(path, 'utf8').trim()) + ';',
+				'\treturn template.content.firstElementChild;',
+				'}',
+			].join('\n');
 		},
 	};
 }
@@ -164,7 +178,8 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		rawAsString(),
+		gqlAsString(),
+		svgAsComponent(),
 		failOnExternalImports(),
 		extractCss(['refined-github', 'options', 'options-components']),
 		svelte(),
