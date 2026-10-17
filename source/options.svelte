@@ -46,7 +46,9 @@
 <Header title="Refined GitHub" withVersion>
 	<p>
 		Visit the <a href="https://github.com/refined-github/refined-github/wiki"
-		>wiki</a> to learn about updates, debugging, and GitHub Enterprise. You can
+		>wiki</a> to learn about debugging and GitHub Enterprise. Subscribe to the
+		<a href="https://github.com/refined-github/refined-github/releases"
+		>releases</a> to follow updates. You can
 		<RateLink>rate Refined GitHub</RateLink> to help others find it. Follow or
 		sponsor <a href="https://github.com/sponsors/fregante">@fregante</a> if
 		Refined GitHub helps you work more efficiently. 🍻
