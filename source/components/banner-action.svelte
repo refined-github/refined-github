@@ -7,7 +7,7 @@
 	} = $props();
 
 	const buttonClasses =
-		'flex-shrink-0 btn btn-sm ml-sm-3 mt-2 mt-sm-n2 mb-sm-n2 mr-sm-n1 flex-self-center';
+		'flex-shrink-0 btn btn-sm flex-self-center';
 </script>
 
 {#if typeof action === 'string'}
