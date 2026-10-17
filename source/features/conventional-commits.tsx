@@ -47,7 +47,8 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		is(commitTitleInLists) + ' > a > span:first-child',
+		// Wait for React to replace the server-rendered commit titles.
+		'react-app.loaded ' + is(commitTitleInLists) + ' > span > a:first-child',
 		renderLabelInCommitTitle,
 		{signal},
 	);
