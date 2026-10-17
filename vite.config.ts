@@ -34,10 +34,12 @@ function rawAsString(): Plugin {
 		name: 'raw-as-string',
 		enforce: 'pre',
 		load(id) {
-			const path = id.split('?')[0]!;
+			const path = id.split('?', 1)[0];
 			if (path.endsWith('.gql') || path.endsWith('.svg')) {
 				return 'export default ' + JSON.stringify(readFileSync(path, 'utf8')) + ';';
 			}
+
+			return undefined;
 		},
 	};
 }
@@ -145,6 +147,7 @@ function failOnExternalImports(): Plugin {
 	};
 }
 
+// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig({
 	clearScreen: false,
 	optimizeDeps: {
