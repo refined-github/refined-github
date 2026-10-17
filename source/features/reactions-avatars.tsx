@@ -53,11 +53,9 @@ const reactorsQuery = `
 	}
 `;
 
-type Reactable = {
-	reactionGroups: Array<{
-		content: string;
-		reactors: {nodes: Array<{login: string; avatarUrl: string}>};
-	}>;
+type ReactionGroup = {
+	content: string;
+	reactors: {nodes: Array<{login: string; avatarUrl: string}>};
 };
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
@@ -124,38 +122,38 @@ function appendAvatars(reactions: Participant[][]): void {
 	}
 }
 
+function getCommentId(container: Element): string | undefined {
+	// Comments have a node ID, the issue description doesn't
+	return closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId;
+}
+
 async function showReactorAvatars(containers: Element[]): Promise<void> {
-	if (!await getToken()) {
+	// The token is optional, the other layouts work without it
+	const hasToken = Boolean(await getToken());
+	if (!hasToken) {
 		return;
 	}
 
-	// Comments are identified by their node ID, the issue description by its number
-	const containerIds = new Map<Element, string | undefined>();
-	for (const container of containers) {
-		// The issue description isn't a timeline item
-		const id = closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId;
-		containerIds.set(container, id);
-	}
-
-	const ids = [...new Set(containerIds.values())].filter(Boolean);
-	const hasDescription = [...containerIds.values()].includes(undefined);
+	const ids = containers.map(container => getCommentId(container));
 	const data = await api.v4(`
+		repository() {
+			issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}
+		}
 		${
-		hasDescription
-			? `repository() {description: issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}}`
-			: ''
+		ids.filter(id => id !== undefined).map(id => `${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`).join('\n')
 	}
-		${ids.length > 0 ? `comments: nodes(ids: ${JSON.stringify(ids)}) {${reactorsQuery}}` : ''}
-	`) as {repository?: {description: Reactable}; comments?: Reactable[]};
+	`);
 
 	const currentUser = getLoggedInUser();
-	for (const [container, id] of containerIds) {
-		const reactable = id ? data.comments![ids.indexOf(id)] : data.repository!.description;
+	for (const [index, container] of containers.entries()) {
+		const id = ids[index];
+		const {reactionGroups}: {reactionGroups: ReactionGroup[]} = id
+			? data[api.escapeKey(id)]
+			: data.repository.issueOrPullRequest;
 		const reactions = $$optional('button[aria-checked]', container).map(button => {
-			const emoji = button.getAttribute('aria-label')!.split(' ', 1)[0];
-			const group = reactable.reactionGroups.find(({content}) => content === reactionContents[emoji]);
-			// The reaction could have been removed since the page loaded
-			return (group?.reactors.nodes ?? [])
+			const content = reactionContents[button.getAttribute('aria-label')!.split(' ', 1)[0]];
+			return reactionGroups
+				.find(group => group.content === content)!.reactors.nodes
 				.filter(({login}) => login !== currentUser)
 				.map(({login, avatarUrl}) => ({button, username: login, imageUrl: avatarUrl}));
 		});
