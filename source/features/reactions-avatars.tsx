@@ -1,14 +1,17 @@
 import './reactions-avatars.css';
 
 import {onAbort} from 'abort-utils';
+import batchedFunction from 'batched-function';
 import React from 'dom-chef';
 import {flatZip} from 'flat-zip';
 import * as pageDetect from 'github-url-detection';
-import {$$optional} from 'select-dom';
+import {$$optional, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import api from '../github-helpers/api.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
-import {getLoggedInUser} from '../github-helpers/index.js';
+import {getToken} from '../github-helpers/github-token.js';
+import {getConversationNumber, getLoggedInUser} from '../github-helpers/index.js';
 import observe from '../helpers/selector-observer.js';
 
 const arbitraryAvatarLimit = 36;
@@ -21,19 +24,46 @@ type Participant = {
 	imageUrl: string;
 };
 
+// The React issue view only lists full names, so the usernames come from the API
+const reactionContents: Record<string, string> = {
+	'👍': 'THUMBS_UP',
+	'👎': 'THUMBS_DOWN',
+	'😄': 'LAUGH',
+	'🎉': 'HOORAY',
+	'😕': 'CONFUSED',
+	'❤️': 'HEART',
+	'🚀': 'ROCKET',
+	'👀': 'EYES',
+};
+
+const reactorsQuery = `
+	... on Reactable {
+		reactionGroups {
+			content
+			reactors(first: ${arbitraryAvatarLimit}) {
+				nodes {
+					... on Actor {
+						login
+						avatarUrl(size: ${avatarSize * 2})
+					}
+				}
+			}
+		}
+	}
+`;
+
+type Reactable = {
+	reactionGroups: Array<{
+		content: string;
+		reactors: {nodes: Array<{login: string; avatarUrl: string}>};
+	}>;
+};
+
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
-	if (button.getAttribute('role') === 'switch') { // [aria-label] alone is not a differentiator
-		users = button.nextElementSibling!
-			.textContent
-			.replace(/^.+including /, '')
-			.replace(/\)/, '')
-			.replace(/,? and /, ', ')
-			.replace(/, \d+ more/, '')
-			.split(', ');
-		// Uses optional chaining to throw an error manually later
-	} else if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
+	// Uses optional chaining to throw an error manually later
+	if (button.nextElementSibling?.tagName === 'TOOL-TIP') {
 		// The list of people who commented is in an adjacent `<tool-tip>` element #5698
 		users = button.nextElementSibling
 			.textContent
@@ -61,12 +91,7 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 	return participants;
 }
 
-function showAvatarsOn(reactionsContainer: Element): void {
-	const reactions = $$optional([
-		'button[aria-pressed]', // Discussions, releases, PRs, old issues
-		'button[aria-checked]', // React issues
-	], reactionsContainer)
-		.map(button => getParticipants(button)); // Get all participants for each reaction
+function appendAvatars(reactions: Participant[][]): void {
 	if (reactions.length === 0) {
 		return;
 	}
@@ -88,6 +113,64 @@ function showAvatarsOn(reactionsContainer: Element): void {
 			</span>,
 		);
 	}
+}
+
+async function showReactorAvatars(containers: Element[]): Promise<void> {
+	if (!await getToken()) {
+		return;
+	}
+
+	// Comments are identified by their node ID, the issue description by its number
+	const commentIds = new Set<string>();
+	const containerIds = new Map<Element, string | undefined>();
+	for (const container of containers) {
+		// The issue description isn't a timeline item
+		const id = closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId;
+		containerIds.set(container, id);
+		if (id) {
+			commentIds.add(id);
+		}
+	}
+
+	const ids = [...commentIds];
+	const hasDescription = [...containerIds.values()].includes(undefined);
+	const data = await api.v4(`
+		${
+		hasDescription
+			? `repository() {description: issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}}`
+			: ''
+	}
+		${ids.length > 0 ? `comments: nodes(ids: ${JSON.stringify(ids)}) {${reactorsQuery}}` : ''}
+	`) as {repository?: {description: Reactable}; comments?: Reactable[]};
+
+	const currentUser = getLoggedInUser();
+	for (const [container, id] of containerIds) {
+		const reactable = id ? data.comments![ids.indexOf(id)] : data.repository!.description;
+		const reactions = $$optional('button[aria-checked]', container).map(button => {
+			const emoji = button.getAttribute('aria-label')!.split(' ', 1)[0];
+			const group = reactable.reactionGroups.find(({content}) => content === reactionContents[emoji]);
+			// The reaction could have been removed since the page loaded
+			return (group?.reactors.nodes ?? [])
+				.filter(({login}) => login !== currentUser)
+				.map(({login, avatarUrl}) => ({button, username: login, imageUrl: avatarUrl}));
+		});
+
+		// Each container is shown on its own so that the avatar limit applies to each comment
+		appendAvatars(reactions);
+	}
+}
+
+const showReactorAvatarsBatched = batchedFunction(showReactorAvatars, {delay: 100});
+
+function showAvatarsOn(reactionsContainer: Element): void {
+	if ($$optional('button[aria-checked]', reactionsContainer).length > 0) { // React issues
+		showReactorAvatarsBatched(reactionsContainer);
+		return;
+	}
+
+	const reactions = $$optional('button[aria-pressed]', reactionsContainer) // Discussions, releases, PRs, old issues
+		.map(button => getParticipants(button)); // Get all participants for each reaction
+	appendAvatars(reactions);
 }
 
 const viewportObserver = new IntersectionObserver(changes => {
