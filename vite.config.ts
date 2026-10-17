@@ -6,7 +6,6 @@ import process from 'node:process';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import {type Plugin} from 'vite';
 import {viteStaticCopy} from 'vite-plugin-static-copy';
-import svgr from 'vite-plugin-svgr';
 import {defineConfig} from 'vitest/config';
 
 import cssConfig from './build/css-config.json' with {type: 'json'};
@@ -29,11 +28,19 @@ const cssPrefix = '\0rgh-css:';
 // Avoid the `.css` extension so Vite's own CSS pipeline ignores these modules
 const cssSuffix = '.rgh';
 
-/** Import `.gql` files as strings */
-function gqlAsString(): Plugin {
+/** Import `.gql` and `.svg` files as strings */
+function rawAsString(): Plugin {
 	return {
-		name: 'gql-as-string',
-		transform: (code, id) => id.endsWith('.gql') ? `export default ${JSON.stringify(code)};` : undefined,
+		name: 'raw-as-string',
+		enforce: 'pre',
+		load(id) {
+			const path = id.split('?', 1)[0];
+			if (path.endsWith('.gql') || path.endsWith('.svg')) {
+				return 'export default ' + JSON.stringify(readFileSync(path, 'utf8')) + ';';
+			}
+
+			return undefined;
+		},
 	};
 }
 
@@ -157,21 +164,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		gqlAsString(),
-		svgr({
-			svgrOptions: {
-				jsxRuntime: 'classic',
-				jsxRuntimeImport: {source: 'dom-chef', defaultSpecifier: 'React'},
-				svgo: false,
-			},
-			oxcOptions: {
-				jsx: {
-					runtime: 'classic',
-					pragma: 'React.createElement',
-					pragmaFrag: 'React.Fragment',
-				},
-			},
-		}),
+		rawAsString(),
 		failOnExternalImports(),
 		extractCss(['refined-github', 'options', 'options-components']),
 		svelte(),
@@ -223,7 +216,8 @@ export default defineConfig({
 						return `npm/${cleanName}.js`;
 					}
 
-					return chunkInfo.name.replace('build/__snapshots__/', '') + '.js';
+					// Drop query strings like `?react`, they're not valid in file names on every OS
+					return chunkInfo.name.replace('build/__snapshots__/', '').replace(/\?.*$/, '') + '.js';
 				},
 			},
 		},

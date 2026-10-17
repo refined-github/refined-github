@@ -6,9 +6,8 @@ declare module '*.css';
 declare module '*.gql' {
 	export = string;
 }
-declare module '*.svg?react' {
-	const Icon: () => JSX.Element;
-	export default Icon;
+declare module '*.svg' {
+	export = string;
 }
 
 type AnyObject = Record<string, any>;

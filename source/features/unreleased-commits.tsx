@@ -12,7 +12,7 @@ import {groupButtons} from '../github-helpers/group-buttons.js';
 import {buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
-import UntaggedIcon from '../github-helpers/untagged.svg?react';
+import untaggedIcon from '../github-helpers/untagged.svg';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
@@ -89,7 +89,8 @@ async function createLink(
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<UntaggedIcon /> {aheadBy === undeterminableAheadBy || <sup style={{marginLeft: '-2px'}}>{aheadBy}</sup>}
+			<span dangerouslySetInnerHTML={{__html: untaggedIcon}} />{' '}
+			{aheadBy === undeterminableAheadBy || <sup style={{marginLeft: '-2px'}}>{aheadBy}</sup>}
 		</a>
 	);
 }
