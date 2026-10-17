@@ -133,10 +133,8 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 	const containerIds = new Map<Element, string | undefined>();
 	for (const container of containers) {
 		// The issue description isn't a timeline item
-		containerIds.set(
-			container,
-			closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId,
-		);
+		const id = closestElementOptional('[data-wrapper-timeline-id]', container)?.dataset.wrapperTimelineId;
+		containerIds.set(container, id);
 	}
 
 	const ids = [...new Set(containerIds.values())].filter(Boolean);
