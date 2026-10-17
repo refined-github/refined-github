@@ -39,7 +39,7 @@ function fail(message: string): void {
 function listFiles(directory: string): string[] {
 	return readdirSync(directory, {withFileTypes: true}).flatMap(entry => {
 		const file = path.join(directory, entry.name);
-		return entry.isDirectory() ? listFiles(file) : [file];
+		return entry.isDirectory() ? listFiles(file) : file;
 	});
 }
 
@@ -192,7 +192,7 @@ function verifyReferences(): void {
 	const manifestFiles = [
 		manifest.background?.service_worker,
 		...[manifest.action?.default_icon ?? []].flat().flatMap(icon =>
-			typeof icon === 'string' ? [icon] : Object.values(icon)
+			typeof icon === 'string' ? icon : Object.values(icon)
 		),
 		...(manifest.content_scripts ?? []).flatMap(script => [...script.js ?? [], ...script.css ?? []]),
 	];

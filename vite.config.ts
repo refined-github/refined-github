@@ -6,6 +6,7 @@ import process from 'node:process';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import {type Plugin} from 'vite';
 import {viteStaticCopy} from 'vite-plugin-static-copy';
+import svgr from 'vite-plugin-svgr';
 import {defineConfig} from 'vitest/config';
 
 import cssConfig from './build/css-config.json' with {type: 'json'};
@@ -33,28 +34,6 @@ function gqlAsString(): Plugin {
 	return {
 		name: 'gql-as-string',
 		transform: (code, id) => id.endsWith('.gql') ? `export default ${JSON.stringify(code)};` : undefined,
-	};
-}
-
-/** Import `.svg` files as components that return a fresh element */
-function svgAsComponent(): Plugin {
-	return {
-		name: 'svg-as-component',
-		enforce: 'pre',
-		load(id) {
-			const [path] = id.split('?', 1);
-			if (!path.endsWith('.svg')) {
-				return undefined;
-			}
-
-			return [
-				'export default function Icon() {',
-				"\tconst template = document.createElement('template');",
-				'\ttemplate.innerHTML = ' + JSON.stringify(readFileSync(path, 'utf8').trim()) + ';',
-				'\treturn template.content.firstElementChild;',
-				'}',
-			].join('\n');
-		},
 	};
 }
 
@@ -179,7 +158,20 @@ export default defineConfig({
 	},
 	plugins: [
 		gqlAsString(),
-		svgAsComponent(),
+		svgr({
+			svgrOptions: {
+				jsxRuntime: 'classic',
+				jsxRuntimeImport: {source: 'dom-chef', defaultSpecifier: 'React'},
+				svgo: false,
+			},
+			oxcOptions: {
+				jsx: {
+					runtime: 'classic',
+					pragma: 'React.createElement',
+					pragmaFrag: 'React.Fragment',
+				},
+			},
+		}),
 		failOnExternalImports(),
 		extractCss(['refined-github', 'options', 'options-components']),
 		svelte(),

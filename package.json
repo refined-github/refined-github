@@ -115,6 +115,7 @@
 		"typescript": "npm:@typescript/typescript6@^6.0.2",
 		"vite": "^8.3.0",
 		"vite-plugin-static-copy": "^4.1.1",
+		"vite-plugin-svgr": "^5.2.0",
 		"vitest": "^5.0.1"
 	},
 	"overrides": {
