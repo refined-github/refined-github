@@ -1,6 +1,8 @@
 import browserslist from 'browserslist';
 import {browserslistToTargets, Features} from 'lightningcss';
+import process from 'node:process';
 import svelte from 'rollup-plugin-svelte';
+import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
 import {defineConfig} from 'tsdown';
 
 import svelteConfig from './svelte.config.js';
@@ -85,7 +87,11 @@ export default defineConfig([
 			{from: 'source/manifest.json', to: 'distribution'},
 			{from: 'source/*.{html,png,js}', to: 'distribution/assets'},
 		],
-		plugins: [svelte(svelteConfig), keep(file => !file.fileName.endsWith('.css'))],
+		plugins: [
+			svelte(svelteConfig),
+			process.env.RELATIVE_CI_STATS ? webpackStatsPlugin() : undefined,
+			keep(file => !file.fileName.endsWith('.css')),
+		],
 	},
 	...cssEntries.map(name => ({
 		...shared,
