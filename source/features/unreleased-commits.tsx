@@ -1,7 +1,6 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlusIcon from 'octicons-plain-react/Plus';
-import TagIcon from 'octicons-plain-react/Tag';
 import {$optional, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
@@ -13,6 +12,7 @@ import {groupButtons} from '../github-helpers/group-buttons.js';
 import {buildRepoUrl, cacheByRepo, getLatestVersionTag, getRepo} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
+import untaggedIcon from '../github-helpers/untagged.svg';
 import abbreviateString from '../helpers/abbreviate-string.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import pluralize from '../helpers/pluralize.js';
@@ -89,7 +89,8 @@ async function createLink(
 			href={buildRepoUrl('compare', `${latestTag}...${await getDefaultBranch()}`)}
 			aria-label={label}
 		>
-			<TagIcon /> {aheadBy === undeterminableAheadBy || <sup className="ml-n2 tmp-ml-n2">+{aheadBy}</sup>}
+			<span dangerouslySetInnerHTML={{__html: untaggedIcon}} />{' '}
+			{aheadBy === undeterminableAheadBy || <sup style={{marginLeft: '-2px'}}>{aheadBy}</sup>}
 		</a>
 	);
 }
