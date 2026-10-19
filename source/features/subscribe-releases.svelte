@@ -11,6 +11,8 @@
 
 	const {repositoryId, onSubscribe}: Props = $props();
 
+	const requiresAttention = location.hash === '#rgh-subscribe';
+
 	let threadTypes = $state<string[]>();
 	let subscribed = $state(false);
 	let loading = $state(false);
@@ -53,7 +55,7 @@
 
 <button
 	type="button"
-	class="btn px-2 tmp-px-2 mr-2 tmp-mr-2 mb-2 tmp-mb-2 tooltipped tooltipped-s"
+	class="{requiresAttention ? 'attention' : ''} btn px-2 tmp-px-2 mr-2 tmp-mr-2 mb-2 tmp-mb-2 tooltipped tooltipped-s"
 	disabled={!threadTypes || loading || subscribed}
 	onclick={handleClick}
 	aria-label={subscribed
@@ -65,3 +67,33 @@
 		{subscribed ? 'Subscribed' : 'Subscribe'}
 	</span>
 </button>
+
+<style>
+	.attention {
+		animation: huge-outline 1s 3s ease-in-out 1;
+	}
+
+	@keyframes huge-outline {
+		0% {
+			outline: 4px solid rgba(88, 166, 255, 1);
+			outline-offset: 10px;
+		}
+		20% {
+			outline-offset: 0;
+		}
+		40% {
+			outline-offset: 10px;
+		}
+		60% {
+			outline-offset: 0;
+		}
+		80% {
+			outline: 4px solid rgba(88, 166, 255, 1);
+			outline-offset: 10px;
+		}
+		100% {
+			outline: 4px solid rgba(88, 166, 255, 0);
+			outline-offset: 0;
+		}
+	}
+</style>

@@ -1,4 +1,5 @@
 import * as pageDetect from 'github-url-detection';
+import ReleaseIcon from 'octicons-plain-react/Release';
 import TagIcon from 'octicons-plain-react/Tag';
 import {writable} from 'svelte/store';
 import {CachedFunction} from 'webext-storage-cache';
@@ -59,7 +60,7 @@ async function addReleasesTabOnce(): Promise<false | void> {
 		id: 'rgh-releases',
 		href,
 		label: type,
-		icon: TagIcon,
+		icon: type === 'Releases' ? ReleaseIcon : TagIcon,
 		counter: writable(count),
 		selected: () => location.pathname === pathname,
 	});

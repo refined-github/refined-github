@@ -1,6 +1,6 @@
 /* Explanation for the feature in https://github.com/refined-github/refined-github/pull/4728#issuecomment-910630727 */
 
-@media (min-resolution: 2x) {
+@media (resolution >= 2x) {
 	/* README: These selectors don't have to be super specific, they just need to limit the feature to lists so that it doesn't affect icons that appear in buttons, for example (if any) */
 	html:not([rgh-OFF-emphasize-draft-pr-label]) {
 		/* Dashboard PR lists */
