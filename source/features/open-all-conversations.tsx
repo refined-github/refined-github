@@ -75,7 +75,7 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
 			// PR list: the filters are right-aligned inside the ActionBar's overflow container, so the button has to live in it to stay next to them
-			'[class*="SharedListContainer-module__primerActionBar"] [class*="prc-ActionBar-OverflowContainer"]',
+			'[class*="primerActionBar"] [class*="prc-ActionBar-OverflowContainer"]',
 			'[aria-label="Pull request actions"] > :first-child',
 		],
 		add,
