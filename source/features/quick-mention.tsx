@@ -31,8 +31,7 @@ const prAvatarSelector = '.js-quote-selection-container '
 	)
 	+ `:not([href="/${loggedInUser}"])`;
 
-const issueAvatarSelector =
-	`a[class*="avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
+const issueAvatarSelector = `a[class*="avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
