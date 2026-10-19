@@ -1,5 +1,3 @@
-import browserslist from 'browserslist';
-import {browserslistToTargets, Features} from 'lightningcss';
 import process from 'node:process';
 import svelte from 'rollup-plugin-svelte';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
@@ -99,10 +97,6 @@ export default defineConfig([
 		css: {
 			splitting: false,
 			fileName: name + '.css',
-			lightningcss: {
-				include: Features.Nesting,
-				targets: browserslistToTargets(browserslist('chrome 123, firefox 126, iOS 17.5')),
-			},
 		},
 		plugins: [svelte(svelteConfig), keep(file => file.fileName.endsWith('.css'))],
 	})),
