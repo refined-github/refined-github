@@ -1,3 +1,4 @@
+import path from 'node:path';
 import process from 'node:process';
 import svelte from 'rollup-plugin-svelte';
 import webpackStatsPlugin from 'rollup-plugin-webpack-stats';
@@ -19,9 +20,23 @@ const noise = new Set([
 	'built',
 ]);
 
-const cssEntries = ['refined-github', 'options', 'options-components'];
+const js = [
+	'./source/options.tsx',
+	'./source/welcome.svelte',
+	'./source/graphql.svelte',
+	'./source/refined-github.ts',
+	'./source/background.ts',
+].map(filepath => [path.parse(filepath).name, filepath]);
 
+const css = [
+	'./source/options.tsx',
+	'./source/refined-github.ts',
+].map(filepath => [path.parse(filepath).name, filepath]);
+
+// eslint-disable-next-line jsdoc/imports-as-dependencies -- False positive
+/** @type {import('tsdown').UserConfig} */
 const shared = {
+	logLevel: 'warn',
 	platform: 'browser',
 	format: 'es',
 	outDir: 'distribution/assets',
@@ -32,8 +47,9 @@ const shared = {
 	alias: {react: 'dom-chef'},
 	loader: {'.gql': 'text', '.svg': 'text'},
 	inputOptions: {
+		// Better conditions for Svelte
 		resolve: {conditionNames: ['production', 'browser', 'module', 'import', 'default']},
-		transform: {jsx: {runtime: 'classic', pragma: 'React.createElement', pragmaFrag: 'React.Fragment'}},
+		transform: {jsx: {runtime: 'classic'}},
 	},
 	outputOptions: {
 		entryFileNames(chunkInfo) {
@@ -63,21 +79,11 @@ const keep = predicate => ({
 	},
 });
 
-const input = {
-	options: './source/options.tsx',
-	'options-components': './source/options.svelte',
-	welcome: './source/welcome.svelte',
-	graphql: './source/graphql.svelte',
-	'refined-github': './source/refined-github.ts',
-	'content-script': './source/content-script.ts',
-	background: './source/background.ts',
-};
-
 // eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	{
 		...shared,
-		entry: input,
+		entry: Object.fromEntries(js),
 		unbundle: true,
 		root: 'source',
 		clean: true,
@@ -91,9 +97,9 @@ export default defineConfig([
 			keep(file => !file.fileName.endsWith('.css')),
 		],
 	},
-	...cssEntries.map(name => ({
+	...css.map(([name, entry]) => ({
 		...shared,
-		entry: {[name]: input[name]},
+		entry,
 		css: {
 			splitting: false,
 			fileName: name + '.css',

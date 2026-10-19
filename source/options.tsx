@@ -1,6 +1,9 @@
 import 'webext-base-css/webext-base.css';
 import './options.css';
 
+// eslint-disable-next-line import-x/no-unassigned-import, import-x/order -- Side effects
+import './options/options.svelte';
+
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/target-blank';
 import elementReady from 'element-ready';
