@@ -6,8 +6,7 @@
 		children: Snippet;
 	} = $props();
 
-	const buttonClasses =
-		'flex-shrink-0 btn btn-sm flex-self-center';
+	const buttonClasses = 'flex-shrink-0 btn btn-sm flex-self-center';
 </script>
 
 {#if typeof action === 'string'}
