@@ -233,7 +233,7 @@ const authorLinks = [
 	// React-based views
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
-	'a[class^="row-module__eventActorLink"]',
+	'a[class*="eventActorLink"]',
 ] as const;
 
 const authorLinksException = [
