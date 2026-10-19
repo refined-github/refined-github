@@ -4,11 +4,13 @@
 		transition: 100ms opacity; /* Match `mark-merge-commits-in-list` */
 	}
 
-	/* Commit titles, dim */
-	&:not(.rgh-tagged, :hover) > *,
-	/* PR row, dim */
-	&:not(.rgh-tagged, :hover) .Box-row--drag-hide {
-		opacity: 50%; /* Match `mark-merge-commits-in-list` */
+	&:not(.rgh-tagged, :hover) {
+		/* Commit titles, dim */
+		> *,
+		/* PR row, dim */
+		.Box-row--drag-hide {
+			opacity: 50%; /* Match `mark-merge-commits-in-list` */
+		}
 	}
 
 	&:not(.rgh-tagged, .rgh-interacted) {

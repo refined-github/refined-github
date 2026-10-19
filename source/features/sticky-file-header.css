@@ -1,22 +1,24 @@
 /* `.sticky-file-header` excludes native sticky header */
-:root .file-header:not(.sticky-file-header) {
-	position: sticky;
-	z-index: 6; /* isBlame, isEditingFile */
-	top: 0;
-}
+.file-header:not(.sticky-file-header) {
+	:root & {
+		position: sticky;
+		z-index: 6; /* isBlame, isEditingFile */
+		top: 0;
+	}
 
-.notification-shelf ~ .application-main .file-header:not(.sticky-file-header) {
-	top: 129px;
-}
+	.notification-shelf ~ .application-main & {
+		top: 129px;
+	}
 
-/* Same as `.sticky-file-header.has-open-dropdown` */
-.file-header.has-open-dropdown:not(.sticky-file-header) {
-	z-index: 10;
-}
+	/* Same as `.sticky-file-header.has-open-dropdown` */
+	&.has-open-dropdown {
+		z-index: 10;
+	}
 
-/* Consider the File List fixed header/sidebar in commits */
-:root diff-layout .file-header:not(.sticky-file-header) {
-	top: 60px;
+	/* Consider the File List fixed header/sidebar in commits */
+	:root diff-layout & {
+		top: 60px;
+	}
 }
 
 /*

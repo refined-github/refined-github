@@ -2,8 +2,7 @@
 	min-height: 4.5lh;
 	max-height: none !important;
 	field-sizing: content;
-}
-
-:root textarea.rgh-fit-textareas.form-control {
-	height: auto;
+	:root textarea&.form-control {
+		height: auto;
+	}
 }
