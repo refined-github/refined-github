@@ -40,7 +40,7 @@ function alterLink(label: HTMLElement): void {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			'span[class^="ReviewDecision-module__reviewDecisionContent"]',
+			'span[class*="reviewDecisionContent"]',
 
 			// Note: This feature alters the `href` so this selector cannot be used by any other features
 			// TODO [2027-01-01]: Drop selector when the old PR list is removed
