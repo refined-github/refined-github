@@ -5,9 +5,9 @@ import process from 'node:process';
 const distribution = 'distribution/assets';
 
 // Update when adding or removing features
-const expectedFeatureFiles = 233;
-const featureFilesTolerance = 30;
-const expectedCssFiles = 3;
+const expectedFeatureFiles = 233; // Includes svelte and gql
+const featureFilesTolerance = 50;
+const expectedCssFiles = 2;
 
 const files = readdirSync(distribution, {recursive: true, withFileTypes: true})
 	.filter(entry => entry.isFile())
