@@ -26,7 +26,7 @@ const timeline = [
 	// PR
 	'[class^="prc-PageLayout-PageLayoutWrapper"]',
 	// Issue
-	'[class*="IssueViewer-module__mainContainer"]',
+	'[class*="mainContainer"]',
 ] as const;
 const timelineItem = [
 	'.js-timeline-item',
