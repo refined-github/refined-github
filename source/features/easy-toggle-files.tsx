@@ -32,7 +32,7 @@ function init(signal: AbortSignal): void {
 		[
 			'.file-header',
 			// React
-			'[class^="Diff-module__diffHeaderWrapper"]',
+			'[class*="diffHeaderWrapper"]',
 		],
 		'click',
 		toggleFile,

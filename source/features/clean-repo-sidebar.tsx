@@ -31,7 +31,7 @@ function cleanSidebarSection(section: HTMLElement): void {
 		return;
 	}
 
-	const emptyMeta = $optional('[class*="SidebarAbout-module__noDescription"]', section);
+	const emptyMeta = $optional('[class*="noDescription"]', section);
 	if (emptyMeta && !pageDetect.canUserAccessRepoSettings()) {
 		emptyMeta.remove();
 		// Don't return here because the next condition applies to the same block
@@ -41,7 +41,7 @@ function cleanSidebarSection(section: HTMLElement): void {
 async function init(signal: AbortSignal): Promise<void> {
 	document.documentElement.setAttribute('rgh-clean-repo-sidebar', '');
 
-	observe('[class*="PageLayout-Pane"] [class*="SidebarSection-module__sidebarSection"]', cleanSidebarSection, {signal});
+	observe('[class*="PageLayout-Pane"] [class*="sidebarSection"]', cleanSidebarSection, {signal});
 }
 
 void features.add(import.meta.url, {
