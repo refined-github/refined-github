@@ -6,19 +6,17 @@ import * as pageDetect from 'github-url-detection';
 import {$$optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
+import {viewedToggleSelector} from './batch-mark-files-as-viewed.js';
 
-const viewedToggleSelector =
-	':is(button[class*="MarkAsViewedButton"], [class*="diff-file-header"] button[aria-pressed])';
 const treeLinkSelector = 'ul[aria-label="File Tree"] a[href*="#"]';
 const dimmedClass = 'rgh-dim-viewed-files';
 
 const updateTree = debounce((): void => {
 	for (const link of $$optional(treeLinkSelector)) {
 		const row = closestElement('[role="treeitem"]', link);
-		const viewed = elementExists(
-			`#${CSS.escape(link.hash.slice(1))} ${viewedToggleSelector}[aria-pressed="true"]`,
-		);
+		const viewed = elementExists(link.hash + ` [aria-pressed="true"]` + is(viewedToggleSelector));
 		row.classList.toggle(dimmedClass, viewed);
 	}
 }, {wait: 100});
@@ -28,7 +26,7 @@ export function init(signal: AbortSignal): void {
 		[
 			treeLinkSelector,
 			// The pressed selector also catches viewed state loaded after the button renders.
-			`${viewedToggleSelector}[aria-pressed="true"]`,
+			`[aria-pressed="true"]` + is(viewedToggleSelector),
 		],
 		updateTree,
 		{signal},
