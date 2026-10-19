@@ -1,5 +1,5 @@
 .rgh-merge-commit {
-	& > div > * {
+	> div > * {
 		transition: 100ms opacity; /* Match `dim-bots` */
 	}
 

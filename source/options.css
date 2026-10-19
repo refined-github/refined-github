@@ -38,7 +38,7 @@ ul {
 }
 
 /* :not() due to https://github.com/refined-github/refined-github/issues/8062 */
-p:last-child:not(.info p, background-status p),
+p:last-child:where(:not(.info p, background-status p)),
 ul:last-child {
 	margin-bottom: 0;
 }
@@ -57,7 +57,7 @@ details {
 
 	--border-radius: 6px;
 
-	border: solid 1px transparent;
+	border: 1px solid transparent;
 	border-radius: var(--border-radius);
 
 	/* Sync with --content-width */

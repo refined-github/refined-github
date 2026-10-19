@@ -24,7 +24,7 @@ type Nullable<T> = T | null;
   <sì/>
   <nope/>
  </parent>
- */
+*/
 export const appendBefore = (parent: string | Element, before: string, child: Node): void => {
 	if (typeof parent === 'string') {
 		parent = $(parent);
