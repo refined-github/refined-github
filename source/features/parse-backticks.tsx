@@ -20,7 +20,7 @@ const selectors = [
 
 	// `isIssue` linked PRs
 	// https://github.com/refined-github/refined-github/issues/7856
-	'span[class^="LinkedPullRequests-module__PrTitle"]',
+	'span[class*="PrTitle"]',
 	// TODO [2026-10-01]: Drop
 	'span[id$="--label"]',
 
@@ -59,7 +59,7 @@ const selectors = [
 
 	// Dashboard
 	// https://github.com
-	'a[class^="DashboardListView-module__ItemTitle"]',
+	'a[class*="ItemTitle"]',
 	// https://github.com/orgs/refined-github/dashboard
 	'.js-feed-item-component h3 > .Link--primary',
 ] as const;
