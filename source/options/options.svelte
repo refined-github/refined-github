@@ -21,19 +21,19 @@
 	import SearchIcon from 'octicons-plain-react/Search';
 	import ZapIcon from 'octicons-plain-react/Zap';
 
-	import DomChef from './components/dom-chef.svelte';
-	import ActionLink from './options/action-link.svelte';
-	import BackgroundStatus from './options/background-status.svelte';
-	import FeatureCount from './options/feature-count.svelte';
-	import FeatureFinder from './options/feature-finder.svelte';
-	import FeatureList from './options/feature-list.svelte';
-	import HandleExpand from './options/handle-expand.svelte';
-	import Header from './options/header.svelte';
-	import HotFixes from './options/hot-fixes.svelte';
-	import RateLink from './options/rate-link.svelte';
-	import StorageUsage from './options/storage-usage.svelte';
-	import TokenInputs from './options/token-inputs.svelte';
-	import VersionInfo from './options/version-info.svelte';
+	import DomChef from '../components/dom-chef.svelte';
+	import ActionLink from './action-link.svelte';
+	import BackgroundStatus from './background-status.svelte';
+	import FeatureCount from './feature-count.svelte';
+	import FeatureFinder from './feature-finder.svelte';
+	import FeatureList from './feature-list.svelte';
+	import HandleExpand from './handle-expand.svelte';
+	import Header from './header.svelte';
+	import HotFixes from './hot-fixes.svelte';
+	import RateLink from './rate-link.svelte';
+	import StorageUsage from './storage-usage.svelte';
+	import TokenInputs from './token-inputs.svelte';
+	import VersionInfo from './version-info.svelte';
 
 	const {domain = 'default'} = $props();
 	const enterprise = $derived(domain !== 'default');
