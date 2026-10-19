@@ -3,13 +3,13 @@
 	/* `.flex-wrap` makes the element overflow. This prevents it */
 	max-width: 100%;
 
-	& > span:not(:last-child, [data-view-component]) {
+	> span:not(:last-child, [data-view-component]) {
 		flex-basis: 0 !important;
 		min-width: 5em;
 	}
 
 	/* Date */
-	& > span:last-child {
+	> span:last-child {
 		width: 7em;
 		overflow: hidden;
 		text-overflow: ellipsis;

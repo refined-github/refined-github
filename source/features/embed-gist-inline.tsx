@@ -2,7 +2,7 @@ import {css} from 'code-tag';
 import React from 'dom-chef';
 import domify from 'doma';
 import * as pageDetect from 'github-url-detection';
-import mem from 'memoize';
+import memoize from 'memoize';
 import {messageRuntime} from 'webext-msg';
 
 import features from '../feature-manager.js';
@@ -23,7 +23,7 @@ const gistStyles = css`
 `;
 
 // Fetch via background.js due to CORB policies. Also memoize to avoid multiple requests.
-const fetchGist = mem(
+const fetchGist = memoize(
 	async (url: string): Promise<GistData> => messageRuntime({fetchJson: `${url}.json`}),
 );
 

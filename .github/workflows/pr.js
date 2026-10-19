@@ -6,6 +6,11 @@ export async function blockAi({github, context, core}) {
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
 
+	if (pr.user?.login === 'fregante') {
+		core.info(`PR #${pr.number} was opened by a maintainer; skipping.`);
+		return;
+	}
+
 	const {data: comments} = await github.rest.issues.listComments({
 		owner,
 		repo,
@@ -86,6 +91,14 @@ export async function inheritLabels({github, context, core}) {
 	});
 
 	const labels = new Set();
+
+	if (/^(?:Meta:|Bump|Update|Lint)|rgh-/.test(pr.title)) {
+		labels.add('meta');
+	}
+
+	if (/restore feature/i.test(pr.title)) {
+		labels.add('bug');
+	}
 
 	for (
 		const issue of res.repository.pullRequest.closingIssuesReferences.nodes

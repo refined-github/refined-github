@@ -11,7 +11,7 @@
 		}
 
 		.Box:has(.js-notifications-mark-all-prompt) {
-			& .Box-header {
+			.Box-header {
 				position: sticky;
 				top: var(--sticky-padding);
 				z-index: 10;
@@ -25,7 +25,7 @@
 			/* Grouped by repo; .Box only contains the header */
 			&:not(.notifications-list) {
 				display: contents; /* Craptastic position:sticky is only sticky within its parent, so we have to break it. Fingers crossed this doesn't break the layout in the future. */
-				& .Box-header {
+				.Box-header {
 					/* Since its section already has its own .Box-header, we try to further "elevate" it */
 					box-shadow: 0 0 var(--shadow-blur-radius) var(--shadow-spread-radius)
 						var(--rgh-background);
