@@ -134,19 +134,23 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 		return;
 	}
 
-	const ids = containers.map(container => getCommentId(container));
+	const containersById = new Map<string | undefined, Element>(
+		containers.map(container => [getCommentId(container), container]),
+	);
 	const data = await api.v4(`
 		repository() {
 			issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}
 		}
 		${
-		ids.filter(id => id !== undefined).map(id => `${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`).join('\n')
+		[...containersById.keys()].filter(id => id !== undefined).map(id =>
+			`${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`
+		).join('\n')
 	}
 	`);
 
 	const currentUser = getLoggedInUser();
-	for (const [index, container] of containers.entries()) {
-		const id = ids[index];
+	for (const [id, container] of containersById) {
+		// Comments are aliased nodes, the description is the issue
 		const {reactionGroups}: {reactionGroups: ReactionGroup[]} = id
 			? data[api.escapeKey(id)]
 			: data.repository.issueOrPullRequest;
