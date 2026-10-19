@@ -20,9 +20,10 @@ const fileSelector = [
 	// Old view
 	'.js-file',
 ] as const;
-// New view, Old view
 const checkedSelector = is(
+	// New view
 	'[aria-pressed="true"]',
+	// Old view
 	'[checked]',
 );
 
