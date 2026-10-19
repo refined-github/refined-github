@@ -16,16 +16,6 @@ jobs:
       - uses: fregante/title-to-labels-action@20f99e8f21b5da50da0494faf9ad87d58ec57370 # v1.2.5
         with:
           token: ${{ github.token }}
-          # starts with meta, upgrade, update, lint
-      - if: github.event_name == 'pull_request_target' && (startsWith(github.event.pull_request.title, 'Meta:') || contains(github.event.pull_request.title, 'rgh-') || startsWith(github.event.pull_request.title, 'Bump') || startsWith(github.event.pull_request.title, 'Update') || startsWith(github.event.pull_request.title, 'Lint'))
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          script: |
-            await github.rest.issues.addLabels({
-              ...context.repo,
-              issue_number: context.payload.pull_request.number,
-              labels: ['meta'],
-            })
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: fregante/keyword-formatter-action@ac8e2c7d8913c1f38cdbac6832218050be04c52f # v1.0.2
         with:

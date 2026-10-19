@@ -14,7 +14,7 @@ function init(): false | void {
 	// Wrap the button in a <div> to avoid #4503
 	$([
 		'#files', // Legacy
-		'[class^="DiffPlaceholder-module__DiffPlaceholderSVG"]',
+		'[class*="DiffPlaceholderSVG"]',
 	]).after(
 		<div className="d-flex flex-justify-end mb-3 tmp-mb-3">
 			{originalPreviousNext.cloneNode(true)}

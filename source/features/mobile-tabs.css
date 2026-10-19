@@ -42,7 +42,7 @@
 						'icon icon'
 						'title title';
 
-					& svg {
+					svg {
 						justify-self: center;
 					}
 				}

@@ -16,13 +16,6 @@ function addDescription(anchor: HTMLElement): () => void {
 	};
 }
 
-// TODO: Remove this, duplicate in the svelte component
-function getFeatureNameFromIssueTitle(): string | undefined {
-	const title = new URLSearchParams(location.search).get('title') ?? '';
-	// The title might be missing altogether
-	return /^`(?<id>[^`]+)`/.exec(title)?.groups?.id;
-}
-
 function init(signal: AbortSignal): void {
 	observe('#repos-sticky-header', singleton(addDescription), {signal});
 }
@@ -45,8 +38,7 @@ void features.add(import.meta.url, {
 	asLongAs: [
 		isRefinedGitHubRepo,
 		pageDetect.isNewIssue,
-		// TODO: detect `1_bug_report`, listen to title field changes
-		() => Boolean(getFeatureNameFromIssueTitle()),
+		() => new URL(location.href).searchParams.get('template') === '1_bug_report.yml',
 	],
 	init: initIssueForm,
 });

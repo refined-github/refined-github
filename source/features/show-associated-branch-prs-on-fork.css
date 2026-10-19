@@ -10,7 +10,7 @@
 	flex-wrap: wrap;
 	gap: 4px;
 
-	& > [class*='Box'] {
+	> [class*='Box'] {
 		/* Drop forced height on pre-existing cell */
 		height: auto;
 	}

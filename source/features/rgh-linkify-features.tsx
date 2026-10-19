@@ -87,7 +87,7 @@ function init(signal: AbortSignal): void {
 			'[data-testid="issue-title"] code', // `isIssue`
 			'.js-comment-body code', // Old view `hasComments`
 			'.markdown-body code', // `hasComments`, `isReleasesOrTags`
-			'[class^="CommitHeader-module__commitMessageContainer"] code', // `isSingleCommit`,
+			'[class*="commitMessageContainer"] code', // `isSingleCommit`,
 			`${is(commitTitleInLists)} code`, // `isCommitList`, `isCompare`
 			'.react-directory-commit-message code', // `isRepoTree`
 		],
