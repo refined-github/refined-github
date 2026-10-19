@@ -10,7 +10,7 @@
 		"build": "run-p build:* --continue-on-error",
 		"build:svelte": "svelte-check",
 		"build:typescript": "tsc --noEmit",
-		"build:bundle": "tsdown",
+		"build:bundle": "tsdown && node build/verify-bundle.ts",
 		"fix": "run-p format \"lint -- --fix\" \"vitest -- --update\" --continue-on-error",
 		"format": "dprint fmt",
 		"format:check": "dprint check",
