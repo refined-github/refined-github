@@ -25,6 +25,7 @@ const js = [
 	'./source/welcome.svelte',
 	'./source/graphql.svelte',
 	'./source/refined-github.ts',
+	'./source/content-script.js', // Entry-point only, not evaluated
 	'./source/background.ts',
 ].map(filepath => [path.parse(filepath).name, filepath]);
 
