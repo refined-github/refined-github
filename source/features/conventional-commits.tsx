@@ -47,7 +47,7 @@ function renderLabelInCommitTitle(commitTitleElement: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(
-		is(commitTitleInLists) + ' > a > span:first-child',
+		is(commitTitleInLists) + ' > span > a:first-child',
 		renderLabelInCommitTitle,
 		{signal},
 	);
