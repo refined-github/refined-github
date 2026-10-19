@@ -79,7 +79,7 @@ export const openPrsListLink_ = [
 export const commentsCountInLists = [
 	// Issue list:
 	'div[data-testid="list-row-comments"]:not(:empty)',
-	'div[class^="PinnedIssue-module__commentCountContainer"]',
+	'ul[aria-label="Drag and drop pinned issues list."] div[class*="commentCountContainer"]',
 
 	// PR list
 	// aria-label="1 comment"
@@ -166,7 +166,7 @@ export const commitHashLinkInLists_ = [
 ] satisfies UrlMatch[];
 
 export const commitTitleInLists = [
-	'[data-testid="commit-row-item"] h4[class^="Title-module"]', // `isCommitList`
+	'[data-testid="commit-row-item"] h4', // `isCommitList`
 	'.js-commits-list-item > .js-details-container > p:first-child', // `isCompare`
 ];
 export const commitTitleInLists_ = [
@@ -233,7 +233,7 @@ const authorLinks = [
 	// React-based views
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
-	'a[class^="row-module__eventActorLink"]',
+	'a[class*="eventActorLink"]',
 ] as const;
 
 const authorLinksException = [
@@ -269,8 +269,7 @@ export const prMergeabilityBoxHeader =
 	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
-export const prMergeabilityBoxCaption =
-	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"] h3 + .fgColor-muted';
+export const prMergeabilityBoxCaption = 'section[aria-label="Conflicts"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;
 
 export const deletedHeadRepository = 'span[title="This repository has been deleted"]';

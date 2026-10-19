@@ -7,7 +7,7 @@ import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {cacheByRepo} from '../github-helpers/index.js';
+import {cacheByRepo, visitAjaxedPage} from '../github-helpers/index.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 import HasChecks from './pr-filters.gql';
@@ -98,21 +98,21 @@ function cloneItem(template: HTMLElement, title: string, {href, isSelected}: Fil
 	label.removeAttribute('id');
 	label.textContent = title;
 
-	// The link is the menu item itself, so there is only one focusable element per option
+	// The button is the menu item itself, so there is only one focusable element per option
 	return (
-		<a
-			href={href}
+		<button
+			type="button"
 			role="menuitemradio"
 			aria-checked={isSelected ? 'true' : 'false'}
-			className={cx(template.className, 'd-block')}
+			className={cx(template.className, 'd-block p-0 border-0 text-left')}
 			data-component="ActionList.Item"
-			// GitHub navigates without a reload, so the menu has to be closed manually
-			onClick={event => {
-				event.currentTarget.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', bubbles: true}));
+			style={{width: 'stretch'}}
+			onClick={() => {
+				visitAjaxedPage(href);
 			}}
 		>
 			{content}
-		</a>
+		</button>
 	);
 }
 

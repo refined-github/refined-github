@@ -38,7 +38,7 @@
 .merge-status-item .merge-status-icon {
 	align-self: flex-start !important;
 
-	& svg {
+	svg {
 		height: 20px;
 	}
 }

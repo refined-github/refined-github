@@ -1,5 +1,5 @@
 import type {DelegateEvent} from 'delegate-it';
-import mem from 'memoize';
+import memoize from 'memoize';
 import {$$} from 'select-dom';
 
 import preserveScroll from './preserve-scroll.js';
@@ -14,7 +14,8 @@ function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 	}
 }
 
-export default mem((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
+// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3895
+export default memoize((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
 	if (!(event.altKey && event.isTrusted)) {
 		return;
 	}

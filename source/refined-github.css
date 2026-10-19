@@ -101,7 +101,7 @@
 /* Add hover effect to attachment row on the release page */
 /* Info: https://github.com/refined-github/refined-github/issues/8339 */
 /* Test: https://github.com/refined-github/refined-github/releases/tag/25.7.16 */
-@media (min-width: 800px) {
+@media (width >= 800px) {
 	.Box-footer
 		.Box--condensed
 		li:has(.octicon-package, .octicon-file-zip):hover {
@@ -116,7 +116,7 @@
 /* Info: https://github.com/refined-github/refined-github/issues/9074 */
 /* Test (no CI checks): https://github.com/refined-github/sandbox/pulls?q=is%3Apr+review%3Aapproved */
 /* Test: https://github.com/refined-github/refined-github/pulls?q=is%3Apr+review%3Aapproved */
-@media (max-width: 768px) {
+@media (width <= 768px) {
 	.js-issue-row .markdown-title ~ .d-flex {
 		flex-direction: column;
 
@@ -168,7 +168,7 @@ span[data-testid='sponsor-label'] {
 /* Make the "Symbolic link" more noticeable */
 /* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
 /* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
-a[class^='CodeSizeDetails-module__PrimerLink'] {
+.react-code-size-details-in-header a[class*='PrimerLink'] {
 	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
 	&:hover {
 		text-decoration: underline;
@@ -178,7 +178,7 @@ a[class^='CodeSizeDetails-module__PrimerLink'] {
 /* Hide the header logo on small screens */
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
 /* Test: https://github.com/refined-github/refined-github */
-@media (max-width: 600px) {
+@media (width <= 600px) {
 	a[class*='appHeaderHome'] {
 		display: none;
 	}

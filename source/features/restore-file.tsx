@@ -111,7 +111,7 @@ function getFilenames(menuItem: HTMLElement): {original: string; new: string} {
 	}
 
 	// New React view: get filenames from the file header
-	const fileNameElement = $('[class^="DiffFileHeader-module__file-name"]', focusedFileContainer);
+	const fileNameElement = $('[class*="file-name"]', focusedFileContainer);
 	const span = $optional('span:not(.sr-only)', fileNameElement);
 	const [originalFileName, newFileName = originalFileName] = (span ?? fileNameElement)
 		.textContent.split('  ').map(text => text.replaceAll('\u{200E}', ''));
@@ -192,7 +192,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	// New React view
 	delegate(
-		'[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
 		handleMenuOpening,
 		{signal},

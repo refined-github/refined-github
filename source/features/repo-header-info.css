@@ -4,7 +4,7 @@ html:not([rgh-OFF-repo-header-info]) {
 		ol:not(.rgh-repo-header-info-updated)
 		li:last-child {
 		/* Matches the `isSmallDevice` JS check */
-		@media (min-width: 500px) {
+		@media (width >= 500px) {
 			padding-right: 6em;
 		}
 	}

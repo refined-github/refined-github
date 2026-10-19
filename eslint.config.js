@@ -8,6 +8,7 @@ import selectDom from 'select-dom/eslint-plugin';
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
+// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	globalIgnores(['safari', 'package-lock.json']),
 	...eslintConfigXo({
@@ -52,6 +53,7 @@ export default defineConfig([
 			'unicorn/no-nested-ternary': 'off', // Indentation already helps
 			'unicorn/no-this-outside-of-class': 'off', // Simpler than alternatives
 			'unicorn/no-unsafe-string-replacement': 'off', // Not a real issue
+			'unicorn/prefer-combined-guards': 'off', // Unreadable
 			'unicorn/prefer-dom-node-html-methods': 'off', // TODO: 2027
 			'unicorn/prefer-iterator-to-array': 'off', // TODO: 2027
 			'unicorn/prefer-ternary': 'off', // Not always better
@@ -68,7 +70,7 @@ export default defineConfig([
 						props: false,
 						ref: false,
 						nav: false,
-						repository: false, // No https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
+						repo: false, // No https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3404
 					},
 				},
 			],
@@ -136,6 +138,12 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['**/*.test.ts'],
+		rules: {
+			'byo/prefer-visit-ajaxed-page': 'off', // Tests use it to set the URL
+		},
+	},
+	{
 		files: ['source/features/**/*.tsx'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
@@ -155,6 +163,8 @@ export default defineConfig([
 			'refined-github/css-require-fuchsia-fallback': 'error',
 			'refined-github/css-prefer-nesting': 'error',
 			'refined-github/css-no-useless-function': 'error',
+			'cssicorn/prefer-nesting': 'off', // TODO: Enable separately
+			'cssicorn/no-nesting-with-mixed-specificity': 'off', // TODO: Maybe later
 		},
 	},
 	{

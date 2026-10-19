@@ -26,10 +26,10 @@ function ignoreInteractive(callback: KeydownHandler): KeydownHandler {
 }
 
 /**
- Memoizes the creation of the wrapped listener.
- If the same `callback` function reference is passed multiple times,
- it returns the exact same wrapped handler, enabling `delegate-it` deduplication.
- */
+Memoizes the creation of the wrapped listener.
+If the same `callback` function reference is passed multiple times,
+it returns the exact same wrapped handler, enabling `delegate-it` deduplication.
+*/
 const deduplicateInteractiveFilter = memoize((callback: KeydownHandler) => ignoreInteractive(callback));
 
 // Support for `esc` key (where GitHub uses stopPropagation)

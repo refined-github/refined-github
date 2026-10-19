@@ -65,7 +65,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	delegate(
-		'div[class^="DiffFileHeader-module__diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'div[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
 		handleMenuOpening,
 		{signal},

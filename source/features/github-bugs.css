@@ -5,9 +5,9 @@ li[data-testid='commit-row-item'] code,
 /* Test: https://github.com/refined-github/refined-github/compare/26.7...26.7.12 */
 .js-commits-list-item p code,
 /* Test: https://github.com/refined-github/refined-github/commit/7455659316304023ea3734c71739e2e7b8dd77bf */
-div[class^='CommitHeader-module__commitMessageContainer'] code,
+div[class*='commitMessageContainer'] code,
 /* Test: https://github.com/refined-github/refined-github/issues (pinned issues) */
-a[class*='PinnedIssue-module__Link'] code {
+ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] code {
 	padding: 2px 4px;
 	background-color: var(
 		--bgColor-neutral-muted,
@@ -36,6 +36,7 @@ a[class*='PinnedIssue-module__Link'] code {
 /* Mute unclickable reaction buttons, disable hover */
 /* Info: https://github.com/refined-github/refined-github/issues/6795 */
 /* Test: https://github.com/facebook/react/pull/20646 */
+/* eslint-disable-next-line cssicorn/no-duplicate-selectors -- Temp */
 :root {
 	.social-reaction-summary-item:disabled {
 		filter: grayscale(0.5);
@@ -93,7 +94,7 @@ div.markdown-body {
 div[class^='prc-PageHeader-Description']
 	> .flex-column.flex-sm-row.flex-items-start {
 	/* flex-sm-items-center */
-	@media (min-width: 544px) {
+	@media (width >= 544px) {
 		align-items: center !important;
 	}
 }
@@ -105,14 +106,14 @@ div[class*='ActivityHeaderGridLayout'],
 /* Info: https://github.com/refined-github/refined-github/issues/9623 */
 /* Test: https://github.com/refined-github/sandbox/issues/151 */
 /* Test: https://github.com/refined-github/sandbox/issues/131 */
-div[class*='ActivityHeader-module__activityHeader'] {
+div[class*='activityHeader'] {
 	display: flex;
 	flex-wrap: wrap;
 	row-gap: 2px;
 	justify-content: flex-start;
 
 	/* Issue body */
-	div[class*='IssueBodyHeader-module__narrowViewportWrapper'],
+	div[class*='narrowViewportWrapper'],
 	/* Issue comment */
 	div[class*='CommentHeaderContentContainer'],
 	/* Review comment (?) */
@@ -125,16 +126,16 @@ div[class*='ActivityHeader-module__activityHeader'] {
 		/* "Enough space" must always allow to *not* wrap below the avatar */
 		max-width: calc(100% - 32px);
 
-		a[class^='ActivityHeader-module__AuthorName'] {
+		a[class*='AuthorName'] {
 			overflow-wrap: break-word;
 			max-width: 100%;
 		}
 	}
 
 	/* Issue body */
-	[class*='IssueBodyHeader-module__titleSection'],
+	[class*='titleSection'],
 	/* Issue comment */
-	[class*='ActivityHeader-module__TitleContainer'],
+	[class*='TitleContainer'],
 	/* Hidden issue comment */
 	[class*='CommentHeaderContentContainer'] {
 		flex-wrap: wrap;
@@ -150,7 +151,7 @@ div[class*='ActivityHeader-module__activityHeader'] {
 	}
 
 	/* Limit length of "Edited by" username to avoid overflow */
-	[class*='MarkdownLastEditedBy-module__editorLogin'] {
+	[class*='editorLogin'] {
 		max-width: 100px;
 		display: inline-block;
 		text-overflow: ellipsis;

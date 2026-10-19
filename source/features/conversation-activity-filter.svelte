@@ -1,10 +1,12 @@
 <script lang="ts">
+	import * as pageDetect from 'github-url-detection';
 	import CheckIcon from 'octicons-plain-react/Check';
 	import EyeIcon from 'octicons-plain-react/Eye';
 	import EyeClosedIcon from 'octicons-plain-react/EyeClosed';
 	import TriangleDownIcon from 'octicons-plain-react/TriangleDown';
 
 	import DomChef from '../components/dom-chef.svelte';
+	import url from '../components/url.js';
 	import {
 		activityFilterState,
 		type State,
@@ -24,7 +26,8 @@
 	}
 </script>
 <action-menu
-	class={`d-inline-block position-relative lh-condensed-ultra v-align-middle ${
+	hidden={!pageDetect.isConversation($url)}
+	class={`position-relative lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	data-select-variant="single"
@@ -111,7 +114,9 @@
 					</action-list>
 				</div>
 				{#if !isSmallDevice()}
-					<div class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2">
+					<div
+						class="Overlay-footer Overlay-footer--divided py-2 tmp-py-2 text-body f6 text-normal"
+					>
 						<span class="color-fg-muted">
 							Press <kbd>h</kbd> to cycle through filters,
 							<br />
