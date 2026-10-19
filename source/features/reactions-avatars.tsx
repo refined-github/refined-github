@@ -21,12 +21,12 @@ const maxAvatarsPerReaction = 9;
 
 type Participant = {
 	button: HTMLButtonElement;
-	username: string;
-	imageUrl: string;
+	login: string;
+	avatarUrl: string;
 };
 
 // The React issue layout only lists full names, so the usernames come from the API
-const reactionContents: Record<string, string> = {
+const reactionTypes: Record<string, string> = {
 	'👍': 'THUMBS_UP',
 	'👎': 'THUMBS_DOWN',
 	'😄': 'LAUGH',
@@ -84,14 +84,14 @@ function getParticipants(button: HTMLButtonElement): Participant[] {
 
 	const currentUser = getLoggedInUser();
 	const participants = [];
-	for (const username of users) {
-		if (username === currentUser) {
+	for (const login of users) {
+		if (login === currentUser) {
 			continue;
 		}
 
-		const imageUrl = getUserAvatar(username, avatarSize);
-		if (imageUrl) {
-			participants.push({button, username, imageUrl});
+		const avatarUrl = getUserAvatar(login, avatarSize);
+		if (avatarUrl) {
+			participants.push({button, login, avatarUrl});
 		}
 	}
 
@@ -106,15 +106,15 @@ function appendAvatars(reactions: Participant[][]): void {
 	const avatarLimit = arbitraryAvatarLimit - (reactions.length * approximateHeaderLength);
 	const flatParticipants = flatZip(reactions, avatarLimit);
 
-	for (const {button, username, imageUrl} of flatParticipants) {
+	for (const {button, login, avatarUrl} of flatParticipants) {
 		button.append(
 			<span className="avatar-user avatar rgh-reactions-avatar p-0 tmp-p-0 flex-self-center">
 				<img
-					src={imageUrl}
+					src={avatarUrl}
 					className="d-block"
 					width={avatarSize}
 					height={avatarSize}
-					alt={`@${username}`}
+					alt={`@${login}`}
 					loading="lazy"
 				/>
 			</span>,
@@ -137,6 +137,7 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 	const containersById = new Map<string | undefined, Element>(
 		containers.map(container => [getCommentId(container), container]),
 	);
+	// Dual query for issue body and individual comments
 	const data = await api.v4(`
 		repository() {
 			issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}
@@ -150,16 +151,15 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 
 	const currentUser = getLoggedInUser();
 	for (const [id, container] of containersById) {
-		// Comments are aliased nodes, the description is the issue
 		const {reactionGroups}: {reactionGroups: ReactionGroup[]} = id
 			? data[api.escapeKey(id)]
 			: data.repository.issueOrPullRequest;
 		const reactions = $$optional('button[aria-checked]', container).map(button => {
-			const content = reactionContents[button.getAttribute('aria-label')!.split(' ', 1)[0]];
+			const content = reactionTypes[button.getAttribute('aria-label')!.split(' ', 1)[0]];
 			return reactionGroups
 				.find(group => group.content === content)!.reactors.nodes
 				.filter(({login}) => login !== currentUser)
-				.map(({login, avatarUrl}) => ({button, username: login, imageUrl: avatarUrl}));
+				.map(({login, avatarUrl}) => ({button, login, avatarUrl}));
 		});
 
 		// The total limit is per comment, so each container is handled on its own
