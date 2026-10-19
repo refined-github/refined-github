@@ -32,20 +32,20 @@ type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;
 
 type FeatureLoader = RunConditions & {
 	/**
-	 This only adds the shortcut to the help screen, it doesn't enable it.
-	 @default {}
+	This only adds the shortcut to the help screen, it doesn't enable it.
+	@default {}
 	*/
 	shortcuts?: Record<string, string>;
 
 	/**
-	 Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found.
-	 @default false
+	Whether to wait for DOM ready before running `init`. By default, it runs `init` as soon as `body` is found.
+	@default false
 	*/
 	awaitDomReady?: true;
 
 	/**
-	 Whether to require a personal token before running `init`.
-	 @default false
+	Whether to require a personal token before running `init`.
+	@default false
 	*/
 	requiresToken?: true;
 
