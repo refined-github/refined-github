@@ -36,6 +36,7 @@ a[class*='PinnedIssue-module__Link'] code {
 /* Mute unclickable reaction buttons, disable hover */
 /* Info: https://github.com/refined-github/refined-github/issues/6795 */
 /* Test: https://github.com/facebook/react/pull/20646 */
+/* eslint-disable-next-line cssicorn/no-duplicate-selectors -- Temp */
 :root {
 	.social-reaction-summary-item:disabled {
 		filter: grayscale(0.5);
@@ -93,7 +94,7 @@ div.markdown-body {
 div[class^='prc-PageHeader-Description']
 	> .flex-column.flex-sm-row.flex-items-start {
 	/* flex-sm-items-center */
-	@media (min-width: 544px) {
+	@media (width >= 544px) {
 		align-items: center !important;
 	}
 }

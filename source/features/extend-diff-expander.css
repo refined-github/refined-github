@@ -2,7 +2,7 @@
 /* Hovering the line will highlight the first direction button, unless you hover the buttons directly */
 .rgh-extend-diff-expander .js-expandable-line:hover .blob-num:not(:hover) {
 	.directional-expander:first-child,
-	& + .blob-code {
+	+ .blob-code {
 		color: var(
 			--control-checked-fgColor-rest,
 			var(
@@ -43,7 +43,7 @@
 	transition: var(--duration-fast) var(--easing-easeInOut);
 	transition-property: color, fill, background-color, border-color;
 
-	& button[data-direction] {
+	button[data-direction] {
 		color: var(
 			--diffBlob-hunkNum-fgColor-hover,
 			var(--fgColor-onEmphasis, fuchsia)

@@ -26,7 +26,7 @@ so the call will not throw an error but it will return as usual.
 */
 
 import React from 'dom-chef';
-import mem from 'memoize';
+import memoize from 'memoize';
 import type {AsyncReturnType, JsonObject} from 'type-fest';
 
 import {log} from '../helpers/feature-helpers.js';
@@ -216,7 +216,7 @@ const v3uncached = async (
 	throw await getError(apiResponse);
 };
 
-const v3 = mem(v3uncached, {
+const v3 = memoize(v3uncached, {
 	cacheKey: JSON.stringify,
 });
 
@@ -326,7 +326,7 @@ const v4uncached = async (
 	throw await getError(apiResponse);
 };
 
-const v4 = mem(v4uncached, {
+const v4 = memoize(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
