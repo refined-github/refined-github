@@ -15,14 +15,14 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	const container = closestElement([
 		'form',
 		'[data-testid="comment-composer"]', // Add comment form
-		'[class^="MarkdownEditor-module__container"]', // Edit comment form
+		'[class*="container"]:has([class*="textArea"] textarea)', // Edit comment form
 	], delegateTarget);
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */
 	const field = $([
 		'textarea.js-comment-field', // Legacy, found in some secondary forms
 		'textarea[aria-labelledby="comment-composer-heading"]', // Add comment textarea
-		'[class^="MarkdownInput-module__textArea"] textarea', // Edit comment textarea
+		'[class*="textArea"] textarea', // Edit comment textarea
 	], container);
 	const selection = field.value.slice(field.selectionStart, field.selectionEnd);
 
