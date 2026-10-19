@@ -41,6 +41,6 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-https://github.com/bfred-it-org/one-file-repo/issues
+https://github.com/bfred-it-org/one-file-repo/issues (click "clear" on search field or else pinned issues don't show)
 
 */
