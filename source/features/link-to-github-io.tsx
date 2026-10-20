@@ -54,7 +54,7 @@ function initRepoList(signal: AbortSignal): void {
 		{signal},
 	);
 	observe(
-		siteSuffixes.map(suffix => `a[data-testid="listitem-title-link"][href$="${suffix}"]`),
+		siteSuffixes.map(suffix => `li[class*="listItem"] [class*="heading"] > a[class*="anchor"][href$="${suffix}"]`),
 		addOrgRepoListLink,
 		{signal},
 	);
