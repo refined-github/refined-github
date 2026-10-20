@@ -226,8 +226,8 @@ export function assertCommitHash(hash: string): void {
 	}
 }
 
-export function assertUsername(username: string): void {
-	if (/[^\w-]/.test(username)) {
+export function assertUsername(username: string | undefined): asserts username is string {
+	if (!username || /[^\w-]/.test(username)) {
 		throw new TypeError(`Expected a username, got ${username}`);
 	}
 }

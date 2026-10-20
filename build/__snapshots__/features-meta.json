@@ -235,6 +235,12 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/220607557-f8ea0863-f05b-48c8-a447-1fec42af0afd.gif"
 	},
 	{
+		"id": "dim-viewed-files",
+		"description": "Dims viewed files in the PR file tree, keeping unreviewed files easy to find.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/fad7e90a-900b-4d58-9d9d-c5f551848572"
+	},
+	{
 		"id": "download-folder-button",
 		"description": "Adds a button to download entire folders, via https://download-directory.github.io.",
 		"screenshot": "https://user-images.githubusercontent.com/46634000/158347358-49234bb8-b9e6-41be-92ed-c0c0233cbad2.png"
@@ -436,11 +442,6 @@
 		"description": "Linkifies the line numbers where GitHub forgot to add links.",
 		"css": true,
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
-	},
-	{
-		"id": "linkify-pr-review-state",
-		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", etc) in PR lists to filter by that state.",
-		"screenshot": "https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428"
 	},
 	{
 		"id": "linkify-text",

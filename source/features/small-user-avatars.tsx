@@ -2,55 +2,89 @@ import './small-user-avatars.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import {anyRegex} from 'regex-join';
 
 import features from '../feature-manager.js';
-import getUserAvatarURL from '../github-helpers/get-user-avatar.js';
+import getUserAvatarURL, {stripBotMarkers} from '../github-helpers/get-user-avatar.js';
 import {assertUsername} from '../github-helpers/index.js';
-import {is, not} from '../helpers/css-selectors.js';
+import {not} from '../helpers/css-selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
-function createAvatar(username: string): JSX.Element {
+function createAvatar(username: string): JSX.Element | undefined {
 	const size = 14;
-	return (
-		<img
-			className="avatar avatar-user rgh-small-user-avatars"
-			src={getUserAvatarURL(username, size)!}
-			width={size}
-			height={size}
-			loading="lazy"
-		/>
-	);
+	const source = getUserAvatarURL(username, size);
+	return source
+		? (
+			<img
+				className="avatar avatar-user rgh-small-user-avatars"
+				src={source}
+				width={size}
+				height={size}
+				loading="lazy"
+			/>
+		)
+		: undefined;
 }
 
 function addRepoAvatar(link: HTMLAnchorElement): void {
 	const [owner] = link.textContent.trim().split('/', 1);
+	const avatar = createAvatar(owner);
+	if (!avatar) {
+		return;
+	}
 
 	link.firstElementChild!.prepend(
 		<span className="ActionListItem-visual ActionListItem-visual--leading d-none d-xl-inline-block">
-			{createAvatar(owner)}
+			{avatar}
 		</span>,
 	);
 }
 
-function extractUsername(element: HTMLElement): string {
-	// Preview issue lists have no aria-label and wrap the login in a visually hidden "Filter by author " label, so it's read from `data-hovercard-url` instead.
-	// Preview PR lists have no data-hovercard-url; both aria-label and textContent are the bare login there.
-	// Legacy lists need none of this: their selectors only match user hovercards, so their text is always a login.
-	const hovercardUrl = element.getAttribute('data-hovercard-url');
-	const username = hovercardUrl ? hovercardUrl.split('/', 3)[2] : element.textContent;
+/** Extracts user from attribute values */
+const userAttributeRegex = anyRegex(
+	// [data-hovercard-url="/users/fregante/hovercard"]
+	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+lol+wow
+	/^[/]users[/](?<username>[^/]+)[/]hovercard$/,
+	// [data-hovercard-url="/copilot/hovercard?bot=copilot-swe-agent"]
+	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aclosed+copilot+regression
+	/^[/]copilot[/]hovercard[?]bot=(?<username>[^&?]+)$/,
+	// [aria-label="Filter by author github-user-here"]
+	// https://github.com/pulls/involves
+	/^Filter by author (?<username>[^ ]+)$/,
+);
 
-	// The extracted login is used to build an avatar URL, anything else (e.g. "Filter by author X") would be broken
-	// GitHub appends `[bot]` to bot logins in PR lists.
-	assertUsername(username.replace(/\[bot\]$/, ''));
+function extractUsername(element: HTMLAnchorElement | HTMLButtonElement): string {
+	// Prefer reading username from URL if present.
+	// - [data-hovercard-url]: everywhere but the React PR lists (global and repo)
+	// - [aria-label="Filter by author github-user-here"]: in React PR lists (global and repo)
+	const attribute = element.getAttribute('data-hovercard-url') ?? element.getAttribute('aria-label');
+
+	// If there's no match, the following assertion will fail
+	const username = userAttributeRegex.exec(attribute ?? '')?.groups?.username
+		// The issue list on some repos only has a link to `?q=author:app/dependabot`
+		// https://github.com/eslint/eslint/issues?q=author%3Aapp%2Fdependabot
+		?? URL.parse(element.getAttribute('href') ?? '', location.href)?.searchParams.get('q')?.match(
+			/\bauthor:(?<username>\S+)/,
+		)?.groups?.username
+		// Fallback to the last child text content if it couldn't be extracted from known strings
+		?? element.lastChild?.textContent.trim()
+		?? '';
+
+	// GitHub marks bots as `[bot]` or `app/`
+	assertUsername(stripBotMarkers(username));
 
 	return username;
 }
 
-function addAvatar(link: HTMLElement): void {
+function addIssueRowAvatar(link: HTMLAnchorElement | HTMLButtonElement): void {
 	const username = extractUsername(link);
 	const avatar = createAvatar(username);
+	if (!avatar) {
+		return;
+	}
+
 	avatar.classList.add('v-align-text-bottom', 'mr-1', 'tmp-mr-1');
 
 	link.classList.add('d-inline-block', 'lh-condensed-ultra');
@@ -65,7 +99,10 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 		return;
 	}
 
-	const avatarUrl = getUserAvatarURL(username, 16)!;
+	const avatarUrl = getUserAvatarURL(username, 16);
+	if (!avatarUrl) {
+		return;
+	}
 
 	link.classList.add('rgh-small-user-avatars', 'rgh-mention-avatar');
 	link.style.setProperty('--avatar-url', `url(${avatarUrl})`);
@@ -73,18 +110,16 @@ function addMentionAvatar(link: HTMLAnchorElement): void {
 
 function initOnce(): void {
 	observe([
-		'.js-issue-row [data-hovercard-type="user"]', // `isPRList` + old `isIssueList`
-		'.notification-thread-subscription [data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
-		is(
-			'[data-testid="created-at"]',
-			'[data-testid="closed-at"]',
-		) + ' a[data-hovercard-url*="/users"]', // `isIssueList`
+		'.js-issue-row a[data-hovercard-type="user"]', // `isPRList` TODO: Drop in February 2027
+		'.notification-thread-subscription a[data-hovercard-type="user"]', // https://github.com/notifications/subscriptions
+		'[data-testid="created-at"] a[data-hovercard-url*="/users"]', // `isIssueList`
+		'[data-testid="closed-at"] a[data-hovercard-url*="/users"]', // `isIssueList`
 		// `a` on repository PR lists, including `attributed-author-filter-link` for app-created PRs
 		// `button` on https://github.com/pulls/authored
-		'[aria-label^="Filter by author "]',
+		'[aria-label^="Filter by author "]:is(a, button)',
 		// `button` on https://github.com/issues/* (no aria-label, hides "Filter by author " in its text)
-		'[data-testid="author-filter-link"][data-hovercard-type="user"]',
-	], addAvatar);
+		'button[data-testid="author-filter-link"][data-hovercard-type="user"]',
+	], addIssueRowAvatar);
 	observe(
 		'.user-mention' + not(
 			'.opened-by > *', // Merge queue
@@ -125,5 +160,8 @@ https://github.com/refined-github/refined-github/issues/8802#issuecomment-371116
 https://github.com/refined-github/refined-github/releases
 https://github.com/refined-github/refined-github/releases/tag/23.9.21
 https://github.com/orgs/community/discussions/5841#discussioncomment-1450320
+User with AI bot: https://github.com/pulls/authored?q=is%3Apr+author%3Afregante+state%3Aopen+archived%3Afalse+sort%3Aupdated-desc+linkify
+Bots as `app/`: https://github.com/eslint/eslint/issues?q=author%3Aapp%2Fdependabot
+Bots as `[bot]`: https://github.com/eslint/eslint/issues?q=author%3Adependabot%5Bbot%5D
 
 */

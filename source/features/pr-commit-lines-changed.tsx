@@ -56,7 +56,7 @@ async function add(commitHash: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[class*="__CommitAttributionContainer"] + .text-mono', add, {signal});
+	observe('[class*="CommitAttributionContainer"] + .text-mono', add, {signal});
 }
 
 void features.add(import.meta.url, {
