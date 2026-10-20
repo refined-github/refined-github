@@ -220,4 +220,5 @@ import './features/delete-branch.js';
 import './features/pr-from-branch.js';
 import './features/mark-locked.js';
 import './features/subscribe-releases.js';
+import './features/dim-viewed-files.js';
 import './features/absolute-time.js';

@@ -27,7 +27,7 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('[class*="DiffLines-module__tableLayoutFixed"] > tbody', manageSplitDiffState, {signal});
+	observe('[class*="tableLayoutFixed"] > tbody', manageSplitDiffState, {signal});
 }
 
 void features.add(import.meta.url, {
