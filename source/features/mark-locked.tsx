@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 
 function mark(link: HTMLAnchorElement): void {
 	// The state icon is left untouched so the row still says issue/PR/draft/merged
-	const icon = $('[class^="LeadingVisual"] .octicon', closestElement('li', link));
+	const icon = $('[data-listview-item-title-container] ~ div .octicon', closestElement('li', link));
 	const wrapper = icon.parentElement!;
 	wrapper.classList.add('rgh-mark-locked');
 	// `span` wrapper: SVG ignores the `title` attribute, it only tooltips via a `<title>` child
