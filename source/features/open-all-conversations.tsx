@@ -10,8 +10,7 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick(): void {
 	const links = $$([
-		'a[data-testid="issue-pr-title-link"]', // Issue list
-		'a[data-testid="listitem-title-link"]', // PR list
+		'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]:is([data-hovercard-type="issue"], [data-hovercard-type="pull_request"])', // Issue and PR lists
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'a.h4.js-navigation-open',
 	]);
