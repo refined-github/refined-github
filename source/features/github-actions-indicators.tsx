@@ -110,23 +110,24 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		} else {
 			// User cannot trigger the workflow
 			const indicator = (
-				<div
+				<span
 					ref={withTooltipRef({label: 'This workflow can be triggered manually', direction: 'sw'})}
-					className="ActionListItem-visual ActionListItem-visual--trailing"
+					className="d-inline-flex flex-items-center color-fg-muted"
 					style={{pointerEvents: 'initial'}}
 				>
 					<PlayIcon />
-				</div>
+				</span>
 			);
-			const pinIcon = $optional('[class^="prc-ActionList-TrailingVisual"]', workflowLink);
-			if (pinIcon) {
+			const trailingVisual = $optional('[data-component="ActionList.TrailingVisual"]', workflowLink);
+			if (trailingVisual) {
 				// Enable tooltip
-				pinIcon.style.pointerEvents = 'auto';
+				trailingVisual.style.pointerEvents = 'auto';
 				// Add spacing between the icons
-				pinIcon.classList.add('gap-2');
-				pinIcon.prepend(indicator);
+				trailingVisual.classList.add('gap-2');
+				trailingVisual.prepend(indicator);
 			} else {
-				workflowLink.append(indicator);
+				// The trailing visual lives next to the label, inside the row's content wrapper
+				$('[data-component="ActionList.Item--DividerContainer"]', workflowLink).append(indicator);
 			}
 		}
 	}
