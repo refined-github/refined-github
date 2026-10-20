@@ -444,11 +444,6 @@
 		"screenshot": "https://github.com/refined-github/refined-github/assets/1402241/d5b67f4e-35c3-45d8-b72c-937b855168c3"
 	},
 	{
-		"id": "linkify-pr-review-state",
-		"description": "Linkifies the PR review state labels (\"Draft\", \"Changes requested\", etc) in PR lists to filter by that state.",
-		"screenshot": "https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428"
-	},
-	{
 		"id": "linkify-text",
 		"description": "Makes certain text clickable, like issue references in the issue title and discussion sidebar.",
 		"screenshot": "https://github.com/user-attachments/assets/1d31f695-c198-477e-a3ae-cc0687417a90"
