@@ -79,7 +79,7 @@ export const openPrsListLink_ = [
 export const commentsCountInLists = [
 	// Issue list:
 	'div[data-testid="list-row-comments"]:not(:empty)',
-	'div[class^="PinnedIssue-module__commentCountContainer"]',
+	'ul[aria-label="Drag and drop pinned issues list."] div[class*="commentCountContainer"]',
 
 	// PR list
 	// aria-label="1 comment"
@@ -233,7 +233,7 @@ const authorLinks = [
 	// React-based views
 	'[data-testid="comment-header"] a[data-testid="avatar-link"]',
 	'a[data-testid="issue-body-header-author"]',
-	'a[class^="row-module__eventActorLink"]',
+	'a[class*="eventActorLink"]',
 ] as const;
 
 const authorLinksException = [

@@ -1,6 +1,6 @@
 import delegate, {type DelegateEventHandler} from 'delegate-it';
 
-const fieldSelector = [
+export const commitTitleFieldSelector = [
 	// PR merge message field
 	'[data-testid="mergebox-partial"] input[type="text"]',
 	// Commit title on edit file page
@@ -12,5 +12,5 @@ export default function onCommitTitleUpdate(
 	signal: AbortSignal,
 ): void {
 	// For immediate user input
-	delegate(fieldSelector, 'input', callback, {signal});
+	delegate(commitTitleFieldSelector, 'input', callback, {signal});
 }
