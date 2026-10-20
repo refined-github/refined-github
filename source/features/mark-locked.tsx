@@ -54,10 +54,8 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 function init(signal: AbortSignal): void {
 	observe(
 		[
-			// Issue list, which also includes PRs
-			'a[data-testid="issue-pr-title-link"]',
-			// PR list. `data-hovercard-type` excludes the repo links that share this `data-testid`
-			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
+			// Issue and PR lists. `data-hovercard-type` excludes the repo links in repo lists
+			'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]:is([data-hovercard-type="issue"], [data-hovercard-type="pull_request"])',
 		],
 		batchedFunction(markLocked, {delay: 100}),
 		{signal},
