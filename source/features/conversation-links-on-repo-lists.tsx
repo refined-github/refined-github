@@ -66,7 +66,7 @@ function init(signal: AbortSignal): void {
 }
 
 function initSearch(signal: AbortSignal): void {
-	observe('a[class^="Repositories-module__stargazersLink"]', addSearchConversationLinks, {signal});
+	observe('a[class*="stargazersLink"]', addSearchConversationLinks, {signal});
 }
 
 void features.add(import.meta.url, {

@@ -241,7 +241,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 - [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
 - [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
-- [](# "linkify-pr-review-state") [Linkifies the PR review state labels ("Draft", "Changes requested", etc) in PR lists to filter by that state.](https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428)
 - [](# "dim-viewed-files") [Dims viewed files in the PR file tree, keeping unreviewed files easy to find.](https://github.com/user-attachments/assets/fad7e90a-900b-4d58-9d9d-c5f551848572)
 
 <!--
