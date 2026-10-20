@@ -1,10 +1,7 @@
 html:not([rgh-OFF-align-issue-labels]) {
-	div[class^='IssueRow-module__row'],
-	div[class^='PullRequestRow-module__row'],
-	div[data-testid='issues-list-surface']
-		li[class*='ListItem-module__listItem']:not([class*='compact']),
-	li[class*='PullsListItem']:not([class*='compact']) {
-		div[class^='Title-module__container'] {
+	div[class*='row__'],
+	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact']) {
+		div[class*='container']:has(> [class*='heading']) {
 			display: contents;
 
 			> [class*='heading'] {
@@ -21,7 +18,7 @@ html:not([rgh-OFF-align-issue-labels]) {
 					/* Grid gap adds additional 4px */
 					padding-bottom: 6px;
 				}
-				&:is(li[class*='PullsListItem'] *) {
+				&:is(li[class*='listItem'][class*=' listItem'] *) {
 					/* Height of the main content row provides more than enough spacing */
 					/* 4px added by grid gap are extra */
 					margin-top: -4px;
@@ -29,13 +26,13 @@ html:not([rgh-OFF-align-issue-labels]) {
 			}
 		}
 
-		div[class^='MetadataContainer-module__container']:is(
-			li[class*='PullsListItem'] *
+		div[class*='metadataContainer']:is(
+			li[class*='listItem'][class*=' listItem'] *
 		) {
 			padding-top: 8px;
 		}
 
-		div[class^='MainContent-module__inner'] {
+		div[class*='container'] > div[class*='inner'] {
 			padding-bottom: 0;
 		}
 	}
