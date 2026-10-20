@@ -167,6 +167,9 @@ void features.add(import.meta.url, {
 
 ## Test URLs
 
+Manual (third party):
+https://github.com/eslint/eslint/actions
+
 Manual + scheduled:
 https://github.com/sindresorhus/type-fest/actions/workflows/ts-canary.yml
 
