@@ -2,7 +2,7 @@ import {parseCron} from '@fregante/mi-cron';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
-import {$, $optional} from 'select-dom';
+import {$, $optional, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import {withTooltipRef} from '../components/tooltip.js';
@@ -92,43 +92,29 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
-		if (workflowLink.nextElementSibling) {
-			// User can trigger the workflow
+		// The pin button only exists if the user can run workflows, so only they get the play button
+		const pinButton = $optional(
+			'[data-component="ActionList.TrailingAction"] button',
+			closestElement('li', workflowLink),
+		);
+		if (pinButton) {
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
-			workflowLink.after(
+			pinButton.before(
 				<a
 					ref={withTooltipRef({label: 'Trigger manually', direction: 'sw'})}
 					href={url.href}
 					data-turbo-frame={workflowLink.dataset.turboFrame}
-					// `actions-unpin-button` provides the hover style
-					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					// Reuse the pin button's (hashed) classes and attributes to match its style
+					className={pinButton.className}
+					data-component={pinButton.dataset.component}
+					data-size={pinButton.dataset.size}
+					data-variant={pinButton.dataset.variant}
+					data-no-visuals={pinButton.dataset.noVisuals}
 				>
 					<PlayIcon />
 				</a>,
 			);
-		} else {
-			// User cannot trigger the workflow
-			const indicator = (
-				<span
-					ref={withTooltipRef({label: 'This workflow can be triggered manually', direction: 'sw'})}
-					className="d-inline-flex flex-items-center color-fg-muted"
-					style={{pointerEvents: 'initial'}}
-				>
-					<PlayIcon />
-				</span>
-			);
-			const trailingVisual = $optional('[data-component="ActionList.TrailingVisual"]', workflowLink);
-			if (trailingVisual) {
-				// Enable tooltip
-				trailingVisual.style.pointerEvents = 'auto';
-				// Add spacing between the icons
-				trailingVisual.classList.add('gap-2');
-				trailingVisual.prepend(indicator);
-			} else {
-				// The trailing visual lives next to the label, inside the row's content wrapper
-				$('[data-component="ActionList.Item--DividerContainer"]', workflowLink).append(indicator);
-			}
 		}
 	}
 
