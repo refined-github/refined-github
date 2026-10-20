@@ -1,6 +1,7 @@
 import {parseCron} from '@fregante/mi-cron';
 import cx from 'clsx';
 import React from 'dom-chef';
+import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
 import {$, $optional, closestElement} from 'select-dom';
@@ -145,11 +146,14 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe('a[class^="prc-ActionList-ActionListContent"]', addIndicators, {signal});
 }
 
-function openRunWorkflow(): void {
+async function openRunWorkflow(): Promise<void> {
 	removeHashFromUrlBar();
-	// Note that the attribute is removed after the first opening, so the selector only matches it once
-	const dropdown = $('details[data-deferred-details-content-url*="/actions/manual?workflow="]');
-	dropdown.open = true;
+	// The header is rendered by React, possibly after the DOM is ready
+	const runButton = await elementReady('[data-component="PH_Actions"] [data-variant="primary"]', {
+		stopOnDomReady: false,
+		signal: AbortSignal.timeout(5000),
+	});
+	runButton!.click();
 }
 
 void features.add(import.meta.url, {
