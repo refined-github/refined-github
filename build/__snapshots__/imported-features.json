@@ -76,7 +76,6 @@
 	"linkify-code",
 	"linkify-commit-sha",
 	"linkify-line-numbers",
-	"linkify-pr-review-state",
 	"linkify-text",
 	"linkify-user-labels",
 	"linkify-user-location",
