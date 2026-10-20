@@ -19,6 +19,7 @@ Only for drafts opened under a maintainer's account and reviewed by them before 
 - First line: `Created by Claude, will be reviewed by @<maintainer> first.` Then one or two sentences.
 - `Fixes #N` for every specific issue the PR addresses, not just a mention (the maintainer verifies before merging). `Part of #N` only for epics and umbrella issues.
 - Don't mention linting or tests in the PR or in chat.
+- Linkify every issue and PR reference. In chat, where `#N` isn't clickable, always write the full URL. In PR bodies, commit messages and comments, `#N` is fine because GitHub links it. This includes issues mentioned only in passing.
 - For feature bugs, paste ALL of the feature's test URLs verbatim: the `Test URLs` comment at the bottom of `source/features/<id>.tsx`, or the `_` export next to the selector in `source/github-helpers/selectors.ts`. Search open issues that mention the feature and link them.
 - Say what was checked and what wasn't, including logged-out vs logged-in. Anything that needs a login becomes a reviewer task.
 - Open as draft on the first push, then keep working.
