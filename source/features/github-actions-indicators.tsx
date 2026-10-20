@@ -1,4 +1,5 @@
 import {parseCron} from '@fregante/mi-cron';
+import cx from 'clsx';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
@@ -98,6 +99,8 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 			closestElement('li', workflowLink),
 		);
 		if (pinButton) {
+			// Lay out the play and pin buttons side by side
+			pinButton.parentElement!.classList.add('d-flex');
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
 			pinButton.before(
@@ -106,7 +109,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 					href={url.href}
 					data-turbo-frame={workflowLink.dataset.turboFrame}
 					// Reuse the pin button's (hashed) classes and attributes to match its style
-					className={pinButton.className}
+					className={cx(pinButton.className, 'rounded-0')}
 					data-component={pinButton.dataset.component}
 					data-size={pinButton.dataset.size}
 					data-variant={pinButton.dataset.variant}
