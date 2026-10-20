@@ -26,7 +26,7 @@ Only for drafts opened under a maintainer's account and reviewed by them before 
 
 - `claude/<name>` from fresh `origin/main`. One PR per feature unless the diffs substantially overlap.
 - If a PR for the feature is already open, push to it instead of opening another. Fetch the branch first (the maintainer may have pushed) and check that the PR is still open. Never push to the branch of a merged or closed PR.
-- Merge `origin/main`. Never rebase or force-push.
+- Merge `origin/main`. Never rebase or force-push. To split a PR, keep the existing branch for one feature (remove the rest in a new commit), retitle it, and open the others from fresh `origin/main`.
 - Stage `source/` only. `npm install` can rewrite `package-lock.json` (package name, `libc` fields); never commit that.
 - Read a PR's body and comments before editing it.
 
@@ -34,7 +34,7 @@ Only for drafts opened under a maintainer's account and reviewed by them before 
 
 GitHub changes its markup often.
 
-1. Read the tracking issue and every comment on it. Follow-up comments list more removed hooks.
+1. Read the tracking issue and every comment on it. Follow-up comments list more removed hooks. Then check `origin/main` and the latest tag: the fix may be merged but unreleased, so only fix what remains and use `Part of #N`.
 2. Diagnose against the real page: curl it logged out (public repos work; React pages embed rendered markup). Logged-out markup can differ from logged-in: attributes such as `data-hovercard-type` may be missing and `data-testid` values can differ. Prefer hooks present in both (`href`, `aria-label`, `prc-*`, `data-testid`) and say which markup you checked.
 3. CSS-module class names lost their file prefix: `Foo-module__bar___hash` is now `bar__hash`. Use `[class*="bar"]`, never `^=` (class order is unstable). Scope it to a stable ancestor. Repo links share list markup with issue and PR links, so filter by `href` where it matters.
 4. After fixing one feature, `git grep` the same selectors and class names (also in `.css` and `.svelte` files and `selectors.ts`) and open one PR per other affected feature. A shared selector in `selectors.ts` goes in the PR of the feature that consumes it.
@@ -52,4 +52,6 @@ Complements `verify-in-browser`, which assumes a headed, logged-in browser.
 
 - `byo/selectors-array`: a single selector is a string, not an array.
 - `refined-github/no-optional-chaining`: use `!.`, or add a comment saying when the value can be null.
+- Single-line `/** */` comments are flagged: use `//`.
+- Style: modern compact TypeScript, `for...of`, keep unrelated comments, plain string concatenation over simple template literals.
 - Format with `dprint fmt`.
