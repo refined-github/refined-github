@@ -2,7 +2,7 @@ import './small-user-avatars.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import regexJoin from 'regex-join';
+import {anyRegex} from 'regex-join';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL, {stripBotMarkers} from '../github-helpers/get-user-avatar.js';
@@ -43,7 +43,7 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 }
 
 /** Extracts user from attribute values */
-const userAttributeRegex = regexJoin(
+const userAttributeRegex = anyRegex(
 	// [data-hovercard-url="/users/fregante/hovercard"]
 	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+lol+wow
 	/^[/]users[/](?<username>[^/]+)[/]hovercard$/,
