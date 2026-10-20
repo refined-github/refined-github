@@ -29,11 +29,11 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.hasRichTextEditor,
-	],
 	asLongAs: [
 		() => nativeFit,
+	],
+	include: [
+		pageDetect.hasRichTextEditor,
 	],
 	init,
 });
