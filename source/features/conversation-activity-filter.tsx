@@ -23,9 +23,9 @@ const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
 const timeline = [
-	// PR
+	// PR, issue
 	'[class^="prc-PageLayout-PageLayoutWrapper"]',
-	// Issue
+	// Issue, old. TODO: Drop in 2027
 	'[class*="mainContainer"]',
 ] as const;
 const timelineItem = [
