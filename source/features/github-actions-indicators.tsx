@@ -1,9 +1,10 @@
 import {parseCron} from '@fregante/mi-cron';
+import cx from 'clsx';
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import PlayIcon from 'octicons-plain-react/Play';
-import {$, $optional} from 'select-dom';
+import {$, $optional, closestElement} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import {withTooltipRef} from '../components/tooltip.js';
@@ -93,42 +94,31 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
-		if (workflowLink.nextElementSibling) {
-			// User can trigger the workflow
+		// The pin button only exists if the user can run workflows, so only they get the play button
+		const pinButton = $optional(
+			'[data-component="ActionList.TrailingAction"] button',
+			closestElement('li', workflowLink),
+		);
+		if (pinButton) {
+			// Lay out the play and pin buttons side by side
+			pinButton.parentElement!.classList.add('d-flex');
 			const url = new URL(workflowLink.href);
 			url.hash = 'rgh-run-workflow';
-			workflowLink.after(
+			pinButton.before(
 				<a
 					ref={withTooltipRef({label: 'Trigger manually', direction: 'sw'})}
 					href={url.href}
 					data-turbo-frame={workflowLink.dataset.turboFrame}
-					// `actions-unpin-button` provides the hover style
-					className="Button Button--iconOnly Button--invisible Button--medium color-bg-transparent actions-unpin-button"
+					// Reuse the pin button's (hashed) classes and attributes to match its style
+					className={cx(pinButton.className, 'rounded-0')}
+					data-component={pinButton.dataset.component}
+					data-size={pinButton.dataset.size}
+					data-variant={pinButton.dataset.variant}
+					data-no-visuals={pinButton.dataset.noVisuals}
 				>
 					<PlayIcon />
 				</a>,
 			);
-		} else {
-			// User cannot trigger the workflow
-			const indicator = (
-				<div
-					ref={withTooltipRef({label: 'This workflow can be triggered manually', direction: 'sw'})}
-					className="ActionListItem-visual ActionListItem-visual--trailing"
-					style={{pointerEvents: 'initial'}}
-				>
-					<PlayIcon />
-				</div>
-			);
-			const pinIcon = $optional('[class^="prc-ActionList-TrailingVisual"]', workflowLink);
-			if (pinIcon) {
-				// Enable tooltip
-				pinIcon.style.pointerEvents = 'auto';
-				// Add spacing between the icons
-				pinIcon.classList.add('gap-2');
-				pinIcon.prepend(indicator);
-			} else {
-				workflowLink.append(indicator);
-			}
 		}
 	}
 
@@ -145,6 +135,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
+		' ',
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
@@ -184,6 +175,9 @@ void features.add(import.meta.url, {
 /*
 
 ## Test URLs
+
+Manual (third party):
+https://github.com/eslint/eslint/actions
 
 Manual + scheduled:
 https://github.com/sindresorhus/type-fest/actions/workflows/ts-canary.yml
