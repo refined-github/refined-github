@@ -142,7 +142,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe(
 		[
 			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
-			'li[class*="listItem"] [class*="heading"] > a[class*="anchor"][data-hovercard-type="pull_request"]', // React issue and PR lists
+			'li[class*="listItem"] [class*="heading"] > a[class*="anchor"][href*="/pull/"]', // React issue and PR lists
 		],
 		batchedFunction(add, {delay: 100}),
 		{signal},
