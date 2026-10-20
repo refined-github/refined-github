@@ -37,7 +37,8 @@ function dim(commit: HTMLElement): void {
 	closestElement([
 		'[data-testid="commit-row-item"]',
 
-		'.Box-row', // PRs
+		'.Box-row', // Legacy PRs
+		'li[class*="listItem"]', // React PRs
 	], commit).classList.add(dimBots.class);
 }
 
@@ -65,5 +66,6 @@ Test URLs
 - PRs: https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
 - PRs by unmarked bot: https://github.com/spotify/scio/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Aclosed+steward
 - PR Commits: https://github.com/pixiebrix/webext-messenger/pull/173/commits
+- Global PRs: https://github.com/pulls/search?q=is%3Aopen+is%3Apr+org%3Aapple+archived%3Afalse+draft%3Afalse
 
 */
