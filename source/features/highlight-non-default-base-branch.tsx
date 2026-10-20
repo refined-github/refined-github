@@ -89,7 +89,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		// React DOM
 		: closestElement('li', pr.link).querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
-			'div[class^="Description"]', // Preview global PR list
+			'div[class*="description"]', // PR list
 		])!;
 	metadataRow.append(badge);
 }
