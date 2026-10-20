@@ -153,8 +153,7 @@ async function openRunWorkflow(): Promise<void> {
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(5000),
 	});
-	// Missing if the button doesn't appear within the timeout, e.g. if the page layout changed again
-	runButton?.click();
+	runButton!.click();
 }
 
 void features.add(import.meta.url, {
