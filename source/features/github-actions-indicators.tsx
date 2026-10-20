@@ -131,6 +131,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	}
 
 	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
+		' ',
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
 		</em>,
