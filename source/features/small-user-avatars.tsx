@@ -2,6 +2,7 @@ import './small-user-avatars.css';
 
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import regexJoin from 'regex-join';
 
 import features from '../feature-manager.js';
 import getUserAvatarURL, {stripBotMarkers} from '../github-helpers/get-user-avatar.js';
@@ -42,7 +43,7 @@ function addRepoAvatar(link: HTMLAnchorElement): void {
 }
 
 /** Extracts user from attribute values */
-const userAttributeRegexes = [
+const userAttributeRegex = regexJoin(
 	// [data-hovercard-url="/users/fregante/hovercard"]
 	// https://github.com/refined-github/refined-github/pulls?q=is%3Apr+lol+wow
 	/^[/]users[/](?<username>[^/]+)[/]hovercard$/,
@@ -52,18 +53,7 @@ const userAttributeRegexes = [
 	// [aria-label="Filter by author github-user-here"]
 	// https://github.com/pulls/involves
 	/^Filter by author (?<username>[^ ]+)$/,
-];
-
-function extractUsernameFromAttribute(attribute: string): string | undefined {
-	for (const regex of userAttributeRegexes) {
-		const match = regex.exec(attribute);
-		if (match) {
-			return match.groups!.username;
-		}
-	}
-
-	return undefined;
-}
+);
 
 function extractUsername(element: HTMLAnchorElement | HTMLButtonElement): string {
 	// Prefer reading username from URL if present.
@@ -72,7 +62,7 @@ function extractUsername(element: HTMLAnchorElement | HTMLButtonElement): string
 	const attribute = element.getAttribute('data-hovercard-url') ?? element.getAttribute('aria-label');
 
 	// If there's no match, the following assertion will fail
-	const username = extractUsernameFromAttribute(attribute ?? '')
+	const username = userAttributeRegex.exec(attribute ?? '')?.groups?.username
 		// The issue list on some repos only has a link to `?q=author:app/dependabot`
 		// https://github.com/eslint/eslint/issues?q=author%3Aapp%2Fdependabot
 		?? URL.parse(element.getAttribute('href') ?? '', location.href)?.searchParams.get('q')?.match(
