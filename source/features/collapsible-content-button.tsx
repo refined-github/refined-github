@@ -93,7 +93,7 @@ function append(container: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	observe(actionBar, append, {signal});
-	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal});
+	delegate('.rgh-collapsible-content-btn', 'click', addContentToDetails, {signal, capture: true});
 }
 
 void features.add(import.meta.url, {
