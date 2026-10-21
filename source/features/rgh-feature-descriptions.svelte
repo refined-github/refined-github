@@ -6,6 +6,7 @@
 	import DisabledFeatureBanner from '../components/disabled-feature-banner.svelte';
 	import DomChef from '../components/dom-chef.svelte';
 	import RelatedIssuesCount from '../components/related-issues-count.svelte';
+	import RelatedIssuesList from '../components/related-issues-list.svelte';
 	import urlStore from '../components/url.js';
 	import {
 		featuresMeta,
@@ -176,6 +177,11 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if isReportingBug}
+		<!-- Same memoized request as `RelatedIssuesCount` above -->
+		<RelatedIssuesList featureId={id} />
+	{/if}
 
 	<DisabledFeatureBanner id={id} />
 {/if}

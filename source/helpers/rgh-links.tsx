@@ -21,11 +21,14 @@ export function getFeatureUrl(id: FeatureId): string {
 	return `https://github.com/refined-github/refined-github/blob/main/source/features/${id}.tsx`;
 }
 
-export function getFeatureRelatedIssuesQuery(id: string): string {
+export function getFeatureSearchTerms(id: string): string {
 	const oldNames = getOldFeatureNames(id);
 	const searchTerms = [id, ...oldNames].map(name => `"${name}"`);
-	const joinedTerms = searchTerms.length > 1 ? `(${searchTerms.join(' OR ')})` : searchTerms[0];
-	return `state:open ${joinedTerms}`;
+	return searchTerms.length > 1 ? `(${searchTerms.join(' OR ')})` : searchTerms[0];
+}
+
+export function getFeatureRelatedIssuesQuery(id: string): string {
+	return `state:open ${getFeatureSearchTerms(id)}`;
 }
 
 export function getFeatureRelatedIssuesUrl(id: string): URL {

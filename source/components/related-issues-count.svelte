@@ -1,12 +1,8 @@
 <script lang="ts">
-	import api from '../github-helpers/api.js';
 	import {excludeFromDomTextExtraction} from '../github-helpers/parse-rendered-text.js';
 	import pluralize from '../helpers/pluralize.js';
-	import {
-		getFeatureRelatedIssuesQuery,
-		getFeatureRelatedIssuesUrl,
-	} from '../helpers/rgh-links.js';
-	import CountIssues from './related-issues-count.gql';
+	import {getFeatureRelatedIssuesUrl} from '../helpers/rgh-links.js';
+	import getRelatedIssues from './related-issues.js';
 
 	type Props = {
 		featureId: string;
@@ -19,13 +15,9 @@
 		getFeatureRelatedIssuesUrl(featureId).href
 	);
 
-	const countPromise = $derived.by(async (): Promise<number> => {
-		const query = 'repo:refined-github/refined-github '
-			+ getFeatureRelatedIssuesQuery(featureId);
-
-		const {search} = await api.v4(CountIssues, {variables: {query}});
-		return search.issueCount;
-	});
+	const countPromise = $derived(
+		getRelatedIssues(featureId).then(({openCount}) => openCount),
+	);
 </script>
 
 {#snippet linked(text: string, tooltip?: string)}

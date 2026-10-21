@@ -1,6 +1,7 @@
 import {isSafari} from 'webext-detect';
 
 import isDevelopmentVersion from './is-development-version.js';
+import versionToDate from './version-to-date.js';
 
 const {version} = chrome.runtime.getManifest();
 
@@ -16,10 +17,7 @@ export function getExtensionReleaseDate(): Date {
 		return new Date();
 	}
 
-	const [year, month, day] = version.split('.').map(Number);
-	// Version format: YY.M.D (e.g., 25.3.10 = 2025-03-10)
-	// Date constructor uses 0-based months
-	return new Date(2000 + year, month - 1, day);
+	return versionToDate(version);
 }
 
 export function toDaysAgo(releaseDate: Date): number {
