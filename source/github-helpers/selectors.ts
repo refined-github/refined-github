@@ -265,8 +265,7 @@ export const actionBar = [
 ];
 export const actionBar_ = requiresLogin;
 
-export const prMergeabilityBoxHeader =
-	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
+export const prMergeabilityBoxHeader = 'section[aria-label="Conflicts"] div[class*="wrapper__"]';
 export const prMergeabilityBoxHeader_ = requiresLogin;
 
 export const prMergeabilityBoxCaption = 'section[aria-label="Conflicts"] h3 + .fgColor-muted';
