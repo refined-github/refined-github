@@ -2,7 +2,7 @@
 	import {excludePreset} from '../features/rgh-dim-commits.js';
 	import api from '../github-helpers/api.js';
 	import {parseBackticks} from '../github-helpers/dom-formatters.js';
-	import {getExtensionReleaseDate} from '../helpers/extension-release-age.js';
+	import {getExtensionReleaseDate} from '../helpers/extension-release-date.js';
 	import {getFeatureRelatedIssuesQuery} from '../helpers/rgh-links.js';
 	import IssuePrIcon from './issue-pr-icon.svelte';
 	import GetRelatedIssuesList from './related-issues-list.gql';

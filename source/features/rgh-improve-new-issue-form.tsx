@@ -12,7 +12,8 @@ import {buildRepoUrl, isRefinedGitHubRepo, pressEscapeKey, visitAjaxedPage} from
 import clearCacheHandler from '../helpers/clear-cache-handler.js';
 import delay from '../helpers/delay.js';
 import {getElementByAriaLabelledBy} from '../helpers/dom-utils.js';
-import {getExtensionReleaseDate, toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {toDaysAgo, wasReleasedLongAgo} from '../helpers/extension-release-age.js';
+import {getExtensionReleaseDate} from '../helpers/extension-release-date.js';
 import {OptionsLink} from '../helpers/open-options.js';
 import observe from '../helpers/selector-observer.js';
 import {setReactInputValue} from '../helpers/set-react-text-field-value.js';
