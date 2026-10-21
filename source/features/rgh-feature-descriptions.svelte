@@ -179,7 +179,6 @@
 	</div>
 
 	{#if isReportingBug}
-		<!-- Same memoized request as `RelatedIssuesCount` above -->
 		<RelatedIssuesList featureId={id} />
 	{/if}
 
