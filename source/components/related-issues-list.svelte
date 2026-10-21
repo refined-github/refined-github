@@ -1,5 +1,8 @@
 <script lang="ts">
+	import type {Action} from 'svelte/action';
+
 	import api from '../github-helpers/api.js';
+	import {parseBackticks} from '../github-helpers/dom-formatters.js';
 	import {getExtensionReleaseDate} from '../helpers/extension-release-age.js';
 	import {getFeatureRelatedIssuesQuery} from '../helpers/rgh-links.js';
 	import IssuePrIcon from './issue-pr-icon.svelte';
@@ -16,6 +19,10 @@
 	};
 
 	const {featureId}: {featureId: string} = $props();
+
+	const renderBackticks: Action<HTMLElement> = (node) => {
+		parseBackticks(node);
+	};
 
 	function toSearchDate(date: Date): string {
 		const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -53,12 +60,10 @@
 						stateReason={issue.stateReason}
 						isDraft={issue.isDraft}
 					/>
-					<!-- Open in a new tab to avoid form content loss -->
 					<a
 						href={issue.url}
-						target="_blank"
-						rel="noopener noreferrer"
 						class="Link--primary wb-break-word"
+						use:renderBackticks
 					>
 						{issue.title}
 					</a>
