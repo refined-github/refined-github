@@ -14,7 +14,8 @@ export function wasReleasedLongAgo(releaseAgeInDays: number): boolean {
 
 export function getExtensionReleaseDate(): Date {
 	if (isDevelopmentVersion()) {
-		return new Date();
+		// Pretend it was released recently
+		return new Date(Date.now() - (7 * 24 * 60 * 60 * 1000));
 	}
 
 	return versionToDate(version);
