@@ -61,20 +61,21 @@
 						stateReason={issue.stateReason}
 						isDraft={issue.isDraft}
 					/>
-					<!-- Open in a new tab to avoid form content loss -->
-					<a
-						href={issue.url}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="Link--primary wb-break-word"
-						use:parseBackticks
-					>
-						{issue.title}
-					</a>
-					{#if issue.mergedAt && !issue.isReleased}
-						<span class="color-fg-muted text-small flex-shrink-0"
-						>Not yet released</span>
-					{/if}
+					<div class="min-width-0">
+						<!-- Open in a new tab to avoid form content loss -->
+						<a
+							href={issue.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="Link--primary wb-break-word"
+							use:parseBackticks
+						>
+							{issue.title}
+						</a>
+						{#if issue.mergedAt && !issue.isReleased}
+							<div class="color-fg-muted text-small">Not yet released</div>
+						{/if}
+					</div>
 				</div>
 			{/each}
 		</div>
