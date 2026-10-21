@@ -17,6 +17,8 @@
 	import {isFeaturePrivate} from '../helpers/feature-utils.js';
 
 	const isReportingBug = pageDetect.isNewIssue();
+	// Nothing precedes the links on the bug report form
+	const separator = isReportingBug ? '' : '•';
 
 	// The title field overrides the URL parameter once the user edits it
 	let typedTitle = $state<string>();
@@ -138,22 +140,25 @@
 				{/if}
 
 				<div class="no-wrap">
-					<RelatedIssuesCount featureId={id} />
+					<!-- The related issues are listed below the description on the bug report form -->
+					{#if !isReportingBug}
+						<RelatedIssuesCount featureId={id} />
+					{/if}
 					{#if !wasFeatureRemoved && !isReportingBug}
-						•
+						{separator}
 						{@render featureLink(newIssueUrl.href, 'Report bug')}
 					{/if}
 					{#if meta}
 						{#if isCss && !meta.cssOnly}
-							•
+							{separator}
 							{@render featureLink(pathname.replace('.css', '.tsx'), 'See .tsx file')}
 						{:else if meta.css && !isCss}
-							•
+							{separator}
 							{@render featureLink(pathname.replace('.tsx', '.css'), 'See .css file')}
 						{/if}
 					{/if}
 					{#if wasFeatureRemoved}
-						•
+						{separator}
 						{@render featureLink(
 							// This links to the full commit history, which will start with the commit that removed the file
 							`https://github.com/refined-github/refined-github/commits/main/source/features/${id}.tsx`,

@@ -61,6 +61,6 @@
 	);
 </script>
 
-<span class="flex-shrink-0 d-flex {status.color}" title={status.label}>
+<span class="flex-shrink-0 {status.color}" title={status.label}>
 	<DomChef as={status.icon} />
 </span>

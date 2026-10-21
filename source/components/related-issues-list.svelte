@@ -42,8 +42,11 @@
 {#await listPromise then list}
 	{#if list.length > 0}
 		<div class="Box mb-3 tmp-mb-3 d-inline-block width-full">
+			<div class="Box-header">
+				<h3 class="Box-title">Related issues</h3>
+			</div>
 			{#each list as issue (issue.url)}
-				<div class="Box-row d-flex flex-items-center gap-2">
+				<div class="Box-row d-flex flex-items-baseline gap-2">
 					<IssuePrIcon
 						type={issue.__typename}
 						state={issue.state}
@@ -59,9 +62,6 @@
 					>
 						{issue.title}
 					</a>
-					<span class="color-fg-muted text-small flex-shrink-0">#{
-							issue.number
-						}</span>
 				</div>
 			{/each}
 		</div>
