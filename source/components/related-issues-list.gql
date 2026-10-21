@@ -1,0 +1,27 @@
+query GetRelatedIssuesList($query: String!) {
+	repository(owner: "refined-github", name: "refined-github") {
+		latestRelease {
+			publishedAt
+		}
+	}
+	search(query: $query, type: ISSUE_ADVANCED, first: 20) {
+		nodes {
+			__typename
+			... on Issue {
+				number
+				title
+				url
+				state
+				stateReason
+			}
+			... on PullRequest {
+				number
+				title
+				url
+				state
+				isDraft
+				mergedAt
+			}
+		}
+	}
+}
