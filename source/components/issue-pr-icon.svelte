@@ -18,49 +18,38 @@
 
 	const {type, state, stateReason, isDraft}: Props = $props();
 
-	const status = $derived.by(
-		(): {
-			icon: (..._props: any[]) => HTMLElement;
-			color: string;
-			label: string;
-		} => {
-			if (type === 'PullRequest') {
-				if (state === 'MERGED') {
-					return {icon: GitMergeIcon, color: 'color-fg-done', label: 'Merged PR'};
-				}
+	const isPR = $derived(type === 'PullRequest');
+	const isOpen = $derived(state === 'OPEN');
+	const isMerged = $derived(state === 'MERGED');
+	const isNotPlanned = $derived(stateReason === 'NOT_PLANNED');
 
-				if (state === 'CLOSED') {
-					return {
-						icon: GitPullRequestClosedIcon,
-						color: 'color-fg-closed',
-						label: 'Closed PR',
-					};
-				}
+	const icon = $derived(
+		isPR
+			? isMerged
+				? GitMergeIcon
+				: isOpen
+				? isDraft
+					? GitPullRequestDraftIcon
+					: GitPullRequestIcon
+				: GitPullRequestClosedIcon
+			: isOpen
+			? IssueOpenedIcon
+			: isNotPlanned
+			? SkipIcon
+			: IssueClosedIcon,
+	);
 
-				return isDraft
-					? {
-						icon: GitPullRequestDraftIcon,
-						color: 'color-fg-muted',
-						label: 'Draft PR',
-					}
-					: {icon: GitPullRequestIcon, color: 'color-fg-open', label: 'Open PR'};
-			}
-
-			if (state === 'OPEN') {
-				return {icon: IssueOpenedIcon, color: 'color-fg-open', label: 'Open issue'};
-			}
-
-			return stateReason === 'NOT_PLANNED'
-				? {
-					icon: SkipIcon,
-					color: 'color-fg-muted',
-					label: 'Issue closed as not planned',
-				}
-				: {icon: IssueClosedIcon, color: 'color-fg-done', label: 'Closed issue'};
-		},
+	const color = $derived(
+		isOpen && !(isPR && isDraft)
+			? 'color-fg-open'
+			: isMerged || (!isPR && !isNotPlanned)
+			? 'color-fg-done'
+			: isPR && !isOpen
+			? 'color-fg-closed'
+			: 'color-fg-muted',
 	);
 </script>
 
-<span class="flex-shrink-0 d-flex {status.color}" title={status.label}>
-	<DomChef as={status.icon} />
+<span class="flex-shrink-0 d-flex {color}">
+	<DomChef as={icon} />
 </span>

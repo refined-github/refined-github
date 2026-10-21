@@ -50,18 +50,15 @@
 						stateReason={issue.stateReason}
 						isDraft={issue.isDraft}
 					/>
-					<!-- Open in a new tab to avoid form content loss -->
 					<a
 						href={issue.url}
-						target="_blank"
-						rel="noopener noreferrer"
 						class="Link--primary wb-break-word"
 					>
 						{issue.title}
 					</a>
-					<span class="color-fg-muted text-small flex-shrink-0">#{
-							issue.number
-						}</span>
+					<span class="color-fg-muted text-small flex-shrink-0">
+						#{issue.number}
+					</span>
 				</div>
 			{/each}
 		</div>
