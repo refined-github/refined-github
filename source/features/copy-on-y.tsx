@@ -19,10 +19,10 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	init,
 	shortcuts: {
 		y: 'Copy permalink to clipboard',
 	},
+	init,
 });
 
 /*

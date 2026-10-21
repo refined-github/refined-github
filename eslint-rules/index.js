@@ -1,3 +1,4 @@
+import consistentFeatureAdd from './consistent-feature-add.js';
 import cssDocumentation from './css-documentation.js';
 import noUselessFunction from './css-no-useless-function.js';
 import preferNesting from './css-prefer-nesting.js';
@@ -8,6 +9,7 @@ import noOptionalChaining from './no-optional-chaining.js';
 const refinedGithubPlugin = {
 	rules: {
 		'no-optional-chaining': noOptionalChaining,
+		'consistent-feature-add': consistentFeatureAdd,
 		'css-documentation': cssDocumentation,
 		'css-require-fuchsia-fallback': requireFuchsiaFallback,
 		'css-prefer-nesting': preferNesting,

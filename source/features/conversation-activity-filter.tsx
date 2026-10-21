@@ -152,12 +152,12 @@ async function init(signal: AbortSignal): Promise<void> {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isConversation,
-	],
 	shortcuts: {
 		h: 'Cycle through conversation activity filters',
 	},
+	include: [
+		pageDetect.isConversation,
+	],
 	init,
 });
 
