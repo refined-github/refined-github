@@ -183,11 +183,11 @@
 		</div>
 	</div>
 
+	<DisabledFeatureBanner id={id} />
+
 	{#if isReportingBug}
 		<RelatedIssuesList featureId={id} />
 	{/if}
-
-	<DisabledFeatureBanner id={id} />
 {/if}
 
 <style>

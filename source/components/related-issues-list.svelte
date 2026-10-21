@@ -1,6 +1,4 @@
 <script lang="ts">
-	import type {Action} from 'svelte/action';
-
 	import api from '../github-helpers/api.js';
 	import {parseBackticks} from '../github-helpers/dom-formatters.js';
 	import {getExtensionReleaseDate} from '../helpers/extension-release-age.js';
@@ -20,19 +18,9 @@
 
 	const {featureId}: {featureId: string} = $props();
 
-	const renderBackticks: Action<HTMLElement> = (node) => {
-		parseBackticks(node);
-	};
-
-	function toSearchDate(date: Date): string {
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
-		return `${date.getFullYear()}-${month}-${day}`;
-	}
-
 	// Open issues and PRs, plus the closed ones created since the user's version was released
 	const listPromise = $derived.by(async (): Promise<RelatedIssue[]> => {
-		const since = toSearchDate(getExtensionReleaseDate());
+		const since = getExtensionReleaseDate().toISOString().slice(0, 10);
 		const terms = getFeatureRelatedIssuesQuery(featureId).replace(
 			'state:open ',
 			'',
@@ -50,7 +38,7 @@
 	{#if list.length > 0}
 		<div class="Box mb-3 tmp-mb-3 d-inline-block width-full">
 			<div class="Box-header">
-				<h3 class="Box-title">Related issues</h3>
+				<h3 class="Box-title">Recent issues</h3>
 			</div>
 			{#each list as issue (issue.url)}
 				<div class="Box-row d-flex flex-items-baseline gap-2">
@@ -60,10 +48,13 @@
 						stateReason={issue.stateReason}
 						isDraft={issue.isDraft}
 					/>
+					<!-- Open in a new tab to avoid form content loss -->
 					<a
 						href={issue.url}
+						target="_blank"
+						rel="noopener noreferrer"
 						class="Link--primary wb-break-word"
-						use:renderBackticks
+						use:parseBackticks
 					>
 						{issue.title}
 					</a>
