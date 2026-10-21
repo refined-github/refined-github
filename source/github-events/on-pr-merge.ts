@@ -9,7 +9,7 @@ export default async function waitForPrMerge(signal: AbortSignal): Promise<void>
 	// WARNING: Be very careful about the value of ancestor if you refactor this code
 	const mergeEvent = new Promise(resolve => {
 		// `emphasis` excludes merge commit icons added by `mark-merge-commits-in-list`
-		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', resolve, {ancestor: 4});
+		observe('.TimelineItem-badge.color-fg-on-emphasis .octicon-git-merge', resolve, {ancestor: 4, signal});
 	});
 
 	await oneEvent(confirmMergeButton, 'click', {signal});
