@@ -1,4 +1,5 @@
 <script lang="ts">
+	import {excludePreset} from '../features/rgh-dim-commits.js';
 	import api from '../github-helpers/api.js';
 	import {parseBackticks} from '../github-helpers/dom-formatters.js';
 	import {getExtensionReleaseDate} from '../helpers/extension-release-age.js';
@@ -35,12 +36,14 @@
 			variables: {query},
 		});
 		const latestRelease = repository.latestRelease?.publishedAt;
-		return search.nodes.map((issue: RelatedIssue) => ({
-			...issue,
-			isReleased: Boolean(
-				latestRelease && issue.mergedAt && issue.mergedAt <= latestRelease,
-			),
-		}));
+		return search.nodes
+			.filter((issue: RelatedIssue) => !excludePreset.test(issue.title))
+			.map((issue: RelatedIssue) => ({
+				...issue,
+				isReleased: Boolean(
+					latestRelease && issue.mergedAt && issue.mergedAt <= latestRelease,
+				),
+			}));
 	});
 </script>
 
