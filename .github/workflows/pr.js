@@ -2,6 +2,7 @@
 /* eslint-disable -- Uses globals */
 export async function blockAi({github, context, core}) {
 	const marker = 'This looks like an AI-generated PR';
+	const templateMarker = 'The description of this PR is the unmodified template';
 
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
@@ -21,7 +22,7 @@ export async function blockAi({github, context, core}) {
 	const alreadyProcessed = comments.some(
 		comment =>
 			comment.user?.type === 'Bot'
-			&& comment.body?.includes(marker),
+			&& (comment.body?.includes(marker) || comment.body?.includes(templateMarker)),
 	);
 
 	if (alreadyProcessed) {
@@ -29,10 +30,11 @@ export async function blockAi({github, context, core}) {
 		return;
 	}
 
+	const isEmptyTemplate = /## Test URLs\s+## Screenshots?$/i.test(pr.body?.trim() ?? '');
 	const isAi = pr.title.startsWith('AI:')
 		|| /npx|build:bundle|build:typescript|Verification|Validation|Summary|Changes|Testing|—/.test(pr.body ?? '');
 
-	if (!isAi) {
+	if (!isAi && !isEmptyTemplate) {
 		core.info(`PR #${pr.number} did not match the AI detection rules.`);
 		return;
 	}
@@ -43,6 +45,27 @@ export async function blockAi({github, context, core}) {
 		pull_number: pr.number,
 		state: 'closed',
 	});
+
+	if (isEmptyTemplate) {
+		await github.rest.issues.createComment({
+			owner,
+			repo,
+			issue_number: pr.number,
+			body: [
+				`**Please follow the PR template.** ${templateMarker}, with no test URLs or screenshots.`,
+				'',
+				'Next steps:',
+				'1. Read the template and the Contributing page linked in it.',
+				'2. Update the PR body with real URLs where you tested the change, and a screenshot/video/gif of it working.',
+				'3. Wait for a human to review the PR and reopen it.',
+				'',
+				'Tips:',
+				'- **Do not open more PRs** until this one is reopened and merged.',
+				"- Don't waste your time on PRs that ignore the template, they won't be accepted.",
+			].join('\n'),
+		});
+		return;
+	}
 
 	await github.rest.issues.createComment({
 		owner,
