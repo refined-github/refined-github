@@ -1,6 +1,7 @@
 import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
+
 import features from '../feature-manager.js';
 
 const forkButtonSelector = '[data-testid="fork-button"]';

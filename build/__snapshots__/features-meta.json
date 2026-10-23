@@ -325,7 +325,7 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif"
 	},
 	{
-		"id": "fork-button-dropdown",
+		"id": "forked-to",
 		"description": "Opens the fork dropdown when clicking the \"Fork\" button, so you can pick your existing fork or create a new one.",
 		"screenshot": null
 	},
