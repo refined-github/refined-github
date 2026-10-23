@@ -1,5 +1,5 @@
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom';
+import {$, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -8,18 +8,12 @@ const dropdownSelector = '[data-testid="fork-dropdown-button"]';
 
 // Turns the Fork button + arrow button group into a single button that opens the dropdown
 function mergeButtons(dropdown: HTMLButtonElement): void {
-	const group = dropdown.closest('[data-component="ButtonGroup"]');
-	const forkLink = $optional(forkLinkSelector, group ?? undefined);
-	if (!forkLink) {
-		return;
-	}
-
+	const group = closestElement('[data-component="ButtonGroup"]', dropdown);
+	const forkLink = $(forkLinkSelector, group);
 	const content = $('[data-component="buttonContent"]', forkLink);
-	const arrow = $optional('svg', dropdown);
-	if (arrow) {
-		content.append(arrow);
-		arrow.classList.add('ml-1');
-	}
+	const arrow = $('svg', dropdown);
+	arrow.classList.add('ml-1');
+	content.append(arrow);
 
 	// Icon-only styling doesn't fit a labeled button
 	for (const className of dropdown.classList) {
