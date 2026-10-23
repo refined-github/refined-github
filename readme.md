@@ -102,7 +102,6 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "delete-branch") [Adds a button to delete the current branch on the branch page.](https://github.com/user-attachments/assets/02478585-0613-4070-9616-df069dbc6c38)
 - [](# "pr-from-branch") [Lets you open a PR in one click on the branch page.](https://github.com/user-attachments/assets/7f42664a-76e6-4518-88b2-20b69a3260f9)
 - [](# "archive-forks-link") [Helps you find forks on archived repos.](https://user-images.githubusercontent.com/1402241/230362566-12493c80-bffe-4c7a-b9ba-4a11b1358ab0.png)
-- [](# "forked-to") Merges the "Fork" button and its dropdown into a single button that always opens the dropdown, so you can pick your existing fork or create a new one.
 - [](# "repo-avatars") [Adds the profile picture to the header of public repositories.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/255323568-aee4d90e-844e-41e8-880a-ce466826516c.png)
 - [](# "small-user-avatars") [Shows a small avatar next to the username in issue/PR lists and mentions.](https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/271184107-24ec471e-54d1-434a-a5f2-615902d2cad9.png)
 - [](# "action-pr-link") 🔥 [Adds a link back to the PR that ran the workflow.](https://github-production-user-asset-6210df.s3.amazonaws.com/50487467/241645264-076a0137-36a2-4fd0-a66e-735ef3b3a563.png)
@@ -112,6 +111,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
 - [](# "extend-repo-tabs") [Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.](https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326)
 - [](# "subscribe-releases") [Adds a button to subscribe to repository releases in one click.](https://github.com/user-attachments/assets/76f211ae-7f7e-4ca6-843c-38a63a364813)
+- [](# "forked-to") Merges the "Fork" button and its dropdown into a single button that always opens the dropdown, so you can pick your existing fork or create a new one.
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

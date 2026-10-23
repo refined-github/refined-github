@@ -3,13 +3,9 @@ import {$, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
-const forkLinkSelector = '[data-testid="fork-button"]';
-const dropdownSelector = '[data-testid="fork-dropdown-button"]';
-
-// Turns the Fork button + arrow button group into a single button that opens the dropdown
 function mergeButtons(dropdown: HTMLButtonElement): void {
 	const group = closestElement('[data-component="ButtonGroup"]', dropdown);
-	const forkLink = $(forkLinkSelector, group);
+	const forkLink = $('[data-testid="fork-button"]', group);
 	const content = $('[data-component="buttonContent"]', forkLink);
 	const arrow = $('svg', dropdown);
 	arrow.classList.add('ml-1');
@@ -28,12 +24,12 @@ function mergeButtons(dropdown: HTMLButtonElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe(dropdownSelector, mergeButtons, {signal});
+	observe('[data-testid="fork-dropdown-button"]', mergeButtons, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.hasRepoHeader,
+		pageDetect.isRepoHome,
 	],
 	init,
 });
