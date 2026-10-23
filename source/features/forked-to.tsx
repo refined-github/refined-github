@@ -1,26 +1,40 @@
-import delegate from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$optional} from 'select-dom';
-
+import {$, $optional} from 'select-dom';
 import features from '../feature-manager.js';
+import observe from '../helpers/selector-observer.js';
 
-const forkButtonSelector = '[data-testid="fork-button"]';
-const forkDropdownSelector = '[data-testid="fork-dropdown-button"]';
+const forkLinkSelector = '[data-testid="fork-button"]';
+const dropdownSelector = '[data-testid="fork-dropdown-button"]';
 
-function openDropdown(event: MouseEvent): void {
-	const dropdown = $optional(forkDropdownSelector);
-	// Let modified clicks (new tab, etc) through
-	if (!dropdown || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+// Turns the Fork button + arrow button group into a single button that opens the dropdown
+function mergeButtons(dropdown: HTMLButtonElement): void {
+	const group = dropdown.closest('[data-component="ButtonGroup"]');
+	const forkLink = $optional(forkLinkSelector, group ?? undefined);
+	if (!forkLink) {
 		return;
 	}
 
-	event.preventDefault();
-	event.stopImmediatePropagation();
-	dropdown.click();
+	const content = $('[data-component="buttonContent"]', forkLink);
+	const arrow = $optional('svg', dropdown);
+	if (arrow) {
+		content.append(arrow);
+		arrow.classList.add('ml-1');
+	}
+
+	// Icon-only styling doesn't fit a labeled button
+	for (const className of dropdown.classList) {
+		if (className.startsWith('prc-Button-IconButton')) {
+			dropdown.classList.remove(className);
+		}
+	}
+
+	delete dropdown.dataset.noVisuals;
+	dropdown.prepend(content);
+	forkLink.parentElement!.remove();
 }
 
 function init(signal: AbortSignal): void {
-	delegate(forkButtonSelector, 'click', openDropdown, {signal, capture: true});
+	observe(dropdownSelector, mergeButtons, {signal});
 }
 
 void features.add(import.meta.url, {

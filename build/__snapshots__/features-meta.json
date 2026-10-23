@@ -326,7 +326,7 @@
 	},
 	{
 		"id": "forked-to",
-		"description": "Opens the fork dropdown when clicking the \"Fork\" button, so you can pick your existing fork or create a new one.",
+		"description": "Merges the \"Fork\" button and its dropdown into a single button that always opens the dropdown, so you can pick your existing fork or create a new one.",
 		"screenshot": null
 	},
 	{
