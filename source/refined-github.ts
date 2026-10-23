@@ -222,3 +222,4 @@ import './features/mark-locked.js';
 import './features/subscribe-releases.js';
 import './features/dim-viewed-files.js';
 import './features/absolute-time.js';
+import './features/fork-button-dropdown.js';
