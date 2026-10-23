@@ -26,6 +26,51 @@ const registerAnimation = onetime((): void => {
 	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
 });
 
+let activeStylesheets = 0;
+let highestWarnedCount = 0;
+
+// Warns once per multiple of 50, never again for a count already reached, even if it dropped in between
+function trackStylesheet(signal?: AbortSignal): void {
+	activeStylesheets++;
+	if (activeStylesheets % 50 === 0 && activeStylesheets > highestWarnedCount) {
+		highestWarnedCount = activeStylesheets;
+		console.warn('Selector observer has', activeStylesheets, 'active stylesheets');
+	}
+
+	signal?.addEventListener('abort', () => {
+		activeStylesheets--;
+	});
+}
+
+function addStyle(cssText: string, signal?: AbortSignal): void {
+	try {
+		const sheet = new CSSStyleSheet();
+		sheet.replaceSync(cssText);
+		// Mutate in place instead of reassigning, https://bugs.webkit.org/show_bug.cgi?id=254844
+		document.adoptedStyleSheets.push(sheet);
+		signal?.addEventListener('abort', () => {
+			const index = document.adoptedStyleSheets.indexOf(sheet);
+			if (index !== -1) {
+				document.adoptedStyleSheets.splice(index, 1);
+			}
+		});
+	} catch {
+		// Firefox <153 denies content scripts access to adoptedStyleSheets
+		const rule = document.createElement('style');
+		// Enable when/if needed
+		// if (isDevelopmentVersion()) {
+		// 	// For debuggability
+		// 	rule.setAttribute('s', selector);
+		// }
+
+		rule.textContent = cssText;
+		document.body.prepend(rule);
+		signal?.addEventListener('abort', () => {
+			rule.remove();
+		});
+	}
+}
+
 export default function observe<
 	Selector extends string,
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
@@ -58,22 +103,15 @@ export default function observe<
 
 	registerAnimation();
 
-	const rule = document.createElement('style');
-	// Enable when/if needed
-	// if (isDevelopmentVersion()) {
-	// 	// For debuggability
-	// 	rule.setAttribute('s', selector);
-	// }
-
-	rule.textContent = css`
+	addStyle(
+		css`
 		:where(${selector}):not(.${seenMark}) {
 			animation: 1ms ${animation};
 		}
-	`;
-	document.body.prepend(rule);
-	signal?.addEventListener('abort', () => {
-		rule.remove();
-	});
+	`,
+		signal,
+	);
+	trackStylesheet(signal);
 
 	let wasCalled = false;
 	// Capture stack outside
