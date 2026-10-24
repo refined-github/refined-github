@@ -1,5 +1,6 @@
 import * as pageDetect from 'github-url-detection';
 import {$, closestElement} from 'select-dom';
+
 import features from '../feature-manager.js';
 import observe from '../helpers/selector-observer.js';
 
