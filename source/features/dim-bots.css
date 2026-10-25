@@ -24,6 +24,11 @@
 			display: none !important;
 		}
 
+		/* React PR/issue lists: labels, like the legacy `.d-block` labels */
+		[data-listview-item-title-container] > [class*='trailingBadges'] {
+			display: none !important;
+		}
+
 		/* React PR/issue lists: author and dates, comments count */
 		> div:has(
 			[data-testid='timestamp-container'],
@@ -33,4 +38,12 @@
 			display: none !important;
 		}
 	}
+}
+
+/* Keep the spacing that `align-issue-labels` gives to a title without labels */
+html:not([rgh-OFF-align-issue-labels])
+	.rgh-dim-bots:not(.rgh-tagged, .rgh-interacted)
+	[data-listview-item-title-container]
+	> [class*='heading'] {
+	padding-bottom: 10px !important;
 }
