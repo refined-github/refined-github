@@ -1,9 +1,19 @@
 <script lang="ts">
+	import {$$ as querySelectorAll} from 'select-dom';
+
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {brokenFeatures} from '../helpers/hotfix.js';
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
+	let list = $state<HTMLElement>();
+	const keywords = $derived(
+		filterText
+			.toLowerCase()
+			.replaceAll(/\W/g, ' ')
+			.split(/\s+/)
+			.filter(Boolean),
+	);
 	// This will attempt to load the hotfixes because we do want an up-to-date options page
 	const hotfixesPromise = brokenFeatures.get();
 
@@ -11,6 +21,43 @@
 	const activeFeatures = featuresMeta.filter(feature =>
 		importedFeatures.includes(feature.id)
 	);
+
+	// Highlight the matches after the DOM has been filtered
+	$effect(() => {
+		// Firefox <140 lacks the Custom Highlight API
+		if (!list || !('highlights' in CSS)) {
+			return;
+		}
+
+		const ranges: Range[] = [];
+		for (
+			const element of querySelectorAll(
+				':scope .feature-item:not([hidden]) :is(.feature-name, .description)',
+				list,
+			)
+		) {
+			const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+			for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+				const text = node.textContent!.toLowerCase();
+				for (const keyword of keywords) {
+					for (
+						let index = text.indexOf(keyword);
+						index !== -1;
+						index = text.indexOf(keyword, index + keyword.length)
+					) {
+						const range = new Range();
+						range.setStart(node, index);
+						range.setEnd(node, index + keyword.length);
+						ranges.push(range);
+					}
+				}
+			}
+		}
+
+		CSS.highlights.set('feature-search', new Highlight(...ranges));
+
+		return () => CSS.highlights.delete('feature-search');
+	});
 </script>
 
 <p>
@@ -29,15 +76,9 @@
 </p>
 
 {#await hotfixesPromise then fixes}
-	<div class="js-features">
+	<div class="js-features" bind:this={list}>
 		{#each activeFeatures as feature (feature.id)}
 			{@const searchText = `${feature.id} ${feature.description}`.toLowerCase()}
-			{@const keywords = filterText
-			.toLowerCase()
-			.replaceAll(/\W/g, ' ')
-			.split(/\s+/)
-			.filter(Boolean)}
-
 			{@const hotfixIssue = fixes.find(([hotfixId]) => hotfixId === feature.id)?.[1]}
 
 			<div
