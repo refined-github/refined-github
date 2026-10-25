@@ -1,62 +1,65 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import {$} from 'select-dom';
+import {$, $$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
 import setStatusFilter from '../helpers/set-status-filter.js';
 
-function addMergeLink(lastLink: HTMLAnchorElement): void {
+const mergedLinkClass = 'rgh-merged-link';
+
+function addMergeLink(closedLink: HTMLAnchorElement): void {
 	// It's shouldn't be added in issues list
-	if (!pageDetect.isPRList()) {
+	if (!pageDetect.isPRList() || closedLink.nextElementSibling?.classList.contains(mergedLinkClass)) {
 		return;
 	}
 
-	const locationQuery = SearchQuery.from(location);
-	const isMerged = locationQuery.includes('is:merged', 'state:merged');
-
-	// The links in `.table-list-header-toggle` are either:
-	//   1 Open | 1 Closed
-	//   1 Total            // Apparently appears with merged/unmerged filters
-	if (isMerged) {
-		// It's a "Total" link for a merged filter
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
-		return;
+	const mergeLink = closedLink.cloneNode(true);
+	mergeLink.classList.add(mergedLinkClass);
+	$('[class*="title"]', mergeLink).textContent = 'Merged';
+	// The counter would be the one of the closed PRs
+	for (const counter of $$(['[class*="count"]', '[class*="VisuallyHidden"]'], mergeLink)) {
+		counter.remove();
 	}
 
-	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
-	if (isUnmerged) {
-		// It's a "Total" link for an unmerged filter
-		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
-		return;
-	}
-
-	// In this case, `lastLink` is expected to be a "Closed" link
-	const mergeLink = lastLink.cloneNode(true);
-	mergeLink.textContent = 'Merged';
-	mergeLink.classList.toggle('selected', isMerged);
 	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
-	lastLink.after(' ', mergeLink);
+
+	const isMerged = SearchQuery.from(location).includes('is:merged', 'state:merged');
+	if (isMerged) {
+		mergeLink.setAttribute('aria-current', 'true');
+		// Reuse the "selected" styles of the other links, if any
+		const selectedClass = [...closedLink.parentElement!.querySelectorAll('a')].flatMap(link => [...link.classList]).find(
+			name => name.startsWith('selected__'),
+		);
+		if (selectedClass) {
+			mergeLink.classList.add(selectedClass);
+		}
+	}
+
+	closedLink.after(mergeLink);
 }
 
 function removeAllFilters(link: HTMLAnchorElement): void {
-	if (link === link.parentElement!.lastElementChild) {
+	const query = SearchQuery.from(link);
+	if (query.includes('is:closed', 'state:closed')) {
 		addMergeLink(link);
 	}
 
-	$('.octicon', link).remove();
-	if (!link.classList.contains('selected')) {
+	if (link.getAttribute('aria-current') !== 'true' || link.classList.contains(mergedLinkClass)) {
 		return;
 	}
 
+	// Null if the icon wasn't added yet
+	$optional('.octicon', link)?.remove();
 	link.prepend(<CheckIcon />);
 	link.href = setStatusFilter(link, '');
 }
 
 function init(signal: AbortSignal): void {
-	observe('.table-list-header-toggle.states a', removeAllFilters, {signal});
+	// The Open/Closed links in the header of the list
+	observe('[class*="elementContainer"] > a[class*="container"][href*="state%3A"]', removeAllFilters, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -71,7 +74,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- Regular: https://github.com/sindresorhus/refined-github/pulls
-- "Merged" view: https://github.com/sindresorhus/refined-github/pulls?q=is%3Apr+sort%3Aupdated-desc+state%3Amerged
+- Regular: https://github.com/refined-github/refined-github/issues
+- Regular PRs ("Merged" link): https://github.com/refined-github/refined-github/pulls
+- "Merged" view: https://github.com/refined-github/refined-github/pulls?q=is%3Apr+sort%3Aupdated-desc+state%3Amerged
 
 */
