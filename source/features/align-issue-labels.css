@@ -1,12 +1,10 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class*='row__'],
-	ul[class*='withMetadata']
-		> li[class*='listItem']:not(
-			[class*='compact'],
-			:has([class*='DefaultItemTitleContainer'])
-			/* Not an issue/PR list, e.g. org repositories */
+	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact']) {
+		/* Skip the title container of the org repositories list */
+		div[class*='container']:not([class*='DefaultItemTitleContainer']):has(
+			> [class*='heading']
 		) {
-		div[class*='container']:has(> [class*='heading']) {
 			display: contents;
 
 			> [class*='heading'] {
