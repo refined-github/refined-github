@@ -26,34 +26,32 @@ const registerAnimation = onetime((): void => {
 	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
 });
 
-let activeStylesheets = 0;
+// Identical styles (e.g. a feature initialized again after navigation) share one stylesheet
+const styles = new Map<string, {count: number; remove: () => void}>();
 let highestWarnedCount = 0;
 
 // Warns once per multiple of 50, never again for a count already reached, even if it dropped in between
-function trackStylesheet(signal?: AbortSignal): void {
-	activeStylesheets++;
-	if (activeStylesheets % 50 === 0 && activeStylesheets > highestWarnedCount) {
-		highestWarnedCount = activeStylesheets;
-		console.warn('Selector observer has', activeStylesheets, 'active stylesheets');
+function warnIfManyStylesheets(): void {
+	if (styles.size % 50 !== 0 || styles.size <= highestWarnedCount) {
+		return;
 	}
 
-	signal?.addEventListener('abort', () => {
-		activeStylesheets--;
-	});
+	highestWarnedCount = styles.size;
+	console.warn('Selector observer has', styles.size, 'active stylesheets');
 }
 
-function addStyle(cssText: string, signal?: AbortSignal): void {
+function createStyle(cssText: string): () => void {
 	try {
 		const sheet = new CSSStyleSheet();
 		sheet.replaceSync(cssText);
 		// Mutate in place instead of reassigning, https://bugs.webkit.org/show_bug.cgi?id=254844
 		document.adoptedStyleSheets.push(sheet);
-		signal?.addEventListener('abort', () => {
+		return () => {
 			const index = document.adoptedStyleSheets.indexOf(sheet);
 			if (index !== -1) {
 				document.adoptedStyleSheets.splice(index, 1);
 			}
-		});
+		};
 	} catch {
 		// Firefox <153 denies content scripts access to adoptedStyleSheets
 		const rule = document.createElement('style');
@@ -65,10 +63,32 @@ function addStyle(cssText: string, signal?: AbortSignal): void {
 
 		rule.textContent = cssText;
 		document.body.prepend(rule);
-		signal?.addEventListener('abort', () => {
+		return () => {
 			rule.remove();
-		});
+		};
 	}
+}
+
+function addStyle(cssText: string, signal?: AbortSignal): void {
+	let style = styles.get(cssText);
+	if (!style) {
+		style = {count: 0, remove: createStyle(cssText)};
+		styles.set(cssText, style);
+		warnIfManyStylesheets();
+	}
+
+	style.count++;
+	const {remove} = style;
+	signal?.addEventListener('abort', () => {
+		const current = styles.get(cssText)!;
+		current.count--;
+		if (current.count > 0) {
+			return;
+		}
+
+		remove();
+		styles.delete(cssText);
+	});
 }
 
 export default function observe<
@@ -111,7 +131,6 @@ export default function observe<
 	`,
 		signal,
 	);
-	trackStylesheet(signal);
 
 	let wasCalled = false;
 	// Capture stack outside
