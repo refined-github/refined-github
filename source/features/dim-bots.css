@@ -13,9 +13,6 @@
 	}
 
 	&:not(.rgh-tagged, .rgh-interacted) {
-		/* React lists: drop the empty second row (`main-content`) */
-		grid-template-areas: 'selection status primary metadata actions' !important;
-
 		/* Reset commit title spacing */
 		.min-width-0 .mb-1 {
 			margin-bottom: 0 !important;
@@ -28,18 +25,21 @@
 			display: none !important;
 		}
 
-		/* React PR/issue lists: labels, like the legacy `.d-block` labels */
-		[data-listview-item-title-container] > [class*='trailingBadges'] {
-			display: none !important;
-		}
+		/* React PR/issue lists, but not React commit rows */
+		&:not([data-testid='commit-row-item']) {
+			/* Drop the empty second row (`main-content`) */
+			grid-template-areas:
+				'selection status primary metadata actions' !important;
 
-		/* React PR/issue lists: author and dates, comments count */
-		> div:has(
-			[data-testid='timestamp-container'],
-			[data-testid='updated-at'],
-			.octicon-comment
-		) {
-			display: none !important;
+			/* Labels, like the legacy `.d-block` labels */
+			[data-listview-item-title-container] > [class*='trailingBadges'] {
+				display: none !important;
+			}
+
+			/* Author and dates, comments count */
+			> div[class*='metadata'] {
+				display: none !important;
+			}
 		}
 	}
 }
