@@ -35,6 +35,18 @@ html:not([rgh-OFF-notifications-ui]) {
 		/* Keep the "Inbox" dropdown as wide as possible */
 		.manage-notifications-responsive + .d-flex {
 			flex-grow: 1;
+
+			/* Place "Inbox" and "Filter" on one line: GitHub makes both full width */
+			flex-wrap: nowrap !important;
+
+			> .Button--fullWidth {
+				width: auto !important;
+				flex-grow: 1;
+			}
+
+			> .notification-configure-filters {
+				width: auto !important;
+			}
 		}
 
 		/* Hide empty element that takes space in the flexbox */
@@ -47,11 +59,6 @@ html:not([rgh-OFF-notifications-ui]) {
 			flex-direction: row !important;
 			flex-wrap: wrap;
 			column-gap: var(--gap);
-		}
-
-		/* Drop margin on gear button */
-		[aria-label='Customize filters'] {
-			margin: 0 !important;
 		}
 
 		.notification-sort-by {
