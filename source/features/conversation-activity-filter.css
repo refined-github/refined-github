@@ -26,7 +26,11 @@
 	}
 }
 
-/* In the PR sticky header, show the widget after the title */
+/* In the PR sticky header, show the widget after the title, unless there's no room for it */
 [class*='prTitleArea'] > action-menu {
 	order: 1;
+
+	@media (width <= 774px) {
+		display: none;
+	}
 }
