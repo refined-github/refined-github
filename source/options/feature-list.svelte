@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {$$ as querySelectorAll} from 'select-dom';
+	import {$$optional as querySelectorAllOptional} from 'select-dom';
 
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {brokenFeatures} from '../helpers/hotfix.js';
@@ -29,9 +29,11 @@
 			return;
 		}
 
+		// Read it unconditionally: if no item is visible the loops below never reach it, and the effect would stop reacting to the filter
+		const words = keywords;
 		const ranges: Range[] = [];
 		for (
-			const element of querySelectorAll(
+			const element of querySelectorAllOptional(
 				':scope .feature-item:not([hidden]) :is(.feature-name, .description)',
 				list,
 			)
@@ -39,7 +41,7 @@
 			const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
 			for (let node = walker.nextNode(); node; node = walker.nextNode()) {
 				const text = node.textContent!.toLowerCase();
-				for (const keyword of keywords) {
+				for (const keyword of words) {
 					for (
 						let index = text.indexOf(keyword);
 						index !== -1;
