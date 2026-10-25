@@ -145,6 +145,8 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class*="menuActionsContainer"]',
 			// PR view
 			'[data-component="PageHeader"][data-has-nav] [data-component="PH_Actions"]',
+			// PR view (sticky header)
+			'[class*="prTitleArea"]',
 		],
 		addWidget,
 		{signal},
