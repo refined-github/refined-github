@@ -13,6 +13,7 @@ function init(signal: AbortSignal): void {
 		[
 			'a[href$="/issues/new/choose"]', // New issue button
 			'a[class*="SubIssueTitle"]', // Sub-issue links
+			'li[id*="-nested-list-view-node-"] a:is([href*="/issues/"], [href*="/pull/"])', // Sub-issue links in the React nested list
 			'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]:is([href*="/issues/"], [href*="/pull/"])', // Issue list links
 		],
 		'click',
