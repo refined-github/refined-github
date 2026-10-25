@@ -326,8 +326,8 @@
 	},
 	{
 		"id": "fork-you",
-		"description": "Merges the \"Fork\" button and its dropdown into a single button that always opens the dropdown, so you can pick your existing fork or create a new one.",
-		"screenshot": null
+		"description": "Improves the \"Fork\" widget UX by making it always open the dropdown.",
+		"screenshot": "https://github.com/user-attachments/assets/177246ec-2776-4412-9d3b-3edde5ecb533"
 	},
 	{
 		"id": "github-actions-indicators",
