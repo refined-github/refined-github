@@ -1,6 +1,11 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class*='row__'],
-	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact']) {
+	ul[class*='withMetadata']
+		> li[class*='listItem']:not(
+			[class*='compact'],
+			:has([class*='DefaultItemTitleContainer'])
+			/* Not an issue/PR list, e.g. org repositories */
+		) {
 		div[class*='container']:has(> [class*='heading']) {
 			display: contents;
 
