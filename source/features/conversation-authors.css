@@ -1,4 +1,4 @@
-.rgh-collaborator {
+:root .rgh-collaborator {
 	border: 1px solid
 		var(--borderColor-default, var(--color-border-default, fuchsia));
 	border-radius: 2em;

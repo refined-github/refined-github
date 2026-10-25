@@ -35,8 +35,13 @@ export function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [pageDetect.isPRFiles],
-	exclude: [pageDetect.isPRFile404, pageDetect.isPRCommit],
+	include: [
+		pageDetect.isPRFiles,
+	],
+	exclude: [
+		pageDetect.isPRFile404,
+		pageDetect.isPRCommit,
+	],
 	init,
 });
 

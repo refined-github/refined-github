@@ -14,7 +14,7 @@ const getRghShortcutsContainer = memoize(
 	(baseShortcutsContainer: Element): Element => {
 		const rghShortcutsContainer = baseShortcutsContainer.cloneNode(true);
 		const shortcutsList = $('ul', rghShortcutsContainer);
-		const shortcutItem = $('[class^="ShortcutsGroupList-module__ShortcutItem"]', shortcutsList);
+		const shortcutItem = $('[class*="ShortcutItem"]', shortcutsList);
 		const keybindingHint = $('kbd', shortcutItem);
 		const chord = $('span', shortcutItem);
 
@@ -57,7 +57,7 @@ function improveShortcutHelp(columnsContainer: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('div[class^="ShortcutsDialog"][class*="ColumnsContainer"]', improveShortcutHelp, {signal});
+	observe('[class*="ShortcutsDialogRoot"] [class*="ColumnsContainer"]', improveShortcutHelp, {signal});
 }
 
 void features.add(import.meta.url, {
