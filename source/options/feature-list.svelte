@@ -25,7 +25,8 @@
 
 	// Highlight the matches after the DOM has been filtered
 	$effect(() => {
-		if (!list) {
+		// Firefox <140 lacks the Custom Highlight API
+		if (!list || !('highlights' in CSS)) {
 			return;
 		}
 

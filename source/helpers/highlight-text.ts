@@ -7,11 +7,6 @@ export default function highlightText(
 	elements: Iterable<Element>,
 	keywords: readonly string[],
 ): () => void {
-	// Firefox <140 lacks the Custom Highlight API
-	if (!('highlights' in CSS)) {
-		return () => {/* Nothing to remove */};
-	}
-
 	const ranges: Range[] = [];
 	for (const element of elements) {
 		const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
