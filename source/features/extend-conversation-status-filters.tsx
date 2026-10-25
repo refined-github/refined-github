@@ -30,9 +30,10 @@ function addMergeLink(closedLink: HTMLAnchorElement): void {
 	if (isMerged) {
 		mergeLink.setAttribute('aria-current', 'true');
 		// Reuse the "selected" class of the other links, if any (the hash can change)
-		const selectedClass = [...closedLink.parentElement!.querySelectorAll('a')].flatMap(link => [...link.classList]).find(name => name.startsWith('selected__'));
+		const selectedClass = [...closedLink.parentElement!.querySelectorAll('a')].flatMap(link => [...link.classList]).find(
+			name => name.startsWith('selected__'),
+		);
 		mergeLink.classList.add(selectedClass ?? 'selected__fg2bAE');
-	}
 	}
 
 	closedLink.after(mergeLink);
