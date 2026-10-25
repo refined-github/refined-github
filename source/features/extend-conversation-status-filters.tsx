@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import CheckIcon from 'octicons-plain-react/Check';
-import {$, $$, $optional} from 'select-dom';
+import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
@@ -29,13 +29,10 @@ function addMergeLink(closedLink: HTMLAnchorElement): void {
 	const isMerged = SearchQuery.from(location).includes('is:merged', 'state:merged');
 	if (isMerged) {
 		mergeLink.setAttribute('aria-current', 'true');
-		// Reuse the "selected" styles of the other links, if any
-		const selectedClass = [...closedLink.parentElement!.querySelectorAll('a')].flatMap(link => [...link.classList]).find(
-			name => name.startsWith('selected__'),
-		);
-		if (selectedClass) {
-			mergeLink.classList.add(selectedClass);
-		}
+		// Reuse the "selected" class of the other links, if any (the hash can change)
+		const selectedClass = [...closedLink.parentElement!.querySelectorAll('a')].flatMap(link => [...link.classList]).find(name => name.startsWith('selected__'));
+		mergeLink.classList.add(selectedClass ?? 'selected__fg2bAE');
+	}
 	}
 
 	closedLink.after(mergeLink);
@@ -51,8 +48,6 @@ function removeAllFilters(link: HTMLAnchorElement): void {
 		return;
 	}
 
-	// Null if the icon wasn't added yet
-	$optional('.octicon', link)?.remove();
 	link.prepend(<CheckIcon />);
 	link.href = setStatusFilter(link, '');
 }
