@@ -61,11 +61,6 @@ html:not([rgh-OFF-notifications-ui]) {
 			column-gap: var(--gap);
 		}
 
-		/* Drop margin on gear button */
-		[aria-label='Customize filters'] {
-			margin: 0 !important;
-		}
-
 		.notification-sort-by {
 			/* Move "1 new notification" to the center */
 			order: 3;
