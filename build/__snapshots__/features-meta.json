@@ -325,7 +325,7 @@
 		"screenshot": "https://user-images.githubusercontent.com/46634000/286579939-50122f02-dcfd-4510-b9e1-03d9985da2cd.gif"
 	},
 	{
-		"id": "forked-to",
+		"id": "fork-you",
 		"description": "Merges the \"Fork\" button and its dropdown into a single button that always opens the dropdown, so you can pick your existing fork or create a new one.",
 		"screenshot": null
 	},
