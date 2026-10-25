@@ -39,6 +39,10 @@ function init(signal: AbortSignal): void {
 			'div[data-testid="issues-list-surface"] [class*="metadataCell"] > a[target="_blank"]',
 			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]', // TODO: Drop in March 2027
 
+			// Linked PRs dropdown on issue list, when an issue has multiple
+			// https://github.com/refined-github/refined-github/issues/9910
+			'[data-component="ActionMenu.Overlay"] a[target="_blank"][role="menuitem"][href*="/pull/"]',
+
 			// PR links on branches page
 			// https://github.com/bfred-it-org/github-sandbox/branches
 			'react-app[app-name="repos-branches"] a[target="_blank"][href*="/pull/"]',
