@@ -2,7 +2,7 @@
 /* eslint-disable -- Uses globals */
 export async function blockAi({github, context, core}) {
 	const marker = 'This looks like an AI-generated PR';
-	const templateMarker = 'The description of this PR is the unmodified template';
+	const templateMarker = '**Please follow the PR template.** ';
 
 	const pr = context.payload.pull_request;
 	const {owner, repo} = context.repo;
@@ -52,7 +52,7 @@ export async function blockAi({github, context, core}) {
 			repo,
 			issue_number: pr.number,
 			body: [
-				`**Please follow the PR template.** ${templateMarker}, with no test URLs or screenshots.`,
+				`${templateMarker}The description of this PR is the unmodified template, with no test URLs or screenshots.`,
 				'',
 				'Next steps:',
 				'1. Read the template and the Contributing page linked in it.',
@@ -61,7 +61,6 @@ export async function blockAi({github, context, core}) {
 				'',
 				'Tips:',
 				'- **Do not open more PRs** until this one is reopened and merged.',
-				"- Don't waste your time on PRs that ignore the template, they won't be accepted.",
 			].join('\n'),
 		});
 		return;
