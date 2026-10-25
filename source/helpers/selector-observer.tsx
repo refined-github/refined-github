@@ -32,12 +32,12 @@ let highestWarnedCount = 0;
 
 // Warns once per multiple of 50, never again for a count already reached, even if it dropped in between
 function warnIfManyStylesheets(): void {
-	if (styles.size % 50 !== 0 || styles.size <= highestWarnedCount) {
+	if (styles.size % 70 !== 0 || styles.size <= highestWarnedCount) {
 		return;
 	}
 
 	highestWarnedCount = styles.size;
-	console.warn('Selector observer has', styles.size, 'active stylesheets');
+	console.warn(`Refined GitHub selector observer has ${styles.size} active stylesheets`);
 }
 
 function createStyle(cssText: string): () => void {
