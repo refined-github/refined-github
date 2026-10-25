@@ -8,9 +8,8 @@ import onetime from '../helpers/onetime.js';
 function openInNewTab(): void {
 	const selected = $optional([
 		'.navigation-focus a.js-navigation-open[href]',
-		// Old view
-		// TODO [2025-07-01]: Drop
-		'[data-focus-visible-added] .markdown-title a',
+		// Issue and PR lists: the selected row is the focused one
+		'li[class*="listItem"]:focus-within a[data-testid$="listitem-title-link"][href]',
 	]);
 
 	if (!selected) {
@@ -43,5 +42,6 @@ Test URLs:
 https://github.com/notifications
 https://github.com/refined-github/refined-github
 https://github.com/refined-github/refined-github/issues
+https://github.com/refined-github/refined-github/pulls
 
 */
