@@ -69,7 +69,7 @@ export const openPrsListLink = [
 		li[role="listitem"] h3 a[data-hovercard-url*="/pull"]
 	`,
 	// React PR list
-	css`a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]`,
+	css`li[class*="listItem"] [class*="heading"] > a[class*="anchor"][href*="/pull/"]`,
 ];
 
 export const openPrsListLink_ = [
