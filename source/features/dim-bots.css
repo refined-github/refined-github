@@ -20,7 +20,10 @@
 		.mb-1 ~ * /* Commit metadata */,
 		.dropdown-signed-commit /* Commit verified label */,
 		.flex-shrink-0 .BtnGroup /* Commit buttons on side */,
-		.min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+		.min-width-0 > :is(.d-block, .d-flex) /* PR */,
+		> div:has([data-testid='author-filter-link'], [data-testid='updated-at'])
+		/* React PR author and dates */,
+		> [class*='metadataContainer'] /* React PR comments count */ {
 			display: none !important;
 		}
 	}
