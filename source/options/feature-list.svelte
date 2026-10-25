@@ -3,6 +3,7 @@
 
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
 	import {brokenFeatures} from '../helpers/hotfix.js';
+	import highlightText from '../helpers/highlight-text.js';
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
@@ -24,41 +25,19 @@
 
 	// Highlight the matches after the DOM has been filtered
 	$effect(() => {
-		// Firefox <140 lacks the Custom Highlight API
-		if (!list || !('highlights' in CSS)) {
+		if (!list) {
 			return;
 		}
 
-		// Read it unconditionally: if no item is visible the loops below never reach it, and the effect would stop reacting to the filter
-		const words = keywords;
-		const ranges: Range[] = [];
-		for (
-			const element of querySelectorAllOptional(
+		// `keywords` is read here, not inside the helper, so the effect keeps reacting to it even when no item is visible
+		return highlightText(
+			'feature-search',
+			querySelectorAllOptional(
 				':scope .feature-item:not([hidden]) :is(.feature-name, .description)',
 				list,
-			)
-		) {
-			const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-			for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-				const text = node.textContent!.toLowerCase();
-				for (const keyword of words) {
-					for (
-						let index = text.indexOf(keyword);
-						index !== -1;
-						index = text.indexOf(keyword, index + keyword.length)
-					) {
-						const range = new Range();
-						range.setStart(node, index);
-						range.setEnd(node, index + keyword.length);
-						ranges.push(range);
-					}
-				}
-			}
-		}
-
-		CSS.highlights.set('feature-search', new Highlight(...ranges));
-
-		return () => CSS.highlights.delete('feature-search');
+			),
+			keywords,
+		);
 	});
 </script>
 
