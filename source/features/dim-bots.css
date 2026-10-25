@@ -20,10 +20,16 @@
 		.mb-1 ~ * /* Commit metadata */,
 		.dropdown-signed-commit /* Commit verified label */,
 		.flex-shrink-0 .BtnGroup /* Commit buttons on side */,
-		.min-width-0 > :is(.d-block, .d-flex) /* PR */,
-		> div:has([data-testid='author-filter-link'], [data-testid='updated-at'])
-		/* React PR author and dates */,
-		> [class*='metadataContainer'] /* React PR comments count */ {
+		.min-width-0 > :is(.d-block, .d-flex) /* PR */ {
+			display: none !important;
+		}
+
+		/* React PR/issue lists: author and dates, comments count */
+		> div:has(
+			[data-testid='timestamp-container'],
+			[data-testid='updated-at'],
+			.octicon-comment
+		) {
 			display: none !important;
 		}
 	}
