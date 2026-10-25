@@ -2,8 +2,8 @@
 	import {$$optional as querySelectorAllOptional} from 'select-dom';
 
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
-	import {brokenFeatures} from '../helpers/hotfix.js';
 	import highlightText from '../helpers/highlight-text.js';
+	import {brokenFeatures} from '../helpers/hotfix.js';
 	import FeatureItem from './feature-item.svelte';
 
 	let filterText = $state('');
