@@ -7,6 +7,7 @@ import observe from '../helpers/selector-observer.js';
 function mergeButtons(dropdown: HTMLButtonElement): void {
 	const group = closestElement('[data-component="ButtonGroup"]', dropdown);
 	const forkLink = $('[data-testid="fork-button"]', group);
+	// `cloneNode` required to drop the attached listeners, which blocked clicks
 	const content = $('[data-component="buttonContent"]', forkLink).cloneNode(true);
 	const arrow = $('svg', dropdown);
 	arrow.classList.add('ml-1');
