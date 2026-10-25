@@ -74,6 +74,16 @@ function generateTab(item: HTMLAnchorElement): Tab {
 	};
 }
 
+function syncNativeTabs(nativeNav: HTMLElement): void {
+	// Briefly missing while GitHub re-renders the nav
+	if (!elementExists('a[aria-current][data-tab-item]', nativeNav)) {
+		return;
+	}
+
+	setNativeTabs($$('a', nativeNav).map(item => generateTab(item)));
+	void updateCurrentTab();
+}
+
 function replace(nativeNav: HTMLElement): () => void {
 	const items = $$('a', nativeNav);
 
@@ -90,7 +100,18 @@ function replace(nativeNav: HTMLElement): () => void {
 
 	nativeNav.classList.add('rgh-extensible-nav-removed');
 
+	// GitHub keeps updating its nav after we read it: the current tab on navigation #10122, the icons on load #10037
+	const controller = new AbortController();
+	observe(
+		'.loaded nav[aria-label="Repository"] :is(a[aria-current][data-tab-item], svg.octicon-git-pull-request-locked)',
+		() => {
+			syncNativeTabs(nativeNav);
+		},
+		{signal: controller.signal},
+	);
+
 	return () => {
+		controller.abort();
 		void unmount(nav);
 	};
 }

@@ -24,7 +24,10 @@
 					aria-labelledby={tooltip ? `${id}-tooltip` : undefined}
 					class:selected={isSelected}
 				>
-					<DomChef as={tab.icon} class="UnderlineNav-octicon" />
+					<!-- `DomChef` only renders once, so re-create it when the icon changes -->
+					{#key tab.icon}
+						<DomChef as={tab.icon} class="UnderlineNav-octicon" />
+					{/key}
 					<!-- Don't use [hidden] because Svelte won't render it at all -->
 					<span class:d-none={!hasLabel} data-content={tab.label}>
 						{tab.label}
