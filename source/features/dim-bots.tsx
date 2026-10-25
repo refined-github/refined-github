@@ -21,7 +21,9 @@ const interactiveElementsSelector = 'a, button, input, [tabindex]';
 function undimBots(event: DelegateEvent): void {
 	const target = event.target as HTMLElement;
 	// Only undim when clicking on empty areas
-	if (closestElementOptional(interactiveElementsSelector, target)) {
+	// The row itself can be focusable (`tabindex`) in the new lists, so it doesn't count
+	const interactive = closestElementOptional(interactiveElementsSelector, target);
+	if (interactive && interactive !== event.delegateTarget) {
 		return;
 	}
 
