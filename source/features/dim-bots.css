@@ -12,6 +12,9 @@
 	}
 
 	&:not(.rgh-tagged, .rgh-interacted) {
+		/* React lists: drop the empty second row (`main-content`) */
+		grid-template-areas: 'selection status primary metadata actions' !important;
+
 		/* Reset commit title spacing */
 		.min-width-0 .mb-1 {
 			margin-bottom: 0 !important;
