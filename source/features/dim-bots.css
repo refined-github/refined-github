@@ -6,6 +6,7 @@
 
 	/* Commit titles, dim */
 	&:not(.rgh-tagged, :hover) > *,
+	&:not(.rgh-tagged, :hover) h3,
 	/* PR row, dim */
 	&:not(.rgh-tagged, :hover) .Box-row--drag-hide {
 		opacity: 50%; /* Match `mark-merge-commits-in-list` */
