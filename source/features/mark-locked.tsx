@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 
 function mark(link: HTMLAnchorElement): void {
 	// The state icon is left untouched so the row still says issue/PR/draft/merged
-	const icon = $('[class^="LeadingVisual"] .octicon', closestElement('li', link));
+	const icon = $('[data-listview-item-title-container] ~ div .octicon', closestElement('li', link));
 	const wrapper = icon.parentElement!;
 	wrapper.classList.add('rgh-mark-locked');
 	// `span` wrapper: SVG ignores the `title` attribute, it only tooltips via a `<title>` child
@@ -53,12 +53,8 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	observe(
-		[
-			// Issue list, which also includes PRs
-			'a[data-testid="issue-pr-title-link"]',
-			// PR list. `data-hovercard-type` excludes the repo links that share this `data-testid`
-			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]',
-		],
+		// Issue and PR lists. `href` excludes the repo links in repo lists
+		'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]:is([href*="/issues/"], [href*="/pull/"])',
 		batchedFunction(markLocked, {delay: 100}),
 		{signal},
 	);

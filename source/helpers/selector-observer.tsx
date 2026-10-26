@@ -26,6 +26,71 @@ const registerAnimation = onetime((): void => {
 	document.head.append(<style>{`@keyframes ${animation} {}`}</style>);
 });
 
+// Identical styles (e.g. a feature initialized again after navigation) share one stylesheet
+const styles = new Map<string, {count: number; remove: () => void}>();
+let highestWarnedCount = 0;
+
+// Warns once per multiple of 50, never again for a count already reached, even if it dropped in between
+function warnIfManyStylesheets(): void {
+	if (styles.size % 70 !== 0 || styles.size <= highestWarnedCount) {
+		return;
+	}
+
+	highestWarnedCount = styles.size;
+	console.warn(`Refined GitHub selector observer has ${styles.size} active stylesheets`);
+}
+
+function createStyle(cssText: string): () => void {
+	try {
+		const sheet = new CSSStyleSheet();
+		sheet.replaceSync(cssText);
+		// Mutate in place instead of reassigning, https://bugs.webkit.org/show_bug.cgi?id=254844
+		document.adoptedStyleSheets.push(sheet);
+		return () => {
+			const index = document.adoptedStyleSheets.indexOf(sheet);
+			if (index !== -1) {
+				document.adoptedStyleSheets.splice(index, 1);
+			}
+		};
+	} catch {
+		// Firefox <153 denies content scripts access to adoptedStyleSheets
+		const rule = document.createElement('style');
+		// Enable when/if needed
+		// if (isDevelopmentVersion()) {
+		// 	// For debuggability
+		// 	rule.setAttribute('s', selector);
+		// }
+
+		rule.textContent = cssText;
+		document.body.prepend(rule);
+		return () => {
+			rule.remove();
+		};
+	}
+}
+
+function addStyle(cssText: string, signal?: AbortSignal): void {
+	let style = styles.get(cssText);
+	if (!style) {
+		style = {count: 0, remove: createStyle(cssText)};
+		styles.set(cssText, style);
+		warnIfManyStylesheets();
+	}
+
+	style.count++;
+	const {remove} = style;
+	signal?.addEventListener('abort', () => {
+		const current = styles.get(cssText)!;
+		current.count--;
+		if (current.count > 0) {
+			return;
+		}
+
+		remove();
+		styles.delete(cssText);
+	});
+}
+
 export default function observe<
 	Selector extends string,
 	ExpectedElement extends ParseSelector<Selector, HTMLElement | SVGElement>,
@@ -58,22 +123,14 @@ export default function observe<
 
 	registerAnimation();
 
-	const rule = document.createElement('style');
-	// Enable when/if needed
-	// if (isDevelopmentVersion()) {
-	// 	// For debuggability
-	// 	rule.setAttribute('s', selector);
-	// }
-
-	rule.textContent = css`
+	addStyle(
+		css`
 		:where(${selector}):not(.${seenMark}) {
 			animation: 1ms ${animation};
 		}
-	`;
-	document.body.prepend(rule);
-	signal?.addEventListener('abort', () => {
-		rule.remove();
-	});
+	`,
+		signal,
+	);
 
 	let wasCalled = false;
 	// Capture stack outside
