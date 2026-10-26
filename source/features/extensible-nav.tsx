@@ -74,6 +74,18 @@ function generateTab(item: HTMLAnchorElement): Tab {
 	};
 }
 
+function syncNativeTabs(): void {
+	const nativeNav = $optional('.loaded nav[aria-label="Repository"]');
+
+	// Briefly missing while GitHub re-renders the nav
+	if (!nativeNav || !elementExists('a[aria-current][data-tab-item]', nativeNav)) {
+		return;
+	}
+
+	setNativeTabs($$('a', nativeNav).map(item => generateTab(item)));
+	void updateCurrentTab();
+}
+
 function replace(nativeNav: HTMLElement): () => void {
 	const items = $$('a', nativeNav);
 
@@ -101,6 +113,12 @@ async function initOnce(): Promise<void> {
 
 	// Use `observe` because GitHub occasionally removes and re-adds the entire header, for example when removing tabs #10038
 	observe('.loaded nav[aria-label="Repository"]', singleton(replace));
+
+	// GitHub keeps updating its nav after we read it: the current tab on navigation #10122, the icons on load #10037
+	observe(
+		'.loaded nav[aria-label="Repository"] :is(a[aria-current][data-tab-item], svg.octicon-git-pull-request-locked)',
+		syncNativeTabs,
+	);
 }
 
 void features.add(import.meta.url, {
