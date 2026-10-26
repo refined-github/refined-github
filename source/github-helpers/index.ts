@@ -159,9 +159,8 @@ export const isUrlReachable = memoize(async (url: string): Promise<boolean> => {
 
 // Don't make the argument optional, sometimes we really expect it to exist and want to throw an error
 export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
-	return branchPicker.title === 'Switch branches or tags'
-		? branchPicker.textContent.trim() // Branch name is shown in full
-		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
+	// The branch name is always in the DOM in full, even when it's visually clipped
+	return branchPicker.textContent.trim();
 }
 
 export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
