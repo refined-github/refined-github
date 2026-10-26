@@ -37,6 +37,7 @@ function init(signal: AbortSignal): void {
 			// Linked PRs on issue list
 			// https://github.com/refined-github/refined-github/issues?q=is%3Aissue%20has%3Alinked%20reason%3Acompleted
 			'div[data-testid="issues-list-surface"] [class*="metadataCell"] > a[target="_blank"]',
+			'[data-component="ActionMenu.Overlay"] a[target="_blank"][role="menuitem"][href*="/pull/"]', // Dropdown, multiple PRs
 			'div[data-testid="list-row-linked-pull-requests"] > a[target="_blank"]', // TODO: Drop in March 2027
 
 			// PR links on branches page
