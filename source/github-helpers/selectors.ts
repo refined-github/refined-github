@@ -212,9 +212,16 @@ export const botLinksPrSelectors = [
 	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+
+	// React PR lists
+	'a[data-testid="author-filter-link"][aria-label$="[bot]"]',
+	'a[data-testid="author-filter-link"][href*="author%3Aapp%2F"]',
+	...botNames.map(bot => `a[data-testid="author-filter-link"][aria-label$=" ${bot}"]`),
+	'button[aria-label="Filter by label bot"]', // PR tagged with `bot` label
 ];
 export const botLinksPrSelectors_ = [
 	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
+	[25, 'https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed'],
 ];
 
 export const botLinksNotificationSelectors = [

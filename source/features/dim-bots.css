@@ -6,12 +6,19 @@
 
 	/* Commit titles, dim */
 	&:not(.rgh-tagged, :hover) > *,
+	&:not(.rgh-tagged, :hover) h3,
 	/* PR row, dim */
 	&:not(.rgh-tagged, :hover) .Box-row--drag-hide {
 		opacity: 50%; /* Match `mark-merge-commits-in-list` */
 	}
 
 	&:not(.rgh-tagged, .rgh-interacted) {
+		/* React issue/PR lists: drop the empty second row (`main-content`) */
+		&:not([data-testid='commit-row-item']) {
+			grid-template-areas:
+				'selection status primary metadata actions' !important;
+		}
+
 		/* Reset commit title spacing */
 		.min-width-0 .mb-1 {
 			margin-bottom: 0 !important;
@@ -23,5 +30,31 @@
 		.min-width-0 > :is(.d-block, .d-flex) /* PR */ {
 			display: none !important;
 		}
+
+		/* React PR/issue lists: labels, like the legacy `.d-block` labels */
+		[data-listview-item-title-container] > [class*='trailingBadges'] {
+			display: none !important;
+		}
+
+		/* React PR/issue lists: author and dates, comments count */
+		> div:has(
+			[data-testid='timestamp-container'],
+			[data-testid='updated-at'],
+			.octicon-comment
+		) {
+			display: none !important;
+		}
 	}
+}
+
+/* Keep the spacing that `align-issue-labels` gives to a title without labels */
+html:not([rgh-OFF-align-issue-labels])
+	.rgh-dim-bots:not(
+		.rgh-tagged,
+		.rgh-interacted,
+		[data-testid='commit-row-item']
+	)
+	[data-listview-item-title-container]
+	> [class*='heading'] {
+	padding-bottom: 5px !important;
 }
