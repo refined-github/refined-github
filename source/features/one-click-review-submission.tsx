@@ -1,122 +1,97 @@
-// Note: This feature only works on the legacy PR Files view.
-// We will drop the feature once that view has been gone for 6 months.
 // https://github.com/refined-github/refined-github/issues/8711
-// https://github.com/refined-github/refined-github/issues/9447
-import cx from 'clsx';
-import delegate, {type DelegateEvent} from 'delegate-it';
-import React from 'dom-chef';
+import './one-click-review-submission.css';
+
 import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
-import FileDiffIcon from 'octicons-plain-react/FileDiff';
-import {$, $optional, closestElement, closestElementOptional} from 'select-dom';
+import {$, $$, $optional, closestElement} from 'select-dom';
+import {mount, unmount} from 'svelte';
+import {assertPresent} from 'ts-extras';
 
 import features from '../feature-manager.js';
+import delay from '../helpers/delay.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
+import singleton from '../helpers/singleton.js';
+import OneClickReview from './one-click-review-submission.svelte';
 
-function replaceCheckboxes(originalSubmitButton: HTMLButtonElement): void {
-	const form = originalSubmitButton.form!;
-	const actionsRow = closestElementOptional('.Overlay-footer', originalSubmitButton);
-	const formAttribute = originalSubmitButton.getAttribute('form')!;
+const hiddenAttribute = 'data-rgh-one-click-review';
+const submitSelector = 'button[class*="SubmitReviewButton"]';
 
-	// Do not use `$$` because elements can be outside `form`
-	// `RadioNodeList` is dynamic, so we need to make a copy
-	const radios = [...form.elements.namedItem('pull_request_review[event]') as RadioNodeList] as HTMLInputElement[];
-	if (radios.length === 0) {
-		throw new Error('Could not find radio buttons');
-	}
-
-	// Set the default action for cmd+enter to Comment
-	if (radios.length > 1) {
-		form.prepend(
-			<input
-				type="hidden"
-				name="pull_request_review[event]"
-				value="comment"
-			/>,
-		);
-	}
-
-	if (actionsRow) {
-		actionsRow.prepend(<span className="spacer.gif ml-auto" />);
-		radios.reverse();
-	}
-
-	// Generate the new buttons
-	for (const radio of radios) {
-		const parent = radio.parentElement!;
-		const labelElement = $optional('label', parent)
-			?? radio.nextSibling!;
-		const tooltip = $([
-			'p',
-			'.FormControl-caption',
-		], parent).textContent.trim().replace(/\.$/, '');
-		assertNodeContent(labelElement, /^(?:Approve|Request changes|Comment)$/);
-
-		const classes = ['btn btn-sm'];
-
-		if (tooltip) {
-			classes.push('tooltipped tooltipped-nw tooltipped-no-delay');
-		}
-
-		const button = (
-			<button
-				type="submit"
-				name="pull_request_review[event]"
-				// Old version of GH don't nest the submit button inside the form, so must be linked manually. Issue #6963.
-				form={formAttribute}
-				value={radio.value}
-				className={cx(classes)}
-				aria-label={tooltip}
-				disabled={radio.disabled}
-			>
-				{labelElement.textContent}
-			</button>
-		);
-
-		if (!radio.disabled && radio.value === 'approve') {
-			button.prepend(<CheckIcon className="color-fg-success" />);
-		} else if (!radio.disabled && radio.value === 'reject') {
-			button.prepend(<FileDiffIcon className="color-fg-danger" />);
-		}
-
-		if (actionsRow) {
-			actionsRow.prepend(button);
-		} else {
-			closestElement('.form-actions', originalSubmitButton).append(button);
-		}
-	}
-
-	// Remove original fields at last to avoid leaving a broken form
-	const fieldset = closestElementOptional('fieldset', radios[0]);
-
-	if (fieldset) {
-		fieldset.remove();
-	} else {
-		// To retain backwards compatibility with older GHE versions, remove any radios not within a fieldset. Issue #6963.
-		for (const radio of radios) {
-			closestElement('.form-checkbox', radio).remove();
-		}
-	}
-
-	originalSubmitButton.remove();
-}
-
-let lastSubmission: number | undefined;
-function blockDuplicateSubmissions(event: DelegateEvent): void {
-	if (lastSubmission && Date.now() - lastSubmission < 1000) {
-		event.preventDefault();
+let lastSubmission = 0;
+async function submit(dialog: HTMLElement, value: string): Promise<void> {
+	if (Date.now() - lastSubmission < 1000) {
 		console.log('Duplicate submission prevented');
 		return;
 	}
 
 	lastSubmission = Date.now();
+
+	// Query again on every submission because React might have replaced the elements
+	$(`input[name="reviewEvent"][value="${value}"]`, dialog).click();
+	// Let React commit the selection before the native button reads it
+	await delay(0);
+	$(submitSelector, dialog).click();
+}
+
+function enhance(dialog: HTMLElement): () => void {
+	// Everything is asserted before touching the native UI, so that a failure leaves it intact
+	const choices = $$('input[type="radio"][name="reviewEvent"]', dialog).map(radio => {
+		const control = closestElement('[data-component="FormControl"]', radio);
+		const title = $('.text-bold', control);
+		assertNodeContent(title, /^(?:Comment|Approve|Request changes)$/);
+
+		return {
+			value: radio.value,
+			label: title.textContent,
+			// Optional because it's only used for the tooltip
+			description: $optional('[class*="RadioText"]', control)?.textContent.trim() ?? '',
+			disabled: radio.disabled,
+		};
+	});
+	assertPresent(choices[0]);
+
+	const cancel = $$('button', dialog).find(button => button.textContent.trim() === 'Cancel');
+	assertPresent(cancel);
+
+	const nativeSubmit = closestElement('[data-loading-wrapper]', $(submitSelector, dialog));
+	const classes = {
+		button: cancel.className,
+		content: $('[data-component="buttonContent"]', cancel).className,
+		label: $('[data-component="text"]', cancel).className,
+	};
+
+	const restoration = new AbortController();
+	dialog.setAttribute(hiddenAttribute, '');
+	const app = mount(OneClickReview, {
+		target: nativeSubmit.parentElement!,
+		anchor: nativeSubmit,
+		props: {
+			choices,
+			classes,
+			onSubmit(value: string) {
+				void submit(dialog, value);
+			},
+			onRestore() {
+				restoration.abort();
+			},
+		},
+	});
+	restoration.signal.addEventListener('abort', () => {
+		dialog.removeAttribute(hiddenAttribute);
+		void unmount(app);
+	});
+
+	return () => {
+		restoration.abort();
+	};
 }
 
 function init(signal: AbortSignal): void {
-	// The selector excludes the "Cancel" button
-	observe('#review-changes-modal [type="submit"]:not([name])', replaceCheckboxes, {signal});
-	delegate('#review-changes-modal form', 'submit', blockDuplicateSubmissions, {signal});
+	// Wait until the radios and the submit button are both rendered
+	observe(
+		'div[role="dialog"][aria-labelledby="anchored-review-title"]:has(input[name="reviewEvent"]):has(button[class*="SubmitReviewButton"])',
+		singleton(enhance),
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

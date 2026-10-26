@@ -1,0 +1,6 @@
+/* React owns the native controls, so they're only hidden, not removed. Removing the `data-` attribute restores them. */
+[data-rgh-one-click-review] fieldset[data-component='RadioGroup'],
+[data-rgh-one-click-review]
+	[data-loading-wrapper]:has(> [class*='SubmitReviewButton']) {
+	display: none;
+}
