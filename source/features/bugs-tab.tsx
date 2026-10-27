@@ -143,7 +143,7 @@ async function addBugsTabOnce(): Promise<void | false> {
 
 async function removePinnedIssues(): Promise<void> {
 	// TODO: Move to CSS, but it needs to be removed when the user navigates away from the bugs tab
-	const pinnedIssues = await elementReady('ul[class*="PinnedIssues-module__area"]', {
+	const pinnedIssues = await elementReady('ul[class*="area"]:has([class*="PinnedIssueContainer"])', {
 		waitForChildren: false,
 		stopOnDomReady: false,
 		signal: AbortSignal.timeout(1000),
