@@ -33,12 +33,12 @@ type ApiResponse = {
 };
 
 type Bugs = {
-	label: string;
+	label?: string;
 	count: number;
 };
 
-function getFullSearchQuery(bugsLabel: string): string {
-	return `(label:${SearchQuery.escapeValue(bugsLabel)} OR type:Bug)`;
+function getFullSearchQuery(bugsLabel: string | undefined): string {
+	return bugsLabel ? `(label:${SearchQuery.escapeValue(bugsLabel)} OR type:Bug)` : 'type:Bug';
 }
 
 async function countBugs(): Promise<Bugs> {
@@ -53,8 +53,8 @@ async function countBugs(): Promise<Bugs> {
 	const bugCount = Math.max(bugTypeCount, bugLabelCount);
 
 	return {
-		// Label might not be found if the repo uses a non-standard bug label name
-		label: label?.name ?? 'bug',
+		// Missing when the repo has no bug label, such as one that only uses the Bug issue type
+		label: label?.name,
 
 		// GitHub bug: labelled issues are counted even if issues are disabled
 		count: Math.min(bugCount, repository.issues.totalCount),
@@ -83,15 +83,16 @@ const bugs = new CachedFunction('bugs', {
 	cacheKey: cacheByRepo,
 });
 
-async function getBugsLabel(): Promise<string> {
-	const {label = 'bug'} = await bugs.getCached() ?? {};
-	return label;
+async function getBugsLabel(): Promise<string | undefined> {
+	const cached = await bugs.getCached();
+	return cached ? cached.label : 'bug';
 }
 
 async function isBugsListing(): Promise<boolean> {
 	const query = SearchQuery.from(location);
 	const bugsLabel = await getBugsLabel();
-	return query.includes(`label:${SearchQuery.escapeValue(bugsLabel)}`) || query.includes(getFullSearchQuery(bugsLabel));
+	return (bugsLabel !== undefined && query.includes(`label:${SearchQuery.escapeValue(bugsLabel)}`))
+		|| query.includes(getFullSearchQuery(bugsLabel));
 }
 
 async function addBugsTabOnce(): Promise<void | false> {
@@ -166,7 +167,8 @@ async function isBugsTabSelected(): Promise<boolean> {
 	}
 
 	if (
-		(pageDetect.isRepoTaxonomyIssueOrPRList() && location.pathname.endsWith('/labels/' + encodeURIComponent(label)))
+		(label !== undefined && pageDetect.isRepoTaxonomyIssueOrPRList()
+			&& location.pathname.endsWith('/labels/' + encodeURIComponent(label)))
 		|| (pageDetect.isRepoIssueList() && (await isBugsListing()))
 	) {
 		// TODO: eh. This side effect should be moved
@@ -174,7 +176,8 @@ async function isBugsTabSelected(): Promise<boolean> {
 		return true;
 	}
 
-	return pageDetect.isIssue()
+	return label !== undefined
+		&& pageDetect.isIssue()
 		&& Boolean(await elementReady(`#partial-discussion-sidebar .IssueLabel[data-name="${label}"]`));
 }
 
