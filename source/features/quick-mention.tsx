@@ -32,7 +32,7 @@ const prAvatarSelector = '.js-quote-selection-container '
 	+ `:not([href="/${loggedInUser}"])`;
 
 const issueAvatarSelector =
-	`a[class^="Avatar-module__avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
+	`:is([class*="IssueBodyHeaderContainer"], [data-testid="comment-header"]) a[class*="avatarLink"]:not([href$="/${loggedInUser}"])`;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -96,7 +96,10 @@ function addButtonPr(avatar: HTMLElement): void {
 }
 
 function addButtonIssue(avatar: HTMLElement): void {
-	const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
+	const isHidden = !elementExists(
+		'.markdown-body',
+		closestElement(':is(.react-issue-comment, [data-testid="issue-body"])', avatar),
+	);
 	if (isHidden) {
 		return;
 	}
