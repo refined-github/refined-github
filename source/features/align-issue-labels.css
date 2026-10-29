@@ -1,10 +1,10 @@
 html:not([rgh-OFF-align-issue-labels]) {
-	div[class*='row__'],
-	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact']) {
-		/* Skip the title container of the org repositories list */
-		div[class*='container']:not([class*='DefaultItemTitleContainer']):has(
-			> [class*='heading']
-		) {
+	/* Only rows with labels, so the org repositories list is left alone */
+	:is(
+		div[class*='row__'],
+		ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact'])
+	):has(button[aria-label^='Filter by label']) {
+		div[class*='container']:has(> [class*='heading']) {
 			display: contents;
 
 			> [class*='heading'] {
@@ -35,7 +35,7 @@ html:not([rgh-OFF-align-issue-labels]) {
 			padding-top: 8px;
 		}
 
-		div[class*='container'] > div[class*='inner'] {
+		> div[class*='container'] > div[class*='inner'] {
 			padding-bottom: 0;
 		}
 	}
