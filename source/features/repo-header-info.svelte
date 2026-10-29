@@ -4,6 +4,7 @@
 	import StarFillIcon from 'octicons-plain-react/StarFill';
 
 	import DomChef from '../components/dom-chef.svelte';
+	import loadBatchDeferredContent from '../github-helpers/batch-deferred-content.js';
 	import {buildRepoUrl} from '../github-helpers/index.js';
 	import abbreviateNumber from '../helpers/abbreviate-number.js';
 	import type {RepositoryInfo} from './repo-header-info.js';
@@ -47,6 +48,8 @@
 			<batch-deferred-content
 				hidden
 				data-url={buildRepoUrl('commits/checks-statuses-rollups')}
+				// Polyfill `<batch-deferred-content>`
+				use:loadBatchDeferredContent
 			>
 				<input
 					name="oid"
