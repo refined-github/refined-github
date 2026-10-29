@@ -35,10 +35,8 @@ html:not([rgh-OFF-align-issue-labels]) {
 			padding-top: 8px;
 		}
 
-		/* Skip the org repositories list, it has no labels row to take over the spacing */
-		&:has(
-			> div[class*='container']:not([class*='DefaultItemTitleContainer']) > span[class*='trailingBadgesContainer']
-		) > div[class*='container'] > div[class*='inner'] {
+		/* Only with labels, the org repositories list has no labels row to take over the spacing */
+		&:has(> div[class*='container'] button[aria-label^='Filter by label']) > div[class*='container'] > div[class*='inner'] {
 			padding-bottom: 0;
 		}
 	}
