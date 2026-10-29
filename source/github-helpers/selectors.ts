@@ -6,9 +6,9 @@ const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
 
-// One of the classes is present depending on the settings of "Command Palette" Feature Preview
-// Enabled: .loaded
-// Disabled: [data-render-ssr]
+// GitHub uses different render strategies depending on the "Command Palette" Feature Preview setting
+// - Enabled: Catalyst is used, and `.loaded` is present
+// - Disabled: SSR is used, and `[data-render-ssr]` is present
 export const loaded = ':is(.loaded, [data-render-ssr])';
 export const loaded_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
