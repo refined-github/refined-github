@@ -35,7 +35,10 @@ html:not([rgh-OFF-align-issue-labels]) {
 			padding-top: 8px;
 		}
 
-		div[class*='container'] > div[class*='inner'] {
+		/* Skip the org repositories list, it has no labels row to take over the spacing */
+		div[class*='container'] > div[class*='inner']:not(
+			:is(li:has(> [class*='DefaultItemTitleContainer']) *)
+		) {
 			padding-bottom: 0;
 		}
 	}
