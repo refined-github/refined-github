@@ -6,6 +6,14 @@ const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
 
+// One of the classes is present depending on the settings of "Command Palette" Feature Preview
+// Enabled: .loaded
+// Disabled: [data-render-ssr]
+export const loaded = ':is(.loaded, [data-render-ssr])';
+export const loaded_ = [
+	[1, 'https://github.com/refined-github/refined-github'],
+] satisfies UrlMatch[];
+
 export const standaloneGistLinkInMarkdown = `
 	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],

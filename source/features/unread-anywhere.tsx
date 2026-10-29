@@ -9,6 +9,7 @@ import {messageRuntime} from 'webext-msg';
 import addTooltip from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
+import {loaded} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
 import {getClasses, isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
@@ -19,7 +20,7 @@ import {removeLinkToPrFilesTab} from './pr-notification-link.js';
 
 const limit = 5;
 
-const buttonWithNotificationsSelector = '.loaded a[class*="notificationIndicator"]';
+const buttonWithNotificationsSelector = `${loaded} a[class*="notificationIndicator"]`;
 
 function removeNotificationIndicator(element: HTMLElement): void {
 	for (const className of element.classList) {
