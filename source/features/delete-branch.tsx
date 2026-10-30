@@ -39,7 +39,7 @@ function add(contributeContainer: HTMLElement): void {
 	if (
 		elementExists([
 			// No button if there are open PRs
-			'a[href*="/pull/"]',
+			'a .octicon-git-pull-request',
 			// No button if the branch is linked to upstream repo (generally the main branch)
 			'.octicon-sync',
 		], contributeContainer)
