@@ -22,6 +22,7 @@ import {assertPresent} from 'ts-extras';
 
 import {selectTab, setNativeTabs, type Tab, updateCurrentTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
+import {loaded} from '../github-helpers/selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import singleton from '../helpers/singleton.js';
@@ -97,10 +98,10 @@ function replace(nativeNav: HTMLElement): () => void {
 
 async function initOnce(): Promise<void> {
 	// Use `element-ready` to ensure that the native navigation is fully loaded before replacing it for the first time.
-	await elementReady('.loaded nav[aria-label="Repository"]');
+	await elementReady(`${loaded} nav[aria-label="Repository"]`);
 
 	// Use `observe` because GitHub occasionally removes and re-adds the entire header, for example when removing tabs #10038
-	observe('.loaded nav[aria-label="Repository"]', singleton(replace));
+	observe(`${loaded} nav[aria-label="Repository"]`, singleton(replace));
 }
 
 void features.add(import.meta.url, {
