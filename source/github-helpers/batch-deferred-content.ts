@@ -1,9 +1,10 @@
 import {$$} from 'select-dom';
 import type {Action} from 'svelte/action';
 
+// When "Command Palette" Feature Preview is disabled, SSR is used
+// and `<batch-deferred-content>` is not defined, so polyfill it
 export async function loadBatchDeferredContent(element: HTMLElement): Promise<void> {
 	if (!document.documentElement.hasAttribute('data-render-ssr')) {
-		// SSR is not used, no need to polyfill
 		return;
 	}
 

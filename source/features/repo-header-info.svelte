@@ -48,7 +48,7 @@
 			<batch-deferred-content
 				hidden
 				data-url={buildRepoUrl('commits/checks-statuses-rollups')}
-				// Polyfill `<batch-deferred-content>`
+				// Load `<batch-deferred-content>` polyfill
 				use:loadBatchDeferredContent
 			>
 				<input
