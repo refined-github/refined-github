@@ -58,7 +58,7 @@ export async function loadBatchDeferredContent(element: HTMLElement): Promise<vo
 
 	const formData = new FormData();
 	formData.set('_method', 'GET');
-	for (const input of $$<HTMLInputElement>('input', element)) {
+	for (const input of $$('input', element)) {
 		formData.append(`items[0][${input.name}]`, input.value);
 	}
 
