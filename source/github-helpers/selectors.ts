@@ -86,13 +86,17 @@ export const commentsCountInLists = [
 	'div[data-testid="list-row-comments"]:not(:empty)',
 	'ul[aria-label="Drag and drop pinned issues list."] div[class*="commentCountContainer"]',
 
-	// PR list
+	// React PR list
+	css`li[class*="listItem"] div[class*="metadata"]:has(> svg.octicon-comment)`,
+
+	// Legacy PR list
 	// aria-label="1 comment"
 	// aria-label="2 comments"
 	'.js-issue-row a.Link--muted[aria-label*=" comment"]',
 ];
 export const commentsCountInLists_ = [
 	[2, 'https://github.com/refined-github/sandbox/labels/bug'],
+	[1, 'https://github.com/refined-github/refined-github/pulls?q=is%3Apr+is%3Aclosed+comments%3A%3E0'],
 ] satisfies UrlMatch[];
 
 export const paginationButtonSelector = '.ajax-pagination-form button.ajax-pagination-btn';
