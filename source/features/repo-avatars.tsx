@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import features from '../feature-manager.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
 import {getRepo} from '../github-helpers/index.js';
+import {loaded} from '../github-helpers/selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -31,7 +32,7 @@ async function add(ownerLabel: HTMLElement): Promise<void> {
 
 function init(signal: AbortSignal): void {
 	const username = getRepo()!.owner;
-	observe('.loaded nav[data-component="Breadcrumbs"] a[href="/' + username + '"]', add, {signal});
+	observe(`${loaded} nav[data-component="Breadcrumbs"] a[href="/${username}"]`, add, {signal});
 }
 
 void features.add(import.meta.url, {

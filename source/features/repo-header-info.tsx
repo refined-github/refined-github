@@ -9,6 +9,7 @@ import {mount} from 'svelte';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
+import {loaded} from '../github-helpers/selectors.js';
 import {appendBefore, isSmallDevice} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 import GetRepoInfo from './repo-header-info.gql';
@@ -78,7 +79,7 @@ async function add(breadcrumbs: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.loaded .GlobalNav nav[data-component="Breadcrumbs"] ol', add, {signal});
+	observe(`${loaded} .GlobalNav nav[data-component="Breadcrumbs"] ol`, add, {signal});
 }
 
 void features.addCssFeature(import.meta.url);
