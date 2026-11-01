@@ -14,6 +14,7 @@ import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
 const fieldSelector = [
@@ -31,16 +32,12 @@ const prAvatarSelector = '.js-quote-selection-container '
 	)
 	+ `:not([href="/${loggedInUser}"])`;
 
-const issueAvatarSelector =
-	`:is([class*="IssueBodyHeaderContainer"], [data-testid="comment-header"]) a[class*="avatarLink"]:not([href$="/${loggedInUser}"])`;
-
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-function mentionUser({delegateTarget: button}: DelegateEvent): void {
-	const userMention = getCommentAuthor(button.parentElement!);
+function mentionUser(author: string): void {
 	const newComment = $(fieldSelector);
 	newComment.focus();
 
@@ -52,26 +49,42 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
+	insertTextIntoField(newComment, `${spacer}${prefixUserMention(author)} `);
 }
 
-function addButton(avatar: HTMLElement): void {
-	const userMention = getCommentAuthor(avatar);
-	avatar.after(
+function mentionUserLegacy({delegateTarget: button}: DelegateEvent): void {
+	mentionUser(getCommentAuthor(button.parentElement!));
+}
+
+async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+	// Hidden comments have no body to mention
+	if (
+		!elementExists('.markdown-body', closestElement(':is(.react-issue-comment, [data-testid="issue-body"])', menuButton))
+	) {
+		return;
+	}
+
+	const author = getCommentAuthor(menuButton);
+	const mentionButton = (
 		<button
-			ref={withTooltipRef({
-				label: `Mention ${prefixUserMention(userMention)} in a new comment`,
-				direction: 'e',
-			})}
+			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
 			type="button"
-			className="rgh-quick-mention btn-link"
+			className="Button Button--iconOnly Button--invisible Button--small"
+			onClick={() => {
+				mentionUser(author);
+			}}
 		>
 			<ReplyIcon />
-		</button>,
+		</button>
 	);
+	menuButton.before(mentionButton);
+
+	// Remove our button when React replaces the menu, preventing duplicates
+	await onElementRemoval(menuButton, signal);
+	mentionButton.remove();
 }
 
-function addButtonPr(avatar: HTMLElement): void {
+function addQuickMentionLegacy(avatar: HTMLElement): void {
 	const timelineItem = closestElement([
 		// Regular comments
 		'.js-comment-container',
@@ -92,33 +105,34 @@ function addButtonPr(avatar: HTMLElement): void {
 		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
 	}
 
-	addButton(avatar);
+	avatar.after(
+		<button
+			ref={withTooltipRef({
+				label: `Mention ${prefixUserMention(getCommentAuthor(avatar))} in a new comment`,
+				direction: 'e',
+			})}
+			type="button"
+			className="rgh-quick-mention btn-link"
+		>
+			<ReplyIcon />
+		</button>,
+	);
 }
 
-function addButtonIssue(avatar: HTMLElement): void {
-	const isHidden = !elementExists(
-		'.markdown-body',
-		closestElement(':is(.react-issue-comment, [data-testid="issue-body"])', avatar),
-	);
-	if (isHidden) {
+function init(signal: AbortSignal): void {
+	if (pageDetect.isPR()) {
+		delegate('button.rgh-quick-mention', 'click', mentionUserLegacy, {signal});
+		observe(prAvatarSelector, addQuickMentionLegacy, {signal});
 		return;
 	}
 
-	avatar.style.height = 'auto';
-	avatar.classList.add('react-view');
-	wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
-
-	addButton(avatar);
-}
-
-async function init(signal: AbortSignal): Promise<void> {
-	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
-
-	if (pageDetect.isPR()) {
-		observe(prAvatarSelector, addButtonPr, {signal});
-	} else {
-		observe(issueAvatarSelector, addButtonIssue, {signal});
-	}
+	observe(
+		// Scoped to comment headers, and not on your own comments
+		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"]):not([class*="viewerDidAuthor" i])'
+			+ ' button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
+		addQuickMention,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

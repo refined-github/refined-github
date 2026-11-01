@@ -13,34 +13,6 @@
 	padding: 4px 12px !important;
 }
 
-.avatar-parent-child:has(> .react-view) {
-	position: relative;
-}
-
-/* On issues, the button sits outside the comment box, to the left of the avatar. It's hidden when the window is too narrow to fit it. */
-.react-view + .rgh-quick-mention {
-	display: none;
-	translate: none;
-
-	&::after {
-		bottom: unset;
-		transform: none;
-	}
-}
-
-@media (width >= 1280px) {
-	.react-view + .rgh-quick-mention {
-		display: block;
-		position: absolute !important;
-		left: auto;
-		top: 50%;
-		/* Avatar offset inside the comment box (border + header padding) plus a small gap */
-		right: calc(100% + 24px);
-		translate: 0 -50%;
-		padding: 4px 8px !important;
-	}
-}
-
 /* Show icon in black if it's not hovered/focused, instead of the blue color caused by .btn-link */
 .rgh-quick-mention:not(:hover, :focus) {
 	color: inherit;
