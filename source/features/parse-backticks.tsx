@@ -14,9 +14,10 @@ const selectors = [
 	// https://github.com/refined-github/sandbox/commits/buncha-files/
 	'.extended-commit-description-container',
 
-	// `isPRConversation` commit description
+	// `isPRConversation` commit description, not code blocks in comments
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
-	'.TimelineItem-body pre',
+	// https://github.com/porsager/postgres/pull/1169#issuecomment-6545968197
+	'.TimelineItem-body pre.ws-pre-wrap',
 
 	// `isIssue` linked PRs
 	// https://github.com/refined-github/refined-github/issues/7856
