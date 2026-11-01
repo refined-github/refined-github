@@ -12,8 +12,9 @@ function addMergeLink(link: HTMLAnchorElement): void {
 	// Null if the "Merged" link hasn't been added yet
 	const hasMergeLink = link.nextElementSibling?.classList.contains(mergedLinkClass);
 	if (
-		!SearchQuery.from(link).includes('is:closed', 'state:closed') || link.classList.contains(mergedLinkClass)
-		|| hasMergeLink
+		hasMergeLink!
+		|| !SearchQuery.from(link).includes('is:closed', 'state:closed')
+		|| link.classList.contains(mergedLinkClass)
 	) {
 		return;
 	}
