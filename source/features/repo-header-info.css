@@ -21,5 +21,60 @@ html:not([rgh-OFF-repo-header-info]) {
 	/* Improve alignment */
 	.rgh-ci-link .commit-build-statuses {
 		font-size: 0;
+
+		/* Restore styles when "Command Palette" Feature Preview is disabled */
+		.status-checks-dropdown {
+			font-size: 13px;
+
+			.branch-action-item {
+				padding: var(--base-size-16);
+				font-size: 13px;
+				line-height: 1.4;
+			}
+
+			.status-heading {
+				margin-bottom: 1px;
+			}
+
+			.status-meta {
+				color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
+			}
+
+			.merge-status-list {
+				max-height: 170px;
+				margin: var(--base-size-16) calc(var(--base-size-16) * -1)
+					calc(var(--base-size-16) * -1);
+				overflow-y: auto;
+				border-top: 1px solid
+					var(--borderColor-default, var(--color-border-default, fuchsia));
+			}
+
+			.merge-status-item {
+				padding: var(--base-size-8) var(--base-size-16) var(--base-size-8)
+					var(--base-size-12);
+				background-color: var(
+					--bgColor-muted,
+					var(--color-canvas-subtle, fuchsia)
+				);
+				border-bottom: 1px solid
+					var(--borderColor-default, var(--color-border-default, fuchsia));
+			}
+
+			.merge-status-item:last-child {
+				border-bottom: 0;
+			}
+
+			.merge-status-icon {
+				min-width: 30px;
+			}
+
+			.merge-status-item .css-truncate-target {
+				max-width: 100%;
+			}
+
+			.status-actions {
+				margin-left: auto;
+			}
+		}
 	}
 }

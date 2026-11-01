@@ -13,7 +13,11 @@ async function fetchDom<
 async function fetchDom(url: string, selector?: string): Promise<Node | undefined> {
 	log.http(url);
 	const absoluteUrl = new URL(url, location.origin).href; // Firefox `fetch`es from the content script, so relative URLs fail
-	const response = await fetch(absoluteUrl);
+	const response = await fetch(absoluteUrl, {
+		headers: {
+			accept: 'text/html',
+		},
+	});
 	const dom = domify(await response.text());
 	if (selector) {
 		return $optional(selector, dom);

@@ -166,5 +166,6 @@ Test URLs:
 - label:"Type: Bug" https://github.com/react/react/issues
 - type:Bug: https://github.com/keepassxreboot/keepassxc/issues
 - Issues disabled: https://github.com/bfred-it-org/no-issues/labels
+- only type:Bug, no label https://github.com/udecode/plate/issues
 
 */
