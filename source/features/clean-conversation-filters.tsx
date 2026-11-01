@@ -54,7 +54,7 @@ async function hide(container: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe(String.raw`#\:rs\:-list-view-metadata`, hide, {signal});
+	observe('[id$="-list-view-metadata"]', hide, {signal});
 }
 
 void features.add(import.meta.url, {
