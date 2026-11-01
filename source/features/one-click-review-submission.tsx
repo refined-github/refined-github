@@ -2,7 +2,7 @@
 import './one-click-review-submission.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $optional, closestElement} from 'select-dom';
+import {$, $$, $optional, closestElement, elementExists} from 'select-dom';
 import {mount, unmount} from 'svelte';
 import {assertPresent} from 'ts-extras';
 
@@ -33,6 +33,10 @@ async function submit(dialog: HTMLElement, value: string): Promise<void> {
 }
 
 function enhance(dialog: HTMLElement): (() => void) | void {
+	if (!elementExists('input[name="reviewEvent"]', dialog) || !elementExists(submitSelector, dialog)) {
+		return;
+	}
+
 	// Everything is asserted before touching the native UI, so that a failure leaves it intact
 	const choices = $$('input[type="radio"][name="reviewEvent"]', dialog).map(radio => {
 		const control = closestElement('[data-component="FormControl"]', radio);
