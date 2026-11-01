@@ -19,9 +19,17 @@
 		/* outline: solid 5px #f00; */
 	}
 }
-/* On mobile, keep the original primary button (e.g. "New issue") at the start without shifting */
-@media (width <= 768px) {
-	.rgh-conversation-activity-filter > action-menu + * {
+/* On narrow non-sticky layouts, keep the original primary button (e.g. "New issue") at the start without shifting */
+@media (width <= 1075px) {
+	.rgh-conversation-activity-filter:not([data-component='TitleArea'])
+		> action-menu + * {
 		order: -1;
+	}
+}
+
+/* In the PR sticky header, hide if there's no room for it */
+@media (width <= 774px) {
+	[class*='prTitleArea'] > action-menu {
+		display: none;
 	}
 }

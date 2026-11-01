@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
-import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {$, $optional, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import {assert} from 'ts-extras';
 import type {RequireAtLeastOne} from 'type-fest';
@@ -161,12 +161,6 @@ export const isUrlReachable = memoize(async (url: string): Promise<boolean> => {
 export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement): string {
 	// The branch name is always in the DOM in full, even when it's visually clipped
 	return branchPicker.textContent.trim();
-}
-
-export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
-	const row = closestElement('.position-relative', branchSelectorParent);
-	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
-	row.append(sibling);
 }
 
 /** Trigger a conversation update if the view is out of date */
