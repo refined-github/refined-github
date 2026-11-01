@@ -13,13 +13,14 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-helpers/notice-bar.js';
+import {loaded} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 import {saveOriginalHref} from './last-update-sort.js';
 
 const commentSelector = is(
-	'.loaded .react-issue-body', // Issue description
+	`${loaded} .react-issue-body`, // Issue description
 	'.react-issue-comment', // Issue comment
 	'[data-testid="review-thread"] > div', // Review thread comment
 	'.js-comment', // PR description or comment
