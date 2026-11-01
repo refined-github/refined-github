@@ -13,7 +13,7 @@ import observe from '../helpers/selector-observer.js';
 import singleton from '../helpers/singleton.js';
 import OneClickReview from './one-click-review-submission.svelte';
 
-const hiddenAttribute = 'data-rgh-one-click-review';
+const activeClass = 'rgh-one-click-review';
 const submitSelector = 'button[class*="SubmitReviewButton"]';
 
 let lastSubmission = 0;
@@ -32,7 +32,7 @@ async function submit(dialog: HTMLElement, value: string): Promise<void> {
 	$(submitSelector, dialog).click();
 }
 
-function enhance(dialog: HTMLElement): () => void {
+function enhance(dialog: HTMLElement): (() => void) | void {
 	// Everything is asserted before touching the native UI, so that a failure leaves it intact
 	const choices = $$('input[type="radio"][name="reviewEvent"]', dialog).map(radio => {
 		const control = closestElement('[data-component="FormControl"]', radio);
@@ -49,6 +49,15 @@ function enhance(dialog: HTMLElement): () => void {
 	});
 	assertPresent(choices[0]);
 
+	// Nothing to save a click on if you can only comment (for example on your own PR)
+	if (choices.every(({label, disabled}) => label === 'Comment' || disabled)) {
+		return;
+	}
+
+	// Same order as the buttons in the old UI, with the positive action last
+	const order = ['Comment', 'Request changes', 'Approve'];
+	choices.sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label));
+
 	const cancel = $$('button', dialog).find(button => button.textContent.trim() === 'Cancel');
 	assertPresent(cancel);
 
@@ -60,7 +69,7 @@ function enhance(dialog: HTMLElement): () => void {
 	};
 
 	const restoration = new AbortController();
-	dialog.setAttribute(hiddenAttribute, '');
+	dialog.classList.add(activeClass);
 	const app = mount(OneClickReview, {
 		target: nativeSubmit.parentElement!,
 		anchor: nativeSubmit,
@@ -76,7 +85,7 @@ function enhance(dialog: HTMLElement): () => void {
 		},
 	});
 	restoration.signal.addEventListener('abort', () => {
-		dialog.removeAttribute(hiddenAttribute);
+		dialog.classList.remove(activeClass);
 		void unmount(app);
 	});
 
@@ -86,12 +95,7 @@ function enhance(dialog: HTMLElement): () => void {
 }
 
 function init(signal: AbortSignal): void {
-	// Wait until the radios and the submit button are both rendered
-	observe(
-		'div[role="dialog"][aria-labelledby="anchored-review-title"]:has(input[name="reviewEvent"]):has(button[class*="SubmitReviewButton"])',
-		singleton(enhance),
-		{signal},
-	);
+	observe('div[role="dialog"][aria-labelledby="anchored-review-title"]', singleton(enhance), {signal});
 }
 
 void features.add(import.meta.url, {
