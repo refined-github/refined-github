@@ -61,7 +61,8 @@ async function countBugs(): Promise<Bugs> {
 	return {label, count: exact.issueCount};
 }
 
-const bugs = new CachedFunction('bugs', {
+// Versioned because the count used to be a lower bound that could be cached
+const bugs = new CachedFunction('bugs-v2', {
 	updater: countBugs,
 	maxAge: {minutes: 30},
 	staleWhileRevalidate: {days: 4},
