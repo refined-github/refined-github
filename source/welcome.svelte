@@ -7,8 +7,8 @@
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
-	import {allowOnlyPaste} from './options/paste-only.js';
 	import Header from './options/header.svelte';
+	import {allowOnlyPaste} from './options/paste-only.js';
 
 	let stepVisible = $state(1);
 	let stepValid = $state(0);
