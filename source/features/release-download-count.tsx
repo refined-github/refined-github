@@ -88,8 +88,8 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 		if (nativeCount) {
 			nativeCount.replaceWith(widget);
 		} else {
-			// Add at the beginning of the line to avoid content shift
-			assetSize.parentElement!.prepend(widget);
+			// GitHub omits the native counter for assets without downloads. Insert the widget where the counter would be: after the digest and before the size
+			assetSize.before(widget);
 		}
 
 		// Unset all margin we added `gap` like sane people.

@@ -40,8 +40,8 @@ void features.add(import.meta.url, {
 		pageDetect.isPRConversation,
 		wasBranchDeleted,
 	],
-	deduplicate: 'has-rgh-inner',
 	awaitDomReady: true, // Must wait for the last one
+	deduplicate: 'has-rgh-inner',
 	init,
 });
 

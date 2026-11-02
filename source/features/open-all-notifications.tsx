@@ -132,12 +132,12 @@ function init(signal: AbortSignal): void {
 }
 
 void features.add(import.meta.url, {
-	include: [
-		pageDetect.isNotifications,
-	],
 	shortcuts: {
 		p: 'Open selected notifications',
 	},
+	include: [
+		pageDetect.isNotifications,
+	],
 	init,
 });
 

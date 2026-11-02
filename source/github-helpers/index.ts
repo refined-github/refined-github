@@ -1,7 +1,7 @@
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
 import memoize from 'memoize';
-import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
+import {$, $optional, closestElementOptional, elementExists} from 'select-dom';
 import compareVersions from 'tiny-version-compare';
 import {assert} from 'ts-extras';
 import type {RequireAtLeastOne} from 'type-fest';
@@ -164,12 +164,6 @@ export function extractCurrentBranchFromBranchPicker(branchPicker: HTMLElement):
 		: branchPicker.title; // Branch name was clipped, so they placed it in the title attribute
 }
 
-export function addAfterBranchSelector(branchSelectorParent: HTMLDetailsElement, sibling: HTMLElement): void {
-	const row = closestElement('.position-relative', branchSelectorParent);
-	row.classList.add('d-flex', 'flex-shrink-0', 'gap-2');
-	row.append(sibling);
-}
-
 /** Trigger a conversation update if the view is out of date */
 // https://github.com/refined-github/refined-github/issues/2465#issuecomment-567173300
 export function triggerConversationUpdate(): void {
@@ -226,8 +220,8 @@ export function assertCommitHash(hash: string): void {
 	}
 }
 
-export function assertUsername(username: string): void {
-	if (/[^\w-]/.test(username)) {
+export function assertUsername(username: string | undefined): asserts username is string {
+	if (!username || /[^\w-]/.test(username)) {
 		throw new TypeError(`Expected a username, got ${username}`);
 	}
 }

@@ -59,7 +59,7 @@ function initNewIssueOnce(): void {
 			newIssueMenuItem,
 
 			// Main "+" dropdown button
-			'button[class*="GlobalCreateMenu-module__actionMenuButton"]',
+			'button[class*="actionMenuButton"]',
 		],
 		openNewIssuePageInNewTab,
 	);
@@ -67,7 +67,7 @@ function initNewIssueOnce(): void {
 
 function initIssueTemplate(): void {
 	onAlteredClick(
-		'a[class^="IssueCreatePage-module__chooseTemplateLink"]',
+		'a[class*="chooseTemplateLink"]',
 		openNewIssuePageInNewTab,
 	);
 }

@@ -53,8 +53,11 @@ export function parseReferenceRaw(absolute: string, relative: string): PrReferen
 }
 
 function parseReference(referenceElement: HTMLElement): PrReference {
-	const {textContent, nextElementSibling} = referenceElement;
-	return parseReferenceRaw(nextElementSibling!.textContent.trim(), textContent.trim());
+	const {textContent, nextElementSibling, title} = referenceElement;
+	// Legacy view: the sibling can be empty, but `title` contains the absolute reference
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- Empty string must fall back too
+	const absolute = nextElementSibling?.textContent.trim() || title;
+	return parseReferenceRaw(absolute, textContent.trim());
 }
 
 export function getBranches(): {base: PrReference; head: PrReference} {

@@ -10,8 +10,7 @@ import observe from '../helpers/selector-observer.js';
 
 function onButtonClick(): void {
 	const links = $$([
-		'a[data-testid="issue-pr-title-link"]', // Issue list
-		'a[data-testid="listitem-title-link"]', // PR list
+		'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]', // Issue and PR lists
 		// TODO [2027-01-01]: Drop if PR lists have turned React
 		'a.h4.js-navigation-open',
 	]);
@@ -75,8 +74,12 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			'[aria-label="Bulk actions"] > :first-child',
 			'[aria-label="Actions"] > :first-child',
 			// PR list: the filters are right-aligned inside the ActionBar's overflow container, so the button has to live in it to stay next to them
-			'[class*="SharedListContainer-module__primerActionBar"] [class*="prc-ActionBar-OverflowContainer"]',
+			'[class*="primerActionBar"] [class*="prc-ActionBar-OverflowContainer"]',
 			'[aria-label="Pull request actions"] > :first-child',
+			// Repo issue list: filters live in a toolbar next to the state tabs
+			'[role="toolbar"][aria-label="Issue list controls"] > :first-child',
+			// Global issue list: no filter toolbar, only the sort button and density toggle
+			'[id$="-list-view-metadata"] > :last-child:not([class*="primerActionBar"], [class*="legacyDensityToggle"])',
 		],
 		add,
 		{signal},

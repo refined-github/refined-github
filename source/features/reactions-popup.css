@@ -1,5 +1,7 @@
 /* Restore two-line layout */
-:root .dropdown-menu-reactions {
+:root .dropdown-menu-reactions,
+/* React issue view */
+:root ul[data-component='ActionList']:has(> li[class*='ReactionsMenuOption']) {
 	display: grid !important;
 	/* Keep two lines whether there are 6 or 8 reactions */
 	grid-template-rows: 1fr 1fr;

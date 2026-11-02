@@ -168,6 +168,13 @@ span[data-testid='sponsor-label'] {
 /* Make the "Symbolic link" more noticeable */
 /* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
 /* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
+.react-code-size-details-in-header a[class*='PrimerLink'] {
+	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 /* Hide the header logo on small screens */
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
 /* Test: https://github.com/refined-github/refined-github */
@@ -189,7 +196,7 @@ a {
 /* Highlight review type radio labels on hover to improve clickability */
 /* Info: https://github.com/refined-github/refined-github/issues/9447 */
 /* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
-fieldset[class*='ReviewMenu-module__RadioGroup'] {
+fieldset[class*='RadioGroup'] {
 	[class*='FormControl-ControlHorizontalLayout'] {
 		z-index: 0;
 	}
@@ -217,7 +224,7 @@ fieldset[class*='ReviewMenu-module__RadioGroup'] {
 /* Test: https://github.com/refined-github/refined-github/pull/7212/changes */
 /* Test: https://github.com/refined-github/refined-github/pull/7212/changes/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
 /* Test: https://github.com/refined-github/refined-github/commit/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
-[class*='HiddenDiffPatch-module__gridColumnTemplate'],
+[class*='gridColumnTemplate'],
 /* "Binary not shown" */
 /* Info: https://github.com/refined-github/refined-github/issues/1630 */
 /* Test: https://github.com/JonathanSalwan/binary-samples/pull/9/changes */

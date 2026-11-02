@@ -63,8 +63,8 @@ void features.add(import.meta.url, {
 	exclude: [
 		() => elementExists('[data-show-dialog-id="drafts-upgrade-dialog"]'),
 	],
-	deduplicate: 'has-rgh',
 	awaitDomReady: true,
+	deduplicate: 'has-rgh',
 	init,
 });
 

@@ -27,7 +27,7 @@ function init(signal: AbortSignal): void {
 	observe(
 		[
 			'textarea.js-comment-field',
-			'[class*="MarkdownInput-module__textArea"] textarea',
+			'[class*="textArea"] textarea',
 		],
 		attach,
 		{signal},

@@ -31,8 +31,8 @@ const collaborators = new CachedFunction('repo-collaborators', {
 
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
-	observe('a[class^="IssueItem-module__authorCreatedLink"]', author => {
-		const name = author.textContent.trim();
+	observe('[data-testid="author-filter-link"]', author => {
+		const name = author.lastChild!.textContent.trim(); // Skip the visually hidden label
 		if (list.includes(name) && name !== getLoggedInUser()) {
 			author.classList.add('rgh-collaborator');
 		}
@@ -46,7 +46,7 @@ function highlightSelf(signal: AbortSignal): void {
 		// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
 		`.opened-by a[title$="ed by ${loggedInUser}"]`,
 		// `a` on https://github.com/refined-github/refined-github/issues
-		`a[class^="IssueItem-module__authorCreatedLink"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
+		`[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
 		// `a` on https://github.com/refined-github/refined-github/pulls
 		// `button` on https://github.com/pulls/authored
 		`[aria-label="Filter by author ${loggedInUser}"]`,

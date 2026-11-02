@@ -17,7 +17,7 @@ import QuickReviewComponent from './quick-review.svelte';
 const emojis = ['🚀', '🐿️', '⚡️', '🤌', '🥳', '🥰', '🤩', '🥸', '😎', '🤯', '🚢', '🛫', '🏳️', '🏁'];
 
 // Be careful not to select the "Submit review" button in the dialog
-const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton-module__ReviewMenuButton"]';
+const reviewMenuButtonSelector = 'button[class*="ReviewMenuButton"]';
 const openReviewMenuDeepLink = 'review-changes-modal';
 const openReviewMenuDeepLinkSelector = `#${openReviewMenuDeepLink}`;
 const prFilesChangedTabSelector = [

@@ -14,13 +14,14 @@ const selectors = [
 	// https://github.com/refined-github/sandbox/commits/buncha-files/
 	'.extended-commit-description-container',
 
-	// `isPRConversation` commit description
+	// `isPRConversation` commit description, not code blocks in comments
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
-	'.TimelineItem-body pre',
+	// https://github.com/porsager/postgres/pull/1169#issuecomment-6545968197
+	'.TimelineItem-body pre.ws-pre-wrap',
 
 	// `isIssue` linked PRs
 	// https://github.com/refined-github/refined-github/issues/7856
-	'span[class^="LinkedPullRequests-module__PrTitle"]',
+	'span[class*="PrTitle"]',
 	// TODO [2026-10-01]: Drop
 	'span[id$="--label"]',
 
@@ -59,7 +60,7 @@ const selectors = [
 
 	// Dashboard
 	// https://github.com
-	'a[class^="DashboardListView-module__ItemTitle"]',
+	'a[class*="ItemTitle"]',
 	// https://github.com/orgs/refined-github/dashboard
 	'.js-feed-item-component h3 > .Link--primary',
 ] as const;

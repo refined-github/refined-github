@@ -1,7 +1,7 @@
 import {onAbort} from 'abort-utils';
 import delegate, {type DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
-import {$, $$, closestElement, elementExists} from 'select-dom';
+import {$, $$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import showToast from '../github-helpers/toast.js';
@@ -10,18 +10,20 @@ import {is} from '../helpers/css-selectors.js';
 import getItemsBetween from '../helpers/get-items-between.js';
 
 export const viewedToggleSelector = [
-	'button[class*="MarkAsViewedButton"]',
+	'button[aria-label="Viewed"]',
+	'button[aria-label="Not Viewed"]',
 	// Old view
 	'input.js-reviewed-checkbox',
 ] as const;
 const fileSelector = [
-	'[class^="Diff-module__diffTargetable"]',
+	'[class*="diffTargetable"]',
 	// Old view
 	'.js-file',
 ] as const;
-// New view, Old view
 const checkedSelector = is(
-	':has(.octicon-checkbox-fill)',
+	// New view
+	'[aria-pressed="true"]',
+	// Old view
 	'[checked]',
 );
 
@@ -36,7 +38,7 @@ function isChecked(file: HTMLElement): boolean {
 
 	return viewedToggle instanceof HTMLInputElement
 		? viewedToggle.checked
-		: elementExists('.octicon-checkbox-fill', viewedToggle);
+		: viewedToggle.matches('[aria-pressed="true"]');
 }
 
 function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
@@ -60,8 +62,8 @@ function batchToggle(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	}
 }
 
-function markAsViewedSelector(file: HTMLElement): string {
-	const checkedState = isChecked(file) ? `:not(${checkedSelector})` : checkedSelector;
+function markAsViewedSelector(toggle: HTMLElement): string {
+	const checkedState = isChecked(closestElement(fileSelector, toggle)) ? `:not(${checkedSelector})` : checkedSelector;
 	// The `hidden` attribute excludes filtered-out files
 	// https://github.com/refined-github/refined-github/issues/7819
 	return is(fileSelector) + ':not([hidden]) ' + is(viewedToggleSelector) + checkedState;

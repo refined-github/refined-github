@@ -111,6 +111,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "rerun-workflow") [Unwraps the "Re-run jobs" dropdown into individual buttons and adds a keyboard shortcut to re-run failed jobs: <kbd>r</kbd> <kbd>f</kbd>](https://github.com/user-attachments/assets/67331112-f5b2-4a2b-af43-800d46bd6bf7).
 - [](# "extend-repo-tabs") [Collapses repository tabs if rarely used (Insights, Security) or when empty (Projects, Wiki, Actions). It also adds counters to Projects and Wiki.](https://github.com/user-attachments/assets/e7fa93ff-fc01-410d-b4da-f1fb96a85326)
 - [](# "subscribe-releases") [Adds a button to subscribe to repository releases in one click.](https://github.com/user-attachments/assets/76f211ae-7f7e-4ca6-843c-38a63a364813)
+- [](# "fork-you") [Improves the "Fork" widget UX by making it always open the dropdown.](https://github.com/user-attachments/assets/177246ec-2776-4412-9d3b-3edde5ecb533)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
@@ -241,7 +242,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "emphasize-draft-pr-label") [Makes it easier to distinguish draft PR in lists.](https://user-images.githubusercontent.com/1402241/218252438-062a1ab3-4437-436d-9140-87bee23aaefb.png)
 - [](# "clean-checks-list") Prioritizes failing and pending checks in the merge checks list, and untruncates long check names.
 - [](# "mobile-tabs-pr") Makes the PR tabs smaller so they fit in the screen without scrolling.
-- [](# "linkify-pr-review-state") [Linkifies the PR review state labels ("Draft", "Changes requested", etc) in PR lists to filter by that state.](https://github.com/user-attachments/assets/9c59ba75-d2f2-41d4-a214-24d123f78428)
+- [](# "dim-viewed-files") [Dims viewed files in the PR file tree, keeping unreviewed files easy to find.](https://github.com/user-attachments/assets/fad7e90a-900b-4d58-9d9d-c5f551848572)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

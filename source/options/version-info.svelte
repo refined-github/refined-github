@@ -3,7 +3,7 @@
 		getExtensionReleaseDate,
 		toDaysAgo,
 		wasReleasedLongAgo,
-	} from '../helpers/extension-release-age.js';
+	} from '../helpers/extension-release-date.js';
 
 	const {version} = chrome.runtime.getManifest();
 

@@ -13,5 +13,6 @@ https://github.com/bmish/eslint-doc-generator/pulls
 https://github.com/bmish/eslint-doc-generator/issues
 https://github.com/bmish/eslint-doc-generator/milestone/1?closed=1
 https://github.com/nrwl/nx/issues
+https://github.com/orgs/Qv2ray/repositories
 
 */

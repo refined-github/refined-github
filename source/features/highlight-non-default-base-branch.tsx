@@ -89,7 +89,7 @@ function renderBranches(pr: Pr, baseBranch: BaseBranch, nameWithOwner: string): 
 		// React DOM
 		: closestElement('li', pr.link).querySelector([
 			'div[data-testid="list-row-repo-name-and-number"]', // Issue list
-			'div[class^="Description"]', // Preview global PR list
+			'div[class*="description"]', // PR list
 		])!;
 	metadataRow.append(badge);
 }
@@ -142,8 +142,7 @@ async function init(signal: AbortSignal): Promise<false | void> {
 	observe(
 		[
 			'.js-issue-row a[data-hovercard-type="pull_request"]', // Repo and global PR lists
-			'a[data-hovercard-type="pull_request"][data-testid="listitem-title-link"]', // Preview global PR list
-			'a[data-hovercard-type="pull_request"][data-testid="issue-pr-title-link"]', // Issue list
+			'li[class*="listItem"] [class*="heading"] > a[class*="anchor"][href*="/pull/"]', // React issue and PR lists
 		],
 		batchedFunction(add, {delay: 100}),
 		{signal},

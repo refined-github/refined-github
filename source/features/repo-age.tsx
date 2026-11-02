@@ -64,18 +64,26 @@ async function getRepoAge(
 	return [committedDate, lastCommitsPageUrl];
 }
 
-const firstCommit = new CachedFunction('first-commit', {
-	async updater(): Promise<[committedDate: string, lastCommitsPageUrl: string]> {
+type RepoDates = {
+	createdAt: string;
+	firstCommitDate: string;
+	lastCommitsPageUrl: string;
+};
+
+// The cache name changed because the stored value is now an object
+const repoDates = new CachedFunction('repo-dates', {
+	async updater(): Promise<RepoDates> {
 		const {repository} = await api.v4(GetFirstCommit);
 
 		const {oid: commitSha, history, committedDate} = repository.defaultBranchRef.target as CommitTarget;
 		const commitsCount = history.totalCount;
 		if (commitsCount === 1) {
 			const lastCommitsPageUrl = buildLastCommitsPageUrl(commitSha, commitsCount);
-			return [committedDate, lastCommitsPageUrl];
+			return {createdAt: repository.createdAt, firstCommitDate: committedDate, lastCommitsPageUrl};
 		}
 
-		return getRepoAge(commitSha, commitsCount);
+		const [firstCommitDate, lastCommitsPageUrl] = await getRepoAge(commitSha, commitsCount);
+		return {createdAt: repository.createdAt, firstCommitDate, lastCommitsPageUrl};
 	},
 	cacheKey: cacheByRepo,
 });
@@ -88,8 +96,9 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 		day: 'numeric',
 	});
 
-	const [firstCommitDate, lastCommitsPageUrl] = await firstCommit.get();
-	const birthday = new Date(firstCommitDate);
+	const {createdAt, firstCommitDate, lastCommitsPageUrl} = await repoDates.get();
+	const birthday = new Date(createdAt);
+	const firstCommitBirthday = new Date(firstCommitDate);
 
 	// `twas` could also return `an hour ago` or `just now`
 	const [value, unit] = twas(birthday.getTime())
@@ -104,12 +113,28 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 			<strong>{value}</strong> {unit} old
 		</>;
 
+	// The creation date is trustworthy, but the history may have been imported, so the first commit can be older. Newer commits are ignored
+	const firstCommitIsOlder = firstCommitBirthday.getFullYear() < birthday.getFullYear();
+
 	closestElement('.mt-2', sidebarForksLinkIcon).after(
 		<h3 className="sr-only">Repository age</h3>,
 		<div className="mt-2 tmp-mt-2">
-			<a href={lastCommitsPageUrl} className="Link--muted" title={`First commit dated ${dateFormatter.format(birthday)}`}>
-				<RepoIcon className="mr-2 tmp-mr-2" /> {age}
+			<a href={lastCommitsPageUrl} className="Link--muted" title={`Created on ${dateFormatter.format(birthday)}`}>
+				<RepoIcon className="mr-2 tmp-mr-2" />
+				{age}
 			</a>
+			{firstCommitIsOlder && (
+				<>
+					{' '}
+					<a
+						href={lastCommitsPageUrl}
+						className="Link--muted"
+						title={`First commit dated ${dateFormatter.format(firstCommitBirthday)}`}
+					>
+						(or {firstCommitBirthday.getFullYear()}?)
+					</a>
+				</>
+			)}
 		</div>,
 	);
 }
@@ -137,5 +162,6 @@ Test URLs:
 https://github.com/refined-github/sandbox
 https://github.com/refined-github/sandbox/tree/6619
 https://github.com/bfred-it/bfred-it.github.io
+https://github.com/NextAlone/Nagram
 
 */

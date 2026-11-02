@@ -38,6 +38,8 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 			'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 			// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
 			'.TimelineItem-body > div > *',
+			// Issue comment title
+			'[class*="TitleContainer"] > *',
 		])
 	) {
 		nameElement.classList.add('ml-1');

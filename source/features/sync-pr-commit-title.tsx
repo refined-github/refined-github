@@ -23,9 +23,11 @@ export function formatPrCommitTitle(title: string, prNumber = getConversationNum
 	return `${title} (#${prNumber})`;
 }
 
+const prTitleSelector = '[data-component="TitleArea"] h1';
+
 function createCommitTitle(): string {
 	const prTitle = $([
-		'h1[class^="prc-PageHeader-Title"] .markdown-title',
+		`${prTitleSelector} .markdown-title`,
 		'div[class^="prc-PageLayout-Header"] input',
 	]);
 	const prTitleText = prTitle instanceof HTMLInputElement ? prTitle.value.trim() : parseRenderedText(prTitle);
@@ -96,7 +98,7 @@ function init(signal: AbortSignal): void {
 
 	// On PR title change
 	observe(
-		'h1[class^="prc-PageHeader-Title"]',
+		prTitleSelector,
 		updateCommitTitle,
 		{signal},
 	);

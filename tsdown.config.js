@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/imports-as-dependencies -- False positive */
 import path from 'node:path';
 import process from 'node:process';
 import svelte from 'rollup-plugin-svelte';
@@ -34,10 +35,8 @@ const css = [
 	'./source/refined-github.ts',
 ].map(filepath => [path.parse(filepath).name, filepath]);
 
-// eslint-disable-next-line jsdoc/imports-as-dependencies -- False positive
 /** @type {import('tsdown').UserConfig} */
 const shared = {
-	logLevel: 'warn',
 	platform: 'browser',
 	format: 'es',
 	outDir: 'distribution/assets',

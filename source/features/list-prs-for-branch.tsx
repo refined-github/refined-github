@@ -2,9 +2,9 @@ import React from 'dom-chef';
 
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
-import {addAfterBranchSelector, isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
+import {isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
-import {branchSelectorParent} from '../github-helpers/selectors.js';
+import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 
@@ -18,7 +18,7 @@ const stateColorMap = {
 	/* eslint-enable @typescript-eslint/naming-convention */
 };
 
-async function add(parent: HTMLDetailsElement): Promise<void | false> {
+async function add(branchSelectorButton: HTMLElement): Promise<void | false> {
 	const prsByBranch = await pullRequestsAssociatedWithBranch.get();
 	const currentBranch = getCurrentGitRef()!;
 	const prInfo = prsByBranch[currentBranch];
@@ -28,12 +28,13 @@ async function add(parent: HTMLDetailsElement): Promise<void | false> {
 
 	const StateIcon = stateIcon[prInfo.state];
 
-	addAfterBranchSelector(
-		parent,
+	branchSelectorButton.after(
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
 			className="btn flex-self-center rgh-list-prs-for-branch"
+			// Keep the filters on the right
+			style={{marginRight: 'auto'}}
 			data-hovercard-type="pull_request"
 			data-hovercard-url={prInfo.url + '/hovercard'}
 		>
@@ -44,7 +45,7 @@ async function add(parent: HTMLDetailsElement): Promise<void | false> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe(branchSelectorParent, add, {signal});
+	observe(branchSelector, add, {signal});
 }
 
 void features.add(import.meta.url, {

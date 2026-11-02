@@ -147,6 +147,7 @@ export default defineConfig([
 		files: ['source/features/**/*.tsx'],
 		rules: {
 			'refined-github/no-optional-chaining': 'error',
+			'refined-github/consistent-feature-add': 'error',
 			'unicorn/no-top-level-side-effects': 'off', // Incompatible with the features that export helpers
 			'import-x/prefer-default-export': 'off', // Incompatible with the features that export helpers
 		},
