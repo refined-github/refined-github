@@ -7,6 +7,7 @@
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
+	import {getPastedText, readClipboardText} from './options/clipboard.js';
 	import Header from './options/header.svelte';
 
 	let stepVisible = $state(1);
@@ -36,6 +37,10 @@
 		// @ts-expect-error TS and its index signatures...
 		optionsStorage.set({personalToken: [tokenInput]});
 	});
+
+	async function pasteToken(): Promise<void> {
+		tokenInput = await readClipboardText();
+	}
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
@@ -127,15 +132,17 @@
 				class:visible={stepVisible >= 3}
 				class="will-show"
 			>
-				<label for="token-input">Paste token:</label>
-				<input
-					id="token-input"
-					type="text"
-					size="10"
-					autocomplete="off"
-					name="personalToken[]"
-					bind:value={tokenInput}
-				/>
+				<input type="hidden" name="personalToken[]" value={tokenInput} />
+				<button
+					type="button"
+					onclick={pasteToken}
+					onpaste={(event: ClipboardEvent) => {
+						event.preventDefault();
+						tokenInput = getPastedText(event);
+					}}
+				>
+					Paste token
+				</button>
 				{#if tokenError}
 					<span class="error">{tokenError}</span>
 				{/if}
@@ -212,23 +219,6 @@
 	li {
 		margin-block: 1em;
 		padding-left: 1.8em;
-	}
-
-	input {
-		background: light-dark(#f6f8fa, #151b23);
-		border: solid 1px light-dark(#d0d9e0, #3d444d);
-		border-radius: 6px;
-		padding: 5px 12px;
-		font-size: inherit;
-		line-height: 20px;
-		margin-left: 0.5em;
-	}
-
-	input:focus {
-		background: light-dark(#fff, #0d1117);
-		border-color: #1f6feb;
-		box-shadow: inset 0 0 0 1px #1f6feb;
-		outline: none;
 	}
 
 	li::before {

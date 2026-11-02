@@ -1,9 +1,11 @@
 <script lang="ts">
 	import {closestElement} from 'select-dom';
+	import {tick} from 'svelte';
 	import {assertError} from 'ts-extras';
 
 	import DomChef from '../components/dom-chef.svelte';
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
+	import {copyText, getPastedText, readClipboardText} from './clipboard.js';
 	import {
 		apiFeaturesUrl,
 		defaultIcon,
@@ -34,6 +36,27 @@
 	const shown = $derived(!isEmpty || index <= revealed);
 	const active = $derived(revealed === index);
 	const compact = $derived(revealed > 0);
+
+	let copied = $state(false);
+
+	// The field is `hidden`, so the form must be told about changes manually
+	async function setToken(value: string): Promise<void> {
+		tokenValue = value;
+		await tick();
+		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
+	}
+
+	async function paste(): Promise<void> {
+		await setToken(await readClipboardText());
+	}
+
+	async function copy(): Promise<void> {
+		await copyText(tokenValue);
+		copied = true;
+		setTimeout(() => {
+			copied = false;
+		}, 1500);
+	}
 
 	function expandTokenSection(): void {
 		closestElement('details', tokenField).open = true;
@@ -128,21 +151,27 @@
 	</span>
 {/snippet}
 
-<fieldset hidden={!shown}>
+<fieldset
+	hidden={!shown}
+	onpaste={async (event: ClipboardEvent) => {
+		event.preventDefault();
+		await setToken(getPastedText(event));
+	}}
+>
 	{#await settled then result}
 		<input type="hidden" name="username" value={result?.user} />
 	{/await}
 	<input
 		bind:this={tokenField}
 		bind:value={tokenValue}
-		type="text"
+		type="hidden"
 		name="personalToken[]"
-		spellcheck="false"
-		autocomplete="off"
-		autocapitalize="off"
-		size="20"
-		class="monospace-field token-field"
 	/>
+	<button type="button" onclick={paste}>Paste</button>
+	{#if !isEmpty}
+		<button type="button" onclick={copy}>{copied ? 'Copied' : 'Copy'}</button>
+		<button type="button" onclick={() => setToken('')}>Remove</button>
+	{/if}
 	{#if compact}
 		{#await settled}
 			{@render compactScopesList()}
@@ -192,10 +221,6 @@
 		border-radius: 0.375em;
 		background: color-mix(in srgb, currentColor 8%, transparent);
 		font-size: 0.8em;
-	}
-
-	.token-field:not(:focus) {
-		-webkit-text-security: circle;
 	}
 
 	.compact-scopes {
