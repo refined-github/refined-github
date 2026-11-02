@@ -6,6 +6,14 @@ const requiresLogin: UrlMatch[] = [];
 
 export type UrlMatch = [expectations: number, url: string];
 
+// GitHub uses different render strategies depending on the "Command Palette" Feature Preview setting
+// - Enabled: Catalyst is used, and `.loaded` is present
+// - Disabled: SSR is used, and `[data-render-ssr]` is present
+export const loaded = ':is(.loaded, [data-render-ssr])';
+export const loaded_ = [
+	[1, 'https://github.com/refined-github/refined-github'],
+] satisfies UrlMatch[];
+
 export const standaloneGistLinkInMarkdown = `
 	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
 		[href^="https://gist.github.com/"],
@@ -32,9 +40,6 @@ export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/sandbox/commits/branch/with/slashes'],
 	[1, 'https://github.com/refined-github/sandbox/commits'],
 ] satisfies UrlMatch[];
-
-export const branchSelectorParent = 'details#branch-select-menu';
-export const branchSelectorParent_ = branchSelector_;
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
 export const directoryListingFileIcon =
@@ -212,9 +217,16 @@ export const botLinksPrSelectors = [
 	]),
 	'.opened-by [href*="author%3Aapp%2F"]', // Search query `is:pr+author:app/*`
 	'.labels [href$="label%3Abot"]', // PR tagged with `bot` label
+
+	// React PR lists
+	'a[data-testid="author-filter-link"][aria-label$="[bot]"]',
+	'a[data-testid="author-filter-link"][href*="author%3Aapp%2F"]',
+	...botNames.map(bot => `a[data-testid="author-filter-link"][aria-label$=" ${bot}"]`),
+	'button[aria-label="Filter by label bot"]', // PR tagged with `bot` label
 ];
 export const botLinksPrSelectors_ = [
 	[1, 'https://github.com/sun-zheng-an/gulp-shell/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed+lodash'],
+	[25, 'https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed'],
 ];
 
 export const botLinksNotificationSelectors = [
@@ -264,10 +276,6 @@ export const actionBar = [
 	'action-bar', // Still used in gists, PRs, etc
 ];
 export const actionBar_ = requiresLogin;
-
-export const prMergeabilityBoxHeader =
-	'section[aria-label="Conflicts"] div[class^="MergeBoxSectionHeader-module__wrapper"]';
-export const prMergeabilityBoxHeader_ = requiresLogin;
 
 export const prMergeabilityBoxCaption = 'section[aria-label="Conflicts"] h3 + .fgColor-muted';
 export const prMergeabilityBoxCaption_ = requiresLogin;

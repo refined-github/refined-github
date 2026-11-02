@@ -23,10 +23,10 @@ const hiddenClassName = 'rgh-conversation-activity-filtered-event';
 const collapsedClassName = 'rgh-conversation-activity-collapsed-comment';
 const botClassName = 'rgh-conversation-activity-bot-comment';
 const timeline = [
-	// PR
+	// PR, issue
 	'[class^="prc-PageLayout-PageLayoutWrapper"]',
-	// Issue
-	'[class*="IssueViewer-module__mainContainer"]',
+	// Issue, old. TODO: Drop in 2027
+	'[class*="mainContainer"]',
 ] as const;
 const timelineItem = [
 	'.js-timeline-item',
@@ -145,6 +145,8 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[class*="menuActionsContainer"]',
 			// PR view
 			'[data-component="PageHeader"][data-has-nav] [data-component="PH_Actions"]',
+			// PR view (sticky header)
+			'[class*="prTitleArea"]',
 		],
 		addWidget,
 		{signal},

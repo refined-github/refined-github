@@ -12,8 +12,9 @@ function init(signal: AbortSignal): void {
 	delegate(
 		[
 			'a[href$="/issues/new/choose"]', // New issue button
-			'a[class*="SubIssueTitle"]', // Sub-issue links
-			'a[data-testid="issue-pr-title-link"]', // Global issue list links
+			'a[class*="SubIssueTitle"]', // Sub-issue links // TODO: Drop in March 2027
+			'a[data-nested-list-view-component="title-link"]', // Sub-issue links
+			'a[data-testid="issue-listitem-title-link"]', // Global issue links
 		],
 		'click',
 		fix,
