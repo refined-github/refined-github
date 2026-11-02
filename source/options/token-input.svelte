@@ -5,7 +5,7 @@
 
 	import DomChef from '../components/dom-chef.svelte';
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
-	import {copyText, getPastedText, readClipboardText} from './clipboard.js';
+	import {allowOnlyPaste, copyText} from './paste-only.js';
 	import {
 		apiFeaturesUrl,
 		defaultIcon,
@@ -39,15 +39,12 @@
 
 	let copied = $state(false);
 
-	// The field is `hidden`, so the form must be told about changes manually
-	async function setToken(value: string): Promise<void> {
-		tokenValue = value;
-		await tick();
+	// Setting the value doesn't notify the form, so it's done through an event
+	async function remove(): Promise<void> {
+		tokenField.value = '';
 		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
-	}
-
-	async function paste(): Promise<void> {
-		await setToken(await readClipboardText());
+		await tick();
+		tokenField.focus();
 	}
 
 	async function copy(): Promise<void> {
@@ -151,26 +148,28 @@
 	</span>
 {/snippet}
 
-<fieldset
-	hidden={!shown}
-	onpaste={async (event: ClipboardEvent) => {
-		event.preventDefault();
-		await setToken(getPastedText(event));
-	}}
->
+<fieldset hidden={!shown}>
 	{#await settled then result}
 		<input type="hidden" name="username" value={result?.user} />
 	{/await}
+	<!-- Only invites pasting, then it's hidden. It stays in the form to be saved -->
 	<input
 		bind:this={tokenField}
 		bind:value={tokenValue}
-		type="hidden"
+		hidden={!isEmpty}
+		type="text"
 		name="personalToken[]"
+		placeholder="Paste token"
+		spellcheck="false"
+		autocomplete="off"
+		autocapitalize="off"
+		size="20"
+		class="monospace-field"
+		onbeforeinput={allowOnlyPaste}
 	/>
-	<button type="button" onclick={paste}>Paste</button>
 	{#if !isEmpty}
 		<button type="button" onclick={copy}>{copied ? 'Copied' : 'Copy'}</button>
-		<button type="button" onclick={() => setToken('')}>Remove</button>
+		<button type="button" onclick={remove}>Remove</button>
 	{/if}
 	{#if compact}
 		{#await settled}

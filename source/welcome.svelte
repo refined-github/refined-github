@@ -7,7 +7,7 @@
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
-	import {getPastedText, readClipboardText} from './options/clipboard.js';
+	import {allowOnlyPaste} from './options/paste-only.js';
 	import Header from './options/header.svelte';
 
 	let stepVisible = $state(1);
@@ -37,10 +37,6 @@
 		// @ts-expect-error TS and its index signatures...
 		optionsStorage.set({personalToken: [tokenInput]});
 	});
-
-	async function pasteToken(): Promise<void> {
-		tokenInput = await readClipboardText();
-	}
 
 	const origins = ['https://github.com/*', 'https://gist.github.com/*'];
 
@@ -132,19 +128,28 @@
 				class:visible={stepVisible >= 3}
 				class="will-show"
 			>
-				<input type="hidden" name="personalToken[]" value={tokenInput} />
-				<button
-					type="button"
-					onclick={pasteToken}
-					onpaste={(event: ClipboardEvent) => {
-						event.preventDefault();
-						tokenInput = getPastedText(event);
-					}}
-				>
-					Paste token
-				</button>
+				<!-- Only invites pasting, then it's hidden. It stays in the form to be saved -->
+				<input
+					bind:value={tokenInput}
+					hidden={tokenInput !== ''}
+					type="text"
+					name="personalToken[]"
+					placeholder="Paste token"
+					size="10"
+					autocomplete="off"
+					onbeforeinput={allowOnlyPaste}
+				/>
 				{#if tokenError}
 					<span class="error">{tokenError}</span>
+					<button
+						type="button"
+						onclick={() => {
+							tokenInput = '';
+							tokenError = '';
+						}}
+					>
+						Try again
+					</button>
 				{/if}
 			</li>
 		</ul>
@@ -219,6 +224,23 @@
 	li {
 		margin-block: 1em;
 		padding-left: 1.8em;
+	}
+
+	input {
+		background: light-dark(#f6f8fa, #151b23);
+		border: solid 1px light-dark(#d0d9e0, #3d444d);
+		border-radius: 6px;
+		padding: 5px 12px;
+		font-size: inherit;
+		line-height: 20px;
+		margin-left: 0.5em;
+	}
+
+	input:focus {
+		background: light-dark(#fff, #0d1117);
+		border-color: #1f6feb;
+		box-shadow: inset 0 0 0 1px #1f6feb;
+		outline: none;
 	}
 
 	li::before {
