@@ -7,7 +7,7 @@ import observe from '../helpers/selector-observer.js';
 function parseTime(element: HTMLElement): number {
 	// `datetime` can be missing before hydration. `NaN` keeps the time visible
 	const datetime = element.getAttribute('datetime');
-	return datetime ? Date.parse(datetime) : Number.NaN;
+	return datetime ? Date.parse(datetime) : NaN;
 }
 
 function remove(issue: HTMLElement): void {
@@ -23,12 +23,16 @@ function remove(issue: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe([
-		// Legacy lists
-		'.js-navigation-item[id^="issue_"]',
-		// React lists. The "Updated" part is a sibling of the state change time, in the same container
-		'li[class*="listItem"] [data-testid="timestamp-container"]',
-	], remove, {signal});
+	observe(
+		[
+			// Legacy lists
+			'.js-navigation-item[id^="issue_"]',
+			// React lists. The "Updated" part is a sibling of the state change time, in the same container
+			'li[class*="listItem"] [data-testid="timestamp-container"]',
+		],
+		remove,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {
