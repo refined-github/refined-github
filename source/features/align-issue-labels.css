@@ -1,7 +1,8 @@
 html:not([rgh-OFF-align-issue-labels]) {
 	div[class*='row__'],
 	/* `[data-label-id]` skips the rows of the repository labels list */
-	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact'], [data-label-id]) {
+	ul[class*='withMetadata']
+		> li[class*='listItem']:not([class*='compact'], [data-label-id]) {
 		/* Only rows with labels, so the org repositories list is left alone */
 		&:has(button[aria-label^='Filter by label']) {
 			div[class*='container']:has(> [class*='heading']) {
