@@ -16,6 +16,9 @@ import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 
+export const buttonGroupClass = 'rgh-default-branch-button-group';
+export const buttonGroupSelector = `.${buttonGroupClass}`;
+
 const getUrl = memoize(async (currentUrl: string): Promise<string> => {
 	const defaultUrl = new GitHubFileUrl(currentUrl);
 	if (pageDetect.isRepoRoot()) {
@@ -34,7 +37,7 @@ async function updateUrl({currentTarget: link}: React.MouseEvent<HTMLAnchorEleme
 }
 
 function wrapButtons(buttons: HTMLElement[]): void {
-	groupButtons(buttons, 'd-flex', 'rgh-default-branch-button-group');
+	groupButtons(buttons, 'd-flex', buttonGroupClass);
 
 	// `rounded-left-0` is for Firefox
 	// https://github.com/refined-github/refined-github/pull/8030

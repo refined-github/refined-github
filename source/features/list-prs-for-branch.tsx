@@ -7,6 +7,7 @@ import {isPermalink, isRepoCommitListRoot} from '../github-helpers/index.js';
 import isDefaultBranch from '../github-helpers/is-default-branch.js';
 import {branchSelector} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
+import {buttonGroupSelector} from './default-branch-button.js';
 import {pullRequestsAssociatedWithBranch, stateIcon} from './show-associated-branch-prs-on-fork.js';
 
 // Taken from https://github.com/fregante/github-issue-link-status/blob/98792f2837352bacbf80664f3edbcec8e579ed17/source/github-issue-link-status.js#L10
@@ -30,7 +31,7 @@ async function add(branchSelectorButton: HTMLElement): Promise<void | false> {
 	const StateIcon = stateIcon[prInfo.state];
 
 	// `default-branch-button` may have already grouped the selector; stay outside of the group
-	(closestElementOptional('.rgh-default-branch-button-group', branchSelectorButton) ?? branchSelectorButton).after(
+	(closestElementOptional(buttonGroupSelector, branchSelectorButton) ?? branchSelectorButton).after(
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
