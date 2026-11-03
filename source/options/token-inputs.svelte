@@ -11,8 +11,12 @@
 	function reveal(index: number): void {
 		revealed = Math.max(revealed, index);
 	}
+
+	function collapse(index: number): void {
+		revealed = Math.min(revealed, index - 1);
+	}
 </script>
 
 {#each {length: slots} as _, index (index)}
-	<TokenInput {host} {index} {revealed} {reveal} last={index === slots - 1} />
+	<TokenInput {host} {index} {revealed} {reveal} {collapse} last={index === slots - 1} />
 {/each}

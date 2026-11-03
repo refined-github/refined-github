@@ -21,12 +21,13 @@
 		type TokenValidation,
 	} from './validate-token.js';
 
-	const {host, index, revealed, last, reveal}: {
+	const {host, index, revealed, last, reveal, collapse}: {
 		host?: string;
 		index: number;
 		revealed: number; // Highest visible index
 		last: boolean;
 		reveal: (_index: number) => void;
+		collapse: (_index: number) => void;
 	} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
@@ -44,7 +45,12 @@
 		tokenField.value = '';
 		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
 		await tick();
-		tokenField.focus();
+		// Extra users disappear when they're the last one, restoring "+ add user"
+		if (index === revealed && index > 0) {
+			collapse(index);
+		} else {
+			tokenField.focus();
+		}
 	}
 
 	async function copy(): Promise<void> {
@@ -167,10 +173,6 @@
 		class="monospace-field"
 		onbeforeinput={allowOnlyPaste}
 	/>
-	{#if !isEmpty}
-		<button type="button" onclick={copy}>{copied ? 'Copied' : 'Copy'}</button>
-		<button type="button" onclick={remove}>Remove</button>
-	{/if}
 	{#if compact}
 		{#await settled}
 			{@render compactScopesList()}
@@ -184,17 +186,27 @@
 		<span>
 			{result?.message ?? ''}
 		</span>
-		{#if active && !last && result}
-			<button type="button" onclick={() => reveal(index + 1)}>
-				+ add user
-			</button>
-		{/if}
 	{:catch error}
 		<span>
 			{@render validationIcon('invalid')}
 			{error.message}
 		</span>
 	{/await}
+	{#if !isEmpty}
+		<button type="button" onclick={copy}>
+			{copied ? 'Copied' : 'Copy token'}
+		</button>
+		<button type="button" onclick={remove}>Remove</button>
+	{/if}
+	{#if active && !last}
+		{#await settled then result}
+			{#if result}
+				<button type="button" onclick={() => reveal(index + 1)}>
+					+ add user
+				</button>
+			{/if}
+		{/await}
+	{/if}
 </fieldset>
 
 {#if active}
