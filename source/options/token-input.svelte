@@ -174,10 +174,9 @@
 		autocomplete="off"
 		autocapitalize="off"
 		size="20"
-		class="monospace-field"
 		onbeforeinput={allowOnlyPaste}
 	/>
-	{#if compact}
+	{#if compact && !isEmpty}
 		{#await settled}
 			{@render compactScopesList()}
 		{:then result}
