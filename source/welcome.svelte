@@ -8,7 +8,6 @@
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
 	import optionsStorage from './options-storage.js';
 	import Header from './options/header.svelte';
-	import {allowOnlyPaste} from './options/paste-only.js';
 
 	let stepVisible = $state(1);
 	let stepValid = $state(0);
@@ -128,28 +127,17 @@
 				class:visible={stepVisible >= 3}
 				class="will-show"
 			>
-				<!-- Only invites pasting, then it's hidden. It stays in the form to be saved -->
+				<label for="token-input">Paste token:</label>
 				<input
-					bind:value={tokenInput}
-					hidden={tokenInput !== ''}
+					id="token-input"
 					type="text"
-					name="personalToken[]"
-					placeholder="Paste token"
 					size="10"
 					autocomplete="off"
-					onbeforeinput={allowOnlyPaste}
+					name="personalToken[]"
+					bind:value={tokenInput}
 				/>
 				{#if tokenError}
 					<span class="error">{tokenError}</span>
-					<button
-						type="button"
-						onclick={() => {
-							tokenInput = '';
-							tokenError = '';
-						}}
-					>
-						Try again
-					</button>
 				{/if}
 			</li>
 		</ul>
