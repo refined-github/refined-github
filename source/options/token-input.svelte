@@ -159,7 +159,8 @@
 
 <fieldset hidden={!shown}>
 	{#await settled then result}
-		<input type="hidden" name="username" value={result?.user} />
+		<!-- No `name`: every named input in the form is saved to the storage -->
+		<input type="hidden" autocomplete="username" value={result?.user} />
 	{/await}
 	<!-- Only invites pasting, then it's hidden. It stays in the form to be saved -->
 	<input
