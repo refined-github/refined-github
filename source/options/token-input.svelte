@@ -105,9 +105,12 @@
 
 {#snippet validationIcon(state?: ScopeState, title?: string)}
 	{@const {Icon, color} = state ? SCOPE_ICON[state] : defaultIcon}
-	<span {title}>
+	<!-- SVG attributes can't show a tooltip, so only wrap when there's a title -->
+	{#if title}
+		<span {title}><DomChef as={Icon} style={{color}} /></span>
+	{:else}
 		<DomChef as={Icon} style={{color}} />
-	</span>
+	{/if}
 {/snippet}
 
 {#snippet scopesList(scopes?: string[])}
@@ -225,6 +228,11 @@
 		padding: 0;
 		border: none;
 		margin-bottom: 1em;
+	}
+
+	fieldset :global(.octicon),
+	li :global(.octicon) {
+		vertical-align: middle;
 	}
 
 	code {
