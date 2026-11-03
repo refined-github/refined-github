@@ -18,27 +18,18 @@
 		fields[index] = field;
 	}
 
-	// Removes the row by shifting the next tokens up. All values are set before
-	// any event is dispatched, so the form is never saved with a gap
-	function removeAt(index: number): void {
-		const values = fields.map(field => field.value);
-		values.splice(index, 1);
-		values.push('');
+	// Values are all set before the events, so the form is never saved with a gap
+	function removeAt(removed: number): void {
+		const tokens = fields
+			.map(field => field.value)
+			.filter((value, index) => value && index !== removed);
+		revealed = Math.max(0, tokens.length - 1);
 
-		const changed: HTMLInputElement[] = [];
-		for (const [fieldIndex, field] of fields.entries()) {
-			if (field.value === values[fieldIndex]) {
-				continue;
-			}
-
-			field.value = values[fieldIndex]!;
-			changed.push(field);
+		for (const [index, field] of fields.entries()) {
+			field.value = tokens[index] ?? '';
 		}
 
-		revealed = Math.max(0, values.findLastIndex(value => value.trim() !== ''));
-
-		// Setting the value doesn't notify the form, so it's done through events
-		for (const field of changed) {
+		for (const field of fields) {
 			field.dispatchEvent(new InputEvent('input', {bubbles: true}));
 		}
 	}
