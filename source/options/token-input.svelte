@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {closestElement} from 'select-dom';
-	import {tick} from 'svelte';
+	import {onMount, tick} from 'svelte';
 	import {assertError} from 'ts-extras';
 
 	import DomChef from '../components/dom-chef.svelte';
@@ -21,14 +21,14 @@
 		type TokenValidation,
 	} from './validate-token.js';
 
-	const {host, index, revealed, last, reveal, collapse, setFilled}: {
+	const {host, index, revealed, last, reveal, removeAt, registerField}: {
 		host?: string;
 		index: number;
 		revealed: number; // Highest visible index
 		last: boolean;
 		reveal: (_index: number) => void;
-		collapse: (_index: number) => void;
-		setFilled: (_index: number, _filled: boolean) => void;
+		removeAt: (_index: number) => void;
+		registerField: (_index: number, _field: HTMLInputElement) => void;
 	} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
@@ -41,12 +41,12 @@
 
 	let copied = $state(false);
 
-	// Setting the value doesn't notify the form, so it's done through an event
+	onMount(() => {
+		registerField(index, tokenField);
+	});
+
 	async function remove(): Promise<void> {
-		tokenField.value = '';
-		tokenField.dispatchEvent(new InputEvent('input', {bubbles: true}));
-		// Drops trailing empty fields, restoring "Add user"
-		collapse(index);
+		removeAt(index);
 		await tick();
 		if (shown) {
 			tokenField.focus();
@@ -97,7 +97,6 @@
 	const tokenPromise = $derived(validateToken(tokenValue));
 	const settled = $derived(tokenPromise.catch(() => undefined));
 	$effect(() => {
-		setFilled(index, !isEmpty);
 		if (!isEmpty) {
 			reveal(index);
 		}
