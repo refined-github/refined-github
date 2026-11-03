@@ -1,4 +1,5 @@
 import React from 'dom-chef';
+import {closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
 import getCurrentGitRef from '../github-helpers/get-current-git-ref.js';
@@ -28,7 +29,8 @@ async function add(branchSelectorButton: HTMLElement): Promise<void | false> {
 
 	const StateIcon = stateIcon[prInfo.state];
 
-	branchSelectorButton.after(
+	// `default-branch-button` may have already grouped the selector; stay outside of the group
+	(closestElementOptional('.rgh-default-branch-button-group', branchSelectorButton) ?? branchSelectorButton).after(
 		<a
 			data-issue-and-pr-hovercards-enabled
 			href={prInfo.url}
