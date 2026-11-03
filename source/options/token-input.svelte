@@ -105,12 +105,9 @@
 
 {#snippet validationIcon(state?: ScopeState, title?: string)}
 	{@const {Icon, color} = state ? SCOPE_ICON[state] : defaultIcon}
-	<!-- SVG attributes can't show a tooltip, so only wrap when there's a title -->
-	{#if title}
-		<span {title}><DomChef as={Icon} style={{color}} /></span>
-	{:else}
+	<span {title}>
 		<DomChef as={Icon} style={{color}} />
-	{/if}
+	</span>
 {/snippet}
 
 {#snippet scopesList(scopes?: string[])}
