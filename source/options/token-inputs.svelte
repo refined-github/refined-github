@@ -12,11 +12,21 @@
 		revealed = Math.max(revealed, index);
 	}
 
-	function collapse(index: number): void {
-		revealed = Math.min(revealed, index - 1);
+	const filled = $state<boolean[]>([]);
+
+	function setFilled(index: number, value: boolean): void {
+		filled[index] = value;
+	}
+
+	// Shows up to the last token that's left, ignoring the one being removed
+	function collapse(removed: number): void {
+		revealed = Math.max(
+			0,
+			filled.findLastIndex((value, index) => value && index !== removed),
+		);
 	}
 </script>
 
 {#each {length: slots} as _, index (index)}
-	<TokenInput {host} {index} {revealed} {reveal} {collapse} last={index === slots - 1} />
+	<TokenInput {host} {index} {revealed} {reveal} {collapse} {setFilled} last={index === slots - 1} />
 {/each}
