@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import elementReady from 'element-ready';
 import * as pageDetect from 'github-url-detection';
-import {$, $optional} from 'select-dom';
+import {$} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -34,11 +34,6 @@ const countPrs = new CachedFunction('prs-on-forked-repo', {
 	cacheKey: ([forkedRepo]): string => `${forkedRepo}:${getRepo()!.nameWithOwner}`,
 });
 
-function getParentRepo(): string | undefined {
-	const parentLink = $optional<HTMLAnchorElement>('[data-testid="fork-parent"] a');
-	return parentLink ? parentLink.pathname.slice(1) : getForkedRepo();
-}
-
 // eslint-disable-next-line @typescript-eslint/no-restricted-types
 async function getPrs(): Promise<[prCount: number, url: string] | []> {
 	// Wait for the tab bar to be loaded
@@ -48,7 +43,7 @@ async function getPrs(): Promise<[prCount: number, url: string] | []> {
 		return [];
 	}
 
-	const forkedRepo = getParentRepo()!;
+	const forkedRepo = getForkedRepo()!;
 	const {count, firstPr} = await countPrs.get(forkedRepo);
 	if (count === 1) {
 		return [count, `/${forkedRepo}/pull/${firstPr!}`];
@@ -66,7 +61,7 @@ async function initHeadHint(signal: AbortSignal): Promise<void | false> {
 	}
 
 	// Use the observer because GitHub randomly updates the header and removes the hint after load
-	observe(`[data-hovercard-type="repository"][href="/${getParentRepo()!}"]`, (repoHeader): void => {
+	observe(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`, (repoHeader): void => {
 		repoHeader.after(
 			' with ',
 			<a href={url}>{pluralize(count, 'one open pull request', '$$+ open pull requests')}</a>,
@@ -83,7 +78,7 @@ async function initDeleteHint(): Promise<void | false> {
 	$('#repo-delete-proceed-button-container').before(
 		<p className="flash flash-warn">
 			It will also close your <a href={url}>{pluralize(count, 'open pull request', '$$+ open pull requests')}</a> in{' '}
-			<strong>{getParentRepo()!}</strong>.
+			<strong>{getForkedRepo()!}</strong>.
 		</p>,
 	);
 }
