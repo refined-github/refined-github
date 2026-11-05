@@ -9,6 +9,7 @@
 		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
+		"exactOptionalPropertyTypes": false,
 		"resolveJsonModule": true,
 		"verbatimModuleSyntax": true,
 		"lib": [
