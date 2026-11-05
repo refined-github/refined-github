@@ -35,16 +35,6 @@ import {getToken, isSameUser, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
 import {api3, api4} from './urls.js';
 
-type JsonError = {
-	message: string;
-};
-
-type GraphQlResponse = {
-	message?: string;
-	data?: JsonObject;
-	errors?: JsonError[];
-};
-
 type RestResponse = AnyObject & {
 	httpStatus: number;
 	headers: Headers;
@@ -135,17 +125,19 @@ async function getError(apiResponse: JsonObject): Promise<RefinedGitHubApiError>
 		const error = new RefinedGitHubApiError(
 			'Your organization requires a specific type of token.',
 		);
-		error.richMessage = <>
-			Your organization requires a specific type of token.{' '}
-			<a
-				href="https://github.com/refined-github/refined-github/wiki/Security#token"
-				target="_blank"
-				rel="noreferrer"
-				style={{color: 'inherit', textDecoration: 'underline'}}
-			>
-				Fix…
-			</a>
-		</>;
+		error.richMessage = (
+			<>
+				Your organization requires a specific type of token.{' '}
+				<a
+					href="https://github.com/refined-github/refined-github/wiki/Security#token"
+					target="_blank"
+					rel="noreferrer"
+					style={{color: 'inherit', textDecoration: 'underline'}}
+				>
+					Fix…
+				</a>
+			</>
+		);
 		return error;
 	}
 
@@ -255,6 +247,14 @@ const v4uncached = async (
 	query: string,
 	options: GhGraphQlApiOptions = v4defaults,
 ): Promise<AnyObject> => {
+	type JsonError = {
+		message: string;
+	};
+	type GraphQlResponse = {
+		message?: string;
+		data?: JsonObject;
+		errors?: JsonError[];
+	};
 	const personalToken = await getToken();
 
 	if (!personalToken) {

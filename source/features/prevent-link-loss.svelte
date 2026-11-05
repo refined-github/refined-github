@@ -10,7 +10,7 @@
 		isVulnerableToLinkLoss,
 	} from '../github-helpers/prevent-link-loss.js';
 
-	const {field} = $props<{field: HTMLTextAreaElement}>();
+	const {field}: {field: HTMLTextAreaElement} = $props();
 	let visible = $state(false);
 
 	function update(): void {
