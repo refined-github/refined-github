@@ -8,7 +8,6 @@ import selectDom from 'select-dom/eslint-plugin';
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	globalIgnores(['safari', 'package-lock.json']),
 	...eslintConfigXo({

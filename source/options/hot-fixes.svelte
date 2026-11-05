@@ -60,7 +60,7 @@
 	<h3>Disabled features</h3>
 	<p>
 		{#await brokenFeaturesPromise then features}
-			{#if features.length}
+			{#if features.length > 0}
 				<textarea readonly class="text-monospace"
 				>{
 						features.map(line => line.join(' ')).join('\n')

@@ -99,7 +99,7 @@ summary::-webkit-details-marker {
 }
 
 summary:hover {
-	background: light-dark(#e3e9ef, #0e1012);
+	background-color: light-dark(#e3e9ef, #0e1012);
 }
 
 svg {

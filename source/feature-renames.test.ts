@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {expect, test} from 'vitest';
 
-import featureRenames from './feature-renames.json' with { type: 'json' };
+import featureRenames from './feature-renames.json' with {type: 'json'};
 
 const oldNames = Object.keys(featureRenames);
 const newNames = Object.values(featureRenames);
