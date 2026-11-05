@@ -1,12 +1,10 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "./distribution/assets",
-		"rootDir": "./",
+		"noEmit": true,
 		"module": "preserve",
 		"moduleResolution": "bundler",
 		"jsx": "react",
-		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"exactOptionalPropertyTypes": false,
