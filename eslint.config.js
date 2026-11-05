@@ -109,7 +109,9 @@ export default defineConfig([
 	{
 		files: ['**/*.ts', '**/*.tsx'],
 		rules: {
+			'@stylistic/jsx-self-closing-comp': 'error',
 			'@typescript-eslint/no-use-before-define': 'error',
+
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-unsafe-argument': 'off',

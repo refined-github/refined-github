@@ -146,7 +146,7 @@ function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 			aria-keyshortcuts="v"
-		></a>
+		 />
 	);
 	link.append(...menuItemContentWrapper.childNodes);
 	menuItemContentWrapper.replaceWith(link);
