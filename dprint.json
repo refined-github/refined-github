@@ -28,6 +28,7 @@
 		"semicolons": "prefer",
 		"lineWidth": 120,
 		"jsx.multiLineParens": "prefer",
+		// FUTURE: No support for {}-less selectors yet
 		"taggedTemplate.formatEmbedded": false,
 		"spaceSurroundingProperties": false,
 		"importDeclaration.spaceSurroundingNamedImports": false,
