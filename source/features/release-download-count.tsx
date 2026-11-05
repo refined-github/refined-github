@@ -20,7 +20,6 @@ import {createHeatIndexFunction} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleaseDownloadCount from './release-download-count.gql';
 
-
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 	type Asset = {
 		name: string;

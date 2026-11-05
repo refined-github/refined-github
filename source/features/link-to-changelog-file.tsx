@@ -9,7 +9,6 @@ import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
-
 const changelogFiles =
 	/^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
 function findChangelogName(files: string[]): string | false {

@@ -53,7 +53,6 @@ const reactorsQuery = `
 	}
 `;
 
-
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 

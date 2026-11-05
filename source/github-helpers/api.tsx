@@ -35,8 +35,6 @@ import {getToken, isSameUser, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
 import {api3, api4} from './urls.js';
 
-
-
 type RestResponse = AnyObject & {
 	httpStatus: number;
 	headers: Headers;

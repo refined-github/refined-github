@@ -24,7 +24,6 @@ type RepoPublishState = {
 	aheadBy: number;
 };
 
-
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {

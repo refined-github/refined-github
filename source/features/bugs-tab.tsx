@@ -15,7 +15,6 @@ import onetime from '../helpers/onetime.js';
 import CountExactBugs from './bugs-tab-exact.gql';
 import CountBugs from './bugs-tab.gql';
 
-
 type Bugs = {
 	label?: string;
 	count: number;
