@@ -53,10 +53,6 @@ const reactorsQuery = `
 	}
 `;
 
-type ReactionGroup = {
-	content: string;
-	reactors: {nodes: Array<{login: string; avatarUrl: string}>};
-};
 
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
@@ -151,6 +147,10 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 
 	const currentUser = getLoggedInUser();
 	for (const [id, container] of containersById) {
+		type ReactionGroup = {
+			content: string;
+			reactors: {nodes: Array<{login: string; avatarUrl: string}>};
+		};
 		const {reactionGroups}: {reactionGroups: ReactionGroup[]} = id
 			? data[api.escapeKey(id)]
 			: data.repository.issueOrPullRequest;

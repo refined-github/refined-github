@@ -15,22 +15,6 @@ import onetime from '../helpers/onetime.js';
 import CountExactBugs from './bugs-tab-exact.gql';
 import CountBugs from './bugs-tab.gql';
 
-type ApiResponse = {
-	typeBug: {
-		totalCount: number;
-	};
-	issues: {
-		totalCount: number;
-	};
-	labels: {
-		nodes: Array<{
-			name: string;
-			issues: {
-				totalCount: number;
-			};
-		}>;
-	};
-};
 
 type Bugs = {
 	label?: string;
@@ -42,6 +26,22 @@ function getFullSearchQuery(bugsLabel: string | undefined): string {
 }
 
 async function countBugs(): Promise<Bugs> {
+	type ApiResponse = {
+		typeBug: {
+			totalCount: number;
+		};
+		issues: {
+			totalCount: number;
+		};
+		labels: {
+			nodes: Array<{
+				name: string;
+				issues: {
+					totalCount: number;
+				};
+			}>;
+		};
+	};
 	const {repository} = await api.v4(CountBugs) as {repository: ApiResponse};
 	const bugTypeCount = repository.typeBug.totalCount;
 

@@ -9,10 +9,6 @@ import api from '../github-helpers/api.js';
 import {buildRepoUrl, getRepo} from '../github-helpers/index.js';
 import GetFilesOnRoot from './link-to-changelog-file.gql';
 
-type FileType = {
-	name: string;
-	type: string;
-};
 
 const changelogFiles =
 	/^(?:changelog|news|changes|history|release|whatsnew)(?:\.(?:mdx?|mkdn?|mdwn|mdown|markdown|litcoffee|txt|rst))?$/i;
@@ -22,6 +18,10 @@ function findChangelogName(files: string[]): string | false {
 
 const changelogName = new CachedFunction('changelog', {
 	async updater(nameWithOwner: string): Promise<string | false> {
+		type FileType = {
+			name: string;
+			type: string;
+		};
 		const [owner, name] = nameWithOwner.split('/', 2);
 		const {repository} = await api.v4(GetFilesOnRoot, {
 			variables: {name, owner},
