@@ -1,0 +1,67 @@
+.rgh-group-stacked-prs {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Tree connector from the header's checkbox column to each child */
+.rgh-stack-child {
+	position: relative;
+	padding-left: 32px !important;
+}
+
+.rgh-stack-child::before,
+.rgh-stack-child:not(.rgh-stack-last)::after {
+	content: '';
+	position: absolute;
+	left: 23px;
+	border-left: 1px solid var(--borderColor-default, #d1d9e0);
+}
+
+.rgh-stack-child::before {
+	top: 0;
+	height: 20px;
+	width: 14px;
+	border-bottom: 1px solid var(--borderColor-default, #d1d9e0);
+	border-bottom-left-radius: 6px;
+}
+
+.rgh-stack-child:not(.rgh-stack-last)::after {
+	top: 20px;
+	bottom: 0;
+}
+
+.rgh-stack-toggle {
+	display: inline-flex;
+	align-items: center;
+	height: 16px;
+	padding: 0 2px;
+	margin-left: 2px;
+	border: 0;
+	border-radius: 4px;
+	background: none;
+	color: var(--fgColor-muted);
+	cursor: pointer;
+}
+
+.rgh-stack-toggle:hover {
+	color: var(--fgColor-accent);
+	background: var(--bgColor-neutral-muted);
+}
+
+/* Show the stack badge first in the metadata line: "≡ 1/N ˅ · #123 · …" */
+[data-rgh-stack]
+	[class*='description']
+	> [class*='metadataGroup']:has(.octicon-stack) {
+	order: -1;
+}
+
+[data-rgh-stack]
+	[class*='metadataGroup']:has(.octicon-stack)
+	> [aria-hidden='true']:first-child {
+	display: none;
+}
+
+[data-rgh-stack] [class*='metadataGroup']:has(.octicon-stack)::after {
+	content: '·';
+	padding-inline-end: 4px;
+}

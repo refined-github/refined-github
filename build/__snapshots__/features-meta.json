@@ -348,6 +348,12 @@
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/83146190/253048449-2f7cc331-c379-4ec0-a542-441e8b4f8d79.png"
 	},
 	{
+		"id": "group-stacked-prs",
+		"description": "Groups stacked PRs together in PR lists, ordered from the base branch up.",
+		"css": true,
+		"screenshot": "https://github.com/user-attachments/assets/dd6cc780-a8f0-4784-b46f-83a2d270a5d7"
+	},
+	{
 		"id": "hidden-content",
 		"description": "Informs you that there are hidden comments or files when pressing <kbd>Cmd</kbd><kbd>F</kbd> or <kbd>Ctrl</kbd><kbd>F</kbd>.",
 		"screenshot": "https://github.com/user-attachments/assets/5437d8fc-c539-4d13-98b3-d7049d2d92e7"
