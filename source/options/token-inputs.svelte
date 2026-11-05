@@ -36,5 +36,13 @@
 </script>
 
 {#each {length: slots} as _, index (index)}
-	<TokenInput {host} {index} {revealed} {reveal} {removeAt} {registerField} last={index === slots - 1} />
+	<TokenInput
+		{host}
+		{index}
+		{revealed}
+		{reveal}
+		{removeAt}
+		{registerField}
+		last={index === slots - 1}
+	/>
 {/each}
