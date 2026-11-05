@@ -1,22 +1,14 @@
 {
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
-		"outDir": "./distribution/assets",
-		"rootDir": "./",
-		"module": "preserve",
-		"moduleResolution": "bundler",
+		"noEmit": true,
 		"jsx": "react",
-		"declaration": false,
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
-		"resolveJsonModule": true,
-		"verbatimModuleSyntax": true,
+		"exactOptionalPropertyTypes": false,
 		"lib": [
 			"DOM",
-			"DOM.Iterable",
-			"ESNext.Collection",
-			"ESNext.Object",
-			"ESNext"
+			"ESNext" // Uint8Array.toBase64
 		],
 		"types": [
 			"chrome",
