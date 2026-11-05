@@ -2,20 +2,13 @@
 	"extends": "@sindresorhus/tsconfig",
 	"compilerOptions": {
 		"noEmit": true,
-		"module": "preserve",
-		"moduleResolution": "bundler",
 		"jsx": "react",
 		"noUncheckedIndexedAccess": false,
 		"noPropertyAccessFromIndexSignature": false,
 		"exactOptionalPropertyTypes": false,
-		"resolveJsonModule": true,
-		"verbatimModuleSyntax": true,
 		"lib": [
 			"DOM",
-			"DOM.Iterable",
-			"ESNext.Collection",
-			"ESNext.Object",
-			"ESNext"
+			"ESNext" // Uint8Array.toBase64
 		],
 		"types": [
 			"chrome",
