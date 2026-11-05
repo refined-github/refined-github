@@ -143,10 +143,10 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 			issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}
 		}
 		${
-		[...containersById.keys()].filter(id => id !== undefined).map(id =>
-			`${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`
-		).join('\n')
-	}
+			[...containersById.keys()].filter(id => id !== undefined).map(id =>
+				`${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`
+			).join('\n')
+		}
 	`);
 
 	const currentUser = getLoggedInUser();

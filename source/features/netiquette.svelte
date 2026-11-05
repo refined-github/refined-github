@@ -35,8 +35,8 @@
 			countElements('[data-testid="comment-header"]') > 30
 			// This element only appears after 6 participants
 			|| looseParseInt(
-					querySelector('[aria-label*="other participants"]')?.ariaLabel,
-				) > 20
+				querySelector('[aria-label*="other participants"]')?.ariaLabel,
+			) > 20
 			|| elementExists('[data-testid="issue-timeline-load-more-count-front"]')
 			// TODO [2027-01-01]: Drop after the legacy PR view is removed
 			|| countElements('.timeline-comment') > 30
