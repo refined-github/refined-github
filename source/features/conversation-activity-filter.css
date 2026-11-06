@@ -21,24 +21,24 @@
 }
 /* On narrow non-sticky layouts, keep the original primary button (e.g. "New issue") at the start without shifting */
 @media (width <= 1075px) {
-	.rgh-conversation-activity-filter:not([data-component='PageHeader'])
+	.rgh-conversation-activity-filter:not([data-component='TitleArea'])
 		> action-menu + * {
 		order: -1;
 	}
 }
 
 /* In the PR sticky header, pin it to the right edge of the whole header, because its title area is narrower than the header */
-[class*='stickyHeader'] > action-menu {
+[class*='prTitleArea'] > action-menu {
 	/* Overrides `.position-relative` */
 	position: absolute !important;
 	top: 50%;
-	right: var(--base-size-16);
+	right: var(--base-size-16, 16px);
 	translate: 0 -50%;
 }
 
 /* In the PR sticky header, hide if there's no room for it */
 @media (width <= 774px) {
-	[class*='stickyHeader'] > action-menu {
+	[class*='prTitleArea'] > action-menu {
 		display: none;
 	}
 }
