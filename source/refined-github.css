@@ -67,7 +67,7 @@
 
 /* Lighten deletions in Markdown */
 /* Info: https://github.com/refined-github/refined-github/pull/958 */
-/* Test: https://togithub.com/refined-github/sandbox/issues/3 */
+/* Test: https://github.com/refined-github/sandbox/issues/3 */
 .markdown-body del {
 	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
@@ -76,7 +76,7 @@
 /* Improve dropdown expansion animation (e.g. top-right dropdown in comments) */
 /* It normally pops in from the center */
 /* Info: https://github.com/refined-github/refined-github/pull/1715 */
-/* Test: https://togithub.com/refined-github/sandbox/pull/10#pullrequestreview-832816627 */
+/* Test: https://github.com/refined-github/sandbox/pull/10#pullrequestreview-832816627 */
 .dropdown-menu-sw {
 	transform-origin: 90% top;
 }
@@ -84,7 +84,7 @@
 /* TODO [2027-01-01]: Drop after legacy PR files view is removed */
 /* Keep diff stats in "Jump to" dropdown when the header is fixed */
 /* Info: https://github.com/refined-github/refined-github/issues/3925 */
-/* Test: https://togithub.com/refined-github/refined-github/pull/3922/files */
+/* Test: https://github.com/refined-github/refined-github/pull/3922/files */
 .select-menu-item-text .diffstat {
 	display: inline !important;
 }
@@ -186,7 +186,7 @@ span[data-testid='sponsor-label'] {
 
 /* Highlight review type radio labels on hover to improve clickability */
 /* Info: https://github.com/refined-github/refined-github/issues/9447 */
-/* Test: https://togithub.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
+/* Test: https://github.com/refined-github/refined-github/pull/9611/changes (must exclude disabled choices) */
 fieldset[class*='RadioGroup'] {
 	[class*='FormControl-ControlHorizontalLayout'] {
 		z-index: 0;
@@ -212,8 +212,8 @@ fieldset[class*='RadioGroup'] {
 
 /* Make collapsed diffs more visually distinct */
 /* Info: https://github.com/refined-github/refined-github/issues/7338 */
-/* Test: https://togithub.com/refined-github/refined-github/pull/7212/changes */
-/* Test: https://togithub.com/refined-github/refined-github/pull/7212/changes/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
+/* Test: https://github.com/refined-github/refined-github/pull/7212/changes */
+/* Test: https://github.com/refined-github/refined-github/pull/7212/changes/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
 /* Test: https://github.com/refined-github/refined-github/commit/b6ef35a9811a5e32d1758a74db75459b028e49d0 */
 [class*='gridColumnTemplate'],
 /* "Binary not shown" */

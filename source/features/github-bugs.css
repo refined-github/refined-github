@@ -90,7 +90,7 @@ div.markdown-body {
 
 /* Vertically center PR summary row */
 /* Info: https://github.com/refined-github/refined-github/pull/9116/ */
-/* Test: https://togithub.com/refined-github/sandbox/pull/61 */
+/* Test: https://github.com/refined-github/sandbox/pull/61 */
 div[class^='prc-PageHeader-Description']
 	> .flex-column.flex-sm-row.flex-items-start {
 	/* flex-sm-items-center */
@@ -101,11 +101,11 @@ div[class^='prc-PageHeader-Description']
 
 /* Fix comment header wrapping */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
-/* Test: https://togithub.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
+/* Test: https://github.com/refined-github/refined-github/pull/9182/changes#r3068791673 */
 div[class*='ActivityHeaderGridLayout'],
 /* Info: https://github.com/refined-github/refined-github/issues/9623 */
-/* Test: https://togithub.com/refined-github/sandbox/issues/151 */
-/* Test: https://togithub.com/refined-github/sandbox/issues/131 */
+/* Test: https://github.com/refined-github/sandbox/issues/151 */
+/* Test: https://github.com/refined-github/sandbox/issues/131 */
 div[class*='activityHeader'] {
 	display: flex;
 	flex-wrap: wrap;
@@ -162,7 +162,7 @@ div[class*='activityHeader'] {
 
 /* Bug: Usernames in review threads become vertical on small screens */
 /* Info: https://github.com/refined-github/refined-github/issues/9186 */
-/* Test: https://togithub.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
+/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 review-thread-collapsible > .js-toggle-outdated-comments {
 	flex-wrap: wrap !important;
 	row-gap: 8px;
@@ -221,7 +221,7 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 
 /* Add missing line spacing in comment images */
 /* Info: https://github.com/refined-github/refined-github/issues/9319 */
-/* Test: https://togithub.com/refined-github/refined-github/issues/9319 */
+/* Test: https://github.com/refined-github/refined-github/issues/9319 */
 .markdown-body {
 	p ~ a > img {
 		margin-bottom: var(--base-size-16);
@@ -243,14 +243,14 @@ review-thread-collapsible > .js-toggle-outdated-comments {
 
 /* Fix checkmark on a deselected item disappearing with a noticeable delay */
 /* Info: https://github.com/refined-github/refined-github/issues/9348 */
-/* Test: https://togithub.com/refined-github/refined-github/issues/9348 */
+/* Test: https://github.com/refined-github/refined-github/issues/9348 */
 .ActionListItem-singleSelectCheckmark {
 	transition: none !important;
 }
 
 /* Prevent empty diff cells from looking clickable */
 /* Info: https://github.com/refined-github/refined-github/pull/9532#pullrequestreview-4321433264 */
-/* Test: https://togithub.com/refined-github/sandbox/pull/81 */
+/* Test: https://github.com/refined-github/sandbox/pull/81 */
 .empty-cell {
 	cursor: default !important;
 }
