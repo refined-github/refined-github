@@ -4,7 +4,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, closestElement, elementExists} from 'select-dom';
+import {$, $optional, closestElement, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import {withTooltipRef} from '../components/tooltip.js';
@@ -80,7 +80,8 @@ async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAs
 			<ReplyIcon />
 		</button>
 	);
-	menuButton.before(mentionButton);
+	// Keep it to the left of `quick-comment-edit`, which attaches to the same menu
+	($optional('button:has(> .octicon-pencil)', menuButton.parentElement!) ?? menuButton).before(mentionButton);
 
 	// Remove our button when React replaces the menu, preventing duplicates
 	await onElementRemoval(menuButton, signal);
