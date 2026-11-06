@@ -20,12 +20,11 @@ import {createHeatIndexFunction} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
 import GetReleaseDownloadCount from './release-download-count.gql';
 
-type Asset = {
-	name: string;
-	downloadCount: number;
-};
-
 async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
+	type Asset = {
+		name: string;
+		downloadCount: number;
+	};
 	const {repository} = await api.v4(GetReleaseDownloadCount, {variables: {tag}});
 	const assets: Asset[] = repository.release.releaseAssets.nodes;
 	return Object.fromEntries(assets.map(({name, downloadCount}) => [name, downloadCount]));

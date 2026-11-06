@@ -28,5 +28,4 @@ async function fetchDom(url: string, selector?: string): Promise<Node | undefine
 
 export {fetchDom as fetchDomUncached};
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3895
 export default memoize(fetchDom);

@@ -79,7 +79,6 @@ const keep = predicate => ({
 	},
 });
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	{
 		...shared,

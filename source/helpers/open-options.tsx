@@ -7,7 +7,5 @@ export default function openOptions(event: Event | React.UIEvent, hash = ''): vo
 }
 
 export function OptionsLink(): JSX.Element {
-	return (
-		<button type="button" onClick={openOptions} />
-	);
+	return <button type="button" onClick={openOptions} />;
 }
