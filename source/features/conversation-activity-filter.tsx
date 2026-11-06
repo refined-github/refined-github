@@ -112,7 +112,8 @@ function addWidget(anchor: Element): void {
 	anchor.classList.add('rgh-conversation-activity-filter');
 	mount(ConversationActivityFilter, {
 		target: anchor,
-		anchor: anchor.firstElementChild!,
+		// In the PR sticky header, append it after the flexible title so it stays on the right
+		anchor: anchor.matches('[class*="prTitleArea"]') ? undefined : anchor.firstElementChild!,
 	});
 }
 
