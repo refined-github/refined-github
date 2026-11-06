@@ -32,6 +32,11 @@
 	order: 10;
 }
 
+/* In the PR sticky header, GitHub forces a min-width wider than the window below 1280px, pushing the widget off screen */
+.rgh-conversation-activity-filter[class*='prTitleArea'] {
+	min-width: min(100vw, 1280px);
+}
+
 /* In the PR sticky header, hide if there's no room for it */
 @media (width <= 774px) {
 	[class*='prTitleArea'] > action-menu {
