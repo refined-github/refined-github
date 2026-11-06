@@ -29,10 +29,16 @@
 
 /* In the PR sticky header, pin it to the right edge of the whole header, because its title area is narrower than the header */
 [class*='prTitleArea'] > action-menu {
-	position: absolute;
+	/* Overrides `.position-relative` */
+	position: absolute !important;
 	top: 50%;
 	right: var(--base-size-16, 16px);
 	translate: 0 -50%;
+}
+
+/* In the PR sticky header, show it after the title */
+[class*='prTitleArea'] > action-menu {
+	order: 10;
 }
 
 /* In the PR sticky header, hide if there's no room for it */

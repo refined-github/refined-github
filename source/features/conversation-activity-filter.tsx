@@ -113,7 +113,6 @@ function addWidget(anchor: Element): void {
 	mount(ConversationActivityFilter, {
 		target: anchor,
 		anchor: anchor.firstElementChild!,
-		props: {pinned: anchor.matches('[class*="prTitleArea"]')},
 	});
 }
 
