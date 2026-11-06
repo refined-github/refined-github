@@ -22,20 +22,14 @@ function prefixUserMention(userMention: string): string {
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-const reviewThreadSelector = [
-	'.js-resolvable-timeline-thread-container',
-	'.js-inline-comments-container',
-	'.review-thread-component',
-] as const;
-
-// Review comments are answered in their own thread, not in the main field
+// Review comments are answered in their own thread, everything else uses the main field
 function getCommentField(comment: Element): HTMLTextAreaElement {
-	const thread = closestElementOptional(reviewThreadSelector, comment);
-	if (!thread) {
+	const thread = closestElementOptional('.review-thread-component', comment);
+	const form = thread && $optional('.inline-comment-form-container', thread);
+	if (!form) {
 		return $(fieldSelector);
 	}
 
-	const form = $('.inline-comment-form-container', thread);
 	if (!form.classList.contains('open')) {
 		$('.js-toggle-inline-comment-form', form).click();
 	}
