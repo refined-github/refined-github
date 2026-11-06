@@ -10,7 +10,7 @@ import {insertTextIntoField} from 'text-field-edit';
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
-import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
@@ -50,6 +50,9 @@ function mentionUser(author: string): void {
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
 	insertTextIntoField(newComment, `${spacer}${prefixUserMention(author)} `);
+
+	// Safari doesn't scroll to the field on `focus()` or `execCommand`
+	scrollIntoViewIfNeeded(newComment);
 }
 
 function mentionUserLegacy({delegateTarget: button}: DelegateEvent): void {
