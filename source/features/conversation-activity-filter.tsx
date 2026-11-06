@@ -112,8 +112,7 @@ function addWidget(anchor: Element): void {
 	anchor.classList.add('rgh-conversation-activity-filter');
 	mount(ConversationActivityFilter, {
 		target: anchor,
-		// In the PR sticky header, append it after the flexible title so it stays on the right
-		anchor: anchor.matches('[class*="prTitleArea"]') ? undefined : anchor.firstElementChild!,
+		anchor: anchor.firstElementChild!,
 	});
 }
 
@@ -147,7 +146,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			// PR view
 			'[data-component="PageHeader"][data-has-nav] [data-component="PH_Actions"]',
 			// PR view (sticky header)
-			'[class*="prTitleArea"]',
+			'[data-component="PageHeader"][class*="stickyHeader"]',
 		],
 		addWidget,
 		{signal},
