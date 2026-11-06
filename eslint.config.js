@@ -139,6 +139,12 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['source/helpers/css-selectors.ts', 'eslint-rules/**'],
+		rules: {
+			'byo/prefer-is-helper': 'off', // Defines the helper, and the ESLint rules don't use it
+		},
+	},
+	{
 		files: ['**/*.test.ts'],
 		rules: {
 			'byo/prefer-visit-ajaxed-page': 'off', // Tests use it to set the URL

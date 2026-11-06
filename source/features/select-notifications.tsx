@@ -25,8 +25,8 @@ const filters = {
 	// This selector is a bit too loose, so it needs to be scoped to the smallest possible element and exclude the bookmark icon
 	Others: '.notification-list-item-link .octicon' + not(...prIcons, ...issueIcons, '.octicon-bookmark'),
 	Bots: is(botLinksNotificationSelectors),
-	Open: ':is(.octicon-issue-opened, .octicon-git-pull-request)',
-	Closed: ':is(.octicon-issue-closed, .octicon-git-pull-request-closed, .octicon-skip)',
+	Open: is('.octicon-issue-opened', '.octicon-git-pull-request'),
+	Closed: is('.octicon-issue-closed', '.octicon-git-pull-request-closed', '.octicon-skip'),
 	Draft: '.octicon-git-pull-request-draft',
 	Merged: '.octicon-git-merge',
 	Read: '.notification-read *',

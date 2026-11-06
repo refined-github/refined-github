@@ -74,6 +74,10 @@ const restrictedSyntax = {
 			'CallExpression[callee.property.name="assign"]:matches([callee.object.name="location"], [callee.object.property.name="location"])',
 		message: 'Use `visitAjaxedPage()` instead of `location.assign()`',
 	}],
+	'byo/prefer-is-helper': ['error', {
+		selector: String.raw`:matches(Literal, TemplateElement)[value=/:is\(/], TemplateElement[value.raw=/:is\(/]`,
+		message: 'Use `is()` from `helpers/css-selectors.js` instead of writing `:is()` in a string',
+	}],
 	'byo/no-mutation-observer': ['error', {
 		selector: 'NewExpression[callee.name="MutationObserver"]',
 		message: 'Import `selector-observer` instead of using MutationObserver',
