@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import {commentMenuButton, commentSelector, legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
+import {appendBefore} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
@@ -83,7 +84,7 @@ async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: Sig
 		</button>
 	);
 	// Keep it to the left of `quick-comment-edit`, which attaches to the same menu
-	($optional('button:has(> .octicon-pencil)', menuButton.parentElement!) ?? menuButton).before(mentionButton);
+	appendBefore(menuButton.parentElement!, 'button:has(> .octicon-pencil), button:has(> .octicon-kebab-horizontal)', mentionButton);
 
 	// Remove our button when React replaces the menu, preventing duplicates
 	await onElementRemoval(menuButton, signal);
@@ -120,7 +121,7 @@ function addQuickMentionPr(commentDropdown: HTMLDetailsElement): void {
 	);
 
 	// Keep it to the left of `quick-comment-edit`, which attaches to the same dropdown
-	($optional('.rgh-quick-comment-edit-button', comment) ?? commentDropdown).before(mentionButton);
+	appendBefore(commentDropdown.parentElement!, '.rgh-quick-comment-edit-button, details:last-child', mentionButton);
 }
 
 function init(signal: AbortSignal): void {
