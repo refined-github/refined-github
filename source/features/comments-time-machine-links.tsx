@@ -151,26 +151,28 @@ function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 	);
 }
 
+function addDropdownLinkToMenu(menu: HTMLElement): void {
+	if (closestElementOptional('.js-pending-review-comment', menu)) {
+		return;
+	}
+
+	// The timestamp of main review comments isn't in their header but in the timeline event above #5423
+	const timestamp = $(
+		'relative-time',
+		closestElement([
+			'.js-comment:not([id^="pullrequestreview-"])',
+			'.js-timeline-item',
+		], menu),
+	)
+		.attributes
+		.datetime
+		.value;
+
+	addDropdownLink(menu, timestamp);
+}
+
 async function init(signal: AbortSignal): Promise<void> {
-	observe(prCommentMenu, menu => {
-		if (closestElementOptional('.js-pending-review-comment', menu)) {
-			return;
-		}
-
-		// The timestamp of main review comments isn't in their header but in the timeline event above #5423
-		const timestamp = $(
-			'relative-time',
-			closestElement([
-				'.js-comment:not([id^="pullrequestreview-"])',
-				'.js-timeline-item',
-			], menu),
-		)
-			.attributes
-			.datetime
-			.value;
-
-		addDropdownLink(menu, timestamp);
-	}, {signal});
+	observe(prCommentMenu, addDropdownLinkToMenu, {signal});
 
 	delegate(
 		commentMenuButton,
