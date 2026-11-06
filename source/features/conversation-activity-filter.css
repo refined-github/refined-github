@@ -38,3 +38,12 @@
 		display: none;
 	}
 }
+
+/* Keep the button compact without using the small height */
+.rgh-conversation-activity-filter-button {
+	padding-inline: var(--control-small-paddingInline-condensed);
+
+	.Button-content > :not(:last-child) {
+		margin-right: var(--control-small-gap);
+	}
+}

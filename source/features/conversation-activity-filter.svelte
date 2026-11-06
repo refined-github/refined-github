@@ -16,9 +16,8 @@
 
 	type Props = {
 		withMargin?: boolean;
-		small?: boolean;
 	};
-	const {withMargin = false, small = true}: Props = $props();
+	const {withMargin = false}: Props = $props();
 
 	const baseId = crypto.randomUUID();
 
@@ -40,26 +39,21 @@
 			aria-controls={`${baseId}-list`}
 			aria-haspopup="true"
 			type="button"
-			class="Button color-fg-muted Button Button--invisible"
-			class:Button--small={small}
+			class="rgh-conversation-activity-filter-button Button color-fg-muted Button Button--invisible"
 		>
 			<span class="Button-content">
-				<span
-					class="Button-visual Button-leadingVisual"
-					class:mr-0={$activityFilterState === 'showAll' || $activityFilterState === 'hideAllNoise'}
-				>
+				<span class="Button-visual Button-leadingVisual">
 					{#if $activityFilterState !== 'showAll'}
 						<DomChef as={EyeClosedIcon} class="color-fg-danger" />
 					{:else}
 						<DomChef as={EyeIcon} />
 					{/if}
 				</span>
-				<span class="Button-label lh-condensed-ultra">
-					<span
-						hidden={$activityFilterState !== 'hideEvents'}
-						class="v-align-text-top color-fg-danger"
-					>events</span>
-				</span>
+				{#if $activityFilterState === 'hideEvents'}
+					<span class="Button-label lh-condensed-ultra">
+						<span class="v-align-text-top color-fg-danger">events</span>
+					</span>
+				{/if}
 				<span class="Button-visual Button-trailingVisual">
 					<DomChef as={TriangleDownIcon} />
 				</span>

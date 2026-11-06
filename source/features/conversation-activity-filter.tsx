@@ -1,7 +1,7 @@
 import './conversation-activity-filter.css';
 
 import * as pageDetect from 'github-url-detection';
-import {$, $$, $$optional, closestElementOptional, elementExists} from 'select-dom';
+import {$, $$, $$optional, elementExists} from 'select-dom';
 import {mount} from 'svelte';
 import {get} from 'svelte/store';
 
@@ -113,8 +113,6 @@ function addWidget(anchor: Element): void {
 	mount(ConversationActivityFilter, {
 		target: anchor,
 		anchor: anchor.firstElementChild!,
-		// The issue sticky header has medium-sized buttons
-		props: {small: !closestElementOptional('[class*="stickyContainer"]', anchor)},
 	});
 }
 
