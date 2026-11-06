@@ -1,19 +1,16 @@
-import './quick-mention.css';
-
-import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, closestElement, elementExists} from 'select-dom';
+import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
-import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
-import {legacyCommentField} from '../github-helpers/selectors.js';
-import {is} from '../helpers/css-selectors.js';
-import {wrap} from '../helpers/dom-utils.js';
+import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
+import {commentMenuButton, legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
+import {appendBefore} from '../helpers/dom-utils.js';
+import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
 const fieldSelector = [
@@ -21,27 +18,28 @@ const fieldSelector = [
 	'#react-issue-comment-composer textarea',
 ] as const;
 
-const loggedInUser = getLoggedInUser()!;
-
-const prAvatarSelector = '.js-quote-selection-container '
-	+ is(
-		// `:first-child` avoids app badges #2630
-		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child', // Comment
-		'a.TimelineItem-avatar', // Review or PR body
-	)
-	+ `:not([href="/${loggedInUser}"])`;
-
-const issueAvatarSelector =
-	`a[class^="Avatar-module__avatarLink"][class*="avatarOuter"]:not([href$="/${loggedInUser}"])`;
-
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-function mentionUser({delegateTarget: button}: DelegateEvent): void {
-	const userMention = getCommentAuthor(button.parentElement!);
-	const newComment = $(fieldSelector);
+// Review comments are answered in their own thread, everything else uses the main field
+function getCommentField(comment: Element): HTMLTextAreaElement {
+	const thread = closestElementOptional('.review-thread-component', comment);
+	const form = thread && $optional('.inline-comment-form-container', thread);
+	if (!form) {
+		return $(fieldSelector);
+	}
+
+	if (!form.classList.contains('open')) {
+		$('.js-toggle-inline-comment-form', form).click();
+	}
+
+	return $('textarea.js-comment-field', form);
+}
+
+function mentionUser(author: string, comment: Element): void {
+	const newComment = getCommentField(comment);
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -52,69 +50,78 @@ function mentionUser({delegateTarget: button}: DelegateEvent): void {
 	const spacer = /\s|^$/.test(precedingCharacter) ? '' : ' ';
 
 	// The space after closes the autocomplete box and places the cursor where the user would start typing
-	insertTextIntoField(newComment, `${spacer}${prefixUserMention(userMention)} `);
+	insertTextIntoField(newComment, `${spacer}${prefixUserMention(author)} `);
+
+	// Safari doesn't scroll to the field on `focus()` or `execCommand`
+	scrollIntoViewIfNeeded(newComment);
 }
 
-function addButton(avatar: HTMLElement): void {
-	const userMention = getCommentAuthor(avatar);
-	avatar.after(
+async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+	const author = getCommentAuthor(menuButton);
+
+	// Not on your own comments
+	if (author === getLoggedInUser()) {
+		return;
+	}
+
+	const mentionButton = (
 		<button
-			ref={withTooltipRef({
-				label: `Mention ${prefixUserMention(userMention)} in a new comment`,
-				direction: 'e',
-			})}
+			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
 			type="button"
-			className="rgh-quick-mention btn-link"
+			className="Button Button--iconOnly Button--invisible Button--small"
+			onClick={() => {
+				mentionUser(author, menuButton);
+			}}
 		>
 			<ReplyIcon />
-		</button>,
+		</button>
 	);
+	// Keep it to the left of the hidden comment expander and `quick-comment-edit`, which attach to the same menu
+	appendBefore(menuButton.parentElement!, 'button:has(.octicon)', mentionButton);
+
+	// Remove our button when React replaces the menu, preventing duplicates
+	await onElementRemoval(menuButton, signal);
+	mentionButton.remove();
 }
 
-function addButtonPr(avatar: HTMLElement): void {
-	const timelineItem = closestElement([
-		// Regular comments
-		'.js-comment-container',
-		// Reviews
-		'.js-comment',
-	], avatar);
+function addQuickMentionPr(commentDropdown: HTMLDetailsElement): void {
+	const comment = closestElement('.js-comment', commentDropdown);
 
-	if (
-		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!elementExists(['.unminimized-comment', '.js-comment-container'], timelineItem)
-	) {
+	// Exclude hidden comments and reviews without comments
+	if (!elementExists('.markdown-body', comment)) {
 		return;
 	}
 
-	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-	if (avatar.classList.contains('TimelineItem-avatar')) {
-		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
-	}
+	const author = getCommentAuthor(comment);
 
-	addButton(avatar);
-}
-
-function addButtonIssue(avatar: HTMLElement): void {
-	const isHidden = !elementExists('.markdown-body', avatar.parentElement!);
-	if (isHidden) {
+	// Not on your own comments
+	if (author === getLoggedInUser()) {
 		return;
 	}
 
-	avatar.style.height = 'auto';
-	avatar.classList.add('react-view');
-	wrap(avatar, <div className="avatar-parent-child d-none d-md-block" />);
+	const mentionButton = (
+		<button
+			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
+			type="button"
+			className="timeline-comment-action btn-link rgh-quick-mention"
+			aria-label={`Mention ${prefixUserMention(author)} in a new comment`}
+			onClick={() => {
+				mentionUser(author, comment);
+			}}
+		>
+			<ReplyIcon />
+		</button>
+	);
 
-	addButton(avatar);
+	// Keep it to the left of `quick-comment-edit`, which attaches to the same dropdown
+	appendBefore(commentDropdown.parentElement!, '.rgh-quick-comment-edit-button, details:last-child', mentionButton);
 }
 
-async function init(signal: AbortSignal): Promise<void> {
-	delegate('button.rgh-quick-mention', 'click', mentionUser, {signal});
-
+function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
-		observe(prAvatarSelector, addButtonPr, {signal});
+		observe(prCommentMenu, addQuickMentionPr, {signal});
 	} else {
-		observe(issueAvatarSelector, addButtonIssue, {signal});
+		observe(commentMenuButton, addQuickMentionIssue, {signal});
 	}
 }
 
@@ -133,15 +140,11 @@ void features.add(import.meta.url, {
 
 Test URLs
 
+https://github.com/refined-github/sandbox/issues/131
 https://github.com/refined-github/sandbox/pull/10
 
-No-comment reviews shouldn't have it:
-https://github.com/NixOS/nixpkgs/pull/147010#pullrequestreview-817111882
-
 - Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
-- Locked issue (other repo): https://github.com/eslint/eslint/issues/8213
-- Comment with app badge:
-	- https://github.com/dotnet/docs/issues/10085
-	- https://github.com/biomejs/biome/issues/1927#issuecomment-2227203261
+- Locked issue (other repo): https://togithub.com/eslint/eslint/issues/8213
+- Comment with app badge: https://togithub.com/biomejs/biome/issues/1927#issuecomment-2227203261
 
 */
