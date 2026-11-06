@@ -137,8 +137,8 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- issue: https://github.com/isaacs/github/issues/297
-- PR with reviews: https://github.com/rust-lang/rfcs/pull/2544
+- issue: https://togithub.com/isaacs/github/issues/297
+- PR with reviews: https://togithub.com/rust-lang/rfcs/pull/2544
 - mannequins: https://togithub.com/python/cpython/issues/67591
 - feed: https://github.com/feed
 
@@ -147,6 +147,6 @@ Special cases:
 - RTL: https://github.com/refined-github/refined-github/issues/8191
 - Bidi override case 1: https://togithub.com/FortAwesome/Font-Awesome/issues/2465
 - Bidi override case 2: https://togithub.com/w3c/webdriver/issues/385#issuecomment-598407238
-- With emoji: https://github.com/typescript-eslint/tsgolint/pull/2
+- With emoji: https://togithub.com/typescript-eslint/tsgolint/pull/2
 
 */

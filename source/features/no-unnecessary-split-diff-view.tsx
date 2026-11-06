@@ -49,7 +49,7 @@ https://github.com/refined-github/sandbox/pull/50/files?diff=split
 
 ### PR files with annotations
 
-https://github.com/fregante/sandbox/pull/30/files
+https://togithub.com/fregante/sandbox/pull/30/files
 
 ### Compare page
 
