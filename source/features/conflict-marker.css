@@ -1,8 +1,7 @@
-svg {
-	[data-color-mode='light'] .rgh-conflict-marker & {
-		color: #ccc;
-	}
-	[data-color-mode='dark'] .rgh-conflict-marker & {
-		color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
-	}
+[data-color-mode='light'] .rgh-conflict-marker svg {
+	color: #ccc;
+}
+
+[data-color-mode='dark'] .rgh-conflict-marker svg {
+	color: var(--fgColor-muted, var(--color-fg-muted, fuchsia));
 }
