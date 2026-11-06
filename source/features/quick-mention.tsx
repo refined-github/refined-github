@@ -8,7 +8,7 @@ import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
-import {legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
+import {commentMenuButton, commentSelector, legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
@@ -58,12 +58,18 @@ function mentionUser(author: string, comment: Element): void {
 async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
 	// Hidden comments have no body to mention
 	if (
-		!elementExists('.markdown-body', closestElement(':is(.react-issue-comment, [data-testid="issue-body"])', menuButton))
+		!elementExists('.markdown-body', closestElement(commentSelector, menuButton))
 	) {
 		return;
 	}
 
 	const author = getCommentAuthor(menuButton);
+
+	// Not on your own comments
+	if (author === getLoggedInUser()) {
+		return;
+	}
+
 	const mentionButton = (
 		<button
 			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
@@ -128,8 +134,7 @@ function init(signal: AbortSignal): void {
 	}
 
 	observe(
-		// Scoped to comment headers, and not on your own comments
-		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"]):not([class*="viewerDidAuthor" i]) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
+		commentMenuButton,
 		addQuickMentionIssue,
 		{signal},
 	);
