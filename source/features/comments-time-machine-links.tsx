@@ -13,7 +13,7 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-helpers/notice-bar.js';
-import {loaded} from '../github-helpers/selectors.js';
+import {loaded, prCommentMenu} from '../github-helpers/selectors.js';
 import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
@@ -160,7 +160,7 @@ function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.timeline-comment-actions > details:last-child', menu => {
+	observe(prCommentMenu, menu => {
 		if (closestElementOptional('.js-pending-review-comment', menu)) {
 			return;
 		}

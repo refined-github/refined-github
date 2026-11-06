@@ -8,7 +8,7 @@ import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
-import {legacyCommentField} from '../github-helpers/selectors.js';
+import {legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
@@ -120,7 +120,7 @@ function addQuickMentionPr(commentDropdown: HTMLDetailsElement): void {
 function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
 		observe(
-			'.js-comment .timeline-comment-actions > details:last-child',
+			prCommentMenu,
 			addQuickMentionPr,
 			{signal},
 		);
@@ -129,8 +129,7 @@ function init(signal: AbortSignal): void {
 
 	observe(
 		// Scoped to comment headers, and not on your own comments
-		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"]):not([class*="viewerDidAuthor" i])'
-			+ ' button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
+		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"]):not([class*="viewerDidAuthor" i]) button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
 		addQuickMentionIssue,
 		{signal},
 	);

@@ -152,6 +152,12 @@ export const newCommentField = [
 
 export const newCommentField_ = requiresLogin;
 
+// The dropdown menu in the header of PR comments
+export const prCommentMenu = '.timeline-comment-actions > details:last-child';
+export const prCommentMenu_ = [
+	[4, 'https://github.com/NixOS/nixpkgs/pull/147010'],
+] satisfies UrlMatch[];
+
 export const legacyCommentField = 'textarea#new_comment_field';
 // Used on: PR conversations, gists and discussions
 export const legacyCommentField_ = requiresLogin;
