@@ -3,39 +3,35 @@ html:not([rgh-OFF-align-issue-labels]) {
 	ul[class*='withMetadata'] > li[class*='listItem']:not([class*='compact']) {
 		/* Only rows with labels, so the org repositories list is left alone */
 		&:has(button[aria-label^='Filter by label']) {
-			div {
-				&[class*='container']:has(> [class*='heading']) {
-					display: contents;
+			div[class*='container']:has(> [class*='heading']) {
+				display: contents;
 
-					> [class*='heading'] {
-						grid-area: primary;
-						padding-top: 8px;
-					}
-					> span {
-						&[class*='trailingBadgesSpacer'] {
-							display: none;
-						}
-						&[class*='trailingBadgesContainer'] {
-							grid-area: -1 / main-content;
-							padding-bottom: 10px;
-							&:empty {
-								/* Grid gap adds additional 4px */
-								padding-bottom: 6px;
-							}
-							&:is(li[class*='listItem'][class*=' listItem'] *) {
-								/* Height of the main content row provides more than enough spacing */
-								/* 4px added by grid gap are extra */
-								margin-top: -4px;
-							}
-						}
-					}
-				}
-
-				&[class*='metadataContainer']:is(
-					li[class*='listItem'][class*=' listItem'] *
-				) {
+				> [class*='heading'] {
+					grid-area: primary;
 					padding-top: 8px;
 				}
+				> span[class*='trailingBadgesSpacer'] {
+					display: none;
+				}
+				> span[class*='trailingBadgesContainer'] {
+					grid-area: -1 / main-content;
+					padding-bottom: 10px;
+					&:empty {
+						/* Grid gap adds additional 4px */
+						padding-bottom: 6px;
+					}
+					&:is(li[class*='listItem'][class*=' listItem'] *) {
+						/* Height of the main content row provides more than enough spacing */
+						/* 4px added by grid gap are extra */
+						margin-top: -4px;
+					}
+				}
+			}
+
+			div[class*='metadataContainer']:is(
+				li[class*='listItem'][class*=' listItem'] *
+			) {
+				padding-top: 8px;
 			}
 
 			> div[class*='container'] > div[class*='inner'] {
@@ -50,11 +46,11 @@ html:not([rgh-OFF-align-issue-labels]) {
 		.min-width-0 {
 			display: flex;
 			flex-wrap: wrap;
+		}
 
-			/* Labels */
-			> .lh-default {
-				order: 1;
-			}
+		/* Labels */
+		.min-width-0 > .lh-default {
+			order: 1;
 		}
 
 		/* Build status */

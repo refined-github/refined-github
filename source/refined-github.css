@@ -169,6 +169,7 @@ span[data-testid='sponsor-label'] {
 /* Info: https://github.com/refined-github/refined-github/pull/9419#discussion_r3214988559 */
 /* Test: https://github.com/wmluke/angular-flash/blob/0.1.14/app/components */
 .react-code-size-details-in-header a[class*='PrimerLink'] {
+a[class^='CodeSizeDetails-module__PrimerLink'] {
 	color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
 	&:hover {
 		text-decoration: underline;
@@ -178,18 +179,9 @@ span[data-testid='sponsor-label'] {
 /* Hide the header logo on small screens */
 /* Info: https://github.com/refined-github/refined-github/issues/5120 */
 /* Test: https://github.com/refined-github/refined-github */
-a {
-	&[class^='CodeSizeDetails-module__PrimerLink'] {
-		color: var(--fgColor-accent, var(--color-accent-fg, fuchsia));
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	&[class*='appHeaderHome'] {
-		@media (width <= 600px) {
-			display: none;
-		}
+@media (width <= 600px) {
+	a[class*='appHeaderHome'] {
+		display: none;
 	}
 }
 

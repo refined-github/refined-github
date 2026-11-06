@@ -1,11 +1,9 @@
 /* TODO: Drop in 2027 */
-.flex-items-center a {
-	/* Missing file */
-	&[aria-label='go to Overview'],
-	/* Missing branch */
-	&[aria-label='go to default branch'] {
-		display: none;
-	}
+/* Missing file */
+.flex-items-center a[aria-label='go to Overview'],
+/* Missing branch */
+.flex-items-center a[aria-label='go to default branch'] {
+	display: none;
 }
 
 /* 301 file: https://github.com/refined-github/refined-github/blob/main/extension/content.js */

@@ -3,12 +3,10 @@
 		/* Place conversation number before the title */
 		display: block !important;
 
-		> * {
-			&,
+		> *,
+		> * > *:not(.d-md-none) {
 			/* .d-md-none is the mobile-only time */
-			> *:not(.d-md-none) {
-				display: contents !important;
-			}
+			display: contents !important;
 		}
 
 		/* Hide duplicate repository URL */
