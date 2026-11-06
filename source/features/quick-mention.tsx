@@ -7,7 +7,7 @@ import {insertTextIntoField} from 'text-field-edit';
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
-import {isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
+import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
@@ -72,12 +72,18 @@ async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAs
 function addQuickMentionLegacy(commentDropdown: HTMLDetailsElement): void {
 	const comment = closestElement('.js-comment', commentDropdown);
 
-	// Exclude reviews without comments
+	// Exclude hidden comments and reviews without comments
 	if (!elementExists('.markdown-body', comment)) {
 		return;
 	}
 
 	const author = getCommentAuthor(comment);
+
+	// Not on your own comments
+	if (author === getLoggedInUser()) {
+		return;
+	}
+
 	const mentionButton = (
 		<button
 			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
@@ -99,8 +105,7 @@ function addQuickMentionLegacy(commentDropdown: HTMLDetailsElement): void {
 function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
 		observe(
-			// Not on your own comments or hidden comments
-			'.js-comment.unminimized-comment:not(.current-user) .timeline-comment-actions details.position-relative',
+			'.js-comment .timeline-comment-actions > details:last-child',
 			addQuickMentionLegacy,
 			{signal},
 		);
