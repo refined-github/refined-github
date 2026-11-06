@@ -8,7 +8,7 @@ import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
 import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
-import {commentMenuButton, commentSelector, legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
+import {commentMenuButton, legacyCommentField, prCommentMenu} from '../github-helpers/selectors.js';
 import {appendBefore} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
@@ -57,13 +57,6 @@ function mentionUser(author: string, comment: Element): void {
 }
 
 async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
-	// Hidden comments have no body to mention
-	if (
-		!elementExists('.markdown-body', closestElement(commentSelector, menuButton))
-	) {
-		return;
-	}
-
 	const author = getCommentAuthor(menuButton);
 
 	// Not on your own comments
@@ -83,8 +76,8 @@ async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: Sig
 			<ReplyIcon />
 		</button>
 	);
-	// Keep it to the left of `quick-comment-edit`, which attaches to the same menu
-	appendBefore(menuButton.parentElement!, 'button:has(> .octicon-pencil), button:has(> .octicon-kebab-horizontal)', mentionButton);
+	// Keep it to the left of the hidden comment expander and `quick-comment-edit`, which attach to the same menu
+	appendBefore(menuButton.parentElement!, 'button:has(> :is(.octicon-unfold, .octicon-fold, .octicon-pencil, .octicon-kebab-horizontal))', mentionButton);
 
 	// Remove our button when React replaces the menu, preventing duplicates
 	await onElementRemoval(menuButton, signal);
