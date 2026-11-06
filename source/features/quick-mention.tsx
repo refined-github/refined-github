@@ -1,6 +1,3 @@
-import './quick-mention.css';
-
-import delegate, {type DelegateEvent} from 'delegate-it';
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
@@ -10,10 +7,8 @@ import {insertTextIntoField} from 'text-field-edit';
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import getCommentAuthor from '../github-helpers/get-comment-author.js';
-import {getLoggedInUser, isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
+import {isArchivedRepoAsync, scrollIntoViewIfNeeded} from '../github-helpers/index.js';
 import {legacyCommentField} from '../github-helpers/selectors.js';
-import {is} from '../helpers/css-selectors.js';
-import {wrap} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe, {waitForElement} from '../helpers/selector-observer.js';
 
@@ -21,16 +16,6 @@ const fieldSelector = [
 	legacyCommentField,
 	'#react-issue-comment-composer textarea',
 ] as const;
-
-const loggedInUser = getLoggedInUser()!;
-
-const prAvatarSelector = '.js-quote-selection-container '
-	+ is(
-		// `:first-child` avoids app badges #2630
-		'div.TimelineItem-avatar > [data-hovercard-type="user"]:first-child', // Comment
-		'a.TimelineItem-avatar', // Review or PR body
-	)
-	+ `:not([href="/${loggedInUser}"])`;
 
 function prefixUserMention(userMention: string): string {
 	// The alt may or may not have it #4859
@@ -53,10 +38,6 @@ function mentionUser(author: string): void {
 
 	// Safari doesn't scroll to the field on `focus()` or `execCommand`
 	scrollIntoViewIfNeeded(newComment);
-}
-
-function mentionUserLegacy({delegateTarget: button}: DelegateEvent): void {
-	mentionUser(getCommentAuthor(button.parentElement!));
 }
 
 async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
@@ -88,45 +69,41 @@ async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAs
 	mentionButton.remove();
 }
 
-function addQuickMentionLegacy(avatar: HTMLElement): void {
-	const timelineItem = closestElement([
-		// Regular comments
-		'.js-comment-container',
-		// Reviews
-		'.js-comment',
-	], avatar);
+function addQuickMentionLegacy(commentDropdown: HTMLDetailsElement): void {
+	const comment = closestElement('.js-comment', commentDropdown);
 
-	if (
-		// Exclude events that aren't tall enough, like hidden comments or reviews without comments
-		!elementExists(['.unminimized-comment', '.js-comment-container'], timelineItem)
-	) {
+	// Exclude reviews without comments
+	if (!elementExists('.markdown-body', comment)) {
 		return;
 	}
 
-	// Wrap avatars next to review events so the inserted button doesn't break the layout #4844
-	if (avatar.classList.contains('TimelineItem-avatar')) {
-		avatar.classList.remove('TimelineItem-avatar');
-		wrap(avatar, <div className="avatar-parent-child TimelineItem-avatar d-none d-md-block" />);
-	}
-
-	avatar.after(
+	const author = getCommentAuthor(comment);
+	const mentionButton = (
 		<button
-			ref={withTooltipRef({
-				label: `Mention ${prefixUserMention(getCommentAuthor(avatar))} in a new comment`,
-				direction: 'e',
-			})}
+			ref={withTooltipRef(`Mention ${prefixUserMention(author)} in a new comment`)}
 			type="button"
-			className="rgh-quick-mention btn-link"
+			className="timeline-comment-action btn-link rgh-quick-mention"
+			aria-label={`Mention ${prefixUserMention(author)} in a new comment`}
+			onClick={() => {
+				mentionUser(author);
+			}}
 		>
 			<ReplyIcon />
-		</button>,
+		</button>
 	);
+
+	// Keep it to the left of `quick-comment-edit`, which attaches to the same dropdown
+	($optional('.rgh-quick-comment-edit-button', comment) ?? commentDropdown).before(mentionButton);
 }
 
 function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
-		delegate('button.rgh-quick-mention', 'click', mentionUserLegacy, {signal});
-		observe(prAvatarSelector, addQuickMentionLegacy, {signal});
+		observe(
+			// Not on your own comments or hidden comments
+			'.js-comment.unminimized-comment:not(.current-user) .timeline-comment-actions details.position-relative',
+			addQuickMentionLegacy,
+			{signal},
+		);
 		return;
 	}
 
