@@ -16,8 +16,9 @@
 
 	type Props = {
 		withMargin?: boolean;
+		small?: boolean;
 	};
-	const {withMargin = false}: Props = $props();
+	const {withMargin = false, small = true}: Props = $props();
 
 	const baseId = crypto.randomUUID();
 
@@ -39,7 +40,8 @@
 			aria-controls={`${baseId}-list`}
 			aria-haspopup="true"
 			type="button"
-			class="Button--small Button color-fg-muted Button Button--invisible"
+			class="Button color-fg-muted Button Button--invisible"
+			class:Button--small={small}
 		>
 			<span class="Button-content">
 				<span
