@@ -39,11 +39,16 @@
 	}
 }
 
-/* Keep the button compact without using the small height */
-.rgh-conversation-activity-filter-button {
-	padding-inline: var(--control-small-paddingInline-condensed);
+/* Keep the button compact without using the small height. Flex avoids empty grid areas adding gaps */
+.Button.rgh-conversation-activity-filter-button {
+	padding-inline: var(--control-small-paddingInline-condensed, 0.5rem);
 
-	.Button-content > :not(:last-child) {
-		margin-right: var(--control-small-gap);
+	.Button-content {
+		display: flex;
+		gap: var(--control-small-gap, 0.25rem);
+
+		> * {
+			margin: 0;
+		}
 	}
 }
