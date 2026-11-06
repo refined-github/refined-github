@@ -21,9 +21,7 @@ function getBaseCommitNotice(prInfo: PullRequestInfo): JSX.Element {
 			{count}
 		</a>
 	);
-	return (
-		<div>It’s {countLink} behind (base commit: {commit})</div>
-	);
+	return <div>It’s {countLink} behind (base commit: {commit})</div>;
 }
 
 async function addInfo(statusMeta: Element): Promise<void> {

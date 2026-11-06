@@ -152,6 +152,30 @@ export const newCommentField = [
 
 export const newCommentField_ = requiresLogin;
 
+export const commentSelector = is(
+	`${loaded} .react-issue-body`, // Issue description
+	'.react-issue-comment', // Issue comment
+	'[data-testid="review-thread"] > div', // Review thread comment
+	'.js-comment', // PR description or comment
+);
+export const commentSelector_ = [
+	[1, 'https://github.com/refined-github/refined-github/issues/10317'],
+] satisfies UrlMatch[];
+
+// [data-component="IconButton"] includes only React buttons
+// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
+export const commentMenuButton =
+	`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`;
+export const commentMenuButton_ = [
+	[1, 'https://github.com/refined-github/refined-github/issues/10317'],
+] satisfies UrlMatch[];
+
+// The dropdown menu in the header of PR comments
+export const prCommentMenu = '.timeline-comment-actions > details:last-child';
+export const prCommentMenu_ = [
+	[4, 'https://github.com/NixOS/nixpkgs/pull/147010'],
+] satisfies UrlMatch[];
+
 export const legacyCommentField = 'textarea#new_comment_field';
 // Used on: PR conversations, gists and discussions
 export const legacyCommentField_ = requiresLogin;
