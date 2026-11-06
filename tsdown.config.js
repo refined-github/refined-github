@@ -62,6 +62,7 @@ const shared = {
 	},
 	target: false,
 	clean: false,
+	report: {summary: true}, // Skip the per-file list, there are hundreds of files
 };
 
 // Drop the files that the other builds are responsible for
