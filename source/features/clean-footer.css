@@ -1,5 +1,5 @@
 .footer > .d-flex {
-	transition: opacity 0.2s ease;
+	transition: opacity 0.2s;
 	margin: auto;
 	&:not(:hover) {
 		opacity: 30%;

@@ -24,20 +24,19 @@ type RepoPublishState = {
 	aheadBy: number;
 };
 
-type Tag = {
-	name: string;
-	tag: {
-		oid: string;
-		commit?: {
-			oid: string;
-		};
-	};
-};
-
 const undeterminableAheadBy = Number.MAX_SAFE_INTEGER; // For when the branch is ahead by more than 20 commits #5505
 
 const repoPublishState = new CachedFunction('tag-ahead-by', {
 	async updater(): Promise<RepoPublishState> {
+		type Tag = {
+			name: string;
+			tag: {
+				oid: string;
+				commit?: {
+					oid: string;
+				};
+			};
+		};
 		const {repository} = await api.v4(GetPublishRepoState);
 
 		if (repository.refs.nodes.length === 0) {

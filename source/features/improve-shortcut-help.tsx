@@ -23,11 +23,11 @@ const getRghShortcutsContainer = memoize(
 			...[...shortcutMap]
 				.toSorted(([, a], [, b]) => a.localeCompare(b))
 				.map(([hotkey, description]) => {
-					const keys = hotkey.split(' ').map(key =>
+					const keys = hotkey.split(' ').map(key => (
 						<span className={chord.className}>
 							{upperCaseFirst(key)}
 						</span>
-					);
+					));
 					const currentItem = shortcutItem.cloneNode(true);
 					currentItem.firstElementChild!.textContent = description;
 					currentItem.lastElementChild!.replaceChildren(

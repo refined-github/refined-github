@@ -53,11 +53,6 @@ const reactorsQuery = `
 	}
 `;
 
-type ReactionGroup = {
-	content: string;
-	reactors: {nodes: Array<{login: string; avatarUrl: string}>};
-};
-
 function getParticipants(button: HTMLButtonElement): Participant[] {
 	let users;
 
@@ -143,14 +138,18 @@ async function showReactorAvatars(containers: Element[]): Promise<void> {
 			issueOrPullRequest(number: ${getConversationNumber()!}) {${reactorsQuery}}
 		}
 		${
-		[...containersById.keys()].filter(id => id !== undefined).map(id =>
-			`${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`
-		).join('\n')
-	}
+			[...containersById.keys()].filter(id => id !== undefined).map(id =>
+				`${api.escapeKey(id)}: node(id: "${id}") {${reactorsQuery}}`
+			).join('\n')
+		}
 	`);
 
 	const currentUser = getLoggedInUser();
 	for (const [id, container] of containersById) {
+		type ReactionGroup = {
+			content: string;
+			reactors: {nodes: Array<{login: string; avatarUrl: string}>};
+		};
 		const {reactionGroups}: {reactionGroups: ReactionGroup[]} = id
 			? data[api.escapeKey(id)]
 			: data.repository.issueOrPullRequest;

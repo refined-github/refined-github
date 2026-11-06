@@ -62,6 +62,7 @@ const shared = {
 	},
 	target: false,
 	clean: false,
+	report: {summary: true}, // Skip the per-file list, there are hundreds of files
 };
 
 // Drop the files that the other builds are responsible for
@@ -79,7 +80,6 @@ const keep = predicate => ({
 	},
 });
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	{
 		...shared,

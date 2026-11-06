@@ -1,9 +1,11 @@
 <script lang="ts">
 	import {closestElement} from 'select-dom';
+	import {onMount, tick} from 'svelte';
 	import {assertError} from 'ts-extras';
 
 	import DomChef from '../components/dom-chef.svelte';
 	import {getFeatureUrl} from '../helpers/rgh-links.js';
+	import {allowOnlyPaste, copyText} from './paste-only.js';
 	import {
 		apiFeaturesUrl,
 		defaultIcon,
@@ -19,12 +21,14 @@
 		type TokenValidation,
 	} from './validate-token.js';
 
-	const {host, index, revealed, last, reveal}: {
+	const {host, index, revealed, last, reveal, removeAt, registerField}: {
 		host?: string;
 		index: number;
 		revealed: number; // Highest visible index
 		last: boolean;
 		reveal: (_index: number) => void;
+		removeAt: (_index: number) => void;
+		registerField: (_index: number, _field: HTMLInputElement) => void;
 	} = $props();
 
 	const initialMagicValue = ' '; // Initial non-empty value to avoid validation on first run
@@ -34,6 +38,28 @@
 	const shown = $derived(!isEmpty || index <= revealed);
 	const active = $derived(revealed === index);
 	const compact = $derived(revealed > 0);
+
+	let copied = $state(false);
+
+	onMount(() => {
+		registerField(index, tokenField);
+	});
+
+	async function remove(): Promise<void> {
+		removeAt(index);
+		await tick();
+		if (shown) {
+			tokenField.focus();
+		}
+	}
+
+	async function copy(): Promise<void> {
+		await copyText(tokenValue);
+		copied = true;
+		setTimeout(() => {
+			copied = false;
+		}, 1500);
+	}
 
 	function expandTokenSection(): void {
 		closestElement('details', tokenField).open = true;
@@ -130,20 +156,24 @@
 
 <fieldset hidden={!shown}>
 	{#await settled then result}
-		<input type="hidden" name="username" value={result?.user} />
+		<!-- No `name`: every named input in the form is saved to the storage -->
+		<input type="hidden" autocomplete="username" value={result?.user} />
 	{/await}
+	<!-- Only invites pasting, then it's hidden. It stays in the form to be saved -->
 	<input
 		bind:this={tokenField}
 		bind:value={tokenValue}
+		hidden={!isEmpty}
 		type="text"
 		name="personalToken[]"
+		placeholder="Paste token"
 		spellcheck="false"
 		autocomplete="off"
 		autocapitalize="off"
 		size="20"
-		class="monospace-field token-field"
+		onbeforeinput={allowOnlyPaste}
 	/>
-	{#if compact}
+	{#if compact && !isEmpty}
 		{#await settled}
 			{@render compactScopesList()}
 		{:then result}
@@ -156,17 +186,27 @@
 		<span>
 			{result?.message ?? ''}
 		</span>
-		{#if active && !last && result}
-			<button type="button" onclick={() => reveal(index + 1)}>
-				+ add user
-			</button>
-		{/if}
 	{:catch error}
 		<span>
 			{@render validationIcon('invalid')}
 			{error.message}
 		</span>
 	{/await}
+	{#if !isEmpty}
+		<button type="button" onclick={copy}>
+			{copied ? 'Copied' : 'Copy token'}
+		</button>
+		<button type="button" onclick={remove}>Remove</button>
+	{/if}
+	{#if active && !last}
+		{#await settled then result}
+			{#if result}
+				<button type="button" onclick={() => reveal(index + 1)}>
+					Add user
+				</button>
+			{/if}
+		{/await}
+	{/if}
 </fieldset>
 
 {#if active}
@@ -187,15 +227,16 @@
 		margin-bottom: 1em;
 	}
 
+	fieldset :global(.octicon),
+	li :global(.octicon) {
+		vertical-align: middle;
+	}
+
 	code {
 		padding: 0.15em 0.2em;
 		border-radius: 0.375em;
 		background: color-mix(in srgb, currentColor 8%, transparent);
 		font-size: 0.8em;
-	}
-
-	.token-field:not(:focus) {
-		-webkit-text-security: circle;
 	}
 
 	.compact-scopes {

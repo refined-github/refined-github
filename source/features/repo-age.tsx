@@ -109,9 +109,11 @@ async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
 	// About a day old or less ?
 	const age = Date.now() - birthday.getTime() < 10e7
 		? randomArrayItem(fresh)
-		: <>
-			<strong>{value}</strong> {unit} old
-		</>;
+		: (
+			<>
+				<strong>{value}</strong> {unit} old
+			</>
+		);
 
 	// The creation date is trustworthy, but the history may have been imported, so the first commit can be older. Newer commits are ignored
 	const firstCommitIsOlder = firstCommitBirthday.getFullYear() < birthday.getFullYear();
