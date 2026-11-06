@@ -16,8 +16,10 @@
 
 	type Props = {
 		withMargin?: boolean;
+		// Skips `position-relative`, which would override the absolute position set by the CSS
+		pinned?: boolean;
 	};
-	const {withMargin = false}: Props = $props();
+	const {withMargin = false, pinned = false}: Props = $props();
 
 	const baseId = crypto.randomUUID();
 
@@ -27,7 +29,7 @@
 </script>
 <action-menu
 	hidden={!pageDetect.isConversation($url)}
-	class={`position-relative lh-condensed-ultra v-align-middle ${
+	class={`${pinned ? '' : 'position-relative'} lh-condensed-ultra v-align-middle ${
 		withMargin ? 'ml-2' : ''
 	}`}
 	data-select-variant="single"
