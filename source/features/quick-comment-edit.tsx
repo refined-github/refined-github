@@ -7,8 +7,7 @@ import {$, closestElement, elementExists} from 'select-dom';
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
-import getCommentAuthor from '../github-helpers/get-comment-author.js';
-import {getLoggedInUser, isArchivedRepoAsync} from '../github-helpers/index.js';
+import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
@@ -79,14 +78,6 @@ async function addQuickEditButtonLegacy(commentDropdown: HTMLDetailsElement, {si
 
 	const commentBody = closestElement('.js-comment', commentDropdown);
 
-	// Hidden comments, or comments you can't edit
-	if (
-		commentBody.classList.contains('minimized-comment')
-		|| (!await userIsModerator() && getCommentAuthor(commentBody) !== getLoggedInUser())
-	) {
-		return;
-	}
-
 	// The comment is definitely not editable
 	if (!elementExists('.js-comment-update', commentBody)) {
 		return;
@@ -127,7 +118,8 @@ async function init(signal: AbortSignal): Promise<void> {
 	);
 
 	observe(
-		'.js-comment .timeline-comment-actions > details:last-child',
+		(isUserModerator ? '' : '.current-user')
+			+ '.js-comment.unminimized-comment .timeline-comment-actions details.position-relative',
 		addQuickEditButtonLegacy,
 		{signal},
 	);

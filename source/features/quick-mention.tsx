@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import ReplyIcon from 'octicons-plain-react/Reply';
-import {$, $optional, closestElement, elementExists} from 'select-dom';
+import {$, $optional, closestElement, closestElementOptional, elementExists} from 'select-dom';
 import {insertTextIntoField} from 'text-field-edit';
 
 import {withTooltipRef} from '../components/tooltip.js';
@@ -22,8 +22,29 @@ function prefixUserMention(userMention: string): string {
 	return '@' + userMention.replace('@', '').replace(/\[bot\]$/, '');
 }
 
-function mentionUser(author: string): void {
-	const newComment = $(fieldSelector);
+const reviewThreadSelector = [
+	'.js-resolvable-timeline-thread-container',
+	'.js-inline-comments-container',
+	'.review-thread-component',
+] as const;
+
+// Review comments are answered in their own thread, not in the main field
+function getCommentField(comment: Element): HTMLTextAreaElement {
+	const thread = closestElementOptional(reviewThreadSelector, comment);
+	if (!thread) {
+		return $(fieldSelector);
+	}
+
+	const form = $('.inline-comment-form-container', thread);
+	if (!form.classList.contains('open')) {
+		$('.js-toggle-inline-comment-form', form).click();
+	}
+
+	return $('textarea.js-comment-field', form);
+}
+
+function mentionUser(author: string, comment: Element): void {
+	const newComment = getCommentField(comment);
 	newComment.focus();
 
 	// If the new comment field has selected text, don’t replace it
@@ -40,7 +61,7 @@ function mentionUser(author: string): void {
 	scrollIntoViewIfNeeded(newComment);
 }
 
-async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
+async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: SignalAsOptions): Promise<void> {
 	// Hidden comments have no body to mention
 	if (
 		!elementExists('.markdown-body', closestElement(':is(.react-issue-comment, [data-testid="issue-body"])', menuButton))
@@ -55,7 +76,7 @@ async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAs
 			type="button"
 			className="Button Button--iconOnly Button--invisible Button--small"
 			onClick={() => {
-				mentionUser(author);
+				mentionUser(author, menuButton);
 			}}
 		>
 			<ReplyIcon />
@@ -69,7 +90,7 @@ async function addQuickMention(menuButton: HTMLButtonElement, {signal}: SignalAs
 	mentionButton.remove();
 }
 
-function addQuickMentionLegacy(commentDropdown: HTMLDetailsElement): void {
+function addQuickMentionPr(commentDropdown: HTMLDetailsElement): void {
 	const comment = closestElement('.js-comment', commentDropdown);
 
 	// Exclude hidden comments and reviews without comments
@@ -91,7 +112,7 @@ function addQuickMentionLegacy(commentDropdown: HTMLDetailsElement): void {
 			className="timeline-comment-action btn-link rgh-quick-mention"
 			aria-label={`Mention ${prefixUserMention(author)} in a new comment`}
 			onClick={() => {
-				mentionUser(author);
+				mentionUser(author, comment);
 			}}
 		>
 			<ReplyIcon />
@@ -106,7 +127,7 @@ function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
 		observe(
 			'.js-comment .timeline-comment-actions > details:last-child',
-			addQuickMentionLegacy,
+			addQuickMentionPr,
 			{signal},
 		);
 		return;
@@ -116,7 +137,7 @@ function init(signal: AbortSignal): void {
 		// Scoped to comment headers, and not on your own comments
 		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"]):not([class*="viewerDidAuthor" i])'
 			+ ' button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
-		addQuickMention,
+		addQuickMentionIssue,
 		{signal},
 	);
 }
