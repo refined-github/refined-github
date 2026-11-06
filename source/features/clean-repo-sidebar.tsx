@@ -12,7 +12,7 @@ function cleanSidebarSection(section: HTMLElement): void {
 		// The h2 is to avoid hiding website links that include '/releases' #4424
 		elementExists('h2 a[href$="/releases"]', section)
 		// Hide the whole section if there's no releases, unless it has a "Create new release" link
-		&& !elementExists(['.octicon-tag', 'a[href$="releases/new"]'], section)
+		&& !elementExists(['.octicon-tag', '.octicon-release', 'a[href$="releases/new"]'], section)
 	) {
 		section.hidden = true;
 		return;
