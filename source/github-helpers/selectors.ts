@@ -164,7 +164,8 @@ export const commentSelector_ = [
 
 // [data-component="IconButton"] includes only React buttons
 // :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
-export const commentMenuButton = `${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`;
+export const commentMenuButton =
+	`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`;
 export const commentMenuButton_ = [
 	[1, 'https://github.com/refined-github/refined-github/issues/10317'],
 ] satisfies UrlMatch[];

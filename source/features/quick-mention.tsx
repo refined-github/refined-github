@@ -77,7 +77,7 @@ async function addQuickMentionIssue(menuButton: HTMLButtonElement, {signal}: Sig
 		</button>
 	);
 	// Keep it to the left of the hidden comment expander and `quick-comment-edit`, which attach to the same menu
-	appendBefore(menuButton.parentElement!, 'button:has(> :is(.octicon-unfold, .octicon-fold, .octicon-pencil, .octicon-kebab-horizontal))', mentionButton);
+	appendBefore(menuButton.parentElement!, 'button:has(.octicon)', mentionButton);
 
 	// Remove our button when React replaces the menu, preventing duplicates
 	await onElementRemoval(menuButton, signal);
@@ -119,19 +119,10 @@ function addQuickMentionPr(commentDropdown: HTMLDetailsElement): void {
 
 function init(signal: AbortSignal): void {
 	if (pageDetect.isPR()) {
-		observe(
-			prCommentMenu,
-			addQuickMentionPr,
-			{signal},
-		);
-		return;
+		observe(prCommentMenu, addQuickMentionPr, {signal});
+	} else {
+		observe(commentMenuButton, addQuickMentionIssue, {signal});
 	}
-
-	observe(
-		commentMenuButton,
-		addQuickMentionIssue,
-		{signal},
-	);
 }
 
 void features.add(import.meta.url, {
