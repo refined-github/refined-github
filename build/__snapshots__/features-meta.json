@@ -1062,8 +1062,8 @@
 	},
 	{
 		"id": "upload-size-error",
-		"description": "Shows why a file upload failed when GitHub silently rejects it for being over its size limit.",
-		"screenshot": "https://github.com/user-attachments/assets/b5dccc09-bd7f-4c4a-b9c1-1873616d2813"
+		"description": "Warns you when dropping a file over GitHub’s 10 MB upload limit, instead of silently failing.",
+		"screenshot": "https://github.com/user-attachments/assets/164772bc-df4d-4275-b688-e0e43d3dc3df"
 	},
 	{
 		"id": "useful-not-found-page",
