@@ -69,13 +69,13 @@ declare namespace JSX {
 	}
 }
 
-// Drop after https://github.com/Microsoft/TypeScript/issues/30928
+// Drop after https://togithub.com/Microsoft/TypeScript/issues/30928
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
 interface NamedNodeMap {
 	[key: string]: Attr;
 }
 
-// Drop after https://github.com/Microsoft/TypeScript/issues/30928
+// Drop after https://togithub.com/Microsoft/TypeScript/issues/30928
 // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style -- Declaration merging
 interface HTMLFormControlsCollection {
 	[key: string]: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | HTMLSelectElement;

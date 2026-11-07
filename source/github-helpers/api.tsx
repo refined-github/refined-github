@@ -330,7 +330,7 @@ const v4 = memoize(v4uncached, {
 	cacheKey([query, options]) {
 		// `repository()` uses global state and must be handled explicitly
 		// https://github.com/refined-github/refined-github/issues/5821
-		// https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1864
+		// https://togithub.com/sindresorhus/eslint-plugin-unicorn/issues/1864
 		const key = [query, options];
 		if (query.includes('repository() {') || query.includes('owner: $owner, name: $name')) {
 			key.push(getRepo()?.nameWithOwner);

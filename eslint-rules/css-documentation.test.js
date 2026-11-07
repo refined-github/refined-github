@@ -17,18 +17,6 @@ run({
 /* Test: https://github.com/refined-github/sandbox/pull/1 */
 .selector {}`,
 		},
-		{
-			code: `/* Description */
-/* Info: https://github.com/refined-github/refined-github/issues/1 */
-/* Test: https://togithub.com/facebook/react/pull/20646 */
-.selector {}`,
-		},
-		{
-			code: `/* Description */
-/* Info: https://github.com/refined-github/refined-github/issues/1 */
-/* Test: https://github.com/orgs/community/discussions */
-.selector {}`,
-		},
 	],
 	invalid: [
 		{
@@ -42,13 +30,6 @@ run({
 			code: `/* Test: https://github.com/refined-github/sandbox/pull/47#pullrequestreview-4175514676 */
 review-thread-collapsible > .js-toggle-outdated-comments {}`,
 			errors: [{message: /Missing: Description, Info/}],
-		},
-		{
-			code: `/* Description */
-/* Info: https://github.com/refined-github/refined-github/issues/1 */
-/* Test: https://github.com/facebook/react/pull/20646 */
-.selector {}`,
-			errors: [{message: /use `togithub.com`/}],
 		},
 	],
 });

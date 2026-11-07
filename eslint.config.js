@@ -139,6 +139,12 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['**/*.ts', '**/*.tsx', '**/*.css'],
+		rules: {
+			'refined-github/togithub-links': 'error',
+		},
+	},
+	{
 		files: ['**/*.test.ts'],
 		rules: {
 			'byo/prefer-visit-ajaxed-page': 'off', // Tests use it to set the URL

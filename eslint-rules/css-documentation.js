@@ -1,6 +1,3 @@
-// Issue and PR links of other repos must go through `togithub.com` to avoid leaving backlinks there
-const externalIssueOrPrUrlRegex = /https:\/\/github\.com\/(?!refined-github\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d\S*/;
-
 /** @type {import('eslint').Rule.RuleModule} */
 const cssDocumentation = {
 	meta: {
@@ -16,8 +13,6 @@ const cssDocumentation = {
 				'/* Info: <URL to more info> */',
 				'/* Test: <URL where this issue can be seen> */',
 			].join('\n'),
-			externalTestUrl:
-				'Test URLs to issues and PRs outside `refined-github` must use `togithub.com` instead of `github.com` to avoid backlinks: {{url}}',
 		},
 	},
 	create(context) {
@@ -65,16 +60,6 @@ const cssDocumentation = {
 						const commentValue = comment.value.trim().toLowerCase();
 						hasInfo ||= commentValue.startsWith('info:');
 						hasTest ||= commentValue.startsWith('test:');
-
-						const externalUrl = commentValue.startsWith('test:') && externalIssueOrPrUrlRegex.exec(comment.value)?.[0];
-						if (externalUrl) {
-							context.report({
-								loc: comment.loc,
-								messageId: 'externalTestUrl',
-								data: {url: externalUrl},
-							});
-						}
-
 						hasDescription ||= commentValue.length > 0 && !isNonDescriptionMetadataLine(commentValue);
 					}
 
