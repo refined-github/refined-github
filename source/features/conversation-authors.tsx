@@ -31,30 +31,39 @@ const collaborators = new CachedFunction('repo-collaborators', {
 
 async function highlightCollaborators(signal: AbortSignal): Promise<void> {
 	const list = await collaborators.get();
-	observe('[data-testid="author-filter-link"]', author => {
+
+	function highlightCollaborator(author: HTMLElement): void {
 		const name = author.lastChild!.textContent.trim(); // Skip the visually hidden label
 		if (list.includes(name) && name !== getLoggedInUser()) {
 			author.classList.add('rgh-collaborator');
 		}
-	}, {signal});
+	}
+
+	observe('[data-testid="author-filter-link"]', highlightCollaborator, {signal});
+}
+
+function markOwnConversation(author: HTMLElement): void {
+	author.classList.add('rgh-own-conversation');
 }
 
 function highlightSelf(signal: AbortSignal): void {
 	// "Opened by {user}" and "Created by {user}"
 	const loggedInUser = CSS.escape(getLoggedInUser()!);
-	observe([
-		// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
-		`.opened-by a[title$="ed by ${loggedInUser}"]`,
-		// `a` on https://github.com/refined-github/refined-github/issues
-		`[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
-		// `a` on https://github.com/refined-github/refined-github/pulls
-		// `button` on https://github.com/pulls/authored
-		`[aria-label="Filter by author ${loggedInUser}"]`,
-		// `button` on https://github.com/issues/created
-		`button[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
-	], author => {
-		author.classList.add('rgh-own-conversation');
-	}, {signal});
+	observe(
+		[
+			// TODO [2027-01-01]: Drop after the legacy PR Files view is gone
+			`.opened-by a[title$="ed by ${loggedInUser}"]`,
+			// `a` on https://github.com/refined-github/refined-github/issues
+			`[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
+			// `a` on https://github.com/refined-github/refined-github/pulls
+			// `button` on https://github.com/pulls/authored
+			`[aria-label="Filter by author ${loggedInUser}"]`,
+			// `button` on https://github.com/issues/created
+			`button[data-testid="author-filter-link"][data-hovercard-url="/users/${loggedInUser}/hovercard"]`,
+		],
+		markOwnConversation,
+		{signal},
+	);
 }
 
 void features.add(import.meta.url, {

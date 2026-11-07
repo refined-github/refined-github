@@ -37,9 +37,12 @@ function getMergeCommitHash(): string {
 function mountClosingRemarks(props: ComponentProps<typeof ClosingRemarks>, signal: AbortSignal): void {
 	const container = <div />;
 	mount(ClosingRemarks, {target: container, props});
-	observe('.js-discussion', anchor => {
+
+	function addContainer(anchor: HTMLElement): void {
 		anchor.after(container);
-	}, {signal});
+	}
+
+	observe('.js-discussion', addContainer, {signal});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
@@ -51,9 +54,12 @@ async function init(signal: AbortSignal): Promise<void> {
 	}
 
 	mountClosingRemarks({tagName, mergeCommit}, signal);
-	observe('[class*="summaryContainer"] relative-time', relativeTime => {
+
+	const addHeaderTag = (relativeTime: HTMLElement): void => {
 		mount(HeaderTag, {target: relativeTime.parentElement!, props: {tagName}});
-	}, {signal});
+	};
+
+	observe('[class*="summaryContainer"] relative-time', addHeaderTag, {signal});
 }
 
 void features.add(import.meta.url, {
