@@ -110,6 +110,7 @@ export default defineConfig([
 		rules: {
 			'@stylistic/jsx-self-closing-comp': 'error',
 			'@typescript-eslint/no-use-before-define': 'error',
+			'refined-github/avoid-backlinks': 'error',
 
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
@@ -164,6 +165,7 @@ export default defineConfig([
 			}],
 			'refined-github/css-require-fuchsia-fallback': 'error',
 			'refined-github/css-no-useless-function': 'error',
+			'refined-github/avoid-backlinks': 'error',
 			'cssicorn/no-nesting-with-mixed-specificity': 'off', // TODO: Maybe later
 		},
 	},

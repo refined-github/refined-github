@@ -67,7 +67,7 @@ Test URLs
 - Commits by unmarked bot: https://github.com/rust-lang/rust/commits/main?after=c387f012b14a3d64e0d580b7ebe65e5325bcf822+34&branch=master&qualified_name=refs%2Fheads%2Fmaster
 - PRs: https://github.com/OctoLinker/OctoLinker/pulls?q=is%3Apr+is%3Aclosed
 - PRs by unmarked bot: https://github.com/spotify/scio/pulls?q=is%3Apr+sort%3Aupdated-desc+is%3Aclosed+steward
-- PR Commits: https://github.com/pixiebrix/webext-messenger/pull/173/commits
+- PR Commits: https://togithub.com/pixiebrix/webext-messenger/pull/173/commits
 - Global PRs: https://github.com/pulls/search?q=is%3Aopen+is%3Apr+org%3Aapple+archived%3Afalse+draft%3Afalse
 
 */

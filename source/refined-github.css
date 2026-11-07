@@ -218,7 +218,7 @@ fieldset[class*='RadioGroup'] {
 [class*='gridColumnTemplate'],
 /* "Binary not shown" */
 /* Info: https://github.com/refined-github/refined-github/issues/1630 */
-/* Test: https://github.com/JonathanSalwan/binary-samples/pull/9/changes */
+/* Test: https://togithub.com/JonathanSalwan/binary-samples/pull/9/changes */
 div[data-estimated-height='62'] .fgColor-muted {
 	margin-block: 6em;
 	text-align: center; /* Just for binaries */

@@ -33,7 +33,7 @@ void features.add(import.meta.url, {
 
 Test URLs:
 
-- All inactive: https://github.com/btkostner/btkostner.io/pull/10
+- All inactive: https://togithub.com/btkostner/btkostner.io/pull/10
 - Some active: https://github.com/fregante/bundle/pull/6
 - Failed deployment: https://github.com/fregante/webext-alert/pull/24
 

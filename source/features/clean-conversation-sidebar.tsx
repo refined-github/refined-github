@@ -156,9 +156,9 @@ Test URLs:
 * closed issue: https://github.com/refined-github/sandbox/issues/56
 * draft PR: https://github.com/refined-github/sandbox/pull/7
 * merged PR: https://github.com/refined-github/sandbox/pull/58
-* open issue with a milestone and assignee: https://github.com/microsoft/TypeScript/issues/18836
+* open issue with a milestone and assignee: https://togithub.com/microsoft/TypeScript/issues/18836
 * User has triage access
-  * issue: https://github.com/download-directory/download-directory.github.io/issues/39
-  * PR: https://github.com/download-directory/download-directory.github.io/pull/37
+  * issue: https://togithub.com/download-directory/download-directory.github.io/issues/39
+  * PR: https://togithub.com/download-directory/download-directory.github.io/pull/37
 
 */

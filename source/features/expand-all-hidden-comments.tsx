@@ -50,5 +50,5 @@ void features.add(import.meta.url, {
 
 /*
 Test URLs
-https://github.com/rust-lang/rfcs/pull/2544
+https://togithub.com/rust-lang/rfcs/pull/2544
 */
