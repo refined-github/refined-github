@@ -26,9 +26,9 @@ div[class^='prc-PageLayout-Pane']:has(
 .rgh-sticky-sidebar {
 	position: sticky;
 	top: var(--rgh-sticky-sidebar-offset, 0) !important;
-}
 
-/* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
-.rgh-sticky-sidebar:has(.details-overlay[open]) {
-	z-index: 90;
+	/* Higher than sticky readme header https://github.com/refined-github/refined-github/issues/8462 */
+	&:has(.details-overlay[open]) {
+		z-index: 90;
+	}
 }

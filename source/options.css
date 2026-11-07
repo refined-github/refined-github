@@ -67,11 +67,11 @@ details {
 
 	&[open] {
 		border-color: light-dark(#d2d9e0, #3d444d);
-	}
-}
 
-details[open]::details-content {
-	padding: 10px;
+		&::details-content {
+			padding: 10px;
+		}
+	}
 }
 
 summary {
