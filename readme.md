@@ -162,6 +162,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "quick-review-comment-deletion") [Adds a button to delete review comments in one click when editing them.](https://github.com/user-attachments/assets/4e56a9d8-5f6f-48f7-921a-8288c0eb5435)
 - [](# "avoid-accidental-submissions") [Disables the <kbd>enter</kbd>-to-submit shortcut in some commit/PR/issue title fields to avoid accidental submissions. Use <kbd>ctrl</kbd> <kbd>enter</kbd> instead.](https://user-images.githubusercontent.com/723651/125863341-6cf0bce0-f120-4cec-ac1f-1ce35920e7a7.gif)
 - [](# "no-self-reference") [Warns against self-reference links, helping you avoid mistakes.](https://github.com/user-attachments/assets/f5f7a3da-513e-4eff-9571-1cdb72fac2bd)
+- [](# "upload-size-error") [Warns you when dropping a file over GitHub’s 10 MB upload limit, instead of silently failing.](https://github.com/user-attachments/assets/164772bc-df4d-4275-b688-e0e43d3dc3df)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.
