@@ -1,10 +1,10 @@
 import cssPlugin from '@eslint/css';
 import {run} from 'eslint-vitest-rule-tester';
 
-import rule from './togithub-links.js';
+import rule from './avoid-backlinks.js';
 
 run({
-	name: 'togithub-links (js)',
+	name: 'avoid-backlinks (js)',
 	rule,
 	valid: [
 		'// https://github.com/refined-github/sandbox/pull/1',
@@ -28,7 +28,7 @@ run({
 });
 
 run({
-	name: 'togithub-links (css)',
+	name: 'avoid-backlinks (css)',
 	rule,
 	configs: {
 		plugins: {css: cssPlugin},

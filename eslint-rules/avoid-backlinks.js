@@ -2,7 +2,7 @@
 const externalIssueOrPrUrl = /https:\/\/github\.com(?=\/(?!refined-github\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d)/g;
 
 /** @type {import('eslint').Rule.RuleModule} */
-const togithubLinks = {
+const avoidBacklinks = {
 	meta: {
 		type: 'problem',
 		fixable: 'code',
@@ -34,4 +34,4 @@ const togithubLinks = {
 	},
 };
 
-export default togithubLinks;
+export default avoidBacklinks;
