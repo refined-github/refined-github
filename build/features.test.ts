@@ -104,6 +104,45 @@ class FeatureFile {
 	}
 }
 
+// Issue and PR links of other repos must go through `togithub.com` to avoid leaving backlinks there
+const externalIssueOrPrUrlRegex =
+	/https:\/\/github\.com\/(?!refined-github\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d\S*/g;
+
+function getTestUrlLines(contents: string): string[] {
+	const testUrlLines: string[] = [];
+	let isInTestUrls = false;
+	let isLineComment = false;
+	for (const line of contents.split('\n')) {
+		if (/test urls?/i.test(line)) {
+			isInTestUrls = true;
+			isLineComment = line.trimStart().startsWith('//');
+		} else if (isLineComment && !line.trimStart().startsWith('//')) {
+			isInTestUrls = false;
+		}
+
+		if (!isInTestUrls) {
+			continue;
+		}
+
+		testUrlLines.push(line);
+		if (!isLineComment && line.includes('*/')) {
+			isInTestUrls = false;
+		}
+	}
+
+	return testUrlLines;
+}
+
+function validateTestUrls(file: FeatureFile): void {
+	const externalUrls = getTestUrlLines(file.contents()).flatMap(line => line.match(externalIssueOrPrUrlRegex) ?? []);
+	assert(
+		externalUrls.length === 0,
+		`Test URLs to issues and PRs outside \`refined-github\` should use \`togithub.com\` instead of \`github.com\`: ${
+			externalUrls.join(', ')
+		}`,
+	);
+}
+
 function validateReadme(featureId: FeatureId): void {
 	const [featureMeta, duplicate] = featuresInReadme.filter(feature => feature.id === featureId);
 	assert(featureMeta, 'Should be described in the readme');
@@ -123,6 +162,8 @@ function validateReadme(featureId: FeatureId): void {
 }
 
 function validateCss(file: FeatureFile): void {
+	validateTestUrls(file);
+
 	const isImportedByEntrypoint = entryPointSource.includes(`import './features/${file.name}';`);
 
 	if (!file.tsx.exists()) {
@@ -175,6 +216,8 @@ function validateGql(file: FeatureFile): void {
 }
 
 function validateTsx(file: FeatureFile): void {
+	validateTestUrls(file);
+
 	assert(
 		importedFeatures.includes(file.id),
 		`Should be imported by \`${entryPoint}\``,
