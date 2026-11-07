@@ -31,7 +31,7 @@ function init(signal: AbortSignal): void {
 			'ul[data-testid="issue-viewer-linked-pr-container"] a[target="_blank"]',
 
 			// Commit linkbacks on issue timeline
-			// https://togithub.com/sindresorhus/np/issues/82#event-22200037448
+			// https://github.com/sindresorhus/np/issues/82#event-22200037448
 			'a[target="_blank"][class*="commitHashLink"]',
 
 			// Linked PRs on issue list

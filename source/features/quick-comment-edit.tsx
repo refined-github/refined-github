@@ -141,6 +141,6 @@ Test URLs:
 - Regular issue: https://togithub.com/es-tooling/module-replacements-codemods/issues/6
 - Locked issue (own repo): https://github.com/refined-github/sandbox/issues/74
 - Locked issue (other repo): https://togithub.com/eslint/eslint/issues/8213
-- Archived repo: https://togithub.com/fregante/iphone-inline-video/issues/101
+- Archived repo: https://github.com/fregante/iphone-inline-video/issues/101
 
 */

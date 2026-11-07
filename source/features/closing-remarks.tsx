@@ -83,7 +83,7 @@ Test URLs
 
 - PR: https://github.com/refined-github/refined-github/pull/5600
 - Locked PR: https://togithub.com/eslint/eslint/pull/17
-- Archived repo: https://togithub.com/fregante/iphone-inline-video/pull/130
+- Archived repo: https://github.com/fregante/iphone-inline-video/pull/130
 - Untagged PR: https://togithub.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/pull/3
 - Prefer versioned tag: https://togithub.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/pull/1
 	- See: https://github.com/mwmwmwmwmwmwmwmwmwmwmwwwmwmwmwmwmwmwmwm/closing-remarks/branch_commits/60eb1e5ee0953c70e6fc6150dbeacd1cf20899be

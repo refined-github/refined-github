@@ -1,5 +1,5 @@
-// Issue and PR links of other repos must go through `togithub.com` to avoid leaving backlinks there
-const externalIssueOrPrUrl = /https:\/\/github\.com(?=\/(?!refined-github\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d)/g;
+// Issue and PR links of other repos must go through `togithub.com` to avoid leaving backlinks there. Owners we maintain are fine, and so are TODOs.
+const externalIssueOrPrUrl = /https:\/\/github\.com(?=\/(?!(?:refined-github|fregante|sindresorhus)\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d)/g;
 
 /** @type {import('eslint').Rule.RuleModule} */
 const avoidBacklinks = {
@@ -18,6 +18,10 @@ const avoidBacklinks = {
 		function check() {
 			// CSS source code has `comments`, JS has `getAllComments()`
 			for (const comment of sourceCode.getAllComments?.() ?? sourceCode.comments ?? []) {
+				if (/^\s*TODO\b/.test(comment.value)) {
+					continue;
+				}
+
 				const [start] = comment.range ?? [comment.loc.start.offset];
 				for (const match of sourceCode.getText(comment).matchAll(externalIssueOrPrUrl)) {
 					context.report({

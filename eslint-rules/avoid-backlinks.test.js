@@ -8,6 +8,10 @@ run({
 	rule,
 	valid: [
 		'// https://github.com/refined-github/sandbox/pull/1',
+		'// https://github.com/fregante/ghat/issues/1',
+		'// https://github.com/sindresorhus/np/issues/82#event-22200037448',
+		'// TODO: Use https://github.com/facebook/react/issues/1 instead',
+		'/* TODO: https://github.com/facebook/react/pull/20646 */',
 		'// https://togithub.com/facebook/react/pull/20646',
 		'// https://github.com/orgs/community/discussions',
 		"const url = 'https://github.com/facebook/react/pull/20646';",

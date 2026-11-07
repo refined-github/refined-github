@@ -155,7 +155,7 @@
 
 /* Highlight sponsor label in comments */
 /* Info: https://github.com/refined-github/refined-github/issues/7293 */
-/* Test: https://togithub.com/fregante/webext-storage-cache/issues/19#issuecomment-653229351 */
+/* Test: https://github.com/fregante/webext-storage-cache/issues/19#issuecomment-653229351 */
 span[data-testid='sponsor-label'] {
 	color: #db61a2; /* Matches color-gh-sponsor. Also hardcoded in the SVG below */
 	&::before {

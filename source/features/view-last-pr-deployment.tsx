@@ -46,5 +46,5 @@ void features.add(import.meta.url, {
 /*
 Test URLs:
 - All inactive: https://togithub.com/btkostner/btkostner.io/pull/10
-- Some active: https://togithub.com/fregante/bundle/pull/6
+- Some active: https://github.com/fregante/bundle/pull/6
 */

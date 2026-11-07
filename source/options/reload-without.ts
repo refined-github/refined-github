@@ -17,7 +17,7 @@ async function reload(_: unknown, tab: chrome.tabs.Tab): Promise<void> {
 		await contentScriptToggle.set(false);
 		await chrome.tabs.reload(tab.id);
 	} else {
-		// TODO: Use https://togithub.com/fregante/webext-events/issues/31 to disable the item instead
+		// TODO: Use https://github.com/fregante/webext-events/issues/31 to disable the item instead
 		await webextAlert('Refined GitHub is already not running on this page');
 	}
 }
