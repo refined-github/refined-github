@@ -152,7 +152,7 @@
 						{#if isCss && !meta.cssOnly}
 							{separator}
 							{@render featureLink(pathname.replace('.css', '.tsx'), 'See .tsx file')}
-						{:else if meta.css && !isCss}
+						{:else if !isCss && meta.css}
 							{separator}
 							{@render featureLink(pathname.replace('.tsx', '.css'), 'See .css file')}
 						{/if}

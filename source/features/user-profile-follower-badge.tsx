@@ -26,9 +26,7 @@ async function init(): Promise<void> {
 
 	const target = await elementReady('.js-profile-editable-area [href$="?tab=following"]');
 	attachElement(target, {
-		after: () => (
-			<span className="color-fg-muted">{' · Follows you'}</span>
-		),
+		after: () => <span className="color-fg-muted"> · Follows you</span>,
 	});
 }
 

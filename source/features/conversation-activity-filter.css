@@ -27,9 +27,33 @@
 	}
 }
 
+/* In the PR sticky header, show it after the title */
+[class*='prTitleArea'] > action-menu {
+	order: 10;
+}
+
+/* In the PR sticky header, GitHub forces a min-width wider than the window below 1280px, pushing the widget off screen */
+.rgh-conversation-activity-filter[class*='prTitleArea'] {
+	min-width: min(100dvw, 1280px);
+}
+
 /* In the PR sticky header, hide if there's no room for it */
 @media (width <= 774px) {
 	[class*='prTitleArea'] > action-menu {
 		display: none;
+	}
+}
+
+/* Keep the button compact without using the small height. Flex avoids empty grid areas adding gaps */
+.Button.rgh-conversation-activity-filter-button {
+	padding-inline: var(--control-small-paddingInline-condensed, 0.5rem);
+
+	.Button-content {
+		display: flex;
+		gap: var(--control-small-gap, 0.25rem);
+
+		> * {
+			margin: 0;
+		}
 	}
 }

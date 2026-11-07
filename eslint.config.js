@@ -8,7 +8,6 @@ import selectDom from 'select-dom/eslint-plugin';
 import refinedGithubPlugin from './eslint-rules/index.js';
 import restrictedSyntax from './eslint-rules/restricted-syntax.js';
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/pull/3893
 export default defineConfig([
 	globalIgnores(['safari', 'package-lock.json']),
 	...eslintConfigXo({
@@ -109,7 +108,9 @@ export default defineConfig([
 	{
 		files: ['**/*.ts', '**/*.tsx'],
 		rules: {
+			'@stylistic/jsx-self-closing-comp': 'error',
 			'@typescript-eslint/no-use-before-define': 'error',
+
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
 			'@typescript-eslint/no-unsafe-argument': 'off',

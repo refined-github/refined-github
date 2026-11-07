@@ -44,25 +44,27 @@ function createResolveConflictsButtons(menuItems: Element[]): JSX.Element {
 					);
 				const ref = shouldHaveTooltip ? withTooltipRef(inactiveReason ?? 'Ask Copilot to resolve conflicts') : undefined;
 
-				return <div>
-					{isWebEditorItem && !isDisabled
-						? (
-							<a ref={ref} className={className} href={`${location.pathname}/conflicts`}>
-								{content}
-							</a>
-						)
-						: (
-							<button
-								ref={ref}
-								className={className}
-								type="button"
-								disabled={isDisabled}
-								onClick={isCopilotItem ? insertCopilotInstruction : undefined}
-							>
-								{content}
-							</button>
-						)}
-				</div>;
+				return (
+					<div>
+						{isWebEditorItem && !isDisabled
+							? (
+								<a ref={ref} className={className} href={`${location.pathname}/conflicts`}>
+									{content}
+								</a>
+							)
+							: (
+								<button
+									ref={ref}
+									className={className}
+									type="button"
+									disabled={isDisabled}
+									onClick={isCopilotItem ? insertCopilotInstruction : undefined}
+								>
+									{content}
+								</button>
+							)}
+					</div>
+				);
 			})}
 		</div>
 	);

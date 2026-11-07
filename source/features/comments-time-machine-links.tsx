@@ -13,18 +13,10 @@ import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-helpers/notice-bar.js';
-import {loaded} from '../github-helpers/selectors.js';
-import {is} from '../helpers/css-selectors.js';
+import {commentMenuButton, commentSelector, prCommentMenu} from '../github-helpers/selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 import {saveOriginalHref} from './last-update-sort.js';
-
-const commentSelector = is(
-	`${loaded} .react-issue-body`, // Issue description
-	'.react-issue-comment', // Issue comment
-	'[data-testid="review-thread"] > div', // Review thread comment
-	'.js-comment', // PR description or comment
-);
 
 async function updateUrltoDatedSha(url: GitHubFileUrl, date: string): Promise<void> {
 	const {repository} = await api.v4(GetCommitAtDate, {variables: {date, branch: url.branch}});
@@ -146,8 +138,7 @@ function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 			role="menuitem"
 			title="Browse repository like it appeared on this day"
 			aria-keyshortcuts="v"
-		>
-		</a>
+		/>
 	);
 	link.append(...menuItemContentWrapper.childNodes);
 	menuItemContentWrapper.replaceWith(link);
@@ -161,7 +152,7 @@ function addDropdownLinkReact({delegateTarget}: DelegateEvent): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.timeline-comment-actions > details:last-child', menu => {
+	observe(prCommentMenu, menu => {
 		if (closestElementOptional('.js-pending-review-comment', menu)) {
 			return;
 		}
@@ -181,10 +172,8 @@ async function init(signal: AbortSignal): Promise<void> {
 		addDropdownLink(menu, timestamp);
 	}, {signal});
 
-	// [data-component="IconButton"] includes only React buttons
-	// :not([id^="task-list-menu"]) excludes task list (Convert to issue/sub-issue, etc) menu buttons
 	delegate(
-		`${commentSelector} button[data-component="IconButton"]:has(> .octicon-kebab-horizontal):not([id^="task-list-menu"])`,
+		commentMenuButton,
 		'click',
 		addDropdownLinkReact,
 		{signal},

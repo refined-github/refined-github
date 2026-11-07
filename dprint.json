@@ -25,9 +25,11 @@
 		"quoteStyle": "preferSingle",
 		"jsx.quoteStyle": "preferDouble",
 		"trailingCommas": "onlyMultiLine",
-		"semiColons": "prefer",
+		"semicolons": "prefer",
 		"lineWidth": 120,
-		"jsx.multiLineParens": "never",
+		"jsx.multiLineParens": "prefer",
+		// FUTURE: No support for {}-less selectors yet
+		"taggedTemplate.formatEmbedded": false,
 		"spaceSurroundingProperties": false,
 		"importDeclaration.spaceSurroundingNamedImports": false,
 		"exportDeclaration.spaceSurroundingNamedExports": false

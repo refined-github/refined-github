@@ -14,7 +14,6 @@ function clickAllExcept(elementsToClick: string, except: HTMLElement): void {
 	}
 }
 
-// eslint-disable-next-line unicorn/no-top-level-side-effects -- TODO: https://github.com/sindresorhus/eslint-plugin-unicorn/issues/3895
 export default memoize((selector: string | ((clickedItem: HTMLElement) => string)): EventHandler => event => {
 	if (!(event.altKey && event.isTrusted)) {
 		return;
