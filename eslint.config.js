@@ -164,10 +164,8 @@ export default defineConfig([
 				allowUnknownVariables: true,
 			}],
 			'refined-github/css-require-fuchsia-fallback': 'error',
-			'refined-github/css-prefer-nesting': 'error',
 			'refined-github/css-no-useless-function': 'error',
 			'refined-github/avoid-backlinks': 'error',
-			'cssicorn/prefer-nesting': 'off', // TODO: Enable separately
 			'cssicorn/no-nesting-with-mixed-specificity': 'off', // TODO: Maybe later
 		},
 	},
