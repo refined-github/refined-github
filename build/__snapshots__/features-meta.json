@@ -1061,6 +1061,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/7bd2745b-c57c-4c26-bbb8-b05e9cf089db"
 	},
 	{
+		"id": "upload-size-error",
+		"description": "Shows why a file upload failed when GitHub silently rejects it for being over its size limit.",
+		"screenshot": "https://github.com/user-attachments/assets/b5dccc09-bd7f-4c4a-b9c1-1873616d2813"
+	},
+	{
 		"id": "useful-not-found-page",
 		"description": "Adds possible related pages and alternatives on 404 pages.",
 		"css": true,
