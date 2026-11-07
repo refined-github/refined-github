@@ -46,11 +46,11 @@ html:not([rgh-OFF-align-issue-labels]) {
 		.min-width-0 {
 			display: flex;
 			flex-wrap: wrap;
-		}
 
-		/* Labels */
-		.min-width-0 > .lh-default {
-			order: 1;
+			/* Labels */
+			> .lh-default {
+				order: 1;
+			}
 		}
 
 		/* Build status */
