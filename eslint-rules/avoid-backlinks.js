@@ -1,5 +1,6 @@
 // Issue and PR links of other repos must go through `togithub.com` to avoid leaving backlinks there. Owners we maintain are fine, and so are TODOs.
-const externalIssueOrPrUrl = /https:\/\/github\.com(?=\/(?!(?:refined-github|fregante|sindresorhus)\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d)/g;
+const externalIssueOrPrUrl =
+	/https:\/\/github\.com(?=\/(?!(?:refined-github|fregante|sindresorhus)\/)[^\s/]+\/[^\s/]+\/(?:issues|pull)\/\d)/g;
 
 /** @type {import('eslint').Rule.RuleModule} */
 const avoidBacklinks = {
