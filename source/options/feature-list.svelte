@@ -2,6 +2,7 @@
 	import {$$optional as querySelectorAllOptional} from 'select-dom';
 
 	import {featuresMeta, importedFeatures} from '../feature-data.js';
+	import {is} from '../helpers/css-selectors.js';
 	import highlightText from '../helpers/highlight-text.js';
 	import {brokenFeatures} from '../helpers/hotfix.js';
 	import FeatureItem from './feature-item.svelte';
@@ -34,7 +35,7 @@
 		return highlightText(
 			'feature-search',
 			querySelectorAllOptional(
-				':scope .feature-item:not([hidden]) :is(.feature-name, .description)',
+				`:scope .feature-item:not([hidden]) ${is('.feature-name', '.description')}`,
 				list,
 			),
 			keywords,

@@ -7,7 +7,7 @@ import {anyRegex} from 'regex-join';
 import features from '../feature-manager.js';
 import getUserAvatarURL, {stripBotMarkers} from '../github-helpers/get-user-avatar.js';
 import {assertUsername} from '../github-helpers/index.js';
-import {not} from '../helpers/css-selectors.js';
+import {is, not} from '../helpers/css-selectors.js';
 import {isSmallDevice} from '../helpers/dom-utils.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -116,7 +116,7 @@ function initOnce(): void {
 		'[data-testid="closed-at"] a[data-hovercard-url*="/users"]', // `isIssueList`
 		// `a` on repository PR lists, including `attributed-author-filter-link` for app-created PRs
 		// `button` on https://github.com/pulls/authored
-		'[aria-label^="Filter by author "]:is(a, button)',
+		`[aria-label^="Filter by author "]${is('a', 'button')}`,
 		// `button` on https://github.com/issues/* (no aria-label, hides "Filter by author " in its text)
 		'button[data-testid="author-filter-link"][data-hovercard-type="user"]',
 	], addIssueRowAvatar);

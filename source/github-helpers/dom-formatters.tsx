@@ -5,6 +5,7 @@ import {closestElementOptional, elementExists} from 'select-dom';
 import {applyToLink} from 'shorten-repo-url';
 import zipTextNodes from 'zip-text-nodes';
 
+import {is} from '../helpers/css-selectors.js';
 import getTextNodes from '../helpers/get-text-nodes.js';
 import {buildRepoUrl, getConversationNumber} from './index.js';
 import parseBackticksCore from './parse-backticks.js';
@@ -16,7 +17,7 @@ const linkifiedUrlSelector = '.rgh-linkified-code';
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
 	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
-	':is(.snippet-clipboard-content, .highlight) > pre.notranslate', // Code blocks in comments. May be wrapped twice
+	`${is('.snippet-clipboard-content', '.highlight')} > pre.notranslate`, // Code blocks in comments. May be wrapped twice
 	'.markdown-body code:not(a code, pre code)', // Inline code in comments
 	'.diff-text-inner',
 	'.react-file-line',
