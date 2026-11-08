@@ -87,7 +87,7 @@ const workflowDetails = new CachedFunction('workflows-details', {
 async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 	// Called in `init`, memoized
 	const workflows = await workflowDetails.get();
-	const workflowName = workflowLink.href.split('/').pop()!;
+	const workflowName = workflowLink.pathname.split('/').pop()!;
 	const workflow = workflows[workflowName];
 	if (!workflow) {
 		return;
@@ -95,9 +95,14 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 
 	if (workflow.manuallyDispatchable && workflowLink.pathname !== location.pathname) {
 		// The pin button only exists if the user can run workflows, so only they get the play button
+		const workflowRow = closestElement(
+			'[data-component="Sidebar.Item"]',
+			workflowLink,
+		);
+
 		const pinButton = $optional(
-			'[data-component="ActionList.TrailingAction"] button',
-			closestElement('li', workflowLink),
+			':scope [data-component="Sidebar.Action"] button[data-component="IconButton"]',
+			workflowRow,
 		);
 		if (pinButton) {
 			// Lay out the play and pin buttons side by side
@@ -134,7 +139,7 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 		return;
 	}
 
-	$('[class^="prc-ActionList-ItemLabel"]', workflowLink).append(
+	$('[data-sidebar-collapse-content]', workflowLink).append(
 		' ',
 		<em>
 			(<relative-time datetime={String(nextTime)} />)
@@ -143,7 +148,11 @@ async function addIndicators(workflowLink: HTMLAnchorElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<false | void> {
-	observe('a[class^="prc-ActionList-ActionListContent"]', addIndicators, {signal});
+	observe(
+		'[data-component="Sidebar.Item"] > a[href*="/actions/workflows/"]',
+		addIndicators,
+		{signal},
+	);
 }
 
 async function openRunWorkflow(): Promise<void> {
