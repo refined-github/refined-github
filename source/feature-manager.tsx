@@ -201,7 +201,13 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 		}
 
 		let isFirstLoop = true;
+		let previousController: AbortController | undefined;
 		do {
+			// React navigations don't fire the Turbo events that call `unloadAll`, so stop the previous run here or its listeners and `observe` styles pile up
+			// https://github.com/refined-github/refined-github/issues/10311
+			previousController?.abort();
+			previousController = undefined;
+
 			if (awaitDomReady) {
 				await domLoaded;
 			}
@@ -221,6 +227,7 @@ async function add(url: string, ...loaders: FeatureLoader[]): Promise<void> {
 			}
 
 			const featureController = new AbortController();
+			previousController = featureController;
 			currentFeatureControllers.append(id, featureController);
 
 			// Do not await, or else an error on a page will break the feature completely until a reload
