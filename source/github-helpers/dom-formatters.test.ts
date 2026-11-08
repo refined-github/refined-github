@@ -37,7 +37,7 @@ test('shorten link in comment text', () => {
 });
 
 test('avoid shortening link in code block inside comment', () => {
-	// https://github.com/denosaurs/mod.land/issues/55#issue-1160032701
+	// https://togithub.com/denosaurs/mod.land/issues/55#issue-1160032701
 	expect(shortenLinksInFragment(`
 		<div class="highlight highlight-source-ts">
 			<pre class="rgh-linkified-code">

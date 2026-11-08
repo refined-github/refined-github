@@ -1,3 +1,4 @@
+import avoidBacklinks from './avoid-backlinks.js';
 import consistentFeatureAdd from './consistent-feature-add.js';
 import cssDocumentation from './css-documentation.js';
 import noUselessFunction from './css-no-useless-function.js';
@@ -13,6 +14,7 @@ const refinedGithubPlugin = {
 		'css-require-fuchsia-fallback': requireFuchsiaFallback,
 		'css-sort-compound-selector': sortCompoundSelector,
 		'css-no-useless-function': noUselessFunction,
+		'avoid-backlinks': avoidBacklinks,
 	},
 };
 

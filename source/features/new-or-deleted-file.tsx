@@ -73,7 +73,7 @@ void features.add(import.meta.url, {
 
 Commit: https://github.com/refined-github/sandbox/commit/a00694ff7370d46b5f6d723a0b39141903dae45a
 PR: https://github.com/refined-github/sandbox/pull/71/files
-PR with CODEOWNERS: https://github.com/dotnet/winforms/pull/6028/files
+PR with CODEOWNERS: https://togithub.com/dotnet/winforms/pull/6028/files
 1-file commits: https://github.com/refined-github/sandbox/commit/1ed862e3abd13004009927b26355a51a109d6855
 
 */
