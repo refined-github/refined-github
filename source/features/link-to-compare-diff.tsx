@@ -5,7 +5,6 @@ import * as pageDetect from 'github-url-detection';
 import {elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {has, not} from '../helpers/css-selectors.js';
 import {wrapAll} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -17,7 +16,7 @@ function linkify(changedFilesSummary: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	observe('.Box li' + has('> .octicon-file-diff'), linkify, {signal});
+	observe('.Box li:has(> .octicon-file-diff)', linkify, {signal});
 }
 
 void features.add(import.meta.url, {
@@ -25,7 +24,7 @@ void features.add(import.meta.url, {
 		pageDetect.isCompare,
 	],
 	exclude: [
-		() => elementExists('.tabnav' + not('.CommentBox-header')), // The commit list and compare diff are in two separate tabs
+		() => elementExists('.tabnav:not(.CommentBox-header)'), // The commit list and compare diff are in two separate tabs
 	],
 	awaitDomReady: true, // DOM-based exclusion filter
 	init,

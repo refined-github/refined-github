@@ -35,7 +35,10 @@
 		return highlightText(
 			'feature-search',
 			querySelectorAllOptional(
-				':scope .feature-item:not([hidden]) ' + is('.feature-name', '.description'),
+				':scope .feature-item:not([hidden]) ' + is(
+					'.feature-name',
+					'.description',
+				),
 				list,
 			),
 			keywords,

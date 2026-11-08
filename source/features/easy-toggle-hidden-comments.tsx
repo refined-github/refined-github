@@ -11,7 +11,10 @@ function toggle(event: DelegateEvent<MouseEvent>): void {
 		$(
 			[
 				'.review-thread-chevron', // PRs
-				'button' + has('> .octicon-unfold', '> .octicon-fold'), // Issues
+				'button' + has(
+					'> .octicon-unfold',
+					'> .octicon-fold',
+				), // Issues
 			],
 			event.delegateTarget,
 		).click();
@@ -22,7 +25,10 @@ function init(signal: AbortSignal): void {
 	delegate(
 		[
 			'.js-toggle-outdated-comments', // PRs
-			'div[data-testid="comment-header"]' + has('.octicon-unfold', '.octicon-fold'), // Issues
+			'div[data-testid="comment-header"]' + has(
+				'.octicon-unfold',
+				'.octicon-fold',
+			), // Issues
 		],
 		'click',
 		toggle,

@@ -5,11 +5,10 @@ import * as pageDetect from 'github-url-detection';
 import {$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {has} from '../helpers/css-selectors.js';
 
 const lineSelectors = [
 	'.diff-view .js-expandable-line', // Expandable lines in old view
-	'.diff-line-row' + has('button[data-direction]'), // React view
+	'.diff-line-row:has(button[data-direction])', // React view
 ];
 
 const nativeButtonSelector = [

@@ -4,7 +4,6 @@ import * as pageDetect from 'github-url-detection';
 import {$optional, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {has} from '../helpers/css-selectors.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -20,7 +19,7 @@ function cleanSidebarSection(section: HTMLElement): void {
 	}
 
 	// Readme link broken and redundant: https://github.com/refined-github/refined-github/issues/10030
-	const readmeLink = $optional('.mt-2' + has('> a[href="#readme-ov-file"]'), section);
+	const readmeLink = $optional('.mt-2:has(> a[href="#readme-ov-file"])', section);
 	if (readmeLink) {
 		readmeLink.remove();
 	}

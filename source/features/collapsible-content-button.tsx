@@ -8,7 +8,6 @@ import {insertTextIntoField} from 'text-field-edit';
 
 import features from '../feature-manager.js';
 import {actionBar} from '../github-helpers/selectors.js';
-import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import smartBlockWrap from '../helpers/smart-block-wrap.js';
 
@@ -16,7 +15,7 @@ function addContentToDetails({delegateTarget}: DelegateEvent<MouseEvent, HTMLBut
 	const container = closestElement([
 		'form',
 		'[data-testid="comment-composer"]', // Add comment form
-		'[class*="container"]' + has('[class*="textArea"] textarea'), // Edit comment form
+		'[class*="container"]:has([class*="textArea"] textarea)', // Edit comment form
 	], delegateTarget);
 
 	/* There's only one rich-text editor even when multiple fields are visible; the class targets it #5303 */

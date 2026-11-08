@@ -95,17 +95,21 @@ function findMatches(value) {
 			continue;
 		}
 
+		const inner = value.slice(innerStart, closing);
+		const arguments_ = splitArguments(inner);
+		// Single-item functions and short ones are fine as they are
+		if (!(arguments_.length > 1 && inner.length >= minInnerLength)) {
+			continue;
+		}
+
 		// Nested functions are handled in the next pass, once their parent has been converted
 		pattern.lastIndex = closing + 1;
-		const inner = value.slice(innerStart, closing);
-		if (inner.length >= minInnerLength) {
-			matches.push({
-				name: match.groups.name,
-				start: match.index,
-				end: closing + 1,
-				args: splitArguments(inner),
-			});
-		}
+		matches.push({
+			name: match.groups.name,
+			start: match.index,
+			end: closing + 1,
+			args: arguments_,
+		});
 	}
 
 	return matches;
@@ -188,7 +192,7 @@ const preferSelectorHelper = {
 						parts.push(toLiteral(node.value.slice(position, start)));
 					}
 
-					parts.push(`${name}(${args.map(argument => toLiteral(argument)).join(', ')})`);
+					parts.push(`${name}(\n${args.map(argument => toLiteral(argument)).join(',\n')}\n)`);
 					position = end;
 				}
 

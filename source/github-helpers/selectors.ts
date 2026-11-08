@@ -1,6 +1,6 @@
 import {css} from 'code-tag';
 
-import {has, is, not} from '../helpers/css-selectors.js';
+import {is, not} from '../helpers/css-selectors.js';
 
 const requiresLogin: UrlMatch[] = [];
 
@@ -9,7 +9,10 @@ export type UrlMatch = [expectations: number, url: string];
 // GitHub uses different render strategies depending on the "Command Palette" Feature Preview setting
 // - Enabled: Catalyst is used, and `.loaded` is present
 // - Disabled: SSR is used, and `[data-render-ssr]` is present
-export const loaded = is('.loaded', '[data-render-ssr]');
+export const loaded = is(
+	'.loaded',
+	'[data-render-ssr]',
+);
 export const loaded_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
 ] satisfies UrlMatch[];
@@ -42,14 +45,16 @@ export const branchSelector_ = [
 ] satisfies UrlMatch[];
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
-export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img)'
-	+ is('.color-fg-muted', '.octicon-file-symlink-file');
+export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img)' + is(
+	'.color-fg-muted',
+	'.octicon-file-symlink-file',
+);
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
 ] satisfies UrlMatch[];
 
-export const prCommit = '.TimelineItem--condensed' + has('.octicon-git-commit');
+export const prCommit = '.TimelineItem--condensed:has(.octicon-git-commit)';
 export const prCommit_ = [
 	[1, 'https://github.com/refined-github/sandbox/pull/10'],
 ] satisfies UrlMatch[];
@@ -292,7 +297,7 @@ export const usernameLinksSelector = [
 	// On dashboard
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
-	'#dashboard a.Link--primary[data-hovercard-type="user"]' + not('[aria-label="card content"] *'),
+	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
 	'.feed-item-content header a.Link--primary',
 ] as unknown as Array<'a'>;
 export const usernameLinksSelector_ = [
@@ -324,7 +329,7 @@ export const conversationCloseEvent = [
 		.octicon-skip
 	))`,
 	// React view (Issues)
-	'[data-timeline-event-id]' + has('[data-testid="state-reason-link"]'),
+	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
 ];
 export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues/123'],

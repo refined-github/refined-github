@@ -11,7 +11,6 @@ import features from '../feature-manager.js';
 import {registerHotkey} from '../github-helpers/hotkey.js';
 import {loaded} from '../github-helpers/selectors.js';
 import showToast from '../github-helpers/toast.js';
-import {not} from '../helpers/css-selectors.js';
 import {getClasses, isSmallDevice, wrap} from '../helpers/dom-utils.js';
 import {fetchDomUncached} from '../helpers/fetch-dom.js';
 import onetime from '../helpers/onetime.js';
@@ -107,7 +106,7 @@ async function addButton(nativeLink: HTMLAnchorElement): Promise<void> {
 function initOnce(): void {
 	registerHotkey('g u', openUnreadNotifications);
 	document.documentElement.classList.add('rgh-unread-anywhere');
-	observe(buttonWithNotificationsSelector + not('.rgh-unread-anywhere-wrapper *'), addButton);
+	observe(buttonWithNotificationsSelector + ':not(.rgh-unread-anywhere-wrapper *)', addButton);
 }
 
 void features.add(import.meta.url, {

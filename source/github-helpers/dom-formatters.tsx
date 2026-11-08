@@ -16,9 +16,15 @@ const linkifiedUrlSelector = '.rgh-linkified-code';
 
 export const codeElementsSelector = [
 	// Sometimes formatted diffs are loaded later and discard our formatting #5870
-	'.blob-code-inner' + not('deferred-diff-lines.awaiting-highlight *'), // Code lines
-	is('.snippet-clipboard-content', '.highlight') + ' > pre.notranslate', // Code blocks in comments. May be wrapped twice
-	'.markdown-body code' + not('a code', 'pre code'), // Inline code in comments
+	'.blob-code-inner:not(deferred-diff-lines.awaiting-highlight *)', // Code lines
+	is(
+		'.snippet-clipboard-content',
+		'.highlight',
+	) + ' > pre.notranslate', // Code blocks in comments. May be wrapped twice
+	'.markdown-body code' + not(
+		'a code',
+		'pre code',
+	), // Inline code in comments
 	'.diff-text-inner',
 	'.react-file-line',
 ];

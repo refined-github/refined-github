@@ -15,7 +15,7 @@ import {
 	states,
 	syncWrapper,
 } from '../helpers/conversation-activity-filter.js';
-import {has, is, not} from '../helpers/css-selectors.js';
+import {has, is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import ConversationActivityFilter from './conversation-activity-filter.svelte';
 
@@ -31,7 +31,7 @@ const timeline = [
 const timelineItem = [
 	'.js-timeline-item',
 	// React issue pages
-	'[data-wrapper-timeline-id]' + not('[data-wrapper-timeline-id="load-top"]'), // Exclude "Load more" button
+	'[data-wrapper-timeline-id]:not([data-wrapper-timeline-id="load-top"])', // Exclude "Load more" button
 ];
 const comment = ['.comment-body', '.react-issue-comment'];
 
@@ -72,7 +72,7 @@ function processReview(review: HTMLElement): void {
 	// Don't combine the selectors or use early returns without understanding what a thread or thread comment is
 	// Resolved thread are handled by the CSS thanks to [data-resolved="true"]
 	const unresolvedThreads = $$optional('.js-resolvable-timeline-thread-container[data-resolved="false"]', review);
-	const unresolvedThreadComments = $$optional('.timeline-comment-group' + not('.minimized-comment'), review);
+	const unresolvedThreadComments = $$optional('.timeline-comment-group:not(.minimized-comment)', review);
 
 	if (!hasMainComment && (unresolvedThreads.length === 0 || unresolvedThreadComments.length === 0)) {
 		review.classList.add(collapsedClassName); // The whole review is essentially resolved

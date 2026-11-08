@@ -4,7 +4,6 @@ import {mount} from 'svelte';
 import features from '../feature-manager.js';
 import {isRefinedGitHubRepo} from '../github-helpers/index.js';
 import {getCloseDate, wasLongAgo} from '../github-helpers/netiquette.js';
-import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import RghNetiquetteBanner from './rgh-netiquette.svelte';
 
@@ -33,7 +32,7 @@ async function addConversationBanner(newCommentBox: HTMLElement): Promise<void> 
 function init(signal: AbortSignal): void | false {
 	observe(
 		[
-			'#issuecomment-new' + has('file-attachment'),
+			'#issuecomment-new:has(file-attachment)',
 			'[data-testid="comment-composer"]',
 		],
 		addConversationBanner,

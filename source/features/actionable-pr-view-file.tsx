@@ -4,7 +4,6 @@ import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
-import {has, not} from '../helpers/css-selectors.js';
 import {frame} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -63,7 +62,7 @@ function alter(viewFileLink: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	delegate(
-		'div[class*="diff-file-header"] button' + has('>.octicon-kebab-horizontal'),
+		'div[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
 		'click',
 		handleMenuOpening,
 		// `capture: true` to run before `more-file-links`
@@ -72,7 +71,7 @@ function init(signal: AbortSignal): void {
 
 	// TODO [2027-01-01]: Drop after legacy PR files view is removed
 	observe(
-		'.file-header' + not('[data-file-deleted="true"]') + ' a.dropdown-item[data-ga-click^="View file"]',
+		'.file-header:not([data-file-deleted="true"]) a.dropdown-item[data-ga-click^="View file"]',
 		alter,
 		{signal},
 	);

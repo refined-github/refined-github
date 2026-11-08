@@ -6,7 +6,6 @@ import {$, elementExists} from 'select-dom';
 import {overrideTab} from '../components/extensible-nav-store.js';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {has} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -96,7 +95,7 @@ function addOld(submitButton: HTMLElement): void {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('[class^="ControlGroupContainer"]' + has('#visibility-anchor-button'), add, {signal});
+	observe('[class^="ControlGroupContainer"]:has(#visibility-anchor-button)', add, {signal});
 	observe('form:has(.octicon-info) [type=submit]', addOld, {signal});
 	delegate('form', 'submit', setStorage, {signal, capture: true});
 }

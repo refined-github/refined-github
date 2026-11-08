@@ -13,7 +13,13 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	const headerBar = event.delegateTarget;
-	$('button' + has('> .octicon-chevron-down', '> .octicon-chevron-right'), headerBar)
+	$(
+		'button' + has(
+			'> .octicon-chevron-down',
+			'> .octicon-chevron-right',
+		),
+		headerBar,
+	)
 		.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 }
 

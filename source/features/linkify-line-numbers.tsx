@@ -34,7 +34,10 @@ function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent>): void {
 	window.open(getLinkToLine(event.delegateTarget as HTMLElement), '_blank');
 }
 
-const lineNumberCellSelector = 'td.blob-num' + not('.blob-num-hunk', '.empty-cell');
+const lineNumberCellSelector = 'td.blob-num' + not(
+	'.blob-num-hunk',
+	'.empty-cell',
+);
 
 function init(signal: AbortSignal): void {
 	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});

@@ -9,12 +9,11 @@ import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {isArchivedRepoAsync, isPermalink} from '../github-helpers/index.js';
 import {directoryListingFileIcon} from '../github-helpers/selectors.js';
-import {not} from '../helpers/css-selectors.js';
 import {wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
 // Only directories are expandable; the child combinator excludes the pencil that this feature adds
-const sidebarFileIcon = '[role="treeitem"]' + not('[aria-expanded]') + ' .PRIVATE_TreeView-item-visual > svg';
+const sidebarFileIcon = '[role="treeitem"]:not([aria-expanded]) .PRIVATE_TreeView-item-visual > svg';
 
 function addIcon(fileIcon: Element, url: GitHubFileUrl): void {
 	wrap(fileIcon, <a href={url.href} className="rgh-quick-file-edit" />);

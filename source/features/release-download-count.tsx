@@ -15,7 +15,6 @@ import {$, $$, $optional, closestElement, closestElementOptional} from 'select-d
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
-import {has, not} from '../helpers/css-selectors.js';
 import {assertNodeContent, getClasses} from '../helpers/dom-utils.js';
 import {createHeatIndexFunction} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
@@ -34,7 +33,7 @@ async function getAssetsForTag(tag: string): Promise<Record<string, number>> {
 async function addCounts(assetsList: HTMLElement): Promise<void> {
 	// Both pages have .Box but in the list .Box doesn't include the tag
 	const container = closestElementOptional('section', assetsList) // Single-release page
-		?? closestElement('.Box' + not('.Box--condensed'), assetsList); // Releases list, excludes the assets list’s own .Box
+		?? closestElement('.Box:not(.Box--condensed)', assetsList); // Releases list, excludes the assets list’s own .Box
 
 	// .octicon-code required by visit-tag feature
 	const releaseName = $(['.octicon-tag ~ span', '.octicon-code ~ span'], container)
@@ -54,7 +53,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 
 		// Re-align the asset size
 		const assetSize = $(
-			':scope > .flex-justify-end > span' + has('+ span relative-time'),
+			':scope > .flex-justify-end > span:has(+ span relative-time)',
 			row,
 		);
 		assertNodeContent(assetSize.firstChild, /^\d+(?:\.\d+)? \w{2,5}$/);
@@ -101,7 +100,7 @@ async function addCounts(assetsList: HTMLElement): Promise<void> {
 }
 
 async function init(signal: AbortSignal): Promise<void> {
-	observe('.Box-footer .Box--condensed' + has('.octicon-package'), addCounts, {signal});
+	observe('.Box-footer .Box--condensed:has(.octicon-package)', addCounts, {signal});
 }
 
 void features.add(import.meta.url, {

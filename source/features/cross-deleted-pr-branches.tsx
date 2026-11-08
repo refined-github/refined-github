@@ -4,7 +4,6 @@ import * as pageDetect from 'github-url-detection';
 import {$$, closestElement, lastElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {has} from '../helpers/css-selectors.js';
 
 function markDeletedBranch(element: HTMLElement): void {
 	element.title = 'This branch has been deleted';
@@ -23,7 +22,7 @@ function parseBranchName(element: HTMLElement): string {
 
 function init(): void {
 	// There's static and sticky headers
-	const [header1, header2] = $$('a' + has('~ [aria-label="Copy head branch name to clipboard"]'));
+	const [header1, header2] = $$('a:has(~ [aria-label="Copy head branch name to clipboard"])');
 	markDeletedBranch(header1);
 	markDeletedBranch(header2);
 

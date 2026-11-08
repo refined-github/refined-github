@@ -8,7 +8,6 @@ import api from '../github-helpers/api.js';
 import {getLoggedInUser, isUsernameAlreadyFullName} from '../github-helpers/index.js';
 import {usernameLinksSelector} from '../github-helpers/selectors.js';
 import attachElement from '../helpers/attach-element.js';
-import {has, not} from '../helpers/css-selectors.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -36,7 +35,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710755292
 			//  - https://github.com/refined-github/refined-github/pull/8970#event-22710646301
 			// `readable-title-change-events` adds gap to rename events
-			'.TimelineItem-body' + not(has('> del.markdown-title')) + ' > *',
+			'.TimelineItem-body:not(:has(> del.markdown-title)) > *',
 			// Reference event: https://github.com/refined-github/refined-github/pull/9041#ref-issue-4028015976
 			'.TimelineItem-body > div > *',
 			// Issue comment title
@@ -51,7 +50,7 @@ function createElement(element: HTMLAnchorElement, fullName: string): JSX.Elemen
 			//  - https://github.com/refined-github/sandbox/issues/3#event-10265481248
 			// Username in issue events already has left margin
 			// Rename events use `gap` for spacing
-			'[class*="timelineBodyContent"]' + not(has('> [class*="RenamedTitleEvent"]')) + ' *',
+			'[class*="timelineBodyContent"]:not(:has(> [class*="RenamedTitleEvent"])) *',
 		)
 	) {
 		nameElement.classList.add('mr-1');

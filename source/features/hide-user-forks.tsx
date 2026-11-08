@@ -9,7 +9,10 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-const skipUrlsWithType = not('[href*="&type="]', '.issues-reset-query');
+const skipUrlsWithType = not(
+	'[href*="&type="]',
+	'.issues-reset-query',
+);
 
 const selectors = [
 	// User repos

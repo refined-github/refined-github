@@ -6,14 +6,13 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import calculateCssCalcString from '../helpers/calculate-css-calc-string.js';
-import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 const minimumViewportWidthForSidebar = 768; // Less than this, the layout is single-column
 
 const sidebarSelector = [
 	'#partial-discussion-sidebar', // `isDiscussion`, `isPRConversation`
-	'div[class^="prc-PageLayout-Pane"]' + has('> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"]'), // `isRepoRoot`
+	'div[class^="prc-PageLayout-Pane"]:has(> rails-partial[data-partial-name="codeViewRepoRoute.Sidebar"])', // `isRepoRoot`
 ];
 
 let sidebar: HTMLElement | undefined;

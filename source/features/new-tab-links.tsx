@@ -3,7 +3,6 @@ import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
 import {buildRepoUrl} from '../github-helpers/index.js';
-import {has} from '../helpers/css-selectors.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
@@ -21,7 +20,7 @@ function disableLink(link: HTMLAnchorElement): void {
 }
 
 export const newIssueModalDeadLinks = 'div[data-testid="repository-and-template-picker-dialog"] a';
-export const newIssueMenuItem = 'li[aria-keyshortcuts="n"]' + has('.octicon-issue-opened');
+export const newIssueMenuItem = 'li[aria-keyshortcuts="n"]:has(.octicon-issue-opened)';
 
 function initDeadLinksOnce(): void {
 	// Explanation: https://github.com/refined-github/refined-github/issues/9615
@@ -47,7 +46,7 @@ function initSearchResultsOnce(): void {
 	);
 }
 
-function openNewIssuePageInNewTab(event: DelegateEvent<MouseEvent>): void {
+function openNewIssuePageInNewTab(event: DelegateEvent<MouseEvent, HTMLElement>): void {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	window.open(buildRepoUrl('issues/new/choose'), '_blank');

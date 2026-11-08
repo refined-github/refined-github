@@ -6,7 +6,6 @@ import rule from './prefer-selector-helper.js';
 
 const cwd = process.cwd();
 const filename = path.join(cwd, 'source/features/example.tsx');
-const importLine = "import {is} from '../helpers/css-selectors.js';";
 
 run({
 	name: 'prefer-selector-helper',
@@ -18,8 +17,10 @@ run({
 	},
 	valid: [
 		// Short functions are fine
-		{code: "const a = 'a:is(.foo)';", filename, cwd},
-		{code: "const a = 'a:not(.foo, .bar)';", filename, cwd},
+		{code: "const a = 'a:is(.foo, .bar)';", filename, cwd},
+		// Single-item functions are fine
+		{code: "const a = 'a:not(.foo-element-with-long-name)';", filename, cwd},
+		{code: "const a = 'a:has(.foo-element > .bar-element)';", filename, cwd},
 		// No functions
 		{code: "const a = 'a.foo';", filename, cwd},
 		// Template literals are ignored
@@ -32,14 +33,15 @@ run({
 			code: "const a = ':is(.foo-element, .bar-element)';",
 			filename,
 			cwd,
-			output: `${importLine}\nconst a = is('.foo-element', '.bar-element');`,
+			output: "import {is} from '../helpers/css-selectors.js';\nconst a = is(\n'.foo-element',\n'.bar-element'\n);",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
-			code: "const a = 'a:has(.foo-element > .bar-element)';",
+			code: "const a = 'a:has(.foo-element > .bar, .baz-element)';",
 			filename,
 			cwd,
-			output: "import {has} from '../helpers/css-selectors.js';\nconst a = 'a' + has('.foo-element > .bar-element');",
+			output:
+				"import {has} from '../helpers/css-selectors.js';\nconst a = 'a' + has(\n'.foo-element > .bar',\n'.baz-element'\n);",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
@@ -47,41 +49,45 @@ run({
 			filename,
 			cwd,
 			output:
-				"import {not} from '../helpers/css-selectors.js';\nconst a = 'div' + not('[href^=\"/\"]', '[hidden]') + ' span';",
+				"import {not} from '../helpers/css-selectors.js';\nconst a = 'div' + not(\n'[href^=\"/\"]',\n'[hidden]'\n) + ' span';",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
-			// Commas and parentheses inside attribute strings don't split arguments
 			code: 'const a = \':is([title="a, b"], [data-x=")"])\';',
 			filename,
 			cwd,
-			output: "import {is} from '../helpers/css-selectors.js';\nconst a = is('[title=\"a, b\"]', '[data-x=\")\"]');",
+			output: "import {is} from '../helpers/css-selectors.js';\nconst a = is(\n'[title=\"a, b\"]',\n'[data-x=\")\"]'\n);",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
-			// Existing import is extended
 			code: "import {not} from '../helpers/css-selectors.js';\nconst a = ':is(.foo-element, .bar-element)';",
 			filename,
 			cwd,
-			output: "import {not, is} from '../helpers/css-selectors.js';\nconst a = is('.foo-element', '.bar-element');",
+			output: "import {not, is} from '../helpers/css-selectors.js';\nconst a = is(\n'.foo-element',\n'.bar-element'\n);",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
-			// Parentheses are added when concatenation would change precedence
 			code: "const a = 'a:is(.foo-element, .bar-element)'.length;",
 			filename,
 			cwd,
 			output:
-				"import {is} from '../helpers/css-selectors.js';\nconst a = ('a' + is('.foo-element', '.bar-element')).length;",
+				"import {is} from '../helpers/css-selectors.js';\nconst a = ('a' + is(\n'.foo-element',\n'.bar-element'\n)).length;",
 			errors: [{messageId: 'useHelper'}],
 		},
 		{
-			// Existing parentheses are reused
 			code: "const a = ('a:is(.foo-element, .bar-element)').length;",
 			filename,
 			cwd,
 			output:
-				"import {is} from '../helpers/css-selectors.js';\nconst a = ('a' + is('.foo-element', '.bar-element')).length;",
+				"import {is} from '../helpers/css-selectors.js';\nconst a = ('a' + is(\n'.foo-element',\n'.bar-element'\n)).length;",
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			code: "const a = ':has(:is(.foo-element, .bar-element))';",
+			filename,
+			cwd,
+			output:
+				"import {is} from '../helpers/css-selectors.js';\nconst a = ':has(' + is(\n'.foo-element',\n'.bar-element'\n) + ')';",
 			errors: [{messageId: 'useHelper'}],
 		},
 	],
