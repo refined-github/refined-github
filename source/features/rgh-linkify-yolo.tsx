@@ -24,10 +24,9 @@ function linkifyFeature(issueCell: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// .js-csv-data is the old selector
 	observe(
 		is(
-			'.js-csv-data',
+			'.js-csv-data', // Old selector
 			'.react-csv-row',
 		) + ' td:nth-child(2)',
 		linkifyFeature,
@@ -35,7 +34,7 @@ function init(signal: AbortSignal): void {
 	);
 	observe(
 		is(
-			'.js-csv-data',
+			'.js-csv-data', // Old selector
 			'.react-csv-row',
 		) + ' td:nth-child(3)',
 		linkifyIssue,

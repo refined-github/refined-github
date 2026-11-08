@@ -12,8 +12,8 @@ import {has} from '../helpers/css-selectors.js';
 function init(): void | false {
 	const initialGroupedButtons = $optional(
 		'.BtnGroup' + has(
-			'[name="draft"]',
-			'[name="gist[public]"]',
+			'[name="draft"]', // Compare pages
+			'[name="gist[public]"]', // Gist pages
 		),
 	);
 	if (!initialGroupedButtons) {

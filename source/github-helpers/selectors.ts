@@ -7,11 +7,9 @@ const requiresLogin: UrlMatch[] = [];
 export type UrlMatch = [expectations: number, url: string];
 
 // GitHub uses different render strategies depending on the "Command Palette" Feature Preview setting
-// - Enabled: Catalyst is used, and `.loaded` is present
-// - Disabled: SSR is used, and `[data-render-ssr]` is present
 export const loaded = is(
-	'.loaded',
-	'[data-render-ssr]',
+	'.loaded', // Enabled: Catalyst is used
+	'[data-render-ssr]', // Disabled: SSR is used
 );
 export const loaded_ = [
 	[1, 'https://github.com/refined-github/refined-github'],
@@ -44,12 +42,11 @@ export const branchSelector_ = [
 	[1, 'https://github.com/refined-github/sandbox/commits'],
 ] satisfies UrlMatch[];
 
-// .color-fg-muted selects only files; some icon extensions use `img` tags
 export const directoryListingFileIcon = '.react-directory-filename-column > ' + is(
 	'svg',
-	'img',
+	'img', // Some icon extensions use `img` tags
 ) + is(
-	'.color-fg-muted',
+	'.color-fg-muted', // Selects only files
 	'.octicon-file-symlink-file',
 );
 export const directoryListingFileIcon_ = [
