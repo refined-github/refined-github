@@ -45,7 +45,10 @@ export const branchSelector_ = [
 ] satisfies UrlMatch[];
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
-export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img)' + is(
+export const directoryListingFileIcon = '.react-directory-filename-column > ' + is(
+	'svg',
+	'img',
+) + is(
 	'.color-fg-muted',
 	'.octicon-file-symlink-file',
 );

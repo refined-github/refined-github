@@ -110,10 +110,10 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe(
 		// Scoped to comment headers; a bare kebab-button selector also matches unrelated menus like the PR checks section #9771
-		('div' + is(
+		'div' + is(
 			'[class^="IssueBodyHeader"]',
 			'[data-testid="comment-header"]',
-		))
+		)
 			+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
 			+ ' '
 			+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',

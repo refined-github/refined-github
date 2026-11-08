@@ -21,6 +21,8 @@ run({
 		// Single-item functions are fine
 		{code: "const a = 'a:not(.foo-element-with-long-name)';", filename, cwd},
 		{code: "const a = 'a:has(.foo-element > .bar-element)';", filename, cwd},
+		// Temporary classes are fine
+		{code: "const a = 'a:is(.tmp-mb-3, .mb-3) span';", filename, cwd},
 		// No functions
 		{code: "const a = 'a.foo';", filename, cwd},
 		// Template literals are ignored
@@ -88,6 +90,15 @@ run({
 			cwd,
 			output:
 				"import {is} from '../helpers/css-selectors.js';\nconst a = ':has(' + is(\n'.foo-element',\n'.bar-element'\n) + ')';",
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// No parentheses when already concatenating
+			code: "const a = 'a:is(.foo-element, .bar-element)' + b;",
+			filename,
+			cwd,
+			output:
+				"import {is} from '../helpers/css-selectors.js';\nconst a = 'a' + is(\n'.foo-element',\n'.bar-element'\n) + b;",
 			errors: [{messageId: 'useHelper'}],
 		},
 	],

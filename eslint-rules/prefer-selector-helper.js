@@ -97,8 +97,8 @@ function findMatches(value) {
 
 		const inner = value.slice(innerStart, closing);
 		const arguments_ = splitArguments(inner);
-		// Single-item functions and short ones are fine as they are
-		if (!(arguments_.length > 1 && inner.length >= minInnerLength)) {
+		// Single-item functions, short ones and temporary classes are fine as they are
+		if (arguments_.length < 2 || inner.length < minInnerLength || inner.includes('tmp-')) {
 			continue;
 		}
 
@@ -203,7 +203,8 @@ const preferSelectorHelper = {
 				const names = [...new Set(matches.map(match => match.name))].toSorted((a, b) => a.localeCompare(b));
 				const expression = parts.join(' + ');
 				const isWrapped = sourceCode.getTokenBefore(node)?.value === '(' && sourceCode.getTokenAfter(node)?.value === ')';
-				const text = !isWrapped && parts.length > 1 && !unwrappedParents.has(node.parent.type)
+				const isConcatenation = node.parent.type === 'BinaryExpression' && node.parent.operator === '+';
+				const text = !isWrapped && !isConcatenation && parts.length > 1 && !unwrappedParents.has(node.parent.type)
 					? `(${expression})`
 					: expression;
 
