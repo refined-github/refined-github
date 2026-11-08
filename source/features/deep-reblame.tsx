@@ -12,6 +12,7 @@ import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {multilineAriaLabel, visitAjaxedPage} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
+import {has} from '../helpers/css-selectors.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
 import observe from '../helpers/selector-observer.js';
 import GetPullRequestBlameCommit from './deep-reblame.gql';
@@ -96,7 +97,7 @@ function addButton(hunk: HTMLElement): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	delegate('.rgh-deep-reblame', 'click', redirectToBlameCommit, {signal});
-	observe('.react-blame-for-range:has([data-hovercard-type="pull_request"])', addButton, {signal});
+	observe('.react-blame-for-range' + has('[data-hovercard-type="pull_request"]'), addButton, {signal});
 }
 
 void features.add(import.meta.url, {

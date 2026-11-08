@@ -11,6 +11,7 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {assertCommitHash} from '../github-helpers/index.js';
 import {commitHashLinkInLists, commitTitleInLists} from '../github-helpers/selectors.js';
+import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 const filterMergeCommits = async (commits: string[]): Promise<string[]> => {
@@ -73,7 +74,7 @@ async function init(signal: AbortSignal): Promise<void> {
 			'[data-testid="commit-row-item"]',
 
 			'.js-commits-list-item', // `isPRCommitList`
-			'.js-timeline-item .TimelineItem:has(.octicon-git-commit)', // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
+			'.js-timeline-item .TimelineItem' + has('.octicon-git-commit'), // `isPRConversation`; "js-timeline-item" excludes "isPRCommitList"
 		],
 		batchedFunction(markCommits, {delay: 100}),
 		{signal},

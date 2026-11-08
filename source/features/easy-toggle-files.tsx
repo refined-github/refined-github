@@ -4,6 +4,7 @@ import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {codeSearchHeader} from '../github-helpers/selectors.js';
+import {has} from '../helpers/css-selectors.js';
 import {wasInteractiveElementClicked} from './easy-toggle-commit-messages.js';
 
 function toggleFile(event: DelegateEvent<MouseEvent>): void {
@@ -12,7 +13,7 @@ function toggleFile(event: DelegateEvent<MouseEvent>): void {
 	}
 
 	const headerBar = event.delegateTarget;
-	$('button:has(> .octicon-chevron-down, > .octicon-chevron-right)', headerBar)
+	$('button' + has('> .octicon-chevron-down', '> .octicon-chevron-right'), headerBar)
 		.dispatchEvent(new MouseEvent('click', {bubbles: true, altKey: event.altKey}));
 }
 

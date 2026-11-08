@@ -7,9 +7,10 @@ import {$, $$, $optional, elementExists} from 'select-dom';
 
 import {withTooltipRef} from '../components/tooltip.js';
 import features from '../feature-manager.js';
+import {has} from '../helpers/css-selectors.js';
 
 function init(): void | false {
-	const initialGroupedButtons = $optional('.BtnGroup:has([name="draft"], [name="gist[public]"])');
+	const initialGroupedButtons = $optional('.BtnGroup' + has('[name="draft"]', '[name="gist[public]"]'));
 	if (!initialGroupedButtons) {
 		// 1. Free accounts can't open Draft PRs in private repos, so this element is missing
 		// 2. PRs can't be created from some comparison pages: Either base is a tag, not a branch; or there already exists a PR.

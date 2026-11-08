@@ -9,6 +9,7 @@ import api from '../github-helpers/api.js';
 import getPrInfo from '../github-helpers/get-pr-info.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
 import showToast from '../github-helpers/toast.js';
+import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 // Track the currently focused file container for removal after discard
@@ -172,7 +173,7 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 
 	// Wait for the menu DOM to be created, but not rendered
 	requestAnimationFrame(() => {
-		const editFile = $('[class^="prc-ActionList-ActionListItem"]:has(.octicon-pencil)');
+		const editFile = $('[class^="prc-ActionList-ActionListItem"]' + has('.octicon-pencil'));
 		const discardItem = editFile.cloneNode(true);
 		discardItem.classList.add('rgh-restore-file');
 		const link = $('a', discardItem);
@@ -192,7 +193,7 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	// New React view
 	delegate(
-		'[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'[class*="diff-file-header"] button' + has('>.octicon-kebab-horizontal'),
 		'click',
 		handleMenuOpening,
 		{signal},

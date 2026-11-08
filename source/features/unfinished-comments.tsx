@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import {$$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {not} from '../helpers/css-selectors.js';
 
 let submitting: ReturnType<typeof setTimeout> | undefined;
 
@@ -16,7 +17,7 @@ function isFieldDirty(field: HTMLTextAreaElement): boolean {
 
 function hasDraftComments(): boolean {
 	// `[id^="convert-to-issue-body"]` excludes the hidden pre-filled textareas created when opening the dropdown menu of review comments
-	return $$optional('textarea:not([id^="convert-to-issue-body"])').some(f => isFieldDirty(f));
+	return $$optional<HTMLTextAreaElement>('textarea' + not('[id^="convert-to-issue-body"]')).some(f => isFieldDirty(f));
 }
 
 function disableOnSubmit(): void {

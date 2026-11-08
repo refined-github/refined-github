@@ -7,6 +7,7 @@ import {closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {visitAjaxedPage} from '../github-helpers/index.js';
+import {not} from '../helpers/css-selectors.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 
 function getLinkToLine(lineNumberCell: HTMLElement): string {
@@ -29,11 +30,11 @@ function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	}
 }
 
-function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
-	window.open(getLinkToLine(event.delegateTarget), '_blank');
+function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent>): void {
+	window.open(getLinkToLine(event.delegateTarget as HTMLElement), '_blank');
 }
 
-const lineNumberCellSelector = 'td.blob-num:not(.blob-num-hunk, .empty-cell)';
+const lineNumberCellSelector = 'td.blob-num' + not('.blob-num-hunk', '.empty-cell');
 
 function init(signal: AbortSignal): void {
 	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});

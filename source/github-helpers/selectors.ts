@@ -1,6 +1,6 @@
 import {css} from 'code-tag';
 
-import {is, not} from '../helpers/css-selectors.js';
+import {has, is, not} from '../helpers/css-selectors.js';
 
 const requiresLogin: UrlMatch[] = [];
 
@@ -15,12 +15,10 @@ export const loaded_ = [
 ] satisfies UrlMatch[];
 
 export const standaloneGistLinkInMarkdown = `
-	${is('.js-comment-body', '.react-issue-comment', '.react-issue-body')} p a:only-child${
-		is(
-			'[href^="https://gist.github.com/"]',
-			`[href^="${location.origin}/gist/"]`,
-		)
-	}
+	:is(.js-comment-body, .react-issue-comment, .react-issue-body) p a:only-child:is(
+		[href^="https://gist.github.com/"],
+		[href^="${location.origin}/gist/"]
+	)
 ` as const;
 export const standaloneGistLinkInMarkdown_ = [
 	[3, 'https://github.com/refined-github/sandbox/issues/77'],
@@ -44,21 +42,20 @@ export const branchSelector_ = [
 ] satisfies UrlMatch[];
 
 // .color-fg-muted selects only files; some icon extensions use `img` tags
-export const directoryListingFileIcon = `.react-directory-filename-column > ${is('svg', 'img')}${
-	is('.color-fg-muted', '.octicon-file-symlink-file')
-}`;
+export const directoryListingFileIcon = '.react-directory-filename-column > :is(svg, img)'
+	+ is('.color-fg-muted', '.octicon-file-symlink-file');
 export const directoryListingFileIcon_ = [
 	[18, 'https://github.com/refined-github/refined-github'],
 	[3, 'https://github.com/refined-github/refined-github/tree/main/.github'],
 ] satisfies UrlMatch[];
 
-export const prCommit = '.TimelineItem--condensed:has(.octicon-git-commit)';
+export const prCommit = '.TimelineItem--condensed' + has('.octicon-git-commit');
 export const prCommit_ = [
 	[1, 'https://github.com/refined-github/sandbox/pull/10'],
 ] satisfies UrlMatch[];
 
 // `summary` is needed because the details dropdown contains the list of check runs, each with its status icon
-export const prCommitStatusIcon = `${is(prCommit)} details.commit-build-statuses summary .octicon`;
+export const prCommitStatusIcon = `:is(${prCommit}) details.commit-build-statuses summary .octicon`;
 export const prCommitStatusIcon_ = [
 	// Icon not loaded when logged out :(
 	[0, 'https://github.com/refined-github/sandbox/pull/10'],
@@ -120,14 +117,12 @@ export const codeSearchHeader_ = [
 
 // Excludes /pulls/* and /issues/* global pages since they're already sorted by update time #9604
 export const linksToConversationLists = `
-	a${
-		is(
-			'[href*="/issues"]',
-			'[href*="/pulls"]',
-			'[href*="/projects"]',
-			'[href*="/labels/"]',
-		)
-	}:not(
+	a:is(
+		[href*="/issues"],
+		[href*="/pulls"],
+		[href*="/projects"],
+		[href*="/labels/"]
+	):not(
 		[href^="/pulls"],
 		[href^="/issues"],
 
@@ -297,7 +292,7 @@ export const usernameLinksSelector = [
 	// On dashboard
 	// `.Link--primary` excludes avatars
 	// [aria-label="card content"] excludes links in cards #6530 #6915
-	'#dashboard a.Link--primary[data-hovercard-type="user"]:not([aria-label="card content"] *)',
+	'#dashboard a.Link--primary[data-hovercard-type="user"]' + not('[aria-label="card content"] *'),
 	'.feed-item-content header a.Link--primary',
 ] as unknown as Array<'a'>;
 export const usernameLinksSelector_ = [
@@ -322,16 +317,14 @@ export const deletedHeadRepository_ = [
 
 export const conversationCloseEvent = [
 	// Old view (PRs)
-	`.TimelineItem:has(.TimelineItem-badge ${
-		is(
-			'.octicon-issue-closed',
-			'.octicon-git-merge',
-			'.octicon-git-pull-request-closed',
-			'.octicon-skip',
-		)
-	})`,
+	`.TimelineItem:has(.TimelineItem-badge :is(
+		.octicon-issue-closed,
+		.octicon-git-merge,
+		.octicon-git-pull-request-closed,
+		.octicon-skip
+	))`,
 	// React view (Issues)
-	'[data-timeline-event-id]:has([data-testid="state-reason-link"])',
+	'[data-timeline-event-id]' + has('[data-testid="state-reason-link"]'),
 ];
 export const conversationCloseEvent_ = [
 	[4, 'https://github.com/refined-github/sandbox/issues/123'],

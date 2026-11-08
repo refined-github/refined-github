@@ -4,12 +4,13 @@ import * as pageDetect from 'github-url-detection';
 import {$optional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {has, not} from '../helpers/css-selectors.js';
 
 function jumpToFirstNonViewed(): void {
 	const firstNonViewedFile = $optional([
 		// TODO [2027-01-01]: Old PR Files view, drop
-		'[id][data-details-container-group="file"]:not([data-file-user-viewed])',
-		'[id][class*="diffTargetable"]:has(button[aria-pressed="false"])',
+		'[id][data-details-container-group="file"]' + not('[data-file-user-viewed]'),
+		'[id][class*="diffTargetable"]' + has('button[aria-pressed="false"]'),
 	]);
 	if (firstNonViewedFile) {
 		// Scroll to file without pushing to history
@@ -23,7 +24,7 @@ function jumpToFirstNonViewed(): void {
 const selectors = [
 	// TODO [2027-01-01]: Old PR Files view, drop
 	'.diffbar-item progress-bar',
-	'.d-flex:has([class*="ProgressContainer"])',
+	'.d-flex' + has('[class*="ProgressContainer"]'),
 ];
 async function init(signal: AbortSignal): Promise<void> {
 	const bar = await elementReady(selectors);

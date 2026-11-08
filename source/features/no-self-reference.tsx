@@ -1,6 +1,7 @@
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
+import {not} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 function underlineSelfReference(link: HTMLAnchorElement): void {
@@ -22,9 +23,13 @@ function underlineSelfReference(link: HTMLAnchorElement): void {
 
 function init(signal: AbortSignal): void {
 	// Exclude reference to a comment on the same page
-	observe('.markdown-body:not(section[aria-label="Events"] *) a.issue-link:not([href*="#"])', underlineSelfReference, {
-		signal,
-	});
+	observe(
+		'.markdown-body' + not('section[aria-label="Events"] *') + ' a.issue-link:not([href*="#"])',
+		underlineSelfReference,
+		{
+			signal,
+		},
+	);
 }
 
 void features.add(import.meta.url, {

@@ -5,7 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, $optional, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
-import {is} from '../helpers/css-selectors.js';
+import {has} from '../helpers/css-selectors.js';
 import {removeTextNodeContaining} from '../helpers/dom-utils.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
@@ -48,7 +48,7 @@ Expected DOM:
 @param selector Element that contains `details` or `.discussion-sidebar-heading` or distinctive element inside it
 */
 function cleanSection(selector: string): boolean {
-	const container = $optional(`${is('form', '.discussion-sidebar-item')}:has(${selector})`);
+	const container = $optional(`:is(form, .discussion-sidebar-item):has(${selector})`);
 	if (!container) {
 		return false;
 	}
@@ -62,7 +62,7 @@ function cleanSection(selector: string): boolean {
 	];
 
 	const heading = $([
-		'details:has(> .discussion-sidebar-heading)', // Can edit sidebar, has a dropdown
+		'details' + has('> .discussion-sidebar-heading'), // Can edit sidebar, has a dropdown
 		'.discussion-sidebar-heading', // Cannot editor sidebar, has a plain heading
 	], container);
 	if (closestElement(['form', '.discussion-sidebar-item'], heading).querySelector(identifiers)) {
@@ -106,7 +106,7 @@ async function cleanSidebarLegacy(sidebar: HTMLElement): Promise<void> {
 	// Labels
 	if (!cleanSection('.js-issue-labels') && !canEditSidebar()) {
 		// Hide heading in any case except `canEditSidebar`
-		$('.discussion-sidebar-item:has(.js-issue-labels) .discussion-sidebar-heading')
+		$('.discussion-sidebar-item' + has('.js-issue-labels') + ' .discussion-sidebar-heading')
 			.remove();
 	}
 

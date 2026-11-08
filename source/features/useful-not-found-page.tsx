@@ -9,7 +9,7 @@ import {mount} from 'svelte';
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {getCleanPathname, getRepo, isUrlReachable} from '../github-helpers/index.js';
-import {is} from '../helpers/css-selectors.js';
+import {has, is} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 import NotFoundInfo from './useful-not-found-page.svelte';
@@ -47,7 +47,9 @@ async function addDirectCommitLinkOnce(): Promise<void | false> {
 	}
 
 	const commitHash = new GitHubFileUrl(commitUrl).branch.slice(0, 8);
-	const blankSlateParagraph = await elementReady('.blankslate:has(> .octicon-telescope) p', {waitForChildren: false});
+	const blankSlateParagraph = await elementReady('.blankslate' + has('> .octicon-telescope') + ' p', {
+		waitForChildren: false,
+	});
 	blankSlateParagraph!.after(
 		<p>
 			<span className="commit-ref">

@@ -7,6 +7,7 @@ import TrashIcon from 'octicons-plain-react/Trash';
 import {$, $optional, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 function addQuickButtons(contextMenuIcon: HTMLElement): void {
@@ -15,8 +16,8 @@ function addQuickButtons(contextMenuIcon: HTMLElement): void {
 	// It might be missing if the user has no access to this repo
 	const menuItem = $optional([
 		'form[action$="/cancel"]',
-		'li:has(> button[data-show-dialog-id^="delete-workflow-run"])',
-	], contextMenuDetails)?.cloneNode(true) as HTMLElement;
+		'li' + has('> button[data-show-dialog-id^="delete-workflow-run"]'),
+	], contextMenuDetails)?.cloneNode(true);
 
 	if (!menuItem) {
 		return;

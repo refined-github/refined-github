@@ -8,6 +8,7 @@ import waitForPrMerge from '../github-events/on-pr-merge.js';
 import api from '../github-helpers/api.js';
 import {userCanLikelyMergePr} from '../github-helpers/index.js';
 import {getBranches} from '../github-helpers/pr-branches.js';
+import {has} from '../helpers/css-selectors.js';
 import matchesAnyPattern from '../helpers/matches-any-patterns.js';
 import GetPrsToBaseBranchAndDeleteOnMerge from './pr-branch-auto-delete.gql';
 
@@ -55,7 +56,7 @@ async function init(signal: AbortSignal): Promise<void> {
 	});
 	branchDeletionButton!.click();
 
-	const deletionEvent = await elementReady('.TimelineItem-body:has(.pull-request-ref-restore-text)', {
+	const deletionEvent = await elementReady('.TimelineItem-body' + has('.pull-request-ref-restore-text'), {
 		stopOnDomReady: false,
 		signal,
 	});

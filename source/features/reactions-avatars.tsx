@@ -12,6 +12,7 @@ import api from '../github-helpers/api.js';
 import getUserAvatar from '../github-helpers/get-user-avatar.js';
 import {getToken} from '../github-helpers/github-token.js';
 import {getConversationNumber, getLoggedInUser} from '../github-helpers/index.js';
+import {not} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 const arbitraryAvatarLimit = 36;
@@ -206,7 +207,7 @@ function init(signal: AbortSignal): void {
 	observe(
 		[
 			// `batch-deferred-content` means the participant list hasn't loaded yet
-			'.has-reactions .js-comment-reactions-options:not(batch-deferred-content .js-comment-reactions-options)',
+			'.has-reactions .js-comment-reactions-options' + not('batch-deferred-content .js-comment-reactions-options'),
 			'div[aria-label="Reactions"]',
 		],
 		observeCommentReactions,

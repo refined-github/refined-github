@@ -1,6 +1,5 @@
 import {$, $$, $optional, ElementNotFoundError} from 'select-dom';
 
-import {is} from './css-selectors.js';
 // eslint-disable-next-line @typescript-eslint/no-restricted-types -- Nodes may be exactly `null`
 type Nullable<T> = T | null;
 
@@ -32,7 +31,7 @@ export const appendBefore = (parent: string | Element, before: string, child: No
 	}
 
 	// Select direct children only
-	const beforeElement = $optional(`:scope > ${is(before)}`, parent);
+	const beforeElement = $optional(`:scope > :is(${before})`, parent);
 	if (beforeElement) {
 		beforeElement.before(child);
 	} else {

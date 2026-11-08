@@ -9,6 +9,7 @@ import {$, closestElement, closestElementOptional} from 'select-dom';
 import features from '../feature-manager.js';
 import getDefaultBranch from '../github-helpers/get-default-branch.js';
 import {parseReferenceRaw} from '../github-helpers/pr-branches.js';
+import {not} from '../helpers/css-selectors.js';
 import {assertNodeContent, wrap} from '../helpers/dom-utils.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -46,7 +47,7 @@ function getHeaderUsername(summaryRow: HTMLElement): HTMLAnchorElement {
 
 const prCreatorSelector = [
 	'.TimelineItem .author',
-	'.Timeline-Item [data-testid="author-avatar"] a:not([data-testid="github-avatar"])',
+	'.Timeline-Item [data-testid="author-avatar"] a' + not('[data-testid="github-avatar"]'),
 ] as const;
 async function getPrCreator(): Promise<string> {
 	return (await elementReady(prCreatorSelector))!.textContent;

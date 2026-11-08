@@ -139,9 +139,10 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ['source/helpers/css-selectors.ts', 'eslint-rules/**'],
+		files: ['source/**/*.{ts,tsx}'],
+		ignores: ['source/helpers/css-selectors.ts'],
 		rules: {
-			'byo/prefer-is-helper': 'off', // Defines the helper, and the ESLint rules don't use it
+			'refined-github/prefer-selector-helper': 'error',
 		},
 	},
 	{

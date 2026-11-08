@@ -3,6 +3,7 @@ import {$, closestElement} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {getConversationNumber} from '../github-helpers/index.js';
+import {has} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 function setSearchParameter(anchorElement: HTMLAnchorElement, value: string): void {
@@ -14,7 +15,7 @@ function setSearchParameter(anchorElement: HTMLAnchorElement, value: string): vo
 async function addForRepositoryActions(prLink: HTMLAnchorElement): Promise<void> {
 	const prNumber = prLink.textContent.slice(1);
 
-	const runLink = $('a:has(.Link--primary)', closestElement('.Box-row', prLink));
+	const runLink = $<HTMLAnchorElement>('a' + has('.Link--primary'), closestElement('.Box-row', prLink));
 	setSearchParameter(runLink, prNumber);
 }
 

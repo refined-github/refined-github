@@ -8,6 +8,7 @@ import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {has, not} from '../helpers/css-selectors.js';
 
 function getLegacyMenuItem(viewFile: HTMLAnchorElement, name: string, route: string): JSX.Element {
 	const {href} = new GitHubFileUrl(viewFile.href).assign({route});
@@ -65,13 +66,13 @@ function handleMenuOpening({delegateTarget: menuButton}: DelegateEvent): void {
 
 function init(signal: AbortSignal): void {
 	delegate(
-		'div[class*="diff-file-header"] button:has(>.octicon-kebab-horizontal)',
+		'div[class*="diff-file-header"] button' + has('>.octicon-kebab-horizontal'),
 		'click',
 		handleMenuOpening,
 		{signal},
 	);
 	delegate(
-		'.file-header .js-file-header-dropdown:not(.rgh-more-file-links)',
+		'.file-header .js-file-header-dropdown' + not('.rgh-more-file-links'),
 		'toggle',
 		handleLegacyMenuOpening,
 		// `capture: true` required to be fired before GitHub's handlers

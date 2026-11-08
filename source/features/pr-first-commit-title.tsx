@@ -23,7 +23,7 @@ function useCommitTitle(firstCommitTitle: HTMLElement): void {
 	const requestedContent = new URL(location.href).searchParams;
 	const commitCount = $([
 		// Few commits
-		`div.Box${is('.tmp-mb-3', '.mb-3')} .octicon-git-commit + span`,
+		'div.Box' + is('.tmp-mb-3', '.mb-3') + ' .octicon-git-commit + span',
 		// Many commits (rendered in tabs)
 		'a[href="#commits_bucket"] .Counter',
 	]);

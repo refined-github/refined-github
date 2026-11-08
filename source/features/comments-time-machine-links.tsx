@@ -14,6 +14,7 @@ import GitHubFileUrl from '../github-helpers/github-file-url.js';
 import {buildRepoUrl, isPermalink} from '../github-helpers/index.js';
 import addNotice from '../github-helpers/notice-bar.js';
 import {commentMenuButton, commentSelector, prCommentMenu} from '../github-helpers/selectors.js';
+import {not} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 import GetCommitAtDate from './comments-time-machine-links.gql';
 import {saveOriginalHref} from './last-update-sort.js';
@@ -161,7 +162,7 @@ async function init(signal: AbortSignal): Promise<void> {
 		const timestamp = $(
 			'relative-time',
 			closestElement([
-				'.js-comment:not([id^="pullrequestreview-"])',
+				'.js-comment' + not('[id^="pullrequestreview-"]'),
 				'.js-timeline-item',
 			], menu),
 		)

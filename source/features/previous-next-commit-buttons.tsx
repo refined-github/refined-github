@@ -3,10 +3,11 @@ import * as pageDetect from 'github-url-detection';
 import {$, $optional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {has} from '../helpers/css-selectors.js';
 
 function init(): false | void {
 	const originalPreviousNext = $optional('.commit .float-right.ButtonGroup') // Legacy
-		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]:has(a[aria-label$="previous commit" i])');
+		?? $optional('[class^="prc-ButtonGroup-ButtonGroup"]' + has('a[aria-label$="previous commit" i]'));
 	if (!originalPreviousNext) {
 		return false;
 	}
