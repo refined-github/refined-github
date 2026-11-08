@@ -9,6 +9,7 @@ import {$, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {getCleanPathname} from '../github-helpers/index.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 function mark(link: HTMLAnchorElement): void {
@@ -54,7 +55,10 @@ async function markLocked(links: HTMLAnchorElement[]): Promise<void> {
 function init(signal: AbortSignal): void {
 	observe(
 		// Issue and PR lists. `href` excludes the repo links in repo lists
-		'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]:is([href*="/issues/"], [href*="/pull/"])',
+		'li[class*="listItem"] [class*="heading"] > a[class*="anchor"]' + is(
+			'[href*="/issues/"]',
+			'[href*="/pull/"]',
+		),
 		batchedFunction(markLocked, {delay: 100}),
 		{signal},
 	);

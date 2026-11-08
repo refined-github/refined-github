@@ -9,6 +9,7 @@ import features from '../feature-manager.js';
 import {userIsModerator} from '../github-helpers/get-user-permission.js';
 import {isArchivedRepoAsync} from '../github-helpers/index.js';
 import withMenuOpen from '../github-helpers/with-menu-open.js';
+import {is} from '../helpers/css-selectors.js';
 import onElementRemoval from '../helpers/on-element-removal.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -109,7 +110,10 @@ async function init(signal: AbortSignal): Promise<void> {
 
 	observe(
 		// Scoped to comment headers; a bare kebab-button selector also matches unrelated menus like the PR checks section #9771
-		'div:is([class^="IssueBodyHeader"], [data-testid="comment-header"])'
+		'div' + is(
+			'[class^="IssueBodyHeader"]',
+			'[data-testid="comment-header"]',
+		)
 			+ (isUserModerator ? '' : '[class*="viewerDidAuthor" i]')
 			+ ' '
 			+ 'button[data-component="IconButton"]:has(> .octicon-kebab-horizontal)',
