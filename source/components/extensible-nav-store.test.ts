@@ -33,33 +33,41 @@ it('reflects native tabs', async () => {
 	expect(get(tabs)).toEqual(native);
 });
 
-it('appends a tab with no "before"', async () => {
+it('appends a tab with no "after"', async () => {
 	const {tabs, setNativeTabs, addTab} = await loadModule();
 	setNativeTabs([makeTab('code'), makeTab('issues')]);
 	addTab(makeTab('bugs'));
 	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'bugs']);
 });
 
-it('inserts a tab before a matching native tab', async () => {
+it('inserts a tab after a matching native tab', async () => {
 	const {tabs, setNativeTabs, addTab} = await loadModule();
-	setNativeTabs([makeTab('code'), makeTab('issues')]);
+	setNativeTabs([makeTab('code'), makeTab('issues'), makeTab('pull-requests')]);
 	addTab(makeTab('bugs'), 'issues');
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs', 'issues']);
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'bugs', 'pull-requests']);
 });
 
-it('appends a tab when "before" does not match any tab', async () => {
+it('skips a tab when "after" does not match any tab', async () => {
 	const {tabs, setNativeTabs, addTab} = await loadModule();
-	setNativeTabs([makeTab('code'), makeTab('issues')]);
-	addTab(makeTab('bugs'), 'nonexistent');
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'bugs']);
+	setNativeTabs([makeTab('code'), makeTab('pull-requests')]);
+	addTab(makeTab('bugs'), 'issues');
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'pull-requests']);
 });
 
-it('inserts multiple extra tabs before the same native tab in call order', async () => {
+it('inserts multiple extra tabs after the same native tab in call order', async () => {
 	const {tabs, setNativeTabs, addTab} = await loadModule();
 	setNativeTabs([makeTab('code'), makeTab('issues')]);
 	addTab(makeTab('bugs'), 'issues');
 	addTab(makeTab('triage'), 'issues');
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs', 'triage', 'issues']);
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'bugs', 'triage']);
+});
+
+it('applies overrides to extra tabs', async () => {
+	const {tabs, setNativeTabs, addTab, overrideTab} = await loadModule();
+	setNativeTabs([makeTab('code'), makeTab('issues')]);
+	addTab(makeTab('bugs'), 'issues');
+	overrideTab('bugs', {href: '/bugs', removed: true});
+	expect(get(tabs)[2]).toMatchObject({id: 'bugs', href: '/bugs', removed: true});
 });
 
 it('overrides a native tab label', async () => {
@@ -90,7 +98,7 @@ it('replacing native tabs does not drop extra tabs', async () => {
 	setNativeTabs([makeTab('code'), makeTab('issues')]);
 	addTab(makeTab('bugs'), 'issues');
 	setNativeTabs([makeTab('code'), makeTab('issues'), makeTab('actions')]);
-	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'bugs', 'issues', 'actions']);
+	expect(get(tabs).map(tab => tab.id)).toEqual(['code', 'issues', 'bugs', 'actions']);
 });
 
 it('tracks the selected tab id', async () => {
