@@ -1061,6 +1061,11 @@
 		"screenshot": "https://github.com/user-attachments/assets/7bd2745b-c57c-4c26-bbb8-b05e9cf089db"
 	},
 	{
+		"id": "upload-size-error",
+		"description": "Warns you when dropping a file over GitHub’s 10 MB upload limit, instead of silently failing.",
+		"screenshot": "https://github.com/user-attachments/assets/164772bc-df4d-4275-b688-e0e43d3dc3df"
+	},
+	{
 		"id": "useful-not-found-page",
 		"description": "Adds possible related pages and alternatives on 404 pages.",
 		"css": true,
