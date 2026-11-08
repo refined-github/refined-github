@@ -111,6 +111,7 @@ export default defineConfig([
 			'@stylistic/jsx-self-closing-comp': 'error',
 			'@typescript-eslint/no-use-before-define': 'error',
 			'refined-github/avoid-backlinks': 'error',
+			'refined-github/prefer-selector-helper': 'error',
 
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',
@@ -137,13 +138,6 @@ export default defineConfig([
 			parserOptions: {
 				parser: '@typescript-eslint/parser',
 			},
-		},
-	},
-	{
-		files: ['source/**/*.{ts,tsx}'],
-		ignores: ['source/helpers/css-selectors.ts'],
-		rules: {
-			'refined-github/prefer-selector-helper': 'error',
 		},
 	},
 	{
