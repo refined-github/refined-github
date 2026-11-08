@@ -16,7 +16,7 @@ const selectors = [
 
 	// `isPRConversation` commit description, not code blocks in comments
 	// https://github.com/refined-github/sandbox/pull/55#commits-pushed-d4852bb
-	// https://github.com/porsager/postgres/pull/1169#issuecomment-6545968197
+	// https://togithub.com/porsager/postgres/pull/1169#issuecomment-6545968197
 	'.TimelineItem-body pre.ws-pre-wrap',
 
 	// `isIssue` linked PRs

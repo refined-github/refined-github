@@ -8,8 +8,7 @@
 /* https://github.com/refined-github/refined-github/pull/10130#issuecomment-5889333355 */
 .rgh-draft-pr-button {
 	order: -1;
-}
-
-.btn-primary:disabled + .rgh-draft-pr-button {
-	opacity: 0.5;
+	.btn-primary:disabled + & {
+		opacity: 0.5;
+	}
 }

@@ -96,7 +96,7 @@ Collapsed comments:
 - PR files: https://github.com/refined-github/refined-github/pull/1896/files
 - Issue conversations: https://github.com/refined-github/refined-github/issues/4008
 
-Load diff in PR files: https://github.com/parcel-bundler/parcel/pull/2967/files
+Load diff in PR files: https://togithub.com/parcel-bundler/parcel/pull/2967/files
 Expand all in PR files: https://github.com/refined-github/refined-github/pull/4585/files
 
 Commit messages:
@@ -104,9 +104,9 @@ Commit messages:
 - isCommitList: https://github.com/torvalds/linux/commits/master
 
 <details> elements:
-- Issue: https://github.com/yakov116/TestR/issues/34
-- PR description: https://github.com/OpenLightingProject/open-fixture-library/pull/2455
-- PR comment: https://github.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
+- Issue: https://togithub.com/yakov116/TestR/issues/34
+- PR description: https://togithub.com/OpenLightingProject/open-fixture-library/pull/2455
+- PR comment: https://togithub.com/OpenLightingProject/open-fixture-library/pull/2453#issuecomment-1055672394
 
 Add suggestion to batch: https://github.com/refined-github/sandbox/pull/121/changes
 

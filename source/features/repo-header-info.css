@@ -58,10 +58,9 @@ html:not([rgh-OFF-repo-header-info]) {
 				);
 				border-bottom: 1px solid
 					var(--borderColor-default, var(--color-border-default, fuchsia));
-			}
-
-			.merge-status-item:last-child {
-				border-bottom: 0;
+				&:last-child {
+					border-bottom: 0;
+				}
 			}
 
 			.merge-status-icon {

@@ -72,13 +72,13 @@ void features.add(import.meta.url, {
 Test URLs:
 
 Bot PR
-https://github.com/webpack/webpack/pull/15926#issue-1264092372
+https://togithub.com/webpack/webpack/pull/15926#issue-1264092372
 
 Bot comment
-https://github.com/webpack/webpack/pull/15926#issuecomment-1149371743
+https://togithub.com/webpack/webpack/pull/15926#issuecomment-1149371743
 
 Bot commented on behalf of
-https://github.com/webpack/webpack/pull/15926#issuecomment-1170670173
+https://togithub.com/webpack/webpack/pull/15926#issuecomment-1170670173
 
 Member review
 https://github.com/refined-github/refined-github/pull/5721#pullrequestreview-1018226910
@@ -96,7 +96,7 @@ Member comment on issue
 https://github.com/refined-github/sandbox/issues/74#issuecomment-2143792189
 
 Collaborator review comment
-https://github.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
+https://togithub.com/editorconfig/editorconfig-emacs/pull/389/changes#r2809824690
 
 Pull requests from a contributor
 https://github.com/refined-github/refined-github/pulls?q=is%3Apr+author%3Anotlmn

@@ -35,7 +35,7 @@ ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] code {
 /* TODO: Drop after React PR conversations */
 /* Mute unclickable reaction buttons, disable hover */
 /* Info: https://github.com/refined-github/refined-github/issues/6795 */
-/* Test: https://github.com/facebook/react/pull/20646 */
+/* Test: https://togithub.com/facebook/react/pull/20646 */
 /* eslint-disable-next-line cssicorn/no-duplicate-selectors -- Temp */
 :root {
 	.social-reaction-summary-item:disabled {
@@ -58,7 +58,7 @@ ul[aria-label='Drag and drop pinned issues list.'] a[class*='Link__'] code {
 /* TODO: Drop after React PR conversations */
 /* Hide inactive comment box tabs */
 /* Info: https://github.com/refined-github/refined-github/issues/7108 */
-/* Test: https://github.com/liip/bund_ds/pull/131#event-10992164827 */
+/* Test: https://togithub.com/liip/bund_ds/pull/131#event-10992164827 */
 .comment-form-head.tabnav:has(~ div .octicon-lock) {
 	display: none;
 }
