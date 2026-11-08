@@ -19,4 +19,6 @@
 		return {destroy: () => element.remove()};
 	};
 </script>
-<span use:mount></span>
+{#key as}
+	<span use:mount></span>
+{/key}
