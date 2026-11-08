@@ -30,14 +30,11 @@ function openLinkToLine(event: DelegateEvent<PointerEvent, HTMLElement>): void {
 	}
 }
 
-function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent>): void {
-	window.open(getLinkToLine(event.delegateTarget as HTMLElement), '_blank');
+function openLinkToLineInNewTab(event: DelegateEvent<PointerEvent, HTMLElement>): void {
+	window.open(getLinkToLine(event.delegateTarget), '_blank');
 }
 
-const lineNumberCellSelector = 'td.blob-num' + not(
-	'.blob-num-hunk',
-	'.empty-cell',
-);
+const lineNumberCellSelector = `td.blob-num${not('.blob-num-hunk', '.empty-cell')}` as const;
 
 function init(signal: AbortSignal): void {
 	delegate(lineNumberCellSelector, 'click', openLinkToLine, {signal});
