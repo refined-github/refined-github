@@ -177,9 +177,7 @@ export async function waitForElement<
 	{signal, stopOnDomReady}: Options = {},
 ): Promise<ExpectedElement | void> {
 	return new Promise<ExpectedElement | void>(resolve => {
-		observe<Selector, ExpectedElement>(selectors, element => {
-			resolve(element);
-		}, {
+		observe<Selector, ExpectedElement>(selectors, resolve, {
 			signal,
 			stopOnDomReady,
 			once: true,

@@ -68,6 +68,9 @@ const restrictedSyntax = {
 		selector:
 			"CallExpression[callee.name='delegate'] > :matches(ArrowFunctionExpression, FunctionExpression, CallExpression)",
 		message: 'Pass a callback reference, not an inline function or the result of a function call.',
+	}, {
+		selector: "CallExpression[callee.name='observe'] > :matches(ArrowFunctionExpression, FunctionExpression)",
+		message: 'Pass a callback reference, not an inline function.',
 	}],
 	'byo/prefer-visit-ajaxed-page': ['error', {
 		selector:

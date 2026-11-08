@@ -61,12 +61,14 @@ async function initHeadHint(signal: AbortSignal): Promise<void | false> {
 	}
 
 	// Use the observer because GitHub randomly updates the header and removes the hint after load
-	observe(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`, (repoHeader): void => {
+	const addHint = (repoHeader: HTMLElement): void => {
 		repoHeader.after(
 			' with ',
 			<a href={url}>{pluralize(count, 'one open pull request', '$$+ open pull requests')}</a>,
 		);
-	}, {signal});
+	};
+
+	observe(`[data-hovercard-type="repository"][href="/${getForkedRepo()!}"]`, addHint, {signal});
 }
 
 async function initDeleteHint(): Promise<void | false> {

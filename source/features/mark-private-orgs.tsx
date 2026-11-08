@@ -32,11 +32,14 @@ function markPrivate(org: HTMLAnchorElement, organizations: string[]): void {
 
 async function init(signal: AbortSignal): Promise<void> {
 	const organizations = await publicOrganizationsNames.get(getLoggedInUser()!);
+
+	function markIfPrivate(org: HTMLAnchorElement): void {
+		markPrivate(org, organizations);
+	}
+
 	observe(
 		'a.avatar-group-item[data-hovercard-type="organization"][itemprop="follows"]',
-		org => {
-			markPrivate(org, organizations);
-		},
+		markIfPrivate,
 		{signal, stopOnDomReady: true},
 	);
 }

@@ -60,12 +60,14 @@ async function embedGist(link: HTMLAnchorElement): Promise<void> {
 	}
 }
 
+function embedStandaloneGist(link: HTMLAnchorElement): void {
+	if (pageDetect.isGistFile(link) && isOnlyChild(link)) {
+		void embedGist(link);
+	}
+}
+
 function init(signal: AbortSignal): void {
-	observe(standaloneGistLinkInMarkdown, link => {
-		if (pageDetect.isGistFile(link) && isOnlyChild(link)) {
-			void embedGist(link);
-		}
-	}, {signal});
+	observe(standaloneGistLinkInMarkdown, embedStandaloneGist, {signal});
 }
 
 void features.add(import.meta.url, {
