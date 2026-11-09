@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {lastElement} from 'select-dom';
+	import {lastElementOptional} from 'select-dom';
 
 	import {upperCaseFirst} from '../github-helpers/index.js';
 	import portal from '../helpers/portal.js';
@@ -22,13 +22,13 @@
 	function getTarget(): Element {
 		// Align tooltip behavior with native
 		// https://github.com/refined-github/refined-github/pull/9668
-		return lastElement([
+		return lastElementOptional([
 			'#js-repo-pjax-container',
 			'#js-pjax-container',
 			'#repo-content-turbo-frame',
 			'#repo-content-pjax-container',
 			'[data-turbo-body]', // User profile
-		]);
+		]) ?? document.body; // Some layouts have none of these, https://github.com/refined-github/refined-github/issues/10383
 	}
 </script>
 <tool-tip
