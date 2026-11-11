@@ -3,6 +3,7 @@
 
 	import Tooltip from '../components/tooltip.svelte';
 	import {getToken} from '../github-helpers/github-token.js';
+	import {altKeyName} from '../github-helpers/hotkey.js';
 	import {
 		getConversationAuthor,
 		getLoggedInUser,
@@ -63,7 +64,7 @@
 			<Tooltip
 				id="{approveId}-tooltip"
 				htmlFor={approveId}
-				label="Hold alt to approve without confirmation"
+				label={`Hold ${altKeyName} to approve without confirmation`}
 			/>
 		{/if}
 	{/await}
