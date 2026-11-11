@@ -10,6 +10,7 @@ import {$, $$, $optional, closestElement} from 'select-dom';
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import GitHubFileUrl from '../github-helpers/github-file-url.js';
+import {altKeyName} from '../github-helpers/hotkey.js';
 import {multilineAriaLabel, visitAjaxedPage} from '../github-helpers/index.js';
 import showToast from '../github-helpers/toast.js';
 import looseParseInt from '../helpers/loose-parse-int.js';
@@ -75,7 +76,7 @@ function addButton(hunk: HTMLElement): void {
 	if (reblameLink) {
 		reblameLink.setAttribute(
 			'aria-label',
-			'View blame prior to this change. Hold `Alt` to extract commits from this PR first',
+			`View blame prior to this change. Hold \`${altKeyName}\` to extract commits from this PR first`,
 		);
 		reblameLink.classList.add('rgh-deep-reblame');
 	} else {

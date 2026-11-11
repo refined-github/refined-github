@@ -11,12 +11,13 @@ import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {userIsAdmin} from '../github-helpers/get-user-permission.js';
 import {expectTokenScope} from '../github-helpers/github-token.js';
+import {altKeyName} from '../github-helpers/hotkey.js';
 import {buildRepoUrl, getForkedRepo, getRepo} from '../github-helpers/index.js';
 import addNotice from '../github-helpers/notice-bar.js';
 import showToast from '../github-helpers/toast.js';
 import observe from '../helpers/selector-observer.js';
 
-const tooltip = {label: 'Instant deletion via', shortcut: 'alt click'} as const;
+const tooltip = {label: 'Instant deletion via', shortcut: `${altKeyName} click`} as const;
 const buttonHashSelector = '#dialog-show-repo-delete-menu-dialog';
 
 // Only if the repository hasn't been starred
