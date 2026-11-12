@@ -7,6 +7,39 @@ import observe from '../helpers/selector-observer.js';
 
 const mergedLinkClass = 'rgh-merged-link';
 
+function addLegacyMergeLink(lastLink: HTMLAnchorElement): void {
+	// It's shouldn't be added in issues list
+	if (!pageDetect.isPRList()) {
+		return;
+	}
+
+	const locationQuery = SearchQuery.from(location);
+	const isMerged = locationQuery.includes('is:merged', 'state:merged');
+	// The links in `.table-list-header-toggle` are either:
+	//   1 Open | 1 Closed
+	//   1 Total            // Apparently appears with merged/unmerged filters
+	if (isMerged) {
+		// It's a "Total" link for a merged filter
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
+		return;
+	}
+
+	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
+	if (isUnmerged) {
+		// It's a "Total" link for an unmerged filter
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
+		return;
+	}
+
+	// In this case, `lastLink` is expected to be a "Closed" link
+	const mergeLink = lastLink.cloneNode(true);
+	mergeLink.classList.add(mergedLinkClass);
+	mergeLink.textContent = 'Merged';
+	mergeLink.classList.toggle('selected', isMerged);
+	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
+	lastLink.after(' ', mergeLink);
+}
+
 function addMergeLink(link: HTMLAnchorElement): void {
 	// In this case, `link` is expected to be a "Closed" link
 	// Null if the "Merged" link hasn't been added yet
@@ -48,7 +81,8 @@ function updateResultsCount(count: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// The Open/Closed links in the header of the list
+	// Legacy and React list headers use different markup.
+	observe('.table-list-header-toggle.states a:last-child:not(.rgh-merged-link)', addLegacyMergeLink, {signal});
 	observe('[class*="elementContainer"] > a[class*="container"][href*="state%3A"]', addMergeLink, {signal});
 	observe('[data-testid="results-count"]', updateResultsCount, {signal});
 }
