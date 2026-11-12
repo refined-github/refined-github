@@ -1,12 +1,9 @@
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import CheckIcon from 'octicons-plain-react/Check';
 import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
-import setStatusFilter from '../helpers/set-status-filter.js';
 
 const mergedLinkClass = 'rgh-merged-link';
 
@@ -41,20 +38,6 @@ function addLegacyMergeLink(lastLink: HTMLAnchorElement): void {
 	mergeLink.classList.toggle('selected', isMerged);
 	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
 	lastLink.after(' ', mergeLink);
-}
-
-function updateLegacyStatusLink(link: HTMLAnchorElement): void {
-	if (link === link.parentElement!.lastElementChild) {
-		addLegacyMergeLink(link);
-	}
-
-	$('.octicon', link).remove();
-	if (!link.classList.contains('selected')) {
-		return;
-	}
-
-	link.prepend(<CheckIcon />);
-	link.href = setStatusFilter(link, '');
 }
 
 function addMergeLink(link: HTMLAnchorElement): void {
@@ -99,19 +82,14 @@ function updateResultsCount(count: HTMLElement): void {
 
 function init(signal: AbortSignal): void {
 	// Legacy and React list headers use different markup.
-	observe('.table-list-header-toggle.states a', updateLegacyStatusLink, {signal});
-	if (!pageDetect.isPRList()) {
-		return;
-	}
-
+	observe('.table-list-header-toggle.states a:last-child:not(.rgh-merged-link)', addLegacyMergeLink, {signal});
 	observe('[class*="elementContainer"] > a[class*="container"][href*="state%3A"]', addMergeLink, {signal});
 	observe('[data-testid="results-count"]', updateResultsCount, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isRepoIssueOrPRList,
-		pageDetect.isGlobalIssueOrPRList,
+		pageDetect.isPRList,
 	],
 	init,
 });
