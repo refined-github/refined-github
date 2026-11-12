@@ -7,6 +7,41 @@ import observe from '../helpers/selector-observer.js';
 
 const mergedLinkClass = 'rgh-merged-link';
 
+function updateLegacyStatusLink(link: HTMLAnchorElement): void {
+	if (link.classList.contains(mergedLinkClass)) {
+		return;
+	}
+
+	const locationQuery = SearchQuery.from(location);
+	const isMerged = locationQuery.includes('is:merged', 'state:merged');
+	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
+
+	// Legacy lists may replace Open/Closed with a single Total link.
+	if ((isMerged || isUnmerged) && link.textContent.includes('Total')) {
+		link.lastChild!.textContent = link.lastChild!.textContent.replace('Total', isMerged ? 'Merged' : 'Unmerged');
+		return;
+	}
+
+	// Null if the Closed link is the final link in the header.
+	const hasMergeLink = link.nextElementSibling?.classList.contains(mergedLinkClass);
+	if (
+		hasMergeLink!
+		|| !SearchQuery.from(link).includes('is:closed', 'state:closed')
+	) {
+		return;
+	}
+
+	const mergeLink = link.cloneNode(true);
+	mergeLink.classList.add(mergedLinkClass);
+	mergeLink.classList.remove('selected');
+	mergeLink.removeAttribute('aria-current');
+	mergeLink.textContent = 'Merged';
+	mergeLink.href = SearchQuery.from(link)
+		.remove('is:unmerged', '-state:merged')
+		.replace(/(?:is|state):closed/, 'state:merged').href;
+	link.after(' ', mergeLink);
+}
+
 function addMergeLink(link: HTMLAnchorElement): void {
 	// In this case, `link` is expected to be a "Closed" link
 	// Null if the "Merged" link hasn't been added yet
@@ -48,7 +83,8 @@ function updateResultsCount(count: HTMLElement): void {
 }
 
 function init(signal: AbortSignal): void {
-	// The Open/Closed links in the header of the list
+	// Legacy and React list headers use different markup.
+	observe('.table-list-header-toggle.states a', updateLegacyStatusLink, {signal});
 	observe('[class*="elementContainer"] > a[class*="container"][href*="state%3A"]', addMergeLink, {signal});
 	observe('[data-testid="results-count"]', updateResultsCount, {signal});
 }
