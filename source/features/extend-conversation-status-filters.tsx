@@ -1,45 +1,60 @@
+import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
+import CheckIcon from 'octicons-plain-react/Check';
 import {$, $$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import SearchQuery from '../github-helpers/search-query.js';
 import observe from '../helpers/selector-observer.js';
+import setStatusFilter from '../helpers/set-status-filter.js';
 
 const mergedLinkClass = 'rgh-merged-link';
 
-function updateLegacyStatusLink(link: HTMLAnchorElement): void {
-	if (link.classList.contains(mergedLinkClass)) {
+function addLegacyMergeLink(lastLink: HTMLAnchorElement): void {
+	// It's shouldn't be added in issues list
+	if (!pageDetect.isPRList()) {
 		return;
 	}
 
 	const locationQuery = SearchQuery.from(location);
 	const isMerged = locationQuery.includes('is:merged', 'state:merged');
+	// The links in `.table-list-header-toggle` are either:
+	//   1 Open | 1 Closed
+	//   1 Total            // Apparently appears with merged/unmerged filters
+	if (isMerged) {
+		// It's a "Total" link for a merged filter
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Merged');
+		return;
+	}
+
 	const isUnmerged = locationQuery.includes('is:unmerged', '-state:merged');
-
-	// Legacy lists may replace Open/Closed with a single Total link.
-	if ((isMerged || isUnmerged) && link.textContent.includes('Total')) {
-		link.lastChild!.textContent = link.lastChild!.textContent.replace('Total', isMerged ? 'Merged' : 'Unmerged');
+	if (isUnmerged) {
+		// It's a "Total" link for an unmerged filter
+		lastLink.lastChild!.textContent = lastLink.lastChild!.textContent.replace('Total', 'Unmerged');
 		return;
 	}
 
-	// Null if the Closed link is the final link in the header.
-	const hasMergeLink = link.nextElementSibling?.classList.contains(mergedLinkClass);
-	if (
-		hasMergeLink!
-		|| !SearchQuery.from(link).includes('is:closed', 'state:closed')
-	) {
-		return;
-	}
-
-	const mergeLink = link.cloneNode(true);
+	// In this case, `lastLink` is expected to be a "Closed" link
+	const mergeLink = lastLink.cloneNode(true);
 	mergeLink.classList.add(mergedLinkClass);
-	mergeLink.classList.remove('selected');
-	mergeLink.removeAttribute('aria-current');
 	mergeLink.textContent = 'Merged';
-	mergeLink.href = SearchQuery.from(link)
-		.remove('is:unmerged', '-state:merged')
-		.replace(/(?:is|state):closed/, 'state:merged').href;
-	link.after(' ', mergeLink);
+	mergeLink.classList.toggle('selected', isMerged);
+	mergeLink.href = SearchQuery.from(mergeLink).replace(/(?:is|state):closed/, 'state:merged').href;
+	lastLink.after(' ', mergeLink);
+}
+
+function updateLegacyStatusLink(link: HTMLAnchorElement): void {
+	if (link === link.parentElement!.lastElementChild) {
+		addLegacyMergeLink(link);
+	}
+
+	$('.octicon', link).remove();
+	if (!link.classList.contains('selected')) {
+		return;
+	}
+
+	link.prepend(<CheckIcon />);
+	link.href = setStatusFilter(link, '');
 }
 
 function addMergeLink(link: HTMLAnchorElement): void {
@@ -85,13 +100,18 @@ function updateResultsCount(count: HTMLElement): void {
 function init(signal: AbortSignal): void {
 	// Legacy and React list headers use different markup.
 	observe('.table-list-header-toggle.states a', updateLegacyStatusLink, {signal});
+	if (!pageDetect.isPRList()) {
+		return;
+	}
+
 	observe('[class*="elementContainer"] > a[class*="container"][href*="state%3A"]', addMergeLink, {signal});
 	observe('[data-testid="results-count"]', updateResultsCount, {signal});
 }
 
 void features.add(import.meta.url, {
 	include: [
-		pageDetect.isPRList,
+		pageDetect.isRepoIssueOrPRList,
+		pageDetect.isGlobalIssueOrPRList,
 	],
 	init,
 });
