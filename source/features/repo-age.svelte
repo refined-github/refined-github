@@ -53,7 +53,11 @@
 
 <h3 class="sr-only">Repository age</h3>
 <div class="mt-2 tmp-mt-2">
-	<a href={lastCommitsPageUrl} class="Link--muted" title="Created on {dateFormatter.format(birthday)}">
+	<a
+		href={lastCommitsPageUrl}
+		class="Link--muted"
+		title="Created on {dateFormatter.format(birthday)}"
+	>
 		<DomChef as={RepoIcon} class="mr-2 tmp-mr-2" />
 		{#if isFresh}
 			{freshLabel}
