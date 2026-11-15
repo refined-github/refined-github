@@ -1,16 +1,15 @@
-import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
-import RepoIcon from 'octicons-plain-react/Repo';
 import {closestElement} from 'select-dom';
+import {mount} from 'svelte';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
 import api from '../github-helpers/api.js';
 import {buildRepoUrl, cacheByRepo} from '../github-helpers/index.js';
-import {randomArrayItem} from '../helpers/math.js';
 import observe from '../helpers/selector-observer.js';
 import GetFirstCommit from './repo-age-first-commit.gql';
 import GetRepoAge from './repo-age.gql';
+import RepoAge from './repo-age.svelte';
 
 type CommitTarget = {
 	oid: string;
@@ -19,22 +18,6 @@ type CommitTarget = {
 		totalCount: number;
 	};
 };
-
-const fresh = [
-	'Freshly baked',
-	'Freshly brewed',
-	'Newly minted',
-	'Hot off the presses',
-	'Straight out of the oven',
-	'Still hot',
-	'Smells fresh',
-	'Just a baby',
-	'It’s my birthday',
-	'Brand spanking new',
-	'It’s a new world ✨',
-	'Certified Fresh Repo™',
-	'So it begins, the great battle of our time',
-];
 
 function buildLastCommitsPageUrl(commitSha: string, commitsCount: number): string {
 	if (commitsCount <= 2) {
@@ -87,80 +70,15 @@ const repoDates = new CachedFunction('repo-dates', {
 	cacheKey: cacheByRepo,
 });
 
-const dayInMs = 24 * 60 * 60 * 1000;
-
-function getAgeLabel(birthday: Date): string | DocumentFragment {
-	const now = new Date();
-	const ageInMs = now.getTime() - birthday.getTime();
-
-	// About a day old or less ?
-	if (ageInMs < 10e7) {
-		return randomArrayItem(fresh);
-	}
-
-	const days = Math.floor(ageInMs / dayInMs);
-	if (days < 30) {
-		return (
-			<>
-				<strong>{days}</strong> {days === 1 ? 'day' : 'days'} old
-			</>
-		);
-	}
-
-	const month = birthday.toLocaleString('en-US', {month: 'long'});
-	const year = birthday.getFullYear();
-	if (year === now.getFullYear()) {
-		return <>since <strong>{month}</strong></>;
-	}
-
-	if (year === now.getFullYear() - 1) {
-		return <>since <strong>{month} {year}</strong></>;
-	}
-
-	return <>since <strong>{year}</strong></>;
-}
-
 async function addRepoAge(sidebarForksLinkIcon: HTMLElement): Promise<void> {
-	// Construct class only when it's needed, as it is relatively expensive
-	const dateFormatter = new Intl.DateTimeFormat('en-US', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	});
-
 	const {createdAt, firstCommitDate, lastCommitsPageUrl} = await repoDates.get();
-	const birthday = new Date(createdAt);
-	const firstCommitBirthday = new Date(firstCommitDate);
+	const container = closestElement('.mt-2', sidebarForksLinkIcon);
 
-	// The creation date is trustworthy, but the history may have been imported, so the first commit can be older. Newer commits are ignored
-	const firstCommitIsOlder = firstCommitBirthday.getFullYear() < birthday.getFullYear();
-
-	// Only show the year of both dates if they differ, so they use the same format. Fresh repos keep their label
-	const age = firstCommitIsOlder && Date.now() - birthday.getTime() >= 10e7
-		? <><strong>{birthday.getFullYear()}</strong> repo</>
-		: getAgeLabel(birthday);
-
-	closestElement('.mt-2', sidebarForksLinkIcon).after(
-		<h3 className="sr-only">Repository age</h3>,
-		<div className="mt-2 tmp-mt-2">
-			<a href={lastCommitsPageUrl} className="Link--muted" title={`Created on ${dateFormatter.format(birthday)}`}>
-				<RepoIcon className="mr-2 tmp-mr-2" />
-				{age}
-			</a>
-			{firstCommitIsOlder && (
-				<>
-					{' • '}
-					<a
-						href={lastCommitsPageUrl}
-						className="Link--muted"
-						title={`First commit dated ${dateFormatter.format(firstCommitBirthday)}`}
-					>
-						<strong>{firstCommitBirthday.getFullYear()}</strong> commit
-					</a>
-				</>
-			)}
-		</div>,
-	);
+	mount(RepoAge, {
+		target: container.parentElement!,
+		anchor: container.nextElementSibling ?? undefined,
+		props: {createdAt, firstCommitDate, lastCommitsPageUrl},
+	});
 }
 
 async function init(signal: AbortSignal): Promise<void> {
