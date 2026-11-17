@@ -38,3 +38,5 @@ export function addHotkey(button: HTMLAnchorElement | HTMLButtonElement | undefi
 }
 
 export const modifierKey = isMac ? 'cmd' : 'ctrl';
+
+export const altKey = isMac ? 'option' : 'alt';
