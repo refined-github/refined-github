@@ -49,7 +49,7 @@
 
 	// The creation date is trustworthy, but the history may have been imported, so the first commit can be older. Newer commits are ignored
 	const firstCommitIsOlder = $derived(
-		firstCommit.getTime() <= birthday.getTime() - (365 * dayInMs),
+		firstCommit.getTime() <= birthday.getTime() - (120 * dayInMs),
 	);
 </script>
 
