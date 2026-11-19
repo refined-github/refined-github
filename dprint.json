@@ -32,7 +32,13 @@
 		"taggedTemplate.formatEmbedded": false,
 		"spaceSurroundingProperties": false,
 		"importDeclaration.spaceSurroundingNamedImports": false,
-		"exportDeclaration.spaceSurroundingNamedExports": false
+		"exportDeclaration.spaceSurroundingNamedExports": false,
+		"module.importGroups": [
+			{ "match": ["builtin", "external"] },
+			{ "match": ["parent", "sibling", "index"] }
+		],
+		"module.typeImports": "interleave",
+		"module.importGroupsNewlinesBetween": "always"
 	},
 	"malva": {
 		"linebreakInPseudoParens": true,
