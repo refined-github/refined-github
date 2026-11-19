@@ -69,11 +69,11 @@
 		{:else if days < 30}
 			<strong>{days}</strong> {days === 1 ? 'day' : 'days'} old
 		{:else if year === now.getFullYear()}
-			since <strong>{month}</strong>
+			Since <strong>{month}</strong>
 		{:else if year === now.getFullYear() - 1}
-			since <strong>{month} {year}</strong>
+			Since <strong>{month} {year}</strong>
 		{:else}
-			since <strong>{year}</strong>
+			Since <strong>{year}</strong>
 		{/if}
 	</a>
 	{#if firstCommitIsOlder}
