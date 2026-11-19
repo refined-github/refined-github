@@ -77,30 +77,11 @@ export default defineConfig([
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
 
-			// Spacing not covered by dprint
-			// TODO: https://github.com/dprint/dprint-plugin-typescript/issues/493
-			// TODO: https://github.com/un-ts/eslint-plugin-import-x/issues/500
 			'import-x/order': [
 				'error',
 				{
-					groups: [
-						'unknown',
-						[
-							'builtin',
-							'external',
-						],
-					],
-					pathGroups: [
-						{
-							pattern: '*.css',
-							patternOptions: {matchBase: true},
-							group: 'unknown',
-							position: 'before',
-						},
-					],
-					pathGroupsExcludedImportTypes: [],
-					warnOnUnassignedImports: true,
-					'newlines-between': 'always',
+					groups: [['builtin', 'external'], ['parent', 'sibling', 'index']],
+					warnOnUnassignedImports: 'top',
 				},
 			],
 		},
@@ -111,6 +92,7 @@ export default defineConfig([
 			'@stylistic/jsx-self-closing-comp': 'error',
 			'@typescript-eslint/no-use-before-define': 'error',
 			'refined-github/avoid-backlinks': 'error',
+			'refined-github/prefer-selector-helper': 'error',
 
 			'@typescript-eslint/no-deprecated': 'off', // Reports on JSX type, can never enable
 			'@typescript-eslint/no-unsafe-assignment': 'off',

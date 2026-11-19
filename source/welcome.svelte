@@ -3,6 +3,7 @@
 <script lang="ts">
 	// eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 	import 'webext-bugs/target-blank';
+
 	import {onMount} from 'svelte';
 
 	import {hasValidGitHubComToken} from './github-helpers/github-token.js';
