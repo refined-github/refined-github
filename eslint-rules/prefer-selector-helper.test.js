@@ -27,6 +27,10 @@ run({
 		{code: "const a = 'a.foo';", filename, cwd},
 		// Template literals are ignored
 		{code: 'const a = `a:is(.foo-element, .bar-element)`;', filename, cwd},
+		// Pseudo-functions inside quoted attribute values are literal text
+		{code: `const a = '[data-example=":is(.foo-element,.bar-element)"]';`, filename, cwd},
+		// Escaped commas don't split arguments
+		{code: "const a = ':is(.foo\\\\,bar-element-long)';", filename, cwd},
 		// Not strings
 		{code: "import a from ':is(.foo-element, .bar-element)';", filename, cwd},
 	],
@@ -99,6 +103,48 @@ run({
 			cwd,
 			output:
 				"import {is} from '../helpers/css-selectors.js';\nconst a = 'a' + is(\n'.foo-element',\n'.bar-element'\n) + b;",
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// Escaped commas are preserved
+			code: "const a = ':is(.foo\\\\,bar-element, .baz-element)';",
+			filename,
+			cwd,
+			output:
+				"import {is} from '../helpers/css-selectors.js';\nconst a = is(\n\".foo\\\\,bar-element\",\n'.baz-element'\n);",
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// Namespace imports can't take named imports
+			code: "import * as selectors from '../helpers/css-selectors.js';\nconst a = ':is(.foo-element, .bar-element)';",
+			filename,
+			cwd,
+			output:
+				"import * as selectors from '../helpers/css-selectors.js';\nimport {is} from '../helpers/css-selectors.js';\nconst a = is(\n'.foo-element',\n'.bar-element'\n);",
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// `is` is bound to another helper
+			code: "import {not as is} from '../helpers/css-selectors.js';\nconst a = ':is(.foo-element, .bar-element)';",
+			filename,
+			cwd,
+			output: null,
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// `is` is shadowed
+			code: "function f(is) {\n\treturn ':is(.foo-element, .bar-element)';\n}",
+			filename,
+			cwd,
+			output: null,
+			errors: [{messageId: 'useHelper'}],
+		},
+		{
+			// `is` is already declared
+			code: "const is = 1;\nconst a = ':is(.foo-element, .bar-element)';",
+			filename,
+			cwd,
+			output: null,
 			errors: [{messageId: 'useHelper'}],
 		},
 	],

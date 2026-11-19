@@ -26,19 +26,17 @@ const unwrappedParents = new Set([
 	'ArrowFunctionExpression',
 ]);
 
-// Walks `text` and calls `visit(character, index, depth)` for every character outside of quotes
+// Walks `text` and calls `visit(character, index, depth)` for every character outside of quotes and escapes
 function walk(text, from, visit) {
 	let depth = 0;
 	let quote;
-	let escaped = false;
 	for (let index = from; index < text.length; index++) {
 		const character = text[index];
-		if (quote) {
-			if (escaped) {
-				escaped = false;
-			} else if (character === '\\') {
-				escaped = true;
-			} else if (character === quote) {
+		if (character === '\\') {
+			// Skip the escaped character
+			index++;
+		} else if (quote) {
+			if (character === quote) {
 				quote = undefined;
 			}
 		} else if (character === '"' || character === "'") {
@@ -87,32 +85,60 @@ function splitArguments(text) {
 
 function findMatches(value) {
 	const matches = [];
-	const pattern = /:(?<name>is|has|not)\(/g;
-	for (let match = pattern.exec(value); match; match = pattern.exec(value)) {
-		const innerStart = match.index + match[0].length;
+	const pattern = /:(?<name>is|has|not)\(/y;
+	let skipUntil = 0;
+	walk(value, 0, (character, index) => {
+		if (character !== ':' || index < skipUntil) {
+			return;
+		}
+
+		pattern.lastIndex = index;
+		const match = pattern.exec(value);
+		if (!match) {
+			return;
+		}
+
+		const innerStart = index + match[0].length;
 		const closing = findClosingParenthesis(value, innerStart);
 		if (closing === -1) {
-			continue;
+			return;
 		}
 
 		const inner = value.slice(innerStart, closing);
 		const arguments_ = splitArguments(inner);
 		// Single-item functions, short ones and temporary classes are fine as they are
 		if (arguments_.length < 2 || inner.length < minInnerLength || inner.includes('tmp-')) {
-			continue;
+			return;
 		}
 
 		// Nested functions are handled in the next pass, once their parent has been converted
-		pattern.lastIndex = closing + 1;
+		skipUntil = closing + 1;
 		matches.push({
 			name: match.groups.name,
-			start: match.index,
+			start: index,
 			end: closing + 1,
 			args: arguments_,
 		});
-	}
+	});
 
 	return matches;
+}
+
+function findVariable(scope, name) {
+	for (let current = scope; current; current = current.upper) {
+		const variable = current.set.get(name);
+		if (variable) {
+			return variable;
+		}
+	}
+}
+
+function isHelperBinding(variable, name) {
+	const [definition] = variable.defs;
+	return definition.type === 'ImportBinding'
+		&& definition.node.type === 'ImportSpecifier'
+		&& definition.node.imported.name === name
+		&& definition.parent.source.value.endsWith('/css-selectors.js');
 }
 
 const toLiteral = text => /[\n'\\]/.test(text) ? JSON.stringify(text) : `'${text}'`;
@@ -134,19 +160,14 @@ const preferSelectorHelper = {
 		function getImportFix(fixer, names) {
 			const {body} = sourceCode.ast;
 			const existing = body.find(node =>
-				node.type === 'ImportDeclaration' && node.source.value.endsWith('/css-selectors.js')
+				node.type === 'ImportDeclaration'
+				&& node.importKind !== 'type'
+				&& node.source.value.endsWith('/css-selectors.js')
 			);
-			if (existing) {
-				const imported = new Set(existing.specifiers.map(specifier => specifier.local.name));
-				const missing = names.filter(name => !imported.has(name));
-				if (missing.length === 0) {
-					return [];
-				}
-
-				const last = existing.specifiers.findLast(specifier => specifier.type === 'ImportSpecifier');
-				return last
-					? [fixer.insertTextAfter(last, `, ${missing.join(', ')}`)]
-					: [];
+			const last = existing?.specifiers.findLast(specifier => specifier.type === 'ImportSpecifier');
+			// Namespace and side-effect imports can't take named imports, so they get a separate statement
+			if (last) {
+				return [fixer.insertTextAfter(last, `, ${names.join(', ')}`)];
 			}
 
 			const relative = path
@@ -200,7 +221,14 @@ const preferSelectorHelper = {
 					parts.push(toLiteral(node.value.slice(position)));
 				}
 
-				const names = [...new Set(matches.map(match => match.name))].toSorted((a, b) => a.localeCompare(b));
+				const allNames = [...new Set(matches.map(match => match.name))].toSorted((a, b) => a.localeCompare(b));
+				// The generated calls must resolve to the helpers, so the fix is withheld if the names are taken
+				const scope = sourceCode.getScope(node);
+				const isSafe = allNames.every(name => {
+					const variable = findVariable(scope, name);
+					return !variable || isHelperBinding(variable, name);
+				});
+				const names = allNames.filter(name => !findVariable(scope, name));
 				const expression = parts.join(' + ');
 				const isWrapped = sourceCode.getTokenBefore(node)?.value === '(' && sourceCode.getTokenAfter(node)?.value === ')';
 				const isConcatenation = node.parent.type === 'BinaryExpression' && node.parent.operator === '+';
@@ -212,10 +240,12 @@ const preferSelectorHelper = {
 					node,
 					messageId: 'useHelper',
 					data: {name: matches[0].name},
-					fix: fixer => [
-						fixer.replaceText(node, text),
-						...getImportFix(fixer, names),
-					],
+					fix: isSafe
+						? fixer => [
+							fixer.replaceText(node, text),
+							...(names.length > 0 ? getImportFix(fixer, names) : []),
+						]
+						: undefined,
 				});
 			},
 		};
