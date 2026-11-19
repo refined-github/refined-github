@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type {Snippet} from 'svelte';
-
 	import DomChef from './dom-chef.svelte';
+
+	import type {Snippet} from 'svelte';
 
 	const {icon, text, classes = [], children}: {
 		icon?: (..._props: any[]) => HTMLElement;

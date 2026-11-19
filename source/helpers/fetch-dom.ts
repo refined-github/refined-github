@@ -1,9 +1,10 @@
 import domify from 'doma';
 import memoize from 'memoize';
 import {$optional} from 'select-dom';
-import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import {log} from './feature-helpers.js';
+
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 async function fetchDom(url: string): Promise<DocumentFragment>;
 async function fetchDom<

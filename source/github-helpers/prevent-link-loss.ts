@@ -1,9 +1,10 @@
-/* eslint-disable regexp/prefer-named-capture-group -- Messes with the whole logic */
-/* eslint-disable max-params -- These match the native `String#replace` signature */
-import type {RepositoryInfo} from 'github-url-detection';
 import {replaceFieldText} from 'text-field-edit';
 
 import {getConversationNumber, getRepo} from './index.js';
+
+/* eslint-disable regexp/prefer-named-capture-group -- Messes with the whole logic */
+/* eslint-disable max-params -- These match the native `String#replace` signature */
+import type {RepositoryInfo} from 'github-url-detection';
 
 function getRepoReference(currentRepo: RepositoryInfo | undefined, repoNameWithOwner: string, delimiter = ''): string {
 	return repoNameWithOwner === currentRepo!.nameWithOwner ? '' : repoNameWithOwner + delimiter;

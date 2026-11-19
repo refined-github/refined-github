@@ -27,13 +27,14 @@ so the call will not throw an error but it will return as usual.
 
 import React from 'dom-chef';
 import memoize from 'memoize';
-import type {AsyncReturnType, JsonObject} from 'type-fest';
 
 import {log} from '../helpers/feature-helpers.js';
 import onetime from '../helpers/onetime.js';
 import {getToken, isSameUser, tokenUser} from './github-token.js';
 import {getLoggedInUser, getRepo} from './index.js';
 import {api3, api4} from './urls.js';
+
+import type {AsyncReturnType, JsonObject} from 'type-fest';
 
 type RestResponse = AnyObject & {
 	httpStatus: number;

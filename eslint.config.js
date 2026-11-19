@@ -77,32 +77,7 @@ export default defineConfig([
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
 
-			// Spacing not covered by dprint
-			// TODO: https://github.com/dprint/dprint-plugin-typescript/issues/493
-			// TODO: https://github.com/un-ts/eslint-plugin-import-x/issues/500
-			'import-x/order': [
-				'error',
-				{
-					groups: [
-						'unknown',
-						[
-							'builtin',
-							'external',
-						],
-					],
-					pathGroups: [
-						{
-							pattern: '*.css',
-							patternOptions: {matchBase: true},
-							group: 'unknown',
-							position: 'before',
-						},
-					],
-					pathGroupsExcludedImportTypes: [],
-					warnOnUnassignedImports: true,
-					'newlines-between': 'always',
-				},
-			],
+			'import-x/order': ['error', {warnOnUnassignedImports: 'top'}],
 		},
 	},
 	{

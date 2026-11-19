@@ -6,7 +6,6 @@ import oneEvent from 'one-event';
 import {elementExists} from 'select-dom';
 import stripIndent from 'strip-indent';
 import {assertError} from 'ts-extras';
-import type {Arrayable, Promisable} from 'type-fest';
 import {isWebPage} from 'webext-detect';
 import {messageRuntime} from 'webext-msg';
 
@@ -26,6 +25,8 @@ import ArrayMap from './helpers/map-of-arrays.js';
 import waitFor from './helpers/wait-for.js';
 import optionsStorage, {isFeatureDisabled, type RghOptions} from './options-storage.js';
 import {contentScriptToggle} from './options/reload-without.js';
+
+import type {Arrayable, Promisable} from 'type-fest';
 
 type FeatureInitResult = void | false;
 type FeatureInit = (signal: AbortSignal) => Promisable<FeatureInitResult>;

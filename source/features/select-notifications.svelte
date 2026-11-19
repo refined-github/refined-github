@@ -14,6 +14,7 @@
 
 	import DomChef from '../components/dom-chef.svelte';
 	import {isSmallDevice} from '../helpers/dom-utils.js';
+
 	import type {Category, Filter, Selection} from './select-notifications.js';
 
 	type Props = {

@@ -2,9 +2,10 @@
 	import BellIcon from 'octicons-plain-react/Bell';
 	import BellSlashIcon from 'octicons-plain-react/BellSlash';
 	import IssueReopenedIcon from 'octicons-plain-react/IssueReopened';
-	import type {Readable} from 'svelte/store';
 
 	import Button from '../components/status-subscription-button.svelte';
+
+	import type {Readable} from 'svelte/store';
 	import type {SubscriptionStatus} from './status-subscription.js';
 
 	interface Props {

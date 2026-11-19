@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type {Readable} from 'svelte/store';
-
 	import abbreviateNumber from '../helpers/abbreviate-number.js';
+
+	import type {Readable} from 'svelte/store';
 
 	const {counter}: {counter?: Readable<number | string | undefined>} = $props();
 </script>
