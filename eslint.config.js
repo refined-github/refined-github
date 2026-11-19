@@ -77,7 +77,13 @@ export default defineConfig([
 			// Import-x rules customization
 			'import-x/prefer-default-export': 'error',
 
-			'import-x/order': ['error', {warnOnUnassignedImports: 'top'}],
+			'import-x/order': [
+				'error',
+				{
+					groups: [['builtin', 'external'], ['parent', 'sibling', 'index']],
+					warnOnUnassignedImports: 'top',
+				},
+			],
 		},
 	},
 	{
