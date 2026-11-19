@@ -1,3 +1,4 @@
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 
 import features from '../feature-manager.js';
@@ -5,8 +6,6 @@ import {buildRepoUrl} from '../github-helpers/index.js';
 import onAlteredClick from '../helpers/on-altered-click.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
-
-import type {DelegateEvent} from 'delegate-it';
 
 // Cache it just like their modal does
 // https://github.com/refined-github/refined-github/issues/9641

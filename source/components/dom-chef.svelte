@@ -1,6 +1,5 @@
 <script lang="ts">
 	import React from 'dom-chef';
-
 	import type {Action} from 'svelte/action';
 
 	// eslint-disable-next-line svelte/no-unused-svelte-ignore

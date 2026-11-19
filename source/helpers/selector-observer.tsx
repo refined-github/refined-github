@@ -2,14 +2,13 @@ import {mergeSignals, signalFromPromise} from 'abort-utils';
 import {css} from 'code-tag';
 import React from 'dom-chef';
 import domLoaded from 'dom-loaded';
+import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 import optionsStorage from '../options-storage.js';
 import getCallerId from './caller-id.js';
 import delay from './delay.js';
 import {parseFeatureNameFromStack} from './errors.js';
 import onetime from './onetime.js';
-
-import type {ParseSelector} from 'typed-query-selector/parser.js';
 
 type ObserverListener<ExpectedElement extends Element> = (element: ExpectedElement, options: SignalAsOptions) => void;
 

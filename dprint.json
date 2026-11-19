@@ -37,6 +37,7 @@
 			{ "match": ["builtin", "external"] },
 			{ "match": ["parent", "sibling", "index"] }
 		],
+		"module.typeImports": "interleave",
 		"module.importGroupsNewlinesBetween": "always"
 	},
 	"malva": {

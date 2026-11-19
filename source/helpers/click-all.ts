@@ -1,9 +1,8 @@
+import type {DelegateEvent} from 'delegate-it';
 import memoize from 'memoize';
 import {$$} from 'select-dom';
 
 import preserveScroll from './preserve-scroll.js';
-
-import type {DelegateEvent} from 'delegate-it';
 
 type EventHandler = (event: DelegateEvent<MouseEvent, HTMLElement>) => void;
 

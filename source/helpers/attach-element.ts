@@ -1,8 +1,7 @@
 import {elementExists} from 'select-dom';
+import type {RequireAtLeastOne} from 'type-fest';
 
 import getCallerId from './caller-id.js';
-
-import type {RequireAtLeastOne} from 'type-fest';
 
 type Position = 'before' | 'after';
 

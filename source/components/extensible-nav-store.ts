@@ -1,7 +1,6 @@
+import type CodeIcon from 'octicons-plain-react/Code';
 import {$} from 'select-dom';
 import {derived, get, type Readable, writable} from 'svelte/store';
-
-import type CodeIcon from 'octicons-plain-react/Code';
 
 export type Tab = {
 	id: string;

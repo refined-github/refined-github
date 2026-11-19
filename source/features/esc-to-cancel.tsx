@@ -1,11 +1,10 @@
+import type {DelegateEvent} from 'delegate-it';
 import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
 import {onConversationTitleFieldKeydown} from '../github-events/on-field-keydown.js';
 import {assertNodeContent} from '../helpers/dom-utils.js';
-
-import type {DelegateEvent} from 'delegate-it';
 
 function handleEscPress(event: DelegateEvent<KeyboardEvent>): void {
 	if ((event.key !== 'Escape') || !(event.delegateTarget instanceof HTMLInputElement)) {

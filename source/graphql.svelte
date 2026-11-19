@@ -1,10 +1,10 @@
 <svelte:options customElement="rgh-graphql" />
 
 <script lang="ts">
+	import type {JsonObject} from 'type-fest';
+
 	import api from './github-helpers/api.js';
 	import Header from './options/header.svelte';
-
-	import type {JsonObject} from 'type-fest';
 
 	let query = $state(`viewer {
 	login

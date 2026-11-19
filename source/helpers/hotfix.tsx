@@ -4,11 +4,10 @@ import {isEnterprise} from 'github-url-detection';
 import {CachedFunction} from 'webext-storage-cache';
 
 import {getNewFeatureName} from '../feature-data.js';
+import type {RghOptions} from '../options-storage.js';
 import {type BrokenFeatureEntry, parseBrokenFeaturesCsv} from './hotfix-parse.js';
 import isDevelopmentVersion from './is-development-version.js';
 import {webextFetch} from './isomorphic-fetch.js';
-
-import type {RghOptions} from '../options-storage.js';
 
 const {version: currentVersion} = chrome.runtime.getManifest();
 

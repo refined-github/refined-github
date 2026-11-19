@@ -1,6 +1,6 @@
-import {getRepo} from './index.js';
-
 import type {NameWithOwner} from 'github-url-detection';
+
+import {getRepo} from './index.js';
 
 type Comparison = {
 	head: {

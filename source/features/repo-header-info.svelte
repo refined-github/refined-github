@@ -7,7 +7,6 @@
 	import loadBatchDeferredContent from '../github-helpers/batch-deferred-content.js';
 	import {buildRepoUrl} from '../github-helpers/index.js';
 	import abbreviateNumber from '../helpers/abbreviate-number.js';
-
 	import type {RepositoryInfo} from './repo-header-info.js';
 
 	const {info}: {info: RepositoryInfo} = $props();

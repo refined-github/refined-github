@@ -1,7 +1,7 @@
+import type CodeIcon from 'octicons-plain-react/Code';
 import {get} from 'svelte/store';
 import {beforeEach, expect, it, vi} from 'vitest';
 
-import type CodeIcon from 'octicons-plain-react/Code';
 import type {Tab} from './extensible-nav-store.js';
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions

@@ -1,9 +1,8 @@
 import domify from 'doma';
 import {$$, $optional} from 'select-dom';
+import type {Action} from 'svelte/action';
 
 import fetchDom from '../helpers/fetch-dom.js';
-
-import type {Action} from 'svelte/action';
 
 // Replicate `<include-fragment>` behavior to bypass nonce check
 async function loadDeferredDetailsContent(details: HTMLDetailsElement): Promise<void> {
