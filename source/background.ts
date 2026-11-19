@@ -2,6 +2,7 @@
 import 'webext-dynamic-content-scripts';
 // eslint-disable-next-line import-x/no-unassigned-import -- Side effects
 import 'webext-bugs/options-menu-item';
+
 import {customizeNoAllUrlsErrorMessage} from 'webext-bugs/no-all-urls';
 import {handleMessages} from 'webext-msg';
 import addPermissionToggle, {hasRequiredPermissions} from 'webext-permission-toggle';
