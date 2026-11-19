@@ -30,7 +30,7 @@ run({
 		// Pseudo-functions inside quoted attribute values are literal text
 		{code: `const a = '[data-example=":is(.foo-element,.bar-element)"]';`, filename, cwd},
 		// Escaped commas don't split arguments
-		{code: "const a = ':is(.foo\\\\,bar-element-long)';", filename, cwd},
+		{code: String.raw`const a = ':is(.foo\\,bar-element-long)';`, filename, cwd},
 		// Not strings
 		{code: "import a from ':is(.foo-element, .bar-element)';", filename, cwd},
 	],
@@ -107,11 +107,14 @@ run({
 		},
 		{
 			// Escaped commas are preserved
-			code: "const a = ':is(.foo\\\\,bar-element, .baz-element)';",
+			code: String.raw`const a = ':is(.foo\\,bar-element, .baz-element)';`,
 			filename,
 			cwd,
-			output:
-				"import {is} from '../helpers/css-selectors.js';\nconst a = is(\n\".foo\\\\,bar-element\",\n'.baz-element'\n);",
+			output: String.raw`import {is} from '../helpers/css-selectors.js';
+const a = is(
+".foo\\,bar-element",
+'.baz-element'
+);`,
 			errors: [{messageId: 'useHelper'}],
 		},
 		{

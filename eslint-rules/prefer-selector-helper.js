@@ -141,6 +141,26 @@ function isHelperBinding(variable, name) {
 		&& definition.parent.source.value.endsWith('/css-selectors.js');
 }
 
+// The generated calls must resolve to the helpers, so the fix is withheld if their names are taken
+function resolveHelpers(scope, matches) {
+	const names = [...new Set(matches.map(match => match.name))].toSorted((a, b) => a.localeCompare(b));
+	const isSafe = names.every(name => {
+		const variable = findVariable(scope, name);
+		return !variable || isHelperBinding(variable, name);
+	});
+	return {isSafe, names: names.filter(name => !findVariable(scope, name))};
+}
+
+function isSkipped(node) {
+	const {parent} = node;
+	return skippedParents.has(parent.type)
+		|| (parent.type === 'Property' && parent.key === node)
+		|| (
+			parent.type === 'TSAsExpression' && parent.typeAnnotation.type === 'TSTypeReference'
+			&& parent.typeAnnotation.typeName.name === 'const'
+		);
+}
+
 const toLiteral = text => /[\n'\\]/.test(text) ? JSON.stringify(text) : `'${text}'`;
 
 /** @type {import('eslint').Rule.RuleModule} */
@@ -186,18 +206,7 @@ const preferSelectorHelper = {
 		return {
 			// Template literals are intentionally ignored: their expressions can't be safely converted
 			Literal(node) {
-				if (typeof node.value !== 'string' || skippedParents.has(node.parent.type)) {
-					return;
-				}
-
-				if (node.parent.type === 'Property' && node.parent.key === node) {
-					return;
-				}
-
-				if (
-					node.parent.type === 'TSAsExpression' && node.parent.typeAnnotation.type === 'TSTypeReference'
-					&& node.parent.typeAnnotation.typeName.name === 'const'
-				) {
+				if (typeof node.value !== 'string' || isSkipped(node)) {
 					return;
 				}
 
@@ -221,14 +230,7 @@ const preferSelectorHelper = {
 					parts.push(toLiteral(node.value.slice(position)));
 				}
 
-				const allNames = [...new Set(matches.map(match => match.name))].toSorted((a, b) => a.localeCompare(b));
-				// The generated calls must resolve to the helpers, so the fix is withheld if the names are taken
-				const scope = sourceCode.getScope(node);
-				const isSafe = allNames.every(name => {
-					const variable = findVariable(scope, name);
-					return !variable || isHelperBinding(variable, name);
-				});
-				const names = allNames.filter(name => !findVariable(scope, name));
+				const {isSafe, names} = resolveHelpers(sourceCode.getScope(node), matches);
 				const expression = parts.join(' + ');
 				const isWrapped = sourceCode.getTokenBefore(node)?.value === '(' && sourceCode.getTokenAfter(node)?.value === ')';
 				const isConcatenation = node.parent.type === 'BinaryExpression' && node.parent.operator === '+';
