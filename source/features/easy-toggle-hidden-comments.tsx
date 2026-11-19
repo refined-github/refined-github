@@ -3,6 +3,7 @@ import * as pageDetect from 'github-url-detection';
 import {$} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {has} from '../helpers/css-selectors.js';
 import {wasInteractiveElementClicked} from './easy-toggle-commit-messages.js';
 
 function toggle(event: DelegateEvent<MouseEvent>): void {
@@ -10,7 +11,10 @@ function toggle(event: DelegateEvent<MouseEvent>): void {
 		$(
 			[
 				'.review-thread-chevron', // PRs
-				'button:has(> .octicon-unfold, > .octicon-fold)', // Issues
+				'button' + has(
+					'> .octicon-unfold',
+					'> .octicon-fold',
+				), // Issues
 			],
 			event.delegateTarget,
 		).click();
@@ -21,7 +25,10 @@ function init(signal: AbortSignal): void {
 	delegate(
 		[
 			'.js-toggle-outdated-comments', // PRs
-			'div[data-testid="comment-header"]:has(.octicon-unfold, .octicon-fold)', // Issues
+			'div[data-testid="comment-header"]' + has(
+				'.octicon-unfold',
+				'.octicon-fold',
+			), // Issues
 		],
 		'click',
 		toggle,

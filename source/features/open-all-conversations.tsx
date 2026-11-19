@@ -5,6 +5,7 @@ import * as pageDetect from 'github-url-detection';
 import {$$, closestElementOptional} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {not} from '../helpers/css-selectors.js';
 import openTabs from '../helpers/open-tabs.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -79,7 +80,10 @@ async function init(signal: AbortSignal): Promise<void | false> {
 			// Repo issue list: filters live in a toolbar next to the state tabs
 			'[role="toolbar"][aria-label="Issue list controls"] > :first-child',
 			// Global issue list: no filter toolbar, only the sort button and density toggle
-			'[id$="-list-view-metadata"] > :last-child:not([class*="primerActionBar"], [class*="legacyDensityToggle"])',
+			'[id$="-list-view-metadata"] > :last-child' + not(
+				'[class*="primerActionBar"]',
+				'[class*="legacyDensityToggle"]',
+			),
 		],
 		add,
 		{signal},

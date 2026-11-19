@@ -1,4 +1,5 @@
 import features from '../feature-manager.js';
+import {not} from '../helpers/css-selectors.js';
 import onetime from '../helpers/onetime.js';
 import observe from '../helpers/selector-observer.js';
 
@@ -8,7 +9,10 @@ function addSourceTypeToLink(link: HTMLAnchorElement): void {
 	link.search = String(search);
 }
 
-const skipUrlsWithType = ':not([href*="&type="], .issues-reset-query)';
+const skipUrlsWithType = not(
+	'[href*="&type="]',
+	'.issues-reset-query',
+);
 
 const selectors = [
 	// User repos

@@ -5,6 +5,7 @@ import noUselessFunction from './css-no-useless-function.js';
 import requireFuchsiaFallback from './css-require-fuchsia-fallback.js';
 import sortCompoundSelector from './css-sort-compound-selector.js';
 import noOptionalChaining from './no-optional-chaining.js';
+import preferSelectorHelper from './prefer-selector-helper.js';
 
 const refinedGithubPlugin = {
 	rules: {
@@ -15,6 +16,7 @@ const refinedGithubPlugin = {
 		'css-sort-compound-selector': sortCompoundSelector,
 		'css-no-useless-function': noUselessFunction,
 		'avoid-backlinks': avoidBacklinks,
+		'prefer-selector-helper': preferSelectorHelper,
 	},
 };
 
