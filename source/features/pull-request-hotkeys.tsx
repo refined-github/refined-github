@@ -9,6 +9,7 @@ import {is} from '../helpers/css-selectors.js';
 const tabnavSelectors = [
 	'[aria-label="Pull request tabs"]',
 	'[aria-label^="Pull request navigation"]',
+	'nav[aria-label="Pull request"]', // PR Overview page #10381
 ] as const;
 
 function selectAdjacentTab(offset: number): void {
