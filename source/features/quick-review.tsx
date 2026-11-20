@@ -2,7 +2,7 @@ import delegate, {type DelegateEvent} from 'delegate-it';
 import elementReady from 'element-ready';
 import filterAlteredClicks from 'filter-altered-clicks';
 import * as pageDetect from 'github-url-detection';
-import {$} from 'select-dom';
+import {$, $optional} from 'select-dom';
 import {mount} from 'svelte';
 
 import features from '../feature-manager.js';
@@ -45,12 +45,26 @@ async function quickApprove(event: MouseEvent): Promise<void> {
 	});
 
 	// Update timeline and scroll to bottom so the new review appears in view
-	scrollIntoViewIfNeeded($('#partial-timeline'));
+	// The PR Overview page updates by itself #10381
+	const timeline = $optional('#partial-timeline');
+	if (!timeline) {
+		return;
+	}
+
+	scrollIntoViewIfNeeded(timeline);
 	triggerConversationUpdate();
 }
 
 async function openReviewDialogWhenAvailable(event: MouseEvent): Promise<void> {
 	event.preventDefault();
+
+	// PR Overview page: the review button is already on this page #10381
+	const localReviewButton = $optional(reviewMenuButtonSelector);
+	if (localReviewButton) {
+		localReviewButton.click();
+		return;
+	}
+
 	$(prFilesChangedTabSelector).click();
 
 	const signal = AbortSignal.timeout(10_000);
@@ -65,6 +79,11 @@ function preloadPrFilesTab(): void {
 async function addButtons(reviewersSection: Element): Promise<void> {
 	// Occasionally this button appears before "Reviewers", so let's wait a bit longer
 	await delay(300);
+
+	// React might have replaced the section in the meantime; `observe` will call this again for the new one
+	if (!reviewersSection.isConnected) {
+		return;
+	}
 
 	mount(QuickReviewComponent, {
 		target: reviewersSection,
@@ -121,7 +140,10 @@ async function initAutoOpenPopup(signal: AbortSignal): Promise<void> {
 
 async function init(signal: AbortSignal): Promise<void> {
 	observe(
-		'[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)',
+		[
+			'[aria-label="Select reviewers"] .discussion-sidebar-heading:not(#collapsible-reviewers-without-write)',
+			'section[aria-label="Reviewers"] > h4', // PR Overview page #10381
+		],
 		addButtons,
 		{signal},
 	);
