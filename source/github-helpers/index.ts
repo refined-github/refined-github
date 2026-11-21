@@ -33,9 +33,13 @@ export function buildRepoUrl<S extends string>(
 }
 
 export function getForkedRepo(): `${string}/${string}` | undefined {
-	return $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content as
-		| `${string}/${string}`
-		| undefined;
+	const meta = $optional('meta[name="octolytics-dimension-repository_parent_nwo"]')?.content;
+	if (meta) {
+		return meta as `${string}/${string}`;
+	}
+
+	const parentLink = $optional<HTMLAnchorElement>('[data-testid="fork-parent"] a');
+	return parentLink ? (parentLink.pathname.slice(1) as `${string}/${string}`) : undefined;
 }
 
 export function parseTag(tag: string): {version: string; namespace: string} {

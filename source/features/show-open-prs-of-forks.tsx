@@ -83,15 +83,23 @@ async function initDeleteHint(): Promise<void | false> {
 	);
 }
 
+async function isForkedRepo(): Promise<boolean> {
+	if (pageDetect.isForkedRepo()) {
+		return true;
+	}
+
+	return Boolean(await elementReady('[data-testid="fork-parent"]'));
+}
+
 void features.add(import.meta.url, {
 	asLongAs: [
-		pageDetect.isForkedRepo,
+		isForkedRepo,
 	],
 	requiresToken: true,
 	init: initHeadHint,
 }, {
 	asLongAs: [
-		pageDetect.isForkedRepo,
+		isForkedRepo,
 	],
 	include: [
 		pageDetect.isRepoMainSettings,
