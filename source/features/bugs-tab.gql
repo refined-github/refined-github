@@ -1,18 +1,12 @@
-query CountBugs($owner: String!, $name: String!) {
+query CountBugs($owner: String!, $name: String!, $query: String!) {
 	repository(owner: $owner, name: $name) {
 		labels(query: "bug", first: 10) {
 			nodes {
 				name
-				issues(states: OPEN) {
-					totalCount
-				}
 			}
 		}
-		typeBug: issues(filterBy: { type: "Bug", states: OPEN }) {
-			totalCount
-		}
-		issues: issues(states: [OPEN]) {
-			totalCount
-		}
+	}
+	search(query: $query, type: ISSUE_ADVANCED, first: 1) {
+		issueCount
 	}
 }

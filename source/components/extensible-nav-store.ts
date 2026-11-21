@@ -12,12 +12,12 @@ export type Tab = {
 	tooltip?: string;
 	demoted?: true | string; // User-visible reason for demotion, e.g. "empty" or "disabled"
 	/** Tabs should only be removed if we know they lead to a 404 */
-	removed?: true;
+	removed?: boolean;
 	selected?: () => boolean | Promise<boolean>;
 };
 
-type ExtraTab = {tab: Tab; before?: string};
-type TabOverride = Partial<Pick<Tab, 'label' | 'counter' | 'tooltip' | 'demoted' | 'removed'>>;
+type ExtraTab = {tab: Tab; after?: string};
+type TabOverride = Partial<Pick<Tab, 'href' | 'label' | 'counter' | 'tooltip' | 'demoted' | 'removed'>>;
 
 const nativeTabs = writable<Tab[]>([]);
 const extraTabs = writable<ExtraTab[]>([]);
@@ -30,9 +30,24 @@ export const tabs = derived(
 	([$nativeTabs, $extraTabs, $overrides]) => {
 		const tabs = $nativeTabs.map(tab => ({...tab, ...$overrides.get(tab.id)}));
 
-		for (const {tab, before} of $extraTabs) {
-			const index = before ? tabs.findIndex(({id}) => id === before) : -1;
-			tabs.splice(index === -1 ? tabs.length : index, 0, tab);
+		const inserted = new Map<string, number>();
+		for (const {tab, after} of $extraTabs) {
+			const extraTab = {...tab, ...$overrides.get(tab.id)};
+			if (!after) {
+				tabs.push(extraTab);
+				continue;
+			}
+
+			// Without the tab it should follow (e.g. disabled issues), there's nowhere to put it
+			const index = tabs.findIndex(({id}) => id === after);
+			if (index === -1) {
+				continue;
+			}
+
+			// Keep the call order among tabs added after the same tab
+			const offset = inserted.get(after) ?? 0;
+			tabs.splice(index + 1 + offset, 0, extraTab);
+			inserted.set(after, offset + 1);
 		}
 
 		const demoted = tabs.filter(tab => tab.demoted);
@@ -50,8 +65,8 @@ export function selectTab(id: string): void {
 	selectedId.set(id);
 }
 
-export function addTab(tab: Tab, before?: string): void {
-	extraTabs.update(current => [...current, {tab, before}]);
+export function addTab(tab: Tab, after?: string): void {
+	extraTabs.update(current => [...current, {tab, after}]);
 
 	// TODO: Should probably trigger `updateCurrentTab` reactively somehow, but this works for now
 	if (tab.selected) {
