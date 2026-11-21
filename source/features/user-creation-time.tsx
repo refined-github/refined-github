@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 import * as pageDetect from 'github-url-detection';
 import Clock from 'octicons-plain-react/Clock';
-import {$optional, elementExists} from 'select-dom';
+import {$, elementExists} from 'select-dom';
 import {CachedFunction} from 'webext-storage-cache';
 
 import features from '../feature-manager.js';
@@ -16,8 +16,8 @@ const userCreationTime = new CachedFunction('user-creation-time', {
 });
 
 async function init(): Promise<void> {
-	const vcard = $optional('.user-profile-bio ~ .vcard-details');
-	if (!vcard || elementExists('[title="Member since"]', vcard)) return;
+	const vcard = $('.user-profile-bio ~ .vcard-details');
+	if (elementExists('[title="Member since"]', vcard)) return;
 
 	const username = location.pathname.slice(1);
 	const createdAt = await userCreationTime.get(username);
