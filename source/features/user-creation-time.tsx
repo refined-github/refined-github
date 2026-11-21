@@ -17,6 +17,7 @@ const userCreationTime = new CachedFunction('user-creation-time', {
 
 async function init(): Promise<void> {
 	const vcard = $('.user-profile-bio ~ .vcard-details');
+	// GitHub shows the info natively for users joined in last 30 days
 	if (elementExists('[title="Member since"]', vcard)) {
 		return;
 	}
