@@ -149,7 +149,7 @@ async function addToReleases(releasesFilter: HTMLInputElement): Promise<void> {
 	const widget = await createLink(latestTag, aheadBy);
 
 	// Prepend it to the existing "Draft a new release" button to match the button on the repo home
-	const newReleaseButton = $optional('nav + div a[href$="/releases/new"]');
+	const newReleaseButton = $optional('a.btn[href$="/releases/new"]');
 	if (newReleaseButton) {
 		newReleaseButton.before(widget);
 		groupButtons([
