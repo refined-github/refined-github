@@ -17,7 +17,9 @@ const userCreationTime = new CachedFunction('user-creation-time', {
 
 async function init(): Promise<void> {
 	const vcard = $('.user-profile-bio ~ .vcard-details');
-	if (elementExists('[title="Member since"]', vcard)) return;
+	if (elementExists('[title="Member since"]', vcard)) {
+		return;
+	}
 
 	const username = location.pathname.slice(1);
 	const createdAt = await userCreationTime.get(username);
