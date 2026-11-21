@@ -1067,6 +1067,11 @@
 		"screenshot": "https://user-images.githubusercontent.com/1402241/46402857-7bdada80-c733-11e8-91a1-856573078ff5.png"
 	},
 	{
+		"id": "user-creation-time",
+		"description": "On profiles, it shows the user’s creation time.",
+		"screenshot": "https://github.com/user-attachments/assets/787dce9d-b0f3-4c7d-8a18-6105c0d38e72"
+	},
+	{
 		"id": "user-profile-follower-badge",
 		"description": "On profiles, it shows whether the user follows you.",
 		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/263206287-c8e1b94c-ec80-4394-bbb3-1cf6fb08b807.png"
