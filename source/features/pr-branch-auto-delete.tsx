@@ -30,6 +30,12 @@ const exceptions = [
 ];
 
 async function init(signal: AbortSignal): Promise<void> {
+	// The header may not be rendered yet after client-side navigation https://github.com/refined-github/refined-github/issues/10204
+	await elementReady('a[data-component="BranchName"] ~ div a[data-component="BranchName"]', {
+		stopOnDomReady: false,
+		signal,
+	});
+
 	// Skip branches that are likely to be long-lived https://github.com/refined-github/refined-github/issues/7755
 	const {head} = getBranches();
 	if (matchesAnyPattern(head.branch, exceptions)) {
