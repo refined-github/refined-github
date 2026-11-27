@@ -47,6 +47,24 @@
 	}
 }
 
+/* Fix compact PR list layout — restore the main-content grid area and keep
+   the metadata container (status columns) visible. The comfortable layout and
+   commit rows are unaffected because only `listItemCompact` rows are targeted. */
+@media (width > 544px) {
+	.rgh-dim-bots:not(
+		.rgh-tagged,
+		.rgh-interacted,
+		[data-testid='commit-row-item']
+	)[class*='listItemCompact'] {
+		grid-template-areas:
+			'selection status primary main-content metadata actions' !important;
+
+		> [class*='metadataContainer'] {
+			display: flex !important;
+		}
+	}
+}
+
 /* Keep the spacing that `align-issue-labels` gives to a title without labels */
 html:not([rgh-OFF-align-issue-labels])
 	.rgh-dim-bots:not(
