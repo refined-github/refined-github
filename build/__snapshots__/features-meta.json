@@ -804,6 +804,11 @@
 		"screenshot": "https://cloud.githubusercontent.com/assets/170270/14170088/d3be931e-f755-11e5-8edf-c5f864336382.png"
 	},
 	{
+		"id": "refined-github.css",
+		"description": "Makes the whole left column of notification, subscription, issue/PR, Dependabot and code scanning lists toggle the row’s checkbox.",
+		"screenshot": "https://github.com/user-attachments/assets/888f1856-a185-4901-bc2e-ee8a610d1d88"
+	},
+	{
 		"id": "release-download-count",
 		"description": "Adds a download count next to release assets.",
 		"css": true,

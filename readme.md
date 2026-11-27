@@ -347,6 +347,7 @@ https://github.com/refined-github/refined-github/wiki/Contributing#metadata-guid
 - [](# "clean-footer") Dims the site footer so it's less prominent.
 - [](# "night-not-found") Adds dark mode to the global 404 page.
 - [](# "monospace-textareas") Uses a monospace font in commit message, description, release body, and other fields that benefit from it.
+- [](# "refined-github.css") [Makes the whole left column of notification, subscription, issue/PR, Dependabot and code scanning lists toggle the row’s checkbox.](https://github.com/user-attachments/assets/888f1856-a185-4901-bc2e-ee8a610d1d88)
 
 <!--
 Refer to style guide in the wiki. Keep this message between sections.

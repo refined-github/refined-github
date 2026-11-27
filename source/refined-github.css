@@ -246,3 +246,49 @@ div[data-testid='top-nav-right']
 		}
 	}
 }
+
+/* Larger checkbox click area in issue/PR lists, Dependabot and code scanning alerts */
+/* Info: https://github.com/refined-github/refined-github/issues/8597 */
+/* Test: https://github.com/refined-github/refined-github/issues */
+/* Test: https://github.com/refined-github/refined-github/pulls */
+/* Test: https://github.com/refined-github/refined-github/security/dependabot */
+/* Test: https://github.com/refined-github/refined-github/security/code-scanning */
+input[data-listview-component='selection-input'],
+[class*='AlertListRow'] > input,
+input[data-test-selector='code-scanning-alert-checkbox'] {
+	position: static;
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 44px;
+		z-index: 1;
+	}
+	@media (width < 544px) {
+		[class*='AlertListRow'] > &::after {
+			bottom: calc(100% - 44px);
+		}
+	}
+}
+
+/* Larger checkbox click area in notifications and subscriptions; positions code scanning rows */
+/* Info: https://github.com/refined-github/refined-github/issues/8597 */
+/* Test: https://github.com/notifications */
+/* Test: https://github.com/notifications/subscriptions */
+:is(
+	.notifications-list-item,
+	.notification-thread-subscription,
+	.Box-row:has(input[data-test-selector='code-scanning-alert-checkbox'])
+) {
+	position: relative;
+	label:has(> input):not(:active) {
+		user-select: none;
+	}
+	label:has(> input)::before {
+		content: '';
+		display: block;
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 37px;
+	}
+}
