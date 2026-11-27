@@ -129,11 +129,6 @@
 		"screenshot": null
 	},
 	{
-		"id": "close-as-unplanned",
-		"description": "Lets you \"close issue as unplanned\" in one click instead of three.",
-		"screenshot": "https://github-production-user-asset-6210df.s3.amazonaws.com/1402241/279745773-709cde60-c26a-4a0e-89e1-56444d25ebdf.png"
-	},
-	{
 		"id": "close-out-of-view-modals",
 		"description": "Automatically closes dropdown menus when they’re no longer visible.",
 		"screenshot": "https://user-images.githubusercontent.com/1402241/37022353-531c676e-2155-11e8-96cc-80d934bb22e0.gif"
