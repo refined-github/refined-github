@@ -190,7 +190,6 @@ import './features/action-pr-link.js';
 import './features/rgh-dim-commits.js';
 import './features/repo-header-info.js';
 import './features/rgh-pr-template.js';
-import './features/close-as-unplanned.js';
 import './features/locked-issue.js';
 import './features/visit-tag.js';
 import './features/prevent-comment-loss.js';
