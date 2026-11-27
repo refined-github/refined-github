@@ -250,7 +250,6 @@ div[data-testid='top-nav-right']
 /* Make the whole left column of each notification toggle its checkbox; clicks on a label's pseudo-element toggle its input */
 /* Info: https://github.com/refined-github/refined-github/issues/8597 */
 /* Test: https://github.com/notifications */
-/* Without anchor positioning, the hit area can't be sized: keep GitHub's layout */
 @supports (anchor-scope: all) {
 	.notifications-list-item {
 		anchor-scope: --rgh-checkbox-label;
@@ -258,18 +257,18 @@ div[data-testid='top-nav-right']
 		label:has(> .js-notification-bulk-action-check-item) {
 			anchor-name: --rgh-checkbox-label;
 			cursor: pointer;
-			user-select: none; /* A Shift+click that selects text doesn't activate the label, which breaks range selection */
+			user-select: none; /* Shift+click that selects text doesn't activate the label */
 
 			&::before {
 				content: '';
 				display: block; /* `.clearfix` sets `display: table`, which doesn't stretch between `top` and `bottom` */
-				position: absolute; /* Relative to `.notifications-list-item` */
-				/* The title starts at the label's right edge. Without the anchor, `100%` collapses the area */
+				position: absolute;
+				/* The title starts at the label's right edge; `100%`: no area without the anchor */
 				inset: 0 anchor(--rgh-checkbox-label right, 100%) 0 0;
 			}
 		}
 
-		/* Paint the checkbox above the `::before`, so it stays the direct click target */
+		/* Above the `::before` */
 		.js-notification-bulk-action-check-item {
 			position: relative;
 			cursor: pointer;
@@ -281,7 +280,6 @@ div[data-testid='top-nav-right']
 /* Info: https://github.com/refined-github/refined-github/issues/8597 */
 /* Test: https://github.com/refined-github/refined-github/issues */
 /* Test: https://github.com/refined-github/refined-github/pulls */
-/* Without anchor positioning, the hit area can't be sized: keep GitHub's layout */
 @supports (anchor-scope: all) {
 	li[class*='listItem']:has(a[data-testid$='listitem-title-link']) {
 		anchor-scope: --rgh-list-title;
@@ -295,7 +293,7 @@ div[data-testid='top-nav-right']
 			z-index: 1; /* Above the next cells, which can be their own stacking contexts (e.g. `dim-bots`) */
 
 			> input[data-listview-component='selection-input'] {
-				position: static; /* So the `::after` is positioned against the `li` */
+				position: static;
 
 				&::after {
 					content: '';
@@ -321,9 +319,8 @@ div[data-testid='top-nav-right']
 		}
 
 		> input[type='checkbox'] {
-			position: static; /* So the `::after` is positioned against the `li` */
+			position: static;
 
-			/* GitHub's own `::after` is a 38×30px hit area around the checkbox */
 			&::after {
 				content: '';
 				position: absolute;
@@ -338,7 +335,6 @@ div[data-testid='top-nav-right']
 /* Make the whole left column of each code scanning alert toggle its checkbox */
 /* Info: https://github.com/refined-github/refined-github/issues/8597 */
 /* Test: https://github.com/refined-github/refined-github/security/code-scanning */
-/* Without anchor positioning, the hit area can't be sized: keep GitHub's layout */
 @supports (anchor-scope: all) {
 	li.Box-row:has(input[data-test-selector='code-scanning-alert-checkbox']) {
 		position: relative;
@@ -350,7 +346,7 @@ div[data-testid='top-nav-right']
 		}
 
 		input[data-test-selector='code-scanning-alert-checkbox'] {
-			position: static; /* So the `::after` is positioned against the `li` */
+			position: static;
 
 			&::after {
 				content: '';
@@ -365,13 +361,11 @@ div[data-testid='top-nav-right']
 /* Make the whole left column of each notification subscription toggle its checkbox */
 /* Info: https://github.com/refined-github/refined-github/issues/8597 */
 /* Test: https://github.com/notifications/subscriptions */
-/* Without anchor positioning, the hit area can't be sized: keep GitHub's layout */
 @supports (anchor-scope: all) {
 	li.Box-row:has(.js-notification-subscriptions-check) {
 		position: relative;
 		anchor-scope: --rgh-subscription-content;
 
-		/* The repository and title links */
 		& label:has(> .js-notification-subscriptions-check)
 			~ div:has(a[id^='subscription_link_']) {
 			anchor-name: --rgh-subscription-content;
@@ -379,7 +373,7 @@ div[data-testid='top-nav-right']
 
 		label:has(> .js-notification-subscriptions-check) {
 			cursor: pointer;
-			user-select: none; /* A Shift+click that selects text doesn't activate the label, which breaks range selection */
+			user-select: none; /* Shift+click that selects text doesn't activate the label */
 
 			&::before {
 				content: '';
@@ -388,7 +382,7 @@ div[data-testid='top-nav-right']
 			}
 		}
 
-		/* Paint the checkbox above the `::before`, so it stays the direct click target */
+		/* Above the `::before` */
 		.js-notification-subscriptions-check {
 			position: relative;
 			cursor: pointer;
