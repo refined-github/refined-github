@@ -78,10 +78,12 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	}
 
 	/* Align line number cells with the header first cell */
+	.diff-line-number,
 	[class*='DiffLineNumber'] {
 		min-width: 40px;
 	}
 
+	.diff-line-row,
 	[class*='diffLineRow'] {
 		/* The left side (deletions) */
 		/* > to avoid selecting suggested changes */
