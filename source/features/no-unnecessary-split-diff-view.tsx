@@ -19,9 +19,9 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 	}
 
 	// Avoid selecting suggested deletions/additions
-	if (!elementExists(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
+	if (!elementExists(':scope > tr > td:nth-child(2) > [data-diff-type="deletion"]', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
-	} else if (!elementExists(':scope > tr > td:nth-child(4) > .addition', tableBody)) {
+	} else if (!elementExists(':scope > tr > td:nth-child(4) > [data-diff-type="addition"]', tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
 	}
 }
