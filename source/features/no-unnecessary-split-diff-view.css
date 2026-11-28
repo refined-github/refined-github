@@ -59,6 +59,12 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 .rgh-no-split-diff {
 	table-layout: auto !important;
 
+	/* Long unbreakable strings (e.g. URLs) would otherwise stretch the table past its container */
+	td,
+	[class*='diffText'] {
+		overflow-wrap: anywhere !important;
+	}
+
 	/* No changes on the left side */
 	&.rgh-only-additions {
 		--rgh-left-side-d: none;
@@ -72,11 +78,13 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 	}
 
 	/* Align line number cells with the header first cell */
-	.diff-line-number {
+	.diff-line-number,
+	[class*='DiffLineNumber'] {
 		min-width: 40px;
 	}
 
-	.diff-line-row {
+	.diff-line-row,
+	[class*='diffLineRow'] {
 		/* The left side (deletions) */
 		/* > to avoid selecting suggested changes */
 		> td:nth-child(2) {

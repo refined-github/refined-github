@@ -4,6 +4,7 @@ import * as pageDetect from 'github-url-detection';
 import {$, closestElement, elementExists} from 'select-dom';
 
 import features from '../feature-manager.js';
+import {is} from '../helpers/css-selectors.js';
 import observe from '../helpers/selector-observer.js';
 
 /* TODO [2026-10-01]: remove */
@@ -19,9 +20,11 @@ function manageSplitDiffState(tableBody: HTMLTableSectionElement): void {
 	}
 
 	// Avoid selecting suggested deletions/additions
-	if (!elementExists(':scope > tr > td:nth-child(2) > .deletion', tableBody)) {
+	if (!elementExists(`:scope > tr > td:nth-child(2) > ${is('.deletion', '[data-diff-type="deletion"]')}`, tableBody)) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-additions');
-	} else if (!elementExists(':scope > tr > td:nth-child(4) > .addition', tableBody)) {
+	} else if (
+		!elementExists(`:scope > tr > td:nth-child(4) > ${is('.addition', '[data-diff-type="addition"]')}`, tableBody)
+	) {
 		table.classList.add('rgh-no-split-diff', 'rgh-only-deletions');
 	}
 }
