@@ -61,7 +61,7 @@ html:not([rgh-OFF-no-unnecessary-split-diff-view]) {
 
 	/* Long unbreakable strings (e.g. URLs) would otherwise stretch the table past its container */
 	td,
-	td * {
+	[class*='diffText'] {
 		overflow-wrap: anywhere !important;
 	}
 
