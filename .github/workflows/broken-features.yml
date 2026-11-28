@@ -1,0 +1,31 @@
+name: Broken features
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+
+concurrency: broken-features
+
+jobs:
+  disable:
+    if: github.repository == 'refined-github/refined-github'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: refined-github/yolo
+          token: ${{ secrets.YOLO_TOKEN }}
+          path: yolo
+          fetch-depth: 0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: package.json
+      - run: node build/broken-features.ts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
